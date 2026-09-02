@@ -217,7 +217,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(IsIntegerProperty, value);
         }
 
-        // Locks the value display/drag/edit area only - e.g. a bound ModulatableCount, driven by
+        // Locks the value display/drag/edit area only - e.g. a bound ModulatableInteger, driven by
         // its modulator rather than typed in. Deliberately scoped narrower than the whole control's
         // own IsEnabled: TrailingContent (e.g. ModulatorAssignButton) sits outside mainBorder in
         // DragValue.axaml specifically so it stays clickable while read-only, letting the same

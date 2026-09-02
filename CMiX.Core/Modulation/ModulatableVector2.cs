@@ -8,7 +8,7 @@ namespace CMiX.Core.Modulation
     // directly expose one X/Y.
     public class ModulatableVector2
     {
-        public ModulatableVector2(Modulatable x, Modulatable y)
+        public ModulatableVector2(ModulatableFloat x, ModulatableFloat y)
         {
             x.Label = "X";
             y.Label = "Y";
@@ -16,7 +16,7 @@ namespace CMiX.Core.Modulation
             Y = y;
         }
 
-        public Modulatable X { get; }
-        public Modulatable Y { get; }
+        public ModulatableFloat X { get; }
+        public ModulatableFloat Y { get; }
     }
 }

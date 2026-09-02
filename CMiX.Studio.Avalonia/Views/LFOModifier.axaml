@@ -30,19 +30,19 @@
 
         <Panels:PositionedStackPanel Margin="0, 8">
 
-            <BaseControls:ModulatableValue
+            <BaseControls:ModulatableFloatValue
                 Margin="0,0,0,1"
                 Caption="From"
                 DataContext="{Binding From}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=lfoModifier}" />
 
-            <BaseControls:ModulatableValue
+            <BaseControls:ModulatableFloatValue
                 Caption="To"
                 DataContext="{Binding To}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=lfoModifier}" />
         
         </Panels:PositionedStackPanel>
-            <BaseControls:ModulatableValue
+            <BaseControls:ModulatableFloatValue
                 Margin="0,0,0,8"
                 Caption="Randomize Phase"
                 DataContext="{Binding RandomizePhase}"

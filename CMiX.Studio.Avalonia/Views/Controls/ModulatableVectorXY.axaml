@@ -8,12 +8,12 @@
 
     <Panels:PositionedStackPanel>
 
-        <BaseControls:ModulatableValue
+        <BaseControls:ModulatableFloatValue
             Caption="{Binding Caption, ElementName=channelVectorXY, StringFormat=' {0} X', Mode=OneWay}"
             DataContext="{Binding X}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXY}" />
 
-        <BaseControls:ModulatableValue
+        <BaseControls:ModulatableFloatValue
             Margin="0,1"
             Caption="Y"
             DataContext="{Binding Y}"

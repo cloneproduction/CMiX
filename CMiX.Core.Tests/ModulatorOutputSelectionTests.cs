@@ -32,7 +32,7 @@ namespace CMiX.Core.Tests
         public void Modulatable_BoundToSpecificOutput_RoundTripsThroughToModelFromModel()
         {
             var provider = TestServiceProviderFactory.Create();
-            var modulatable = provider.GetRequiredService<Modulatable>();
+            var modulatable = provider.GetRequiredService<ModulatableFloat>();
             var modulator = new TestMultiOutputModulator();
 
             modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[1]));
@@ -44,7 +44,7 @@ namespace CMiX.Core.Tests
             var model = modulatable.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<Modulatable>();
+            var reloaded = provider2.GetRequiredService<ModulatableFloat>();
             reloaded.FromModel(model);
 
             Assert.Equal(modulator.ID, reloaded.ModulatorID.Value);
@@ -55,7 +55,7 @@ namespace CMiX.Core.Tests
         public void SetModulatorCommand_Null_ClearsBoundOutputNameAlongsideModulatorAndID()
         {
             var provider = TestServiceProviderFactory.Create();
-            var modulatable = provider.GetRequiredService<Modulatable>();
+            var modulatable = provider.GetRequiredService<ModulatableFloat>();
             var modulator = new TestMultiOutputModulator();
 
             modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[0]));

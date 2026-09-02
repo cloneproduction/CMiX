@@ -22,10 +22,10 @@ namespace CMiX.Core.Modulation.Modifiers
         public ScaleModifier(PrefabService prefabService,
                              PrefabManager modulatorManager,
                              ModifierModeSelector modifierModeSelector,
-                             Modulatable channelX,
-                             Modulatable channelY,
-                             Modulatable channelZ,
-                             Modulatable channelUniform)
+                             ModulatableFloat channelX,
+                             ModulatableFloat channelY,
+                             ModulatableFloat channelZ,
+                             ModulatableFloat channelUniform)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -33,18 +33,18 @@ namespace CMiX.Core.Modulation.Modifiers
             channelY.Label = "Y";
             channelZ.Label = "Z";
             channelUniform.Label = "Uniform";
-            Channels = new List<Modulatable> { channelX, channelY, channelZ, channelUniform };
+            Channels = new List<ModulatableFloat> { channelX, channelY, channelZ, channelUniform };
         }
 
         // Convenience accessors into Channels, purely for the view's ModulatableVectorXYZ binding -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Modulatable X => Channels[0];
-        public Modulatable Y => Channels[1];
-        public Modulatable Z => Channels[2];
+        public ModulatableFloat X => Channels[0];
+        public ModulatableFloat Y => Channels[1];
+        public ModulatableFloat Z => Channels[2];
 
         // Uniform is a 4th, independently modulatable channel - ported from RandomScale's
         // UniformXYZ, which was already the same GenericValue<float> type as X/Y/Z.
-        public Modulatable Uniform => Channels[3];
+        public ModulatableFloat Uniform => Channels[3];
 
         // Non-modulatable, ported as-is from RandomScale for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

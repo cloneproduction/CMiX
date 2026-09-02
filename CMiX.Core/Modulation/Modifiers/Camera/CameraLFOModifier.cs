@@ -21,8 +21,8 @@ namespace CMiX.Core.Modulation.Modifiers
                                  PrefabManager modulatorManager,
                                  GenericValue<bool> pingPong,
                                  GenericValue<CameraAxis> axis,
-                                 Modulatable from,
-                                 Modulatable to)
+                                 ModulatableFloat from,
+                                 ModulatableFloat to)
             : base(prefabService, modulatorManager)
         {
             PingPong = pingPong;
@@ -32,13 +32,13 @@ namespace CMiX.Core.Modulation.Modifiers
             // Matches the old CameraLFO's own default (From 0, To 1) - a freshly added CameraLFO
             // otherwise oscillates 0 to 0, a no-op.
             to.Value.Value = 1.0f;
-            Channels = new List<Modulatable> { from, to };
+            Channels = new List<ModulatableFloat> { from, to };
         }
 
-        // Convenience accessors into Channels, purely for the view's ModulatableValue bindings -
+        // Convenience accessors into Channels, purely for the view's ModulatableFloatValue bindings -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Modulatable From => Channels[0];
-        public Modulatable To => Channels[1];
+        public ModulatableFloat From => Channels[0];
+        public ModulatableFloat To => Channels[1];
 
         // Non-modulatable, ported as-is from CameraLFO for one-to-one field parity.
         public GenericValue<bool> PingPong { get; set; }

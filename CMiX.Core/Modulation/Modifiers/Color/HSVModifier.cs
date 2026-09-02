@@ -25,10 +25,10 @@ namespace CMiX.Core.Modulation.Modifiers
                            PrefabManager modulatorManager,
                            ModifierModeSelector modifierModeSelector,
                            GenericValue<ColorMode> colorMode,
-                           Modulatable hue,
-                           Modulatable saturation,
-                           Modulatable value,
-                           Modulatable alpha)
+                           ModulatableFloat hue,
+                           ModulatableFloat saturation,
+                           ModulatableFloat value,
+                           ModulatableFloat alpha)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -37,15 +37,15 @@ namespace CMiX.Core.Modulation.Modifiers
             saturation.Label = "Saturation";
             value.Label = "Value";
             alpha.Label = "Alpha";
-            Channels = new List<Modulatable> { hue, saturation, value, alpha };
+            Channels = new List<ModulatableFloat> { hue, saturation, value, alpha };
         }
 
-        // Convenience accessors into Channels, purely for the view's ModulatableValue bindings -
+        // Convenience accessors into Channels, purely for the view's ModulatableFloatValue bindings -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Modulatable Hue => Channels[0];
-        public Modulatable Saturation => Channels[1];
-        public Modulatable Value => Channels[2];
-        public Modulatable Alpha => Channels[3];
+        public ModulatableFloat Hue => Channels[0];
+        public ModulatableFloat Saturation => Channels[1];
+        public ModulatableFloat Value => Channels[2];
+        public ModulatableFloat Alpha => Channels[3];
 
         // Non-modulatable, ported as-is from RandomHSV for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

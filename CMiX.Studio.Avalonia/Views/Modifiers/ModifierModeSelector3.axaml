@@ -19,7 +19,7 @@
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
             SelectedItem="{Binding Mode.Value}" />
 
-        <!-- Three independent axes, each its own ModulatableCount - no shared Integer3, so
+        <!-- Three independent axes, each its own ModulatableInteger - no shared Integer3, so
              CountX/Y/Z can be bound to a modulator individually (e.g. just CountX). -->
         <BaseControls:ModulatableIntegerValue
             Caption="Count X"

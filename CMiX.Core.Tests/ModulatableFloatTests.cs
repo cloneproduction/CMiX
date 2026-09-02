@@ -5,13 +5,13 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    public class ModulatableTests
+    public class ModulatableFloatTests
     {
         [Fact]
         public void Modulatable_DefaultsToUnbound()
         {
             var provider = TestServiceProviderFactory.Create();
-            var modulatable = provider.GetRequiredService<Modulatable>();
+            var modulatable = provider.GetRequiredService<ModulatableFloat>();
 
             Assert.Null(modulatable.ModulatorID.Value);
             Assert.Null(modulatable.BoundModulator);
@@ -21,7 +21,7 @@ namespace CMiX.Core.Tests
         public void Modulatable_ToModel_FromModel_RoundTripsValueAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
-            var modulatable = provider.GetRequiredService<Modulatable>();
+            var modulatable = provider.GetRequiredService<ModulatableFloat>();
 
             modulatable.Label = "X";
             modulatable.Value.Value = 2.5f;
@@ -30,7 +30,7 @@ namespace CMiX.Core.Tests
             var model = modulatable.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<Modulatable>();
+            var reloaded = provider2.GetRequiredService<ModulatableFloat>();
             reloaded.FromModel(model);
 
             Assert.Equal("X", reloaded.Label);
@@ -42,7 +42,7 @@ namespace CMiX.Core.Tests
         public void SetModulatorCommand_SetsIdAndLiveReference_ThenNullClearsBoth()
         {
             var provider = TestServiceProviderFactory.Create();
-            var modulatable = provider.GetRequiredService<Modulatable>();
+            var modulatable = provider.GetRequiredService<ModulatableFloat>();
             var beatModulator = provider.GetRequiredService<BeatModulator>();
 
             modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));

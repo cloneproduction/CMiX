@@ -35,7 +35,7 @@
         <DockPanel>
 
             <!-- Reserves the trailing button's width so a plain DragValue and one with a
-                 trailing control (e.g. ModulatableValue's ModulatorAssignButton) line up. Collapses
+                 trailing control (e.g. ModulatableFloatValue's ModulatorAssignButton) line up. Collapses
                  to zero width when TrailingContent is unset. -->
             <ContentPresenter
                 Content="{Binding TrailingContent, ElementName=dragValue}"

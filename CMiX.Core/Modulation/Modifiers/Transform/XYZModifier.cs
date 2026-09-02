@@ -27,11 +27,11 @@ namespace CMiX.Core.Modulation.Modifiers
                            ModifierModeSelector modifierModeSelector,
                            GenericValue<bool> gaussian,
                            GenericValue<bool> randomizeLocation,
-                           Modulatable locationX, Modulatable locationY, Modulatable locationZ,
+                           ModulatableFloat locationX, ModulatableFloat locationY, ModulatableFloat locationZ,
                            GenericValue<bool> randomizeScale,
-                           Modulatable scaleX, Modulatable scaleY, Modulatable scaleZ,
+                           ModulatableFloat scaleX, ModulatableFloat scaleY, ModulatableFloat scaleZ,
                            GenericValue<bool> randomizeRotation,
-                           Modulatable rotationX, Modulatable rotationY, Modulatable rotationZ)
+                           ModulatableFloat rotationX, ModulatableFloat rotationY, ModulatableFloat rotationZ)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -42,7 +42,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Location = new ModulatableVector3(locationX, locationY, locationZ);
             Scale = new ModulatableVector3(scaleX, scaleY, scaleZ);
             Rotation = new ModulatableVector3(rotationX, rotationY, rotationZ);
-            Channels = new List<Modulatable>
+            Channels = new List<ModulatableFloat>
             {
                 locationX, locationY, locationZ,
                 scaleX, scaleY, scaleZ,

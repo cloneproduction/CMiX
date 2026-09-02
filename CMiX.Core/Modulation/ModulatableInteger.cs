@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
@@ -9,17 +9,17 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Modulation
 {
-    // ModulatorID is what survives a save/load round trip; BoundModulator is a live, non-serialized
-    // reference kept alongside it purely for runtime convenience (e.g. the UI reading which instance
-    // is bound without a lookup). Both are set together by SetModulator. Null means unbound - the
-    // channel's own Value is just its plain edited value, same as any ordinary property. Bound, that
-    // same Value is reinterpreted (by the engine, not here) as the modulation depth - there is no
-    // separate depth field, the same number just means something different depending on binding state.
-    public partial class Modulatable : ObservableObject, IControl, IModulatorBindable
+    // Int-valued counterpart to ModulatableFloat, for a Count that should be bindable the same way a
+    // float channel already is. Unlike ModulatableFloat's Value, this is never blended/reinterpreted -
+    // unbound means "type a number" and bound means "follow the modulator", a straight override,
+    // not a depth. ModulatorID is what survives a save/load round trip; BoundModulator is a live,
+    // non-serialized reference kept alongside it purely for runtime convenience. Both are set
+    // together by SetModulator.
+    public partial class ModulatableInteger : ObservableObject, IControl, IModulatorBindable
     {
-        public Modulatable(GenericValue<float> value,
-                           GenericValue<Guid?> modulatorID,
-                           GenericValue<string> boundOutputName)
+        public ModulatableInteger(GenericValue<int> value,
+                                GenericValue<Guid?> modulatorID,
+                                GenericValue<string> boundOutputName)
         {
             Value = value;
             ModulatorID = modulatorID;
@@ -28,19 +28,17 @@ namespace CMiX.Core.Modulation
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public string Label { get; set; } = string.Empty;
-        public GenericValue<float> Value { get; set; }
+        public GenericValue<int> Value { get; set; }
         public GenericValue<Guid?> ModulatorID { get; set; }
 
         // Which of BoundModulator's Outputs this channel picked - meaningless while unbound.
-        // Orthogonal to Value's own depth-reinterpretation (see the type comment above): this is
-        // purely "which of the source's outputs", not "how much of it".
         public GenericValue<string> BoundOutputName { get; set; }
 
         [ObservableProperty]
         private IModulator boundModulator;
 
-        // Always backed by GenericValue<float> - see the constructor.
-        Type IModulatorBindable.RequiredValueType => typeof(float);
+        // Always backed by GenericValue<int> - see the constructor.
+        Type IModulatorBindable.RequiredValueType => typeof(int);
 
         // Bound to by the channel-assign popup - each listed row's ModulatorOutputSelection, or
         // null for the popup's "Unassign" entry, is passed straight through as CommandParameter.
@@ -63,18 +61,18 @@ namespace CMiX.Core.Modulation
         Guid? IModulatorBindable.ModulatorID => ModulatorID.Value;
         string IModulatorBindable.BoundOutputName => BoundOutputName.Value;
 
-        public IControlModel ToModel() => new ModulatableModel
+        public IControlModel ToModel() => new ModulatableIntegerModel
         {
             ID = ID,
             Label = Label,
-            Value = (GenericValueModel<float>)Value.ToModel(),
+            Value = (GenericValueModel<int>)Value.ToModel(),
             ModulatorID = (GenericValueModel<Guid?>)ModulatorID.ToModel(),
             BoundOutputName = (GenericValueModel<string>)BoundOutputName.ToModel()
         };
 
         public void FromModel(IControlModel model)
         {
-            var m = (ModulatableModel)model;
+            var m = (ModulatableIntegerModel)model;
             ID = m.ID;
             Label = m.Label;
             Value.FromModel(m.Value);

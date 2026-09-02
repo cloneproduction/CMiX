@@ -24,15 +24,15 @@ namespace CMiX.Core.Modulation.Modifiers
         public GridModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
                             ModifierModeSelector3 modifierModeSelector,
-                            Modulatable widthX, Modulatable widthY, Modulatable widthZ,
-                            Modulatable phaseX, Modulatable phaseY, Modulatable phaseZ)
+                            ModulatableFloat widthX, ModulatableFloat widthY, ModulatableFloat widthZ,
+                            ModulatableFloat phaseX, ModulatableFloat phaseY, ModulatableFloat phaseZ)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
 
             Width = new ModulatableVector3(widthX, widthY, widthZ);
             Phase = new ModulatableVector3(phaseX, phaseY, phaseZ);
-            Channels = new List<Modulatable> { widthX, widthY, widthZ, phaseX, phaseY, phaseZ };
+            Channels = new List<ModulatableFloat> { widthX, widthY, widthZ, phaseX, phaseY, phaseZ };
         }
 
         // Each group is bound by its own ModulatableVectorXYZ in the view (via DataContext), both

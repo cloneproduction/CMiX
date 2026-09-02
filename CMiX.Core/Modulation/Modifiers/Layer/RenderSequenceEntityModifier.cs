@@ -22,7 +22,7 @@ namespace CMiX.Core.Modulation.Modifiers
         public RenderSequenceEntityModifier(PrefabService prefabService,
                                             PrefabManager modulatorManager,
                                             GenericValue<EntityType> entityType,
-                                            Modulatable control)
+                                            ModulatableFloat control)
             : base(prefabService, modulatorManager)
         {
             EntityType = entityType;
@@ -30,12 +30,12 @@ namespace CMiX.Core.Modulation.Modifiers
             // Matches the old RenderSequenceEntity's own default - a freshly added modifier
             // otherwise starts at 0, disabling it.
             control.Value.Value = 1.0f;
-            Channels = new List<Modulatable> { control };
+            Channels = new List<ModulatableFloat> { control };
         }
 
-        // Convenience accessor into Channels, purely for the view's ModulatableSlider binding -
+        // Convenience accessor into Channels, purely for the view's ModulatableFloatSlider binding -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Modulatable Control => Channels[0];
+        public ModulatableFloat Control => Channels[0];
 
         // Non-modulatable, ported as-is from RenderSequenceEntity for one-to-one field parity.
         public GenericValue<EntityType> EntityType { get; set; }

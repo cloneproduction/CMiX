@@ -16,7 +16,7 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 
-        <BaseControls:ModulatableValue
+        <BaseControls:ModulatableFloatValue
             Margin="0,8"
             Caption="Uniform"
             DataContext="{Binding Uniform}"

@@ -12,18 +12,18 @@
          joined-row spacing/rounding itself, only the middle row needs an explicit gap margin. -->
     <Panels:PositionedStackPanel>
 
-        <BaseControls:ModulatableValue
+        <BaseControls:ModulatableFloatValue
             Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} X', Mode=OneWay}"
             DataContext="{Binding X}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
-        <BaseControls:ModulatableValue
+        <BaseControls:ModulatableFloatValue
             Margin="0,1"
             Caption="Y"
             DataContext="{Binding Y}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
-        <BaseControls:ModulatableValue
+        <BaseControls:ModulatableFloatValue
             Caption="Z"
             DataContext="{Binding Z}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />

@@ -29,7 +29,7 @@ namespace CMiX.Core.Tests
         }
 
         // GridModifier moved to the per-axis ModifierModeSelector3 (independent CountX/Y/Z
-        // ModulatableCount channels instead of a single scalar), so it implements
+        // ModulatableInteger channels instead of a single scalar), so it implements
         // ISpreadableModifier3 instead of the others' plain ISpreadableModifier - same
         // VL-discoverability guard, different marker interface.
         [Theory]

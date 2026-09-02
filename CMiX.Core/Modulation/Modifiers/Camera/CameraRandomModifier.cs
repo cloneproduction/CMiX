@@ -21,18 +21,18 @@ namespace CMiX.Core.Modulation.Modifiers
                                     PrefabManager modulatorManager,
                                     GenericValue<bool> pingPong,
                                     GenericValue<CameraAxis> axis,
-                                    Modulatable width)
+                                    ModulatableFloat width)
             : base(prefabService, modulatorManager)
         {
             PingPong = pingPong;
             Axis = axis;
             width.Label = "Width";
-            Channels = new List<Modulatable> { width };
+            Channels = new List<ModulatableFloat> { width };
         }
 
-        // Convenience accessor into Channels, purely for the view's ModulatableValue binding -
+        // Convenience accessor into Channels, purely for the view's ModulatableFloatValue binding -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Modulatable Width => Channels[0];
+        public ModulatableFloat Width => Channels[0];
 
         // Non-modulatable, ported as-is from CameraRandom for one-to-one field parity.
         public GenericValue<bool> PingPong { get; set; }

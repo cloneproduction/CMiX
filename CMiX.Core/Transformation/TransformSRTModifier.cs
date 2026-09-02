@@ -20,16 +20,16 @@ namespace CMiX.Core.Transformation
         public TransformSRTModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
                             ModifierModeSelector modifierModeSelector,
-                            Modulatable translateX,
-                            Modulatable translateY,
-                            Modulatable translateZ,
-                            Modulatable scaleX,
-                            Modulatable scaleY,
-                            Modulatable scaleZ,
-                            Modulatable scaleUniform,
-                            Modulatable rotationX,
-                            Modulatable rotationY,
-                            Modulatable rotationZ,
+                            ModulatableFloat translateX,
+                            ModulatableFloat translateY,
+                            ModulatableFloat translateZ,
+                            ModulatableFloat scaleX,
+                            ModulatableFloat scaleY,
+                            ModulatableFloat scaleZ,
+                            ModulatableFloat scaleUniform,
+                            ModulatableFloat rotationX,
+                            ModulatableFloat rotationY,
+                            ModulatableFloat rotationZ,
                             DirectionXYZ directionXYZ,
                             GenericValue<ModifierMode> mode)
             : base(prefabService, modulatorManager)
@@ -49,7 +49,7 @@ namespace CMiX.Core.Transformation
             rotationY.Label = "Y";
             rotationZ.Label = "Z";
 
-            Channels = new List<Modulatable>
+            Channels = new List<ModulatableFloat>
             {
                 translateX, translateY, translateZ,
                 scaleX, scaleY, scaleZ, scaleUniform,
@@ -67,16 +67,16 @@ namespace CMiX.Core.Transformation
 
         // Convenience accessors into Channels, purely for the view's bindings - Channels itself
         // stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Modulatable TranslateX => Channels[0];
-        public Modulatable TranslateY => Channels[1];
-        public Modulatable TranslateZ => Channels[2];
-        public Modulatable ScaleX => Channels[3];
-        public Modulatable ScaleY => Channels[4];
-        public Modulatable ScaleZ => Channels[5];
-        public Modulatable ScaleUniform => Channels[6];
-        public Modulatable RotationX => Channels[7];
-        public Modulatable RotationY => Channels[8];
-        public Modulatable RotationZ => Channels[9];
+        public ModulatableFloat TranslateX => Channels[0];
+        public ModulatableFloat TranslateY => Channels[1];
+        public ModulatableFloat TranslateZ => Channels[2];
+        public ModulatableFloat ScaleX => Channels[3];
+        public ModulatableFloat ScaleY => Channels[4];
+        public ModulatableFloat ScaleZ => Channels[5];
+        public ModulatableFloat ScaleUniform => Channels[6];
+        public ModulatableFloat RotationX => Channels[7];
+        public ModulatableFloat RotationY => Channels[8];
+        public ModulatableFloat RotationZ => Channels[9];
 
         public override IControlModel ToModel()
         {

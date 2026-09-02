@@ -23,10 +23,10 @@ namespace CMiX.Core.Modulation.Modifiers
                                 PrefabManager modulatorManager,
                                 ModifierModeSelector modifierModeSelector,
                                 SamplerState samplerState,
-                                Modulatable locationX, Modulatable locationY,
-                                Modulatable scaleX, Modulatable scaleY,
-                                Modulatable rotation,
-                                Modulatable uniform)
+                                ModulatableFloat locationX, ModulatableFloat locationY,
+                                ModulatableFloat scaleX, ModulatableFloat scaleY,
+                                ModulatableFloat rotation,
+                                ModulatableFloat uniform)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -35,7 +35,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Scale = new ModulatableVector2(scaleX, scaleY);
             rotation.Label = "Rotation";
             uniform.Label = "Uniform";
-            Channels = new List<Modulatable> { locationX, locationY, scaleX, scaleY, rotation, uniform };
+            Channels = new List<ModulatableFloat> { locationX, locationY, scaleX, scaleY, rotation, uniform };
         }
 
         // Each group is bound by its own ModulatableVectorXY in the view (via DataContext), all
@@ -44,10 +44,10 @@ namespace CMiX.Core.Modulation.Modifiers
         public ModulatableVector2 Location { get; }
         public ModulatableVector2 Scale { get; }
 
-        // Convenience accessors into Channels, purely for the view's ModulatableValue bindings -
+        // Convenience accessors into Channels, purely for the view's ModulatableFloatValue bindings -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Modulatable Rotation => Channels[4];
-        public Modulatable Uniform => Channels[5];
+        public ModulatableFloat Rotation => Channels[4];
+        public ModulatableFloat Uniform => Channels[5];
 
         // Non-modulatable, ported as-is from RandomTexCoord for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

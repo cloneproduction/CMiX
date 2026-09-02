@@ -80,14 +80,14 @@ namespace CMiX.Core.Modulation
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public List<Modulatable> Channels { get; set; } = new();
+        public List<ModulatableFloat> Channels { get; set; } = new();
 
         protected void PopulateBaseModel(IModifierModel model)
         {
             model.ID = ID;
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
             model.IsExpanded = IsExpanded;
-            model.Channels = Channels.Select(c => (ModulatableModel)c.ToModel()).ToList();
+            model.Channels = Channels.Select(c => (ModulatableFloatModel)c.ToModel()).ToList();
             model.ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel();
         }
 
@@ -97,8 +97,8 @@ namespace CMiX.Core.Modulation
             PrefabService.FromModel(model.PrefabService);
             IsExpanded = model.IsExpanded;
 
-            // ModulatorManager loads first so each Modulatable's BoundModulator can be re-resolved by
-            // ID right after - Modulatable.FromModel only restores ModulatorID, since it has no
+            // ModulatorManager loads first so each ModulatableFloat's BoundModulator can be re-resolved by
+            // ID right after - ModulatableFloat.FromModel only restores ModulatorID, since it has no
             // access to the manager's items itself.
             LoadManager(ModulatorManager, model.ModulatorManager);
 

@@ -21,23 +21,23 @@ namespace CMiX.Core.Modulation.Modifiers
         public TranslateModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,
                                 ModifierModeSelector modifierModeSelector,
-                                Modulatable channelX,
-                                Modulatable channelY,
-                                Modulatable channelZ)
+                                ModulatableFloat channelX,
+                                ModulatableFloat channelY,
+                                ModulatableFloat channelZ)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
             channelX.Label = "X";
             channelY.Label = "Y";
             channelZ.Label = "Z";
-            Channels = new List<Modulatable> { channelX, channelY, channelZ };
+            Channels = new List<ModulatableFloat> { channelX, channelY, channelZ };
         }
 
         // Convenience accessors into Channels, purely for the view's ModulatableVectorXYZ binding -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Modulatable X => Channels[0];
-        public Modulatable Y => Channels[1];
-        public Modulatable Z => Channels[2];
+        public ModulatableFloat X => Channels[0];
+        public ModulatableFloat Y => Channels[1];
+        public ModulatableFloat Z => Channels[2];
 
         // Non-modulatable, ported as-is from RandomPosition for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

@@ -41,7 +41,7 @@
                 <DockPanel>
 
                     <!-- Reserves the trailing button's width so a plain CMiXSlider and one with a
-                         trailing control (e.g. ModulatableSlider's ModulatorAssignButton) line up.
+                         trailing control (e.g. ModulatableFloatSlider's ModulatorAssignButton) line up.
                          Collapses to zero width when TrailingContent is unset. -->
                     <ContentPresenter
                         Content="{TemplateBinding TrailingContent}"

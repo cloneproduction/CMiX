@@ -8,7 +8,7 @@ using Modulation = CMiX.Core.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    // Shared base for every control that lets a Modulatable be pointed at a Modulator - same pattern
+    // Shared base for every control that lets a ModulatableFloat be pointed at a Modulator - same pattern
     // CaptionedUserControl already uses to give every BaseControl a Caption property once instead
     // of copy-pasted into each one.
     public abstract class ModulatorAssignableUserControl : CaptionedUserControl
@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         // Shared by any control whose own DataContext directly implements IModulatorBindable
-        // (Modulatable today, e.g. via ModulatableValue/ModulatableSlider). Does not hide the
+        // (ModulatableFloat today, e.g. via ModulatableFloatValue/ModulatableFloatSlider). Does not hide the
         // flyout - the caller still owns its own named assignButton for that, declared in its own
         // XAML. The clicked row's DataContext is a ModulatorOutputSelection for a selectable row;
         // the "Unassign" button's own DataContext never matches that type, so it falls through to

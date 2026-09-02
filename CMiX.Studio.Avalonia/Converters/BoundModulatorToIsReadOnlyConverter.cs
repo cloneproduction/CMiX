@@ -16,7 +16,7 @@ namespace CMiX.Studio.Avalonia.Converters
     // now lives per-output (not flat on the modulator, see ModulatorOutput), so this needs both
     // values[0]: the BoundModulator (or null when unbound) and values[1]: the bound output's own
     // name, to find the specific ModulatorOutput entry whose Kind actually applies. Shared by every
-    // bindable field (ModulatableValue, ModulatableIntegerValue, ...) instead of each hardcoding its
+    // bindable field (ModulatableFloatValue, ModulatableIntegerValue, ...) instead of each hardcoding its
     // own rule.
     public sealed class BoundModulatorToIsReadOnlyConverter : IMultiValueConverter
     {

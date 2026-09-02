@@ -16,10 +16,10 @@ namespace CMiX.Core.Modifiers
         public ModifierModeSelectorModel(ModifierMode modifierMode, int count)
         {
             Mode = new GenericValueModel<ModifierMode>(modifierMode);
-            Count = new ModulatableCountModel { Value = new GenericValueModel<int>(count) };
+            Count = new ModulatableIntegerModel { Value = new GenericValueModel<int>(count) };
         }
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<ModifierMode> Mode { get; set; } = new(ModifierMode.PerInstance);
-        public ModulatableCountModel Count { get; set; } = new();
+        public ModulatableIntegerModel Count { get; set; } = new();
     }
 }

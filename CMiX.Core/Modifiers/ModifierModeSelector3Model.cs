@@ -19,15 +19,15 @@ namespace CMiX.Core.Modifiers
                                           int countZ)
         {
             Mode = new GenericValueModel<ModifierMode>(modifierMode);
-            CountX = new ModulatableCountModel { Value = new GenericValueModel<int>(countX) };
-            CountY = new ModulatableCountModel { Value = new GenericValueModel<int>(countY) };
-            CountZ = new ModulatableCountModel { Value = new GenericValueModel<int>(countZ) };
+            CountX = new ModulatableIntegerModel { Value = new GenericValueModel<int>(countX) };
+            CountY = new ModulatableIntegerModel { Value = new GenericValueModel<int>(countY) };
+            CountZ = new ModulatableIntegerModel { Value = new GenericValueModel<int>(countZ) };
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<ModifierMode> Mode { get; set; } = new(ModifierMode.PerInstance);
-        public ModulatableCountModel CountX { get; set; } = new();
-        public ModulatableCountModel CountY { get; set; } = new();
-        public ModulatableCountModel CountZ { get; set; } = new();
+        public ModulatableIntegerModel CountX { get; set; } = new();
+        public ModulatableIntegerModel CountY { get; set; } = new();
+        public ModulatableIntegerModel CountZ { get; set; } = new();
     }
 }

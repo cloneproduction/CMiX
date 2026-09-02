@@ -1,13 +1,13 @@
 <BaseControls:ModulatorAssignableUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.ModulatableSlider"
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.ModulatableFloatSlider"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     x:Name="channelSlider">
 
-    <!-- Same shape/reasoning as ModulatableValue.axaml, just CMiXSlider instead of DragValue.
-         Forwards Position the same way ModulatableValue.axaml does for DragValue - CMiXSlider's own
+    <!-- Same shape/reasoning as ModulatableFloatValue.axaml, just CMiXSlider instead of DragValue.
+         Forwards Position the same way ModulatableFloatValue.axaml does for DragValue - CMiXSlider's own
          ControlTheme reads it via TemplatedParent, so setting it here is all that's needed for the
          corner-rounding to reach it. -->
     <BaseControls:CMiXSlider

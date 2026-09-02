@@ -5,13 +5,13 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    public class ModulatableCountTests
+    public class ModulatableIntegerTests
     {
         [Fact]
         public void ModulatableCount_DefaultsToUnbound()
         {
             var provider = TestServiceProviderFactory.Create();
-            var count = provider.GetRequiredService<ModulatableCount>();
+            var count = provider.GetRequiredService<ModulatableInteger>();
 
             Assert.Null(count.ModulatorID.Value);
             Assert.Null(count.BoundModulator);
@@ -21,7 +21,7 @@ namespace CMiX.Core.Tests
         public void SetModulatorCommand_SetsIdAndLiveReference_ThenNullClearsBoth()
         {
             var provider = TestServiceProviderFactory.Create();
-            var count = provider.GetRequiredService<ModulatableCount>();
+            var count = provider.GetRequiredService<ModulatableInteger>();
             var beatModulator = provider.GetRequiredService<BeatModulator>();
 
             count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
@@ -41,7 +41,7 @@ namespace CMiX.Core.Tests
         public void ModulatableCount_ToModel_FromModel_RoundTripsValueAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
-            var count = provider.GetRequiredService<ModulatableCount>();
+            var count = provider.GetRequiredService<ModulatableInteger>();
             var beatModulator = provider.GetRequiredService<BeatModulator>();
 
             count.Label = "Count";
@@ -51,7 +51,7 @@ namespace CMiX.Core.Tests
             var model = count.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<ModulatableCount>();
+            var reloaded = provider2.GetRequiredService<ModulatableInteger>();
             reloaded.FromModel(model);
 
             Assert.Equal("Count", reloaded.Label);

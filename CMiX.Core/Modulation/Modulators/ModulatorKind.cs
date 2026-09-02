@@ -4,7 +4,7 @@
 namespace CMiX.Core.Modulation.Modulators
 {
     // Decides how a bound field behaves, uniformly wherever this modulator gets plugged in - not
-    // something each field (Modulatable, ModulatableCount, ...) hardcodes for itself.
+    // something each field (ModulatableFloat, ModulatableInteger, ...) hardcodes for itself.
     public enum ModulatorKind
     {
         // The field's own typed number stays meaningful and editable - reinterpreted as a base/depth
