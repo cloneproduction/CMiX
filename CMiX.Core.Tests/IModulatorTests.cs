@@ -1,3 +1,4 @@
+using System.Linq;
 using CMiX.Core.Modulation.Modulators;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -21,7 +22,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var beatModulator = provider.GetRequiredService<BeatModulator>();
 
-            Assert.Equal(ModulatorKind.Modulate, beatModulator.Kind);
+            Assert.Equal(ModulatorKind.Modulate, beatModulator.Outputs[0].Kind);
         }
 
         [Fact]
@@ -31,8 +32,21 @@ namespace CMiX.Core.Tests
             var trackingModulator = provider.GetRequiredService<TrackingModulator>();
 
             Assert.IsAssignableFrom<IModulator>(trackingModulator);
-            Assert.Equal(ModulatorKind.Set, trackingModulator.Kind);
-            Assert.Equal(new[] { "Count", "X" }, trackingModulator.OutputNames);
+            Assert.All(trackingModulator.Outputs, o => Assert.Equal(ModulatorKind.Set, o.Kind));
+            Assert.Equal(new[] { "Count", "X" }, trackingModulator.Outputs.Select(o => o.Name));
+        }
+
+        [Fact]
+        public void TrackingModulator_Outputs_FilterByValueType_ExcludesMismatchedOutputs()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var trackingModulator = provider.GetRequiredService<TrackingModulator>();
+
+            var integerOutputs = trackingModulator.Outputs.Where(o => o.ValueType == ModulatorValueType.Integer).ToList();
+            var floatOutputs = trackingModulator.Outputs.Where(o => o.ValueType == ModulatorValueType.Float).ToList();
+
+            Assert.Equal(new[] { "Count" }, integerOutputs.Select(o => o.Name));
+            Assert.Equal(new[] { "X" }, floatOutputs.Select(o => o.Name));
         }
 
         [Fact]

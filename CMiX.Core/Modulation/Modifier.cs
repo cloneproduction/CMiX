@@ -62,8 +62,9 @@ namespace CMiX.Core.Modulation
             if (bindable.ModulatorID is not { } modulatorId) return;
 
             var modulator = ModulatorManager.ManagerData.Items.OfType<IModulator>().FirstOrDefault(m => m.ID == modulatorId);
-            if (modulator != null)
-                bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, bindable.BoundOutputName));
+            var output = modulator?.Outputs.FirstOrDefault(o => o.Name == bindable.BoundOutputName);
+            if (output != null)
+                bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, output));
         }
 
         public void Dispose()

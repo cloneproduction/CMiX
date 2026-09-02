@@ -1,4 +1,4 @@
-using CMiX.Core.Compositing;
+﻿using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
@@ -52,8 +52,8 @@ namespace CMiX.Core.Tests
             circularSpread.ModulatorManager.AddItem(typeof(BeatModulator));
             var beatModulator = (BeatModulator)circularSpread.ModulatorManager.ManagerData.Items[0];
 
-            circularSpread.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
-            circularSpread.Factor.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            circularSpread.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            circularSpread.Factor.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             Assert.Equal(beatModulator.ID, circularSpread.X.ModulatorID.Value);
             Assert.Null(circularSpread.Y.ModulatorID.Value);

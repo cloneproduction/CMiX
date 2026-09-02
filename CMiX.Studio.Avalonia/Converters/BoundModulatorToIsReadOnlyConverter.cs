@@ -2,24 +2,34 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using Avalonia;
 using Avalonia.Data.Converters;
 using CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Studio.Avalonia.Converters
 {
-    // Read-only only for a Set-kind modulator (its output replaces the field entirely, so the typed
-    // number means nothing) - unbound or bound to a Modulate-kind modulator (its output blends
-    // around whatever the field already has) both stay editable. Shared by every bindable field
-    // (ModulatableValue, ModulatableIntegerValue, ...) instead of each hardcoding its own rule.
-    public sealed class BoundModulatorToIsReadOnlyConverter : IValueConverter
+    // Read-only only for a Set-kind output (its value replaces the field entirely, so the typed
+    // number means nothing) - unbound or bound to a Modulate-kind output both stay editable. Kind
+    // now lives per-output (not flat on the modulator, see ModulatorOutput), so this needs both
+    // values[0]: the BoundModulator (or null when unbound) and values[1]: the bound output's own
+    // name, to find the specific ModulatorOutput entry whose Kind actually applies. Shared by every
+    // bindable field (ModulatableValue, ModulatableIntegerValue, ...) instead of each hardcoding its
+    // own rule.
+    public sealed class BoundModulatorToIsReadOnlyConverter : IMultiValueConverter
     {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            return value is IModulator { Kind: ModulatorKind.Set };
-        }
+            if (values.Count < 2)
+                return AvaloniaProperty.UnsetValue;
 
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
-            throw new NotSupportedException();
+            if (values[0] is not IModulator modulator || values[1] is not string outputName)
+                return false;
+
+            var output = modulator.Outputs.FirstOrDefault(o => o.Name == outputName);
+            return output is { Kind: ModulatorKind.Set };
+        }
     }
 }

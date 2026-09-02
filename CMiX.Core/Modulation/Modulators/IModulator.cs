@@ -18,15 +18,11 @@ namespace CMiX.Core.Modulation.Modulators
         // one too, matching Modifier's own IsExpanded.
         bool IsExpanded { get; set; }
 
-        // Decides how any field this modulator gets bound to behaves - see ModulatorKind. A property
-        // of the modulator itself so it stays consistent everywhere the same instance is plugged in,
-        // rather than each bindable field guessing independently.
-        ModulatorKind Kind { get; }
-
-        // "Value" for a single-output modulator like BeatModulator; multiple names ("X", "Y") for
-        // something that naturally produces more than one value together, e.g. a future tracking
-        // modulator. Every existing modulator returns exactly one name, so nothing about today's
-        // behavior changes until a real multi-output modulator exists.
-        IReadOnlyList<string> OutputNames { get; }
+        // One entry for a single-output modulator like BeatModulator; multiple entries ("X", "Y")
+        // for something that naturally produces more than one value together, e.g. TrackingModulator.
+        // Kind (Set/Modulate) and ValueType (Integer/Float) live per-entry here rather than flat on
+        // IModulator - a single modulator can produce outputs of different kinds/types at once, so
+        // neither can be a single property of the modulator as a whole.
+        IReadOnlyList<ModulatorOutput> Outputs { get; }
     }
 }

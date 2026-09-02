@@ -19,8 +19,8 @@ namespace CMiX.Studio.Avalonia.Converters
             if (value is not ModulatorOutputSelection selection)
                 return null;
 
-            return (selection.Modulator?.OutputNames?.Count ?? 0) > 1
-                ? selection.OutputName
+            return (selection.Modulator?.Outputs?.Count ?? 0) > 1
+                ? selection.Output?.Name
                 : selection.Modulator?.PrefabService?.Name?.Value;
         }
 

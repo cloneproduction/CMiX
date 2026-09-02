@@ -12,11 +12,16 @@
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=countValue}"
         Caption="{Binding Caption, ElementName=countValue, Mode=OneWay}"
         IsInteger="True"
-        IsReadOnly="{Binding BoundModulator, Converter={StaticResource BoundModulatorToIsReadOnly}}"
         LargeChange="1.0"
         Minimum="1"
         SmallChange="1.0"
         Value="{Binding Value.Value}">
+        <BaseControls:DragValue.IsReadOnly>
+            <MultiBinding Converter="{StaticResource BoundModulatorToIsReadOnly}">
+                <Binding Path="BoundModulator" />
+                <Binding Path="BoundOutputName.Value" />
+            </MultiBinding>
+        </BaseControls:DragValue.IsReadOnly>
         <BaseControls:DragValue.TrailingContent>
             <BaseControls:ModulatorAssignButton
                 Margin="2, 0, 0, 0"

@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Converters
             if (value is not ModulatorOutputSelection selection)
                 return Flush;
 
-            return (selection.Modulator?.OutputNames?.Count ?? 0) > 1 ? Indented : Flush;
+            return (selection.Modulator?.Outputs?.Count ?? 0) > 1 ? Indented : Flush;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>

@@ -1,4 +1,4 @@
-using CMiX.Core.Compositing;
+﻿using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
@@ -56,8 +56,8 @@ namespace CMiX.Core.Tests
             hsv.ModulatorManager.AddItem(typeof(BeatModulator));
             var beatModulator = (BeatModulator)hsv.ModulatorManager.ManagerData.Items[0];
 
-            hsv.Hue.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
-            hsv.Alpha.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            hsv.Hue.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            hsv.Alpha.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             Assert.Equal(beatModulator.ID, hsv.Hue.ModulatorID.Value);
             Assert.Null(hsv.Saturation.ModulatorID.Value);

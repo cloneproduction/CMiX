@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
@@ -162,7 +162,7 @@ namespace CMiX.Core.Tests
             var scale = (ScaleModifier)factory.Create(typeof(ScaleModifier));
             scale.ModulatorManager.AddItem(typeof(BeatModulator));
             var beatModulator = (BeatModulator)scale.ModulatorManager.ManagerData.Items[0];
-            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             var model = scale.ToModel();
 

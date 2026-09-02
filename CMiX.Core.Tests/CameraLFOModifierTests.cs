@@ -1,4 +1,4 @@
-using CMiX.Core.Modifiers;
+﻿using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
@@ -50,8 +50,8 @@ namespace CMiX.Core.Tests
             cameraLFO.ModulatorManager.AddItem(typeof(BeatModulator));
             var beatModulator = (BeatModulator)cameraLFO.ModulatorManager.ManagerData.Items[0];
 
-            cameraLFO.From.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
-            cameraLFO.To.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            cameraLFO.From.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            cameraLFO.To.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             Assert.Equal(beatModulator.ID, cameraLFO.From.ModulatorID.Value);
             Assert.Equal(beatModulator.ID, cameraLFO.To.ModulatorID.Value);

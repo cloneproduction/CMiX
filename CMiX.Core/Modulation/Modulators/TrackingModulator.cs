@@ -35,8 +35,11 @@ namespace CMiX.Core.Modulation.Modulators
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public ModulatorKind Kind => ModulatorKind.Set;
-        public IReadOnlyList<string> OutputNames { get; } = new[] { "Count", "X" };
+        public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[]
+        {
+            new ModulatorOutput("Count", ModulatorKind.Set, ModulatorValueType.Integer),
+            new ModulatorOutput("X", ModulatorKind.Set, ModulatorValueType.Float)
+        };
 
         public GenericValue<int> Count { get; set; }
         public GenericValue<float> X { get; set; }

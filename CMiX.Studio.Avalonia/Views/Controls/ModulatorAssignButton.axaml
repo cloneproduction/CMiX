@@ -56,7 +56,7 @@
                         item list directly - it turns each modulator instance into either one
                         ModulatorOutputSelection row (single-output, the only case that exists
                         today) or a non-clickable IModulator label row followed by one
-                        ModulatorOutputSelection row per OutputNames entry (multi-output). The two
+                        ModulatorOutputSelection row per surviving Outputs entry (multi-output). The two
                         DataTemplates below distinguish them purely by which of those two types the
                         row's DataContext is, matching the polymorphic-DataTemplates pattern used
                         elsewhere (e.g. PrefabListItemTemplates.axaml) rather than a value converter

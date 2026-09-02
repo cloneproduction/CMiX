@@ -80,11 +80,9 @@ namespace CMiX.Core.Modulation.Modulators
             set { _isExpanded = value; OnPropertyChanged(); }
         }
 
-        public IReadOnlyList<string> OutputNames { get; } = new[] { "Value" };
-
         // Randomizes around whatever base a bound field already has - the same "combine, don't
         // replace" behavior every existing binding already assumed before ModulatorKind existed.
-        public ModulatorKind Kind => ModulatorKind.Modulate;
+        public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[] { new ModulatorOutput("Value", ModulatorKind.Modulate, ModulatorValueType.Float) };
 
 
         private void OnResync(object sender, EventArgs e)

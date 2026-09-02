@@ -31,13 +31,16 @@ namespace CMiX.Core.Modulation
         public GenericValue<float> Value { get; set; }
         public GenericValue<Guid?> ModulatorID { get; set; }
 
-        // Which of BoundModulator's OutputNames this channel picked - meaningless while unbound.
+        // Which of BoundModulator's Outputs this channel picked - meaningless while unbound.
         // Orthogonal to Value's own depth-reinterpretation (see the type comment above): this is
         // purely "which of the source's outputs", not "how much of it".
         public GenericValue<string> BoundOutputName { get; set; }
 
         [ObservableProperty]
         private IModulator boundModulator;
+
+        // Always backed by GenericValue<float> - see the constructor.
+        ModulatorValueType IModulatorBindable.RequiredValueType => ModulatorValueType.Float;
 
         // Bound to by the channel-assign popup - each listed row's ModulatorOutputSelection, or
         // null for the popup's "Unassign" entry, is passed straight through as CommandParameter.
@@ -46,7 +49,7 @@ namespace CMiX.Core.Modulation
         {
             BoundModulator = selection?.Modulator;
             ModulatorID.Value = selection?.Modulator?.ID;
-            BoundOutputName.Value = selection?.OutputName;
+            BoundOutputName.Value = selection?.Output?.Name;
         }
 
         // The source-generated SetModulatorCommand is IRelayCommand<ModulatorOutputSelection> -

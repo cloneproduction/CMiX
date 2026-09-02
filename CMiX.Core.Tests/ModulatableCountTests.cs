@@ -1,4 +1,4 @@
-using CMiX.Core.Modulation;
+﻿using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -24,7 +24,7 @@ namespace CMiX.Core.Tests
             var count = provider.GetRequiredService<ModulatableCount>();
             var beatModulator = provider.GetRequiredService<BeatModulator>();
 
-            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             Assert.Equal(beatModulator.ID, count.ModulatorID.Value);
             Assert.Same(beatModulator, count.BoundModulator);
@@ -46,7 +46,7 @@ namespace CMiX.Core.Tests
 
             count.Label = "Count";
             count.Value.Value = 5;
-            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             var model = count.ToModel();
 

@@ -15,14 +15,18 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 {
     public partial class ModulatorAssignButton : ModulatorAssignableUserControl
     {
-        // Popup-ready flattening of ModulatorManager.ManagerData.Items: a single-output modulator
-        // (every modulator today) contributes exactly one ModulatorOutputSelection row, unchanged
-        // from today's one-modulator-one-row rendering; a multi-output modulator instead
-        // contributes one non-clickable IModulator "label" row (so it can render the modulator's
-        // own name, undecorated) followed by one ModulatorOutputSelection row per entry in
-        // OutputNames. Rebuilt from scratch on every relevant change - the list is always small
-        // (one entry per modulator instance, times its OutputNames), so a full rebuild is simpler
-        // than diffing in place and cheap enough not to matter.
+        // Popup-ready flattening of ModulatorManager.ManagerData.Items, filtered down to only the
+        // outputs that actually fit the consuming field: a modulator with exactly one surviving
+        // output (whether it only has one to begin with, or several but just one matches) contributes
+        // a single ModulatorOutputSelection row, unchanged from today's one-modulator-one-row
+        // rendering; a modulator with more than one surviving output instead contributes one
+        // non-clickable IModulator "label" row (so it can render the modulator's own name,
+        // undecorated) followed by one ModulatorOutputSelection row per surviving entry. A modulator
+        // with zero surviving outputs (e.g. BeatModulator's float-only Value against an
+        // Integer-required Count) is skipped entirely - no orphaned label with nothing under it.
+        // Rebuilt from scratch on every relevant change - the list is always small (one entry per
+        // modulator instance, times its Outputs), so a full rebuild is simpler than diffing in place
+        // and cheap enough not to matter.
         public static readonly StyledProperty<IEnumerable> FlattenedItemsProperty =
             AvaloniaProperty.Register<ModulatorAssignButton, IEnumerable>(nameof(FlattenedItems));
         public IEnumerable FlattenedItems
@@ -72,21 +76,45 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 return;
             }
 
+            // The consuming field's required numeric type - not exposed as its own StyledProperty,
+            // just read straight off DataContext, same as AssignFromDataContext already does for the
+            // click handler. Falls back to offering everything unfiltered if DataContext somehow
+            // isn't an IModulatorBindable, rather than silently emptying the popup.
+            var requiredValueType = (DataContext as IModulatorBindable)?.RequiredValueType;
+
             var flattened = new List<object>();
             foreach (var item in items)
             {
                 if (item is not IModulator modulator)
                     continue;
 
-                if (modulator.OutputNames.Count > 1)
+                var outputs = requiredValueType is { } required
+                    ? modulator.Outputs.Where(o => o.ValueType == required).ToList()
+                    : modulator.Outputs.ToList();
+
+                if (outputs.Count == 0)
+                    continue;
+
+                // The group-label decision below must match what
+                // ModulatorOutputSelectionToLabelConverter/ToIndentConverter each independently
+                // recompute from selection.Modulator.Outputs.Count (the modulator's TOTAL output
+                // count, unfiltered - they have no visibility into this method's RequiredValueType
+                // filtering). Using the filtered outputs.Count here instead would desync the two:
+                // a modulator with 2 total outputs but only 1 surviving filtering would render as an
+                // unlabeled single row structurally, yet the converters would still see
+                // Outputs.Count == 2 and indent/rename it as if it were grouped - an orphaned
+                // indented row with no label above it. Always grouping whenever the modulator has
+                // >1 output in total (even if only one currently fits this field) keeps both sides
+                // of that decision using the same number.
+                if (modulator.Outputs.Count > 1)
                 {
                     flattened.Add(modulator);
-                    foreach (var outputName in modulator.OutputNames)
-                        flattened.Add(new ModulatorOutputSelection(modulator, outputName));
+                    foreach (var output in outputs)
+                        flattened.Add(new ModulatorOutputSelection(modulator, output));
                 }
                 else
                 {
-                    flattened.Add(new ModulatorOutputSelection(modulator, modulator.OutputNames.FirstOrDefault()));
+                    flattened.Add(new ModulatorOutputSelection(modulator, outputs[0]));
                 }
             }
 

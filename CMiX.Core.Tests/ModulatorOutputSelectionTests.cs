@@ -18,8 +18,11 @@ namespace CMiX.Core.Tests
             public PrefabService PrefabService { get; set; }
             public bool IsHovered { get; set; }
             public bool IsExpanded { get; set; }
-            public ModulatorKind Kind => ModulatorKind.Set;
-            public IReadOnlyList<string> OutputNames { get; } = new[] { "X", "Y" };
+            public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[]
+            {
+                new ModulatorOutput("X", ModulatorKind.Set, ModulatorValueType.Float),
+                new ModulatorOutput("Y", ModulatorKind.Set, ModulatorValueType.Float)
+            };
 
             public IControlModel ToModel() => throw new NotSupportedException();
             public void FromModel(IControlModel model) => throw new NotSupportedException();
@@ -32,7 +35,7 @@ namespace CMiX.Core.Tests
             var modulatable = provider.GetRequiredService<Modulatable>();
             var modulator = new TestMultiOutputModulator();
 
-            modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, "Y"));
+            modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[1]));
 
             Assert.Same(modulator, modulatable.BoundModulator);
             Assert.Equal(modulator.ID, modulatable.ModulatorID.Value);
@@ -55,7 +58,7 @@ namespace CMiX.Core.Tests
             var modulatable = provider.GetRequiredService<Modulatable>();
             var modulator = new TestMultiOutputModulator();
 
-            modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, "X"));
+            modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[0]));
             modulatable.SetModulatorCommand.Execute(null);
 
             Assert.Null(modulatable.BoundModulator);

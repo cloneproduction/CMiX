@@ -1,4 +1,4 @@
-using CMiX.Core.Compositing;
+﻿using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
@@ -54,8 +54,8 @@ namespace CMiX.Core.Tests
             grid.ModulatorManager.AddItem(typeof(BeatModulator));
             var beatModulator = (BeatModulator)grid.ModulatorManager.ManagerData.Items[0];
 
-            grid.Width.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
-            grid.Phase.Z.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            grid.Width.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            grid.Phase.Z.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             Assert.Equal(beatModulator.ID, grid.Width.X.ModulatorID.Value);
             Assert.Null(grid.Width.Y.ModulatorID.Value);
@@ -116,7 +116,7 @@ namespace CMiX.Core.Tests
 
             // Only CountX is bound - CountY/CountZ must stay unbound through the round trip,
             // proving each axis resolves independently rather than all three collapsing together.
-            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             var model = grid.ToModel();
 
@@ -138,8 +138,8 @@ namespace CMiX.Core.Tests
             grid.ModulatorManager.AddItem(typeof(BeatModulator));
             var beatModulator = (BeatModulator)grid.ModulatorManager.ManagerData.Items[0];
 
-            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
-            grid.ModifierModeSelector.CountZ.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            grid.ModifierModeSelector.CountZ.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             grid.ModulatorManager.DeleteItem(beatModulator);
 

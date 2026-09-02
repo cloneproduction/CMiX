@@ -1,4 +1,4 @@
-using CMiX.Core.Compositing;
+﻿using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
@@ -53,8 +53,8 @@ namespace CMiX.Core.Tests
             texCoord.ModulatorManager.AddItem(typeof(BeatModulator));
             var beatModulator = (BeatModulator)texCoord.ModulatorManager.ManagerData.Items[0];
 
-            texCoord.Location.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
-            texCoord.Scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            texCoord.Location.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            texCoord.Scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             Assert.Equal(beatModulator.ID, texCoord.Location.X.ModulatorID.Value);
             Assert.Null(texCoord.Location.Y.ModulatorID.Value);

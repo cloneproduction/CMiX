@@ -1,4 +1,4 @@
-using CMiX.Core.Modulation;
+﻿using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -45,7 +45,7 @@ namespace CMiX.Core.Tests
             var modulatable = provider.GetRequiredService<Modulatable>();
             var beatModulator = provider.GetRequiredService<BeatModulator>();
 
-            modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             Assert.Equal(beatModulator.ID, modulatable.ModulatorID.Value);
             Assert.Same(beatModulator, modulatable.BoundModulator);
