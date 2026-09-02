@@ -87,6 +87,11 @@
         <BaseControls:PrefabListItem Icon="Beat" />
     </DataTemplate>
 
+    <!--  TRACKINGMODULATORS  -->
+    <DataTemplate DataType="{x:Type Modulators:TrackingModulator}">
+        <BaseControls:PrefabListItem Icon="Camera" />
+    </DataTemplate>
+
     <!--
         ColorPalette has no list item template in WPF, which fell back to
         ToString there but to the reflection view locator here, so the
