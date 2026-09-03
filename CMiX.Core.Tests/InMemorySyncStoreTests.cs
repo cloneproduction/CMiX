@@ -157,6 +157,17 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public async Task ReadBlockingAsync_OnAnEmptyStore_WithATimeout_DoesExactlyOneRangeRead()
+        {
+            var store = await ConnectedStore();
+            var before = store.ReadRangeCalls;
+
+            await store.ReadBlockingAsync(StreamPosition.Zero, TimeSpan.FromMilliseconds(200), CancellationToken.None);
+
+            Assert.Equal(before + 1, store.ReadRangeCalls);
+        }
+
+        [Fact]
         public async Task HeartbeatAsync_ThenListPeersAsync_ReturnsThePeer()
         {
             var store = await ConnectedStore();

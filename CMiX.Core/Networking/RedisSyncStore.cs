@@ -277,7 +277,9 @@ namespace CMiX.Core.Networking
 
             // XREAD BLOCK is not used. StackExchange.Redis multiplexes one connection, so a blocking
             // command would stall every other caller. A pub/sub wake-up does the same job.
-            await _wakeSignal.WaitAsync(timeout, ct).ConfigureAwait(false);
+            var signaled = await _wakeSignal.WaitAsync(timeout, ct).ConfigureAwait(false);
+            if (!signaled)
+                return Array.Empty<StreamEntry>();
 
             return await ReadRangeAsync(afterExclusive, BlockingReadCount).ConfigureAwait(false);
         }

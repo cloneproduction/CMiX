@@ -43,7 +43,8 @@ namespace CMiX.Core.Networking
         Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count);
 
         // Like ReadRangeAsync with count 256. When the result is empty, it waits up to timeout for a
-        // wake-up signal and then reads once more. Returns an empty list on timeout.
+        // wake-up signal. After a signal it reads once more. After a timeout it returns the empty
+        // list.
         Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct);
 
         // The ID of the newest entry, or StreamPosition.Zero when the store never gave one out. A

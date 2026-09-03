@@ -23,6 +23,7 @@ namespace CMiX.Core.Tests
         private StreamPosition _tail;
         private long _ms;
         private bool _isConnected;
+        private int _readRangeCalls;
 
         // startMilliseconds gives the entry IDs realistic values, for tests of the retention rule.
         public InMemorySyncStore(long startMilliseconds = 0) => _ms = startMilliseconds;
@@ -41,6 +42,9 @@ namespace CMiX.Core.Tests
                     return _entries.ToList();
             }
         }
+
+        // The number of ReadRangeAsync calls made so far, for tests of the read rate.
+        public int ReadRangeCalls => _readRangeCalls;
 
         public Task ConnectAsync(CancellationToken ct)
         {
@@ -133,6 +137,7 @@ namespace CMiX.Core.Tests
         public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count)
         {
             RequireConnection();
+            Interlocked.Increment(ref _readRangeCalls);
 
             lock (_gate)
             {
@@ -153,7 +158,9 @@ namespace CMiX.Core.Tests
             if (entries.Count > 0)
                 return entries;
 
-            await _wakeSignal.WaitAsync(timeout, ct);
+            var signaled = await _wakeSignal.WaitAsync(timeout, ct);
+            if (!signaled)
+                return Array.Empty<StreamEntry>();
 
             return await ReadRangeAsync(afterExclusive, BlockingReadCount);
         }
