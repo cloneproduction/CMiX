@@ -76,6 +76,8 @@ namespace CMiX.Core.Networking
             // The connect runs on a background task, so no caller thread waits for the server.
             // AbortOnConnectFail is false, so this gives a multiplexer even when the server is down.
             // The multiplexer then reconnects on its own.
+            // The token stays out of Task.Run. A cancelled token must not drop the multiplexer that
+            // the connect made, because nobody would close it.
             var multiplexer = await Task.Run(async () =>
             {
                 try
@@ -87,12 +89,17 @@ namespace CMiX.Core.Networking
                     _lastError = ex.Message;
                     return null;
                 }
-            }, ct).ConfigureAwait(false);
+            }).ConfigureAwait(false);
 
             if (multiplexer == null)
                 return;
 
-            ct.ThrowIfCancellationRequested();
+            // A cancel while the connect ran. The multiplexer is not stored, so it is closed here.
+            if (ct.IsCancellationRequested)
+            {
+                await CloseAndDisposeAsync(multiplexer).ConfigureAwait(false);
+                return;
+            }
 
             multiplexer.ConnectionFailed += OnConnectionFailed;
             multiplexer.ConnectionRestored += OnConnectionRestored;
@@ -414,6 +421,11 @@ namespace CMiX.Core.Networking
             multiplexer.ConnectionFailed -= OnConnectionFailed;
             multiplexer.ConnectionRestored -= OnConnectionRestored;
 
+            await CloseAndDisposeAsync(multiplexer).ConfigureAwait(false);
+        }
+
+        private async Task CloseAndDisposeAsync(ConnectionMultiplexer multiplexer)
+        {
             // Bounded, so a dead server cannot hold up shutdown.
             try
             {

@@ -239,6 +239,29 @@ namespace CMiX.Core.Tests
             Assert.True(disposing.ElapsedMilliseconds < 2500, $"DisposeAsync took {disposing.ElapsedMilliseconds} ms.");
         }
 
+        // A cancelled connect must leave no open multiplexer behind. The store stays unconnected,
+        // and it does not throw.
+        [SkippableFact]
+        public async Task ConnectAsync_WithACancelledToken_StoresNoMultiplexer()
+        {
+            Skip.IfNot(_fixture.Available, SkipReason);
+
+            var store = new RedisSyncStore(Options());
+            using var cts = new CancellationTokenSource();
+            cts.Cancel();
+
+            await store.ConnectAsync(cts.Token);
+
+            Assert.False(store.IsConnected);
+            await Assert.ThrowsAsync<InvalidOperationException>(() => store.ReadTailAsync());
+
+            var disposing = Stopwatch.StartNew();
+            await store.DisposeAsync();
+            disposing.Stop();
+
+            Assert.True(disposing.ElapsedMilliseconds < 2000, $"DisposeAsync took {disposing.ElapsedMilliseconds} ms.");
+        }
+
         // A wrong port must give a reason. Without one the user sees "Connecting" forever. A wrong
         // password gives no reason on a server without a password, because the server accepts it.
         [Fact]
