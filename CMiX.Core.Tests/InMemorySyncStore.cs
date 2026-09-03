@@ -22,6 +22,9 @@ namespace CMiX.Core.Tests
         private long _ms;
         private bool _isConnected;
 
+        // startMilliseconds gives the entry IDs realistic values, for tests of the retention rule.
+        public InMemorySyncStore(long startMilliseconds = 0) => _ms = startMilliseconds;
+
         public bool IsConnected => _isConnected;
 
         public event Action<bool> ConnectionChanged;

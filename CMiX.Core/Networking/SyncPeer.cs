@@ -26,6 +26,8 @@ namespace CMiX.Core.Networking
         private readonly string _peerId;
 
         private ISyncStore _store;
+        private SnapshotCompactor _compactor;
+        private bool _compactionEnabled;
         private CancellationTokenSource _cts;
         private CancellationTokenSource _followerCts;
         private Task _followerTask;
@@ -58,8 +60,23 @@ namespace CMiX.Core.Networking
         public ObservableCollection<PeerInfo> Peers { get; }
 
         // The Studio sets both. Engines neither compact nor list the other peers.
-        public bool CompactionEnabled { get; set; }
+        public bool CompactionEnabled
+        {
+            get => _compactionEnabled;
+            set
+            {
+                _compactionEnabled = value;
+                if (value)
+                    CreateCompactor();
+                else
+                    DisposeCompactor();
+            }
+        }
+
         public bool ListPeersEnabled { get; set; }
+
+        // How long a value change waits before the compactor writes a new snapshot. Tests shorten it.
+        public TimeSpan CompactionDelay { get; set; } = SyncTimings.CompactionDelay;
 
         public int PendingMessages => _outgoing.PendingCount;
 
@@ -111,6 +128,7 @@ namespace CMiX.Core.Networking
             Options = options.WithFallbacks();
             _autoJoin = autoJoin;
             _store = _storeFactory(Options);
+            CreateCompactor();
             _cts = new CancellationTokenSource();
             _started = true;
             _wasConnected = false;
@@ -130,6 +148,7 @@ namespace CMiX.Core.Networking
             if (!_started) return;
 
             _started = false;
+            DisposeCompactor();
             var cts = _cts;
             var followerCts = _followerCts;
             var store = _store;
@@ -635,6 +654,20 @@ namespace CMiX.Core.Networking
             _activity = activity;
             OnPropertyChanged(nameof(Status));
         });
+
+        private void CreateCompactor()
+        {
+            if (_compactor != null || !_compactionEnabled || _store == null) return;
+
+            _compactor = new SnapshotCompactor(this, _target, _store, action => DispatchAsync(action), CompactionDelay);
+        }
+
+        private void DisposeCompactor()
+        {
+            var compactor = _compactor;
+            _compactor = null;
+            compactor?.Dispose();
+        }
 
         private void Dispatch(Action action)
         {

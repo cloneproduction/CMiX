@@ -86,9 +86,17 @@ namespace CMiX.Core.Tests
             _inner.ConnectionChanged += value => ConnectionChanged?.Invoke(value);
         }
 
+        private int _writeSnapshotCalls;
+
         public ConcurrentBag<int> CallThreads { get; } = new();
         public bool Fail { get; set; }
         public int FailedCalls { get; private set; }
+
+        public int WriteSnapshotCalls => Volatile.Read(ref _writeSnapshotCalls);
+        public ConcurrentQueue<StreamPosition> TrimCalls { get; } = new();
+
+        // Lets a test hold a snapshot write open, to check what happens during a compaction.
+        public Func<Task> BeforeWriteSnapshot { get; set; }
 
         public bool IsConnected => !Fail && _inner.IsConnected;
         public event Action<bool> ConnectionChanged;
@@ -111,12 +119,21 @@ namespace CMiX.Core.Tests
         public Task ConnectAsync(CancellationToken ct) => _inner.ConnectAsync(ct);
         public Task<Snapshot> ReadSnapshotAsync() { Enter(); return _inner.ReadSnapshotAsync(); }
         public Task<StreamPosition> ReadSnapshotIdAsync() { Enter(); return _inner.ReadSnapshotIdAsync(); }
-        public Task WriteSnapshotAsync(Snapshot snapshot) { Enter(); return _inner.WriteSnapshotAsync(snapshot); }
+        public async Task WriteSnapshotAsync(Snapshot snapshot)
+        {
+            Enter();
+            Interlocked.Increment(ref _writeSnapshotCalls);
+            var gate = BeforeWriteSnapshot;
+            if (gate != null)
+                await gate();
+
+            await _inner.WriteSnapshotAsync(snapshot);
+        }
         public Task<StreamPosition> AppendAsync(byte[] envelope) { Enter(); return _inner.AppendAsync(envelope); }
         public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) { Enter(); return _inner.ReadRangeAsync(afterExclusive, count); }
         public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) { Enter(); return _inner.ReadBlockingAsync(afterExclusive, timeout, ct); }
         public Task<StreamPosition> ReadTailAsync() { Enter(); return _inner.ReadTailAsync(); }
-        public Task TrimAsync(StreamPosition minId) { Enter(); return _inner.TrimAsync(minId); }
+        public Task TrimAsync(StreamPosition minId) { Enter(); TrimCalls.Enqueue(minId); return _inner.TrimAsync(minId); }
         public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) { Enter(); return _inner.HeartbeatAsync(peerId, fields, ttl); }
         public Task<IReadOnlyList<PeerInfo>> ListPeersAsync() { Enter(); return _inner.ListPeersAsync(); }
         public ValueTask DisposeAsync() => _inner.DisposeAsync();
