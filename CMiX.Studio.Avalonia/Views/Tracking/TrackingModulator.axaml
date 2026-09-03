@@ -7,7 +7,10 @@
     d:DesignWidth="400">
 
     <StackPanel>
-        <BaseControls:DragValue
+        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="X ->"/>   
+        <TextBlock Margin="0, 8" HorizontalAlignment="Right" Padding="8, 0"  Text="Y ->"/>
+        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Count ->"/>
+        <!--<BaseControls:DragValue
             Caption="Count"
             IsInteger="True"
             Minimum="0"
@@ -15,7 +18,7 @@
         <BaseControls:DragValue
             Margin="0,1,0,0"
             Caption="X"
-            Value="{Binding X.Value}" />
+            Value="{Binding X.Value}" />-->
     </StackPanel>
 
 </UserControl>
