@@ -10,8 +10,8 @@ using CMiX.Core.Networking;
 
 namespace CMiX.Studio.Avalonia.Converters
 {
-    // The state column of the peer list. Values are the position of the peer and the tail of the
-    // stream. A peer that applied the tail is in sync, all others show their own position.
+    // The lag column of the peer list. Values are the position of the peer and the tail of the
+    // stream. The lag is the time behind the tail, in milliseconds.
     public sealed class PeerSyncStateConverter : IMultiValueConverter
     {
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
@@ -19,7 +19,13 @@ namespace CMiX.Studio.Avalonia.Converters
             if (values.Count < 2 || values[0] is not StreamPosition peer || values[1] is not StreamPosition tail)
                 return AvaloniaProperty.UnsetValue;
 
-            return peer == tail ? "in sync" : peer.ToString();
+            if (peer == tail)
+                return "0";
+
+            var lag = tail.Milliseconds - peer.Milliseconds;
+
+            // A peer can be briefly ahead of the tail. Show no lag in that case.
+            return lag < 0 ? "0" : $"{lag} ms";
         }
     }
 }
