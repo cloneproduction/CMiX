@@ -12,7 +12,6 @@ namespace CMiX.Core.Networking.Messages
     public record MessageRemoveItem(Guid ID, Guid ModelID, int SelectedIndex) : IMessageManager;
     public record MessageMoveItem(Guid ID, int OldIndex, int NewIndex) : IMessageManager;
     public record MessageOnClick(Guid ID) : IMessage;
-    public record MessageOpenProject(Guid ID, string FilePath) : IMessage;
     public record MessageValueChanged(Guid ID, IControlModel Value) : IMessage
     {
         public MessageValueChanged() : this(Guid.NewGuid(), default!) { }
