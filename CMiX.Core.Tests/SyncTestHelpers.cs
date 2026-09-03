@@ -119,6 +119,10 @@ namespace CMiX.Core.Tests
         // Lets a test hold a tail read open, to check what happens during a presence tick.
         public Func<Task> BeforeReadTail { get; set; }
 
+        // Lets a test hold entries that a blocking read found, to check what happens when the peer
+        // restarts before it applies them.
+        public Func<Task> AfterReadBlocking { get; set; }
+
         public bool IsConnected => !Fail && _inner.IsConnected;
         public string LastError => _inner.LastError;
         public event Action<bool> ConnectionChanged;
@@ -169,7 +173,16 @@ namespace CMiX.Core.Tests
             return await _inner.AppendAsync(envelope);
         }
         public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) { Enter(); return _inner.ReadRangeAsync(afterExclusive, count); }
-        public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) { Enter(); return _inner.ReadBlockingAsync(afterExclusive, timeout, ct); }
+        public async Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct)
+        {
+            Enter();
+            var entries = await _inner.ReadBlockingAsync(afterExclusive, timeout, ct);
+            var gate = AfterReadBlocking;
+            if (entries.Count > 0 && gate != null)
+                await gate();
+
+            return entries;
+        }
         public async Task<StreamPosition> ReadTailAsync()
         {
             Enter();

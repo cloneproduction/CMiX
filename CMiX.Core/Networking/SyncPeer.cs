@@ -777,7 +777,7 @@ namespace CMiX.Core.Networking
 
                 foreach (var entry in entries)
                 {
-                    await ApplyEntryAsync(entry).ConfigureAwait(false);
+                    await ApplyEntryAsync(store, generation, entry).ConfigureAwait(false);
                     if (!IsCurrent(store, generation)) return;
 
                     position = entry.Id;
@@ -785,7 +785,9 @@ namespace CMiX.Core.Networking
             }
         }
 
-        private async Task ApplyEntryAsync(StreamEntry entry)
+        // The store and the generation are those of the reader that found the entry. An entry that
+        // was read before a restart must change nothing after it.
+        private async Task ApplyEntryAsync(ISyncStore store, int generation, StreamEntry entry)
         {
             MessageEnvelope envelope = null;
             try
@@ -800,7 +802,7 @@ namespace CMiX.Core.Networking
             var payload = envelope?.Payload;
             var own = envelope == null || envelope.SenderID == _peerId || payload == null;
 
-            await DispatchAsync(() =>
+            await DispatchCurrentAsync(store, generation, () =>
             {
                 // An append that timed out on the client but reached the store is sent again. The
                 // entry then arrives twice, and a move applied twice gives a wrong order.
@@ -859,7 +861,8 @@ namespace CMiX.Core.Networking
             if (cts == null || cts.IsCancellationRequested) return;
 
             var followerCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token);
-            var follower = new StreamFollower(store, () => LastAppliedId, ApplyEntryAsync, () => OnFollowerErrorAsync(store, generation));
+            var follower = new StreamFollower(store, () => LastAppliedId, entry => ApplyEntryAsync(store, generation, entry),
+                () => OnFollowerErrorAsync(store, generation));
             _followerCts = followerCts;
             _follower = follower;
             _followerTask = Task.Run(() => follower.RunAsync(followerCts.Token), followerCts.Token);

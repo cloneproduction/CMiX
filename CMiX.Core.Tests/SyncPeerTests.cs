@@ -886,6 +886,56 @@ namespace CMiX.Core.Tests
             Assert.Equal(string.Empty, peer.ErrorMessage);
         }
 
+        // The follower of the old store can hold an entry it read before the restart. That entry
+        // belongs to another stream, so it must not reach the target or the position.
+        [Fact]
+        public async Task RestartWhileAnEntryWaits_LeavesTheEntryOfTheOldStoreUnapplied()
+        {
+            var innerA = new InMemorySyncStore();
+            var storeA = new WrappingSyncStore(innerA);
+
+            var storeB = new InMemorySyncStore();
+            await storeB.ConnectAsync(default);
+            var modelB = ModelWithOneComposition();
+            var tailB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await storeB.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(modelB), tailB, "other", DateTime.UtcNow));
+
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            storeA.AfterReadBlocking = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+
+            var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
+            var target = new RecordingSyncTarget();
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false };
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
+
+            var click = Guid.NewGuid();
+            await innerA.AppendAsync(Envelope("other", new MessageOnClick(click)));
+            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+
+            peer.Stop();
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+
+            // Stop disposed the old store. Connect it again, so the read that waits can return the
+            // entry and the test sees what the peer does with it.
+            // The call that waits keeps the old run alive, so the store closes after the stop timeout.
+            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
+            await innerA.ConnectAsync(default);
+            release.SetResult(true);
+            await Task.Delay(300);
+
+            Assert.DoesNotContain(target.Applied, message => message is MessageOnClick clicked && clicked.ID == click);
+            Assert.Equal(tailB, peer.LastAppliedId);
+            Assert.Equal(ProjectStateHash.Compute(modelB), ProjectStateHash.Compute(target.Model));
+        }
+
         // A presence tick of the store that the restart left behind must not move the tail or the
         // peer list.
         [Fact]
