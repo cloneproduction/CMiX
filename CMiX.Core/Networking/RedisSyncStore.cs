@@ -63,7 +63,7 @@ namespace CMiX.Core.Networking
 
         public string LastError => _lastError;
 
-        public event Action<bool> ConnectionChanged;
+        public event Action<ISyncStore, bool> ConnectionChanged;
 
         public async Task ConnectAsync(CancellationToken ct)
         {
@@ -112,13 +112,13 @@ namespace CMiX.Core.Networking
 
             await EnsureSubscribedAsync().ConfigureAwait(false);
 
-            ConnectionChanged?.Invoke(IsConnected);
+            ConnectionChanged?.Invoke(this, IsConnected);
         }
 
         private void OnConnectionFailed(object sender, ConnectionFailedEventArgs e)
         {
             _lastError = Describe(e);
-            ConnectionChanged?.Invoke(IsConnected);
+            ConnectionChanged?.Invoke(this, IsConnected);
         }
 
         private void OnConnectionRestored(object sender, ConnectionFailedEventArgs e)
@@ -129,7 +129,7 @@ namespace CMiX.Core.Networking
             // poll until this one gets through.
             _ = Task.Run(EnsureSubscribedAsync);
 
-            ConnectionChanged?.Invoke(IsConnected);
+            ConnectionChanged?.Invoke(this, IsConnected);
         }
 
         private static string Describe(ConnectionFailedEventArgs e)

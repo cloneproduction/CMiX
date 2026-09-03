@@ -361,9 +361,9 @@ namespace CMiX.Core.Networking
         private static async Task WaitForConnectionEventAsync(ISyncStore store, TimeSpan timeout, CancellationToken ct)
         {
             var connected = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            void OnChanged(bool value)
+            void OnChanged(ISyncStore sender, bool value)
             {
-                if (value) connected.TrySetResult(true);
+                if (value && ReferenceEquals(sender, store)) connected.TrySetResult(true);
             }
 
             store.ConnectionChanged += OnChanged;
@@ -489,9 +489,13 @@ namespace CMiX.Core.Networking
             }
         }
 
-        private void OnConnectionChanged(bool connected)
+        // A run that subscribes after its Stop leaves a handler on the store it left. The sender
+        // tells those events from the events of the current store.
+        private void OnConnectionChanged(ISyncStore sender, bool connected)
         {
-            var reason = _store?.LastError ?? string.Empty;
+            if (!ReferenceEquals(sender, _store)) return;
+
+            var reason = sender.LastError ?? string.Empty;
 
             Dispatch(() =>
             {

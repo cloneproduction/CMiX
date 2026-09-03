@@ -184,7 +184,7 @@ namespace CMiX.Core.Tests
         {
             var store = await ConnectedStore();
             var raised = new List<bool>();
-            store.ConnectionChanged += raised.Add;
+            store.ConnectionChanged += (_, connected) => raised.Add(connected);
 
             store.SimulateDisconnect();
 

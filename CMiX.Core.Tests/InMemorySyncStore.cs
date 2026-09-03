@@ -29,7 +29,7 @@ namespace CMiX.Core.Tests
 
         public string LastError { get; private set; } = string.Empty;
 
-        public event Action<bool> ConnectionChanged;
+        public event Action<ISyncStore, bool> ConnectionChanged;
 
         public IReadOnlyList<StreamEntry> Entries
         {
@@ -44,7 +44,7 @@ namespace CMiX.Core.Tests
         {
             _isConnected = true;
             LastError = string.Empty;
-            ConnectionChanged?.Invoke(true);
+            ConnectionChanged?.Invoke(this, true);
             return Task.CompletedTask;
         }
 
@@ -52,14 +52,14 @@ namespace CMiX.Core.Tests
         {
             _isConnected = false;
             LastError = reason;
-            ConnectionChanged?.Invoke(false);
+            ConnectionChanged?.Invoke(this, false);
         }
 
         public void SimulateReconnect()
         {
             _isConnected = true;
             LastError = string.Empty;
-            ConnectionChanged?.Invoke(true);
+            ConnectionChanged?.Invoke(this, true);
         }
 
         private void RequireConnection()

@@ -20,7 +20,9 @@ namespace CMiX.Core.Networking
         // The reason of the last failed connection. Empty when the store is connected.
         string LastError { get; }
 
-        event Action<bool> ConnectionChanged;
+        // The first argument is the store that raised the event. A subscriber that changed its
+        // store drops the events of the store it left.
+        event Action<ISyncStore, bool> ConnectionChanged;
 
         // Returns when the first connect attempt is done or has failed. It does not throw when the
         // store is unreachable. IsConnected stays false and the store reconnects on its own.

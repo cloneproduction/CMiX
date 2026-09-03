@@ -60,7 +60,7 @@ namespace CMiX.Core.Tests
     {
         public bool IsConnected => false;
         public string LastError => string.Empty;
-        public event Action<bool> ConnectionChanged { add { } remove { } }
+        public event Action<ISyncStore, bool> ConnectionChanged { add { } remove { } }
 
         public Task ConnectAsync(CancellationToken ct) => Task.Delay(Timeout.Infinite, ct);
         public Task<Snapshot> ReadSnapshotAsync() => throw new InvalidOperationException();
@@ -79,13 +79,14 @@ namespace CMiX.Core.Tests
     // Wraps a store. Records the thread of every data call, and can fail every data call on demand.
     public class WrappingSyncStore : ISyncStore
     {
-        private readonly Action<bool> _forward;
+        private readonly Action<ISyncStore, bool> _forward;
 
         private ISyncStore _inner;
 
         public WrappingSyncStore(ISyncStore inner)
         {
-            _forward = value => ConnectionChanged?.Invoke(value);
+            // The wrapper is the store the peer knows, so it sends itself as the sender.
+            _forward = (_, value) => ConnectionChanged?.Invoke(this, value);
             _inner = inner;
             _inner.ConnectionChanged += _forward;
         }
@@ -126,12 +127,12 @@ namespace CMiX.Core.Tests
 
         public bool IsConnected => !Fail && _inner.IsConnected;
         public string LastError => _inner.LastError;
-        public event Action<bool> ConnectionChanged;
+        public event Action<ISyncStore, bool> ConnectionChanged;
 
         public void SetFail(bool fail)
         {
             Fail = fail;
-            ConnectionChanged?.Invoke(!fail);
+            ConnectionChanged?.Invoke(this, !fail);
         }
 
         private void Enter()
@@ -208,12 +209,12 @@ namespace CMiX.Core.Tests
         public ReconnectingSyncStore(ISyncStore inner)
         {
             _inner = inner;
-            _inner.ConnectionChanged += value => ConnectionChanged?.Invoke(value);
+            _inner.ConnectionChanged += (_, value) => ConnectionChanged?.Invoke(this, value);
         }
 
         public bool IsConnected => _inner.IsConnected;
         public string LastError => _inner.LastError;
-        public event Action<bool> ConnectionChanged;
+        public event Action<ISyncStore, bool> ConnectionChanged;
 
         public async Task ConnectAsync(CancellationToken ct)
         {
@@ -222,7 +223,7 @@ namespace CMiX.Core.Tests
             {
                 for (var i = 0; i < 100; i++)
                 {
-                    ConnectionChanged?.Invoke(true);
+                    ConnectionChanged?.Invoke(this, true);
                     await Task.Delay(1);
                 }
             });

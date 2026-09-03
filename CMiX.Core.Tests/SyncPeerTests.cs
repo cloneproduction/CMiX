@@ -1035,6 +1035,35 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.ErrorMessage.Length == 0, detail: () => $"error={peer.ErrorMessage}");
         }
 
+        // A run that subscribes after its own Stop leaves a handler on the store it left. An event
+        // of that store must not change the state the current store gave.
+        [Fact]
+        public async Task AfterARestart_AnEventOfTheOldStore_ChangesNothing()
+        {
+            var storeA = new LingeringSyncStore(new InMemorySyncStore());
+            var storeB = new InMemorySyncStore();
+            var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
+            var target = new RecordingSyncTarget();
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue());
+
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
+
+            peer.Stop();
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+
+            storeA.SimulateDisconnect("old reason");
+
+            Assert.True(peer.IsConnected);
+            Assert.Equal(string.Empty, peer.ErrorMessage);
+
+            storeB.SimulateDisconnect("new reason");
+
+            Assert.False(peer.IsConnected);
+            Assert.Equal("new reason", peer.ErrorMessage);
+        }
+
         // A long outage grows the recovery backoff to ten seconds. Without the wake the peer reads
         // nothing for the rest of that wait, although the store is back.
         [Fact]
@@ -1061,6 +1090,44 @@ namespace CMiX.Core.Tests
                 () => $"applied={target.Applied.Count} status={peer.Status} lastApplied={peer.LastAppliedId}");
         }
 
+        // A store that keeps its handlers after a remove, like the store of a run that subscribed
+        // after its own Stop. Only the sender tells such a store from the current one.
+        private sealed class LingeringSyncStore : ISyncStore
+        {
+            private readonly InMemorySyncStore _inner;
+            private Action<ISyncStore, bool> _handlers;
+
+            public LingeringSyncStore(InMemorySyncStore inner) => _inner = inner;
+
+            public bool IsConnected => _inner.IsConnected;
+            public string LastError { get; private set; } = string.Empty;
+
+            public event Action<ISyncStore, bool> ConnectionChanged
+            {
+                add => _handlers += value;
+                remove { }
+            }
+
+            public void SimulateDisconnect(string reason)
+            {
+                LastError = reason;
+                _handlers?.Invoke(this, false);
+            }
+
+            public Task ConnectAsync(CancellationToken ct) => _inner.ConnectAsync(ct);
+            public Task<Snapshot> ReadSnapshotAsync() => _inner.ReadSnapshotAsync();
+            public Task<StreamPosition> ReadSnapshotIdAsync() => _inner.ReadSnapshotIdAsync();
+            public Task WriteSnapshotAsync(Snapshot snapshot) => _inner.WriteSnapshotAsync(snapshot);
+            public Task<StreamPosition> AppendAsync(byte[] envelope) => _inner.AppendAsync(envelope);
+            public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) => _inner.ReadRangeAsync(afterExclusive, count);
+            public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) => _inner.ReadBlockingAsync(afterExclusive, timeout, ct);
+            public Task<StreamPosition> ReadTailAsync() => _inner.ReadTailAsync();
+            public Task TrimAsync(StreamPosition minId) => _inner.TrimAsync(minId);
+            public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) => _inner.HeartbeatAsync(peerId, fields, ttl);
+            public Task<IReadOnlyList<PeerInfo>> ListPeersAsync() => _inner.ListPeersAsync();
+            public ValueTask DisposeAsync() => _inner.DisposeAsync();
+        }
+
         // A store that fails its data calls while it still reports the connection, like a Redis
         // client whose commands time out. A test can also take the connection away.
         private sealed class UnreliableSyncStore : ISyncStore
@@ -1077,12 +1144,12 @@ namespace CMiX.Core.Tests
 
             public bool IsConnected => _connected;
             public string LastError => _inner.LastError;
-            public event Action<bool> ConnectionChanged;
+            public event Action<ISyncStore, bool> ConnectionChanged;
 
             public void SetConnected(bool connected)
             {
                 _connected = connected;
-                ConnectionChanged?.Invoke(connected);
+                ConnectionChanged?.Invoke(this, connected);
             }
 
             private void Enter()
