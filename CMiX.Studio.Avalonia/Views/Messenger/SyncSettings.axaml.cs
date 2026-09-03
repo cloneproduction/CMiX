@@ -48,8 +48,7 @@ namespace CMiX.Studio.Avalonia.Views
                 ConnectButton.Content = peer.Status == "Connecting" ? "Connecting..." : "Connect";
         }
 
-        // SyncPeer.Options does not raise a change notification, so the endpoint line is written
-        // here: once the peer arrives, and again after a new connection starts.
+        // The endpoint line shows the options of the running peer.
         private void ShowEndpoint(SyncPeer peer)
         {
             var options = peer.Options;

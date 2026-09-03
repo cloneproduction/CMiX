@@ -110,8 +110,7 @@
             </Button>
         </UniformGrid>
 
-        <!-- The endpoint of the running peer. The code behind writes it, because SyncPeer.Options
-             does not raise a change notification. -->
+        <!-- The endpoint line shows the options of the running peer. -->
         <BaseControl:LabeledContent Caption="Redis">
             <TextBlock
                 x:Name="EndpointText"
