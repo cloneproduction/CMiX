@@ -15,7 +15,7 @@ namespace CMiX.Console
             configurationBuilder.ConfigureAllServices(serviceCollection);
 
             var ServiceProvider = serviceCollection.BuildServiceProvider();
-            ServiceProvider.GetRequiredService<Client>().Start("127.0.0.1", 8080);
+            configurationBuilder.ConfigureEngineTransport(ServiceProvider, SyncOptions.Create("127.0.0.1", 6379, 0, "default", "", "cmix:default", "Console"));
             ServiceProvider.GetRequiredService<Project>();
             System.Console.ReadLine();
         }

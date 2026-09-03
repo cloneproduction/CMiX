@@ -16,10 +16,9 @@ namespace CMiX.Core.Tests
             messenger.IsSendingBlocked = true;
 
             messenger.SendMessage(new MessageValueChanged());
-            messenger.SendMessage(new MessageStateHash(Guid.NewGuid(), "hash"));
             messenger.SendMessage(new MessageProjectSnapshot(Guid.NewGuid(), new ProjectModel()));
 
-            Assert.Equal(2, sender.Sent.Count);
+            Assert.Single(sender.Sent);
             Assert.All(sender.Sent, m => Assert.True(SyncProtocolMessages.IsSyncProtocol(m)));
         }
 
@@ -31,7 +30,7 @@ namespace CMiX.Core.Tests
             messenger.Register(sender);
 
             messenger.SendMessage(new MessageValueChanged());
-            messenger.SendMessage(new MessageStateHash(Guid.NewGuid(), "hash"));
+            messenger.SendMessage(new MessageProjectSnapshot(Guid.NewGuid(), new ProjectModel()));
 
             Assert.Equal(2, sender.Sent.Count);
         }

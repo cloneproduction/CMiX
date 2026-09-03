@@ -5,7 +5,6 @@ using CMiX.Core.Animations;
 using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
-using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
@@ -34,8 +33,6 @@ namespace CMiX.Core.DependencyInjection
 
             services.AddSingleton<Project>();
             services.AddSingleton<MasterBeat>();
-            // Server and Client stay registered until the Studio UI moves to SyncPeer.
-            services.AddSingleton<Server>();
 
             services.AddSingleton<ControlActivationService>();
             services.AddSingleton<ControlFactory>();
@@ -44,27 +41,10 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<ControlRepository>();
             services.AddSingleton<AssetRepository>();
             services.AddSingleton<MessageCollectionManagerHandler>();
-            services.AddSingleton<Client>();
 
             services.AddSingleton<ISyncTarget, ProjectSyncTarget>();
             services.AddSingleton<Func<SyncOptions, ISyncStore>>(_ => options => new RedisSyncStore(options));
             services.AddSingleton<SyncPeer>();
-        }
-
-        public void ConfigureWpfTransport(IServiceProvider provider, Action<Action> dispatcher)
-        {
-            var messenger = provider.GetRequiredService<ControlMessenger>();
-            var server = provider.GetRequiredService<Server>();
-            server.SetDispatcher(dispatcher);
-            messenger.Register(server);
-            server.Start();
-        }
-
-        public void ConfigureVvvvTransport(IServiceProvider provider)
-        {
-            var messenger = provider.GetRequiredService<ControlMessenger>();
-            var client = provider.GetRequiredService<Client>();
-            messenger.Register(client);
         }
 
         public void ConfigureVvvvServices(IServiceCollection services)

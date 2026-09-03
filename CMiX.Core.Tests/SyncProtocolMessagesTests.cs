@@ -7,9 +7,8 @@ namespace CMiX.Core.Tests
     public class SyncProtocolMessagesTests
     {
         [Fact]
-        public void StateHashAndSnapshot_AreSyncProtocol()
+        public void Snapshot_IsSyncProtocol()
         {
-            Assert.True(SyncProtocolMessages.IsSyncProtocol(new MessageStateHash(Guid.NewGuid(), "hash")));
             Assert.True(SyncProtocolMessages.IsSyncProtocol(new MessageProjectSnapshot(Guid.NewGuid(), new ProjectModel())));
         }
 

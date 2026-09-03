@@ -18,13 +18,6 @@ namespace CMiX.Core.Networking.Messages
         public MessageValueChanged() : this(Guid.NewGuid(), default!) { }
     }
 
-    // Sent on connect so each side can compare its own project hash against the other's.
-    public record MessageStateHash(Guid ID, string Hash) : IMessage;
-
-    // The push/pull payload: one side's full project, real IDs included, for the other side to
-    // adopt wholesale.
+    // Push sends this with the full project, so running peers adopt it.
     public record MessageProjectSnapshot(Guid ID, ProjectModel Model) : IMessage;
-
-    // Asks the other side to reply with a MessageProjectSnapshot ("pull").
-    public record MessageRequestSnapshot(Guid ID) : IMessage;
 }
