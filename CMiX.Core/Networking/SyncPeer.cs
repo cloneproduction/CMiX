@@ -202,6 +202,7 @@ namespace CMiX.Core.Networking
             TailId = StreamPosition.Zero;
             IsConnected = false;
             IsJoined = false;
+            Peers.Clear();
             OnPropertyChanged(nameof(Status));
         }
 

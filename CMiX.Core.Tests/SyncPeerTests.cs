@@ -423,6 +423,7 @@ namespace CMiX.Core.Tests
             Assert.Equal("Not started", peer.Status);
             Assert.Equal(StreamPosition.Zero, peer.LastAppliedId);
             Assert.Equal(StreamPosition.Zero, peer.TailId);
+            Assert.Empty(peer.Peers);
         }
 
         [Fact]
