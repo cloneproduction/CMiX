@@ -362,5 +362,61 @@ namespace CMiX.Core.Tests
             Assert.Equal(pushWrites + 2, store.WriteSnapshotCalls);
             Assert.Equal(peer.LastAppliedId, (await inner.ReadSnapshotAsync()).StreamId);
         }
+
+        [Fact]
+        public async Task FailedCompaction_RunsAgainAfterTheReconnect()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = Studio(target, store, NoTimer);
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+            var pushWrites = store.WriteSnapshotCalls;
+            var failed = store.FailedCalls;
+
+            // The store goes down while the compaction runs, so the trim after the write throws.
+            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeWriteSnapshot = () => gate.Task;
+
+            peer.SendMessage(AddItem());
+            await WaitUntilAsync(() => store.WriteSnapshotCalls == pushWrites + 1);
+
+            store.BeforeWriteSnapshot = null;
+            store.SetFail(true);
+            gate.SetResult(true);
+            await WaitUntilAsync(() => store.FailedCalls > failed, 5000, () => $"failed={store.FailedCalls}");
+
+            // Gives the compactor the time to record the failure.
+            await Task.Delay(100);
+            store.SetFail(false);
+
+            await WaitUntilAsync(() => store.WriteSnapshotCalls > pushWrites + 1, 2000,
+                () => $"writes={store.WriteSnapshotCalls}");
+            Assert.Equal(peer.LastAppliedId, (await inner.ReadSnapshotAsync()).StreamId);
+        }
+
+        [Fact]
+        public async Task LostSnapshot_IsWrittenAgainOnTheNextTick()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = Studio(target, store, NoTimer);
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+            var pushWrites = store.WriteSnapshotCalls;
+
+            inner.ClearSnapshot();
+
+            // The heartbeat interval is two seconds.
+            await WaitUntilAsync(() => store.WriteSnapshotCalls > pushWrites, 5000,
+                () => $"writes={store.WriteSnapshotCalls}");
+
+            var snapshot = await inner.ReadSnapshotAsync();
+            Assert.NotNull(snapshot);
+            Assert.Equal(peer.LastAppliedId, snapshot.StreamId);
+            Assert.Equal(ProjectStateHash.Compute(target.Model), ProjectStateHash.Compute(ModelOf(snapshot)));
+        }
     }
 }

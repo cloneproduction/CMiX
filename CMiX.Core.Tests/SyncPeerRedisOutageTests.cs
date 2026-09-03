@@ -374,6 +374,17 @@ namespace CMiX.Core.Tests
 
                 Assert.True(a.IsConnected, "The studio did not reconnect.");
                 Assert.True(b.IsConnected, "The engine did not reconnect.");
+
+                // The studio writes the snapshot again, so a late engine still finds the state.
+                await WaitUntilAsync(() => store.ReadSnapshotIdAsync().GetAwaiter().GetResult() != StreamPosition.Zero,
+                    10000, () => "The store has no snapshot.");
+
+                var lateTarget = new RecordingSyncTarget();
+                var c = await StartEngineAsync("Engine2", lateTarget);
+                await WaitUntilAsync(() => c.LastAppliedId == a.LastAppliedId, 15000,
+                    () => $"studio={a.LastAppliedId} late={c.LastAppliedId}");
+
+                Assert.Equal(ProjectStateHash.Compute(studioTarget.Model), ProjectStateHash.Compute(lateTarget.Model));
             }
             finally
             {

@@ -86,6 +86,13 @@ namespace CMiX.Core.Tests
             return Task.CompletedTask;
         }
 
+        // Drops the snapshot, like a server that restarts without its data.
+        public void ClearSnapshot()
+        {
+            lock (_gate)
+                _snapshot = null;
+        }
+
         public Task<StreamPosition> AppendAsync(byte[] envelope)
         {
             RequireConnection();

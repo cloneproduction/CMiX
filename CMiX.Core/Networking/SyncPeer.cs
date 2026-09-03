@@ -400,6 +400,10 @@ namespace CMiX.Core.Networking
                 if (connected) _wasConnected = true;
                 IsConnected = connected;
                 OnPropertyChanged(nameof(Status));
+
+                // A compaction that threw while the store was down is not retried by itself.
+                if (connected && _compactor != null && _compactor.HasFailed)
+                    _compactor.Request();
             });
 
             // A reconnect while the peer is not in sync. The store state can have changed.
@@ -438,6 +442,11 @@ namespace CMiX.Core.Networking
                 if (tick.Tail > TailId) TailId = tick.Tail;
                 if (tick.Peers != null) ReplacePeers(tick.Peers);
                 gap = IsJoined && HasGap(tick.SnapshotId, tick.Oldest);
+
+                // The store lost the snapshot, for example after a restart without the data. The
+                // writer makes it again, or a late peer finds nothing to join from.
+                if (IsJoined && _compactor != null && tick.SnapshotId == StreamPosition.Zero)
+                    _compactor.Request();
             }).ConfigureAwait(false);
 
             if (gap)

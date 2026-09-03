@@ -27,6 +27,7 @@ namespace CMiX.Core.Networking
         private bool _dirty;
         private bool _pending;
         private bool _deferred;
+        private bool _failed;
         private bool _disposed;
 
         public SnapshotCompactor(SyncPeer peer, ISyncTarget target, ISyncStore store, Func<Action, Task> dispatch, TimeSpan? delay = null)
@@ -50,6 +51,16 @@ namespace CMiX.Core.Networking
             {
                 lock (_gate)
                     return _dirty;
+            }
+        }
+
+        // True when the last compaction threw, so the store can miss the newest snapshot.
+        public bool HasFailed
+        {
+            get
+            {
+                lock (_gate)
+                    return _failed;
             }
         }
 
@@ -181,7 +192,7 @@ namespace CMiX.Core.Networking
         }
 
         // One compaction at a time. A request during a run makes the loop run once more.
-        private void Request()
+        public void Request()
         {
             lock (_gate)
             {
@@ -209,11 +220,22 @@ namespace CMiX.Core.Networking
                 }
                 catch (Exception ex)
                 {
+                    // The store is down. The peer asks again when it is back.
                     Debug.WriteLine(ex);
+                    lock (_gate)
+                    {
+                        _failed = true;
+                        _dirty = false;
+                        _running = false;
+                    }
+
+                    return;
                 }
 
                 lock (_gate)
                 {
+                    _failed = false;
+
                     if (!_dirty || _disposed)
                     {
                         _running = false;
