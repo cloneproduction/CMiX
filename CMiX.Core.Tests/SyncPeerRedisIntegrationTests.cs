@@ -21,6 +21,7 @@ namespace CMiX.Core.Tests
     //
     // A reconnect after a server outage is not tested here. It needs a stop of the server, and the
     // test cannot stop it.
+    [Trait("Category", "Redis")]
     public sealed class SyncPeerRedisIntegrationTests : IClassFixture<RedisFixture>, IAsyncLifetime
     {
         private const string SkipReason = "Redis not reachable on 127.0.0.1:6379";

@@ -17,6 +17,10 @@ To run only these tests:
 
 To see the measured message delays, add `--logger "console;verbosity=detailed"`.
 
+The fast test set skips these classes. Run it with
+`dotnet test CMiX.Core.Tests/CMiX.Core.Tests.csproj --nologo -v q --filter "Category!=Redis"`.
+Run only the Redis tests with `--filter "Category=Redis"`.
+
 `SyncPeerRedisOutageTests` starts a Memurai of its own on port 6380 from `C:\Program Files\Memurai\memurai.exe`,
 kills it to make an outage, and starts it again. The tests skip when that executable is absent. They never
 touch the service on 6379.

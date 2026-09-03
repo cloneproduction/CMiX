@@ -137,6 +137,7 @@ namespace CMiX.Core.Tests
 
     // Drives whole peers over a private Memurai, and kills that server to make an outage. The
     // Memurai service on 6379 keeps running, so the other integration tests are not disturbed.
+    [Trait("Category", "Redis")]
     public sealed class SyncPeerRedisOutageTests : IAsyncLifetime
     {
         private const string MemuraiPath = @"C:\Program Files\Memurai\memurai.exe";

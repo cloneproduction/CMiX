@@ -77,6 +77,7 @@ namespace CMiX.Core.Tests
         }
     }
 
+    [Trait("Category", "Redis")]
     public sealed class RedisSyncStoreIntegrationTests : IClassFixture<RedisFixture>, IAsyncLifetime
     {
         private readonly RedisFixture _fixture;
