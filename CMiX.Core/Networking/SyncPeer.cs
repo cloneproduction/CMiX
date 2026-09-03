@@ -213,7 +213,7 @@ namespace CMiX.Core.Networking
         }
 
         // Pull: adopt the store state, then follow the stream.
-        public Task JoinAsync() => JoinAsync(_cts?.Token ?? CancellationToken.None);
+        public Task JoinAsync() => JoinAsync(_cts?.Token ?? CancellationToken.None, false);
 
         // Push: publish the local state as the new store state, then follow the stream.
         public Task PushAsync() => PushAsync(_cts?.Token ?? CancellationToken.None);
@@ -291,13 +291,34 @@ namespace CMiX.Core.Networking
 
         protected virtual async Task OnConnectedAsync(CancellationToken ct)
         {
-            if (_autoJoin)
+            if (!_autoJoin)
             {
-                await JoinAsync(ct).ConfigureAwait(false);
+                await RunStartCheckAsync(ct).ConfigureAwait(false);
                 return;
             }
 
-            await RunStartCheckAsync(ct).ConfigureAwait(false);
+            var store = _store;
+            if (store == null) return;
+
+            // A store error makes the join fail. An engine has no user who repeats it, so it tries
+            // again until it is in the sync.
+            var backoff = SyncTimings.MinBackoff;
+            while (!ct.IsCancellationRequested && !IsJoined)
+            {
+                if (store.IsConnected)
+                {
+                    await JoinAsync(ct, true).ConfigureAwait(false);
+                    if (IsJoined) return;
+
+                    await Task.Delay(backoff, ct).ConfigureAwait(false);
+                }
+                else
+                {
+                    await WaitForConnectionEventAsync(store, backoff, ct).ConfigureAwait(false);
+                }
+
+                backoff = TimeSpan.FromTicks(Math.Min(backoff.Ticks * 2, SyncTimings.MaxBackoff.Ticks));
+            }
         }
 
         // Position is the stream position the peer keeps when it is already in sync.
@@ -382,10 +403,13 @@ namespace CMiX.Core.Networking
             });
 
             // A reconnect while the peer is not in sync. The store state can have changed.
-            if (connected && _started && _afterFirstConnect && !_autoJoin && !IsJoined)
+            if (connected && _started && _afterFirstConnect && !IsJoined)
             {
                 var ct = _cts?.Token ?? CancellationToken.None;
-                _ = Task.Run(() => RunStartCheckAsync(ct), ct);
+                if (_autoJoin)
+                    _ = Task.Run(() => JoinAsync(ct, true), ct);
+                else
+                    _ = Task.Run(() => RunStartCheckAsync(ct), ct);
             }
         }
 
@@ -433,7 +457,9 @@ namespace CMiX.Core.Networking
                 Peers.Add(peer);
         }
 
-        private async Task JoinAsync(CancellationToken ct)
+        // skipWhenJoined is for the auto-join. A try that waited for the lock does nothing when
+        // another try joined already. A Pull and the gap re-join always run.
+        private async Task JoinAsync(CancellationToken ct, bool skipWhenJoined)
         {
             var store = _store;
             if (store == null) return;
@@ -441,6 +467,8 @@ namespace CMiX.Core.Networking
             await _joinLock.WaitAsync(ct).ConfigureAwait(false);
             try
             {
+                if (skipWhenJoined && IsJoined) return;
+
                 await StopFollowerAsync().ConfigureAwait(false);
                 await SetActivityAsync("Joining").ConfigureAwait(false);
 

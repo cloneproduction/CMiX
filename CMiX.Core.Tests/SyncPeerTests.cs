@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
@@ -412,6 +414,122 @@ namespace CMiX.Core.Tests
 
             Assert.NotEmpty(store.CallThreads);
             Assert.DoesNotContain(dispatcher.ThreadId, store.CallThreads);
+        }
+
+        [Fact]
+        public async Task Engine_WhenTheFirstJoinFails_TriesAgainAndJoins()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new UnreliableSyncStore(inner) { Fail = true };
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => store.FailedCalls > 0 && peer.ErrorMessage.Length > 0,
+                detail: () => $"status={peer.Status} failed={store.FailedCalls}");
+            Assert.False(peer.IsJoined);
+
+            store.Fail = false;
+
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+            Assert.Equal(string.Empty, peer.ErrorMessage);
+        }
+
+        [Fact]
+        public async Task Engine_AfterAFailedJoin_AppliesTheSnapshotOnce()
+        {
+            var inner = new InMemorySyncStore();
+            await inner.ConnectAsync(default);
+            var model = ModelWithOneComposition();
+            var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await inner.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
+
+            var store = new UnreliableSyncStore(inner) { Fail = true };
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.ErrorMessage.Length > 0, detail: () => $"status={peer.Status}");
+
+            store.Fail = false;
+
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+            await Task.Delay(200);
+
+            Assert.Equal(1, target.SnapshotsApplied);
+            Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
+            Assert.Equal(tail, peer.LastAppliedId);
+            Assert.Equal(string.Empty, peer.ErrorMessage);
+        }
+
+        [Fact]
+        public async Task Engine_WhenTheStoreGoesAwayDuringTheRetry_JoinsOnTheNextConnection()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new UnreliableSyncStore(inner) { Fail = true };
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.ErrorMessage.Length > 0, detail: () => $"status={peer.Status}");
+
+            store.SetConnected(false);
+            await WaitUntilAsync(() => !peer.IsConnected);
+
+            // Longer than the first backoff, so the peer waits for the connection event.
+            await Task.Delay(1200);
+            Assert.False(peer.IsJoined);
+
+            store.Fail = false;
+            store.SetConnected(true);
+
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+            Assert.Equal(string.Empty, peer.ErrorMessage);
+        }
+
+        // A store that fails its data calls while it still reports the connection, like a Redis
+        // client whose commands time out. A test can also take the connection away.
+        private sealed class UnreliableSyncStore : ISyncStore
+        {
+            private readonly ISyncStore _inner;
+            private int _failedCalls;
+            private volatile bool _connected = true;
+            private volatile bool _fail;
+
+            public UnreliableSyncStore(ISyncStore inner) => _inner = inner;
+
+            public bool Fail { get => _fail; set => _fail = value; }
+            public int FailedCalls => Volatile.Read(ref _failedCalls);
+
+            public bool IsConnected => _connected;
+            public event Action<bool> ConnectionChanged;
+
+            public void SetConnected(bool connected)
+            {
+                _connected = connected;
+                ConnectionChanged?.Invoke(connected);
+            }
+
+            private void Enter()
+            {
+                if (!_fail && _connected) return;
+
+                Interlocked.Increment(ref _failedCalls);
+                throw new InvalidOperationException("The store is failing.");
+            }
+
+            public Task ConnectAsync(CancellationToken ct) => _inner.ConnectAsync(ct);
+            public Task<Snapshot> ReadSnapshotAsync() { Enter(); return _inner.ReadSnapshotAsync(); }
+            public Task<StreamPosition> ReadSnapshotIdAsync() { Enter(); return _inner.ReadSnapshotIdAsync(); }
+            public Task WriteSnapshotAsync(Snapshot snapshot) { Enter(); return _inner.WriteSnapshotAsync(snapshot); }
+            public Task<StreamPosition> AppendAsync(byte[] envelope) { Enter(); return _inner.AppendAsync(envelope); }
+            public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) { Enter(); return _inner.ReadRangeAsync(afterExclusive, count); }
+            public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) { Enter(); return _inner.ReadBlockingAsync(afterExclusive, timeout, ct); }
+            public Task<StreamPosition> ReadTailAsync() { Enter(); return _inner.ReadTailAsync(); }
+            public Task TrimAsync(StreamPosition minId) { Enter(); return _inner.TrimAsync(minId); }
+            public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) { Enter(); return _inner.HeartbeatAsync(peerId, fields, ttl); }
+            public Task<IReadOnlyList<PeerInfo>> ListPeersAsync() { Enter(); return _inner.ListPeersAsync(); }
+            public ValueTask DisposeAsync() => _inner.DisposeAsync();
         }
     }
 }
