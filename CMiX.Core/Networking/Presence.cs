@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace CMiX.Core.Networking
 {
     // What one heartbeat tick found in the store.
-    public record PresenceTick(StreamPosition Tail, StreamPosition SnapshotId, IReadOnlyList<PeerInfo> Peers);
+    public record PresenceTick(StreamPosition Tail, StreamPosition SnapshotId, StreamPosition? Oldest, IReadOnlyList<PeerInfo> Peers);
 
     // Writes the own heartbeat and reads the stream tail, the snapshot position and, when asked,
     // the peer list, once per interval.
@@ -36,8 +36,10 @@ namespace CMiX.Core.Networking
                     await _store.HeartbeatAsync(_peerId, _fields(), SyncTimings.HeartbeatTtl).ConfigureAwait(false);
                     var tail = await _store.ReadTailAsync().ConfigureAwait(false);
                     var snapshotId = await _store.ReadSnapshotIdAsync().ConfigureAwait(false);
+                    var first = await _store.ReadRangeAsync(StreamPosition.Zero, 1).ConfigureAwait(false);
+                    var oldest = first.Count > 0 ? first[0].Id : (StreamPosition?)null;
                     var peers = _listPeers() ? await _store.ListPeersAsync().ConfigureAwait(false) : null;
-                    await _onTick(new PresenceTick(tail, snapshotId, peers)).ConfigureAwait(false);
+                    await _onTick(new PresenceTick(tail, snapshotId, oldest, peers)).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {

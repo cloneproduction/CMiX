@@ -395,20 +395,23 @@ namespace CMiX.Core.Networking
 
         private async Task OnPresenceTickAsync(PresenceTick tick)
         {
-            var behindRetention = false;
+            var gap = false;
             await DispatchAsync(() =>
             {
                 if (tick.Tail > TailId) TailId = tick.Tail;
                 if (tick.Peers != null) ReplacePeers(tick.Peers);
-
-                // The stream may have been trimmed past the own position. The snapshot has the state.
-                var lag = tick.Tail.Milliseconds - LastAppliedId.Milliseconds;
-                behindRetention = IsJoined && tick.SnapshotId > LastAppliedId && lag > SyncTimings.Retention.TotalMilliseconds;
+                gap = IsJoined && HasGap(tick.SnapshotId, tick.Oldest);
             }).ConfigureAwait(false);
 
-            if (behindRetention)
+            if (gap)
                 await JoinAsync().ConfigureAwait(false);
         }
+
+        // The stream was trimmed past the own position when its oldest entry is newer than that
+        // position and the snapshot is ahead. Then the entries in between are gone, and only the
+        // snapshot has the state. An empty stream has no gap.
+        private bool HasGap(StreamPosition snapshotId, StreamPosition? oldest)
+            => snapshotId > LastAppliedId && oldest.HasValue && oldest.Value > LastAppliedId;
 
         private void ReplacePeers(IReadOnlyList<PeerInfo> peers)
         {
@@ -633,8 +636,8 @@ namespace CMiX.Core.Networking
             cts.Dispose();
         }
 
-        // After a store error: show the state, and re-apply the snapshot when the stream was
-        // trimmed past the own position while the peer was away.
+        // After a store error: show the state, and re-apply the snapshot only when the stream was
+        // trimmed past the own position while the peer was away. Otherwise the reader replays.
         private async Task OnFollowerErrorAsync(ISyncStore store)
         {
             await DispatchAsync(() =>
@@ -645,6 +648,9 @@ namespace CMiX.Core.Networking
 
             var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
             if (snapshotId <= LastAppliedId) return;
+
+            var first = await store.ReadRangeAsync(StreamPosition.Zero, 1).ConfigureAwait(false);
+            if (!HasGap(snapshotId, first.Count > 0 ? first[0].Id : null)) return;
 
             var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
             if (snapshot == null || snapshot.StreamId <= LastAppliedId) return;
