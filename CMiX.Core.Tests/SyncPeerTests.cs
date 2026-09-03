@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -426,6 +426,26 @@ namespace CMiX.Core.Tests
             Assert.Empty(peer.Peers);
         }
 
+        // A test on a real server deletes its keys after Stopped, so no late call may write one.
+        [Fact]
+        public async Task Stopped_CompletesAfterTheLastStoreCall()
+        {
+            var store = new WrappingSyncStore(new InMemorySyncStore());
+            using var peer = CreatePeer(new RecordingSyncTarget(), store);
+
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+            var stopped = peer.Stopped;
+            peer.Stop();
+
+            Assert.Same(stopped, await Task.WhenAny(stopped, Task.Delay(5000)));
+
+            var calls = store.CallThreads.Count;
+            await Task.Delay(500);
+
+            Assert.Equal(calls, store.CallThreads.Count);
+        }
+
         [Fact]
         public async Task StoreCalls_NeverRunOnTheDispatcherThread()
         {
@@ -558,7 +578,8 @@ namespace CMiX.Core.Tests
 
             // Stop disposed the old store. Connect it again, so the read that waits can return a
             // snapshot and the test sees what the peer does with it.
-            await WaitUntilAsync(() => !innerA.IsConnected);
+            // The call that waits keeps the old run alive, so the store closes after the stop timeout.
+            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
             await innerA.ConnectAsync(default);
             release.SetResult(true);
 
@@ -603,7 +624,8 @@ namespace CMiX.Core.Tests
             peer.Stop();
             peer.Start(Options("Studio"), autoJoin: false);
 
-            await WaitUntilAsync(() => !innerA.IsConnected);
+            // The call that waits keeps the old run alive, so the store closes after the stop timeout.
+            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
             await innerA.ConnectAsync(default);
             release.SetResult(true);
 
@@ -672,7 +694,8 @@ namespace CMiX.Core.Tests
 
             // Stop disposed the old store. Connect it again, so the read that waits can return the
             // snapshot and the test sees what the peer does with it.
-            await WaitUntilAsync(() => !innerA.IsConnected);
+            // The call that waits keeps the old run alive, so the store closes after the stop timeout.
+            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
             await innerA.ConnectAsync(default);
             release.SetResult(true);
             await Task.Delay(300);
@@ -716,7 +739,8 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
             await WaitUntilAsync(() => PeerIds(peer).Contains("fresh"), 15000, () => $"status={peer.Status}");
 
-            await WaitUntilAsync(() => !innerA.IsConnected);
+            // The call that waits keeps the old run alive, so the store closes after the stop timeout.
+            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
             await innerA.ConnectAsync(default);
             await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             await innerA.HeartbeatAsync("ghost", new Dictionary<string, string> { ["name"] = "Old" }, TimeSpan.FromMinutes(1));

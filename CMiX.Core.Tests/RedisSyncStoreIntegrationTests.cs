@@ -53,6 +53,20 @@ namespace CMiX.Core.Tests
                 await database.KeyDeleteAsync(key);
         }
 
+        public async Task<int> CountKeysAsync(string prefix)
+        {
+            if (!Available)
+                return 0;
+
+            var server = Multiplexer.GetServer(Multiplexer.GetEndPoints()[0]);
+            var count = 0;
+
+            await foreach (var key in server.KeysAsync(0, prefix + "*"))
+                count++;
+
+            return count;
+        }
+
         public async Task DisposeAsync()
         {
             if (Multiplexer == null)

@@ -38,13 +38,20 @@ namespace CMiX.Core.Tests
 
         public Task InitializeAsync() => Task.CompletedTask;
 
+        // The keys go only after every peer has stopped. A last heartbeat or append of a running
+        // peer would write the prefix again after the delete.
         public async Task DisposeAsync()
         {
             foreach (var peer in _peers)
                 peer.Dispose();
 
+            foreach (var peer in _peers)
+                await Task.WhenAny(peer.Stopped, Task.Delay(TimeSpan.FromSeconds(10)));
+
             _peers.Clear();
             await _fixture.DeleteKeysAsync(_prefix);
+
+            Assert.Equal(0, await _fixture.CountKeysAsync(_prefix));
         }
 
         private static ProjectModel ModelWithOneComposition()

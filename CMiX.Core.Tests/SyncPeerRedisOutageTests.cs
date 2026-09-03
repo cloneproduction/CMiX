@@ -151,16 +151,16 @@ namespace CMiX.Core.Tests
 
         public Task InitializeAsync() => Task.CompletedTask;
 
-        public Task DisposeAsync()
-        {
-            DisposePeers();
-            return Task.CompletedTask;
-        }
+        public Task DisposeAsync() => DisposePeersAsync();
 
-        private void DisposePeers()
+        // Waits for the loops of every peer, so no call reaches the server after the test.
+        private async Task DisposePeersAsync()
         {
             foreach (var peer in _peers)
                 peer.Dispose();
+
+            foreach (var peer in _peers)
+                await Task.WhenAny(peer.Stopped, Task.Delay(TimeSpan.FromSeconds(10)));
 
             _peers.Clear();
         }
@@ -339,7 +339,7 @@ namespace CMiX.Core.Tests
             }
             finally
             {
-                DisposePeers();
+                await DisposePeersAsync();
                 server.Dispose();
             }
         }
@@ -410,7 +410,7 @@ namespace CMiX.Core.Tests
             }
             finally
             {
-                DisposePeers();
+                await DisposePeersAsync();
                 server.Dispose();
             }
         }

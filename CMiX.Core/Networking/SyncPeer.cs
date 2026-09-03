@@ -18,6 +18,9 @@ namespace CMiX.Core.Networking
     {
         private const int ReplayBatch = 256;
 
+        // How long the stop work waits for the loops of the run before it disposes the store.
+        private static readonly TimeSpan StopTimeout = TimeSpan.FromSeconds(5);
+
         private readonly ISyncTarget _target;
         private readonly ControlMessenger _messenger;
         private readonly Func<SyncOptions, ISyncStore> _storeFactory;
@@ -31,6 +34,8 @@ namespace CMiX.Core.Networking
         private CancellationTokenSource _cts;
         private CancellationTokenSource _followerCts;
         private Task _followerTask;
+        private Task _runTask;
+        private TaskCompletionSource<bool> _stopped;
         private Action<Action> _dispatcher;
         private bool _autoJoin;
         private bool _started;
@@ -87,6 +92,11 @@ namespace CMiX.Core.Networking
 
         public int PendingMessages => _outgoing.PendingCount;
 
+        // Completes when the run of the last Start has ended: the loops have returned and the store
+        // is disposed. Before the first Start it is a completed task. A test waits for it before it
+        // deletes the keys of the run.
+        public Task Stopped => _stopped?.Task ?? Task.CompletedTask;
+
         public event Action<StreamEntry, IMessage> MessageApplied;
         public event Action<IMessage> MessageSent;
 
@@ -142,6 +152,7 @@ namespace CMiX.Core.Networking
             _store = _storeFactory(Options);
             CreateCompactor();
             _cts = new CancellationTokenSource();
+            _stopped = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             _started = true;
             _wasConnected = false;
             _afterFirstConnect = false;
@@ -154,10 +165,11 @@ namespace CMiX.Core.Networking
             var store = _store;
             var generation = Volatile.Read(ref _generation);
             var ct = _cts.Token;
-            _ = Task.Run(() => RunAsync(store, generation, ct), ct);
+            _runTask = Task.Run(() => RunAsync(store, generation, ct), ct);
         }
 
-        // Returns at once. The store is disposed on a background task. Queued messages stay queued.
+        // Returns at once. The loops end and the store is disposed on a background task. Stopped
+        // completes when that work is done. Queued messages stay queued.
         public void Stop()
         {
             if (!_started) return;
@@ -166,30 +178,42 @@ namespace CMiX.Core.Networking
             DisposeCompactor();
             var cts = _cts;
             var followerCts = _followerCts;
+            var followerTask = _followerTask;
+            var runTask = _runTask;
+            var stopped = _stopped;
             var store = _store;
             _cts = null;
             _followerCts = null;
             _followerTask = null;
+            _runTask = null;
             _store = null;
 
             Cancel(followerCts);
             Cancel(cts);
 
             if (store != null)
-            {
                 store.ConnectionChanged -= OnConnectionChanged;
-                _ = Task.Run(async () =>
+
+            _ = Task.Run(async () =>
+            {
+                try
                 {
-                    try
-                    {
+                    // The loops must end before the store closes. Otherwise a last heartbeat or
+                    // append lands after the stop.
+                    await Task.WhenAny(WaitForAsync(runTask, followerTask), Task.Delay(StopTimeout)).ConfigureAwait(false);
+
+                    if (store != null)
                         await store.DisposeAsync().ConfigureAwait(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex);
-                    }
-                });
-            }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+                finally
+                {
+                    stopped?.TrySetResult(true);
+                }
+            });
 
             _activity = null;
             _wasConnected = false;
@@ -239,8 +263,12 @@ namespace CMiX.Core.Networking
             return result.Check;
         }
 
+        // Returns when the run has ended, so the stop work can wait for the loops it started.
         private async Task RunAsync(ISyncStore store, int generation, CancellationToken ct)
         {
+            Task outgoing = null;
+            Task presence = null;
+
             try
             {
                 store.ConnectionChanged += OnConnectionChanged;
@@ -254,10 +282,10 @@ namespace CMiX.Core.Networking
                     IsConnected = true;
                 }).ConfigureAwait(false);
 
-                _ = Task.Run(() => _outgoing.RunAsync(store, OnSentAsync, ct), ct);
-                var presence = new Presence(store, _peerId, HeartbeatFields, () => ListPeersEnabled,
+                outgoing = Task.Run(() => _outgoing.RunAsync(store, OnSentAsync, ct), ct);
+                var presenceLoop = new Presence(store, _peerId, HeartbeatFields, () => ListPeersEnabled,
                     tick => OnPresenceTickAsync(store, generation, tick));
-                _ = Task.Run(() => presence.RunAsync(ct), ct);
+                presence = Task.Run(() => presenceLoop.RunAsync(ct), ct);
 
                 await OnConnectedAsync(ct).ConfigureAwait(false);
             }
@@ -268,6 +296,31 @@ namespace CMiX.Core.Networking
             {
                 Debug.WriteLine(ex);
                 await DispatchCurrentAsync(store, generation, () => ErrorMessage = ex.Message).ConfigureAwait(false);
+            }
+            finally
+            {
+                await WaitForAsync(outgoing, presence).ConfigureAwait(false);
+            }
+        }
+
+        // Waits for the tasks of a run. A cancelled task is the normal end here.
+        private static async Task WaitForAsync(params Task[] tasks)
+        {
+            foreach (var task in tasks)
+            {
+                if (task == null) continue;
+
+                try
+                {
+                    await task.ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
             }
         }
 
