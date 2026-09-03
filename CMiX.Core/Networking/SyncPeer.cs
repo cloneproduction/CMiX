@@ -43,6 +43,9 @@ namespace CMiX.Core.Networking
         private int _generation;
         private bool _wasConnected;
         private bool _afterFirstConnect;
+        // True while the follower recovery runs. The recovery and the heartbeat run on different
+        // threads, so both use Volatile for this field.
+        private bool _recovering;
         private string _activity;
         // The last store reason the peer showed. A clear must not wipe another message.
         private string _storeError = string.Empty;
@@ -538,7 +541,8 @@ namespace CMiX.Core.Networking
             {
                 if (tick.Tail > TailId) TailId = tick.Tail;
                 if (tick.Peers != null) ReplacePeers(tick.Peers);
-                gap = IsJoined && HasGap(tick.SnapshotId, tick.Oldest);
+                // The recovery can see the same gap. Then the snapshot is applied twice.
+                gap = IsJoined && !Volatile.Read(ref _recovering) && HasGap(tick.SnapshotId, tick.Oldest);
 
                 // The store lost the snapshot, for example after a restart without the data. The
                 // writer makes it again, or a late peer finds nothing to join from.
@@ -829,33 +833,41 @@ namespace CMiX.Core.Networking
         // trimmed past the own position while the peer was away. Otherwise the reader replays.
         private async Task OnFollowerErrorAsync(ISyncStore store, int generation)
         {
-            await DispatchCurrentAsync(store, generation, () =>
+            Volatile.Write(ref _recovering, true);
+            try
             {
-                IsConnected = store.IsConnected;
-                OnPropertyChanged(nameof(Status));
-            }).ConfigureAwait(false);
-            if (!IsCurrent(store, generation)) return;
+                await DispatchCurrentAsync(store, generation, () =>
+                {
+                    IsConnected = store.IsConnected;
+                    OnPropertyChanged(nameof(Status));
+                }).ConfigureAwait(false);
+                if (!IsCurrent(store, generation)) return;
 
-            var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
-            if (!IsCurrent(store, generation)) return;
-            if (snapshotId <= LastAppliedId) return;
+                var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
+                if (!IsCurrent(store, generation)) return;
+                if (snapshotId <= LastAppliedId) return;
 
-            var first = await store.ReadRangeAsync(StreamPosition.Zero, 1).ConfigureAwait(false);
-            if (!IsCurrent(store, generation)) return;
-            if (!HasGap(snapshotId, first.Count > 0 ? first[0].Id : null)) return;
+                var first = await store.ReadRangeAsync(StreamPosition.Zero, 1).ConfigureAwait(false);
+                if (!IsCurrent(store, generation)) return;
+                if (!HasGap(snapshotId, first.Count > 0 ? first[0].Id : null)) return;
 
-            var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
-            if (!IsCurrent(store, generation)) return;
-            if (snapshot == null || snapshot.StreamId <= LastAppliedId) return;
+                var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
+                if (!IsCurrent(store, generation)) return;
+                if (snapshot == null || snapshot.StreamId <= LastAppliedId) return;
 
-            var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
-            await DispatchCurrentAsync(store, generation, () =>
+                var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
+                await DispatchCurrentAsync(store, generation, () =>
+                {
+                    _target.ApplySnapshot(model);
+                    AppliedMessages++;
+                    LastAppliedId = snapshot.StreamId;
+                    if (snapshot.StreamId > TailId) TailId = snapshot.StreamId;
+                }).ConfigureAwait(false);
+            }
+            finally
             {
-                _target.ApplySnapshot(model);
-                AppliedMessages++;
-                LastAppliedId = snapshot.StreamId;
-                if (snapshot.StreamId > TailId) TailId = snapshot.StreamId;
-            }).ConfigureAwait(false);
+                Volatile.Write(ref _recovering, false);
+            }
         }
 
         // False after a Stop, or after a Start that made a new store. Then the caller belongs to an

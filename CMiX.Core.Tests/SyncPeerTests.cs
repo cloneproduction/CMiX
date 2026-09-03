@@ -357,6 +357,45 @@ namespace CMiX.Core.Tests
             Assert.Equal(tail, peer.LastAppliedId);
         }
 
+        // The heartbeat sees the gap of an outage that the follower recovery already handles. Only
+        // one of the two may rebuild the state.
+        [Fact]
+        public async Task Recovery_WhileTheHeartbeatSeesTheSameGap_AppliesTheSnapshotOnce()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store);
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            store.SetFail(true);
+            await WaitUntilAsync(() => !peer.IsConnected && store.FailedCalls > 0);
+            await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var model = ModelWithOneComposition();
+            await inner.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
+            await inner.TrimAsync(tail);
+
+            // Holds the recovery open over two heartbeat intervals.
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeReadSnapshot = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+            store.SetFail(false);
+            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+
+            await Task.Delay(5000);
+            release.SetResult(true);
+            await Task.Delay(2000);
+
+            Assert.Equal(1, target.SnapshotsApplied);
+            Assert.Equal(tail, peer.LastAppliedId);
+        }
+
         [Fact]
         public async Task Outgoing_KeepsOrder()
         {
