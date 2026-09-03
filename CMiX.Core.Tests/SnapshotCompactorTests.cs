@@ -396,6 +396,33 @@ namespace CMiX.Core.Tests
             Assert.Equal(peer.LastAppliedId, (await inner.ReadSnapshotAsync()).StreamId);
         }
 
+        // Stopped says that the store is quiet. A compaction that still writes would break that.
+        [Fact]
+        public async Task Stop_WaitsForTheRunningCompaction()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = Studio(target, store, NoTimer);
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+            var pushWrites = store.WriteSnapshotCalls;
+
+            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeWriteSnapshot = () => gate.Task;
+
+            peer.SendMessage(AddItem());
+            await WaitUntilAsync(() => store.WriteSnapshotCalls == pushWrites + 1);
+
+            var stopped = peer.Stopped;
+            peer.Stop();
+            await Task.Delay(300);
+            Assert.False(stopped.IsCompleted);
+
+            gate.SetResult(true);
+            Assert.Same(stopped, await Task.WhenAny(stopped, Task.Delay(1000)));
+        }
+
         [Fact]
         public async Task LostSnapshot_IsWrittenAgainOnTheNextTick()
         {

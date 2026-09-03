@@ -190,7 +190,10 @@ namespace CMiX.Core.Networking
             if (!_started) return;
 
             _started = false;
+            var compactor = _compactor;
             DisposeCompactor();
+            // The dispose blocks a new compaction, so this is the last one.
+            var compacting = compactor?.Running ?? Task.CompletedTask;
             var cts = _cts;
             var followerCts = _followerCts;
             var followerTask = _followerTask;
@@ -214,9 +217,9 @@ namespace CMiX.Core.Networking
             {
                 try
                 {
-                    // The loops must end before the store closes. Otherwise a last heartbeat or
-                    // append lands after the stop.
-                    await Task.WhenAny(WaitForAsync(runTask, followerTask), Task.Delay(StopTimeout)).ConfigureAwait(false);
+                    // The loops and the compaction must end before the store closes. Otherwise a
+                    // last heartbeat, append or snapshot lands after the stop.
+                    await Task.WhenAny(WaitForAsync(runTask, followerTask, compacting), Task.Delay(StopTimeout)).ConfigureAwait(false);
 
                     if (store != null)
                         await store.DisposeAsync().ConfigureAwait(false);

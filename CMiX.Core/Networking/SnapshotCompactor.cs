@@ -24,6 +24,7 @@ namespace CMiX.Core.Networking
         private readonly object _gate = new();
 
         private bool _running;
+        private Task _runTask = Task.CompletedTask;
         private bool _dirty;
         private bool _pending;
         private bool _deferred;
@@ -51,6 +52,17 @@ namespace CMiX.Core.Networking
             {
                 lock (_gate)
                     return _dirty;
+            }
+        }
+
+        // The compaction that runs now, or a completed task. The stop work of the peer waits for it,
+        // so no write reaches a store that closes.
+        public Task Running
+        {
+            get
+            {
+                lock (_gate)
+                    return _runTask;
             }
         }
 
@@ -205,9 +217,8 @@ namespace CMiX.Core.Networking
                 }
 
                 _running = true;
+                _runTask = Task.Run(RunAsync);
             }
-
-            _ = Task.Run(RunAsync);
         }
 
         private async Task RunAsync()
