@@ -48,20 +48,20 @@ namespace CMiX.Studio.Avalonia.Services
 
         public static StudioSettings Load() => Load(DefaultPath);
 
-        // Missing file, empty file or a broken file all fall back to defaults. Studio must
-        // still start when the settings file is absent or damaged.
+        // A missing, empty, broken or locked file falls back to defaults. The Studio must start
+        // in every case.
         public static StudioSettings Load(string path)
         {
-            if (!File.Exists(path)) return new StudioSettings();
-
-            var json = File.ReadAllText(path);
-            if (string.IsNullOrWhiteSpace(json)) return new StudioSettings();
-
             try
             {
+                if (!File.Exists(path)) return new StudioSettings();
+
+                var json = File.ReadAllText(path);
+                if (string.IsNullOrWhiteSpace(json)) return new StudioSettings();
+
                 return JsonSerializer.Deserialize<StudioSettings>(json, Options) ?? new StudioSettings();
             }
-            catch (JsonException)
+            catch (Exception ex) when (ex is JsonException or IOException or UnauthorizedAccessException)
             {
                 return new StudioSettings();
             }
