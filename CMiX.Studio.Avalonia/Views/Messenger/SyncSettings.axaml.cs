@@ -23,13 +23,20 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         private SyncPeer Peer => (SyncPeer)DataContext!;
+        private SyncPeer? _subscribedPeer;
 
         protected override void OnDataContextChanged(EventArgs e)
         {
             base.OnDataContextChanged(e);
+
+            if (_subscribedPeer != null)
+                _subscribedPeer.PropertyChanged -= Peer_PropertyChanged;
+            _subscribedPeer = null;
+
             if (DataContext is not SyncPeer peer) return;
 
             peer.PropertyChanged += Peer_PropertyChanged;
+            _subscribedPeer = peer;
             ShowEndpoint(peer);
         }
 
