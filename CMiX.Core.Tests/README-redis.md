@@ -16,3 +16,7 @@ To run only these tests:
     dotnet test CMiX.Core.Tests/CMiX.Core.Tests.csproj --nologo -v q --filter "FullyQualifiedName~RedisSyncStoreIntegrationTests"
 
 To see the measured message delays, add `--logger "console;verbosity=detailed"`.
+
+`SyncPeerRedisOutageTests` starts a Memurai of its own on port 6380 from `C:\Program Files\Memurai\memurai.exe`,
+kills it to make an outage, and starts it again. The tests skip when that executable is absent. They never
+touch the service on 6379.
