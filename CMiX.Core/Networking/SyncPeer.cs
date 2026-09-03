@@ -282,7 +282,7 @@ namespace CMiX.Core.Networking
         }
 
         // Pull: adopt the store state, then follow the stream.
-        public Task JoinAsync() => JoinAsync(_cts?.Token ?? CancellationToken.None, false);
+        public Task JoinAsync() => JoinAsync(_cts?.Token ?? CancellationToken.None, false, false);
 
         // Push: publish the local state as the new store state, then follow the stream.
         public Task PushAsync() => PushAsync(_cts?.Token ?? CancellationToken.None);
@@ -414,7 +414,7 @@ namespace CMiX.Core.Networking
 
                 if (store.IsConnected)
                 {
-                    await JoinAsync(ct, true).ConfigureAwait(false);
+                    await JoinAsync(ct, true, false).ConfigureAwait(false);
                     if (!IsCurrent(store, generation)) return;
                     if (IsJoined) return;
 
@@ -535,7 +535,7 @@ namespace CMiX.Core.Networking
             {
                 var ct = _cts?.Token ?? CancellationToken.None;
                 if (_autoJoin)
-                    _ = Task.Run(() => JoinAsync(ct, true), ct);
+                    _ = Task.Run(() => JoinAsync(ct, true, false), ct);
                 else
                     _ = Task.Run(() => RunStartCheckAsync(ct), ct);
             }
@@ -584,14 +584,15 @@ namespace CMiX.Core.Networking
         private async Task OnPresenceTickAsync(ISyncStore store, int generation, PresenceTick tick)
         {
             var gap = false;
+            var behindTail = false;
             await DispatchCurrentAsync(store, generation, () =>
             {
-                var behind = IsJoined && IsBehindTail(tick.Tail);
+                behindTail = IsJoined && IsBehindTail(tick.Tail);
                 // The tail of another store is the true one. Every other tick only moves it up.
-                if (tick.Tail > TailId || behind) TailId = tick.Tail;
+                if (tick.Tail > TailId || behindTail) TailId = tick.Tail;
                 if (tick.Peers != null) ReplacePeers(tick.Peers);
                 // The recovery can see the same gap. Then the snapshot is applied twice.
-                gap = IsJoined && !Volatile.Read(ref _recovering) && (behind || HasGap(tick.SnapshotId, tick.Oldest));
+                gap = IsJoined && !Volatile.Read(ref _recovering) && (behindTail || HasGap(tick.SnapshotId, tick.Oldest));
 
                 // The store lost the snapshot, for example after a restart without the data. The
                 // writer makes it again, or a late peer finds nothing to join from.
@@ -599,8 +600,10 @@ namespace CMiX.Core.Networking
                     _compactor.Request();
             }).ConfigureAwait(false);
 
+            // A peer behind the tail of a replacement store must adopt the state of that store, also
+            // when its snapshot is below the own position. Only the re-join after a trim can skip.
             if (gap)
-                await JoinAsync().ConfigureAwait(false);
+                await JoinAsync(_cts?.Token ?? CancellationToken.None, false, !behindTail).ConfigureAwait(false);
         }
 
         // The stream was trimmed past the own position when its oldest entry is newer than that
@@ -622,8 +625,9 @@ namespace CMiX.Core.Networking
         }
 
         // skipWhenJoined is for the auto-join. A try that waited for the lock does nothing when
-        // another try joined already. A Pull and the gap re-join always run.
-        private async Task JoinAsync(CancellationToken ct, bool skipWhenJoined)
+        // another try joined already. A Pull and the gap re-join always run. afterGap marks the
+        // re-join of the heartbeat after a trim, the only join that can meet a follower recovery.
+        private async Task JoinAsync(CancellationToken ct, bool skipWhenJoined, bool afterGap)
         {
             var store = _store;
             var generation = Volatile.Read(ref _generation);
@@ -637,6 +641,25 @@ namespace CMiX.Core.Networking
 
                 await StopFollowerAsync().ConfigureAwait(false);
                 await SetActivityAsync("Joining").ConfigureAwait(false);
+
+                if (afterGap)
+                {
+                    var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
+                    if (!IsCurrent(store, generation)) return;
+
+                    // The follower closed the gap while this join waited for it: its recovery
+                    // applied the snapshot. A second apply would rebuild the state again, so this
+                    // join only replays what comes after the position. A store without a snapshot
+                    // says nothing, so it takes the full join.
+                    if (snapshotId != StreamPosition.Zero && snapshotId <= LastAppliedId)
+                    {
+                        await ReplayAsync(store, generation, LastAppliedId, ct).ConfigureAwait(false);
+                        if (!IsCurrent(store, generation)) return;
+
+                        await FinishJoinAsync(store, generation).ConfigureAwait(false);
+                        return;
+                    }
+                }
 
                 // The store state replaces the local one, so the local edits in the queue go away.
                 // An append in flight lands before the read, so it is part of what is adopted.
@@ -692,13 +715,7 @@ namespace CMiX.Core.Networking
                     if (!IsCurrent(store, generation)) return;
                 }
 
-                var joined = await DispatchCurrentAsync(store, generation, () =>
-                {
-                    ErrorMessage = string.Empty;
-                    IsJoined = true;
-                }).ConfigureAwait(false);
-                if (joined)
-                    StartFollower(store, generation);
+                await FinishJoinAsync(store, generation).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -757,6 +774,12 @@ namespace CMiX.Core.Networking
             await PushCoreAsync(store, generation).ConfigureAwait(false);
             if (!IsCurrent(store, generation)) return;
 
+            await FinishJoinAsync(store, generation).ConfigureAwait(false);
+        }
+
+        // Ends a join or a push: the peer is in sync, and the follower reads from the position.
+        private async Task FinishJoinAsync(ISyncStore store, int generation)
+        {
             var joined = await DispatchCurrentAsync(store, generation, () =>
             {
                 ErrorMessage = string.Empty;

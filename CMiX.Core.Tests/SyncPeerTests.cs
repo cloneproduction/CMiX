@@ -396,6 +396,80 @@ namespace CMiX.Core.Tests
             Assert.Equal(tail, peer.LastAppliedId);
         }
 
+        // The other order: the heartbeat starts the re-join before the recovery sets its flag. The
+        // join then waits for the follower, which applies the snapshot. Only one rebuild may run.
+        [Fact]
+        public async Task TickJoin_DuringAFollowerRecovery_AppliesTheSnapshotOnce()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            store.SetFail(true);
+            await WaitUntilAsync(() => !peer.IsConnected && store.FailedCalls > 0);
+            await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var model = ModelWithOneComposition();
+            await inner.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
+            await inner.TrimAsync(tail);
+
+            // Holds the recovery in its snapshot read, so a heartbeat tick can see the same gap.
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeReadSnapshot = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+            store.SetFail(false);
+            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+
+            await Task.Delay(2000);
+            release.SetResult(true);
+            await Task.Delay(3000);
+
+            Assert.Equal(1, target.SnapshotsApplied);
+            Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
+            Assert.Equal(tail, peer.LastAppliedId);
+        }
+
+        // The re-join of the heartbeat waits for the follower in StopFollowerAsync. The follower
+        // moves the peer to the snapshot position while it waits, so the join has nothing to adopt.
+        [Fact]
+        public async Task TickJoin_WhenTheFollowerReachedTheSnapshot_DoesNotApplyItAgain()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            // Holds the entry that the follower found. The peer stays behind the snapshot, so the
+            // heartbeat sees a gap and starts the re-join.
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.AfterReadBlocking = () => release.Task;
+
+            var model = ModelWithOneComposition();
+            var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await inner.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
+
+            // The tick reads the oldest entry only for a gap check. The join starts right after it.
+            await WaitUntilAsync(() => store.OldestReadCalls > 0, 15000, () => $"status={peer.Status}");
+            await Task.Delay(300);
+            release.SetResult(true);
+
+            await WaitUntilAsync(() => peer.LastAppliedId == tail, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
+            await Task.Delay(500);
+
+            Assert.Equal(0, target.SnapshotsApplied);
+            Assert.Single(target.Applied);
+            Assert.True(peer.IsJoined);
+        }
+
         // A follower can pause without a store error: the process is suspended, or the machine
         // sleeps with a socket that survives. Its read then returns the entries after the trim
         // point. An apply of those entries would move the peer past the gap and hide it.
