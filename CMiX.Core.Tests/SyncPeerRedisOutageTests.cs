@@ -250,10 +250,31 @@ namespace CMiX.Core.Tests
             return ids;
         }
 
+        // A leftover server from a killed test run still answers here. The test skips instead of
+        // starting a second server that fails to bind and runs against the stale one.
+        private static bool PortIsBusy(int port)
+        {
+            try
+            {
+                using var client = new TcpClient();
+                var connect = client.BeginConnect("127.0.0.1", port, null, null);
+                if (!connect.AsyncWaitHandle.WaitOne(1000))
+                    return false;
+
+                client.EndConnect(connect);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         [SkippableFact]
         public async Task Peers_SurviveAnOutage_AndCatchUp()
         {
             Skip.IfNot(File.Exists(MemuraiPath), SkipReason);
+            Skip.If(PortIsBusy(Port), $"Port {Port} is busy. Stop the process that uses it.");
 
             using var directory = new TempDirectoryFixture();
             var server = new PrivateMemurai(MemuraiPath, Port, "--save", "", "--appendonly", "yes", "--dir", directory.Path);
@@ -327,6 +348,7 @@ namespace CMiX.Core.Tests
         public async Task Peers_SurviveAnOutage_ThatLosesTheData()
         {
             Skip.IfNot(File.Exists(MemuraiPath), SkipReason);
+            Skip.If(PortIsBusy(Port), $"Port {Port} is busy. Stop the process that uses it.");
 
             var server = new PrivateMemurai(MemuraiPath, Port, "--save", "", "--appendonly", "no");
             try

@@ -20,3 +20,7 @@ To see the measured message delays, add `--logger "console;verbosity=detailed"`.
 `SyncPeerRedisOutageTests` starts a Memurai of its own on port 6380 from `C:\Program Files\Memurai\memurai.exe`,
 kills it to make an outage, and starts it again. The tests skip when that executable is absent. They never
 touch the service on 6379.
+
+A killed test run can leave a stray `memurai.exe` on port 6380. The tests then skip with the reason
+"Port 6380 is busy. Stop the process that uses it." End the stray process with the Task Manager, or with
+`taskkill /f /im memurai.exe /fi "PID ne <pid of the service>"`, where the service PID comes from `sc queryex Memurai`.
