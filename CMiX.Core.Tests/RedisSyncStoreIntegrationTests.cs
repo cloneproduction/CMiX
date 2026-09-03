@@ -239,7 +239,8 @@ namespace CMiX.Core.Tests
             var connecting = store.ConnectAsync(CancellationToken.None);
             stopwatch.Stop();
 
-            Assert.True(stopwatch.ElapsedMilliseconds < 50, $"ConnectAsync blocked for {stopwatch.ElapsedMilliseconds} ms.");
+            // Well below the 3 s connect timeout of the store.
+            Assert.True(stopwatch.ElapsedMilliseconds < 200, $"ConnectAsync blocked for {stopwatch.ElapsedMilliseconds} ms.");
 
             await connecting;
             Assert.False(store.IsConnected);

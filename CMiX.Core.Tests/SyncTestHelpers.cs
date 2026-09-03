@@ -99,10 +99,11 @@ namespace CMiX.Core.Tests
         }
 
         private int _writeSnapshotCalls;
+        private int _failedCalls;
 
         public ConcurrentBag<int> CallThreads { get; } = new();
         public bool Fail { get; set; }
-        public int FailedCalls { get; private set; }
+        public int FailedCalls => Volatile.Read(ref _failedCalls);
 
         public int WriteSnapshotCalls => Volatile.Read(ref _writeSnapshotCalls);
         public ConcurrentQueue<StreamPosition> TrimCalls { get; } = new();
@@ -138,7 +139,7 @@ namespace CMiX.Core.Tests
             CallThreads.Add(Environment.CurrentManagedThreadId);
             if (!Fail) return;
 
-            FailedCalls++;
+            Interlocked.Increment(ref _failedCalls);
             throw new InvalidOperationException("The store is failing.");
         }
 

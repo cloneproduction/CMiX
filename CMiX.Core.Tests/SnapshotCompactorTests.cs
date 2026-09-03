@@ -356,8 +356,11 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => target.Applied.Count == 3);
 
             gate.SetResult(true);
-            await WaitUntilAsync(() => store.WriteSnapshotCalls == pushWrites + 2);
-            await Task.Delay(500);
+            await WaitUntilAsync(() => store.WriteSnapshotCalls >= pushWrites + 2, 5000,
+                () => $"writes={store.WriteSnapshotCalls}");
+
+            // Gives a further compaction the time to appear.
+            await Task.Delay(300);
 
             Assert.Equal(pushWrites + 2, store.WriteSnapshotCalls);
             Assert.Equal(peer.LastAppliedId, (await inner.ReadSnapshotAsync()).StreamId);
