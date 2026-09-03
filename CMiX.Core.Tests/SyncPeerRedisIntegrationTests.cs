@@ -60,9 +60,9 @@ namespace CMiX.Core.Tests
         private SyncOptions Options(string name, string role) =>
             SyncOptions.Defaults with { KeyPrefix = _prefix, PeerName = name, Role = role };
 
-        private SyncPeer NewPeer(ISyncTarget target)
+        private SyncPeer NewPeer(ISyncTarget target, bool isWriter = true)
         {
-            var peer = new SyncPeer(target, new ControlMessenger(), o => new RedisSyncStore(o));
+            var peer = new SyncPeer(target, new ControlMessenger(), o => new RedisSyncStore(o)) { IsWriter = isWriter };
             _peers.Add(peer);
             return peer;
         }
@@ -88,8 +88,18 @@ namespace CMiX.Core.Tests
 
         private async Task<SyncPeer> StartEngineAsync(string name, ISyncTarget target)
         {
-            var peer = NewPeer(target);
+            var peer = NewPeer(target, isWriter: false);
             peer.Start(Options(name, "engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+            return peer;
+        }
+
+        // A second writer, for the tests that check the engine-to-Studio direction. The protocol
+        // stays symmetric, so only the wiring keeps engines from sending.
+        private async Task<SyncPeer> StartWriterAsync(string name, ISyncTarget target)
+        {
+            var peer = NewPeer(target);
+            peer.Start(Options(name, "studio"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
             return peer;
         }
@@ -170,6 +180,7 @@ namespace CMiX.Core.Tests
             var a = await StartStudioAsync(studioTarget);
             var engineTarget = new RecordingSyncTarget();
             var b = await StartEngineAsync("Engine1", engineTarget);
+            var writer2 = await StartWriterAsync("Writer2", new RecordingSyncTarget());
 
             var fromA = new MessageOnClick(Guid.NewGuid());
             var watch = Stopwatch.StartNew();
@@ -177,9 +188,11 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => engineTarget.Applied.Any(m => m.ID == fromA.ID));
             var toEngine = watch.ElapsedMilliseconds;
 
+            // The engine does not write. A second writer stands in for the engine-to-Studio
+            // direction, so the protocol claim stays tested.
             var fromB = new MessageOnClick(Guid.NewGuid());
             watch.Restart();
-            b.SendMessage(fromB);
+            writer2.SendMessage(fromB);
             await WaitUntilAsync(() => studioTarget.Applied.Any(m => m.ID == fromB.ID));
             var toStudio = watch.ElapsedMilliseconds;
 
@@ -229,14 +242,17 @@ namespace CMiX.Core.Tests
             var studioTarget = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             var a = await StartStudioAsync(studioTarget);
             var firstEngineTarget = new RecordingSyncTarget();
-            var b = await StartEngineAsync("Engine1", firstEngineTarget);
+            await StartEngineAsync("Engine1", firstEngineTarget);
             var secondEngineTarget = new RecordingSyncTarget();
             await StartEngineAsync("Engine2", secondEngineTarget);
+            var writer2 = await StartWriterAsync("Writer2", new RecordingSyncTarget());
 
             a.Stop();
 
+            // The engine does not write. A second writer stands in for a peer that keeps writing
+            // while the Studio is down.
             var fromB = new MessageOnClick(Guid.NewGuid());
-            b.SendMessage(fromB);
+            writer2.SendMessage(fromB);
             await WaitUntilAsync(() => secondEngineTarget.Applied.Any(m => m.ID == fromB.ID));
 
             var restartedTarget = new RecordingSyncTarget { Model = ModelWithOneComposition() };

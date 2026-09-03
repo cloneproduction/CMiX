@@ -75,6 +75,9 @@ namespace CMiX.Core.Networking
 
         public bool ListPeersEnabled { get; set; }
 
+        // Only a writer appends entries and pushes. Engines read and apply.
+        public bool IsWriter { get; set; }
+
         // How long a value change waits before the compactor writes a new snapshot. Tests shorten it.
         public TimeSpan CompactionDelay { get; set; } = SyncTimings.CompactionDelay;
 
@@ -189,7 +192,7 @@ namespace CMiX.Core.Networking
 
         public void SendMessage(IMessage message)
         {
-            if (message == null) return;
+            if (message == null || !IsWriter) return;
 
             var envelope = new MessageEnvelope
             {
@@ -434,10 +437,18 @@ namespace CMiX.Core.Networking
                 var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
                 var tail = await store.ReadTailAsync().ConfigureAwait(false);
 
-                // Nothing to adopt: the local state becomes the store state.
+                // Nothing to adopt: the local state becomes the store state. A non-writer keeps
+                // its local state and follows the stream from the start instead.
                 if (snapshot == null && tail == StreamPosition.Zero)
                 {
-                    await PushCoreAsync(store).ConfigureAwait(false);
+                    if (IsWriter)
+                        await PushCoreAsync(store).ConfigureAwait(false);
+                    else
+                        await DispatchAsync(() =>
+                        {
+                            LastAppliedId = StreamPosition.Zero;
+                            TailId = StreamPosition.Zero;
+                        }).ConfigureAwait(false);
                 }
                 else
                 {
@@ -485,6 +496,12 @@ namespace CMiX.Core.Networking
 
         private async Task PushAsync(CancellationToken ct)
         {
+            if (!IsWriter)
+            {
+                await DispatchAsync(() => ErrorMessage = "This peer does not write.").ConfigureAwait(false);
+                return;
+            }
+
             var store = _store;
             if (store == null) return;
 

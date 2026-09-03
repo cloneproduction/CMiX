@@ -42,6 +42,71 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public async Task EngineOnEmptyStore_JoinsAtZero_WithoutPushing()
+        {
+            var store = new InMemorySyncStore();
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = CreatePeer(target, store, isWriter: false);
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            Assert.Null(await store.ReadSnapshotAsync());
+            Assert.Empty(store.Entries);
+            Assert.Equal(StreamPosition.Zero, peer.LastAppliedId);
+            Assert.True(peer.IsInSync);
+        }
+
+        [Fact]
+        public async Task Engine_SendMessage_AppendsNothing()
+        {
+            var store = new InMemorySyncStore();
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            peer.SendMessage(new MessageOnClick(Guid.NewGuid()));
+
+            Assert.Equal(0, peer.PendingMessages);
+            Assert.Empty(store.Entries);
+        }
+
+        [Fact]
+        public async Task Engine_PushAsync_SetsErrorAndAppendsNothing()
+        {
+            var store = new InMemorySyncStore();
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            await peer.PushAsync();
+
+            Assert.Equal("This peer does not write.", peer.ErrorMessage);
+            Assert.Empty(store.Entries);
+        }
+
+        [Fact]
+        public async Task EngineOnStoreWithSnapshot_JoinsFromItAsBefore()
+        {
+            var store = new InMemorySyncStore();
+            await store.ConnectAsync(default);
+            var model = ModelWithOneComposition();
+            var tail = await store.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await store.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
+
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            Assert.Equal(1, target.SnapshotsApplied);
+            Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
+            Assert.Equal(tail, peer.LastAppliedId);
+        }
+
+        [Fact]
         public async Task Join_WithSnapshot_AppliesModelAndReplaysOnlyLaterEntries()
         {
             var store = new InMemorySyncStore();

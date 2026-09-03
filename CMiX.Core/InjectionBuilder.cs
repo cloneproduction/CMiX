@@ -60,15 +60,15 @@ namespace CMiX.Core.DependencyInjection
             peer.SetDispatcher(dispatcher);
             messenger.Register(peer);
             peer.CompactionEnabled = true;
+            peer.IsWriter = true;
             peer.ListPeersEnabled = true;
             peer.Start(options with { Role = "studio" }, autoJoin: false);
         }
 
         public void ConfigureEngineTransport(IServiceProvider provider, SyncOptions options)
         {
-            var messenger = provider.GetRequiredService<ControlMessenger>();
             var peer = provider.GetRequiredService<SyncPeer>();
-            messenger.Register(peer);
+            // Engines read and apply. Only the Studio writes, so the engine peer is not a sender.
             peer.Start(options, autoJoin: true);
         }
     }

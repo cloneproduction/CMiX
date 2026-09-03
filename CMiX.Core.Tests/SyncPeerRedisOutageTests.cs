@@ -180,9 +180,9 @@ namespace CMiX.Core.Tests
         private SyncOptions Options(string name, string role) =>
             SyncOptions.Defaults with { Port = Port, KeyPrefix = _prefix, PeerName = name, Role = role };
 
-        private SyncPeer NewPeer(ISyncTarget target)
+        private SyncPeer NewPeer(ISyncTarget target, bool isWriter = true)
         {
-            var peer = new SyncPeer(target, new ControlMessenger(), o => new RedisSyncStore(o));
+            var peer = new SyncPeer(target, new ControlMessenger(), o => new RedisSyncStore(o)) { IsWriter = isWriter };
             _peers.Add(peer);
             return peer;
         }
@@ -200,8 +200,18 @@ namespace CMiX.Core.Tests
 
         private async Task<SyncPeer> StartEngineAsync(string name, ISyncTarget target)
         {
-            var peer = NewPeer(target);
+            var peer = NewPeer(target, isWriter: false);
             peer.Start(Options(name, "engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
+            return peer;
+        }
+
+        // A second writer, so the engine-to-Studio direction stays tested even though the engine
+        // peer itself no longer writes.
+        private async Task<SyncPeer> StartWriterAsync(string name, ISyncTarget target)
+        {
+            var peer = NewPeer(target);
+            peer.Start(Options(name, "studio"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
             return peer;
         }
@@ -252,6 +262,7 @@ namespace CMiX.Core.Tests
                 server.Start();
 
                 var (a, studioTarget, b, engineTarget) = await StartPairAsync();
+                var writer2 = await StartWriterAsync("Writer2", new RecordingSyncTarget());
 
                 var fromA = Send(a, 0, 5);
                 await WaitUntilAsync(() => Clicks(engineTarget).Count == 5, 15000, () => $"applied={Clicks(engineTarget).Count}");
@@ -264,10 +275,11 @@ namespace CMiX.Core.Tests
                 Assert.Equal("Reconnecting", a.Status);
 
                 fromA.AddRange(Send(a, 5, 5));
-                var fromB = Send(b, 100, 3);
+                // The engine does not write. Writer2 stands in for the engine-to-Studio direction.
+                var fromB = Send(writer2, 100, 3);
 
                 Assert.True(a.PendingMessages >= 5, $"The studio holds {a.PendingMessages} messages.");
-                Assert.True(b.PendingMessages >= 3, $"The engine holds {b.PendingMessages} messages.");
+                Assert.True(writer2.PendingMessages >= 3, $"Writer2 holds {writer2.PendingMessages} messages.");
 
                 await Task.Delay(5000);
                 Assert.True(a.IsJoined, "The studio left the sync during the outage.");
@@ -279,15 +291,20 @@ namespace CMiX.Core.Tests
                 var reconnected = watch.ElapsedMilliseconds;
 
                 watch.Restart();
-                await WaitUntilAsync(() => a.PendingMessages == 0 && b.PendingMessages == 0, 30000,
-                    () => $"studio={a.PendingMessages} engine={b.PendingMessages}");
-                await WaitUntilAsync(() => Clicks(engineTarget).Count == 10 && Clicks(studioTarget).Count == 3, 30000,
+                await WaitUntilAsync(() => a.PendingMessages == 0 && writer2.PendingMessages == 0, 30000,
+                    () => $"studio={a.PendingMessages} writer2={writer2.PendingMessages}");
+                // The engine applies every foreign sender, so it sees Writer2's 3 clicks too.
+                await WaitUntilAsync(() => Clicks(engineTarget).Count == 13 && Clicks(studioTarget).Count == 3, 30000,
                     () => $"engine={Clicks(engineTarget).Count} studio={Clicks(studioTarget).Count}");
                 await WaitUntilAsync(() => a.LastAppliedId == b.LastAppliedId && a.IsInSync && b.IsInSync, 30000,
                     () => $"studio={a.LastAppliedId}/{a.IsInSync} engine={b.LastAppliedId}/{b.IsInSync}");
                 var caughtUp = watch.ElapsedMilliseconds;
 
-                Assert.Equal(fromA, Clicks(engineTarget));
+                // The engine's applied clicks interleave fromA and fromB. Each sender's own
+                // clicks stay in order.
+                var engineClicks = Clicks(engineTarget);
+                Assert.Equal(fromA, engineClicks.Where(id => fromA.Contains(id)).ToList());
+                Assert.Equal(fromB, engineClicks.Where(id => fromB.Contains(id)).ToList());
                 Assert.Equal(fromB, Clicks(studioTarget));
 
                 var lateTarget = new RecordingSyncTarget();
@@ -317,6 +334,7 @@ namespace CMiX.Core.Tests
                 server.Start();
 
                 var (a, studioTarget, b, engineTarget) = await StartPairAsync();
+                var writer2 = await StartWriterAsync("Writer2", new RecordingSyncTarget());
 
                 Send(a, 0, 5);
                 await WaitUntilAsync(() => Clicks(engineTarget).Count == 5, 15000, () => $"applied={Clicks(engineTarget).Count}");
@@ -329,7 +347,8 @@ namespace CMiX.Core.Tests
                 var detected = watch.ElapsedMilliseconds;
 
                 Send(a, 5, 5);
-                Send(b, 100, 3);
+                // The engine does not write. Writer2 stands in for the engine-to-Studio direction.
+                Send(writer2, 100, 3);
                 await Task.Delay(5000);
 
                 watch.Restart();

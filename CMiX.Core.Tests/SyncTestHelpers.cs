@@ -227,8 +227,8 @@ namespace CMiX.Core.Tests
                 Payload = message
             });
 
-        public static SyncPeer CreatePeer(ISyncTarget target, ISyncStore store, ControlMessenger messenger = null)
-            => new SyncPeer(target, messenger ?? new ControlMessenger(), _ => store);
+        public static SyncPeer CreatePeer(ISyncTarget target, ISyncStore store, ControlMessenger messenger = null, bool isWriter = true)
+            => new SyncPeer(target, messenger ?? new ControlMessenger(), _ => store) { IsWriter = isWriter };
 
         public static SyncOptions Options(string name) => SyncOptions.Defaults with { PeerName = name, Role = "test" };
     }

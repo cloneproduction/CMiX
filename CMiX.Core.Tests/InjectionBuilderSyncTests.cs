@@ -19,6 +19,16 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void SyncPeer_IsNotAWriter_BeforeAnyConfigureCall()
+        {
+            var provider = TestServiceProviderFactory.Create();
+
+            var peer = provider.GetRequiredService<SyncPeer>();
+
+            Assert.False(peer.IsWriter);
+        }
+
+        [Fact]
         public void ISyncTarget_ResolvesToProjectSyncTarget()
         {
             var provider = TestServiceProviderFactory.Create();
