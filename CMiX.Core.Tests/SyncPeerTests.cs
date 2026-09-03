@@ -6,6 +6,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using static CMiX.Core.Tests.SyncTestHelpers;
@@ -157,7 +158,8 @@ namespace CMiX.Core.Tests
             var project = provider.GetRequiredService<Project>();
             var messenger = provider.GetRequiredService<ControlMessenger>();
             var store = new InMemorySyncStore();
-            using var peer = CreatePeer(new ProjectSyncTarget(project), store, messenger);
+            var target = new ProjectSyncTarget(project, messenger, provider.GetRequiredService<UndoManager>());
+            using var peer = CreatePeer(target, store, messenger);
             messenger.Register(peer);
             peer.Start(Options("B"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined);
@@ -257,6 +259,50 @@ namespace CMiX.Core.Tests
             Assert.Equal(tail, peer.LastAppliedId);
             Assert.Empty(target.Applied);
             await WaitUntilAsync(() => peer.IsConnected);
+        }
+
+        // A snapshot apply on a real project clears the compositions through the manager, which
+        // sends one remove message per composition. B is joined and writes, so an unblocked apply
+        // would put those messages into the stream and delete the compositions of every peer.
+        [Fact]
+        public async Task Recovery_OnRealProject_AppliesSnapshotWithoutWritingToTheStream()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var project = provider.GetRequiredService<Project>();
+            var messenger = provider.GetRequiredService<ControlMessenger>();
+            var inner = new InMemorySyncStore();
+            var storeB = new WrappingSyncStore(inner);
+            var targetB = new ProjectSyncTarget(project, messenger, provider.GetRequiredService<UndoManager>());
+            using var b = CreatePeer(targetB, storeB, messenger);
+            messenger.Register(b);
+
+            // The peer blocks sending until it joins, so this composition stays local.
+            project.CompositionManager.AddItem(typeof(Composition));
+            b.Start(Options("B"), autoJoin: false);
+            await WaitUntilAsync(() => b.IsJoined);
+
+            var targetA = new RecordingSyncTarget();
+            using var a = CreatePeer(targetA, inner, isWriter: false);
+            a.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => a.IsJoined);
+
+            storeB.SetFail(true);
+            await WaitUntilAsync(() => !b.IsConnected && storeB.FailedCalls > 0);
+            await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var model = ModelWithOneComposition();
+            await inner.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
+            await inner.TrimAsync(tail);
+            storeB.SetFail(false);
+
+            await WaitUntilAsync(() => b.LastAppliedId == tail, 15000, () => $"status={b.Status} last={b.LastAppliedId}");
+            var composition = Assert.Single(project.CompositionManager.ManagerData.Items);
+            Assert.Equal(model.CompositionManager.ManagerData.Items[0].ID, composition.ID);
+
+            await Task.Delay(300);
+            Assert.DoesNotContain(targetA.Applied, m => m is MessageRemoveItem || m is MessageAddItem);
+            // A is not a writer, so an entry after the snapshot position could only come from B.
+            Assert.DoesNotContain(inner.Entries, entry => entry.Id > tail);
         }
 
         [Fact]
