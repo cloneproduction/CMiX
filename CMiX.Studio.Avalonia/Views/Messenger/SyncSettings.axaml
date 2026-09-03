@@ -94,9 +94,9 @@
                                     Click="Pull_Click"
                                     Command="{Binding PullCommand}"
                                     Content="Pull"
-                                    IsEnabled="{Binding IsConnected}"
+                                    IsEnabled="{Binding !IsJoined}"
                                     Theme="{StaticResource ButtonRounded}"
-                                    ToolTip.Tip="Pull: replace the loaded project with the Redis state" />
+                                    ToolTip.Tip="Pull: replace the loaded project with the Redis state. Available while not in sync." />
                                 <Button
                                     Grid.Column="2"
                                     Margin="4,0,0,0"
