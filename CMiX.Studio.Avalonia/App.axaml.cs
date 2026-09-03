@@ -70,10 +70,9 @@ namespace CMiX.Studio.Avalonia
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();
                 DialogService = serviceProvider.GetRequiredService<IDialogService>();
-                // Post rather than Invoke, so the WatsonTcp receive thread never blocks on the
-                // UI thread being free.
-                configurationBuilder.ConfigureWpfTransport(serviceProvider,
-                    a => Dispatcher.UIThread.Post(a));
+                // Post, not Invoke, so the Redis reader thread never waits for the UI thread.
+                configurationBuilder.ConfigureStudioTransport(serviceProvider,
+                    a => Dispatcher.UIThread.Post(a), StudioSettings.Load().ToSyncOptions());
 
                 var masterBeat = serviceProvider.GetRequiredService<MasterBeat>();
                 _animationController = new MasterBeatAnimationController(masterBeat);
