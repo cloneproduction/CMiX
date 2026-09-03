@@ -164,6 +164,9 @@ namespace CMiX.Core.Tests
             // A store that was written before the key existed.
             await database.KeyDeleteAsync(tailKey);
             Assert.Equal(third, await store.ReadTailAsync());
+
+            // The fallback read fills the key again, so the next reader skips it.
+            Assert.Equal(third.ToString(), (string)await database.StringGetAsync(tailKey));
         }
 
         [SkippableFact]

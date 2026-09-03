@@ -297,7 +297,13 @@ namespace CMiX.Core.Networking
             if (entries == null || entries.Length == 0)
                 return StreamPosition.Zero;
 
-            return StreamPosition.TryParse(entries[0].Id, out var id) ? id : StreamPosition.Zero;
+            if (!StreamPosition.TryParse(entries[0].Id, out var id))
+                return StreamPosition.Zero;
+
+            // Fills the key so the next reader skips this fallback. Any peer may do this, because
+            // the value is the same for all.
+            await database.StringSetAsync(_tailKey, entries[0].Id).ConfigureAwait(false);
+            return id;
         }
 
         // XTRIM goes through ExecuteAsync because the typed API only offers MAXLEN.
