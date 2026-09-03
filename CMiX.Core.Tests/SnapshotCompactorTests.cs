@@ -450,10 +450,11 @@ namespace CMiX.Core.Tests
 
             // The send notifies with one pending message. The loop notifies again with none.
             peer.SendMessage(ValueChange(0.25f));
-            await WaitUntilAsync(() => counts.Count >= 2 && peer.PendingMessages == 0 && peer.LastAppliedId >= peer.LastSentId,
-                5000, () => $"counts={counts.Count} pending={peer.PendingMessages}");
+            await WaitUntilAsync(() => counts.Count >= 2 && counts.ToArray().Last() == 0 && peer.LastAppliedId >= peer.LastSentId,
+                5000, () => $"counts={string.Join(",", counts)} pending={peer.PendingMessages}");
 
             Assert.Equal(0, counts.ToArray().Last());
+            Assert.Contains(1, counts);
 
             // The add asks for a capture while the entry is pending. The notification after the
             // entry releases it.

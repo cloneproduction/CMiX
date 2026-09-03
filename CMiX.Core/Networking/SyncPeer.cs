@@ -277,7 +277,8 @@ namespace CMiX.Core.Networking
                 Payload = message
             };
             _outgoing.Enqueue(MessagePackSerialization.Serialize(envelope));
-            OnPropertyChanged(nameof(PendingMessages));
+            // Through the dispatcher, so this notification and the one after the append keep their order.
+            Dispatch(() => OnPropertyChanged(nameof(PendingMessages)));
             MessageSent?.Invoke(message);
         }
 
