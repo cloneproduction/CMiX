@@ -14,7 +14,7 @@ namespace CMiX.Core.Modulation.Modifiers
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public bool IsExpanded { get; set; } = true;
-        public List<ModulatableFloatModel> Channels { get; set; } = new();
+        public List<ModulatableFloatModel> Bindables { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();
         public GenericValueModel<bool> PingPong { get; set; } = new(false);
         public GenericValueModel<CameraAxis> Axis { get; set; } = new();

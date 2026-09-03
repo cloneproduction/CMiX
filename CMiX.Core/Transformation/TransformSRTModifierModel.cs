@@ -14,7 +14,7 @@ namespace CMiX.Core.Transformation
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public bool IsExpanded { get; set; } = true;
-        public List<ModulatableFloatModel> Channels { get; set; } = new();
+        public List<ModulatableFloatModel> Bindables { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();
         public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
         public DirectionXYZModel DirectionXYZ { get; set; } = new(false, false, false);

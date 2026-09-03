@@ -10,53 +10,34 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Modulation
 {
-    // Property-first container - e.g. "Scale" owning Channels X/Y/Z. Implements the old
-    // CMiX.Core.Modifiers.IModifier (a pure marker, adds no members) so every concrete Modifier
-    // is discoverable the same way old modifiers already are: VL uses IModifier as its own
-    // category filter to find "all modifiers" on the engine side, and ControlFactory.NameControl
-    // special-cases it for naming (skips the .001/.002 de-duplication old modifiers don't use
-    // either). This is independent of CMiX.Studio.Avalonia's own "Add Modifier" picker, which
-    // discovers candidates purely by the [ModifierPanel(typeof(Owner))] attribute on each
-    // concrete class - see ScaleModifier.cs. ModulatorManager is this Modifier's own private
-    // stack (a PrefabManager of IModulator items) - not shared with any other Modifier, matching
-    // how BeatModifiableModifierBase's BeatModifierManager already works for the old system.
     public abstract partial class Modifier : ObservableObject, IPrefab, IModifier, IDisposable
     {
-        protected Modifier(PrefabService prefabService, PrefabManager modulatorManager)
+        protected Modifier(PrefabService prefabService, PrefabManager modulatorManager, IEnumerable<IModulatorBindable> nestedBindables = null)
         {
             PrefabService = prefabService;
             ModulatorManager = modulatorManager;
+            _nestedBindables = nestedBindables ?? Enumerable.Empty<IModulatorBindable>();
             ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
         }
 
-        // Deleting or resetting a modulator in this Modifier's own stack unassigns it from any
-        // channel that was pointing at it, rather than leaving a dangling ModulatorID/BoundModulator
-        // behind. CollectionManager.ResetItem replaces an item via an indexer-set, which raises
-        // Replace rather than Remove - both actions carry the old item(s) in OldItems, so both are
-        // handled the same way. Walks Channels plus AdditionalModulatorBindables so anything nested
-        // one level deeper (e.g. a ModifierModeSelector's Count) gets the same cleanup.
+        private readonly IEnumerable<IModulatorBindable> _nestedBindables;
+
         private void OnModulatorManagerItemsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems == null) return;
 
-            var bindables = Channels.Cast<IModulatorBindable>().Concat(AdditionalModulatorBindables);
+            var bindables = Bindables.Cast<IModulatorBindable>().Concat(_nestedBindables);
             foreach (IControl removed in e.OldItems)
                 foreach (var bindable in bindables.Where(b => b.ModulatorID == removed.ID))
                     bindable.SetModulatorCommand.Execute(null);
         }
 
-        // Empty by default - overridden by the handful of Modifiers whose ModifierModeSelector(3)
-        // has a bindable Count/CountX/CountY/CountZ, which live one level inside that selector
-        // rather than directly in Channels, so OnModulatorManagerItemsChanged above wouldn't reach
-        // them otherwise.
-        protected virtual IEnumerable<IModulatorBindable> AdditionalModulatorBindables => Enumerable.Empty<IModulatorBindable>();
+        protected void ResolveNestedBindables()
+        {
+            foreach (var bindable in _nestedBindables)
+                ResolveModulatorBinding(bindable);
+        }
 
-        // Re-resolves one bindable's live BoundModulator reference by ID against this Modifier's own
-        // ModulatorManager - the same lookup Channels get automatically below in LoadBaseModel, but
-        // callable explicitly for anything nested deeper. Needed because a nested control (e.g.
-        // ModifierModeSelector) only gets its own ModulatorID populated once the owning Modifier's
-        // FromModel loads it, which happens after LoadBaseModel returns - so the concrete Modifier
-        // must call this again once that nested FromModel has run.
         protected void ResolveModulatorBinding(IModulatorBindable bindable)
         {
             if (bindable.ModulatorID is not { } modulatorId) return;
@@ -80,14 +61,14 @@ namespace CMiX.Core.Modulation
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public List<ModulatableFloat> Channels { get; set; } = new();
+        public List<ModulatableFloat> Bindables { get; set; } = new();
 
         protected void PopulateBaseModel(IModifierModel model)
         {
             model.ID = ID;
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
             model.IsExpanded = IsExpanded;
-            model.Channels = Channels.Select(c => (ModulatableFloatModel)c.ToModel()).ToList();
+            model.Bindables = Bindables.Select(c => (ModulatableFloatModel)c.ToModel()).ToList();
             model.ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel();
         }
 
@@ -97,18 +78,15 @@ namespace CMiX.Core.Modulation
             PrefabService.FromModel(model.PrefabService);
             IsExpanded = model.IsExpanded;
 
-            // ModulatorManager loads first so each ModulatableFloat's BoundModulator can be re-resolved by
-            // ID right after - ModulatableFloat.FromModel only restores ModulatorID, since it has no
-            // access to the manager's items itself.
             LoadManager(ModulatorManager, model.ModulatorManager);
 
-            for (int i = 0; i < Channels.Count && i < model.Channels.Count; i++)
-                Channels[i].FromModel(model.Channels[i]);
+            for (int i = 0; i < Bindables.Count && i < model.Bindables.Count; i++)
+                Bindables[i].FromModel(model.Bindables[i]);
 
-            foreach (var channel in Channels)
+            foreach (var bindable in Bindables)
             {
-                if (channel.ModulatorID.Value is not { } modulatorId) continue;
-                channel.BoundModulator = ModulatorManager.ManagerData.Items
+                if (bindable.ModulatorID.Value is not { } modulatorId) continue;
+                bindable.BoundModulator = ModulatorManager.ManagerData.Items
                     .OfType<IModulator>()
                     .FirstOrDefault(m => m.ID == modulatorId);
             }

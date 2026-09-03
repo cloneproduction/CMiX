@@ -15,7 +15,7 @@ namespace CMiX.Core.Modulation.Modifiers
     // stay addable side by side until SelectRandomTexture is confirmed superseded by a live VL
     // check, per this session's migration approach. SelectRandomTexture is not touched by this
     // change. TextureFrom is ported as-is (non-modulatable) - like FlipModifier, SelectRandomTexture
-    // had no numeric fields at all in the old system, so this Modifier has zero Channels; it's
+    // had no numeric fields at all in the old system, so this Modifier has zero Bindables; it's
     // ported for VL naming consistency, not because it gains any new modulation capability.
     [ModifierPanel(typeof(Material))]
     public partial class SelectTextureModifier : Modifier

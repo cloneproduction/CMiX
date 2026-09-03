@@ -6,9 +6,6 @@ using CMiX.Core.Modulation;
 
 namespace CMiX.Core.Modifiers
 {
-    // Does not reuse Integer3 for Count - Integer3 is a plain, generic "3 ints" type with no
-    // reason to know about modulator-binding machinery, so each axis gets its own independent
-    // ModulatableInteger instead of one shared Integer3 whose X/Y/Z would need to become bindable.
     public class ModifierModeSelector3 : IControl
     {
         public ModifierModeSelector3(GenericValue<ModifierMode> mode,
@@ -27,6 +24,7 @@ namespace CMiX.Core.Modifiers
         public ModulatableInteger CountX { get; set; }
         public ModulatableInteger CountY { get; set; }
         public ModulatableInteger CountZ { get; set; }
+        public IEnumerable<IModulatorBindable> Bindables => new IModulatorBindable[] { CountX, CountY, CountZ };
 
         public IControlModel ToModel() => new ModifierModeSelector3Model
         {

@@ -12,11 +12,6 @@ using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    // Renamed from LinearXYZModifier to bare LinearXYZ, claiming the name freed up by the old
-    // LinearXYZ (now LinearXYZLegacy) so VL's exact-name matching can target this class directly.
-    // One-to-one field parity with the old LinearXYZ is complete: ModifierModeSelector,
-    // TransformTypeSelector, and DirectionXYZ are ported as-is (non-modulatable); Width and Phase
-    // become modulatable channels - new capability the old LinearXYZ never had.
     [ModifierPanel(typeof(Entity))]
     public partial class LinearXYZModifier : Modifier, ISpreadableModifier
     {
@@ -27,29 +22,22 @@ namespace CMiX.Core.Modulation.Modifiers
                                  DirectionXYZ directionXYZ,
                                  ModulatableFloat width,
                                  ModulatableFloat phase)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             TransformTypeSelector = transformTypeSelector;
             DirectionXYZ = directionXYZ;
             width.Label = "Width";
             phase.Label = "Phase";
-            Channels = new List<ModulatableFloat> { width, phase };
+            Bindables = new List<ModulatableFloat> { width, phase };
         }
 
-        // Convenience accessors into Channels, purely for the view's ModulatableFloatValue bindings -
-        // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public ModulatableFloat Width => Channels[0];
-        public ModulatableFloat Phase => Channels[1];
+        public ModulatableFloat Width => Bindables[0];
+        public ModulatableFloat Phase => Bindables[1];
 
-        // Non-modulatable, ported as-is from LinearXYZ for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<TransformType> TransformTypeSelector { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
-
-        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
-        // see Modifier.AdditionalModulatorBindables.
-        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
 
         public override IControlModel ToModel()
         {
@@ -68,7 +56,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (LinearXYZModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveModulatorBinding(ModifierModeSelector.Count);
+            ResolveNestedBindables();
             TransformTypeSelector.FromModel(m.TransformTypeSelector);
             DirectionXYZ.FromModel(m.DirectionXYZ);
         }

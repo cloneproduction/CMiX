@@ -9,27 +9,20 @@ using CMiX.Core.Rendering.Lights;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    // Discoverable on both Entity and LightEntity, matching RandomVisibility's own scope exactly -
-    // both stay addable side by side until RandomVisibility is confirmed superseded by a live VL
-    // check, per this session's migration approach. RandomVisibility is not touched by this change.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
     public partial class VisibilityModifier : Modifier
     {
         public VisibilityModifier(PrefabService prefabService,
                                   PrefabManager modulatorManager,
-                                  ModulatableFloat channelValue)
+                                  ModulatableFloat bindableValue)
             : base(prefabService, modulatorManager)
         {
-            // Matches the old RandomVisibility's own default - a freshly added modifier
-            // otherwise starts at 0 instead of half-visible.
-            channelValue.Value.Value = 0.5f;
-            Channels = new List<ModulatableFloat> { channelValue };
+            bindableValue.Value.Value = 0.5f;
+            Bindables = new List<ModulatableFloat> { bindableValue };
         }
 
-        // Convenience accessor into Channels, purely for the view's ModulatableFloatValue binding -
-        // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public ModulatableFloat Value => Channels[0];
+        public ModulatableFloat Value => Bindables[0];
 
         public override IControlModel ToModel()
         {

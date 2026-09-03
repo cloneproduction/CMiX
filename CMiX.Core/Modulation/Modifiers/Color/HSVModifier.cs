@@ -12,11 +12,6 @@ using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    // Discoverable on both Entity and LightEntity, matching the old RandomHSV's own scope exactly
-    // - both stay addable side by side until RandomHSV is confirmed superseded by a live VL
-    // check, per this session's migration approach. RandomHSV is not touched by this change.
-    // ModifierModeSelector and ColorMode are ported as-is (non-modulatable); Hue, Saturation,
-    // Value, and Alpha all become modulatable channels.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
     public partial class HSVModifier : Modifier, ISpreadableModifier
@@ -29,7 +24,7 @@ namespace CMiX.Core.Modulation.Modifiers
                            ModulatableFloat saturation,
                            ModulatableFloat value,
                            ModulatableFloat alpha)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             ColorMode = colorMode;
@@ -37,23 +32,16 @@ namespace CMiX.Core.Modulation.Modifiers
             saturation.Label = "Saturation";
             value.Label = "Value";
             alpha.Label = "Alpha";
-            Channels = new List<ModulatableFloat> { hue, saturation, value, alpha };
+            Bindables = new List<ModulatableFloat> { hue, saturation, value, alpha };
         }
 
-        // Convenience accessors into Channels, purely for the view's ModulatableFloatValue bindings -
-        // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public ModulatableFloat Hue => Channels[0];
-        public ModulatableFloat Saturation => Channels[1];
-        public ModulatableFloat Value => Channels[2];
-        public ModulatableFloat Alpha => Channels[3];
+        public ModulatableFloat Hue => Bindables[0];
+        public ModulatableFloat Saturation => Bindables[1];
+        public ModulatableFloat Value => Bindables[2];
+        public ModulatableFloat Alpha => Bindables[3];
 
-        // Non-modulatable, ported as-is from RandomHSV for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<ColorMode> ColorMode { get; set; }
-
-        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
-        // see Modifier.AdditionalModulatorBindables.
-        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
 
         public override IControlModel ToModel()
         {
@@ -71,7 +59,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (HSVModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveModulatorBinding(ModifierModeSelector.Count);
+            ResolveNestedBindables();
             ColorMode.FromModel(m.ColorMode);
         }
     }

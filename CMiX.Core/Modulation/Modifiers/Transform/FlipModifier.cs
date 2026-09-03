@@ -13,7 +13,7 @@ namespace CMiX.Core.Modulation.Modifiers
     // by side until Flip is confirmed superseded by a live VL check, per this session's migration
     // approach. Flip is not touched by this change. DirectionXYZ is ported as-is (non-modulatable)
     // - unlike every other ported modifier so far, Flip had no numeric fields at all in the old
-    // system, so this Modifier has zero Channels; it's ported for VL naming consistency, not
+    // system, so this Modifier has zero Bindables; it's ported for VL naming consistency, not
     // because it gains any new modulation capability.
     [ModifierPanel(typeof(Entity))]
     public partial class FlipModifier : Modifier

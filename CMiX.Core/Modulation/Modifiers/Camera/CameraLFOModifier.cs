@@ -10,10 +10,6 @@ using CMiX.Core.Rendering.Cameras.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    // Discoverable on Camera, matching the old CameraLFO's own scope exactly - both stay addable
-    // side by side until CameraLFO is confirmed superseded by a live VL check, per this session's
-    // migration approach. CameraLFO is not touched by this change. PingPong and Axis are ported
-    // as-is (non-modulatable); From and To both become modulatable channels.
     [ModifierPanel(typeof(Camera))]
     public partial class CameraLFOModifier : Modifier, ICameraModifier
     {
@@ -29,18 +25,13 @@ namespace CMiX.Core.Modulation.Modifiers
             Axis = axis;
             from.Label = "From";
             to.Label = "To";
-            // Matches the old CameraLFO's own default (From 0, To 1) - a freshly added CameraLFO
-            // otherwise oscillates 0 to 0, a no-op.
             to.Value.Value = 1.0f;
-            Channels = new List<ModulatableFloat> { from, to };
+            Bindables = new List<ModulatableFloat> { from, to };
         }
 
-        // Convenience accessors into Channels, purely for the view's ModulatableFloatValue bindings -
-        // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public ModulatableFloat From => Channels[0];
-        public ModulatableFloat To => Channels[1];
+        public ModulatableFloat From => Bindables[0];
+        public ModulatableFloat To => Bindables[1];
 
-        // Non-modulatable, ported as-is from CameraLFO for one-to-one field parity.
         public GenericValue<bool> PingPong { get; set; }
         public GenericValue<CameraAxis> Axis { get; set; }
 

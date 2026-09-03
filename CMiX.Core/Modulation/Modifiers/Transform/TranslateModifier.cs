@@ -11,9 +11,6 @@ using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    // Discoverable on both Entity and LightEntity, matching RandomPosition's own scope exactly -
-    // both stay addable side by side until RandomPosition is confirmed superseded by a live VL
-    // check, per this session's migration approach. RandomPosition is not touched by this change.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
     public partial class TranslateModifier : Modifier, ISpreadableModifier
@@ -21,30 +18,23 @@ namespace CMiX.Core.Modulation.Modifiers
         public TranslateModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,
                                 ModifierModeSelector modifierModeSelector,
-                                ModulatableFloat channelX,
-                                ModulatableFloat channelY,
-                                ModulatableFloat channelZ)
-            : base(prefabService, modulatorManager)
+                                ModulatableFloat bindableX,
+                                ModulatableFloat bindableY,
+                                ModulatableFloat bindableZ)
+            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            channelX.Label = "X";
-            channelY.Label = "Y";
-            channelZ.Label = "Z";
-            Channels = new List<ModulatableFloat> { channelX, channelY, channelZ };
+            bindableX.Label = "X";
+            bindableY.Label = "Y";
+            bindableZ.Label = "Z";
+            Bindables = new List<ModulatableFloat> { bindableX, bindableY, bindableZ };
         }
 
-        // Convenience accessors into Channels, purely for the view's ModulatableVectorXYZ binding -
-        // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public ModulatableFloat X => Channels[0];
-        public ModulatableFloat Y => Channels[1];
-        public ModulatableFloat Z => Channels[2];
+        public ModulatableFloat X => Bindables[0];
+        public ModulatableFloat Y => Bindables[1];
+        public ModulatableFloat Z => Bindables[2];
 
-        // Non-modulatable, ported as-is from RandomPosition for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }
-
-        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
-        // see Modifier.AdditionalModulatorBindables.
-        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
 
         public override IControlModel ToModel()
         {
@@ -61,7 +51,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (TranslateModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveModulatorBinding(ModifierModeSelector.Count);
+            ResolveNestedBindables();
         }
     }
 }

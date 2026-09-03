@@ -10,10 +10,6 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Transformation
 {
-    // One shared ModulatorManager for all 10 channels (Translate/Scale/Rotation X/Y/Z plus Scale's
-    // Uniform) - every channel picks from the same modulator list. One shared ModifierModeSelector
-    // too, matching every other Modulation modifier (ScaleModifier, RotationModifier,
-    // TranslateModifier) - one Modifier = one ModifierModeSelector, regardless of channel count.
     [ModifierPanel(typeof(Entity))]
     public partial class TransformSRTModifier : Modifier
     {
@@ -32,7 +28,7 @@ namespace CMiX.Core.Transformation
                             ModulatableFloat rotationZ,
                             DirectionXYZ directionXYZ,
                             GenericValue<ModifierMode> mode)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             DirectionXYZ = directionXYZ;
@@ -49,7 +45,7 @@ namespace CMiX.Core.Transformation
             rotationY.Label = "Y";
             rotationZ.Label = "Z";
 
-            Channels = new List<ModulatableFloat>
+            Bindables = new List<ModulatableFloat>
             {
                 translateX, translateY, translateZ,
                 scaleX, scaleY, scaleZ, scaleUniform,
@@ -61,22 +57,16 @@ namespace CMiX.Core.Transformation
         public GenericValue<ModifierMode> Mode { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
 
-        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
-        // see Modifier.AdditionalModulatorBindables.
-        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
-
-        // Convenience accessors into Channels, purely for the view's bindings - Channels itself
-        // stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public ModulatableFloat TranslateX => Channels[0];
-        public ModulatableFloat TranslateY => Channels[1];
-        public ModulatableFloat TranslateZ => Channels[2];
-        public ModulatableFloat ScaleX => Channels[3];
-        public ModulatableFloat ScaleY => Channels[4];
-        public ModulatableFloat ScaleZ => Channels[5];
-        public ModulatableFloat ScaleUniform => Channels[6];
-        public ModulatableFloat RotationX => Channels[7];
-        public ModulatableFloat RotationY => Channels[8];
-        public ModulatableFloat RotationZ => Channels[9];
+        public ModulatableFloat TranslateX => Bindables[0];
+        public ModulatableFloat TranslateY => Bindables[1];
+        public ModulatableFloat TranslateZ => Bindables[2];
+        public ModulatableFloat ScaleX => Bindables[3];
+        public ModulatableFloat ScaleY => Bindables[4];
+        public ModulatableFloat ScaleZ => Bindables[5];
+        public ModulatableFloat ScaleUniform => Bindables[6];
+        public ModulatableFloat RotationX => Bindables[7];
+        public ModulatableFloat RotationY => Bindables[8];
+        public ModulatableFloat RotationZ => Bindables[9];
 
         public override IControlModel ToModel()
         {
@@ -95,7 +85,7 @@ namespace CMiX.Core.Transformation
             var m = (TransformSRTModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveModulatorBinding(ModifierModeSelector.Count);
+            ResolveNestedBindables();
             DirectionXYZ.FromModel(m.DirectionXYZ);
             Mode.FromModel(m.Mode);
         }

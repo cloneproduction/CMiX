@@ -18,6 +18,7 @@ namespace CMiX.Core.Modifiers
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<ModifierMode> Mode { get; set; }
         public ModulatableInteger Count { get; set; }
+        public IEnumerable<IModulatorBindable> Bindables => new IModulatorBindable[] { Count };
 
         public IControlModel ToModel() => new ModifierModeSelectorModel
         {

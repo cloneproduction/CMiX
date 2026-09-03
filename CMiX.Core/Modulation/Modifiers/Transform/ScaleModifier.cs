@@ -10,48 +10,33 @@ using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    // Discoverable in a real Entity's own "Add Modifier" picker (EntityModifiersSection's
-    // AutoSelectionPanel, PanelOwner-based - see Modifier.cs's comment on IModifier for how this
-    // differs from VL-side discovery) alongside the old RandomScale, which this is meant to
-    // eventually replace. Both stay addable side by side until RandomScale is confirmed
-    // superseded by a live VL check, per this session's migration approach - RandomScale is not
-    // touched by this change at all.
     [ModifierPanel(typeof(Entity))]
     public partial class ScaleModifier : Modifier, ISpreadableModifier
     {
         public ScaleModifier(PrefabService prefabService,
                              PrefabManager modulatorManager,
                              ModifierModeSelector modifierModeSelector,
-                             ModulatableFloat channelX,
-                             ModulatableFloat channelY,
-                             ModulatableFloat channelZ,
-                             ModulatableFloat channelUniform)
-            : base(prefabService, modulatorManager)
+                             ModulatableFloat bindableX,
+                             ModulatableFloat bindableY,
+                             ModulatableFloat bindableZ,
+                             ModulatableFloat bindableUniform)
+            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            channelX.Label = "X";
-            channelY.Label = "Y";
-            channelZ.Label = "Z";
-            channelUniform.Label = "Uniform";
-            Channels = new List<ModulatableFloat> { channelX, channelY, channelZ, channelUniform };
+            bindableX.Label = "X";
+            bindableY.Label = "Y";
+            bindableZ.Label = "Z";
+            bindableUniform.Label = "Uniform";
+            Bindables = new List<ModulatableFloat> { bindableX, bindableY, bindableZ, bindableUniform };
         }
 
-        // Convenience accessors into Channels, purely for the view's ModulatableVectorXYZ binding -
-        // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public ModulatableFloat X => Channels[0];
-        public ModulatableFloat Y => Channels[1];
-        public ModulatableFloat Z => Channels[2];
+        public ModulatableFloat X => Bindables[0];
+        public ModulatableFloat Y => Bindables[1];
+        public ModulatableFloat Z => Bindables[2];
 
-        // Uniform is a 4th, independently modulatable channel - ported from RandomScale's
-        // UniformXYZ, which was already the same GenericValue<float> type as X/Y/Z.
-        public ModulatableFloat Uniform => Channels[3];
+        public ModulatableFloat Uniform => Bindables[3];
 
-        // Non-modulatable, ported as-is from RandomScale for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }
-
-        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
-        // see Modifier.AdditionalModulatorBindables.
-        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
 
         public override IControlModel ToModel()
         {
@@ -68,7 +53,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (ScaleModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveModulatorBinding(ModifierModeSelector.Count);
+            ResolveNestedBindables();
         }
     }
 }

@@ -11,14 +11,6 @@ using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    // Discoverable on Entity, matching the old RandomXYZ's own scope exactly - both stay addable
-    // side by side until RandomXYZ is confirmed superseded by a live VL check, per this session's
-    // migration approach. RandomXYZ is not touched by this change. ModifierModeSelector, Gaussian,
-    // and the three RandomizeX/Y/Z toggle flags are ported as-is (non-modulatable); Location,
-    // Scale, and Rotation all become independent, modulatable XYZ groups sharing this Modifier's
-    // one modulator stack. RandomXYZModel also carries an orphan Uniform field the old ViewModel
-    // never reads or writes (dead, like RandomPosition.axaml's stale RandomizeLocation binding
-    // found earlier this migration) - not ported.
     [ModifierPanel(typeof(Entity))]
     public partial class XYZModifier : Modifier, ISpreadableModifier
     {
@@ -32,7 +24,7 @@ namespace CMiX.Core.Modulation.Modifiers
                            ModulatableFloat scaleX, ModulatableFloat scaleY, ModulatableFloat scaleZ,
                            GenericValue<bool> randomizeRotation,
                            ModulatableFloat rotationX, ModulatableFloat rotationY, ModulatableFloat rotationZ)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             Gaussian = gaussian;
@@ -42,7 +34,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Location = new ModulatableVector3(locationX, locationY, locationZ);
             Scale = new ModulatableVector3(scaleX, scaleY, scaleZ);
             Rotation = new ModulatableVector3(rotationX, rotationY, rotationZ);
-            Channels = new List<ModulatableFloat>
+            Bindables = new List<ModulatableFloat>
             {
                 locationX, locationY, locationZ,
                 scaleX, scaleY, scaleZ,
@@ -50,23 +42,15 @@ namespace CMiX.Core.Modulation.Modifiers
             };
         }
 
-        // Each group is bound by its own ModulatableVectorXYZ in the view (via DataContext), all
-        // sharing this Modifier's single ModulatorManager (set explicitly on each usage, not
-        // inherited from DataContext) - see ModulatableVectorXYZ.axaml.cs.
         public ModulatableVector3 Location { get; }
         public ModulatableVector3 Scale { get; }
         public ModulatableVector3 Rotation { get; }
 
-        // Non-modulatable, ported as-is from RandomXYZ for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<bool> Gaussian { get; set; }
         public GenericValue<bool> RandomizeLocation { get; set; }
         public GenericValue<bool> RandomizeScale { get; set; }
         public GenericValue<bool> RandomizeRotation { get; set; }
-
-        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
-        // see Modifier.AdditionalModulatorBindables.
-        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
 
         public override IControlModel ToModel()
         {
@@ -87,7 +71,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (XYZModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveModulatorBinding(ModifierModeSelector.Count);
+            ResolveNestedBindables();
             Gaussian.FromModel(m.Gaussian);
             RandomizeLocation.FromModel(m.RandomizeLocation);
             RandomizeScale.FromModel(m.RandomizeScale);

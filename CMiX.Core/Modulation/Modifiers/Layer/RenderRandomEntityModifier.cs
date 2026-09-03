@@ -10,13 +10,6 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    // Discoverable on Layer, matching the old RenderRandomEntity's own scope exactly - both stay
-    // addable side by side until RenderRandomEntity is confirmed superseded by a live VL check,
-    // per this session's migration approach. RenderRandomEntity is not touched by this change.
-    // "Random" here names a selection strategy (as opposed to RenderSequenceEntityModifier's
-    // sequential strategy), not a legacy reroll-on-beat mechanism, so it is kept in the name
-    // rather than dropped like RandomScale/RandomPosition/etc. EntityType is ported as-is
-    // (non-modulatable); Control becomes a modulatable channel.
     [ModifierPanel(typeof(Layer))]
     public partial class RenderRandomEntityModifier : Modifier
     {
@@ -28,17 +21,12 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             EntityType = entityType;
             control.Label = "Control";
-            // Matches the old RenderRandomEntity's own default - a freshly added modifier
-            // otherwise starts at 0, disabling it.
             control.Value.Value = 1.0f;
-            Channels = new List<ModulatableFloat> { control };
+            Bindables = new List<ModulatableFloat> { control };
         }
 
-        // Convenience accessor into Channels, purely for the view's ModulatableFloatSlider binding -
-        // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public ModulatableFloat Control => Channels[0];
+        public ModulatableFloat Control => Bindables[0];
 
-        // Non-modulatable, ported as-is from RenderRandomEntity for one-to-one field parity.
         public GenericValue<EntityType> EntityType { get; set; }
 
         public override IControlModel ToModel()

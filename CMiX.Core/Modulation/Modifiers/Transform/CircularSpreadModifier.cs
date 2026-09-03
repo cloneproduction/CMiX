@@ -11,11 +11,6 @@ using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    // Renamed from CircularSpreadModifier to bare CircularSpread, claiming the name freed up by
-    // the old CircularSpread (now CircularSpreadLegacy) so VL's exact-name matching can target
-    // this class directly. One-to-one field parity with the old CircularSpread is complete:
-    // ModifierModeSelector is ported as-is (non-modulatable); Width (an XY pair), Phase, and
-    // Factor become modulatable channels - new capability the old CircularSpread never had.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
     public partial class CircularSpreadModifier : Modifier, ISpreadableModifier
@@ -27,36 +22,25 @@ namespace CMiX.Core.Modulation.Modifiers
                                       ModulatableFloat widthY,
                                       ModulatableFloat phase,
                                       ModulatableFloat factor)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             widthX.Label = "X";
             widthY.Label = "Y";
             phase.Label = "Phase";
             factor.Label = "Factor";
-            // Matches the old CircularSpread's own defaults (Width (1,1), Factor 1) - a freshly
-            // added modifier otherwise starts with zero spread and zero effect.
             widthX.Value.Value = 1.0f;
             widthY.Value.Value = 1.0f;
             factor.Value.Value = 1.0f;
-            Channels = new List<ModulatableFloat> { widthX, widthY, phase, factor };
+            Bindables = new List<ModulatableFloat> { widthX, widthY, phase, factor };
         }
 
-        // Convenience accessors into Channels, purely for the view's bindings - Channels itself
-        // stays the source of truth (used by Modifier's own ToModel/FromModel). X/Y (the Width
-        // pair) are read directly by ModulatableVectorXY; Phase/Factor are each bound directly
-        // by their own separate ModulatableFloatValue.
-        public ModulatableFloat X => Channels[0];
-        public ModulatableFloat Y => Channels[1];
-        public ModulatableFloat Phase => Channels[2];
-        public ModulatableFloat Factor => Channels[3];
+        public ModulatableFloat X => Bindables[0];
+        public ModulatableFloat Y => Bindables[1];
+        public ModulatableFloat Phase => Bindables[2];
+        public ModulatableFloat Factor => Bindables[3];
 
-        // Non-modulatable, ported as-is from CircularSpread for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }
-
-        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
-        // see Modifier.AdditionalModulatorBindables.
-        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
 
         public override IControlModel ToModel()
         {
@@ -73,7 +57,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (CircularSpreadModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveModulatorBinding(ModifierModeSelector.Count);
+            ResolveNestedBindables();
         }
     }
 }

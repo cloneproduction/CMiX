@@ -10,10 +10,6 @@ using CMiX.Core.Rendering.Cameras.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    // Discoverable on Camera, matching the old CameraRandom's own scope exactly - both stay
-    // addable side by side until CameraRandom is confirmed superseded by a live VL check, per
-    // this session's migration approach. CameraRandom is not touched by this change. PingPong and
-    // Axis are ported as-is (non-modulatable); Width becomes a modulatable channel.
     [ModifierPanel(typeof(Camera))]
     public partial class CameraRandomModifier : Modifier, ICameraModifier
     {
@@ -27,14 +23,11 @@ namespace CMiX.Core.Modulation.Modifiers
             PingPong = pingPong;
             Axis = axis;
             width.Label = "Width";
-            Channels = new List<ModulatableFloat> { width };
+            Bindables = new List<ModulatableFloat> { width };
         }
 
-        // Convenience accessor into Channels, purely for the view's ModulatableFloatValue binding -
-        // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public ModulatableFloat Width => Channels[0];
+        public ModulatableFloat Width => Bindables[0];
 
-        // Non-modulatable, ported as-is from CameraRandom for one-to-one field parity.
         public GenericValue<bool> PingPong { get; set; }
         public GenericValue<CameraAxis> Axis { get; set; }
 

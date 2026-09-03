@@ -4,7 +4,6 @@
     <TargetFramework>net8.0-windows</TargetFramework>
       <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
       <ImplicitUsings>enable</ImplicitUsings>
-     <!-- <OutputPath>..\lib</OutputPath> -->
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
@@ -18,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- The deleter registry has no public surface, so the lifetime test reads it as an internal. -->
     <InternalsVisibleTo Include="CMiX.Core.Tests" />
   </ItemGroup>
 
