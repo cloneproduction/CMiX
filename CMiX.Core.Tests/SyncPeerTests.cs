@@ -178,6 +178,33 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public async Task SnapshotApply_OnRealProject_GivesTheSameHashAsTheModel()
+        {
+            var store = new InMemorySyncStore();
+            var targetA = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var a = CreatePeer(targetA, store);
+            a.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => a.IsJoined);
+
+            var providerB = TestServiceProviderFactory.Create();
+            var projectB = providerB.GetRequiredService<Project>();
+            var messengerB = providerB.GetRequiredService<ControlMessenger>();
+            var targetB = new ProjectSyncTarget(projectB, messengerB, providerB.GetRequiredService<UndoManager>());
+            using var b = CreatePeer(targetB, store, messengerB, isWriter: false);
+            messengerB.Register(b);
+            b.Start(Options("B"), autoJoin: true);
+            await WaitUntilAsync(() => b.IsJoined);
+
+            var expected = ProjectStateHash.Compute(targetA.Model);
+            Assert.Equal(expected, ProjectStateHash.Compute(projectB));
+
+            var captured = targetB.Capture();
+            var bytes = VL.Serialization.MessagePack.MessagePackSerialization.Serialize(captured);
+            var roundTripped = VL.Serialization.MessagePack.MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(bytes));
+            Assert.Equal(expected, ProjectStateHash.Compute(roundTripped));
+        }
+
+        [Fact]
         public async Task TwoPeers_ExchangeEditsBothWays_AndLateJoinerGetsFullState()
         {
             var store = new InMemorySyncStore();
