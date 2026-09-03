@@ -67,6 +67,13 @@ namespace CMiX.Core.Tests
                 return Task.FromResult(_snapshot);
         }
 
+        public Task<StreamPosition> ReadSnapshotIdAsync()
+        {
+            RequireConnection();
+            lock (_gate)
+                return Task.FromResult(_snapshot?.StreamId ?? StreamPosition.Zero);
+        }
+
         public Task WriteSnapshotAsync(Snapshot snapshot)
         {
             RequireConnection();

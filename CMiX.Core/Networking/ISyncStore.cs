@@ -26,6 +26,9 @@ namespace CMiX.Core.Networking
         // Returns null when there is no snapshot.
         Task<Snapshot> ReadSnapshotAsync();
 
+        // The stream position of the snapshot without its model bytes. Zero when there is none.
+        Task<StreamPosition> ReadSnapshotIdAsync();
+
         Task WriteSnapshotAsync(Snapshot snapshot);
 
         // Returns the ID the store assigned to the new entry.

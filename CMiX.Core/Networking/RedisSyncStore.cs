@@ -168,6 +168,12 @@ namespace CMiX.Core.Networking
             return new Snapshot(model, streamId, writtenBy, writtenAt);
         }
 
+        public async Task<StreamPosition> ReadSnapshotIdAsync()
+        {
+            var value = await Database().HashGetAsync(_snapshotKey, SnapshotStreamIdField).ConfigureAwait(false);
+            return StreamPosition.TryParse(value, out var id) ? id : StreamPosition.Zero;
+        }
+
         public Task WriteSnapshotAsync(Snapshot snapshot)
         {
             var entries = new[]
