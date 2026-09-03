@@ -10,6 +10,12 @@ namespace CMiX.Console
 {
     class Program
     {
+        // How long the status line waits, so a replay of many changes does not fill the console.
+        private static readonly TimeSpan PrintInterval = TimeSpan.FromMilliseconds(250);
+
+        // The line of the last change that is not printed yet.
+        private static string? _pendingLine;
+
         static int Main(string[] args)
         {
             if (Array.Exists(args, a => a == "--help"))
@@ -37,6 +43,7 @@ namespace CMiX.Console
 
             var peer = serviceProvider.GetRequiredService<SyncPeer>();
             peer.PropertyChanged += (sender, e) => ReportChange(peer, e);
+            var printer = new Timer(_ => PrintPending(), null, PrintInterval, PrintInterval);
 
             if (System.Console.IsInputRedirected)
             {
@@ -55,10 +62,12 @@ namespace CMiX.Console
             }
 
             peer.Stop();
+            printer.Dispose();
+            PrintPending();
             return 0;
         }
 
-        // Prints one line per change to a status property. The reader thread raises these.
+        // Keeps the line of the last change to a status property. The reader thread raises these.
         static void ReportChange(SyncPeer peer, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != nameof(SyncPeer.Status) &&
@@ -67,8 +76,16 @@ namespace CMiX.Console
                 e.PropertyName != nameof(SyncPeer.ErrorMessage))
                 return;
 
-            System.Console.WriteLine(
+            Volatile.Write(ref _pendingLine,
                 $"status={peer.Status} applied={peer.AppliedMessages} last={peer.LastAppliedId} tail={peer.TailId}");
+        }
+
+        // Prints the line of the last change, if there is one that is not printed yet.
+        static void PrintPending()
+        {
+            var line = Interlocked.Exchange(ref _pendingLine, null);
+            if (line != null)
+                System.Console.WriteLine(line);
         }
     }
 }
