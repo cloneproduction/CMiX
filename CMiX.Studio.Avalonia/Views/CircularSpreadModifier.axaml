@@ -16,9 +16,6 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />
 
-        <!-- No DataContext override here - CircularSpread itself has X/Y properties, so this
-             reads them directly off the whole modifier, same as
-             ScaleModifier/TranslateModifier/RotationModifier already do with ModulatableVectorXYZ. -->
         <BaseControls:ModulatableVectorXY
             Margin="0,8"
             Caption="Width"

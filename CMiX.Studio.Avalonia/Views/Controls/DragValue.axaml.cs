@@ -23,18 +23,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         {
             InitializeComponent();
 
-            // WPF preview mouse events become tunneling pointer handlers.
             borderValueDisplay.AddHandler(PointerPressedEvent, Border_PointerPressed, RoutingStrategies.Tunnel);
             borderValueDisplay.AddHandler(PointerReleasedEvent, Border_PointerReleased, RoutingStrategies.Tunnel);
             borderValueDisplay.AddHandler(PointerMovedEvent, Border_PointerMoved, RoutingStrategies.Tunnel);
 
-            // WPF overrode OnPreviewMouseRightButtonDown on the whole control.
             AddHandler(PointerPressedEvent, Control_PointerPressed, RoutingStrategies.Tunnel);
 
-            // A gesture that loses the pointer without a release must not leave the value
-            // interaction scope open, which would keep throttling every later write. Ending
-            // through the handle keeps a capture loss that follows a gesture this control never
-            // started, or one it already ended, from flushing whatever scope is open now.
             borderValueDisplay.PointerCaptureLost += (s, e) => _interaction.Dispose();
 
             AddButton.Click += AddButton_Click;
@@ -78,7 +72,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                     return;
 
                 _dragging = true;
-                // Mouse.OverrideCursor becomes a local cursor on the captured element.
                 borderValueDisplay.Cursor = new Cursor(StandardCursorType.None);
                 _lastScreenPos = DragEditHelper.GetMousePosition();
                 return;
@@ -87,7 +80,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             var screenPos = DragEditHelper.GetMousePosition();
             var delta = screenPos - _lastScreenPos;
 
-            // Physical pixels from the current screen replace the WPF SystemParameters constants.
             double screenWidth = DragEditHelper.GetScreenBounds(this).Width;
 
             bool wrapped = false;
@@ -126,8 +118,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             if (!_dragging && Distance(up, _mouseDownPos.Value) < DragEditHelper.ClickThreshold)
                 IsEditing = true;
 
-            // Clearing the local value restores the cursor set by the pointerover style,
-            // which a local Cursor.Default would permanently override.
             borderValueDisplay.ClearValue(CursorProperty);
 
             if (_dragging && _cursorDownScreenPos != null)
@@ -217,15 +207,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(IsIntegerProperty, value);
         }
 
-        // Locks the value display/drag/edit area only - e.g. a bound ModulatableInteger, driven by
-        // its modulator rather than typed in. Deliberately scoped narrower than the whole control's
-        // own IsEnabled: TrailingContent (e.g. ModulatorAssignButton) sits outside mainBorder in
-        // DragValue.axaml specifically so it stays clickable while read-only, letting the same
-        // popup that locked the field also unassign it.
-        // OneWay, unlike this file's other StyledProperties - consumers only ever drive this in,
-        // never read a change back out, and a TwoWay default sends every value through the
-        // consumer's converter's ConvertBack too (confirmed live: NullToVisibilityConverter has
-        // none, and blew up the moment a Count's BoundModulator changed).
         public static readonly StyledProperty<bool> IsReadOnlyProperty =
             AvaloniaProperty.Register<DragValue, bool>(nameof(IsReadOnly), false, defaultBindingMode: BindingMode.OneWay);
         public bool IsReadOnly
@@ -234,9 +215,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(IsReadOnlyProperty, value);
         }
 
-        // Reserves space on the right for a control like ModulatorAssignButton, so a DragValue
-        // with a trailing button lines up with a plain one - an empty ContentPresenter collapses
-        // to zero width, so leaving this unset costs nothing.
         public static readonly StyledProperty<object> TrailingContentProperty =
             AvaloniaProperty.Register<DragValue, object>(nameof(TrailingContent));
         public object TrailingContent

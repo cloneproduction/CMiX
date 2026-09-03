@@ -66,37 +66,22 @@
         <BaseControls:PrefabListItem Icon="Camera" />
     </DataTemplate>
 
-    <!--
-        TEXTURESOURCE. Matches TextureSourceBase itself, not each concrete type: every
-        texture source without a template here falls through to the reflection view
-        locator and renders its full editing view instead of a list row (this is how
-        CheckerBoard and TouchBlob behaved before templates were added for them), and
-        matching the shared base means a future texture source type is covered for free.
-    -->
     <DataTemplate DataType="{x:Type TextureSource:TextureSourceBase}">
         <BaseControls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
-    <!--  MATERIAL  -->
     <DataTemplate DataType="{x:Type Materials:Material}">
         <BaseControls:PrefabListItem Icon="World" />
     </DataTemplate>
 
-    <!--  BEATMODULATORS  -->
     <DataTemplate DataType="{x:Type Modulators:BeatModulator}">
         <BaseControls:PrefabListItem Icon="Beat" />
     </DataTemplate>
 
-    <!--  TRACKINGMODULATORS  -->
     <DataTemplate DataType="{x:Type Modulators:TrackingModulator}">
         <BaseControls:PrefabListItem Icon="Camera" />
     </DataTemplate>
 
-    <!--
-        ColorPalette has no list item template in WPF, which fell back to
-        ToString there but to the reflection view locator here, so the
-        template is added to render it like the other prefab types.
-    -->
     <DataTemplate DataType="{x:Type ColorModifiers:ColorPaletteModifier}">
         <BaseControls:PrefabListItem Icon="Coloration" />
     </DataTemplate>

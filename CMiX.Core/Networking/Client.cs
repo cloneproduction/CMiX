@@ -98,7 +98,6 @@ namespace CMiX.Core.Networking
                 return;
             }
 
-            // Drop content messages while unsynced, mirroring the outgoing block.
             if (_sync.ShouldBlockIncoming(envelope.Payload)) return;
 
             WeakReferenceMessenger.Default.Send(envelope.Payload);

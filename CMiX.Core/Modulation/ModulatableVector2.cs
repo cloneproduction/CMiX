@@ -3,9 +3,6 @@
 
 namespace CMiX.Core.Modulation
 {
-    // Same idea as ModulatableVector3, for a Modifier that owns more than one XY group (e.g.
-    // TexCoordModifier's separate Location and Scale), where the Modifier itself can only
-    // directly expose one X/Y.
     public class ModulatableVector2
     {
         public ModulatableVector2(ModulatableFloat x, ModulatableFloat y)

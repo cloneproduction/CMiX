@@ -9,12 +9,6 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Modulation
 {
-    // Int-valued counterpart to ModulatableFloat, for a Count that should be bindable the same way a
-    // float channel already is. Unlike ModulatableFloat's Value, this is never blended/reinterpreted -
-    // unbound means "type a number" and bound means "follow the modulator", a straight override,
-    // not a depth. ModulatorID is what survives a save/load round trip; BoundModulator is a live,
-    // non-serialized reference kept alongside it purely for runtime convenience. Both are set
-    // together by SetModulator.
     public partial class ModulatableInteger : ObservableObject, IControl, IModulatorBindable
     {
         public ModulatableInteger(GenericValue<int> value,
@@ -31,17 +25,13 @@ namespace CMiX.Core.Modulation
         public GenericValue<int> Value { get; set; }
         public GenericValue<Guid?> ModulatorID { get; set; }
 
-        // Which of BoundModulator's Outputs this channel picked - meaningless while unbound.
         public GenericValue<string> BoundOutputName { get; set; }
 
         [ObservableProperty]
         private IModulator boundModulator;
 
-        // Always backed by GenericValue<int> - see the constructor.
         Type IModulatorBindable.RequiredValueType => typeof(int);
 
-        // Bound to by the channel-assign popup - each listed row's ModulatorOutputSelection, or
-        // null for the popup's "Unassign" entry, is passed straight through as CommandParameter.
         [RelayCommand]
         private void SetModulator(ModulatorOutputSelection selection)
         {
@@ -50,14 +40,8 @@ namespace CMiX.Core.Modulation
             BoundOutputName.Value = selection?.Output?.Name;
         }
 
-        // The source-generated SetModulatorCommand is IRelayCommand<ModulatorOutputSelection> -
-        // not, by itself, a match for IModulatorBindable's plain ICommand (interface implementation
-        // requires an exact return type, not just an assignable one), so this bridges the two.
         ICommand IModulatorBindable.SetModulatorCommand => SetModulatorCommand;
 
-        // Same bridging reason as SetModulatorCommand above: the public members are the
-        // GenericValue<T> wrappers themselves (needed for ToModel/FromModel), not the plain values
-        // IModulatorBindable exposes.
         Guid? IModulatorBindable.ModulatorID => ModulatorID.Value;
         string IModulatorBindable.BoundOutputName => BoundOutputName.Value;
 

@@ -19,14 +19,8 @@ namespace CMiX.Core.Prefabs
     {
         private readonly Dictionary<Guid, HashSet<Guid>> _referencers = new();
 
-        // Mirrors Controls one to one so the network hot path resolves an id without scanning.
-        // Controls is only ever mutated by AddControl and RemoveControl, and a control keeps the
-        // id it was registered with, so the two can never drift apart.
         private readonly Dictionary<Guid, IControl> _controlsById = new();
 
-        // A list, not a dictionary, because the probe below matches the first entry whose type is
-        // assignable from the control and the entries are ordered on purpose (ITextureSource before
-        // Entity); dictionary enumeration order is not a contract.
         private readonly List<(Type Type, Action<IControl> Action)> typeToAddAction;
         private readonly List<(Type Type, Action<IControl> Action)> typeToRemoveAction;
         private readonly Dictionary<Guid, Action<IControl>> _deleters = new();
@@ -77,8 +71,6 @@ namespace CMiX.Core.Prefabs
         public ObservableCollection<TextEntity> Texts { get; } = new();
         public ObservableCollection<ColorPaletteModifier> ColorPalettes { get; } = new();
 
-        // Replaces the WPF CompositeCollection of the Entities and Texts CollectionViewSources so
-        // the layer entity slot swap popup can list both entities and text entities together.
         public ObservableCollection<IControl> EntitiesAndTexts { get; } = new();
 
         private void OnEntitiesOrTextsChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -103,7 +95,6 @@ namespace CMiX.Core.Prefabs
         {
             if (!isText)
             {
-                // Entities keep their relative order ahead of the texts block.
                 var insertIndex = EntitiesAndTexts.Count(x => x is Entity);
                 EntitiesAndTexts.Insert(insertIndex, item);
             }
@@ -150,9 +141,6 @@ namespace CMiX.Core.Prefabs
             if (_referencers[control.ID].Count == 0)
             {
                 _referencers.Remove(control.ID);
-                // Only drops the index entry when it points at this very instance, so a control
-                // that shares an id with the registered one leaves the registered one reachable
-                // exactly as the previous scan over Controls did.
                 if (_controlsById.TryGetValue(control.ID, out var indexed) && ReferenceEquals(indexed, control))
                     _controlsById.Remove(control.ID);
                 Controls.Remove(control);
@@ -178,15 +166,11 @@ namespace CMiX.Core.Prefabs
             return _referencers[control.ID].Count > 0;
         }
 
-        // Last registration for a given manager id wins, so a manager whose id changes after
-        // construction (see PrefabManager.RegisterDeleter) simply overwrites its earlier entry.
         public void RegisterDeleter(Guid managerId, Action<IControl> deleter)
         {
             _deleters[managerId] = deleter;
         }
 
-        // Only drops the entry when it still holds this very manager's delegate, so a manager that
-        // retires after another one already claimed the same id cannot unregister the live one.
         public void UnregisterDeleter(Guid managerId, Action<IControl> deleter)
         {
             if (deleter == null) return;
@@ -196,9 +180,6 @@ namespace CMiX.Core.Prefabs
 
         internal int DeleterCount => _deleters.Count;
 
-        // Deletes control from every manager that currently references it. RemoveControl already
-        // drops the control from the repository collections once its last referencer lets go, so
-        // this only has to fan the delete out to the referencing managers, not touch the collections.
         public void DeleteEverywhere(IControl control)
         {
             if (control == null) return;

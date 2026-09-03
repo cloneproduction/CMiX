@@ -69,16 +69,6 @@
         <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Right" />
     </ControlTheme>
 
-    <!--
-        For a button whose own content already carries its own state indicator (e.g.
-        ModulatorAssignButton's dot, which already changes color for bound/hovered) - the base
-        Button theme's :pointerover/:pressed Grey700Brush tint would otherwise compete with that.
-        Re-set to a literal Transparent rather than TemplateBinding Background: every consumer of
-        this theme uses Background="Transparent" today anyway, and a literal value here avoids
-        depending on TemplateBinding working correctly inside a Style block outside the
-        ControlTemplate itself, which isn't proven elsewhere in this codebase - not worth the risk
-        after two runtime-only binding failures already this session.
-    -->
     <ControlTheme x:Key="ButtonRoundedRightNoHover"
         BasedOn="{StaticResource ButtonRoundedRight}"
         TargetType="Button">
@@ -90,7 +80,6 @@
         </Style>
     </ControlTheme>
 
-    <!--  This one is used for ColorSelector  -->
     <ControlTheme x:Key="ButtonColorStyle" TargetType="ToggleButton">
         <Setter Property="Template">
             <ControlTemplate>
@@ -103,10 +92,6 @@
                         Background="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToNoAlpha}}"
                         IsHitTestVisible="False" />
 
-                    <!--
-                        The WPF VisualBrush opacity mask erased the content in Avalonia, so it
-                        is dropped. The swatch borders carry their own corner radii instead.
-                    -->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -159,14 +144,6 @@
                     HorizontalAlignment="Stretch"
                     Background="Transparent"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
-                    <!--
-                        HorizontalContentAlignment forwarded (matching ListBoxItemStyle's own
-                        ContentPresenter) rather than hardcoded "Left" as before - every existing
-                        consumer keeps today's look via the Setter above (still defaults to Left,
-                        unchanged), while a specific instance (e.g. ModulatorAssignButton's assigned-
-                        row highlight, which needs its Border background to actually fill the row)
-                        can opt into Stretch without this theme needing to know about that case.
-                    -->
                     <ContentPresenter
                         Name="PART_ContentPresenter"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"

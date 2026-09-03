@@ -5,12 +5,6 @@ using Avalonia;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    // Same shape/reasoning as ModulatableFloatValue - DataContext is the ModulatableFloat itself, ModulatorManager
-    // is inherited - except a bounded CMiXSlider instead of an unbounded DragValue, for a channel
-    // whose old counterpart used a slider (e.g. RandomVisibility's 0-1 "Control"). Minimum/Maximum
-    // are bindable since different sliders need different ranges (unlike VectorXYZ/Vector2, which
-    // are always unbounded DragValues, so didn't need this). The assign button itself is
-    // ModulatorAssignButton, not defined here.
     public partial class ModulatableFloatSlider : ModulatorAssignableUserControl
     {
         public ModulatableFloatSlider()

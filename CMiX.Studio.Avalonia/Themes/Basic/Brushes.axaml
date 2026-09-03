@@ -12,12 +12,6 @@
     <SolidColorBrush x:Key="PanelBorderBackground" Opacity="0.4" Color="Black" />
     <SolidColorBrush x:Key="ListBoxBackground" Opacity="0.4" Color="Black" />
 
-    <!--
-        LayerListBoxStyle's own default background: the flat equivalent of ListBoxBackground's
-        40%-opacity black composited over Grey400Brush (#2b2b2f), precomputed once rather than
-        relying on a wrapping Border behind the ListBox to reproduce it. Verified by rendering
-        both layers headlessly and sampling the composited pixel.
-    -->
     <SolidColorBrush x:Key="LayerListBoxBackground" Color="#FF1A1A1C" />
 
     <SolidColorBrush x:Key="Grey100Brush" Color="{DynamicResource Grey100}" />
@@ -33,10 +27,6 @@
     <SolidColorBrush x:Key="ForegroundBrush" Color="{DynamicResource Text}" />
     <SolidColorBrush x:Key="ActiveForegroundBrush" Color="{DynamicResource ActiveText}" />
 
-    <!--
-        Alpha-transparency checkerboard, replacing the old Transparent_Bg.png ImageBrush.
-        A tiled 2x2 pattern drawn from two rectangles rather than a raster asset.
-    -->
     <DrawingBrush x:Key="CheckerboardBrush" TileMode="Tile" DestinationRect="0,0,16,16">
         <DrawingBrush.Drawing>
             <DrawingGroup>

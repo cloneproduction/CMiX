@@ -35,12 +35,6 @@ namespace CMiX.Core.Modulation.Modulators
             IsActive = false;
             activationService.Register(this);
 
-            // Shared by three subscriptions: this modifier's own BeatIndex, MasterBeat.BeatIndex and
-            // MasterBeat itself. The first two only ever raise Value; MasterBeat also re raises
-            // AnimatedDouble on every clock tick (its own PositionChanged relay) with no table
-            // change involved, so that name is filtered out here rather than re resolving and
-            // reassigning AnimatedDouble sixty times a second for no reason. A real table rebuild
-            // always announces Periods on its way through ApplyPeriod, so that name still passes.
             _onBPMChanged = (s, e) =>
             {
                 if (e.PropertyName != nameof(GenericValue<int>.Value) && e.PropertyName != nameof(MasterBeat.Periods))
@@ -80,8 +74,6 @@ namespace CMiX.Core.Modulation.Modulators
             set { _isExpanded = value; OnPropertyChanged(); }
         }
 
-        // Randomizes around whatever base a bound field already has - the same "combine, don't
-        // replace" behavior every existing binding already assumed before ModulatorKind existed.
         public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[] { new ModulatorOutput("Value", ModulatorKind.Modulate, typeof(float)) };
 
 
@@ -131,9 +123,6 @@ namespace CMiX.Core.Modulation.Modulators
             int index = BeatIndex.Value + _masterBeat.BeatIndex.Value;
             var resolved = _masterBeat.AnimatedDoubleProvider(index);
 
-            // The AnimatedDouble setter unsubscribes and resubscribes PositionChanged even when the
-            // incoming value is reference equal to what is already held, so this only reassigns when
-            // the resolved instance actually changed, rather than on every call this method makes.
             if (ReferenceEquals(resolved, _animatedDouble)) return;
             AnimatedDouble = resolved;
         }
@@ -179,7 +168,6 @@ namespace CMiX.Core.Modulation.Modulators
         {
             var before = ToModel();
 
-            // Suppression is global, so a throwing action must not leave undo recording off.
             UndoManager?.SuppressUndo();
             try
             {

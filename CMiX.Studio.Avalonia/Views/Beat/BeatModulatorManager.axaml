@@ -16,7 +16,6 @@
             </Controls:Outliner.SelectionPanel>
         </Controls:Outliner>
 
-        <!-- NullToVisibility returns a bool in this project; the Collapsed converter parameter is gone. -->
         <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
             <Views:BeatModulator Margin="-8,0,-8,-8" DataContext="{Binding SelectedItem}" />
         </Border>

@@ -28,7 +28,6 @@
 
     <DockPanel Background="{DynamicResource Grey200Brush}" LastChildFill="True">
 
-        <!-- Custom title bar; dragging is handled in code behind via BeginMoveDrag. -->
         <Border
             x:Name="titleBar"
             Background="{DynamicResource Grey100Brush}"
@@ -62,7 +61,6 @@
                     DockPanel.Dock="Right"
                     Text="CloneProduction" />
 
-                <!-- Always-visible connected/in-sync status; Opacity="1" keeps it legible. -->
                 <DockPanel
                     Margin="8,0"
                     DockPanel.Dock="Left"

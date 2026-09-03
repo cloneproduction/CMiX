@@ -8,7 +8,6 @@
     Height="{DynamicResource ControlHeightMD}">
 
     <Controls:CaptionedUserControl.Styles>
-        <!-- The inline WPF Border style with an IsMouseOver trigger becomes selector styles. -->
         <Style Selector="Border#borderValueDisplay">
             <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
         </Style>
@@ -17,11 +16,6 @@
             <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
         </Style>
 
-        <!--
-            WPF used a Label whose ContentStringFormat switched through a DataTrigger on
-            IsInteger. Avalonia has no ContentStringFormat, so the format lives in Text
-            bindings selected through the bound integer style class.
-        -->
         <Style Selector="TextBlock#valueDisplay">
             <Setter Property="Text" Value="{Binding Value, ElementName=dragValue, StringFormat={}{0:N3}}" />
         </Style>
@@ -34,9 +28,6 @@
 
         <DockPanel>
 
-            <!-- Reserves the trailing button's width so a plain DragValue and one with a
-                 trailing control (e.g. ModulatableFloatValue's ModulatorAssignButton) line up. Collapses
-                 to zero width when TrailingContent is unset. -->
             <ContentPresenter
                 Content="{Binding TrailingContent, ElementName=dragValue}"
                 DockPanel.Dock="Right" />
@@ -61,16 +52,11 @@
                                 Minimum="{Binding Minimum, ElementName=dragValue}"
                                 Value="{Binding Value, ElementName=dragValue, Mode=TwoWay}" />
 
-                            <!--
-                                WPF hid this border with Visibility.Hidden while editing. The NumericInput
-                                overlaps it in the same panel, so IsVisible keeps the same layout.
-                            -->
                             <Border
                                 x:Name="borderValueDisplay"
                                 VerticalAlignment="Stretch"
                                 IsVisible="{Binding !IsEditing, ElementName=dragValue}">
 
-                                <!-- Centered like the WPF Label theme centered its content. The Text comes from the class selector styles above. -->
                                 <TextBlock
                                     x:Name="valueDisplay"
                                     HorizontalAlignment="Center"
@@ -80,15 +66,10 @@
                             </Border>
                         </Panel>
 
-                        <!-- WPF used BoolToVisibility with the Invert parameter; the negation binding replaces it. -->
                         <DockPanel
                             IsVisible="{Binding !IsEditing, ElementName=dragValue}"
                             LastChildFill="False">
 
-                            <!--
-                                WPF hid the buttons with Visibility.Hidden until mainBorder was hovered.
-                                They are docked at the edges, so IsVisible causes no layout shift.
-                            -->
                             <Button
                                 x:Name="SubButton"
                                 Width="{Binding Bounds.Height, ElementName=dragValue}"

@@ -8,10 +8,6 @@ using CMiX.Core.Modulation;
 
 namespace CMiX.Studio.Avalonia.Converters
 {
-    // "<Modulator> <Output>", e.g. "Beat Value" / "Tracking Count" - always both, no special-casing
-    // for a modulator with only one output, so every row in the popup is built the same way. Every
-    // row is a plain clickable Button now (see ModulatorAssignButton.axaml) - no separate,
-    // non-clickable group-label row above them, which used to carry the modulator's own name alone.
     public sealed class ModulatorOutputSelectionToLabelConverter : IValueConverter
     {
         private const string ModulatorSuffix = " Modulator";

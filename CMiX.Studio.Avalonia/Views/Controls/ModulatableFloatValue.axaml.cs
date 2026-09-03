@@ -3,12 +3,6 @@
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    // Single-channel counterpart to ModulatableVectorXYZ/ModulatableVectorXY - same row shape, just one.
-    // DataContext is the ModulatableFloat itself (not the owning Modifier), so a Modifier with more than
-    // one standalone channel (e.g. CircularSpreadModifier's separate Phase and Factor) can point several
-    // ModulatableFloatValue instances at different channels while all sharing the same ModulatorManager.
-    // ModulatableVectorXY/ModulatableVectorXYZ are themselves built out of one ModulatableFloatValue per axis - see
-    // those files. The assign button itself is ModulatorAssignButton, not defined here.
     public partial class ModulatableFloatValue : ModulatorAssignableUserControl
     {
         public ModulatableFloatValue()

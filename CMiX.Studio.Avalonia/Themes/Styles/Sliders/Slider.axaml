@@ -4,10 +4,6 @@
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
-    <!-- Requires CMiX.Studio.Avalonia.Views.Controls.CMiXSlider and CMiX.Studio.Avalonia.Views.Controls.NumericInput (ported in a later phase) -->
-    <!-- Template structure follows the Avalonia Simple theme Slider skeleton with CMiX visual properties applied -->
-
-    <!-- The repeat button templates bind Background so state styles in the slider theme can override it -->
     <ControlTheme x:Key="RepeatButtonDecrease" TargetType="RepeatButton">
         <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
         <Setter Property="Focusable" Value="False" />
@@ -40,9 +36,6 @@
             <ControlTemplate>
                 <DockPanel>
 
-                    <!-- Reserves the trailing button's width so a plain CMiXSlider and one with a
-                         trailing control (e.g. ModulatableFloatSlider's ModulatorAssignButton) line up.
-                         Collapses to zero width when TrailingContent is unset. -->
                     <ContentPresenter
                         Content="{TemplateBinding TrailingContent}"
                         DockPanel.Dock="Right" />
@@ -50,13 +43,11 @@
                     <Border Name="mainBorder">
                         <Panel>
 
-                            <!-- IsVisible bindings replace the WPF DataTrigger on IsEditing -->
                             <Border
                                 Name="sliderBorder"
                                 AttachedProperties:ClipToBoundsBehavior.CornerRadius="{Binding (AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource PositionToCornerRadius}}"
                                 Background="Transparent"
                                 IsVisible="{Binding !IsEditing, RelativeSource={RelativeSource TemplatedParent}}">
-                                <!-- WPF repeat button commands were dropped, Avalonia Slider moves the value from pointer presses on the track -->
                                 <Track
                                     Name="PART_Track"
                                     IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
@@ -71,7 +62,6 @@
                                             Name="PART_IncreaseButton"
                                             Theme="{StaticResource RepeatButtonIncrease}" />
                                     </Track.IncreaseButton>
-                                    <!-- Zero width thumb keeps the filled bar look while satisfying the Avalonia Track part structure -->
                                     <Thumb Name="thumb" Width="0">
                                         <Thumb.Template>
                                             <ControlTemplate>
@@ -114,14 +104,12 @@
             </ControlTemplate>
         </Setter>
 
-        <!-- Track bindings following the Avalonia Simple theme skeleton -->
         <Style Selector="^ /template/ Track#PART_Track">
             <Setter Property="Minimum" Value="{TemplateBinding Minimum}" />
             <Setter Property="Maximum" Value="{TemplateBinding Maximum}" />
             <Setter Property="Value" Value="{TemplateBinding Value, Mode=TwoWay}" />
         </Style>
 
-        <!-- WPF swapped repeat button styles on mouse over, the backgrounds are set directly here -->
         <Style Selector="^:pointerover /template/ RepeatButton#PART_DecreaseButton">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
