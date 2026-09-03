@@ -736,6 +736,23 @@ namespace CMiX.Core.Tests
             }
         }
 
+        [Fact]
+        public async Task LostConnection_ShowsTheStoreReason_AndAReconnectClearsIt()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store);
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            inner.SimulateDisconnect("test reason");
+            await WaitUntilAsync(() => peer.ErrorMessage == "test reason", detail: () => $"error={peer.ErrorMessage}");
+
+            inner.SimulateReconnect();
+            await WaitUntilAsync(() => peer.ErrorMessage.Length == 0, detail: () => $"error={peer.ErrorMessage}");
+        }
+
         // A store that fails its data calls while it still reports the connection, like a Redis
         // client whose commands time out. A test can also take the connection away.
         private sealed class UnreliableSyncStore : ISyncStore
@@ -751,6 +768,7 @@ namespace CMiX.Core.Tests
             public int FailedCalls => Volatile.Read(ref _failedCalls);
 
             public bool IsConnected => _connected;
+            public string LastError => _inner.LastError;
             public event Action<bool> ConnectionChanged;
 
             public void SetConnected(bool connected)

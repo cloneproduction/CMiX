@@ -27,6 +27,8 @@ namespace CMiX.Core.Tests
 
         public bool IsConnected => _isConnected;
 
+        public string LastError { get; private set; } = string.Empty;
+
         public event Action<bool> ConnectionChanged;
 
         public IReadOnlyList<StreamEntry> Entries
@@ -41,19 +43,22 @@ namespace CMiX.Core.Tests
         public Task ConnectAsync(CancellationToken ct)
         {
             _isConnected = true;
+            LastError = string.Empty;
             ConnectionChanged?.Invoke(true);
             return Task.CompletedTask;
         }
 
-        public void SimulateDisconnect()
+        public void SimulateDisconnect(string reason = "")
         {
             _isConnected = false;
+            LastError = reason;
             ConnectionChanged?.Invoke(false);
         }
 
         public void SimulateReconnect()
         {
             _isConnected = true;
+            LastError = string.Empty;
             ConnectionChanged?.Invoke(true);
         }
 

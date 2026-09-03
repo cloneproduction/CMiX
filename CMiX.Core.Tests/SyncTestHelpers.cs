@@ -59,6 +59,7 @@ namespace CMiX.Core.Tests
     public class HangingSyncStore : ISyncStore
     {
         public bool IsConnected => false;
+        public string LastError => string.Empty;
         public event Action<bool> ConnectionChanged { add { } remove { } }
 
         public Task ConnectAsync(CancellationToken ct) => Task.Delay(Timeout.Infinite, ct);
@@ -108,6 +109,7 @@ namespace CMiX.Core.Tests
         public Func<Task> BeforeReadTail { get; set; }
 
         public bool IsConnected => !Fail && _inner.IsConnected;
+        public string LastError => _inner.LastError;
         public event Action<bool> ConnectionChanged;
 
         public void SetFail(bool fail)
@@ -185,6 +187,7 @@ namespace CMiX.Core.Tests
         }
 
         public bool IsConnected => _inner.IsConnected;
+        public string LastError => _inner.LastError;
         public event Action<bool> ConnectionChanged;
 
         public async Task ConnectAsync(CancellationToken ct)

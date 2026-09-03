@@ -39,6 +39,8 @@ namespace CMiX.Core.Networking
         private bool _wasConnected;
         private bool _afterFirstConnect;
         private string _activity;
+        // The last store reason the peer showed. A clear must not wipe another message.
+        private string _storeError = string.Empty;
 
         public SyncPeer(ISyncTarget target, ControlMessenger messenger, Func<SyncOptions, ISyncStore> storeFactory)
         {
@@ -143,6 +145,7 @@ namespace CMiX.Core.Networking
             _started = true;
             _wasConnected = false;
             _afterFirstConnect = false;
+            _storeError = string.Empty;
             OnPropertyChanged(nameof(Options));
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(Role));
@@ -191,6 +194,7 @@ namespace CMiX.Core.Networking
             _activity = null;
             _wasConnected = false;
             _afterFirstConnect = false;
+            _storeError = string.Empty;
             // A new store can restart its IDs. A kept position would look like an entry that never
             // arrives, or like a gap.
             LastSentId = StreamPosition.Zero;
@@ -412,10 +416,13 @@ namespace CMiX.Core.Networking
 
         private void OnConnectionChanged(bool connected)
         {
+            var reason = _store?.LastError ?? string.Empty;
+
             Dispatch(() =>
             {
                 if (connected) _wasConnected = true;
                 IsConnected = connected;
+                ShowStoreError(connected, reason);
                 OnPropertyChanged(nameof(Status));
 
                 // A compaction that threw while the store was down is not retried by itself.
@@ -432,6 +439,25 @@ namespace CMiX.Core.Networking
                 else
                     _ = Task.Run(() => RunStartCheckAsync(ct), ct);
             }
+        }
+
+        // Runs on the dispatcher thread.
+        private void ShowStoreError(bool connected, string reason)
+        {
+            if (connected)
+            {
+                if (ErrorMessage == _storeError)
+                    ErrorMessage = string.Empty;
+
+                _storeError = string.Empty;
+                return;
+            }
+
+            if (reason.Length == 0)
+                return;
+
+            ErrorMessage = reason;
+            _storeError = reason;
         }
 
         // The new position comes before the count, so a reader of both never sees a caught-up peer

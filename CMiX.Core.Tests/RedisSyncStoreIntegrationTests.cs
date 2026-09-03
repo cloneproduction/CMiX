@@ -230,11 +230,27 @@ namespace CMiX.Core.Tests
             await connecting;
             Assert.False(store.IsConnected);
 
+            await SyncTestHelpers.WaitUntilAsync(() => store.LastError.Length > 0, 5000);
+
             var disposing = Stopwatch.StartNew();
             await store.DisposeAsync();
             disposing.Stop();
 
             Assert.True(disposing.ElapsedMilliseconds < 2500, $"DisposeAsync took {disposing.ElapsedMilliseconds} ms.");
+        }
+
+        // A wrong port must give a reason. Without one the user sees "Connecting" forever. A wrong
+        // password gives no reason on a server without a password, because the server accepts it.
+        [Fact]
+        public async Task ConnectAsync_ToAWrongPort_ShowsTheReason()
+        {
+            await using var store = new RedisSyncStore(SyncOptions.Defaults with { Port = 6399, KeyPrefix = _prefix });
+
+            await store.ConnectAsync(CancellationToken.None);
+
+            await SyncTestHelpers.WaitUntilAsync(() => store.LastError.Length > 0, 5000);
+            Assert.False(store.IsConnected);
+            Assert.Contains("6399", store.LastError);
         }
     }
 }

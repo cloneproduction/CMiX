@@ -17,6 +17,9 @@ namespace CMiX.Core.Networking
     {
         bool IsConnected { get; }
 
+        // The reason of the last failed connection. Empty when the store is connected.
+        string LastError { get; }
+
         event Action<bool> ConnectionChanged;
 
         // Returns when the first connect attempt is done or has failed. It does not throw when the

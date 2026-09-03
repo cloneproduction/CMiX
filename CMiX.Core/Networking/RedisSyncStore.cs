@@ -28,6 +28,8 @@ namespace CMiX.Core.Networking
 
         private ConnectionMultiplexer _multiplexer;
         private ISubscriber _subscriber;
+        private volatile string _lastError = string.Empty;
+        private int _subscribing;
 
         public RedisSyncStore(SyncOptions options)
         {
@@ -59,12 +61,17 @@ namespace CMiX.Core.Networking
 
         public bool IsConnected => _multiplexer != null && _multiplexer.IsConnected;
 
+        public string LastError => _lastError;
+
         public event Action<bool> ConnectionChanged;
 
         public async Task ConnectAsync(CancellationToken ct)
         {
             if (_multiplexer != null)
+            {
+                await EnsureSubscribedAsync().ConfigureAwait(false);
                 return;
+            }
 
             // The connect runs on a background task, so no caller thread waits for the server.
             // AbortOnConnectFail is false, so this gives a multiplexer even when the server is down.
@@ -75,8 +82,9 @@ namespace CMiX.Core.Networking
                 {
                     return await ConnectionMultiplexer.ConnectAsync(_configuration).ConfigureAwait(false);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    _lastError = ex.Message;
                     return null;
                 }
             }, ct).ConfigureAwait(false);
@@ -86,26 +94,70 @@ namespace CMiX.Core.Networking
 
             ct.ThrowIfCancellationRequested();
 
-            multiplexer.ConnectionFailed += OnConnectionStateChanged;
-            multiplexer.ConnectionRestored += OnConnectionStateChanged;
+            multiplexer.ConnectionFailed += OnConnectionFailed;
+            multiplexer.ConnectionRestored += OnConnectionRestored;
             _multiplexer = multiplexer;
 
-            try
-            {
-                _subscriber = multiplexer.GetSubscriber();
-                await _subscriber.SubscribeAsync(_wakeChannel, OnWake).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                // The wake channel is an optimization. Without it the readers fall back to polling.
-                _subscriber = null;
-            }
+            // The handler was not attached while the first connect ran. Without this the user sees
+            // no reason until the multiplexer tries again.
+            if (!multiplexer.IsConnected && _lastError.Length == 0)
+                _lastError = "No connection to " + _options.Ip + ":" + _options.Port + ".";
+
+            await EnsureSubscribedAsync().ConfigureAwait(false);
 
             ConnectionChanged?.Invoke(IsConnected);
         }
 
-        private void OnConnectionStateChanged(object sender, ConnectionFailedEventArgs e)
-            => ConnectionChanged?.Invoke(IsConnected);
+        private void OnConnectionFailed(object sender, ConnectionFailedEventArgs e)
+        {
+            _lastError = Describe(e);
+            ConnectionChanged?.Invoke(IsConnected);
+        }
+
+        private void OnConnectionRestored(object sender, ConnectionFailedEventArgs e)
+        {
+            _lastError = string.Empty;
+
+            // The first subscribe fails when the server is down at that moment. Then the readers
+            // poll until this one gets through.
+            _ = Task.Run(EnsureSubscribedAsync);
+
+            ConnectionChanged?.Invoke(IsConnected);
+        }
+
+        private static string Describe(ConnectionFailedEventArgs e)
+        {
+            var message = e.Exception?.Message;
+            return string.IsNullOrEmpty(message) ? e.FailureType.ToString() : e.FailureType + ": " + message;
+        }
+
+        // The wake channel is an optimization. Without it the readers fall back to polling.
+        private async Task EnsureSubscribedAsync()
+        {
+            var multiplexer = _multiplexer;
+            if (multiplexer == null || _subscriber != null)
+                return;
+
+            if (Interlocked.CompareExchange(ref _subscribing, 1, 0) != 0)
+                return;
+
+            try
+            {
+                if (_subscriber == null)
+                {
+                    var subscriber = multiplexer.GetSubscriber();
+                    await subscriber.SubscribeAsync(_wakeChannel, OnWake).ConfigureAwait(false);
+                    _subscriber = subscriber;
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                Volatile.Write(ref _subscribing, 0);
+            }
+        }
 
         private void OnWake(RedisChannel channel, RedisValue message) => Wake();
 
@@ -359,8 +411,8 @@ namespace CMiX.Core.Networking
             if (multiplexer == null)
                 return;
 
-            multiplexer.ConnectionFailed -= OnConnectionStateChanged;
-            multiplexer.ConnectionRestored -= OnConnectionStateChanged;
+            multiplexer.ConnectionFailed -= OnConnectionFailed;
+            multiplexer.ConnectionRestored -= OnConnectionRestored;
 
             // Bounded, so a dead server cannot hold up shutdown.
             try
