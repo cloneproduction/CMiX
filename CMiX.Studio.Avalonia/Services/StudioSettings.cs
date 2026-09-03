@@ -75,8 +75,7 @@ namespace CMiX.Studio.Avalonia.Services
             File.WriteAllText(path, json);
         }
 
-        // WithFallbacks leaves PeerName empty on purpose, so an empty PeerName is resolved here
-        // before calling it.
+        // WithFallbacks would give the machine name, so the Studio sets its own default first.
         public SyncOptions ToSyncOptions()
         {
             var peerName = string.IsNullOrEmpty(Redis.PeerName) ? "Studio" : Redis.PeerName;
