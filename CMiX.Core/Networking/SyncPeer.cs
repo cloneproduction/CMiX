@@ -304,7 +304,7 @@ namespace CMiX.Core.Networking
                     IsConnected = true;
                 }).ConfigureAwait(false);
 
-                outgoing = Task.Run(() => _outgoing.RunAsync(store, OnSentAsync, ct), ct);
+                outgoing = Task.Run(() => _outgoing.RunAsync(store, id => OnSentAsync(store, generation, id), ct), ct);
                 var presenceLoop = new Presence(store, _peerId, HeartbeatFields, () => ListPeersEnabled,
                     () => LastAppliedId, tick => OnPresenceTickAsync(store, generation, tick));
                 presence = Task.Run(() => presenceLoop.RunAsync(ct), ct);
@@ -548,13 +548,15 @@ namespace CMiX.Core.Networking
         }
 
         // The new position comes before the count, so a reader of both never sees a caught-up peer
-        // while the entry is still on its way.
-        private Task OnSentAsync(StreamPosition id) => DispatchAsync(() =>
-        {
-            SentMessages++;
-            LastSentId = id;
-            OnPropertyChanged(nameof(PendingMessages));
-        });
+        // while the entry is still on its way. Returns false when the run is over. The entry then
+        // belongs to the store of that run only.
+        private Task<bool> OnSentAsync(ISyncStore store, int generation, StreamPosition id)
+            => DispatchCurrentAsync(store, generation, () =>
+            {
+                SentMessages++;
+                LastSentId = id;
+                OnPropertyChanged(nameof(PendingMessages));
+            });
 
         private IReadOnlyDictionary<string, string> HeartbeatFields() => new Dictionary<string, string>
         {

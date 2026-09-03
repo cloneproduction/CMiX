@@ -924,6 +924,67 @@ namespace CMiX.Core.Tests
             Assert.Equal(string.Empty, peer.ErrorMessage);
         }
 
+        // An append that already runs is not cancellable. The loop of the old run must not confirm
+        // its entry, and must not take an entry out of the queue that only the new loop can append.
+        [Fact]
+        public async Task RestartDuringAnAppend_SendsBothMessagesToTheNewStore()
+        {
+            var innerA = new InMemorySyncStore();
+            var storeA = new WrappingSyncStore(innerA);
+            var storeB = new InMemorySyncStore();
+
+            var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true };
+
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
+
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            storeA.BeforeAppend = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+
+            var first = Guid.NewGuid();
+            var second = Guid.NewGuid();
+            peer.SendMessage(new MessageOnClick(first));
+            peer.SendMessage(new MessageOnClick(second));
+            await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
+
+            peer.Stop();
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+            var sent = peer.SentMessages;
+
+            // The call that waits keeps the old run alive, so the store closes after the stop timeout.
+            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
+            await innerA.ConnectAsync(default);
+            release.SetResult(true);
+
+            // The push of the second start, then the two messages.
+            await WaitUntilAsync(() => storeB.Entries.Count == 3, 15000,
+                () => $"entries={storeB.Entries.Count} sent={peer.LastSentId}");
+            await Task.Delay(300);
+
+            Assert.Equal(first, PayloadId(storeB.Entries[1]));
+            Assert.Equal(second, PayloadId(storeB.Entries[2]));
+            Assert.Equal(storeB.Entries[2].Id, peer.LastSentId);
+            Assert.Equal(sent + 2, peer.SentMessages);
+
+            // The push of the first start, and the entry that was in flight.
+            Assert.InRange(innerA.Entries.Count, 1, 2);
+            Assert.Equal(string.Empty, peer.ErrorMessage);
+        }
+
+        private static Guid PayloadId(StreamEntry entry)
+        {
+            var envelope = VL.Serialization.MessagePack.MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(entry.Envelope));
+            return ((MessageOnClick)envelope.Payload).ID;
+        }
+
         // The follower recovery reads the snapshot of the store it follows. A restart while it reads
         // must not put that snapshot into the peer.
         [Fact]
