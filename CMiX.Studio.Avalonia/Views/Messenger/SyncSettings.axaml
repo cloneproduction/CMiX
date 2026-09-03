@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:conv="clr-namespace:Avalonia.Data.Converters;assembly=Avalonia.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
     d:DesignHeight="600">
@@ -27,6 +28,15 @@
                 </StackPanel>
             </Border>
         </BaseControl:LabeledContent>
+
+        <!-- Shows the reason of a failed connection. Stays outside the flyouts so the text is
+             visible right away, and stays visible until the peer clears ErrorMessage. -->
+        <TextBlock
+            Margin="0,4,0,0"
+            Foreground="Crimson"
+            TextWrapping="Wrap"
+            Text="{Binding ErrorMessage}"
+            IsVisible="{Binding ErrorMessage, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}" />
 
         <!-- The single entry point for resolving an out-of-sync state: plain and inert while in
              sync, becomes clickable once not - clicking opens the Push/Pull/Cancel Flyout below. -->

@@ -48,9 +48,6 @@ namespace CMiX.Studio.Avalonia.Views
             if (e.PropertyName == nameof(SyncPeer.IsConnected) && !peer.IsConnected)
                 SyncButton.Flyout?.Hide();
 
-            if (e.PropertyName == nameof(SyncPeer.ErrorMessage))
-                ErrorText.Text = peer.ErrorMessage;
-
             if (e.PropertyName == nameof(SyncPeer.Status))
                 ConnectButton.Content = peer.Status == "Connecting" ? "Connecting..." : "Connect";
         }
