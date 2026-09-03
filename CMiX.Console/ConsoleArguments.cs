@@ -46,10 +46,10 @@ namespace CMiX.Console
                         ip = value;
                         break;
                     case "--port":
-                        if (!int.TryParse(value, out port)) { PrintUnknown(flag); return null; }
+                        if (!int.TryParse(value, out port)) { PrintInvalid(flag, value); return null; }
                         break;
                     case "--db":
-                        if (!int.TryParse(value, out database)) { PrintUnknown(flag); return null; }
+                        if (!int.TryParse(value, out database)) { PrintInvalid(flag, value); return null; }
                         break;
                     case "--user":
                         user = value;
@@ -78,6 +78,12 @@ namespace CMiX.Console
         private static void PrintUnknown(string arg)
         {
             System.Console.WriteLine($"Unknown argument: {arg}");
+            PrintUsage();
+        }
+
+        private static void PrintInvalid(string flag, string value)
+        {
+            System.Console.WriteLine($"Invalid value for {flag}: {value}");
             PrintUsage();
         }
 
