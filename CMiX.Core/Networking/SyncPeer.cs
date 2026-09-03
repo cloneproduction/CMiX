@@ -133,6 +133,7 @@ namespace CMiX.Core.Networking
             _started = true;
             _wasConnected = false;
             _afterFirstConnect = false;
+            OnPropertyChanged(nameof(Options));
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(Role));
             OnPropertyChanged(nameof(Status));
@@ -197,6 +198,7 @@ namespace CMiX.Core.Networking
                 Payload = message
             };
             _outgoing.Enqueue(MessagePackSerialization.Serialize(envelope));
+            OnPropertyChanged(nameof(PendingMessages));
             MessageSent?.Invoke(message);
         }
 
@@ -379,7 +381,11 @@ namespace CMiX.Core.Networking
             }
         }
 
-        private Task OnSentAsync(StreamPosition id) => DispatchAsync(() => SentMessages++);
+        private Task OnSentAsync(StreamPosition id) => DispatchAsync(() =>
+        {
+            SentMessages++;
+            OnPropertyChanged(nameof(PendingMessages));
+        });
 
         private IReadOnlyDictionary<string, string> HeartbeatFields() => new Dictionary<string, string>
         {
