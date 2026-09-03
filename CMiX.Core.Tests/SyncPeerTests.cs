@@ -705,6 +705,35 @@ namespace CMiX.Core.Tests
             Assert.Empty(peer.Peers);
         }
 
+        // The loops write the positions through the dispatcher. The reset of Stop must go the same
+        // way, or a queued write of a loop lands after it.
+        [Fact]
+        public async Task Stop_ResetsThePositionsThroughTheDispatcher()
+        {
+            using var dispatcher = new SingleThreadDispatcher();
+            var store = new WrappingSyncStore(new InMemorySyncStore());
+            using var peer = CreatePeer(new RecordingSyncTarget(), store);
+            peer.SetDispatcher(dispatcher.Post);
+
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            var watch = Stopwatch.StartNew();
+            peer.Stop();
+            watch.Stop();
+
+            var probe = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            dispatcher.Post(() => probe.SetResult(true));
+            Assert.Same(probe.Task, await Task.WhenAny(probe.Task, Task.Delay(5000)));
+
+            Assert.True(watch.ElapsedMilliseconds < 50, $"Stop took {watch.ElapsedMilliseconds} ms.");
+            Assert.Equal(StreamPosition.Zero, peer.LastSentId);
+            Assert.Equal(StreamPosition.Zero, peer.LastAppliedId);
+            Assert.Equal(StreamPosition.Zero, peer.TailId);
+            Assert.False(peer.IsJoined);
+            Assert.Empty(peer.Peers);
+        }
+
         // A test on a real server deletes its keys after Stopped, so no late call may write one.
         [Fact]
         public async Task Stopped_CompletesAfterTheLastStoreCall()

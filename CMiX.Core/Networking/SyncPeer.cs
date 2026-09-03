@@ -247,15 +247,21 @@ namespace CMiX.Core.Networking
             _wasConnected = false;
             _afterFirstConnect = false;
             _storeError = string.Empty;
-            // A new store can restart its IDs. A kept position would look like an entry that never
-            // arrives, or like a gap.
-            LastSentId = StreamPosition.Zero;
-            LastAppliedId = StreamPosition.Zero;
-            TailId = StreamPosition.Zero;
-            IsConnected = false;
-            IsJoined = false;
-            Peers.Clear();
-            OnPropertyChanged(nameof(Status));
+
+            // The loops write the state through the dispatcher. The reset goes the same way, so it
+            // comes after a write of a loop that is already queued. It posts and does not wait.
+            Dispatch(() =>
+            {
+                // A new store can restart its IDs. A kept position would look like an entry that
+                // never arrives, or like a gap.
+                LastSentId = StreamPosition.Zero;
+                LastAppliedId = StreamPosition.Zero;
+                TailId = StreamPosition.Zero;
+                IsConnected = false;
+                IsJoined = false;
+                Peers.Clear();
+                OnPropertyChanged(nameof(Status));
+            });
         }
 
         public void Dispose() => Stop();
