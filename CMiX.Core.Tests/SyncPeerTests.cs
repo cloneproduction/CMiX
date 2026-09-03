@@ -487,6 +487,131 @@ namespace CMiX.Core.Tests
             Assert.Equal(string.Empty, peer.ErrorMessage);
         }
 
+        // The Connect button of the Studio stops and starts at once. A join that still runs on the
+        // store of the earlier start must change nothing.
+        [Fact]
+        public async Task RestartDuringAJoin_JoinsOnTheNewStore_AndLeavesTheOldOneAlone()
+        {
+            var innerA = new InMemorySyncStore();
+            await innerA.ConnectAsync(default);
+            var modelA = ModelWithOneComposition();
+            var tailA = await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await innerA.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(modelA), tailA, "other", DateTime.UtcNow));
+            var storeA = new WrappingSyncStore(innerA);
+
+            var storeB = new InMemorySyncStore();
+            await storeB.ConnectAsync(default);
+            var modelB = ModelWithOneComposition();
+            var tailB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await storeB.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(modelB), tailB, "other", DateTime.UtcNow));
+            Assert.NotEqual(ProjectStateHash.Compute(modelA), ProjectStateHash.Compute(modelB));
+
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var reads = 0;
+            storeA.BeforeReadSnapshot = async () =>
+            {
+                Interlocked.Increment(ref reads);
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+
+            var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
+            var target = new RecordingSyncTarget();
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false };
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
+
+            peer.Stop();
+            peer.Start(Options("Engine"), autoJoin: true);
+
+            // Stop disposed the old store. Connect it again, so the read that waits can return a
+            // snapshot and the test sees what the peer does with it.
+            await WaitUntilAsync(() => !innerA.IsConnected);
+            await innerA.ConnectAsync(default);
+            release.SetResult(true);
+
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+            await Task.Delay(200);
+
+            Assert.Equal(1, target.SnapshotsApplied);
+            Assert.Equal(ProjectStateHash.Compute(modelB), ProjectStateHash.Compute(target.Model));
+            Assert.Equal(tailB, peer.LastAppliedId);
+            Assert.Equal(1, Volatile.Read(ref reads));
+            Assert.Equal(0, storeA.WriteSnapshotCalls);
+            Assert.Empty(storeA.TrimCalls);
+            Assert.Single(innerA.Entries);
+            Assert.Equal(string.Empty, peer.ErrorMessage);
+        }
+
+        // The same for the push of the Studio. The entry that is on its way stays in the old store,
+        // but the snapshot and the trim go to the new one only.
+        [Fact]
+        public async Task RestartDuringAPush_PushesToTheNewStore_AndLeavesTheOldOneAlone()
+        {
+            var innerA = new InMemorySyncStore();
+            var storeA = new WrappingSyncStore(innerA);
+            var storeB = new InMemorySyncStore();
+
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            storeA.BeforeAppend = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+
+            var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true };
+
+            // Both stores are empty, so the start check pushes the local state.
+            peer.Start(Options("Studio"), autoJoin: false);
+            await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
+
+            peer.Stop();
+            peer.Start(Options("Studio"), autoJoin: false);
+
+            await WaitUntilAsync(() => !innerA.IsConnected);
+            await innerA.ConnectAsync(default);
+            release.SetResult(true);
+
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+            await Task.Delay(200);
+
+            var snapshot = await storeB.ReadSnapshotAsync();
+            Assert.NotNull(snapshot);
+            var stored = VL.Serialization.MessagePack.MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
+            Assert.Equal(ProjectStateHash.Compute(target.Model), ProjectStateHash.Compute(stored));
+            Assert.Single(storeB.Entries);
+            Assert.Equal(1, peer.SentMessages);
+
+            Assert.Equal(0, storeA.WriteSnapshotCalls);
+            Assert.Empty(storeA.TrimCalls);
+            Assert.Null(await innerA.ReadSnapshotAsync());
+            Assert.Equal(string.Empty, peer.ErrorMessage);
+        }
+
+        // Stop cancels the follower source that a join can stop at the same time. A disposed source
+        // would throw on the thread of the user.
+        [Fact]
+        public async Task JoinAndStop_AtTheSameTime_ThrowNothing()
+        {
+            for (var i = 0; i < 20; i++)
+            {
+                var store = new InMemorySyncStore();
+                var target = new RecordingSyncTarget();
+                using var peer = CreatePeer(target, store);
+                peer.Start(Options("A"), autoJoin: true);
+                await WaitUntilAsync(() => peer.IsJoined, detail: () => $"iteration {i}");
+
+                var join = Task.Run(() => peer.JoinAsync());
+                Assert.Null(Record.Exception(() => peer.Stop()));
+                Assert.Null(await Record.ExceptionAsync(() => join));
+            }
+        }
+
         // A store that fails its data calls while it still reports the connection, like a Redis
         // client whose commands time out. A test can also take the connection away.
         private sealed class UnreliableSyncStore : ISyncStore

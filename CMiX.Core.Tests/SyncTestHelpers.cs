@@ -95,6 +95,9 @@ namespace CMiX.Core.Tests
         public int WriteSnapshotCalls => Volatile.Read(ref _writeSnapshotCalls);
         public ConcurrentQueue<StreamPosition> TrimCalls { get; } = new();
 
+        // Lets a test hold a snapshot read open, to check what happens during a join.
+        public Func<Task> BeforeReadSnapshot { get; set; }
+
         // Lets a test hold a snapshot write open, to check what happens during a compaction.
         public Func<Task> BeforeWriteSnapshot { get; set; }
 
@@ -120,7 +123,15 @@ namespace CMiX.Core.Tests
         }
 
         public Task ConnectAsync(CancellationToken ct) => _inner.ConnectAsync(ct);
-        public Task<Snapshot> ReadSnapshotAsync() { Enter(); return _inner.ReadSnapshotAsync(); }
+        public async Task<Snapshot> ReadSnapshotAsync()
+        {
+            Enter();
+            var gate = BeforeReadSnapshot;
+            if (gate != null)
+                await gate();
+
+            return await _inner.ReadSnapshotAsync();
+        }
         public Task<StreamPosition> ReadSnapshotIdAsync() { Enter(); return _inner.ReadSnapshotIdAsync(); }
         public async Task WriteSnapshotAsync(Snapshot snapshot)
         {
