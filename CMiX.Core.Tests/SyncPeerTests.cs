@@ -394,6 +394,8 @@ namespace CMiX.Core.Tests
             peer.Stop();
             Assert.True(watch.ElapsedMilliseconds < 50);
             Assert.Equal("Not started", peer.Status);
+            Assert.Equal(StreamPosition.Zero, peer.LastAppliedId);
+            Assert.Equal(StreamPosition.Zero, peer.TailId);
         }
 
         [Fact]

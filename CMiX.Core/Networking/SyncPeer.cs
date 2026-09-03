@@ -192,8 +192,10 @@ namespace CMiX.Core.Networking
             _wasConnected = false;
             _afterFirstConnect = false;
             // A new store can restart its IDs. A kept position would look like an entry that never
-            // arrives.
+            // arrives, or like a gap.
             LastSentId = StreamPosition.Zero;
+            LastAppliedId = StreamPosition.Zero;
+            TailId = StreamPosition.Zero;
             IsConnected = false;
             IsJoined = false;
             OnPropertyChanged(nameof(Status));
