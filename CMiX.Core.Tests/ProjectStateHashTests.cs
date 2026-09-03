@@ -1,4 +1,5 @@
 using CMiX.Core.Compositing;
+using CMiX.Core.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -6,6 +7,15 @@ namespace CMiX.Core.Tests
 {
     public class ProjectStateHashTests
     {
+        [Fact]
+        public void ModelOverload_MatchesProjectOverload()
+        {
+            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            project.CompositionManager.AddItem(typeof(Composition));
+
+            Assert.Equal(ProjectStateHash.Compute(project), ProjectStateHash.Compute((ProjectModel)project.ToModel()));
+        }
+
         [Fact]
         public void TwoFreshProjects_HashIdentically()
         {
