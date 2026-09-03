@@ -1,4 +1,4 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -12,5 +12,6 @@ namespace CMiX.Core.Modulation.Modulators
         public PrefabServiceModel PrefabService { get; set; } = new();
         public GenericValueModel<int> Count { get; set; } = new(0);
         public GenericValueModel<float> X { get; set; } = new(0f);
+        public GenericValueModel<float> Y { get; set; } = new(0f);
     }
 }
