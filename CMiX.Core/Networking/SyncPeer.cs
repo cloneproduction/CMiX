@@ -110,6 +110,10 @@ namespace CMiX.Core.Networking
         public event Action<StreamEntry, IMessage> MessageApplied;
         public event Action<IMessage> MessageSent;
 
+        // Comes after the target applied a snapshot, on the dispatcher thread. A listener empties
+        // what the snapshot does not carry.
+        public event Action SnapshotApplied;
+
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsInSync), nameof(Status))]
         private bool _isConnected;
@@ -630,6 +634,7 @@ namespace CMiX.Core.Networking
                         {
                             _target.ApplySnapshot(model);
                             ForgetApplied();
+                            SnapshotApplied?.Invoke();
                             LastAppliedId = position;
                             if (position > TailId) TailId = position;
                         }).ConfigureAwait(false);
@@ -798,7 +803,10 @@ namespace CMiX.Core.Networking
                     {
                         _target.Apply(payload);
                         if (payload is MessageProjectSnapshot)
+                        {
                             ForgetApplied();
+                            SnapshotApplied?.Invoke();
+                        }
 
                         AppliedMessages++;
                     }
@@ -902,6 +910,7 @@ namespace CMiX.Core.Networking
                 {
                     _target.ApplySnapshot(model);
                     ForgetApplied();
+                    SnapshotApplied?.Invoke();
                     AppliedMessages++;
                     LastAppliedId = snapshot.StreamId;
                     if (snapshot.StreamId > TailId) TailId = snapshot.StreamId;

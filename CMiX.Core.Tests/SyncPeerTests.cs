@@ -396,6 +396,77 @@ namespace CMiX.Core.Tests
             Assert.Equal(tail, peer.LastAppliedId);
         }
 
+        // The Studio empties its repository managers when it gets a snapshot, so every snapshot
+        // apply must tell it. There are three: the join, a snapshot entry, and the recovery.
+        [Fact]
+        public async Task SnapshotApplied_ComesOnceOnAJoinFromASnapshot()
+        {
+            var store = new InMemorySyncStore();
+            await store.ConnectAsync(default);
+            var model = ModelWithOneComposition();
+            var tail = await store.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await store.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
+
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            var events = 0;
+            peer.SnapshotApplied += () => Interlocked.Increment(ref events);
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+            await Task.Delay(300);
+
+            Assert.Equal(1, Volatile.Read(ref events));
+        }
+
+        [Fact]
+        public async Task SnapshotApplied_ComesOnceOnASnapshotEntry()
+        {
+            var store = new InMemorySyncStore();
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store);
+            var events = 0;
+            peer.SnapshotApplied += () => Interlocked.Increment(ref events);
+
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+            Assert.Equal(0, Volatile.Read(ref events));
+
+            await store.AppendAsync(Envelope("other", new MessageProjectSnapshot(Guid.NewGuid(), ModelWithOneComposition())));
+            await WaitUntilAsync(() => target.SnapshotsApplied == 1);
+            await Task.Delay(300);
+
+            Assert.Equal(1, Volatile.Read(ref events));
+        }
+
+        [Fact]
+        public async Task SnapshotApplied_ComesOnceOnARecoveryAfterAGap()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store);
+            var events = 0;
+            peer.SnapshotApplied += () => Interlocked.Increment(ref events);
+
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            store.SetFail(true);
+            await WaitUntilAsync(() => !peer.IsConnected && store.FailedCalls > 0);
+            await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var model = ModelWithOneComposition();
+            await inner.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
+            await inner.TrimAsync(tail);
+            store.SetFail(false);
+
+            await WaitUntilAsync(() => target.SnapshotsApplied == 1, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
+            await Task.Delay(300);
+
+            Assert.Equal(1, Volatile.Read(ref events));
+        }
+
         // A replacement host with an earlier clock gives entry IDs below the position the peer
         // holds. Without a re-join the reader waits for entries that never come.
         [Fact]
