@@ -546,10 +546,12 @@ namespace CMiX.Core.Networking
             var gap = false;
             await DispatchCurrentAsync(store, generation, () =>
             {
-                if (tick.Tail > TailId) TailId = tick.Tail;
+                var behind = IsJoined && IsBehindTail(tick.Tail);
+                // The tail of another store is the true one. Every other tick only moves it up.
+                if (tick.Tail > TailId || behind) TailId = tick.Tail;
                 if (tick.Peers != null) ReplacePeers(tick.Peers);
                 // The recovery can see the same gap. Then the snapshot is applied twice.
-                gap = IsJoined && !Volatile.Read(ref _recovering) && HasGap(tick.SnapshotId, tick.Oldest);
+                gap = IsJoined && !Volatile.Read(ref _recovering) && (behind || HasGap(tick.SnapshotId, tick.Oldest));
 
                 // The store lost the snapshot, for example after a restart without the data. The
                 // writer makes it again, or a late peer finds nothing to join from.
@@ -566,6 +568,11 @@ namespace CMiX.Core.Networking
         // snapshot has the state. An empty stream has no gap.
         private bool HasGap(StreamPosition snapshotId, StreamPosition? oldest)
             => snapshotId > LastAppliedId && oldest.HasValue && oldest.Value > LastAppliedId;
+
+        // A replacement store with an earlier clock gives IDs below the own position. The reader
+        // then waits for entries that never come, so the peer joins the new store from its snapshot.
+        private bool IsBehindTail(StreamPosition tail)
+            => tail != StreamPosition.Zero && tail < LastAppliedId;
 
         private void ReplacePeers(IReadOnlyList<PeerInfo> peers)
         {

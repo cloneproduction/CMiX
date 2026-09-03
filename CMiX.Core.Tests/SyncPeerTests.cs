@@ -396,6 +396,35 @@ namespace CMiX.Core.Tests
             Assert.Equal(tail, peer.LastAppliedId);
         }
 
+        // A replacement host with an earlier clock gives entry IDs below the position the peer
+        // holds. Without a re-join the reader waits for entries that never come.
+        [Fact]
+        public async Task WhenTheTailIsBelowTheOwnPosition_ThePeerJoinsTheNewStore()
+        {
+            var inner = new InMemorySyncStore(1000000);
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = CreatePeer(target, store);
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+            Assert.True(peer.LastAppliedId > StreamPosition.Zero);
+
+            var replacement = new InMemorySyncStore();
+            await replacement.ConnectAsync(default);
+            var model = ModelWithOneComposition();
+            var snapshotId = await replacement.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await replacement.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), snapshotId, "other", DateTime.UtcNow));
+            var afterId = Guid.NewGuid();
+            var tail = await replacement.AppendAsync(Envelope("other", new MessageOnClick(afterId)));
+            store.Replace(replacement);
+
+            await WaitUntilAsync(() => peer.LastAppliedId == tail, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
+            Assert.Equal(1, target.SnapshotsApplied);
+            Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
+            Assert.Equal(afterId, Assert.Single(target.Applied).ID);
+            await WaitUntilAsync(() => peer.IsInSync, detail: () => $"tail={peer.TailId} last={peer.LastAppliedId}");
+        }
+
         [Fact]
         public async Task Outgoing_KeepsOrder()
         {

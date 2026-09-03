@@ -79,12 +79,23 @@ namespace CMiX.Core.Tests
     // Wraps a store. Records the thread of every data call, and can fail every data call on demand.
     public class WrappingSyncStore : ISyncStore
     {
-        private readonly ISyncStore _inner;
+        private readonly Action<bool> _forward;
+
+        private ISyncStore _inner;
 
         public WrappingSyncStore(ISyncStore inner)
         {
+            _forward = value => ConnectionChanged?.Invoke(value);
             _inner = inner;
-            _inner.ConnectionChanged += value => ConnectionChanged?.Invoke(value);
+            _inner.ConnectionChanged += _forward;
+        }
+
+        // Puts another store behind the wrapper, like a replacement host under the same address.
+        public void Replace(ISyncStore inner)
+        {
+            _inner.ConnectionChanged -= _forward;
+            _inner = inner;
+            _inner.ConnectionChanged += _forward;
         }
 
         private int _writeSnapshotCalls;
