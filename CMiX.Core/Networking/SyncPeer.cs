@@ -18,6 +18,9 @@ namespace CMiX.Core.Networking
     {
         private const int ReplayBatch = 256;
 
+        // How many applied message IDs the peer remembers, to find an entry that arrives twice.
+        private const int AppliedMemory = 1000;
+
         // How long the stop work waits for the loops of the run before it disposes the store.
         private static readonly TimeSpan StopTimeout = TimeSpan.FromSeconds(5);
 
@@ -27,6 +30,10 @@ namespace CMiX.Core.Networking
         private readonly OutgoingQueue _outgoing = new();
         private readonly SemaphoreSlim _joinLock = new(1, 1);
         private readonly string _peerId;
+        // The message IDs of the last applied foreign entries, in the order they arrived. Only the
+        // dispatcher touches them.
+        private readonly Queue<Guid> _appliedOrder = new();
+        private readonly HashSet<Guid> _appliedIds = new();
 
         private ISyncStore _store;
         private SnapshotCompactor _compactor;
@@ -615,6 +622,7 @@ namespace CMiX.Core.Networking
                         await DispatchCurrentAsync(store, generation, () =>
                         {
                             _target.ApplySnapshot(model);
+                            ForgetApplied();
                             LastAppliedId = position;
                             if (position > TailId) TailId = position;
                         }).ConfigureAwait(false);
@@ -773,11 +781,18 @@ namespace CMiX.Core.Networking
 
             await DispatchAsync(() =>
             {
-                if (!own)
+                // An append that timed out on the client but reached the store is sent again. The
+                // entry then arrives twice, and a move applied twice gives a wrong order.
+                var apply = !own && !IsDuplicate(envelope.MessageID);
+
+                if (apply)
                 {
                     try
                     {
                         _target.Apply(payload);
+                        if (payload is MessageProjectSnapshot)
+                            ForgetApplied();
+
                         AppliedMessages++;
                     }
                     catch (Exception ex)
@@ -790,8 +805,28 @@ namespace CMiX.Core.Networking
                 LastAppliedId = entry.Id;
                 if (entry.Id > TailId) TailId = entry.Id;
 
-                if (!own) MessageApplied?.Invoke(entry, payload);
+                if (apply) MessageApplied?.Invoke(entry, payload);
             }).ConfigureAwait(false);
+        }
+
+        // Runs on the dispatcher thread.
+        private bool IsDuplicate(Guid messageId)
+        {
+            if (!_appliedIds.Add(messageId)) return true;
+
+            _appliedOrder.Enqueue(messageId);
+            if (_appliedOrder.Count > AppliedMemory)
+                _appliedIds.Remove(_appliedOrder.Dequeue());
+
+            return false;
+        }
+
+        // A snapshot replaces the state, so the entries before it can arrive again and must be
+        // applied again. Runs on the dispatcher thread.
+        private void ForgetApplied()
+        {
+            _appliedIds.Clear();
+            _appliedOrder.Clear();
         }
 
         private void StartFollower(ISyncStore store, int generation)
@@ -859,6 +894,7 @@ namespace CMiX.Core.Networking
                 await DispatchCurrentAsync(store, generation, () =>
                 {
                     _target.ApplySnapshot(model);
+                    ForgetApplied();
                     AppliedMessages++;
                     LastAppliedId = snapshot.StreamId;
                     if (snapshot.StreamId > TailId) TailId = snapshot.StreamId;

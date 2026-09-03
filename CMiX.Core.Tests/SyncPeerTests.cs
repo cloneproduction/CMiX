@@ -439,6 +439,47 @@ namespace CMiX.Core.Tests
             Assert.IsType<MessageAddItem>(targetB.Applied[1]);
         }
 
+        // A retry of an append that timed out puts the same envelope into the stream a second time.
+        [Fact]
+        public async Task TheSameEntryTwice_IsAppliedOnce()
+        {
+            var store = new InMemorySyncStore();
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store);
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            var envelope = Envelope("other", new MessageOnClick(Guid.NewGuid()));
+            await store.AppendAsync(envelope);
+            var second = await store.AppendAsync(envelope);
+
+            await WaitUntilAsync(() => peer.LastAppliedId == second, detail: () => $"last={peer.LastAppliedId}");
+            await Task.Delay(300);
+
+            Assert.Single(target.Applied);
+            Assert.Equal(1, peer.AppliedMessages);
+            Assert.Equal(second, peer.LastAppliedId);
+        }
+
+        // Two clicks on the same control are two messages with one payload ID. Only the message ID
+        // tells a repeat from a second edit.
+        [Fact]
+        public async Task TwoEntriesWithTheSamePayloadId_AreBothApplied()
+        {
+            var store = new InMemorySyncStore();
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store);
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            var id = Guid.NewGuid();
+            await store.AppendAsync(Envelope("other", new MessageOnClick(id)));
+            var second = await store.AppendAsync(Envelope("other", new MessageOnClick(id)));
+
+            await WaitUntilAsync(() => target.Applied.Count == 2, detail: () => $"applied={target.Applied.Count}");
+            Assert.Equal(second, peer.LastAppliedId);
+        }
+
         [Fact]
         public void Start_AndStop_ReturnAtOnce_WhenTheStoreNeverConnects()
         {
