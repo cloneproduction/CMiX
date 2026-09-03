@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Threading;
 using CMiX.Core.Compositing;
 using CMiX.Core.DependencyInjection;
 using CMiX.Core.Networking;
@@ -37,7 +38,22 @@ namespace CMiX.Console
             var peer = serviceProvider.GetRequiredService<SyncPeer>();
             peer.PropertyChanged += (sender, e) => ReportChange(peer, e);
 
-            System.Console.ReadLine();
+            if (System.Console.IsInputRedirected)
+            {
+                System.Console.WriteLine("Press Ctrl+C to exit.");
+                using var exitEvent = new ManualResetEventSlim(false);
+                System.Console.CancelKeyPress += (sender, e) =>
+                {
+                    e.Cancel = true;
+                    exitEvent.Set();
+                };
+                exitEvent.Wait();
+            }
+            else
+            {
+                System.Console.ReadLine();
+            }
+
             peer.Stop();
             return 0;
         }
