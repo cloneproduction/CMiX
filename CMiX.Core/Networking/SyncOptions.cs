@@ -8,8 +8,9 @@ namespace CMiX.Core.Networking
     {
         public static readonly SyncOptions Defaults = new("127.0.0.1", 6379, 0, "default", "", "cmix:default", "", "");
 
-        // Password, PeerName and Role keep their value. An empty password means no password, and
-        // the caller sets name and role.
+        // An empty peer name becomes the machine name, so every peer has a name in the peer list.
+        // Password and Role keep their value. An empty password means no password, and the caller
+        // sets the role.
         public SyncOptions WithFallbacks() => new(
             string.IsNullOrEmpty(Ip) ? Defaults.Ip : Ip,
             Port <= 0 ? Defaults.Port : Port,
@@ -17,7 +18,7 @@ namespace CMiX.Core.Networking
             string.IsNullOrEmpty(User) ? Defaults.User : User,
             Password ?? Defaults.Password,
             string.IsNullOrEmpty(KeyPrefix) ? Defaults.KeyPrefix : KeyPrefix,
-            PeerName ?? Defaults.PeerName,
+            string.IsNullOrEmpty(PeerName) ? Environment.MachineName : PeerName,
             Role ?? Defaults.Role);
 
         // The vvvv patch calls this as a node. Keep the parameter list stable.
