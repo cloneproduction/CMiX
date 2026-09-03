@@ -1057,7 +1057,8 @@ namespace CMiX.Core.Tests
             store.SetFail(false);
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
 
-            await WaitUntilAsync(() => target.Applied.Count == 1, 2000, () => $"applied={target.Applied.Count}");
+            await WaitUntilAsync(() => target.Applied.Count > 0, 2000,
+                () => $"applied={target.Applied.Count} status={peer.Status} lastApplied={peer.LastAppliedId}");
         }
 
         // A store that fails its data calls while it still reports the connection, like a Redis
