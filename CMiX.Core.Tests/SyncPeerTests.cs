@@ -396,6 +396,67 @@ namespace CMiX.Core.Tests
             Assert.Equal(tail, peer.LastAppliedId);
         }
 
+        // A follower can pause without a store error: the process is suspended, or the machine
+        // sleeps with a socket that survives. Its read then returns the entries after the trim
+        // point. An apply of those entries would move the peer past the gap and hide it.
+        [Fact]
+        public async Task AfterALongPauseOfTheFollower_ThePeerChecksTheGap()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.FollowerStalePause = TimeSpan.FromMilliseconds(300);
+
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeReadBlocking = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
+            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+
+            await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var model = ModelWithOneComposition();
+            await inner.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
+            await inner.TrimAsync(tail);
+
+            await Task.Delay(1000);
+            release.SetResult(true);
+
+            await WaitUntilAsync(() => target.SnapshotsApplied == 1, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
+            Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
+            Assert.Equal(tail, peer.LastAppliedId);
+            Assert.Empty(target.Applied);
+        }
+
+        // A store can hold an entry that no reader can deserialize. It must not stop the follower.
+        [Fact]
+        public async Task ACorruptEntry_IsSkipped_AndTheNextEntryIsApplied()
+        {
+            var store = new InMemorySyncStore();
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            // MessagePack never uses 0xC1, so the read of this entry fails.
+            await store.AppendAsync(new byte[] { 0xC1, 0x2A, 0x7F, 0xFF });
+            var click = Guid.NewGuid();
+            var second = await store.AppendAsync(Envelope("other", new MessageOnClick(click)));
+
+            await WaitUntilAsync(() => peer.LastAppliedId == second, detail: () => $"last={peer.LastAppliedId}");
+            await Task.Delay(300);
+
+            Assert.Equal(click, Assert.Single(target.Applied).ID);
+            Assert.Equal(second, peer.LastAppliedId);
+        }
+
         // The Studio empties its repository managers when it gets a snapshot, so every snapshot
         // apply must tell it. There are three: the join, a snapshot entry, and the recovery.
         [Fact]

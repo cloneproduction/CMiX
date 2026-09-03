@@ -101,6 +101,9 @@ namespace CMiX.Core.Networking
         // How long a value change waits before the compactor writes a new snapshot. Tests shorten it.
         public TimeSpan CompactionDelay { get; set; } = SyncTimings.CompactionDelay;
 
+        // A follower that made no read for this long checks the gap first. Tests shorten it.
+        public TimeSpan FollowerStalePause { get; set; } = SyncTimings.StalePause;
+
         public int PendingMessages => _outgoing.PendingCount;
 
         // Completes when the run of the last Start has ended: the loops have returned and the store
@@ -869,7 +872,7 @@ namespace CMiX.Core.Networking
 
             var followerCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token);
             var follower = new StreamFollower(store, () => LastAppliedId, entry => ApplyEntryAsync(store, generation, entry),
-                () => OnFollowerErrorAsync(store, generation));
+                () => OnFollowerErrorAsync(store, generation), FollowerStalePause);
             _followerCts = followerCts;
             _follower = follower;
             _followerTask = Task.Run(() => follower.RunAsync(followerCts.Token), followerCts.Token);
@@ -900,8 +903,9 @@ namespace CMiX.Core.Networking
             }
         }
 
-        // After a store error: show the state, and re-apply the snapshot only when the stream was
-        // trimmed past the own position while the peer was away. Otherwise the reader replays.
+        // After a store error or a long pause: show the state, and re-apply the snapshot only when
+        // the stream was trimmed past the own position while the peer was away. Otherwise the
+        // reader replays.
         private async Task OnFollowerErrorAsync(ISyncStore store, int generation)
         {
             Volatile.Write(ref _recovering, true);

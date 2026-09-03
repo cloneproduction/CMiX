@@ -5,22 +5,27 @@ using System.Diagnostics;
 
 namespace CMiX.Core.Networking
 {
-    // Reads the stream after the last applied entry and hands every entry to the peer. On a store
-    // error it waits with backoff and lets the peer check the snapshot before it reads again.
+    // Reads the stream after the last applied entry and hands every entry to the peer. After a store
+    // error or a long pause it lets the peer check the gap before it reads again.
     public sealed class StreamFollower
     {
         private readonly ISyncStore _store;
         private readonly Func<StreamPosition> _position;
         private readonly Func<StreamEntry, Task> _apply;
-        private readonly Func<Task> _onError;
+        private readonly Func<Task> _checkGap;
+        private readonly TimeSpan _stalePause;
         private readonly SemaphoreSlim _wakeSignal = new(0, 1);
 
-        public StreamFollower(ISyncStore store, Func<StreamPosition> position, Func<StreamEntry, Task> apply, Func<Task> onError)
+        // When the last read returned. A pause without a store error leaves no other trace.
+        private long _lastRead = Stopwatch.GetTimestamp();
+
+        public StreamFollower(ISyncStore store, Func<StreamPosition> position, Func<StreamEntry, Task> apply, Func<Task> checkGap, TimeSpan stalePause)
         {
             _store = store;
             _position = position;
             _apply = apply;
-            _onError = onError;
+            _checkGap = checkGap;
+            _stalePause = stalePause;
         }
 
         // Ends the recovery wait. The peer calls this on a reconnect, so the follower does not sleep
@@ -45,7 +50,26 @@ namespace CMiX.Core.Networking
             {
                 try
                 {
+                    // The process was away, for example suspended. The stream can be trimmed past
+                    // the own position, and the next entries would hide the gap.
+                    if (Stopwatch.GetElapsedTime(_lastRead) > _stalePause)
+                    {
+                        await _checkGap().ConfigureAwait(false);
+                        _lastRead = Stopwatch.GetTimestamp();
+                    }
+
+                    var started = Stopwatch.GetTimestamp();
                     var entries = await _store.ReadBlockingAsync(_position(), SyncTimings.ReadTimeout, ct).ConfigureAwait(false);
+                    _lastRead = Stopwatch.GetTimestamp();
+
+                    // The read itself was away that long. Its entries can start after a trim point,
+                    // so they are dropped and read again after the check.
+                    if (entries.Count > 0 && Stopwatch.GetElapsedTime(started) > _stalePause)
+                    {
+                        await _checkGap().ConfigureAwait(false);
+                        continue;
+                    }
+
                     foreach (var entry in entries)
                         await _apply(entry).ConfigureAwait(false);
                 }
@@ -72,7 +96,8 @@ namespace CMiX.Core.Networking
                 try
                 {
                     await _wakeSignal.WaitAsync(backoff, ct).ConfigureAwait(false);
-                    await _onError().ConfigureAwait(false);
+                    await _checkGap().ConfigureAwait(false);
+                    _lastRead = Stopwatch.GetTimestamp();
                     return true;
                 }
                 catch (OperationCanceledException)

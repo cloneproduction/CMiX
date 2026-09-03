@@ -16,6 +16,9 @@ namespace CMiX.Core.Networking
         // them. A peer that lags more re-joins from the snapshot.
         public static readonly TimeSpan Retention = TimeSpan.FromSeconds(60);
 
+        // A follower that made no read for this long checks the gap before it applies anything.
+        public static readonly TimeSpan StalePause = TimeSpan.FromSeconds(30);
+
         // A value change waits this long before the Studio writes a new snapshot.
         public static readonly TimeSpan CompactionDelay = TimeSpan.FromSeconds(5);
 
