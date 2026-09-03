@@ -239,6 +239,26 @@ namespace CMiX.Core.Tests
             Assert.True(disposing.ElapsedMilliseconds < 2500, $"DisposeAsync took {disposing.ElapsedMilliseconds} ms.");
         }
 
+        // The peer name becomes the Redis client name, and Redis refuses a name with a space.
+        // StackExchange.Redis removes the space, so the store connects and works.
+        [SkippableFact]
+        public async Task APeerNameWithASpace_ConnectsAndWorks()
+        {
+            Skip.IfNot(_fixture.Available, SkipReason);
+
+            await using var store = new RedisSyncStore(SyncOptions.Defaults with { KeyPrefix = _prefix, PeerName = "Engine 1" });
+            await store.ConnectAsync(CancellationToken.None);
+
+            Assert.True(store.IsConnected);
+
+            var id = await store.AppendAsync(Payload("a"));
+            var entries = await store.ReadRangeAsync(StreamPosition.Zero, 10);
+
+            var entry = Assert.Single(entries);
+            Assert.Equal(id, entry.Id);
+            Assert.Equal(Payload("a"), entry.Envelope);
+        }
+
         // A cancelled connect must leave no open multiplexer behind. The store stays unconnected,
         // and it does not throw.
         [SkippableFact]
