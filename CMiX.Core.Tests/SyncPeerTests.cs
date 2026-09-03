@@ -593,6 +593,128 @@ namespace CMiX.Core.Tests
             Assert.Equal(string.Empty, peer.ErrorMessage);
         }
 
+        // The follower recovery reads the snapshot of the store it follows. A restart while it reads
+        // must not put that snapshot into the peer.
+        [Fact]
+        public async Task RestartDuringAFollowerRecovery_KeepsTheStateOfTheNewStore()
+        {
+            // The IDs of the old store are above the IDs of the new one. An unguarded recovery would
+            // therefore find its snapshot newer than the position of the new store.
+            var innerA = new InMemorySyncStore(1000000);
+            var storeA = new WrappingSyncStore(innerA);
+
+            var storeB = new InMemorySyncStore();
+            await storeB.ConnectAsync(default);
+            var modelB = ModelWithOneComposition();
+            var tailB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await storeB.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(modelB), tailB, "other", DateTime.UtcNow));
+
+            var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
+            var target = new RecordingSyncTarget();
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue());
+
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
+
+            // The stream of the old store is trimmed past the own position, so the recovery reads
+            // the snapshot.
+            storeA.SetFail(true);
+            await WaitUntilAsync(() => !peer.IsConnected && storeA.FailedCalls > 0);
+            await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var tailA = await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var modelA = ModelWithOneComposition();
+            await innerA.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(modelA), tailA, "other", DateTime.UtcNow));
+            await innerA.TrimAsync(tailA);
+
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            storeA.BeforeReadSnapshot = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+            storeA.SetFail(false);
+            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+
+            peer.Stop();
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+
+            // Stop disposed the old store. Connect it again, so the read that waits can return the
+            // snapshot and the test sees what the peer does with it.
+            await WaitUntilAsync(() => !innerA.IsConnected);
+            await innerA.ConnectAsync(default);
+            release.SetResult(true);
+            await Task.Delay(300);
+
+            Assert.Equal(1, target.SnapshotsApplied);
+            Assert.Equal(ProjectStateHash.Compute(modelB), ProjectStateHash.Compute(target.Model));
+            Assert.Equal(tailB, peer.LastAppliedId);
+            Assert.Equal(string.Empty, peer.ErrorMessage);
+        }
+
+        // A presence tick of the store that the restart left behind must not move the tail or the
+        // peer list.
+        [Fact]
+        public async Task RestartDuringAPresenceTick_KeepsTheTailAndThePeersOfTheNewStore()
+        {
+            var innerA = new InMemorySyncStore(1000000);
+            var storeA = new WrappingSyncStore(innerA);
+            var storeB = new InMemorySyncStore();
+            await storeB.ConnectAsync(default);
+            await storeB.HeartbeatAsync("fresh", new Dictionary<string, string> { ["name"] = "New" }, TimeSpan.FromMinutes(1));
+
+            var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
+            var target = new RecordingSyncTarget();
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { ListPeersEnabled = true };
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
+
+            // The join read the tail already. From here only a presence tick reads it.
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            storeA.BeforeReadTail = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+
+            peer.Stop();
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
+            await WaitUntilAsync(() => PeerIds(peer).Contains("fresh"), 15000, () => $"status={peer.Status}");
+
+            await WaitUntilAsync(() => !innerA.IsConnected);
+            await innerA.ConnectAsync(default);
+            await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await innerA.HeartbeatAsync("ghost", new Dictionary<string, string> { ["name"] = "Old" }, TimeSpan.FromMinutes(1));
+            release.SetResult(true);
+            await Task.Delay(300);
+
+            Assert.Equal(StreamPosition.Zero, peer.TailId);
+            Assert.DoesNotContain("ghost", PeerIds(peer));
+            Assert.Contains("fresh", PeerIds(peer));
+        }
+
+        // The presence tick replaces Peers on its own thread. Copy it again when the copy fails.
+        private static string[] PeerIds(SyncPeer peer)
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                try
+                {
+                    return peer.Peers.Select(info => info.PeerId).ToArray();
+                }
+                catch (InvalidOperationException)
+                {
+                }
+            }
+
+            return Array.Empty<string>();
+        }
+
         // Stop cancels the follower source that a join can stop at the same time. A disposed source
         // would throw on the thread of the user.
         [Fact]

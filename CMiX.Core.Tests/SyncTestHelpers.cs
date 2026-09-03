@@ -104,6 +104,9 @@ namespace CMiX.Core.Tests
         // Lets a test hold an append open, to check what happens while an own entry is pending.
         public Func<Task> BeforeAppend { get; set; }
 
+        // Lets a test hold a tail read open, to check what happens during a presence tick.
+        public Func<Task> BeforeReadTail { get; set; }
+
         public bool IsConnected => !Fail && _inner.IsConnected;
         public event Action<bool> ConnectionChanged;
 
@@ -154,7 +157,15 @@ namespace CMiX.Core.Tests
         }
         public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) { Enter(); return _inner.ReadRangeAsync(afterExclusive, count); }
         public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) { Enter(); return _inner.ReadBlockingAsync(afterExclusive, timeout, ct); }
-        public Task<StreamPosition> ReadTailAsync() { Enter(); return _inner.ReadTailAsync(); }
+        public async Task<StreamPosition> ReadTailAsync()
+        {
+            Enter();
+            var gate = BeforeReadTail;
+            if (gate != null)
+                await gate();
+
+            return await _inner.ReadTailAsync();
+        }
         public Task TrimAsync(StreamPosition minId) { Enter(); TrimCalls.Enqueue(minId); return _inner.TrimAsync(minId); }
         public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) { Enter(); return _inner.HeartbeatAsync(peerId, fields, ttl); }
         public Task<IReadOnlyList<PeerInfo>> ListPeersAsync() { Enter(); return _inner.ListPeersAsync(); }

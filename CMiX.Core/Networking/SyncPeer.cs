@@ -149,8 +149,9 @@ namespace CMiX.Core.Networking
             OnPropertyChanged(nameof(Status));
 
             var store = _store;
+            var generation = Volatile.Read(ref _generation);
             var ct = _cts.Token;
-            _ = Task.Run(() => RunAsync(store, ct), ct);
+            _ = Task.Run(() => RunAsync(store, generation, ct), ct);
         }
 
         // Returns at once. The store is disposed on a background task. Queued messages stay queued.
@@ -231,21 +232,24 @@ namespace CMiX.Core.Networking
             return result.Check;
         }
 
-        private async Task RunAsync(ISyncStore store, CancellationToken ct)
+        private async Task RunAsync(ISyncStore store, int generation, CancellationToken ct)
         {
             try
             {
                 store.ConnectionChanged += OnConnectionChanged;
                 await WaitForConnectionAsync(store, ct).ConfigureAwait(false);
+                if (!IsCurrent(store, generation)) return;
+
                 _afterFirstConnect = true;
-                await DispatchAsync(() =>
+                await DispatchCurrentAsync(store, generation, () =>
                 {
                     _wasConnected = true;
                     IsConnected = true;
                 }).ConfigureAwait(false);
 
                 _ = Task.Run(() => _outgoing.RunAsync(store, OnSentAsync, ct), ct);
-                var presence = new Presence(store, _peerId, HeartbeatFields, () => ListPeersEnabled, OnPresenceTickAsync);
+                var presence = new Presence(store, _peerId, HeartbeatFields, () => ListPeersEnabled,
+                    tick => OnPresenceTickAsync(store, generation, tick));
                 _ = Task.Run(() => presence.RunAsync(ct), ct);
 
                 await OnConnectedAsync(ct).ConfigureAwait(false);
@@ -256,7 +260,7 @@ namespace CMiX.Core.Networking
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await DispatchAsync(() => ErrorMessage = ex.Message).ConfigureAwait(false);
+                await DispatchCurrentAsync(store, generation, () => ErrorMessage = ex.Message).ConfigureAwait(false);
             }
         }
 
@@ -385,7 +389,7 @@ namespace CMiX.Core.Networking
                             IsJoined = true;
                         }).ConfigureAwait(false);
                         if (joined)
-                            StartFollower(store);
+                            StartFollower(store, generation);
                         break;
                 }
             }
@@ -445,10 +449,10 @@ namespace CMiX.Core.Networking
             ["lastAppliedId"] = LastAppliedId.ToString()
         };
 
-        private async Task OnPresenceTickAsync(PresenceTick tick)
+        private async Task OnPresenceTickAsync(ISyncStore store, int generation, PresenceTick tick)
         {
             var gap = false;
-            await DispatchAsync(() =>
+            await DispatchCurrentAsync(store, generation, () =>
             {
                 if (tick.Tail > TailId) TailId = tick.Tail;
                 if (tick.Peers != null) ReplacePeers(tick.Peers);
@@ -546,7 +550,7 @@ namespace CMiX.Core.Networking
                     IsJoined = true;
                 }).ConfigureAwait(false);
                 if (joined)
-                    StartFollower(store);
+                    StartFollower(store, generation);
             }
             catch (OperationCanceledException)
             {
@@ -611,7 +615,7 @@ namespace CMiX.Core.Networking
                 IsJoined = true;
             }).ConfigureAwait(false);
             if (joined)
-                StartFollower(store);
+                StartFollower(store, generation);
         }
 
         // Appends the full model as one entry for the running peers, then writes the snapshot for
@@ -704,13 +708,13 @@ namespace CMiX.Core.Networking
             }).ConfigureAwait(false);
         }
 
-        private void StartFollower(ISyncStore store)
+        private void StartFollower(ISyncStore store, int generation)
         {
             var cts = _cts;
             if (cts == null || cts.IsCancellationRequested) return;
 
             var followerCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token);
-            var follower = new StreamFollower(store, () => LastAppliedId, ApplyEntryAsync, () => OnFollowerErrorAsync(store));
+            var follower = new StreamFollower(store, () => LastAppliedId, ApplyEntryAsync, () => OnFollowerErrorAsync(store, generation));
             _followerCts = followerCts;
             _followerTask = Task.Run(() => follower.RunAsync(followerCts.Token), followerCts.Token);
         }
@@ -741,25 +745,29 @@ namespace CMiX.Core.Networking
 
         // After a store error: show the state, and re-apply the snapshot only when the stream was
         // trimmed past the own position while the peer was away. Otherwise the reader replays.
-        private async Task OnFollowerErrorAsync(ISyncStore store)
+        private async Task OnFollowerErrorAsync(ISyncStore store, int generation)
         {
-            await DispatchAsync(() =>
+            await DispatchCurrentAsync(store, generation, () =>
             {
                 IsConnected = store.IsConnected;
                 OnPropertyChanged(nameof(Status));
             }).ConfigureAwait(false);
+            if (!IsCurrent(store, generation)) return;
 
             var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
+            if (!IsCurrent(store, generation)) return;
             if (snapshotId <= LastAppliedId) return;
 
             var first = await store.ReadRangeAsync(StreamPosition.Zero, 1).ConfigureAwait(false);
+            if (!IsCurrent(store, generation)) return;
             if (!HasGap(snapshotId, first.Count > 0 ? first[0].Id : null)) return;
 
             var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
+            if (!IsCurrent(store, generation)) return;
             if (snapshot == null || snapshot.StreamId <= LastAppliedId) return;
 
             var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
-            await DispatchAsync(() =>
+            await DispatchCurrentAsync(store, generation, () =>
             {
                 _target.ApplySnapshot(model);
                 AppliedMessages++;
