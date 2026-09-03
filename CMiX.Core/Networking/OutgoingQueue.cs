@@ -40,8 +40,8 @@ namespace CMiX.Core.Networking
                         continue;
                     }
 
-                    reader.TryRead(out _);
                     await onSent(id).ConfigureAwait(false);
+                    reader.TryRead(out _);
                 }
             }
         }
