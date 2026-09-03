@@ -34,6 +34,7 @@ namespace CMiX.Core.DependencyInjection
 
             services.AddSingleton<Project>();
             services.AddSingleton<MasterBeat>();
+            // Server and Client stay registered until the Studio UI moves to SyncPeer.
             services.AddSingleton<Server>();
 
             services.AddSingleton<ControlActivationService>();
@@ -44,6 +45,10 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<AssetRepository>();
             services.AddSingleton<MessageCollectionManagerHandler>();
             services.AddSingleton<Client>();
+
+            services.AddSingleton<ISyncTarget, ProjectSyncTarget>();
+            services.AddSingleton<Func<SyncOptions, ISyncStore>>(_ => options => new RedisSyncStore(options));
+            services.AddSingleton<SyncPeer>();
         }
 
         public void ConfigureWpfTransport(IServiceProvider provider, Action<Action> dispatcher)
@@ -66,6 +71,25 @@ namespace CMiX.Core.DependencyInjection
         {
             services.AddSingleton<ManagerReorderServiceFactory>(
                 _ => (collection, onMove) => null);
+        }
+
+        public void ConfigureStudioTransport(IServiceProvider provider, Action<Action> dispatcher, SyncOptions options)
+        {
+            var messenger = provider.GetRequiredService<ControlMessenger>();
+            var peer = provider.GetRequiredService<SyncPeer>();
+            peer.SetDispatcher(dispatcher);
+            messenger.Register(peer);
+            peer.CompactionEnabled = true;
+            peer.ListPeersEnabled = true;
+            peer.Start(options with { Role = "studio" }, autoJoin: false);
+        }
+
+        public void ConfigureEngineTransport(IServiceProvider provider, SyncOptions options)
+        {
+            var messenger = provider.GetRequiredService<ControlMessenger>();
+            var peer = provider.GetRequiredService<SyncPeer>();
+            messenger.Register(peer);
+            peer.Start(options, autoJoin: true);
         }
     }
 }
