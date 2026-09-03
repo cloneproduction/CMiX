@@ -140,6 +140,32 @@ namespace CMiX.Core.Tests
             Assert.Equal(last, await store.ReadTailAsync());
         }
 
+        // The tail key spares every heartbeat tick an XINFO STREAM, which returns the first and the
+        // last entry with their payloads.
+        [SkippableFact]
+        public async Task AppendAsync_KeepsTheTailInAKey_AndReadTailAsyncFallsBackToTheStream()
+        {
+            Skip.IfNot(_fixture.Available, SkipReason);
+
+            await using var store = await ConnectedStore();
+            var database = _fixture.Multiplexer.GetDatabase();
+            var tailKey = _prefix + ":tail";
+
+            Assert.False(await database.KeyExistsAsync(tailKey));
+            Assert.Equal(StreamPosition.Zero, await store.ReadTailAsync());
+
+            await store.AppendAsync(Payload("a"));
+            await store.AppendAsync(Payload("b"));
+            var third = await store.AppendAsync(Payload("c"));
+
+            Assert.Equal(third.ToString(), (string)await database.StringGetAsync(tailKey));
+            Assert.Equal(third, await store.ReadTailAsync());
+
+            // A store that was written before the key existed.
+            await database.KeyDeleteAsync(tailKey);
+            Assert.Equal(third, await store.ReadTailAsync());
+        }
+
         [SkippableFact]
         public async Task TrimAsync_RemovesEntriesBelowMinId()
         {

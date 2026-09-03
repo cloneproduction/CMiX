@@ -101,12 +101,17 @@ namespace CMiX.Core.Tests
 
         private int _writeSnapshotCalls;
         private int _failedCalls;
+        private int _oldestReadCalls;
 
         public ConcurrentBag<int> CallThreads { get; } = new();
         public bool Fail { get; set; }
         public int FailedCalls => Volatile.Read(ref _failedCalls);
 
         public int WriteSnapshotCalls => Volatile.Read(ref _writeSnapshotCalls);
+
+        // The reads of the oldest entry, the call that a heartbeat tick makes only for a gap check.
+        public int OldestReadCalls => Volatile.Read(ref _oldestReadCalls);
+
         public ConcurrentQueue<StreamPosition> TrimCalls { get; } = new();
 
         // Lets a test hold a snapshot read open, to check what happens during a join.
@@ -177,7 +182,14 @@ namespace CMiX.Core.Tests
 
             return await _inner.AppendAsync(envelope);
         }
-        public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) { Enter(); return _inner.ReadRangeAsync(afterExclusive, count); }
+        public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count)
+        {
+            Enter();
+            if (afterExclusive == StreamPosition.Zero && count == 1)
+                Interlocked.Increment(ref _oldestReadCalls);
+
+            return _inner.ReadRangeAsync(afterExclusive, count);
+        }
         public async Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct)
         {
             Enter();

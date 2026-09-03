@@ -19,6 +19,8 @@ namespace CMiX.Core.Tests
         private readonly SemaphoreSlim _wakeSignal = new(0, 1);
 
         private Snapshot _snapshot;
+        // The last ID given out. A trim does not lower it, like the tail key of the Redis store.
+        private StreamPosition _tail;
         private long _ms;
         private bool _isConnected;
 
@@ -107,6 +109,7 @@ namespace CMiX.Core.Tests
             {
                 id = new StreamPosition(++_ms, 0);
                 _entries.Add(new StreamEntry(id, envelope));
+                _tail = id;
             }
 
             Wake();
@@ -160,7 +163,7 @@ namespace CMiX.Core.Tests
             RequireConnection();
 
             lock (_gate)
-                return Task.FromResult(_entries.Count == 0 ? StreamPosition.Zero : _entries[_entries.Count - 1].Id);
+                return Task.FromResult(_tail);
         }
 
         public Task TrimAsync(StreamPosition minId)

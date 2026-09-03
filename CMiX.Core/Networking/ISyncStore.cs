@@ -46,7 +46,8 @@ namespace CMiX.Core.Networking
         // wake-up signal and then reads once more. Returns an empty list on timeout.
         Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct);
 
-        // The ID of the newest entry, or StreamPosition.Zero when the stream is empty or missing.
+        // The ID of the newest entry, or StreamPosition.Zero when the store never gave one out. A
+        // trim does not lower it.
         Task<StreamPosition> ReadTailAsync();
 
         // Removes the entries with an ID lower than minId.

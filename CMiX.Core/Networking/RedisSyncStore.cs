@@ -22,6 +22,7 @@ namespace CMiX.Core.Networking
         private readonly ConfigurationOptions _configuration;
         private readonly string _snapshotKey;
         private readonly string _streamKey;
+        private readonly string _tailKey;
         private readonly string _peerKeyPrefix;
         private readonly RedisChannel _wakeChannel;
         private readonly SemaphoreSlim _wakeSignal = new(0, 1);
@@ -55,6 +56,7 @@ namespace CMiX.Core.Networking
 
             _snapshotKey = _options.KeyPrefix + ":snapshot";
             _streamKey = _options.KeyPrefix + ":updates";
+            _tailKey = _options.KeyPrefix + ":tail";
             _peerKeyPrefix = _options.KeyPrefix + ":peers:";
             _wakeChannel = RedisChannel.Literal(_options.KeyPrefix + ":wake");
         }
@@ -250,6 +252,9 @@ namespace CMiX.Core.Networking
         {
             var database = Database();
             var id = await database.StreamAddAsync(_streamKey, EnvelopeField, envelope).ConfigureAwait(false);
+            // The tail key spares every reader an XINFO of the stream. One connection keeps the
+            // order, so no reader is woken before the key holds the new ID.
+            await database.StringSetAsync(_tailKey, id).ConfigureAwait(false);
             await database.PublishAsync(_wakeChannel, RedisValue.EmptyString).ConfigureAwait(false);
             return StreamPosition.Parse(id);
         }
@@ -277,25 +282,20 @@ namespace CMiX.Core.Networking
             return await ReadRangeAsync(afterExclusive, BlockingReadCount).ConfigureAwait(false);
         }
 
+        // XINFO STREAM returns the first and the last entry with their payloads, so the tail key is
+        // read instead. A store written before the key existed falls back to the newest entry.
         public async Task<StreamPosition> ReadTailAsync()
         {
             var database = Database();
-            if (!await database.KeyExistsAsync(_streamKey).ConfigureAwait(false))
+            var value = await database.StringGetAsync(_tailKey).ConfigureAwait(false);
+            if (StreamPosition.TryParse(value, out var tail))
+                return tail;
+
+            var entries = await database.StreamRangeAsync(_streamKey, "-", "+", 1, Order.Descending).ConfigureAwait(false);
+            if (entries == null || entries.Length == 0)
                 return StreamPosition.Zero;
 
-            try
-            {
-                var info = await database.StreamInfoAsync(_streamKey).ConfigureAwait(false);
-                if (info.Length == 0)
-                    return StreamPosition.Zero;
-
-                return StreamPosition.TryParse(info.LastGeneratedId, out var id) ? id : StreamPosition.Zero;
-            }
-            catch (RedisServerException)
-            {
-                // The key went away between the check and the read.
-                return StreamPosition.Zero;
-            }
+            return StreamPosition.TryParse(entries[0].Id, out var id) ? id : StreamPosition.Zero;
         }
 
         // XTRIM goes through ExecuteAsync because the typed API only offers MAXLEN.

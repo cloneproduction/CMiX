@@ -306,7 +306,7 @@ namespace CMiX.Core.Networking
 
                 outgoing = Task.Run(() => _outgoing.RunAsync(store, OnSentAsync, ct), ct);
                 var presenceLoop = new Presence(store, _peerId, HeartbeatFields, () => ListPeersEnabled,
-                    tick => OnPresenceTickAsync(store, generation, tick));
+                    () => LastAppliedId, tick => OnPresenceTickAsync(store, generation, tick));
                 presence = Task.Run(() => presenceLoop.RunAsync(ct), ct);
 
                 await OnConnectedAsync(ct).ConfigureAwait(false);

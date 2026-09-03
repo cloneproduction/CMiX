@@ -16,14 +16,17 @@ namespace CMiX.Core.Networking
         private readonly string _peerId;
         private readonly Func<IReadOnlyDictionary<string, string>> _fields;
         private readonly Func<bool> _listPeers;
+        private readonly Func<StreamPosition> _position;
         private readonly Func<PresenceTick, Task> _onTick;
 
-        public Presence(ISyncStore store, string peerId, Func<IReadOnlyDictionary<string, string>> fields, Func<bool> listPeers, Func<PresenceTick, Task> onTick)
+        public Presence(ISyncStore store, string peerId, Func<IReadOnlyDictionary<string, string>> fields, Func<bool> listPeers,
+            Func<StreamPosition> position, Func<PresenceTick, Task> onTick)
         {
             _store = store;
             _peerId = peerId;
             _fields = fields;
             _listPeers = listPeers;
+            _position = position;
             _onTick = onTick;
         }
 
@@ -36,8 +39,17 @@ namespace CMiX.Core.Networking
                     await _store.HeartbeatAsync(_peerId, _fields(), SyncTimings.HeartbeatTtl).ConfigureAwait(false);
                     var tail = await _store.ReadTailAsync().ConfigureAwait(false);
                     var snapshotId = await _store.ReadSnapshotIdAsync().ConfigureAwait(false);
-                    var first = await _store.ReadRangeAsync(StreamPosition.Zero, 1).ConfigureAwait(false);
-                    var oldest = first.Count > 0 ? first[0].Id : (StreamPosition?)null;
+
+                    // A joined peer is at or above the snapshot, so the oldest entry is read only
+                    // when a gap is possible.
+                    var oldest = (StreamPosition?)null;
+                    if (snapshotId > _position())
+                    {
+                        var first = await _store.ReadRangeAsync(StreamPosition.Zero, 1).ConfigureAwait(false);
+                        if (first.Count > 0)
+                            oldest = first[0].Id;
+                    }
+
                     var peers = _listPeers() ? await _store.ListPeersAsync().ConfigureAwait(false) : null;
                     await _onTick(new PresenceTick(tail, snapshotId, oldest, peers)).ConfigureAwait(false);
                 }

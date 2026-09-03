@@ -435,6 +435,44 @@ namespace CMiX.Core.Tests
             Assert.Empty(target.Applied);
         }
 
+        // The oldest entry tells a gap from a lag. A joined peer is at or above the snapshot, so an
+        // idle tick must not read it. Every read of it costs one payload on every engine.
+        [Fact]
+        public async Task AnIdleTick_ReadsTheOldestEntryOnlyWhenTheSnapshotIsAhead()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
+
+            await Task.Delay(5000);
+            Assert.Equal(0, store.OldestReadCalls);
+
+            // The follower waits here, so only a tick can read the oldest entry of the gap.
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeReadBlocking = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+
+            var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var model = ModelWithOneComposition();
+            await inner.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
+            await inner.TrimAsync(tail);
+
+            await WaitUntilAsync(() => store.OldestReadCalls > 0, 15000, () => $"status={peer.Status}");
+            release.SetResult(true);
+
+            await WaitUntilAsync(() => target.SnapshotsApplied == 1, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
+            Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
+            Assert.Equal(tail, peer.LastAppliedId);
+        }
+
         // A store can hold an entry that no reader can deserialize. It must not stop the follower.
         [Fact]
         public async Task ACorruptEntry_IsSkipped_AndTheNextEntryIsApplied()
