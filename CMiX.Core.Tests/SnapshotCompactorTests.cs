@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using CMiX.Core.BaseControls;
@@ -424,6 +425,43 @@ namespace CMiX.Core.Tests
 
             gate.SetResult(true);
             Assert.Same(stopped, await Task.WhenAny(stopped, Task.Delay(1000)));
+        }
+
+        // The compactor reads the count in the notification. A notification before the entry left
+        // the queue shows one pending message, and the deferred capture waits for the next message.
+        [Fact]
+        public async Task PendingCount_IsNotifiedAfterTheEntryLeftTheQueue()
+        {
+            using var dispatcher = new SingleThreadDispatcher();
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = Studio(target, store, Delay);
+            peer.SetDispatcher(dispatcher.Post);
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            var counts = new ConcurrentQueue<int>();
+            peer.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName == nameof(SyncPeer.PendingMessages))
+                    counts.Enqueue(peer.PendingMessages);
+            };
+
+            // The send notifies with one pending message. The loop notifies again with none.
+            peer.SendMessage(ValueChange(0.25f));
+            await WaitUntilAsync(() => counts.Count >= 2 && peer.PendingMessages == 0 && peer.LastAppliedId >= peer.LastSentId,
+                5000, () => $"counts={counts.Count} pending={peer.PendingMessages}");
+
+            Assert.Equal(0, counts.ToArray().Last());
+
+            // The add asks for a capture while the entry is pending. The notification after the
+            // entry releases it.
+            var writes = store.WriteSnapshotCalls;
+            peer.SendMessage(AddItem());
+
+            await WaitUntilAsync(() => store.WriteSnapshotCalls > writes, (int)Delay.TotalMilliseconds * 4,
+                () => $"writes={store.WriteSnapshotCalls} pending={peer.PendingMessages}");
         }
 
         [Fact]

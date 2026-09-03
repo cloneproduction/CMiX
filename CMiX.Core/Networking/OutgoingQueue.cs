@@ -19,8 +19,10 @@ namespace CMiX.Core.Networking
 
         // A failed append waits and retries the same entry, so nothing is lost or reordered while
         // the store is down. onSent returns false when the run is over. The entry then stays in the
-        // queue for the loop of the next run.
-        public async Task RunAsync(ISyncStore store, Func<StreamPosition, Task<bool>> onSent, CancellationToken ct)
+        // queue for the loop of the next run. onDrained comes after the entry left the queue, so a
+        // listener of it reads the true pending count.
+        public async Task RunAsync(ISyncStore store, Func<StreamPosition, Task<bool>> onSent, Func<Task> onDrained,
+            CancellationToken ct)
         {
             await _consumer.WaitAsync(ct).ConfigureAwait(false);
             try
@@ -50,6 +52,7 @@ namespace CMiX.Core.Networking
                         if (!await onSent(id).ConfigureAwait(false)) return;
 
                         reader.TryRead(out _);
+                        await onDrained().ConfigureAwait(false);
                     }
                 }
             }
