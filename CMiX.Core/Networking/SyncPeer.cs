@@ -40,6 +40,7 @@ namespace CMiX.Core.Networking
         private bool _compactionEnabled;
         private CancellationTokenSource _cts;
         private CancellationTokenSource _followerCts;
+        private StreamFollower _follower;
         private Task _followerTask;
         private Task _runTask;
         private TaskCompletionSource<bool> _stopped;
@@ -198,6 +199,7 @@ namespace CMiX.Core.Networking
             var store = _store;
             _cts = null;
             _followerCts = null;
+            _follower = null;
             _followerTask = null;
             _runTask = null;
             _store = null;
@@ -499,6 +501,11 @@ namespace CMiX.Core.Networking
                 if (connected && _compactor != null && _compactor.HasFailed)
                     _compactor.Request();
             });
+
+            // The follower can wait out a long backoff. Only the follower of the current run gets
+            // the signal, because Stop and a new join clear the field.
+            if (connected)
+                _follower?.Wake();
 
             // A reconnect while the peer is not in sync. The store state can have changed.
             if (connected && _started && _afterFirstConnect && !IsJoined)
@@ -854,6 +861,7 @@ namespace CMiX.Core.Networking
             var followerCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token);
             var follower = new StreamFollower(store, () => LastAppliedId, ApplyEntryAsync, () => OnFollowerErrorAsync(store, generation));
             _followerCts = followerCts;
+            _follower = follower;
             _followerTask = Task.Run(() => follower.RunAsync(followerCts.Token), followerCts.Token);
         }
 
@@ -862,6 +870,7 @@ namespace CMiX.Core.Networking
             var cts = _followerCts;
             var task = _followerTask;
             _followerCts = null;
+            _follower = null;
             _followerTask = null;
             if (cts == null) return;
 

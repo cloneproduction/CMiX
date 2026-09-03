@@ -13,6 +13,7 @@ namespace CMiX.Core.Networking
         private readonly Func<StreamPosition> _position;
         private readonly Func<StreamEntry, Task> _apply;
         private readonly Func<Task> _onError;
+        private readonly SemaphoreSlim _wakeSignal = new(0, 1);
 
         public StreamFollower(ISyncStore store, Func<StreamPosition> position, Func<StreamEntry, Task> apply, Func<Task> onError)
         {
@@ -20,6 +21,22 @@ namespace CMiX.Core.Networking
             _position = position;
             _apply = apply;
             _onError = onError;
+        }
+
+        // Ends the recovery wait. The peer calls this on a reconnect, so the follower does not sleep
+        // out a backoff of up to ten seconds while the store is back.
+        public void Wake()
+        {
+            if (_wakeSignal.CurrentCount > 0)
+                return;
+
+            try
+            {
+                _wakeSignal.Release();
+            }
+            catch (SemaphoreFullException)
+            {
+            }
         }
 
         public async Task RunAsync(CancellationToken ct)
@@ -54,7 +71,7 @@ namespace CMiX.Core.Networking
             {
                 try
                 {
-                    await Task.Delay(backoff, ct).ConfigureAwait(false);
+                    await _wakeSignal.WaitAsync(backoff, ct).ConfigureAwait(false);
                     await _onError().ConfigureAwait(false);
                     return true;
                 }

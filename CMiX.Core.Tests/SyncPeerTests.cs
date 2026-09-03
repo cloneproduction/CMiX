@@ -985,6 +985,31 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.ErrorMessage.Length == 0, detail: () => $"error={peer.ErrorMessage}");
         }
 
+        // A long outage grows the recovery backoff to ten seconds. Without the wake the peer reads
+        // nothing for the rest of that wait, although the store is back.
+        [Fact]
+        public async Task Reconnect_DuringAFollowerRecovery_ReadsAtOnce()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store);
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            store.SetFail(true);
+            await WaitUntilAsync(() => store.FailedCalls >= 3, 20000, () => $"failed={store.FailedCalls}");
+
+            // The heartbeat fails too, so the count alone does not say how long the follower waits.
+            // After this delay the backoff is at eight seconds.
+            await Task.Delay(8000);
+
+            store.SetFail(false);
+            await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+
+            await WaitUntilAsync(() => target.Applied.Count == 1, 2000, () => $"applied={target.Applied.Count}");
+        }
+
         // A store that fails its data calls while it still reports the connection, like a Redis
         // client whose commands time out. A test can also take the connection away.
         private sealed class UnreliableSyncStore : ISyncStore
