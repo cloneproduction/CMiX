@@ -212,7 +212,7 @@ namespace CMiX.Core.Tests
 
                 peer.Start(Options("Studio"), autoJoin: false);
                 await WaitUntilAsync(() => peer.IsJoined, 5000, () => $"iteration {i} status={peer.Status}");
-                await Task.Delay(150);
+                await Task.Delay(1000);
 
                 Assert.Equal(1, peer.SentMessages);
                 Assert.Single(inner.Entries);

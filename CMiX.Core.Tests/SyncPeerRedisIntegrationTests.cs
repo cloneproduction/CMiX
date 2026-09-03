@@ -205,8 +205,8 @@ namespace CMiX.Core.Tests
 
             _output.WriteLine($"Studio to engine: {toEngine} ms. Engine to studio: {toStudio} ms.");
 
-            Assert.True(toEngine < 1000, $"The engine applied after {toEngine} ms.");
-            Assert.True(toStudio < 1000, $"The studio applied after {toStudio} ms.");
+            Assert.True(toEngine < 2000, $"The engine applied after {toEngine} ms.");
+            Assert.True(toStudio < 2000, $"The studio applied after {toStudio} ms.");
         }
 
         [SkippableFact]

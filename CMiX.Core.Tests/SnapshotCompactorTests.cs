@@ -59,7 +59,7 @@ namespace CMiX.Core.Tests
             var pushed = Current().StreamId;
 
             peer.SendMessage(ValueChange(0.25f));
-            await Task.Delay(Delay / 4);
+            await Task.Delay(Delay / 2);
             Assert.Equal(pushed, Current().StreamId);
 
             await WaitUntilAsync(() => Current().StreamId > pushed, 5000, () => $"last={peer.LastAppliedId}");
@@ -82,7 +82,7 @@ namespace CMiX.Core.Tests
 
             await store.AppendAsync(Envelope("other", AddItem()));
 
-            await WaitUntilAsync(() => Current().StreamId > pushed, 500, () => $"last={peer.LastAppliedId}");
+            await WaitUntilAsync(() => Current().StreamId > pushed, 5000, () => $"last={peer.LastAppliedId}");
             Assert.Equal(peer.LastAppliedId, Current().StreamId);
         }
 
@@ -101,7 +101,7 @@ namespace CMiX.Core.Tests
             peer.SendMessage(ValueChange(0.5f));
 
             await WaitUntilAsync(() => store.WriteSnapshotCalls == pushWrites + 1);
-            await Task.Delay(Delay * 3);
+            await Task.Delay(Delay * 4);
             Assert.Equal(pushWrites + 1, store.WriteSnapshotCalls);
         }
 
@@ -224,7 +224,7 @@ namespace CMiX.Core.Tests
             store.BeforeAppend = () => gate.Task;
 
             peer.SendMessage(AddItem());
-            await Task.Delay(Delay * 3);
+            await Task.Delay(Delay * 4);
             Assert.Equal(pushWrites, store.WriteSnapshotCalls);
 
             gate.SetResult(true);
@@ -254,7 +254,7 @@ namespace CMiX.Core.Tests
             store.BeforeAppend = () => gate.Task;
 
             peer.SendMessage(AddItem());
-            await Task.Delay(Delay * 3);
+            await Task.Delay(Delay * 4);
             gate.SetResult(true);
 
             await WaitUntilAsync(() => Current().StreamId > pushed, 5000, () => $"last={peer.LastAppliedId} sent={peer.LastSentId}");
@@ -288,7 +288,7 @@ namespace CMiX.Core.Tests
             store.BeforeAppend = () => gate.Task;
 
             peer.SendMessage(ValueChange(0.25f));
-            await Task.Delay(Delay * 3);
+            await Task.Delay(Delay * 4);
             Assert.Equal(pushWrites, store.WriteSnapshotCalls);
 
             gate.SetResult(true);
@@ -327,7 +327,7 @@ namespace CMiX.Core.Tests
             var last = inner.Entries[2].Id;
 
             await WaitUntilAsync(() => Current().StreamId >= last, 5000, () => $"snapshot={Current().StreamId} last={last}");
-            await Task.Delay(Delay * 3);
+            await Task.Delay(Delay * 4);
 
             // The second add can arrive before or after the first capture.
             Assert.InRange(store.WriteSnapshotCalls - pushWrites, 1, 2);

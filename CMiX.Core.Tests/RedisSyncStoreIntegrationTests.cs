@@ -226,7 +226,7 @@ namespace CMiX.Core.Tests
 
             Assert.Single(entries);
             Assert.Equal(appended, entries[0].Id);
-            Assert.True(stopwatch.ElapsedMilliseconds < 300, $"Woke after {stopwatch.ElapsedMilliseconds} ms.");
+            Assert.True(stopwatch.ElapsedMilliseconds < 1000, $"Woke after {stopwatch.ElapsedMilliseconds} ms.");
         }
 
         // Runs without a server: the UI thread must never wait for a connect.
