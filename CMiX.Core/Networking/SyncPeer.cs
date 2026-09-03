@@ -102,6 +102,10 @@ namespace CMiX.Core.Networking
         [NotifyPropertyChangedFor(nameof(IsInSync))]
         private StreamPosition _tailId;
 
+        // The ID of the last own entry the store confirmed.
+        [ObservableProperty]
+        private StreamPosition _lastSentId;
+
         [ObservableProperty]
         private string _errorMessage = string.Empty;
 
@@ -183,6 +187,9 @@ namespace CMiX.Core.Networking
             _activity = null;
             _wasConnected = false;
             _afterFirstConnect = false;
+            // A new store can restart its IDs. A kept position would look like an entry that never
+            // arrives.
+            LastSentId = StreamPosition.Zero;
             IsConnected = false;
             IsJoined = false;
             OnPropertyChanged(nameof(Status));
@@ -382,9 +389,12 @@ namespace CMiX.Core.Networking
             }
         }
 
+        // The new position comes before the count, so a reader of both never sees a caught-up peer
+        // while the entry is still on its way.
         private Task OnSentAsync(StreamPosition id) => DispatchAsync(() =>
         {
             SentMessages++;
+            LastSentId = id;
             OnPropertyChanged(nameof(PendingMessages));
         });
 
@@ -558,6 +568,7 @@ namespace CMiX.Core.Networking
 
             await DispatchAsync(() =>
             {
+                LastSentId = id;
                 LastAppliedId = id;
                 TailId = id;
                 SentMessages++;

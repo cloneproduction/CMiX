@@ -1,6 +1,7 @@
 // Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.ComponentModel;
 using System.Diagnostics;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
@@ -25,6 +26,7 @@ namespace CMiX.Core.Networking
         private bool _running;
         private bool _dirty;
         private bool _pending;
+        private bool _deferred;
         private bool _disposed;
 
         public SnapshotCompactor(SyncPeer peer, ISyncTarget target, ISyncStore store, Func<Action, Task> dispatch, TimeSpan? delay = null)
@@ -38,6 +40,7 @@ namespace CMiX.Core.Networking
 
             _peer.MessageApplied += OnMessageApplied;
             _peer.MessageSent += OnMessageSent;
+            _peer.PropertyChanged += OnPeerPropertyChanged;
         }
 
         // True while a compaction runs and a newer message asks for one more.
@@ -59,10 +62,12 @@ namespace CMiX.Core.Networking
                 _disposed = true;
                 _pending = false;
                 _dirty = false;
+                _deferred = false;
             }
 
             _peer.MessageApplied -= OnMessageApplied;
             _peer.MessageSent -= OnMessageSent;
+            _peer.PropertyChanged -= OnPeerPropertyChanged;
             _timer.Dispose();
         }
 
@@ -76,6 +81,16 @@ namespace CMiX.Core.Networking
             await _dispatch(() =>
             {
                 if (!_peer.IsJoined) return;
+
+                // The model already holds the own edits. The snapshot must not take a position
+                // below the entries of those edits, or a late peer replays them on top.
+                if (!IsCaughtUp())
+                {
+                    lock (_gate)
+                        _deferred = true;
+
+                    return;
+                }
 
                 model = _target.Capture();
                 lastAppliedId = _peer.LastAppliedId;
@@ -96,6 +111,25 @@ namespace CMiX.Core.Networking
             var oldest = tailId.Milliseconds - (long)SyncTimings.Retention.TotalMilliseconds;
             var byRetention = oldest <= 0 ? StreamPosition.Zero : new StreamPosition(oldest, 0);
             return byRetention < lastAppliedId ? byRetention : lastAppliedId;
+        }
+
+        // True when every own entry is in the store and back in the own state.
+        private bool IsCaughtUp() => _peer.PendingMessages == 0 && _peer.LastAppliedId >= _peer.LastSentId;
+
+        // Runs on the dispatcher thread. It only releases a deferred capture.
+        private void OnPeerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(SyncPeer.LastAppliedId) && e.PropertyName != nameof(SyncPeer.PendingMessages))
+                return;
+
+            lock (_gate)
+            {
+                if (_disposed || !_deferred || !IsCaughtUp()) return;
+
+                _deferred = false;
+            }
+
+            Request();
         }
 
         private void OnMessageApplied(StreamEntry entry, IMessage message) => OnMessage(message);

@@ -98,6 +98,9 @@ namespace CMiX.Core.Tests
         // Lets a test hold a snapshot write open, to check what happens during a compaction.
         public Func<Task> BeforeWriteSnapshot { get; set; }
 
+        // Lets a test hold an append open, to check what happens while an own entry is pending.
+        public Func<Task> BeforeAppend { get; set; }
+
         public bool IsConnected => !Fail && _inner.IsConnected;
         public event Action<bool> ConnectionChanged;
 
@@ -129,7 +132,15 @@ namespace CMiX.Core.Tests
 
             await _inner.WriteSnapshotAsync(snapshot);
         }
-        public Task<StreamPosition> AppendAsync(byte[] envelope) { Enter(); return _inner.AppendAsync(envelope); }
+        public async Task<StreamPosition> AppendAsync(byte[] envelope)
+        {
+            Enter();
+            var gate = BeforeAppend;
+            if (gate != null)
+                await gate();
+
+            return await _inner.AppendAsync(envelope);
+        }
         public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) { Enter(); return _inner.ReadRangeAsync(afterExclusive, count); }
         public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) { Enter(); return _inner.ReadBlockingAsync(afterExclusive, timeout, ct); }
         public Task<StreamPosition> ReadTailAsync() { Enter(); return _inner.ReadTailAsync(); }

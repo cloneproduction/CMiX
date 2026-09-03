@@ -207,6 +207,134 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public async Task Add_WhileTheEntryIsPending_CapturesOnlyAfterTheAppend()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = Studio(target, store, Delay);
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            Snapshot Current() => inner.ReadSnapshotAsync().GetAwaiter().GetResult();
+            var pushWrites = store.WriteSnapshotCalls;
+            var pushed = Current().StreamId;
+
+            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeAppend = () => gate.Task;
+
+            peer.SendMessage(AddItem());
+            await Task.Delay(Delay * 3);
+            Assert.Equal(pushWrites, store.WriteSnapshotCalls);
+
+            gate.SetResult(true);
+            await WaitUntilAsync(() => inner.Entries.Count == 2);
+            var added = inner.Entries[1].Id;
+
+            await WaitUntilAsync(() => Current().StreamId > pushed, 5000, () => $"last={peer.LastAppliedId} sent={peer.LastSentId}");
+            var snapshot = Current();
+            Assert.True(snapshot.StreamId >= added, $"snapshot={snapshot.StreamId} added={added}");
+            Assert.True(snapshot.StreamId >= peer.LastSentId, $"snapshot={snapshot.StreamId} sent={peer.LastSentId}");
+        }
+
+        [Fact]
+        public async Task LateJoiner_AfterADeferredCapture_DoesNotReplayTheAdd()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = Studio(target, store, Delay);
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            Snapshot Current() => inner.ReadSnapshotAsync().GetAwaiter().GetResult();
+            var pushed = Current().StreamId;
+
+            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeAppend = () => gate.Task;
+
+            peer.SendMessage(AddItem());
+            await Task.Delay(Delay * 3);
+            gate.SetResult(true);
+
+            await WaitUntilAsync(() => Current().StreamId > pushed, 5000, () => $"last={peer.LastAppliedId} sent={peer.LastSentId}");
+
+            var lateTarget = new RecordingSyncTarget();
+            using var late = CreatePeer(lateTarget, store, isWriter: false);
+            late.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => late.IsJoined);
+            await WaitUntilAsync(() => late.LastAppliedId == peer.LastAppliedId, 5000,
+                () => $"late={late.LastAppliedId} studio={peer.LastAppliedId}");
+
+            Assert.Equal(1, lateTarget.SnapshotsApplied);
+            Assert.DoesNotContain(lateTarget.Applied, message => message is MessageAddItem);
+        }
+
+        [Fact]
+        public async Task ValueChange_WhileTheEntryIsPending_CapturesOnlyAfterTheAppend()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = Studio(target, store, Delay);
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            Snapshot Current() => inner.ReadSnapshotAsync().GetAwaiter().GetResult();
+            var pushWrites = store.WriteSnapshotCalls;
+            var pushed = Current().StreamId;
+
+            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeAppend = () => gate.Task;
+
+            peer.SendMessage(ValueChange(0.25f));
+            await Task.Delay(Delay * 3);
+            Assert.Equal(pushWrites, store.WriteSnapshotCalls);
+
+            gate.SetResult(true);
+            await WaitUntilAsync(() => inner.Entries.Count == 2);
+            var changed = inner.Entries[1].Id;
+
+            await WaitUntilAsync(() => Current().StreamId > pushed, 5000, () => $"last={peer.LastAppliedId} sent={peer.LastSentId}");
+            var snapshot = Current();
+            Assert.True(snapshot.StreamId >= changed, $"snapshot={snapshot.StreamId} changed={changed}");
+            Assert.True(snapshot.StreamId >= peer.LastSentId, $"snapshot={snapshot.StreamId} sent={peer.LastSentId}");
+        }
+
+        [Fact]
+        public async Task SecondAdd_DuringADeferredCapture_EndsAtTheLastEntry()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = Studio(target, store, Delay);
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            Snapshot Current() => inner.ReadSnapshotAsync().GetAwaiter().GetResult();
+            var pushWrites = store.WriteSnapshotCalls;
+
+            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeAppend = () => gate.Task;
+
+            peer.SendMessage(AddItem());
+            await Task.Delay(Delay);
+            peer.SendMessage(AddItem());
+            Assert.Equal(pushWrites, store.WriteSnapshotCalls);
+
+            gate.SetResult(true);
+            await WaitUntilAsync(() => inner.Entries.Count == 3);
+            var last = inner.Entries[2].Id;
+
+            await WaitUntilAsync(() => Current().StreamId >= last, 5000, () => $"snapshot={Current().StreamId} last={last}");
+            await Task.Delay(Delay * 3);
+
+            // The second add can arrive before or after the first capture.
+            Assert.InRange(store.WriteSnapshotCalls - pushWrites, 1, 2);
+            Assert.True(Current().StreamId >= last, $"snapshot={Current().StreamId} last={last}");
+        }
+
+        [Fact]
         public async Task MessageDuringACompaction_CompactsOnceMoreAfterIt()
         {
             var inner = new InMemorySyncStore();
