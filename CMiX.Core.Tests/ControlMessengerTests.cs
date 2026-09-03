@@ -8,7 +8,7 @@ namespace CMiX.Core.Tests
     public class ControlMessengerTests
     {
         [Fact]
-        public void WhileBlocked_ContentMessagesAreDropped_ButSyncProtocolStillSends()
+        public void WhileBlocked_EverythingIsDropped()
         {
             var messenger = new ControlMessenger();
             var sender = new RecordingMessageSender();
@@ -18,8 +18,7 @@ namespace CMiX.Core.Tests
             messenger.SendMessage(new MessageValueChanged());
             messenger.SendMessage(new MessageProjectSnapshot(Guid.NewGuid(), new ProjectModel()));
 
-            Assert.Single(sender.Sent);
-            Assert.All(sender.Sent, m => Assert.True(SyncProtocolMessages.IsSyncProtocol(m)));
+            Assert.Empty(sender.Sent);
         }
 
         [Fact]
