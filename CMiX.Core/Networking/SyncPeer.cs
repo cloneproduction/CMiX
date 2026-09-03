@@ -147,7 +147,13 @@ namespace CMiX.Core.Networking
         [ObservableProperty]
         private long _appliedMessages;
 
-        partial void OnIsJoinedChanged(bool value) => _messenger.IsSendingBlocked = !value;
+        // The queue appends only while the peer is joined, so entries from before a restart never
+        // land on a store the user has not chosen yet.
+        partial void OnIsJoinedChanged(bool value)
+        {
+            _messenger.IsSendingBlocked = !value;
+            _outgoing.SetOpen(value);
+        }
 
         public bool IsInSync => IsConnected && IsJoined && LastAppliedId == TailId;
 
@@ -626,6 +632,12 @@ namespace CMiX.Core.Networking
                 await StopFollowerAsync().ConfigureAwait(false);
                 await SetActivityAsync("Joining").ConfigureAwait(false);
 
+                // The store state replaces the local one, so the local edits in the queue go away.
+                // An append in flight lands before the read, so it is part of what is adopted.
+                _outgoing.Discard();
+                await _outgoing.IdleAsync(ct).ConfigureAwait(false);
+                if (!IsCurrent(store, generation)) return;
+
                 var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
                 if (!IsCurrent(store, generation)) return;
 
@@ -752,6 +764,12 @@ namespace CMiX.Core.Networking
         // the late ones, then trims everything older.
         private async Task PushCoreAsync(ISyncStore store, int generation)
         {
+            // The model holds every queued edit, so the queue is emptied. An append in flight must
+            // land before the snapshot entry, or a peer applies it on top of the pushed state.
+            _outgoing.Discard();
+            await _outgoing.IdleAsync(_cts?.Token ?? CancellationToken.None).ConfigureAwait(false);
+            if (!IsCurrent(store, generation)) return;
+
             var model = await DispatchAsync(() => _target.Capture()).ConfigureAwait(false);
             if (!IsCurrent(store, generation)) return;
 

@@ -956,27 +956,120 @@ namespace CMiX.Core.Tests
 
             peer.Stop();
             peer.Start(Options("Studio"), autoJoin: true);
-            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
-            var sent = peer.SentMessages;
 
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
+            // The push of the second start waits for that append, so the release comes first.
             await WaitUntilAsync(() => !innerA.IsConnected, 15000);
             await innerA.ConnectAsync(default);
             release.SetResult(true);
+            await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
+            var sent = peer.SentMessages;
 
-            // The push of the second start, then the two messages.
-            await WaitUntilAsync(() => storeB.Entries.Count == 3, 15000,
-                () => $"entries={storeB.Entries.Count} sent={peer.LastSentId}");
+            // The push of the second start holds both edits in its model, so the queue is dropped
+            // and nothing else lands on the new store.
+            await WaitUntilAsync(() => peer.PendingMessages == 0, 15000,
+                () => $"pending={peer.PendingMessages} entries={storeB.Entries.Count}");
             await Task.Delay(300);
 
-            Assert.Equal(first, PayloadId(storeB.Entries[1]));
-            Assert.Equal(second, PayloadId(storeB.Entries[2]));
-            Assert.Equal(storeB.Entries[2].Id, peer.LastSentId);
-            Assert.Equal(sent + 2, peer.SentMessages);
+            Assert.Single(storeB.Entries);
+            Assert.Equal(storeB.Entries[0].Id, peer.LastSentId);
+            Assert.Equal(sent, peer.SentMessages);
 
             // The push of the first start, and the entry that was in flight.
             Assert.InRange(innerA.Entries.Count, 1, 2);
             Assert.Equal(string.Empty, peer.ErrorMessage);
+        }
+
+        [Fact]
+        public async Task Pull_AfterARestart_DropsTheQueuedEdits()
+        {
+            var innerA = new InMemorySyncStore();
+            var storeA = new WrappingSyncStore(innerA);
+            var storeB = new InMemorySyncStore();
+            await storeB.ConnectAsync(default);
+            var foreign = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            var model = ModelWithOneComposition();
+            await storeB.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), foreign, "other", DateTime.UtcNow));
+
+            var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
+            var target = new RecordingSyncTarget();
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true };
+
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
+
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            storeA.BeforeAppend = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+
+            var ids = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
+            foreach (var id in ids)
+                peer.SendMessage(new MessageOnClick(id));
+            await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
+
+            peer.Stop();
+            peer.Start(Options("Studio"), autoJoin: false);
+            await WaitUntilAsync(() => peer.Status == "Not in sync", 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
+
+            // Not joined, so the queue stays closed and the new store gets nothing.
+            await Task.Delay(300);
+            Assert.Single(storeB.Entries);
+
+            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
+            await innerA.ConnectAsync(default);
+            release.SetResult(true);
+
+            await peer.JoinAsync();
+            await WaitUntilAsync(() => peer.IsJoined && peer.PendingMessages == 0, 15000,
+                () => $"status={peer.Status} pending={peer.PendingMessages}");
+            await Task.Delay(300);
+
+            Assert.Single(storeB.Entries);
+            Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
+            Assert.Equal(foreign, peer.LastAppliedId);
+        }
+
+        [Fact]
+        public async Task Push_WhileEditsAreQueued_LandsAfterTheEntryInFlight_AndDropsTheRest()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+            using var peer = CreatePeer(target, store);
+            peer.Start(Options("Studio"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            store.BeforeAppend = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+
+            var ids = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
+            foreach (var id in ids)
+                peer.SendMessage(new MessageOnClick(id));
+            await WaitUntilAsync(() => reached.Task.IsCompleted);
+            var writes = store.WriteSnapshotCalls;
+
+            var push = peer.PushAsync();
+            await Task.Delay(300);
+            Assert.Equal(writes, store.WriteSnapshotCalls);
+
+            store.BeforeAppend = null;
+            release.SetResult(true);
+            await push;
+            await WaitUntilAsync(() => peer.PendingMessages == 0, 15000, () => $"pending={peer.PendingMessages}");
+
+            // The push trimmed to its own entry. The one in flight came before it, the rest never came.
+            Assert.Single(inner.Entries);
+            Assert.Equal(inner.Entries[0].Id, peer.LastSentId);
+            Assert.True(peer.IsInSync);
         }
 
         private static Guid PayloadId(StreamEntry entry)
