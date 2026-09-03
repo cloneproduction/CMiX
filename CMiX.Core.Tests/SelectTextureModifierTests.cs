@@ -11,12 +11,12 @@ namespace CMiX.Core.Tests
     public class SelectTextureModifierTests
     {
         [Fact]
-        public void SelectTextureModifier_HasNoChannels()
+        public void SelectTextureModifier_HasNoBindables()
         {
             var provider = TestServiceProviderFactory.Create();
             var selectTexture = provider.GetRequiredService<SelectTextureModifier>();
 
-            Assert.Empty(selectTexture.Channels);
+            Assert.Empty(selectTexture.Bindables);
         }
 
         [Fact]

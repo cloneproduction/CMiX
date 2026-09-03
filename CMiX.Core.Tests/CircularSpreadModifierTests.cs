@@ -13,16 +13,16 @@ namespace CMiX.Core.Tests
     public class CircularSpreadModifierTests
     {
         [Fact]
-        public void CircularSpread_HasFourChannels()
+        public void CircularSpread_HasFourBindables()
         {
             var provider = TestServiceProviderFactory.Create();
             var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
 
-            Assert.Equal(4, circularSpread.Channels.Count);
-            Assert.Equal("X", circularSpread.Channels[0].Label);
-            Assert.Equal("Y", circularSpread.Channels[1].Label);
-            Assert.Equal("Phase", circularSpread.Channels[2].Label);
-            Assert.Equal("Factor", circularSpread.Channels[3].Label);
+            Assert.Equal(4, circularSpread.Bindables.Count);
+            Assert.Equal("X", circularSpread.Bindables[0].Label);
+            Assert.Equal("Y", circularSpread.Bindables[1].Label);
+            Assert.Equal("Phase", circularSpread.Bindables[2].Label);
+            Assert.Equal("Factor", circularSpread.Bindables[3].Label);
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AllFourChannels_CanShareOneModulatorIndependently()
+        public void AllFourBindables_CanShareOneModulatorIndependently()
         {
             var provider = TestServiceProviderFactory.Create();
             var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
@@ -62,7 +62,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void CircularSpread_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void CircularSpread_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
             var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();

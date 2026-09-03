@@ -13,20 +13,20 @@ namespace CMiX.Core.Tests
     public class HSVModifierTests
     {
         [Fact]
-        public void HSVModifier_HasFourChannelsLabeledHueSaturationValueAlpha()
+        public void HSVModifier_HasFourBindablesLabeledHueSaturationValueAlpha()
         {
             var provider = TestServiceProviderFactory.Create();
             var hsv = provider.GetRequiredService<HSVModifier>();
 
-            Assert.Equal(4, hsv.Channels.Count);
-            Assert.Equal("Hue", hsv.Channels[0].Label);
-            Assert.Equal("Saturation", hsv.Channels[1].Label);
-            Assert.Equal("Value", hsv.Channels[2].Label);
-            Assert.Equal("Alpha", hsv.Channels[3].Label);
-            Assert.Same(hsv.Channels[0], hsv.Hue);
-            Assert.Same(hsv.Channels[1], hsv.Saturation);
-            Assert.Same(hsv.Channels[2], hsv.Value);
-            Assert.Same(hsv.Channels[3], hsv.Alpha);
+            Assert.Equal(4, hsv.Bindables.Count);
+            Assert.Equal("Hue", hsv.Bindables[0].Label);
+            Assert.Equal("Saturation", hsv.Bindables[1].Label);
+            Assert.Equal("Value", hsv.Bindables[2].Label);
+            Assert.Equal("Alpha", hsv.Bindables[3].Label);
+            Assert.Same(hsv.Bindables[0], hsv.Hue);
+            Assert.Same(hsv.Bindables[1], hsv.Saturation);
+            Assert.Same(hsv.Bindables[2], hsv.Value);
+            Assert.Same(hsv.Bindables[3], hsv.Alpha);
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AllFourChannels_CanShareOneModulatorIndependently()
+        public void AllFourBindables_CanShareOneModulatorIndependently()
         {
             var provider = TestServiceProviderFactory.Create();
             var hsv = provider.GetRequiredService<HSVModifier>();
@@ -66,7 +66,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void HSVModifier_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void HSVModifier_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
             var hsv = provider.GetRequiredService<HSVModifier>();

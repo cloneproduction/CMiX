@@ -12,14 +12,14 @@ namespace CMiX.Core.Tests
     public class RenderSequenceEntityModifierTests
     {
         [Fact]
-        public void RenderSequenceEntityModifier_HasOneChannelLabeledControl()
+        public void RenderSequenceEntityModifier_HasOneBindableLabeledControl()
         {
             var provider = TestServiceProviderFactory.Create();
             var render = provider.GetRequiredService<RenderSequenceEntityModifier>();
 
-            Assert.Single(render.Channels);
-            Assert.Equal("Control", render.Channels[0].Label);
-            Assert.Same(render.Channels[0], render.Control);
+            Assert.Single(render.Bindables);
+            Assert.Equal("Control", render.Bindables[0].Label);
+            Assert.Same(render.Bindables[0], render.Control);
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void RenderSequenceEntityModifier_ToModel_FromModel_RoundTripsChannelAndEntityType()
+        public void RenderSequenceEntityModifier_ToModel_FromModel_RoundTripsBindableAndEntityType()
         {
             var provider = TestServiceProviderFactory.Create();
             var render = provider.GetRequiredService<RenderSequenceEntityModifier>();

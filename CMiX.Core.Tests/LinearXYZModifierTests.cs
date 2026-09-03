@@ -13,16 +13,16 @@ namespace CMiX.Core.Tests
     public class LinearXYZModifierTests
     {
         [Fact]
-        public void LinearXYZ_HasTwoChannelsLabeledWidthAndPhase()
+        public void LinearXYZ_HasTwoBindablesLabeledWidthAndPhase()
         {
             var provider = TestServiceProviderFactory.Create();
             var linearXYZ = provider.GetRequiredService<LinearXYZModifier>();
 
-            Assert.Equal(2, linearXYZ.Channels.Count);
-            Assert.Equal("Width", linearXYZ.Channels[0].Label);
-            Assert.Equal("Phase", linearXYZ.Channels[1].Label);
-            Assert.Same(linearXYZ.Channels[0], linearXYZ.Width);
-            Assert.Same(linearXYZ.Channels[1], linearXYZ.Phase);
+            Assert.Equal(2, linearXYZ.Bindables.Count);
+            Assert.Equal("Width", linearXYZ.Bindables[0].Label);
+            Assert.Equal("Phase", linearXYZ.Bindables[1].Label);
+            Assert.Same(linearXYZ.Bindables[0], linearXYZ.Width);
+            Assert.Same(linearXYZ.Bindables[1], linearXYZ.Phase);
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void LinearXYZ_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void LinearXYZ_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
             var linearXYZ = provider.GetRequiredService<LinearXYZModifier>();

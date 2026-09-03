@@ -13,18 +13,18 @@ namespace CMiX.Core.Tests
     public class GridModifierTests
     {
         [Fact]
-        public void Grid_HasSixChannelsAcrossTwoGroups()
+        public void Grid_HasSixBindablesAcrossTwoGroups()
         {
             var provider = TestServiceProviderFactory.Create();
             var grid = provider.GetRequiredService<GridModifier>();
 
-            Assert.Equal(6, grid.Channels.Count);
-            Assert.Same(grid.Channels[0], grid.Width.X);
-            Assert.Same(grid.Channels[1], grid.Width.Y);
-            Assert.Same(grid.Channels[2], grid.Width.Z);
-            Assert.Same(grid.Channels[3], grid.Phase.X);
-            Assert.Same(grid.Channels[4], grid.Phase.Y);
-            Assert.Same(grid.Channels[5], grid.Phase.Z);
+            Assert.Equal(6, grid.Bindables.Count);
+            Assert.Same(grid.Bindables[0], grid.Width.X);
+            Assert.Same(grid.Bindables[1], grid.Width.Y);
+            Assert.Same(grid.Bindables[2], grid.Width.Z);
+            Assert.Same(grid.Bindables[3], grid.Phase.X);
+            Assert.Same(grid.Bindables[4], grid.Phase.Y);
+            Assert.Same(grid.Bindables[5], grid.Phase.Z);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Grid_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void Grid_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
             var grid = provider.GetRequiredService<GridModifier>();
@@ -114,8 +114,6 @@ namespace CMiX.Core.Tests
             grid.ModulatorManager.AddItem(typeof(BeatModulator));
             var beatModulator = (BeatModulator)grid.ModulatorManager.ManagerData.Items[0];
 
-            // Only CountX is bound - CountY/CountZ must stay unbound through the round trip,
-            // proving each axis resolves independently rather than all three collapsing together.
             grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
 
             var model = grid.ToModel();
@@ -147,8 +145,6 @@ namespace CMiX.Core.Tests
             Assert.Null(grid.ModifierModeSelector.CountX.BoundModulator);
             Assert.Null(grid.ModifierModeSelector.CountZ.ModulatorID.Value);
             Assert.Null(grid.ModifierModeSelector.CountZ.BoundModulator);
-            // CountY was never assigned - confirms the cleanup only touches axes that referenced
-            // the deleted modulator.
             Assert.Null(grid.ModifierModeSelector.CountY.ModulatorID.Value);
         }
     }

@@ -12,16 +12,16 @@ namespace CMiX.Core.Tests
     public class CameraLFOModifierTests
     {
         [Fact]
-        public void CameraLFOModifier_HasTwoChannelsLabeledFromTo()
+        public void CameraLFOModifier_HasTwoBindablesLabeledFromTo()
         {
             var provider = TestServiceProviderFactory.Create();
             var cameraLFO = provider.GetRequiredService<CameraLFOModifier>();
 
-            Assert.Equal(2, cameraLFO.Channels.Count);
-            Assert.Equal("From", cameraLFO.Channels[0].Label);
-            Assert.Equal("To", cameraLFO.Channels[1].Label);
-            Assert.Same(cameraLFO.Channels[0], cameraLFO.From);
-            Assert.Same(cameraLFO.Channels[1], cameraLFO.To);
+            Assert.Equal(2, cameraLFO.Bindables.Count);
+            Assert.Equal("From", cameraLFO.Bindables[0].Label);
+            Assert.Equal("To", cameraLFO.Bindables[1].Label);
+            Assert.Same(cameraLFO.Bindables[0], cameraLFO.From);
+            Assert.Same(cameraLFO.Bindables[1], cameraLFO.To);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void CameraLFOModifier_ToModel_FromModel_RoundTripsChannelsAndNonModulatableFields()
+        public void CameraLFOModifier_ToModel_FromModel_RoundTripsBindablesAndNonModulatableFields()
         {
             var provider = TestServiceProviderFactory.Create();
             var cameraLFO = provider.GetRequiredService<CameraLFOModifier>();

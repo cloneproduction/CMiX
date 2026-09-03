@@ -5,11 +5,6 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // ISpreadableModifier/ICameraModifier have no C# consumers - they exist purely as VL/vvvv-side
-    // reflection markers, so nothing here would fail to compile if a class silently stopped
-    // implementing one. These tests exist to catch exactly that: a future edit to any of these
-    // classes that drops the interface (as happened once already during this migration) fails
-    // loudly here instead of silently, only discoverable by opening the live VL patch.
     public class ModifierVLDiscoveryInterfaceTests
     {
         [Theory]
@@ -28,10 +23,6 @@ namespace CMiX.Core.Tests
                 $"{modifierType.Name} must implement ISpreadableModifier to stay eligible for VL-side Spread grouping, matching its old counterpart.");
         }
 
-        // GridModifier moved to the per-axis ModifierModeSelector3 (independent CountX/Y/Z
-        // ModulatableInteger channels instead of a single scalar), so it implements
-        // ISpreadableModifier3 instead of the others' plain ISpreadableModifier - same
-        // VL-discoverability guard, different marker interface.
         [Theory]
         [InlineData(typeof(GridModifier))]
         public void PortedSpreadableModifier_StillImplementsISpreadableModifier3(Type modifierType)

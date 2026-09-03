@@ -13,18 +13,18 @@ namespace CMiX.Core.Tests
     public class LFOModifierTests
     {
         [Fact]
-        public void LFOModifier_HasThreeChannelsLabeledFromToRandomizePhase()
+        public void LFOModifier_HasThreeBindablesLabeledFromToRandomizePhase()
         {
             var provider = TestServiceProviderFactory.Create();
             var lfo = provider.GetRequiredService<LFOModifier>();
 
-            Assert.Equal(3, lfo.Channels.Count);
-            Assert.Equal("From", lfo.Channels[0].Label);
-            Assert.Equal("To", lfo.Channels[1].Label);
-            Assert.Equal("Randomize Phase", lfo.Channels[2].Label);
-            Assert.Same(lfo.Channels[0], lfo.From);
-            Assert.Same(lfo.Channels[1], lfo.To);
-            Assert.Same(lfo.Channels[2], lfo.RandomizePhase);
+            Assert.Equal(3, lfo.Bindables.Count);
+            Assert.Equal("From", lfo.Bindables[0].Label);
+            Assert.Equal("To", lfo.Bindables[1].Label);
+            Assert.Equal("Randomize Phase", lfo.Bindables[2].Label);
+            Assert.Same(lfo.Bindables[0], lfo.From);
+            Assert.Same(lfo.Bindables[1], lfo.To);
+            Assert.Same(lfo.Bindables[2], lfo.RandomizePhase);
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void LFOModifier_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void LFOModifier_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
             var lfo = provider.GetRequiredService<LFOModifier>();

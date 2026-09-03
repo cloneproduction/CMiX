@@ -8,16 +8,10 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Exercises the real "Add Modifier" path (ControlFactory.Create(Type), the same call
-    // AutoSelectionPanel's Add button makes) rather than resolving modifiers directly via DI.
-    // Every other *ModifierTests.cs file in this project uses direct DI resolution, which bypasses
-    // ControlFactory.Create's FromModel(freshModel) step entirely - that step is where a fresh
-    // model's empty Channels list previously left every channel at its DI default of 0, silently
-    // dropping every old non-zero default. These tests would have caught that regression.
     public class ControlFactoryModifierCreationTests
     {
         [Fact]
-        public void FreshLFOModifier_ChannelsMatchOldLFODefaults()
+        public void FreshLFOModifier_BindablesMatchOldLFODefaults()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -29,7 +23,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FreshCircularSpread_ChannelsMatchOldCircularSpreadDefaults()
+        public void FreshCircularSpread_BindablesMatchOldCircularSpreadDefaults()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -42,7 +36,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FreshVisibilityModifier_ChannelMatchesOldRandomVisibilityDefault()
+        public void FreshVisibilityModifier_BindableMatchesOldRandomVisibilityDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -53,7 +47,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FreshRenderRandomEntityModifier_ChannelMatchesOldDefault()
+        public void FreshRenderRandomEntityModifier_BindableMatchesOldDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -64,7 +58,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FreshRenderSequenceEntityModifier_ChannelMatchesOldDefault()
+        public void FreshRenderSequenceEntityModifier_BindableMatchesOldDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -75,7 +69,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FreshCameraLFOModifier_ChannelsMatchOldCameraLFODefaults()
+        public void FreshCameraLFOModifier_BindablesMatchOldCameraLFODefaults()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -87,7 +81,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FreshGrid_NonChannelFieldsMatchOldGridDefaults()
+        public void FreshGrid_NonBindableFieldsMatchOldGridDefaults()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -111,14 +105,6 @@ namespace CMiX.Core.Tests
             Assert.Equal(ColorMode.HSV, hsv.ColorMode.Value);
         }
 
-        // Every type carrying [ModifierPanel] is reachable from some "Add Modifier" picker, which
-        // calls exactly this ControlFactory.Create(Type) path. That path requires a same-named
-        // "<FullName>Model" type to exist in the *same namespace* as the modifier itself
-        // (ControlFactory.Create does a plain string concatenation, not a smart lookup) - a type
-        // whose Model companion lives in a different namespace throws at runtime the first time
-        // anyone actually clicks "Add" for it, as TransformSRTModifier did (its Model was left in
-        // Transformation.Modifiers while the class itself is in bare Transformation). This sweep
-        // catches that class of bug for every current and future addable modifier, not just one.
         [Fact]
         public void EveryAddableModifier_CanBeCreatedViaControlFactory()
         {
@@ -147,8 +133,6 @@ namespace CMiX.Core.Tests
             Assert.IsAssignableFrom<IDisposable>(scale);
 
             scale.Dispose();
-            // After Dispose, adding a modulator must not run the (now unsubscribed) cleanup
-            // handler against a channel referencing an unrelated, already-removed modulator.
             scale.ModulatorManager.AddItem(typeof(BeatModulator));
             Assert.Single(scale.ModulatorManager.ManagerData.Items);
         }

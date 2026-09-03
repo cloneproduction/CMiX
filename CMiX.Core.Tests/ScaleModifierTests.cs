@@ -10,16 +10,16 @@ namespace CMiX.Core.Tests
     public class ScaleModifierTests
     {
         [Fact]
-        public void ScaleModifier_HasFourChannelsLabeledXYZUniform()
+        public void ScaleModifier_HasFourBindablesLabeledXYZUniform()
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
 
-            Assert.Equal(4, scale.Channels.Count);
-            Assert.Equal("X", scale.Channels[0].Label);
-            Assert.Equal("Y", scale.Channels[1].Label);
-            Assert.Equal("Z", scale.Channels[2].Label);
-            Assert.Equal("Uniform", scale.Channels[3].Label);
+            Assert.Equal(4, scale.Bindables.Count);
+            Assert.Equal("X", scale.Bindables[0].Label);
+            Assert.Equal("Y", scale.Bindables[1].Label);
+            Assert.Equal("Z", scale.Bindables[2].Label);
+            Assert.Equal("Uniform", scale.Bindables[3].Label);
         }
 
         [Fact]
@@ -45,14 +45,14 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ScaleModifier_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void ScaleModifier_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
 
-            scale.Channels[0].Value.Value = 4f;
+            scale.Bindables[0].Value.Value = 4f;
             var modulatorId = Guid.NewGuid();
-            scale.Channels[0].ModulatorID.Value = modulatorId;
+            scale.Bindables[0].ModulatorID.Value = modulatorId;
 
             var model = scale.ToModel();
 
@@ -60,20 +60,20 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<ScaleModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(4f, reloaded.Channels[0].Value.Value);
-            Assert.Equal(modulatorId, reloaded.Channels[0].ModulatorID.Value);
+            Assert.Equal(4f, reloaded.Bindables[0].Value.Value);
+            Assert.Equal(modulatorId, reloaded.Bindables[0].ModulatorID.Value);
         }
 
         [Fact]
-        public void XYZUniform_AreConvenienceAccessorsIntoChannels()
+        public void XYZUniform_AreConvenienceAccessorsIntoBindables()
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
 
-            Assert.Same(scale.Channels[0], scale.X);
-            Assert.Same(scale.Channels[1], scale.Y);
-            Assert.Same(scale.Channels[2], scale.Z);
-            Assert.Same(scale.Channels[3], scale.Uniform);
+            Assert.Same(scale.Bindables[0], scale.X);
+            Assert.Same(scale.Bindables[1], scale.Y);
+            Assert.Same(scale.Bindables[2], scale.Z);
+            Assert.Same(scale.Bindables[3], scale.Uniform);
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DeletingAssignedModulator_UnassignsItFromEveryChannelUsingIt()
+        public void DeletingAssignedModulator_UnassignsItFromEveryBindableUsingIt()
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
@@ -114,8 +114,6 @@ namespace CMiX.Core.Tests
             Assert.Null(scale.X.BoundModulator);
             Assert.Null(scale.Y.ModulatorID.Value);
             Assert.Null(scale.Y.BoundModulator);
-            // Z was never assigned - confirms the cleanup only touches channels that referenced
-            // the deleted modulator, not every channel.
             Assert.Null(scale.Z.ModulatorID.Value);
         }
 
@@ -150,10 +148,6 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<ScaleModifier>();
             reloaded.FromModel(model);
 
-            // ModulatorID round-tripping alone isn't enough - the UI (and IsReadOnly locking) reads
-            // BoundModulator, which only Modifier.ResolveModulatorBinding can re-populate after load
-            // since ModifierModeSelector.FromModel has no access to the reloaded ModulatorManager's
-            // items itself.
             var reloadedBeatModulator = Assert.IsType<BeatModulator>(reloaded.ModulatorManager.ManagerData.Items[0]);
             Assert.Same(reloadedBeatModulator, reloaded.ModifierModeSelector.Count.BoundModulator);
         }

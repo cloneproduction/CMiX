@@ -11,14 +11,14 @@ namespace CMiX.Core.Tests
     public class CameraRandomModifierTests
     {
         [Fact]
-        public void CameraRandomModifier_HasOneChannelLabeledWidth()
+        public void CameraRandomModifier_HasOneBindableLabeledWidth()
         {
             var provider = TestServiceProviderFactory.Create();
             var cameraRandom = provider.GetRequiredService<CameraRandomModifier>();
 
-            Assert.Single(cameraRandom.Channels);
-            Assert.Equal("Width", cameraRandom.Channels[0].Label);
-            Assert.Same(cameraRandom.Channels[0], cameraRandom.Width);
+            Assert.Single(cameraRandom.Bindables);
+            Assert.Equal("Width", cameraRandom.Bindables[0].Label);
+            Assert.Same(cameraRandom.Bindables[0], cameraRandom.Width);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void CameraRandomModifier_ToModel_FromModel_RoundTripsChannelAndNonModulatableFields()
+        public void CameraRandomModifier_ToModel_FromModel_RoundTripsBindableAndNonModulatableFields()
         {
             var provider = TestServiceProviderFactory.Create();
             var cameraRandom = provider.GetRequiredService<CameraRandomModifier>();

@@ -12,13 +12,13 @@ namespace CMiX.Core.Tests
     public class VisibilityModifierTests
     {
         [Fact]
-        public void VisibilityModifier_HasOneChannel()
+        public void VisibilityModifier_HasOneBindable()
         {
             var provider = TestServiceProviderFactory.Create();
             var visibility = provider.GetRequiredService<VisibilityModifier>();
 
-            Assert.Single(visibility.Channels);
-            Assert.Same(visibility.Channels[0], visibility.Value);
+            Assert.Single(visibility.Bindables);
+            Assert.Same(visibility.Bindables[0], visibility.Value);
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void VisibilityModifier_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void VisibilityModifier_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
             var visibility = provider.GetRequiredService<VisibilityModifier>();

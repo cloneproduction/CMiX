@@ -12,15 +12,15 @@ namespace CMiX.Core.Tests
     public class TranslateModifierTests
     {
         [Fact]
-        public void TranslateModifier_HasThreeChannelsLabeledXYZ()
+        public void TranslateModifier_HasThreeBindablesLabeledXYZ()
         {
             var provider = TestServiceProviderFactory.Create();
             var position = provider.GetRequiredService<TranslateModifier>();
 
-            Assert.Equal(3, position.Channels.Count);
-            Assert.Equal("X", position.Channels[0].Label);
-            Assert.Equal("Y", position.Channels[1].Label);
-            Assert.Equal("Z", position.Channels[2].Label);
+            Assert.Equal(3, position.Bindables.Count);
+            Assert.Equal("X", position.Bindables[0].Label);
+            Assert.Equal("Y", position.Bindables[1].Label);
+            Assert.Equal("Z", position.Bindables[2].Label);
         }
 
         [Fact]
@@ -55,14 +55,14 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TranslateModifier_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void TranslateModifier_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
             var position = provider.GetRequiredService<TranslateModifier>();
 
-            position.Channels[0].Value.Value = 4f;
+            position.Bindables[0].Value.Value = 4f;
             var modulatorId = Guid.NewGuid();
-            position.Channels[0].ModulatorID.Value = modulatorId;
+            position.Bindables[0].ModulatorID.Value = modulatorId;
 
             var model = position.ToModel();
 
@@ -70,8 +70,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<TranslateModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(4f, reloaded.Channels[0].Value.Value);
-            Assert.Equal(modulatorId, reloaded.Channels[0].ModulatorID.Value);
+            Assert.Equal(4f, reloaded.Bindables[0].Value.Value);
+            Assert.Equal(modulatorId, reloaded.Bindables[0].ModulatorID.Value);
         }
 
         [Fact]

@@ -13,18 +13,18 @@ namespace CMiX.Core.Tests
     public class TexCoordModifierTests
     {
         [Fact]
-        public void TexCoordModifier_HasSixChannelsAcrossTwoGroupsAndTwoSingles()
+        public void TexCoordModifier_HasSixBindablesAcrossTwoGroupsAndTwoSingles()
         {
             var provider = TestServiceProviderFactory.Create();
             var texCoord = provider.GetRequiredService<TexCoordModifier>();
 
-            Assert.Equal(6, texCoord.Channels.Count);
-            Assert.Same(texCoord.Channels[0], texCoord.Location.X);
-            Assert.Same(texCoord.Channels[1], texCoord.Location.Y);
-            Assert.Same(texCoord.Channels[2], texCoord.Scale.X);
-            Assert.Same(texCoord.Channels[3], texCoord.Scale.Y);
-            Assert.Same(texCoord.Channels[4], texCoord.Rotation);
-            Assert.Same(texCoord.Channels[5], texCoord.Uniform);
+            Assert.Equal(6, texCoord.Bindables.Count);
+            Assert.Same(texCoord.Bindables[0], texCoord.Location.X);
+            Assert.Same(texCoord.Bindables[1], texCoord.Location.Y);
+            Assert.Same(texCoord.Bindables[2], texCoord.Scale.X);
+            Assert.Same(texCoord.Bindables[3], texCoord.Scale.Y);
+            Assert.Same(texCoord.Bindables[4], texCoord.Rotation);
+            Assert.Same(texCoord.Bindables[5], texCoord.Uniform);
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TexCoordModifier_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void TexCoordModifier_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
             var texCoord = provider.GetRequiredService<TexCoordModifier>();

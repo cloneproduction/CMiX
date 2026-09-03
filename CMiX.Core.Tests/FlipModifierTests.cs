@@ -10,12 +10,12 @@ namespace CMiX.Core.Tests
     public class FlipModifierTests
     {
         [Fact]
-        public void FlipModifier_HasNoChannels()
+        public void FlipModifier_HasNoBindables()
         {
             var provider = TestServiceProviderFactory.Create();
             var flip = provider.GetRequiredService<FlipModifier>();
 
-            Assert.Empty(flip.Channels);
+            Assert.Empty(flip.Bindables);
         }
 
         [Fact]

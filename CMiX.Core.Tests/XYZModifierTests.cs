@@ -12,21 +12,21 @@ namespace CMiX.Core.Tests
     public class XYZModifierTests
     {
         [Fact]
-        public void XYZModifier_HasNineChannelsAcrossThreeGroups()
+        public void XYZModifier_HasNineBindablesAcrossThreeGroups()
         {
             var provider = TestServiceProviderFactory.Create();
             var xyz = provider.GetRequiredService<XYZModifier>();
 
-            Assert.Equal(9, xyz.Channels.Count);
-            Assert.Same(xyz.Channels[0], xyz.Location.X);
-            Assert.Same(xyz.Channels[1], xyz.Location.Y);
-            Assert.Same(xyz.Channels[2], xyz.Location.Z);
-            Assert.Same(xyz.Channels[3], xyz.Scale.X);
-            Assert.Same(xyz.Channels[4], xyz.Scale.Y);
-            Assert.Same(xyz.Channels[5], xyz.Scale.Z);
-            Assert.Same(xyz.Channels[6], xyz.Rotation.X);
-            Assert.Same(xyz.Channels[7], xyz.Rotation.Y);
-            Assert.Same(xyz.Channels[8], xyz.Rotation.Z);
+            Assert.Equal(9, xyz.Bindables.Count);
+            Assert.Same(xyz.Bindables[0], xyz.Location.X);
+            Assert.Same(xyz.Bindables[1], xyz.Location.Y);
+            Assert.Same(xyz.Bindables[2], xyz.Location.Z);
+            Assert.Same(xyz.Bindables[3], xyz.Scale.X);
+            Assert.Same(xyz.Bindables[4], xyz.Scale.Y);
+            Assert.Same(xyz.Bindables[5], xyz.Scale.Z);
+            Assert.Same(xyz.Bindables[6], xyz.Rotation.X);
+            Assert.Same(xyz.Bindables[7], xyz.Rotation.Y);
+            Assert.Same(xyz.Bindables[8], xyz.Rotation.Z);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void XYZModifier_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void XYZModifier_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
             var xyz = provider.GetRequiredService<XYZModifier>();

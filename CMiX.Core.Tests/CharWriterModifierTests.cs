@@ -10,12 +10,12 @@ namespace CMiX.Core.Tests
     public class CharWriterModifierTests
     {
         [Fact]
-        public void CharWriterModifier_HasNoChannels()
+        public void CharWriterModifier_HasNoBindables()
         {
             var provider = TestServiceProviderFactory.Create();
             var charWriter = provider.GetRequiredService<CharWriterModifier>();
 
-            Assert.Empty(charWriter.Channels);
+            Assert.Empty(charWriter.Bindables);
         }
 
         [Fact]
