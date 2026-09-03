@@ -71,19 +71,18 @@
                         Width="7"
                         Height="7"
                         Margin="0,0,4,0"
-                        Classes.connected="{Binding Server.ClientIsConnected}"
-                        Classes.connecting="{Binding Server.IsReconnecting}"
-                        Classes.listening="{Binding Server.ServerIsRunning}"
-                        Theme="{StaticResource ServerConnectionIndicatorStyle}"
-                        ToolTip.Tip="{Binding Server.Status}" />
+                        Classes.connected="{Binding Sync.IsConnected}"
+                        Classes.connecting="{Binding Sync.Status, Converter={StaticResource SyncStatusIsConnecting}}"
+                        Theme="{StaticResource SyncConnectionIndicatorStyle}"
+                        ToolTip.Tip="{Binding Sync.Status}" />
 
                     <Ellipse
                         Width="7"
                         Height="7"
                         Margin="0,0,4,0"
-                        Classes.insync="{Binding Server.IsInSync}"
-                        Theme="{StaticResource ServerSyncIndicatorStyle}"
-                        ToolTip.Tip="In sync with Engine" />
+                        Classes.insync="{Binding Sync.IsInSync}"
+                        Theme="{StaticResource SyncStateIndicatorStyle}"
+                        ToolTip.Tip="In sync with Redis" />
 
                 </DockPanel>
 
@@ -304,7 +303,7 @@
                     <i:Interaction.Behaviors>
                         <Behaviors:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>
-                    <Views:ServerManagementPanel DataContext="{Binding Server}" />
+                    <Views:SyncManagementPanel DataContext="{Binding Sync}" />
                 </ScrollViewer>
 
             </TabItem>

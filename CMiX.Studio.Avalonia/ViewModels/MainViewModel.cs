@@ -5,7 +5,7 @@ using System;
 using CMiX.Core;
 using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
-using CMiX.Core.Networking.Servers;
+using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              PrefabManager lightManager,
                              PrefabManager beatManager,
                              PrefabManager colorPaletteManager,
-                             Server server,
+                             SyncPeer sync,
                              ControlRepository controlRepository,
                              AssetManager assetManager,
                              MainWindowController mainWindowController,
@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             ColorPaletteManager = SetupManager(colorPaletteManager, ManagerIDs.ColorPaletteManager);
 
             Project = project;
-            Server = server;
+            Sync = sync;
             MainWindowController = mainWindowController;
             AssetManager = assetManager;
             MainMenu = mainMenu;
@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             throw new NotImplementedException();
         }
 
-        public Server Server { get; set; }
+        public SyncPeer Sync { get; set; }
         public PrefabManager ColorPaletteManager { get; set; }
         public PrefabManager BeatManager { get; set; }
         public PrefabManager LightManager { get; set; }

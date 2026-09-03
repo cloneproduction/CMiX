@@ -1,0 +1,176 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.SyncPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400"
+    d:DesignHeight="600">
+
+    <StackPanel HorizontalAlignment="Stretch">
+
+        <Views:SyncSettings />
+
+        <Expander Header="Peers">
+            <ItemsControl
+                MinHeight="50"
+                Margin="8"
+                ItemsSource="{Binding Peers}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0,0,1,0"
+                                HorizontalAlignment="Center"
+                                Foreground="{DynamicResource ForegroundBrush}"
+                                Text="{Binding Name}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="1,0"
+                                HorizontalAlignment="Center"
+                                Foreground="{DynamicResource ForegroundBrush}"
+                                Text="{Binding Role}" />
+                            <TextBlock
+                                Grid.Column="2"
+                                Margin="1,0"
+                                HorizontalAlignment="Center"
+                                Foreground="{DynamicResource ForegroundBrush}"
+                                Text="{Binding Host}" />
+                            <TextBlock
+                                Grid.Column="3"
+                                Margin="1,0,0,0"
+                                HorizontalAlignment="Center"
+                                Foreground="{DynamicResource ForegroundBrush}">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource PeerSyncState}">
+                                        <Binding Path="LastAppliedId" />
+                                        <Binding Path="$parent[ItemsControl].DataContext.TailId" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Expander>
+
+        <Expander Header="Statistics">
+            <StackPanel Margin="8">
+                <Grid
+                    Height="{DynamicResource ControlHeightMD}"
+                    Margin="0,1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="Sent Messages" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Padding="4"
+                        HorizontalAlignment="Right"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="{Binding SentMessages}" />
+                </Grid>
+
+                <Grid
+                    Height="{DynamicResource ControlHeightMD}"
+                    Margin="0,1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="Applied Messages" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Padding="4"
+                        HorizontalAlignment="Right"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="{Binding AppliedMessages}" />
+                </Grid>
+
+                <Grid
+                    Height="{DynamicResource ControlHeightMD}"
+                    Margin="0,1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="Pending Messages" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Padding="4"
+                        HorizontalAlignment="Right"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="{Binding PendingMessages}" />
+                </Grid>
+
+                <Grid
+                    Height="{DynamicResource ControlHeightMD}"
+                    Margin="0,1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="Last Applied Id" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Padding="4"
+                        HorizontalAlignment="Right"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="{Binding LastAppliedId}" />
+                </Grid>
+
+                <Grid
+                    Height="{DynamicResource ControlHeightMD}"
+                    Margin="0,1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="Tail Id" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Padding="4"
+                        HorizontalAlignment="Right"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="{Binding TailId}" />
+                </Grid>
+            </StackPanel>
+
+        </Expander>
+
+    </StackPanel>
+
+</UserControl>

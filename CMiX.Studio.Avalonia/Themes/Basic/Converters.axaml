@@ -27,4 +27,7 @@
     <Converters:BoundModulatorToIsReadOnlyConverter x:Key="BoundModulatorToIsReadOnly" />
     <Converters:IsAssignedOutputConverter x:Key="IsAssignedOutput" />
 
+    <Converters:SyncStatusIsConnectingConverter x:Key="SyncStatusIsConnecting" />
+    <Converters:PeerSyncStateConverter x:Key="PeerSyncState" />
+
 </ResourceDictionary>
