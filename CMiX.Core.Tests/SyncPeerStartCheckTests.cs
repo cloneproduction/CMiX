@@ -200,5 +200,23 @@ namespace CMiX.Core.Tests
             Assert.Equal(0, target.SnapshotsApplied);
             Assert.Equal("Connected", peer.Status);
         }
+        [Fact]
+        public async Task ConnectionEventsDuringTheStartCheck_PushOnce()
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                var inner = new InMemorySyncStore();
+                var store = new ReconnectingSyncStore(inner);
+                var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
+                using var peer = CreatePeer(target, store);
+
+                peer.Start(Options("Studio"), autoJoin: false);
+                await WaitUntilAsync(() => peer.IsJoined, 5000, () => $"iteration {i} status={peer.Status}");
+                await Task.Delay(150);
+
+                Assert.Equal(1, peer.SentMessages);
+                Assert.Single(inner.Entries);
+            }
+        }
     }
 }

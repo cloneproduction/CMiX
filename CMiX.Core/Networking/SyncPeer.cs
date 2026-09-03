@@ -310,44 +310,41 @@ namespace CMiX.Core.Networking
         }
 
         // Acts on the start check. NotInSync leaves the peer blocked until the user pushes or pulls.
+        // Runs under the join lock, so a connection event during the check cannot start a second
+        // check, and a queued check after a join does nothing.
         private async Task RunStartCheckAsync(CancellationToken ct)
         {
             var store = _store;
             if (store == null) return;
 
+            await _joinLock.WaitAsync(ct).ConfigureAwait(false);
             try
             {
+                if (IsJoined) return;
+
                 await SetActivityAsync("Checking").ConfigureAwait(false);
                 var result = await EvaluateStartAsync(store).ConfigureAwait(false);
                 await SetActivityAsync(null).ConfigureAwait(false);
-                if (result.Check == StartCheck.PushSilently)
-                {
-                    await PushAsync(ct).ConfigureAwait(false);
-                    return;
-                }
 
-                if (result.Check == StartCheck.NotInSync)
+                switch (result.Check)
                 {
-                    await DispatchAsync(() => IsJoined = false).ConfigureAwait(false);
-                    return;
-                }
-
-                await _joinLock.WaitAsync(ct).ConfigureAwait(false);
-                try
-                {
-                    await StopFollowerAsync().ConfigureAwait(false);
-                    await DispatchAsync(() =>
-                    {
-                        LastAppliedId = result.Position;
-                        TailId = result.Position;
-                        ErrorMessage = string.Empty;
-                        IsJoined = true;
-                    }).ConfigureAwait(false);
-                    StartFollower(store);
-                }
-                finally
-                {
-                    _joinLock.Release();
+                    case StartCheck.PushSilently:
+                        await PushLockedAsync(store).ConfigureAwait(false);
+                        break;
+                    case StartCheck.NotInSync:
+                        await DispatchAsync(() => IsJoined = false).ConfigureAwait(false);
+                        break;
+                    default:
+                        await StopFollowerAsync().ConfigureAwait(false);
+                        await DispatchAsync(() =>
+                        {
+                            LastAppliedId = result.Position;
+                            TailId = result.Position;
+                            ErrorMessage = string.Empty;
+                            IsJoined = true;
+                        }).ConfigureAwait(false);
+                        StartFollower(store);
+                        break;
                 }
             }
             catch (OperationCanceledException)
@@ -361,6 +358,7 @@ namespace CMiX.Core.Networking
             finally
             {
                 await SetActivityAsync(null).ConfigureAwait(false);
+                _joinLock.Release();
             }
         }
 
@@ -490,15 +488,7 @@ namespace CMiX.Core.Networking
             await _joinLock.WaitAsync(ct).ConfigureAwait(false);
             try
             {
-                await StopFollowerAsync().ConfigureAwait(false);
-                await SetActivityAsync("Pushing").ConfigureAwait(false);
-                await PushCoreAsync(store).ConfigureAwait(false);
-                await DispatchAsync(() =>
-                {
-                    ErrorMessage = string.Empty;
-                    IsJoined = true;
-                }).ConfigureAwait(false);
-                StartFollower(store);
+                await PushLockedAsync(store).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -513,6 +503,20 @@ namespace CMiX.Core.Networking
                 await SetActivityAsync(null).ConfigureAwait(false);
                 _joinLock.Release();
             }
+        }
+
+        // The caller holds the join lock.
+        private async Task PushLockedAsync(ISyncStore store)
+        {
+            await StopFollowerAsync().ConfigureAwait(false);
+            await SetActivityAsync("Pushing").ConfigureAwait(false);
+            await PushCoreAsync(store).ConfigureAwait(false);
+            await DispatchAsync(() =>
+            {
+                ErrorMessage = string.Empty;
+                IsJoined = true;
+            }).ConfigureAwait(false);
+            StartFollower(store);
         }
 
         // Appends the full model as one entry for the running peers, then writes the snapshot for

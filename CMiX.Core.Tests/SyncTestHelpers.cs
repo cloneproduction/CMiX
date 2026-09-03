@@ -139,6 +139,47 @@ namespace CMiX.Core.Tests
         public ValueTask DisposeAsync() => _inner.DisposeAsync();
     }
 
+    // Raises ConnectionChanged(true) many times after the connect, like the ConnectionRestored
+    // events of the Redis client.
+    public sealed class ReconnectingSyncStore : ISyncStore
+    {
+        private readonly ISyncStore _inner;
+
+        public ReconnectingSyncStore(ISyncStore inner)
+        {
+            _inner = inner;
+            _inner.ConnectionChanged += value => ConnectionChanged?.Invoke(value);
+        }
+
+        public bool IsConnected => _inner.IsConnected;
+        public event Action<bool> ConnectionChanged;
+
+        public async Task ConnectAsync(CancellationToken ct)
+        {
+            await _inner.ConnectAsync(ct);
+            _ = Task.Run(async () =>
+            {
+                for (var i = 0; i < 100; i++)
+                {
+                    ConnectionChanged?.Invoke(true);
+                    await Task.Delay(1);
+                }
+            });
+        }
+
+        public Task<Snapshot> ReadSnapshotAsync() => _inner.ReadSnapshotAsync();
+        public Task<StreamPosition> ReadSnapshotIdAsync() => _inner.ReadSnapshotIdAsync();
+        public Task WriteSnapshotAsync(Snapshot snapshot) => _inner.WriteSnapshotAsync(snapshot);
+        public Task<StreamPosition> AppendAsync(byte[] envelope) => _inner.AppendAsync(envelope);
+        public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) => _inner.ReadRangeAsync(afterExclusive, count);
+        public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) => _inner.ReadBlockingAsync(afterExclusive, timeout, ct);
+        public Task<StreamPosition> ReadTailAsync() => _inner.ReadTailAsync();
+        public Task TrimAsync(StreamPosition minId) => _inner.TrimAsync(minId);
+        public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) => _inner.HeartbeatAsync(peerId, fields, ttl);
+        public Task<IReadOnlyList<PeerInfo>> ListPeersAsync() => _inner.ListPeersAsync();
+        public ValueTask DisposeAsync() => _inner.DisposeAsync();
+    }
+
     // Runs dispatched actions on one dedicated thread, like a UI thread.
     public sealed class SingleThreadDispatcher : IDisposable
     {
