@@ -25,6 +25,12 @@ namespace CMiX.Core.Prefabs.Messages
                     return true;
 
                 case MessageAddItem messageAddPrefab:
+                    // A late peer can see an add for an item its snapshot already holds.
+                    if (collection.ManagerData.Items.Any(item => item.ID == messageAddPrefab.Model.ID))
+                    {
+                        collection.ManagerData.SelectedIndex = messageAddPrefab.SelectedIndex;
+                        return true;
+                    }
                     collection.AddItem(messageAddPrefab.Model);
                     collection.ManagerData.SelectedIndex = messageAddPrefab.SelectedIndex;
                     return true;
