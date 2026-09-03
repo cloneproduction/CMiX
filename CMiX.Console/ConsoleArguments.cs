@@ -35,7 +35,7 @@ namespace CMiX.Console
                 var flag = args[i];
                 if (i + 1 >= args.Length)
                 {
-                    PrintUnknown(flag);
+                    PrintMissingValue(flag);
                     return null;
                 }
 
@@ -78,6 +78,12 @@ namespace CMiX.Console
         private static void PrintUnknown(string arg)
         {
             System.Console.WriteLine($"Unknown argument: {arg}");
+            PrintUsage();
+        }
+
+        private static void PrintMissingValue(string flag)
+        {
+            System.Console.WriteLine($"Missing value for {flag}");
             PrintUsage();
         }
     }
