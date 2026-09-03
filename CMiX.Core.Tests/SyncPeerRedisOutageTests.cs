@@ -414,5 +414,38 @@ namespace CMiX.Core.Tests
                 server.Dispose();
             }
         }
+
+        // A peer that starts before its server must join soon after the server comes up.
+        [SkippableFact]
+        public async Task PeerStartedBeforeTheServer_JoinsSoonAfterItComesUp()
+        {
+            Skip.IfNot(File.Exists(MemuraiPath), SkipReason);
+            Skip.If(PortIsBusy(Port), $"Port {Port} is busy. Stop the process that uses it.");
+
+            var server = new PrivateMemurai(MemuraiPath, Port, "--save", "", "--appendonly", "no");
+            try
+            {
+                var target = new RecordingSyncTarget();
+                var peer = NewPeer(target, isWriter: false);
+                peer.Start(Options("Engine1", "engine"), autoJoin: true);
+
+                await Task.Delay(3000);
+                Assert.Equal("Connecting", peer.Status);
+
+                server.Start();
+                var watch = Stopwatch.StartNew();
+                await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
+                var joined = watch.ElapsedMilliseconds;
+
+                var source = joined < 1500 ? "the client raised the restored event" : "the poll found the server";
+                _output.WriteLine($"Joined {joined} ms after the server answered: {source}.");
+                Assert.True(joined < 5000, $"The join took {joined} ms.");
+            }
+            finally
+            {
+                await DisposePeersAsync();
+                server.Dispose();
+            }
+        }
     }
 }

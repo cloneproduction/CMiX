@@ -346,7 +346,9 @@ namespace CMiX.Core.Networking
                 await store.ConnectAsync(ct).ConfigureAwait(false);
                 if (store.IsConnected) return;
 
-                await WaitForConnectionEventAsync(store, SyncTimings.MaxBackoff, ct).ConfigureAwait(false);
+                // A store that misses the event of the server keeps the peer waiting. The connect
+                // of a store that already has its client is cheap, so the poll is short.
+                await WaitForConnectionEventAsync(store, SyncTimings.HeartbeatInterval, ct).ConfigureAwait(false);
                 if (store.IsConnected) return;
             }
         }
