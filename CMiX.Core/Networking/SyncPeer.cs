@@ -296,7 +296,9 @@ namespace CMiX.Core.Networking
 
             try
             {
+                await SetActivityAsync("Checking").ConfigureAwait(false);
                 var result = await EvaluateStartAsync(store).ConfigureAwait(false);
+                await SetActivityAsync(null).ConfigureAwait(false);
                 if (result.Check == StartCheck.PushSilently)
                 {
                     await PushAsync(ct).ConfigureAwait(false);
@@ -334,6 +336,10 @@ namespace CMiX.Core.Networking
             {
                 Debug.WriteLine(ex);
                 await DispatchAsync(() => ErrorMessage = ex.Message).ConfigureAwait(false);
+            }
+            finally
+            {
+                await SetActivityAsync(null).ConfigureAwait(false);
             }
         }
 
