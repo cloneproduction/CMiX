@@ -33,6 +33,7 @@ namespace CMiX.Core.Networking
         private bool _autoJoin;
         private bool _started;
         private bool _wasConnected;
+        private bool _afterFirstConnect;
         private string _activity;
 
         public SyncPeer(ISyncTarget target, ControlMessenger messenger, Func<SyncOptions, ISyncStore> storeFactory)
@@ -113,6 +114,7 @@ namespace CMiX.Core.Networking
             _cts = new CancellationTokenSource();
             _started = true;
             _wasConnected = false;
+            _afterFirstConnect = false;
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(Role));
             OnPropertyChanged(nameof(Status));
@@ -157,6 +159,7 @@ namespace CMiX.Core.Networking
 
             _activity = null;
             _wasConnected = false;
+            _afterFirstConnect = false;
             IsConnected = false;
             IsJoined = false;
             OnPropertyChanged(nameof(Status));
@@ -184,12 +187,23 @@ namespace CMiX.Core.Networking
         // Push: publish the local state as the new store state, then follow the stream.
         public Task PushAsync() => PushAsync(_cts?.Token ?? CancellationToken.None);
 
+        // Compares the local state with the store state. It reads only, and changes nothing.
+        public async Task<StartCheck> CheckStartAsync()
+        {
+            var store = _store;
+            if (store == null) return StartCheck.NotInSync;
+
+            var result = await EvaluateStartAsync(store).ConfigureAwait(false);
+            return result.Check;
+        }
+
         private async Task RunAsync(ISyncStore store, CancellationToken ct)
         {
             try
             {
                 store.ConnectionChanged += OnConnectionChanged;
                 await WaitForConnectionAsync(store, ct).ConfigureAwait(false);
+                _afterFirstConnect = true;
                 await DispatchAsync(() =>
                 {
                     _wasConnected = true;
@@ -252,7 +266,75 @@ namespace CMiX.Core.Networking
                 return;
             }
 
-            await DispatchAsync(() => IsJoined = false).ConfigureAwait(false);
+            await RunStartCheckAsync(ct).ConfigureAwait(false);
+        }
+
+        // Position is the stream position the peer keeps when it is already in sync.
+        private async Task<(StartCheck Check, StreamPosition Position)> EvaluateStartAsync(ISyncStore store)
+        {
+            var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
+            var tail = await store.ReadTailAsync().ConfigureAwait(false);
+
+            if (snapshot == null)
+                return (tail == StreamPosition.Zero ? StartCheck.PushSilently : StartCheck.NotInSync, tail);
+
+            // Entries after the snapshot are edits the local state does not have.
+            if (tail > snapshot.StreamId)
+                return (StartCheck.NotInSync, tail);
+
+            var local = await DispatchAsync(() => _target.Capture()).ConfigureAwait(false);
+            var stored = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
+            var same = ProjectStateHash.Compute(local) == ProjectStateHash.Compute(stored);
+            return (same ? StartCheck.AlreadyInSync : StartCheck.NotInSync, snapshot.StreamId);
+        }
+
+        // Acts on the start check. NotInSync leaves the peer blocked until the user pushes or pulls.
+        private async Task RunStartCheckAsync(CancellationToken ct)
+        {
+            var store = _store;
+            if (store == null) return;
+
+            try
+            {
+                var result = await EvaluateStartAsync(store).ConfigureAwait(false);
+                if (result.Check == StartCheck.PushSilently)
+                {
+                    await PushAsync(ct).ConfigureAwait(false);
+                    return;
+                }
+
+                if (result.Check == StartCheck.NotInSync)
+                {
+                    await DispatchAsync(() => IsJoined = false).ConfigureAwait(false);
+                    return;
+                }
+
+                await _joinLock.WaitAsync(ct).ConfigureAwait(false);
+                try
+                {
+                    await StopFollowerAsync().ConfigureAwait(false);
+                    await DispatchAsync(() =>
+                    {
+                        LastAppliedId = result.Position;
+                        TailId = result.Position;
+                        ErrorMessage = string.Empty;
+                        IsJoined = true;
+                    }).ConfigureAwait(false);
+                    StartFollower(store);
+                }
+                finally
+                {
+                    _joinLock.Release();
+                }
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                await DispatchAsync(() => ErrorMessage = ex.Message).ConfigureAwait(false);
+            }
         }
 
         private void OnConnectionChanged(bool connected)
@@ -263,6 +345,13 @@ namespace CMiX.Core.Networking
                 IsConnected = connected;
                 OnPropertyChanged(nameof(Status));
             });
+
+            // A reconnect while the peer is not in sync. The store state can have changed.
+            if (connected && _started && _afterFirstConnect && !_autoJoin && !IsJoined)
+            {
+                var ct = _cts?.Token ?? CancellationToken.None;
+                _ = Task.Run(() => RunStartCheckAsync(ct), ct);
+            }
         }
 
         private Task OnSentAsync(StreamPosition id) => DispatchAsync(() => SentMessages++);
