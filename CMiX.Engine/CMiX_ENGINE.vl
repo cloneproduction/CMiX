@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" xmlns:r="reflection" Id="DNBpRsRXtlKOZHPXDtQhMZ" LanguageVersion="2026.8.0-0122-g54b562b797" Version="0.128">
+<Document xmlns:p="property" xmlns:r="reflection" Id="DNBpRsRXtlKOZHPXDtQhMZ" LanguageVersion="2026.8.0-0123-gdc6ede5082" Version="0.128">
   <NugetDependency Id="SUEgnaDxDx4PX0mRCilisr" Location="VL.CoreLib" />
   <Patch Id="Dxje7mC3kJcNN7s5k6zs88">
     <Canvas Id="FZRpIY5zRbHLJRQOOGbXVI" DefaultCategory="Main" BordersChecked="false" CanvasType="FullCategory" />
@@ -102,7 +102,7 @@
                 <Pin Id="RXvCbZVA8mxOwNLt91ZewY" Name="CompositionService" Kind="InputPin" />
                 <Pin Id="TIUpydkNWoNL3igUNzpEz4" Name="Output" Kind="StateOutputPin" />
               </Node>
-              <Node Bounds="73,540,79,26" Id="Ea97LPDSeHXPmWzbkYdvGf">
+              <Node Bounds="73,630,79,26" Id="Ea97LPDSeHXPmWzbkYdvGf">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.Transformation.TranslateModifier" LastDependency="CMiX_ENGINE.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <CategoryReference Kind="ClassType" Name="TranslateModifier" />
@@ -113,7 +113,7 @@
                 <Pin Id="RMcgV21WyiqLTSqwDGBVtN" Name="CompositionService" Kind="InputPin" />
                 <Pin Id="GGkR321f0XMNXFuv2w8roE" Name="Output" Kind="StateOutputPin" />
               </Node>
-              <Node Bounds="73,480,68,26" Id="L71PREVKle3NWMlXibTceX">
+              <Node Bounds="73,600,68,26" Id="L71PREVKle3NWMlXibTceX">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <CategoryReference Kind="ClassType" Name="BeatModulator" />
@@ -124,7 +124,7 @@
                 <Pin Id="Dlvswk0pOKsQT40H6lPCte" Name="CompositionService" Kind="InputPin" />
                 <Pin Id="C9Hn5INfdmOMdQuRPTrjVf" Name="Output" Kind="StateOutputPin" />
               </Node>
-              <Node Bounds="73,510,84,26" Id="SVfI3mNKk2fLzmnul5nj1R">
+              <Node Bounds="73,480,84,26" Id="SVfI3mNKk2fLzmnul5nj1R">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.TrackingModulator" LastDependency="CMiX_ENGINE.Definitions.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <CategoryReference Kind="ClassType" Name="TrackingModulator" />
@@ -134,6 +134,27 @@
                 <Pin Id="RNoPMfPj7giQGuV3o0P6qK" Name="ViewModel" Kind="InputPin" />
                 <Pin Id="IGgl1K496V1PoXWX0NNGPH" Name="CompositionService" Kind="InputPin" />
                 <Pin Id="KseXExN3yhDLYR0ZhIO8U6" Name="Output" Kind="StateOutputPin" />
+              </Node>
+              <Node Bounds="73,520,97,26" Id="DaGv7UPewoeN7yJTtZC78i">
+                <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatRandomModulator" LastDependency="CMiX_ENGINE.Definitions.vl">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="ClassType" Name="BeatRandomModulator" />
+                  <Choice Kind="OperationCallFlag" Name="Create" />
+                </p:NodeReference>
+                <Pin Id="GS8SNu8kfblNPGmvrKJTIy" Name="Node Context" Kind="InputPin" IsHidden="true" />
+                <Pin Id="Asr7R4tCdqiPRm6ozQxsD3" Name="ViewModel" Kind="InputPin" />
+                <Pin Id="R9tBKtZydrFPd5I7cfCwH6" Name="CompositionService" Kind="InputPin" />
+                <Pin Id="PQuBdgzIXJQPAr0bNDBBYY" Name="Output" Kind="StateOutputPin" />
+              </Node>
+              <Node Bounds="73,550,79,26" Id="AtfIr9gAsi2PkkkvsXn1NE">
+                <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.IEngineModulator" LastDependency="CMiX_ENGINE.Definitions.vl">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="InterfaceTypeFlag" Name="IEngineModulator" />
+                  <Choice Kind="OperationCallFlag" Name="Outputs" />
+                </p:NodeReference>
+                <Pin Id="RwxplkVW87oPDR6mRtkavz" Name="Input" Kind="StateInputPin" />
+                <Pin Id="DIVc6vGOk6eQMJmDd5R6rt" Name="Output" Kind="StateOutputPin" />
+                <Pin Id="TQpigWoo4L4L7drocbk2ic" Name="Outputs" Kind="OutputPin" />
               </Node>
             </Patch>
           </Node>
@@ -222,6 +243,15 @@
             <Pin Id="Hpre4RiqBCTL7fyQvKyzX7" Name="Output" Kind="OutputPin" />
           </Node>
           <ControlPoint Id="IQC8fTh2v9KOB216pI2vGf" Bounds="312,277" />
+          <Pad Id="LxEmUyGXezGPzkxHYVvgiT" Bounds="199,350,138,19" ShowValueBox="true" isIOBox="true" Value="3D Preview is hidden !">
+            <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
+              <Choice Kind="TypeFlag" Name="String" />
+            </p:TypeAnnotation>
+            <p:ValueBoxSettings>
+              <p:fontsize p:Type="Int32">9</p:fontsize>
+              <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+            </p:ValueBoxSettings>
+          </Pad>
         </Canvas>
         <Patch Id="EsviGUM4AunOLDWofKZCgG" Name="Create" ParticipatingElements="FD8W7aKaV0ONVX1N0UW3P7" />
         <Patch Id="OkOQv7Luwo6ONdPIx6zSfu" Name="Update" ParticipatingElements="MS7RDTIrcokMC5aKYP4IxT" />
