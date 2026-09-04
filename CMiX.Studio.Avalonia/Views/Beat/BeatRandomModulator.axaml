@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.BeatModulator"
+    x:Class="CMiX.Studio.Avalonia.Views.BeatRandomModulator"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
@@ -11,10 +11,11 @@
 
         <Views:BeatControls/>
 
-        <BaseControls:CMiXSlider
-            Caption="Chance To Hit"
-            Maximum="100"
-            Value="{Binding ChanceToHit.Value}" />
+        <BaseControls:RangeValue
+            LeftValue="{Binding Center.Value}"
+            LeftCaption="Center"
+            RightCaption="Width"
+            RightValue="{Binding Width.Value}"/>
 
         <Views:Easing Margin="0, 8" DataContext="{Binding Easing}" />
 

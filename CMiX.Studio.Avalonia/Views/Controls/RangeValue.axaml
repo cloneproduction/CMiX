@@ -1,0 +1,41 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.RangeValue"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    x:Name="rangeValue"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <Grid ColumnDefinitions="*,*">
+
+        <Controls:DragValue
+            Grid.Column="0"
+            Margin="0,0,1,0"
+            AttachedProperties:PositionedControl.Position="Left"
+            Caption="{Binding LeftCaption, ElementName=rangeValue}"
+            IsInteger="{Binding IsInteger, ElementName=rangeValue}"
+            LargeChange="{Binding LargeChange, ElementName=rangeValue}"
+            Maximum="{Binding Maximum, ElementName=rangeValue}"
+            Minimum="{Binding Minimum, ElementName=rangeValue}"
+            SmallChange="{Binding SmallChange, ElementName=rangeValue}"
+            Theme="{StaticResource DragValueInlineCaption}"
+            Value="{Binding LeftValue, ElementName=rangeValue, Mode=TwoWay}" />
+
+        <Controls:DragValue
+            Grid.Column="1"
+            Margin="1,0,0,0"
+            AttachedProperties:PositionedControl.Position="Right"
+            Caption="{Binding RightCaption, ElementName=rangeValue}"
+            IsInteger="{Binding IsInteger, ElementName=rangeValue}"
+            LargeChange="{Binding LargeChange, ElementName=rangeValue}"
+            Maximum="{Binding Maximum, ElementName=rangeValue}"
+            Minimum="{Binding Minimum, ElementName=rangeValue}"
+            SmallChange="{Binding SmallChange, ElementName=rangeValue}"
+            Theme="{StaticResource DragValueInlineCaption}"
+            Value="{Binding RightValue, ElementName=rangeValue, Mode=TwoWay}" />
+
+    </Grid>
+
+</UserControl>

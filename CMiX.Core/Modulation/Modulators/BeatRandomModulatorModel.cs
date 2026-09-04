@@ -7,13 +7,15 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public record BeatModulatorModel : IPrefabModel
+    public record BeatRandomModulatorModel : IPrefabModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public EasingModel Easing { get; set; } = new();
         public GenericValueModel<int> BeatIndex { get; set; } = new(0);
-        public GenericValueModel<float> ChanceToHit { get; set; } = new(100f);
         public PrefabServiceModel PrefabService { get; set; } = new();
         public BeatStepsModel BeatSteps { get; set; } = new();
+
+        public GenericValueModel<float> Center { get; set; } = new(0.0f);
+        public GenericValueModel<float> Width { get; set; } = new(1.0f);
     }
 }

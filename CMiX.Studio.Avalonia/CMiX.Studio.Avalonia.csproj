@@ -25,4 +25,10 @@
     <ProjectReference Include="..\CMiX.Core\CMiX.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\Beat\BeatRandomModulator.axaml.cs">
+      <DependentUpon>BeatRandomModulator.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

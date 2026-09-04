@@ -1,9 +1,10 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -11,8 +12,9 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class DragValue : CaptionedUserControl
+    public class DragValue : TemplatedControl
     {
+        private Border? _borderValueDisplay;
         private Point? _mouseDownPos;
         private Point? _cursorDownScreenPos;
         private bool _dragging;
@@ -21,18 +23,30 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         public DragValue()
         {
-            InitializeComponent();
-
-            borderValueDisplay.AddHandler(PointerPressedEvent, Border_PointerPressed, RoutingStrategies.Tunnel);
-            borderValueDisplay.AddHandler(PointerReleasedEvent, Border_PointerReleased, RoutingStrategies.Tunnel);
-            borderValueDisplay.AddHandler(PointerMovedEvent, Border_PointerMoved, RoutingStrategies.Tunnel);
-
             AddHandler(PointerPressedEvent, Control_PointerPressed, RoutingStrategies.Tunnel);
+        }
 
-            borderValueDisplay.PointerCaptureLost += (s, e) => _interaction.Dispose();
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
 
-            AddButton.Click += AddButton_Click;
-            SubButton.Click += SubButton_Click;
+            _borderValueDisplay = e.NameScope.Find<Border>("borderValueDisplay");
+            var addButton = e.NameScope.Find<Button>("AddButton");
+            var subButton = e.NameScope.Find<Button>("SubButton");
+
+            if (_borderValueDisplay != null)
+            {
+                _borderValueDisplay.AddHandler(PointerPressedEvent, Border_PointerPressed, RoutingStrategies.Tunnel);
+                _borderValueDisplay.AddHandler(PointerReleasedEvent, Border_PointerReleased, RoutingStrategies.Tunnel);
+                _borderValueDisplay.AddHandler(PointerMovedEvent, Border_PointerMoved, RoutingStrategies.Tunnel);
+                _borderValueDisplay.PointerCaptureLost += (s, ev) => _interaction.Dispose();
+            }
+
+            if (addButton != null)
+                addButton.Click += AddButton_Click;
+
+            if (subButton != null)
+                subButton.Click += SubButton_Click;
         }
 
         private static double Distance(Point a, Point b)
@@ -44,27 +58,27 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private void Border_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            if (!e.GetCurrentPoint(borderValueDisplay).Properties.IsLeftButtonPressed)
+            if (_borderValueDisplay == null || !e.GetCurrentPoint(_borderValueDisplay).Properties.IsLeftButtonPressed)
                 return;
 
-            if (IsEditing || !borderValueDisplay.IsPointerOver)
+            if (IsEditing || !_borderValueDisplay.IsPointerOver)
                 return;
 
-            _mouseDownPos = e.GetPosition(borderValueDisplay);
+            _mouseDownPos = e.GetPosition(_borderValueDisplay);
             _cursorDownScreenPos = DragEditHelper.GetMousePosition();
             _dragging = false;
 
-            e.Pointer.Capture(borderValueDisplay);
+            e.Pointer.Capture(_borderValueDisplay);
             _interaction = ValueInteraction.BeginScope();
             e.Handled = true;
         }
 
         private void Border_PointerMoved(object? sender, PointerEventArgs e)
         {
-            if (_mouseDownPos == null)
+            if (_mouseDownPos == null || _borderValueDisplay == null)
                 return;
 
-            var current = e.GetPosition(borderValueDisplay);
+            var current = e.GetPosition(_borderValueDisplay);
 
             if (!_dragging)
             {
@@ -72,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                     return;
 
                 _dragging = true;
-                borderValueDisplay.Cursor = new Cursor(StandardCursorType.None);
+                _borderValueDisplay.Cursor = new Cursor(StandardCursorType.None);
                 _lastScreenPos = DragEditHelper.GetMousePosition();
                 return;
             }
@@ -110,15 +124,15 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             e.Pointer.Capture(null);
             _interaction.Dispose();
 
-            if (_mouseDownPos == null)
+            if (_mouseDownPos == null || _borderValueDisplay == null)
                 return;
 
-            var up = e.GetPosition(borderValueDisplay);
+            var up = e.GetPosition(_borderValueDisplay);
 
             if (!_dragging && Distance(up, _mouseDownPos.Value) < DragEditHelper.ClickThreshold)
                 IsEditing = true;
 
-            borderValueDisplay.ClearValue(CursorProperty);
+            _borderValueDisplay.ClearValue(CursorProperty);
 
             if (_dragging && _cursorDownScreenPos != null)
                 DragEditHelper.PlaceCursorAt(_cursorDownScreenPos.Value);
@@ -149,6 +163,14 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private void AdjustValue(double delta)
         {
             Value = Math.Clamp(Value + delta, Minimum, Maximum);
+        }
+
+        public static readonly StyledProperty<string> CaptionProperty =
+            AvaloniaProperty.Register<DragValue, string>(nameof(Caption), string.Empty, defaultBindingMode: BindingMode.TwoWay);
+        public string Caption
+        {
+            get => GetValue(CaptionProperty);
+            set => SetValue(CaptionProperty, value);
         }
 
         public static readonly StyledProperty<double> MaximumProperty =
