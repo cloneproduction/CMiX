@@ -53,7 +53,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 LightManager, BeatManager, ColorPaletteManager
             };
             MainMenu.RepositoryManagers = _repositoryManagers;
-            Sync.SnapshotApplied += ClearRepositoryManagers;
+            Sync.SnapshotApplied += OnSnapshotApplied;
             ControlRepository = controlRepository;
             // Clear any stale registrations from top level managers activated via SetupManager.
             // These were activated manually and never went through ActivateAll(),
@@ -73,6 +73,8 @@ namespace CMiX.Studio.Avalonia.ViewModels
             foreach (var manager in _repositoryManagers)
                 manager.ClearAll();
         }
+
+        private void OnSnapshotApplied(object? sender, EventArgs e) => ClearRepositoryManagers();
 
         private PrefabManager SetupManager(PrefabManager manager, Guid id)
         {

@@ -155,9 +155,9 @@ namespace CMiX.Core.Networking
             Request();
         }
 
-        private void OnMessageApplied(StreamEntry entry, IMessage message) => OnMessage(message);
+        private void OnMessageApplied(object sender, MessageAppliedEventArgs e) => OnMessage(e.Message);
 
-        private void OnMessageSent(IMessage message) => OnMessage(message);
+        private void OnMessageSent(object sender, MessageSentEventArgs e) => OnMessage(e.Message);
 
         private void OnMessage(IMessage message)
         {

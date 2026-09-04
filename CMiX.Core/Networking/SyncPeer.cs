@@ -122,12 +122,13 @@ namespace CMiX.Core.Networking
         // deletes the keys of the run.
         public Task Stopped => _stopped?.Task ?? Task.CompletedTask;
 
-        public event Action<StreamEntry, IMessage> MessageApplied;
-        public event Action<IMessage> MessageSent;
+        public event EventHandler<MessageAppliedEventArgs> MessageApplied;
+        public event EventHandler<MessageSentEventArgs> MessageSent;
 
         // Comes after the target applied a snapshot, on the dispatcher thread. A listener empties
-        // what the snapshot does not carry.
-        public event Action SnapshotApplied;
+        // what the snapshot does not carry. The events follow the .NET event pattern, so vvvv
+        // shows them as observable nodes.
+        public event EventHandler SnapshotApplied;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsInSync), nameof(Status))]
@@ -293,7 +294,7 @@ namespace CMiX.Core.Networking
             _outgoing.Enqueue(MessagePackSerialization.Serialize(envelope));
             // Through the dispatcher, so this notification and the one after the append keep their order.
             Dispatch(() => OnPropertyChanged(nameof(PendingMessages)));
-            MessageSent?.Invoke(message);
+            MessageSent?.Invoke(this, new MessageSentEventArgs(message));
         }
 
         // Pull: adopt the store state, then follow the stream.
@@ -715,7 +716,7 @@ namespace CMiX.Core.Networking
                         {
                             _target.ApplySnapshot(model);
                             ForgetApplied();
-                            SnapshotApplied?.Invoke();
+                            SnapshotApplied?.Invoke(this, EventArgs.Empty);
                             LastAppliedId = position;
                             if (position > TailId) TailId = position;
                         }).ConfigureAwait(false);
@@ -894,7 +895,7 @@ namespace CMiX.Core.Networking
                         if (payload is MessageProjectSnapshot)
                         {
                             ForgetApplied();
-                            SnapshotApplied?.Invoke();
+                            SnapshotApplied?.Invoke(this, EventArgs.Empty);
                         }
 
                         AppliedMessages++;
@@ -909,7 +910,7 @@ namespace CMiX.Core.Networking
                 LastAppliedId = entry.Id;
                 if (entry.Id > TailId) TailId = entry.Id;
 
-                if (apply) MessageApplied?.Invoke(entry, payload);
+                if (apply) MessageApplied?.Invoke(this, new MessageAppliedEventArgs(entry, payload));
             }).ConfigureAwait(false);
         }
 
@@ -1003,7 +1004,7 @@ namespace CMiX.Core.Networking
                 {
                     _target.ApplySnapshot(model);
                     ForgetApplied();
-                    SnapshotApplied?.Invoke();
+                    SnapshotApplied?.Invoke(this, EventArgs.Empty);
                     AppliedMessages++;
                     LastAppliedId = snapshot.StreamId;
                     if (snapshot.StreamId > TailId) TailId = snapshot.StreamId;

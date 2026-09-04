@@ -591,13 +591,19 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
             var events = 0;
-            peer.SnapshotApplied += () => Interlocked.Increment(ref events);
+            object sender = null;
+            peer.SnapshotApplied += (s, _) =>
+            {
+                sender = s;
+                Interlocked.Increment(ref events);
+            };
 
             peer.Start(Options("Engine"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined);
             await Task.Delay(300);
 
             Assert.Equal(1, Volatile.Read(ref events));
+            Assert.Same(peer, sender);
         }
 
         [Fact]
@@ -607,7 +613,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
             var events = 0;
-            peer.SnapshotApplied += () => Interlocked.Increment(ref events);
+            peer.SnapshotApplied += (_, _) => Interlocked.Increment(ref events);
 
             peer.Start(Options("A"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined);
@@ -628,7 +634,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
             var events = 0;
-            peer.SnapshotApplied += () => Interlocked.Increment(ref events);
+            peer.SnapshotApplied += (_, _) => Interlocked.Increment(ref events);
 
             peer.Start(Options("A"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined);
