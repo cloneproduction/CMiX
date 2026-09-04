@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public class BeatRandomModulator : ReceivableControl, IDisposable, IModulator
+    public class BeatRandomModulator : ReceivableControl, IDisposable, IModulator, IBeatTimedModulator
     {
         public BeatRandomModulator(PrefabService prefabService,
                             MasterBeat masterBeat,

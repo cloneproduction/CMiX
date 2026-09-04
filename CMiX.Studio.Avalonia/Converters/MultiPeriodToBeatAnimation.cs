@@ -16,7 +16,7 @@ namespace CMiX.Studio.Avalonia.Converters
         {
             if (values.Count < 2
                 || values[0] == AvaloniaProperty.UnsetValue
-                || values[1] is not BeatModulator { MasterBeat.AnimatedDoubleProvider: not null } beatModulator)
+                || values[1] is not IBeatTimedModulator { MasterBeat.AnimatedDoubleProvider: not null } beatModulator)
             {
                 return AvaloniaProperty.UnsetValue;
             }
