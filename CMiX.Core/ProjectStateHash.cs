@@ -12,7 +12,11 @@ namespace CMiX.Core
     {
         public static string Compute(Project project)
         {
-            var model = (ProjectModel)project.ToModel();
+            return Compute((ProjectModel)project.ToModel());
+        }
+
+        public static string Compute(ProjectModel model)
+        {
             var json = JsonSerializer.Serialize(model, ProjectSerializer.Options);
             var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(json));
             return Convert.ToHexString(bytes);

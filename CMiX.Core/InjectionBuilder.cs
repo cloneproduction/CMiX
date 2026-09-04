@@ -5,7 +5,6 @@ using CMiX.Core.Animations;
 using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
-using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
@@ -34,7 +33,6 @@ namespace CMiX.Core.DependencyInjection
 
             services.AddSingleton<Project>();
             services.AddSingleton<MasterBeat>();
-            services.AddSingleton<Server>();
 
             services.AddSingleton<ControlActivationService>();
             services.AddSingleton<ControlFactory>();
@@ -43,29 +41,35 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<ControlRepository>();
             services.AddSingleton<AssetRepository>();
             services.AddSingleton<MessageCollectionManagerHandler>();
-            services.AddSingleton<Client>();
-        }
 
-        public void ConfigureWpfTransport(IServiceProvider provider, Action<Action> dispatcher)
-        {
-            var messenger = provider.GetRequiredService<ControlMessenger>();
-            var server = provider.GetRequiredService<Server>();
-            server.SetDispatcher(dispatcher);
-            messenger.Register(server);
-            server.Start();
-        }
-
-        public void ConfigureVvvvTransport(IServiceProvider provider)
-        {
-            var messenger = provider.GetRequiredService<ControlMessenger>();
-            var client = provider.GetRequiredService<Client>();
-            messenger.Register(client);
+            services.AddSingleton<ISyncTarget, ProjectSyncTarget>();
+            services.AddSingleton<Func<SyncOptions, ISyncStore>>(_ => options => new RedisSyncStore(options));
+            services.AddSingleton<SyncPeer>();
         }
 
         public void ConfigureVvvvServices(IServiceCollection services)
         {
             services.AddSingleton<ManagerReorderServiceFactory>(
                 _ => (collection, onMove) => null);
+        }
+
+        public void ConfigureStudioTransport(IServiceProvider provider, Action<Action> dispatcher, SyncOptions options)
+        {
+            var messenger = provider.GetRequiredService<ControlMessenger>();
+            var peer = provider.GetRequiredService<SyncPeer>();
+            peer.SetDispatcher(dispatcher);
+            messenger.Register(peer);
+            peer.CompactionEnabled = true;
+            peer.IsWriter = true;
+            peer.ListPeersEnabled = true;
+            peer.Start(options with { Role = "studio" }, autoJoin: false);
+        }
+
+        public void ConfigureEngineTransport(IServiceProvider provider, SyncOptions options)
+        {
+            var peer = provider.GetRequiredService<SyncPeer>();
+            // Engines read and apply. Only the Studio writes, so the engine peer is not a sender.
+            peer.Start(options, autoJoin: true);
         }
     }
 }

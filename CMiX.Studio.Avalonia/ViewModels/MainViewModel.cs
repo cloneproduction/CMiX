@@ -5,7 +5,7 @@ using System;
 using CMiX.Core;
 using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
-using CMiX.Core.Networking.Servers;
+using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              PrefabManager lightManager,
                              PrefabManager beatManager,
                              PrefabManager colorPaletteManager,
-                             Server server,
+                             SyncPeer sync,
                              ControlRepository controlRepository,
                              AssetManager assetManager,
                              MainWindowController mainWindowController,
@@ -43,15 +43,17 @@ namespace CMiX.Studio.Avalonia.ViewModels
             ColorPaletteManager = SetupManager(colorPaletteManager, ManagerIDs.ColorPaletteManager);
 
             Project = project;
-            Server = server;
+            Sync = sync;
             MainWindowController = mainWindowController;
             AssetManager = assetManager;
             MainMenu = mainMenu;
-            MainMenu.RepositoryManagers = new[]
+            _repositoryManagers = new[]
             {
                 TextureManager, MaterialManager, EntityManager, CameraManager,
                 LightManager, BeatManager, ColorPaletteManager
             };
+            MainMenu.RepositoryManagers = _repositoryManagers;
+            Sync.SnapshotApplied += ClearRepositoryManagers;
             ControlRepository = controlRepository;
             // Clear any stale registrations from top level managers activated via SetupManager.
             // These were activated manually and never went through ActivateAll(),
@@ -61,6 +63,16 @@ namespace CMiX.Studio.Avalonia.ViewModels
         }
 
         private readonly UndoManager _undoManager;
+        private readonly PrefabManager[] _repositoryManagers;
+
+        // A snapshot carries the project only. The seven repository managers keep their items, so
+        // a Pull or a gap re-join empties them the way File > New and File > Open do. The undo
+        // manager stays untouched here, because ProjectSyncTarget already clears it.
+        public void ClearRepositoryManagers()
+        {
+            foreach (var manager in _repositoryManagers)
+                manager.ClearAll();
+        }
 
         private PrefabManager SetupManager(PrefabManager manager, Guid id)
         {
@@ -83,7 +95,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             throw new NotImplementedException();
         }
 
-        public Server Server { get; set; }
+        public SyncPeer Sync { get; set; }
         public PrefabManager ColorPaletteManager { get; set; }
         public PrefabManager BeatManager { get; set; }
         public PrefabManager LightManager { get; set; }

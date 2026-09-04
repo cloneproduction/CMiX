@@ -8,46 +8,10 @@
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
-    xmlns:Servers="clr-namespace:CMiX.Core.Networking.Servers;assembly=CMiX.Core"
     xmlns:TextureSource="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core">
 
     <DataTemplate DataType="{x:Type Compositing:Color}">
         <BaseControls:ColorSelector Caption="{Binding Value}" />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type Servers:Server}">
-
-        <Border
-            Margin="1"
-            Padding="2,0,0,0"
-            Background="Transparent"
-            CornerRadius="{DynamicResource CornerRadiusAll}"
-            TextElement.Foreground="{DynamicResource ForegroundBrush}">
-
-            <DockPanel>
-
-                <Ellipse
-                    Width="7"
-                    Height="7"
-                    Margin="0,0,4,0"
-                    Classes.connected="{Binding ClientIsConnected}"
-                    Classes.connecting="{Binding IsReconnecting}"
-                    Classes.listening="{Binding ServerIsRunning}"
-                    Theme="{StaticResource ServerConnectionIndicatorStyle}" />
-
-                <ToggleButton
-                    Height="{DynamicResource ControlHeightXS}"
-                    Margin="0"
-                    Padding="0"
-                    Background="Crimson"
-                    DockPanel.Dock="Right"
-                    IsChecked="{Binding ServerIsRunning}"
-                    Theme="{DynamicResource TogglePlayPause}" />
-
-                <BaseControls:EditableTextBox Text="{Binding PrefabService.Name.Value}" />
-
-            </DockPanel>
-        </Border>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">

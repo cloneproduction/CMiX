@@ -1,5 +1,5 @@
-﻿<UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.ServerManagementPanel"
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.SyncManagementPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
@@ -7,8 +7,8 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-    <!-- Studio only ever talks to one engine, so just its settings, no server list. -->
+    <!-- The Studio talks to Redis; all engines are peers on the same store. -->
     <Border Background="{DynamicResource Grey300Brush}">
-        <Views:Server />
+        <Views:SyncPanel />
     </Border>
 </UserControl>

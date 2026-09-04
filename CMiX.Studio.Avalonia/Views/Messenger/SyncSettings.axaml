@@ -1,0 +1,249 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.SyncSettings"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:conv="clr-namespace:Avalonia.Data.Converters;assembly=Avalonia.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400"
+    d:DesignHeight="600">
+
+    <StackPanel Margin="8">
+
+        <BaseControl:LabeledContent Caption="Status">
+            <Border>
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse
+                        Width="7"
+                        VerticalAlignment="Center"
+                        Height="7"
+                        Classes.connected="{Binding IsConnected}"
+                        Classes.connecting="{Binding Status, Converter={StaticResource SyncStatusIsConnecting}}"
+                        Theme="{StaticResource SyncConnectionIndicatorStyle}" />
+                    <TextBlock
+                        Margin="4, 0, 0, 0"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="{Binding Status}" />
+                </StackPanel>
+            </Border>
+        </BaseControl:LabeledContent>
+
+        <!-- Shows the reason of a failed connection. Stays outside the flyouts so the text is
+             visible right away, and stays visible until the peer clears ErrorMessage. -->
+        <TextBlock
+            Margin="0,4,0,0"
+            Foreground="Crimson"
+            TextWrapping="Wrap"
+            Text="{Binding ErrorMessage}"
+            IsVisible="{Binding ErrorMessage, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}" />
+
+        <!-- The single entry point for resolving an out-of-sync state: plain and inert while in
+             sync, becomes clickable once not - clicking opens the Push/Pull/Cancel Flyout below. -->
+        <UniformGrid
+            Margin="0, 8"
+            Columns="2"
+            Height="{DynamicResource ControlHeightMD}">
+            <TextBlock
+                Padding="0, 0, 8, 0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Text="Sync" />
+            <Button
+                x:Name="SyncButton"
+                IsEnabled="{Binding !IsInSync}"
+                Theme="{StaticResource ButtonRounded}">
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse
+                        Width="7"
+                        Height="7"
+                        Margin="0,0,4,0"
+                        Classes.insync="{Binding IsInSync}"
+                        Theme="{StaticResource SyncStateIndicatorStyle}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        IsVisible="{Binding IsInSync}"
+                        Text="In sync" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        IsVisible="{Binding !IsInSync}"
+                        Text="Not in sync" />
+                </StackPanel>
+
+                <Button.Flyout>
+                    <Flyout
+                        Placement="Pointer"
+                        HorizontalOffset="-150"
+                        VerticalOffset="-56"
+                        FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                        <StackPanel KeyDown="SyncFlyout_KeyDown" Margin="4">
+                            <TextBlock
+                                Margin="0,0,0,16"
+                                Text="The loaded project and the Redis state are different. Choose how to resolve it."
+                                TextWrapping="Wrap" />
+                            <Grid Height="{DynamicResource ControlHeightMD}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    Grid.Column="0"
+                                    Margin="0,0,4,0"
+                                    Click="Push_Click"
+                                    Command="{Binding PushCommand}"
+                                    Content="Push"
+                                    IsEnabled="{Binding IsConnected}"
+                                    Theme="{StaticResource ButtonRounded}"
+                                    ToolTip.Tip="Push: send the loaded project to Redis and all engines" />
+                                <Button
+                                    Grid.Column="1"
+                                    Margin="4,0"
+                                    Click="Pull_Click"
+                                    Command="{Binding PullCommand}"
+                                    Content="Pull"
+                                    IsEnabled="{Binding !IsJoined}"
+                                    Theme="{StaticResource ButtonRounded}"
+                                    ToolTip.Tip="Pull: replace the loaded project with the Redis state. Available while not in sync." />
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="4,0,0,0"
+                                    Click="CancelSync_Click"
+                                    Content="Cancel"
+                                    Theme="{StaticResource ButtonRounded}" />
+                            </Grid>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </UniformGrid>
+
+        <!-- The endpoint line shows the options of the running peer. -->
+        <BaseControl:LabeledContent Caption="Redis">
+            <TextBlock
+                x:Name="EndpointText"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource ForegroundBrush}" />
+        </BaseControl:LabeledContent>
+
+        <Button
+            x:Name="EditConnectionButton"
+            Height="{DynamicResource ControlHeightMD}"
+            Content="Connection"
+            Theme="{StaticResource ButtonRounded}">
+            <Button.Flyout>
+                <Flyout
+                    Placement="Pointer"
+                    HorizontalOffset="-150"
+                    VerticalOffset="-100"
+                    FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+
+                    <StackPanel KeyDown="EditConnectionFlyout_KeyDown" Margin="8">
+
+                        <TextBlock Text="Connection Settings" Margin="0, 0, 0, 8"/>
+
+                        <BaseControl:IPBox x:Name="IpBox" Margin="0, 8, 0, 0"/>
+
+                        <UniformGrid
+                            Columns="2"
+                            Height="{DynamicResource ControlHeightMD}"
+                            Margin="0,8,0,0">
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                Text="Port" />
+                            <TextBox x:Name="PortBox" />
+                        </UniformGrid>
+
+                        <UniformGrid
+                            Columns="2"
+                            Height="{DynamicResource ControlHeightMD}"
+                            Margin="0,4,0,0">
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                Text="Database" />
+                            <TextBox x:Name="DatabaseBox" />
+                        </UniformGrid>
+
+                        <UniformGrid
+                            Columns="2"
+                            Height="{DynamicResource ControlHeightMD}"
+                            Margin="0,4,0,0">
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                Text="User" />
+                            <TextBox x:Name="UserBox" />
+                        </UniformGrid>
+
+                        <UniformGrid
+                            Columns="2"
+                            Height="{DynamicResource ControlHeightMD}"
+                            Margin="0,4,0,0">
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                Text="Password" />
+                            <TextBox x:Name="PasswordBox" PasswordChar="*" />
+                        </UniformGrid>
+
+                        <UniformGrid
+                            Columns="2"
+                            Height="{DynamicResource ControlHeightMD}"
+                            Margin="0,4,0,0">
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                Text="Key Prefix" />
+                            <TextBox x:Name="KeyPrefixBox" />
+                        </UniformGrid>
+
+                        <UniformGrid
+                            Columns="2"
+                            Height="{DynamicResource ControlHeightMD}"
+                            Margin="0,4,0,0">
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                Text="Peer Name" />
+                            <TextBox x:Name="PeerNameBox" />
+                        </UniformGrid>
+
+                        <!-- Reserves space so the popup does not resize when a message appears. -->
+                        <StackPanel MinHeight="40">
+                            <TextBlock
+                                x:Name="ErrorText"
+                                Margin="0,4"
+                                Foreground="Crimson"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <UniformGrid Columns="2" Margin="0,0,0,0">
+                            <Button
+                                x:Name="ConnectButton"
+                                Margin="0,0,4,0"
+                                Click="Connect_Click"
+                                Content="Connect"
+                                Theme="{StaticResource ButtonRounded}" />
+                            <Button
+                                Margin="4,0,0,0"
+                                Click="CancelEditConnection_Click"
+                                Content="Cancel"
+                                Theme="{StaticResource ButtonRounded}" />
+                        </UniformGrid>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+
+    </StackPanel>
+</UserControl>

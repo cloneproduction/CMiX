@@ -9,8 +9,8 @@ namespace CMiX.Core.Networking
     {
         private readonly List<IMessageSender> _senders = new();
 
-        // Set while the two sides are unsynced, to block content messages until push or pull
-        // resolves it. Sync-protocol messages always go through regardless.
+        // True until the peer is joined, and during a snapshot apply. A blocked messenger drops
+        // every message.
         public bool IsSendingBlocked { get; set; }
 
         public void Register(IMessageSender sender) => _senders.Add(sender);
@@ -18,7 +18,7 @@ namespace CMiX.Core.Networking
 
         public void SendMessage(IMessage message)
         {
-            if (IsSendingBlocked && !SyncProtocolMessages.IsSyncProtocol(message)) return;
+            if (IsSendingBlocked) return;
             _senders.ForEach(s => s.SendMessage(message));
         }
     }

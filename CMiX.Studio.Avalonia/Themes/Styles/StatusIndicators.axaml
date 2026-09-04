@@ -2,18 +2,13 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Four states: red (default) means the listener isn't running at all - a real problem,
-         not just "no Engine yet". Orange (.listening) is the normal idle state: up and waiting.
-         Green (.connected) means an Engine is actually attached. Gray (.connecting) means a
-         deliberate reconnect is in progress (ApplyAsync stops itself before rebinding), so that
-         momentary "not listening" doesn't read as a failure. Consumers bind Classes.listening to
-         ServerIsRunning, Classes.connected to ClientIsConnected, and Classes.connecting to
-         IsReconnecting; declared last, .connecting wins over the other two while it applies. -->
-    <ControlTheme x:Key="ServerConnectionIndicatorStyle" TargetType="Ellipse">
+    <!-- Three states: red (default) means the peer has no store connection. Green (.connected)
+         means it is connected to Redis. Gray (.connecting) means a connect or reconnect attempt
+         is in progress, so a momentary red does not read as a failure. Consumers bind
+         Classes.connected to IsConnected and Classes.connecting to the Status text through
+         SyncStatusIsConnecting; declared last, .connecting wins over .connected. -->
+    <ControlTheme x:Key="SyncConnectionIndicatorStyle" TargetType="Ellipse">
         <Setter Property="Fill" Value="Red" />
-        <Style Selector="^.listening">
-            <Setter Property="Fill" Value="Orange" />
-        </Style>
         <Style Selector="^.connected">
             <Setter Property="Fill" Value="Green" />
         </Style>
@@ -22,8 +17,8 @@
         </Style>
     </ControlTheme>
 
-    <!-- Same shape as ServerConnectionIndicatorStyle, different color. -->
-    <ControlTheme x:Key="ServerSyncIndicatorStyle" TargetType="Ellipse">
+    <!-- Same shape as SyncConnectionIndicatorStyle, different color. -->
+    <ControlTheme x:Key="SyncStateIndicatorStyle" TargetType="Ellipse">
         <Setter Property="Fill" Value="Gray" />
         <Style Selector="^.insync">
             <Setter Property="Fill" Value="DodgerBlue" />
