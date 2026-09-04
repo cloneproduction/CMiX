@@ -202,12 +202,6 @@ The Redis set needs a Redis or a Memurai on `127.0.0.1:6379`:
 
 The tests skip when no server answers.
 
-### What the Engine patch needs
-
-The patch builds its options with the node `SyncOptions.Create`, and starts the
-peer with the node `InjectionBuilder.ConfigureEngineTransport`. The list of the
-patch edits is in `CMiX.Engine/SYNC-PATCH-CHANGES.md`.
-
 ### How to get engine input back
 
 Today an engine does not write. To let an engine send values, do this:
