@@ -17,7 +17,7 @@ namespace CMiX.Core.Tests
     // entries. The tests use a short delay, because the real one is five seconds.
     public class SnapshotCompactorTests
     {
-        private static readonly TimeSpan Delay = TimeSpan.FromMilliseconds(400);
+        private static readonly TimeSpan Delay = TimeSpan.FromMilliseconds(200);
         private static readonly TimeSpan NoTimer = TimeSpan.FromSeconds(30);
 
         private static ProjectModel ModelWithOneComposition()
@@ -135,7 +135,7 @@ namespace CMiX.Core.Tests
             peer.SendMessage(ValueChange(0.25f));
             await WaitUntilAsync(() => store.TrimCalls.Count > 0);
 
-            var retention = (long)SyncTimings.Retention.TotalMilliseconds;
+            var retention = (long)Fast.Retention.TotalMilliseconds;
             var expected = new StreamPosition(peer.TailId.Milliseconds - retention, 0);
             Assert.Equal(expected, store.TrimCalls.ToArray().Last());
         }
@@ -143,15 +143,17 @@ namespace CMiX.Core.Tests
         [Fact]
         public void TrimPosition_TakesTheLowerOfTheOwnPositionAndTheRetentionBound()
         {
-            var retention = (long)SyncTimings.Retention.TotalMilliseconds;
+            var retention = SyncTimings.Default.Retention;
+            var bound = (long)retention.TotalMilliseconds;
 
-            Assert.Equal(StreamPosition.Zero, SnapshotCompactor.TrimPosition(new StreamPosition(3, 0), new StreamPosition(3, 0)));
-            Assert.Equal(new StreamPosition(1_000_000 - retention, 0),
-                SnapshotCompactor.TrimPosition(new StreamPosition(1_000_000, 0), new StreamPosition(1_000_000, 0)));
+            Assert.Equal(StreamPosition.Zero,
+                SnapshotCompactor.TrimPosition(new StreamPosition(3, 0), new StreamPosition(3, 0), retention));
+            Assert.Equal(new StreamPosition(1_000_000 - bound, 0),
+                SnapshotCompactor.TrimPosition(new StreamPosition(1_000_000, 0), new StreamPosition(1_000_000, 0), retention));
 
             // A peer that lags more than the retention keeps the entries it did not apply yet.
             Assert.Equal(new StreamPosition(500_000, 0),
-                SnapshotCompactor.TrimPosition(new StreamPosition(500_000, 0), new StreamPosition(1_000_000, 0)));
+                SnapshotCompactor.TrimPosition(new StreamPosition(500_000, 0), new StreamPosition(1_000_000, 0), retention));
         }
 
         [Fact]
@@ -478,7 +480,7 @@ namespace CMiX.Core.Tests
 
             inner.ClearSnapshot();
 
-            // The heartbeat interval is two seconds.
+            // The next heartbeat tick finds that the snapshot is gone.
             await WaitUntilAsync(() => store.WriteSnapshotCalls > pushWrites, 5000,
                 () => $"writes={store.WriteSnapshotCalls}");
 

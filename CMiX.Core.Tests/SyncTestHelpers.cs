@@ -288,6 +288,20 @@ namespace CMiX.Core.Tests
 
     public static class SyncTestHelpers
     {
+        // The unit tests drive an in-memory store, so they do not need the real waits. Retention and
+        // CompactionDelay keep their defaults: the compaction tests set their own delay, and the
+        // retention tests count on the sixty seconds. StalePause too, because one test sets its own.
+        public static readonly SyncTimings Fast = SyncTimings.Default with
+        {
+            ReadTimeout = TimeSpan.FromMilliseconds(50),
+            HeartbeatInterval = TimeSpan.FromMilliseconds(100),
+            HeartbeatTtl = TimeSpan.FromMilliseconds(300),
+            RetryDelay = TimeSpan.FromMilliseconds(50),
+            MinBackoff = TimeSpan.FromMilliseconds(50),
+            MaxBackoff = TimeSpan.FromMilliseconds(200),
+            StopTimeout = TimeSpan.FromMilliseconds(500)
+        };
+
         public static async Task WaitUntilAsync(Func<bool> condition, int timeoutMs = 5000, Func<string> detail = null)
         {
             var watch = Stopwatch.StartNew();
@@ -309,7 +323,7 @@ namespace CMiX.Core.Tests
             });
 
         public static SyncPeer CreatePeer(ISyncTarget target, ISyncStore store, ControlMessenger messenger = null, bool isWriter = true)
-            => new SyncPeer(target, messenger ?? new ControlMessenger(), _ => store) { IsWriter = isWriter };
+            => new SyncPeer(target, messenger ?? new ControlMessenger(), _ => store) { IsWriter = isWriter, Timings = Fast };
 
         public static SyncOptions Options(string name) => SyncOptions.Defaults with { PeerName = name, Role = "test" };
     }

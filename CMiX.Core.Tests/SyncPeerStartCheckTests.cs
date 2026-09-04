@@ -212,7 +212,8 @@ namespace CMiX.Core.Tests
 
                 peer.Start(Options("Studio"), autoJoin: false);
                 await WaitUntilAsync(() => peer.IsJoined, 5000, () => $"iteration {i} status={peer.Status}");
-                await Task.Delay(1000);
+                // The store keeps sending its connection events. A second push must not come.
+                await Task.Delay(300);
 
                 Assert.Equal(1, peer.SentMessages);
                 Assert.Single(inner.Entries);

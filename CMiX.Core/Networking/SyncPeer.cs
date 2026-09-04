@@ -21,9 +21,6 @@ namespace CMiX.Core.Networking
         // How many applied message IDs the peer remembers, to find an entry that arrives twice.
         private const int AppliedMemory = 1000;
 
-        // How long the stop work waits for the loops of the run before it disposes the store.
-        private static readonly TimeSpan StopTimeout = TimeSpan.FromSeconds(5);
-
         private readonly ISyncTarget _target;
         private readonly ControlMessenger _messenger;
         private readonly Func<SyncOptions, ISyncStore> _storeFactory;
@@ -36,6 +33,9 @@ namespace CMiX.Core.Networking
         private readonly HashSet<Guid> _appliedIds = new();
 
         private ISyncStore _store;
+        // The timings of the run. Start takes them from Timings, so a change during a run is only
+        // seen by the next one.
+        private SyncTimings _runTimings = SyncTimings.Default;
         private SnapshotCompactor _compactor;
         private bool _compactionEnabled;
         private CancellationTokenSource _cts;
@@ -98,11 +98,22 @@ namespace CMiX.Core.Networking
         // Only a writer appends entries and pushes. Engines read and apply.
         public bool IsWriter { get; set; }
 
+        // The time values of the sync. Start takes the set that its run uses.
+        public SyncTimings Timings { get; set; } = SyncTimings.Default;
+
         // How long a value change waits before the compactor writes a new snapshot. Tests shorten it.
-        public TimeSpan CompactionDelay { get; set; } = SyncTimings.CompactionDelay;
+        public TimeSpan CompactionDelay
+        {
+            get => Timings.CompactionDelay;
+            set => Timings = Timings with { CompactionDelay = value };
+        }
 
         // A follower that made no read for this long checks the gap first. Tests shorten it.
-        public TimeSpan FollowerStalePause { get; set; } = SyncTimings.StalePause;
+        public TimeSpan FollowerStalePause
+        {
+            get => Timings.StalePause;
+            set => Timings = Timings with { StalePause = value };
+        }
 
         public int PendingMessages => _outgoing.PendingCount;
 
@@ -173,6 +184,7 @@ namespace CMiX.Core.Networking
             Interlocked.Increment(ref _generation);
             Options = options.WithFallbacks();
             _autoJoin = autoJoin;
+            _runTimings = Timings;
             _store = _storeFactory(Options);
             CreateCompactor();
             _cts = new CancellationTokenSource();
@@ -188,8 +200,9 @@ namespace CMiX.Core.Networking
 
             var store = _store;
             var generation = Volatile.Read(ref _generation);
+            var timings = _runTimings;
             var ct = _cts.Token;
-            _runTask = Task.Run(() => RunAsync(store, generation, ct), ct);
+            _runTask = Task.Run(() => RunAsync(store, generation, timings, ct), ct);
         }
 
         // Returns at once. The loops end and the store is disposed on a background task. Stopped
@@ -209,6 +222,7 @@ namespace CMiX.Core.Networking
             var runTask = _runTask;
             var stopped = _stopped;
             var store = _store;
+            var stopTimeout = _runTimings.StopTimeout;
             _cts = null;
             _followerCts = null;
             _follower = null;
@@ -228,7 +242,7 @@ namespace CMiX.Core.Networking
                 {
                     // The loops and the compaction must end before the store closes. Otherwise a
                     // last heartbeat, append or snapshot lands after the stop.
-                    await Task.WhenAny(WaitForAsync(runTask, followerTask, compacting), Task.Delay(StopTimeout)).ConfigureAwait(false);
+                    await Task.WhenAny(WaitForAsync(runTask, followerTask, compacting), Task.Delay(stopTimeout)).ConfigureAwait(false);
 
                     if (store != null)
                         await store.DisposeAsync().ConfigureAwait(false);
@@ -299,7 +313,7 @@ namespace CMiX.Core.Networking
         }
 
         // Returns when the run has ended, so the stop work can wait for the loops it started.
-        private async Task RunAsync(ISyncStore store, int generation, CancellationToken ct)
+        private async Task RunAsync(ISyncStore store, int generation, SyncTimings timings, CancellationToken ct)
         {
             Task outgoing = null;
             Task presence = null;
@@ -307,7 +321,7 @@ namespace CMiX.Core.Networking
             try
             {
                 store.ConnectionChanged += OnConnectionChanged;
-                await WaitForConnectionAsync(store, ct).ConfigureAwait(false);
+                await WaitForConnectionAsync(store, timings, ct).ConfigureAwait(false);
                 if (!IsCurrent(store, generation)) return;
 
                 _afterFirstConnect = true;
@@ -317,10 +331,10 @@ namespace CMiX.Core.Networking
                     IsConnected = true;
                 }).ConfigureAwait(false);
 
-                outgoing = Task.Run(() => _outgoing.RunAsync(store, id => OnSentAsync(store, generation, id),
+                outgoing = Task.Run(() => _outgoing.RunAsync(store, timings, id => OnSentAsync(store, generation, id),
                     () => OnDrainedAsync(store, generation), ct), ct);
                 var presenceLoop = new Presence(store, _peerId, HeartbeatFields, () => ListPeersEnabled,
-                    () => LastAppliedId, tick => OnPresenceTickAsync(store, generation, tick));
+                    () => LastAppliedId, tick => OnPresenceTickAsync(store, generation, tick), timings);
                 presence = Task.Run(() => presenceLoop.RunAsync(ct), ct);
 
                 await OnConnectedAsync(ct).ConfigureAwait(false);
@@ -360,7 +374,7 @@ namespace CMiX.Core.Networking
             }
         }
 
-        private async Task WaitForConnectionAsync(ISyncStore store, CancellationToken ct)
+        private async Task WaitForConnectionAsync(ISyncStore store, SyncTimings timings, CancellationToken ct)
         {
             while (true)
             {
@@ -370,7 +384,7 @@ namespace CMiX.Core.Networking
 
                 // A store that misses the event of the server keeps the peer waiting. The connect
                 // of a store that already has its client is cheap, so the poll is short.
-                await WaitForConnectionEventAsync(store, SyncTimings.HeartbeatInterval, ct).ConfigureAwait(false);
+                await WaitForConnectionEventAsync(store, timings.HeartbeatInterval, ct).ConfigureAwait(false);
                 if (store.IsConnected) return;
             }
         }
@@ -408,7 +422,8 @@ namespace CMiX.Core.Networking
 
             // A store error makes the join fail. An engine has no user who repeats it, so it tries
             // again until it is in the sync.
-            var backoff = SyncTimings.MinBackoff;
+            var timings = _runTimings;
+            var backoff = timings.MinBackoff;
             while (!ct.IsCancellationRequested && !IsJoined)
             {
                 if (!IsCurrent(store, generation)) return;
@@ -426,7 +441,7 @@ namespace CMiX.Core.Networking
                     await WaitForConnectionEventAsync(store, backoff, ct).ConfigureAwait(false);
                 }
 
-                backoff = TimeSpan.FromTicks(Math.Min(backoff.Ticks * 2, SyncTimings.MaxBackoff.Ticks));
+                backoff = TimeSpan.FromTicks(Math.Min(backoff.Ticks * 2, timings.MaxBackoff.Ticks));
             }
         }
 
@@ -925,7 +940,7 @@ namespace CMiX.Core.Networking
 
             var followerCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token);
             var follower = new StreamFollower(store, () => LastAppliedId, entry => ApplyEntryAsync(store, generation, entry),
-                () => OnFollowerErrorAsync(store, generation), FollowerStalePause);
+                () => OnFollowerErrorAsync(store, generation), _runTimings);
             _followerCts = followerCts;
             _follower = follower;
             _followerTask = Task.Run(() => follower.RunAsync(followerCts.Token), followerCts.Token);
@@ -1052,7 +1067,7 @@ namespace CMiX.Core.Networking
         {
             if (_compactor != null || !_compactionEnabled || _store == null) return;
 
-            _compactor = new SnapshotCompactor(this, _target, _store, action => DispatchAsync(action), CompactionDelay);
+            _compactor = new SnapshotCompactor(this, _target, _store, action => DispatchAsync(action), _runTimings);
         }
 
         private void DisposeCompactor()

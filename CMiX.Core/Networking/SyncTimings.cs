@@ -3,27 +3,36 @@
 
 namespace CMiX.Core.Networking
 {
-    // The time constants of the sync protocol, in one place so all peers agree on them.
-    public static class SyncTimings
-    {
+    // The time values of the sync protocol, in one place so all peers of a run agree on them. A peer
+    // takes the set of its Start. The apps use Default, the unit tests use a short set.
+    public sealed record SyncTimings(
         // How long a reader waits for new entries before it reads again.
-        public static readonly TimeSpan ReadTimeout = TimeSpan.FromMilliseconds(250);
-
-        public static readonly TimeSpan HeartbeatInterval = TimeSpan.FromSeconds(2);
-        public static readonly TimeSpan HeartbeatTtl = TimeSpan.FromSeconds(6);
-
+        TimeSpan ReadTimeout,
+        TimeSpan HeartbeatInterval,
+        TimeSpan HeartbeatTtl,
         // Entries younger than this are never trimmed, so a peer that lags a little does not lose
         // them. A peer that lags more re-joins from the snapshot.
-        public static readonly TimeSpan Retention = TimeSpan.FromSeconds(60);
-
+        TimeSpan Retention,
         // A follower that made no read for this long checks the gap before it applies anything.
-        public static readonly TimeSpan StalePause = TimeSpan.FromSeconds(30);
-
+        TimeSpan StalePause,
         // A value change waits this long before the Studio writes a new snapshot.
-        public static readonly TimeSpan CompactionDelay = TimeSpan.FromSeconds(5);
-
-        public static readonly TimeSpan RetryDelay = TimeSpan.FromMilliseconds(500);
-        public static readonly TimeSpan MinBackoff = TimeSpan.FromSeconds(1);
-        public static readonly TimeSpan MaxBackoff = TimeSpan.FromSeconds(10);
+        TimeSpan CompactionDelay,
+        TimeSpan RetryDelay,
+        TimeSpan MinBackoff,
+        TimeSpan MaxBackoff,
+        // How long the stop work waits for the loops of the run before it disposes the store.
+        TimeSpan StopTimeout)
+    {
+        public static readonly SyncTimings Default = new(
+            ReadTimeout: TimeSpan.FromMilliseconds(250),
+            HeartbeatInterval: TimeSpan.FromSeconds(2),
+            HeartbeatTtl: TimeSpan.FromSeconds(6),
+            Retention: TimeSpan.FromSeconds(60),
+            StalePause: TimeSpan.FromSeconds(30),
+            CompactionDelay: TimeSpan.FromSeconds(5),
+            RetryDelay: TimeSpan.FromMilliseconds(500),
+            MinBackoff: TimeSpan.FromSeconds(1),
+            MaxBackoff: TimeSpan.FromSeconds(10),
+            StopTimeout: TimeSpan.FromSeconds(5));
     }
 }

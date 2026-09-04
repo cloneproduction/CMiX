@@ -62,8 +62,8 @@ namespace CMiX.Core.Networking
         // the store is down. onSent returns false when the run is over. The entry then stays in the
         // queue for the loop of the next run. onDrained comes after the entry left the queue, so a
         // listener of it reads the true pending count.
-        public async Task RunAsync(ISyncStore store, Func<StreamPosition, Task<bool>> onSent, Func<Task> onDrained,
-            CancellationToken ct)
+        public async Task RunAsync(ISyncStore store, SyncTimings timings, Func<StreamPosition, Task<bool>> onSent,
+            Func<Task> onDrained, CancellationToken ct)
         {
             await _consumer.WaitAsync(ct).ConfigureAwait(false);
             try
@@ -100,7 +100,7 @@ namespace CMiX.Core.Networking
                             catch (Exception)
                             {
                                 EndAppend();
-                                await Task.Delay(SyncTimings.RetryDelay, ct).ConfigureAwait(false);
+                                await Task.Delay(timings.RetryDelay, ct).ConfigureAwait(false);
                                 continue;
                             }
 

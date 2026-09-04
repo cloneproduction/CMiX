@@ -18,9 +18,10 @@ namespace CMiX.Core.Networking
         private readonly Func<bool> _listPeers;
         private readonly Func<StreamPosition> _position;
         private readonly Func<PresenceTick, Task> _onTick;
+        private readonly SyncTimings _timings;
 
         public Presence(ISyncStore store, string peerId, Func<IReadOnlyDictionary<string, string>> fields, Func<bool> listPeers,
-            Func<StreamPosition> position, Func<PresenceTick, Task> onTick)
+            Func<StreamPosition> position, Func<PresenceTick, Task> onTick, SyncTimings timings)
         {
             _store = store;
             _peerId = peerId;
@@ -28,6 +29,7 @@ namespace CMiX.Core.Networking
             _listPeers = listPeers;
             _position = position;
             _onTick = onTick;
+            _timings = timings;
         }
 
         public async Task RunAsync(CancellationToken ct)
@@ -36,7 +38,7 @@ namespace CMiX.Core.Networking
             {
                 try
                 {
-                    await _store.HeartbeatAsync(_peerId, _fields(), SyncTimings.HeartbeatTtl).ConfigureAwait(false);
+                    await _store.HeartbeatAsync(_peerId, _fields(), _timings.HeartbeatTtl).ConfigureAwait(false);
                     var tail = await _store.ReadTailAsync().ConfigureAwait(false);
                     var snapshotId = await _store.ReadSnapshotIdAsync().ConfigureAwait(false);
 
@@ -64,7 +66,7 @@ namespace CMiX.Core.Networking
 
                 try
                 {
-                    await Task.Delay(SyncTimings.HeartbeatInterval, ct).ConfigureAwait(false);
+                    await Task.Delay(_timings.HeartbeatInterval, ct).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {

@@ -19,7 +19,7 @@ namespace CMiX.Core.Networking
         private readonly ISyncTarget _target;
         private readonly ISyncStore _store;
         private readonly Func<Action, Task> _dispatch;
-        private readonly TimeSpan _delay;
+        private readonly SyncTimings _timings;
         private readonly Timer _timer;
         private readonly object _gate = new();
 
@@ -31,13 +31,13 @@ namespace CMiX.Core.Networking
         private bool _failed;
         private bool _disposed;
 
-        public SnapshotCompactor(SyncPeer peer, ISyncTarget target, ISyncStore store, Func<Action, Task> dispatch, TimeSpan? delay = null)
+        public SnapshotCompactor(SyncPeer peer, ISyncTarget target, ISyncStore store, Func<Action, Task> dispatch, SyncTimings timings)
         {
             _peer = peer;
             _target = target;
             _store = store;
             _dispatch = dispatch;
-            _delay = delay ?? SyncTimings.CompactionDelay;
+            _timings = timings;
             _timer = new Timer(_ => OnTimer(), null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
 
             _peer.MessageApplied += OnMessageApplied;
@@ -124,14 +124,14 @@ namespace CMiX.Core.Networking
 
             var bytes = MessagePackSerialization.Serialize(model);
             await _store.WriteSnapshotAsync(new Snapshot(bytes, lastAppliedId, _peer.PeerId.ToString(), DateTime.UtcNow)).ConfigureAwait(false);
-            await _store.TrimAsync(TrimPosition(lastAppliedId, tailId)).ConfigureAwait(false);
+            await _store.TrimAsync(TrimPosition(lastAppliedId, tailId, _timings.Retention)).ConfigureAwait(false);
         }
 
-        // Keeps the last Retention of entries, so a peer that lags a little does not lose them, and
+        // Keeps the last retention of entries, so a peer that lags a little does not lose them, and
         // never drops an entry the own state does not have yet.
-        internal static StreamPosition TrimPosition(StreamPosition lastAppliedId, StreamPosition tailId)
+        internal static StreamPosition TrimPosition(StreamPosition lastAppliedId, StreamPosition tailId, TimeSpan retention)
         {
-            var oldest = tailId.Milliseconds - (long)SyncTimings.Retention.TotalMilliseconds;
+            var oldest = tailId.Milliseconds - (long)retention.TotalMilliseconds;
             var byRetention = oldest <= 0 ? StreamPosition.Zero : new StreamPosition(oldest, 0);
             return byRetention < lastAppliedId ? byRetention : lastAppliedId;
         }
@@ -180,7 +180,7 @@ namespace CMiX.Core.Networking
                 if (_disposed || _pending) return;
 
                 _pending = true;
-                _timer.Change(_delay, Timeout.InfiniteTimeSpan);
+                _timer.Change(_timings.CompactionDelay, Timeout.InfiniteTimeSpan);
             }
         }
 

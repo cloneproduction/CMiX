@@ -388,9 +388,12 @@ namespace CMiX.Core.Tests
             store.SetFail(false);
             await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
 
-            await Task.Delay(5000);
+            await Task.Delay(300);
             release.SetResult(true);
-            await Task.Delay(2000);
+            await WaitUntilAsync(() => peer.LastAppliedId == tail, 5000, () => $"status={peer.Status} last={peer.LastAppliedId}");
+
+            // Gives a second apply the time to appear.
+            await Task.Delay(300);
 
             Assert.Equal(1, target.SnapshotsApplied);
             Assert.Equal(tail, peer.LastAppliedId);
@@ -427,9 +430,12 @@ namespace CMiX.Core.Tests
             store.SetFail(false);
             await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
 
-            await Task.Delay(2000);
+            await Task.Delay(300);
             release.SetResult(true);
-            await Task.Delay(3000);
+            await WaitUntilAsync(() => peer.LastAppliedId == tail, 5000, () => $"status={peer.Status} last={peer.LastAppliedId}");
+
+            // Gives a second apply the time to appear.
+            await Task.Delay(300);
 
             Assert.Equal(1, target.SnapshotsApplied);
             Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
@@ -500,7 +506,8 @@ namespace CMiX.Core.Tests
             await inner.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(model), tail, "other", DateTime.UtcNow));
             await inner.TrimAsync(tail);
 
-            await Task.Delay(1000);
+            // Longer than the stale pause of the follower.
+            await Task.Delay(500);
             release.SetResult(true);
 
             await WaitUntilAsync(() => target.SnapshotsApplied == 1, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
@@ -521,7 +528,8 @@ namespace CMiX.Core.Tests
             peer.Start(Options("Engine"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
-            await Task.Delay(5000);
+            // A few heartbeat intervals. An idle tick has the time to read the oldest entry.
+            await Task.Delay(500);
             Assert.Equal(0, store.OldestReadCalls);
 
             // The follower waits here, so only a tick can read the oldest entry of the gap.
@@ -908,8 +916,8 @@ namespace CMiX.Core.Tests
             store.SetConnected(false);
             await WaitUntilAsync(() => !peer.IsConnected);
 
-            // Longer than the first backoff, so the peer waits for the connection event.
-            await Task.Delay(1200);
+            // Longer than the largest backoff, so the peer waits for the connection event.
+            await Task.Delay(300);
             Assert.False(peer.IsJoined);
 
             store.Fail = false;
@@ -950,7 +958,7 @@ namespace CMiX.Core.Tests
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget();
-            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false };
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false, Timings = Fast };
 
             peer.Start(Options("Engine"), autoJoin: true);
             await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
@@ -961,7 +969,7 @@ namespace CMiX.Core.Tests
             // Stop disposed the old store. Connect it again, so the read that waits can return a
             // snapshot and the test sees what the peer does with it.
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
-            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
+            await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
             release.SetResult(true);
 
@@ -997,7 +1005,7 @@ namespace CMiX.Core.Tests
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
-            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true };
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true, Timings = Fast };
 
             // Both stores are empty, so the start check pushes the local state.
             peer.Start(Options("Studio"), autoJoin: false);
@@ -1007,7 +1015,7 @@ namespace CMiX.Core.Tests
             peer.Start(Options("Studio"), autoJoin: false);
 
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
-            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
+            await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
             release.SetResult(true);
 
@@ -1038,7 +1046,7 @@ namespace CMiX.Core.Tests
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
-            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true };
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true, Timings = Fast };
 
             peer.Start(Options("Studio"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
@@ -1062,7 +1070,7 @@ namespace CMiX.Core.Tests
 
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
             // The push of the second start waits for that append, so the release comes first.
-            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
+            await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
             release.SetResult(true);
             await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
@@ -1096,7 +1104,7 @@ namespace CMiX.Core.Tests
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget();
-            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true };
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true, Timings = Fast };
 
             peer.Start(Options("Studio"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
@@ -1122,7 +1130,7 @@ namespace CMiX.Core.Tests
             await Task.Delay(300);
             Assert.Single(storeB.Entries);
 
-            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
+            await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
             release.SetResult(true);
 
@@ -1199,7 +1207,7 @@ namespace CMiX.Core.Tests
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget();
-            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue());
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { Timings = Fast };
 
             peer.Start(Options("Studio"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
@@ -1231,7 +1239,7 @@ namespace CMiX.Core.Tests
             // Stop disposed the old store. Connect it again, so the read that waits can return the
             // snapshot and the test sees what the peer does with it.
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
-            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
+            await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
             release.SetResult(true);
             await Task.Delay(300);
@@ -1266,7 +1274,7 @@ namespace CMiX.Core.Tests
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget();
-            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false };
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false, Timings = Fast };
 
             peer.Start(Options("Engine"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
@@ -1282,7 +1290,7 @@ namespace CMiX.Core.Tests
             // Stop disposed the old store. Connect it again, so the read that waits can return the
             // entry and the test sees what the peer does with it.
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
-            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
+            await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
             release.SetResult(true);
             await Task.Delay(300);
@@ -1305,7 +1313,7 @@ namespace CMiX.Core.Tests
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget();
-            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { ListPeersEnabled = true };
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { ListPeersEnabled = true, Timings = Fast };
 
             peer.Start(Options("Engine"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
@@ -1326,7 +1334,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => PeerIds(peer).Contains("fresh"), 15000, () => $"status={peer.Status}");
 
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
-            await WaitUntilAsync(() => !innerA.IsConnected, 15000);
+            await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
             await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             await innerA.HeartbeatAsync("ghost", new Dictionary<string, string> { ["name"] = "Old" }, TimeSpan.FromMinutes(1));
@@ -1400,7 +1408,7 @@ namespace CMiX.Core.Tests
             var storeB = new InMemorySyncStore();
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget();
-            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue());
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { Timings = Fast };
 
             peer.Start(Options("A"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
@@ -1420,8 +1428,8 @@ namespace CMiX.Core.Tests
             Assert.Equal("new reason", peer.ErrorMessage);
         }
 
-        // A long outage grows the recovery backoff to ten seconds. Without the wake the peer reads
-        // nothing for the rest of that wait, although the store is back.
+        // An outage grows the recovery backoff. Without the wake the peer reads nothing for the rest
+        // of that wait, although the store is back.
         [Fact]
         public async Task Reconnect_DuringAFollowerRecovery_ReadsAtOnce()
         {
@@ -1429,20 +1437,23 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
+            // A backoff that is longer than the wait of the assertion. With the short one the
+            // follower would read again by itself, and the test would say nothing about the wake.
+            peer.Timings = Fast with { MinBackoff = TimeSpan.FromSeconds(2), MaxBackoff = TimeSpan.FromSeconds(2) };
             peer.Start(Options("A"), autoJoin: true);
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
-            await WaitUntilAsync(() => store.FailedCalls >= 3, 20000, () => $"failed={store.FailedCalls}");
+            await WaitUntilAsync(() => store.FailedCalls >= 3, 5000, () => $"failed={store.FailedCalls}");
 
             // The heartbeat fails too, so the count alone does not say how long the follower waits.
-            // After this delay the backoff is at eight seconds.
-            await Task.Delay(8000);
+            // After this delay the follower sleeps in its backoff.
+            await Task.Delay(300);
 
             store.SetFail(false);
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
 
-            await WaitUntilAsync(() => target.Applied.Count > 0, 2000,
+            await WaitUntilAsync(() => target.Applied.Count > 0, 500,
                 () => $"applied={target.Applied.Count} status={peer.Status} lastApplied={peer.LastAppliedId}");
         }
 
