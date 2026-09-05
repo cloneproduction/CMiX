@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
@@ -10,18 +9,18 @@ namespace CMiX.Core.Texturing
 {
     public partial class DiffuseTexture : ObservableObject, IControl, ITexture
     {
-        public DiffuseTexture(PrefabManager prefabManager, 
-                              TransformTexture transformTexture, 
+        public DiffuseTexture(PrefabManager prefabManager,
+                              TextureTexCoord textureTexCoord,
                               SamplerState samplerState)
         {
             TextureManager = prefabManager;
-            TransformTexture = transformTexture;
+            TextureTexCoord = textureTexCoord;
             SamplerState = samplerState;
         }
 
         public Guid ID { get ; set; } = Guid.NewGuid();
         public PrefabManager TextureManager { get; set; }
-        public TransformTexture TransformTexture { get; set; }
+        public TextureTexCoord TextureTexCoord { get; set; }
         public SamplerState SamplerState { get; set; }
 
         [ObservableProperty]
@@ -31,7 +30,7 @@ namespace CMiX.Core.Texturing
         {
             ID = ID,
             TextureManager = (PrefabManagerModel)TextureManager.ToModel(),
-            TransformTexture = (TransformTextureModel)TransformTexture.ToModel(),
+            TextureTexCoord = (TextureTexCoordModel)TextureTexCoord.ToModel(),
             SamplerState = (SamplerStateModel)SamplerState.ToModel()
         };
 
@@ -39,7 +38,7 @@ namespace CMiX.Core.Texturing
         {
             var m = (DiffuseTextureModel)model;
             ID = m.ID;
-            TransformTexture.FromModel(m.TransformTexture);
+            TextureTexCoord.FromModel(m.TextureTexCoord);
             SamplerState.FromModel(m.SamplerState);
 
             LoadManager(TextureManager, m.TextureManager);

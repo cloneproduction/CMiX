@@ -26,18 +26,15 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             ModifierModeSelector = modifierModeSelector;
             SamplerState = samplerState;
-            Location = new ModulatableVector2(locationX, locationY);
-            Scale = new ModulatableVector2(scaleX, scaleY);
-            rotation.Label = "Rotation";
-            uniform.Label = "Uniform";
-            Bindables = new List<ModulatableFloat> { locationX, locationY, scaleX, scaleY, rotation, uniform };
+            Transform = new TexCoordTransform(locationX, locationY, scaleX, scaleY, rotation, uniform);
+            Bindables = Transform.Bindables;
         }
 
-        public ModulatableVector2 Location { get; }
-        public ModulatableVector2 Scale { get; }
-
-        public ModulatableFloat Rotation => Bindables[4];
-        public ModulatableFloat Uniform => Bindables[5];
+        public TexCoordTransform Transform { get; }
+        public ModulatableVector2 Location => Transform.Location;
+        public ModulatableVector2 Scale => Transform.Scale;
+        public ModulatableFloat Rotation => Transform.Rotation;
+        public ModulatableFloat Uniform => Transform.Uniform;
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public SamplerState SamplerState { get; set; }

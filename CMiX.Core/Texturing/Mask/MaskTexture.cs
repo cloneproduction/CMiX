@@ -3,7 +3,6 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
@@ -11,15 +10,15 @@ namespace CMiX.Core.Texturing
 {
     public partial class MaskTexture : ObservableObject, IControl, ITexture
     {
-        public MaskTexture(PrefabManager prefabManager, 
-                           TransformTexture transformTexture, 
-                           SamplerState samplerState, 
-                           GenericValue<bool> invert, 
-                           GenericValue<MaskChannel> maskChannel, 
+        public MaskTexture(PrefabManager prefabManager,
+                           TextureTexCoord textureTexCoord,
+                           SamplerState samplerState,
+                           GenericValue<bool> invert,
+                           GenericValue<MaskChannel> maskChannel,
                            GenericValue<bool> isEnabled)
         {
             TextureManager = prefabManager;
-            TransformTexture = transformTexture;
+            TextureTexCoord = textureTexCoord;
             SamplerState = samplerState;
             Invert = invert;
             MaskChannel = maskChannel;
@@ -29,7 +28,7 @@ namespace CMiX.Core.Texturing
         public Guid ID { get; set; } = Guid.NewGuid();
 
         public PrefabManager TextureManager { get; set; }
-        public TransformTexture TransformTexture { get; set; }
+        public TextureTexCoord TextureTexCoord { get; set; }
         public SamplerState SamplerState { get; set; }
         public GenericValue<bool> IsEnabled { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }
@@ -43,7 +42,7 @@ namespace CMiX.Core.Texturing
         {
             ID = ID,
             TextureManager = (PrefabManagerModel)TextureManager.ToModel(),
-            TransformTexture = (TransformTextureModel)TransformTexture.ToModel(),
+            TextureTexCoord = (TextureTexCoordModel)TextureTexCoord.ToModel(),
             SamplerState = (SamplerStateModel)SamplerState.ToModel(),
             IsEnabled = (GenericValueModel<bool>)IsEnabled.ToModel(),
             MaskChannel = (GenericValueModel<MaskChannel>)MaskChannel.ToModel(),
@@ -54,7 +53,7 @@ namespace CMiX.Core.Texturing
         {
             var m = (MaskTextureModel)model;
             ID = m.ID;
-            TransformTexture.FromModel(m.TransformTexture);
+            TextureTexCoord.FromModel(m.TextureTexCoord);
             SamplerState.FromModel(m.SamplerState);
             IsEnabled.FromModel(m.IsEnabled);
             MaskChannel.FromModel(m.MaskChannel);
