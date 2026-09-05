@@ -3,20 +3,24 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <StackPanel>
 
-        <BaseControls:DragValue
-            Caption="Center"
-            Value="{Binding Center.Value}" />
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:DragValue
-            Margin="0, 8, 0, 0"
-            Caption="Width"
-            Minimum="0.0"
-            Value="{Binding Width.Value}" />
+            <BaseControls:DragValue
+                Caption="Center"
+                Value="{Binding Center.Value}" />
+
+            <BaseControls:DragValue
+                Caption="Width"
+                Minimum="0.0"
+                Value="{Binding Width.Value}" />
+
+        </Panels:PositionedStackPanel>
 
         <BaseControls:DragValue
             Margin="0, 8, 0, 0"
