@@ -1,0 +1,41 @@
+<Controls:ModulatablePanel
+    x:Class="CMiX.Studio.Avalonia.Views.RandomModifier"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    x:Name="randomModifier"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <StackPanel>
+
+        <Views:ModifierModeSelector
+            Margin="0,0,0,8"
+            DataContext="{Binding ModifierModeSelector}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
+
+        <Panels:PositionedStackPanel Margin="0,0,0,8" Spacing="{DynamicResource SpacingXXS}">
+            <BaseControls:ModulatableFloatValue
+                Caption="Center"
+                DataContext="{Binding Center}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
+
+            <BaseControls:ModulatableFloatValue
+                Caption="Width"
+                DataContext="{Binding Width}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
+        </Panels:PositionedStackPanel>
+
+        <BaseControls:DragValue
+            Caption="Seed"
+            IsInteger="True"
+            LargeChange="1.0"
+            SmallChange="1.0"
+            Value="{Binding Seed.Value}" />
+
+    </StackPanel>
+
+</Controls:ModulatablePanel>
