@@ -1,0 +1,30 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.RandomModulator"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <StackPanel>
+
+        <BaseControls:DragValue
+            Caption="Center"
+            Value="{Binding Center.Value}" />
+
+        <BaseControls:DragValue
+            Margin="0, 8, 0, 0"
+            Caption="Width"
+            Minimum="0.0"
+            Value="{Binding Width.Value}" />
+
+        <BaseControls:DragValue
+            Margin="0, 8, 0, 0"
+            Caption="Seed"
+            IsInteger="True"
+            LargeChange="1.0"
+            SmallChange="1.0"
+            Value="{Binding Seed.Value}" />
+
+    </StackPanel>
+</UserControl>
