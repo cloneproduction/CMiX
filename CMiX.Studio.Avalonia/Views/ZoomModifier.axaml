@@ -1,0 +1,26 @@
+<Controls:ModulatablePanel
+    x:Class="CMiX.Studio.Avalonia.Views.ZoomModifier"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    x:Name="zoomModifier"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+
+        <BaseControls:ModulatableFloatValue
+            Caption="Distance"
+            DataContext="{Binding Distance}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=zoomModifier}" />
+
+        <BaseControls:ModulatableFloatValue
+            Caption="FOV"
+            DataContext="{Binding FOV}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=zoomModifier}" />
+
+    </Panels:PositionedStackPanel>
+
+</Controls:ModulatablePanel>
