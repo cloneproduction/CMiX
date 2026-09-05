@@ -17,31 +17,30 @@ namespace CMiX.Core.Modulation.Modifiers
         public RandomModifier(PrefabService prefabService,
                               PrefabManager modulatorManager,
                               ModifierModeSelector modifierModeSelector,
-                              GenericValue<int> seed,
+                              ModulatableFloat seed,
                               ModulatableFloat center,
                               ModulatableFloat width)
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            Seed = seed;
+            seed.Label = "Seed";
             center.Label = "Center";
             width.Label = "Width";
             width.Value.Value = 1.0f;
-            Bindables = new List<ModulatableFloat> { center, width };
+            Bindables = new List<ModulatableFloat> { seed, center, width };
         }
 
-        public ModulatableFloat Center => Bindables[0];
-        public ModulatableFloat Width => Bindables[1];
+        public ModulatableFloat Seed => Bindables[0];
+        public ModulatableFloat Center => Bindables[1];
+        public ModulatableFloat Width => Bindables[2];
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
-        public GenericValue<int> Seed { get; set; }
 
         public override IControlModel ToModel()
         {
             var model = new RandomModifierModel
             {
-                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
-                Seed = (GenericValueModel<int>)Seed.ToModel()
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -53,7 +52,6 @@ namespace CMiX.Core.Modulation.Modifiers
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
-            Seed.FromModel(m.Seed);
         }
     }
 }

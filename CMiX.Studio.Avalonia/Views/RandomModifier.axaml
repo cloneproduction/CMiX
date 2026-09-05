@@ -29,12 +29,10 @@
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
         </Panels:PositionedStackPanel>
 
-        <BaseControls:DragValue
+        <BaseControls:ModulatableFloatValue
             Caption="Seed"
-            IsInteger="True"
-            LargeChange="1.0"
-            SmallChange="1.0"
-            Value="{Binding Seed.Value}" />
+            DataContext="{Binding Seed}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
 
     </StackPanel>
 

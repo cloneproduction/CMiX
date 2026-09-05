@@ -17,6 +17,5 @@ namespace CMiX.Core.Modulation.Modifiers
         public List<ModulatableFloatModel> Bindables { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();
         public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
-        public GenericValueModel<int> Seed { get; set; } = new(0);
     }
 }
