@@ -13,7 +13,7 @@
             Minimum="0"
             Value="{Binding Divisions.Value}" />
 
-        <Panels:PositionedStackPanel Margin="0,8,0,0">
+        <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
 
             <Controls:IntegerValue
                 Caption="Iterations"
@@ -21,20 +21,18 @@
                 Value="{Binding Iterations.Value}" />
 
             <Controls:DragValue
-                Margin="0,1,0,0"
                 Caption="Iteration Zoom"
                 DataContext="{Binding IterationZoom.Value}" />
 
         </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel Margin="0,8">
+        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
             <Controls:DragValue
                 Caption="Rotation"
                 Value="{Binding Rotation.Value}" />
 
             <Controls:DragValue
-                Margin="0,1,0,0"
                 Caption="Zoom"
                 Value="{Binding Zoom.Value}" />
 

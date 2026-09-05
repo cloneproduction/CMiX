@@ -13,49 +13,41 @@
             Caption="Light Position"
             DataContext="{Binding LightDirection}" />
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:DragValue
                 Caption="Height"
                 Value="{Binding Height.Value}" />
 
             <BaseControls:DragValue
-                Margin="0,1,0,0"
                 Caption="Dot Tolerance"
                 Value="{Binding DotTolerance.Value}" />
 
             <BaseControls:DragValue
-                Margin="0,1,0,0"
                 Caption="Ray Jitter"
                 Value="{Binding RayJitter.Value}" />
 
             <BaseControls:DragValue
-                Margin="0,1,0,0"
                 Caption="Ray Length"
                 Value="{Binding RayLength.Value}" />
 
             <BaseControls:DragValue
-                Margin="0,1,0,0"
                 Caption="Shadow Fade"
                 Value="{Binding ShadowFade.Value}" />
 
             <BaseControls:DragValue
-                Margin="0,1,0,0"
                 Caption="Shadow FallOff Pow"
                 Value="{Binding ShadowFallOffPow.Value}" />
 
             <BaseControls:DragValue
-                Margin="0,1,0,0"
                 Caption="Shadow Blur"
                 Value="{Binding ShadowBlur.Value}" />
 
             <BaseControls:DragValue
-                Margin="0,1,0,0"
                 Caption="Shadow Blur Pow"
                 Value="{Binding ShadowBlurPow.Value}" />
 
             <BaseControls:DragValue
-                Margin="0,1,0,0"
                 Caption="Sharp Offset"
                 Value="{Binding SharpOffset.Value}" />
 

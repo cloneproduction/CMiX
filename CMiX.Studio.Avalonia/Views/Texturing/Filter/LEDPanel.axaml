@@ -6,7 +6,7 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <Controls:DragValue
             Caption="Pixel Size"
@@ -14,19 +14,16 @@
             Value="{Binding PixelSize.Value}" />
 
         <Controls:DragValue
-            Margin="0,1,0,0"
             Caption="Mask Stagger"
             Minimum="0"
             Value="{Binding MaskStagger.Value}" />
 
         <Controls:DragValue
-            Margin="0,1,0,0"
             Caption="Mask Border"
             Minimum="0"
             Value="{Binding MaskBorder.Value}" />
 
         <Controls:DragValue
-            Margin="0,1,0,0"
             Caption="Mask Intensity"
             Minimum="0"
             Value="{Binding MaskIntensity.Value}" />

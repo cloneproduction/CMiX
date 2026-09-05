@@ -14,14 +14,13 @@
             Caption="Target"
             DataContext="{Binding Target}" />
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControl:DragValue
                 Caption="Range"
                 Value="{Binding Range.Value}" />
 
             <BaseControl:DragValue
-                Margin="0,1"
                 Caption="Angle"
                 Value="{Binding Angle.Value}" />
 

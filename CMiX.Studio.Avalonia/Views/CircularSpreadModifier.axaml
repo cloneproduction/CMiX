@@ -21,9 +21,8 @@
             Caption="Width"
             ModulatorManager="{Binding ModulatorManager}" />
 
-        <Panels:PositionedStackPanel Margin="0, 0, 0, 8">
+        <Panels:PositionedStackPanel Margin="0, 0, 0, 8" Spacing="{DynamicResource SpacingXXS}">
             <BaseControls:ModulatableFloatValue
-                Margin="0, 0, 0, 1"
                 Caption="Phase"
                 DataContext="{Binding Phase}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />

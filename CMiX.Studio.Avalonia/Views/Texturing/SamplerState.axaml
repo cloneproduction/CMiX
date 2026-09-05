@@ -8,7 +8,7 @@
 
     <StackPanel>
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ComboBox
                 Caption="Address U"
@@ -16,7 +16,6 @@
                 SelectedItem="{Binding AddressU.Value}" />
 
             <BaseControls:ComboBox
-                Margin="0,1,0,0"
                 Caption="V"
                 ItemsSource="{x:Static Resources:EnumProviders.TextureAddressMode}"
                 SelectedItem="{Binding AddressV.Value}" />

@@ -10,14 +10,13 @@
 
         <Mesh:ScaleOffsetEditor />
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControl:DragValue
                 Caption="Radius"
                 Value="{Binding Radius.Value}" />
 
             <BaseControl:DragValue
-                Margin="0,1,0,0"
                 Caption="Height"
                 Value="{Binding Height.Value}" />
 

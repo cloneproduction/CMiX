@@ -23,7 +23,7 @@
             ItemsSource="{x:Static Resources:EnumProviders.ColorMode}"
             SelectedItem="{Binding ColorMode.Value}" />
 
-            <Panels:PositionedStackPanel Margin="0, 0, 0, 8">
+            <Panels:PositionedStackPanel Margin="0, 0, 0, 8" Spacing="{DynamicResource SpacingXXS}">
 
                 <BaseControls:ModulatableFloatValue
                     Caption="Hue"
@@ -31,7 +31,6 @@
                     ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
                 <BaseControls:ModulatableFloatValue
-                    Margin="0,1"
                     Caption="Saturation"
                     DataContext="{Binding Saturation}"
                     ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
@@ -42,7 +41,6 @@
                     ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
                 <BaseControls:ModulatableFloatValue
-                    Margin="0, 1, 0, 0"
                     Caption="Alpha"
                     DataContext="{Binding Alpha}"
                     ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />

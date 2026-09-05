@@ -8,7 +8,7 @@
 
     <StackPanel>
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <Controls:DragValue
                 Caption="Threshold"
@@ -16,16 +16,14 @@
                 Value="{Binding ThresholdValue.Value}" />
 
             <Controls:DragValue
-                Margin="0,1,0,0"
                 Caption="Smooth"
                 Value="{Binding Smooth.Value}" />
 
         </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel Margin="0,8">
+        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
             <Controls:ColorSelector
-                Margin="0,0,0,1"
                 Caption="Foreground"
                 DataContext="{Binding Foreground}" />
 

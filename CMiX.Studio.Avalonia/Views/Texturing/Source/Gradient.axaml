@@ -12,14 +12,13 @@
             Caption="Gamma"
             Value="{Binding Gamma.Value}" />
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControl:ColorSelector
                 Caption="From"
                 DataContext="{Binding From}" />
 
             <BaseControl:ColorSelector
-                Margin="0,1,0,0"
                 Caption="To"
                 DataContext="{Binding To}" />
 

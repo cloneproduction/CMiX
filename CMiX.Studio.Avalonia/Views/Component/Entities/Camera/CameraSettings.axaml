@@ -13,10 +13,9 @@
             Caption="Target" 
             DataContext="{Binding Target}" />
 
-        <Panels:PositionedStackPanel Margin="0,8">
+        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:DragValue
-                Margin="0,0,0,1"
                 Caption="Near"
                 Value="{Binding NearClip.Value}" />
 
@@ -26,10 +25,9 @@
 
         </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:DragValue
-                Margin="0,0,0,1"
                 Caption="Yaw"
                 Value="{Binding Yaw.Value}" />
 
@@ -51,10 +49,9 @@
 
         <Border IsVisible="{Binding !IsOrthographic.Value}">
 
-            <Panels:PositionedStackPanel>
+            <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
                 <BaseControls:DragValue
-                    Margin="0,0,0,1"
                     Caption="Distance"
                     Value="{Binding Distance.Value}" />
 

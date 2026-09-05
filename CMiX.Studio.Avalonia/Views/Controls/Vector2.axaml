@@ -6,14 +6,13 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     x:Name="vector2">
 
-    <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:DragValue
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vector2, Mode=OneWay}"
             Value="{Binding X.Value}" />
 
         <BaseControls:DragValue
-            Margin="0,1"
             Caption="Y"
             Value="{Binding Y.Value}" />
 

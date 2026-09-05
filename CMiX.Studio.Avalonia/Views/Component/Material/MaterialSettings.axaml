@@ -18,10 +18,9 @@
             Minimum="0"
             Value="{Binding Alpha.Value}" />
 
-        <Panels:PositionedStackPanel Margin="0,8">
+        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ComboBox
-                Margin="0,0,0,1"
                 Caption="Cull Mode"
                 ItemsSource="{x:Static Resources:EnumProviders.CullModeType}"
                 SelectedItem="{Binding CullMode.Value}" />
@@ -43,12 +42,12 @@
             ItemsSource="{x:Static Resources:EnumProviders.PipelineType}"
             SelectedItem="{Binding Pipeline.Value}" />
 
-        <Panels:PositionedStackPanel 
+        <Panels:PositionedStackPanel
             Margin="0, 0, 0, 8"
+            Spacing="{DynamicResource SpacingXXS}"
             IsVisible="{Binding Pipeline.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Materials:PipelineType.Metallic}}">
-                
+
                 <BaseControls:DragValue
-                    Margin="0, 0, 0, 1"
                     Caption="Metalness"
                     Value="{Binding Metalness.Value}" />
 
@@ -58,8 +57,8 @@
 
         </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel IsVisible="{Binding Pipeline.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Materials:PipelineType.Specular}}">
-           
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}" IsVisible="{Binding Pipeline.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Materials:PipelineType.Specular}}">
+
             <BaseControls:CMiXSlider
                 Caption="Glossiness"
                 Maximum="1"
@@ -67,7 +66,6 @@
                 Value="{Binding Glossiness.Value}" />
 
             <BaseControls:CMiXSlider
-                Margin="0,1,0,0"
                 Caption="Specularity"
                 Maximum="1"
                 Minimum="0"

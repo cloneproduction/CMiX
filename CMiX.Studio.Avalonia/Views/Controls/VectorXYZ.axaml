@@ -8,7 +8,7 @@
     d:DesignWidth="400"
     x:Name="vectorXYZ">
 
-    <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <!-- Mode OneWay stops the TwoWay default from writing the formatted string back. -->
         <BaseControls:DragValue
@@ -16,7 +16,6 @@
             Value="{Binding X.Value}" />
 
         <BaseControls:DragValue
-            Margin="0,1"
             Caption="Y"
             Value="{Binding Y.Value}" />
 

@@ -6,7 +6,7 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     x:Name="channelVectorXY">
 
-    <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:ModulatableFloatValue
             Caption="{Binding Caption, ElementName=channelVectorXY, StringFormat=' {0} X', Mode=OneWay}"
@@ -14,7 +14,6 @@
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXY}" />
 
         <BaseControls:ModulatableFloatValue
-            Margin="0,1"
             Caption="Y"
             DataContext="{Binding Y}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXY}" />

@@ -6,7 +6,7 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <Controls:CMiXSlider
             Caption="Radius"
@@ -15,7 +15,6 @@
             Value="{Binding Radius.Value}" />
 
         <Controls:CMiXSlider
-            Margin="0,1,0,0"
             Caption="Brightness"
             Maximum="10"
             Minimum="0"

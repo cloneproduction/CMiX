@@ -5,14 +5,13 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
 
-    <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControl:IntegerValue
             Caption="Resolution X"
             DataContext="{Binding SizeX}" />
 
         <BaseControl:IntegerValue
-            Margin="0,1,0,0"
             Caption="Y"
             DataContext="{Binding SizeY}" />
 

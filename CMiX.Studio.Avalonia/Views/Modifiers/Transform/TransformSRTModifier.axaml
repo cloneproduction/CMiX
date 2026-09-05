@@ -16,9 +16,9 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
 
-        <Panels:PositionedStackPanel Margin="0,8">
+        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
             <BaseControls:ModulatableFloatValue Caption="Translate X" DataContext="{Binding TranslateX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableFloatValue Margin="0,1" Caption="Y" DataContext="{Binding TranslateY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableFloatValue Caption="Y" DataContext="{Binding TranslateY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableFloatValue Caption="Z" DataContext="{Binding TranslateZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </Panels:PositionedStackPanel>
 
@@ -27,15 +27,15 @@
             DataContext="{Binding ScaleUniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
 
-        <Panels:PositionedStackPanel Margin="0,8">
+        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
             <BaseControls:ModulatableFloatValue Caption="Scale X" DataContext="{Binding ScaleX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableFloatValue Margin="0,1" Caption="Y" DataContext="{Binding ScaleY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableFloatValue Caption="Y" DataContext="{Binding ScaleY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableFloatValue Caption="Z" DataContext="{Binding ScaleZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
             <BaseControls:ModulatableFloatValue Caption="Rotation X" DataContext="{Binding RotationX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableFloatValue Margin="0,1" Caption="Y" DataContext="{Binding RotationY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableFloatValue Caption="Y" DataContext="{Binding RotationY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableFloatValue Caption="Z" DataContext="{Binding RotationZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </Panels:PositionedStackPanel>
 

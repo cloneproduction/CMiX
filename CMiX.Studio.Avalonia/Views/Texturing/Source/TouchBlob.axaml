@@ -11,14 +11,13 @@
             Caption="Size"
             Value="{Binding Size.Value}" />
 
-        <Panels:PositionedStackPanel Margin="0,8">
+        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ColorSelector
                 Caption="Color"
                 DataContext="{Binding Color}" />
 
             <BaseControls:ColorSelector
-                Margin="0,1,0,0"
                 Caption="Background"
                 DataContext="{Binding Background}" />
 

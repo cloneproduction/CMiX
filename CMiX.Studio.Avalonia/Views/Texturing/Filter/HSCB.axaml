@@ -6,10 +6,9 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Panels:PositionedStackPanel Margin="0,8,0,0">
+    <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
 
         <Controls:DragValue
-            Margin="0,0,0,1"
             Caption="Hue"
             Value="{Binding Hue.Value}" />
 
@@ -18,13 +17,11 @@
             Value="{Binding Saturation.Value}" />
 
         <Controls:DragValue
-            Margin="0,1,0,0"
             Caption="Contrast"
             Value="{Binding Contrast.Value}" />
 
         <Controls:DragValue
             Height="{DynamicResource ControlHeightMD}"
-            Margin="0,1,0,0"
             Caption="Brightness"
             Value="{Binding Brightness.Value}" />
 

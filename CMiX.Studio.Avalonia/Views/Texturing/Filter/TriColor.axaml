@@ -8,14 +8,13 @@
 
     <StackPanel>
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControl:ColorSelector
                 Caption="Color A"
                 DataContext="{Binding ColorA}" />
 
             <BaseControl:ColorSelector
-                Margin="0,1"
                 Caption="Color B"
                 DataContext="{Binding ColorB}" />
 
@@ -35,10 +34,9 @@
             Caption="Clamp Color"
             IsChecked="{Binding ClampColor.Value}" />
 
-        <Panels:PositionedStackPanel Margin="0,8,0,0">
+        <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControl:CMiXSlider
-                Margin="0,0,0,1"
                 Caption="Smooth"
                 Maximum="1.0"
                 Minimum="0.0"

@@ -11,10 +11,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:ComboBox
-            Margin="0,0,0,1"
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
             SelectedItem="{Binding Mode.Value}" />

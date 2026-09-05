@@ -6,10 +6,9 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <Controls:CMiXSlider
-            Margin="0,0,0,1"
             Caption="Factor X"
             Maximum="1"
             Minimum="0"

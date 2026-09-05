@@ -9,14 +9,13 @@
 
     <StackPanel>
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <basecontrol:DragValue
                 Caption="From"
                 Value="{Binding From.Value}" />
 
             <basecontrol:DragValue
-                Margin="0,1,0,0"
                 Caption="To"
                 Value="{Binding To.Value}" />
 

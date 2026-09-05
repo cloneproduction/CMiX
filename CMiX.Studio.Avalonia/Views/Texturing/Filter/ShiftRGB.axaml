@@ -6,14 +6,13 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:DragValue
             Caption="Direction"
             Value="{Binding Direction.Value}" />
 
         <BaseControls:DragValue
-            Margin="0,1"
             Caption="Shift"
             Value="{Binding Shift.Value}" />
 

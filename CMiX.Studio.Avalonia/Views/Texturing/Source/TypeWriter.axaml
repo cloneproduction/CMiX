@@ -19,11 +19,10 @@
                 Theme="{StaticResource TypeWriterStyle}" />
         </Border>
 
-        <Panels:PositionedStackPanel Margin="0,8,0,0">
+        <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
 
             <!-- The WPF Fonts.SystemFontFamilies source becomes the EnumProviders.SortedFontsCollection provider. -->
             <BaseControl:ComboBox
-                Margin="0,0,0,1"
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                 SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
@@ -40,14 +39,13 @@
             Caption="Size"
             Value="{Binding FontSize.Value}" />
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControl:ColorSelector
                 Caption="Font Color"
                 DataContext="{Binding FontColor}" />
 
             <BaseControl:ColorSelector
-                Margin="0,1,0,0"
                 Caption="Background Color"
                 DataContext="{Binding BackgroundColor}" />
 

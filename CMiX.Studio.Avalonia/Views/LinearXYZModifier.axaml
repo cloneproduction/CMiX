@@ -18,9 +18,8 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
 
-        <Panels:PositionedStackPanel Margin="0,0,0,8">
+        <Panels:PositionedStackPanel Margin="0,0,0,8" Spacing="{DynamicResource SpacingXXS}">
             <BaseControls:ComboBox
-                Margin="0,0,0,1"
                 Caption="Transform"
                 SelectedItem="{Binding TransformTypeSelector.Value}"
                 ItemsSource="{x:Static Resources:EnumProviders.TransformType}" />
@@ -32,10 +31,9 @@
                 ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
         </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel Margin="0,0,0,8">
+        <Panels:PositionedStackPanel Margin="0,0,0,8" Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ModulatableFloatValue
-                Margin="0,0,0,1"
                 Caption="Width"
                 DataContext="{Binding Width}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />

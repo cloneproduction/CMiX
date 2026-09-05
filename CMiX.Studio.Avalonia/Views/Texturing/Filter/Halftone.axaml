@@ -15,7 +15,7 @@
             ItemsSource="{x:Static Resources:EnumProviders.HalftoneMode}"
             SelectedItem="{Binding Mode.Value}" />
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <Controls:DragValue
                 Caption="Tile Count"
@@ -23,19 +23,16 @@
                 Value="{Binding NumberOfTiles.Value}" />
 
             <Controls:DragValue
-                Margin="0,1,0,0"
                 Caption="Dot Size"
                 Minimum="0"
                 Value="{Binding DotSize.Value}" />
 
             <Controls:DragValue
-                Margin="0,1,0,0"
                 Caption="Softness"
                 Minimum="0"
                 Value="{Binding Softness.Value}" />
 
             <Controls:DragValue
-                Margin="0,1,0,0"
                 Caption="Brightness"
                 Minimum="0"
                 Value="{Binding Brightness.Value}" />

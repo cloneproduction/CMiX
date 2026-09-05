@@ -7,19 +7,17 @@
     x:Name="integer3Value"
     Background="Transparent">
 
-    <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControl:IntegerValue
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer3Value, Mode=OneWay}"
             Value="{Binding X.Value}" />
 
         <BaseControl:IntegerValue
-            Margin="0,1,0,0"
             Caption="Y"
             Value="{Binding Y.Value}" />
 
         <BaseControl:IntegerValue
-            Margin="0,1,0,0"
             Caption="Z"
             Value="{Binding Z.Value}" />
 

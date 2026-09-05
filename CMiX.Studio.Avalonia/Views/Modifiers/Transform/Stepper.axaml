@@ -14,12 +14,11 @@
             <Views:BeatModulator
                 DataContext="{Binding BeatModifier}" />
 
-            <Panels:PositionedStackPanel>
+            <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
                 <BaseControls:DragValue
                     Caption="From"
                     Value="{Binding From.Value}" />
                 <BaseControls:DragValue
-                    Margin="0, 1, 0, 0"
                     Caption="To"
                     Value="{Binding To.Value}" />
             </Panels:PositionedStackPanel>
