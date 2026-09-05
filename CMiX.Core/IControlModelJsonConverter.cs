@@ -25,7 +25,6 @@ namespace CMiX.Core.Serialization
             ["CMiX.Core.Modulation.LinearXYZModel"] = "CMiX.Core.Modulation.Modifiers.LinearModifierModel",
             ["CMiX.Core.Modulation.Modifiers.LinearXYZModifierModel"] = "CMiX.Core.Modulation.Modifiers.LinearModifierModel",
             ["CMiX.Core.Transformation.Modifiers.TransformSRTModel"] = "CMiX.Core.Transformation.TransformSRTModifierModel",
-            ["CMiX.Core.Transformation.Modifiers.TransformTexCoordModel"] = "CMiX.Core.Transformation.Modifiers.TransformTexCoordModifierModel",
             ["CMiX.Core.Colors.Modifiers.ColorPaletteModel"] = "CMiX.Core.Colors.Modifiers.ColorPaletteModifierModel",
             ["CMiX.Core.Transformation.BillboardModel"] = "CMiX.Core.Transformation.BillboardModifierModel",
             ["CMiX.Core.Text.Modifiers.SplitModel"] = "CMiX.Core.Text.Modifiers.SplitModifierModel",
