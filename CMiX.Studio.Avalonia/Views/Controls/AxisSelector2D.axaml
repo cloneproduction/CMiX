@@ -2,22 +2,12 @@
     x:Class="CMiX.Studio.Avalonia.Views.Controls.AxisSelector2D"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     x:Name="axisSelector2D">
 
-    <Grid Height="{DynamicResource ControlHeightMD}">
+    <Controls:LabeledContent Caption="Axis">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <TextBlock
-            Grid.Column="0"
-            Padding="0,0,8,0"
-            HorizontalAlignment="Right"
-            Text="Axis" />
-
-        <Grid Grid.Column="1">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -37,5 +27,5 @@
 
         </Grid>
 
-    </Grid>
+    </Controls:LabeledContent>
 </UserControl>
