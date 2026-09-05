@@ -8,7 +8,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
-    public record LinearXYZModifierModel : IControlModel, IPrefabModel, IModifierModel
+    public record LinearModifierModel : IControlModel, IPrefabModel, IModifierModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();

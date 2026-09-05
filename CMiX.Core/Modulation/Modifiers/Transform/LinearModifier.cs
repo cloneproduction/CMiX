@@ -12,9 +12,9 @@ using CMiX.Core.Transformation.Modifiers;
 namespace CMiX.Core.Modulation.Modifiers
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class LinearXYZModifier : Modifier, ISpreadableModifier
+    public partial class LinearModifier : Modifier, ISpreadableModifier
     {
-        public LinearXYZModifier(PrefabService prefabService,
+        public LinearModifier(PrefabService prefabService,
                                  PrefabManager modulatorManager,
                                  ModifierModeSelector modifierModeSelector,
                                  ModulatableFloat width,
@@ -34,7 +34,7 @@ namespace CMiX.Core.Modulation.Modifiers
 
         public override IControlModel ToModel()
         {
-            var model = new LinearXYZModifierModel
+            var model = new LinearModifierModel
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
             };
@@ -44,7 +44,7 @@ namespace CMiX.Core.Modulation.Modifiers
 
         public override void FromModel(IControlModel model)
         {
-            var m = (LinearXYZModifierModel)model;
+            var m = (LinearModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();

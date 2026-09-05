@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
         [InlineData(typeof(TexCoordModifier))]
         [InlineData(typeof(TransformSRTModifier))]
         [InlineData(typeof(CircularSpreadModifier))]
-        [InlineData(typeof(LinearXYZModifier))]
+        [InlineData(typeof(LinearModifier))]
         public void PortedSpreadableModifier_StillImplementsISpreadableModifier(Type modifierType)
         {
             Assert.True(typeof(ISpreadableModifier).IsAssignableFrom(modifierType),

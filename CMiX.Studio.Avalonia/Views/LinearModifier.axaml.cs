@@ -5,9 +5,9 @@ using CMiX.Studio.Avalonia.Views.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class LinearXYZModifier : ModulatablePanel
+    public partial class LinearModifier : ModulatablePanel
     {
-        public LinearXYZModifier()
+        public LinearModifier()
         {
             InitializeComponent();
         }

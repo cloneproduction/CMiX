@@ -20,9 +20,10 @@ namespace CMiX.Core.Serialization
         // *Model type is renamed (property shape unchanged), so already-saved projects still load.
         private static readonly Dictionary<string, string> LegacyTypeNames = new()
         {
-            ["CMiX.Core.Modulation.GridModel"] = "CMiX.Core.Modulation.GridModifierModel",
-            ["CMiX.Core.Modulation.CircularSpreadModel"] = "CMiX.Core.Modulation.CircularSpreadModifierModel",
-            ["CMiX.Core.Modulation.LinearXYZModel"] = "CMiX.Core.Modulation.LinearXYZModifierModel",
+            ["CMiX.Core.Modulation.GridModel"] = "CMiX.Core.Modulation.Modifiers.GridModifierModel",
+            ["CMiX.Core.Modulation.CircularSpreadModel"] = "CMiX.Core.Modulation.Modifiers.CircularSpreadModifierModel",
+            ["CMiX.Core.Modulation.LinearXYZModel"] = "CMiX.Core.Modulation.Modifiers.LinearModifierModel",
+            ["CMiX.Core.Modulation.Modifiers.LinearXYZModifierModel"] = "CMiX.Core.Modulation.Modifiers.LinearModifierModel",
             ["CMiX.Core.Transformation.Modifiers.TransformSRTModel"] = "CMiX.Core.Transformation.TransformSRTModifierModel",
             ["CMiX.Core.Transformation.Modifiers.TransformTexCoordModel"] = "CMiX.Core.Transformation.Modifiers.TransformTexCoordModifierModel",
             ["CMiX.Core.Colors.Modifiers.ColorPaletteModel"] = "CMiX.Core.Colors.Modifiers.ColorPaletteModifierModel",
