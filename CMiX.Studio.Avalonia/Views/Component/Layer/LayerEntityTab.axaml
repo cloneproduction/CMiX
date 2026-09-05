@@ -23,7 +23,7 @@
                 CompositeCollection, so ControlRepository.EntitiesAndTexts replaces it here.
             -->
             <Managers:PrefabSlotManager
-                Margin="8"
+                Margin="{DynamicResource SpacingMD}"
                 DataContext="{Binding ModelEntityManager}"
                 DockPanel.Dock="Top"
                 ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.EntitiesAndTexts}">

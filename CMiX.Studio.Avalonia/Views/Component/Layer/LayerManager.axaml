@@ -14,7 +14,7 @@
             <views:LayerManagerToolbar DockPanel.Dock="Bottom" />
 
             <Border DockPanel.Dock="Bottom" IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-                <StackPanel Margin="8" DataContext="{Binding SelectedItem}">
+                <StackPanel Margin="{DynamicResource SpacingMD}" DataContext="{Binding SelectedItem}">
                     <views:LayerManagerSettings />
                     <views:LayerManagerMaskSettings IsVisible="{Binding LayerMaskSettings.IsMask.Value}" />
                 </StackPanel>

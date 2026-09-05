@@ -8,7 +8,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
 
-    <StackPanel Margin="8">
+    <StackPanel Margin="{DynamicResource SpacingMD}">
 
         <BaseControls:ColorSelector Caption="Color" DataContext="{Binding LightColor}" />
 

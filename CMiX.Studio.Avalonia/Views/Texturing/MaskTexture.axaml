@@ -18,7 +18,7 @@
             SelectedItem="{Binding MaskChannel.Value}" />
 
         <BaseControls:ToggleButton
-            Margin="8"
+            Margin="{DynamicResource SpacingMD}"
             Caption="Invert"
             IsChecked="{Binding Invert.Value}" />
 

@@ -5,7 +5,7 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
 
-    <StackPanel Margin="4">
+    <StackPanel Margin="{DynamicResource SpacingSM}">
 
         <BaseControls:ComboBox
             Caption="From"

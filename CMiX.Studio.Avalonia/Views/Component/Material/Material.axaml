@@ -16,14 +16,14 @@
             Header="Settings"
             Indentation="4"
             IsExpanded="{Binding MaterialSettings.IsExpanded}">
-            <Views:MaterialSettings Margin="8" DataContext="{Binding MaterialSettings}" />
+            <Views:MaterialSettings Margin="{DynamicResource SpacingMD}" DataContext="{Binding MaterialSettings}" />
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander
             Header="Modifiers"
             Indentation="4"
             IsExpanded="{Binding ModifierManagerIsExpanded}">
-            <Views:ModifierManager Margin="8" DataContext="{Binding ModifierManager}">
+            <Views:ModifierManager Margin="{DynamicResource SpacingMD}" DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
                     <Managers:AutoSelectionPanel PanelOwner="{x:Type Materials:Material}" />
                 </Views:ModifierManager.SelectionPanel>

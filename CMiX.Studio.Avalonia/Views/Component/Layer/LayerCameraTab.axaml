@@ -14,7 +14,7 @@
         </i:Interaction.Behaviors>
         <DockPanel>
             <Managers:PrefabSlotManager
-                Margin="8"
+                Margin="{DynamicResource SpacingMD}"
                 DataContext="{Binding CameraManager}"
                 DockPanel.Dock="Top"
                 ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Cameras}">

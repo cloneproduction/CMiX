@@ -21,7 +21,7 @@
             </DockPanel>
         </Panels:IndentedExpander.Header>
 
-        <Border Margin="8" IsEnabled="{Binding IsEnabled.Value}">
+        <Border Margin="{DynamicResource SpacingMD}" IsEnabled="{Binding IsEnabled.Value}">
 
         </Border>
 

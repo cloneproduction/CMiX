@@ -17,7 +17,7 @@
             IsExpanded="{Binding IsExpanded, FallbackValue=False}">
 
             <ContentControl
-                Margin="4"
+                Margin="{DynamicResource SpacingSM}"
                 Content="{Binding}">
                 <ContentControl.DataTemplates>
                     <Views:ViewModelToViewTemplate />
@@ -31,8 +31,8 @@
             Indentation="4"
             IsExpanded="{Binding TextureModifierManager.IsExpanded, FallbackValue=False}">
 
-            <Views:ModifierManager 
-                Margin="8" 
+            <Views:ModifierManager
+                Margin="{DynamicResource SpacingMD}"
                 DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
                 <Views:ModifierManager.SelectionPanel>
                     <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />

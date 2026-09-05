@@ -25,7 +25,7 @@
                 DockPanel.Dock="Left">
 
                 <ToggleButton
-                    Margin="4"
+                    Margin="{DynamicResource SpacingSM}"
                     IsChecked="{Binding PrefabService.Visibility.Value}"
                     Theme="{DynamicResource ToggleVisibility}" />
             </Border>
@@ -39,7 +39,7 @@
                         <Border
                             Height="{DynamicResource ControlHeightXS}"
                             Margin="8,0"
-                            Padding="1"
+                            Padding="{DynamicResource SpacingXXS}"
                             Background="Transparent"
                             Opacity="0.6">
                             <Controls:AppIcon

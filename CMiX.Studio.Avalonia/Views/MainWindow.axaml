@@ -52,12 +52,12 @@
             <DockPanel LastChildFill="False" Opacity="0.5">
 
                 <TextBlock
-                    Padding="8"
+                    Padding="{DynamicResource SpacingMD}"
                     DockPanel.Dock="Left"
                     Text="CMiX Studio" />
 
                 <TextBlock
-                    Padding="8"
+                    Padding="{DynamicResource SpacingMD}"
                     DockPanel.Dock="Right"
                     Text="CloneProduction" />
 
@@ -91,7 +91,7 @@
         </Border>
 
         <Border
-            Padding="8"
+            Padding="{DynamicResource SpacingMD}"
             Background="{DynamicResource Grey300Brush}"
             BorderBrush="{DynamicResource Grey100Brush}"
             BorderThickness="2,0"
@@ -110,7 +110,7 @@
 
                 <TabItem.Header>
                     <Controls:AppIcon
-                        Margin="8"
+                        Margin="{DynamicResource SpacingMD}"
                         IconKey="Settings"
                         Size="{DynamicResource IconSizeXS}"
                         ToolTip.HorizontalOffset="-10"
@@ -127,7 +127,7 @@
 
                 <TabItem.Header>
                     <Controls:AppIcon
-                        Margin="8"
+                        Margin="{DynamicResource SpacingMD}"
                         IconKey="Composition"
                         Size="{DynamicResource IconSizeXS}"
                         ToolTip.HorizontalOffset="-10"
@@ -144,7 +144,7 @@
 
                 <TabItem.Header>
                     <Controls:AppIcon
-                        Margin="8"
+                        Margin="{DynamicResource SpacingMD}"
                         IconKey="LayerScene"
                         Size="{DynamicResource IconSizeXS}"
                         ToolTip.HorizontalOffset="-10"
@@ -160,7 +160,7 @@
             <TabItem Theme="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
                     <Controls:AppIcon
-                        Margin="8"
+                        Margin="{DynamicResource SpacingMD}"
                         IconKey="Geometry"
                         Size="{DynamicResource IconSizeXS}"
                         ToolTip.HorizontalOffset="-10"
@@ -270,7 +270,7 @@
             <TabItem Theme="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
                     <Controls:AppIcon
-                        Margin="8"
+                        Margin="{DynamicResource SpacingMD}"
                         IconKey="Resources"
                         Size="{DynamicResource IconSizeXS}"
                         ToolTip.HorizontalOffset="-10"
@@ -290,7 +290,7 @@
 
                 <TabItem.Header>
                     <Controls:AppIcon
-                        Margin="8"
+                        Margin="{DynamicResource SpacingMD}"
                         IconKey="Network"
                         Size="{DynamicResource IconSizeXS}"
                         ToolTip.HorizontalOffset="-10"

@@ -8,7 +8,7 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-    <StackPanel Margin="8">
+    <StackPanel Margin="{DynamicResource SpacingMD}">
 
         <BaseControl:LabeledContent Caption="Status">
             <Border>
@@ -80,7 +80,7 @@
                         HorizontalOffset="-150"
                         VerticalOffset="-56"
                         FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                        <StackPanel KeyDown="SyncFlyout_KeyDown" Margin="4">
+                        <StackPanel KeyDown="SyncFlyout_KeyDown" Margin="{DynamicResource SpacingSM}">
                             <TextBlock
                                 Margin="0,0,0,16"
                                 Text="The loaded project and the Redis state are different. Choose how to resolve it."
@@ -142,7 +142,7 @@
                     VerticalOffset="-100"
                     FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
 
-                    <StackPanel KeyDown="EditConnectionFlyout_KeyDown" Margin="8">
+                    <StackPanel KeyDown="EditConnectionFlyout_KeyDown" Margin="{DynamicResource SpacingMD}">
 
                         <TextBlock Text="Connection Settings" Margin="0, 0, 0, 8"/>
 

@@ -14,7 +14,7 @@
         </i:Interaction.Behaviors>
         <DockPanel>
             <Managers:PrefabSlotManager
-                Margin="8"
+                Margin="{DynamicResource SpacingMD}"
                 DataContext="{Binding LightManager}"
                 DockPanel.Dock="Top"
                 ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Lights}">

@@ -15,28 +15,28 @@
 
             <TabItem IsSelected="True">
                 <TabItem.Header>
-                    <Controls:AppIcon Margin="8" IconKey="Entity" Size="{DynamicResource IconSizeXS}" />
+                    <Controls:AppIcon Margin="{DynamicResource SpacingMD}" IconKey="Entity" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
                 <Views:LayerEntityTab />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
-                    <Controls:AppIcon Margin="8" IconKey="Camera" Size="{DynamicResource IconSizeXS}" />
+                    <Controls:AppIcon Margin="{DynamicResource SpacingMD}" IconKey="Camera" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
                 <Views:LayerCameraTab />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
-                    <Controls:AppIcon Margin="8" IconKey="MeshLight" Size="{DynamicResource IconSizeXS}" />
+                    <Controls:AppIcon Margin="{DynamicResource SpacingMD}" IconKey="MeshLight" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
                 <Views:LayerLightTab />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
-                    <Controls:AppIcon Margin="8" IconKey="PostFX" Size="{DynamicResource IconSizeXS}" />
+                    <Controls:AppIcon Margin="{DynamicResource SpacingMD}" IconKey="PostFX" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
                 <Views:LayerPostFXTab />
             </TabItem>
