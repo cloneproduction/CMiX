@@ -9,14 +9,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Views:ModifierModeSelector
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
         <BaseControls:ModulatableFloatValue
-            Margin="0,8"
             Caption="Uniform"
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
@@ -27,7 +26,6 @@
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
         <BaseControls:ModulatableFloatValue
-            Margin="0,8"
             Caption="Rotation"
             DataContext="{Binding Rotation}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
@@ -39,7 +37,6 @@
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
         <Views:SamplerState
-            Margin="0,8"
             DataContext="{Binding SamplerState}" />
 
     </StackPanel>

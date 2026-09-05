@@ -5,10 +5,9 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <StackPanel Margin="8">
+    <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
 
         <Views:PathSelector
-            Margin="0,0,0,8"
             DataContext="{Binding $parent[Window].DataContext.Project.Model}"
             ItemsSource="{Binding AssetRepository.Geometries}"
             SelectedItem="{Binding Asset}" />
@@ -35,8 +34,7 @@
             </BaseControl:CMiXListBox.ItemTemplate>
         </BaseControl:CMiXListBox>
 
-        <StackPanel 
-            Margin="0,8,0,0" 
+        <StackPanel
             DataContext="{Binding SelectedItem}">
             <BaseControl:Integer2Value 
                 Caption="Resolution" 

@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="X ->"/>   
-        <TextBlock Margin="0, 8" HorizontalAlignment="Right" Padding="8, 0"  Text="Y ->"/>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
+        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="X ->"/>
+        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Y ->"/>
         <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Count ->"/>
         <!--<BaseControls:DragValue
             Caption="Count"

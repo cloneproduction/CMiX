@@ -8,10 +8,9 @@
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     x:Name="renderSequenceEntityModifier">
 
-    <StackPanel Margin="4">
+    <StackPanel Margin="4" Spacing="{DynamicResource SpacingSM}">
 
         <BaseControls:ModulatableFloatSlider
-            Margin="0,0,0,4"
             Caption="Control"
             Minimum="0"
             Maximum="1"

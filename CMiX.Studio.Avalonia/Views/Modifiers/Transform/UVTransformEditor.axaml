@@ -5,14 +5,13 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:DragValue
             Caption="Uniform"
             Value="{Binding Uniform.Value}" />
 
         <BaseControls:Vector2
-            Margin="0,8"
             Caption="Scale"
             DataContext="{Binding Scale}" />
 
@@ -21,7 +20,6 @@
             Value="{Binding Rotation.Value}" />
 
         <BaseControls:Vector2
-            Margin="0,8"
             Caption="Translate"
             DataContext="{Binding Location}" />
 

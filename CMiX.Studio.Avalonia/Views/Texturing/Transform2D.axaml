@@ -4,19 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:DragValue
             Caption="Uniform Scale"
             Value="{Binding UniformScale.Value}" />
 
         <BaseControls:Vector2
-            Margin="0,8,0,0"
             Caption="Scale"
             DataContext="{Binding Scale}" />
 
         <BaseControls:DragValue
-            Margin="0,8"
             Caption="Rotate"
             Value="{Binding Rotate.Value}" />
 

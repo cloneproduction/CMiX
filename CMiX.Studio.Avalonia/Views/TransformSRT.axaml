@@ -6,24 +6,22 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="CMiX.Studio.Avalonia.Views.TransformSRT">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:DragValue
             Caption="Uniform"
             Value="{Binding Uniform.Value}" />
 
-        <BaseControls:VectorXYZ 
-            Margin="0, 8"
-            Caption="Scale" 
+        <BaseControls:VectorXYZ
+            Caption="Scale"
             DataContext="{Binding Scale}" />
 
-        <BaseControls:VectorXYZ 
-            Caption="Rotation" 
+        <BaseControls:VectorXYZ
+            Caption="Rotation"
             DataContext="{Binding Rotation}" />
 
-        <BaseControls:VectorXYZ 
-            Margin="0, 8, 0, 0"
-            Caption="Translate" 
+        <BaseControls:VectorXYZ
+            Caption="Translate"
             DataContext="{Binding Translate}" />
 
     </StackPanel>
