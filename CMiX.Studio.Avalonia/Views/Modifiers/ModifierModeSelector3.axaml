@@ -19,33 +19,36 @@
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
             SelectedItem="{Binding Mode.Value}" />
 
-        <BaseControls:ModulatableIntegerValue
-            Caption="Count X"
-            DataContext="{Binding CountX}"
-            IsEnabled="{Binding DataContext.Mode.Value,
-                                ElementName=modifierModeSelector,
-                                Converter={x:Static Converters:EnumMatchConverter.Instance},
-                                ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
-            ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:ModulatableIntegerValue
-            Margin="0,1"
-            Caption="Count Y"
-            DataContext="{Binding CountY}"
-            IsEnabled="{Binding DataContext.Mode.Value,
-                                ElementName=modifierModeSelector,
-                                Converter={x:Static Converters:EnumMatchConverter.Instance},
-                                ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
-            ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
+            <BaseControls:ModulatableIntegerValue
+                Caption="Count X"
+                DataContext="{Binding CountX}"
+                IsEnabled="{Binding DataContext.Mode.Value,
+                                    ElementName=modifierModeSelector,
+                                    Converter={x:Static Converters:EnumMatchConverter.Instance},
+                                    ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
+                ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
 
-        <BaseControls:ModulatableIntegerValue
-            Caption="Count Z"
-            DataContext="{Binding CountZ}"
-            IsEnabled="{Binding DataContext.Mode.Value,
-                                ElementName=modifierModeSelector,
-                                Converter={x:Static Converters:EnumMatchConverter.Instance},
-                                ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
-            ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
+            <BaseControls:ModulatableIntegerValue
+                Caption="Y"
+                DataContext="{Binding CountY}"
+                IsEnabled="{Binding DataContext.Mode.Value,
+                                    ElementName=modifierModeSelector,
+                                    Converter={x:Static Converters:EnumMatchConverter.Instance},
+                                    ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
+                ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
+
+            <BaseControls:ModulatableIntegerValue
+                Caption="Z"
+                DataContext="{Binding CountZ}"
+                IsEnabled="{Binding DataContext.Mode.Value,
+                                    ElementName=modifierModeSelector,
+                                    Converter={x:Static Converters:EnumMatchConverter.Instance},
+                                    ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
+                ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
+
+        </Panels:PositionedStackPanel>
 
     </StackPanel>
 
