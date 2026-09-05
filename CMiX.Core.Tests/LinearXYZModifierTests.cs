@@ -4,7 +4,6 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Transformation;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -79,17 +78,13 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void LinearXYZ_ToModel_FromModel_RoundTripsModifierModeSelectorTransformTypeAndDirection()
+        public void LinearXYZ_ToModel_FromModel_RoundTripsModifierModeSelector()
         {
             var provider = TestServiceProviderFactory.Create();
             var linearXYZ = provider.GetRequiredService<LinearXYZModifier>();
 
             linearXYZ.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
             linearXYZ.ModifierModeSelector.Count.Value.Value = 5;
-            linearXYZ.TransformTypeSelector.Value = TransformType.Rotation;
-            linearXYZ.DirectionXYZ.DirectionX.Value = false;
-            linearXYZ.DirectionXYZ.DirectionY.Value = true;
-            linearXYZ.DirectionXYZ.DirectionZ.Value = true;
 
             var model = linearXYZ.ToModel();
 
@@ -99,10 +94,6 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
             Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
-            Assert.Equal(TransformType.Rotation, reloaded.TransformTypeSelector.Value);
-            Assert.False(reloaded.DirectionXYZ.DirectionX.Value);
-            Assert.True(reloaded.DirectionXYZ.DirectionY.Value);
-            Assert.True(reloaded.DirectionXYZ.DirectionZ.Value);
         }
     }
 }

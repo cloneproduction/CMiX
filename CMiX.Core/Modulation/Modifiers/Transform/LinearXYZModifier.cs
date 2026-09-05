@@ -7,7 +7,6 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Transformation;
 using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
@@ -18,15 +17,11 @@ namespace CMiX.Core.Modulation.Modifiers
         public LinearXYZModifier(PrefabService prefabService,
                                  PrefabManager modulatorManager,
                                  ModifierModeSelector modifierModeSelector,
-                                 GenericValue<TransformType> transformTypeSelector,
-                                 DirectionXYZ directionXYZ,
                                  ModulatableFloat width,
                                  ModulatableFloat phase)
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            TransformTypeSelector = transformTypeSelector;
-            DirectionXYZ = directionXYZ;
             width.Label = "Width";
             phase.Label = "Phase";
             Bindables = new List<ModulatableFloat> { width, phase };
@@ -36,16 +31,12 @@ namespace CMiX.Core.Modulation.Modifiers
         public ModulatableFloat Phase => Bindables[1];
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
-        public GenericValue<TransformType> TransformTypeSelector { get; set; }
-        public DirectionXYZ DirectionXYZ { get; set; }
 
         public override IControlModel ToModel()
         {
             var model = new LinearXYZModifierModel
             {
-                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
-                TransformTypeSelector = (GenericValueModel<TransformType>)TransformTypeSelector.ToModel(),
-                DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel()
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -57,8 +48,6 @@ namespace CMiX.Core.Modulation.Modifiers
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
-            TransformTypeSelector.FromModel(m.TransformTypeSelector);
-            DirectionXYZ.FromModel(m.DirectionXYZ);
         }
     }
 }
