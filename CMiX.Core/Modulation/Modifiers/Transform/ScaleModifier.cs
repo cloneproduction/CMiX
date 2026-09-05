@@ -23,11 +23,13 @@ namespace CMiX.Core.Modulation.Modifiers
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            bindableX.Label = "X";
-            bindableY.Label = "Y";
-            bindableZ.Label = "Z";
-            bindableUniform.Label = "Uniform";
             Bindables = new List<ModulatableFloat> { bindableX, bindableY, bindableZ, bindableUniform };
+            var labels = new[] { "X", "Y", "Z", "Uniform" };
+            for (int i = 0; i < Bindables.Count; i++)
+            {
+                Bindables[i].Label = labels[i];
+                Bindables[i].Value.Value = 1f;
+            }
         }
 
         public ModulatableFloat X => Bindables[0];
