@@ -10,7 +10,7 @@
         <Button
             Height="{DynamicResource ControlHeightSM}"
             Width="{DynamicResource ControlHeightSM}"
-            Margin="{StaticResource SpacingXS}"
+            Margin="2"
             Background="Transparent"
             Command="{Binding AddItemCommand}"
             CommandParameter="{Binding $parent[views:LayerManager].ItemType}"
@@ -25,7 +25,7 @@
                 <Button
                     Height="{DynamicResource ControlHeightSM}"
                     Width="{DynamicResource ControlHeightSM}"
-                    Margin="{StaticResource SpacingXS}"
+                    Margin="2"
                     Background="Transparent"
                     Command="{Binding ManagerReorderService.ItemUpCommand}"
                     CommandParameter="{Binding SelectedItem}"
@@ -38,7 +38,7 @@
                 <Button
                     Height="{DynamicResource ControlHeightSM}"
                     Width="{DynamicResource ControlHeightSM}"
-                    Margin="{StaticResource SpacingXS}"
+                    Margin="2"
                     Background="Transparent"
                     Command="{Binding ManagerReorderService.ItemDownCommand}"
                     CommandParameter="{Binding SelectedItem}"
@@ -53,7 +53,7 @@
         <Button
             Height="{DynamicResource ControlHeightSM}"
             Width="{DynamicResource ControlHeightSM}"
-            Margin="{StaticResource SpacingSM}"
+            Margin="4"
             Background="Transparent"
             Command="{Binding DeleteItemCommand}"
             CommandParameter="{Binding SelectedItem}"

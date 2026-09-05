@@ -10,7 +10,7 @@
 
     <StackPanel>
         <Managers:PrefabSlotManager
-            Margin="{StaticResource SpacingMD}"
+            Margin="8"
             DataContext="{Binding TextureManager}"
             ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Textures}">
 

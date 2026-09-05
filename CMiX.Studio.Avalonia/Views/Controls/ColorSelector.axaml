@@ -36,7 +36,7 @@
                     Background="{DynamicResource Grey200Brush}"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
                     <BaseControl:StandardColorPicker
-                        Margin="{StaticResource SpacingMD}"
+                        Margin="8"
                         SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />
                 </Border>
             </Popup>

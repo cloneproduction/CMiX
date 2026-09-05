@@ -17,7 +17,7 @@
             IsExpanded="{Binding IsExpanded, FallbackValue=False}">
 
             <ContentControl
-                Margin="{StaticResource SpacingSM}"
+                Margin="4"
                 Content="{Binding}">
                 <ContentControl.DataTemplates>
                     <Views:ViewModelToViewTemplate />
@@ -32,7 +32,7 @@
             IsExpanded="{Binding TextureModifierManager.IsExpanded, FallbackValue=False}">
 
             <Views:ModifierManager
-                Margin="{StaticResource SpacingMD}"
+                Margin="8"
                 DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
                 <Views:ModifierManager.SelectionPanel>
                     <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
