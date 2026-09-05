@@ -6,16 +6,15 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:Vector2
             Caption="Cell Count"
             DataContext="{Binding CellCount}" />
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ColorSelector
-                Margin="0,8,0,1"
                 Caption="Color A"
                 DataContext="{Binding ColorA}" />
 
@@ -26,7 +25,6 @@
         </Panels:PositionedStackPanel>
 
         <Views:Transform2D
-            Margin="0,8"
             DataContext="{Binding Transform2D}" />
 
         <BaseControls:Integer2Value

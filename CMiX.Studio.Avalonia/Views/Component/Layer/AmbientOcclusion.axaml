@@ -29,38 +29,34 @@
 
         <Border Margin="{DynamicResource SpacingMD}" IsEnabled="{Binding IsEnabled.Value}">
 
-            <StackPanel>
+            <StackPanel Spacing="{DynamicResource SpacingMD}">
 
                 <BaseControls:IntegerValue Caption="Samples" DataContext="{Binding Samples}" />
 
                 <BaseControls:DragValue
-                    Margin="0,8"
                     Caption="Intensity"
                     Value="{Binding Intensity.Value}" />
 
-                <Panels:PositionedStackPanel>
+                <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
                     <BaseControls:DragValue
-                        Margin="0"
                         Caption="SampleBias"
                         Value="{Binding SampleBias.Value}" />
                     <BaseControls:DragValue
-                        Margin="0,1,0,8"
                         Caption="SampleRadius"
                         Value="{Binding SampleRadius.Value}" />
                 </Panels:PositionedStackPanel>
 
-                <Panels:PositionedStackPanel>
+                <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
                     <BaseControls:IntegerValue
                         Caption="Blur Count"
                         DataContext="{Binding BlurCount}" />
                     <BaseControls:DragValue
-                        Margin="0,1,0,0"
                         Caption="Blur Radius"
                         Value="{Binding BlurRadius.Value}" />
                 </Panels:PositionedStackPanel>
 
                 <BaseControls:DragValue
-                    Margin="0,8"
+                    Margin="0,0,0,8"
                     Caption="Edge Sharpness"
                     Value="{Binding EdgeSharpness.Value}" />
 

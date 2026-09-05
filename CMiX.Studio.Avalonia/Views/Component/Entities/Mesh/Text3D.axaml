@@ -13,10 +13,9 @@
             Text="{Binding Text.Value}"
             Theme="{StaticResource TypeWriterStyle}" />
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
             <!-- WPF bound Fonts.SystemFontFamilies; SortedFontsCollection is the Avalonia system font list. -->
             <BaseControls:ComboBox
-                Margin="0,8,0,1"
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                 SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
@@ -31,9 +30,8 @@
             Caption="Extrude Amount"
             Value="{Binding ExtrudeAmount.Value}" />
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
             <BaseControls:ComboBox
-                Margin="0,0,0,1"
                 Caption="Text Alignment"
                 ItemsSource="{x:Static Resources:EnumProviders.HorizontalAlignment}"
                 SelectedItem="{Binding HorizontalAlignment.Value}" />

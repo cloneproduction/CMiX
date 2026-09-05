@@ -20,7 +20,7 @@
         </Views:EntityModifiersSection>
 
         <Panels:IndentedExpander Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
-            <StackPanel Margin="{DynamicResource SpacingMD}">
+            <StackPanel Margin="{DynamicResource SpacingMD}" Spacing="{DynamicResource SpacingMD}">
 
                 <TextBox
                     Height="88"
@@ -28,23 +28,20 @@
                     Theme="{StaticResource TypeWriterStyle}" />
 
                 <BaseControls:ColorSelector
-                    Margin="0,8"
                     Caption="Color"
                     DataContext="{Binding Color}" />
 
-                <Panels:PositionedStackPanel>
+                <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
                     <BaseControls:DragValue
                         Caption="Size"
                         Value="{Binding Size.Value}" />
                     <BaseControls:DragValue
-                        Margin="0,1,0,0"
                         Caption="Line Height"
                         Value="{Binding LineHeight.Value}" />
                 </Panels:PositionedStackPanel>
 
-                <Panels:PositionedStackPanel>
+                <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
                     <BaseControls:ComboBox
-                        Margin="0,8,0,1"
                         Caption="Font Family"
                         ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                         SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
@@ -54,21 +51,19 @@
                         SelectedItem="{Binding Style.Value}" />
                 </Panels:PositionedStackPanel>
 
-                <Panels:PositionedStackPanel>
+                <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
                     <BaseControls:ComboBox
-                        Margin="0,8,0,0"
                         Caption="Horizontal Alignment"
                         ItemsSource="{x:Static Resources:EnumProviders.TextHorizontalAlignment}"
                         SelectedItem="{Binding HorizontalAlignment.Value}" />
                     <BaseControls:ComboBox
-                        Margin="0,1,0,0"
                         Caption="Anchor"
                         ItemsSource="{x:Static Resources:EnumProviders.Anchor}"
                         SelectedItem="{Binding Anchor.Value}" />
                 </Panels:PositionedStackPanel>
 
                 <BaseControls:DragValue
-                    Margin="0,8"
+                    Margin="0,0,0,8"
                     Caption="Width"
                     Value="{Binding Width.Value}" />
 

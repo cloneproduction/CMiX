@@ -5,16 +5,15 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:DragValue
                 Caption="Speed"
                 Value="{Binding Speed.Value}" />
 
             <BaseControls:DragValue
-                Margin="0,1"
                 Caption="Frequency"
                 Value="{Binding Frequency.Value}" />
 
@@ -24,10 +23,9 @@
 
         </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ColorSelector
-                Margin="0,8,0,1"
                 Caption="Background"
                 DataContext="{Binding BackgroundColor}" />
 
@@ -38,7 +36,6 @@
         </Panels:PositionedStackPanel>
 
         <BaseControls:Integer2Value
-            Margin="0,8,0,0"
             Caption="Resolution"
             DataContext="{Binding Resolution}" />
 
