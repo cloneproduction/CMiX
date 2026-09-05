@@ -82,7 +82,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
                 {
                     var button = new Button
                     {
-                        Content = entry.Label,
+                        Content = Converters.TypeNameToDisplayLabelConverter.Instance.Convert(entry.Type, typeof(string), null, System.Globalization.CultureInfo.InvariantCulture),
                         Margin = new Thickness(0),
                         CommandParameter = entry.Type
                     };
