@@ -16,8 +16,8 @@
 
         <Grid IsEnabled="{Binding Type.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Modifiers:SplitType.Separator}}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="40*" />
+                <ColumnDefinition Width="60*" />
             </Grid.ColumnDefinitions>
             <TextBlock
                 Padding="0,0,8,0"
