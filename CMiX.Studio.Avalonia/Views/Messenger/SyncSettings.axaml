@@ -40,16 +40,18 @@
 
         <!-- The single entry point for resolving an out-of-sync state: plain and inert while in
              sync, becomes clickable once not - clicking opens the Push/Pull/Cancel Flyout below. -->
-        <UniformGrid
+        <Grid
             Margin="0, 8"
-            Columns="2"
+            ColumnDefinitions="40*,60*"
             Height="{DynamicResource ControlHeightMD}">
             <TextBlock
+                Grid.Column="0"
                 Padding="0, 0, 8, 0"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"
                 Text="Sync" />
             <Button
+                Grid.Column="1"
                 x:Name="SyncButton"
                 IsEnabled="{Binding !IsInSync}"
                 Theme="{StaticResource ButtonRounded}">
@@ -118,7 +120,7 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-        </UniformGrid>
+        </Grid>
 
         <!-- The endpoint line shows the options of the running peer. -->
         <BaseControl:LabeledContent Caption="Redis">
@@ -146,77 +148,83 @@
 
                         <BaseControl:IPBox x:Name="IpBox" Margin="0, 8, 0, 0"/>
 
-                        <UniformGrid
-                            Columns="2"
+                        <Grid
+                            ColumnDefinitions="40*,60*"
                             Height="{DynamicResource ControlHeightMD}"
                             Margin="0,8,0,0">
                             <TextBlock
+                                Grid.Column="0"
                                 Margin="0,0,4,0"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Right"
                                 Text="Port" />
-                            <TextBox x:Name="PortBox" />
-                        </UniformGrid>
+                            <TextBox Grid.Column="1" x:Name="PortBox" />
+                        </Grid>
 
-                        <UniformGrid
-                            Columns="2"
+                        <Grid
+                            ColumnDefinitions="40*,60*"
                             Height="{DynamicResource ControlHeightMD}"
                             Margin="0,4,0,0">
                             <TextBlock
+                                Grid.Column="0"
                                 Margin="0,0,4,0"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Right"
                                 Text="Database" />
-                            <TextBox x:Name="DatabaseBox" />
-                        </UniformGrid>
+                            <TextBox Grid.Column="1" x:Name="DatabaseBox" />
+                        </Grid>
 
-                        <UniformGrid
-                            Columns="2"
+                        <Grid
+                            ColumnDefinitions="40*,60*"
                             Height="{DynamicResource ControlHeightMD}"
                             Margin="0,4,0,0">
                             <TextBlock
+                                Grid.Column="0"
                                 Margin="0,0,4,0"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Right"
                                 Text="User" />
-                            <TextBox x:Name="UserBox" />
-                        </UniformGrid>
+                            <TextBox Grid.Column="1" x:Name="UserBox" />
+                        </Grid>
 
-                        <UniformGrid
-                            Columns="2"
+                        <Grid
+                            ColumnDefinitions="40*,60*"
                             Height="{DynamicResource ControlHeightMD}"
                             Margin="0,4,0,0">
                             <TextBlock
+                                Grid.Column="0"
                                 Margin="0,0,4,0"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Right"
                                 Text="Password" />
-                            <TextBox x:Name="PasswordBox" PasswordChar="*" />
-                        </UniformGrid>
+                            <TextBox Grid.Column="1" x:Name="PasswordBox" PasswordChar="*" />
+                        </Grid>
 
-                        <UniformGrid
-                            Columns="2"
+                        <Grid
+                            ColumnDefinitions="40*,60*"
                             Height="{DynamicResource ControlHeightMD}"
                             Margin="0,4,0,0">
                             <TextBlock
+                                Grid.Column="0"
                                 Margin="0,0,4,0"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Right"
                                 Text="Key Prefix" />
-                            <TextBox x:Name="KeyPrefixBox" />
-                        </UniformGrid>
+                            <TextBox Grid.Column="1" x:Name="KeyPrefixBox" />
+                        </Grid>
 
-                        <UniformGrid
-                            Columns="2"
+                        <Grid
+                            ColumnDefinitions="40*,60*"
                             Height="{DynamicResource ControlHeightMD}"
                             Margin="0,4,0,0">
                             <TextBlock
+                                Grid.Column="0"
                                 Margin="0,0,4,0"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Right"
                                 Text="Peer Name" />
-                            <TextBox x:Name="PeerNameBox" />
-                        </UniformGrid>
+                            <TextBox Grid.Column="1" x:Name="PeerNameBox" />
+                        </Grid>
 
                         <!-- Reserves space so the popup does not resize when a message appears. -->
                         <StackPanel MinHeight="40">

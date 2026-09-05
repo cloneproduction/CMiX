@@ -5,15 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <UniformGrid Height="{DynamicResource ControlHeightMD}">
+    <Grid ColumnDefinitions="40*,60*" Height="{DynamicResource ControlHeightMD}">
 
         <TextBlock
+            Grid.Column="0"
             Margin="8,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Text="Beat" />
 
-        <DockPanel>
+        <DockPanel Grid.Column="1">
 
             <Button
                 Width="{Binding $self.Bounds.Height}"
@@ -60,6 +61,6 @@
 
         </DockPanel>
 
-    </UniformGrid>
+    </Grid>
 
 </UserControl>
