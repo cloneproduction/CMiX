@@ -22,8 +22,18 @@
             RightCaption="Max"
             RightValue="{Binding Maximum.Value}"/>
 
-        <Views:Easing 
+        <Views:Easing
             DataContext="{Binding Easing}" />
+
+        <BaseControls:DragValue
+            Margin="0, 8, 0, 0"
+            Caption="Randomize Phase"
+            Value="{Binding RandomizePhase.Value}" />
+
+        <BaseControls:ToggleButton
+            Margin="0, 8, 0, 0"
+            Caption="PingPong"
+            IsChecked="{Binding PingPong.Value}" />
 
     </StackPanel>
 </UserControl>
