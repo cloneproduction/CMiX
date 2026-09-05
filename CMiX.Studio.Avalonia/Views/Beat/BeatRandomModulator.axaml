@@ -12,12 +12,13 @@
         <Views:BeatControls/>
 
         <BaseControls:RangeValue
+            Margin="0, 8"
             LeftValue="{Binding Center.Value}"
             LeftCaption="Center"
             RightCaption="Width"
             RightValue="{Binding Width.Value}"/>
 
-        <Views:Easing Margin="0, 8" DataContext="{Binding Easing}" />
+        <Views:Easing  DataContext="{Binding Easing}" />
 
     </StackPanel>
 </UserControl>

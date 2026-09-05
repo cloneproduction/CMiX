@@ -12,7 +12,6 @@
 
         <Controls:DragValue
             Grid.Column="0"
-            Margin="0,0,1,0"
             AttachedProperties:PositionedControl.Position="Left"
             Caption="{Binding LeftCaption, ElementName=rangeValue}"
             IsInteger="{Binding IsInteger, ElementName=rangeValue}"
