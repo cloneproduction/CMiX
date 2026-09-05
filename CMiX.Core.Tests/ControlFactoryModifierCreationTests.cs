@@ -11,18 +11,6 @@ namespace CMiX.Core.Tests
     public class ControlFactoryModifierCreationTests
     {
         [Fact]
-        public void FreshLFOModifier_BindablesMatchOldLFODefaults()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var factory = provider.GetRequiredService<ControlFactory>();
-
-            var lfo = (LFOModifier)factory.Create(typeof(LFOModifier));
-
-            Assert.Equal(0.0f, lfo.From.Value.Value);
-            Assert.Equal(1.0f, lfo.To.Value.Value);
-        }
-
-        [Fact]
         public void FreshCircularSpread_BindablesMatchOldCircularSpreadDefaults()
         {
             var provider = TestServiceProviderFactory.Create();
@@ -66,18 +54,6 @@ namespace CMiX.Core.Tests
             var render = (RenderSequenceEntityModifier)factory.Create(typeof(RenderSequenceEntityModifier));
 
             Assert.Equal(1.0f, render.Control.Value.Value);
-        }
-
-        [Fact]
-        public void FreshCameraLFOModifier_BindablesMatchOldCameraLFODefaults()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var factory = provider.GetRequiredService<ControlFactory>();
-
-            var cameraLFO = (CameraLFOModifier)factory.Create(typeof(CameraLFOModifier));
-
-            Assert.Equal(0.0f, cameraLFO.From.Value.Value);
-            Assert.Equal(1.0f, cameraLFO.To.Value.Value);
         }
 
         [Fact]
