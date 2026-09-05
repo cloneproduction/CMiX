@@ -47,7 +47,7 @@
                 </Grid>
                 <ItemsControl
                     MinHeight="50"
-                    Margin="{DynamicResource SpacingMD}"
+                    Margin="{StaticResource SpacingMD}"
                     ItemsSource="{Binding Peers}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -96,7 +96,7 @@
         </Expander>
 
         <Expander Header="Statistics">
-            <StackPanel Margin="{DynamicResource SpacingMD}">
+            <StackPanel Margin="{StaticResource SpacingMD}">
                 <Grid
                     Height="{DynamicResource ControlHeightMD}"
                     Margin="0,1">
@@ -112,7 +112,7 @@
                         Text="Sent Messages" />
                     <TextBlock
                         Grid.Column="1"
-                        Padding="{DynamicResource SpacingSM}"
+                        Padding="{StaticResource SpacingSM}"
                         HorizontalAlignment="Right"
                         Foreground="{DynamicResource ForegroundBrush}"
                         Text="{Binding SentMessages}" />
@@ -133,7 +133,7 @@
                         Text="Applied Messages" />
                     <TextBlock
                         Grid.Column="1"
-                        Padding="{DynamicResource SpacingSM}"
+                        Padding="{StaticResource SpacingSM}"
                         HorizontalAlignment="Right"
                         Foreground="{DynamicResource ForegroundBrush}"
                         Text="{Binding AppliedMessages}" />
@@ -154,7 +154,7 @@
                         Text="Pending Messages" />
                     <TextBlock
                         Grid.Column="1"
-                        Padding="{DynamicResource SpacingSM}"
+                        Padding="{StaticResource SpacingSM}"
                         HorizontalAlignment="Right"
                         Foreground="{DynamicResource ForegroundBrush}"
                         Text="{Binding PendingMessages}" />
@@ -175,7 +175,7 @@
                         Text="Last Applied Id" />
                     <TextBlock
                         Grid.Column="1"
-                        Padding="{DynamicResource SpacingSM}"
+                        Padding="{StaticResource SpacingSM}"
                         HorizontalAlignment="Right"
                         Foreground="{DynamicResource ForegroundBrush}"
                         Text="{Binding LastAppliedId}" />
@@ -196,7 +196,7 @@
                         Text="Tail Id" />
                     <TextBlock
                         Grid.Column="1"
-                        Padding="{DynamicResource SpacingSM}"
+                        Padding="{StaticResource SpacingSM}"
                         HorizontalAlignment="Right"
                         Foreground="{DynamicResource ForegroundBrush}"
                         Text="{Binding TailId}" />

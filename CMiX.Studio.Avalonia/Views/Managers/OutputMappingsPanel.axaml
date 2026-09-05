@@ -5,7 +5,7 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <StackPanel Margin="{DynamicResource SpacingMD}" Spacing="{DynamicResource SpacingMD}">
+    <StackPanel Margin="{StaticResource SpacingMD}" Spacing="{DynamicResource SpacingMD}">
 
         <Views:PathSelector
             DataContext="{Binding $parent[Window].DataContext.Project.Model}"

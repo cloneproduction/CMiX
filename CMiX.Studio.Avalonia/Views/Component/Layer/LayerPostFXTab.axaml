@@ -20,7 +20,7 @@
             <Panels:IndentedExpander Header="Texture Filters">
                 <Views:ModifierManager
                     Caption="Add Filter"
-                    Margin="{DynamicResource SpacingMD}"
+                    Margin="{StaticResource SpacingMD}"
                     DataContext="{Binding TextureModifierManager}">
 
                     <Views:ModifierManager.SelectionPanel>
@@ -33,7 +33,7 @@
             <Panels:IndentedExpander Header="Modifiers">
                 <Views:ModifierManager
                     Caption="Add Modifier"
-                    Margin="{DynamicResource SpacingMD}"
+                    Margin="{StaticResource SpacingMD}"
                     DataContext="{Binding ModifierManager}">
 
                     <Views:ModifierManager.SelectionPanel>

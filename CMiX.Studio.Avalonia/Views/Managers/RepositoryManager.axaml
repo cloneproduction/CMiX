@@ -11,7 +11,7 @@
         <BaseControls:CMiXListBox
             x:Name="prefabListBox"
             MinHeight="105"
-            Margin="{DynamicResource SpacingMD}"
+            Margin="{StaticResource SpacingMD}"
             ItemsSource="{Binding ItemsSource, ElementName=repositoryManager}"
             SelectedItem="{Binding SelectedItem}">
             <BaseControls:CMiXListBox.DataTemplates>

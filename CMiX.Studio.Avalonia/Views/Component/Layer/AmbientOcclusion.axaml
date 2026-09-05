@@ -27,7 +27,7 @@
 
         </Panels:IndentedExpander.Header>
 
-        <Border Margin="{DynamicResource SpacingMD}" IsEnabled="{Binding IsEnabled.Value}">
+        <Border Margin="{StaticResource SpacingMD}" IsEnabled="{Binding IsEnabled.Value}">
 
             <StackPanel Spacing="{DynamicResource SpacingMD}">
 

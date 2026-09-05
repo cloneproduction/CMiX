@@ -14,7 +14,7 @@
     <StackPanel>
 
         <Panels:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
-            <Views:TransformSRT Margin="{DynamicResource SpacingMD}" DataContext="{Binding TransformSRT}" />
+            <Views:TransformSRT Margin="{StaticResource SpacingMD}" DataContext="{Binding TransformSRT}" />
         </Panels:IndentedExpander>
 
         <Views:EntityModifiersSection PanelOwner="{x:Type Compositing:Entity}" />
@@ -29,7 +29,7 @@
                     DataContext="{Binding Color}" />
 
                 <BaseControls:Outliner
-                    Margin="{DynamicResource SpacingMD}"
+                    Margin="{StaticResource SpacingMD}"
                     DataContext="{Binding MaterialSelector}"
                     ItemsSource="{Binding ControlRepository.Materials}">
                     <BaseControls:Outliner.SelectionPanel>
@@ -50,7 +50,7 @@
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
-            <Views:Mesh Margin="{DynamicResource SpacingMD}" DataContext="{Binding Mesh}" />
+            <Views:Mesh Margin="{StaticResource SpacingMD}" DataContext="{Binding Mesh}" />
         </Panels:IndentedExpander>
 
     </StackPanel>

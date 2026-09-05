@@ -82,7 +82,7 @@
                 </i:Interaction.Behaviors>
                 <Border
                     Width="250"
-                    Padding="{DynamicResource SpacingXS}"
+                    Padding="{StaticResource SpacingXS}"
                     Background="{DynamicResource Grey100Brush}"
                     CornerRadius="{DynamicResource CornerRadiusLargeAll}">
                     <ItemsControl ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}">
@@ -90,7 +90,7 @@
                             <DataTemplate>
                                 <Button
                                     Width="{Binding $parent[Border].Bounds.Width}"
-                                    Margin="{DynamicResource SpacingXS}"
+                                    Margin="{StaticResource SpacingXS}"
                                     Command="{Binding DataContext.AddExistingItemCommand, ElementName=prefabSlotManager}"
                                     CommandParameter="{Binding}"
                                     Content="{Binding PrefabService.Name.Value}"

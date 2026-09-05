@@ -69,7 +69,7 @@
             Indentation="0"
             IsExpanded="False">
 
-            <StackPanel Margin="{DynamicResource SpacingMD}">
+            <StackPanel Margin="{StaticResource SpacingMD}">
 
                 <BaseControls:DragValue 
                     Caption="Explode Strength" 
@@ -108,7 +108,7 @@
             Indentation="0"
             IsExpanded="False">
 
-            <StackPanel Margin="{DynamicResource SpacingMD}">
+            <StackPanel Margin="{StaticResource SpacingMD}">
 
                 <BaseControls:DragValue Caption="Strength" Value="{Binding DisplacementStrength.Value}" />
 

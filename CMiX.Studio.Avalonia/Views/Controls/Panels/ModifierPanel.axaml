@@ -81,7 +81,7 @@
                     Padding instead of the WPF Margin so the blend bar overdraw of the
                     filter panel stays inside this border's bounds.
                 -->
-                <Border Padding="{DynamicResource SpacingMD}">
+                <Border Padding="{StaticResource SpacingMD}">
                     <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
                 </Border>
 
