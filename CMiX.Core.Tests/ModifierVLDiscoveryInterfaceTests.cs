@@ -1,4 +1,5 @@
 using CMiX.Core.Modulation.Modifiers;
+using CMiX.Core.Transformation;
 using CMiX.Core.Transformation.Modifiers;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace CMiX.Core.Tests
         [InlineData(typeof(RotationModifier))]
         [InlineData(typeof(HSVModifier))]
         [InlineData(typeof(TexCoordModifier))]
-        [InlineData(typeof(XYZModifier))]
+        [InlineData(typeof(TransformSRTModifier))]
         [InlineData(typeof(CircularSpreadModifier))]
         [InlineData(typeof(LinearXYZModifier))]
         public void PortedSpreadableModifier_StillImplementsISpreadableModifier(Type modifierType)

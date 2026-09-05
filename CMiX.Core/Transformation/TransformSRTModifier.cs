@@ -7,11 +7,12 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Transformation
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class TransformSRTModifier : Modifier
+    public partial class TransformSRTModifier : Modifier, ISpreadableModifier
     {
         public TransformSRTModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
