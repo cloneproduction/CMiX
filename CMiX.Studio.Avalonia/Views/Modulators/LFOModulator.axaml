@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LFOModulator"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="using:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <StackPanel>
+
+        <BaseControls:DragValue
+            Caption="Period"
+            Minimum="0.0"
+            Value="{Binding Period.Value}" />
+
+        <BaseControls:RangeValue
+            Margin="0, 8"
+            LeftValue="{Binding Minimum.Value}"
+            LeftCaption="Min"
+            RightCaption="Max"
+            RightValue="{Binding Maximum.Value}"/>
+
+        <Views:Easing 
+            DataContext="{Binding Easing}" />
+
+    </StackPanel>
+</UserControl>

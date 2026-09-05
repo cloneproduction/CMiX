@@ -26,7 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Beat\BeatRandomModulator.axaml.cs">
+    <Compile Update="Views\Modulators\LFOModulator.axaml.cs">
+      <DependentUpon>LFOModulator.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Modulators\BeatRandomModulator.axaml.cs">
       <DependentUpon>BeatRandomModulator.axaml</DependentUpon>
     </Compile>
     <None Update="studio-settings.json" CopyToOutputDirectory="PreserveNewest" />
