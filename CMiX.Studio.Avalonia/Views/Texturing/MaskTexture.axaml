@@ -8,7 +8,6 @@
 
     <StackPanel IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
 
-        <!-- The WPF self referential DataContext binding is removed because it poisons the subtree when the context is null at load. -->
         <Views:DiffuseTexture />
 
         <BaseControls:ComboBox

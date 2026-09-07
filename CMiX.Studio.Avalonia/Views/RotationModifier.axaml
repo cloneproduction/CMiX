@@ -9,14 +9,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Views:ModifierModeSelector
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=rotationModifier}" />
 
         <BaseControls:ModulatableVectorXYZ
-            Margin="0, 8"
             Caption="Rotation"
             ModulatorManager="{Binding ModulatorManager}" />
 

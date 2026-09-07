@@ -12,15 +12,16 @@
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelValue}"
         Caption="{Binding Caption, ElementName=channelValue, Mode=OneWay}"
         Value="{Binding Value.Value}">
+
         <BaseControls:DragValue.IsReadOnly>
             <MultiBinding Converter="{StaticResource BoundModulatorToIsReadOnly}">
                 <Binding Path="BoundModulator" />
                 <Binding Path="BoundOutputName.Value" />
             </MultiBinding>
         </BaseControls:DragValue.IsReadOnly>
+
         <BaseControls:DragValue.TrailingContent>
             <BaseControls:ModulatorAssignButton
-                Margin="2, 0, 0, 0"
                 ModulatorManager="{Binding ModulatorManager, ElementName=channelValue}" />
         </BaseControls:DragValue.TrailingContent>
     </BaseControls:DragValue>

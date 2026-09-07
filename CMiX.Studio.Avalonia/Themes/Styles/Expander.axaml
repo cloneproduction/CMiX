@@ -4,9 +4,6 @@
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
-    <!-- Ported from CMiX.Studio\Themes\Styles\Expander.xaml using the Avalonia Simple theme Expander template as structural skeleton -->
-    <!-- Header ToggleButton themes are declared before the Expander themes that consume them so StaticResource lookups resolve -->
-
     <ControlTheme x:Key="ExpanderDownHeaderStyle" TargetType="ToggleButton">
         <Setter Property="Template">
             <ControlTemplate>
@@ -93,7 +90,7 @@
                     Background="{TemplateBinding Background}"
                     BorderBrush="{DynamicResource Grey100Brush}"
                     BorderThickness="0,0,0,0.5"
-                    Height="{DynamicResource ControlHeightMD}">
+                    Height="{DynamicResource ControlHeightXL}">
                     <Grid
                         ColumnDefinitions="19,*"
                         Margin="4,0,0,0">

@@ -8,7 +8,7 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-    <StackPanel Margin="8">
+    <StackPanel Spacing="{DynamicResource SpacingMD}" Margin="8">
 
         <BaseControl:LabeledContent Caption="Status">
             <Border>
@@ -32,7 +32,7 @@
         <!-- Shows the reason of a failed connection. Stays outside the flyouts so the text is
              visible right away, and stays visible until the peer clears ErrorMessage. -->
         <TextBlock
-            Margin="0,4,0,0"
+
             Foreground="Crimson"
             TextWrapping="Wrap"
             Text="{Binding ErrorMessage}"
@@ -41,7 +41,6 @@
         <!-- The single entry point for resolving an out-of-sync state: plain and inert while in
              sync, becomes clickable once not - clicking opens the Push/Pull/Cancel Flyout below. -->
         <Grid
-            Margin="0, 8"
             ColumnDefinitions="40*,60*"
             Height="{DynamicResource ControlHeightMD}">
             <TextBlock
@@ -142,100 +141,50 @@
                     VerticalOffset="-100"
                     FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
 
-                    <StackPanel KeyDown="EditConnectionFlyout_KeyDown" Margin="8">
+                    <StackPanel 
+                        Spacing="{DynamicResource SpacingMD}"
+                        KeyDown="EditConnectionFlyout_KeyDown">
 
-                        <TextBlock Text="Connection Settings" Margin="0, 0, 0, 8"/>
+                        <TextBlock Text="Connection Settings"
+                                   Margin="0, 0, 0, 8"/>
 
-                        <BaseControl:IPBox x:Name="IpBox" Margin="0, 8, 0, 0"/>
+                        <BaseControl:IPBox x:Name="IpBox"/>
 
-                        <Grid
-                            ColumnDefinitions="40*,60*"
-                            Height="{DynamicResource ControlHeightMD}"
-                            Margin="0,8,0,0">
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,4,0"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Right"
-                                Text="Port" />
-                            <TextBox Grid.Column="1" x:Name="PortBox" />
-                        </Grid>
+                        <BaseControl:LabeledContent Caption="Port">
+                            <TextBox x:Name="PortBox" />
+                        </BaseControl:LabeledContent>
 
-                        <Grid
-                            ColumnDefinitions="40*,60*"
-                            Height="{DynamicResource ControlHeightMD}"
-                            Margin="0,4,0,0">
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,4,0"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Right"
-                                Text="Database" />
-                            <TextBox Grid.Column="1" x:Name="DatabaseBox" />
-                        </Grid>
+                        <BaseControl:LabeledContent Caption="Database">
+                            <TextBox x:Name="DatabaseBox" />
+                        </BaseControl:LabeledContent>
 
-                        <Grid
-                            ColumnDefinitions="40*,60*"
-                            Height="{DynamicResource ControlHeightMD}"
-                            Margin="0,4,0,0">
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,4,0"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Right"
-                                Text="User" />
+                        <BaseControl:LabeledContent Caption="User">
                             <TextBox Grid.Column="1" x:Name="UserBox" />
-                        </Grid>
+                        </BaseControl:LabeledContent>
 
-                        <Grid
-                            ColumnDefinitions="40*,60*"
-                            Height="{DynamicResource ControlHeightMD}"
-                            Margin="0,4,0,0">
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,4,0"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Right"
-                                Text="Password" />
+                        <BaseControl:LabeledContent Caption="Password">
                             <TextBox Grid.Column="1" x:Name="PasswordBox" PasswordChar="*" />
-                        </Grid>
+                        </BaseControl:LabeledContent>
 
-                        <Grid
-                            ColumnDefinitions="40*,60*"
-                            Height="{DynamicResource ControlHeightMD}"
-                            Margin="0,4,0,0">
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,4,0"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Right"
-                                Text="Key Prefix" />
+                        <BaseControl:LabeledContent Caption="Key Prefix">
                             <TextBox Grid.Column="1" x:Name="KeyPrefixBox" />
-                        </Grid>
+                        </BaseControl:LabeledContent>
 
-                        <Grid
-                            ColumnDefinitions="40*,60*"
-                            Height="{DynamicResource ControlHeightMD}"
-                            Margin="0,4,0,0">
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,4,0"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Right"
-                                Text="Peer Name" />
+                        <BaseControl:LabeledContent Caption="Key Prefix">
                             <TextBox Grid.Column="1" x:Name="PeerNameBox" />
-                        </Grid>
+                        </BaseControl:LabeledContent>
 
                         <!-- Reserves space so the popup does not resize when a message appears. -->
-                        <StackPanel MinHeight="40">
+                        <StackPanel IsVisible="False" MinHeight="40">
                             <TextBlock
+                                
                                 x:Name="ErrorText"
                                 Margin="0,4"
                                 Foreground="Crimson"
                                 TextWrapping="Wrap" />
                         </StackPanel>
 
-                        <UniformGrid Columns="2" Margin="0,0,0,0">
+                        <UniformGrid Margin="0, 8, 0, 0" Columns="2">
                             <Button
                                 x:Name="ConnectButton"
                                 Margin="0,0,4,0"

@@ -17,7 +17,7 @@
     xmlns:Windows="clr-namespace:CMiX.Studio.Avalonia.Views.Windows"
 
     Title="CMiX"
-    Width="400"
+    Width="425"
     Height="1000"
     Background="{DynamicResource Grey200Brush}"
     ExtendClientAreaChromeHints="NoChrome"
@@ -238,7 +238,7 @@
                 </Managers:RepositoryTab.EditingPanel>
             </Managers:RepositoryTab>
 
-            <Managers:RepositoryTab
+<!--            <Managers:RepositoryTab
                 DataContext="{Binding BeatManager}"
                 Icon="Beat"
                 ItemsSource="{Binding ControlRepository.BeatModulators}"
@@ -252,9 +252,9 @@
                 <Managers:RepositoryTab.EditingPanel>
                     <Views:BeatModulator />
                 </Managers:RepositoryTab.EditingPanel>
-            </Managers:RepositoryTab>
+            </Managers:RepositoryTab>-->
 
-            <Managers:RepositoryTab
+<!--            <Managers:RepositoryTab
                 DataContext="{Binding ColorPaletteManager}"
                 Icon="Coloration"
                 ItemsSource="{Binding ControlRepository.ColorPalettes}"
@@ -265,7 +265,7 @@
                         CommandParameter="{x:Type Modifiers:ColorPaletteModifier}"
                         Content="New Palette" />
                 </Managers:RepositoryTab.SelectionPanel>
-            </Managers:RepositoryTab>
+            </Managers:RepositoryTab>-->
 
             <TabItem Theme="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>

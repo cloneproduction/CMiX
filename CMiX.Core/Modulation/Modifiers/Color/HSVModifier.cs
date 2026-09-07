@@ -1,10 +1,9 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Lights;
@@ -28,11 +27,16 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             ModifierModeSelector = modifierModeSelector;
             ColorMode = colorMode;
+
             hue.Label = "Hue";
             saturation.Label = "Saturation";
             value.Label = "Value";
             alpha.Label = "Alpha";
+
             Bindables = new List<ModulatableFloat> { hue, saturation, value, alpha };
+
+            for (int i = 0; i < Bindables.Count; i++)
+                Bindables[i].Value.Value = 1f;
         }
 
         public ModulatableFloat Hue => Bindables[0];

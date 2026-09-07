@@ -11,7 +11,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel >
+    <StackPanel>
 
         <ItemsControl
             Services:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}"
@@ -21,7 +21,7 @@
                 <DataTemplate>
 
                     <Panels:ModifierPanel
-                        Margin="0, 2"
+                        Margin="0, 4"
                         DragHandlerIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandlerIsPressed}"
                         CloseModifierCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
                         CloseModifierCommandParameter="{Binding}"

@@ -36,7 +36,7 @@ namespace CMiX.Core.Prefabs
                 (typeof(LightEntity), c => Lights.Add((LightEntity)c)),
                 (typeof(Entity), c => Entities.Add((Entity)c)),
                 (typeof(Material), c => Materials.Add((Material)c)),
-                (typeof(BeatModulator), c => BeatModulators.Add((BeatModulator)c)),
+                //(typeof(BeatModulator), c => BeatModulators.Add((BeatModulator)c)),
                 (typeof(TextEntity), c => Texts.Add((TextEntity)c)),
                 (typeof(ColorPaletteModifier), c => ColorPalettes.Add((ColorPaletteModifier)c))
             };
@@ -50,7 +50,7 @@ namespace CMiX.Core.Prefabs
                 (typeof(LightEntity), c => Lights.Remove((LightEntity)c)),
                 (typeof(Entity), c => Entities.Remove((Entity)c)),
                 (typeof(Material), c => Materials.Remove((Material)c)),
-                (typeof(BeatModulator), c => BeatModulators.Remove((BeatModulator)c)),
+                //(typeof(BeatModulator), c => BeatModulators.Remove((BeatModulator)c)),
                 (typeof(TextEntity), c => Texts.Remove((TextEntity)c)),
                 (typeof(ColorPaletteModifier), c => ColorPalettes.Remove((ColorPaletteModifier)c))
             };
@@ -67,7 +67,7 @@ namespace CMiX.Core.Prefabs
         public ObservableCollection<Entity> Entities { get; } = new();
         public ObservableCollection<Camera> Cameras { get; } = new();
         public ObservableCollection<LightEntity> Lights { get; } = new();
-        public ObservableCollection<BeatModulator> BeatModulators { get; } = new();
+        //public ObservableCollection<BeatModulator> BeatModulators { get; } = new();
         public ObservableCollection<TextEntity> Texts { get; } = new();
         public ObservableCollection<ColorPaletteModifier> ColorPalettes { get; } = new();
 

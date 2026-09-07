@@ -4,13 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    x:Name="counter"
-    Background="Transparent">
+    x:Name="counter">
 
-    <!--
-        The WPF ContextMenu resource moved inline. StaysOpen and CommandTarget
-        have no Avalonia counterparts; the menu inherits the control DataContext.
-    -->
     <BaseControl:CaptionedUserControl.ContextMenu>
         <ContextMenu>
             <MenuItem

@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Themes
             { "Sub", MaterialIconKind.Minus },
             { "Rename", MaterialIconKind.RenameBox },
             { "Close", MaterialIconKind.Close },
-            { "Mask", MaterialIconKind.Opacity },
+            { "Mask", MaterialIconKind.CircleBox },
             { "Cube", MaterialIconKind.Cube },
             { "CubeCol", MaterialIconKind.CubeScan },
             { "LayerScene", MaterialIconKind.Layers },

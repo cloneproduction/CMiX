@@ -5,10 +5,10 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <StackPanel>
+
         <Controls:DragValue
             Caption="Threshold"
             Value="{Binding Threshold.Value}" />
-    </StackPanel>
+
 
 </Views:FilterPanel>

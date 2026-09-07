@@ -11,10 +11,9 @@
              x:Name="modifierModeSelector"
              x:Class="CMiX.Studio.Avalonia.Views.ModifierModeSelector3">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:ComboBox
-            Margin="0,0,0,8"
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
             SelectedItem="{Binding Mode.Value}" />

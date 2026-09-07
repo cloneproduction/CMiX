@@ -10,18 +10,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Views:ModifierModeSelector
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />
 
         <BaseControls:ModulatableVectorXY
-            Margin="0,8"
             Caption="Width"
             ModulatorManager="{Binding ModulatorManager}" />
 
-        <Panels:PositionedStackPanel Margin="0, 0, 0, 8" Spacing="{DynamicResource SpacingXXS}">
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+
             <BaseControls:ModulatableFloatValue
                 Caption="Phase"
                 DataContext="{Binding Phase}"

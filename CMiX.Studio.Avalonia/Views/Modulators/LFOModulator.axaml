@@ -8,7 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:DragValue
             Caption="Period"
@@ -16,24 +16,22 @@
             Value="{Binding Period.Value}" />
 
         <BaseControls:RangeValue
-            Margin="0, 8"
             LeftValue="{Binding Minimum.Value}"
             LeftCaption="Min"
             RightCaption="Max"
             RightValue="{Binding Maximum.Value}"/>
 
-        <Views:Easing
-            DataContext="{Binding Easing}" />
-
-        <BaseControls:DragValue
-            Margin="0, 8, 0, 0"
-            Caption="Randomize Phase"
-            Value="{Binding RandomizePhase.Value}" />
-
         <BaseControls:ToggleButton
-            Margin="0, 8, 0, 0"
             Caption="PingPong"
             IsChecked="{Binding PingPong.Value}" />
 
+        <BaseControls:DragValue
+            Caption="Randomize Phase"
+            Value="{Binding RandomizePhase.Value}" />
+
+        <Views:Easing
+            DataContext="{Binding Easing}" />
+
     </StackPanel>
+
 </UserControl>

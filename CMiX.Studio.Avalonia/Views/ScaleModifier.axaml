@@ -6,18 +6,17 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="scaleModifier"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:panels="using:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Views:ModifierModeSelector
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 
         <BaseControls:ModulatableFloatValue
-            Margin="0,8"
             Caption="Uniform"
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />

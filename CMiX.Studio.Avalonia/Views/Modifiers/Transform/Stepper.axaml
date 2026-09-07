@@ -5,14 +5,16 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <StackPanel>
 
         <StackPanel>
 
-            <Views:BeatModulator
-                DataContext="{Binding BeatModifier}" />
+<!--            <Views:BeatModulator
+                DataContext="{Binding BeatModifier}" />-->
 
             <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
                 <BaseControls:DragValue

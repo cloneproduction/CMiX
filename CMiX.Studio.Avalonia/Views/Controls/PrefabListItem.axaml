@@ -6,17 +6,21 @@
     x:Name="uc">
 
     <DockPanel>
+
         <Controls:AppIcon
             Margin="4,0"
             Opacity="0.7"
             IconKey="{Binding Icon, ElementName=uc}"
             Size="{DynamicResource IconSizeXS}" />
+
         <ToggleButton
             Margin="4,0"
             DockPanel.Dock="Right"
             IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}"
             Theme="{DynamicResource ToggleVisibility}" />
+
         <Controls:EditableTextBox Text="{Binding PrefabService.Name.Value}" />
+
     </DockPanel>
 
 </UserControl>

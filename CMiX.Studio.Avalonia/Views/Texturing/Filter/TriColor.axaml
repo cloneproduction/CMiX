@@ -4,9 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
@@ -25,16 +27,15 @@
         </Panels:PositionedStackPanel>
 
         <BaseControl:ToggleButton
-            Margin="0,8,0,0"
             Caption="Single Channel"
             IsChecked="{Binding SingleChannel.Value}" />
 
         <BaseControl:ToggleButton
-            Margin="0,1,0,0"
             Caption="Clamp Color"
             IsChecked="{Binding ClampColor.Value}" />
 
-        <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
+        <Panels:PositionedStackPanel 
+            Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControl:CMiXSlider
                 Caption="Smooth"

@@ -7,12 +7,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Views:BeatControls/>
 
         <BaseControls:RangeValue
-            Margin="0, 8"
             LeftValue="{Binding Center.Value}"
             LeftCaption="Center"
             RightCaption="Width"

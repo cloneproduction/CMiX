@@ -7,8 +7,6 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-    <!-- The Studio talks to Redis; all engines are peers on the same store. -->
-    <Border Background="{DynamicResource Grey300Brush}">
-        <Views:SyncPanel />
-    </Border>
+        <Views:SyncPanel Background="{DynamicResource Grey300Brush}"/>
+
 </UserControl>

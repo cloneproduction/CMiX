@@ -6,9 +6,11 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
-    x:Name="renderSequenceEntityModifier">
+    x:Name="renderSequenceEntityModifier"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel Margin="4" Spacing="{DynamicResource SpacingSM}">
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:ModulatableFloatSlider
             Caption="Control"
@@ -18,7 +20,6 @@
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=renderSequenceEntityModifier}" />
 
         <BaseControls:ComboBox
-            Margin="0,0,0,4"
             Caption="Entity Type"
             ItemsSource="{x:Static Resources:EnumProviders.EntityType}"
             SelectedItem="{Binding EntityType.Value}" />

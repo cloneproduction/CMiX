@@ -10,14 +10,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Views:ModifierModeSelector
-            Margin="0,0,0,8"
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
 
-        <Panels:PositionedStackPanel Margin="0,0,0,8" Spacing="{DynamicResource SpacingXXS}">
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
             <BaseControls:ModulatableFloatValue
                 Caption="Center"
                 DataContext="{Binding Center}"

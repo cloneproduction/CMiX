@@ -5,62 +5,62 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <DockPanel Background="{DynamicResource Grey400Brush}" LastChildFill="False">
+    <DockPanel 
+        Background="{DynamicResource Grey400Brush}"
+        LastChildFill="False">
 
         <Button
-            Height="{DynamicResource ControlHeightSM}"
-            Width="{DynamicResource ControlHeightSM}"
-            Margin="2"
+            Height="{DynamicResource ControlHeightMD}"
+            Width="{DynamicResource ControlHeightMD}"
             Background="Transparent"
             Command="{Binding AddItemCommand}"
             CommandParameter="{Binding $parent[views:LayerManager].ItemType}"
             Theme="{StaticResource ButtonRounded}">
             <Button.Content>
-                <Controls:AppIcon Opacity="0.7" IconKey="Add" Size="{DynamicResource IconSizeXS}" />
+                <Controls:AppIcon Opacity="0.9" IconKey="Add" Size="{DynamicResource IconSizeXS}" />
             </Button.Content>
         </Button>
 
-        <Border IsVisible="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}}">
+        <Border IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}}">
             <StackPanel Orientation="Horizontal">
                 <Button
-                    Height="{DynamicResource ControlHeightSM}"
-                    Width="{DynamicResource ControlHeightSM}"
-                    Margin="2"
+                    Height="{DynamicResource ControlHeightMD}"
+                    Width="{DynamicResource ControlHeightMD}"
                     Background="Transparent"
                     Command="{Binding ManagerReorderService.ItemUpCommand}"
                     CommandParameter="{Binding SelectedItem}"
                     Theme="{StaticResource ButtonRounded}">
                     <Button.Content>
-                        <Controls:AppIcon Opacity="0.7" IconKey="ArrowUp" Size="{DynamicResource IconSizeXS}" />
+                        <Controls:AppIcon Opacity="0.9" IconKey="ArrowUp" Size="{DynamicResource IconSizeXS}" />
                     </Button.Content>
                 </Button>
 
                 <Button
-                    Height="{DynamicResource ControlHeightSM}"
-                    Width="{DynamicResource ControlHeightSM}"
-                    Margin="2"
+                    Height="{DynamicResource ControlHeightMD}"
+                    Width="{DynamicResource ControlHeightMD}"
                     Background="Transparent"
                     Command="{Binding ManagerReorderService.ItemDownCommand}"
                     CommandParameter="{Binding SelectedItem}"
                     Theme="{StaticResource ButtonRounded}">
                     <Button.Content>
-                        <Controls:AppIcon Opacity="0.7" IconKey="ArrowDown" Size="{DynamicResource IconSizeXS}" />
+                        <Controls:AppIcon Opacity="0.9" IconKey="ArrowDown" Size="{DynamicResource IconSizeXS}" />
                     </Button.Content>
                 </Button>
             </StackPanel>
         </Border>
 
         <Button
-            Height="{DynamicResource ControlHeightSM}"
-            Width="{DynamicResource ControlHeightSM}"
-            Margin="4"
+            Height="{DynamicResource ControlHeightMD}"
+            Width="{DynamicResource ControlHeightMD}"
             Background="Transparent"
             Command="{Binding DeleteItemCommand}"
             CommandParameter="{Binding SelectedItem}"
             DockPanel.Dock="Right"
             Theme="{StaticResource ButtonRounded}">
             <Button.Content>
-                <Controls:AppIcon Opacity="0.7" IconKey="DeleteLayer" Size="{DynamicResource IconSizeXS}" />
+                <Controls:AppIcon Opacity="0.9" 
+                                  IconKey="DeleteLayer" 
+                                  Size="{DynamicResource IconSizeXS}" />
             </Button.Content>
         </Button>
 

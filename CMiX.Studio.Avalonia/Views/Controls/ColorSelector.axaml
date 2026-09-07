@@ -7,23 +7,19 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     x:Name="colorSelector"
-    Height="{DynamicResource ControlHeightMD}">
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <BaseControl:LabeledContent Caption="{Binding Caption, ElementName=colorSelector}">
 
         <Panel>
 
-            <!--
-                WPF converted the hex string to a brush implicitly; Avalonia needs the
-                explicit HexToBrush converter.
-            -->
             <ToggleButton
                 x:Name="PopupToggle"
                 AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=colorSelector}"
                 Background="{Binding Value, Converter={StaticResource HexToBrush}}"
                 Theme="{DynamicResource ButtonColorStyle}" />
 
-            <!-- WPF StaysOpen=True becomes IsLightDismissEnabled=False; AllowsTransparency dropped. -->
             <Popup
                 x:Name="colorPickerPopup"
                 IsLightDismissEnabled="False"

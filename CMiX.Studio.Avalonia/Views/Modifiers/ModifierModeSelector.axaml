@@ -16,8 +16,8 @@
         <BaseControls:ComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
-            SelectedItem="{Binding Mode.Value}" />
-
+            SelectedItem="{Binding Mode.Value}"/>
+            
         <BaseControls:ModulatableIntegerValue
             Caption="Count"
             DataContext="{Binding Count}"

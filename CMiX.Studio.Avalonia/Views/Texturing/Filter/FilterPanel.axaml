@@ -18,10 +18,10 @@
                     IsChecked="{Binding Blend.IsEnabled.Value}"/>
 
             <StackPanel
-                IsEnabled="{Binding Blend.IsEnabled.Value}">
+                IsEnabled="{Binding Blend.IsEnabled.Value}"
+                Spacing="{DynamicResource SpacingMD}">
 
                 <Controls:CMiXSlider
-                    Margin="0,0, 0, 8"
                     AttachedProperties:PositionedControl.Position="All"
                     Caption="Opacity"
                     Maximum="1"
@@ -40,6 +40,7 @@
 
     <HeaderedContentControl.Template>
         <ControlTemplate TargetType="Views:FilterPanel">
+
             <StackPanel>
 
                 <ContentPresenter
@@ -51,6 +52,7 @@
                     ContentTemplate="{TemplateBinding HeaderTemplate}" />
 
             </StackPanel>
+
         </ControlTemplate>
     </HeaderedContentControl.Template>
 

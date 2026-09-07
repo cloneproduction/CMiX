@@ -11,41 +11,41 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Views:ModifierModeSelector
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
         <BaseControls:ComboBox
-            Margin="0,8"
             Caption="Color Mode"
             ItemsSource="{x:Static Resources:EnumProviders.ColorMode}"
             SelectedItem="{Binding ColorMode.Value}" />
 
-            <Panels:PositionedStackPanel Margin="0, 0, 0, 8" Spacing="{DynamicResource SpacingXXS}">
+        <Panels:PositionedStackPanel
+            Spacing="{DynamicResource SpacingXXS}">
 
-                <BaseControls:ModulatableFloatValue
-                    Caption="Hue"
-                    DataContext="{Binding Hue}"
-                    ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+            <BaseControls:ModulatableFloatValue
+                Caption="Hue"
+                DataContext="{Binding Hue}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
-                <BaseControls:ModulatableFloatValue
-                    Caption="Saturation"
-                    DataContext="{Binding Saturation}"
-                    ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+            <BaseControls:ModulatableFloatValue
+                Caption="Saturation"
+                DataContext="{Binding Saturation}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
-                <BaseControls:ModulatableFloatValue
-                    Caption="Value"
-                    DataContext="{Binding Value}"
-                    ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+            <BaseControls:ModulatableFloatValue
+                Caption="Value"
+                DataContext="{Binding Value}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
-                <BaseControls:ModulatableFloatValue
-                    Caption="Alpha"
-                    DataContext="{Binding Alpha}"
-                    ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+            <BaseControls:ModulatableFloatValue
+                Caption="Alpha"
+                DataContext="{Binding Alpha}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
-            </Panels:PositionedStackPanel>
+        </Panels:PositionedStackPanel>
 
     </StackPanel>
 

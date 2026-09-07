@@ -6,11 +6,12 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    x:Name="prefabSlotManager">
+    x:Name="prefabSlotManager"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <StackPanel>
 
-        <!--  LIST  -->
         <BaseControls:CMiXListBox
             x:Name="prefabListBox"
             MinHeight="105"
@@ -27,10 +28,8 @@
             </BaseControls:CMiXListBox.DataTemplates>
         </BaseControls:CMiXListBox>
 
-        <!--  TOOLBAR  -->
         <DockPanel Margin="0,4,0,0">
 
-            <!--  DELETE  -->
             <Button
                 Width="{DynamicResource ControlHeightMD}"
                 Height="{DynamicResource ControlHeightMD}"
@@ -40,7 +39,6 @@
                 DockPanel.Dock="Right"
                 Theme="{StaticResource ButtonRoundedRight}" />
 
-            <!--  MOVE UP  -->
             <Button
                 Width="{DynamicResource ControlHeightMD}"
                 Height="{DynamicResource ControlHeightMD}"
@@ -52,7 +50,6 @@
                 <BaseControls:AppIcon Opacity="0.7" IconKey="ArrowUp" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
-            <!--  MOVE DOWN  -->
             <Button
                 Width="{DynamicResource ControlHeightMD}"
                 Height="{DynamicResource ControlHeightMD}"
@@ -63,7 +60,6 @@
                 <BaseControls:AppIcon Opacity="0.7" IconKey="ArrowDown" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
-            <!--  SWAP  -->
             <ToggleButton
                 x:Name="SwapToggle"
                 Width="{DynamicResource ControlHeightMD}"

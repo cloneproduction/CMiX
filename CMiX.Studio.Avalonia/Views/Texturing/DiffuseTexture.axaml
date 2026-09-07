@@ -28,10 +28,8 @@
 
         </Managers:PrefabSlotManager>
 
-        <!-- The WPF style trigger that collapsed this border when no texture is selected becomes an IsVisible binding. -->
-        <Border IsVisible="{Binding TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
-            <Views:Texture DataContext="{Binding TextureManager.SelectedItem}" />
-        </Border>
+        <Views:Texture DataContext="{Binding TextureManager.SelectedItem}"
+                        IsVisible="{Binding TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}"/>
 
     </StackPanel>
 

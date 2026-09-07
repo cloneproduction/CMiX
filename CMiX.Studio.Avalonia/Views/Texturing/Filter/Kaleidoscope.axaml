@@ -4,16 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Controls:IntegerValue
             Caption="Divisions"
             Minimum="0"
             Value="{Binding Divisions.Value}" />
 
-        <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <Controls:IntegerValue
                 Caption="Iterations"
@@ -26,7 +28,7 @@
 
         </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <Controls:DragValue
                 Caption="Rotation"
@@ -43,12 +45,10 @@
             DataContext="{Binding Center}" />
 
         <Controls:DragValue
-            Margin="0,8,0,0"
             Caption="Cell Rotation"
             DataContext="{Binding CellRotation.Value}" />
 
         <Controls:Vector2
-            Margin="0,8"
             Caption="Cell Offset"
             DataContext="{Binding CellOffset}" />
 

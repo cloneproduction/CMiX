@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
@@ -11,14 +12,14 @@ namespace CMiX.Core.Texturing
     public partial class MaskTexture : ObservableObject, IControl, ITexture
     {
         public MaskTexture(PrefabManager prefabManager,
-                           TextureTexCoord textureTexCoord,
+                           Transform2D transform2D,
                            SamplerState samplerState,
                            GenericValue<bool> invert,
                            GenericValue<MaskChannel> maskChannel,
                            GenericValue<bool> isEnabled)
         {
             TextureManager = prefabManager;
-            TextureTexCoord = textureTexCoord;
+            Transform2D = transform2D;
             SamplerState = samplerState;
             Invert = invert;
             MaskChannel = maskChannel;
@@ -28,7 +29,7 @@ namespace CMiX.Core.Texturing
         public Guid ID { get; set; } = Guid.NewGuid();
 
         public PrefabManager TextureManager { get; set; }
-        public TextureTexCoord TextureTexCoord { get; set; }
+        public Transform2D Transform2D { get; set; }
         public SamplerState SamplerState { get; set; }
         public GenericValue<bool> IsEnabled { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }
@@ -42,7 +43,7 @@ namespace CMiX.Core.Texturing
         {
             ID = ID,
             TextureManager = (PrefabManagerModel)TextureManager.ToModel(),
-            TextureTexCoord = (TextureTexCoordModel)TextureTexCoord.ToModel(),
+            Transform2D = (Transform2DModel)Transform2D.ToModel(),
             SamplerState = (SamplerStateModel)SamplerState.ToModel(),
             IsEnabled = (GenericValueModel<bool>)IsEnabled.ToModel(),
             MaskChannel = (GenericValueModel<MaskChannel>)MaskChannel.ToModel(),
@@ -53,7 +54,7 @@ namespace CMiX.Core.Texturing
         {
             var m = (MaskTextureModel)model;
             ID = m.ID;
-            TextureTexCoord.FromModel(m.TextureTexCoord);
+            Transform2D.FromModel(m.Transform2D);
             SamplerState.FromModel(m.SamplerState);
             IsEnabled.FromModel(m.IsEnabled);
             MaskChannel.FromModel(m.MaskChannel);

@@ -10,27 +10,36 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Views:ModifierModeSelector
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-
-        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
-            <BaseControls:ModulatableFloatValue Caption="Translate X" DataContext="{Binding TranslateX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableFloatValue Caption="Y" DataContext="{Binding TranslateY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableFloatValue Caption="Z" DataContext="{Binding TranslateZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-        </Panels:PositionedStackPanel>
-
+        
         <BaseControls:ModulatableFloatValue
             Caption="Uniform"
             DataContext="{Binding ScaleUniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
 
-        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
             <BaseControls:ModulatableFloatValue Caption="Scale X" DataContext="{Binding ScaleX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableFloatValue Caption="Y" DataContext="{Binding ScaleY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableFloatValue Caption="Z" DataContext="{Binding ScaleZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+        </Panels:PositionedStackPanel>
+
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+            <BaseControls:ModulatableFloatValue 
+                Caption="Translate X" 
+                DataContext="{Binding TranslateX}" 
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableFloatValue 
+                Caption="Y" 
+                DataContext="{Binding TranslateY}" 
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableFloatValue 
+                Caption="Z" 
+                DataContext="{Binding TranslateZ}" 
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </Panels:PositionedStackPanel>
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
@@ -40,7 +49,6 @@
         </Panels:PositionedStackPanel>
 
         <BaseControls:AxisSelector3D
-            Margin="0, 8, 0, 0"
             Caption="Flip"
             XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"

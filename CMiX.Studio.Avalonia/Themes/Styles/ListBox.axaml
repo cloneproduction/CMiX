@@ -3,9 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
-    <!-- Requires CMiX.Studio.Avalonia.Views.Controls.CMiXListBox and CMiX.Studio.Avalonia.Views.Controls.EditableTextBox (ported in a later phase) -->
-
-    <!-- WPF NoFocusVisual style dropped: Avalonia has no FocusVisualStyle -->
 
     <ControlTheme x:Key="ListBoxResizeBorderStyle" TargetType="Border">
         <Style Selector="^:pointerover">

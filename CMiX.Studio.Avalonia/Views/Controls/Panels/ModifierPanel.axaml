@@ -5,56 +5,58 @@
     xmlns:AP="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    x:Name="modifierPanel">
+    x:Name="modifierPanel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <!--
-        Avalonia templated controls clip to bounds by default, unlike WPF. The filter
-        panel blend bar relies on WPF style negative margin overdraw to reach the panel
-        edges, so clipping is disabled for the content chain inside modifier panels.
-    -->
     <HeaderedContentControl.Styles>
         <Style Selector=":is(ContentControl)">
             <Setter Property="ClipToBounds" Value="False" />
         </Style>
     </HeaderedContentControl.Styles>
 
-    <!--
-        Bound via ElementName rather than RelativeSource AncestorType or TemplateBinding -
-        this header now renders through the Header slot's own ContentPresenter (see the
-        Template below), not inline inside ModifierPanel's ControlTemplate, so neither
-        TemplatedParent nor an ancestor tree-walk reliably distinguishes this instance from
-        an outer ModifierPanel when a Modulator row's own panel is nested inside a Modifier
-        row's panel. ElementName resolves via this instance's own NameScope instead, which
-        stays unambiguous regardless of nesting depth.
-    -->
     <HeaderedContentControl.Header>
         <DockPanel>
+
             <Button
+                Margin="4, 0, 2, 0"
                 AP:DragHandler.IsEnabled="True"
                 AP:DragHandler.IsPressed="{Binding DragHandlerIsPressed, ElementName=modifierPanel, Mode=TwoWay}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource DragHandlerButton}">
+
                 <Button.Content>
+
                     <Controls:AppIcon
-                        Opacity="0.50"
                         IconKey="DragHandler"
                         Size="{DynamicResource IconSizeXS}" />
+
                 </Button.Content>
+
             </Button>
 
-            <Button
-                Command="{Binding CloseModifierCommand, ElementName=modifierPanel}"
-                CommandParameter="{Binding CloseModifierCommandParameter, ElementName=modifierPanel}"
+            <StackPanel 
                 DockPanel.Dock="Right"
-                Theme="{DynamicResource ModifierCloseButtonStyle}" />
+                Orientation="Horizontal">
 
-            <ToggleButton
-                Margin="2,0"
-                DockPanel.Dock="Right"
-                IsChecked="{Binding DataContext.PrefabService.Visibility.Value, ElementName=modifierPanel, Mode=TwoWay}"
-                Theme="{DynamicResource ToggleVisibility}" />
+                <ToggleButton
+                    Width="{DynamicResource ControlHeightMD}"
+                    DockPanel.Dock="Right"
+                    IsChecked="{Binding DataContext.PrefabService.Visibility.Value, ElementName=modifierPanel, Mode=TwoWay}"
+                    Theme="{DynamicResource ToggleVisibility}" />
 
-            <TextBlock Text="{Binding DataContext.PrefabService.Name.Value, ElementName=modifierPanel}" />
+                <Button
+                    Width="{DynamicResource ControlHeightMD}"
+                    Height="{DynamicResource ControlHeightMD}"
+                    Command="{Binding CloseModifierCommand, ElementName=modifierPanel}"
+                    CommandParameter="{Binding CloseModifierCommandParameter, ElementName=modifierPanel}"
+                    Theme="{DynamicResource ModifierCloseButtonStyle}" />
+
+            </StackPanel>
+
+            <TextBox 
+                Margin="0, 0, 4, 0" 
+                Text="{Binding DataContext.PrefabService.Name.Value, ElementName=modifierPanel}" />
 
         </DockPanel>
     </HeaderedContentControl.Header>
@@ -77,13 +79,7 @@
                         ContentTemplate="{TemplateBinding HeaderTemplate}" />
                 </Expander.Header>
 
-                <!--
-                    Padding instead of the WPF Margin so the blend bar overdraw of the
-                    filter panel stays inside this border's bounds.
-                -->
-                <Border Padding="8">
-                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
-                </Border>
+                    <ContentPresenter Padding="8" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
 
             </Expander>
         </ControlTemplate>

@@ -35,17 +35,20 @@ namespace CMiX.Core.Modulation
         protected void ResolveNestedBindables()
         {
             foreach (var bindable in _nestedBindables)
-                ResolveModulatorBinding(bindable);
+            {
+                if (bindable.ModulatorID is not { } modulatorId) return;
+
+                var modulator = ModulatorManager.ManagerData.Items.OfType<IModulator>().FirstOrDefault(m => m.ID == modulatorId);
+                var output = modulator?.Outputs.FirstOrDefault(o => o.Name == bindable.BoundOutputName);
+                if (output != null)
+                    bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, output));
+            }
+
         }
 
         protected void ResolveModulatorBinding(IModulatorBindable bindable)
         {
-            if (bindable.ModulatorID is not { } modulatorId) return;
 
-            var modulator = ModulatorManager.ManagerData.Items.OfType<IModulator>().FirstOrDefault(m => m.ID == modulatorId);
-            var output = modulator?.Outputs.FirstOrDefault(o => o.Name == bindable.BoundOutputName);
-            if (output != null)
-                bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, output));
         }
 
         public void Dispose()

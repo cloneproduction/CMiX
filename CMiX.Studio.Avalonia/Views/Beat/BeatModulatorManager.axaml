@@ -5,7 +5,7 @@
     xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
-    <StackPanel>
+<!--    <StackPanel>
         <Controls:Outliner ItemsSource="{Binding ControlRepository.BeatModulators}">
             <Controls:Outliner.SelectionPanel>
                 <Button
@@ -19,5 +19,5 @@
         <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
             <Views:BeatModulator Margin="-8,0,-8,-8" DataContext="{Binding SelectedItem}" />
         </Border>
-    </StackPanel>
+    </StackPanel>-->
 </UserControl>

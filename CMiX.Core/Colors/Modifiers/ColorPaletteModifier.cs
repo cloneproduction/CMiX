@@ -1,4 +1,4 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -17,20 +17,17 @@ namespace CMiX.Core.Colors.Modifiers
     public partial class ColorPaletteModifier : ObservableObject, IModifier, IDisposable
     {
         public ColorPaletteModifier(PrefabService prefabService,
-                            PrefabManager colorManager,
-                            PrefabManager modifierManager,
-                            GenericValue<ResamplingMethod> resample)
+                                    PrefabManager colorManager,
+                                    GenericValue<ResamplingMethod> resample)
         {
             PrefabService = prefabService;
             ColorManager = colorManager;
-            ModifierManager = modifierManager;
             Resample = resample;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public PrefabManager ColorManager { get; set; }
-        public PrefabManager ModifierManager { get; set; }
         public GenericValue<ResamplingMethod> Resample { get; set; }
 
         [ObservableProperty]
@@ -52,8 +49,7 @@ namespace CMiX.Core.Colors.Modifiers
             Resample.FromModel(m.Resample);
 
             LoadManager(ColorManager, m.ColorManager);
-            LoadManager(ModifierManager, m.BeatModifierManager);
         }
-        public void Dispose() => DisposeAll(ColorManager, ModifierManager);
+        public void Dispose() => DisposeAll(ColorManager);
     }
 }
