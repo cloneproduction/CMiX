@@ -4,9 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
+
+        <BaseControls:ComboBox
+            IsVisible="{Binding !LayerMaskSettings.IsMask.Value}"
+            Caption="Blend Mode"
+            ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
+            SelectedItem="{Binding LayerSettings.BlendMode.Value, Mode=TwoWay}" />
+
+        <BaseControls:ColorSelector
+            Caption="Background"
+            DataContext="{Binding LayerSettings.BackgroundColor}" />
 
         <Controls:CMiXSlider
             Height="{DynamicResource ControlHeightMD}"
@@ -15,17 +27,6 @@
             Minimum="0"
             Value="{Binding LayerSettings.Opacity.Value}" />
 
-        <BaseControls:ColorSelector
-            Margin="0,4"
-            Caption="Background"
-            DataContext="{Binding LayerSettings.BackgroundColor}" />
-
-        <Border IsVisible="{Binding !LayerMaskSettings.IsMask.Value}">
-            <BaseControls:ComboBox
-                Caption="Blend Mode"
-                ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
-                SelectedItem="{Binding LayerSettings.BlendMode.Value, Mode=TwoWay}" />
-        </Border>
-
     </StackPanel>
+
 </UserControl>

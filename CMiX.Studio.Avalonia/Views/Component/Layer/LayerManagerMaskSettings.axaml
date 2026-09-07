@@ -3,9 +3,11 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:ComboBox
             Caption="Mask Mode"
@@ -13,12 +15,14 @@
             SelectedItem="{Binding LayerMaskSettings.MaskMode.Value}" />
 
         <BaseControls:ComboBox
-            Margin="0,4"
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
             SelectedItem="{Binding LayerMaskSettings.MaskChannel.Value}" />
 
-        <BaseControls:ToggleButton Caption="Invert" IsChecked="{Binding LayerMaskSettings.Invert.Value}" />
+        <BaseControls:ToggleButton 
+            Margin="0, 0, 0, 8"
+            Caption="Invert" 
+            IsChecked="{Binding LayerMaskSettings.Invert.Value}" />
 
     </StackPanel>
 </UserControl>

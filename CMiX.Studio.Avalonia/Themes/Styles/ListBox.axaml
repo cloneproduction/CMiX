@@ -169,7 +169,6 @@
     <ControlTheme x:Key="LayerListBoxItemStyle"
                   BasedOn="{StaticResource ListBoxItemStyle}"
                   TargetType="ListBoxItem">
-        <!-- Height NaN restores automatic sizing as WPF Height Auto did -->
         <Setter Property="Height" Value="NaN" />
         <Setter Property="Padding" Value="1,0,0,0" />
         <Setter Property="Template">
@@ -196,11 +195,11 @@
     </ControlTheme>
 
     <ControlTheme x:Key="LayerListBoxStyle" TargetType="ListBox">
-        <Setter Property="Background" Value="{DynamicResource LayerListBoxBackground}" />
+        <Setter Property="Background" Value="{DynamicResource Grey100Brush}" />
         <Setter Property="ItemContainerTheme" Value="{DynamicResource LayerListBoxItemStyle}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="Bd" Background="{TemplateBinding Background}">
+                <Border Name="Bd">
                     <ScrollViewer
                         Name="PART_ScrollViewer"
                         Focusable="False"
