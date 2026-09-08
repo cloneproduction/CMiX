@@ -49,16 +49,16 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
-            circularSpread.ModulatorManager.AddItem(typeof(BeatModulator));
-            var beatModulator = (BeatModulator)circularSpread.ModulatorManager.ManagerData.Items[0];
+            circularSpread.ModulatorManager.AddItem(typeof(RandomModulator));
+            var randomModulator = (RandomModulator)circularSpread.ModulatorManager.ManagerData.Items[0];
 
-            circularSpread.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
-            circularSpread.Factor.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            circularSpread.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
+            circularSpread.Factor.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(beatModulator.ID, circularSpread.X.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, circularSpread.X.ModulatorID.Value);
             Assert.Null(circularSpread.Y.ModulatorID.Value);
             Assert.Null(circularSpread.Phase.ModulatorID.Value);
-            Assert.Equal(beatModulator.ID, circularSpread.Factor.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, circularSpread.Factor.ModulatorID.Value);
         }
 
         [Fact]

@@ -109,7 +109,7 @@ namespace CMiX.Core.Tests
             Assert.IsAssignableFrom<IDisposable>(scale);
 
             scale.Dispose();
-            scale.ModulatorManager.AddItem(typeof(BeatModulator));
+            scale.ModulatorManager.AddItem(typeof(RandomModulator));
             Assert.Single(scale.ModulatorManager.ManagerData.Items);
         }
 
@@ -120,17 +120,17 @@ namespace CMiX.Core.Tests
             var factory = provider.GetRequiredService<ControlFactory>();
 
             var scale = (ScaleModifier)factory.Create(typeof(ScaleModifier));
-            scale.ModulatorManager.AddItem(typeof(BeatModulator));
-            var beatModulator = (BeatModulator)scale.ModulatorManager.ManagerData.Items[0];
-            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            scale.ModulatorManager.AddItem(typeof(RandomModulator));
+            var randomModulator = (RandomModulator)scale.ModulatorManager.ManagerData.Items[0];
+            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
             var model = scale.ToModel();
 
             var reloaded = (ScaleModifier)factory.Create(model);
 
-            Assert.Equal(beatModulator.ID, reloaded.X.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, reloaded.X.ModulatorID.Value);
             Assert.NotNull(reloaded.X.BoundModulator);
-            Assert.Equal(beatModulator.ID, reloaded.X.BoundModulator.ID);
+            Assert.Equal(randomModulator.ID, reloaded.X.BoundModulator.ID);
         }
     }
 }

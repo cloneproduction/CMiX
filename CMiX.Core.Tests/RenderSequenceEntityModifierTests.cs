@@ -41,15 +41,15 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ModulatorManager_CanAddBeatModulator()
+        public void ModulatorManager_CanAddRandomModulator()
         {
             var provider = TestServiceProviderFactory.Create();
             var render = provider.GetRequiredService<RenderSequenceEntityModifier>();
 
-            render.ModulatorManager.AddItem(typeof(BeatModulator));
+            render.ModulatorManager.AddItem(typeof(RandomModulator));
 
             Assert.Single(render.ModulatorManager.ManagerData.Items);
-            Assert.IsType<BeatModulator>(render.ModulatorManager.ManagerData.Items[0]);
+            Assert.IsType<RandomModulator>(render.ModulatorManager.ManagerData.Items[0]);
         }
 
         [Fact]

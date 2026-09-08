@@ -51,16 +51,16 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var grid = provider.GetRequiredService<GridModifier>();
-            grid.ModulatorManager.AddItem(typeof(BeatModulator));
-            var beatModulator = (BeatModulator)grid.ModulatorManager.ManagerData.Items[0];
+            grid.ModulatorManager.AddItem(typeof(RandomModulator));
+            var randomModulator = (RandomModulator)grid.ModulatorManager.ManagerData.Items[0];
 
-            grid.Width.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
-            grid.Phase.Z.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            grid.Width.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
+            grid.Phase.Z.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(beatModulator.ID, grid.Width.X.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, grid.Width.X.ModulatorID.Value);
             Assert.Null(grid.Width.Y.ModulatorID.Value);
             Assert.Null(grid.Phase.X.ModulatorID.Value);
-            Assert.Equal(beatModulator.ID, grid.Phase.Z.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, grid.Phase.Z.ModulatorID.Value);
         }
 
         [Fact]
@@ -111,10 +111,10 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var grid = provider.GetRequiredService<GridModifier>();
-            grid.ModulatorManager.AddItem(typeof(BeatModulator));
-            var beatModulator = (BeatModulator)grid.ModulatorManager.ManagerData.Items[0];
+            grid.ModulatorManager.AddItem(typeof(RandomModulator));
+            var randomModulator = (RandomModulator)grid.ModulatorManager.ManagerData.Items[0];
 
-            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
             var model = grid.ToModel();
 
@@ -122,8 +122,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<GridModifier>();
             reloaded.FromModel(model);
 
-            var reloadedBeatModulator = Assert.IsType<BeatModulator>(reloaded.ModulatorManager.ManagerData.Items[0]);
-            Assert.Same(reloadedBeatModulator, reloaded.ModifierModeSelector.CountX.BoundModulator);
+            var reloadedRandomModulator = Assert.IsType<RandomModulator>(reloaded.ModulatorManager.ManagerData.Items[0]);
+            Assert.Same(reloadedRandomModulator, reloaded.ModifierModeSelector.CountX.BoundModulator);
             Assert.Null(reloaded.ModifierModeSelector.CountY.BoundModulator);
             Assert.Null(reloaded.ModifierModeSelector.CountZ.BoundModulator);
         }
@@ -133,13 +133,13 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var grid = provider.GetRequiredService<GridModifier>();
-            grid.ModulatorManager.AddItem(typeof(BeatModulator));
-            var beatModulator = (BeatModulator)grid.ModulatorManager.ManagerData.Items[0];
+            grid.ModulatorManager.AddItem(typeof(RandomModulator));
+            var randomModulator = (RandomModulator)grid.ModulatorManager.ManagerData.Items[0];
 
-            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
-            grid.ModifierModeSelector.CountZ.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
+            grid.ModifierModeSelector.CountZ.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            grid.ModulatorManager.DeleteItem(beatModulator);
+            grid.ModulatorManager.DeleteItem(randomModulator);
 
             Assert.Null(grid.ModifierModeSelector.CountX.ModulatorID.Value);
             Assert.Null(grid.ModifierModeSelector.CountX.BoundModulator);

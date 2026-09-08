@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Clock_Starts_WhenABeatModulatorListensForPulses()
+        public void Clock_Starts_WhenABeatRandomModulatorListensForPulses()
         {
             var animations = new BeatAnimations();
             animations.MakeStoryBoard(new[] { 500f, 1000f, 2000f });
@@ -102,7 +102,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // a multiply followed by a divide is back where it started, so the modifier has to be
         // stepping the very instance it began on rather than the same slot of a rebuilt storyboard.
         [AvaloniaFact]
-        public void BeatModulator_KeepsSteppingTheSameStoryboard_AcrossTempoClicks()
+        public void BeatRandomModulator_KeepsSteppingTheSameStoryboard_AcrossTempoClicks()
         {
             var provider = TestServiceProviderFactory.Create();
             var masterBeat = provider.GetRequiredService<MasterBeat>();
@@ -110,7 +110,7 @@ namespace CMiX.Studio.Avalonia.Tests
             // Built before the modifier is resolved, exactly as App does at startup, so the
             // modifier has a provider to resolve its animated double from.
             _ = new MasterBeatAnimationController(masterBeat);
-            var modifier = provider.GetRequiredService<BeatModulator>();
+            var modifier = provider.GetRequiredService<BeatRandomModulator>();
 
             var stepped = modifier.AnimatedDouble;
             Assert.NotNull(stepped);
@@ -128,19 +128,19 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // MasterBeat re raises its own PropertyChanged for AnimatedDouble on every position change
-        // of the instance it currently holds, which happens on every 16 ms clock tick. BeatModulator
+        // of the instance it currently holds, which happens on every 16 ms clock tick. BeatRandomModulator
         // used to listen to that notification with no property filter, so every tick made it re
         // resolve and unconditionally reassign its AnimatedDouble property, which unsubscribes and
         // resubscribes PositionChanged even when the resolved instance never changed, driving the
         // observer count from 1 to 0 back to 1 on every single tick.
         [AvaloniaFact]
-        public void BeatModulator_DoesNotResubscribeItsAnimatedDouble_OnEveryPerTickPositionChange()
+        public void BeatRandomModulator_DoesNotResubscribeItsAnimatedDouble_OnEveryPerTickPositionChange()
         {
             var provider = TestServiceProviderFactory.Create();
             var masterBeat = provider.GetRequiredService<MasterBeat>();
 
             _ = new MasterBeatAnimationController(masterBeat);
-            var modifier = provider.GetRequiredService<BeatModulator>();
+            var modifier = provider.GetRequiredService<BeatRandomModulator>();
 
             var animatedDouble = (AnimatedDouble)modifier.AnimatedDouble;
             Assert.NotNull(animatedDouble);
@@ -160,7 +160,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // One beat seen by a modifier: the position falls below the halfway mark and rises back
-        // through it, which is where BeatModulator advances its step.
+        // through it, which is where BeatRandomModulator advances its step.
         private static void Pulse(AnimatedDouble animatedDouble)
         {
             animatedDouble.AnimationPosition = 0.2;

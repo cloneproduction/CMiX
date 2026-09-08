@@ -43,12 +43,12 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var modulatable = provider.GetRequiredService<ModulatableFloat>();
-            var beatModulator = provider.GetRequiredService<BeatModulator>();
+            var randomModulator = provider.GetRequiredService<RandomModulator>();
 
-            modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(beatModulator.ID, modulatable.ModulatorID.Value);
-            Assert.Same(beatModulator, modulatable.BoundModulator);
+            Assert.Equal(randomModulator.ID, modulatable.ModulatorID.Value);
+            Assert.Same(randomModulator, modulatable.BoundModulator);
 
             modulatable.SetModulatorCommand.Execute(null);
 

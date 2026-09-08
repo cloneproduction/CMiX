@@ -8,21 +8,21 @@ namespace CMiX.Core.Tests
     public class IModulatorTests
     {
         [Fact]
-        public void BeatModulator_IsResolvableAsIModulator()
+        public void RandomModulator_IsResolvableAsIModulator()
         {
             var provider = TestServiceProviderFactory.Create();
-            var beatModulator = provider.GetRequiredService<BeatModulator>();
+            var randomModulator = provider.GetRequiredService<RandomModulator>();
 
-            Assert.IsAssignableFrom<IModulator>(beatModulator);
+            Assert.IsAssignableFrom<IModulator>(randomModulator);
         }
 
         [Fact]
-        public void BeatModulator_IsModulateKind()
+        public void RandomModulator_IsModulateKind()
         {
             var provider = TestServiceProviderFactory.Create();
-            var beatModulator = provider.GetRequiredService<BeatModulator>();
+            var randomModulator = provider.GetRequiredService<RandomModulator>();
 
-            Assert.Equal(ModulatorKind.Modulate, beatModulator.Outputs[0].Kind);
+            Assert.Equal(ModulatorKind.Modulate, randomModulator.Outputs[0].Kind);
         }
 
         [Fact]

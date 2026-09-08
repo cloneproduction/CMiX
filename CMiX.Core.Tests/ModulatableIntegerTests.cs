@@ -22,12 +22,12 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var count = provider.GetRequiredService<ModulatableInteger>();
-            var beatModulator = provider.GetRequiredService<BeatModulator>();
+            var randomModulator = provider.GetRequiredService<RandomModulator>();
 
-            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(beatModulator.ID, count.ModulatorID.Value);
-            Assert.Same(beatModulator, count.BoundModulator);
+            Assert.Equal(randomModulator.ID, count.ModulatorID.Value);
+            Assert.Same(randomModulator, count.BoundModulator);
             Assert.Equal("Value", count.BoundOutputName.Value);
 
             count.SetModulatorCommand.Execute(null);
@@ -42,11 +42,11 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var count = provider.GetRequiredService<ModulatableInteger>();
-            var beatModulator = provider.GetRequiredService<BeatModulator>();
+            var randomModulator = provider.GetRequiredService<RandomModulator>();
 
             count.Label = "Count";
             count.Value.Value = 5;
-            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
             var model = count.ToModel();
 
@@ -56,7 +56,7 @@ namespace CMiX.Core.Tests
 
             Assert.Equal("Count", reloaded.Label);
             Assert.Equal(5, reloaded.Value.Value);
-            Assert.Equal(beatModulator.ID, reloaded.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, reloaded.ModulatorID.Value);
             Assert.Equal("Value", reloaded.BoundOutputName.Value);
         }
     }

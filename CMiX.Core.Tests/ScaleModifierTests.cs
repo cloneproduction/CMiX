@@ -33,15 +33,15 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ModulatorManager_CanAddBeatModulator()
+        public void ModulatorManager_CanAddRandomModulator()
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
 
-            scale.ModulatorManager.AddItem(typeof(BeatModulator));
+            scale.ModulatorManager.AddItem(typeof(RandomModulator));
 
             Assert.Single(scale.ModulatorManager.ManagerData.Items);
-            Assert.IsType<BeatModulator>(scale.ModulatorManager.ManagerData.Items[0]);
+            Assert.IsType<RandomModulator>(scale.ModulatorManager.ManagerData.Items[0]);
         }
 
         [Fact]
@@ -102,13 +102,13 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
-            scale.ModulatorManager.AddItem(typeof(BeatModulator));
-            var beatModulator = (BeatModulator)scale.ModulatorManager.ManagerData.Items[0];
+            scale.ModulatorManager.AddItem(typeof(RandomModulator));
+            var randomModulator = (RandomModulator)scale.ModulatorManager.ManagerData.Items[0];
 
-            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
-            scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
+            scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            scale.ModulatorManager.DeleteItem(beatModulator);
+            scale.ModulatorManager.DeleteItem(randomModulator);
 
             Assert.Null(scale.X.ModulatorID.Value);
             Assert.Null(scale.X.BoundModulator);
@@ -122,12 +122,12 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
-            scale.ModulatorManager.AddItem(typeof(BeatModulator));
-            var beatModulator = (BeatModulator)scale.ModulatorManager.ManagerData.Items[0];
+            scale.ModulatorManager.AddItem(typeof(RandomModulator));
+            var randomModulator = (RandomModulator)scale.ModulatorManager.ManagerData.Items[0];
 
-            scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            scale.ModulatorManager.DeleteItem(beatModulator);
+            scale.ModulatorManager.DeleteItem(randomModulator);
 
             Assert.Null(scale.ModifierModeSelector.Count.ModulatorID.Value);
             Assert.Null(scale.ModifierModeSelector.Count.BoundModulator);
@@ -138,9 +138,9 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
-            scale.ModulatorManager.AddItem(typeof(BeatModulator));
-            var beatModulator = (BeatModulator)scale.ModulatorManager.ManagerData.Items[0];
-            scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            scale.ModulatorManager.AddItem(typeof(RandomModulator));
+            var randomModulator = (RandomModulator)scale.ModulatorManager.ManagerData.Items[0];
+            scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
             var model = scale.ToModel();
 
@@ -148,8 +148,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<ScaleModifier>();
             reloaded.FromModel(model);
 
-            var reloadedBeatModulator = Assert.IsType<BeatModulator>(reloaded.ModulatorManager.ManagerData.Items[0]);
-            Assert.Same(reloadedBeatModulator, reloaded.ModifierModeSelector.Count.BoundModulator);
+            var reloadedRandomModulator = Assert.IsType<RandomModulator>(reloaded.ModulatorManager.ManagerData.Items[0]);
+            Assert.Same(reloadedRandomModulator, reloaded.ModifierModeSelector.Count.BoundModulator);
         }
     }
 }

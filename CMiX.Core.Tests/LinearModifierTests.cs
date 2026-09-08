@@ -47,14 +47,14 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var linearXYZ = provider.GetRequiredService<LinearModifier>();
-            linearXYZ.ModulatorManager.AddItem(typeof(BeatModulator));
-            var beatModulator = (BeatModulator)linearXYZ.ModulatorManager.ManagerData.Items[0];
+            linearXYZ.ModulatorManager.AddItem(typeof(RandomModulator));
+            var randomModulator = (RandomModulator)linearXYZ.ModulatorManager.ManagerData.Items[0];
 
-            linearXYZ.Width.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
-            linearXYZ.Phase.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, beatModulator.Outputs[0]));
+            linearXYZ.Width.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
+            linearXYZ.Phase.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(beatModulator.ID, linearXYZ.Width.ModulatorID.Value);
-            Assert.Equal(beatModulator.ID, linearXYZ.Phase.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, linearXYZ.Width.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, linearXYZ.Phase.ModulatorID.Value);
         }
 
         [Fact]
