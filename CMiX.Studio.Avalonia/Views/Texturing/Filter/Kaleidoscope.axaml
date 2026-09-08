@@ -12,14 +12,14 @@
 
         <Controls:IntegerValue
             Caption="Divisions"
-            Minimum="0"
+            Minimum="1"
             Value="{Binding Divisions.Value}" />
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <Controls:IntegerValue
                 Caption="Iterations"
-                Minimum="0"
+                Minimum="1"
                 Value="{Binding Iterations.Value}" />
 
             <Controls:DragValue

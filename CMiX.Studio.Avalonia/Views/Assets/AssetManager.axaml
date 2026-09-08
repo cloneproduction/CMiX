@@ -8,14 +8,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
 
-            <!--
-                Removed from the WPF resources: the commented out assetTypes ObjectDataProvider,
-                the commented out AssetTexture/AssetVideo/AssetGeometry templates and the
-                AssetTemplateSelector, and the BaseBorderStyle keyed Border style that only those
-                commented templates consumed.
-            -->
-
-            <!-- The WPF HierarchicalDataTemplate becomes a TreeDataTemplate, consumed by the asset TreeView when it is ported. -->
             <TreeDataTemplate
                 x:Key="AssetDirectoryTemplate"
                 DataType="{x:Type Assets:AssetDirectory}"
@@ -24,11 +16,7 @@
                     Height="{DynamicResource ControlHeightXL}"
                     HorizontalAlignment="Stretch">
                     <DockPanel>
-                        <!--
-                            The WPF MultiDataTrigger swapped the folder icon when the ancestor
-                            TreeViewItem was expanded and had items. Two images toggled on the
-                            ancestor IsExpanded replace it; the HasItems condition is dropped.
-                        -->
+
                         <Panel
                             Margin="6"
                             DockPanel.Dock="Left">
@@ -43,10 +31,12 @@
                                 IconKey="Folder_Opened"
                                 Size="{DynamicResource IconSizeXS}" />
                         </Panel>
+
                         <Controls:EditableTextBox
                             HorizontalAlignment="Stretch"
                             IsEditing="{Binding IsRenaming, Mode=TwoWay}"
                             Text="{Binding Name, Mode=TwoWay}" />
+
                     </DockPanel>
                 </Border>
             </TreeDataTemplate>

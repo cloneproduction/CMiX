@@ -50,6 +50,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Template">
             <ControlTemplate>
+
                 <Border
                     Name="border"
                     Padding="4"
@@ -57,8 +58,14 @@
                     VerticalAlignment="{TemplateBinding VerticalAlignment}"
                     Background="{TemplateBinding Background}"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
-                    <Controls:AppIcon Name="icon" IconKey="IsChecked" Size="{DynamicResource IconSizeXS}" />
+
+                    <Controls:AppIcon 
+                        Name="icon" 
+                        IconKey="IsChecked" 
+                        Size="{DynamicResource IconSizeXS}" />
+
                 </Border>
+
             </ControlTemplate>
         </Setter>
 
@@ -70,10 +77,6 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
 
-        <!--
-            WPF hid the check icon with Visibility Hidden, which reserves layout space.
-            Opacity keeps the box size stable the same way; IsVisible would collapse it.
-        -->
         <Style Selector="^:checked:not(:pointerover) /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
         </Style>
@@ -84,6 +87,7 @@
         <Style Selector="^:checked:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
+
         <Style Selector="^:checked:pointerover /template/ Controls|AppIcon#icon">
             <Setter Property="Opacity" Value="1" />
         </Style>

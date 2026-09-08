@@ -199,7 +199,7 @@
         <Setter Property="ItemContainerTheme" Value="{DynamicResource LayerListBoxItemStyle}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="Bd">
+                <Border Name="Bd" Background="Transparent">
                     <ScrollViewer
                         Name="PART_ScrollViewer"
                         Focusable="False"

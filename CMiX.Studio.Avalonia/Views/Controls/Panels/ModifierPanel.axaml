@@ -46,8 +46,6 @@
                     Theme="{DynamicResource ToggleVisibility}" />
 
                 <Button
-                    Width="{DynamicResource ControlHeightMD}"
-                    Height="{DynamicResource ControlHeightMD}"
                     Command="{Binding CloseModifierCommand, ElementName=modifierPanel}"
                     CommandParameter="{Binding CloseModifierCommandParameter, ElementName=modifierPanel}"
                     Theme="{DynamicResource ModifierCloseButtonStyle}" />
@@ -79,7 +77,10 @@
                         ContentTemplate="{TemplateBinding HeaderTemplate}" />
                 </Expander.Header>
 
-                    <ContentPresenter Padding="8" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    <ContentPresenter 
+                        Padding="8" 
+                        Content="{TemplateBinding Content}" 
+                        ContentTemplate="{TemplateBinding ContentTemplate}" />
 
             </Expander>
         </ControlTemplate>

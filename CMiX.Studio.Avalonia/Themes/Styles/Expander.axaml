@@ -136,7 +136,7 @@
                 <Border
                     Name="border"
                     Background="{TemplateBinding Background}"
-                    BorderBrush="{DynamicResource Grey400Brush}"
+                    BorderBrush="Transparent"
                     BorderThickness="1"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
                     <DockPanel>
@@ -148,8 +148,6 @@
                             Foreground="{DynamicResource ForegroundBrush}"
                             HorizontalContentAlignment="Left"
                             IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
-                            MinHeight="0"
-                            MinWidth="0"
                             Theme="{StaticResource ItemControlExpanderHeaderStyle}"
                             VerticalContentAlignment="Center" />
                         <ContentPresenter
@@ -166,9 +164,6 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
-        </Style>
 
         <Style Selector="^:disabled /template/ ToggleButton#PART_toggle">
             <Setter Property="Opacity" Value="0.5" />
