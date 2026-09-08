@@ -12,8 +12,8 @@ namespace CMiX.Core.Modulation
     public partial class ModulatableFloat : ObservableObject, IControl, IModulatorBindable
     {
         public ModulatableFloat(GenericValue<float> value,
-                           GenericValue<Guid?> modulatorID,
-                           GenericValue<string> boundOutputName)
+                                GenericValue<Guid?> modulatorID,
+                                GenericValue<string> boundOutputName)
         {
             Value = value;
             ModulatorID = modulatorID;

@@ -79,8 +79,6 @@ namespace CMiX.Core.Assets
                 CreateAssetFromPath(file.FullName);
         }
 
-        // Pure filesystem walk with no AssetRepository mutation, so callers can run it off the UI thread
-        // and apply the returned paths through CreateAssetFromPath on the dispatcher afterward.
         public List<string> EnumerateAssetFilePaths(DirectoryInfo directoryInfo)
         {
             var paths = new List<string>();

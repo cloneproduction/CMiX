@@ -50,7 +50,7 @@ namespace CMiX.Core.Modulation.Modulators
 
         public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[] { 
             new ModulatorOutput("Phase", ModulatorKind.Modulate, typeof(float)),
-            new ModulatorOutput("Cycles", ModulatorKind.Modulate, typeof(float)),
+            new ModulatorOutput("Cycles", ModulatorKind.Modulate, typeof(Int32)),
         };
 
         public PrefabService PrefabService { get; set; }
