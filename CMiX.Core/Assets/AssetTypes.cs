@@ -20,6 +20,7 @@ namespace CMiX.Core.Assets
     {
         private static readonly Dictionary<string, AssetKind> Extensions = new(StringComparer.OrdinalIgnoreCase)
         {
+            { "DDS", AssetKind.Image },
             { "PNG", AssetKind.Image },
             { "JPG", AssetKind.Image },
             { "JPEG", AssetKind.Image },
