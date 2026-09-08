@@ -33,7 +33,7 @@ namespace CMiX.Core.Tests
 
             Assert.IsAssignableFrom<IModulator>(trackingModulator);
             Assert.All(trackingModulator.Outputs, o => Assert.Equal(ModulatorKind.Set, o.Kind));
-            Assert.Equal(new[] { "Count", "X" }, trackingModulator.Outputs.Select(o => o.Name));
+            Assert.Equal(new[] { "Count", "X", "Y" }, trackingModulator.Outputs.Select(o => o.Name));
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace CMiX.Core.Tests
             var floatOutputs = trackingModulator.Outputs.Where(o => o.ValueType == typeof(float)).ToList();
 
             Assert.Equal(new[] { "Count" }, integerOutputs.Select(o => o.Name));
-            Assert.Equal(new[] { "X" }, floatOutputs.Select(o => o.Name));
+            Assert.Equal(new[] { "X", "Y" }, floatOutputs.Select(o => o.Name));
         }
 
         [Fact]
