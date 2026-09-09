@@ -16,7 +16,7 @@ namespace CMiX.Core.Transformation
         public bool IsExpanded { get; set; } = true;
         public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();
-        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new(ModifierMode.PerInstance, 1);
         public DirectionXYZModel DirectionXYZ { get; set; } = new(false, false, false);
         public GenericValueModel<ModifierMode> Mode { get; set; } = new(ModifierMode.ToSpread);
     }

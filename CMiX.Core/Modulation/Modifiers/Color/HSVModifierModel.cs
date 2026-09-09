@@ -16,7 +16,7 @@ namespace CMiX.Core.Modulation.Modifiers
         public bool IsExpanded { get; set; } = true;
         public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();
-        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new(ModifierMode.PerInstance, 1);
         public GenericValueModel<ColorMode> ColorMode { get; set; } = new(Core.ColorMode.HSV);
     }
 }

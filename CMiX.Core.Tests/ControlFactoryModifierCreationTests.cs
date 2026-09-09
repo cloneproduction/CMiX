@@ -71,6 +71,30 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void EveryFreshModifier_WithASingleModifierModeSelector_DefaultsCountToOne()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var factory = provider.GetRequiredService<ControlFactory>();
+
+            var addableModifierTypes = typeof(ModifierPanelAttribute).Assembly
+                .GetTypes()
+                .Where(t => !t.IsAbstract && !t.IsInterface)
+                .Where(t => t.GetCustomAttributes(typeof(ModifierPanelAttribute), false).Length > 0);
+
+            foreach (var type in addableModifierTypes)
+            {
+                var property = type.GetProperty("ModifierModeSelector");
+                if (property == null || property.PropertyType != typeof(CMiX.Core.Modifiers.ModifierModeSelector))
+                    continue;
+
+                var control = factory.Create(type);
+                var selector = (CMiX.Core.Modifiers.ModifierModeSelector)property.GetValue(control);
+
+                Assert.True(1 == selector.Count.Value, $"{type.Name}'s ModifierModeSelector.Count should default to 1.");
+            }
+        }
+
+        [Fact]
         public void FreshHSVModifier_ColorModeMatchesOldRandomHSVDefault()
         {
             var provider = TestServiceProviderFactory.Create();
