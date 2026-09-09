@@ -46,11 +46,6 @@ namespace CMiX.Core.Modulation
 
         }
 
-        protected void ResolveModulatorBinding(IModulatorBindable bindable)
-        {
-
-        }
-
         public void Dispose()
         {
             ModulatorManager.ManagerData.Items.CollectionChanged -= OnModulatorManagerItemsChanged;
