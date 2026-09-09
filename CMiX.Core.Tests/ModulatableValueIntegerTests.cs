@@ -1,17 +1,17 @@
-﻿using CMiX.Core.Modulation;
+using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    public class ModulatableIntegerTests
+    public class ModulatableValueIntegerTests
     {
         [Fact]
         public void ModulatableCount_DefaultsToUnbound()
         {
             var provider = TestServiceProviderFactory.Create();
-            var count = provider.GetRequiredService<ModulatableInteger>();
+            var count = provider.GetRequiredService<ModulatableValue<int>>();
 
             Assert.Null(count.ModulatorID.Value);
             Assert.Null(count.BoundModulator);
@@ -21,7 +21,7 @@ namespace CMiX.Core.Tests
         public void SetModulatorCommand_SetsIdAndLiveReference_ThenNullClearsBoth()
         {
             var provider = TestServiceProviderFactory.Create();
-            var count = provider.GetRequiredService<ModulatableInteger>();
+            var count = provider.GetRequiredService<ModulatableValue<int>>();
             var randomModulator = provider.GetRequiredService<RandomModulator>();
 
             count.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
@@ -41,7 +41,7 @@ namespace CMiX.Core.Tests
         public void ModulatableCount_ToModel_FromModel_RoundTripsValueAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
-            var count = provider.GetRequiredService<ModulatableInteger>();
+            var count = provider.GetRequiredService<ModulatableValue<int>>();
             var randomModulator = provider.GetRequiredService<RandomModulator>();
 
             count.Label = "Count";
@@ -51,7 +51,7 @@ namespace CMiX.Core.Tests
             var model = count.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<ModulatableInteger>();
+            var reloaded = provider2.GetRequiredService<ModulatableValue<int>>();
             reloaded.FromModel(model);
 
             Assert.Equal("Count", reloaded.Label);

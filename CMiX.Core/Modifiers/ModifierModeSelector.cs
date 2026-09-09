@@ -9,7 +9,7 @@ namespace CMiX.Core.Modifiers
     public class ModifierModeSelector : IControl
     {
         public ModifierModeSelector(GenericValue<ModifierMode> mode,
-                                    ModulatableInteger count)
+                                    ModulatableValue<int> count)
         {
             Mode = mode;
             Count = count;
@@ -17,14 +17,14 @@ namespace CMiX.Core.Modifiers
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<ModifierMode> Mode { get; set; }
-        public ModulatableInteger Count { get; set; }
+        public ModulatableValue<int> Count { get; set; }
         public IEnumerable<IModulatorBindable> Bindables => new IModulatorBindable[] { Count };
 
         public IControlModel ToModel() => new ModifierModeSelectorModel
         {
             ID = ID,
             Mode = (GenericValueModel<ModifierMode>)Mode.ToModel(),
-            Count = (ModulatableIntegerModel)Count.ToModel()
+            Count = (ModulatableValueModel<int>)Count.ToModel()
         };
 
         public void FromModel(IControlModel model)
