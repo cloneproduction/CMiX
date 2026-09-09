@@ -9,9 +9,9 @@ namespace CMiX.Core.Modulation
     // how Bindables gets saved and loaded.
     public class TexCoordTransform
     {
-        public TexCoordTransform(ModulatableFloat locationX, ModulatableFloat locationY,
-                                 ModulatableFloat scaleX, ModulatableFloat scaleY,
-                                 ModulatableFloat rotation, ModulatableFloat uniform)
+        public TexCoordTransform(ModulatableValue<float> locationX, ModulatableValue<float> locationY,
+                                 ModulatableValue<float> scaleX, ModulatableValue<float> scaleY,
+                                 ModulatableValue<float> rotation, ModulatableValue<float> uniform)
         {
             Location = new ModulatableVector2(locationX, locationY);
             Scale = new ModulatableVector2(scaleX, scaleY);
@@ -23,10 +23,10 @@ namespace CMiX.Core.Modulation
 
         public ModulatableVector2 Location { get; }
         public ModulatableVector2 Scale { get; }
-        public ModulatableFloat Rotation { get; }
-        public ModulatableFloat Uniform { get; }
+        public ModulatableValue<float> Rotation { get; }
+        public ModulatableValue<float> Uniform { get; }
 
-        public List<ModulatableFloat> Bindables =>
+        public List<ModulatableValue<float>> Bindables =>
             new() { Location.X, Location.Y, Scale.X, Scale.Y, Rotation, Uniform };
     }
 }

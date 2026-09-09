@@ -18,10 +18,10 @@ namespace CMiX.Core.Modulation.Modifiers
                                 PrefabManager modulatorManager,
                                 ModifierModeSelector modifierModeSelector,
                                 SamplerState samplerState,
-                                ModulatableFloat locationX, ModulatableFloat locationY,
-                                ModulatableFloat scaleX, ModulatableFloat scaleY,
-                                ModulatableFloat rotation,
-                                ModulatableFloat uniform)
+                                ModulatableValue<float> locationX, ModulatableValue<float> locationY,
+                                ModulatableValue<float> scaleX, ModulatableValue<float> scaleY,
+                                ModulatableValue<float> rotation,
+                                ModulatableValue<float> uniform)
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -33,8 +33,8 @@ namespace CMiX.Core.Modulation.Modifiers
         public TexCoordTransform Transform { get; }
         public ModulatableVector2 Location => Transform.Location;
         public ModulatableVector2 Scale => Transform.Scale;
-        public ModulatableFloat Rotation => Transform.Rotation;
-        public ModulatableFloat Uniform => Transform.Uniform;
+        public ModulatableValue<float> Rotation => Transform.Rotation;
+        public ModulatableValue<float> Uniform => Transform.Uniform;
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public SamplerState SamplerState { get; set; }

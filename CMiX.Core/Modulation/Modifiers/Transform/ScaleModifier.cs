@@ -16,14 +16,14 @@ namespace CMiX.Core.Modulation.Modifiers
         public ScaleModifier(PrefabService prefabService,
                              PrefabManager modulatorManager,
                              ModifierModeSelector modifierModeSelector,
-                             ModulatableFloat bindableX,
-                             ModulatableFloat bindableY,
-                             ModulatableFloat bindableZ,
-                             ModulatableFloat bindableUniform)
+                             ModulatableValue<float> bindableX,
+                             ModulatableValue<float> bindableY,
+                             ModulatableValue<float> bindableZ,
+                             ModulatableValue<float> bindableUniform)
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            Bindables = new List<ModulatableFloat> { bindableX, bindableY, bindableZ, bindableUniform };
+            Bindables = new List<ModulatableValue<float>> { bindableX, bindableY, bindableZ, bindableUniform };
             var labels = new[] { "X", "Y", "Z", "Uniform" };
             for (int i = 0; i < Bindables.Count; i++)
             {
@@ -32,11 +32,11 @@ namespace CMiX.Core.Modulation.Modifiers
             }
         }
 
-        public ModulatableFloat X => Bindables[0];
-        public ModulatableFloat Y => Bindables[1];
-        public ModulatableFloat Z => Bindables[2];
+        public ModulatableValue<float> X => Bindables[0];
+        public ModulatableValue<float> Y => Bindables[1];
+        public ModulatableValue<float> Z => Bindables[2];
 
-        public ModulatableFloat Uniform => Bindables[3];
+        public ModulatableValue<float> Uniform => Bindables[3];
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
 

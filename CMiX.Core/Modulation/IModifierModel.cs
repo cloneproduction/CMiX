@@ -11,7 +11,7 @@ namespace CMiX.Core.Modulation
         Guid ID { get; set; }
         PrefabServiceModel PrefabService { get; set; }
         bool IsExpanded { get; set; }
-        List<ModulatableFloatModel> Bindables { get; set; }
+        List<ModulatableValueModel<float>> Bindables { get; set; }
         PrefabManagerModel ModulatorManager { get; set; }
     }
 }

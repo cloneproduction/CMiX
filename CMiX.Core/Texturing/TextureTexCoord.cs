@@ -14,9 +14,9 @@ namespace CMiX.Core.Texturing
     public class TextureTexCoord : IControl, IDisposable
     {
         public TextureTexCoord(PrefabManager modulatorManager,
-                               ModulatableFloat locationX, ModulatableFloat locationY,
-                               ModulatableFloat scaleX, ModulatableFloat scaleY,
-                               ModulatableFloat rotation, ModulatableFloat uniform)
+                               ModulatableValue<float> locationX, ModulatableValue<float> locationY,
+                               ModulatableValue<float> scaleX, ModulatableValue<float> scaleY,
+                               ModulatableValue<float> rotation, ModulatableValue<float> uniform)
         {
             ModulatorManager = modulatorManager;
             Transform = new TexCoordTransform(locationX, locationY, scaleX, scaleY, rotation, uniform);
@@ -30,8 +30,8 @@ namespace CMiX.Core.Texturing
 
         public ModulatableVector2 Location => Transform.Location;
         public ModulatableVector2 Scale => Transform.Scale;
-        public ModulatableFloat Rotation => Transform.Rotation;
-        public ModulatableFloat Uniform => Transform.Uniform;
+        public ModulatableValue<float> Rotation => Transform.Rotation;
+        public ModulatableValue<float> Uniform => Transform.Uniform;
 
         private void OnModulatorManagerItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -53,7 +53,7 @@ namespace CMiX.Core.Texturing
         {
             ID = ID,
             ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel(),
-            Bindables = Transform.Bindables.Select(c => (ModulatableFloatModel)c.ToModel()).ToList()
+            Bindables = Transform.Bindables.Select(c => (ModulatableValueModel<float>)c.ToModel()).ToList()
         };
 
         public void FromModel(IControlModel model)

@@ -10,6 +10,6 @@ namespace CMiX.Core.Texturing
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabManagerModel ModulatorManager { get; set; } = new();
-        public List<ModulatableFloatModel> Bindables { get; set; } = new();
+        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
     }
 }

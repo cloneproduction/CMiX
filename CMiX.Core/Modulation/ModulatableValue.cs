@@ -9,9 +9,6 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Modulation
 {
-    // PROTOTYPE - checking whether DI resolves an open generic IControl implementer via the
-    // existing Scan().AddClasses(c => c.AssignableTo<IControl>()) mechanism before committing to
-    // migrating ModulatableFloat/ModulatableInteger onto this.
     public partial class ModulatableValue<T> : ObservableObject, IControl, IModulatorBindable
     {
         public ModulatableValue(GenericValue<T> value,

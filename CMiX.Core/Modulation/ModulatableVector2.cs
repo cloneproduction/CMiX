@@ -5,7 +5,7 @@ namespace CMiX.Core.Modulation
 {
     public class ModulatableVector2
     {
-        public ModulatableVector2(ModulatableFloat x, ModulatableFloat y)
+        public ModulatableVector2(ModulatableValue<float> x, ModulatableValue<float> y)
         {
             x.Label = "X";
             y.Label = "Y";
@@ -13,7 +13,7 @@ namespace CMiX.Core.Modulation
             Y = y;
         }
 
-        public ModulatableFloat X { get; }
-        public ModulatableFloat Y { get; }
+        public ModulatableValue<float> X { get; }
+        public ModulatableValue<float> Y { get; }
     }
 }

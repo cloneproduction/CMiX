@@ -17,15 +17,15 @@ namespace CMiX.Core.Modulation.Modifiers
         public GridModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
                             ModifierModeSelector3 modifierModeSelector,
-                            ModulatableFloat widthX, ModulatableFloat widthY, ModulatableFloat widthZ,
-                            ModulatableFloat phaseX, ModulatableFloat phaseY, ModulatableFloat phaseZ)
+                            ModulatableValue<float> widthX, ModulatableValue<float> widthY, ModulatableValue<float> widthZ,
+                            ModulatableValue<float> phaseX, ModulatableValue<float> phaseY, ModulatableValue<float> phaseZ)
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
 
             Width = new ModulatableVector3(widthX, widthY, widthZ);
             Phase = new ModulatableVector3(phaseX, phaseY, phaseZ);
-            Bindables = new List<ModulatableFloat> { widthX, widthY, widthZ, phaseX, phaseY, phaseZ };
+            Bindables = new List<ModulatableValue<float>> { widthX, widthY, widthZ, phaseX, phaseY, phaseZ };
         }
 
         public ModulatableVector3 Width { get; }

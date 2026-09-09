@@ -64,14 +64,14 @@ namespace CMiX.Core.Modulation
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public List<ModulatableFloat> Bindables { get; set; } = new();
+        public List<ModulatableValue<float>> Bindables { get; set; } = new();
 
         protected void PopulateBaseModel(IModifierModel model)
         {
             model.ID = ID;
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
             model.IsExpanded = IsExpanded;
-            model.Bindables = Bindables.Select(c => (ModulatableFloatModel)c.ToModel()).ToList();
+            model.Bindables = Bindables.Select(c => (ModulatableValueModel<float>)c.ToModel()).ToList();
             model.ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel();
         }
 

@@ -18,10 +18,10 @@ namespace CMiX.Core.Modulation.Modifiers
         public CircularSpreadModifier(PrefabService prefabService,
                                       PrefabManager modulatorManager,
                                       ModifierModeSelector modifierModeSelector,
-                                      ModulatableFloat widthX,
-                                      ModulatableFloat widthY,
-                                      ModulatableFloat phase,
-                                      ModulatableFloat factor)
+                                      ModulatableValue<float> widthX,
+                                      ModulatableValue<float> widthY,
+                                      ModulatableValue<float> phase,
+                                      ModulatableValue<float> factor)
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -32,13 +32,13 @@ namespace CMiX.Core.Modulation.Modifiers
             widthX.Value.Value = 1.0f;
             widthY.Value.Value = 1.0f;
             factor.Value.Value = 1.0f;
-            Bindables = new List<ModulatableFloat> { widthX, widthY, phase, factor };
+            Bindables = new List<ModulatableValue<float>> { widthX, widthY, phase, factor };
         }
 
-        public ModulatableFloat X => Bindables[0];
-        public ModulatableFloat Y => Bindables[1];
-        public ModulatableFloat Phase => Bindables[2];
-        public ModulatableFloat Factor => Bindables[3];
+        public ModulatableValue<float> X => Bindables[0];
+        public ModulatableValue<float> Y => Bindables[1];
+        public ModulatableValue<float> Phase => Bindables[2];
+        public ModulatableValue<float> Factor => Bindables[3];
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
 

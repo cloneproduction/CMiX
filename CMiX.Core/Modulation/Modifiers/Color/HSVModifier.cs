@@ -19,10 +19,10 @@ namespace CMiX.Core.Modulation.Modifiers
                            PrefabManager modulatorManager,
                            ModifierModeSelector modifierModeSelector,
                            GenericValue<ColorMode> colorMode,
-                           ModulatableFloat hue,
-                           ModulatableFloat saturation,
-                           ModulatableFloat value,
-                           ModulatableFloat alpha)
+                           ModulatableValue<float> hue,
+                           ModulatableValue<float> saturation,
+                           ModulatableValue<float> value,
+                           ModulatableValue<float> alpha)
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -33,16 +33,16 @@ namespace CMiX.Core.Modulation.Modifiers
             value.Label = "Value";
             alpha.Label = "Alpha";
 
-            Bindables = new List<ModulatableFloat> { hue, saturation, value, alpha };
+            Bindables = new List<ModulatableValue<float>> { hue, saturation, value, alpha };
 
             for (int i = 0; i < Bindables.Count; i++)
                 Bindables[i].Value.Value = 1f;
         }
 
-        public ModulatableFloat Hue => Bindables[0];
-        public ModulatableFloat Saturation => Bindables[1];
-        public ModulatableFloat Value => Bindables[2];
-        public ModulatableFloat Alpha => Bindables[3];
+        public ModulatableValue<float> Hue => Bindables[0];
+        public ModulatableValue<float> Saturation => Bindables[1];
+        public ModulatableValue<float> Value => Bindables[2];
+        public ModulatableValue<float> Alpha => Bindables[3];
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<ColorMode> ColorMode { get; set; }

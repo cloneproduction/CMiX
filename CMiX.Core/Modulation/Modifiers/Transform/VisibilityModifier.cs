@@ -15,14 +15,14 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public VisibilityModifier(PrefabService prefabService,
                                   PrefabManager modulatorManager,
-                                  ModulatableFloat bindableValue)
+                                  ModulatableValue<float> bindableValue)
             : base(prefabService, modulatorManager)
         {
             bindableValue.Value.Value = 0.5f;
-            Bindables = new List<ModulatableFloat> { bindableValue };
+            Bindables = new List<ModulatableValue<float>> { bindableValue };
         }
 
-        public ModulatableFloat Value => Bindables[0];
+        public ModulatableValue<float> Value => Bindables[0];
 
         public override IControlModel ToModel()
         {

@@ -17,16 +17,16 @@ namespace CMiX.Core.Transformation
         public TransformSRTModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
                             ModifierModeSelector modifierModeSelector,
-                            ModulatableFloat translateX,
-                            ModulatableFloat translateY,
-                            ModulatableFloat translateZ,
-                            ModulatableFloat scaleX,
-                            ModulatableFloat scaleY,
-                            ModulatableFloat scaleZ,
-                            ModulatableFloat scaleUniform,
-                            ModulatableFloat rotationX,
-                            ModulatableFloat rotationY,
-                            ModulatableFloat rotationZ,
+                            ModulatableValue<float> translateX,
+                            ModulatableValue<float> translateY,
+                            ModulatableValue<float> translateZ,
+                            ModulatableValue<float> scaleX,
+                            ModulatableValue<float> scaleY,
+                            ModulatableValue<float> scaleZ,
+                            ModulatableValue<float> scaleUniform,
+                            ModulatableValue<float> rotationX,
+                            ModulatableValue<float> rotationY,
+                            ModulatableValue<float> rotationZ,
                             DirectionXYZ directionXYZ,
                             GenericValue<ModifierMode> mode)
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
@@ -46,7 +46,7 @@ namespace CMiX.Core.Transformation
             rotationY.Label = "Y";
             rotationZ.Label = "Z";
 
-            Bindables = new List<ModulatableFloat>
+            Bindables = new List<ModulatableValue<float>>
             {
                 translateX, translateY, translateZ,
                 scaleX, scaleY, scaleZ, scaleUniform,
@@ -58,16 +58,16 @@ namespace CMiX.Core.Transformation
         public GenericValue<ModifierMode> Mode { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
 
-        public ModulatableFloat TranslateX => Bindables[0];
-        public ModulatableFloat TranslateY => Bindables[1];
-        public ModulatableFloat TranslateZ => Bindables[2];
-        public ModulatableFloat ScaleX => Bindables[3];
-        public ModulatableFloat ScaleY => Bindables[4];
-        public ModulatableFloat ScaleZ => Bindables[5];
-        public ModulatableFloat ScaleUniform => Bindables[6];
-        public ModulatableFloat RotationX => Bindables[7];
-        public ModulatableFloat RotationY => Bindables[8];
-        public ModulatableFloat RotationZ => Bindables[9];
+        public ModulatableValue<float> TranslateX => Bindables[0];
+        public ModulatableValue<float> TranslateY => Bindables[1];
+        public ModulatableValue<float> TranslateZ => Bindables[2];
+        public ModulatableValue<float> ScaleX => Bindables[3];
+        public ModulatableValue<float> ScaleY => Bindables[4];
+        public ModulatableValue<float> ScaleZ => Bindables[5];
+        public ModulatableValue<float> ScaleUniform => Bindables[6];
+        public ModulatableValue<float> RotationX => Bindables[7];
+        public ModulatableValue<float> RotationY => Bindables[8];
+        public ModulatableValue<float> RotationZ => Bindables[9];
 
         public override IControlModel ToModel()
         {

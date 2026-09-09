@@ -17,9 +17,9 @@ namespace CMiX.Core.Modulation.Modifiers
         public RandomModifier(PrefabService prefabService,
                               PrefabManager modulatorManager,
                               ModifierModeSelector modifierModeSelector,
-                              ModulatableFloat seed,
-                              ModulatableFloat center,
-                              ModulatableFloat width)
+                              ModulatableValue<float> seed,
+                              ModulatableValue<float> center,
+                              ModulatableValue<float> width)
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -27,12 +27,12 @@ namespace CMiX.Core.Modulation.Modifiers
             center.Label = "Center";
             width.Label = "Width";
             width.Value.Value = 1.0f;
-            Bindables = new List<ModulatableFloat> { seed, center, width };
+            Bindables = new List<ModulatableValue<float>> { seed, center, width };
         }
 
-        public ModulatableFloat Seed => Bindables[0];
-        public ModulatableFloat Center => Bindables[1];
-        public ModulatableFloat Width => Bindables[2];
+        public ModulatableValue<float> Seed => Bindables[0];
+        public ModulatableValue<float> Center => Bindables[1];
+        public ModulatableValue<float> Width => Bindables[2];
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
 

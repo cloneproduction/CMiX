@@ -12,17 +12,17 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public OrbitModifier(PrefabService prefabService,
                              PrefabManager modulatorManager,
-                             ModulatableFloat bindableYaw,
-                             ModulatableFloat bindablePitch)
+                             ModulatableValue<float> bindableYaw,
+                             ModulatableValue<float> bindablePitch)
             : base(prefabService, modulatorManager)
         {
             bindableYaw.Label = "Yaw";
             bindablePitch.Label = "Pitch";
-            Bindables = new List<ModulatableFloat> { bindableYaw, bindablePitch };
+            Bindables = new List<ModulatableValue<float>> { bindableYaw, bindablePitch };
         }
 
-        public ModulatableFloat Yaw => Bindables[0];
-        public ModulatableFloat Pitch => Bindables[1];
+        public ModulatableValue<float> Yaw => Bindables[0];
+        public ModulatableValue<float> Pitch => Bindables[1];
 
         public override IControlModel ToModel()
         {

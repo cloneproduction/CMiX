@@ -15,18 +15,18 @@ namespace CMiX.Core.Modulation.Modifiers
         public LinearModifier(PrefabService prefabService,
                                  PrefabManager modulatorManager,
                                  ModifierModeSelector modifierModeSelector,
-                                 ModulatableFloat width,
-                                 ModulatableFloat phase)
+                                 ModulatableValue<float> width,
+                                 ModulatableValue<float> phase)
             : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             width.Label = "Width";
             phase.Label = "Phase";
-            Bindables = new List<ModulatableFloat> { width, phase };
+            Bindables = new List<ModulatableValue<float>> { width, phase };
         }
 
-        public ModulatableFloat Width => Bindables[0];
-        public ModulatableFloat Phase => Bindables[1];
+        public ModulatableValue<float> Width => Bindables[0];
+        public ModulatableValue<float> Phase => Bindables[1];
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
 

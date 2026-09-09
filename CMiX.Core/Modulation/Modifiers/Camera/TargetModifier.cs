@@ -12,20 +12,20 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public TargetModifier(PrefabService prefabService,
                               PrefabManager modulatorManager,
-                              ModulatableFloat bindableX,
-                              ModulatableFloat bindableY,
-                              ModulatableFloat bindableZ)
+                              ModulatableValue<float> bindableX,
+                              ModulatableValue<float> bindableY,
+                              ModulatableValue<float> bindableZ)
             : base(prefabService, modulatorManager)
         {
             bindableX.Label = "X";
             bindableY.Label = "Y";
             bindableZ.Label = "Z";
-            Bindables = new List<ModulatableFloat> { bindableX, bindableY, bindableZ };
+            Bindables = new List<ModulatableValue<float>> { bindableX, bindableY, bindableZ };
         }
 
-        public ModulatableFloat X => Bindables[0];
-        public ModulatableFloat Y => Bindables[1];
-        public ModulatableFloat Z => Bindables[2];
+        public ModulatableValue<float> X => Bindables[0];
+        public ModulatableValue<float> Y => Bindables[1];
+        public ModulatableValue<float> Z => Bindables[2];
 
         public override IControlModel ToModel()
         {

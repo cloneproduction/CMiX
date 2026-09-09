@@ -16,16 +16,16 @@ namespace CMiX.Core.Modulation.Modifiers
         public RenderSequenceEntityModifier(PrefabService prefabService,
                                             PrefabManager modulatorManager,
                                             GenericValue<EntityType> entityType,
-                                            ModulatableFloat control)
+                                            ModulatableValue<float> control)
             : base(prefabService, modulatorManager)
         {
             EntityType = entityType;
             control.Label = "Control";
             control.Value.Value = 1.0f;
-            Bindables = new List<ModulatableFloat> { control };
+            Bindables = new List<ModulatableValue<float>> { control };
         }
 
-        public ModulatableFloat Control => Bindables[0];
+        public ModulatableValue<float> Control => Bindables[0];
 
         public GenericValue<EntityType> EntityType { get; set; }
 

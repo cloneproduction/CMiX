@@ -12,17 +12,17 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public ZoomModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
-                            ModulatableFloat bindableDistance,
-                            ModulatableFloat bindableFOV)
+                            ModulatableValue<float> bindableDistance,
+                            ModulatableValue<float> bindableFOV)
             : base(prefabService, modulatorManager)
         {
             bindableDistance.Label = "Distance";
             bindableFOV.Label = "FOV";
-            Bindables = new List<ModulatableFloat> { bindableDistance, bindableFOV };
+            Bindables = new List<ModulatableValue<float>> { bindableDistance, bindableFOV };
         }
 
-        public ModulatableFloat Distance => Bindables[0];
-        public ModulatableFloat FOV => Bindables[1];
+        public ModulatableValue<float> Distance => Bindables[0];
+        public ModulatableValue<float> FOV => Bindables[1];
 
         public override IControlModel ToModel()
         {
