@@ -48,9 +48,9 @@ namespace CMiX.Core.Modulation.Modulators
             set { _isExpanded = value; OnPropertyChanged(); }
         }
 
-        public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[] { 
-            new ModulatorOutput("Phase", ModulatorKind.Modulate, typeof(float)),
-            new ModulatorOutput("Cycles", ModulatorKind.Modulate, typeof(Int32)),
+        public IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {
+            new ModulatorOutput<float>("Phase"),
+            new ModulatorOutput<int>("Cycles"),
         };
 
         public PrefabService PrefabService { get; set; }

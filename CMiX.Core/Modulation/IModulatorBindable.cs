@@ -13,6 +13,6 @@ namespace CMiX.Core.Modulation
         IModulator BoundModulator { get; }
         ICommand SetModulatorCommand { get; }
 
-        System.Type RequiredValueType { get; }
+        bool CanBind(IModulatorOutput output);
     }
 }

@@ -30,7 +30,7 @@ namespace CMiX.Core.Modulation
         [ObservableProperty]
         private IModulator boundModulator;
 
-        Type IModulatorBindable.RequiredValueType => typeof(T);
+        bool IModulatorBindable.CanBind(IModulatorOutput output) => output is ModulatorOutput<T>;
 
         [RelayCommand]
         private void SetModulator(ModulatorOutputSelection selection)

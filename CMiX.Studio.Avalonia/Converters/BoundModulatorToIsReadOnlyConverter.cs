@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using Avalonia;
 using Avalonia.Data.Converters;
 using CMiX.Core.Modulation.Modulators;
@@ -18,11 +17,7 @@ namespace CMiX.Studio.Avalonia.Converters
             if (values.Count < 2)
                 return AvaloniaProperty.UnsetValue;
 
-            if (values[0] is not IModulator modulator || values[1] is not string outputName)
-                return false;
-
-            var output = modulator.Outputs.FirstOrDefault(o => o.Name == outputName);
-            return output is { Kind: ModulatorKind.Set };
+            return values[0] is IModulator && values[1] is string { Length: > 0 };
         }
     }
 }

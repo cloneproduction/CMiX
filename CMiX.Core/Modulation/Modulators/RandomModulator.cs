@@ -40,8 +40,8 @@ namespace CMiX.Core.Modulation.Modulators
             set { _isExpanded = value; OnPropertyChanged(); }
         }
 
-        public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[] {
-            new ModulatorOutput("Value", ModulatorKind.Modulate, typeof(float)),
+        public IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {
+            new ModulatorOutput<float>("Value"),
         };
 
         public PrefabService PrefabService { get; set; }

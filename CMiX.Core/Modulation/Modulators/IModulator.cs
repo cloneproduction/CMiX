@@ -11,6 +11,6 @@ namespace CMiX.Core.Modulation.Modulators
 
         bool IsExpanded { get; set; }
 
-        IReadOnlyList<ModulatorOutput> Outputs { get; }
+        IReadOnlyList<IModulatorOutput> Outputs { get; }
     }
 }

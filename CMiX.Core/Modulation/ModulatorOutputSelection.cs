@@ -5,5 +5,5 @@ using CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Core.Modulation
 {
-    public record ModulatorOutputSelection(IModulator Modulator, ModulatorOutput Output);
+    public record ModulatorOutputSelection(IModulator Modulator, IModulatorOutput Output);
 }

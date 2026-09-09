@@ -17,33 +17,32 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void RandomModulator_IsModulateKind()
+        public void RandomModulator_HasFloatOutput()
         {
             var provider = TestServiceProviderFactory.Create();
             var randomModulator = provider.GetRequiredService<RandomModulator>();
 
-            Assert.Equal(ModulatorKind.Modulate, randomModulator.Outputs[0].Kind);
+            Assert.IsType<ModulatorOutput<float>>(randomModulator.Outputs[0]);
         }
 
         [Fact]
-        public void TrackingModulator_IsResolvableAsIModulator_AndIsSetKind()
+        public void TrackingModulator_IsResolvableAsIModulator_AndHasNamedOutputs()
         {
             var provider = TestServiceProviderFactory.Create();
             var trackingModulator = provider.GetRequiredService<TrackingModulator>();
 
             Assert.IsAssignableFrom<IModulator>(trackingModulator);
-            Assert.All(trackingModulator.Outputs, o => Assert.Equal(ModulatorKind.Set, o.Kind));
             Assert.Equal(new[] { "Count", "X", "Y" }, trackingModulator.Outputs.Select(o => o.Name));
         }
 
         [Fact]
-        public void TrackingModulator_Outputs_FilterByValueType_ExcludesMismatchedOutputs()
+        public void TrackingModulator_Outputs_FilterByOutputType_ExcludesMismatchedOutputs()
         {
             var provider = TestServiceProviderFactory.Create();
             var trackingModulator = provider.GetRequiredService<TrackingModulator>();
 
-            var integerOutputs = trackingModulator.Outputs.Where(o => o.ValueType == typeof(int)).ToList();
-            var floatOutputs = trackingModulator.Outputs.Where(o => o.ValueType == typeof(float)).ToList();
+            var integerOutputs = trackingModulator.Outputs.OfType<ModulatorOutput<int>>().ToList();
+            var floatOutputs = trackingModulator.Outputs.OfType<ModulatorOutput<float>>().ToList();
 
             Assert.Equal(new[] { "Count" }, integerOutputs.Select(o => o.Name));
             Assert.Equal(new[] { "X", "Y" }, floatOutputs.Select(o => o.Name));

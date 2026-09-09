@@ -65,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 return;
             }
 
-            var requiredValueType = (DataContext as IModulatorBindable)?.RequiredValueType;
+            var bindable = DataContext as IModulatorBindable;
 
             var flattened = new List<object>();
             foreach (var item in items)
@@ -73,9 +73,8 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 if (item is not IModulator modulator)
                     continue;
 
-                var outputs = requiredValueType is { } required
-                    ? modulator.Outputs.Where(o => o.ValueType == required).ToList()
-                    : modulator.Outputs.ToList();
+                // No bindable context means show every output.
+                var outputs = modulator.Outputs.Where(o => bindable?.CanBind(o) ?? true).ToList();
 
                 foreach (var output in outputs)
                     flattened.Add(new ModulatorOutputSelection(modulator, output));

@@ -14,10 +14,10 @@ namespace CMiX.Core.Tests
             public PrefabService PrefabService { get; set; }
             public bool IsHovered { get; set; }
             public bool IsExpanded { get; set; }
-            public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[]
+            public IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[]
             {
-                new ModulatorOutput("X", ModulatorKind.Set, typeof(float)),
-                new ModulatorOutput("Y", ModulatorKind.Set, typeof(float))
+                new ModulatorOutput<float>("X"),
+                new ModulatorOutput<float>("Y")
             };
 
             public IControlModel ToModel() => throw new NotSupportedException();
