@@ -65,5 +65,35 @@ namespace CMiX.Core.Tests
             Assert.Equal(7, reloaded.Count.Value);
             Assert.Equal(12.5f, reloaded.X.Value);
         }
+
+        [Fact]
+        public void FFTModulator_IsResolvableAsIModulator_AndHasNamedFloatOutputs()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var fftModulator = provider.GetRequiredService<FFTModulator>();
+
+            Assert.IsAssignableFrom<IModulator>(fftModulator);
+            Assert.Equal(new[] { "FFT", "Bass" }, fftModulator.Outputs.Select(o => o.Name));
+            Assert.IsType<ModulatorOutput<float>>(fftModulator.Outputs[0]);
+            Assert.IsType<ModulatorOutput<float>>(fftModulator.Outputs[1]);
+        }
+
+        [Fact]
+        public void FFTModulator_ToModel_FromModel_RoundTripsFFTAndBass()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var fftModulator = provider.GetRequiredService<FFTModulator>();
+            fftModulator.FFT.Value = 0.75f;
+            fftModulator.Bass.Value = 0.25f;
+
+            var model = fftModulator.ToModel();
+
+            var provider2 = TestServiceProviderFactory.Create();
+            var reloaded = provider2.GetRequiredService<FFTModulator>();
+            reloaded.FromModel(model);
+
+            Assert.Equal(0.75f, reloaded.FFT.Value);
+            Assert.Equal(0.25f, reloaded.Bass.Value);
+        }
     }
 }

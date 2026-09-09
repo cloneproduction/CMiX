@@ -1,0 +1,13 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.FFTModulator"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
+        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="FFT ->"/>
+        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="Bass ->"/>
+    </StackPanel>
+
+</UserControl>
