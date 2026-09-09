@@ -23,7 +23,7 @@
 
         <BaseControls:ModulatableVectorXYZ
             Caption="Scale"
-            ModulatorManager="{Binding ModulatorManager}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 
     </StackPanel>
 
