@@ -84,15 +84,14 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Grid_ToModel_FromModel_RoundTripsModifierModeSelectorAndCount()
+        public void Grid_ToModel_FromModel_RoundTripsCount()
         {
             var provider = TestServiceProviderFactory.Create();
             var grid = provider.GetRequiredService<GridModifier>();
 
-            grid.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            grid.ModifierModeSelector.CountX.Value = 3;
-            grid.ModifierModeSelector.CountY.Value = 4;
-            grid.ModifierModeSelector.CountZ.Value = 5;
+            grid.Count.X.Value = 3;
+            grid.Count.Y.Value = 4;
+            grid.Count.Z.Value = 5;
 
             var model = grid.ToModel();
 
@@ -100,10 +99,9 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<GridModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(3, reloaded.ModifierModeSelector.CountX.Value);
-            Assert.Equal(4, reloaded.ModifierModeSelector.CountY.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.CountZ.Value);
+            Assert.Equal(3, reloaded.Count.X.Value);
+            Assert.Equal(4, reloaded.Count.Y.Value);
+            Assert.Equal(5, reloaded.Count.Z.Value);
         }
 
         [Fact]
@@ -114,7 +112,7 @@ namespace CMiX.Core.Tests
             grid.ModulatorManager.AddItem(typeof(RandomModulator));
             var randomModulator = (RandomModulator)grid.ModulatorManager.ManagerData.Items[0];
 
-            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
+            grid.Count.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
             var model = grid.ToModel();
 
@@ -123,9 +121,9 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             var reloadedRandomModulator = Assert.IsType<RandomModulator>(reloaded.ModulatorManager.ManagerData.Items[0]);
-            Assert.Same(reloadedRandomModulator, reloaded.ModifierModeSelector.CountX.BoundModulator);
-            Assert.Null(reloaded.ModifierModeSelector.CountY.BoundModulator);
-            Assert.Null(reloaded.ModifierModeSelector.CountZ.BoundModulator);
+            Assert.Same(reloadedRandomModulator, reloaded.Count.X.BoundModulator);
+            Assert.Null(reloaded.Count.Y.BoundModulator);
+            Assert.Null(reloaded.Count.Z.BoundModulator);
         }
 
         [Fact]
@@ -136,16 +134,16 @@ namespace CMiX.Core.Tests
             grid.ModulatorManager.AddItem(typeof(RandomModulator));
             var randomModulator = (RandomModulator)grid.ModulatorManager.ManagerData.Items[0];
 
-            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
-            grid.ModifierModeSelector.CountZ.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
+            grid.Count.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
+            grid.Count.Z.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
             grid.ModulatorManager.DeleteItem(randomModulator);
 
-            Assert.Null(grid.ModifierModeSelector.CountX.ModulatorID);
-            Assert.Null(grid.ModifierModeSelector.CountX.BoundModulator);
-            Assert.Null(grid.ModifierModeSelector.CountZ.ModulatorID);
-            Assert.Null(grid.ModifierModeSelector.CountZ.BoundModulator);
-            Assert.Null(grid.ModifierModeSelector.CountY.ModulatorID);
+            Assert.Null(grid.Count.X.ModulatorID);
+            Assert.Null(grid.Count.X.BoundModulator);
+            Assert.Null(grid.Count.Z.ModulatorID);
+            Assert.Null(grid.Count.Z.BoundModulator);
+            Assert.Null(grid.Count.Y.ModulatorID);
         }
     }
 }

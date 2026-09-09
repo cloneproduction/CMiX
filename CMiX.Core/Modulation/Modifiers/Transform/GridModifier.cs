@@ -16,12 +16,12 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public GridModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
-                            ModifierModeSelector3 modifierModeSelector,
+                            ModulatableValue<int> countX, ModulatableValue<int> countY, ModulatableValue<int> countZ,
                             ModulatableValue<float> widthX, ModulatableValue<float> widthY, ModulatableValue<float> widthZ,
                             ModulatableValue<float> phaseX, ModulatableValue<float> phaseY, ModulatableValue<float> phaseZ)
-            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
+            : base(prefabService, modulatorManager, new IModulatorBindable[] { countX, countY, countZ })
         {
-            ModifierModeSelector = modifierModeSelector;
+            Count = new ModulatableInteger3(countX, countY, countZ);
 
             Width = new ModulatableVector3(widthX, widthY, widthZ);
             Phase = new ModulatableVector3(phaseX, phaseY, phaseZ);
@@ -30,13 +30,15 @@ namespace CMiX.Core.Modulation.Modifiers
 
         public ModulatableVector3 Width { get; }
         public ModulatableVector3 Phase { get; }
-        public ModifierModeSelector3 ModifierModeSelector { get; set; }
+        public ModulatableInteger3 Count { get; }
 
         public override IControlModel ToModel()
         {
             var model = new GridModifierModel
             {
-                ModifierModeSelector = (ModifierModeSelector3Model)ModifierModeSelector.ToModel(),
+                CountX = (ModulatableValueModel<int>)Count.X.ToModel(),
+                CountY = (ModulatableValueModel<int>)Count.Y.ToModel(),
+                CountZ = (ModulatableValueModel<int>)Count.Z.ToModel(),
             };
             PopulateBaseModel(model);
             return model;
@@ -46,7 +48,9 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (GridModifierModel)model;
             LoadBaseModel(m);
-            ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            Count.X.FromModel(m.CountX);
+            Count.Y.FromModel(m.CountY);
+            Count.Z.FromModel(m.CountZ);
             ResolveNestedBindables();
         }
     }

@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -16,6 +15,8 @@ namespace CMiX.Core.Modulation.Modifiers
         public bool IsExpanded { get; set; } = true;
         public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();
-        public ModifierModeSelector3Model ModifierModeSelector { get; set; } = new(ModifierMode.ToSpread, 1, 1, 1);
+        public ModulatableValueModel<int> CountX { get; set; } = new() { Value = new GenericValueModel<int>(1) };
+        public ModulatableValueModel<int> CountY { get; set; } = new() { Value = new GenericValueModel<int>(1) };
+        public ModulatableValueModel<int> CountZ { get; set; } = new() { Value = new GenericValueModel<int>(1) };
     }
 }

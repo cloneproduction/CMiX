@@ -4,16 +4,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     x:Name="gridModifier"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Views:ModifierModeSelector3
-            DataContext="{Binding ModifierModeSelector}"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+
+            <BaseControls:ModulatableIntegerValue
+                Caption="Count X"
+                DataContext="{Binding Count.X}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
+
+            <BaseControls:ModulatableIntegerValue
+                Caption="Y"
+                DataContext="{Binding Count.Y}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
+
+            <BaseControls:ModulatableIntegerValue
+                Caption="Z"
+                DataContext="{Binding Count.Z}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
+
+        </Panels:PositionedStackPanel>
 
         <BaseControls:ModulatableVectorXYZ
             Caption="Width"
