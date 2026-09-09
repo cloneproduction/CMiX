@@ -20,7 +20,17 @@ namespace CMiX.Core.Modulation
             BoundOutputNameSource = boundOutputName;
 
             ValueSource.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(GenericValue<T>.Value)) OnPropertyChanged(nameof(Value)); };
-            ModulatorIDSource.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(GenericValue<Guid?>.Value)) OnPropertyChanged(nameof(ModulatorID)); };
+            ModulatorIDSource.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName != nameof(GenericValue<Guid?>.Value)) return;
+                OnPropertyChanged(nameof(ModulatorID));
+
+                // Undo reverts this leaf value directly, bypassing SetModulator, so BoundModulator
+                // (untracked by undo) must be dropped here whenever it no longer matches - otherwise
+                // the assign dot keeps showing bound after an undo clears the ID back out.
+                if (BoundModulator?.ID != ModulatorID)
+                    BoundModulator = null;
+            };
             BoundOutputNameSource.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(GenericValue<string>.Value)) OnPropertyChanged(nameof(BoundOutputName)); };
         }
 
@@ -57,9 +67,18 @@ namespace CMiX.Core.Modulation
         [RelayCommand]
         private void SetModulator(ModulatorOutputSelection selection)
         {
-            BoundModulator = selection?.Modulator;
-            ModulatorID = selection?.Modulator?.ID;
-            BoundOutputName = selection?.Output?.Name;
+            var undoManager = ModulatorIDSource.UndoManager;
+            undoManager?.BeginCapture();
+            try
+            {
+                BoundModulator = selection?.Modulator;
+                ModulatorID = selection?.Modulator?.ID;
+                BoundOutputName = selection?.Output?.Name;
+            }
+            finally
+            {
+                undoManager?.EndCapture();
+            }
         }
 
         ICommand IModulatorBindable.SetModulatorCommand => SetModulatorCommand;

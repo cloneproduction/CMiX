@@ -3,6 +3,7 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -154,6 +155,30 @@ namespace CMiX.Core.Tests
             Assert.Equal(randomModulator.ID, reloaded.X.ModulatorID);
             Assert.NotNull(reloaded.X.BoundModulator);
             Assert.Equal(randomModulator.ID, reloaded.X.BoundModulator.ID);
+        }
+
+        [Fact]
+        public void Undo_AfterAssigningAModulator_RevertsIdNameAndBoundModulatorInOneStep()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var factory = provider.GetRequiredService<ControlFactory>();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+
+            var scale = (ScaleModifier)factory.Create(typeof(ScaleModifier));
+            scale.ModulatorManager.AddItem(typeof(RandomModulator));
+            var randomModulator = (RandomModulator)scale.ModulatorManager.ManagerData.Items[0];
+
+            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
+
+            Assert.Equal(randomModulator.ID, scale.X.ModulatorID);
+            Assert.Equal("Value", scale.X.BoundOutputName);
+            Assert.NotNull(scale.X.BoundModulator);
+
+            undoManager.Undo();
+
+            Assert.Null(scale.X.ModulatorID);
+            Assert.Null(scale.X.BoundOutputName);
+            Assert.Null(scale.X.BoundModulator);
         }
     }
 }
