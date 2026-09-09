@@ -68,7 +68,7 @@ namespace CMiX.Core.Texturing
 
             foreach (var bindable in bindables)
             {
-                if (bindable.ModulatorID.Value is not { } modulatorId) continue;
+                if (bindable.ModulatorID is not { } modulatorId) continue;
                 bindable.BoundModulator = ModulatorManager.ManagerData.Items
                     .OfType<IModulator>()
                     .FirstOrDefault(mod => mod.ID == modulatorId);

@@ -11,12 +11,12 @@
     <BaseControls:DragValue
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelValue}"
         Caption="{Binding Caption, ElementName=channelValue, Mode=OneWay}"
-        Value="{Binding Value.Value}">
+        Value="{Binding Value}">
 
         <BaseControls:DragValue.IsReadOnly>
             <MultiBinding Converter="{StaticResource BoundModulatorToIsReadOnly}">
                 <Binding Path="BoundModulator" />
-                <Binding Path="BoundOutputName.Value" />
+                <Binding Path="BoundOutputName" />
             </MultiBinding>
         </BaseControls:DragValue.IsReadOnly>
 

@@ -36,7 +36,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Bindables = new List<ModulatableValue<float>> { hue, saturation, value, alpha };
 
             for (int i = 0; i < Bindables.Count; i++)
-                Bindables[i].Value.Value = 1f;
+                Bindables[i].Value = 1f;
         }
 
         public ModulatableValue<float> Hue => Bindables[0];

@@ -60,9 +60,9 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var position = provider.GetRequiredService<TranslateModifier>();
 
-            position.Bindables[0].Value.Value = 4f;
+            position.Bindables[0].Value = 4f;
             var modulatorId = Guid.NewGuid();
-            position.Bindables[0].ModulatorID.Value = modulatorId;
+            position.Bindables[0].ModulatorID = modulatorId;
 
             var model = position.ToModel();
 
@@ -70,8 +70,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<TranslateModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(4f, reloaded.Bindables[0].Value.Value);
-            Assert.Equal(modulatorId, reloaded.Bindables[0].ModulatorID.Value);
+            Assert.Equal(4f, reloaded.Bindables[0].Value);
+            Assert.Equal(modulatorId, reloaded.Bindables[0].ModulatorID);
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace CMiX.Core.Tests
             var position = provider.GetRequiredService<TranslateModifier>();
 
             position.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            position.ModifierModeSelector.Count.Value.Value = 5;
+            position.ModifierModeSelector.Count.Value = 5;
 
             var model = position.ToModel();
 
@@ -90,7 +90,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
         }
     }
 }

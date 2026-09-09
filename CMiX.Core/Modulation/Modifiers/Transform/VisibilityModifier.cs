@@ -18,7 +18,7 @@ namespace CMiX.Core.Modulation.Modifiers
                                   ModulatableValue<float> bindableValue)
             : base(prefabService, modulatorManager)
         {
-            bindableValue.Value.Value = 0.5f;
+            bindableValue.Value = 0.5f;
             Bindables = new List<ModulatableValue<float>> { bindableValue };
         }
 

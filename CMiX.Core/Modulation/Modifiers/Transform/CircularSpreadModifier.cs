@@ -29,9 +29,9 @@ namespace CMiX.Core.Modulation.Modifiers
             widthY.Label = "Y";
             phase.Label = "Phase";
             factor.Label = "Factor";
-            widthX.Value.Value = 1.0f;
-            widthY.Value.Value = 1.0f;
-            factor.Value.Value = 1.0f;
+            widthX.Value = 1.0f;
+            widthY.Value = 1.0f;
+            factor.Value = 1.0f;
             Bindables = new List<ModulatableValue<float>> { widthX, widthY, phase, factor };
         }
 

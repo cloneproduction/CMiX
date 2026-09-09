@@ -11,7 +11,7 @@
         Caption="{Binding Caption, ElementName=channelSlider, Mode=OneWay}"
         Minimum="{Binding Minimum, ElementName=channelSlider}"
         Maximum="{Binding Maximum, ElementName=channelSlider}"
-        Value="{Binding Value.Value}">
+        Value="{Binding Value}">
         <BaseControls:CMiXSlider.TrailingContent>
             <BaseControls:ModulatorAssignButton ModulatorManager="{Binding ModulatorManager, ElementName=channelSlider}" />
         </BaseControls:CMiXSlider.TrailingContent>

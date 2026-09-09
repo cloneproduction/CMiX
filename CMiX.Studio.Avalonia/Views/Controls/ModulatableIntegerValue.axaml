@@ -15,11 +15,11 @@
         LargeChange="1.0"
         Minimum="1"
         SmallChange="1.0"
-        Value="{Binding Value.Value}">
+        Value="{Binding Value}">
         <BaseControls:DragValue.IsReadOnly>
             <MultiBinding Converter="{StaticResource BoundModulatorToIsReadOnly}">
                 <Binding Path="BoundModulator" />
-                <Binding Path="BoundOutputName.Value" />
+                <Binding Path="BoundOutputName" />
             </MultiBinding>
         </BaseControls:DragValue.IsReadOnly>
         <BaseControls:DragValue.TrailingContent>

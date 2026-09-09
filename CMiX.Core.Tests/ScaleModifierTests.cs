@@ -50,9 +50,9 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
 
-            scale.Bindables[0].Value.Value = 4f;
+            scale.Bindables[0].Value = 4f;
             var modulatorId = Guid.NewGuid();
-            scale.Bindables[0].ModulatorID.Value = modulatorId;
+            scale.Bindables[0].ModulatorID = modulatorId;
 
             var model = scale.ToModel();
 
@@ -60,8 +60,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<ScaleModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(4f, reloaded.Bindables[0].Value.Value);
-            Assert.Equal(modulatorId, reloaded.Bindables[0].ModulatorID.Value);
+            Assert.Equal(4f, reloaded.Bindables[0].Value);
+            Assert.Equal(modulatorId, reloaded.Bindables[0].ModulatorID);
         }
 
         [Fact]
@@ -83,8 +83,8 @@ namespace CMiX.Core.Tests
             var scale = provider.GetRequiredService<ScaleModifier>();
 
             scale.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            scale.ModifierModeSelector.Count.Value.Value = 5;
-            scale.Uniform.Value.Value = 2.5f;
+            scale.ModifierModeSelector.Count.Value = 5;
+            scale.Uniform.Value = 2.5f;
 
             var model = scale.ToModel();
 
@@ -93,8 +93,8 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
-            Assert.Equal(2.5f, reloaded.Uniform.Value.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
+            Assert.Equal(2.5f, reloaded.Uniform.Value);
         }
 
         [Fact]
@@ -110,11 +110,11 @@ namespace CMiX.Core.Tests
 
             scale.ModulatorManager.DeleteItem(randomModulator);
 
-            Assert.Null(scale.X.ModulatorID.Value);
+            Assert.Null(scale.X.ModulatorID);
             Assert.Null(scale.X.BoundModulator);
-            Assert.Null(scale.Y.ModulatorID.Value);
+            Assert.Null(scale.Y.ModulatorID);
             Assert.Null(scale.Y.BoundModulator);
-            Assert.Null(scale.Z.ModulatorID.Value);
+            Assert.Null(scale.Z.ModulatorID);
         }
 
         [Fact]
@@ -129,7 +129,7 @@ namespace CMiX.Core.Tests
 
             scale.ModulatorManager.DeleteItem(randomModulator);
 
-            Assert.Null(scale.ModifierModeSelector.Count.ModulatorID.Value);
+            Assert.Null(scale.ModifierModeSelector.Count.ModulatorID);
             Assert.Null(scale.ModifierModeSelector.Count.BoundModulator);
         }
 

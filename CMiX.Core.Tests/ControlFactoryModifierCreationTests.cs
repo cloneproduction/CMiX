@@ -18,9 +18,9 @@ namespace CMiX.Core.Tests
 
             var circularSpread = (CircularSpreadModifier)factory.Create(typeof(CircularSpreadModifier));
 
-            Assert.Equal(1.0f, circularSpread.X.Value.Value);
-            Assert.Equal(1.0f, circularSpread.Y.Value.Value);
-            Assert.Equal(1.0f, circularSpread.Factor.Value.Value);
+            Assert.Equal(1.0f, circularSpread.X.Value);
+            Assert.Equal(1.0f, circularSpread.Y.Value);
+            Assert.Equal(1.0f, circularSpread.Factor.Value);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace CMiX.Core.Tests
 
             var visibility = (VisibilityModifier)factory.Create(typeof(VisibilityModifier));
 
-            Assert.Equal(0.5f, visibility.Value.Value.Value);
+            Assert.Equal(0.5f, visibility.Value.Value);
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace CMiX.Core.Tests
 
             var render = (RenderRandomEntityModifier)factory.Create(typeof(RenderRandomEntityModifier));
 
-            Assert.Equal(1.0f, render.Control.Value.Value);
+            Assert.Equal(1.0f, render.Control.Value);
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace CMiX.Core.Tests
 
             var render = (RenderSequenceEntityModifier)factory.Create(typeof(RenderSequenceEntityModifier));
 
-            Assert.Equal(1.0f, render.Control.Value.Value);
+            Assert.Equal(1.0f, render.Control.Value);
         }
 
         [Fact]
@@ -64,9 +64,9 @@ namespace CMiX.Core.Tests
 
             var grid = (GridModifier)factory.Create(typeof(GridModifier));
 
-            Assert.Equal(1, grid.ModifierModeSelector.CountX.Value.Value);
-            Assert.Equal(1, grid.ModifierModeSelector.CountY.Value.Value);
-            Assert.Equal(1, grid.ModifierModeSelector.CountZ.Value.Value);
+            Assert.Equal(1, grid.ModifierModeSelector.CountX.Value);
+            Assert.Equal(1, grid.ModifierModeSelector.CountY.Value);
+            Assert.Equal(1, grid.ModifierModeSelector.CountZ.Value);
             Assert.Equal(CMiX.Core.Modifiers.ModifierMode.ToSpread, grid.ModifierModeSelector.Mode.Value);
         }
 
@@ -128,7 +128,7 @@ namespace CMiX.Core.Tests
 
             var reloaded = (ScaleModifier)factory.Create(model);
 
-            Assert.Equal(randomModulator.ID, reloaded.X.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, reloaded.X.ModulatorID);
             Assert.NotNull(reloaded.X.BoundModulator);
             Assert.Equal(randomModulator.ID, reloaded.X.BoundModulator.ID);
         }

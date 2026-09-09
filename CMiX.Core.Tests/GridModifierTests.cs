@@ -57,10 +57,10 @@ namespace CMiX.Core.Tests
             grid.Width.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             grid.Phase.Z.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(randomModulator.ID, grid.Width.X.ModulatorID.Value);
-            Assert.Null(grid.Width.Y.ModulatorID.Value);
-            Assert.Null(grid.Phase.X.ModulatorID.Value);
-            Assert.Equal(randomModulator.ID, grid.Phase.Z.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, grid.Width.X.ModulatorID);
+            Assert.Null(grid.Width.Y.ModulatorID);
+            Assert.Null(grid.Phase.X.ModulatorID);
+            Assert.Equal(randomModulator.ID, grid.Phase.Z.ModulatorID);
         }
 
         [Fact]
@@ -69,9 +69,9 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var grid = provider.GetRequiredService<GridModifier>();
 
-            grid.Width.X.Value.Value = 5f;
+            grid.Width.X.Value = 5f;
             var modulatorId = Guid.NewGuid();
-            grid.Phase.Y.ModulatorID.Value = modulatorId;
+            grid.Phase.Y.ModulatorID = modulatorId;
 
             var model = grid.ToModel();
 
@@ -79,8 +79,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<GridModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(5f, reloaded.Width.X.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Phase.Y.ModulatorID.Value);
+            Assert.Equal(5f, reloaded.Width.X.Value);
+            Assert.Equal(modulatorId, reloaded.Phase.Y.ModulatorID);
         }
 
         [Fact]
@@ -90,9 +90,9 @@ namespace CMiX.Core.Tests
             var grid = provider.GetRequiredService<GridModifier>();
 
             grid.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            grid.ModifierModeSelector.CountX.Value.Value = 3;
-            grid.ModifierModeSelector.CountY.Value.Value = 4;
-            grid.ModifierModeSelector.CountZ.Value.Value = 5;
+            grid.ModifierModeSelector.CountX.Value = 3;
+            grid.ModifierModeSelector.CountY.Value = 4;
+            grid.ModifierModeSelector.CountZ.Value = 5;
 
             var model = grid.ToModel();
 
@@ -101,9 +101,9 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(3, reloaded.ModifierModeSelector.CountX.Value.Value);
-            Assert.Equal(4, reloaded.ModifierModeSelector.CountY.Value.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.CountZ.Value.Value);
+            Assert.Equal(3, reloaded.ModifierModeSelector.CountX.Value);
+            Assert.Equal(4, reloaded.ModifierModeSelector.CountY.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.CountZ.Value);
         }
 
         [Fact]
@@ -141,11 +141,11 @@ namespace CMiX.Core.Tests
 
             grid.ModulatorManager.DeleteItem(randomModulator);
 
-            Assert.Null(grid.ModifierModeSelector.CountX.ModulatorID.Value);
+            Assert.Null(grid.ModifierModeSelector.CountX.ModulatorID);
             Assert.Null(grid.ModifierModeSelector.CountX.BoundModulator);
-            Assert.Null(grid.ModifierModeSelector.CountZ.ModulatorID.Value);
+            Assert.Null(grid.ModifierModeSelector.CountZ.ModulatorID);
             Assert.Null(grid.ModifierModeSelector.CountZ.BoundModulator);
-            Assert.Null(grid.ModifierModeSelector.CountY.ModulatorID.Value);
+            Assert.Null(grid.ModifierModeSelector.CountY.ModulatorID);
         }
     }
 }

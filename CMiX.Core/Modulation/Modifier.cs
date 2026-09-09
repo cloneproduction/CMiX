@@ -88,7 +88,7 @@ namespace CMiX.Core.Modulation
 
             foreach (var bindable in Bindables)
             {
-                if (bindable.ModulatorID.Value is not { } modulatorId) continue;
+                if (bindable.ModulatorID is not { } modulatorId) continue;
                 bindable.BoundModulator = ModulatorManager.ManagerData.Items
                     .OfType<IModulator>()
                     .FirstOrDefault(m => m.ID == modulatorId);

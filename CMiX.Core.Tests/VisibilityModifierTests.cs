@@ -58,9 +58,9 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var visibility = provider.GetRequiredService<VisibilityModifier>();
 
-            visibility.Value.Value.Value = 0.5f;
+            visibility.Value.Value = 0.5f;
             var modulatorId = Guid.NewGuid();
-            visibility.Value.ModulatorID.Value = modulatorId;
+            visibility.Value.ModulatorID = modulatorId;
 
             var model = visibility.ToModel();
 
@@ -68,8 +68,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<VisibilityModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(0.5f, reloaded.Value.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Value.ModulatorID.Value);
+            Assert.Equal(0.5f, reloaded.Value.Value);
+            Assert.Equal(modulatorId, reloaded.Value.ModulatorID);
         }
     }
 }

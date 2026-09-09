@@ -58,7 +58,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var render = provider.GetRequiredService<RenderSequenceEntityModifier>();
 
-            render.Control.Value.Value = 0.75f;
+            render.Control.Value = 0.75f;
             render.EntityType.Value = EntityType.Camera;
 
             var model = render.ToModel();
@@ -67,7 +67,7 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<RenderSequenceEntityModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(0.75f, reloaded.Control.Value.Value);
+            Assert.Equal(0.75f, reloaded.Control.Value);
             Assert.Equal(EntityType.Camera, reloaded.EntityType.Value);
         }
     }

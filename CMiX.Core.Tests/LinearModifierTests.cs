@@ -53,8 +53,8 @@ namespace CMiX.Core.Tests
             linearXYZ.Width.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             linearXYZ.Phase.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(randomModulator.ID, linearXYZ.Width.ModulatorID.Value);
-            Assert.Equal(randomModulator.ID, linearXYZ.Phase.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, linearXYZ.Width.ModulatorID);
+            Assert.Equal(randomModulator.ID, linearXYZ.Phase.ModulatorID);
         }
 
         [Fact]
@@ -63,9 +63,9 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var linearXYZ = provider.GetRequiredService<LinearModifier>();
 
-            linearXYZ.Width.Value.Value = 3f;
+            linearXYZ.Width.Value = 3f;
             var modulatorId = Guid.NewGuid();
-            linearXYZ.Phase.ModulatorID.Value = modulatorId;
+            linearXYZ.Phase.ModulatorID = modulatorId;
 
             var model = linearXYZ.ToModel();
 
@@ -73,8 +73,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<LinearModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(3f, reloaded.Width.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Phase.ModulatorID.Value);
+            Assert.Equal(3f, reloaded.Width.Value);
+            Assert.Equal(modulatorId, reloaded.Phase.ModulatorID);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace CMiX.Core.Tests
             var linearXYZ = provider.GetRequiredService<LinearModifier>();
 
             linearXYZ.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            linearXYZ.ModifierModeSelector.Count.Value.Value = 5;
+            linearXYZ.ModifierModeSelector.Count.Value = 5;
 
             var model = linearXYZ.ToModel();
 
@@ -93,7 +93,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
         }
     }
 }

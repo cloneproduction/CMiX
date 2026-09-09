@@ -13,7 +13,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var modulatable = provider.GetRequiredService<ModulatableValue<float>>();
 
-            Assert.Null(modulatable.ModulatorID.Value);
+            Assert.Null(modulatable.ModulatorID);
             Assert.Null(modulatable.BoundModulator);
         }
 
@@ -24,8 +24,8 @@ namespace CMiX.Core.Tests
             var modulatable = provider.GetRequiredService<ModulatableValue<float>>();
 
             modulatable.Label = "X";
-            modulatable.Value.Value = 2.5f;
-            modulatable.ModulatorID.Value = Guid.NewGuid();
+            modulatable.Value = 2.5f;
+            modulatable.ModulatorID = Guid.NewGuid();
 
             var model = modulatable.ToModel();
 
@@ -34,8 +34,8 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal("X", reloaded.Label);
-            Assert.Equal(2.5f, reloaded.Value.Value);
-            Assert.Equal(modulatable.ModulatorID.Value, reloaded.ModulatorID.Value);
+            Assert.Equal(2.5f, reloaded.Value);
+            Assert.Equal(modulatable.ModulatorID, reloaded.ModulatorID);
         }
 
         [Fact]
@@ -47,12 +47,12 @@ namespace CMiX.Core.Tests
 
             modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(randomModulator.ID, modulatable.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, modulatable.ModulatorID);
             Assert.Same(randomModulator, modulatable.BoundModulator);
 
             modulatable.SetModulatorCommand.Execute(null);
 
-            Assert.Null(modulatable.ModulatorID.Value);
+            Assert.Null(modulatable.ModulatorID);
             Assert.Null(modulatable.BoundModulator);
         }
     }

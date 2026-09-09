@@ -59,10 +59,10 @@ namespace CMiX.Core.Tests
             hsv.Hue.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             hsv.Alpha.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(randomModulator.ID, hsv.Hue.ModulatorID.Value);
-            Assert.Null(hsv.Saturation.ModulatorID.Value);
-            Assert.Null(hsv.Value.ModulatorID.Value);
-            Assert.Equal(randomModulator.ID, hsv.Alpha.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, hsv.Hue.ModulatorID);
+            Assert.Null(hsv.Saturation.ModulatorID);
+            Assert.Null(hsv.Value.ModulatorID);
+            Assert.Equal(randomModulator.ID, hsv.Alpha.ModulatorID);
         }
 
         [Fact]
@@ -71,9 +71,9 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var hsv = provider.GetRequiredService<HSVModifier>();
 
-            hsv.Hue.Value.Value = 0.5f;
+            hsv.Hue.Value = 0.5f;
             var modulatorId = Guid.NewGuid();
-            hsv.Saturation.ModulatorID.Value = modulatorId;
+            hsv.Saturation.ModulatorID = modulatorId;
 
             var model = hsv.ToModel();
 
@@ -81,8 +81,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<HSVModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(0.5f, reloaded.Hue.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Saturation.ModulatorID.Value);
+            Assert.Equal(0.5f, reloaded.Hue.Value);
+            Assert.Equal(modulatorId, reloaded.Saturation.ModulatorID);
         }
 
         [Fact]
@@ -92,7 +92,7 @@ namespace CMiX.Core.Tests
             var hsv = provider.GetRequiredService<HSVModifier>();
 
             hsv.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            hsv.ModifierModeSelector.Count.Value.Value = 5;
+            hsv.ModifierModeSelector.Count.Value = 5;
             hsv.ColorMode.Value = ColorMode.HSV;
 
             var model = hsv.ToModel();
@@ -102,7 +102,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
             Assert.Equal(ColorMode.HSV, reloaded.ColorMode.Value);
         }
     }

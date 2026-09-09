@@ -75,7 +75,7 @@
                                             <MultiBinding Converter="{StaticResource IsAssignedOutput}">
                                                 <Binding />
                                                 <Binding Path="DataContext.BoundModulator" ElementName="modulatorAssignButton" />
-                                                <Binding Path="DataContext.BoundOutputName.Value" ElementName="modulatorAssignButton" />
+                                                <Binding Path="DataContext.BoundOutputName" ElementName="modulatorAssignButton" />
                                                 <Binding Source="{StaticResource AccentInactiveBrush}" />
                                             </MultiBinding>
 

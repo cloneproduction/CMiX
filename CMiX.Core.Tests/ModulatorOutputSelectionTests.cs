@@ -34,8 +34,8 @@ namespace CMiX.Core.Tests
             modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[1]));
 
             Assert.Same(modulator, modulatable.BoundModulator);
-            Assert.Equal(modulator.ID, modulatable.ModulatorID.Value);
-            Assert.Equal("Y", modulatable.BoundOutputName.Value);
+            Assert.Equal(modulator.ID, modulatable.ModulatorID);
+            Assert.Equal("Y", modulatable.BoundOutputName);
 
             var model = modulatable.ToModel();
 
@@ -43,8 +43,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<ModulatableValue<float>>();
             reloaded.FromModel(model);
 
-            Assert.Equal(modulator.ID, reloaded.ModulatorID.Value);
-            Assert.Equal("Y", reloaded.BoundOutputName.Value);
+            Assert.Equal(modulator.ID, reloaded.ModulatorID);
+            Assert.Equal("Y", reloaded.BoundOutputName);
         }
 
         [Fact]
@@ -58,8 +58,8 @@ namespace CMiX.Core.Tests
             modulatable.SetModulatorCommand.Execute(null);
 
             Assert.Null(modulatable.BoundModulator);
-            Assert.Null(modulatable.ModulatorID.Value);
-            Assert.Null(modulatable.BoundOutputName.Value);
+            Assert.Null(modulatable.ModulatorID);
+            Assert.Null(modulatable.BoundOutputName);
         }
     }
 }

@@ -58,7 +58,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var render = provider.GetRequiredService<RenderRandomEntityModifier>();
 
-            render.Control.Value.Value = 0.5f;
+            render.Control.Value = 0.5f;
             render.EntityType.Value = EntityType.Light;
 
             var model = render.ToModel();
@@ -67,7 +67,7 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<RenderRandomEntityModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(0.5f, reloaded.Control.Value.Value);
+            Assert.Equal(0.5f, reloaded.Control.Value);
             Assert.Equal(EntityType.Light, reloaded.EntityType.Value);
         }
     }

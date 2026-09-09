@@ -56,10 +56,10 @@ namespace CMiX.Core.Tests
             texCoord.Location.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             texCoord.Scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(randomModulator.ID, texCoord.Location.X.ModulatorID.Value);
-            Assert.Null(texCoord.Location.Y.ModulatorID.Value);
-            Assert.Null(texCoord.Scale.X.ModulatorID.Value);
-            Assert.Equal(randomModulator.ID, texCoord.Scale.Y.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, texCoord.Location.X.ModulatorID);
+            Assert.Null(texCoord.Location.Y.ModulatorID);
+            Assert.Null(texCoord.Scale.X.ModulatorID);
+            Assert.Equal(randomModulator.ID, texCoord.Scale.Y.ModulatorID);
         }
 
         [Fact]
@@ -68,9 +68,9 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var texCoord = provider.GetRequiredService<TexCoordModifier>();
 
-            texCoord.Location.X.Value.Value = 5f;
+            texCoord.Location.X.Value = 5f;
             var modulatorId = Guid.NewGuid();
-            texCoord.Rotation.ModulatorID.Value = modulatorId;
+            texCoord.Rotation.ModulatorID = modulatorId;
 
             var model = texCoord.ToModel();
 
@@ -78,8 +78,8 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<TexCoordModifier>();
             reloaded.FromModel(model);
 
-            Assert.Equal(5f, reloaded.Location.X.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Rotation.ModulatorID.Value);
+            Assert.Equal(5f, reloaded.Location.X.Value);
+            Assert.Equal(modulatorId, reloaded.Rotation.ModulatorID);
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace CMiX.Core.Tests
             var texCoord = provider.GetRequiredService<TexCoordModifier>();
 
             texCoord.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            texCoord.ModifierModeSelector.Count.Value.Value = 5;
+            texCoord.ModifierModeSelector.Count.Value = 5;
             texCoord.SamplerState.BorderColor.Value = "#112233FF";
             texCoord.SamplerState.AddressU.Value = TextureAddressMode.Wrap;
             texCoord.SamplerState.AddressV.Value = TextureAddressMode.Border;
@@ -101,7 +101,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
             Assert.Equal("#112233FF", reloaded.SamplerState.BorderColor.Value);
             Assert.Equal(TextureAddressMode.Wrap, reloaded.SamplerState.AddressU.Value);
             Assert.Equal(TextureAddressMode.Border, reloaded.SamplerState.AddressV.Value);

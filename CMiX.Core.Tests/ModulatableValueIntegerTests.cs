@@ -13,7 +13,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var count = provider.GetRequiredService<ModulatableValue<int>>();
 
-            Assert.Null(count.ModulatorID.Value);
+            Assert.Null(count.ModulatorID);
             Assert.Null(count.BoundModulator);
         }
 
@@ -26,15 +26,15 @@ namespace CMiX.Core.Tests
 
             count.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            Assert.Equal(randomModulator.ID, count.ModulatorID.Value);
+            Assert.Equal(randomModulator.ID, count.ModulatorID);
             Assert.Same(randomModulator, count.BoundModulator);
-            Assert.Equal("Value", count.BoundOutputName.Value);
+            Assert.Equal("Value", count.BoundOutputName);
 
             count.SetModulatorCommand.Execute(null);
 
-            Assert.Null(count.ModulatorID.Value);
+            Assert.Null(count.ModulatorID);
             Assert.Null(count.BoundModulator);
-            Assert.Null(count.BoundOutputName.Value);
+            Assert.Null(count.BoundOutputName);
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace CMiX.Core.Tests
             var randomModulator = provider.GetRequiredService<RandomModulator>();
 
             count.Label = "Count";
-            count.Value.Value = 5;
+            count.Value = 5;
             count.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
             var model = count.ToModel();
@@ -55,9 +55,9 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal("Count", reloaded.Label);
-            Assert.Equal(5, reloaded.Value.Value);
-            Assert.Equal(randomModulator.ID, reloaded.ModulatorID.Value);
-            Assert.Equal("Value", reloaded.BoundOutputName.Value);
+            Assert.Equal(5, reloaded.Value);
+            Assert.Equal(randomModulator.ID, reloaded.ModulatorID);
+            Assert.Equal("Value", reloaded.BoundOutputName);
         }
     }
 }

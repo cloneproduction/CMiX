@@ -28,7 +28,7 @@ namespace CMiX.Core.Modulation.Modifiers
             for (int i = 0; i < Bindables.Count; i++)
             {
                 Bindables[i].Label = labels[i];
-                Bindables[i].Value.Value = 1f;
+                Bindables[i].Value = 1f;
             }
         }
 

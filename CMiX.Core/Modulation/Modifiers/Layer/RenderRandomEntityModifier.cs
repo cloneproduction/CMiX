@@ -21,7 +21,7 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             EntityType = entityType;
             control.Label = "Control";
-            control.Value.Value = 1.0f;
+            control.Value = 1.0f;
             Bindables = new List<ModulatableValue<float>> { control };
         }
 
