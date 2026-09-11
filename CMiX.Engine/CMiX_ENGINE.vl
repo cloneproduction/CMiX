@@ -125,7 +125,7 @@
                 <Pin Id="JbImCK9Yj3dLME4uXAyCUq" Name="CompositionService" Kind="InputPin" />
                 <Pin Id="H4d7gbaVKIdOMyvJHiWPGy" Name="Output" Kind="StateOutputPin" />
               </Node>
-              <Node Bounds="81,740,82,26" Id="U6zN6V5XRPmOS9aj9qUPUw">
+              <Node Bounds="83,750,82,26" Id="U6zN6V5XRPmOS9aj9qUPUw">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.RandomModulator" LastDependency="CMiX_ENGINE.Definitions.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <CategoryReference Kind="ClassType" Name="RandomModulator" />
@@ -194,7 +194,7 @@
                 <Pin Id="I4ZoeemP285MxMuqTQIViR" Name="CompositionService" Kind="InputPin" />
                 <Pin Id="TCSE3ho4oiELGfGTL6MJ7j" Name="Output" Kind="StateOutputPin" />
               </Node>
-              <Node Bounds="83,706,65,26" Id="L1aK7U6IU29MLG63RVS3k9">
+              <Node Bounds="83,716,65,26" Id="L1aK7U6IU29MLG63RVS3k9">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.FFTModulator" LastDependency="CMiX_ENGINE.Definitions.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <CategoryReference Kind="ClassType" Name="FFTModulator" />
@@ -410,16 +410,6 @@
                       <Pin Id="MTmSv1O5L5WL86nMKosWAU" Name="Client" Kind="InputPin" />
                       <Pin Id="N5DQPlnpffEQTrkvijV2HJ" Name="Output" Kind="StateOutputPin" />
                     </Node>
-                    <Node Bounds="228,671,89,26" Id="VLAJe99jfC7L32sfN8bX0x">
-                      <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.IModulatorOutput" LastDependency="CMiX_ENGINE.Definitions.vl">
-                        <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                        <FullNameCategoryReference ID="CMiX.Engine.Animations.IModulatorOutput" />
-                        <Choice Kind="OperationCallFlag" Name="SetRedisBinding" />
-                      </p:NodeReference>
-                      <Pin Id="Cu0zUc3sMY7NNvK4ib3fi0" Name="Input" Kind="StateInputPin" />
-                      <Pin Id="Ol5UlLBZ52sNTYxtO8pqQZ" Name="RedisBinding" Kind="InputPin" />
-                      <Pin Id="Gt9YztuBPptOC2civt7EWI" Name="Output" Kind="StateOutputPin" />
-                    </Node>
                   </Patch>
                   <ControlPoint Id="HHTWmPxRxqoLT9EwxPEGKK" Bounds="195,536" Alignment="Top" />
                 </Node>
@@ -565,8 +555,6 @@
               <Link Id="I1ENC4Ku8lrMVvzIq5Z4Yu" Ids="FCisdUKg7xYL1HrFOac8kS,CNnXYagm43LM2Kk2FAqLkQ" />
               <Link Id="PIr74LpaVdSMbH9qNxAouj" Ids="QDp9opsR4kcPTNJTnxSrQK,Iud3rcpO5CAMwcOSfbLNTr" />
               <Link Id="IQePtjUmHPbQKqgO2WkPLq" Ids="A4r17NEEVViOvvpm3jxCEc,LSzjcWYhorBNJQxbTdH4qw" />
-              <Link Id="HiO27GXU9WrO3pStd79isq" Ids="N5DQPlnpffEQTrkvijV2HJ,Cu0zUc3sMY7NNvK4ib3fi0" />
-              <Link Id="VsH7QT4C1o4LefXZ4yoDkb" Ids="UxeNTUnAWTiNO9UTaD011T,Ol5UlLBZ52sNTYxtO8pqQZ" />
               <Link Id="GqmLh32gmrMLVBdDGDcJwU" Ids="MOVfenRH8R9OgDpe30Qbbp,Er2UYiKoZLSOFCJco2PYqz" />
               <Link Id="V1KoDSgW0TULbf9D79HEBH" Ids="Npg58TwmT6GPjZGe6FmtvV,S2BKFJzk6yYLg6EfANUC3p" />
             </Patch>
@@ -592,7 +580,7 @@
           </Node>
           <ControlPoint Id="L4u1LVtGtiTQVxmGgvVclj" Bounds="343,222" />
           <ControlPoint Id="SGuQNEU4grZLioK5NPsfgw" Bounds="401,197" />
-          <Pad Id="NNRMbs6mkU3QBMQS45nbvS" Comment="Boss" Bounds="487,230,35,35" ShowValueBox="true" isIOBox="true" Value="False">
+          <Pad Id="NNRMbs6mkU3QBMQS45nbvS" Comment="Boss" Bounds="487,230,35,35" ShowValueBox="true" isIOBox="true" Value="True">
             <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
               <Choice Kind="ImmutableTypeFlag" Name="Boolean" />
             </p:TypeAnnotation>
