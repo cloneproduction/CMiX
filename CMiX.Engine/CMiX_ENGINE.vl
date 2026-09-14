@@ -238,7 +238,6 @@
             <Pin Id="R3g3eQA4L9cOXkblRS0DAw" Name="Node Context" Kind="InputPin" IsHidden="true" />
             <Pin Id="V2ViC9F1BDJOL84HFa2A1K" Name="ControlRepository" Kind="InputPin" />
             <Pin Id="RVyOrmHxkwqPDF4TfLeszU" Name="Output" Kind="StateOutputPin" />
-            <Pin Id="NElAfleYGxVO4Xq2AWrSlV" Name="Boss" Kind="InputPin" />
             <Pin Id="Q8CCdzgpLazLkHOlk0TQby" Name="Update" Kind="InputPin" />
           </Node>
           <Node Bounds="214,310,48,19" Id="OrJArdS3P7zOkC9XJyUKSN">
@@ -268,7 +267,7 @@
             <Pin Id="K7aYgWHc6S7PMfWbyJBZxW" Name="Output" Kind="OutputPin" />
             <Pin Id="L7a7gmTNdyvOO0xqeOBVHC" Name="ServiceProvider" Kind="InputPin" />
           </Node>
-          <Node Bounds="78,310,85,19" Id="TPeqw6ymMm5Pa7zFh6HFCC">
+          <Node Bounds="78,310,105,19" Id="TPeqw6ymMm5Pa7zFh6HFCC">
             <p:NodeReference LastCategoryFullName="CMiX.Engine" LastDependency="CMiX_ENGINE.vl">
               <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
               <Choice Kind="ProcessAppFlag" Name="MainManager" />
@@ -278,6 +277,7 @@
             <Pin Id="SATZzhbUcbkPzu6zoe8lOK" Name="ServiceProvider" Kind="InputPin" />
             <Pin Id="KCdLRjHRY4VOSR1htvWLrZ" Name="ControlFactory" Kind="InputPin" />
             <Pin Id="DVqpDOY5O5FNLTri7jPMyJ" Name="CompositionService" Kind="InputPin" />
+            <Pin Id="PF8jLlRy4BQQc58XSLIB2t" Name="Boss" Kind="InputPin" />
             <Pin Id="HhrdI6ACBZIO8PL4OTHsQz" Name="Update" Kind="ApplyPin" />
           </Node>
           <Node Bounds="118,220,49,19" Id="MS7RDTIrcokMC5aKYP4IxT">
@@ -302,7 +302,7 @@
             <Pin Id="HjTKDHEEcgQLReDbxeam2g" Name="ControlRepository" Kind="InputPin" />
           </Node>
           <ControlPoint Id="L4u1LVtGtiTQVxmGgvVclj" Bounds="343,222" />
-          <Pad Id="PtG7mRIgpA8PiML5IHccV5" Comment="Boss" Bounds="238,180,35,35" ShowValueBox="true" isIOBox="true" Value="True">
+          <Pad Id="PtG7mRIgpA8PiML5IHccV5" Comment="Boss" Bounds="160,270,35,35" ShowValueBox="true" isIOBox="true" Value="True">
             <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
               <Choice Kind="ImmutableTypeFlag" Name="Boolean" />
             </p:TypeAnnotation>
@@ -327,7 +327,7 @@
         <Link Id="PHi048B9nUmMpe9mKhr6e9" Ids="RVyOrmHxkwqPDF4TfLeszU,NNF5rMlx6osL7AzbtfaCvx" />
         <Link Id="NOA53VFGjc1LIuxXyQWS5z" Ids="RVyOrmHxkwqPDF4TfLeszU,AMCWRFBIJsJPsNydPEFRMj" />
         <Link Id="F6p80BgKeViOcZuUsn3M2S" Ids="K7aYgWHc6S7PMfWbyJBZxW,L4u1LVtGtiTQVxmGgvVclj,HjTKDHEEcgQLReDbxeam2g" />
-        <Link Id="MNeBi2YAdllLPNgGzg84zM" Ids="PtG7mRIgpA8PiML5IHccV5,NElAfleYGxVO4Xq2AWrSlV" />
+        <Link Id="Inrc4FlHxlZPwksI6HfajV" Ids="PtG7mRIgpA8PiML5IHccV5,PF8jLlRy4BQQc58XSLIB2t" />
       </Patch>
     </Node>
   </Patch>
@@ -335,4 +335,5 @@
   <PlatformDependency Id="Rl5ewD1HsP6PM7oL1S8RDf" Location="System.Runtime" />
   <ProjectDependency Location="../CMiX.Core/CMiX.Core.csproj" />
   <NugetDependency Id="JZPUb662dvDMkEoJsKERfm" Location="VL.IO.Redis" />
+  <ProjectDependency Location="./csharp/CMiX_ENGINEUtils/CMiX_ENGINEUtils.csproj" />
 </Document>
