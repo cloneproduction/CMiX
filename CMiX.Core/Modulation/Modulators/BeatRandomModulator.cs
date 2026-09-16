@@ -13,14 +13,14 @@ namespace CMiX.Core.Modulation.Modulators
     public class BeatRandomModulator : ReceivableControl, IDisposable, IModulator, IBeatTimedModulator
     {
         public BeatRandomModulator(PrefabService prefabService,
-                            MasterBeat masterBeat,
-                            GenericValue<int> beatIndex,
-                            GenericValue<float> center,
-                            GenericValue<float> width,
-                            Easing easing,
-                            BeatSteps beatSteps,
-                            UndoManager undoManager,
-                            ControlActivationService activationService)
+                                   MasterBeat masterBeat,
+                                   GenericValue<int> beatIndex,
+                                   GenericValue<float> center,
+                                   GenericValue<float> width,
+                                   Easing easing,
+                                   BeatSteps beatSteps,
+                                   UndoManager undoManager,
+                                   ControlActivationService activationService)
         {
             PrefabService = prefabService;
             BeatIndex = beatIndex;
