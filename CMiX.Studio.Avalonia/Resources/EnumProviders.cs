@@ -18,6 +18,9 @@ namespace CMiX.Studio.Avalonia.Resources
     // Consumed from XAML via {x:Static Resources:EnumProviders.X}.
     public static class EnumProviders
     {
+        public static CMiX.Core.Modulation.Modulators.WaveTypeEnum[] WaveType { get; } =
+            Enum.GetValues<CMiX.Core.Modulation.Modulators.WaveTypeEnum>();
+
         public static CMiX.Core.Rendering.TexcoordSemantic[] TexcoordSemantic { get; } =
             Enum.GetValues<CMiX.Core.Rendering.TexcoordSemantic>();
 

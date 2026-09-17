@@ -6,6 +6,7 @@
     xmlns:Panels="using:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     d:DesignWidth="400">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
@@ -21,16 +22,10 @@
             RightCaption="Max"
             RightValue="{Binding Maximum.Value}"/>
 
-        <BaseControls:ToggleButton
-            Caption="PingPong"
-            IsChecked="{Binding PingPong.Value}" />
-
-        <BaseControls:DragValue
-            Caption="Randomize Phase"
-            Value="{Binding RandomizePhase.Value}" />
-
-        <Views:Easing
-            DataContext="{Binding Easing}" />
+        <BaseControls:ComboBox
+            Caption="Wave Type"
+            ItemsSource="{x:Static Resources:EnumProviders.WaveType}"
+            SelectedItem="{Binding WaveType.Value, Mode=TwoWay}" />
 
     </StackPanel>
 

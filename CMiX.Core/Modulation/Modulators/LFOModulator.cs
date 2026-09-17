@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Undo;
@@ -14,9 +13,7 @@ namespace CMiX.Core.Modulation.Modulators
                             GenericValue<float> period,
                             GenericValue<float> minimum,
                             GenericValue<float> maximum,
-                            GenericValue<bool> pingPong,
-                            GenericValue<float> randomizePhase,
-                            Easing easing,
+                            GenericValue<WaveTypeEnum> waveType,
                             UndoManager undoManager,
                             ControlActivationService activationService)
         {
@@ -24,10 +21,7 @@ namespace CMiX.Core.Modulation.Modulators
             Period = period;
             Minimum = minimum;
             Maximum = maximum;
-            PingPong = pingPong;
-            RandomizePhase = randomizePhase;
-            Easing = easing;
-
+            WaveType = waveType;
             UndoManager = undoManager;
             IsActive = false;
             activationService.Register(this);
@@ -59,9 +53,7 @@ namespace CMiX.Core.Modulation.Modulators
         public GenericValue<float> Period { get; set; }
         public GenericValue<float> Minimum { get; set; }
         public GenericValue<float> Maximum { get; set; }
-        public GenericValue<bool> PingPong { get; set; }
-        public GenericValue<float> RandomizePhase { get; set; }
-        public Easing Easing { get; set; }
+        public GenericValue<WaveTypeEnum> WaveType { get; set; }
 
         public IControlModel ToModel() => new LFOModulatorModel
         {
@@ -70,9 +62,7 @@ namespace CMiX.Core.Modulation.Modulators
             Period = (GenericValueModel<float>)Period.ToModel(),
             Minimum = (GenericValueModel<float>)Minimum.ToModel(),
             Maximum = (GenericValueModel<float>)Maximum.ToModel(),
-            PingPong = (GenericValueModel<bool>)PingPong.ToModel(),
-            RandomizePhase = (GenericValueModel<float>)RandomizePhase.ToModel(),
-            Easing = (EasingModel)Easing.ToModel(),
+            WaveType = (GenericValueModel<WaveTypeEnum>)WaveType.ToModel() 
         };
         public void FromModel(IControlModel model)
         {
@@ -81,9 +71,7 @@ namespace CMiX.Core.Modulation.Modulators
             Period.FromModel(m.Period);
             Minimum.FromModel(m.Minimum);
             Maximum.FromModel(m.Maximum);
-            PingPong.FromModel(m.PingPong);
-            RandomizePhase.FromModel(m.RandomizePhase);
-            Easing.FromModel(m.Easing);
+            WaveType.FromModel(m.WaveType);
         }
     }
 }

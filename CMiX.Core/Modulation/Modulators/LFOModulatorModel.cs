@@ -12,10 +12,8 @@ namespace CMiX.Core.Modulation.Modulators
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public GenericValueModel<float> Period { get; set; } = new(10.0f);
-        public GenericValueModel<float> Minimum { get; set; } = new(0.0f);
+        public GenericValueModel<float> Minimum { get; set; } = new(-1.0f);
         public GenericValueModel<float> Maximum { get; set; } = new(1.0f);
-        public GenericValueModel<bool> PingPong { get; set; } = new(false);
-        public GenericValueModel<float> RandomizePhase { get; set; } = new(0.0f);
-        public EasingModel Easing { get; set; } = new();
+        public GenericValueModel<WaveTypeEnum> WaveType { get; set; } = new(WaveTypeEnum.Triangle);
     }
 }
