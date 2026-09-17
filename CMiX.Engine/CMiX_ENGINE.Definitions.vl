@@ -35333,7 +35333,7 @@
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <Choice Kind="ProcessAppFlag" Name="SceneWindow" />
                 </p:NodeReference>
-                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="-1043.4286, 396.57144, 724, 413.7143" />
+                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="2720.6667, 800, 728, 424.66666" />
                 <Pin Id="HIZJqDlx9MEPhmzNCdJH1J" Name="Bound to Document" Kind="InputPin" />
                 <Pin Id="N2jbSedzlJOPk61sjPnAjT" Name="Dialog If Document Changed" Kind="InputPin" />
                 <Pin Id="I2cCZopRrBbNn2LnahdA5d" Name="Save Bounds" Kind="InputPin" />
@@ -44236,8 +44236,9 @@
                 <Pin Id="LmAtwVuNSLBLXDqmCCQ0rH" Name="Input" Kind="InputPin" />
                 <Pin Id="GSnILCTI1xqQNheE9fllA1" Name="Result" Kind="OutputPin" />
               </Node>
+              <Pad Id="LV6kqQARmPQPuUVT8GXEh8" Bounds="550,471" />
             </Canvas>
-            <Patch Id="GRIKt3Sm42BPHPthediZX0" Name="Create" />
+            <Patch Id="GRIKt3Sm42BPHPthediZX0" Name="Create" ParticipatingElements="SURTE1DbZbdQME9B3W9hlM" />
             <Link Id="Cq7S5eBSubIOqrDz9VgOTE" Ids="HI279vgm2XpLgxZ135aBrD,I7U82BtwhphLkiZQdMtlcC" IsHidden="true" />
             <Patch Id="HfNMVfJnlUqNdlcoH5CfNu" Name="TrackingData">
               <Pin Id="I7U82BtwhphLkiZQdMtlcC" Name="Output" Kind="OutputPin" />
@@ -44278,10 +44279,11 @@
               <Fragment Id="MZ4guVfJRnNOgZ4JrwzZEY" Patch="HfNMVfJnlUqNdlcoH5CfNu" />
             </ProcessDefinition>
             <Link Id="TRl0fs65ZLbL8BjFwe2ND5" Ids="K0NdQLdaTgWLp5t8nYEr52,S2X7I5h3DShO6A7TQLnNoJ" IsHidden="true" />
-            <Link Id="SURTE1DbZbdQME9B3W9hlM" Ids="MdgTTwpaY9dLxI95jruiks,K0NdQLdaTgWLp5t8nYEr52" />
+            <Link Id="SURTE1DbZbdQME9B3W9hlM" Ids="MdgTTwpaY9dLxI95jruiks,LV6kqQARmPQPuUVT8GXEh8" />
             <Link Id="AXwKth8UAIWOY4xWBXBSQi" Ids="LaIwoXL2CyJL2iL5vtXM3e,E1wEo2qCVyBM5BGsanldNt" />
             <Link Id="I7W044WQAOILpdWV5TurEr" Ids="LaIwoXL2CyJL2iL5vtXM3e,LmAtwVuNSLBLXDqmCCQ0rH" />
             <Link Id="Pcf4ZIkm6lXLGrqGTj0qf1" Ids="GSnILCTI1xqQNheE9fllA1,LdLIdSiyoIuLvMso6nWk7F" />
+            <Link Id="DaoPgBlJpZtND9TWcQUc6z" Ids="LV6kqQARmPQPuUVT8GXEh8,K0NdQLdaTgWLp5t8nYEr52" />
           </Patch>
         </Node>
         <!--
@@ -44467,7 +44469,7 @@
               <Pad Id="LcxUO0QGiUZORGfFeU7CVo" SlotId="B7iJMxwfeipM9J69m0aOMs" Bounds="102,189" />
               <ControlPoint Id="I5CNnF3jYD7LGWECzTw900" Bounds="102,139" />
               <ControlPoint Id="MKjUcg5UuTFQZtORtN9kzV" Bounds="205,241" />
-              <Node Bounds="203,191,59,19" Id="RgEzSjM9i20QCxCt1SmXGa">
+              <Node Bounds="203,180,59,19" Id="RgEzSjM9i20QCxCt1SmXGa">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine" LastDependency="CMiX_ENGINE.Definitions.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <Choice Kind="ProcessAppFlag" Name="AsService" />
@@ -44493,8 +44495,9 @@
                 <Pin Id="OeZgnMxwiYZLMtekDbkWpk" Name="Input" Kind="InputPin" />
                 <Pin Id="RS2YKfdi5hDNz5M9xW3SJh" Name="Result" Kind="OutputPin" />
               </Node>
+              <Pad Id="VSmcZrM5LqUQHHuEquuX7B" Bounds="205,220" />
             </Canvas>
-            <Patch Id="BqpOTlA0Ue0Oy3heYp7eHz" Name="Create" />
+            <Patch Id="BqpOTlA0Ue0Oy3heYp7eHz" Name="Create" ParticipatingElements="BFHCk1uWaBNNOt2amPDTLz" />
             <Patch Id="RYcfwcT6LbvQM1xz9eUk3h" Name="IsMaster">
               <Pin Id="JxaVN5qv3XXNL40FwVHay3" MergeId="41533" Name="IsMaster" Kind="OutputPin">
                 <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
@@ -44518,9 +44521,10 @@
             </ProcessDefinition>
             <Link Id="EIMLHEjjoX5QCuAUXGKXFw" Ids="MKjUcg5UuTFQZtORtN9kzV,PfMNuQ4Q3esPruVcF9KQY1" IsHidden="true" />
             <Link Id="PLg0UyLvaxGLR9gerPDV9Z" Ids="A4LZKphy7D9PGx5QaOc4Jy,LSUp3tTRCpEOQzAj6A7UKN" />
-            <Link Id="BFHCk1uWaBNNOt2amPDTLz" Ids="HrGx3DwASVEMYZIGEqIEuX,MKjUcg5UuTFQZtORtN9kzV" />
+            <Link Id="BFHCk1uWaBNNOt2amPDTLz" Ids="HrGx3DwASVEMYZIGEqIEuX,VSmcZrM5LqUQHHuEquuX7B" />
             <Link Id="IL8T3xfHnUDMaCJ2KEkXqv" Ids="A4LZKphy7D9PGx5QaOc4Jy,OeZgnMxwiYZLMtekDbkWpk" />
             <Link Id="I6lOhRr3O5xN1nzVe4YJky" Ids="RS2YKfdi5hDNz5M9xW3SJh,AqBH8aKfJNQLhVW9wgRW5U" />
+            <Link Id="KUV3BjTq9x8LJL3q9oauw8" Ids="VSmcZrM5LqUQHHuEquuX7B,MKjUcg5UuTFQZtORtN9kzV" />
           </Patch>
         </Node>
         <!--
@@ -44640,7 +44644,7 @@
                 <Pin Id="NzCx5bAFGQcOn1tkC9ParT" Name="Result" Kind="OutputPin" />
               </Node>
               <ControlPoint Id="FywKP7zb34qNpxOQqn6GmH" Bounds="173,571" />
-              <ControlPoint Id="VoAiu6ZxwFIOGlbF8h3h2H" Bounds="334,570" />
+              <ControlPoint Id="VoAiu6ZxwFIOGlbF8h3h2H" Bounds="334,580" />
               <Node Bounds="332,520,59,19" Id="NA9nBP9MgamPexiskZEMR2">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine" LastDependency="CMiX_ENGINE.Definitions.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
@@ -44667,8 +44671,9 @@
                 <Pin Id="DmDan4hnaeCOUbYyFdWuCI" Name="Input" Kind="InputPin" />
                 <Pin Id="N5pRm4o2CamO4oLomqAPJa" Name="Result" Kind="OutputPin" />
               </Node>
+              <Pad Id="IO86VzoW6sHLFLCOr6hTag" Bounds="334,560" />
             </Canvas>
-            <Patch Id="CQ26xRFSdk5P3x05TwjrfC" Name="Create" />
+            <Patch Id="CQ26xRFSdk5P3x05TwjrfC" Name="Create" ParticipatingElements="InBIjNTE4uQLg5pmXGFShN" />
             <Patch Id="G1J0QVitbDEQPiLIqAWMKF" Name="AudioData">
               <Pin Id="BMBza8bGb9YMHKEACX3HiE" MergeId="40751" Name="Output" Kind="OutputPin">
                 <p:TypeAnnotation LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
@@ -44702,9 +44707,10 @@
             <Link Id="HpTaVt8ewZFO8UPfr2mXO4" Ids="L6NCwVAoIthNGs3hsTZgGl,BGofPTPUhbHNtzT62l6Qdy" />
             <Link Id="FvuWppwlPMsNJR92cllRge" Ids="VoAiu6ZxwFIOGlbF8h3h2H,QbsvKF611tzPMCaPT92hSn" IsHidden="true" />
             <Link Id="NB1jxwcQLMxPetdaMjGoMw" Ids="KUD5qaYcYvpLkrLup43tbu,MaOZU1yXpvANNAMI7N90oT" />
-            <Link Id="InBIjNTE4uQLg5pmXGFShN" Ids="JyFhtPMpWvyMaSVgWuOdgK,VoAiu6ZxwFIOGlbF8h3h2H" />
+            <Link Id="InBIjNTE4uQLg5pmXGFShN" Ids="JyFhtPMpWvyMaSVgWuOdgK,IO86VzoW6sHLFLCOr6hTag" />
             <Link Id="PDuPMYh7fU8LnlHJNIT5nK" Ids="KUD5qaYcYvpLkrLup43tbu,DmDan4hnaeCOUbYyFdWuCI" />
             <Link Id="AjpyOhy2A70Nk7W3ult1rB" Ids="N5pRm4o2CamO4oLomqAPJa,PhrIfJOogGbNqrJB6T41YR" />
+            <Link Id="Mbp0zqFEYFCQEtBjcN9kWK" Ids="IO86VzoW6sHLFLCOr6hTag,VoAiu6ZxwFIOGlbF8h3h2H" />
           </Patch>
         </Node>
         <!--
@@ -45172,7 +45178,7 @@
                 <Pin Id="Ten6ZMAsi7YMtBvEJuvyMs" Name="Result" Kind="OutputPin" />
               </Node>
               <Pad Id="BatR07dlnH5P70hoGzPU1y" SlotId="SwLy0V8YtVeMjDWm3peIPi" Bounds="839,631" />
-              <ControlPoint Id="U0cxysoaZsLOsDXMqCiF3B" Bounds="898,760" />
+              <ControlPoint Id="U0cxysoaZsLOsDXMqCiF3B" Bounds="898,770" />
               <Node Bounds="896,710,59,19" Id="Si2aGMeZifkLFrYWsZP8V3">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine" LastDependency="CMiX_ENGINE.Definitions.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
@@ -45210,8 +45216,9 @@
                 <Pin Id="QAWyE04jHeCLBa7kpTEuzx" Name="Result" Kind="OutputPin" />
                 <Pin Id="SP1eDrdmmbtNM67K9dm2Rw" Name="Node Context" Kind="InputPin" IsHidden="true" />
               </Node>
+              <Pad Id="Hn25R2QP2H3N6vG78lY1U4" Bounds="898,750" />
             </Canvas>
-            <Patch Id="MU1ulxpAV2yOVD0pGsNziZ" Name="Create" />
+            <Patch Id="MU1ulxpAV2yOVD0pGsNziZ" Name="Create" ParticipatingElements="An5as3gGbDvNMCTmqOya3B" />
             <ProcessDefinition Id="UUDZrJPukpsNfwdULjUGEK">
               <Fragment Id="Iem5ZxOWSArNstcGYJVTW2" Patch="MU1ulxpAV2yOVD0pGsNziZ" Enabled="true" />
               <Fragment Id="N41P1T7ep74LdvezF92Nt0" Patch="U3XcB6kGRIJN2nUq6sVyKj" />
@@ -45264,7 +45271,7 @@
             <Link Id="CqzmNlDHYyuLHm0hHhnEBX" Ids="BatR07dlnH5P70hoGzPU1y,Orna47ApsRfL6ow6SEvKfB" />
             <Link Id="LfQy7BpWpdgM5NxIhF923X" Ids="U0cxysoaZsLOsDXMqCiF3B,ToQOraDxH5xNXrUcsLeGWv" IsHidden="true" />
             <Link Id="F1DsImfZU8LOknyrvzvNE0" Ids="G9cfbkIoB64PZqWwTvEF5K,O5KzdC1xuV1L5y0ALKRVZP" />
-            <Link Id="An5as3gGbDvNMCTmqOya3B" Ids="UhEYqrh8zl3MlNS7XxRo0Y,U0cxysoaZsLOsDXMqCiF3B" />
+            <Link Id="An5as3gGbDvNMCTmqOya3B" Ids="UhEYqrh8zl3MlNS7XxRo0Y,Hn25R2QP2H3N6vG78lY1U4" />
             <Link Id="NQNHIn5eU0gMpATYRKb7BQ" Ids="G9cfbkIoB64PZqWwTvEF5K,NFu8xWkMSv4OD4gM1mqyP1" />
             <Link Id="TSdAWf3NNOGMlCXixFg7VJ" Ids="CX1lBfVUOKaLCB1Wg03rAB,PFSJ7ZL28iCPRtGzohEEAq" />
             <Link Id="H22562s947EMqxd6QomgYE" Ids="QAWyE04jHeCLBa7kpTEuzx,FCiEtskEMNYOmOtRFEQQfa" />
@@ -45274,6 +45281,7 @@
             <Link Id="JfiGebZpOK8PCKzFIoi7m6" Ids="JKGgx6VPHusOwj3F6m2uD8,G9eTt5WfScyO2OMRCKo2KP" />
             <Link Id="B3fVYF0L0sALy72A1Eky0q" Ids="QX89tAP7UEjQCuKD9vfQue,B291JfZ6UR3PfQeB0TJDEW" />
             <Link Id="VwOOhtWHLiSNhQEl9SvFVM" Ids="RTv78QEmJO3P0s7TBHkzYD,FlI6lmkTBAgLLPOfGPTvWa" />
+            <Link Id="IpzTh3mC7uFLzWZ1DinsMB" Ids="Hn25R2QP2H3N6vG78lY1U4,U0cxysoaZsLOsDXMqCiF3B" />
           </Patch>
         </Node>
         <!--
@@ -45320,7 +45328,7 @@
             <Canvas Id="QkhGfifpbbtNoMcEms9yPF" CanvasType="Group">
               <ControlPoint Id="ECPrjSAt2DgNsxlcxf6pyD" Bounds="99,222" />
               <Pad Id="HIeCDLfXxxRL0Oup6rJFt5" SlotId="Kj8L1NemeMfQCRNq5uDzJl" Bounds="99,181" />
-              <ControlPoint Id="IEG2R7pw5KEPqGLrHongsg" Bounds="197,221" />
+              <ControlPoint Id="IEG2R7pw5KEPqGLrHongsg" Bounds="197,230" />
               <Node Bounds="195,171,59,19" Id="Hq9SDTMo5vaOj8OPihQadr">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine" LastDependency="CMiX_ENGINE.Definitions.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
@@ -45347,8 +45355,9 @@
                 <Pin Id="RmVWOluReKsQIntMaEYY2F" Name="Input" Kind="InputPin" />
                 <Pin Id="GIpJ5nXxnkxOFG6K6nLlgs" Name="Result" Kind="OutputPin" />
               </Node>
+              <Pad Id="MxolUry7KoFMXvD5C3tD3R" Bounds="197,210" />
             </Canvas>
-            <Patch Id="TMGLJ8WyIAWPJBbmUoXUhs" Name="Create" />
+            <Patch Id="TMGLJ8WyIAWPJBbmUoXUhs" Name="Create" ParticipatingElements="JWEJ4pTo3ZKLeRx023ssk4" />
             <Patch Id="OOAnMCPDzioLjYScdW5ojw" Name="Texture">
               <Pin Id="LeZ6KeMPwWwPs9xjqNZY48" Name="Output" Kind="OutputPin">
                 <p:TypeAnnotation LastCategoryFullName="Stride.API.Graphics" LastDependency="VL.Stride.Runtime.vl">
@@ -45369,9 +45378,98 @@
             </ProcessDefinition>
             <Link Id="KvzTFl4YmgVPEZcpWWKMsR" Ids="IEG2R7pw5KEPqGLrHongsg,BTxdFcxPbY2No9GkWTxWl9" IsHidden="true" />
             <Link Id="MLKoc9NYFwpM614yq26Qx1" Ids="P4nJogV2gTRLkHtbyA9EeW,Bb8yNL4Kf0mQCqHTN0q7E1" />
-            <Link Id="JWEJ4pTo3ZKLeRx023ssk4" Ids="CJtjaH2QRAALZ7WUZsikBv,IEG2R7pw5KEPqGLrHongsg" />
+            <Link Id="JWEJ4pTo3ZKLeRx023ssk4" Ids="CJtjaH2QRAALZ7WUZsikBv,MxolUry7KoFMXvD5C3tD3R" />
             <Link Id="PktqDe4pEEIMw6RIU7vIt0" Ids="P4nJogV2gTRLkHtbyA9EeW,RmVWOluReKsQIntMaEYY2F" />
             <Link Id="SBY3huIXwPiOtaLkAgDC4I" Ids="GIpJ5nXxnkxOFG6K6nLlgs,VOFZClgQZc6QCgPGe5JFui" />
+            <Link Id="PiLK7VwrpxENovwxA2H7yx" Ids="MxolUry7KoFMXvD5C3tD3R,IEG2R7pw5KEPqGLrHongsg" />
+          </Patch>
+        </Node>
+        <Node Bounds="400,82,309,110" Id="NAVozmNi2n9MZdeo5VJ7jM">
+          <p:NodeReference LastCategoryFullName="Control" LastDependency="VL.CoreLib.vl">
+            <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
+            <Choice Kind="ProcessAppFlag" Name="Comment" />
+          </p:NodeReference>
+          <Pin Id="Rw8W6uANsujMEDa9gPaYag" Name="Region" Kind="InputPin" />
+          <Patch Id="OxTjhBKj6yUOiRf7ypfyY2" ManuallySortedPins="true">
+            <Patch Id="DFRHuCHT8DAMwM3NyqCdq1" Name="Create" ManuallySortedPins="true" />
+            <Patch Id="TkUEVkslxdqNRhoDI9xN4I" Name="Update" ManuallySortedPins="true" />
+            <Patch Id="EdrLsAM1KSuLbLjSJcxvhN" Name="Dispose" ManuallySortedPins="true" />
+            <!--
+
+    ************************ ServiceTemplate ************************
+
+-->
+            <Node Name="ServiceTemplate" Bounds="429,132" Id="Og6Lb4l5z8pPR1U65oMEGO">
+              <p:NodeReference>
+                <Choice Kind="ClassDefinition" />
+              </p:NodeReference>
+              <p:Interfaces>
+                <TypeReference LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
+                  <Choice Kind="InterfaceTypeFlag" Name="ICMiXRoleSource" />
+                </TypeReference>
+              </p:Interfaces>
+              <Patch Id="URY5vleFfm6OlYq1SIwiBN">
+                <Canvas Id="TwkFpXNlMjXMEDBkF9QfRW" CanvasType="Group">
+                  <ControlPoint Id="CPnE93O7dzQPcRws6X2Tyy" Bounds="82,240" />
+                  <ControlPoint Id="GNCB1HSI80FN75s8uzvnJS" Bounds="241,241" />
+                  <Node Bounds="239,180,59,19" Id="C7vgPPrC0YiPbgLhwlpjzb">
+                    <p:NodeReference LastCategoryFullName="CMiX.Engine" LastDependency="CMiX_ENGINE.Definitions.vl">
+                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                      <Choice Kind="ProcessAppFlag" Name="AsService" />
+                    </p:NodeReference>
+                    <Pin Id="JY1ECkdUZXaPSYy7ooL2mh" Name="Node Context" Kind="InputPin" IsHidden="true" />
+                    <Pin Id="RSMA5MxgG3PLM0gmjf6FAa" Name="Input 2" Kind="InputPin" />
+                    <Pin Id="Kp4pyn9S2ZIQDaq1hwWuWc" Name="Input" Kind="InputPin" />
+                    <Pin Id="MY4ZsEv9kPKPOb2EKiwRgC" Name="Output" Kind="OutputPin" />
+                  </Node>
+                  <Node Bounds="293,80,36,19" Id="VyISj1yoJ2TQSbQBVXYPNp">
+                    <p:NodeReference LastCategoryFullName="Primitive" LastDependency="Builtin">
+                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                      <CategoryReference Kind="Category" Name="Primitive" />
+                      <Choice Kind="ProcessNode" Name="This" />
+                    </p:NodeReference>
+                    <Pin Id="NKjvOmX9fYxP0Ln17G1Lkv" Name="Instance" Kind="OutputPin" />
+                  </Node>
+                  <Node Bounds="239,140,61,26" Id="BQFYpbwR95oLCUcuDQiduc">
+                    <p:NodeReference LastCategoryFullName="Primitive.TypeHelpers" LastDependency="VL.CoreLib.vl">
+                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                      <Choice Kind="OperationCallFlag" Name="TypeOf" />
+                    </p:NodeReference>
+                    <Pin Id="LDjVWYDIFBEQF9WecYeSrh" Name="Input" Kind="InputPin" />
+                    <Pin Id="VWJiKlF7SfsLgMy8aqLWe9" Name="Result" Kind="OutputPin" />
+                  </Node>
+                  <Pad Id="UAnPksACjgJM4zk0LFVCcy" Bounds="241,220" />
+                </Canvas>
+                <Patch Id="AuuBaXXjfqsLXebM93VLjX" Name="Create" ParticipatingElements="N3MqUGKQ4xtQHN5Z5Q2GlK" />
+                <Patch Id="NoVQAwgXPsYMVNPXpNPNzp" Name="Output">
+                  <Pin Id="QVS7eWkv9Z3N4d0KwowLV4" MergeId="41533" Name="Output" Kind="OutputPin" />
+                </Patch>
+                <Link Id="MrD0MM6736UOuYzJC8Ub5x" Ids="CPnE93O7dzQPcRws6X2Tyy,QVS7eWkv9Z3N4d0KwowLV4" IsHidden="true" />
+                <Patch Id="HOE6iqpNZSfLZgeXGpk5QC" Name="Update" ParticipatingElements="BQFYpbwR95oLCUcuDQiduc">
+                  <Pin Id="GaxzrIJixgEMGpDAGNVHi7" Name="Output" Kind="OutputPin" />
+                </Patch>
+                <ProcessDefinition Id="FIqJP2SdM7YNu9iEE93ccc">
+                  <Fragment Id="SXyHwUBmrbzPKjfFR9jHHT" Patch="AuuBaXXjfqsLXebM93VLjX" Enabled="true" />
+                  <Fragment Id="Jf4gyqMVOTkQBROtJtFEyb" Patch="HOE6iqpNZSfLZgeXGpk5QC" Enabled="true" />
+                  <Fragment Id="Kf55u4ApEasNH7sBZ7ErR1" Patch="NoVQAwgXPsYMVNPXpNPNzp" />
+                </ProcessDefinition>
+                <Link Id="CoSi9KgMtlALngWdftdkQe" Ids="GNCB1HSI80FN75s8uzvnJS,GaxzrIJixgEMGpDAGNVHi7" IsHidden="true" />
+                <Link Id="B29f8c3z0fXPIr7VbXSzyt" Ids="NKjvOmX9fYxP0Ln17G1Lkv,Kp4pyn9S2ZIQDaq1hwWuWc" />
+                <Link Id="N3MqUGKQ4xtQHN5Z5Q2GlK" Ids="MY4ZsEv9kPKPOb2EKiwRgC,UAnPksACjgJM4zk0LFVCcy" />
+                <Link Id="EBzyv8SRjYaN8SKhaMDSmn" Ids="NKjvOmX9fYxP0Ln17G1Lkv,LDjVWYDIFBEQF9WecYeSrh" />
+                <Link Id="Aa0AyXYWcvFOi8aKUNHBnE" Ids="VWJiKlF7SfsLgMy8aqLWe9,RSMA5MxgG3PLM0gmjf6FAa" />
+                <Link Id="TeVg2lFRg2INJfhBT3kxaw" Ids="UAnPksACjgJM4zk0LFVCcy,GNCB1HSI80FN75s8uzvnJS" />
+              </Patch>
+            </Node>
+            <Pad Id="MsiFWrYlNheMkxBUhRUJRb" Bounds="456,118,234,19" ShowValueBox="true" isIOBox="true" Value="Copy  this when creating a new service">
+              <p:TypeAnnotation>
+                <Choice Kind="TypeFlag" Name="String" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">9</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
           </Patch>
         </Node>
       </Canvas>
