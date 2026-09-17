@@ -3,11 +3,73 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     d:DesignWidth="400">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="FFT ->"/>
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="Bass ->"/>
-    </StackPanel>
-
+      
+      <BaseControls:DragValue
+        Caption="FFT"
+        Minimum="0.0"
+        Value="{Binding FFT.Value}" >
+          <BaseControls:DragValue.TrailingContent>
+            <TextBlock Text="->" 
+                       VerticalAlignment="Center" 
+                       Padding="4, 0, 0, 0" 
+                       Width="{DynamicResource ControlHeightSM}"/>
+          </BaseControls:DragValue.TrailingContent>
+        </BaseControls:DragValue>
+      
+      <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        
+        <BaseControls:DragValue
+          Caption="Bass"
+          Minimum="0.0"
+          Value="{Binding Bass.Value}">
+          <BaseControls:DragValue.TrailingContent>
+            <TextBlock Text="->" 
+                       VerticalAlignment="Center" 
+                       Padding="4, 0, 0, 0" 
+                       Width="{DynamicResource ControlHeightSM}"/>
+          </BaseControls:DragValue.TrailingContent>
+        </BaseControls:DragValue>
+        <BaseControls:DragValue
+          Caption="Lower Mid"
+          Minimum="0.0"
+          Value="{Binding LowerMid.Value}">
+          <BaseControls:DragValue.TrailingContent>
+            <TextBlock Text="->"
+                       VerticalAlignment="Center"
+                       Padding="4, 0, 0, 0"
+                       Width="{DynamicResource ControlHeightSM}"/>
+          </BaseControls:DragValue.TrailingContent>
+        </BaseControls:DragValue>
+        <BaseControls:DragValue
+          Caption="Higher Mid"
+          Minimum="0.0"
+          Value="{Binding HigherMid.Value}">
+          <BaseControls:DragValue.TrailingContent>
+            <TextBlock Text="->"
+                       VerticalAlignment="Center"
+                       Padding="4, 0, 0, 0"
+                       Width="{DynamicResource ControlHeightSM}"/>
+          </BaseControls:DragValue.TrailingContent>
+        </BaseControls:DragValue>
+        <BaseControls:DragValue
+          Caption="High"
+          Minimum="0.0"
+          Value="{Binding High.Value}">
+          <BaseControls:DragValue.TrailingContent>
+            <TextBlock Text="->"
+                       VerticalAlignment="Center"
+                       Padding="4, 0, 0, 0"
+                       Width="{DynamicResource ControlHeightSM}"/>
+          </BaseControls:DragValue.TrailingContent>
+        </BaseControls:DragValue>
+        
+    </Panels:PositionedStackPanel>
+      
+  </StackPanel>
+  
 </UserControl>
