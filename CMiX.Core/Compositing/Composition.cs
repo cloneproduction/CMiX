@@ -33,6 +33,12 @@ namespace CMiX.Core.Compositing
             TextureModifierManager = textureModifierManager;
             Project = project;
 
+            // The composition is the root of the ownership tree. It sends its own id down to
+            // every item under these managers, now and later.
+            new CompositionIDAssigner(ModifierManager, ID);
+            new CompositionIDAssigner(TextureModifierManager, ID);
+            new CompositionIDAssigner(LayerManager, ID);
+
             // A brand-new composition otherwise starts with no output selected (Guid.Empty),
             // rendering nowhere until the user opens Settings and picks one. Default to the
             // first of the project's fixed output slots instead - see FromModel for why a

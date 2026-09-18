@@ -11,7 +11,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable, IDisposable
+    public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable, IHasCompositionID, IDisposable
     {
         public Layer(PrefabService prefabService,
                      LayerSettings layerSettings,
@@ -57,6 +57,20 @@ namespace CMiX.Core.Compositing
         public PrefabManager TextureModifierManager { get; set; }
         public PrefabManager ModifierManager { get; set; }
 
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                new CompositionIDAssigner(ModelEntityManager, value);
+                new CompositionIDAssigner(CameraManager, value);
+                new CompositionIDAssigner(LightManager, value);
+                new CompositionIDAssigner(TextureModifierManager, value);
+                new CompositionIDAssigner(ModifierManager, value);
+            }
+        }
 
         [ObservableProperty]
         private int selectedTabItemIndex;
