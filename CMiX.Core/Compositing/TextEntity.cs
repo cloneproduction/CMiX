@@ -14,7 +14,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class TextEntity : ObservableObject, IControl, IPrefab, IModifiable, IDisposable
+    public partial class TextEntity : ObservableObject, IControl, IPrefab, IModifiable, IHasCompositionID, IDisposable
     {
         public TextEntity(PrefabService prefabService,
                           PrefabManager prefabManager,
@@ -56,6 +56,17 @@ namespace CMiX.Core.Compositing
         public GenericValue<float> Width { get; set; }
         public GenericValue<HorizontalAlignment> HorizontalAlignment { get; set; }
         public GenericValue<Anchor> Anchor { get; set; }
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                new CompositionIDAssigner(ModifierManager, value);
+            }
+        }
 
         [ObservableProperty]
         private bool transformSRTIsExpanded = true;

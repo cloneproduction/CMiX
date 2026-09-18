@@ -15,7 +15,7 @@ namespace CMiX.Core.Texturing.Sources
     // source still owns its own Model type, its own Resolution/AssetSelector (from
     // ITextureSource/IAssetTextureSource, not universal enough to belong here), and its own
     // extra fields - PopulateBaseModel/LoadBaseModel only take care of the shared three.
-    public abstract partial class TextureSourceBase : ObservableObject, ITextureModifiable, IDisposable
+    public abstract partial class TextureSourceBase : ObservableObject, ITextureModifiable, IHasCompositionID, IDisposable
     {
         protected TextureSourceBase(PrefabService prefabService, PrefabManager textureModifierManager)
         {
@@ -26,6 +26,17 @@ namespace CMiX.Core.Texturing.Sources
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public PrefabManager TextureModifierManager { get; set; }
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                new CompositionIDAssigner(TextureModifierManager, value);
+            }
+        }
 
         [ObservableProperty]
         private bool isExpanded = true;

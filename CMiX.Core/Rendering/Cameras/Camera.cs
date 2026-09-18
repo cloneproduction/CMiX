@@ -9,7 +9,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Rendering.Cameras
 {
-    public partial class Camera : ObservableObject, IPrefab, IModifiable, IDisposable
+    public partial class Camera : ObservableObject, IPrefab, IModifiable, IHasCompositionID, IDisposable
     {
         public Camera(PrefabService prefabService, 
                       CameraSettings settings,
@@ -25,6 +25,17 @@ namespace CMiX.Core.Rendering.Cameras
         public PrefabService PrefabService { get; set; }
         public CameraSettings Settings { get; set; }
         public PrefabManager ModifierManager { get; set; }
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                new CompositionIDAssigner(ModifierManager, value);
+            }
+        }
 
         [ObservableProperty]
         private bool modifierManagerIsExpanded = true;

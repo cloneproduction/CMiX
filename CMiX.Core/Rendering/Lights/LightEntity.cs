@@ -11,7 +11,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Rendering.Lights
 {
-    public partial class LightEntity : ObservableObject, IPrefab, IModifiable, IDisposable
+    public partial class LightEntity : ObservableObject, IPrefab, IModifiable, IHasCompositionID, IDisposable
     {
         public LightEntity(PrefabService prefabService,
                            LightSettings settings,
@@ -30,6 +30,17 @@ namespace CMiX.Core.Rendering.Lights
         public LightSettings Settings { get; set; }
         public PrefabManager ModifierManager { get; set; }
         public TransformSRTModifier TransformSRT { get; set; }
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                new CompositionIDAssigner(ModifierManager, value);
+            }
+        }
 
         [ObservableProperty]
         private bool transformSRTIsExpanded = false;
