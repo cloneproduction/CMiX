@@ -3140,7 +3140,7 @@
                     <Node Bounds="601,70,87,26" Id="FAneuTQn3jFOWBPjUx3LG4">
                       <p:NodeReference LastCategoryFullName="CMiX.Engine.IO.ICMiXBeatSource" LastDependency="CMiX_ENGINE.Definitions.vl">
                         <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                        <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXBeatSource" />
+                        <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXServiceBeatSource" />
                         <Choice Kind="OperationCallFlag" Name="MasterBeatData" />
                       </p:NodeReference>
                       <Pin Id="GuvTzmnhI2xNaIYDhoUxSj" Name="Input" Kind="StateInputPin" />
@@ -3270,7 +3270,7 @@
                   <Patch Id="S6nVGToJAWYP0aie7AvPuO" Name="SetBeatSource">
                     <Pin Id="Csz6uUwkZEFO6Ng2cYRC8f" Name="BeatSource" Kind="InputPin">
                       <p:TypeAnnotation LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
-                        <Choice Kind="TypeFlag" Name="ICMiXBeatSource" />
+                        <Choice Kind="TypeFlag" Name="ICMiXServiceBeatSource" />
                       </p:TypeAnnotation>
                     </Pin>
                   </Patch>
@@ -3455,13 +3455,13 @@
             <Link Id="SPFXWoeiWp1O3U4Bkz3Z8y" Ids="L7gzmiBi6GpPUdgTGmlUpV,Ehop2lZzomZQB91mSzIGkj" />
             <Slot Id="UbyXLdDnpdFOPLPGg82Kar" Name="RoleSource">
               <p:TypeAnnotation p:Type="TypeReference">
-                <Choice Kind="TypeFlag" Name="ICMiXRoleSource" />
+                <Choice Kind="TypeFlag" Name="ICMiXServiceRoleSource" />
               </p:TypeAnnotation>
             </Slot>
             <Link Id="PZuD05TnJgRN4PEJCfwCrf" Ids="ItuHvckenXFMB81lTmsKly,RomTgZ63AlKOXdPKkxgjcT" />
             <Slot Id="MKQ633B5FMkMsEJ8tVzTEt" Name="BeatSource">
               <p:TypeAnnotation p:Type="TypeReference" LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
-                <Choice Kind="TypeFlag" Name="ICMiXBeatSource" />
+                <Choice Kind="TypeFlag" Name="ICMiXServiceBeatSource" />
               </p:TypeAnnotation>
             </Slot>
             <Link Id="Rz0nbBI8KmtP1mnCtaNyj2" Ids="QUjvFc7Peu0Lq8C1sCZGUp,UhnFV9HLniyL3AKKg7BZ2e" />
@@ -3924,7 +3924,7 @@
             </ProcessDefinition>
             <Slot Id="A6yTtqaVSW1Pnly82Wl9Z7" Name="RoleSource">
               <p:TypeAnnotation p:Type="TypeReference">
-                <Choice Kind="TypeFlag" Name="ICMiXRoleSource" />
+                <Choice Kind="TypeFlag" Name="ICMiXServiceRoleSource" />
               </p:TypeAnnotation>
             </Slot>
             <Link Id="BlCcsBoVMR6LXMCtfWLVJh" Ids="TrykqCBikCDOkX4EpJ8wJT,BQy6roj3cr6McZnZl0w6b4" />
@@ -4679,7 +4679,7 @@
               <Node Bounds="362,220,76,26" Id="TnQibznDxHcQSEOrMcuX2Q">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.IO.ICMiXRoleSource" LastDependency="CMiX_ENGINE.Definitions.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXRoleSource" />
+                  <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXServiceRoleSource" />
                   <Choice Kind="OperationCallFlag" Name="IsMaster" />
                 </p:NodeReference>
                 <Pin Id="PmIhoUpG89wOm9pRDOSe7o" Name="Input" Kind="StateInputPin" />
@@ -4847,7 +4847,7 @@
                   <Node Bounds="113,672,81,26" Id="GTfvrW33kKWNIG3qJnwQjj">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.IO.ICMiXAudioData" LastDependency="CMiX_ENGINE.Definitions.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXAudioSource" />
+                      <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXServiceAudioSource" />
                       <Choice Kind="OperationCallFlag" Name="AudioData" />
                     </p:NodeReference>
                     <Pin Id="Bnz1d03XZ5XOMPV9jXFo6d" Name="Input" Kind="StateInputPin" />
@@ -5015,7 +5015,7 @@
                   <Node Bounds="722,609,81,26" Id="AFpSJCSSgE5PWsnVFNbMXN">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.IO.ICMiXAudioSource" LastDependency="CMiX_ENGINE.Definitions.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXAudioSource" />
+                      <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXServiceAudioSource" />
                       <Choice Kind="OperationCallFlag" Name="AudioData" />
                     </p:NodeReference>
                     <Pin Id="EmkjA0rz9qVLtkgrGmM3lz" Name="Input" Kind="StateInputPin" />
@@ -5149,7 +5149,7 @@
               <Node Bounds="289,300,81,26" Id="DuwYP8R8qyZMlZ0NihUCiK">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.IO.ICMiXAudioData" LastDependency="CMiX_ENGINE.Definitions.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXAudioSource" />
+                  <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXServiceAudioSource" />
                   <Choice Kind="OperationCallFlag" Name="AudioData" />
                 </p:NodeReference>
                 <Pin Id="NGi7Gix4aLkMRDV10xkTFT" Name="Input" Kind="StateInputPin" />
@@ -5189,7 +5189,7 @@
                   <Node Bounds="1183,609,81,26" Id="Rz1bsfQ5K65MW8gJpbopGq">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.IO.ICMiXAudioSource" LastDependency="CMiX_ENGINE.Definitions.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXAudioSource" />
+                      <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXServiceAudioSource" />
                       <Choice Kind="OperationCallFlag" Name="AudioData" />
                     </p:NodeReference>
                     <Pin Id="NtApCkiywKFPGdRQ7ckpji" Name="Input" Kind="StateInputPin" />
@@ -5301,7 +5301,7 @@
                   <Node Bounds="2144,609,81,26" Id="GbmCqZUSDp2LCHi6Fc6D0z">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.IO.ICMiXAudioSource" LastDependency="CMiX_ENGINE.Definitions.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXAudioSource" />
+                      <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXServiceAudioSource" />
                       <Choice Kind="OperationCallFlag" Name="AudioData" />
                     </p:NodeReference>
                     <Pin Id="QihrNdniSKZPqWZ81taseP" Name="Input" Kind="StateInputPin" />
@@ -5416,7 +5416,7 @@
                   <Node Bounds="1659,609,81,26" Id="MlW9lH8KMPfOs327d28XIj">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.IO.ICMiXAudioSource" LastDependency="CMiX_ENGINE.Definitions.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXAudioSource" />
+                      <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXServiceAudioSource" />
                       <Choice Kind="OperationCallFlag" Name="AudioData" />
                     </p:NodeReference>
                     <Pin Id="AoCto3mORSUOGt2lo4TT4h" Name="Input" Kind="StateInputPin" />
@@ -5556,14 +5556,14 @@
             <Link Id="GpH7h1YdkY0L8HAWpNIOXV" Ids="G7y8j0Hl0gyN4VkY9Gm7VS,KgtXHoXEgJQMOojifx4wm1" />
             <Slot Id="F28FgVfeSEqMuVU0vpLNkC" Name="RoleSource">
               <p:TypeAnnotation p:Type="TypeReference">
-                <Choice Kind="TypeFlag" Name="ICMiXRoleSource" />
+                <Choice Kind="TypeFlag" Name="ICMiXServiceRoleSource" />
               </p:TypeAnnotation>
             </Slot>
             <Link Id="Kibm9kATULqNSOk9CCqV0A" Ids="QiJayGv8KulLhOGy5Z5wp4,T1kBTJUdTSgP3SydE3s9f4" />
             <Link Id="B60ZVRDLXarOe1QWke1fFu" Ids="Dg6q1zG8ZSrL9ZfJhyFzKC,HO2r7EZUR26P18l8v2TEzo" />
             <Slot Id="KDJOTACZh8fO7zqm7yQno4" Name="AudioData">
               <p:TypeAnnotation p:Type="TypeReference">
-                <Choice Kind="TypeFlag" Name="ICMiXAudioSource" />
+                <Choice Kind="TypeFlag" Name="ICMiXServiceAudioSource" />
               </p:TypeAnnotation>
             </Slot>
             <Link Id="DQ3QVgOrNeAQBYe9HJXrl9" Ids="DGprY5yWipIMy6lg7BbssU,BILxPmfiFHlNtybxjHpVWR" />
@@ -33848,7 +33848,7 @@
               <Node Bounds="108,290,87,26" Id="JtcEDxo3i3DNL0RPxNqoTj">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.IO.ICMiXVideoInSource" LastDependency="CMiX_ENGINE.Definitions.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXVideoInSource" />
+                  <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXServiceVideoInSource" />
                   <Choice Kind="OperationCallFlag" Name="Texture" />
                 </p:NodeReference>
                 <Pin Id="QqMBiM55V4YPOqhNi9HPl5" Name="Input" Kind="StateInputPin" />
@@ -33905,7 +33905,7 @@
             <Link Id="TyEsIkorehxN5ppvriPmu3" Ids="JhDCsBGCfGtOjNifYJn2Ai,VMHrWQWiUbaMdjUsOK0ndu" />
             <Slot Id="DXILH1FOUakOWexMX4DBsx" Name="VideoInSource">
               <p:TypeAnnotation p:Type="TypeReference" LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
-                <Choice Kind="TypeFlag" Name="ICMiXVideoInSource" />
+                <Choice Kind="TypeFlag" Name="ICMiXServiceVideoInSource" />
               </p:TypeAnnotation>
             </Slot>
             <Link Id="TNew2JyG0hsMrUPyfphL8s" Ids="UXLTUpQmJ1YNi7rMujfI15,QqMBiM55V4YPOqhNi9HPl5" />
@@ -43504,7 +43504,7 @@
           </p:NodeReference>
           <p:Interfaces>
             <TypeReference LastCategoryFullName="CMiX.Engine" LastDependency="CMiX_ENGINE.Definitions.vl">
-              <Choice Kind="InterfaceTypeFlag" Name="ICMiXTrackingSource" />
+              <Choice Kind="InterfaceTypeFlag" Name="ICMiXServiceTrackingSource" />
             </TypeReference>
           </p:Interfaces>
           <Patch Id="FyhDbX9ZmJcNbT3UcZSEW1">
@@ -43561,10 +43561,10 @@
         </Node>
         <!--
 
-    ************************ ICMiXTrackingSource ************************
+    ************************ ICMiXServiceTrackingSource ************************
 
 -->
-        <Node Name="ICMiXTrackingSource" Bounds="72,479" Id="HUZPkOb8qIdOdFgzYpWXa1">
+        <Node Name="ICMiXServiceTrackingSource" Bounds="72,479" Id="HUZPkOb8qIdOdFgzYpWXa1">
           <p:NodeReference>
             <Choice Kind="InterfaceDefinition" />
           </p:NodeReference>
@@ -43596,7 +43596,7 @@
           </p:NodeReference>
           <p:Interfaces>
             <TypeReference LastCategoryFullName="CMiX.Engine" LastDependency="CMiX_ENGINE.Definitions.vl">
-              <Choice Kind="InterfaceTypeFlag" Name="ICMiXTrackingSource" />
+              <Choice Kind="InterfaceTypeFlag" Name="ICMiXServiceTrackingSource" />
             </TypeReference>
             <TypeReference LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
               <Choice Kind="MutableInterfaceType" Name="IDisposable" />
@@ -43922,10 +43922,10 @@
         </Node>
         <!--
 
-    ************************ ICMiXAudioSource ************************
+    ************************ ICMiXServiceAudioSource ************************
 
 -->
-        <Node Name="ICMiXAudioSource" Bounds="72,649" Id="Tm7aQYsIw99NPsO7XsF9Fj">
+        <Node Name="ICMiXServiceAudioSource" Bounds="72,649" Id="Tm7aQYsIw99NPsO7XsF9Fj">
           <p:NodeReference>
             <Choice Kind="InterfaceDefinition" />
           </p:NodeReference>
@@ -43948,10 +43948,10 @@
         </Node>
         <!--
 
-    ************************ ICMiXRoleSource ************************
+    ************************ ICMiXServiceRoleSource ************************
 
 -->
-        <Node Name="ICMiXRoleSource" Bounds="68,350" Id="GPuwdPBm5hoOnO4bPg7L1d">
+        <Node Name="ICMiXServiceRoleSource" Bounds="68,350" Id="GPuwdPBm5hoOnO4bPg7L1d">
           <p:NodeReference>
             <Choice Kind="InterfaceDefinition" />
           </p:NodeReference>
@@ -43983,7 +43983,7 @@
           </p:NodeReference>
           <p:Interfaces>
             <TypeReference LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
-              <Choice Kind="InterfaceTypeFlag" Name="ICMiXRoleSource" />
+              <Choice Kind="InterfaceTypeFlag" Name="ICMiXServiceRoleSource" />
             </TypeReference>
           </p:Interfaces>
           <Patch Id="NlTRH73JnbWNRrlvbeAnH6">
@@ -44061,7 +44061,7 @@
           </p:NodeReference>
           <p:Interfaces>
             <TypeReference LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
-              <Choice Kind="InterfaceTypeFlag" Name="ICMiXAudioSource" />
+              <Choice Kind="InterfaceTypeFlag" Name="ICMiXServiceAudioSource" />
             </TypeReference>
             <TypeReference LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
               <Choice Kind="MutableInterfaceType" Name="IDisposable" />
@@ -44241,10 +44241,10 @@
         </Node>
         <!--
 
-    ************************ ICMiXBeatSource ************************
+    ************************ ICMiXServiceBeatSource ************************
 
 -->
-        <Node Name="ICMiXBeatSource" Bounds="72,820" Id="ARwFDYZd4OeQR4p9QfxX4G">
+        <Node Name="ICMiXServiceBeatSource" Bounds="72,820" Id="ARwFDYZd4OeQR4p9QfxX4G">
           <p:NodeReference>
             <Choice Kind="InterfaceDefinition" />
           </p:NodeReference>
@@ -44436,7 +44436,7 @@
           </p:NodeReference>
           <p:Interfaces>
             <TypeReference LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
-              <Choice Kind="InterfaceTypeFlag" Name="ICMiXBeatSource" />
+              <Choice Kind="InterfaceTypeFlag" Name="ICMiXServiceBeatSource" />
             </TypeReference>
           </p:Interfaces>
           <Patch Id="TDu2vfDD6mwQVxhN1NrnL6">
@@ -44812,10 +44812,10 @@
         </Node>
         <!--
 
-    ************************ ICMiXVideoInSource ************************
+    ************************ ICMiXServiceVideoInSource ************************
 
 -->
-        <Node Name="ICMiXVideoInSource" Bounds="77,990" Id="VlOcQsNKdoiMzfquS6ah29">
+        <Node Name="ICMiXServiceVideoInSource" Bounds="77,990" Id="VlOcQsNKdoiMzfquS6ah29">
           <p:NodeReference>
             <Choice Kind="InterfaceDefinition" />
           </p:NodeReference>
@@ -44847,7 +44847,7 @@
           </p:NodeReference>
           <p:Interfaces>
             <TypeReference LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
-              <Choice Kind="InterfaceTypeFlag" Name="ICMiXVideoInSource" />
+              <Choice Kind="InterfaceTypeFlag" Name="ICMiXServiceVideoInSource" />
             </TypeReference>
           </p:Interfaces>
           <Patch Id="Lw6xNN5aQyOMRhvnazKxpQ">
@@ -44910,7 +44910,7 @@
             <Link Id="PiLK7VwrpxENovwxA2H7yx" Ids="MxolUry7KoFMXvD5C3tD3R,IEG2R7pw5KEPqGLrHongsg" />
           </Patch>
         </Node>
-        <Node Bounds="400,82,309,110" Id="NAVozmNi2n9MZdeo5VJ7jM">
+        <Node Bounds="729,50,335,122" Id="NAVozmNi2n9MZdeo5VJ7jM">
           <p:NodeReference LastCategoryFullName="Control" LastDependency="VL.CoreLib.vl">
             <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
             <Choice Kind="ProcessAppFlag" Name="Comment" />
@@ -44925,7 +44925,7 @@
     ************************ ServiceTemplate ************************
 
 -->
-            <Node Name="ServiceTemplate" Bounds="429,132" Id="Og6Lb4l5z8pPR1U65oMEGO">
+            <Node Name="ServiceTemplate" Bounds="763,100" Id="Og6Lb4l5z8pPR1U65oMEGO">
               <p:NodeReference>
                 <Choice Kind="ClassDefinition" />
               </p:NodeReference>
@@ -44987,7 +44987,7 @@
                 <Link Id="TeVg2lFRg2INJfhBT3kxaw" Ids="UAnPksACjgJM4zk0LFVCcy,GNCB1HSI80FN75s8uzvnJS" />
               </Patch>
             </Node>
-            <Pad Id="MsiFWrYlNheMkxBUhRUJRb" Bounds="456,118,234,19" ShowValueBox="true" isIOBox="true" Value="Copy  this when creating a new service">
+            <Pad Id="MsiFWrYlNheMkxBUhRUJRb" Bounds="734,139,311,20" ShowValueBox="true" isIOBox="true" Value="Copy  this when creating a new service">
               <p:TypeAnnotation>
                 <Choice Kind="TypeFlag" Name="String" />
               </p:TypeAnnotation>
@@ -46798,7 +46798,7 @@
             <Node Bounds="274,120,76,26" Id="Bp5jdAvTNlEMaUh6LyzOFu">
               <p:NodeReference LastCategoryFullName="CMiX.Engine.IO.ICMiXRoleSource" LastDependency="CMiX_ENGINE.Definitions.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXRoleSource" />
+                <CategoryReference Kind="InterfaceTypeFlag" Name="ICMiXServiceRoleSource" />
                 <Choice Kind="OperationCallFlag" Name="IsMaster" />
               </p:NodeReference>
               <Pin Id="MuAi3LvkPULLWGnLeojOK3" Name="Input" Kind="StateInputPin" />
