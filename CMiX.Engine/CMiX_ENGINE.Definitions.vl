@@ -45580,6 +45580,7 @@
             </Canvas>
             <Patch Id="UJgv3eX23uCLEwBtBwbf4A" Name="Create" ParticipatingElements="B3AP0NFow4OOjRn97pMfc1" />
             <Patch Id="IhH2hBsA18INXN0V6LFOyp" Name="TilingInfo">
+              <Pin Id="IYzcAJ6hB40OBkM3rTBhej" Name="TilingInfo" Kind="OutputPin" />
               <Pin Id="I4RPgZlEOShMWWnBHgsKsc" Name="Camera TilingInfo" Kind="OutputPin" />
               <Pin Id="G75Pux8v5BBQOGFgnuN000" Name="TFX TilingInfo" Kind="OutputPin" />
               <Pin Id="OoQdsd3UWJMPAdtjYYj5nA" Name="Rendering TilingInfo" Kind="OutputPin" />
@@ -45630,56 +45631,18 @@
           <Patch Id="FFHCjIxaSYuMbt3ME4OXuD">
             <Canvas Id="I3ioaypkNeeONXltb1tMzk" CanvasType="Group">
               <ControlPoint Id="TEkUlWdJ1irQEVXYORT5xf" Bounds="86,241" />
-              <ControlPoint Id="THCW7fg7Tk9MdupzbmhwjU" Bounds="259,241" />
-              <ControlPoint Id="QGVUS33BHAePAIKPzOrqai" Bounds="419,241" />
             </Canvas>
             <ProcessDefinition Id="Qk52RUEE239PWiKbfypSk0" IsHidden="true">
               <Fragment Id="JPXqgHIz2BpOj1xSMP7YdS" Patch="LsniGfmv19fQDIehJ2w1Rr" />
             </ProcessDefinition>
             <Patch Id="LsniGfmv19fQDIehJ2w1Rr" Name="TilingInfo">
-              <Pin Id="P58lM4ZWP0OLAf1YH0iXmJ" Name="Camera TilingInfo" Kind="OutputPin">
-                <p:TypeAnnotation LastCategoryFullName="Collections" LastDependency="VL.CoreLib.vl">
-                  <Choice Kind="TypeFlag" Name="Dictionary" />
-                  <p:TypeArguments>
-                    <TypeReference>
-                      <Choice Kind="TypeFlag" Name="TextureCoordinate" />
-                    </TypeReference>
-                    <TypeReference>
-                      <Choice Kind="TypeFlag" Name="CameraTilingInfo" />
-                    </TypeReference>
-                  </p:TypeArguments>
-                </p:TypeAnnotation>
-              </Pin>
-              <Pin Id="IUmVHZ1RwGtN4dCb6xX2HV" Name="TFX TilingInfo" Kind="OutputPin">
-                <p:TypeAnnotation LastCategoryFullName="Collections" LastDependency="VL.CoreLib.vl">
-                  <Choice Kind="TypeFlag" Name="Dictionary" />
-                  <p:TypeArguments>
-                    <TypeReference>
-                      <Choice Kind="TypeFlag" Name="TextureCoordinate" />
-                    </TypeReference>
-                    <TypeReference>
-                      <Choice Kind="TypeFlag" Name="TFXTilingInfo" />
-                    </TypeReference>
-                  </p:TypeArguments>
-                </p:TypeAnnotation>
-              </Pin>
-              <Pin Id="IvcT5dmPgf5N64BNZgryja" Name="Rendering TilingInfo" Kind="OutputPin">
-                <p:TypeAnnotation LastCategoryFullName="Collections" LastDependency="VL.CoreLib.vl">
-                  <Choice Kind="TypeFlag" Name="Dictionary" />
-                  <p:TypeArguments>
-                    <TypeReference>
-                      <Choice Kind="TypeFlag" Name="TextureCoordinate" />
-                    </TypeReference>
-                    <TypeReference>
-                      <Choice Kind="TypeFlag" Name="RenderingTilingInfo" />
-                    </TypeReference>
-                  </p:TypeArguments>
+              <Pin Id="P58lM4ZWP0OLAf1YH0iXmJ" Name="TilingInfo" Kind="OutputPin">
+                <p:TypeAnnotation LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
+                  <Choice Kind="TypeFlag" Name="TilingInfo" />
                 </p:TypeAnnotation>
               </Pin>
             </Patch>
             <Link Id="NZQz6SxrsRBLOjAcXRUflx" Ids="TEkUlWdJ1irQEVXYORT5xf,P58lM4ZWP0OLAf1YH0iXmJ" IsHidden="true" />
-            <Link Id="OyTTRAdsZwRP860QQ7aYTa" Ids="THCW7fg7Tk9MdupzbmhwjU,IUmVHZ1RwGtN4dCb6xX2HV" IsHidden="true" />
-            <Link Id="F8j5J3wsn2fQOXtZqs5win" Ids="QGVUS33BHAePAIKPzOrqai,IvcT5dmPgf5N64BNZgryja" IsHidden="true" />
           </Patch>
         </Node>
         <!--
