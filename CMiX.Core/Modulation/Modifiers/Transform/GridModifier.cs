@@ -16,10 +16,11 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public GridModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
+                            ControlRepository controlRepository,
                             ModulatableValue<int> countX, ModulatableValue<int> countY, ModulatableValue<int> countZ,
                             ModulatableValue<float> widthX, ModulatableValue<float> widthY, ModulatableValue<float> widthZ,
                             ModulatableValue<float> phaseX, ModulatableValue<float> phaseY, ModulatableValue<float> phaseZ)
-            : base(prefabService, modulatorManager, new IModulatorBindable[] { countX, countY, countZ })
+            : base(prefabService, modulatorManager, controlRepository, new IModulatorBindable[] { countX, countY, countZ })
         {
             Count = new ModulatableInteger3(countX, countY, countZ);
 

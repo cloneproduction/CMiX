@@ -20,8 +20,9 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public FlipModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
+                            ControlRepository controlRepository,
                             DirectionXYZ directionXYZ)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, controlRepository)
         {
             DirectionXYZ = directionXYZ;
         }

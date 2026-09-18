@@ -16,13 +16,14 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public TexCoordModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,
+                                ControlRepository controlRepository,
                                 ModifierModeSelector modifierModeSelector,
                                 SamplerState samplerState,
                                 ModulatableValue<float> locationX, ModulatableValue<float> locationY,
                                 ModulatableValue<float> scaleX, ModulatableValue<float> scaleY,
                                 ModulatableValue<float> rotation,
                                 ModulatableValue<float> uniform)
-            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
+            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             SamplerState = samplerState;

@@ -17,11 +17,12 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public RotationModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,
+                                ControlRepository controlRepository,
                                 ModifierModeSelector modifierModeSelector,
                                 ModulatableValue<float> bindableX,
                                 ModulatableValue<float> bindableY,
                                 ModulatableValue<float> bindableZ)
-            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
+            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             bindableX.Label = "X";

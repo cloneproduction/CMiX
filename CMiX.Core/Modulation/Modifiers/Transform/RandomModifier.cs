@@ -16,11 +16,12 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public RandomModifier(PrefabService prefabService,
                               PrefabManager modulatorManager,
+                              ControlRepository controlRepository,
                               ModifierModeSelector modifierModeSelector,
                               ModulatableValue<float> seed,
                               ModulatableValue<float> center,
                               ModulatableValue<float> width)
-            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
+            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             seed.Label = "Seed";

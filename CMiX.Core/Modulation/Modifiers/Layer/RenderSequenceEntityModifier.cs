@@ -15,9 +15,10 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public RenderSequenceEntityModifier(PrefabService prefabService,
                                             PrefabManager modulatorManager,
+                                            ControlRepository controlRepository,
                                             GenericValue<EntityType> entityType,
                                             ModulatableValue<float> control)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, controlRepository)
         {
             EntityType = entityType;
             control.Label = "Control";

@@ -14,10 +14,11 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public LinearModifier(PrefabService prefabService,
                                  PrefabManager modulatorManager,
+                                 ControlRepository controlRepository,
                                  ModifierModeSelector modifierModeSelector,
                                  ModulatableValue<float> width,
                                  ModulatableValue<float> phase)
-            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
+            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             width.Label = "Width";

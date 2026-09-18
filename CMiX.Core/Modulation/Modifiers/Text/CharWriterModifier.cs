@@ -17,8 +17,8 @@ namespace CMiX.Core.Modulation.Modifiers
     [ModifierPanel(typeof(TextEntity))]
     public partial class CharWriterModifier : Modifier
     {
-        public CharWriterModifier(PrefabService prefabService, PrefabManager modulatorManager)
-            : base(prefabService, modulatorManager)
+        public CharWriterModifier(PrefabService prefabService, PrefabManager modulatorManager, ControlRepository controlRepository)
+            : base(prefabService, modulatorManager, controlRepository)
         {
         }
 

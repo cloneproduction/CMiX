@@ -17,12 +17,13 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public CircularSpreadModifier(PrefabService prefabService,
                                       PrefabManager modulatorManager,
+                                      ControlRepository controlRepository,
                                       ModifierModeSelector modifierModeSelector,
                                       ModulatableValue<float> widthX,
                                       ModulatableValue<float> widthY,
                                       ModulatableValue<float> phase,
                                       ModulatableValue<float> factor)
-            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
+            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             widthX.Label = "X";

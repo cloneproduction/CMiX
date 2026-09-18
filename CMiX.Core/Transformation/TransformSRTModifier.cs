@@ -16,6 +16,7 @@ namespace CMiX.Core.Transformation
     {
         public TransformSRTModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
+                            ControlRepository controlRepository,
                             ModifierModeSelector modifierModeSelector,
                             ModulatableValue<float> translateX,
                             ModulatableValue<float> translateY,
@@ -29,7 +30,7 @@ namespace CMiX.Core.Transformation
                             ModulatableValue<float> rotationZ,
                             DirectionXYZ directionXYZ,
                             GenericValue<ModifierMode> mode)
-            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
+            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             DirectionXYZ = directionXYZ;

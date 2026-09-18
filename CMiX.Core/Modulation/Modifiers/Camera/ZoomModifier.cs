@@ -12,9 +12,10 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public ZoomModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
+                            ControlRepository controlRepository,
                             ModulatableValue<float> bindableDistance,
                             ModulatableValue<float> bindableFOV)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, controlRepository)
         {
             bindableDistance.Label = "Distance";
             bindableFOV.Label = "FOV";

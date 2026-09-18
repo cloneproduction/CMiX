@@ -15,12 +15,13 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public ScaleModifier(PrefabService prefabService,
                              PrefabManager modulatorManager,
+                             ControlRepository controlRepository,
                              ModifierModeSelector modifierModeSelector,
                              ModulatableValue<float> bindableX,
                              ModulatableValue<float> bindableY,
                              ModulatableValue<float> bindableZ,
                              ModulatableValue<float> bindableUniform)
-            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
+            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             Bindables = new List<ModulatableValue<float>> { bindableX, bindableY, bindableZ, bindableUniform };

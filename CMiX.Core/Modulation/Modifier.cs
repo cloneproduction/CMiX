@@ -10,12 +10,13 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Modulation
 {
-    public abstract partial class Modifier : ObservableObject, IPrefab, IModifier, IDisposable
+    public abstract partial class Modifier : ObservableObject, IPrefab, IModifier, IHasCompositionID, IDisposable
     {
-        protected Modifier(PrefabService prefabService, PrefabManager modulatorManager, IEnumerable<IModulatorBindable> nestedBindables = null)
+        protected Modifier(PrefabService prefabService, PrefabManager modulatorManager, ControlRepository controlRepository, IEnumerable<IModulatorBindable> nestedBindables = null)
         {
             PrefabService = prefabService;
             ModulatorManager = modulatorManager;
+            ControlRepository = controlRepository;
             _nestedBindables = nestedBindables ?? Enumerable.Empty<IModulatorBindable>();
             ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
         }
@@ -53,8 +54,10 @@ namespace CMiX.Core.Modulation
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid CompositionID { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModulatorManager { get; set; }
+        public ControlRepository ControlRepository { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

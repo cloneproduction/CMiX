@@ -22,8 +22,9 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public SelectTextureModifier(PrefabService prefabService,
                                      PrefabManager modulatorManager,
+                                     ControlRepository controlRepository,
                                      GenericValue<TextureFrom> textureFrom)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, controlRepository)
         {
             TextureFrom = textureFrom;
         }

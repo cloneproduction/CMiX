@@ -17,13 +17,14 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public HSVModifier(PrefabService prefabService,
                            PrefabManager modulatorManager,
+                           ControlRepository controlRepository,
                            ModifierModeSelector modifierModeSelector,
                            GenericValue<ColorMode> colorMode,
                            ModulatableValue<float> hue,
                            ModulatableValue<float> saturation,
                            ModulatableValue<float> value,
                            ModulatableValue<float> alpha)
-            : base(prefabService, modulatorManager, modifierModeSelector.Bindables)
+            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             ColorMode = colorMode;

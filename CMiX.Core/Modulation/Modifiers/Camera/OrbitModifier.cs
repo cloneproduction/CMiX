@@ -12,9 +12,10 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public OrbitModifier(PrefabService prefabService,
                              PrefabManager modulatorManager,
+                             ControlRepository controlRepository,
                              ModulatableValue<float> bindableYaw,
                              ModulatableValue<float> bindablePitch)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, controlRepository)
         {
             bindableYaw.Label = "Yaw";
             bindablePitch.Label = "Pitch";

@@ -15,8 +15,9 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public VisibilityModifier(PrefabService prefabService,
                                   PrefabManager modulatorManager,
+                                  ControlRepository controlRepository,
                                   ModulatableValue<float> bindableValue)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, controlRepository)
         {
             bindableValue.Value = 0.5f;
             Bindables = new List<ModulatableValue<float>> { bindableValue };

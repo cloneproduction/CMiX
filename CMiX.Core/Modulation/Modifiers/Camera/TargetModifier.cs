@@ -12,10 +12,11 @@ namespace CMiX.Core.Modulation.Modifiers
     {
         public TargetModifier(PrefabService prefabService,
                               PrefabManager modulatorManager,
+                              ControlRepository controlRepository,
                               ModulatableValue<float> bindableX,
                               ModulatableValue<float> bindableY,
                               ModulatableValue<float> bindableZ)
-            : base(prefabService, modulatorManager)
+            : base(prefabService, modulatorManager, controlRepository)
         {
             bindableX.Label = "X";
             bindableY.Label = "Y";
