@@ -10,7 +10,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Materials
 {
-    public partial class Material : ObservableObject, IPrefab, IModifiable, IDisposable
+    public partial class Material : ObservableObject, IPrefab, IModifiable, IDisposable, IHasCompositionID
     {
         public Material(PrefabService prefabService,
                         MaterialSettings materialSettings, 
@@ -31,6 +31,19 @@ namespace CMiX.Core.Materials
         public MaterialSettings MaterialSettings { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                new CompositionIDAssigner(ModifierManager, value);
+                DiffuseTexture.CompositionID = value;
+                MaskTexture.CompositionID = value;
+            }
+        }
 
         [ObservableProperty]
         private bool isExpanded = false;

@@ -1,4 +1,5 @@
 ﻿using CMiX.Core.Compositing;
+using CMiX.Core.Materials;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using Microsoft.Extensions.DependencyInjection;
@@ -87,6 +88,46 @@ namespace CMiX.Core.Tests
             var addedLayer = (Layer)loadedComposition.LayerManager.SelectedItem;
 
             Assert.Equal("Layer.001", addedLayer.PrefabService.Name.Value);
+        }
+
+        // MaterialSelector.FromModel sets its selected item directly and does not raise
+        // PropertyChanged (by design, see PrefabSelector.cs), so an already-selected Material
+        // cannot rely on that notification to learn its CompositionID after a project load. This
+        // guards the setter-time stamp that covers it instead: Entity.CompositionID only gets
+        // assigned once loading has finished, at which point MaterialSelector.FromModel has
+        // already run, so the material it loaded is already there to stamp.
+        [Fact]
+        public void SaveThenLoad_StampsCompositionIDOnAnAlreadySelectedMaterial()
+        {
+            var source = TestServiceProviderFactory.Create();
+            var sourceProject = source.GetRequiredService<Project>();
+
+            sourceProject.CompositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)sourceProject.CompositionManager.SelectedItem;
+
+            composition.LayerManager.AddItem(typeof(Layer));
+            var layer = (Layer)composition.LayerManager.SelectedItem;
+
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+            var entity = (Entity)layer.ModelEntityManager.SelectedItem;
+
+            entity.MaterialSelector.AddItemCommand.Execute(typeof(Material));
+
+            var path = Path.Combine(_directory, "material.cmix");
+            ProjectSerializer.Save((ProjectModel)sourceProject.ToModel(), path);
+            var loadedModel = ProjectSerializer.Load(path);
+            var compositionModel = (CompositionModel)loadedModel.CompositionManager.ManagerData.Items[0];
+
+            var target = TestServiceProviderFactory.Create();
+            var targetProject = target.GetRequiredService<Project>();
+            targetProject.CompositionManager.AddItem(compositionModel);
+
+            var loadedComposition = (Composition)targetProject.CompositionManager.SelectedItem;
+            var loadedLayer = (Layer)loadedComposition.LayerManager.ManagerData.Items[0];
+            var loadedEntity = (Entity)loadedLayer.ModelEntityManager.ManagerData.Items[0];
+            var loadedMaterial = (Material)loadedEntity.MaterialSelector.SelectedItem;
+
+            Assert.Equal(loadedComposition.ID, loadedMaterial.CompositionID);
         }
     }
 }

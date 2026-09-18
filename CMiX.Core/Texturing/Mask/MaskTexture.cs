@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -9,7 +10,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class MaskTexture : ObservableObject, IControl, ITexture
+    public partial class MaskTexture : ObservableObject, IControl, ITexture, IHasCompositionID
     {
         public MaskTexture(PrefabManager prefabManager,
                            Transform2D transform2D,
@@ -35,6 +36,16 @@ namespace CMiX.Core.Texturing
         public GenericValue<MaskChannel> MaskChannel { get; set; }
         public GenericValue<bool> Invert { get; set; }
 
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                new CompositionIDAssigner(TextureManager, value);
+            }
+        }
 
         [ObservableProperty]
         private bool isExpanded = false;

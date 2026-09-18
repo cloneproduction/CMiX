@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,7 +9,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class DiffuseTexture : ObservableObject, IControl, ITexture
+    public partial class DiffuseTexture : ObservableObject, IControl, ITexture, IHasCompositionID
     {
         public DiffuseTexture(PrefabManager prefabManager,
                               Transform2D transform2D,
@@ -23,6 +24,17 @@ namespace CMiX.Core.Texturing
         public PrefabManager TextureManager { get; set; }
         public Transform2D Transform2D { get; set; }
         public SamplerState SamplerState { get; set; }
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                new CompositionIDAssigner(TextureManager, value);
+            }
+        }
 
         [ObservableProperty]
         private bool isExpanded = false;
