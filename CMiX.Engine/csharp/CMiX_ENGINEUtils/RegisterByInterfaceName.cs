@@ -33,7 +33,11 @@ namespace CMiX_ENGINEUtils
             string typeName = m.Groups[1].Value;
 
             Type? interfaceType = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetTypes())
+                .SelectMany(a =>
+                {
+                    try { return a.GetTypes(); }
+                    catch (ReflectionTypeLoadException ex) { return ex.Types.Where(t => t != null)!; }
+                })
                 .FirstOrDefault(t => t.Name == typeName);
             if (interfaceType == null) { error = $"no Type found named {typeName}"; return false; }
 
