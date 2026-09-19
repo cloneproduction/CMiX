@@ -30814,7 +30814,7 @@
                 </Patch>
                 <ControlPoint Id="AqrNDqlxBe4PViHyhgKH9P" Bounds="578,151" Alignment="Top" />
               </Node>
-              <Pad Id="LYLGDGZra0ROHhTfT9rLO0" Comment="Register" Bounds="644,341,35,35" ShowValueBox="true" isIOBox="true" Value="False">
+              <Pad Id="LYLGDGZra0ROHhTfT9rLO0" Comment="Register" Bounds="644,341,35,35" ShowValueBox="true" isIOBox="true" Value="True">
                 <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
                   <Choice Kind="ImmutableTypeFlag" Name="Boolean" />
                 </p:TypeAnnotation>
@@ -41923,10 +41923,10 @@
             <ControlPoint Id="KTfIFUxZ2zGNIIA8JQNmEV" Bounds="385,301" />
             <!--
 
-    ************************ InstanceCreation ************************
+    ************************ InstanceCreation (Internal) ************************
 
 -->
-            <Node Name="InstanceCreation" Bounds="37,60" Id="Pu2ghiFb5MJPJMeJ7wJq4g">
+            <Node Name="InstanceCreation (Internal)" Bounds="37,60" Id="Pu2ghiFb5MJPJMeJ7wJq4g">
               <p:NodeReference>
                 <Choice Kind="ContainerDefinition" Name="Process" />
                 <CategoryReference Kind="Category" Name="Primitive" />
@@ -42033,7 +42033,6 @@
               </p:NodeReference>
               <Pin Id="APO8RYmr1ArLfnrATMlWQw" Name="Output" Kind="StateOutputPin" />
               <Pin Id="F7JNzhjikGLOeBOr8VnP2f" Name="ViewModel" Kind="InputPin" PinGroupName="Input" />
-              <Pin Id="VX6SM3sWyNpLWJQCIT1Jov" Name="Input" Kind="InputPin" PinGroupName="Input" />
             </Node>
             <Node Bounds="311,180,77,26" Id="SSReVFCldFEQJtDwRqFtV7">
               <p:NodeReference LastCategoryFullName="Collections.Builder.DictionaryBuilder" LastDependency="VL.CoreLib.vl">
