@@ -28,7 +28,7 @@ namespace CMiX_ENGINEUtils
 
             if (app == null) { error = "app is null"; return false; }
 
-            var m = Regex.Match(fullName ?? string.Empty, @"\.([^.]+)_I$");
+            var m = Regex.Match(fullName ?? string.Empty, @"\.([^.]+_I)$");
             if (!m.Success) { error = "no interface name found in fullName"; return false; }
             string typeName = m.Groups[1].Value;
 
