@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2026.8.0-0137-g94299aad1c" Version="0.128">
+<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2026.8.0-0123-gdc6ede5082" Version="0.128">
   <NugetDependency Id="IUe3DNEcZotPCXZwjVtivO" Location="VL.CoreLib" />
   <Patch Id="T9GSBtl3PLoMotw6vgDtsk">
     <Canvas Id="OChrtsq8T1iOBNfVT1Yj0P" DefaultCategory="CMiX.Engine" CanvasType="FullCategory">
@@ -30787,6 +30787,18 @@
                 <Pin Id="UgUfUSsCA7TNou3MZd1g5a" Name="Input" Kind="InputPin" />
                 <Pin Id="H2jkz0VcywpPaI4ciMUFMH" Name="Output" Kind="OutputPin" />
               </Node>
+              <Node Bounds="562,270,161,19" Id="VafphqcqMEqPwfGYnFNLLQ">
+                <p:NodeReference LastCategoryFullName="CMiX_ENGINEUtils" LastDependency="CMiX_ENGINEUtils.csproj">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <Choice Kind="ProcessAppFlag" Name="RegisterServiceByInterfaceName" />
+                </p:NodeReference>
+                <Pin Id="DqYYfIzzVjlLn0f1cxyRRf" Name="App" Kind="InputPin" />
+                <Pin Id="MNSFgGyOEHQP7MnGwhhXjj" Name="Full Name" Kind="InputPin" />
+                <Pin Id="B6jUC9Q4bDJNe5PM7W3RkX" Name="Obj" Kind="InputPin" />
+                <Pin Id="Sv5BxBkaXDiNU5uRIbLi9F" Name="Register" Kind="InputPin" />
+                <Pin Id="E0Pg2HRdw4pMph0KZ3vzw2" Name="Result" Kind="OutputPin" />
+                <Pin Id="Iwcg0kPQjoiNBS60580jvR" Name="Error" Kind="OutputPin" />
+              </Node>
             </Canvas>
             <Patch Id="IO8cysVQzTXLghfJINsgxf" Name="Create" ParticipatingElements="G4Y3Uk9R0EwL21IHBOmgJY,LWuNzaG91pLLsFEaQIomJ7,AL1yODKuYCXOdn35wB3Ylr">
               <Pin Id="ATzKKw1oC8gPrRehMjc1SW" Name="Services" Kind="InputPin" IsPinGroup="true">
@@ -45664,11 +45676,6 @@
               <Pin Id="GAs2Rr9d3fhLEGtfHjyWVU" Name="UV Tile Size" Kind="InputPin" />
               <Pin Id="LmDltHBUge6OSs8GtQrjuZ" Name="UV Tile Offset" Kind="InputPin" />
             </Patch>
-            <!--
-
-    ************************  ************************
-
--->
             <ProcessDefinition Id="SPtKq5zKzd0MCsALDdmp6t" IsHidden="true">
               <Fragment Id="VC7GuZBVCawLTj6if5NW1M" Patch="H1eRzW1IsQuLQU809RdTlM" Enabled="true" />
               <Fragment Id="IifxWg4k0IlLVzOkRpqEc4" Patch="UbQh9huf4QAM1KaEw03giB" />
@@ -45733,11 +45740,6 @@
               <Pin Id="MJ6JEvPmuuNQC4VH20qzSP" Name="Composition Size" Kind="InputPin" />
               <Pin Id="PA9SuQ1zDtZPmpZPk6YSjv" Name="Camera Tile" Kind="InputPin" />
             </Patch>
-            <!--
-
-    ************************  ************************
-
--->
             <ProcessDefinition Id="LBCpBDyqHlCLTI5I1jk5mG" IsHidden="true">
               <Fragment Id="KEfxM9XczQqPxcitORGtFq" Patch="Fhv9Q2aYj2NLmazTXi1kac" Enabled="true" />
               <Fragment Id="OAouBXhMujDNe2C6ouS87d" Patch="MizC29rwXooPzQcmHbeasr" />
@@ -47986,7 +47988,6 @@
               <Pin Id="UOitUkyfmOpLPdXjZOdSaf" Name="Client" Kind="InputPin" />
               <Pin Id="KGmDWt1Iv2DOa3FIY6EMCF" Name="Input" Kind="InputPin" />
               <Pin Id="PH3D6YPtVq5PocWjTiiMSS" Name="Key" Kind="InputPin" />
-              <Pin Id="MHXvpuerhmOPtUob35bwVE" Name="Database" Kind="InputPin" IsHidden="true" />
               <Pin Id="UgLD0IjtB1tP3Dv3Zupbz4" Name="Binding Direction" Kind="InputPin" />
               <Pin Id="Hm1pybtTYMgNu4xc3cSJGB" Name="Initialization" Kind="InputPin" />
               <Pin Id="AxMEsYHjRfjMFxLDY2XM2e" Name="Collision Handling" Kind="InputPin" />
