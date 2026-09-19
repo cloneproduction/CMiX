@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2026.8.0-0137-g94299aad1c" Version="0.128">
+<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2026.8.0-0123-gdc6ede5082" Version="0.128">
   <NugetDependency Id="IUe3DNEcZotPCXZwjVtivO" Location="VL.CoreLib" />
   <Patch Id="T9GSBtl3PLoMotw6vgDtsk">
     <Canvas Id="OChrtsq8T1iOBNfVT1Yj0P" DefaultCategory="CMiX.Engine" CanvasType="FullCategory">
@@ -45460,11 +45460,11 @@
               <ControlPoint Id="MTlHESWUoG2OV8aIrMi8fW" Bounds="1346,140" />
               <ControlPoint Id="PWqFCjLr9N2LQ7610IJiT7" Bounds="1623,140" />
             </Canvas>
-            <Patch Id="Djk7iBwUrqsOVIfFHNlflB" Name="Create">
+            <Patch Id="Djk7iBwUrqsOVIfFHNlflB" Name="Create" ManuallySortedPins="true">
+              <Pin Id="AUwordRnIZeL57r3mBV2FN" Name="Tile Res" Kind="InputPin" />
               <Pin Id="UzU5Nnb68OzQdHWYe4BpX1" Name="UV Tile Scale" Kind="InputPin" />
               <Pin Id="IIAV5hp7VnuM2wcnkZDxQb" Name="UV Tile Translation" Kind="InputPin" />
               <Pin Id="Tzzh7rBIkxiLYKdsJAlKkk" Name="Tile Scale" Kind="InputPin" />
-              <Pin Id="AUwordRnIZeL57r3mBV2FN" Name="Tile Res" Kind="InputPin" />
               <Pin Id="R0BM4CcC0ETMU3LpdNAw3z" Name="Comp Preview Res" Kind="InputPin" />
               <Pin Id="Ai0lUTOGAjEMQ1Xxds1S3k" Name="Tile Preview Res" Kind="InputPin" />
             </Patch>
@@ -46063,14 +46063,14 @@
             <Link Id="MeM66cgbAM6MKrUN1GINCN" Ids="UJFoZitZeTzQRCGWn8Golp,S2kWcMCtpWeLLFL0yyWWA2" />
             <Patch Id="DPO42RfFH1wNB4IiDMxC02" Name="MapUVPos" />
             <Patch Id="FDsdX97F1FaMPg5WMUfbtZ" Name="Split" ManuallySortedPins="true">
-              <Pin Id="Hecq1TlzDTMNKM7FPrBoQM" Name="Tile Scale" Kind="OutputPin" />
-              <Pin Id="UglKqCWDPrVNdWmw3Ri8C8" Name="Comp Preview Res" Kind="OutputPin" />
+              <Pin Id="SN7N9HMywF6NqJdKjWa1Z6" Name="Camera Tile" Kind="OutputPin" />
               <Pin Id="OhVVu3WzYQYLYT2ZjjnTHS" Name="UV Tile Scale" Kind="OutputPin" />
               <Pin Id="GQITg7WJ6uLQHJtr1kOeos" Name="UV Tile Translation" Kind="OutputPin" />
+              <Pin Id="Hecq1TlzDTMNKM7FPrBoQM" Name="Tile Scale" Kind="OutputPin" />
+              <Pin Id="UglKqCWDPrVNdWmw3Ri8C8" Name="Comp Preview Res" Kind="OutputPin" />
               <Pin Id="BR0E3BcTLzALefF6b51zss" Name="Tile Preview Res" Kind="OutputPin" />
               <Pin Id="Gj5kKERn8CIMOTLsA5iY0K" Name="UV Tile Size" Kind="OutputPin" />
               <Pin Id="ODigLfPKpdcMsV1JUARlr4" Name="UV Tile Offset" Kind="OutputPin" />
-              <Pin Id="SN7N9HMywF6NqJdKjWa1Z6" Name="Camera Tile" Kind="OutputPin" />
             </Patch>
             <Link Id="C0GfMqPTMrZOVPXo9oKt9b" Ids="NXioPQKszGIP7YzXdIrgbb,Hecq1TlzDTMNKM7FPrBoQM" IsHidden="true" />
             <Link Id="C02dNWakmVcMfM77ACAGW0" Ids="U2Bzp2N2mrpN5i3CuGl0aj,OhVVu3WzYQYLYT2ZjjnTHS" IsHidden="true" />
