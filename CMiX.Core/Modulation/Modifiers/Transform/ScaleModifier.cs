@@ -1,9 +1,8 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation.Modifiers;
@@ -25,6 +24,7 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             ModifierModeSelector = modifierModeSelector;
             Bindables = new List<ModulatableValue<float>> { bindableX, bindableY, bindableZ, bindableUniform };
+
             var labels = new[] { "X", "Y", "Z", "Uniform" };
             for (int i = 0; i < Bindables.Count; i++)
             {

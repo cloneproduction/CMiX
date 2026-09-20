@@ -1,4 +1,4 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Compositing;
@@ -19,14 +19,21 @@ namespace CMiX.Core.Modulation.Modifiers
                                 ControlRepository controlRepository,
                                 ModifierModeSelector modifierModeSelector,
                                 SamplerState samplerState,
-                                ModulatableValue<float> locationX, ModulatableValue<float> locationY,
-                                ModulatableValue<float> scaleX, ModulatableValue<float> scaleY,
+                                ModulatableValue<float> locationX, 
+                                ModulatableValue<float> locationY,
+                                ModulatableValue<float> scaleX, 
+                                ModulatableValue<float> scaleY,
                                 ModulatableValue<float> rotation,
                                 ModulatableValue<float> uniform)
             : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             SamplerState = samplerState;
+
+            uniform.Value = 1.0f;
+            scaleX.Value = 1.0f;
+            scaleY.Value = 1.0f;
+
             Transform = new TexCoordTransform(locationX, locationY, scaleX, scaleY, rotation, uniform);
             Bindables = Transform.Bindables;
         }
