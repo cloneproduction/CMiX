@@ -8,7 +8,7 @@
     d:DesignWidth="400"
     d:DesignHeight="450">
 
-    <Border Background="{DynamicResource Grey300Brush}">
+    <Border >
         <DockPanel >
 
             <views:LayerManagerToolbar 
@@ -16,7 +16,8 @@
                 DockPanel.Dock="Bottom" 
                 Padding="4"/>
 
-            <Border DockPanel.Dock="Bottom" 
+            <Border DockPanel.Dock="Bottom"
+                    Background="{DynamicResource Grey300Brush}"
                     IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
                 <StackPanel Margin="8" DataContext="{Binding SelectedItem}">
                     <views:LayerManagerMaskSettings IsVisible="{Binding LayerMaskSettings.IsMask.Value}" />

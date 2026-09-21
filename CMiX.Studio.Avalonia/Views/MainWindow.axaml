@@ -173,7 +173,7 @@
 
             </TabItem>
 
-            <Managers:RepositoryTab
+            <!--<Managers:RepositoryTab
                 DataContext="{Binding MaterialManager}"
                 Icon="World"
                 ItemsSource="{Binding ControlRepository.Materials}"
@@ -187,7 +187,7 @@
                 <Managers:RepositoryTab.EditingPanel>
                     <Views:Material />
                 </Managers:RepositoryTab.EditingPanel>
-            </Managers:RepositoryTab>
+            </Managers:RepositoryTab>-->
 
             <Managers:RepositoryTab
                 DataContext="{Binding TextureManager}"
