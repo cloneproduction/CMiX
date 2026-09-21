@@ -12,7 +12,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Entity : ObservableObject, IPrefab, IModifiable, IDisposable, IHasCompositionID
+    public partial class Entity : ObservableObject, IPrefab, ITexturable, IModifiable, IDisposable, IHasCompositionID
     {
         public Entity(PrefabService prefabService,
                       Mesh mesh,

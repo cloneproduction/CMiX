@@ -17,7 +17,11 @@
 
         <!--<Views:EntityModifiersSection 
           PanelOwner="{x:Type Compositing:Entity}" />-->
-
+      <BaseControls:ColorSelector
+          Margin="8"
+          Caption="Color"
+          DataContext="{Binding Color}" />
+      
       <Panels:IndentedExpander
           Header="Texture"
           IsExpanded="{Binding TextureIsExpanded}">

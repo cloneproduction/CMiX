@@ -7,12 +7,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class FullscreenQuad : ObservableObject, IPrefab, IHasCompositionID
+    public partial class FullscreenQuad : ObservableObject, ITexturable, IPrefab, IHasCompositionID
     {
         public FullscreenQuad(PrefabService prefabService,
                               Color color,
                               Texture texture)
         {
+            ID = prefabService.ID;
             PrefabService = prefabService;
             Color = color;
             Texture = texture;

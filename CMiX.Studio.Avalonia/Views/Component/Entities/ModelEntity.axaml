@@ -13,7 +13,11 @@
     d:DesignHeight="600">
 
     <StackPanel>
-
+      <BaseControls:ColorSelector
+          Margin="8"
+          Caption="Color"
+          DataContext="{Binding Color}" />
+      
         <Panels:IndentedExpander 
           Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
             <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
@@ -59,10 +63,7 @@
 
             <StackPanel>
 
-                <BaseControls:ColorSelector
-                    Margin="8,8,8,0"
-                    Caption="Color"
-                    DataContext="{Binding Color}" />
+
 
                 <!--<BaseControls:Outliner
                     Margin="8"
