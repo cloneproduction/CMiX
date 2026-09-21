@@ -43,6 +43,7 @@ namespace CMiX.Studio.Avalonia.Themes
             { "CubeCol", MaterialIconKind.CubeScan },
             { "LayerScene", MaterialIconKind.Layers },
             { "Entity", MaterialIconKind.Shape },
+            { "FullscreenQuad", MaterialIconKind.Fullscreen },
             { "IsChecked", MaterialIconKind.Check },
             { "Composition", MaterialIconKind.ViewQuilt },
             { "Scene", MaterialIconKind.MovieOpen },

@@ -26,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Component\Entities\FullscreenQuad.axaml.cs">
+      <DependentUpon>FullscreenQuad.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Modulators\LFOModulator.axaml.cs">
       <DependentUpon>LFOModulator.axaml</DependentUpon>
     </Compile>

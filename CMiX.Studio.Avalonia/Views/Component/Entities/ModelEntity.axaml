@@ -25,17 +25,15 @@
       <Panels:IndentedExpander
           Header="Texture"
           IsExpanded="{Binding TextureIsExpanded}">
+        
         <StackPanel>
-          <Panels:IndentedExpander
-              Header="Diffuse"
-              Indentation="4"
-              IsExpanded="{Binding Texture.DiffuseTexture.IsExpanded}">
-            <Views:DiffuseTexture DataContext="{Binding Texture.DiffuseTexture}" />
-          </Panels:IndentedExpander>
+
+          <Views:DiffuseTexture DataContext="{Binding Texture.DiffuseTexture}" />
 
           <Panels:IndentedExpander
               Indentation="4"
               IsExpanded="{Binding Texture.MaskTexture.IsExpanded}">
+            
             <Panels:IndentedExpander.Header>
               <DockPanel>
                 <ToggleButton
@@ -46,13 +44,15 @@
                 <TextBlock Margin="8,0" Text="Mask" />
               </DockPanel>
             </Panels:IndentedExpander.Header>
+            
             <Views:MaskTexture DataContext="{Binding Texture.MaskTexture}" />
+            
           </Panels:IndentedExpander>
+          
         </StackPanel>
 
       </Panels:IndentedExpander>
-      
-      
+
         <Panels:IndentedExpander 
           Header="Material" 
           IsExpanded="{Binding MaterialManagerIsExpanded}">
