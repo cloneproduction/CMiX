@@ -1,8 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Materials;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Texturing;
 using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Compositing
@@ -16,5 +18,7 @@ namespace CMiX.Core.Compositing
         public PrefabManagerModel ModifierManager { get; set; } = new();
         public PrefabSelectorModel MaterialSelector { get; set; } = new();
         public ColorModel Color { get; set; } = new();
+        public TextureModel Texture { get; set; } = new();
+        public MaterialModel Material { get; set; } = new();
     }
 }

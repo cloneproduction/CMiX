@@ -1,9 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Texturing;
 using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
@@ -17,6 +19,8 @@ namespace CMiX.Core.Compositing
                       TransformSRT transformSRT,
                       PrefabSelector materialSelector,
                       PrefabManager modifierManager,
+                      Material material,
+                      Texture texture,
                       Color color)
         {
             ID = prefabService.ID;
@@ -26,7 +30,8 @@ namespace CMiX.Core.Compositing
             MaterialSelector = materialSelector;
             ModifierManager = modifierManager;
             Color = color;
-
+            Texture = texture;
+            Material = material;
             // MaterialSelector has no added-item event to watch, only a change notification, and
             // that notification does not fire when a project load sets the material directly. So
             // the initial material is stamped by the CompositionID setter below instead, and this
@@ -46,6 +51,8 @@ namespace CMiX.Core.Compositing
         public TransformSRT TransformSRT { get; set; }
         public Mesh Mesh { get; set; }
         public Color Color { get; set; }
+        public Texture Texture { get; set; }
+        public Material Material { get; set; }
 
         private Guid _compositionID;
         public Guid CompositionID
@@ -83,7 +90,9 @@ namespace CMiX.Core.Compositing
             TransformSRT = (TransformSRTModel)TransformSRT.ToModel(),
             Color = (ColorModel)Color.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
-            MaterialSelector = (PrefabSelectorModel)MaterialSelector.ToModel()
+            MaterialSelector = (PrefabSelectorModel)MaterialSelector.ToModel(),
+            Texture = (TextureModel)Texture.ToModel(),
+            Material = (MaterialModel)Material.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -94,14 +103,13 @@ namespace CMiX.Core.Compositing
             Mesh.FromModel(m.Mesh);
             TransformSRT.FromModel(m.TransformSRT);
             Color.FromModel(m.Color);
+            Texture.FromModel(m.Texture);
+            Material.FromModel(m.Material);
 
             LoadManager(ModifierManager, m.ModifierManager);
             MaterialSelector.FromModel(m.MaterialSelector);
         }
 
-        // The mesh owns two texture managers of its own, and nothing else reaches its teardown.
-        // MaterialSelector is disposed rather than only cleared, so the material the entity held
-        // is torn down with its own texture slots instead of outliving the entity.
         public void Dispose() => DisposeAll(ModifierManager, Mesh, MaterialSelector);
     }
 }
