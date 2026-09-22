@@ -83,6 +83,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             FlattenedItems = flattened;
         }
 
+        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnAttachedToVisualTree(e);
+            OnModulatorManagerChanged();
+        }
+
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnDetachedFromVisualTree(e);
