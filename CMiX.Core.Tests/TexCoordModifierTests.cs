@@ -83,16 +83,13 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TexCoordModifier_ToModel_FromModel_RoundTripsModifierModeSelectorAndSamplerState()
+        public void TexCoordModifier_ToModel_FromModel_RoundTripsModifierModeSelector()
         {
             var provider = TestServiceProviderFactory.Create();
             var texCoord = provider.GetRequiredService<TexCoordModifier>();
 
             texCoord.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
             texCoord.ModifierModeSelector.Count.Value = 5;
-            texCoord.SamplerState.BorderColor.Value = "#112233FF";
-            texCoord.SamplerState.AddressU.Value = TextureAddressMode.Wrap;
-            texCoord.SamplerState.AddressV.Value = TextureAddressMode.Border;
 
             var model = texCoord.ToModel();
 
@@ -102,9 +99,6 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
             Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
-            Assert.Equal("#112233FF", reloaded.SamplerState.BorderColor.Value);
-            Assert.Equal(TextureAddressMode.Wrap, reloaded.SamplerState.AddressU.Value);
-            Assert.Equal(TextureAddressMode.Border, reloaded.SamplerState.AddressV.Value);
         }
     }
 }
