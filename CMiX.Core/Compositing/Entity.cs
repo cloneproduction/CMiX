@@ -21,7 +21,6 @@ namespace CMiX.Core.Compositing
                       PrefabManager modifierManager,
                       Material material,
                       Texture texture,
-                      Transform2D transformTexture,
                       Color color)
         {
             ID = prefabService.ID;
@@ -32,7 +31,6 @@ namespace CMiX.Core.Compositing
             ModifierManager = modifierManager;
             Color = color;
             Texture = texture;
-            TransformTexture = transformTexture;
             Material = material;
             // MaterialSelector has no added-item event to watch, only a change notification, and
             // that notification does not fire when a project load sets the material directly. So
@@ -55,7 +53,7 @@ namespace CMiX.Core.Compositing
         public Color Color { get; set; }
         public Texture Texture { get; set; }
         public Material Material { get; set; }
-        public Transform2D TransformTexture { get; set; }
+
 
         private Guid _compositionID;
         public Guid CompositionID
@@ -96,7 +94,6 @@ namespace CMiX.Core.Compositing
             MaterialSelector = (PrefabSelectorModel)MaterialSelector.ToModel(),
             Texture = (TextureModel)Texture.ToModel(),
             Material = (MaterialModel)Material.ToModel(),
-            TransformTexture = (Transform2DModel)TransformTexture.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -109,7 +106,6 @@ namespace CMiX.Core.Compositing
             Color.FromModel(m.Color);
             Texture.FromModel(m.Texture);
             Material.FromModel(m.Material);
-            TransformTexture.FromModel(m.TransformTexture);
 
             LoadManager(ModifierManager, m.ModifierManager);
             MaterialSelector.FromModel(m.MaterialSelector);

@@ -20,6 +20,5 @@ namespace CMiX.Core.Compositing
         public ColorModel Color { get; set; } = new();
         public TextureModel Texture { get; set; } = new();
         public MaterialModel Material { get; set; } = new();
-        public Transform2DModel TransformTexture { get; set; } = new();
     }
 }

@@ -61,8 +61,17 @@
         <Panels:IndentedExpander        
           Header="Transform Texture"
           IsExpanded="{Binding TransformTextureIsExpanded}">
-          <Views:Transform2D DataContext="{Binding TransformTexture}" Margin="8" />
-        
+          
+          <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
+            
+            <Views:Transform2D 
+              DataContext="{Binding Texture.DiffuseTexture.Transform2D}"  />
+            
+            <Views:SamplerState
+              DataContext="{Binding Texture.DiffuseTexture.SamplerState}"/>
+
+          </StackPanel>
+
         </Panels:IndentedExpander>
       
         <Panels:IndentedExpander 

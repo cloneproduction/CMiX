@@ -35,8 +35,6 @@
             DataContext="{Binding Location}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
-        <Views:SamplerState
-            DataContext="{Binding SamplerState}" />
 
     </StackPanel>
 

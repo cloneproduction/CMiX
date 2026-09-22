@@ -4,9 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400"
+    d:DesignHeight="600">
 
-    <StackPanel IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
+    <StackPanel Margin="8" IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
 
         <Views:DiffuseTexture />
 
@@ -20,7 +24,23 @@
             Margin="8"
             Caption="Invert"
             IsChecked="{Binding Invert.Value}" />
+      
+      <Panels:IndentedExpander 
+        Indentation="4"
+        Header="Transform" IsExpanded="{Binding IsExpanded}">
+        
+        <StackPanel Spacing="{DynamicResource SpacingMD}">
+          
+          <Views:Transform2D
+            DataContext="{Binding Transform2D}"  />
 
+          <Views:SamplerState
+            DataContext="{Binding SamplerState}"/>
+          
+        </StackPanel>
+
+      </Panels:IndentedExpander>
+      
     </StackPanel>
 
 </UserControl>
