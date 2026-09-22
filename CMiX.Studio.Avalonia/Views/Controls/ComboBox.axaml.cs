@@ -55,12 +55,17 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         // changes, only its contents do, transiently emptying the list along the way. Track the
         // collection's own change notifications too so the selection gets reasserted once it
         // settles, not just when a whole new ItemsSource is assigned.
-        private void OnItemsSourceChanged(AvaloniaPropertyChangedEventArgs e)
+        private void OnItemsSourceChanged(AvaloniaPropertyChangedEventArgs e) => ResubscribeItemsSource();
+
+        // Detaching and reattaching the control (a side effect of unrelated sibling UI changes)
+        // does not raise the ItemsSource property's own Changed event either, so the reattach
+        // path below also needs this, reading the current ItemsSource value directly.
+        private void ResubscribeItemsSource()
         {
             if (_observedItemsSource != null)
                 _observedItemsSource.CollectionChanged -= OnItemsCollectionChanged;
 
-            _observedItemsSource = e.NewValue as INotifyCollectionChanged;
+            _observedItemsSource = ItemsSource as INotifyCollectionChanged;
             if (_observedItemsSource != null)
                 _observedItemsSource.CollectionChanged += OnItemsCollectionChanged;
 
@@ -68,6 +73,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => ReassertSelection();
+
+        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnAttachedToVisualTree(e);
+            ResubscribeItemsSource();
+        }
 
         // The subscription above is otherwise never released: a project-lifetime collection like
         // OutputMappingManager.EnabledItems outlives any one view that binds to it (the panel gets
