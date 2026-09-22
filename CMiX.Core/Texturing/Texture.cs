@@ -8,7 +8,8 @@ namespace CMiX.Core.Texturing
 {
     public partial class Texture : ObservableObject, IControl, IHasCompositionID
     {
-        public Texture(DiffuseTexture diffuseTexture, MaskTexture maskTexture)
+        public Texture(DiffuseTexture diffuseTexture, 
+                       MaskTexture maskTexture)
         {
             DiffuseTexture = diffuseTexture;
             MaskTexture = maskTexture;
@@ -22,17 +23,14 @@ namespace CMiX.Core.Texturing
         public IControlModel ToModel() => new TextureModel
         {
             ID = ID,
-            //PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             DiffuseTexture = (DiffuseTextureModel)DiffuseTexture.ToModel(),
             MaskTexture = (MaskTextureModel)MaskTexture.ToModel(),
- 
         };
 
         public void FromModel(IControlModel model)
         {
             var m = (TextureModel)model;
             ID = m.ID;
-            //PrefabService.FromModel(m.PrefabService);
             DiffuseTexture.FromModel(m.DiffuseTexture);
             MaskTexture.FromModel(m.MaskTexture);
         }

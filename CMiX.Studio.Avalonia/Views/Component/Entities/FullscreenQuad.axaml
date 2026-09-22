@@ -53,6 +53,15 @@
 
       </Panels:IndentedExpander>
 
+      <Panels:IndentedExpander
+        Header="Transform Texture"
+        IsExpanded="{Binding TransformTextureIsExpanded}">
+        
+        <Views:Transform2D 
+          DataContext="{Binding TransformTexture}" 
+          Margin="8" />
+        
+      </Panels:IndentedExpander>
     </StackPanel>
 
 </UserControl>

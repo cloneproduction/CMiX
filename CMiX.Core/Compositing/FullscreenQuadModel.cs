@@ -3,6 +3,7 @@
 
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing;
+using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Compositing
 {
@@ -12,5 +13,6 @@ namespace CMiX.Core.Compositing
         public PrefabServiceModel PrefabService { get; set; } = new();
         public ColorModel Color { get; set; } = new();
         public TextureModel Texture { get; set; } = new();
+        public Transform2DModel TransformTexture { get; set; } = new();
     }
 }
