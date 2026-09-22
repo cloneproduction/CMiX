@@ -3,10 +3,8 @@
 
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Texturing;
 using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
@@ -18,7 +16,6 @@ namespace CMiX.Core.Modulation.Modifiers
                                 PrefabManager modulatorManager,
                                 ControlRepository controlRepository,
                                 ModifierModeSelector modifierModeSelector,
-                                SamplerState samplerState,
                                 ModulatableValue<float> locationX, 
                                 ModulatableValue<float> locationY,
                                 ModulatableValue<float> scaleX, 
@@ -28,7 +25,6 @@ namespace CMiX.Core.Modulation.Modifiers
             : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            SamplerState = samplerState;
 
             uniform.Value = 1.0f;
             scaleX.Value = 1.0f;
@@ -45,14 +41,12 @@ namespace CMiX.Core.Modulation.Modifiers
         public ModulatableValue<float> Uniform => Transform.Uniform;
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
-        public SamplerState SamplerState { get; set; }
 
         public override IControlModel ToModel()
         {
             var model = new TexCoordModifierModel
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
-                SamplerState = (SamplerStateModel)SamplerState.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -64,7 +58,6 @@ namespace CMiX.Core.Modulation.Modifiers
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
-            SamplerState.FromModel(m.SamplerState);
         }
     }
 }
