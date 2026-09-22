@@ -62,6 +62,8 @@ namespace CMiX.Core.Modulation
         [ObservableProperty]
         private IModulator boundModulator;
 
+        public Func<Guid, IModulator> ModulatorResolver { get; set; }
+
         bool IModulatorBindable.CanBind(IModulatorOutput output) => output is ModulatorOutput<T>;
 
         [RelayCommand]
