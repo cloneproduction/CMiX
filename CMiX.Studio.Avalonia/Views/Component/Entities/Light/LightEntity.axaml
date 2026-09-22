@@ -4,20 +4,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400"
+    d:DesignHeight="600">
 
     <StackPanel>
-        <Panels:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
-            <Views:TransformSRTModifier Margin="8" DataContext="{Binding TransformSRT}" />
+      
+        <Panels:IndentedExpander 
+          Header="Transform" 
+          IsExpanded="{Binding TransformSRTIsExpanded}">
+          
+            <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
+          
         </Panels:IndentedExpander>
 
         <Views:EntityModifiersSection PanelOwner="{x:Type Lights:LightEntity}" />
 
         <Panels:IndentedExpander
-            Header="Settings"
-            Indentation="0"
-            IsExpanded="{Binding SettingsIsExpanded}">
-            <Views:LightSettings DataContext="{Binding Settings}" />
+          Header="Settings"
+          IsExpanded="{Binding SettingsIsExpanded}">
+          
+          <Views:LightSettings DataContext="{Binding Settings}" />
+          
         </Panels:IndentedExpander>
 
     </StackPanel>
