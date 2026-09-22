@@ -45597,10 +45597,10 @@
               <Pin Id="G75Pux8v5BBQOGFgnuN000" Name="TFX TilingInfo" Kind="OutputPin" />
               <Pin Id="OoQdsd3UWJMPAdtjYYj5nA" Name="Rendering TilingInfo" Kind="OutputPin" />
             </Patch>
-            <Patch Id="Rph3okjSBwLMp0nZL8ik67" Name="Update">
+            <Patch Id="Rph3okjSBwLMp0nZL8ik67" Name="Update" ManuallySortedPins="true">
               <Pin Id="PiC0qtZhILcLoAwnWtlpel" Name="Camera TilingInfo" Kind="InputPin" />
-              <Pin Id="D73Eicj68xbPnF5NhyzE5C" Name="TFX TilingInfo" Kind="InputPin" />
               <Pin Id="T9msecn7qU1PoEk76iGmaQ" Name="Rendering TilingInfo" Kind="InputPin" />
+              <Pin Id="D73Eicj68xbPnF5NhyzE5C" Name="TFX TilingInfo" Kind="InputPin" />
             </Patch>
             <ProcessDefinition Id="Mbeb6GtXjOBNSQQxmEPQgr" HasStateOut="true">
               <Fragment Id="K6VgG89YSUROUtPo6LdYRM" Patch="UJgv3eX23uCLEwBtBwbf4A" Enabled="true" />
@@ -49976,4 +49976,6 @@
   <NugetDependency Id="ObjDmHfQzD3MlzY7IxOkwr" Location="VL.Audio" Version="1.9.19" />
   <NugetDependency Id="LAu7ncJAi7hMsll9NaFAoW" Location="VL.IO.Redis" />
   <ProjectDependency Location="./csharp/CMiX_ENGINEUtils/CMiX_ENGINEUtils.csproj" />
+  <NugetDependency Id="HmbG5avvu2DOD4WNa4l1cm" Location="VL.ImGui" Version="2026.8.0-0137-g94299aad1c" />
+  <NugetDependency Id="LjJDKM5KFvXMlFj4GzvVMv" Location="VL.ImGui.Skia" Version="2026.8.0-0137-g94299aad1c" />
 </Document>
