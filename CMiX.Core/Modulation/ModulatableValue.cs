@@ -25,11 +25,10 @@ namespace CMiX.Core.Modulation
                 if (e.PropertyName != nameof(GenericValue<Guid?>.Value)) return;
                 OnPropertyChanged(nameof(ModulatorID));
 
-                // Undo reverts this leaf value directly, bypassing SetModulator, so BoundModulator
-                // (untracked by undo) must be dropped here whenever it no longer matches - otherwise
-                // the assign dot keeps showing bound after an undo clears the ID back out.
-                if (BoundModulator?.ID != ModulatorID)
-                    BoundModulator = null;
+                // BoundModulator is computed from ModulatorID through ModulatorResolver, so it
+                // can never go stale on its own. Notify here so a bound view refreshes on every
+                // path that changes ModulatorID: SetModulator, undo, and redo alike.
+                OnPropertyChanged(nameof(BoundModulator));
             };
             BoundOutputNameSource.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(GenericValue<string>.Value)) OnPropertyChanged(nameof(BoundOutputName)); };
         }
@@ -59,8 +58,8 @@ namespace CMiX.Core.Modulation
             set => BoundOutputNameSource.Value = value;
         }
 
-        [ObservableProperty]
-        private IModulator boundModulator;
+        public IModulator BoundModulator =>
+            ModulatorID is { } id ? ModulatorResolver?.Invoke(id) : null;
 
         public Func<Guid, IModulator> ModulatorResolver { get; set; }
 
@@ -73,7 +72,6 @@ namespace CMiX.Core.Modulation
             undoManager?.BeginCapture();
             try
             {
-                BoundModulator = selection?.Modulator;
                 ModulatorID = selection?.Modulator?.ID;
                 BoundOutputName = selection?.Output?.Name;
             }
