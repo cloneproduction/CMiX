@@ -27,9 +27,9 @@ namespace CMiX.Core
         public GenericValueModel<bool> IsRenaming { get; set; } = new(false);
         public GenericValueModel<bool> IsSelected { get; set; } = new(false);
         public PrefabManagerModel ExplodeTriangleTextureManager { get; set; } = new();
-        public GenericValueModel<float> ExplodeStrength { get; set; } = new(0.5f);
+        public GenericValueModel<float> ExplodeStrength { get; set; } = new(0.0f);
         public PrefabManagerModel DisplacementTextureManager { get; set; } = new();
-        public GenericValueModel<float> DisplacementStrength { get; set; } = new(0.5f);
+        public GenericValueModel<float> DisplacementStrength { get; set; } = new(0.0f);
         public GenericValueModel<float> FlatNormals { get; set; } = new(0.0f);
     }
 }

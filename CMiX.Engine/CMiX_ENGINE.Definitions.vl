@@ -24806,7 +24806,6 @@
                       <Pin Id="Lt3EcIPvvVCPYXEEWvzY59" Name="Is Shadow Caster" Kind="OutputPin" />
                     </Node>
                     <ControlPoint Id="U3ReJILh9vMN9WKKyCFYLR" Bounds="85,560" />
-                    <ControlPoint Id="FClepAJZXQBO27pkishejp" Bounds="202,560" />
                     <Node Bounds="382,310,41,19" Id="Req0kgZ8lEFOHhBetLt5Bg">
                       <p:NodeReference LastCategoryFullName="CMiX.Engine.Texturing" LastDependency="CMiX_ENGINE.Definitions.vl">
                         <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
@@ -24862,15 +24861,12 @@
                     </Node>
                   </Canvas>
                   <Patch Id="Krv5FgnUmp0O6RDU6YeoQz" Name="Create" />
-                  <Patch Id="Lqcf6zjPfvRQHtEKtbb1R8" Name="Update" ParticipatingElements="IYG6f9arkiSQdaioOzs0hl,HI4sP0DWLWCPCJCqE2dQbc,DS4Qr6N6aefPzLsbxUXYXI,COJXiFCiFoSMbCCJ1ljrD3">
+                  <Patch Id="Lqcf6zjPfvRQHtEKtbb1R8" Name="Update" ParticipatingElements="IYG6f9arkiSQdaioOzs0hl,HI4sP0DWLWCPCJCqE2dQbc">
                     <Pin Id="PNDU2ujXW0fO1WxrEA7pUK" Name="Entity" Kind="OutputPin" />
                   </Patch>
                   <Link Id="HI4sP0DWLWCPCJCqE2dQbc" Ids="UTKFMLXEvpxQdigyrvfEFx,U3ReJILh9vMN9WKKyCFYLR,TmCBkOimcAoL9jMJLIWRCk" />
-                  <Link Id="DS4Qr6N6aefPzLsbxUXYXI" Ids="L1IwuJmOvdvMDspghmn3RR,FClepAJZXQBO27pkishejp,FutRZYl7YG7LvAiK4YbVEF" />
-                  <Link Id="COJXiFCiFoSMbCCJ1ljrD3" Ids="TvCWLM9knLZPp6wfPOtYCz,NUhCuWFjBZ3P4YnGirIPDT" />
                   <Link Id="RbltRt6i8XaLwi6wIeJMcc" Ids="NUhCuWFjBZ3P4YnGirIPDT,PNDU2ujXW0fO1WxrEA7pUK" IsHidden="true" />
                   <Link Id="TGFrKHmh0thN3DNpLwGUhy" Ids="EpuWH6sLGyqNUkOdCvtj02,Jeh8QLbZATjNRvpMlkZMYL" />
-                  <Link Id="QRMkhZjCQX6O0r4uyfBHMV" Ids="BMipL9prkL9NycUviyEW9I,OenSboe2f1INb3QIMzRgUp" />
                   <Slot Id="NlCwFnnJIwCPy3e1wBFEtc" Name="Entity">
                     <p:TypeAnnotation p:Type="TypeReference">
                       <Choice Kind="TypeFlag" Name="Entity" />
@@ -24907,6 +24903,9 @@
                   <Link Id="LgVwileOQXgMJpk5dgUboP" Ids="EotOmEPsqlePSYRjFNojor,Vftb2WPC6eANu1BbqYnC3H" />
                   <Link Id="ELFwT3YY05PNfFzeBvLimC" Ids="PKtCRGba8c3PMG6IopqYI5,KYBIDnAns5dPvMWf7kegAq" />
                   <Link Id="Q1s5YxXih98N4rPecMNOWj" Ids="Lo5cWyZcfokPM3k0z6t2YW,Al9TRbNMDKAMDNM8ZlRdxU" />
+                  <Link Id="MDtjfXNgejsM7Xb0w8LGkc" Ids="TvCWLM9knLZPp6wfPOtYCz,NUhCuWFjBZ3P4YnGirIPDT" />
+                  <Link Id="OBe44SOGL0PQKCyTZPG0mu" Ids="BMipL9prkL9NycUviyEW9I,OenSboe2f1INb3QIMzRgUp" />
+                  <Link Id="QOY4rWJ1zbNOI7w4XksPLZ" Ids="L1IwuJmOvdvMDspghmn3RR,FutRZYl7YG7LvAiK4YbVEF" />
                 </Patch>
               </Node>
               <!--
@@ -25092,7 +25091,7 @@
                               <Pin Id="QV4AvTOkOxXLEljufX93DV" Name="Input 2" Kind="InputPin" DefaultValue="0.19" />
                               <Pin Id="I2gp112HevrP93InbW0XHT" Name="Output" Kind="OutputPin" />
                             </Node>
-                            <Pad Id="HJ63F4JRtHUPXTV5TyDG0x" Comment="" Bounds="890,673,35,15" ShowValueBox="true" isIOBox="true" Value="0.051">
+                            <Pad Id="HJ63F4JRtHUPXTV5TyDG0x" Comment="" Bounds="890,673,35,15" ShowValueBox="true" isIOBox="true" Value="0.02">
                               <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
                                 <Choice Kind="TypeFlag" Name="Float32" />
                               </p:TypeAnnotation>
@@ -25273,6 +25272,7 @@
                       <Pin Id="BiGTIMSo1v4MRYB6HJE3EB" Name="Output" Kind="StateOutputPin" />
                       <Pin Id="Gp0uvkw3DoKPbqSw1EffvT" Name="Value" Kind="OutputPin" />
                     </Node>
+                    <Pad Id="NbTgnRTH59FNYLwlrYbENg" Comment="" Bounds="1035,570,35,35" ShowValueBox="true" isIOBox="true" />
                   </Canvas>
                   <Patch Id="Gyg0ZToOSIdOQQSBCbJB2s" Name="Create" />
                   <Patch Id="HIN3U6yt5WYLQUkbCA1xjz" Name="Update" ParticipatingElements="DWI1dJgcSVuN7zDAhcPoiA,G23w4hcZblVP3neHjozIMv,Niohpb4IA8ePYJ7qn88kC3,O0x09GRlaauNxvY4AarGfe,AIMJa6gLbagMfFdEGEPf0l,FFhBQ5sYr2tO17bfTYWlry,DmaQCFFMvTmMvFooCPvqNW,P9NYBJFjPoJMcmndbubmuI,KOI1jbdPkjINy4mlnfBTRG,I5e0Krh6BtFQG0bpI049iw,NSUtlLlQ8AtP8TS65sr9GL,IBT7mNhYyT7OzvJ5oe2ptJ,LbLsjcJSVTcOJPbrN4UjeW,GBGXZHhlVuBPKaoRST3F3N,J8OHCZLEETtOiDls8ryNLR,MFniLoRkSulQAuL7Pp4t5S,UxAon9Z9PFKNvZ2EzN1ouT,GiPGlSLlNjMOmO2RIJm2Qh,JFs42wiauoRNjMb7jsYWko,Nis8dqaPFEaNIxS43h8KzI,PfY4NxFjhzRLQNI4bVLMVv,MPkGuQTgc6jP3xMDqSw0Xm,M7O7QL7PcScNRvWNWedk3j,FSEeMuHLniQLSvL8EKOFza,EcACU2BYYeXN4A6RnvfHph,QDs6BZf6y2oMoZ0zqgzhdw,TcGTJqUS0Z3NumJkj9ssPm,SFx0RIRj36gN0yVYLXeL8Y,ApnOyFXtEFeM7SP4qiptuv,HcA4AVTfnEgNgPCJFUmyCU">
@@ -25337,6 +25337,7 @@
                   <Link Id="BAYhlqC4DSEL1MJWclncpr" Ids="CE59CAP4eGmMHacZK8ZNGt,DbijBEAWU3dOVqyjb663GS" />
                   <Link Id="QxIbgFh1MHiNv5fAa9lAQw" Ids="Gp0uvkw3DoKPbqSw1EffvT,TU6nBsv98dNOkEVhSDn6RS" />
                   <Link Id="MZFMcNw8qVCN0yLQZVyUP9" Ids="LkxcZ44vyRgQJ4jlkFBfqJ,N6L42iWZWZCP8ULcFSB4zE" />
+                  <Link Id="O1Zz1GOaHVFOkqOhENW0Pj" Ids="Gp0uvkw3DoKPbqSw1EffvT,NbTgnRTH59FNYLwlrYbENg" />
                 </Patch>
               </Node>
               <!--
@@ -36805,7 +36806,7 @@
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <Choice Kind="ProcessAppFlag" Name="SceneWindow" />
                 </p:NodeReference>
-                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="-1354.2858, 257.14285, 1040.5714, 670.2857" />
+                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="-2017.1428, 342.2857, 1040.5714, 670.2857" />
                 <Pin Id="HIZJqDlx9MEPhmzNCdJH1J" Name="Bound to Document" Kind="InputPin" />
                 <Pin Id="N2jbSedzlJOPk61sjPnAjT" Name="Dialog If Document Changed" Kind="InputPin" />
                 <Pin Id="I2cCZopRrBbNn2LnahdA5d" Name="Save Bounds" Kind="InputPin" />
@@ -48958,7 +48959,6 @@
             <Pin Id="RVtMiVdtkF8NASgXK2GIau" Name="Client" Kind="InputPin" />
           </Patch>
           <Patch Id="SoHXzcRgQNUOCF6aWtDbEN" Name="Dispose" />
-          <Link Id="MKpCfQvc58EMjsWjEPVwz6" Ids="LNM2zCDmey4OBVm0iZ5d52,E3lo7Zgh1YJOR8LdZWIpQg" />
           <Link Id="TBUQh6MKulpP4slRCStuA9" Ids="D3T16p0BYPwNIESqOYGJC7,C1QUADXSbJvPkER8dcE1xi" />
           <Link Id="TFxu5sdbCnQNn4gj1XkkWo" Ids="DXo5lZKRmEEL0iVmeRRXDx,CDHvwoML2jGNHGKMX8YBa2" />
           <Link Id="TwVqZq1HgTcPK1DdD47WAb" Ids="Vfjl2qca5TePrEL9p8Hcuo,I6cpnfd4PnqOccFUAEOZsp" />
@@ -48986,6 +48986,7 @@
           <Link Id="U55IQJIZq55PsHQhZ2OzAY" Ids="J0x0829ndc6NBWBKn1z3ih,Ap87JbNegvqLMoRuaSCRtf" />
           <Link Id="LpgureSrwDHMAEZ5AqpWpJ" Ids="LTBzMuZQvDFMukooqOKdIp,ERoAnn7TG6tLcGhGlmmAPT" />
           <Link Id="QWgFkSd0ZWeN7kmhrZS8pY" Ids="RVtMiVdtkF8NASgXK2GIau,LTBzMuZQvDFMukooqOKdIp" IsHidden="true" />
+          <Link Id="QV5r1ZDdZ95NaR9yoLjgnF" Ids="LNM2zCDmey4OBVm0iZ5d52,E3lo7Zgh1YJOR8LdZWIpQg" />
         </Patch>
       </Node>
       <!--
