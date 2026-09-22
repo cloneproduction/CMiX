@@ -45705,16 +45705,22 @@
               <ControlPoint Id="GgRzXBmtnO2M7kuY4dmrtH" Bounds="80,141" />
               <ControlPoint Id="BsgSyphWkg2NfdFPMs5qu8" Bounds="268,81" />
               <ControlPoint Id="I8MZvGZACAvO5G3OYhiWwZ" Bounds="268,141" />
+              <Pad Id="QhiGxwm1f5KPv1BLkvzqGI" SlotId="MjrXjy5tdn1QZD09xvGHgT" Bounds="504,110" />
+              <ControlPoint Id="UJH1s13fDw9L5vKgm51KOr" Bounds="607,141" />
+              <ControlPoint Id="J4lIMvHvItuOBLPdGhwnzw" Bounds="504,80" />
+              <ControlPoint Id="M0myJpmTUdMNefV5Z1VKgz" Bounds="504,140" />
             </Canvas>
             <Patch Id="H1eRzW1IsQuLQU809RdTlM" Name="Create">
               <Pin Id="GAs2Rr9d3fhLEGtfHjyWVU" Name="UV Tile Size" Kind="InputPin" />
               <Pin Id="LmDltHBUge6OSs8GtQrjuZ" Name="UV Tile Offset" Kind="InputPin" />
+              <Pin Id="RwV49NqjJUdLFBvHRTA0eq" Name="Compostion Res" Kind="InputPin" />
             </Patch>
             <ProcessDefinition Id="SPtKq5zKzd0MCsALDdmp6t" IsHidden="true">
               <Fragment Id="VC7GuZBVCawLTj6if5NW1M" Patch="H1eRzW1IsQuLQU809RdTlM" Enabled="true" />
               <Fragment Id="IifxWg4k0IlLVzOkRpqEc4" Patch="UbQh9huf4QAM1KaEw03giB" />
               <Fragment Id="Qt2zaQrGe7BLGQoDAameVh" Patch="DMHGTWVlHUzLhj8NMiRBBG" />
               <Fragment Id="NY537LbZXAkMLpSm9oDYF7" Patch="Ry7oT4LGC1tQSlgcKbL7A3" />
+              <Fragment Id="UH1l7DAeigJOGeAuzFXb2T" Patch="AXW2Y7RWln9LoMBfYWUdrc" />
             </ProcessDefinition>
             <Slot Id="VByaWlz19o3Mg9qBF6bySp" Name="UV Tile Size">
               <p:TypeAnnotation p:Type="TypeReference" LastCategoryFullName="2D" LastDependency="VL.CoreLib.vl">
@@ -45741,6 +45747,7 @@
             <Patch Id="Ry7oT4LGC1tQSlgcKbL7A3" Name="Split">
               <Pin Id="PWhYByZv6Z0OgIzpNnO42L" Name="UV Tile Size" Kind="OutputPin" />
               <Pin Id="LFom6BhZOBsQBoz0TaI0dU" Name="UV Tile Offset" Kind="OutputPin" />
+              <Pin Id="KxAiQSIZh64LMhJBThmRBx" Name="Compostion Res" Kind="OutputPin" />
             </Patch>
             <Link Id="KyXwraz0Bl6MztYMVvlFiF" Ids="GgRzXBmtnO2M7kuY4dmrtH,PWhYByZv6Z0OgIzpNnO42L" IsHidden="true" />
             <Link Id="LU7ln9o68phLDAbdzvcR90" Ids="Rt3hhwjDC7eMAOCx7idVvg,GgRzXBmtnO2M7kuY4dmrtH" />
@@ -45748,6 +45755,20 @@
             <Link Id="F9ATnwZEw04LLSRdt5jx4Q" Ids="BsgSyphWkg2NfdFPMs5qu8,DJMWgRLQawxNIycWApbRDR" />
             <Link Id="ASDVHrH9EgKOu7yL21OKCa" Ids="I8MZvGZACAvO5G3OYhiWwZ,LFom6BhZOBsQBoz0TaI0dU" IsHidden="true" />
             <Link Id="TBZl9jyxFNYOVZMgqE4D4m" Ids="DJMWgRLQawxNIycWApbRDR,I8MZvGZACAvO5G3OYhiWwZ" />
+            <Slot Id="MjrXjy5tdn1QZD09xvGHgT" Name="Compostion Res">
+              <p:TypeAnnotation p:Type="TypeReference" LastCategoryFullName="2D" LastDependency="VL.CoreLib.vl">
+                <Choice Kind="TypeFlag" Name="Vector2" />
+              </p:TypeAnnotation>
+            </Slot>
+            <Patch Id="AXW2Y7RWln9LoMBfYWUdrc" Name="CompostionRes">
+              <Pin Id="VR14qe8bzkVNjpYYIbBFzB" Name="Compostion Res" Kind="OutputPin" />
+            </Patch>
+            <Link Id="QriX9tpIbzQM1QQqL2Hlez" Ids="UJH1s13fDw9L5vKgm51KOr,VR14qe8bzkVNjpYYIbBFzB" IsHidden="true" />
+            <Link Id="DC5MbXUtyTzOW1APBx8dfb" Ids="QhiGxwm1f5KPv1BLkvzqGI,UJH1s13fDw9L5vKgm51KOr" />
+            <Link Id="QDTwtyL05R5NCtUyvJwtz1" Ids="RwV49NqjJUdLFBvHRTA0eq,J4lIMvHvItuOBLPdGhwnzw" IsHidden="true" />
+            <Link Id="Bz2EH3IzTuWMHsiG7TQU0s" Ids="J4lIMvHvItuOBLPdGhwnzw,QhiGxwm1f5KPv1BLkvzqGI" />
+            <Link Id="TQX2olSthCqOBrsm21kDvJ" Ids="M0myJpmTUdMNefV5Z1VKgz,KxAiQSIZh64LMhJBThmRBx" IsHidden="true" />
+            <Link Id="FW0kZUOHZayMtjQPQ3j85u" Ids="QhiGxwm1f5KPv1BLkvzqGI,M0myJpmTUdMNefV5Z1VKgz" />
           </Patch>
         </Node>
         <!--
