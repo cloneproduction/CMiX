@@ -18,15 +18,10 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private Ellipse? _cursorEllipse;
         private bool _isDragging;
-
-        // Replaces the WPF DefaultStyleKeyProperty.OverrideMetadata call so the
-        // control picks up the ColorWheel control theme instead of the UserControl one.
         protected override Type StyleKeyOverride => typeof(ColorWheel);
 
         public ColorWheel()
         {
-            // WPF attached these handlers in OnApplyTemplate; the constructor avoids
-            // double subscription when the template is applied more than once.
             PointerPressed += OnPointerPressed;
             PointerMoved += OnPointerMoved;
             PointerReleased += OnPointerReleased;

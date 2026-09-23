@@ -11,18 +11,11 @@ namespace CMiX.Studio.Avalonia.Views
     public partial class MainWindow : Window
     {
         private readonly UndoManager? _undoManager;
-
-        // The DataContext is assigned by App after construction, matching WPF. With
-        // the context already present during construction every deferred child
-        // binding transiently evaluates against the window context before its local
-        // DataContext applies, which logs far more binding noise than the null case.
         public MainWindow(UndoManager undoManager) : this()
         {
             _undoManager = undoManager;
         }
 
-        // Parameterless constructor so the Avalonia XAML previewer/loader can
-        // construct the window at design time (it has no UndoManager to pass in).
         public MainWindow()
         {
             InitializeComponent();
@@ -31,10 +24,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            // The WPF chrome excluded the menu and the window buttons from the drag
-            // area with IsHitTestVisibleInChrome. Starting a move drag here would
-            // steal their pointer release and no click would ever complete, so
-            // presses inside those interactive children never begin a drag.
             if (e.Source is ILogical source &&
                 (source.FindLogicalAncestorOfType<Menus.MainMenu>(true) != null ||
                  source.FindLogicalAncestorOfType<Windows.MainWindowController>(true) != null))

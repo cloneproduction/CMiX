@@ -21,7 +21,6 @@
 
         <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
 
-            <!-- The WPF Fonts.SystemFontFamilies source becomes the EnumProviders.SortedFontsCollection provider. -->
             <BaseControl:ComboBox
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"

@@ -112,7 +112,6 @@
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="ToggleButton">
         <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
-        <!--  WPF set an empty Run as the default Content  -->
         <Setter Property="Content" Value="" />
         <Style Selector="^:checked">
             <Setter Property="Content">

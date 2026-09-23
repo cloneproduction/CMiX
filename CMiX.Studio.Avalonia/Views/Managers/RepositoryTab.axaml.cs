@@ -46,7 +46,6 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             set => SetValue(ItemsSourceProperty, value);
         }
 
-        // WPF FrameworkElement becomes the Avalonia Control base type.
         public static readonly StyledProperty<Control> SelectionPanelProperty =
             AvaloniaProperty.Register<RepositoryTab, Control>(nameof(SelectionPanel));
         public Control SelectionPanel

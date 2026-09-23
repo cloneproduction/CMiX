@@ -7,7 +7,6 @@
 
     <ControlTheme x:Key="{x:Type Controls:NumericInput}" TargetType="Controls:NumericInput">
         <Setter Property="Focusable" Value="False" />
-        <!-- WPF Visibility Hidden becomes IsVisible False -->
         <Setter Property="IsVisible" Value="False" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -28,7 +27,6 @@
             </ControlTemplate>
         </Setter>
 
-        <!-- The WPF inner TextBox style with a DataTrigger on IsInteger becomes theme styles with a property match selector -->
         <Style Selector="^ /template/ TextBox#PART_TextBox">
             <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat='{}{0:N3}'}" />
         </Style>

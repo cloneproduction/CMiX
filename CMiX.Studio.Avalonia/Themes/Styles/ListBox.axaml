@@ -151,7 +151,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        <!-- WPF AlternationIndex 0 with AlternationCount 2 maps to odd children -->
+      
         <Style Selector="^:nth-child(2n+1) /template/ Border#MainContainer">
             <Setter Property="Background" Value="{DynamicResource ListBoxBackground}" />
         </Style>

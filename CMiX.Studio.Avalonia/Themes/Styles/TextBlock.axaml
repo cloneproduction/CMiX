@@ -2,11 +2,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--
-        Ported from CMiX.Studio\Themes\Styles\TextBlock.xaml.
-        TextBlock is not a templated control, so the WPF implicit style becomes a
-        selector based style in a Styles document.
-    -->
     <Style Selector="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="Margin" Value="0" />

@@ -30,12 +30,10 @@
             </ControlTemplate>
         </Setter>
 
-        <!-- WPF MultiDataTrigger IsEnabled False with TabStripPlacement Top -->
         <Style Selector="^[TabStripPlacement=Top]:disabled /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="Opacity" Value="0.56" />
         </Style>
 
-        <!-- WPF MultiDataTrigger IsSelected False with TabStripPlacement Top -->
         <Style Selector="^[TabStripPlacement=Top]:not(:selected)">
             <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         </Style>
@@ -43,7 +41,6 @@
             <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
         </Style>
 
-        <!-- WPF MultiDataTrigger IsSelected True with TabStripPlacement Top -->
         <Style Selector="^[TabStripPlacement=Top]:selected">
             <Setter Property="ZIndex" Value="1" />
         </Style>
@@ -59,7 +56,6 @@
 
     <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
         <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
-        <!-- The WPF Center content alignment setters never reached the page content; Avalonia binds them into the selected content host, so they must stretch. -->
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemStyle}" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -97,7 +93,6 @@
                 </Grid>
             </ControlTemplate>
         </Setter>
-        <!-- TODO Avalonia: WPF IsEnabled False trigger set TextElement.Foreground to SystemColors.GrayTextBrushKey, dropped because x:Static system values are not ported -->
     </ControlTheme>
 
     <ControlTheme x:Key="TabItemHorizontal" TargetType="TabItem">
@@ -146,7 +141,6 @@
         <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemHorizontal}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <!-- TODO Avalonia: WPF Foreground setter used SystemColors.ControlTextBrushKey, dropped because x:Static system values are not ported -->
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <StackPanel />
@@ -178,7 +172,6 @@
                 </Grid>
             </ControlTemplate>
         </Setter>
-        <!-- TODO Avalonia: WPF IsEnabled False trigger set TextElement.Foreground to SystemColors.GrayTextBrushKey, dropped because x:Static system values are not ported -->
     </ControlTheme>
 
     <ControlTheme x:Key="TabControlLayerPanel" TargetType="TabControl">

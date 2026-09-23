@@ -7,12 +7,6 @@
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core">
 
-    <!--
-        Avalonia templated controls clip to bounds by default, unlike WPF - see the matching
-        style in Panels/ModifierPanel.axaml. Without this, the Modulator list rendered through
-        Header gets clipped to ModulatablePanel's own bounds, which can leave the bottom of a
-        short list (and drag/drop hit-testing over it) cut off.
-    -->
     <HeaderedContentControl.Styles>
         <Style Selector=":is(ContentControl)">
             <Setter Property="ClipToBounds" Value="False" />

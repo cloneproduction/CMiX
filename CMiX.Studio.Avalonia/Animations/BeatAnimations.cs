@@ -9,9 +9,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Studio.Avalonia.Animations
 {
-    // Clock driven replacement for the WPF Storyboard of infinite DoubleAnimations.
-    // The WPF animation ran From 1 To 0 with a QuadraticEase in EaseOut mode, so the
-    // value at normalized time t is the closed form (1 - t) squared.
     public class BeatAnimations : ObservableObject
     {
         private readonly Stopwatch _stopwatch = new();
@@ -21,22 +18,13 @@ namespace CMiX.Studio.Avalonia.Animations
         {
             AnimatedDoubles = new ObservableCollection<AnimatedDouble>();
             _timer = new DispatcherTimer(TimeSpan.FromMilliseconds(16), DispatcherPriority.Render, OnTick);
-            // This constructor overload starts the timer, which the clock must not do before
-            // something observes a position.
             _timer.Stop();
         }
 
         public ObservableCollection<AnimatedDouble> AnimatedDoubles { get; set; }
 
-        // Keeps the WPF method name so the controller ports verbatim.
         public void MakeStoryBoard(float[] periods)
         {
-            // A tempo click raises a period change without touching the period table: multiply and
-            // divide only move the index into a table the tap and the BPM entry generate. Rebuilding
-            // on those clicks discarded all fifteen instances, dropped the observer count of every
-            // beat modifier holding one and restarted the stopwatch, which snapped the pulse back to
-            // full. A table that matches what is already built is therefore left standing, so only a
-            // table that really changed pays for a rebuild.
             if (MatchesCurrentStoryBoard(periods))
                 return;
 
@@ -52,14 +40,10 @@ namespace CMiX.Studio.Avalonia.Animations
                 AnimatedDoubles.Add(animatedDouble);
             }
 
-            // The positions are a closed form of the elapsed time, so stopping and restarting the
-            // timer never shifts the phase. Only this restart does, exactly as it did before.
             _stopwatch.Restart();
             StartIfObserved();
         }
 
-        // A null table keeps the pre existing behavior of falling through to the rebuild, which is
-        // the only place it was ever dereferenced, so no caller sees a new outcome for one.
         private bool MatchesCurrentStoryBoard(float[] periods)
         {
             if (periods == null || periods.Length != AnimatedDoubles.Count)
@@ -79,7 +63,6 @@ namespace CMiX.Studio.Avalonia.Animations
             _stopwatch.Restart();
         }
 
-        // Exposed so a diagnostic or a test can tell an idle clock from a running one.
         public bool IsRunning => _timer.IsEnabled;
 
         private void OnObservationStarted(object? sender, EventArgs e)

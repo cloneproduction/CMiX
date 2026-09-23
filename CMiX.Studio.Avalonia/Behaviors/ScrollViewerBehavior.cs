@@ -37,8 +37,6 @@ namespace CMiX.Studio.Avalonia.Behaviors
             if (AssociatedObject == null)
                 return;
 
-            // WPF ExtentHeightChange maps to ExtentDelta.Y and VerticalChange maps to OffsetDelta.Y.
-            // The current vertical offset is read from the ScrollViewer Offset vector.
             if (e.ExtentDelta.Y > 0 && e.OffsetDelta.Y != 0)
             {
                 _isRestoring = true;

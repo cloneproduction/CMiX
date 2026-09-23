@@ -20,11 +20,6 @@
 
         <DockPanel>
 
-            <!--
-                The WPF view merged ControlRepository.Entities and ControlRepository.Texts
-                through a CompositeCollection of two CollectionViewSources. Avalonia has no
-                CompositeCollection, so ControlRepository.EntitiesAndTexts replaces it here.
-            -->
             <Managers:PrefabSlotManager
                 Margin="8"
                 DataContext="{Binding ModelEntityManager}"

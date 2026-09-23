@@ -9,10 +9,6 @@ using Avalonia.Controls.Templates;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Avalonia replacement for the WPF ViewModelToViewSelector.
-    // Resolves a view type by naming convention: the view class in the flat
-    // CMiX.Studio.Avalonia.Views namespace whose name equals the view model type name.
-    // Registered last in App.DataTemplates so explicit local templates win.
     public class ViewModelToViewTemplate : IDataTemplate
     {
         private readonly Assembly _viewsAssembly;

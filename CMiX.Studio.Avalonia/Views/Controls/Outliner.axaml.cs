@@ -45,7 +45,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             Dispatcher.UIThread.Post(() => selector.SelectedItem = newItem);
         }
 
-        // WPF FrameworkElement becomes the Avalonia Control base type.
         public static readonly StyledProperty<Control> SelectionPanelProperty =
             AvaloniaProperty.Register<Outliner, Control>(nameof(SelectionPanel));
         public Control SelectionPanel

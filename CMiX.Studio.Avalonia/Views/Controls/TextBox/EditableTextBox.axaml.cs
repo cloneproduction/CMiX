@@ -60,8 +60,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private void SetInputVisible(bool editing)
         {
-            // WPF used Visibility.Hidden for the input; both elements overlap in the grid,
-            // so IsVisible keeps the same layout.
             InputValue.IsVisible = editing;
             TextDisplay.IsVisible = !editing;
         }

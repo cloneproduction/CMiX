@@ -20,7 +20,6 @@
                 <ColumnDefinition Width="0.5*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <!-- The WPF PreviewKeyDown handler for the first part is attached with tunneling in code behind. -->
             <TextBox
                 Name="txtboxFirstPart"
                 Grid.Column="0"

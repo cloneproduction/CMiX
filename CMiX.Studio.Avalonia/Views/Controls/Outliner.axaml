@@ -45,10 +45,6 @@
                     <Border
                         BorderBrush="{DynamicResource Grey300Brush}"
                         BorderThickness="0.5">
-                        <!--
-                            The WPF TextElement.Foreground attached value becomes the Foreground
-                            property, which EditableTextBox forwards to its text display.
-                        -->
                         <Controls:EditableTextBox
                             Background="{DynamicResource Grey200Brush}"
                             Focusable="False"

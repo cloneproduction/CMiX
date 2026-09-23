@@ -3,11 +3,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--
-        The WPF WindowChrome.IsHitTestVisibleInChrome attributes are gone; the Avalonia
-        window chrome handles hit testing through its own template. The FindAncestor
-        Window command parameters become $parent[Window] bindings.
-    -->
     <DockPanel>
 
         <Button

@@ -35,12 +35,6 @@
             </UniformGrid>
         </Border>
 
-        <!--
-            WPF hides the inactive mode panels with Visibility.Hidden so they keep
-            their layout space and the picker never resizes when switching modes.
-            IsVisible would collapse them, so the hiddenMode class emulates Hidden
-            with opacity while the panels stay in layout.
-        -->
         <Panel Margin="0,8" VerticalAlignment="Top">
             <Panel.Styles>
                 <Style Selector="Border.hiddenMode">

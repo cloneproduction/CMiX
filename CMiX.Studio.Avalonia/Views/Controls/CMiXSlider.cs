@@ -57,7 +57,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         public CMiXSlider()
         {
-            // WPF Preview events map to tunnel handlers.
             AddHandler(PointerPressedEvent, OnTunnelPointerPressed, RoutingStrategies.Tunnel);
             AddHandler(PointerMovedEvent, OnTunnelPointerMoved, RoutingStrategies.Tunnel);
             AddHandler(PointerReleasedEvent, OnTunnelPointerReleased, RoutingStrategies.Tunnel);
@@ -114,7 +113,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             _interaction = ValueInteraction.BeginScope();
             Focus();
             Cursor = new Cursor(StandardCursorType.None);
-            // The WPF template triggered on IsMouseCaptured; the theme selects on :pressed instead.
             PseudoClasses.Set(":pressed", true);
             e.Handled = true;
         }

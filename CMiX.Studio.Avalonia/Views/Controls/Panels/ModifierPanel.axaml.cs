@@ -73,8 +73,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls.Panels
             set => SetValue(ResetModifierCommandProperty, value);
         }
 
-        // The WPF original registered this parameter as ICommand by mistake; Avalonia typed
-        // properties reject the view model binding, so the parameter is object here.
         public static readonly StyledProperty<object> ResetModifierCommandParameterProperty =
             AvaloniaProperty.Register<ModifierPanel, object>(nameof(ResetModifierCommandParameter));
         public object ResetModifierCommandParameter

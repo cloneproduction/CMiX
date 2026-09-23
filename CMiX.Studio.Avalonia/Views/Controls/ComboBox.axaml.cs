@@ -185,9 +185,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private void OnInnerComboBoxPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
         {
-            // Closing the dropdown (without necessarily picking a new item) does not return
-            // focus to the ComboBox on its own, unlike WPF. Re-focus explicitly so wheel-to-cycle
-            // keeps working right after the dropdown is dismissed by clicking the control again.
             if (e.Property == AvaloniaComboBox.IsDropDownOpenProperty && e.NewValue is false)
                 _innerComboBox?.Focus();
         }

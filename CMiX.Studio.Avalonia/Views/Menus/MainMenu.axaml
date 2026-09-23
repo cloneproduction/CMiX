@@ -3,17 +3,12 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--
-        The WPF WindowChrome.IsHitTestVisibleInChrome attribute is gone; the Avalonia
-        main window chrome handles hit testing through its own template.
-    -->
     <Border
         Margin="0,0,0,2"
         Padding="2"
         Background="Transparent"
         BorderBrush="{DynamicResource Grey100Brush}"
         DockPanel.Dock="Top">
-        <!-- Menu and MenuItem have no VerticalContentAlignment/HorizontalContentAlignment in Avalonia; the MenuDefault/TopMenuItem themes align the headers. -->
         <Menu
             Height="{DynamicResource ControlHeightMD}"
             Margin="0,0,0,0"
