@@ -25,7 +25,7 @@ namespace CMiX.Core.Modulation
                 if (e.PropertyName != nameof(GenericValue<Guid?>.Value)) return;
                 OnPropertyChanged(nameof(ModulatorID));
 
-                // BoundModulator is computed from ModulatorID through ModulatorResolver, so it
+                // BoundModulator is computed from ModulatorID through ModulatorLookup, so it
                 // can never go stale on its own. Notify here so a bound view refreshes on every
                 // path that changes ModulatorID: SetModulator, undo, and redo alike.
                 OnPropertyChanged(nameof(BoundModulator));
@@ -59,9 +59,9 @@ namespace CMiX.Core.Modulation
         }
 
         public IModulator BoundModulator =>
-            ModulatorID is { } id ? ModulatorResolver?.Invoke(id) : null;
+            ModulatorID is { } id ? ModulatorLookup?.Invoke(id) : null;
 
-        public Func<Guid, IModulator> ModulatorResolver { get; set; }
+        public Func<Guid, IModulator> ModulatorLookup { get; set; }
 
         bool IModulatorBindable.CanBind(IModulatorOutput output) => output is ModulatorOutput<T>;
 

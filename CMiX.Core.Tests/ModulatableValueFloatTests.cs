@@ -44,7 +44,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var modulatable = provider.GetRequiredService<ModulatableValue<float>>();
             var randomModulator = provider.GetRequiredService<RandomModulator>();
-            modulatable.ModulatorResolver = id => id == randomModulator.ID ? randomModulator : null;
+            modulatable.ModulatorLookup = id => id == randomModulator.ID ? randomModulator : null;
 
             modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
