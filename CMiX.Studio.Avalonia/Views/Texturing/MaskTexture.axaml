@@ -10,7 +10,9 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-    <StackPanel Margin="8" IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
+    <StackPanel 
+      Margin="8" 
+      IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
 
         <Views:DiffuseTexture />
 
@@ -27,7 +29,8 @@
       
       <Panels:IndentedExpander 
         Indentation="4"
-        Header="Transform" IsExpanded="{Binding IsExpanded}">
+        Header="Transform" 
+        IsExpanded="{Binding IsExpanded}">
         
         <StackPanel Spacing="{DynamicResource SpacingMD}">
           

@@ -123,6 +123,7 @@
                     Margin="0"
                     DataContext="{Binding DisplacementTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
+                  
                     <BaseControls:Outliner.SelectionPanel>
                         <Managers:ButtonOpenSelectionPanel Caption="New Control Texture">
                             <Managers:ButtonOpenSelectionPanel.SelectionPanel>
