@@ -4,12 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    x:Name="layerRoot">
+    x:Name="layerRoot"    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400"
+    d:DesignHeight="600">
 
-    <!-- Bound through the element name because an empty path binding against a null DataContext never delivers a value in Avalonia. -->
-    <Border Background="{DynamicResource Grey300Brush}" IsVisible="{Binding DataContext, ElementName=layerRoot, Converter={StaticResource NullToVisibility}}">
+    <Border Background="{DynamicResource Grey200Brush}" IsVisible="{Binding DataContext, ElementName=layerRoot, Converter={StaticResource NullToVisibility}}">
         <TabControl
-            Background="{DynamicResource Grey200Brush}"
+            Background="{DynamicResource Grey100Brush}"
             TabStripPlacement="Left"
             Theme="{StaticResource TabControlVerticalPanel}">
 

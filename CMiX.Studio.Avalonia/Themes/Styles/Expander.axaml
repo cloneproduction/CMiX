@@ -175,6 +175,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border
+                  CornerRadius="2"
                     Name="mainBorder"
                     Background="{DynamicResource PanelBackgroundLevel1Brush}"
                     Height="{DynamicResource ControlHeightXL}"
@@ -212,7 +213,8 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border
+              <Border
+                    CornerRadius="2"
                     BorderBrush="{DynamicResource PanelBorderBackground}"
                     BorderThickness="0,1,0,0">
                     <Border Background="Transparent">

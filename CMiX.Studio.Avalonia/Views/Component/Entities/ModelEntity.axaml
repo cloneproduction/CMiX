@@ -12,81 +12,84 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-    <StackPanel>
+  <StackPanel Margin="0" Spacing="{DynamicResource SpacingMD}">
       
         <BaseControls:ColorSelector
-            Margin="8"
             Caption="Color"
             DataContext="{Binding Color}" />
+    
+    <StackPanel Spacing="{DynamicResource SpacingXS}">
       
-        <Panels:IndentedExpander 
+      <Panels:IndentedExpander
           Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
-            <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
-        </Panels:IndentedExpander>
+        <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
+      </Panels:IndentedExpander>
 
-        <Views:EntityModifiersSection 
-            PanelOwner="{x:Type Compositing:Entity}" />
+      <Views:EntityModifiersSection
+          PanelOwner="{x:Type Compositing:Entity}" />
 
-        <Panels:IndentedExpander
-            Header="Texture"
-            IsExpanded="{Binding TextureIsExpanded}">
-        
-          <StackPanel>
+      <Panels:IndentedExpander
+          Header="Texture"
+          IsExpanded="{Binding TextureIsExpanded}">
 
-            <Views:DiffuseTexture DataContext="{Binding Texture.DiffuseTexture}" />
+        <StackPanel>
 
-            <Panels:IndentedExpander
-                Indentation="4"
-                IsExpanded="{Binding Texture.MaskTexture.IsExpanded}">
-            
-              <Panels:IndentedExpander.Header>
-                <DockPanel>
-                  <ToggleButton
-                      Width="14"
-                      Height="14"
-                      IsChecked="{Binding Texture.MaskTexture.IsEnabled.Value, Mode=TwoWay}"
-                      Theme="{StaticResource ToggleButtonIcon}" />
-                  <TextBlock Margin="8,0" Text="Mask" />
-                </DockPanel>
-              </Panels:IndentedExpander.Header>
-            
-              <Views:MaskTexture DataContext="{Binding Texture.MaskTexture}" />
-            
-            </Panels:IndentedExpander>
-          
-          </StackPanel>
+          <Views:DiffuseTexture DataContext="{Binding Texture.DiffuseTexture}" />
 
-        </Panels:IndentedExpander>
+          <Panels:IndentedExpander
+              Indentation="4"
+              IsExpanded="{Binding Texture.MaskTexture.IsExpanded}">
 
-        <Panels:IndentedExpander        
-          Header="Transform Texture"
-          IsExpanded="{Binding TransformTextureIsExpanded}">
-          
-          <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
-            
-            <Views:Transform2D 
-              DataContext="{Binding Texture.DiffuseTexture.Transform2D}"  />
-            
-            <Views:SamplerState
-              DataContext="{Binding Texture.DiffuseTexture.SamplerState}"/>
+            <Panels:IndentedExpander.Header>
+              <DockPanel>
+                <ToggleButton
+                    Width="14"
+                    Height="14"
+                    IsChecked="{Binding Texture.MaskTexture.IsEnabled.Value, Mode=TwoWay}"
+                    Theme="{StaticResource ToggleButtonIcon}" />
+                <TextBlock Margin="8,0" Text="Mask" />
+              </DockPanel>
+            </Panels:IndentedExpander.Header>
 
-          </StackPanel>
+            <Views:MaskTexture DataContext="{Binding Texture.MaskTexture}" />
 
-        </Panels:IndentedExpander>
-      
-        <Panels:IndentedExpander 
-          Header="Material" 
-          IsExpanded="{Binding MaterialManagerIsExpanded}">
+          </Panels:IndentedExpander>
 
-          <Border IsVisible="{Binding Material, Converter={StaticResource NullToVisibility}}">
-            <Views:Material DataContext="{Binding Material}" />
-          </Border>
+        </StackPanel>
 
-        </Panels:IndentedExpander>
+      </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
-            <Views:Mesh Margin="8" DataContext="{Binding Mesh}" />
-        </Panels:IndentedExpander>
+      <Panels:IndentedExpander
+        Header="Transform Texture"
+        IsExpanded="{Binding TransformTextureIsExpanded}">
+
+        <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
+
+          <Views:Transform2D
+            DataContext="{Binding Texture.DiffuseTexture.Transform2D}"  />
+
+          <Views:SamplerState
+            DataContext="{Binding Texture.DiffuseTexture.SamplerState}"/>
+
+        </StackPanel>
+
+      </Panels:IndentedExpander>
+
+      <Panels:IndentedExpander
+        Header="Material"
+        IsExpanded="{Binding MaterialManagerIsExpanded}">
+
+        <Border IsVisible="{Binding Material, Converter={StaticResource NullToVisibility}}">
+          <Views:Material DataContext="{Binding Material}" />
+        </Border>
+
+      </Panels:IndentedExpander>
+
+      <Panels:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
+        <Views:Mesh Margin="8" DataContext="{Binding Mesh}" />
+      </Panels:IndentedExpander>
+
+    </StackPanel>
 
     </StackPanel>
 
