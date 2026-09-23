@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -66,14 +65,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             {
                 SetColor(e.GetPosition(this));
                 SetCursor();
-
-                Point? pointFromColor = GetColorLocation();
-                if (pointFromColor == null)
-                    return;
-
-                PixelPoint pointToScreen = this.PointToScreen(pointFromColor.Value);
-
-                SetCursorPos(pointToScreen.X, pointToScreen.Y);
             }
         }
 
@@ -86,9 +77,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 TopLevel.GetTopLevel(this)?.FocusManager?.ClearFocus();
             }
         }
-
-        [DllImport("User32.dll")]
-        private static extern bool SetCursorPos(int X, int Y);
 
         private void SetCursor()
         {
