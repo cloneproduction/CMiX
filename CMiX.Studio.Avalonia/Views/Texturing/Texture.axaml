@@ -29,11 +29,12 @@
 
         <Panels:IndentedExpander
             Header="Filter"
-            Indentation="4"
+            Indentation="8"
             IsExpanded="{Binding TextureModifierManager.IsExpanded, FallbackValue=False}">
 
             <Views:ModifierManager
-                Margin="8"
+                Margin="8, 0, 8, 8"
+                Caption="Add Filter"
                 DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
                 <Views:ModifierManager.SelectionPanel>
                     <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />

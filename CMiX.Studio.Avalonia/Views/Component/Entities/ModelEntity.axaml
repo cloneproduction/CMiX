@@ -12,9 +12,10 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-  <StackPanel Margin="0" Spacing="{DynamicResource SpacingMD}">
+  <StackPanel Spacing="{DynamicResource SpacingMD}">
       
         <BaseControls:ColorSelector
+            Margin="8, 8, 8, 0"
             Caption="Color"
             DataContext="{Binding Color}" />
     
