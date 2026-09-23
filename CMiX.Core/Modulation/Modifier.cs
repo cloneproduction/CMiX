@@ -85,7 +85,7 @@ namespace CMiX.Core.Modulation
                 Bindables[i].FromModel(model.Bindables[i]);
 
             foreach (var bindable in Bindables.Cast<IModulatorBindable>().Concat(_nestedBindables))
-                bindable.ModulatorResolver = id => ModulatorManager.ManagerData.Items
+                bindable.ModulatorLookup = id => ModulatorManager.ManagerData.Items
                     .OfType<IModulator>()
                     .FirstOrDefault(m => m.ID == id);
         }
