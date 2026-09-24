@@ -36050,7 +36050,7 @@
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <Choice Kind="ProcessAppFlag" Name="SceneWindow" />
                 </p:NodeReference>
-                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="-864.5714, 69.71429, 760, 440" />
+                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="900, 500, 760, 440" />
                 <Pin Id="HIZJqDlx9MEPhmzNCdJH1J" Name="Bound to Document" Kind="InputPin" />
                 <Pin Id="N2jbSedzlJOPk61sjPnAjT" Name="Dialog If Document Changed" Kind="InputPin" />
                 <Pin Id="I2cCZopRrBbNn2LnahdA5d" Name="Save Bounds" Kind="InputPin" />
@@ -46633,6 +46633,144 @@
             <Link Id="Kfj3e3GUFBSQKFLfmeRqq7" Ids="HVNlkIiPxu8NGn7O1C4Khe,C6uGCanHMbOO9qcfPOl0Vn" />
             <Link Id="FHO7z5mIYsAP3Fceir02Du" Ids="Ly7yaIYyCkTOkB63tBF2fX,Gf5N4jYnIPWNkkAHK37Xbw" />
             <Link Id="NxgLEXByjnmOgbJHG3SAob" Ids="Gf5N4jYnIPWNkkAHK37Xbw,VUjun1R9xJTLta29gojJc4" IsHidden="true" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ ICMiXServiceThreeDModelSource ************************
+
+-->
+        <Node Name="ICMiXServiceThreeDModelSource" Bounds="461,660" Id="BGyKWD718qFOFEAhWoywOT">
+          <p:NodeReference>
+            <Choice Kind="InterfaceDefinition" />
+          </p:NodeReference>
+          <Patch Id="RU38OfHIaAIMDbTzUn5RT9">
+            <Canvas Id="GcM7rWg5AfTMlZ98Xi9yEi" CanvasType="Group">
+              <ControlPoint Id="UvNio0jCf6fL95haIY17nJ" Bounds="124,240" />
+            </Canvas>
+            <ProcessDefinition Id="EjHzJiutzSoOchz4c42KVW" IsHidden="true">
+              <Fragment Id="QgfZ7RyXgVsNutPQV4exW1" Patch="KrVGV6HRtGzLxX4uCkTVgT" />
+            </ProcessDefinition>
+            <Patch Id="KrVGV6HRtGzLxX4uCkTVgT" Name="ThreeDModelData">
+              <Pin Id="PDGSn2gp40dPsom8BfYsDi" Name="ThreeDModelData" Kind="OutputPin">
+                <p:TypeAnnotation LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
+                  <Choice Kind="TypeFlag" Name="TilingInfo" />
+                </p:TypeAnnotation>
+              </Pin>
+            </Patch>
+            <Link Id="BoL5A4JuAjwOxzxXWBBHP6" Ids="UvNio0jCf6fL95haIY17nJ,PDGSn2gp40dPsom8BfYsDi" IsHidden="true" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ ThreeDModelData ************************
+
+-->
+        <Node Name="ThreeDModelData" Bounds="485,710" Id="G4h6NAL7RtFOxpENCqYah6">
+          <p:NodeReference>
+            <Choice Kind="ClassDefinition" />
+          </p:NodeReference>
+          <Patch Id="JXZdiGp92nSQdnVPCmSGda">
+            <Canvas Id="JT6DFDs32EXM2A4CNUxzMW" CanvasType="Group">
+              <Pad Id="S9FVbWz77awNteumSlmDVo" SlotId="EnKEdDgLXeZPlTjosBRVYE" Bounds="190,160" />
+              <ControlPoint Id="TQ5kdQISIpGMnrGhzDs4Yk" Bounds="190,118" />
+              <Pad Id="CgfHfV050msOrjEr8z7MzA" SlotId="V2zN3jNOxiMMBq95F7ZpOE" Bounds="436,160" />
+              <ControlPoint Id="OjL7D6fFYQ7LlBDNYIF5Md" Bounds="436,118" />
+              <ControlPoint Id="OMnRDnSPJt2PQI6THaLwxM" Bounds="436,220" />
+              <ControlPoint Id="VINUp7DFtLDPPGGWUivn2Q" Bounds="190,220" />
+              <Node Bounds="507,178,52,19" Id="GxQeKuX8wygNhbJNixD3WW">
+                <p:NodeReference LastCategoryFullName="Collections.Interfaces.IReadOnlyList" LastDependency="VL.CoreLib.vl">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="MutableInterfaceType" Name="IReadOnlyList" NeedsToBeDirectParent="true" />
+                  <Choice Kind="OperationCallFlag" Name="GetSlice" />
+                </p:NodeReference>
+                <Pin Id="QOiiGz0ysX8LnUCYZZ0Q2G" Name="Input" Kind="StateInputPin" />
+                <Pin Id="HfTDVBPK4NHLNSrJEOnN7z" Name="Default Value" Kind="InputPin" />
+                <Pin Id="PUX2jzZiSp5MfshPfXd4Yj" Name="Index" Kind="InputPin" />
+                <Pin Id="NNZQxSQaK9mOPNZfS3A6fv" Name="Result" Kind="OutputPin" />
+              </Node>
+              <ControlPoint Id="DbWGhGF9tnyPMcMrv3Klbe" Bounds="556,118" />
+              <ControlPoint Id="Ag3NbtxLzZaQGEO3VLVdiw" Bounds="509,220" />
+              <Node Bounds="255,178,52,19" Id="M8oBBGHqLc7PO6Atj1u8XI">
+                <p:NodeReference LastCategoryFullName="Collections.Interfaces.IReadOnlyList" LastDependency="VL.CoreLib.vl">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="MutableInterfaceType" Name="IReadOnlyList" NeedsToBeDirectParent="true" />
+                  <Choice Kind="OperationCallFlag" Name="GetSlice" />
+                </p:NodeReference>
+                <Pin Id="I8xMUN8sQZ2LX0KK92EwMn" Name="Input" Kind="StateInputPin" />
+                <Pin Id="IjrYUmwcVS5OkX3F6JDq5u" Name="Default Value" Kind="InputPin" />
+                <Pin Id="Q0b7AF3VwkgOFPpobS3Ooz" Name="Index" Kind="InputPin" />
+                <Pin Id="OG2r6QrsyyTOaXj7ij2r5m" Name="Result" Kind="OutputPin" />
+              </Node>
+              <ControlPoint Id="PXrlALTftdyOwD9e8cquPk" Bounds="304,118" />
+              <ControlPoint Id="QS5nU6Z2MUgM9zfvVJLcN0" Bounds="257,220" />
+            </Canvas>
+            <Patch Id="EJbCNFkfLyTLCGOy1Z0WNH" Name="Create" />
+            <ProcessDefinition Id="BB9ShgYI2ciPH0DlDR6u2i" IsHidden="true">
+              <Fragment Id="RevtcgKYrdxNaGX70IspO1" Patch="EJbCNFkfLyTLCGOy1Z0WNH" Enabled="true" />
+              <Fragment Id="LLdxct9ptuHOM5LRT3ofpV" Patch="SEvO9JEEBlJOPKBicGsmLA" Enabled="true" />
+              <Fragment Id="AiQkxAYihpiMPXSWDxzC2n" Patch="BgjsjbqHdQxMkb8EuBlsbr" />
+              <Fragment Id="GvNEArZefvoMwWxGj9U6Wd" Patch="U4JNkFrrdK0OtwEf3fMlSN" />
+              <Fragment Id="ETkW25K0fmwPIzWbjKYIdN" Patch="QHbPEHePpr3PYlZ7vZEy38" />
+              <Fragment Id="SlSuCi6s3YXOglpIM4aldx" Patch="BeMJDkx2SgYOj7qw18DN8J" />
+            </ProcessDefinition>
+            <Slot Id="EnKEdDgLXeZPlTjosBRVYE" Name="Models">
+              <p:TypeAnnotation p:Type="TypeReference">
+                <Choice Kind="TypeFlag" Name="Spread" />
+                <p:TypeArguments>
+                  <TypeReference>
+                    <Choice Kind="TypeFlag" Name="Model" />
+                  </TypeReference>
+                </p:TypeArguments>
+              </p:TypeAnnotation>
+            </Slot>
+            <Link Id="Oqd0tWMti5dPuWWBCFJcya" Ids="TQ5kdQISIpGMnrGhzDs4Yk,S9FVbWz77awNteumSlmDVo" />
+            <Link Id="MFNzY2KlR0yMsFogvwwIhP" Ids="Mol6i5ToNf8OBbt32mN2xZ,TQ5kdQISIpGMnrGhzDs4Yk" IsHidden="true" />
+            <Patch Id="SEvO9JEEBlJOPKBicGsmLA" Name="Update">
+              <Pin Id="Mol6i5ToNf8OBbt32mN2xZ" Name="Models" Kind="InputPin" />
+              <Pin Id="VLnnJTPKk8vPrljQEkjaF0" Name="Meshes" Kind="InputPin" />
+            </Patch>
+            <Slot Id="V2zN3jNOxiMMBq95F7ZpOE" Name="Meshes">
+              <p:TypeAnnotation p:Type="TypeReference">
+                <Choice Kind="TypeFlag" Name="Spread" />
+                <p:TypeArguments>
+                  <TypeReference>
+                    <Choice Kind="TypeFlag" Name="Mesh" />
+                    <FullNameCategoryReference ID="Stride.API.Rendering" />
+                  </TypeReference>
+                </p:TypeArguments>
+              </p:TypeAnnotation>
+            </Slot>
+            <Link Id="D3ntd11SINjQTUx2iJjMjM" Ids="OjL7D6fFYQ7LlBDNYIF5Md,CgfHfV050msOrjEr8z7MzA" />
+            <Link Id="O851Fd2zdglObY3iQADJQg" Ids="VLnnJTPKk8vPrljQEkjaF0,OjL7D6fFYQ7LlBDNYIF5Md" IsHidden="true" />
+            <Patch Id="BgjsjbqHdQxMkb8EuBlsbr" Name="Meshes">
+              <Pin Id="HNR6WXVUqR5NdUf7DWtv3Q" Name="Meshes" Kind="OutputPin" />
+            </Patch>
+            <Link Id="Rh8THaggRIYLhszrEMbCiq" Ids="OMnRDnSPJt2PQI6THaLwxM,HNR6WXVUqR5NdUf7DWtv3Q" IsHidden="true" />
+            <Link Id="HnjZmqQXmTKLi51PKZTol2" Ids="CgfHfV050msOrjEr8z7MzA,OMnRDnSPJt2PQI6THaLwxM" />
+            <Patch Id="U4JNkFrrdK0OtwEf3fMlSN" Name="Models">
+              <Pin Id="GpIjfybxEIfMdN0BBX4zCM" Name="Models" Kind="OutputPin" />
+            </Patch>
+            <Link Id="NaMSpKYlmWKQWCrnTEDrwD" Ids="VINUp7DFtLDPPGGWUivn2Q,GpIjfybxEIfMdN0BBX4zCM" IsHidden="true" />
+            <Link Id="KBIjkYw2LyyP99L4Y2m3GF" Ids="S9FVbWz77awNteumSlmDVo,VINUp7DFtLDPPGGWUivn2Q" />
+            <Link Id="InO5FWu5w7nMu1G28jAHSl" Ids="CgfHfV050msOrjEr8z7MzA,QOiiGz0ysX8LnUCYZZ0Q2G" />
+            <Link Id="Q3m5qHfEfkeQAwzx2s65ma" Ids="DbWGhGF9tnyPMcMrv3Klbe,PUX2jzZiSp5MfshPfXd4Yj" />
+            <Link Id="RavHQ5y9ZujOjCMJF9HHfu" Ids="IARzPjQozQCOaWuduNyCTj,DbWGhGF9tnyPMcMrv3Klbe" IsHidden="true" />
+            <Link Id="Dpd3czOSbBnOiobMlephNB" Ids="NNZQxSQaK9mOPNZfS3A6fv,Ag3NbtxLzZaQGEO3VLVdiw" />
+            <Link Id="Ubasxh12KJuM70yNo27u64" Ids="Ag3NbtxLzZaQGEO3VLVdiw,TuklWhM1m8wM8ix5D3r7zw" IsHidden="true" />
+            <Patch Id="QHbPEHePpr3PYlZ7vZEy38" Name="GetMeshById">
+              <Pin Id="TuklWhM1m8wM8ix5D3r7zw" Name="Result" Kind="OutputPin" />
+              <Pin Id="IARzPjQozQCOaWuduNyCTj" Name="Id" Kind="InputPin" />
+            </Patch>
+            <Link Id="BifDfL7l4QeOmxz7Zp31MQ" Ids="PXrlALTftdyOwD9e8cquPk,Q0b7AF3VwkgOFPpobS3Ooz" />
+            <Link Id="UMuJgfKRz47QIdE8eX0VGt" Ids="OG2r6QrsyyTOaXj7ij2r5m,QS5nU6Z2MUgM9zfvVJLcN0" />
+            <Patch Id="BeMJDkx2SgYOj7qw18DN8J" Name="GetModelById" ParticipatingElements="M8oBBGHqLc7PO6Atj1u8XI,BifDfL7l4QeOmxz7Zp31MQ,UMuJgfKRz47QIdE8eX0VGt">
+              <Pin Id="OenC0EIf7maL8QSsrRkMEM" Name="Id" Kind="InputPin" />
+              <Pin Id="QiKoMor0ZYJLVkEmpMOCiH" Name="Result" Kind="OutputPin" />
+            </Patch>
+            <Link Id="TLlOslYIVNqOAhfVKbU3Kk" Ids="OenC0EIf7maL8QSsrRkMEM,PXrlALTftdyOwD9e8cquPk" IsHidden="true" />
+            <Link Id="Pc1Fnwwu5jhLMJMfLlGyIb" Ids="QS5nU6Z2MUgM9zfvVJLcN0,QiKoMor0ZYJLVkEmpMOCiH" IsHidden="true" />
+            <Link Id="D9GoMrP0LVUNkGcjX8FuEZ" Ids="S9FVbWz77awNteumSlmDVo,I8xMUN8sQZ2LX0KK92EwMn" />
           </Patch>
         </Node>
       </Canvas>
