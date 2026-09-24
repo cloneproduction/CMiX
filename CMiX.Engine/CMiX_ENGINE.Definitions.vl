@@ -46053,7 +46053,7 @@
               <ControlPoint Id="E0lG1rF24k3PMU6OVROkww" Bounds="1425,89" />
               <Pad Id="BOulNk541vDOZziDkO5hqK" SlotId="RQMoqmBpDfsP5WuYuTryue" Bounds="1631,150" />
               <ControlPoint Id="UWF4X6aueptNPZ1tDrDUTN" Bounds="1631,98" />
-              <ControlPoint Id="JLPH6tb6ID0NkTJUNd2RVy" Bounds="1631,200" />
+              <ControlPoint Id="JLPH6tb6ID0NkTJUNd2RVy" Bounds="1631,191" />
               <ControlPoint Id="D15OyluF2P5P1EHkVPUchp" Bounds="1425,191" />
               <Pad Id="VAZr1p8cuAJQLoHvktS6Xg" SlotId="TnIezNCIDZmOrZHIwiebgu" Bounds="132,156" />
               <ControlPoint Id="CugOQYagWmVLQRR7I10G84" Bounds="132,220" />
@@ -46193,13 +46193,8 @@
             </Slot>
             <Slot Id="RQMoqmBpDfsP5WuYuTryue" Name="Mesh">
               <p:TypeAnnotation p:Type="TypeReference">
-                <Choice Kind="TypeFlag" Name="Spread" />
-                <p:TypeArguments>
-                  <TypeReference>
-                    <Choice Kind="TypeFlag" Name="Mesh" />
-                    <FullNameCategoryReference ID="Stride.API.Rendering" />
-                  </TypeReference>
-                </p:TypeArguments>
+                <Choice Kind="TypeFlag" Name="Mesh" />
+                <FullNameCategoryReference ID="Stride.API.Rendering" />
               </p:TypeAnnotation>
             </Slot>
             <Patch Id="EGc95Bnf6uqP6eY0c9zW9A" Name="Meshe">
