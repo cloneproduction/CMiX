@@ -12,12 +12,12 @@
         <DockPanel >
 
             <views:LayerManagerToolbar 
-                Background="{DynamicResource Grey400Brush}"
+                Background="{DynamicResource Grey300Brush}"
                 DockPanel.Dock="Bottom" 
                 Padding="4"/>
 
             <Border DockPanel.Dock="Bottom"
-                    Background="{DynamicResource Grey300Brush}"
+                    Background="{DynamicResource Grey200Brush}"
                     IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
                 <StackPanel Margin="8" DataContext="{Binding SelectedItem}">
                     <views:LayerManagerMaskSettings IsVisible="{Binding LayerMaskSettings.IsMask.Value}" />
