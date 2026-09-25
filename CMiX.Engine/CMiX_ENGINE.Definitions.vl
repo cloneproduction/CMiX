@@ -26766,17 +26766,17 @@
                       <Pin Id="FL4K1jAa1aUOpVxck9M3cR" Name="Camera Component" Kind="OutputPin" />
                     </Node>
                     <ControlPoint Id="QMKiMHrrs2EOtI73P47Iqj" Bounds="60,392" />
-                    <Pad Id="TNRQfuIwggELLTiq593F8m" Comment="Orthographic Size" Bounds="260,241,35,15" ShowValueBox="true" isIOBox="true" Value="2">
+                    <Pad Id="TNRQfuIwggELLTiq593F8m" Comment="Orthographic Size" Bounds="260,240,35,15" ShowValueBox="true" isIOBox="true" Value="2">
                       <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
                         <Choice Kind="TypeFlag" Name="Float32" />
                       </p:TypeAnnotation>
                     </Pad>
-                    <Pad Id="Art3h78UMv4M699yWWPunK" Comment="Far Clip Plane" Bounds="340,301,41,15" ShowValueBox="true" isIOBox="true" Value="1000">
+                    <Pad Id="Art3h78UMv4M699yWWPunK" Comment="Far Clip Plane" Bounds="340,300,41,15" ShowValueBox="true" isIOBox="true" Value="1000">
                       <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
                         <Choice Kind="TypeFlag" Name="Float32" />
                       </p:TypeAnnotation>
                     </Pad>
-                    <Pad Id="QcQHPmfST2NPGNh1EXOfAg" Comment="Near Clip Plane" Bounds="320,272,60,15" ShowValueBox="true" isIOBox="true" Value="-1000">
+                    <Pad Id="QcQHPmfST2NPGNh1EXOfAg" Comment="Near Clip Plane" Bounds="320,271,60,15" ShowValueBox="true" isIOBox="true" Value="-1000">
                       <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
                         <Choice Kind="TypeFlag" Name="Float32" />
                       </p:TypeAnnotation>
@@ -36352,7 +36352,7 @@
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <Choice Kind="ProcessAppFlag" Name="SceneWindow" />
                 </p:NodeReference>
-                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="-12, 178.85715, 1210.2858, 640.5714" />
+                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="-12, 178.66667, 1210, 640" />
                 <Pin Id="HIZJqDlx9MEPhmzNCdJH1J" Name="Bound to Document" Kind="InputPin" />
                 <Pin Id="N2jbSedzlJOPk61sjPnAjT" Name="Dialog If Document Changed" Kind="InputPin" />
                 <Pin Id="I2cCZopRrBbNn2LnahdA5d" Name="Save Bounds" Kind="InputPin" />
@@ -46211,10 +46211,10 @@
               <Pin Id="T39TpmMPh7xMy3ZQ1B2MoI" Name="Is Tiled" Kind="OutputPin" />
             </Patch>
             <Patch Id="Rph3okjSBwLMp0nZL8ik67" Name="Update" ManuallySortedPins="true">
-              <Pin Id="Pepmz5JZfJ7N0Xt8tTxdsD" Name="Is Tiled" Kind="InputPin" />
-              <Pin Id="PXZtgmvnhRvM4zT1mmK2KC" Name="TexCoord Tiling" Kind="InputPin" />
               <Pin Id="KGfHzbwIiVEOVSNkmGQqpL" Name="Model" Kind="InputPin" />
               <Pin Id="C0NnYRC6tHsLd6LlBXMrjr" Name="Mesh" Kind="InputPin" />
+              <Pin Id="PXZtgmvnhRvM4zT1mmK2KC" Name="TexCoord Tiling" Kind="InputPin" />
+              <Pin Id="Pepmz5JZfJ7N0Xt8tTxdsD" Name="Is Tiled" Kind="InputPin" />
             </Patch>
             <Slot Id="EKeCzoq88ogNuG1NzE6D6j" Name="Is Tiled">
               <p:TypeAnnotation p:Type="TypeReference">
