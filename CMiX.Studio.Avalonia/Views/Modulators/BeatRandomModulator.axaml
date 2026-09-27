@@ -14,7 +14,9 @@
         <BaseControls:RangeValue
             LeftValue="{Binding Center.Value}"
             LeftCaption="Center"
+            LeftResetCommand="{Binding Center.ResetCommand}"
             RightCaption="Width"
+            RightResetCommand="{Binding Width.ResetCommand}"
             RightValue="{Binding Width.Value}"/>
 
         <Views:Easing  DataContext="{Binding Easing}" />
