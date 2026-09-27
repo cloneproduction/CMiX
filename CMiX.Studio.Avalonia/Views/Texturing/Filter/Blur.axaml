@@ -9,6 +9,7 @@
         Caption="Strength"
         Maximum="1"
         Minimum="0"
-        Value="{Binding Strength.Value}" />
+        Value="{Binding Strength.Value}"
+        ResetCommand="{Binding Strength.ResetCommand}" />
 
 </Views:FilterPanel>
