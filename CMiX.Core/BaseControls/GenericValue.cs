@@ -40,6 +40,12 @@ namespace CMiX.Core.BaseControls
             Value = OriginalValue;
         }
 
+        public void SetDefault(T value)
+        {
+            Value = value;
+            OriginalValue = value;
+        }
+
         public Guid ID { get; set; }
         public ICommand ResetCommand { get; set; }
         public ControlMessenger ControlMessenger { get; set; }
