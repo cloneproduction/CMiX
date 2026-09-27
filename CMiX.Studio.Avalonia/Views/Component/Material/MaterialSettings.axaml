@@ -47,11 +47,13 @@
 
                 <BaseControls:DragValue
                     Caption="Metalness"
-                    Value="{Binding Metalness.Value}" />
+                    Value="{Binding Metalness.Value}"
+                    ResetCommand="{Binding Metalness.ResetCommand}" />
 
                 <BaseControls:DragValue
                     Caption="Roughness"
-                    Value="{Binding Roughness.Value}" />
+                    Value="{Binding Roughness.Value}"
+                    ResetCommand="{Binding Roughness.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 
@@ -63,13 +65,15 @@
                 Caption="Glossiness"
                 Maximum="1"
                 Minimum="0"
-                Value="{Binding Glossiness.Value}" />
+                Value="{Binding Glossiness.Value}"
+                ResetCommand="{Binding Glossiness.ResetCommand}" />
 
             <BaseControls:CMiXSlider
                 Caption="Specularity"
                 Maximum="1"
                 Minimum="0"
-                Value="{Binding Specularity.Value}" />
+                Value="{Binding Specularity.Value}"
+                ResetCommand="{Binding Specularity.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 

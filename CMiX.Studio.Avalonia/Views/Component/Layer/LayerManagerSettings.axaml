@@ -25,7 +25,8 @@
             Caption="Alpha"
             Maximum="1"
             Minimum="0"
-            Value="{Binding LayerSettings.Opacity.Value}" />
+            Value="{Binding LayerSettings.Opacity.Value}"
+            ResetCommand="{Binding LayerSettings.Opacity.ResetCommand}" />
 
     </StackPanel>
 
