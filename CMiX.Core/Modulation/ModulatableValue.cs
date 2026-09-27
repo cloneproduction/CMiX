@@ -46,6 +46,8 @@ namespace CMiX.Core.Modulation
             set => ValueSource.Value = value;
         }
 
+        public void SetDefault(T value) => ValueSource.SetDefault(value);
+
         public Guid? ModulatorID
         {
             get => ModulatorIDSource.Value;
