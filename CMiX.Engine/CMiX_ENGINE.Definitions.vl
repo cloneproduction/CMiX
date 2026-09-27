@@ -40787,6 +40787,24 @@
                   </Node>
                 </Patch>
               </Node>
+              <Pad Id="RdkiLdyjVTuPn0ompWKKHo" Bounds="74,345,183,124" ShowValueBox="true" isIOBox="true" Value="if this is not done here the windows are not closed on F9&#xD;&#xA;&#xD;&#xA;Root patch can't have Dispose. Not sure how to handle it.">
+                <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
+                  <Choice Kind="TypeFlag" Name="String" />
+                </p:TypeAnnotation>
+                <p:ValueBoxSettings>
+                  <p:fontsize p:Type="Int32">9</p:fontsize>
+                  <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+                </p:ValueBoxSettings>
+              </Pad>
+              <Pad Id="ThbfXl5FGhoN6xG9lCCbhu" Bounds="534,304,246,62" ShowValueBox="true" isIOBox="true" Value="When switching between outputs the windows are not closed the wway things are set up now.">
+                <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
+                  <Choice Kind="TypeFlag" Name="String" />
+                </p:TypeAnnotation>
+                <p:ValueBoxSettings>
+                  <p:fontsize p:Type="Int32">9</p:fontsize>
+                  <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+                </p:ValueBoxSettings>
+              </Pad>
             </Canvas>
             <Patch Id="FPdPif137CjNc0dshQ9Jfm" Name="Create">
               <Pin Id="MmxfPGCffdlO1PpqP6RwXC" Name="RenderOutput" Kind="InputPin" />
@@ -40795,11 +40813,6 @@
               <Pin Id="F3YNdv05bfHL416UU86Ggv" Name="Input" Kind="InputPin" />
               <Pin Id="Ue8VPhN8XknLA1CIQm6ya9" Name="Index" Kind="InputPin" />
             </Patch>
-            <!--
-
-    ************************  ************************
-
--->
             <ProcessDefinition Id="TJ5zrreNq20OuK2tSiWzA7">
               <Fragment Id="Dvc89NY7iONPCymEsvbNdA" Patch="FPdPif137CjNc0dshQ9Jfm" Enabled="true" />
               <Fragment Id="RmOTcTjfgSOMFveVEkuo1g" Patch="KfOJFmCu14uQVpkPitxMNI" Enabled="true" />
