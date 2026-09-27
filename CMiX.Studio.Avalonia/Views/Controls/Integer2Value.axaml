@@ -11,11 +11,15 @@
 
         <BaseControl:IntegerValue
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer2Value, Mode=OneWay}"
-            Value="{Binding X.Value}" />
+            DataContext="{Binding X}"
+            ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=integer2Value}"
+            Value="{Binding Value}" />
 
         <BaseControl:IntegerValue
             Caption="Y"
-            Value="{Binding Y.Value}" />
+            DataContext="{Binding Y}"
+            ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=integer2Value}"
+            Value="{Binding Value}" />
 
     </Panels:PositionedStackPanel>
 
