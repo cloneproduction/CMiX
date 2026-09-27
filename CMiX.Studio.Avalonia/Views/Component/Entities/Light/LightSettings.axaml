@@ -15,7 +15,8 @@
         <BaseControls:DragValue
             Margin="0,8"
             Caption="Intensity"
-            Value="{Binding Intensity.Value}" />
+            Value="{Binding Intensity.Value}"
+            ResetCommand="{Binding Intensity.ResetCommand}" />
 
         <BaseControls:ComboBox
             Caption="Type"

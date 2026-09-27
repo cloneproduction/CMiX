@@ -9,7 +9,8 @@
 
         <BaseControls:DragValue
             Caption="Size"
-            Value="{Binding Size.Value}" />
+            Value="{Binding Size.Value}"
+            ResetCommand="{Binding Size.ResetCommand}" />
 
         <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 

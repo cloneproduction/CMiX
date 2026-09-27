@@ -28,7 +28,8 @@
         <BaseControls:DragValue
             Margin="0,8"
             Caption="Extrude Amount"
-            Value="{Binding ExtrudeAmount.Value}" />
+            Value="{Binding ExtrudeAmount.Value}"
+            ResetCommand="{Binding ExtrudeAmount.ResetCommand}" />
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
             <BaseControls:ComboBox

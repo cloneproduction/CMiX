@@ -11,7 +11,8 @@
 
         <BaseControl:DragValue
             Caption="Radius"
-            Value="{Binding Radius.Value}" />
+            Value="{Binding Radius.Value}"
+            ResetCommand="{Binding Radius.ResetCommand}" />
 
         <BaseControl:IntegerValue
             Margin="0,8,0,0"

@@ -11,15 +11,18 @@
 
             <BaseControls:DragValue
                 Caption="Speed"
-                Value="{Binding Speed.Value}" />
+                Value="{Binding Speed.Value}"
+                ResetCommand="{Binding Speed.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Frequency"
-                Value="{Binding Frequency.Value}" />
+                Value="{Binding Frequency.Value}"
+                ResetCommand="{Binding Frequency.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Contrast"
-                Value="{Binding Contrast.Value}" />
+                Value="{Binding Contrast.Value}"
+                ResetCommand="{Binding Contrast.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 

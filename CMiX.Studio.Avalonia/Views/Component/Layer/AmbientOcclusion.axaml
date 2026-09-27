@@ -35,15 +35,18 @@
 
                 <BaseControls:DragValue
                     Caption="Intensity"
-                    Value="{Binding Intensity.Value}" />
+                    Value="{Binding Intensity.Value}"
+                    ResetCommand="{Binding Intensity.ResetCommand}" />
 
                 <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
                     <BaseControls:DragValue
                         Caption="SampleBias"
-                        Value="{Binding SampleBias.Value}" />
+                        Value="{Binding SampleBias.Value}"
+                        ResetCommand="{Binding SampleBias.ResetCommand}" />
                     <BaseControls:DragValue
                         Caption="SampleRadius"
-                        Value="{Binding SampleRadius.Value}" />
+                        Value="{Binding SampleRadius.Value}"
+                        ResetCommand="{Binding SampleRadius.ResetCommand}" />
                 </Panels:PositionedStackPanel>
 
                 <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
@@ -52,13 +55,15 @@
                         DataContext="{Binding BlurCount}" />
                     <BaseControls:DragValue
                         Caption="Blur Radius"
-                        Value="{Binding BlurRadius.Value}" />
+                        Value="{Binding BlurRadius.Value}"
+                        ResetCommand="{Binding BlurRadius.ResetCommand}" />
                 </Panels:PositionedStackPanel>
 
                 <BaseControls:DragValue
                     Margin="0,0,0,8"
                     Caption="Edge Sharpness"
-                    Value="{Binding EdgeSharpness.Value}" />
+                    Value="{Binding EdgeSharpness.Value}"
+                    ResetCommand="{Binding EdgeSharpness.ResetCommand}" />
 
             </StackPanel>
 

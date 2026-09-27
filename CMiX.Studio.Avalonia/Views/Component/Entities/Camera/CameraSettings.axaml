@@ -17,11 +17,13 @@
 
             <BaseControls:DragValue
                 Caption="Near"
-                Value="{Binding NearClip.Value}" />
+                Value="{Binding NearClip.Value}"
+                ResetCommand="{Binding NearClip.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Far"
-                Value="{Binding FarClip.Value}" />
+                Value="{Binding FarClip.Value}"
+                ResetCommand="{Binding FarClip.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 
@@ -29,11 +31,13 @@
 
             <BaseControls:DragValue
                 Caption="Yaw"
-                Value="{Binding Yaw.Value}" />
+                Value="{Binding Yaw.Value}"
+                ResetCommand="{Binding Yaw.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Pitch"
-                Value="{Binding Pitch.Value}" />
+                Value="{Binding Pitch.Value}"
+                ResetCommand="{Binding Pitch.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 
@@ -42,10 +46,11 @@
             Caption="Orthographic"
             IsChecked="{Binding IsOrthographic.Value}" />
 
-        <BaseControls:DragValue 
-            IsVisible="{Binding IsOrthographic.Value}" 
-            Caption="Orthographic Size" 
-            Value="{Binding OrthographicSize.Value}" />
+        <BaseControls:DragValue
+            IsVisible="{Binding IsOrthographic.Value}"
+            Caption="Orthographic Size"
+            Value="{Binding OrthographicSize.Value}"
+            ResetCommand="{Binding OrthographicSize.ResetCommand}" />
 
         <Border IsVisible="{Binding !IsOrthographic.Value}">
 
@@ -53,11 +58,13 @@
 
                 <BaseControls:DragValue
                     Caption="Distance"
-                    Value="{Binding Distance.Value}" />
+                    Value="{Binding Distance.Value}"
+                    ResetCommand="{Binding Distance.ResetCommand}" />
 
                 <BaseControls:DragValue
                     Caption="FOV"
-                    Value="{Binding FOV.Value}" />
+                    Value="{Binding FOV.Value}"
+                    ResetCommand="{Binding FOV.ResetCommand}" />
 
             </Panels:PositionedStackPanel>
 

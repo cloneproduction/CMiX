@@ -10,7 +10,8 @@
 
         <BaseControls:DragValue
             Caption="Uniform Scale"
-            Value="{Binding UniformScale.Value}" />
+            Value="{Binding UniformScale.Value}"
+            ResetCommand="{Binding UniformScale.ResetCommand}" />
 
         <BaseControls:Vector2
             Caption="Scale"
@@ -18,7 +19,8 @@
 
         <BaseControls:DragValue
             Caption="Rotate"
-            Value="{Binding Rotate.Value}" />
+            Value="{Binding Rotate.Value}"
+            ResetCommand="{Binding Rotate.ResetCommand}" />
 
         <BaseControls:Vector2
             Caption="Translate"

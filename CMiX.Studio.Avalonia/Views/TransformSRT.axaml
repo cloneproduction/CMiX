@@ -11,7 +11,8 @@
 
         <BaseControls:DragValue
             Caption="Uniform"
-            Value="{Binding Uniform.Value}" />
+            Value="{Binding Uniform.Value}"
+            ResetCommand="{Binding Uniform.ResetCommand}" />
 
         <BaseControls:VectorXYZ
             Caption="Scale"
