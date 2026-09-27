@@ -2,12 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.BaseControls
 {
-    public class Integer2 : ObservableRecipient, IControl
+    public partial class Integer2 : ObservableRecipient, IControl
     {
-        public Integer2(GenericValue<int> x, 
+        public Integer2(GenericValue<int> x,
                         GenericValue<int> y)
         {
             X = x;
@@ -17,6 +18,13 @@ namespace CMiX.Core.BaseControls
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<int> X { get; set; }
         public GenericValue<int> Y { get; set; }
+
+        [RelayCommand]
+        private void ResetAll()
+        {
+            X.Reset();
+            Y.Reset();
+        }
 
         public IControlModel ToModel() => new Integer2Model
         {
