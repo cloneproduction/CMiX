@@ -13,11 +13,13 @@
 
             <basecontrol:DragValue
                 Caption="From"
-                Value="{Binding From.Value}" />
+                Value="{Binding From.Value}"
+                ResetCommand="{Binding From.ResetCommand}" />
 
             <basecontrol:DragValue
                 Caption="To"
-                Value="{Binding To.Value}" />
+                Value="{Binding To.Value}"
+                ResetCommand="{Binding To.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 

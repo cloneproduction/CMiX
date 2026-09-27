@@ -11,22 +11,26 @@
         <Controls:DragValue
             Caption="Pixel Size"
             Minimum="0"
-            Value="{Binding PixelSize.Value}" />
+            Value="{Binding PixelSize.Value}"
+            ResetCommand="{Binding PixelSize.ResetCommand}" />
 
         <Controls:DragValue
             Caption="Mask Stagger"
             Minimum="0"
-            Value="{Binding MaskStagger.Value}" />
+            Value="{Binding MaskStagger.Value}"
+            ResetCommand="{Binding MaskStagger.ResetCommand}" />
 
         <Controls:DragValue
             Caption="Mask Border"
             Minimum="0"
-            Value="{Binding MaskBorder.Value}" />
+            Value="{Binding MaskBorder.Value}"
+            ResetCommand="{Binding MaskBorder.ResetCommand}" />
 
         <Controls:DragValue
             Caption="Mask Intensity"
             Minimum="0"
-            Value="{Binding MaskIntensity.Value}" />
+            Value="{Binding MaskIntensity.Value}"
+            ResetCommand="{Binding MaskIntensity.ResetCommand}" />
 
     </Panels:PositionedStackPanel>
 
