@@ -22,6 +22,10 @@ namespace CMiX.Core.Modulation.Modulators
             Minimum = minimum;
             Maximum = maximum;
             WaveType = waveType;
+
+            Period.SetDefault(10.0f);
+            Minimum.SetDefault(-1.0f);
+            Maximum.SetDefault(1.0f);
             UndoManager = undoManager;
             IsActive = false;
             activationService.Register(this);
