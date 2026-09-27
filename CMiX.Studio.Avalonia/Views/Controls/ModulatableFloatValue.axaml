@@ -8,17 +8,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <BaseControls:ModulatorAssignableUserControl.ContextMenu>
-        <ContextMenu Theme="{StaticResource ContextMenuDefault}">
-            <MenuItem
-                Command="{Binding ResetCommand}"
-                Header="Reset" />
-        </ContextMenu>
-    </BaseControls:ModulatorAssignableUserControl.ContextMenu>
-
     <BaseControls:DragValue
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelValue}"
         Caption="{Binding Caption, ElementName=channelValue, Mode=OneWay}"
+        ResetCommand="{Binding ResetCommand}"
         Value="{Binding Value}">
 
         <BaseControls:DragValue.IsReadOnly>

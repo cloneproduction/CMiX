@@ -6,14 +6,6 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     x:Name="counter">
 
-    <BaseControl:CaptionedUserControl.ContextMenu>
-        <ContextMenu Theme="{StaticResource ContextMenuDefault}">
-            <MenuItem
-                Command="{Binding ResetCommand}"
-                Header="Reset" />
-        </ContextMenu>
-    </BaseControl:CaptionedUserControl.ContextMenu>
-
     <BaseControl:DragValue
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=counter}"
         Caption="{Binding Caption, ElementName=counter}"
@@ -21,6 +13,7 @@
         LargeChange="1.0"
         Maximum="{Binding Maximum, ElementName=counter}"
         Minimum="{Binding Minimum, ElementName=counter}"
+        ResetCommand="{Binding ResetCommand}"
         SmallChange="1.0"
         Value="{Binding Value, ElementName=counter, Mode=TwoWay}" />
 

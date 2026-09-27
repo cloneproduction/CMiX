@@ -3,12 +3,15 @@
 
 using System;
 using System.Linq;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
+using Avalonia.Styling;
 using CMiX.Core.BaseControls;
 using CMiX.Studio.Avalonia.Mathematics;
 
@@ -51,6 +54,14 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(TrailingContentProperty, value);
         }
 
+        public static readonly StyledProperty<ICommand> ResetCommandProperty =
+            AvaloniaProperty.Register<CMiXSlider, ICommand>(nameof(ResetCommand));
+        public ICommand ResetCommand
+        {
+            get => GetValue(ResetCommandProperty);
+            set => SetValue(ResetCommandProperty, value);
+        }
+
         protected override Type StyleKeyOverride => typeof(CMiXSlider);
 
         private Border? Border { get; set; }
@@ -66,6 +77,23 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         {
             base.OnApplyTemplate(e);
             Border = e.NameScope.Find<Border>("sliderBorder");
+
+            // Built here, in code, rather than as a themed ContextMenu Setter: a ContextMenu's
+            // content renders through a separate popup surface, not the control template's own
+            // visual tree, so neither TemplatedParent nor PlacementTarget reliably reach back to
+            // this specific CMiXSlider instance. An explicit binding Source sidesteps that
+            // entirely, this always resolves to the exact control it was built for.
+            if (ContextMenu == null)
+            {
+                var resetItem = new MenuItem { Header = "Reset" };
+                resetItem.Bind(MenuItem.CommandProperty, new Binding(nameof(ResetCommand)) { Source = this });
+
+                var contextMenu = new ContextMenu { ItemsSource = new[] { resetItem } };
+                if (this.TryFindResource("ContextMenuDefault", out var theme) && theme is ControlTheme controlTheme)
+                    contextMenu.Theme = controlTheme;
+
+                ContextMenu = contextMenu;
+            }
         }
 
         // A gesture that loses the pointer without a release must not leave the value interaction

@@ -8,20 +8,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <BaseControls:ModulatorAssignableUserControl.ContextMenu>
-        <ContextMenu Theme="{StaticResource ContextMenuDefault}">
-            <MenuItem
-                Command="{Binding ResetCommand}"
-                Header="Reset" />
-        </ContextMenu>
-    </BaseControls:ModulatorAssignableUserControl.ContextMenu>
-
     <BaseControls:DragValue
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=countValue}"
         Caption="{Binding Caption, ElementName=countValue, Mode=OneWay}"
         IsInteger="True"
         LargeChange="1.0"
         Minimum="1"
+        ResetCommand="{Binding ResetCommand}"
         SmallChange="1.0"
         Value="{Binding Value}">
         <BaseControls:DragValue.IsReadOnly>
