@@ -18,39 +18,48 @@
 
             <BaseControls:DragValue
                 Caption="Height"
-                Value="{Binding Height.Value}" />
+                Value="{Binding Height.Value}"
+                ResetCommand="{Binding Height.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Dot Tolerance"
-                Value="{Binding DotTolerance.Value}" />
+                Value="{Binding DotTolerance.Value}"
+                ResetCommand="{Binding DotTolerance.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Ray Jitter"
-                Value="{Binding RayJitter.Value}" />
+                Value="{Binding RayJitter.Value}"
+                ResetCommand="{Binding RayJitter.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Ray Length"
-                Value="{Binding RayLength.Value}" />
+                Value="{Binding RayLength.Value}"
+                ResetCommand="{Binding RayLength.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Shadow Fade"
-                Value="{Binding ShadowFade.Value}" />
+                Value="{Binding ShadowFade.Value}"
+                ResetCommand="{Binding ShadowFade.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Shadow FallOff Pow"
-                Value="{Binding ShadowFallOffPow.Value}" />
+                Value="{Binding ShadowFallOffPow.Value}"
+                ResetCommand="{Binding ShadowFallOffPow.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Shadow Blur"
-                Value="{Binding ShadowBlur.Value}" />
+                Value="{Binding ShadowBlur.Value}"
+                ResetCommand="{Binding ShadowBlur.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Shadow Blur Pow"
-                Value="{Binding ShadowBlurPow.Value}" />
+                Value="{Binding ShadowBlurPow.Value}"
+                ResetCommand="{Binding ShadowBlurPow.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Sharp Offset"
-                Value="{Binding SharpOffset.Value}" />
+                Value="{Binding SharpOffset.Value}"
+                ResetCommand="{Binding SharpOffset.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 

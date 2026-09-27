@@ -13,11 +13,13 @@
             <Controls:DragValue
                 Caption="Threshold"
                 Minimum="0"
-                Value="{Binding ThresholdValue.Value}" />
+                Value="{Binding ThresholdValue.Value}"
+                ResetCommand="{Binding ThresholdValue.ResetCommand}" />
 
             <Controls:DragValue
                 Caption="Smooth"
-                Value="{Binding Smooth.Value}" />
+                Value="{Binding Smooth.Value}"
+                ResetCommand="{Binding Smooth.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 

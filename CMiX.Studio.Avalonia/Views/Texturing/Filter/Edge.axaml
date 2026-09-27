@@ -12,13 +12,15 @@
             Caption="Radius"
             Maximum="10"
             Minimum="0"
-            Value="{Binding Radius.Value}" />
+            Value="{Binding Radius.Value}"
+            ResetCommand="{Binding Radius.ResetCommand}" />
 
         <Controls:CMiXSlider
             Caption="Brightness"
             Maximum="10"
             Minimum="0"
-            Value="{Binding Brightness.Value}" />
+            Value="{Binding Brightness.Value}"
+            ResetCommand="{Binding Brightness.ResetCommand}" />
 
     </Panels:PositionedStackPanel>
 

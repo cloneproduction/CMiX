@@ -12,13 +12,15 @@
             Caption="Factor X"
             Maximum="1"
             Minimum="0"
-            Value="{Binding Factor.X.Value}" />
+            Value="{Binding Factor.X.Value}"
+            ResetCommand="{Binding Factor.X.ResetCommand}" />
 
         <Controls:CMiXSlider
             Caption="Factor Y"
             Maximum="1"
             Minimum="0"
-            Value="{Binding Factor.Y.Value}" />
+            Value="{Binding Factor.Y.Value}"
+            ResetCommand="{Binding Factor.Y.ResetCommand}" />
 
     </Panels:PositionedStackPanel>
 

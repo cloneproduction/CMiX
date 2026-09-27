@@ -11,7 +11,8 @@
 
         <Controls:DragValue
             Caption="Grid Size"
-            Value="{Binding GridSize.Value}" />
+            Value="{Binding GridSize.Value}"
+            ResetCommand="{Binding GridSize.ResetCommand}" />
 
         <Controls:Vector2
             Caption="Character Size"

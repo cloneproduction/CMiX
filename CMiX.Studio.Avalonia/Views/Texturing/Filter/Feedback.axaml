@@ -9,6 +9,7 @@
         Caption="Factor"
         Maximum="1"
         Minimum="0"
-        Value="{Binding Factor.Value}" />
+        Value="{Binding Factor.Value}"
+        ResetCommand="{Binding Factor.ResetCommand}" />
 
 </Views:FilterPanel>

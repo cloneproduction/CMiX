@@ -12,29 +12,34 @@
       <BaseControls:DragValue
         Caption="FFT"
         Minimum="0.0"
-        Value="{Binding FFT.Value}" />
-      
+        Value="{Binding FFT.Value}"
+        ResetCommand="{Binding FFT.ResetCommand}" />
+
       <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-        
+
         <BaseControls:DragValue
           Caption="Bass"
           Minimum="0.0"
-          Value="{Binding Bass.Value}"/>
-        
+          Value="{Binding Bass.Value}"
+          ResetCommand="{Binding Bass.ResetCommand}"/>
+
         <BaseControls:DragValue
           Caption="Lower Mid"
           Minimum="0.0"
-          Value="{Binding LowerMid.Value}"/>
-        
+          Value="{Binding LowerMid.Value}"
+          ResetCommand="{Binding LowerMid.ResetCommand}"/>
+
         <BaseControls:DragValue
           Caption="Higher Mid"
           Minimum="0.0"
-          Value="{Binding HigherMid.Value}"/>
-        
+          Value="{Binding HigherMid.Value}"
+          ResetCommand="{Binding HigherMid.ResetCommand}"/>
+
         <BaseControls:DragValue
           Caption="High"
           Minimum="0.0"
-          Value="{Binding High.Value}"/>
+          Value="{Binding High.Value}"
+          ResetCommand="{Binding High.ResetCommand}"/>
         
     </Panels:PositionedStackPanel>
       

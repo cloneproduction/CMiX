@@ -10,20 +10,24 @@
 
         <Controls:DragValue
             Caption="Hue"
-            Value="{Binding Hue.Value}" />
+            Value="{Binding Hue.Value}"
+            ResetCommand="{Binding Hue.ResetCommand}" />
 
         <Controls:DragValue
             Caption="Saturation"
-            Value="{Binding Saturation.Value}" />
+            Value="{Binding Saturation.Value}"
+            ResetCommand="{Binding Saturation.ResetCommand}" />
 
         <Controls:DragValue
             Caption="Contrast"
-            Value="{Binding Contrast.Value}" />
+            Value="{Binding Contrast.Value}"
+            ResetCommand="{Binding Contrast.ResetCommand}" />
 
         <Controls:DragValue
             Height="{DynamicResource ControlHeightMD}"
             Caption="Brightness"
-            Value="{Binding Brightness.Value}" />
+            Value="{Binding Brightness.Value}"
+            ResetCommand="{Binding Brightness.ResetCommand}" />
 
     </Panels:PositionedStackPanel>
 

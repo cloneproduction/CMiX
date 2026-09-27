@@ -13,12 +13,14 @@
 
             <BaseControls:DragValue
                 Caption="Center"
-                Value="{Binding Center.Value}" />
+                Value="{Binding Center.Value}"
+                ResetCommand="{Binding Center.ResetCommand}" />
 
             <BaseControls:DragValue
                 Caption="Width"
                 Minimum="0.0"
-                Value="{Binding Width.Value}" />
+                Value="{Binding Width.Value}"
+                ResetCommand="{Binding Width.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 
@@ -27,7 +29,8 @@
             IsInteger="True"
             LargeChange="1.0"
             SmallChange="1.0"
-            Value="{Binding Seed.Value}" />
+            Value="{Binding Seed.Value}"
+            ResetCommand="{Binding Seed.ResetCommand}" />
 
     </StackPanel>
 
