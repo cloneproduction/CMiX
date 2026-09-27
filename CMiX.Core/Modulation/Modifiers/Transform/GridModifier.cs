@@ -23,6 +23,9 @@ namespace CMiX.Core.Modulation.Modifiers
             : base(prefabService, modulatorManager, controlRepository, new IModulatorBindable[] { countX, countY, countZ })
         {
             Count = new ModulatableInteger3(countX, countY, countZ);
+            countX.SetDefault(1);
+            countY.SetDefault(1);
+            countZ.SetDefault(1);
 
             Width = new ModulatableVector3(widthX, widthY, widthZ);
             Phase = new ModulatableVector3(phaseX, phaseY, phaseZ);
