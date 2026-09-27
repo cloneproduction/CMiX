@@ -29,6 +29,7 @@ namespace CMiX.Core.Modulation
                 // can never go stale on its own. Notify here so a bound view refreshes on every
                 // path that changes ModulatorID: SetModulator, undo, and redo alike.
                 OnPropertyChanged(nameof(BoundModulator));
+                ResetCommand.NotifyCanExecuteChanged();
             };
             BoundOutputNameSource.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(GenericValue<string>.Value)) OnPropertyChanged(nameof(BoundOutputName)); };
         }
@@ -84,6 +85,11 @@ namespace CMiX.Core.Modulation
         }
 
         ICommand IModulatorBindable.SetModulatorCommand => SetModulatorCommand;
+
+        [RelayCommand(CanExecute = nameof(CanReset))]
+        private void Reset() => ValueSource.Reset();
+
+        private bool CanReset() => ModulatorID == null;
 
         public IControlModel ToModel() => new ModulatableValueModel<T>
         {
