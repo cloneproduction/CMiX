@@ -16,7 +16,7 @@ shader UVLayerComposite_ShaderFX : ComputeColor, Texturing, BlendOperations
         float blendAmount = BlendAmountIn.Compute();
         int blendMode = (int)round(BlendModeIn.Compute());
 
-        float4 blendedFull = Blend(colorA, colorB, 1.0, false, blendMode);
+        float4 blendedFull = Blend(colorA, colorB, 1.0, true, blendMode);
         return lerp(colorA, blendedFull, blendAmount);
     }
 };
