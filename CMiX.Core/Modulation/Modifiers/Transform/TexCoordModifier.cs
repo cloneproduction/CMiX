@@ -26,9 +26,9 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             ModifierModeSelector = modifierModeSelector;
 
-            uniform.Value = 1.0f;
-            scaleX.Value = 1.0f;
-            scaleY.Value = 1.0f;
+            uniform.SetDefault(1.0f);
+            scaleX.SetDefault(1.0f);
+            scaleY.SetDefault(1.0f);
 
             Transform = new TexCoordTransform(locationX, locationY, scaleX, scaleY, rotation, uniform);
             Bindables = Transform.Bindables;
