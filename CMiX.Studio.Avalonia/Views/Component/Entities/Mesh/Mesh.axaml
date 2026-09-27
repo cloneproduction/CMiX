@@ -76,15 +76,17 @@
               Margin="8" 
               Spacing="{DynamicResource SpacingMD}">
 
-                <BaseControls:DragValue 
-                    Caption="Explode Strength" 
-                    Value="{Binding ExplodeStrength.Value}" />
+                <BaseControls:DragValue
+                    Caption="Explode Strength"
+                    Value="{Binding ExplodeStrength.Value}"
+                    ResetCommand="{Binding ExplodeStrength.ResetCommand}" />
 
                 <BaseControls:CMiXSlider
                     Caption="Flat Normals"
                     Maximum="1.0"
                     Minimum="0.0"
-                    Value="{Binding FlatNormals.Value}" />
+                    Value="{Binding FlatNormals.Value}"
+                    ResetCommand="{Binding FlatNormals.ResetCommand}" />
 
                 <BaseControls:Outliner
                     DataContext="{Binding ExplodeTriangleTextureManager}"
@@ -115,9 +117,10 @@
               Margin="8" 
               Spacing="{DynamicResource SpacingMD}">
 
-                <BaseControls:DragValue 
-                  Caption="Strength" 
-                  Value="{Binding DisplacementStrength.Value}" />
+                <BaseControls:DragValue
+                  Caption="Strength"
+                  Value="{Binding DisplacementStrength.Value}"
+                  ResetCommand="{Binding DisplacementStrength.ResetCommand}" />
 
                 <BaseControls:Outliner
                     Margin="0"
