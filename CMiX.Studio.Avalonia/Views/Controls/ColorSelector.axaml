@@ -10,6 +10,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
+    <BaseControl:CaptionedUserControl.ContextMenu>
+        <ContextMenu Theme="{StaticResource ContextMenuDefault}">
+            <MenuItem
+                Command="{Binding ResetCommand}"
+                Header="Reset" />
+        </ContextMenu>
+    </BaseControl:CaptionedUserControl.ContextMenu>
+
     <BaseControl:LabeledContent Caption="{Binding Caption, ElementName=colorSelector}">
 
         <Panel>
