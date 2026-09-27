@@ -13,15 +13,39 @@
         <!-- Mode OneWay stops the TwoWay default from writing the formatted string back. -->
         <BaseControls:DragValue
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vectorXYZ, Mode=OneWay}"
-            Value="{Binding X.Value}" />
+            DataContext="{Binding X}"
+            Value="{Binding Value}">
+            <BaseControls:DragValue.ContextMenu>
+                <ContextMenu Theme="{StaticResource ContextMenuDefault}">
+                    <MenuItem Command="{Binding ResetCommand}" Header="Reset" />
+                    <MenuItem Command="{Binding DataContext.ResetAllCommand, ElementName=vectorXYZ}" Header="Reset All" />
+                </ContextMenu>
+            </BaseControls:DragValue.ContextMenu>
+        </BaseControls:DragValue>
 
         <BaseControls:DragValue
             Caption="Y"
-            Value="{Binding Y.Value}" />
+            DataContext="{Binding Y}"
+            Value="{Binding Value}">
+            <BaseControls:DragValue.ContextMenu>
+                <ContextMenu Theme="{StaticResource ContextMenuDefault}">
+                    <MenuItem Command="{Binding ResetCommand}" Header="Reset" />
+                    <MenuItem Command="{Binding DataContext.ResetAllCommand, ElementName=vectorXYZ}" Header="Reset All" />
+                </ContextMenu>
+            </BaseControls:DragValue.ContextMenu>
+        </BaseControls:DragValue>
 
         <BaseControls:DragValue
             Caption="Z"
-            Value="{Binding Z.Value}" />
+            DataContext="{Binding Z}"
+            Value="{Binding Value}">
+            <BaseControls:DragValue.ContextMenu>
+                <ContextMenu Theme="{StaticResource ContextMenuDefault}">
+                    <MenuItem Command="{Binding ResetCommand}" Header="Reset" />
+                    <MenuItem Command="{Binding DataContext.ResetAllCommand, ElementName=vectorXYZ}" Header="Reset All" />
+                </ContextMenu>
+            </BaseControls:DragValue.ContextMenu>
+        </BaseControls:DragValue>
 
     </Panels:PositionedStackPanel>
 
