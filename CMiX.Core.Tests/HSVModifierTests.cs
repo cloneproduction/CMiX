@@ -105,5 +105,22 @@ namespace CMiX.Core.Tests
             Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
             Assert.Equal(ColorMode.HSV, reloaded.ColorMode.Value);
         }
+
+        [Fact]
+        public void AllFourBindables_ConstructAtDefaultOfOne_AndResetReturnsToItAfterAChange()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var hsv = provider.GetRequiredService<HSVModifier>();
+
+            Assert.Equal(1f, hsv.Hue.Value);
+            Assert.Equal(1f, hsv.Saturation.Value);
+            Assert.Equal(1f, hsv.Value.Value);
+            Assert.Equal(1f, hsv.Alpha.Value);
+
+            hsv.Hue.Value = 0.2f;
+            hsv.Hue.ResetCommand.Execute(null);
+
+            Assert.Equal(1f, hsv.Hue.Value);
+        }
     }
 }

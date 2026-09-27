@@ -145,5 +145,21 @@ namespace CMiX.Core.Tests
             Assert.Null(grid.Count.Z.BoundModulator);
             Assert.Null(grid.Count.Y.ModulatorID);
         }
+
+        [Fact]
+        public void CountXYZ_ConstructAtDefaultOfOne_AndResetReturnsToItAfterAChange()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var grid = provider.GetRequiredService<GridModifier>();
+
+            Assert.Equal(1, grid.Count.X.Value);
+            Assert.Equal(1, grid.Count.Y.Value);
+            Assert.Equal(1, grid.Count.Z.Value);
+
+            grid.Count.X.Value = 7;
+            grid.Count.X.ResetCommand.Execute(null);
+
+            Assert.Equal(1, grid.Count.X.Value);
+        }
     }
 }
