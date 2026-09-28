@@ -5,9 +5,9 @@ using CMiX.Studio.Avalonia.Views.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class HSVModifier : ModulatablePanel
+    public partial class ColorModifier : ModulatablePanel
     {
-        public HSVModifier()
+        public ColorModifier()
         {
             InitializeComponent();
         }
