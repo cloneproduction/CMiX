@@ -1,18 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Modifiers;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CommunityToolkit.Mvvm.ComponentModel;
-using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class RandomUV : TextureFilterBase, IBeatModifiable, IDisposable
+    public partial class TransformTexture : TextureFilterBase
     {
-        public RandomUV(PrefabService prefabService,
+        public TransformTexture(PrefabService prefabService,
                         PrefabManager beatModifierManager,
                         SamplerState samplerState,
                         Vector2 location,
@@ -23,7 +20,6 @@ namespace CMiX.Core.Texturing.Filters
                         Blend blend)
             : base(prefabService, control, blend)
         {
-            BeatModifierManager = beatModifierManager;
             SamplerState = samplerState;
             Location = location;
             Scale = scale;
@@ -31,7 +27,6 @@ namespace CMiX.Core.Texturing.Filters
             Uniform = uniform;
         }
 
-        public PrefabManager BeatModifierManager { get; set; }
         public Vector2 Location { get; set; }
         public Vector2 Scale { get; set; }
         public GenericValue<float> Uniform { get; set; }
@@ -40,9 +35,8 @@ namespace CMiX.Core.Texturing.Filters
 
         public override IControlModel ToModel()
         {
-            var model = new RandomUVModel
+            var model = new TransformTextureModel
             {
-                BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
                 Location = (Vector2Model)Location.ToModel(),
                 Scale = (Vector2Model)Scale.ToModel(),
                 Uniform = (GenericValueModel<float>)Uniform.ToModel(),
@@ -55,16 +49,13 @@ namespace CMiX.Core.Texturing.Filters
 
         public override void FromModel(IControlModel model)
         {
-            var m = (RandomUVModel)model;
+            var m = (TransformTextureModel)model;
             LoadBaseModel(m);
-            this.LoadBeatModifier(m.BeatModifierManager);
             Location.FromModel(m.Location);
             Scale.FromModel(m.Scale);
             Uniform.FromModel(m.Uniform);
             Rotation.FromModel(m.Rotation);
             SamplerState.FromModel(m.SamplerState);
         }
-
-        public void Dispose() => this.DisposeBeatModifier();
     }
 }
