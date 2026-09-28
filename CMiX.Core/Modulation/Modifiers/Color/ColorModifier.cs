@@ -13,9 +13,9 @@ namespace CMiX.Core.Modulation.Modifiers
 {
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class HSVModifier : Modifier, ISpreadableModifier
+    public partial class ColorModifier : Modifier, ISpreadableModifier
     {
-        public HSVModifier(PrefabService prefabService,
+        public ColorModifier(PrefabService prefabService,
                            PrefabManager modulatorManager,
                            ControlRepository controlRepository,
                            ModifierModeSelector modifierModeSelector,
@@ -36,8 +36,24 @@ namespace CMiX.Core.Modulation.Modifiers
 
             Bindables = new List<ModulatableValue<float>> { hue, saturation, value, alpha };
 
-            for (int i = 0; i < Bindables.Count; i++)
-                Bindables[i].SetDefault(1f);
+            hue.SetDefault(0f);
+            saturation.SetDefault(0f);
+            value.SetDefault(1f);
+            alpha.SetDefault(1f);
+
+            // Reacts to a mode switch: converts the three channels so the perceived
+            // color stays the same, then notifies the captions describing them.
+            ColorMode.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName != nameof(GenericValue<ColorMode>.Value)) return;
+
+                // TODO: convert Hue/Saturation/Value's current numbers into the new
+                // mode's channels here, before the UI re-reads them.
+
+                OnPropertyChanged(nameof(FirstCaption));
+                OnPropertyChanged(nameof(SecondCaption));
+                OnPropertyChanged(nameof(ThirdCaption));
+            };
         }
 
         public ModulatableValue<float> Hue => Bindables[0];
@@ -48,9 +64,33 @@ namespace CMiX.Core.Modulation.Modifiers
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<ColorMode> ColorMode { get; set; }
 
+        public string FirstCaption => ColorMode.Value switch
+        {
+            Core.ColorMode.RGB => "Red",
+            Core.ColorMode.HSL => "Hue",
+            Core.ColorMode.HSV => "Hue",
+            _ => "Hue",
+        };
+
+        public string SecondCaption => ColorMode.Value switch
+        {
+            Core.ColorMode.RGB => "Green",
+            Core.ColorMode.HSL => "Saturation",
+            Core.ColorMode.HSV => "Saturation",
+            _ => "Saturation",
+        };
+
+        public string ThirdCaption => ColorMode.Value switch
+        {
+            Core.ColorMode.RGB => "Blue",
+            Core.ColorMode.HSL => "Lightness",
+            Core.ColorMode.HSV => "Value",
+            _ => "Value",
+        };
+
         public override IControlModel ToModel()
         {
-            var model = new HSVModifierModel
+            var model = new ColorModifierModel
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
                 ColorMode = (GenericValueModel<ColorMode>)ColorMode.ToModel()
@@ -61,7 +101,7 @@ namespace CMiX.Core.Modulation.Modifiers
 
         public override void FromModel(IControlModel model)
         {
-            var m = (HSVModifierModel)model;
+            var m = (ColorModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();

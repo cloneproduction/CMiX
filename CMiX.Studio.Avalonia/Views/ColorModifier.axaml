@@ -1,5 +1,5 @@
 <Controls:ModulatablePanel
-    x:Class="CMiX.Studio.Avalonia.Views.HSVModifier"
+    x:Class="CMiX.Studio.Avalonia.Views.ColorModifier"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
@@ -7,7 +7,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Panels="using:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
-    x:Name="hsvModifier"    
+    x:Name="colorModifier"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
@@ -15,35 +15,39 @@
 
         <Views:ModifierModeSelector
             DataContext="{Binding ModifierModeSelector}"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
         <BaseControls:ComboBox
             Caption="Color Mode"
             ItemsSource="{x:Static Resources:EnumProviders.ColorMode}"
-            SelectedItem="{Binding ColorMode.Value}" />
+            SelectedItem="{Binding ColorMode.Value}">
+          <BaseControls:ComboBox.TrailingContent>
+            <Border Width="{DynamicResource ControlHeightMD}" />
+          </BaseControls:ComboBox.TrailingContent>
+        </BaseControls:ComboBox>
 
         <Panels:PositionedStackPanel
             Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ModulatableFloatValue
-                Caption="Hue"
+                Caption="{Binding DataContext.FirstCaption, ElementName=colorModifier}"
                 DataContext="{Binding Hue}"
-                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
             <BaseControls:ModulatableFloatValue
-                Caption="Saturation"
+                Caption="{Binding DataContext.SecondCaption, ElementName=colorModifier}"
                 DataContext="{Binding Saturation}"
-                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
             <BaseControls:ModulatableFloatValue
-                Caption="Value"
+                Caption="{Binding DataContext.ThirdCaption, ElementName=colorModifier}"
                 DataContext="{Binding Value}"
-                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
             <BaseControls:ModulatableFloatValue
                 Caption="Alpha"
                 DataContext="{Binding Alpha}"
-                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
         </Panels:PositionedStackPanel>
 

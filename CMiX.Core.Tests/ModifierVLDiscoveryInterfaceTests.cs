@@ -1,4 +1,4 @@
-using CMiX.Core.Modulation.Modifiers;
+﻿using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Transformation;
 using CMiX.Core.Transformation.Modifiers;
 using Xunit;
@@ -11,7 +11,7 @@ namespace CMiX.Core.Tests
         [InlineData(typeof(ScaleModifier))]
         [InlineData(typeof(TranslateModifier))]
         [InlineData(typeof(RotationModifier))]
-        [InlineData(typeof(HSVModifier))]
+        [InlineData(typeof(ColorModifier))]
         [InlineData(typeof(TexCoordModifier))]
         [InlineData(typeof(TransformSRTModifier))]
         [InlineData(typeof(CircularSpreadModifier))]
