@@ -20,7 +20,11 @@
         <BaseControls:ComboBox
             Caption="Color Mode"
             ItemsSource="{x:Static Resources:EnumProviders.ColorMode}"
-            SelectedItem="{Binding ColorMode.Value}" />
+            SelectedItem="{Binding ColorMode.Value}">
+          <BaseControls:ComboBox.TrailingContent>
+            <Border Width="{DynamicResource ControlHeightMD}" />
+          </BaseControls:ComboBox.TrailingContent>
+        </BaseControls:ComboBox>
 
         <Panels:PositionedStackPanel
             Spacing="{DynamicResource SpacingXXS}">

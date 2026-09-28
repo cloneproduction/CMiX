@@ -141,6 +141,17 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(SelectedItemProperty, value);
         }
 
+        // Reserves space on the right for a control like ModulatorAssignButton, so a ComboBox
+        // with a trailing button lines up with a plain one - see DragValue.TrailingContent for
+        // the same mechanism on the other value editors.
+        public static readonly StyledProperty<object> TrailingContentProperty =
+            AvaloniaProperty.Register<ComboBox, object>(nameof(TrailingContent));
+        public object TrailingContent
+        {
+            get => GetValue(TrailingContentProperty);
+            set => SetValue(TrailingContentProperty, value);
+        }
+
         private bool IsComboBoxFocused()
         {
             var focused = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement() as Visual;

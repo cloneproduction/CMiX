@@ -16,7 +16,11 @@
         <BaseControls:ComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
-            SelectedItem="{Binding Mode.Value}"/>
+            SelectedItem="{Binding Mode.Value}">
+          <BaseControls:ComboBox.TrailingContent>
+            <Border Width="{DynamicResource ControlHeightMD}" />
+          </BaseControls:ComboBox.TrailingContent>
+        </BaseControls:ComboBox>
             
         <BaseControls:ModulatableIntegerValue
             Caption="Count"
