@@ -18,15 +18,18 @@
 
             <BaseControl:DragValue
                 Caption="Range"
-                Value="{Binding Range.Value}" />
+                Value="{Binding Range.Value}"
+                ResetCommand="{Binding Range.ResetCommand}" />
 
             <BaseControl:DragValue
                 Caption="Angle"
-                Value="{Binding Angle.Value}" />
+                Value="{Binding Angle.Value}"
+                ResetCommand="{Binding Angle.ResetCommand}" />
 
             <BaseControl:DragValue
                 Caption="Softness"
-                Value="{Binding Softness.Value}" />
+                Value="{Binding Softness.Value}"
+                ResetCommand="{Binding Softness.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 

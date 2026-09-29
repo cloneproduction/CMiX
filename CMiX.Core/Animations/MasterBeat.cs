@@ -26,8 +26,8 @@ namespace CMiX.Core.Animations
             Resync = resync;
 
 
-            Index.Value = 0;
-            Period.Value = 1000;
+            Index.SetDefault(0);
+            Period.SetDefault(1000);
 
             Periods = new float[15];
             tapPeriods = new List<float>();

@@ -9,8 +9,6 @@ using Avalonia.Media;
 
 namespace CMiX.Studio.Avalonia.Converters
 {
-    // Converts the hex color strings of the Core color values into brushes.
-    // WPF converted string to Brush implicitly through its type converter.
     public class HexToBrushConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

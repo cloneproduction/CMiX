@@ -95,12 +95,12 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FreshHSVModifier_ColorModeMatchesOldRandomHSVDefault()
+        public void FreshColorModifier_ColorModeMatchesOldRandomHSVDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
 
-            var hsv = (HSVModifier)factory.Create(typeof(HSVModifier));
+            var hsv = (ColorModifier)factory.Create(typeof(ColorModifier));
 
             Assert.Equal(ColorMode.HSV, hsv.ColorMode.Value);
         }

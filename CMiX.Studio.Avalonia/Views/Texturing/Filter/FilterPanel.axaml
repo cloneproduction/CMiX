@@ -26,7 +26,8 @@
                     Caption="Opacity"
                     Maximum="1"
                     Minimum="0"
-                    Value="{Binding Blend.Opacity.Value}" />
+                    Value="{Binding Blend.Opacity.Value}"
+                    ResetCommand="{Binding Blend.Opacity.ResetCommand}" />
 
                 <Controls:ComboBox
                     Caption="Blend Mode"

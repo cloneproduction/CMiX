@@ -185,6 +185,9 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             topLevel?.RemoveHandler(InputElement.PointerPressedEvent, ParentWindow_OnPointerPressed);
         }
 
+        // This only commits or cancels this field's own stale edit - it must not mark the
+        // event Handled, or a click meant for a different control (opening its context menu,
+        // starting its own edit) never reaches it, since this handler runs on the whole window.
         private void ParentWindow_OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             RemoveParentWindowHandlers();
@@ -194,8 +197,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 Cancel();
             else
                 Commit();
-
-            e.Handled = true;
         }
     }
 }

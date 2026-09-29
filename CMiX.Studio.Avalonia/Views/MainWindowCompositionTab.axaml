@@ -3,36 +3,39 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400"
+    d:DesignHeight="450">
 
-    <Border IsVisible="True">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.4*" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+  <Border IsVisible="True">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="0.4*" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
 
-            <Border
-                Grid.Row="1"
-                Background="{DynamicResource Grey300Brush}"
-                BorderBrush="{DynamicResource Grey100Brush}"
-                BorderThickness="0,2"
-                IsVisible="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
-                <Views:Composition DataContext="{Binding Project.CompositionManager.SelectedItem}" />
-            </Border>
+      <Border
+          Grid.Row="1"
+          Background="{DynamicResource Grey200Brush}"
+          BorderBrush="{DynamicResource Grey100Brush}"
+          BorderThickness="0,2"
+          IsVisible="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+        <Views:Composition DataContext="{Binding Project.CompositionManager.SelectedItem}" />
+      </Border>
 
-            <Views:LayerManager
-                Grid.Row="0"
-                ItemType="{x:Type Compositing:Composition}"
-                DataContext="{Binding Project.CompositionManager}" />
+      <Views:LayerManager
+          Grid.Row="0"
+          ItemType="{x:Type Compositing:Composition}"
+          DataContext="{Binding Project.CompositionManager}" />
 
-            <GridSplitter
-                Grid.Row="0"
-                Height="8"
-                Margin="0,-4"
-                VerticalAlignment="Bottom"
-                Theme="{StaticResource GridSplitter}" />
-        </Grid>
-    </Border>
+      <GridSplitter
+          Grid.Row="0"
+          Height="8"
+          Margin="0,-4"
+          VerticalAlignment="Bottom"
+          Theme="{StaticResource GridSplitter}" />
+    </Grid>
+  </Border>
 
 </UserControl>

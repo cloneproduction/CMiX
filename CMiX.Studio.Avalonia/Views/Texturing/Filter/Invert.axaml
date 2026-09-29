@@ -13,7 +13,8 @@
             Caption="Factor"
             Maximum="1.0"
             Minimum="0.0"
-            Value="{Binding Factor.Value}" />
+            Value="{Binding Factor.Value}"
+            ResetCommand="{Binding Factor.ResetCommand}" />
 
         <Basecontrol:ComboBox
             Margin="0,8"

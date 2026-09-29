@@ -15,8 +15,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         public IPBox()
         {
             InitializeComponent();
-
-            // WPF PreviewKeyDown becomes a tunneling KeyDown handler.
             txtboxFirstPart.AddHandler(KeyDownEvent, txtboxFirstPart_PreviewKeyDown, RoutingStrategies.Tunnel);
         }
 

@@ -32,11 +32,13 @@
 
             <Controls:DragValue
                 Caption="Rotation"
-                Value="{Binding Rotation.Value}" />
+                Value="{Binding Rotation.Value}"
+                ResetCommand="{Binding Rotation.ResetCommand}" />
 
             <Controls:DragValue
                 Caption="Zoom"
-                Value="{Binding Zoom.Value}" />
+                Value="{Binding Zoom.Value}"
+                ResetCommand="{Binding Zoom.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 

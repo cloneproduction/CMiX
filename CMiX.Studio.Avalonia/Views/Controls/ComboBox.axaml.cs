@@ -55,12 +55,17 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         // changes, only its contents do, transiently emptying the list along the way. Track the
         // collection's own change notifications too so the selection gets reasserted once it
         // settles, not just when a whole new ItemsSource is assigned.
-        private void OnItemsSourceChanged(AvaloniaPropertyChangedEventArgs e)
+        private void OnItemsSourceChanged(AvaloniaPropertyChangedEventArgs e) => ResubscribeItemsSource();
+
+        // Detaching and reattaching the control (a side effect of unrelated sibling UI changes)
+        // does not raise the ItemsSource property's own Changed event either, so the reattach
+        // path below also needs this, reading the current ItemsSource value directly.
+        private void ResubscribeItemsSource()
         {
             if (_observedItemsSource != null)
                 _observedItemsSource.CollectionChanged -= OnItemsCollectionChanged;
 
-            _observedItemsSource = e.NewValue as INotifyCollectionChanged;
+            _observedItemsSource = ItemsSource as INotifyCollectionChanged;
             if (_observedItemsSource != null)
                 _observedItemsSource.CollectionChanged += OnItemsCollectionChanged;
 
@@ -68,6 +73,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => ReassertSelection();
+
+        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnAttachedToVisualTree(e);
+            ResubscribeItemsSource();
+        }
 
         // The subscription above is otherwise never released: a project-lifetime collection like
         // OutputMappingManager.EnabledItems outlives any one view that binds to it (the panel gets
@@ -130,6 +141,17 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(SelectedItemProperty, value);
         }
 
+        // Reserves space on the right for a control like ModulatorAssignButton, so a ComboBox
+        // with a trailing button lines up with a plain one - see DragValue.TrailingContent for
+        // the same mechanism on the other value editors.
+        public static readonly StyledProperty<object> TrailingContentProperty =
+            AvaloniaProperty.Register<ComboBox, object>(nameof(TrailingContent));
+        public object TrailingContent
+        {
+            get => GetValue(TrailingContentProperty);
+            set => SetValue(TrailingContentProperty, value);
+        }
+
         private bool IsComboBoxFocused()
         {
             var focused = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement() as Visual;
@@ -174,9 +196,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private void OnInnerComboBoxPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
         {
-            // Closing the dropdown (without necessarily picking a new item) does not return
-            // focus to the ComboBox on its own, unlike WPF. Re-focus explicitly so wheel-to-cycle
-            // keeps working right after the dropdown is dismissed by clicking the control again.
             if (e.Property == AvaloniaComboBox.IsDropDownOpenProperty && e.NewValue is false)
                 _innerComboBox?.Focus();
         }

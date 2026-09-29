@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -19,15 +18,10 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private Ellipse? _cursorEllipse;
         private bool _isDragging;
-
-        // Replaces the WPF DefaultStyleKeyProperty.OverrideMetadata call so the
-        // control picks up the ColorWheel control theme instead of the UserControl one.
         protected override Type StyleKeyOverride => typeof(ColorWheel);
 
         public ColorWheel()
         {
-            // WPF attached these handlers in OnApplyTemplate; the constructor avoids
-            // double subscription when the template is applied more than once.
             PointerPressed += OnPointerPressed;
             PointerMoved += OnPointerMoved;
             PointerReleased += OnPointerReleased;
@@ -66,14 +60,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             {
                 SetColor(e.GetPosition(this));
                 SetCursor();
-
-                Point? pointFromColor = GetColorLocation();
-                if (pointFromColor == null)
-                    return;
-
-                PixelPoint pointToScreen = this.PointToScreen(pointFromColor.Value);
-
-                SetCursorPos(pointToScreen.X, pointToScreen.Y);
             }
         }
 
@@ -86,9 +72,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 TopLevel.GetTopLevel(this)?.FocusManager?.ClearFocus();
             }
         }
-
-        [DllImport("User32.dll")]
-        private static extern bool SetCursorPos(int X, int Y);
 
         private void SetCursor()
         {

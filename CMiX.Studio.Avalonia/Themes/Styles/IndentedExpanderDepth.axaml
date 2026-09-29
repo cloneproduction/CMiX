@@ -1,0 +1,24 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+
+    <!--
+        The background of an IndentedExpander comes from the number of IndentedExpander
+        parents. Level 1 is the default background set in Expander.axaml. Level 3 is the
+        darkest. A deeper expander keeps the level 3 color, it does not get darker again.
+    -->
+    <Style Selector="Panels|IndentedExpander Panels|IndentedExpander /template/ Border#contentBackground">
+        <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel2Brush}" />
+    </Style>
+    <Style Selector="Panels|IndentedExpander Panels|IndentedExpander /template/ ToggleButton#PART_toggle /template/ Border#mainBorder">
+        <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel2Brush}" />
+    </Style>
+    <Style Selector="Panels|IndentedExpander Panels|IndentedExpander Panels|IndentedExpander /template/ Border#contentBackground">
+        <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel3Brush}" />
+    </Style>
+    <Style Selector="Panels|IndentedExpander Panels|IndentedExpander Panels|IndentedExpander /template/ ToggleButton#PART_toggle /template/ Border#mainBorder">
+        <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel3Brush}" />
+    </Style>
+
+</Styles>

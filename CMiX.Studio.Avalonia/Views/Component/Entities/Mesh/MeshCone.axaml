@@ -14,11 +14,13 @@
 
             <BaseControl:DragValue
                 Caption="Radius"
-                Value="{Binding Radius.Value}" />
+                Value="{Binding Radius.Value}"
+                ResetCommand="{Binding Radius.ResetCommand}" />
 
             <BaseControl:DragValue
                 Caption="Height"
-                Value="{Binding Height.Value}" />
+                Value="{Binding Height.Value}"
+                ResetCommand="{Binding Height.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 

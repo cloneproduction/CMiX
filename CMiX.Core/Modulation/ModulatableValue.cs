@@ -25,11 +25,11 @@ namespace CMiX.Core.Modulation
                 if (e.PropertyName != nameof(GenericValue<Guid?>.Value)) return;
                 OnPropertyChanged(nameof(ModulatorID));
 
-                // Undo reverts this leaf value directly, bypassing SetModulator, so BoundModulator
-                // (untracked by undo) must be dropped here whenever it no longer matches - otherwise
-                // the assign dot keeps showing bound after an undo clears the ID back out.
-                if (BoundModulator?.ID != ModulatorID)
-                    BoundModulator = null;
+                // BoundModulator is computed from ModulatorID through ModulatorLookup, so it
+                // can never go stale on its own. Notify here so a bound view refreshes on every
+                // path that changes ModulatorID: SetModulator, undo, and redo alike.
+                OnPropertyChanged(nameof(BoundModulator));
+                ResetCommand.NotifyCanExecuteChanged();
             };
             BoundOutputNameSource.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(GenericValue<string>.Value)) OnPropertyChanged(nameof(BoundOutputName)); };
         }
@@ -47,6 +47,8 @@ namespace CMiX.Core.Modulation
             set => ValueSource.Value = value;
         }
 
+        public void SetDefault(T value) => ValueSource.SetDefault(value);
+
         public Guid? ModulatorID
         {
             get => ModulatorIDSource.Value;
@@ -59,8 +61,10 @@ namespace CMiX.Core.Modulation
             set => BoundOutputNameSource.Value = value;
         }
 
-        [ObservableProperty]
-        private IModulator boundModulator;
+        public IModulator BoundModulator =>
+            ModulatorID is { } id ? ModulatorLookup?.Invoke(id) : null;
+
+        public Func<Guid, IModulator> ModulatorLookup { get; set; }
 
         bool IModulatorBindable.CanBind(IModulatorOutput output) => output is ModulatorOutput<T>;
 
@@ -71,7 +75,6 @@ namespace CMiX.Core.Modulation
             undoManager?.BeginCapture();
             try
             {
-                BoundModulator = selection?.Modulator;
                 ModulatorID = selection?.Modulator?.ID;
                 BoundOutputName = selection?.Output?.Name;
             }
@@ -82,6 +85,11 @@ namespace CMiX.Core.Modulation
         }
 
         ICommand IModulatorBindable.SetModulatorCommand => SetModulatorCommand;
+
+        [RelayCommand(CanExecute = nameof(CanReset))]
+        private void Reset() => ValueSource.Reset();
+
+        private bool CanReset() => ModulatorID == null;
 
         public IControlModel ToModel() => new ModulatableValueModel<T>
         {

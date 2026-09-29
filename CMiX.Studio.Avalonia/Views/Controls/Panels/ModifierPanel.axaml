@@ -18,22 +18,7 @@
     <HeaderedContentControl.Header>
         <DockPanel>
 
-            <Button
-                Margin="4, 0, 2, 0"
-                AP:DragHandler.IsEnabled="True"
-                AP:DragHandler.IsPressed="{Binding DragHandlerIsPressed, ElementName=modifierPanel, Mode=TwoWay}"
-                DockPanel.Dock="Right"
-                Theme="{StaticResource DragHandlerButton}">
 
-                <Button.Content>
-
-                    <Controls:AppIcon
-                        IconKey="DragHandler"
-                        Size="{DynamicResource IconSizeXS}" />
-
-                </Button.Content>
-
-            </Button>
 
             <StackPanel 
                 DockPanel.Dock="Right"
@@ -50,6 +35,22 @@
                     CommandParameter="{Binding CloseModifierCommandParameter, ElementName=modifierPanel}"
                     Theme="{DynamicResource ModifierCloseButtonStyle}" />
 
+              <Button
+                    Margin="8, 0, 2, 0"
+                    AP:DragHandler.IsEnabled="True"
+                    AP:DragHandler.IsPressed="{Binding DragHandlerIsPressed, ElementName=modifierPanel, Mode=TwoWay}"
+                    DockPanel.Dock="Right"
+                    Theme="{StaticResource DragHandlerButton}">
+
+                <Button.Content>
+
+                  <Controls:AppIcon
+                      IconKey="DragHandler"
+                      Size="{DynamicResource IconSizeXS}" />
+
+                </Button.Content>
+
+              </Button>
             </StackPanel>
 
             <TextBox 

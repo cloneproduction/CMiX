@@ -22,6 +22,10 @@
         <BaseControls:PrefabListItem Icon="Geometry" />
     </DataTemplate>
 
+  <DataTemplate DataType="{x:Type Compositing:FullscreenQuad}">
+    <BaseControls:PrefabListItem Icon="FullscreenQuad" />
+  </DataTemplate>
+  
     <DataTemplate DataType="{x:Type Lights:LightEntity}">
         <BaseControls:PrefabListItem Icon="MeshLight" />
     </DataTemplate>

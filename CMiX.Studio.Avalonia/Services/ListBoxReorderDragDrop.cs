@@ -1,4 +1,4 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
@@ -11,27 +11,9 @@ using Avalonia.VisualTree;
 
 namespace CMiX.Studio.Avalonia.Services
 {
-    // Replacement for the gong wpf dragdrop list reorder wiring.
-    // Attach on a ListBox: Services:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}".
-    // Drag starts from an item whose drag handle sets DragHandlerIsPressed on the service.
-    //
-    // Reordering is driven by manual pointer capture rather than Avalonia's DragDrop.DoDragDrop.
-    // A Modulator list is rendered nested inside a Modifier list (both using this same service),
-    // and with two nested elements both AllowDrop="True", DoDragDrop's own hit-test resolution
-    // flickers between DragOver/DragLeave on every pointer-move frame - confirmed live: DragLeave
-    // fires repeatedly even while the cursor sits well inside a list's bounds, and if the mouse-up
-    // happens to land on a DragLeave frame instead of a DragOver frame, the drop silently goes
-    // nowhere. This reorder never needs to interoperate with other windows/applications, so pointer
-    // capture (which keeps routing move/release events to the list directly, with no hit-testing
-    // involved) removes that race condition entirely instead of chasing its timing.
     public static class ListBoxReorderDragDrop
     {
         private const double DragThreshold = 4.0;
-
-        // Manual pointer capture (see the class remarks above) does not get the OS drag cursor
-        // DragDrop.DoDragDrop provided for free, so the same cursor it used for a Move effect is
-        // set explicitly here instead - only while a drop is actually possible, matching the old
-        // behavior of no cursor change at all otherwise (no forbidden icon).
         private static readonly Cursor MoveCursor = new(StandardCursorType.DragMove);
 
         public static readonly AttachedProperty<ManagerReorderService> ServiceProperty =
@@ -68,8 +50,6 @@ namespace CMiX.Studio.Avalonia.Services
             }
         }
 
-        // A ListBox that is realized and unrealized repeatedly (tab content, virtualized rows)
-        // otherwise leaves its InsertionIndicator behind on the adorner layer every time.
         private static void OnListBoxDetachedFromVisualTree(object? sender, VisualTreeAttachmentEventArgs e)
         {
             RemoveIndicator((ItemsControl)sender!);
@@ -251,7 +231,6 @@ namespace CMiX.Studio.Avalonia.Services
             return 0;
         }
 
-        // Insertion indicator drawn on the adorner layer, replacing the WPF DropTargetAdorners.Insert.
         private static readonly AttachedProperty<InsertionIndicator> IndicatorProperty =
             AvaloniaProperty.RegisterAttached<ItemsControl, InsertionIndicator>("Indicator", typeof(ListBoxReorderDragDrop));
 

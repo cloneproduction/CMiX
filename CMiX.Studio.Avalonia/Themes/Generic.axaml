@@ -6,6 +6,9 @@
     <StyleInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Border.axaml" />
     <StyleInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/TextBlock.axaml" />
 
+    <!-- Selector based styles that read nesting depth from the control tree. -->
+    <StyleInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/IndentedExpanderDepth.axaml" />
+
     <!-- Control themes, merged in dependency order so StaticResource BasedOn references resolve. -->
     <Styles.Resources>
         <ResourceDictionary>

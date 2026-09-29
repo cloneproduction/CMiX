@@ -5,7 +5,6 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
-using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
@@ -15,7 +14,7 @@ namespace CMiX.Core.Rendering.Lights
     {
         public LightEntity(PrefabService prefabService,
                            LightSettings settings,
-                           TransformSRTModifier transformSRT,
+                           TransformSRT transformSRT,
                            PrefabManager modifierManager)
         {
             ID = prefabService.ID;
@@ -29,7 +28,7 @@ namespace CMiX.Core.Rendering.Lights
         public PrefabService PrefabService { get; set; }
         public LightSettings Settings { get; set; }
         public PrefabManager ModifierManager { get; set; }
-        public TransformSRTModifier TransformSRT { get; set; }
+        public TransformSRT TransformSRT { get; set; }
 
         private Guid _compositionID;
         public Guid CompositionID
@@ -56,7 +55,7 @@ namespace CMiX.Core.Rendering.Lights
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Settings = (LightSettingsModel)Settings.ToModel(),
-            TransformSRT = (TransformSRTModifierModel)TransformSRT.ToModel(),
+            TransformSRT = (TransformSRTModel)TransformSRT.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
         };
 
@@ -70,6 +69,6 @@ namespace CMiX.Core.Rendering.Lights
             LoadManager(ModifierManager, m.ModifierManager);
         }
 
-        public void Dispose() => DisposeAll(ModifierManager, TransformSRT);
+        public void Dispose() => DisposeAll(ModifierManager);
     }
 }

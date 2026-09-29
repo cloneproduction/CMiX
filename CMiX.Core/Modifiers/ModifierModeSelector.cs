@@ -12,6 +12,7 @@ namespace CMiX.Core.Modifiers
                                     ModulatableValue<int> count)
         {
             Mode = mode;
+            mode.SetDefault(ModifierMode.PerInstance);
             Count = count;
         }
 

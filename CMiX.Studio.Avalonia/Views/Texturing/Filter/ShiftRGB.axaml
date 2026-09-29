@@ -10,15 +10,18 @@
 
         <BaseControls:DragValue
             Caption="Direction"
-            Value="{Binding Direction.Value}" />
+            Value="{Binding Direction.Value}"
+            ResetCommand="{Binding Direction.ResetCommand}" />
 
         <BaseControls:DragValue
             Caption="Shift"
-            Value="{Binding Shift.Value}" />
+            Value="{Binding Shift.Value}"
+            ResetCommand="{Binding Shift.ResetCommand}" />
 
         <BaseControls:DragValue
             Caption="Hue"
-            Value="{Binding Hue.Value}" />
+            Value="{Binding Hue.Value}"
+            ResetCommand="{Binding Hue.ResetCommand}" />
 
     </Panels:PositionedStackPanel>
 

@@ -1,12 +1,10 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Texturing;
 using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
@@ -18,15 +16,20 @@ namespace CMiX.Core.Modulation.Modifiers
                                 PrefabManager modulatorManager,
                                 ControlRepository controlRepository,
                                 ModifierModeSelector modifierModeSelector,
-                                SamplerState samplerState,
-                                ModulatableValue<float> locationX, ModulatableValue<float> locationY,
-                                ModulatableValue<float> scaleX, ModulatableValue<float> scaleY,
+                                ModulatableValue<float> locationX, 
+                                ModulatableValue<float> locationY,
+                                ModulatableValue<float> scaleX, 
+                                ModulatableValue<float> scaleY,
                                 ModulatableValue<float> rotation,
                                 ModulatableValue<float> uniform)
             : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            SamplerState = samplerState;
+
+            uniform.SetDefault(1.0f);
+            scaleX.SetDefault(1.0f);
+            scaleY.SetDefault(1.0f);
+
             Transform = new TexCoordTransform(locationX, locationY, scaleX, scaleY, rotation, uniform);
             Bindables = Transform.Bindables;
         }
@@ -38,14 +41,12 @@ namespace CMiX.Core.Modulation.Modifiers
         public ModulatableValue<float> Uniform => Transform.Uniform;
 
         public ModifierModeSelector ModifierModeSelector { get; set; }
-        public SamplerState SamplerState { get; set; }
 
         public override IControlModel ToModel()
         {
             var model = new TexCoordModifierModel
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
-                SamplerState = (SamplerStateModel)SamplerState.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -57,7 +58,6 @@ namespace CMiX.Core.Modulation.Modifiers
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
-            SamplerState.FromModel(m.SamplerState);
         }
     }
 }

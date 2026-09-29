@@ -22,6 +22,7 @@ namespace CMiX.Core.Compositing
                    undoManager)
         {
             PrefabService = prefabService;
+            SetDefault("#FFFFFFFF");
         }
         public PrefabService PrefabService { get; set; }
         protected override IControlModel CaptureModel() => ToModel();

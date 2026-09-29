@@ -34,10 +34,12 @@
                 <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
                     <BaseControls:DragValue
                         Caption="Size"
-                        Value="{Binding Size.Value}" />
+                        Value="{Binding Size.Value}"
+                        ResetCommand="{Binding Size.ResetCommand}" />
                     <BaseControls:DragValue
                         Caption="Line Height"
-                        Value="{Binding LineHeight.Value}" />
+                        Value="{Binding LineHeight.Value}"
+                        ResetCommand="{Binding LineHeight.ResetCommand}" />
                 </Panels:PositionedStackPanel>
 
                 <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
@@ -65,7 +67,8 @@
                 <BaseControls:DragValue
                     Margin="0,0,0,8"
                     Caption="Width"
-                    Value="{Binding Width.Value}" />
+                    Value="{Binding Width.Value}"
+                    ResetCommand="{Binding Width.ResetCommand}" />
 
             </StackPanel>
         </Panels:IndentedExpander>

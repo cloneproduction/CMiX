@@ -26,11 +26,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Component\Entities\FullscreenQuad.axaml.cs">
+      <DependentUpon>FullscreenQuad.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ColorModifier.axaml.cs">
+      <DependentUpon>ColorModifier.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Modulators\LFOModulator.axaml.cs">
       <DependentUpon>LFOModulator.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Modulators\BeatRandomModulator.axaml.cs">
       <DependentUpon>BeatRandomModulator.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Texturing\Filter\TransformTexture.axaml.cs">
+      <DependentUpon>TransformTexture.axaml</DependentUpon>
     </Compile>
     <None Update="studio-settings.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

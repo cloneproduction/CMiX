@@ -6,6 +6,14 @@
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     x:Name="channelSlider">
 
+    <BaseControls:ModulatorAssignableUserControl.ContextMenu>
+        <ContextMenu Theme="{StaticResource ContextMenuDefault}">
+            <MenuItem
+                Command="{Binding ResetCommand}"
+                Header="Reset" />
+        </ContextMenu>
+    </BaseControls:ModulatorAssignableUserControl.ContextMenu>
+
     <BaseControls:CMiXSlider
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelSlider}"
         Caption="{Binding Caption, ElementName=channelSlider, Mode=OneWay}"

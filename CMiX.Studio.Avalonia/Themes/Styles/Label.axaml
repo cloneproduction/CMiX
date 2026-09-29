@@ -2,11 +2,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--
-        Ported from CMiX.Studio\Themes\Styles\Label.xaml.
-        Label is a templated control in Avalonia, so the WPF implicit style with its
-        template becomes the default ControlTheme.
-    -->
     <ControlTheme x:Key="{x:Type Label}" TargetType="Label">
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="Background" Value="Transparent" />

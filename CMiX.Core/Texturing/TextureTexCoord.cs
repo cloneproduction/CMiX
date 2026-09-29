@@ -67,12 +67,9 @@ namespace CMiX.Core.Texturing
                 bindables[i].FromModel(m.Bindables[i]);
 
             foreach (var bindable in bindables)
-            {
-                if (bindable.ModulatorID is not { } modulatorId) continue;
-                bindable.BoundModulator = ModulatorManager.ManagerData.Items
+                bindable.ModulatorLookup = id => ModulatorManager.ManagerData.Items
                     .OfType<IModulator>()
-                    .FirstOrDefault(mod => mod.ID == modulatorId);
-            }
+                    .FirstOrDefault(mod => mod.ID == id);
         }
     }
 }

@@ -96,11 +96,10 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        <!-- WPF trigger HasItems False collapsed the dropdown border -->
+
         <Style Selector="^:empty /template/ Border#DropDownBorder">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <!-- TODO Avalonia: WPF IsGrouping trigger setting ScrollViewer.CanContentScroll has no equivalent and was dropped -->
     </ControlTheme>
 
     <ControlTheme x:Key="ComboBoxItem" TargetType="ComboBoxItem">
@@ -188,7 +187,6 @@
             </ControlTemplate>
         </Setter>
 
-        <!-- With no items the WPF popup rendered as nothing; hide the border so the empty dropdown shows nothing here too. -->
         <Style Selector="^:empty /template/ Border#DropDownBorder">
             <Setter Property="IsVisible" Value="False" />
         </Style>

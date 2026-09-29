@@ -34,7 +34,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             SetCursorPos((int)screenPoint.X, (int)screenPoint.Y);
         }
 
-        // Screen metrics come from the visual's screen instead of WPF SystemParameters.
         public static PixelRect GetScreenBounds(Visual visual)
         {
             var topLevel = TopLevel.GetTopLevel(visual);

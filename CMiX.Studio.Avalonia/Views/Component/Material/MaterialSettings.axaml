@@ -10,15 +10,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Spacing="8">
 
-        <BaseControls:CMiXSlider
+        <!--<BaseControls:CMiXSlider
             Caption="Alpha"
             Maximum="1"
             Minimum="0"
-            Value="{Binding Alpha.Value}" />
+            Value="{Binding Alpha.Value}" />-->
 
-        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
+        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ComboBox
                 Caption="Cull Mode"
@@ -37,39 +37,43 @@
             IsChecked="{Binding IsShadowCaster.Value}" />
 
         <BaseControls:ComboBox
-            Margin="0, 8"
             Caption="Pipeline"
             ItemsSource="{x:Static Resources:EnumProviders.PipelineType}"
             SelectedItem="{Binding Pipeline.Value}" />
 
         <Panels:PositionedStackPanel
-            Margin="0, 0, 0, 8"
             Spacing="{DynamicResource SpacingXXS}"
             IsVisible="{Binding Pipeline.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Materials:PipelineType.Metallic}}">
 
                 <BaseControls:DragValue
                     Caption="Metalness"
-                    Value="{Binding Metalness.Value}" />
+                    Value="{Binding Metalness.Value}"
+                    ResetCommand="{Binding Metalness.ResetCommand}" />
 
                 <BaseControls:DragValue
                     Caption="Roughness"
-                    Value="{Binding Roughness.Value}" />
+                    Value="{Binding Roughness.Value}"
+                    ResetCommand="{Binding Roughness.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}" IsVisible="{Binding Pipeline.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Materials:PipelineType.Specular}}">
+        <Panels:PositionedStackPanel 
+          Spacing="{DynamicResource SpacingXXS}" 
+          IsVisible="{Binding Pipeline.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Materials:PipelineType.Specular}}">
 
             <BaseControls:CMiXSlider
                 Caption="Glossiness"
                 Maximum="1"
                 Minimum="0"
-                Value="{Binding Glossiness.Value}" />
+                Value="{Binding Glossiness.Value}"
+                ResetCommand="{Binding Glossiness.ResetCommand}" />
 
             <BaseControls:CMiXSlider
                 Caption="Specularity"
                 Maximum="1"
                 Minimum="0"
-                Value="{Binding Specularity.Value}" />
+                Value="{Binding Specularity.Value}"
+                ResetCommand="{Binding Specularity.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 

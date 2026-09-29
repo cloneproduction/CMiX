@@ -5,7 +5,6 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <UserControl.Styles>
-        <!-- Replacement for the WPF ControlTemplate trigger on the inline mask toggle button. -->
         <Style Selector="ToggleButton.maskToggle:checked /template/ Controls|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>

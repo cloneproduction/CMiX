@@ -19,7 +19,9 @@
         <BaseControls:RangeValue
             LeftValue="{Binding Minimum.Value}"
             LeftCaption="Min"
+            LeftResetCommand="{Binding Minimum.ResetCommand}"
             RightCaption="Max"
+            RightResetCommand="{Binding Maximum.ResetCommand}"
             RightValue="{Binding Maximum.Value}"/>
 
         <BaseControls:ComboBox

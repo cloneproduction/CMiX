@@ -2,14 +2,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--
-        Ported from CMiX.Studio\Themes\Styles\ScrollViewer.xaml.
-        The WPF file only styled ScrollBar (the ScrollViewer keeps its default template).
-        The WPF keyed styles ScrollBarPageButton and ScrollBarThumb are absorbed into this
-        ControlTheme as template children with nested selector styles.
-        Note: the WPF file referenced a HorizontalScrollBar template that was never defined
-        anywhere in the project; the horizontal orientation below mirrors the vertical design.
-    -->
     <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
         <Setter Property="Cursor" Value="Arrow" />
         <Setter Property="Margin" Value="4,0,2,0" />

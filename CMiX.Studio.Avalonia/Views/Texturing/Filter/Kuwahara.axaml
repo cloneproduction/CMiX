@@ -18,7 +18,8 @@
             Caption="Radius"
             Maximum="10"
             Minimum="0"
-            Value="{Binding Radius.Value}" />
+            Value="{Binding Radius.Value}"
+            ResetCommand="{Binding Radius.ResetCommand}" />
 
     </StackPanel>
 

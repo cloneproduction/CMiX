@@ -14,8 +14,6 @@ using TextHorizontalAlignmentEnum = CMiX.Core.Text.HorizontalAlignment;
 
 namespace CMiX.Studio.Avalonia.Resources
 {
-    // Static replacement for the WPF ObjectDataProvider dictionary in Resources\DataProviders.xaml.
-    // Consumed from XAML via {x:Static Resources:EnumProviders.X}.
     public static class EnumProviders
     {
         public static CMiX.Core.Modulation.Modulators.WaveTypeEnum[] WaveType { get; } =
@@ -108,8 +106,6 @@ namespace CMiX.Studio.Avalonia.Resources
         public static CMiX.Core.Texturing.Filters.HalftoneMode[] HalftoneMode { get; } =
             Enum.GetValues<CMiX.Core.Texturing.Filters.HalftoneMode>();
 
-        // Replacement for the WPF SortedFontsCollection CollectionViewSource
-        // over Fonts.SystemFontFamilies with a SortDescription on Source.
         public static FontFamily[] SortedFontsCollection { get; } =
             FontManager.Current.SystemFonts.OrderBy(f => f.Name).ToArray();
     }

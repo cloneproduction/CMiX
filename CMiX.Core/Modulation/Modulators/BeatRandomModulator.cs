@@ -29,6 +29,9 @@ namespace CMiX.Core.Modulation.Modulators
             Center = center;
             Width = width;
 
+            Center.SetDefault(0.0f);
+            Width.SetDefault(1.0f);
+
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);

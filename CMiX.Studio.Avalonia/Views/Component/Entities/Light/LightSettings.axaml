@@ -15,19 +15,14 @@
         <BaseControls:DragValue
             Margin="0,8"
             Caption="Intensity"
-            Value="{Binding Intensity.Value}" />
+            Value="{Binding Intensity.Value}"
+            ResetCommand="{Binding Intensity.ResetCommand}" />
 
         <BaseControls:ComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.LightType}"
             SelectedItem="{Binding LightTypeSelector.Value}" />
 
-        <!--
-            The WPF ContentControl swapped keyed DataTemplates through style DataTriggers on
-            LightTypeSelector.Value. Avalonia styles cannot trigger on data values, so the four
-            per type views are stacked here and toggled with EnumMatchConverter. All four stay
-            instantiated; only the matching one is visible.
-        -->
         <Panel>
 
             <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.PointLight}}">

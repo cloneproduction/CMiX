@@ -10,7 +10,8 @@
         <BaseControl:DragValue
             Margin="0,0,0,8"
             Caption="Gamma"
-            Value="{Binding Gamma.Value}" />
+            Value="{Binding Gamma.Value}"
+            ResetCommand="{Binding Gamma.ResetCommand}" />
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 

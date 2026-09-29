@@ -8,7 +8,10 @@
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers">
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"  
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400"
+    d:DesignHeight="600">
 
     <ScrollViewer VerticalScrollBarVisibility="Disabled">
         <i:Interaction.Behaviors>
@@ -17,11 +20,6 @@
 
         <DockPanel>
 
-            <!--
-                The WPF view merged ControlRepository.Entities and ControlRepository.Texts
-                through a CompositeCollection of two CollectionViewSources. Avalonia has no
-                CompositeCollection, so ControlRepository.EntitiesAndTexts replaces it here.
-            -->
             <Managers:PrefabSlotManager
                 Margin="8"
                 DataContext="{Binding ModelEntityManager}"

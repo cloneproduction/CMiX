@@ -151,7 +151,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        <!-- WPF AlternationIndex 0 with AlternationCount 2 maps to odd children -->
+      
         <Style Selector="^:nth-child(2n+1) /template/ Border#MainContainer">
             <Setter Property="Background" Value="{DynamicResource ListBoxBackground}" />
         </Style>
@@ -199,17 +199,18 @@
         <Setter Property="ItemContainerTheme" Value="{DynamicResource LayerListBoxItemStyle}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="Bd" Background="Transparent">
-                    <ScrollViewer
-                        Name="PART_ScrollViewer"
-                        Focusable="False"
-                        HorizontalScrollBarVisibility="Disabled"
-                        VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter
-                            Name="PART_ItemsPresenter"
-                            ItemsPanel="{TemplateBinding ItemsPanel}" />
-                    </ScrollViewer>
-                </Border>
+              <Border Background="{TemplateBinding Background}">
+                <ScrollViewer
+                  Name="PART_ScrollViewer"
+                  Focusable="False"
+                  HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+                  <ItemsPresenter
+                      Name="PART_ItemsPresenter"
+                      ItemsPanel="{TemplateBinding ItemsPanel}" />
+                </ScrollViewer>
+              </Border>
+
             </ControlTemplate>
         </Setter>
     </ControlTheme>

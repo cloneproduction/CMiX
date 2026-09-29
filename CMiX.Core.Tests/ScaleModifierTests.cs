@@ -151,5 +151,22 @@ namespace CMiX.Core.Tests
             var reloadedRandomModulator = Assert.IsType<RandomModulator>(reloaded.ModulatorManager.ManagerData.Items[0]);
             Assert.Same(reloadedRandomModulator, reloaded.ModifierModeSelector.Count.BoundModulator);
         }
+
+        [Fact]
+        public void AllFourBindables_ConstructAtDefaultOfOne_AndResetReturnsToItAfterAChange()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var scale = provider.GetRequiredService<ScaleModifier>();
+
+            Assert.Equal(1f, scale.X.Value);
+            Assert.Equal(1f, scale.Y.Value);
+            Assert.Equal(1f, scale.Z.Value);
+            Assert.Equal(1f, scale.Uniform.Value);
+
+            scale.X.Value = 3f;
+            scale.X.ResetCommand.Execute(null);
+
+            Assert.Equal(1f, scale.X.Value);
+        }
     }
 }

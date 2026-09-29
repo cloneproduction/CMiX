@@ -15,10 +15,6 @@ namespace CMiX.Studio.Avalonia.Behaviors
 {
     public class ClosePopupBehavior : Behavior<Popup>
     {
-        // The Avalonia Popup control itself receives no pointer input, the popup content does.
-        // Pointer handlers that WPF attached to the Popup are therefore attached to Popup.Child
-        // while the popup is open. The subscribed child is tracked so handlers are removed from
-        // the same element they were added to even if the child changes while closed.
         private Control? subscribedChild;
         private bool parentHandlersAdded;
 
@@ -55,7 +51,7 @@ namespace CMiX.Studio.Avalonia.Behaviors
             subscribedChild = child;
             child.PointerEntered += OnPointerEntered;
             child.PointerExited += OnPointerExited;
-            // WPF PreviewMouseLeftButtonUp maps to a tunneling PointerReleased handler.
+
             child.AddHandler(InputElement.PointerReleasedEvent, OnChildPointerReleased, RoutingStrategies.Tunnel);
         }
 
@@ -77,8 +73,7 @@ namespace CMiX.Studio.Avalonia.Behaviors
                 return;
 
             parentHandlersAdded = true;
-            // WPF Mouse.AddPreviewMouseDownHandler and AddPreviewMouseMoveHandler map to
-            // tunneling pointer handlers on the owning top level.
+
             topLevel.AddHandler(InputElement.PointerPressedEvent, OnParentPointerPressed, RoutingStrategies.Tunnel);
             topLevel.AddHandler(InputElement.PointerMovedEvent, OnParentPointerMoved, RoutingStrategies.Tunnel);
         }
@@ -123,13 +118,6 @@ namespace CMiX.Studio.Avalonia.Behaviors
 
         private void OnChildPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
-            // WPF e.Source was the Button itself; Avalonia reports the inner hit test
-            // element, so the ancestor chain decides whether a button was released.
-            // Toggle buttons are excluded because Avalonia derives them from Button
-            // while WPF does not, and mode switches inside a picker must not close it.
-            // The close is posted because this tunnel handler runs before the button
-            // processes the release; closing synchronously detaches the popup content
-            // and the click would never fire.
             var sourceButton = (e.Source as global::Avalonia.Visual)?.FindAncestorOfType<Button>(true);
             if (e.InitialPressMouseButton == MouseButton.Left && sourceButton != null && sourceButton is not ToggleButton)
                 global::Avalonia.Threading.Dispatcher.UIThread.Post(ClosePopup);

@@ -30,6 +30,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var modulatable = provider.GetRequiredService<ModulatableValue<float>>();
             var modulator = new TestMultiOutputModulator();
+            modulatable.ModulatorLookup = id => id == modulator.ID ? modulator : null;
 
             modulatable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[1]));
 

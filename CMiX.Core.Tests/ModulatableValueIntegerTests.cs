@@ -23,6 +23,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var count = provider.GetRequiredService<ModulatableValue<int>>();
             var randomModulator = provider.GetRequiredService<RandomModulator>();
+            count.ModulatorLookup = id => id == randomModulator.ID ? randomModulator : null;
 
             count.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
@@ -58,6 +59,31 @@ namespace CMiX.Core.Tests
             Assert.Equal(5, reloaded.Value);
             Assert.Equal(randomModulator.ID, reloaded.ModulatorID);
             Assert.Equal("Value", reloaded.BoundOutputName);
+        }
+
+        [Fact]
+        public void ResetCommand_IsDisabledWhileModulated_AndResetsValueOnceUnassigned()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var count = provider.GetRequiredService<ModulatableValue<int>>();
+            var randomModulator = provider.GetRequiredService<RandomModulator>();
+            count.ModulatorLookup = id => id == randomModulator.ID ? randomModulator : null;
+
+            count.SetDefault(3);
+            count.Value = 9;
+            Assert.True(count.ResetCommand.CanExecute(null));
+
+            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
+
+            Assert.False(count.ResetCommand.CanExecute(null));
+
+            count.SetModulatorCommand.Execute(null);
+
+            Assert.True(count.ResetCommand.CanExecute(null));
+
+            count.ResetCommand.Execute(null);
+
+            Assert.Equal(3, count.Value);
         }
     }
 }

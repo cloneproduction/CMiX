@@ -9,49 +9,88 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     x:Name="uc"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    d:DesignHeight="600">
 
-    <StackPanel>
+  <StackPanel Spacing="{DynamicResource SpacingMD}">
+      
+        <BaseControls:ColorSelector
+            Margin="8, 8, 8, 0"
+            Caption="Color"
+            DataContext="{Binding Color}" />
+    
+    <StackPanel Spacing="{DynamicResource SpacingXS}">
+      
+      <Panels:IndentedExpander
+          Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
+        <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
+      </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
-            <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
-        </Panels:IndentedExpander>
+      <Views:EntityModifiersSection
+          PanelOwner="{x:Type Compositing:Entity}" />
 
-        <Views:EntityModifiersSection PanelOwner="{x:Type Compositing:Entity}" />
+      <Panels:IndentedExpander
+          Header="Texture"
+          IsExpanded="{Binding TextureIsExpanded}">
 
-        <Panels:IndentedExpander Header="Material" IsExpanded="{Binding MaterialManagerIsExpanded}">
+        <StackPanel>
 
-            <StackPanel>
+          <Views:DiffuseTexture DataContext="{Binding Texture.DiffuseTexture}" />
 
-                <BaseControls:ColorSelector
-                    Margin="8,8,8,0"
-                    Caption="Color"
-                    DataContext="{Binding Color}" />
+          <Panels:IndentedExpander
+              Indentation="4"
+              IsExpanded="{Binding Texture.MaskTexture.IsExpanded}">
 
-                <BaseControls:Outliner
-                    Margin="8"
-                    DataContext="{Binding MaterialSelector}"
-                    ItemsSource="{Binding ControlRepository.Materials}">
-                    <BaseControls:Outliner.SelectionPanel>
-                        <Button
-                            Command="{Binding AddItemCommand}"
-                            CommandParameter="{x:Type Materials:Material}"
-                            Content="New"
-                            Theme="{DynamicResource ButtonRoundedRight}" />
-                    </BaseControls:Outliner.SelectionPanel>
-                </BaseControls:Outliner>
+            <Panels:IndentedExpander.Header>
+              <DockPanel>
+                <ToggleButton
+                    Width="14"
+                    Height="14"
+                    IsChecked="{Binding Texture.MaskTexture.IsEnabled.Value, Mode=TwoWay}"
+                    Theme="{StaticResource ToggleButtonIcon}" />
+                <TextBlock Margin="8,0" Text="Mask" />
+              </DockPanel>
+            </Panels:IndentedExpander.Header>
 
-                <Border IsVisible="{Binding MaterialSelector.SelectedItem, Converter={StaticResource NullToVisibility}}">
-                    <Views:Material DataContext="{Binding MaterialSelector.SelectedItem}" />
-                </Border>
+            <Views:MaskTexture DataContext="{Binding Texture.MaskTexture}" />
 
-            </StackPanel>
+          </Panels:IndentedExpander>
 
-        </Panels:IndentedExpander>
+        </StackPanel>
 
-        <Panels:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
-            <Views:Mesh Margin="8" DataContext="{Binding Mesh}" />
-        </Panels:IndentedExpander>
+      </Panels:IndentedExpander>
+
+      <Panels:IndentedExpander
+        Header="Transform Texture"
+        IsExpanded="{Binding TransformTextureIsExpanded}">
+
+        <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
+
+          <Views:Transform2D
+            DataContext="{Binding Texture.DiffuseTexture.Transform2D}"  />
+
+          <Views:SamplerState
+            DataContext="{Binding Texture.DiffuseTexture.SamplerState}"/>
+
+        </StackPanel>
+
+      </Panels:IndentedExpander>
+
+      <Panels:IndentedExpander
+        Header="Material"
+        IsExpanded="{Binding MaterialManagerIsExpanded}">
+
+        <Border IsVisible="{Binding Material, Converter={StaticResource NullToVisibility}}">
+          <Views:Material DataContext="{Binding Material}" />
+        </Border>
+
+      </Panels:IndentedExpander>
+
+      <Panels:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
+        <Views:Mesh Margin="8" DataContext="{Binding Mesh}" />
+      </Panels:IndentedExpander>
+
+    </StackPanel>
 
     </StackPanel>
 

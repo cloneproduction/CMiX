@@ -27,7 +27,7 @@ namespace CMiX.Core.Modulation.Modifiers
             seed.Label = "Seed";
             center.Label = "Center";
             width.Label = "Width";
-            width.Value = 1.0f;
+            width.SetDefault(1.0f);
             Bindables = new List<ModulatableValue<float>> { seed, center, width };
         }
 

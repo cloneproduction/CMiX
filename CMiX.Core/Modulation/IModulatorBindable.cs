@@ -12,6 +12,7 @@ namespace CMiX.Core.Modulation
         string BoundOutputName { get; }
         IModulator BoundModulator { get; }
         ICommand SetModulatorCommand { get; }
+        Func<Guid, IModulator> ModulatorLookup { get; set; }
 
         bool CanBind(IModulatorOutput output);
     }

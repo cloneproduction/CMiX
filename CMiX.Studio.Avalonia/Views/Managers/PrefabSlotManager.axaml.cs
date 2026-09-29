@@ -20,7 +20,6 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             InitializeComponent();
         }
 
-        // WPF FrameworkElement becomes the Avalonia Control base type.
         public static readonly StyledProperty<Control> SelectionPanelProperty =
             AvaloniaProperty.Register<PrefabSlotManager, Control>(nameof(SelectionPanel));
         public Control SelectionPanel
@@ -29,8 +28,6 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             set => SetValue(SelectionPanelProperty, value);
         }
 
-        // The WPF property was typed FrameworkElement (not DataTemplate) and is unused
-        // by the XAML; ported as Control to keep the public surface.
         public static readonly StyledProperty<Control> ItemTemplateProperty =
             AvaloniaProperty.Register<PrefabSlotManager, Control>(nameof(ItemTemplate));
         public Control ItemTemplate

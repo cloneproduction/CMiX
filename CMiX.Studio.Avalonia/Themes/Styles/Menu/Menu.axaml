@@ -3,16 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="using:System">
 
-    <!--
-        Ported from CMiX.Studio\Themes\Styles\Menu\Menu.xaml.
-        WPF role based MenuItem templates collapse into the implicit MenuItem ControlTheme
-        (submenu items) plus the keyed TopMenuItem ControlTheme which the Menu theme applies
-        to its direct children through ItemContainerTheme.
-        The WPF OpaqueRect and CanContentScroll machinery was dropped, it is a WPF scrolling
-        optimization with no Avalonia counterpart.
-    -->
-
-    <!-- Submenu item, replaces the WPF implicit MenuItem style -->
     <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
@@ -82,12 +72,10 @@
             </Setter>
         </Style>
 
-        <!-- WPF trigger IsChecked True hides the icon -->
         <Style Selector="^:checked /template/ ContentControl#PART_IconPresenter">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <!-- WPF trigger IsHighlighted True -->
         <Style Selector="^:selected /template/ Border#root">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
@@ -100,7 +88,6 @@
         </Style>
     </ControlTheme>
 
-    <!-- Top level item, replaces the WPF keyed style TopMenuItem -->
     <ControlTheme x:Key="TopMenuItem" TargetType="MenuItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="4" />
@@ -161,12 +148,10 @@
             </ControlTemplate>
         </Setter>
 
-        <!-- WPF trigger IsChecked True hides the icon -->
         <Style Selector="^:checked /template/ ContentControl#PART_IconPresenter">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <!-- WPF trigger IsHighlighted True -->
         <Style Selector="^:selected /template/ Border#root">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
@@ -179,11 +164,6 @@
         </Style>
     </ControlTheme>
 
-    <!--
-        Replaces the WPF keyed style MenuDefault.
-        WPF VerticalContentAlignment has no Menu counterpart in Avalonia,
-        the template Border keeps VerticalAlignment Center instead.
-    -->
     <ControlTheme x:Key="MenuDefault" TargetType="Menu">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />

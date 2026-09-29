@@ -34,13 +34,6 @@ namespace CMiX.Studio.Avalonia.Behaviors
             set => SetValue(SelectedColorProperty, value);
         }
 
-
-        // The WPF version declared a bubbling RoutedEvent owned by the behavior and raised it
-        // through the associated slider. Avalonia behaviors are AvaloniaObjects, not Interactive
-        // controls, so a routed event cannot be raised from the behavior itself. The event keeps
-        // the behavior as its owner type for registration, but it is raised on and handled through
-        // the AssociatedObject, which matches the WPF routing. The event is only consumed by the
-        // behavior itself in the current codebase.
         public static readonly RoutedEvent<ColorRoutedEventArgs> ColorChangedEvent =
             RoutedEvent.Register<ColorSliderBehavior, ColorRoutedEventArgs>(
                 "ColorChanged", RoutingStrategies.Bubble);

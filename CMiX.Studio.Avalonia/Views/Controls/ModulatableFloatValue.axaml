@@ -11,6 +11,7 @@
     <BaseControls:DragValue
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelValue}"
         Caption="{Binding Caption, ElementName=channelValue, Mode=OneWay}"
+        ResetCommand="{Binding ResetCommand}"
         Value="{Binding Value}">
 
         <BaseControls:DragValue.IsReadOnly>

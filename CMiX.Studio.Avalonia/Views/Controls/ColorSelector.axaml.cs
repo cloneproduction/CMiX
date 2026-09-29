@@ -15,8 +15,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             InitializeComponent();
 
             Loaded += (s, e) => colorPickerPopup.PlacementTarget = PopupToggle;
-
-            // The duplicated WPF Checked and Unchecked subscriptions collapse into one handler.
             PopupToggle.IsCheckedChanged += (s, e) => colorPickerPopup.IsOpen = PopupToggle.IsChecked == true;
         }
 

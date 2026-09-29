@@ -23,8 +23,6 @@ namespace CMiX.Studio.Avalonia.Views
         public PathSelector()
         {
             InitializeComponent();
-
-            // Replaces the WPF gong drop handler with Avalonia file drop wiring.
             DragDrop.SetAllowDrop(pathComboBox, true);
             pathComboBox.AddHandler(DragDrop.DragOverEvent, OnDragOver);
             pathComboBox.AddHandler(DragDrop.DropEvent, OnDrop);

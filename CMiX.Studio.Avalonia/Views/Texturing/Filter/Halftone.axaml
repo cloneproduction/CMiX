@@ -21,22 +21,26 @@
             <Controls:DragValue
                 Caption="Tile Count"
                 Minimum="0"
-                Value="{Binding NumberOfTiles.Value}" />
+                Value="{Binding NumberOfTiles.Value}"
+                ResetCommand="{Binding NumberOfTiles.ResetCommand}" />
 
             <Controls:DragValue
                 Caption="Dot Size"
                 Minimum="0"
-                Value="{Binding DotSize.Value}" />
+                Value="{Binding DotSize.Value}"
+                ResetCommand="{Binding DotSize.ResetCommand}" />
 
             <Controls:DragValue
                 Caption="Softness"
                 Minimum="0"
-                Value="{Binding Softness.Value}" />
+                Value="{Binding Softness.Value}"
+                ResetCommand="{Binding Softness.ResetCommand}" />
 
             <Controls:DragValue
                 Caption="Brightness"
                 Minimum="0"
-                Value="{Binding Brightness.Value}" />
+                Value="{Binding Brightness.Value}"
+                ResetCommand="{Binding Brightness.ResetCommand}" />
 
         </Panels:PositionedStackPanel>
 

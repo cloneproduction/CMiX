@@ -2,13 +2,16 @@
     x:Class="CMiX.Studio.Avalonia.Views.Transform2D"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:DragValue
             Caption="Uniform Scale"
-            Value="{Binding UniformScale.Value}" />
+            Value="{Binding UniformScale.Value}"
+            ResetCommand="{Binding UniformScale.ResetCommand}" />
 
         <BaseControls:Vector2
             Caption="Scale"
@@ -16,7 +19,8 @@
 
         <BaseControls:DragValue
             Caption="Rotate"
-            Value="{Binding Rotate.Value}" />
+            Value="{Binding Rotate.Value}"
+            ResetCommand="{Binding Rotate.ResetCommand}" />
 
         <BaseControls:Vector2
             Caption="Translate"

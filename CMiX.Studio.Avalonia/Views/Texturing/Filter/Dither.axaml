@@ -8,7 +8,8 @@
 
         <Controls:DragValue
             Caption="Threshold"
-            Value="{Binding Threshold.Value}" />
+            Value="{Binding Threshold.Value}"
+            ResetCommand="{Binding Threshold.ResetCommand}" />
 
 
 </Views:FilterPanel>

@@ -4,15 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:conv="clr-namespace:Avalonia.Data.Converters;assembly=Avalonia.Base"
     x:Name="counter">
-
-    <BaseControl:CaptionedUserControl.ContextMenu>
-        <ContextMenu>
-            <MenuItem
-                Command="{Binding ResetCommand}"
-                Header="Reset" />
-        </ContextMenu>
-    </BaseControl:CaptionedUserControl.ContextMenu>
 
     <BaseControl:DragValue
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=counter}"
@@ -22,6 +15,16 @@
         Maximum="{Binding Maximum, ElementName=counter}"
         Minimum="{Binding Minimum, ElementName=counter}"
         SmallChange="1.0"
-        Value="{Binding Value, ElementName=counter, Mode=TwoWay}" />
+        Value="{Binding Value, ElementName=counter, Mode=TwoWay}">
+        <BaseControl:DragValue.ContextMenu>
+            <ContextMenu Theme="{StaticResource ContextMenuDefault}">
+                <MenuItem Command="{Binding ResetCommand}" Header="Reset" />
+                <MenuItem
+                    Command="{Binding ResetAllCommand, ElementName=counter}"
+                    Header="Reset All"
+                    IsVisible="{Binding ResetAllCommand, ElementName=counter, Converter={x:Static conv:ObjectConverters.IsNotNull}}" />
+            </ContextMenu>
+        </BaseControl:DragValue.ContextMenu>
+    </BaseControl:DragValue>
 
 </BaseControl:CaptionedUserControl>

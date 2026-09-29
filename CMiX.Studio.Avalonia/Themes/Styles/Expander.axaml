@@ -1,15 +1,16 @@
-﻿<ResourceDictionary
+<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
 
     <ControlTheme x:Key="ExpanderDownHeaderStyle" TargetType="ToggleButton">
         <Setter Property="Template">
             <ControlTemplate>
                 <Border
                     Name="mainBorder"
-                    Background="Transparent"
+                    Background="{DynamicResource PanelBackground}"
                     Height="{DynamicResource ControlHeightMD}"
                     HorizontalAlignment="Stretch"
                     Margin="8,0"
@@ -175,7 +176,7 @@
             <ControlTemplate>
                 <Border
                     Name="mainBorder"
-                    Background="Transparent"
+                    Background="{DynamicResource PanelBackgroundLevel1Brush}"
                     Height="{DynamicResource ControlHeightXL}"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center">
@@ -204,21 +205,21 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="IndentedExpanderStyle" TargetType="Expander">
+    <ControlTheme x:Key="{x:Type Panels:IndentedExpander}" TargetType="Panels:IndentedExpander">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border
+              <Border
                     BorderBrush="{DynamicResource PanelBorderBackground}"
                     BorderThickness="0,1,0,0">
                     <Border Background="Transparent">
                         <DockPanel>
                             <ToggleButton
                                 Name="PART_toggle"
-                                AttachedProperties:ExpanderIndentation.Indentation="{Binding (AttachedProperties:ExpanderIndentation.Indentation), RelativeSource={RelativeSource TemplatedParent}}"
+                                AttachedProperties:ExpanderIndentation.Indentation="{TemplateBinding Indentation}"
                                 Content="{TemplateBinding Header}"
                                 DockPanel.Dock="Top"
                                 Foreground="{DynamicResource ForegroundBrush}"
@@ -227,7 +228,8 @@
                                 Theme="{StaticResource IndentedExpanderStyleHeaderStyle}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                             <Border
-                                Background="{DynamicResource PanelBackground}"
+                                Name="contentBackground"
+                                Background="{DynamicResource PanelBackgroundLevel1Brush}"
                                 HorizontalAlignment="Stretch">
                                 <ContentPresenter
                                     Name="PART_ContentPresenter"

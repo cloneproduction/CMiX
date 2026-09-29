@@ -7,7 +7,8 @@
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    d:DesignHeight="600">
 
     <StackPanel>
 
@@ -28,11 +29,12 @@
 
         <Panels:IndentedExpander
             Header="Filter"
-            Indentation="4"
+            Indentation="8"
             IsExpanded="{Binding TextureModifierManager.IsExpanded, FallbackValue=False}">
 
             <Views:ModifierManager
-                Margin="8"
+                Margin="8, 0, 8, 8"
+                Caption="Add Filter"
                 DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
                 <Views:ModifierManager.SelectionPanel>
                     <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />

@@ -3,13 +3,16 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:DragValue
             Caption="Uniform"
-            Value="{Binding Uniform.Value}" />
+            Value="{Binding Uniform.Value}"
+            ResetCommand="{Binding Uniform.ResetCommand}" />
 
         <BaseControls:Vector2
             Caption="Scale"
@@ -17,15 +20,14 @@
 
         <BaseControls:DragValue
             Caption="Rotation"
-            Value="{Binding Rotation.Value}" />
+            Value="{Binding Rotation.Value}"
+            ResetCommand="{Binding Rotation.ResetCommand}" />
 
         <BaseControls:Vector2
             Caption="Translate"
             DataContext="{Binding Location}" />
 
-        <Views:SamplerState
-            Margin="0,0,0,8"
-            DataContext="{Binding SamplerState}" />
+        <Views:SamplerState DataContext="{Binding SamplerState}" />
 
     </StackPanel>
 

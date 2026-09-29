@@ -84,13 +84,10 @@ namespace CMiX.Core.Modulation
             for (int i = 0; i < Bindables.Count && i < model.Bindables.Count; i++)
                 Bindables[i].FromModel(model.Bindables[i]);
 
-            foreach (var bindable in Bindables)
-            {
-                if (bindable.ModulatorID is not { } modulatorId) continue;
-                bindable.BoundModulator = ModulatorManager.ManagerData.Items
+            foreach (var bindable in Bindables.Cast<IModulatorBindable>().Concat(_nestedBindables))
+                bindable.ModulatorLookup = id => ModulatorManager.ManagerData.Items
                     .OfType<IModulator>()
-                    .FirstOrDefault(m => m.ID == modulatorId);
-            }
+                    .FirstOrDefault(m => m.ID == id);
         }
 
         public abstract IControlModel ToModel();

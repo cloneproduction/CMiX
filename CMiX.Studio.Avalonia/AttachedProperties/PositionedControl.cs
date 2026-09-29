@@ -24,8 +24,6 @@ namespace CMiX.Studio.Avalonia.AttachedProperties
             PositionProperty.Changed.AddClassHandler<Control>(OnPositionChanged);
         }
 
-        // The WPF theme used DataTriggers on the Position attached property.
-        // Avalonia styles select on these pseudo classes instead.
         private static void OnPositionChanged(Control element, AvaloniaPropertyChangedEventArgs e)
         {
             var position = e.GetNewValue<ControlPosition>();

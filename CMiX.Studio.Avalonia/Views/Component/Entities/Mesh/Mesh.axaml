@@ -9,7 +9,11 @@
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters"
-    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" 
+    d:DesignWidth="400">
 
     <StackPanel>
 
@@ -18,7 +22,7 @@
             ItemsSource="{x:Static Resources:EnumProviders.MeshType}"
             SelectedItem="{Binding MeshTypeSelector.Value}" />
 
-        <Panel Margin="0,8,0,0">
+        <Panel Margin="0, 8">
 
             <Border IsVisible="{Binding MeshTypeSelector.Value, 
                 Converter={x:Static Converters:EnumMatchConverter.Instance}, 
@@ -64,26 +68,27 @@
         </Panel>
 
         <Panels:IndentedExpander
-            Margin="-8,0,-8,0"
             Header="Geometry FX"
-            Indentation="0"
+            Indentation="4"
             IsExpanded="False">
 
-            <StackPanel Margin="8">
+            <StackPanel 
+              Margin="8" 
+              Spacing="{DynamicResource SpacingMD}">
 
-                <BaseControls:DragValue 
-                    Caption="Explode Strength" 
-                    Value="{Binding ExplodeStrength.Value}" />
+                <BaseControls:DragValue
+                    Caption="Explode Strength"
+                    Value="{Binding ExplodeStrength.Value}"
+                    ResetCommand="{Binding ExplodeStrength.ResetCommand}" />
 
                 <BaseControls:CMiXSlider
-                    Margin="0,8,0,0"
                     Caption="Flat Normals"
                     Maximum="1.0"
                     Minimum="0.0"
-                    Value="{Binding FlatNormals.Value}" />
+                    Value="{Binding FlatNormals.Value}"
+                    ResetCommand="{Binding FlatNormals.ResetCommand}" />
 
                 <BaseControls:Outliner
-                    Margin="0,8"
                     DataContext="{Binding ExplodeTriangleTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
                     <BaseControls:Outliner.SelectionPanel>
@@ -96,26 +101,32 @@
                 </BaseControls:Outliner>
 
                 <Border IsVisible="{Binding ExplodeTriangleTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
-                    <Views:Texture Margin="-8,0" DataContext="{Binding ExplodeTriangleTextureManager.SelectedItem}" />
+                    <Views:Texture DataContext="{Binding ExplodeTriangleTextureManager.SelectedItem}" />
                 </Border>
             </StackPanel>
 
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander
-            Margin="-8,0,-8,0"
+
             Header="Displacement"
-            Indentation="0"
+            Indentation="4"
             IsExpanded="False">
 
-            <StackPanel Margin="8">
+            <StackPanel 
+              Margin="8" 
+              Spacing="{DynamicResource SpacingMD}">
 
-                <BaseControls:DragValue Caption="Strength" Value="{Binding DisplacementStrength.Value}" />
+                <BaseControls:DragValue
+                  Caption="Strength"
+                  Value="{Binding DisplacementStrength.Value}"
+                  ResetCommand="{Binding DisplacementStrength.ResetCommand}" />
 
                 <BaseControls:Outliner
-                    Margin="0,8"
+                    Margin="0"
                     DataContext="{Binding DisplacementTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
+                  
                     <BaseControls:Outliner.SelectionPanel>
                         <Managers:ButtonOpenSelectionPanel Caption="New Control Texture">
                             <Managers:ButtonOpenSelectionPanel.SelectionPanel>
@@ -126,7 +137,7 @@
                 </BaseControls:Outliner>
 
                 <Border IsVisible="{Binding DisplacementTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
-                    <Views:Texture Margin="-8,0" DataContext="{Binding DisplacementTextureManager.SelectedItem}" />
+                    <Views:Texture DataContext="{Binding DisplacementTextureManager.SelectedItem}" />
                 </Border>
             </StackPanel>
 

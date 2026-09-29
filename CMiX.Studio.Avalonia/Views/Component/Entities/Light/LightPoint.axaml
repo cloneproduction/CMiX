@@ -13,7 +13,8 @@
         <BaseControl:DragValue
             Margin="0,8"
             Caption="Radius"
-            Value="{Binding Radius.Value}" />
+            Value="{Binding Radius.Value}"
+            ResetCommand="{Binding Radius.ResetCommand}" />
 
         <BaseControl:ToggleButton
             Caption="Show Helper"

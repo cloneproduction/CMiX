@@ -20,7 +20,6 @@ namespace CMiX.Studio.Avalonia.Views
         {
             InitializeComponent();
 
-            // Replaces the WPF gong drop handlers with Avalonia file drop wiring.
             foreach (var target in new Control[] { dropBorder, imagesListBox, videosListBox, geometriesListBox })
             {
                 DragDrop.SetAllowDrop(target, true);
