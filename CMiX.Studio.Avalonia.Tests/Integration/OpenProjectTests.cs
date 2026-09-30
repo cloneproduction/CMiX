@@ -347,5 +347,57 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 if (File.Exists(modelPath)) File.Delete(modelPath);
             }
         }
+
+        // SelectedOutputMappingID is a pointer into the project's fixed output slots, not an
+        // identity, but every composition goes through a clone that gives every id a fresh value.
+        // A composition's saved, valid selection must survive that clone, not fall back to the
+        // default slot the way a genuinely stale or corrupt reference correctly still does.
+        [AvaloniaFact]
+        public async Task OpenProject_WithDifferentOutputMappingsPerComposition_KeepsEachOnesSelection()
+        {
+            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
+            try
+            {
+                ProjectFixtures.WriteProjectWithDifferentOutputMappings(path);
+
+                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+                var slots = viewModel.Project.OutputMappingManager.Items;
+
+                await viewModel.MainMenu.OpenProjectFromPath(path);
+                TestServiceProviderFactory.Pump();
+
+                var compositions = viewModel.Project.CompositionManager.ManagerData.Items
+                    .Cast<Composition>().ToList();
+                Assert.Equal(2, compositions.Count);
+                Assert.Same(slots[1], compositions[0].SelectedOutputMapping);
+                Assert.Same(slots[2], compositions[1].SelectedOutputMapping);
+            }
+            finally
+            {
+                if (File.Exists(path)) File.Delete(path);
+            }
+        }
+
+        // The same clone runs for Duplicate Composition, entirely inside one live session, no save
+        // or load involved.
+        [AvaloniaFact]
+        public void DuplicateComposition_WithANonDefaultOutputMapping_KeepsItOnTheDuplicate()
+        {
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var compositionManager = viewModel.Project.CompositionManager;
+            var slots = viewModel.Project.OutputMappingManager.Items;
+
+            compositionManager.AddItem(typeof(Composition));
+            var original = (Composition)compositionManager.SelectedItem;
+            original.SelectedOutputMapping = slots[1];
+            TestServiceProviderFactory.Pump();
+
+            viewModel.MainMenu.DuplicateCompositionCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
+
+            var duplicate = (Composition)compositionManager.SelectedItem;
+            Assert.NotSame(original, duplicate);
+            Assert.Same(slots[1], duplicate.SelectedOutputMapping);
+        }
     }
 }

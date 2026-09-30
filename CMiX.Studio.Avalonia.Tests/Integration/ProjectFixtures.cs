@@ -68,5 +68,25 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
             ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
         }
+
+        // Saves two compositions, each pointing at a different output slot, and neither at slot 0.
+        // Slot 0 is what a fresh composition defaults to, so a reload that loses its saved
+        // selection and falls back to the default is visibly wrong against either composition here.
+        public static void WriteProjectWithDifferentOutputMappings(string path)
+        {
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var compositionManager = viewModel.Project.CompositionManager;
+            var slots = viewModel.Project.OutputMappingManager.Items;
+
+            compositionManager.AddItem(typeof(Composition));
+            ((Composition)compositionManager.SelectedItem).SelectedOutputMapping = slots[1];
+
+            compositionManager.AddItem(typeof(Composition));
+            ((Composition)compositionManager.SelectedItem).SelectedOutputMapping = slots[2];
+
+            TestServiceProviderFactory.Pump();
+
+            ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
+        }
     }
 }
