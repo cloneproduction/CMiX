@@ -191,26 +191,25 @@ namespace CMiX.Studio.Avalonia.ViewModels
         {
             try
             {
-                var loaded = await Task.Run<(ProjectModel? Project, CompositionModel? Composition)>(() =>
+                var loaded = await Task.Run(() =>
                 {
                     var projectModel = ProjectSerializer.Load(path);
-                    if (projectModel?.CompositionManager?.ManagerData?.Items?.FirstOrDefault() is not CompositionModel compositionModel)
-                        return (null, null);
 
-                    return (projectModel, CloneWithNewGuids(compositionModel));
+                    // Zero compositions is a valid, saveable project state (an empty document, the
+                    // same as any comparable creative tool), not an error - the loop below just adds
+                    // nothing when this list is empty.
+                    var compositions = projectModel.CompositionManager.ManagerData.Items
+                        .Cast<CompositionModel>()
+                        .Select(CloneWithNewGuids)
+                        .ToList();
+
+                    return (Project: projectModel, Compositions: compositions);
                 });
-
-                if (loaded.Project == null || loaded.Composition == null)
-                {
-                    await _dialogService.ShowMessageBoxAsync(this, "File does not contain a composition.", "Open Project");
-                    return;
-                }
 
                 // Opening replaces the session rather than merging the file into it, so what was
                 // open is emptied here the way File > New empties it. The sweep only runs once the
-                // file has been parsed and has yielded a composition, so the failure paths above
-                // and below still leave the open session untouched; both of them report over a
-                // window the user has not had emptied behind the dialog.
+                // file has been parsed, so a parse failure above leaves the open session untouched
+                // and reports over a window the user has not had emptied behind the dialog.
                 ResetSession();
 
                 // The load builds the graph through the very managers a user action goes through,
@@ -226,14 +225,29 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 _undoManager.SuppressUndo();
                 try
                 {
-                    Project.CompositionManager.AddItem(loaded.Composition);
+                    foreach (var composition in loaded.Compositions)
+                        Project.CompositionManager.AddItem(composition);
+
+                    // Adding always selects the item just added, so the loop above always leaves the
+                    // last composition selected. Restore whichever one was actually selected when the
+                    // file was saved instead, by position in the file's own list.
+                    var savedIndex = loaded.Project.CompositionManager.ManagerData.SelectedIndex;
+                    if (savedIndex >= 0 && savedIndex < loaded.Compositions.Count)
+                        Project.CompositionManager.Collection.SelectedItemChanged(savedIndex);
 
                     // The master beat keeps the ids it was saved with, so it is restored from the
-                    // file as loaded rather than from the guid replaced clone the composition goes
+                    // file as loaded rather than from the guid replaced clone each composition goes
                     // through. Project files written before the master beat was serialized carry
-                    // none.
+                    // none. PrefabService and Model (the project's 3D backdrop) carry their own
+                    // well known ids the same way and are restored the same way.
                     if (loaded.Project.MasterBeat != null)
                         Project.MasterBeat.FromModel(loaded.Project.MasterBeat);
+
+                    if (loaded.Project.PrefabService != null)
+                        Project.PrefabService.FromModel(loaded.Project.PrefabService);
+
+                    if (loaded.Project.Model != null)
+                        Project.Model.FromModel(loaded.Project.Model);
                 }
                 finally
                 {
