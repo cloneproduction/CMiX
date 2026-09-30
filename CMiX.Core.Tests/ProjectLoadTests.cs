@@ -129,5 +129,61 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(loadedComposition.ID, loadedMaterial.CompositionID);
         }
+
+        [Fact]
+        public void SaveThenLoad_KeepsAValidOutputSlotSelection()
+        {
+            var source = TestServiceProviderFactory.Create();
+            var sourceProject = source.GetRequiredService<Project>();
+
+            sourceProject.CompositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)sourceProject.CompositionManager.SelectedItem;
+            var slot = sourceProject.OutputMappingManager.Items[3];
+            composition.SelectedOutputMapping = slot;
+
+            var path = Path.Combine(_directory, "output-slot.cmix");
+            ProjectSerializer.Save((ProjectModel)sourceProject.ToModel(), path);
+            var loadedModel = ProjectSerializer.Load(path);
+            var compositionModel = (CompositionModel)loadedModel.CompositionManager.ManagerData.Items[0];
+
+            var target = TestServiceProviderFactory.Create();
+            var targetProject = target.GetRequiredService<Project>();
+            targetProject.CompositionManager.AddItem(compositionModel);
+
+            var loadedComposition = (Composition)targetProject.CompositionManager.SelectedItem;
+            Assert.Equal(slot.ID, loadedComposition.SelectedOutputMappingID.Value);
+            Assert.Same(targetProject.OutputMappingManager.Items[3], loadedComposition.SelectedOutputMapping);
+        }
+
+        [Fact]
+        public void SaveThenLoad_WithAnUnknownOutputSlot_KeepsTheDefaultSlot()
+        {
+            var source = TestServiceProviderFactory.Create();
+            var sourceProject = source.GetRequiredService<Project>();
+
+            sourceProject.CompositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)sourceProject.CompositionManager.SelectedItem;
+            composition.SelectedOutputMapping = sourceProject.OutputMappingManager.Items[3];
+
+            var path = Path.Combine(_directory, "unknown-output-slot.cmix");
+            ProjectSerializer.Save((ProjectModel)sourceProject.ToModel(), path);
+            var loadedModel = ProjectSerializer.Load(path);
+            var compositionModel = (CompositionModel)loadedModel.CompositionManager.ManagerData.Items[0];
+
+            // Duplicate and open replace every GUID, so the saved slot ID names no slot.
+            var replacedModel = compositionModel with
+            {
+                SelectedOutputMappingID = compositionModel.SelectedOutputMappingID with { Value = Guid.NewGuid() }
+            };
+
+            var target = TestServiceProviderFactory.Create();
+            var targetProject = target.GetRequiredService<Project>();
+            targetProject.CompositionManager.AddItem(replacedModel);
+
+            var loadedComposition = (Composition)targetProject.CompositionManager.SelectedItem;
+            var defaultSlot = targetProject.OutputMappingManager.Items[0];
+            Assert.Equal(defaultSlot.ID, loadedComposition.SelectedOutputMappingID.Value);
+            Assert.Same(defaultSlot, loadedComposition.SelectedOutputMapping);
+        }
     }
 }

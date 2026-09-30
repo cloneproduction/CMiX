@@ -88,10 +88,12 @@ namespace CMiX.Core.Compositing
             var m = (CompositionModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
-            // Guid.Empty means the model never had a selection (a fresh "New Composition" model,
-            // or an old project saved before one was chosen) - keep the constructor's default
-            // instead of clobbering it back to nothing. A real saved selection always overwrites.
-            if (m.SelectedOutputMappingID.Value != Guid.Empty)
+            // Keep the constructor default when the model has no selection (Guid.Empty).
+            // A new composition and an old project file give such a model.
+            // Also keep the default when the ID names no output slot of the project.
+            // Duplicate and open replace every GUID in the model JSON, and this ID too.
+            if (m.SelectedOutputMappingID.Value != Guid.Empty &&
+                Project.OutputMappingManager.GetByID(m.SelectedOutputMappingID.Value) != null)
                 SelectedOutputMappingID.FromModel(m.SelectedOutputMappingID);
             LayerSettings.FromModel(m.LayerSettings);
             LayerMaskSettings.FromModel(m.LayerMaskSettings);
