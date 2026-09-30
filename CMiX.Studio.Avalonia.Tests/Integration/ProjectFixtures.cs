@@ -30,5 +30,30 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
             ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
         }
+
+        // Saves three compositions, CompositionA to CompositionC, each with one layer, LayerA to
+        // LayerC. The middle composition is selected. An open adds the compositions in order and
+        // each add selects the new one, so without a restore the last one stays selected. A lost
+        // selection index reads back as 0. The middle one is neither of these.
+        public static void WriteProjectWithThreeCompositions(string path)
+        {
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var compositionManager = viewModel.Project.CompositionManager;
+
+            foreach (var suffix in new[] { "A", "B", "C" })
+            {
+                compositionManager.AddItem(typeof(Composition));
+                var composition = (Composition)compositionManager.SelectedItem;
+                composition.PrefabService.Name.Value = "Composition" + suffix;
+                composition.LayerManager.AddItem(typeof(Layer));
+                var layer = (Layer)composition.LayerManager.SelectedItem;
+                layer.PrefabService.Name.Value = "Layer" + suffix;
+            }
+
+            compositionManager.SelectedItem = compositionManager.ManagerData.Items[1];
+            TestServiceProviderFactory.Pump();
+
+            ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Headless.XUnit;
 using CMiX.Core.Compositing;
+using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.ViewModels;
@@ -255,6 +256,55 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
                 Assert.Equal((0, 0, 0, 0, 0, 0), Counts(viewModel.ControlRepository));
                 Assert.Null(viewModel.MainMenu.FolderPath);
+            }
+            finally
+            {
+                if (File.Exists(path)) File.Delete(path);
+            }
+        }
+
+        // An open loads every composition of the file in file order. Each one keeps its own layer
+        // and gets new ids of its own. The composition that was selected at save time is selected
+        // again.
+        [AvaloniaFact]
+        public async Task OpenProject_WithThreeCompositions_OpensEachOneAndRestoresTheSavedSelection()
+        {
+            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
+            try
+            {
+                ProjectFixtures.WriteProjectWithThreeCompositions(path);
+
+                var saved = ProjectSerializer.Load(path).CompositionManager.ManagerData;
+                Assert.Equal(1, saved.SelectedIndex);
+                var savedIDs = saved.Items.Select(item => item.ID).ToList();
+                Assert.Equal(3, savedIDs.Count);
+
+                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+                var compositionManager = viewModel.Project.CompositionManager;
+
+                await viewModel.MainMenu.OpenProjectFromPath(path);
+                TestServiceProviderFactory.Pump();
+
+                var compositions = compositionManager.ManagerData.Items.Cast<Composition>().ToList();
+                Assert.Equal(3, compositions.Count);
+
+                var suffixes = new[] { "A", "B", "C" };
+                for (var i = 0; i < suffixes.Length; i++)
+                {
+                    Assert.Equal("Composition" + suffixes[i], compositions[i].PrefabService.Name.Value);
+                    var layer = (Layer)Assert.Single(compositions[i].LayerManager.ManagerData.Items);
+                    Assert.Equal("Layer" + suffixes[i], layer.PrefabService.Name.Value);
+                }
+
+                // Each composition goes through its own clone, so no two share an id and none
+                // keeps the id it has in the file.
+                var loadedIDs = compositions.Select(composition => composition.ID).ToList();
+                Assert.DoesNotContain(Guid.Empty, loadedIDs);
+                Assert.Equal(3, loadedIDs.Distinct().Count());
+                Assert.Empty(loadedIDs.Intersect(savedIDs));
+
+                Assert.Same(compositions[1], compositionManager.SelectedItem);
+                Assert.Equal(1, compositionManager.ManagerData.SelectedIndex);
             }
             finally
             {
