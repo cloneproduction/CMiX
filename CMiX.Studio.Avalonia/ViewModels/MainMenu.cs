@@ -312,10 +312,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         private async Task WriteProject(string path)
         {
-            var selectedComposition = Project.CompositionManager.SelectedItem as Composition;
-            if (selectedComposition == null) return;
-
-            var projectModel = ProjectModelBuilder.Build(selectedComposition, Project.MasterBeat, Project.OutputMappingManager);
+            var projectModel = ProjectModelBuilder.Build(Project);
             await Task.Run(() => ProjectSerializer.Save(projectModel, path));
         }
 

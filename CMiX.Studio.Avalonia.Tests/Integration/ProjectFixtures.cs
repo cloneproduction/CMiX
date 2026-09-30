@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             material.MaskTexture.TextureManager.AddItem(typeof(BubbleNoise));
             TestServiceProviderFactory.Pump();
 
-            ProjectSerializer.Save(ProjectModelBuilder.Build(composition, viewModel.Project.MasterBeat, viewModel.Project.OutputMappingManager), path);
+            ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
         }
     }
 }
