@@ -3,12 +3,14 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="echo">
 
-    <BaseControl:CMiXSlider
+    <BaseControl:ModulatableFloatSlider
         Caption="Factor"
+        DataContext="{Binding Factor}"
         Maximum="1"
         Minimum="0"
-        Value="{Binding Factor.Value}" />
+        ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=echo}" />
 
 </Views:FilterPanel>

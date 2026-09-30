@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -11,7 +11,6 @@ namespace CMiX.Core.Texturing.Filters
     public record EchoModel : IPrefabModel, ITextureFilterModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValueModel<float> Factor { get; set; } = new(0.9f);
         public GenericValueModel<float> Control { get; set; } = new(1.0f);
         public PrefabServiceModel PrefabService { get; set; } = new();
         public BlendModel Blend { get; set; } = new();

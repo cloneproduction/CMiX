@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,31 +12,31 @@ namespace CMiX.Core.Texturing.Filters
     public partial class ShiftRGB : TextureFilterBase
     {
         public ShiftRGB(PrefabService prefabService,
-                        GenericValue<float> direction,
-                        GenericValue<float> shift,
-                        GenericValue<float> hue,
+                        ModulatableValue<float> direction,
+                        ModulatableValue<float> shift,
+                        ModulatableValue<float> hue,
                         GenericValue<float> control,
                         Blend blend,
                         PrefabManager modulatorManager)
             : base(prefabService, control, blend, modulatorManager)
         {
-            Direction = direction;
-            Shift = shift;
-            Hue = hue;
+            Bindables = new List<ModulatableValue<float>> { direction, shift, hue };
+
+            direction.Label = "Direction";
+            shift.Label = "Shift";
+            hue.Label = "Hue";
+            direction.SetDefault(0.25f);
+            shift.SetDefault(0.2f);
+            hue.SetDefault(0.0f);
         }
 
-        public GenericValue<float> Direction { get; set; }
-        public GenericValue<float> Shift { get; set; }
-        public GenericValue<float> Hue { get; set; }
+        public ModulatableValue<float> Direction => Bindables[0];
+        public ModulatableValue<float> Shift => Bindables[1];
+        public ModulatableValue<float> Hue => Bindables[2];
 
         public override IControlModel ToModel()
         {
-            var model = new ShiftRGBModel
-            {
-                Direction = (GenericValueModel<float>)Direction.ToModel(),
-                Shift = (GenericValueModel<float>)Shift.ToModel(),
-                Hue = (GenericValueModel<float>)Hue.ToModel()
-            };
+            var model = new ShiftRGBModel();
             PopulateBaseModel(model);
             return model;
         }
@@ -44,9 +45,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (ShiftRGBModel)model;
             LoadBaseModel(m);
-            Direction.FromModel(m.Direction);
-            Shift.FromModel(m.Shift);
-            Hue.FromModel(m.Hue);
         }
     }
 }
