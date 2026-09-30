@@ -1,6 +1,6 @@
 # Tiled Rendering for Multi Machine Projection
 
-This document describes the tiled rendering setup of CMix. Each machine computes one tile of a shared 2D composition and projects it onto the walls of a room.
+This document describes the tiled rendering setup of CMiX. Each machine computes one tile of a shared 2D composition and projects it onto the walls of a room.
 
 ## 1 Overview
 
@@ -45,7 +45,7 @@ The 3D stage projects the tile:
 | Texel | A cell of the composition or of a tile texture. |
 
 
-File names follow one convention. Tile aware shaders in the CMiX repository carry the prefix `CMiX_` and no `_Internal` suffix, for example `CMiX_Edge_TextureFX.sdsl`. The shader name equals the file name. The shared shaders `TileParams` and `ScreenTile` keep their names. Shaders that need no change are not kept in the repository. The project uses the versions from VL.Addons.Stride and VL.Stride.
+File names follow one convention. Tile aware shaders in the CMiX repository carry `CMiX` as the vvvv version segment, so the file name is `<Name>_CMiX_TextureFX.sdsl`, for example `Edge_CMiX_TextureFX.sdsl`. vvvv reads this as the node "<Name> (CMiX)", for example "Edge (CMiX)". The blur base is `BlurPassBase_CMiX.sdsl`. The shader name equals the file name, and the `_Internal` suffix is gone, so every node is visible. The shared shaders `TileParams` and `ScreenTile` keep their names. Shaders that need no change are not kept in the repository. The project uses the versions from VL.Addons.Stride and VL.Stride.
 
 ### 1.4 Rules that apply everywhere
 
@@ -615,7 +615,7 @@ The method covers procedural sources, procedural gathers, per pixel filters, nei
 * **Global statistics** (auto levels, auto exposure, histogram effects) differ per tile (G7). They are supported only through a low resolution computation over the whole composition or a shared value.
 * **Mip levels above Lmax** differ per machine. The alignment of section 2.5 makes only the levels up to Lmax = log2(A) identical.
 * **`Kaleidoscope` and `Transform`** are unbounded gathers on a texture. They are not compliant. They are not part of the CMiX repository.
-* **`CMiX_Texturize`** samples its input near the texture origin for every pixel. It is compliant only when that input is a shared static texture.
+* **`Texturize_CMiX`** samples its input near the texture origin for every pixel. It is compliant only when that input is a shared static texture.
 * **Hashed content in a source** can differ by one pixel on a cell edge (G9).
 
 ## 6 Implementation status
@@ -628,8 +628,8 @@ Confirmed by test:
 Implemented, not yet tested in vvvv:
 
 * `TileParams` with `CompositionTexelIndex`, and `ScreenTile`, in `Common/`. Verification item 9 is still open: `ScreenTile` compiles with `TileParams` inherited, and the plain methods in `TileParams` are callable from the vertex stage and from the pixel stage.
-* The eight tile aware sources: `CMiX_BubbleNoise`, `CMiX_Checkerboard`, `CMiX_Gradient`, `CMiX_Gradient_Mesh`, `CMiX_MyNoise`, `CMiX_Noise`, `CMiX_Voronoi_Border`, `CMiX_Voronoi_Dots`.
-* The tile aware filters: `CMiX_BlurPassBase`, `CMiX_BlurPass1`, `CMiX_BlurPass2`, `CMiX_BlurPass3`, `CMiX_Edge`, `CMiX_Dither`, `CMiX_Displace`, `CMiX_ShiftRGB`, `CMiX_Tiles`, `CMiX_LEDPanel`, `CMiX_ASCII`, `CMiX_Halftone`, `CMiX_HeightShadows_Pass0`, `CMiX_HeightShadows_Pass1`. `CMiX_Tiles` is the repository equivalent of the pixelate example in G4.
+* The eight tile aware sources: `BubbleNoise_CMiX`, `Checkerboard_CMiX`, `Gradient_CMiX`, `Gradient_Mesh_CMiX`, `MyNoise_CMiX`, `Noise_CMiX`, `Voronoi_Border_CMiX`, `Voronoi_Dots_CMiX`.
+* The tile aware filters: `BlurPassBase_CMiX`, `BlurPass1_CMiX`, `BlurPass2_CMiX`, `BlurPass3_CMiX`, `Edge_CMiX`, `Dither_CMiX`, `Displace_CMiX`, `ShiftRGB_CMiX`, `Tiles_CMiX`, `LEDPanel_CMiX`, `ASCII_CMiX`, `Halftone_CMiX`, `HeightShadows_Pass0_CMiX`, `HeightShadows_Pass1_CMiX`. `Tiles_CMiX` is the repository equivalent of the pixelate example in G4.
 * The 2^L alignment rule of section 2.5. It is documented. The patch side in the tile computation is not yet implemented.
 
 Not yet tested:
