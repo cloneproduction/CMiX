@@ -185,5 +185,56 @@ namespace CMiX.Core.Tests
             Assert.Equal(defaultSlot.ID, loadedComposition.SelectedOutputMappingID.Value);
             Assert.Same(defaultSlot, loadedComposition.SelectedOutputMapping);
         }
+
+        [Fact]
+        public void SaveThenLoad_WithTwoCompositions_KeepsBothAndTheirLayersSeparate()
+        {
+            var source = TestServiceProviderFactory.Create();
+            var sourceProject = source.GetRequiredService<Project>();
+
+            sourceProject.CompositionManager.AddItem(typeof(Composition));
+            var compositionA = (Composition)sourceProject.CompositionManager.SelectedItem;
+            compositionA.PrefabService.Name.Value = "CompositionA";
+            compositionA.LayerManager.AddItem(typeof(Layer));
+            var layerA = (Layer)compositionA.LayerManager.SelectedItem;
+            layerA.PrefabService.Name.Value = "LayerA";
+
+            sourceProject.CompositionManager.AddItem(typeof(Composition));
+            var compositionB = (Composition)sourceProject.CompositionManager.SelectedItem;
+            compositionB.PrefabService.Name.Value = "CompositionB";
+            compositionB.LayerManager.AddItem(typeof(Layer));
+            var layerB = (Layer)compositionB.LayerManager.SelectedItem;
+            layerB.PrefabService.Name.Value = "LayerB";
+
+            var path = Path.Combine(_directory, "multi-composition.cmix");
+            ProjectSerializer.Save((ProjectModel)sourceProject.ToModel(), path);
+            var loadedModel = ProjectSerializer.Load(path);
+            var compositionModels = loadedModel.CompositionManager.ManagerData.Items;
+
+            Assert.Equal(2, compositionModels.Count);
+
+            var target = TestServiceProviderFactory.Create();
+            var targetProject = target.GetRequiredService<Project>();
+            foreach (var compositionModel in compositionModels)
+                targetProject.CompositionManager.AddItem(compositionModel);
+
+            var loadedCompositions = targetProject.CompositionManager.ManagerData.Items;
+            Assert.Equal(2, loadedCompositions.Count);
+
+            var loadedCompositionA = (Composition)loadedCompositions.Single(c => ((Composition)c).PrefabService.Name.Value == "CompositionA");
+            var loadedCompositionB = (Composition)loadedCompositions.Single(c => ((Composition)c).PrefabService.Name.Value == "CompositionB");
+
+            Assert.NotEqual(Guid.Empty, loadedCompositionA.ID);
+            Assert.NotEqual(Guid.Empty, loadedCompositionB.ID);
+            Assert.NotEqual(loadedCompositionA.ID, loadedCompositionB.ID);
+            Assert.Equal(compositionA.ID, loadedCompositionA.ID);
+            Assert.Equal(compositionB.ID, loadedCompositionB.ID);
+
+            var loadedLayerA = (Layer)Assert.Single(loadedCompositionA.LayerManager.ManagerData.Items);
+            var loadedLayerB = (Layer)Assert.Single(loadedCompositionB.LayerManager.ManagerData.Items);
+
+            Assert.Equal("LayerA", loadedLayerA.PrefabService.Name.Value);
+            Assert.Equal("LayerB", loadedLayerB.PrefabService.Name.Value);
+        }
     }
 }
