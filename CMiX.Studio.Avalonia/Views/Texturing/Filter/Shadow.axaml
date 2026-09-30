@@ -6,60 +6,62 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="shadow">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:VectorXYZ
+        <BaseControls:ModulatableVectorXYZ
             Caption="Light Position"
-            DataContext="{Binding LightDirection}" />
+            DataContext="{Binding LightDirection}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:DragValue
+            <BaseControls:ModulatableDragValue
                 Caption="Height"
-                Value="{Binding Height.Value}"
-                ResetCommand="{Binding Height.ResetCommand}" />
+                DataContext="{Binding Height}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValue
+            <BaseControls:ModulatableDragValue
                 Caption="Dot Tolerance"
-                Value="{Binding DotTolerance.Value}"
-                ResetCommand="{Binding DotTolerance.ResetCommand}" />
+                DataContext="{Binding DotTolerance}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValue
+            <BaseControls:ModulatableDragValue
                 Caption="Ray Jitter"
-                Value="{Binding RayJitter.Value}"
-                ResetCommand="{Binding RayJitter.ResetCommand}" />
+                DataContext="{Binding RayJitter}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValue
+            <BaseControls:ModulatableDragValue
                 Caption="Ray Length"
-                Value="{Binding RayLength.Value}"
-                ResetCommand="{Binding RayLength.ResetCommand}" />
+                DataContext="{Binding RayLength}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValue
+            <BaseControls:ModulatableDragValue
                 Caption="Shadow Fade"
-                Value="{Binding ShadowFade.Value}"
-                ResetCommand="{Binding ShadowFade.ResetCommand}" />
+                DataContext="{Binding ShadowFade}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValue
+            <BaseControls:ModulatableDragValue
                 Caption="Shadow FallOff Pow"
-                Value="{Binding ShadowFallOffPow.Value}"
-                ResetCommand="{Binding ShadowFallOffPow.ResetCommand}" />
+                DataContext="{Binding ShadowFallOffPow}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValue
+            <BaseControls:ModulatableDragValue
                 Caption="Shadow Blur"
-                Value="{Binding ShadowBlur.Value}"
-                ResetCommand="{Binding ShadowBlur.ResetCommand}" />
+                DataContext="{Binding ShadowBlur}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValue
+            <BaseControls:ModulatableDragValue
                 Caption="Shadow Blur Pow"
-                Value="{Binding ShadowBlurPow.Value}"
-                ResetCommand="{Binding ShadowBlurPow.ResetCommand}" />
+                DataContext="{Binding ShadowBlurPow}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValue
+            <BaseControls:ModulatableDragValue
                 Caption="Sharp Offset"
-                Value="{Binding SharpOffset.Value}"
-                ResetCommand="{Binding SharpOffset.ResetCommand}" />
+                DataContext="{Binding SharpOffset}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
         </Panels:PositionedStackPanel>
 
