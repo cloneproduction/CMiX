@@ -111,6 +111,10 @@ namespace CMiX.Core.Compositing
             MaterialSelector.FromModel(m.MaterialSelector);
         }
 
-        public void Dispose() => DisposeAll(ModifierManager, Mesh, MaterialSelector);
+        // The entity owns its material and its texture directly. No manager holds them, so only
+        // this call disposes them. Texture is not disposable, so the entity disposes the manager
+        // of each texture slot, the same way Material does.
+        public void Dispose() => DisposeAll(ModifierManager, Mesh, MaterialSelector, Material,
+                                            Texture.DiffuseTexture.TextureManager, Texture.MaskTexture.TextureManager);
     }
 }
