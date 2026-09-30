@@ -1,7 +1,7 @@
 ﻿[Category("")]
 [Summary("")]
 
-shader CMiXTexturize_TextureFX : FilterBase
+shader CMiX_Texturize_TextureFX : FilterBase
 {
     SamplerState sNOI;
     int2 G = 4;
@@ -12,13 +12,7 @@ shader CMiXTexturize_TextureFX : FilterBase
 
     float4 Filter(float4 tex0col)
     {
-        //float2 uv = streams.TexCoord;
-        //float2 R = ViewSize*0.5;
-        float2 R = ViewSize;
-
-        float2 x = streams.TexCoord;//  (streams.TexCoord+0.5)/R;
-
-        float2 vp = x * R;
+        float2 x = streams.TexCoord;
 
         float4 c = 0;
 

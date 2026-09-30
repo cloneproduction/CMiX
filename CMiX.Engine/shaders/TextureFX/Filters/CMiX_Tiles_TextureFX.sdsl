@@ -1,0 +1,21 @@
+[Category("Filter.Pattern")]
+[Summary("")]
+
+shader CMiX_Tiles_TextureFX : FilterBase, TileParams
+{
+    [Default(0.5, 0.5)]
+    compose ComputeFloat2 FactorXY;
+
+    float4 Filter(float4 tex0col)
+    {
+        // Composition texel centre of this pixel. Integer math, the same on every machine.
+        float2 ctex = float2(CompositionTexelIndex(streams.TexCoord, ViewSize)) + 0.5;
+        float2 cuv = ctex / CompositionResolution;
+
+        // Cell count over the composition. The grid is centred on the composition centre.
+        float2 R = CompositionResolution;
+        float2 sz = R / min(max(0.5 / R, FactorXY.Compute()), R);
+        float2 snapped = (round((cuv - 0.5) * sz - 0.5) + 0.5) / sz + 0.5;
+        return Texture0.SampleLevel(Sampler0, CompositionToTileUV(snapped), 0);
+    }
+};

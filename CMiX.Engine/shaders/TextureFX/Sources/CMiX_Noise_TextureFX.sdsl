@@ -1,0 +1,47 @@
+[TextureSource]
+[Category("Source.Noise")]
+[Summary("Returns a texture with different choosable noise types")]
+// Tile aware source. ScreenTile remaps TexCoord to composition UV.
+shader CMiX_Noise_TextureFX : TextureFX, HappyNoise, ScreenTile
+{
+    [Default(0.0f, 0.0f, 0.0f, 0.0f)]
+    compose ComputeColor ColorA;
+
+    [Default(1.0f, 1.0f, 1.0f, 1.0f)]
+    compose ComputeColor ColorB;
+    
+    [Default(4.0f, 4.0f)]
+    compose ComputeFloat2 Scale;
+
+    [Default(0.0f, 0.0f)]
+    compose ComputeFloat2 Offset;
+    
+    [Default(0.0f)]
+    compose ComputeFloat Z;
+
+    [EnumType("VL.Stride.Effects.TextureFX.NoiseType")]
+    int Type;
+
+    stage override float4 Shading()
+    {
+        float2 uv = streams.TexCoord;
+        
+        float2 scale = Scale.Compute();
+        float2 offset = Offset.Compute();
+        float z = Z.Compute();
+        
+        float4 c = 0;
+        switch(Type)
+        {
+            case 0 : c = perlin(float3((uv + offset) * scale, z)); break;
+            case 1 : c = float4(perlinGrad(float3((uv + offset) * scale, z)).yzw, 1.0); break;
+            case 2 : c = valueNoise(float3((uv + offset) * scale, z)); break;
+            case 3 : c = float4(valueNoiseGrad(float3((uv + offset) * scale, z)).yzw, 1.0); break;
+            case 4 : c = simplex(float3((uv + offset) * scale, z)); break;
+            case 5 : c = float4(simplexGrad(float3((uv + offset) * scale, z)).yzw, 1.0); break;
+            case 6 : c = worleyFast(float3((uv + offset) * scale, z)); break;
+            case 7 : c = float4(worleyFastGrad(float3((uv + offset) * scale, z)).yzw, 1.0); break;
+        }
+        return lerp(ColorA.Compute(), ColorB.Compute(), c);
+    }
+};        

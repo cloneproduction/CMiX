@@ -1,0 +1,13 @@
+// Remaps the fullscreen quad UV so that this machine renders one tile of the composition.
+// Add it to TextureFX SOURCE shaders only. List it last in the inheritance list.
+shader ScreenTile : ImageEffectShader, TileParams
+{
+    stage override void VSMain()
+    {
+        // Sets streams.ShadingPosition (the fullscreen quad). Does not change streams.TexCoord.
+        base.VSMain();
+
+        // TexCoord is a stream. The written value goes to the pixel stage.
+        streams.TexCoord = TileToCompositionUV(streams.TexCoord);
+    }
+};

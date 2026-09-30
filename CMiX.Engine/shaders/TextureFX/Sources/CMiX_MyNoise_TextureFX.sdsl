@@ -1,6 +1,7 @@
 [TextureSource]
 [Summary("Generates pixel noise from a value")]
-shader MyNoise_TextureFX : TextureFX
+// Tile aware source. ScreenTile remaps TexCoord to composition UV.
+shader CMiX_MyNoise_TextureFX : TextureFX, ScreenTile
 {
 	float Amplitude=1;
 	float FrequencyBalance=0;

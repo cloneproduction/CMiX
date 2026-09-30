@@ -1,0 +1,39 @@
+// Pins and conversions for all tile aware shaders.
+// This shader overrides no method. It can be at any position in an inheritance list.
+shader TileParams
+{
+    // The tile rectangle in composition UV (0..1 across the whole composition).
+    float2 TileOffset = float2(0, 0);
+    float2 TileSize = float2(1, 1);
+
+    // The size of the whole composition in texels.
+    // The default is a placeholder. Set the real value. Texel unit math depends on it.
+    float2 CompositionResolution = float2(1, 1);
+
+    // Tile UV to composition UV.
+    float2 TileToCompositionUV(float2 tileUV)
+    {
+        return TileOffset + tileUV * TileSize;
+    }
+
+    // Composition UV to tile UV.
+    float2 CompositionToTileUV(float2 compositionUV)
+    {
+        return (compositionUV - TileOffset) / TileSize;
+    }
+
+    // Tile UV to a position in composition texels.
+    float2 TileToCompositionTexel(float2 tileUV)
+    {
+        return TileToCompositionUV(tileUV) * CompositionResolution;
+    }
+
+    // Composition texel index of the tile pixel at tileUV. Integer math, the same bits on every machine.
+    // viewSize is the size of the tile texture in texels (ViewSize in a TextureFX).
+    int2 CompositionTexelIndex(float2 tileUV, float2 viewSize)
+    {
+        int2 pixel = int2(floor(tileUV * viewSize));
+        int2 tileOrigin = int2(round(TileOffset * CompositionResolution));
+        return tileOrigin + pixel;
+    }
+};

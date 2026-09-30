@@ -1,0 +1,20 @@
+﻿shader CMiX_BlurPassBase : FilterBase, BlurUtils, TileParams
+{
+    [Default(0.25)]
+    compose ComputeFloat Strength;
+
+    float4 Filter(float4 tex0col)
+    {
+        float lod;
+        float2 off;
+        float strength = Strength.Compute();
+
+        // LOD and offset from the composition size. The same on every machine.
+        ClacLodAndOffset(CompositionResolution, strength, lod, off);
+
+        // off is in composition UV. Convert it to tile UV.
+        off /= TileSize;
+
+        return BlurPass(Texture0, LinearSampler, streams.TexCoord, off, lod);
+    }
+};
