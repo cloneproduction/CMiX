@@ -1,7 +1,7 @@
 [Category("Filter.Pattern")]
 [Summary("")]
 
-shader CMiX_Tiles_TextureFX : FilterBase, TileParams
+shader Tiles_CMiX_TextureFX : FilterBase, TileParams
 {
     [Default(0.5, 0.5)]
     compose ComputeFloat2 FactorXY;

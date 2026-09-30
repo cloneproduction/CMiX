@@ -6,7 +6,7 @@
 [OutputFormat("R16G16B16A16_Float")]
 [WantsMips("Texture0")]
 
-shader CMiX_HeightShadows_Pass1_TextureFX : FilterBase, AddonShaderUtils, NoiseFunctions, TileParams
+shader HeightShadows_Pass1_CMiX_TextureFX : FilterBase, AddonShaderUtils, NoiseFunctions, TileParams
 {
 	[Default(0.5f, 0.5f, 0.5f)]
     compose ComputeFloat3 LightDirection;

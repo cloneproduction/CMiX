@@ -2,7 +2,7 @@
 [Category("Source.Noise")]
 [Summary("Returns a texture with different choosable noise types")]
 // Tile aware source. ScreenTile remaps TexCoord to composition UV.
-shader CMiX_Noise_TextureFX : TextureFX, HappyNoise, ScreenTile
+shader Noise_CMiX_TextureFX : TextureFX, HappyNoise, ScreenTile
 {
     [Default(0.0f, 0.0f, 0.0f, 0.0f)]
     compose ComputeColor ColorA;

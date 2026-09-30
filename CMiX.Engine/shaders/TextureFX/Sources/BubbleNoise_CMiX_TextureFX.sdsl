@@ -15,7 +15,7 @@
 [DontConvertToSRgbOnWrite]
 
 // Tile aware source. ScreenTile remaps TexCoord to composition UV.
-shader CMiX_BubbleNoise_TextureFX : TextureFX, ScreenTile
+shader BubbleNoise_CMiX_TextureFX : TextureFX, ScreenTile
 {
     [Default(0.0f, 0.0f, 0.0f, 1.0f)]
     compose ComputeColor BackgroundColor; 

@@ -2,7 +2,7 @@
 
 [Category("Filter.Stylize")]
 [Summary("")]
-shader CMiX_LEDPanel_TextureFX : FilterBase, TileParams
+shader LEDPanel_CMiX_TextureFX : FilterBase, TileParams
 {
     [Default(8.0f)]
     compose ComputeFloat PixelSize;

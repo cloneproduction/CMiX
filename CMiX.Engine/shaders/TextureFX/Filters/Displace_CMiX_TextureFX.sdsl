@@ -3,7 +3,7 @@
 [Tags("uv, offset, distort")]
 [DontConvertToLinearOnRead("Texture1")]
 
-shader CMiX_Displace_TextureFX : FilterBase, TileParams
+shader Displace_CMiX_TextureFX : FilterBase, TileParams
 {
     [Default(0.5f, 0.5f)]
 	compose ComputeFloat2 Offset;

@@ -6,7 +6,7 @@
 [WantsMips("Texture0")]
 [OutputFormat("R16G16B16A16_Float")]
 
-shader CMiX_HeightShadows_Pass0_TextureFX : FilterBase, AddonShaderUtils, NoiseFunctions, TileParams
+shader HeightShadows_Pass0_CMiX_TextureFX : FilterBase, AddonShaderUtils, NoiseFunctions, TileParams
 {
     [Default(0.5f)]
     compose ComputeFloat Height;

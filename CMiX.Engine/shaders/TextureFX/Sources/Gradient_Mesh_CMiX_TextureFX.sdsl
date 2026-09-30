@@ -5,7 +5,7 @@
 [Category("Source")]
 [Summary("Renders a mesh gradient with a rotating noise pattern and several layers of fractal noise")]
 // Tile aware source. ScreenTile remaps TexCoord to composition UV.
-shader CMiX_Gradient_Mesh_TextureFX : TextureFX, Spectral, ScreenTile
+shader Gradient_Mesh_CMiX_TextureFX : TextureFX, Spectral, ScreenTile
 {
     [Color]
     float4 Color = float4(1, 1, 1, 1);

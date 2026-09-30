@@ -1,5 +1,5 @@
-//inigo quilez - iq/2013 MIT Licence
-//ported to beta by Sebl
+//https://github.com/microdee/mp.dx/blob/master/deploy/mp.dx/nodes/texture11/Voronoise.tfx
+//from Microdee
 
 [TextureSource]
 [Category("Source")]
@@ -8,16 +8,16 @@
 [OutputFormat("R16G16B16A16_Float")]
 
 // Tile aware source. ScreenTile remaps TexCoord to composition UV.
-shader CMiX_Voronoi_Dots_TextureFX : TextureFX, AddonShaderUtils, ScreenTile
+shader Voronoi_Border_CMiX_TextureFX : TextureFX, AddonShaderUtils, ScreenTile
 {
 	[Default(0.0f)]
 	compose ComputeFloat Time;
 
 	[Default(0.0f)]
-	compose ComputeFloat PointSize;
+	compose ComputeFloat LineWidth;
 
 	[Default(0.0f)]
-	compose ComputeFloat PointFade;
+	compose ComputeFloat LineFade;
 
 	[Default(1.0f, 1.0f)]
 	compose ComputeFloat2 Size;
@@ -91,15 +91,14 @@ shader CMiX_Voronoi_Dots_TextureFX : TextureFX, AddonShaderUtils, ScreenTile
     stage override float4 Shading()
     {
 		float2 p = streams.TexCoord;
-		float3 c = voronoi( p / (1/Size.Compute() ));
-		float4 col = float4(0.0, 0.0, 0.0, 0.0);;
+		float3 c = voronoi( p * Size.Compute() );
+		float4 col = float4(0.0, 0.0, 0.0, 0.0);
 	
-		float dd = length( c.yz );
+		float lineWidth = LineWidth.Compute();
+		float lineFade = LineFade.Compute();
 
-		float pointSize = PointSize.Compute();
-
-		col = lerp (float4(1.0, 1.0, 1.0, 1.0),  col, smoothstep( pointSize, pointSize + PointFade.Compute(), dd) );
-
-		return lerp(ColorA.Compute(), ColorB.Compute(), col);
+		col = lerp(float4(1.0, 1.0, 1.0, 1.0), col, smoothstep( lineWidth, lineWidth + lineFade, c.x ) ) ;
+	
+		return  lerp(ColorA.Compute(), ColorB.Compute(), col);
     }
 };

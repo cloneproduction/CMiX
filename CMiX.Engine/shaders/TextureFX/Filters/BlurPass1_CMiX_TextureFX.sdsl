@@ -1,7 +1,7 @@
 [Category("Filter.Blur")]
 [Summary("Applies a blur effect")]
 [WantsMips("Texture0")]
-shader CMiX_BlurPass1_TextureFX : CMiX_BlurPassBase, AddonShaderUtils
+shader BlurPass1_CMiX_TextureFX : BlurPassBase_CMiX, AddonShaderUtils
 {
     override void ClacLodAndOffset(float2 viewSize, float strength, out float lod, out float2 off)
     {

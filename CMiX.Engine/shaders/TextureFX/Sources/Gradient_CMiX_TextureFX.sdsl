@@ -5,7 +5,7 @@
 [OutputFormat("R16G16B16A16_Float")]
 
 // Tile aware source. ScreenTile remaps TexCoord to composition UV.
-shader CMiX_Gradient_TextureFX : TextureFX, AddonShaderUtils, Spectral, ScreenTile
+shader Gradient_CMiX_TextureFX : TextureFX, AddonShaderUtils, Spectral, ScreenTile
 {
     [Default(0.0f, 0.0f, 0.0f, 1.0f)]
     compose ComputeColor From; 

@@ -3,7 +3,7 @@
 
 [Category("Filter.Stylize")]
 [Summary("Applies a dithering effect")]
-shader CMiX_Dither_TextureFX : FilterBase, TileParams
+shader Dither_CMiX_TextureFX : FilterBase, TileParams
 {
     compose ComputeFloat Threshold;
 

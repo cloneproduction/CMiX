@@ -4,7 +4,7 @@
 [Tags("chessboard")]
 
 // Tile aware source. ScreenTile remaps TexCoord to composition UV.
-shader CMiX_Checkerboard_TextureFX : TextureFX, AddonShaderUtils, ScreenTile
+shader Checkerboard_CMiX_TextureFX : TextureFX, AddonShaderUtils, ScreenTile
 {
     [Default(0.0f, 0.0f, 0.0f, 1.0f)]
     compose ComputeColor Black; 

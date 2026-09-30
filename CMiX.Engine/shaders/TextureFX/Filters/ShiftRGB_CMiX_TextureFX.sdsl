@@ -1,7 +1,7 @@
 [Category("Filter.Stylize")]
 [Summary("")]
 
-shader CMiX_ShiftRGB_TextureFX : FilterBase, TileParams
+shader ShiftRGB_CMiX_TextureFX : FilterBase, TileParams
 {
     [Default(0.25f)]
     compose ComputeFloat Direction;

@@ -1,4 +1,4 @@
-﻿shader CMiX_BlurPassBase : FilterBase, BlurUtils, TileParams
+﻿shader BlurPassBase_CMiX : FilterBase, BlurUtils, TileParams
 {
     [Default(0.25)]
     compose ComputeFloat Strength;
