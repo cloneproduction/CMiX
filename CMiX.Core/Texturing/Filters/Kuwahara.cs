@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
@@ -13,8 +14,9 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> radius,
                         GenericValue<KuwaharaType> type,
                         GenericValue<float> control,
-                        Blend blend)
-            : base(prefabService, control, blend)
+                        Blend blend,
+                        PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             Radius = radius;
             Type = type;

@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
@@ -20,8 +21,9 @@ namespace CMiX.Core.Texturing.Filters
                             Vector2 center,
                             Vector2 cellOffset,
                             Vector2 cellScale,
-                            Blend blend)
-            : base(prefabService, control, blend)
+                            Blend blend,
+                            PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             Divisions = divisions;
             Iterations = iterations;

@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
@@ -18,8 +19,9 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> center,
                         GenericValue<bool> singleChannel,
                         GenericValue<bool> clampColor,
-                        Blend blend)
-            : base(prefabService, control, blend)
+                        Blend blend,
+                        PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             ColorA = colorA;
             ColorB = colorB;

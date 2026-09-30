@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Filters
 {
@@ -20,8 +21,9 @@ namespace CMiX.Core.Texturing.Filters
                       GenericValue<float> shadowBlurPow,
                       GenericValue<float> sharpOffset,
                       Blend blend,
-                      GenericValue<float> control)
-            : base(prefabService, control, blend)
+                      GenericValue<float> control,
+                      PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             LightDirection = lightDirection;
             Height = height;

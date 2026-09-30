@@ -9,7 +9,7 @@ using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class LFOUV : TextureFilterBase, IBeatModifiable, IDisposable
+    public partial class LFOUV : TextureFilterBase, IBeatModifiable
     {
         public LFOUV(PrefabManager beatModifierManager,
                      PrefabService prefabService,
@@ -21,8 +21,9 @@ namespace CMiX.Core.Texturing.Filters
                      GenericValue<float> to,
                      SamplerState samplerState,
                      GenericValue<float> control,
-                     Blend blend)
-            : base(prefabService, control, blend)
+                     Blend blend,
+                     PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             BeatModifierManager = beatModifierManager;
             TransformType = transformType;
@@ -72,6 +73,10 @@ namespace CMiX.Core.Texturing.Filters
             SamplerState.FromModel(m.SamplerState);
         }
 
-        public void Dispose() => this.DisposeBeatModifier();
+        public override void Dispose()
+        {
+            base.Dispose();
+            this.DisposeBeatModifier();
+        }
     }
 }

@@ -4,6 +4,7 @@
 using CMiX.Core;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -18,8 +19,9 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> dotSize,
                         GenericValue<float> softness,
                         GenericValue<float> brightness,
-                        Blend blend)
-            : base(prefabService, control, blend)
+                        Blend blend,
+                        PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             Mode = mode;
             NumberOfTiles = numberOfTiles;

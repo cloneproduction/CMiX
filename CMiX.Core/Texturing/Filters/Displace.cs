@@ -9,15 +9,16 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Displace : TextureFilterBase, IDisposable
+    public partial class Displace : TextureFilterBase
     {
         public Displace(PrefabService prefabService,
                         PrefabManager textureSelector,
                         Vector2 offset,
                         Vector2 offsetScale,
                         GenericValue<float> control,
-                        Blend blend)
-            : base(prefabService, control, blend)
+                        Blend blend,
+                        PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             Offset = offset;
             OffsetScale = offsetScale;
@@ -53,6 +54,10 @@ namespace CMiX.Core.Texturing.Filters
         // The texture this filter displaces with is reachable through this selector alone, so a
         // filter torn down without disposing it leaves its repository and its deleter
         // registrations behind.
-        public void Dispose() => DisposeAll(TextureSelector);
+        public override void Dispose()
+        {
+            base.Dispose();
+            DisposeAll(TextureSelector);
+        }
     }
 }

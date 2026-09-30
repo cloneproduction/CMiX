@@ -17,8 +17,9 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> rotation,
                         GenericValue<float> uniform,
                         GenericValue<float> control,
-                        Blend blend)
-            : base(prefabService, control, blend)
+                        Blend blend,
+                        PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             SamplerState = samplerState;
             Location = location;

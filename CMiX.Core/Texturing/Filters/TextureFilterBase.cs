@@ -35,7 +35,9 @@ namespace CMiX.Core.Texturing.Filters
                     bindable.SetModulatorCommand.Execute(null);
         }
 
-        public void Dispose()
+        // Virtual so a filter that owns an extra disposable resource (a texture selector, a beat
+        // modifier) can add its own cleanup without hiding this one - see Displace and LFOUV.
+        public virtual void Dispose()
         {
             ModulatorManager.ManagerData.Items.CollectionChanged -= OnModulatorManagerItemsChanged;
             ModulatorManager.Dispose();

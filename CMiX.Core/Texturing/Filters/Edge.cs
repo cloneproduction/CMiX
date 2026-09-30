@@ -2,7 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
@@ -10,26 +12,27 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Edge : TextureFilterBase
     {
         public Edge(PrefabService prefabService,
-                    GenericValue<float> radius,
-                    GenericValue<float> brightness,
+                    ModulatableValue<float> radius,
+                    ModulatableValue<float> brightness,
                     GenericValue<float> control,
-                    Blend blend)
-            : base(prefabService, control, blend)
+                    Blend blend,
+                    PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
-            Radius = radius;
-            Brightness = brightness;
+            Bindables = new List<ModulatableValue<float>> { radius, brightness };
+
+            radius.Label = "Radius";
+            brightness.Label = "Brightness";
+            radius.SetDefault(1.0f);
+            brightness.SetDefault(1.0f);
         }
 
-        public GenericValue<float> Radius { get; set; }
-        public GenericValue<float> Brightness { get; set; }
+        public ModulatableValue<float> Radius => Bindables[0];
+        public ModulatableValue<float> Brightness => Bindables[1];
 
         public override IControlModel ToModel()
         {
-            var model = new EdgeModel
-            {
-                Radius = (GenericValueModel<float>)Radius.ToModel(),
-                Brightness = (GenericValueModel<float>)Brightness.ToModel()
-            };
+            var model = new EdgeModel();
             PopulateBaseModel(model);
             return model;
         }
@@ -38,8 +41,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (EdgeModel)model;
             LoadBaseModel(m);
-            Radius.FromModel(m.Radius);
-            Brightness.FromModel(m.Brightness);
         }
     }
 }

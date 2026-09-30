@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
@@ -20,8 +21,9 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> maskStagger,
                         GenericValue<float> maskBorder,
                         GenericValue<float> maskIntensity,
-                        Blend blend)
-            : base(prefabService, control, blend)
+                        Blend blend,
+                        PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             PixelSize = pixelSize;
             MaskStagger = maskStagger;
