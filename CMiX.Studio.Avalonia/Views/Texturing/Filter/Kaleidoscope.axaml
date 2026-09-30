@@ -6,7 +6,8 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="kaleidoscope">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
@@ -22,41 +23,46 @@
                 Minimum="1"
                 Value="{Binding Iterations.Value}" />
 
-            <Controls:DragValue
+            <Controls:ModulatableDragValue
                 Caption="Iteration Zoom"
-                DataContext="{Binding IterationZoom.Value}" />
+                DataContext="{Binding IterationZoom}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
         </Panels:PositionedStackPanel>
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <Controls:DragValue
+            <Controls:ModulatableDragValue
                 Caption="Rotation"
-                Value="{Binding Rotation.Value}"
-                ResetCommand="{Binding Rotation.ResetCommand}" />
+                DataContext="{Binding Rotation}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-            <Controls:DragValue
+            <Controls:ModulatableDragValue
                 Caption="Zoom"
-                Value="{Binding Zoom.Value}"
-                ResetCommand="{Binding Zoom.ResetCommand}" />
+                DataContext="{Binding Zoom}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
         </Panels:PositionedStackPanel>
 
-        <Controls:Vector2
+        <Controls:ModulatableVectorXY
             Caption="Center"
-            DataContext="{Binding Center}" />
+            DataContext="{Binding Center}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        <Controls:DragValue
+        <Controls:ModulatableDragValue
             Caption="Cell Rotation"
-            DataContext="{Binding CellRotation.Value}" />
+            DataContext="{Binding CellRotation}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        <Controls:Vector2
+        <Controls:ModulatableVectorXY
             Caption="Cell Offset"
-            DataContext="{Binding CellOffset}" />
+            DataContext="{Binding CellOffset}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        <Controls:Vector2
+        <Controls:ModulatableVectorXY
             Caption="Cell Scale"
-            DataContext="{Binding CellScale}" />
+            DataContext="{Binding CellScale}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
     </StackPanel>
 
