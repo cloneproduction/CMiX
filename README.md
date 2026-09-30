@@ -218,11 +218,3 @@ Today an engine does not write. To let an engine send values, do this:
 Until then, engine values reach the Studio through another path. One way is
 Redis keys that the patch writes with the vvvv Redis package, and that the
 Studio reads.
-
-## Branches
-
-- feature/avalonia: the WPF to Avalonia UI migration. CMiX.Studio.Avalonia
-  reached parity with CMiX.Studio here, which stays in the solution as the
-  frozen reference.
-- feature/post-parity: incremental improvements on top of the migration,
-  including cleanup of dead code, shared markup, and stale project entries.
