@@ -1,0 +1,41 @@
+[Category("Filter")]
+[Tags("")]
+
+shader SetAlpha_CMiX_TextureFX : FilterBase
+{
+    bool Invert = true;
+
+    [Default(1, 1, 1, 1)]
+    compose ComputeColor AlphaMask;
+
+    int TextureChannel;
+
+    [Default(1.0f)]
+    compose ComputeFloat Opacity;
+
+
+    bool KeepOriginal = true;
+
+    stage override float4 Shading()
+    {
+        float4 col = InTex0();
+        float4 alphaMask = AlphaMask.Compute();
+        float alpha;
+
+        switch(TextureChannel)
+        {
+            case 0 : alpha = RGBtoHSL(alphaMask.rgb).z; break; //LUMA
+            case 1 : alpha = RGBtoHSV(alphaMask.rgb).z; break; //VALUE
+            case 2 : alpha = RGBtoHSV(alphaMask.rgb).y; break; //SATURATION
+            case 3 : alpha = alphaMask.a; break; //ALPHA
+            case 4 : alpha = RGBtoHSV(alphaMask.rgb).x; break; //HUE
+            case 5 : alpha = alphaMask.r; break; //RED
+            case 6 : alpha = alphaMask.g; break; //GREEN
+            case 7 : alpha = alphaMask.b; break; //BLUE
+        }
+
+        float a = Invert ? 1.0 - alpha : alpha;
+
+        return float4(col.rgb, col.a * a);
+    }
+};
