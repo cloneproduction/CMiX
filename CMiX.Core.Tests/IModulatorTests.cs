@@ -73,9 +73,8 @@ namespace CMiX.Core.Tests
             var fftModulator = provider.GetRequiredService<FFTModulator>();
 
             Assert.IsAssignableFrom<IModulator>(fftModulator);
-            Assert.Equal(new[] { "FFT", "Bass" }, fftModulator.Outputs.Select(o => o.Name));
-            Assert.IsType<ModulatorOutput<float>>(fftModulator.Outputs[0]);
-            Assert.IsType<ModulatorOutput<float>>(fftModulator.Outputs[1]);
+            Assert.Equal(new[] { "FFT", "Bass", "LowerMid", "HigherMid", "High" }, fftModulator.Outputs.Select(o => o.Name));
+            Assert.All(fftModulator.Outputs, o => Assert.IsType<ModulatorOutput<float>>(o));
         }
 
         [Fact]
