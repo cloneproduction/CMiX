@@ -5,16 +5,17 @@
     xmlns:Basecontrol="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="invert">
 
     <StackPanel>
 
-        <Controls:CMiXSlider
+        <Controls:ModulatableFloatSlider
             Caption="Factor"
+            DataContext="{Binding Factor}"
             Maximum="1.0"
             Minimum="0.0"
-            Value="{Binding Factor.Value}"
-            ResetCommand="{Binding Factor.ResetCommand}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=invert}" />
 
         <Basecontrol:ComboBox
             Margin="0,8"

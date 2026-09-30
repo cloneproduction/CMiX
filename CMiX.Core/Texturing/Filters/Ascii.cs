@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -13,27 +14,34 @@ namespace CMiX.Core.Texturing.Filters
         public Ascii(PrefabService prefabService,
                      GenericValue<float> control,
                      GenericValue<bool> grayscale,
-                     GenericValue<float> gridSize,
-                     Vector2 characterSize,
+                     ModulatableValue<float> gridSize,
+                     ModulatableValue<float> characterSizeX,
+                     ModulatableValue<float> characterSizeY,
                      Blend blend,
                      PrefabManager modulatorManager)
             : base(prefabService, control, blend, modulatorManager)
         {
             Grayscale = grayscale;
-            GridSize = gridSize;
-            CharacterSize = characterSize;
+
+            Bindables = new List<ModulatableValue<float>> { gridSize, characterSizeX, characterSizeY };
+
+            gridSize.Label = "Grid Size";
+            characterSizeX.Label = "X";
+            characterSizeY.Label = "Y";
+            gridSize.SetDefault(0.66f);
+            characterSizeX.SetDefault(16.0f);
+            characterSizeY.SetDefault(16.0f);
         }
 
-        public GenericValue<float> GridSize { get; set; }
-        public Vector2 CharacterSize { get; set; }
+        public ModulatableValue<float> GridSize => Bindables[0];
+        public ModulatableValue<float> X => Bindables[1];
+        public ModulatableValue<float> Y => Bindables[2];
         public GenericValue<bool> Grayscale { get; set; }
 
         public override IControlModel ToModel()
         {
             var model = new AsciiModel
             {
-                GridSize = (GenericValueModel<float>)GridSize.ToModel(),
-                CharacterSize = (Vector2Model)CharacterSize.ToModel(),
                 Grayscale = (GenericValueModel<bool>)Grayscale.ToModel()
             };
             PopulateBaseModel(model);
@@ -44,8 +52,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (AsciiModel)model;
             LoadBaseModel(m);
-            GridSize.FromModel(m.GridSize);
-            CharacterSize.FromModel(m.CharacterSize);
             Grayscale.FromModel(m.Grayscale);
         }
     }
