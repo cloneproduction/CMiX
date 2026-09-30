@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Modulation
 {
-    public class ModulatableVector3
+    public class ModulatableVector3 : IControl
     {
         public ModulatableVector3(ModulatableValue<float> x, ModulatableValue<float> y, ModulatableValue<float> z)
         {
@@ -15,8 +15,26 @@ namespace CMiX.Core.Modulation
             Z = z;
         }
 
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ModulatableValue<float> X { get; }
         public ModulatableValue<float> Y { get; }
         public ModulatableValue<float> Z { get; }
+
+        public IControlModel ToModel() => new ModulatableVector3Model
+        {
+            ID = ID,
+            X = (ModulatableValueModel<float>)X.ToModel(),
+            Y = (ModulatableValueModel<float>)Y.ToModel(),
+            Z = (ModulatableValueModel<float>)Z.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (ModulatableVector3Model)model;
+            ID = m.ID;
+            X.FromModel(m.X);
+            Y.FromModel(m.Y);
+            Z.FromModel(m.Z);
+        }
     }
 }
