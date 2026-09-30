@@ -128,7 +128,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
                 var model = (CompositionModel)composition.ToModel();
-                Project.CompositionManager.AddItem(CloneWithNewGuids(model));
+                Project.CompositionManager.AddItem(CloneCompositionWithNewGuids(model));
             });
         }
 
@@ -200,7 +200,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                     // nothing when this list is empty.
                     var compositions = projectModel.CompositionManager.ManagerData.Items
                         .Cast<CompositionModel>()
-                        .Select(CloneWithNewGuids)
+                        .Select(CloneCompositionWithNewGuids)
                         .ToList();
 
                     return (Project: projectModel, Compositions: compositions);
@@ -269,6 +269,17 @@ namespace CMiX.Studio.Avalonia.ViewModels
             var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
             return JsonSerializer.Deserialize<T>(json, ProjectSerializer.Options)
                 ?? throw new InvalidOperationException($"Failed to clone {typeof(T).Name}: deserialization returned null.");
+        }
+
+        // CloneWithNewGuids gives every id in the model a fresh value, including
+        // SelectedOutputMappingID. That field is a pointer into the project's fixed output
+        // slots, not an identity, and those slots are never cloned. Restore the original
+        // value after the clone, so a valid selection survives Open and Duplicate Composition
+        // instead of losing its target and falling back to the default slot every time.
+        private static CompositionModel CloneCompositionWithNewGuids(CompositionModel model)
+        {
+            var cloned = CloneWithNewGuids(model);
+            return cloned with { SelectedOutputMappingID = model.SelectedOutputMappingID };
         }
 
         private static string ReplaceAllGuids(string json)
