@@ -27540,7 +27540,7 @@
               <ControlPoint Id="DBaUo4GIwBiNxZfAtaDuZi" Bounds="510,1630" />
               <ControlPoint Id="NBxZxF9KQWbLWsZYIFB1Zn" Bounds="884,423" />
               <ControlPoint Id="Nq6wjIzb8VoO4PkcR1T7SK" Bounds="264,1490" />
-              <Node Bounds="451,462,770,1001" Id="IBzTEfu42n4NAd84OjBWAr">
+              <Node Bounds="451,462,770,1008" Id="IBzTEfu42n4NAd84OjBWAr">
                 <p:NodeReference LastCategoryFullName="Primitive" LastDependency="Builtin">
                   <Choice Kind="ProcessStatefulRegion" Name="Cache" />
                   <FullNameCategoryReference ID="Primitive" />
@@ -27548,7 +27548,7 @@
                 <Pin Id="Gz0ae1nPzfcLPf1nd6xiMI" Name="Force" Kind="InputPin" DefaultValue="False" />
                 <Pin Id="BwpEKnD2RknQRMJsiFdxAe" Name="Dispose Cached Outputs" Kind="InputPin" />
                 <Pin Id="GhtNzPoplIsOMRb5FOiBsD" Name="Has Changed" Kind="OutputPin" />
-                <ControlPoint Id="D3pOdm2s3D1PaQMjqiUro7" Bounds="531,1457" Alignment="Bottom" />
+                <ControlPoint Id="D3pOdm2s3D1PaQMjqiUro7" Bounds="531,1464" Alignment="Bottom" />
                 <ControlPoint Id="FhaJooPHr7fLWt3QU6KxET" Bounds="714,468" Alignment="Top" />
                 <ControlPoint Id="BjlZgYd5GfeOmMN6QSnFIL" Bounds="881,468" Alignment="Top" />
                 <ControlPoint Id="I0ag8QKU0CALYBBtfuMQHd" Bounds="1131,468" Alignment="Top" />
@@ -27626,25 +27626,24 @@
                       <Choice Kind="TypeFlag" Name="Float32" />
                     </p:TypeAnnotation>
                   </Pad>
-                  <Node Bounds="529,1424,225,19" Id="NPpysutfZsiLjYuYbbQbuk">
-                    <p:NodeReference LastCategoryFullName="Stride.Models.Meshes" LastDependency="VL.Addons.vl">
+                  <Node Bounds="529,1424,265,19" Id="NPpysutfZsiLjYuYbbQbuk">
+                    <p:NodeReference LastCategoryFullName="Stride.Models.Meshes" LastDependency="VL.Stride.Runtime.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <Choice Kind="ProcessAppFlag" Name="QuadRenderer (TextureTransform)" />
+                      <Choice Kind="ProcessAppFlag" Name="QuadRenderer" />
                     </p:NodeReference>
                     <Pin Id="MQiOhXR9e21QIMURbCu3mo" Name="Node Context" Kind="InputPin" IsHidden="true" />
                     <Pin Id="I4MNb33scWOMuJy9LNCYEH" Name="Transformation" Kind="InputPin" />
                     <Pin Id="Gnel3UX9P40NxNgqdWdVvT" Name="Texture" Kind="InputPin" />
-                    <Pin Id="OMHIqDJknyDO545jGB0UrP" Name="Texture Transformation" Kind="InputPin" />
                     <Pin Id="NXnwd10y2t2Ls4cTQl8z2k" Name="Color" Kind="InputPin" />
+                    <Pin Id="GdZ1cmxGtxONpbM5fW2cZM" Name="Texture Transform" Kind="InputPin" />
+                    <Pin Id="KOXJ5jJImtfN37tGbwc5Ga" Name="Sampler In" Kind="InputPin" />
                     <Pin Id="PNgTLlq65QbNgeW4Sb4bnt" Name="Blend State" Kind="InputPin" />
                     <Pin Id="SS52qMDCa0mNlBWcqieURn" Name="Rasterizer State" Kind="InputPin" />
                     <Pin Id="Jck4eQ7U7cDLakBkIK0LWc" Name="Depth Stencil State" Kind="InputPin" />
-                    <Pin Id="TwLhFyDzB6fPrW8ROLz9mS" Name="Aspect Ratio Correction Mode" Kind="InputPin" DefaultValue="OriginalSize" />
+                    <Pin Id="JW1db7NqXKbOJhvvJHoxkk" Name="Size Mode" Kind="InputPin" />
                     <Pin Id="IbXngOSUv7JOUQ9E6mcLcp" Name="Anchor" Kind="InputPin" />
                     <Pin Id="QTgvfi0ALgcQJ18oqKV70n" Name="Output" Kind="OutputPin" />
-                    <Pin Id="POgb98ub56TLqqrhOwi9Zk" Name="Filter" Kind="InputPin" />
-                    <Pin Id="LQLgpP6GRmEMI2XsabM7SZ" Name="Address Mode" Kind="InputPin" />
-                    <Pin Id="IrbIJBImsdjMM5JbGIYwCb" Name="BorderColor" Kind="InputPin" />
+                    <Pin Id="KOUzVmdrE8xOAVdGmsvm0W" Name="Enabled" Kind="InputPin" />
                   </Node>
                   <Node Bounds="609,1377,67,19" Id="UJr2Gr3ELXTLbyIqTvcwCQ">
                     <p:NodeReference LastCategoryFullName="Stride.API.Graphics.BlendStateDescription" LastDependency="VL.Stride.Runtime.TypeForwards.vl">
@@ -28047,6 +28046,26 @@
                     <Pin Id="VfZGramdMRHMFVJCQLuraK" Name="State Output" Kind="OutputPin" IsHidden="true" />
                     <Pin Id="NiQ4gvQ16YfQUf7NyB0gCO" Name="Output" Kind="OutputPin" />
                   </Node>
+                  <Node Bounds="934,1361,185,19" Id="OPXdG6UndlRPnE0lvXks5L">
+                    <p:NodeReference LastCategoryFullName="Stride.Graphics" LastDependency="VL.Stride.vl">
+                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                      <CategoryReference Kind="Category" Name="Graphics" NeedsToBeDirectParent="true">
+                        <p:OuterCategoryReference Kind="Category" Name="Stride" NeedsToBeDirectParent="true" />
+                      </CategoryReference>
+                      <Choice Kind="ProcessAppFlag" Name="SamplerState" />
+                    </p:NodeReference>
+                    <Pin Id="Nyhi5kGlpr6MHQVsrbJUgL" Name="Filter" Kind="InputPin" />
+                    <Pin Id="Quj9RHqyxXHPzuLHUUgTxW" Name="Address U" Kind="InputPin" />
+                    <Pin Id="GwVOlFFPQ8AP0HWWohIPHb" Name="Address V" Kind="InputPin" />
+                    <Pin Id="C3Dbp7VzGlhO7jqPIPm3fA" Name="Address W" Kind="InputPin" />
+                    <Pin Id="LfDseSqgfglQOSfvF1qRTg" Name="Border Color" Kind="InputPin" />
+                    <Pin Id="Gop6IldFK16OOu8CGPwkgA" Name="Max Anisotropy" Kind="InputPin" />
+                    <Pin Id="D41NwrJQ9hpLzcSZsghPzQ" Name="Min Mip Level" Kind="InputPin" />
+                    <Pin Id="SySMZar0h4eNS6rKiAPCl1" Name="Max Mip Level" Kind="InputPin" />
+                    <Pin Id="LRwt1gY26DPLMbxY8d0vP9" Name="Mip Map Level Of Detail Bias" Kind="InputPin" />
+                    <Pin Id="ChFBHSvOAwrMlL6eQTNDt8" Name="Compare Function" Kind="InputPin" />
+                    <Pin Id="Kec1tOkkWcPP1YwKhlqmgm" Name="Output" Kind="OutputPin" />
+                  </Node>
                 </Patch>
                 <ControlPoint Id="FlEjfPanSd4ObSBAVu3Hhb" Bounds="803,468" Alignment="Top" />
                 <ControlPoint Id="SM8SDd3EfigM3vCRQxqGXH" Bounds="1104,468" Alignment="Top" />
@@ -28072,7 +28091,7 @@
                 <Pin Id="RNm6yCAcvuBQcscuXV4wtr" Name="Enabled" Kind="InputPin" />
                 <Pin Id="Fdanqgkxd2KLEvZzumPoRx" Name="Output" Kind="OutputPin" />
               </Node>
-              <Pad Id="JKtqkg7zUosLysADEBH24r" Comment="Render Stage" Bounds="550,1547,135,15" ShowValueBox="true" isIOBox="true" Value="Transparent">
+              <Pad Id="JKtqkg7zUosLysADEBH24r" Comment="Render Stage" Bounds="550,1547,142,15" ShowValueBox="true" isIOBox="true" Value="Transparent">
                 <p:TypeAnnotation LastCategoryFullName="VL.Stride.Rendering" LastDependency="VL.Stride.Runtime.dll">
                   <Choice Kind="TypeFlag" Name="DrawerRenderStage" />
                 </p:TypeAnnotation>
@@ -28192,10 +28211,13 @@
             <Link Id="FYWMYcIfEVYLTS0srbrUwF" Ids="NiQ4gvQ16YfQUf7NyB0gCO,TZUmsdeOHFkNvjOgkag3CM" />
             <Link Id="RslvlY7ymHbPqzX6C1Bb8n" Ids="HwSR3Y92qVoQNZl6K2u8Q6,BMiSxTzEY5rNhLPQySxZ1z" IsHidden="true" />
             <Link Id="L6s95lvJZRBPsTPZytt1WX" Ids="BMiSxTzEY5rNhLPQySxZ1z,FlEjfPanSd4ObSBAVu3Hhb" />
-            <Link Id="HrLytq3JSYINes3mBOxrBy" Ids="FlEjfPanSd4ObSBAVu3Hhb,OMHIqDJknyDO545jGB0UrP" />
             <Link Id="OM8SSgGP2MeOCt2SVoG0E5" Ids="AB4ANgGC0ciLXU3gDcSonR,I3m5YyVoKTzQQnwgnaE7s4" IsHidden="true" />
             <Link Id="RPHTqOEI5pxOtJMeTfNaj4" Ids="I3m5YyVoKTzQQnwgnaE7s4,SM8SDd3EfigM3vCRQxqGXH" />
-            <Link Id="IKFhi8hJT0WNlvhGSoHRYd" Ids="SM8SDd3EfigM3vCRQxqGXH,LQLgpP6GRmEMI2XsabM7SZ" />
+            <Link Id="BN0hqlcJhHyOKPRSkpEQS7" Ids="FlEjfPanSd4ObSBAVu3Hhb,GdZ1cmxGtxONpbM5fW2cZM" />
+            <Link Id="U9qxwZ5NluNMwiqKfbIREN" Ids="Kec1tOkkWcPP1YwKhlqmgm,KOXJ5jJImtfN37tGbwc5Ga" />
+            <Link Id="Jyjn04lNrRTPaC38g654rQ" Ids="SM8SDd3EfigM3vCRQxqGXH,Quj9RHqyxXHPzuLHUUgTxW" />
+            <Link Id="PSp7LFJdjepNUM2cKW3w2T" Ids="SM8SDd3EfigM3vCRQxqGXH,GwVOlFFPQ8AP0HWWohIPHb" />
+            <Link Id="VKQhsP3yQbBPG1JKMp1qel" Ids="SM8SDd3EfigM3vCRQxqGXH,C3Dbp7VzGlhO7jqPIPm3fA" />
           </Patch>
         </Node>
         <!--
