@@ -4,23 +4,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="edge">
 
     <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-        <Controls:CMiXSlider
+        <Controls:ModulatableFloatSlider
             Caption="Radius"
+            DataContext="{Binding Radius}"
             Maximum="10"
             Minimum="0"
-            Value="{Binding Radius.Value}"
-            ResetCommand="{Binding Radius.ResetCommand}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=edge}" />
 
-        <Controls:CMiXSlider
+        <Controls:ModulatableFloatSlider
             Caption="Brightness"
+            DataContext="{Binding Brightness}"
             Maximum="10"
             Minimum="0"
-            Value="{Binding Brightness.Value}"
-            ResetCommand="{Binding Brightness.ResetCommand}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=edge}" />
 
     </Panels:PositionedStackPanel>
 

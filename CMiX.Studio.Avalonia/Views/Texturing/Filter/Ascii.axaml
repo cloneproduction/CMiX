@@ -5,18 +5,19 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="ascii">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Controls:DragValue
+        <Controls:ModulatableDragValue
             Caption="Grid Size"
-            Value="{Binding GridSize.Value}"
-            ResetCommand="{Binding GridSize.ResetCommand}" />
+            DataContext="{Binding GridSize}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ascii}" />
 
-        <Controls:Vector2
+        <Controls:ModulatableVectorXY
             Caption="Character Size"
-            DataContext="{Binding CharacterSize}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ascii}" />
 
         <Controls:ToggleButton
             Caption="Grayscale"

@@ -25,6 +25,9 @@ namespace CMiX.Core.Modulation
 
         private void OnModulatorManagerItemsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            // A reorder is a Move action. Move also fills OldItems, with the same item Move
+            // put back into NewItems, not a removed one. Only a real removal should unassign.
+            if (e.Action != System.Collections.Specialized.NotifyCollectionChangedAction.Remove) return;
             if (e.OldItems == null) return;
 
             var bindables = Bindables.Cast<IModulatorBindable>().Concat(_nestedBindables);

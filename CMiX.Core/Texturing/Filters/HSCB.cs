@@ -2,7 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
@@ -10,34 +12,35 @@ namespace CMiX.Core.Texturing.Filters
     public partial class HSCB : TextureFilterBase
     {
         public HSCB(PrefabService prefabService,
-                    GenericValue<float> hue,
-                    GenericValue<float> saturation,
-                    GenericValue<float> contrast,
-                    GenericValue<float> brightness,
+                    ModulatableValue<float> hue,
+                    ModulatableValue<float> saturation,
+                    ModulatableValue<float> contrast,
+                    ModulatableValue<float> brightness,
                     GenericValue<float> control,
-                    Blend blend)
-            : base(prefabService, control, blend)
+                    Blend blend,
+                    PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
-            Hue = hue;
-            Saturation = saturation;
-            Contrast = contrast;
-            Brightness = brightness;
+            Bindables = new List<ModulatableValue<float>> { hue, saturation, contrast, brightness };
+
+            hue.Label = "Hue";
+            saturation.Label = "Saturation";
+            contrast.Label = "Contrast";
+            brightness.Label = "Brightness";
+            hue.SetDefault(0.0f);
+            saturation.SetDefault(1.0f);
+            contrast.SetDefault(0.0f);
+            brightness.SetDefault(0.0f);
         }
 
-        public GenericValue<float> Hue { get; set; }
-        public GenericValue<float> Saturation { get; set; }
-        public GenericValue<float> Contrast { get; set; }
-        public GenericValue<float> Brightness { get; set; }
+        public ModulatableValue<float> Hue => Bindables[0];
+        public ModulatableValue<float> Saturation => Bindables[1];
+        public ModulatableValue<float> Contrast => Bindables[2];
+        public ModulatableValue<float> Brightness => Bindables[3];
 
         public override IControlModel ToModel()
         {
-            var model = new HSCBModel
-            {
-                Hue = (GenericValueModel<float>)Hue.ToModel(),
-                Saturation = (GenericValueModel<float>)Saturation.ToModel(),
-                Contrast = (GenericValueModel<float>)Contrast.ToModel(),
-                Brightness = (GenericValueModel<float>)Brightness.ToModel()
-            };
+            var model = new HSCBModel();
             PopulateBaseModel(model);
             return model;
         }
@@ -46,10 +49,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (HSCBModel)model;
             LoadBaseModel(m);
-            Hue.FromModel(m.Hue);
-            Saturation.FromModel(m.Saturation);
-            Contrast.FromModel(m.Contrast);
-            Brightness.FromModel(m.Brightness);
         }
     }
 }

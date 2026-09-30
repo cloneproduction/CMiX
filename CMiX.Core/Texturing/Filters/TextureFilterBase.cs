@@ -1,28 +1,58 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Collections.Specialized;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
+using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public abstract partial class TextureFilterBase : ObservableObject, IPrefab, ITextureFilter
+    public abstract partial class TextureFilterBase : ObservableObject, IPrefab, ITextureFilter, IDisposable
     {
-        protected TextureFilterBase(PrefabService prefabService, GenericValue<float> control, Blend blend)
+        protected TextureFilterBase(PrefabService prefabService, GenericValue<float> control, Blend blend, PrefabManager modulatorManager)
         {
             PrefabService = prefabService;
             Control = control;
             Blend = blend;
+            ModulatorManager = modulatorManager;
+            ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
+        }
+
+        private void OnModulatorManagerItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            // A reorder is a Move action. Move also fills OldItems, with the same item Move
+            // put back into NewItems, not a removed one. Only a real removal should unassign.
+            if (e.Action != NotifyCollectionChangedAction.Remove) return;
+            if (e.OldItems == null) return;
+
+            foreach (IControl removed in e.OldItems)
+                foreach (var bindable in Bindables.Cast<IModulatorBindable>().Where(b => b.ModulatorID == removed.ID))
+                    bindable.SetModulatorCommand.Execute(null);
+        }
+
+        // Virtual so a filter that owns an extra disposable resource (a texture selector, a beat
+        // modifier) can add its own cleanup without hiding this one - see Displace and LFOUV.
+        public virtual void Dispose()
+        {
+            ModulatorManager.ManagerData.Items.CollectionChanged -= OnModulatorManagerItemsChanged;
+            ModulatorManager.Dispose();
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Control { get; set; }
         public Blend Blend { get; set; }
+        public PrefabManager ModulatorManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public List<ModulatableValue<float>> Bindables { get; set; } = new();
 
         protected void PopulateBaseModel(ITextureFilterModel model)
         {
@@ -30,6 +60,8 @@ namespace CMiX.Core.Texturing.Filters
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
             model.Control = (GenericValueModel<float>)Control.ToModel();
             model.Blend = (BlendModel)Blend.ToModel();
+            model.Bindables = Bindables.Select(c => (ModulatableValueModel<float>)c.ToModel()).ToList();
+            model.ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel();
         }
 
         protected void LoadBaseModel(ITextureFilterModel model)
@@ -38,6 +70,16 @@ namespace CMiX.Core.Texturing.Filters
             PrefabService.FromModel(model.PrefabService);
             Control.FromModel(model.Control);
             Blend.FromModel(model.Blend);
+
+            LoadManager(ModulatorManager, model.ModulatorManager);
+
+            for (int i = 0; i < Bindables.Count && i < model.Bindables.Count; i++)
+                Bindables[i].FromModel(model.Bindables[i]);
+
+            foreach (var bindable in Bindables.Cast<IModulatorBindable>())
+                bindable.ModulatorLookup = id => ModulatorManager.ManagerData.Items
+                    .OfType<IModulator>()
+                    .FirstOrDefault(m => m.ID == id);
         }
 
         public abstract IControlModel ToModel();

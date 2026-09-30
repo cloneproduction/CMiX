@@ -1,10 +1,10 @@
 // Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
@@ -14,35 +14,38 @@ namespace CMiX.Core.Texturing.Filters
         public Halftone(PrefabService prefabService,
                         GenericValue<float> control,
                         GenericValue<HalftoneMode> mode,
-                        GenericValue<float> numberOfTiles,
-                        GenericValue<float> dotSize,
-                        GenericValue<float> softness,
-                        GenericValue<float> brightness,
-                        Blend blend)
-            : base(prefabService, control, blend)
+                        ModulatableValue<float> numberOfTiles,
+                        ModulatableValue<float> dotSize,
+                        ModulatableValue<float> softness,
+                        ModulatableValue<float> brightness,
+                        Blend blend,
+                        PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             Mode = mode;
-            NumberOfTiles = numberOfTiles;
-            DotSize = dotSize;
-            Softness = softness;
-            Brightness = brightness;
+            Bindables = new List<ModulatableValue<float>> { numberOfTiles, dotSize, softness, brightness };
+
+            numberOfTiles.Label = "Tile Count";
+            dotSize.Label = "Dot Size";
+            softness.Label = "Softness";
+            brightness.Label = "Brightness";
+            numberOfTiles.SetDefault(48.0f);
+            dotSize.SetDefault(0.01f);
+            softness.SetDefault(1.35f);
+            brightness.SetDefault(1.0f);
         }
 
         public GenericValue<HalftoneMode> Mode { get; set; }
-        public GenericValue<float> NumberOfTiles { get; set; }
-        public GenericValue<float> DotSize { get; set; }
-        public GenericValue<float> Softness { get; set; }
-        public GenericValue<float> Brightness { get; set; }
+        public ModulatableValue<float> NumberOfTiles => Bindables[0];
+        public ModulatableValue<float> DotSize => Bindables[1];
+        public ModulatableValue<float> Softness => Bindables[2];
+        public ModulatableValue<float> Brightness => Bindables[3];
 
         public override IControlModel ToModel()
         {
             var model = new HalftoneModel
             {
-                Mode = (GenericValueModel<HalftoneMode>)Mode.ToModel(),
-                NumberOfTiles = (GenericValueModel<float>)NumberOfTiles.ToModel(),
-                DotSize = (GenericValueModel<float>)DotSize.ToModel(),
-                Softness = (GenericValueModel<float>)Softness.ToModel(),
-                Brightness = (GenericValueModel<float>)Brightness.ToModel()
+                Mode = (GenericValueModel<HalftoneMode>)Mode.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -53,10 +56,6 @@ namespace CMiX.Core.Texturing.Filters
             var m = (HalftoneModel)model;
             LoadBaseModel(m);
             Mode.FromModel(m.Mode);
-            NumberOfTiles.FromModel(m.NumberOfTiles);
-            DotSize.FromModel(m.DotSize);
-            Softness.FromModel(m.Softness);
-            Brightness.FromModel(m.Brightness);
         }
     }
 }

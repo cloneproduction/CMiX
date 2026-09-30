@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="kuwahara">
 
     <StackPanel>
 
@@ -13,13 +14,13 @@
             ItemsSource="{x:Static Resources:EnumProviders.KuwaharaType}"
             SelectedItem="{Binding Type.Value}" />
 
-        <Controls:DragValue
+        <Controls:ModulatableFloatSlider
             Margin="0,8,0,0"
             Caption="Radius"
+            DataContext="{Binding Radius}"
             Maximum="10"
             Minimum="0"
-            Value="{Binding Radius.Value}"
-            ResetCommand="{Binding Radius.ResetCommand}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kuwahara}" />
 
     </StackPanel>
 

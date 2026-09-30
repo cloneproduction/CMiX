@@ -5,27 +5,30 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="uvTransformEditor">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:DragValue
+        <BaseControls:ModulatableDragValue
             Caption="Uniform"
-            Value="{Binding Uniform.Value}"
-            ResetCommand="{Binding Uniform.ResetCommand}" />
+            DataContext="{Binding Uniform}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
 
-        <BaseControls:Vector2
+        <BaseControls:ModulatableVectorXY
             Caption="Scale"
-            DataContext="{Binding Scale}" />
+            DataContext="{Binding Scale}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
 
-        <BaseControls:DragValue
+        <BaseControls:ModulatableDragValue
             Caption="Rotation"
-            Value="{Binding Rotation.Value}"
-            ResetCommand="{Binding Rotation.ResetCommand}" />
+            DataContext="{Binding Rotation}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
 
-        <BaseControls:Vector2
+        <BaseControls:ModulatableVectorXY
             Caption="Translate"
-            DataContext="{Binding Location}" />
+            DataContext="{Binding Location}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
 
         <Views:SamplerState DataContext="{Binding SamplerState}" />
 

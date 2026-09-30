@@ -5,19 +5,22 @@
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"    
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="displace">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Controls:Vector2
+        <Controls:ModulatableVectorXY
             Caption="Offset"
-            DataContext="{Binding Offset}" />
+            DataContext="{Binding Offset}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=displace}" />
 
-        <Controls:Vector2
+        <Controls:ModulatableVectorXY
             Caption="OffsetScale"
-            DataContext="{Binding OffsetScale}" />
+            DataContext="{Binding OffsetScale}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=displace}" />
 
         <Controls:Outliner
             DataContext="{Binding TextureSelector}"

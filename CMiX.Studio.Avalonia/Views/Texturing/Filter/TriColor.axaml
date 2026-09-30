@@ -4,9 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"    
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="triColor">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
@@ -34,20 +35,22 @@
             Caption="Clamp Color"
             IsChecked="{Binding ClampColor.Value}" />
 
-        <Panels:PositionedStackPanel 
+        <Panels:PositionedStackPanel
             Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControl:CMiXSlider
+            <BaseControl:ModulatableFloatSlider
                 Caption="Smooth"
+                DataContext="{Binding Smooth}"
                 Maximum="1.0"
                 Minimum="0.0"
-                Value="{Binding Smooth.Value}" />
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=triColor}" />
 
-            <BaseControl:CMiXSlider
+            <BaseControl:ModulatableFloatSlider
                 Caption="Center"
+                DataContext="{Binding Center}"
                 Maximum="1.0"
                 Minimum="0.0"
-                Value="{Binding Center.Value}" />
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=triColor}" />
 
         </Panels:PositionedStackPanel>
 

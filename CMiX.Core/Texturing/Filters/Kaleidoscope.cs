@@ -2,8 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
-using CommunityToolkit.Mvvm.ComponentModel;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Filters
 {
@@ -13,50 +14,64 @@ namespace CMiX.Core.Texturing.Filters
                             GenericValue<float> control,
                             GenericValue<int> divisions,
                             GenericValue<int> iterations,
-                            GenericValue<float> iterationZoom,
-                            GenericValue<float> rotation,
-                            GenericValue<float> zoom,
-                            GenericValue<float> cellRotation,
-                            Vector2 center,
-                            Vector2 cellOffset,
-                            Vector2 cellScale,
-                            Blend blend)
-            : base(prefabService, control, blend)
+                            ModulatableValue<float> iterationZoom,
+                            ModulatableValue<float> rotation,
+                            ModulatableValue<float> zoom,
+                            ModulatableValue<float> cellRotation,
+                            ModulatableVector2 center,
+                            ModulatableVector2 cellOffset,
+                            ModulatableVector2 cellScale,
+                            Blend blend,
+                            PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
             Divisions = divisions;
             Iterations = iterations;
-            IterationZoom = iterationZoom;
-            Rotation = rotation;
-            Zoom = zoom;
-            CellRotation = cellRotation;
             Center = center;
             CellOffset = cellOffset;
             CellScale = cellScale;
+
+            Bindables = new List<ModulatableValue<float>>
+            {
+                iterationZoom, rotation, zoom, cellRotation,
+                center.X, center.Y,
+                cellOffset.X, cellOffset.Y,
+                cellScale.X, cellScale.Y
+            };
+
+            iterationZoom.Label = "Iteration Zoom";
+            rotation.Label = "Rotation";
+            zoom.Label = "Zoom";
+            cellRotation.Label = "Cell Rotation";
+
+            iterationZoom.SetDefault(0.0f);
+            rotation.SetDefault(0.0f);
+            zoom.SetDefault(0.5f);
+            cellRotation.SetDefault(0.0f);
+            center.X.SetDefault(0.0f);
+            center.Y.SetDefault(0.0f);
+            cellOffset.X.SetDefault(0.0f);
+            cellOffset.Y.SetDefault(0.0f);
+            cellScale.X.SetDefault(1.0f);
+            cellScale.Y.SetDefault(1.0f);
         }
 
         public GenericValue<int> Divisions { get; set; }
         public GenericValue<int> Iterations { get; set; }
-        public GenericValue<float> IterationZoom { get; set; }
-        public GenericValue<float> Rotation { get; set; }
-        public GenericValue<float> Zoom { get; set; }
-        public GenericValue<float> CellRotation { get; set; }
-        public Vector2 Center { get; set; }
-        public Vector2 CellOffset { get; set; }
-        public Vector2 CellScale { get; set; }
+        public ModulatableValue<float> IterationZoom => Bindables[0];
+        public ModulatableValue<float> Rotation => Bindables[1];
+        public ModulatableValue<float> Zoom => Bindables[2];
+        public ModulatableValue<float> CellRotation => Bindables[3];
+        public ModulatableVector2 Center { get; }
+        public ModulatableVector2 CellOffset { get; }
+        public ModulatableVector2 CellScale { get; }
 
         public override IControlModel ToModel()
         {
             var model = new KaleidoscopeModel
             {
                 Divisions = (GenericValueModel<int>)Divisions.ToModel(),
-                Iterations = (GenericValueModel<int>)Iterations.ToModel(),
-                IterationZoom = (GenericValueModel<float>)IterationZoom.ToModel(),
-                Rotation = (GenericValueModel<float>)Rotation.ToModel(),
-                Zoom = (GenericValueModel<float>)Zoom.ToModel(),
-                CellRotation = (GenericValueModel<float>)CellRotation.ToModel(),
-                Center = (Vector2Model)Center.ToModel(),
-                CellOffset = (Vector2Model)CellOffset.ToModel(),
-                CellScale = (Vector2Model)CellScale.ToModel()
+                Iterations = (GenericValueModel<int>)Iterations.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -68,13 +83,6 @@ namespace CMiX.Core.Texturing.Filters
             LoadBaseModel(m);
             Divisions.FromModel(m.Divisions);
             Iterations.FromModel(m.Iterations);
-            IterationZoom.FromModel(m.IterationZoom);
-            Rotation.FromModel(m.Rotation);
-            Zoom.FromModel(m.Zoom);
-            CellRotation.FromModel(m.CellRotation);
-            Center.FromModel(m.Center);
-            CellOffset.FromModel(m.CellOffset);
-            CellScale.FromModel(m.CellScale);
         }
     }
 }

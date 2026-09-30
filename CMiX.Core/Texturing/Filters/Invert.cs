@@ -1,27 +1,34 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Filters
 {
     public partial class Invert : TextureFilterBase
     {
         public Invert(PrefabService prefabService,
-                      GenericValue<float> factor,
+                      ModulatableValue<float> factor,
                       GenericValue<bool> invertAlpha,
                       GenericValue<InvertChannel> invertChannel,
                       GenericValue<float> control,
-                      Blend blend)
-            : base(prefabService, control, blend)
+                      Blend blend,
+                      PrefabManager modulatorManager)
+            : base(prefabService, control, blend, modulatorManager)
         {
-            Factor = factor;
             InvertAlpha = invertAlpha;
             InvertChannelSelector = invertChannel;
+
+            Bindables = new List<ModulatableValue<float>> { factor };
+
+            factor.Label = "Factor";
+            factor.SetDefault(1.0f);
         }
 
-        public GenericValue<float> Factor { get; set; }
+        public ModulatableValue<float> Factor => Bindables[0];
         public GenericValue<bool> InvertAlpha { get; set; }
         public GenericValue<InvertChannel> InvertChannelSelector { get; set; }
 
@@ -29,7 +36,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             var model = new InvertModel
             {
-                Factor = (GenericValueModel<float>)Factor.ToModel(),
                 InvertChannelSelector = (GenericValueModel<InvertChannel>)InvertChannelSelector.ToModel(),
                 InvertAlpha = (GenericValueModel<bool>)InvertAlpha.ToModel()
             };
@@ -41,7 +47,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (InvertModel)model;
             LoadBaseModel(m);
-            Factor.FromModel(m.Factor);
             InvertChannelSelector.FromModel(m.InvertChannelSelector);
             InvertAlpha.FromModel(m.InvertAlpha);
         }

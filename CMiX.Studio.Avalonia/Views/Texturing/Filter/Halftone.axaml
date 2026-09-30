@@ -7,7 +7,8 @@
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="halftone">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
@@ -18,29 +19,29 @@
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <Controls:DragValue
+            <Controls:ModulatableDragValue
                 Caption="Tile Count"
-                Minimum="0"
-                Value="{Binding NumberOfTiles.Value}"
-                ResetCommand="{Binding NumberOfTiles.ResetCommand}" />
+                DataContext="{Binding NumberOfTiles}"
+                Minimum="1"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
-            <Controls:DragValue
+            <Controls:ModulatableDragValue
                 Caption="Dot Size"
+                DataContext="{Binding DotSize}"
                 Minimum="0"
-                Value="{Binding DotSize.Value}"
-                ResetCommand="{Binding DotSize.ResetCommand}" />
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
-            <Controls:DragValue
+            <Controls:ModulatableDragValue
                 Caption="Softness"
+                DataContext="{Binding Softness}"
                 Minimum="0"
-                Value="{Binding Softness.Value}"
-                ResetCommand="{Binding Softness.ResetCommand}" />
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
-            <Controls:DragValue
+            <Controls:ModulatableDragValue
                 Caption="Brightness"
+                DataContext="{Binding Brightness}"
                 Minimum="0"
-                Value="{Binding Brightness.Value}"
-                ResetCommand="{Binding Brightness.ResetCommand}" />
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
         </Panels:PositionedStackPanel>
 

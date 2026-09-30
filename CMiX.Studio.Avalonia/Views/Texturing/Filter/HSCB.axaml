@@ -4,30 +4,38 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="hscb">
 
     <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-        <Controls:DragValue
+        <Controls:ModulatableFloatSlider
             Caption="Hue"
-            Value="{Binding Hue.Value}"
-            ResetCommand="{Binding Hue.ResetCommand}" />
+            DataContext="{Binding Hue}"
+            Maximum="1"
+            Minimum="0"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
-        <Controls:DragValue
+        <Controls:ModulatableFloatSlider
             Caption="Saturation"
-            Value="{Binding Saturation.Value}"
-            ResetCommand="{Binding Saturation.ResetCommand}" />
+            DataContext="{Binding Saturation}"
+            Maximum="1"
+            Minimum="0"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
-        <Controls:DragValue
+        <Controls:ModulatableFloatSlider
             Caption="Contrast"
-            Value="{Binding Contrast.Value}"
-            ResetCommand="{Binding Contrast.ResetCommand}" />
+            DataContext="{Binding Contrast}"
+            Maximum="1"
+            Minimum="0"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
-        <Controls:DragValue
-            Height="{DynamicResource ControlHeightMD}"
+        <Controls:ModulatableFloatSlider
             Caption="Brightness"
-            Value="{Binding Brightness.Value}"
-            ResetCommand="{Binding Brightness.ResetCommand}" />
+            DataContext="{Binding Brightness}"
+            Maximum="1"
+            Minimum="0"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
     </Panels:PositionedStackPanel>
 

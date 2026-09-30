@@ -4,22 +4,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="threshold">
 
     <StackPanel>
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <Controls:DragValue
+            <Controls:ModulatableDragValue
                 Caption="Threshold"
+                DataContext="{Binding ThresholdValue}"
                 Minimum="0"
-                Value="{Binding ThresholdValue.Value}"
-                ResetCommand="{Binding ThresholdValue.ResetCommand}" />
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
 
-            <Controls:DragValue
+            <Controls:ModulatableDragValue
                 Caption="Smooth"
-                Value="{Binding Smooth.Value}"
-                ResetCommand="{Binding Smooth.ResetCommand}" />
+                DataContext="{Binding Smooth}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
 
         </Panels:PositionedStackPanel>
 

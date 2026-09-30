@@ -3,13 +3,16 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="dither">
 
 
-        <Controls:DragValue
+        <Controls:ModulatableFloatSlider
             Caption="Threshold"
-            Value="{Binding Threshold.Value}"
-            ResetCommand="{Binding Threshold.ResetCommand}" />
+            DataContext="{Binding Threshold}"
+            Maximum="1"
+            Minimum="0"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=dither}" />
 
 
 </Views:FilterPanel>

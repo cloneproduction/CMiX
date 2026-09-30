@@ -4,24 +4,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="shiftRGB">
 
     <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:DragValue
+        <BaseControls:ModulatableFloatSlider
             Caption="Direction"
-            Value="{Binding Direction.Value}"
-            ResetCommand="{Binding Direction.ResetCommand}" />
+            DataContext="{Binding Direction}"
+            Maximum="1"
+            Minimum="0"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shiftRGB}" />
 
-        <BaseControls:DragValue
+        <BaseControls:ModulatableFloatSlider
             Caption="Shift"
-            Value="{Binding Shift.Value}"
-            ResetCommand="{Binding Shift.ResetCommand}" />
+            DataContext="{Binding Shift}"
+            Maximum="1"
+            Minimum="0"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shiftRGB}" />
 
-        <BaseControls:DragValue
+        <BaseControls:ModulatableFloatSlider
             Caption="Hue"
-            Value="{Binding Hue.Value}"
-            ResetCommand="{Binding Hue.ResetCommand}" />
+            DataContext="{Binding Hue}"
+            Maximum="1"
+            Minimum="0"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shiftRGB}" />
 
     </Panels:PositionedStackPanel>
 
