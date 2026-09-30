@@ -2,6 +2,7 @@
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
+using CMiX.Core.Prefabs;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -115,6 +116,29 @@ namespace CMiX.Core.Tests
             Assert.Null(scale.Y.ModulatorID);
             Assert.Null(scale.Y.BoundModulator);
             Assert.Null(scale.Z.ModulatorID);
+        }
+
+        [Fact]
+        public void ReorderingModulators_DoesNotUnassignTheMovedOnesBindings()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var factory = provider.GetRequiredService<ControlFactory>();
+            var scale = (ScaleModifier)factory.Create(typeof(ScaleModifier));
+
+            scale.ModulatorManager.AddItem(typeof(BeatRandomModulator));
+            var mod1 = (BeatRandomModulator)scale.ModulatorManager.ManagerData.Items[0];
+            scale.ModulatorManager.AddItem(typeof(BeatRandomModulator));
+            var mod2 = (BeatRandomModulator)scale.ModulatorManager.ManagerData.Items[1];
+
+            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(mod1, mod1.Outputs[0]));
+            scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(mod2, mod2.Outputs[0]));
+
+            scale.ModulatorManager.ManagerData.Items.Move(0, 1);
+
+            Assert.Equal(mod1.ID, scale.X.ModulatorID);
+            Assert.Same(mod1, scale.X.BoundModulator);
+            Assert.Equal(mod2.ID, scale.Y.ModulatorID);
+            Assert.Same(mod2, scale.Y.BoundModulator);
         }
 
         [Fact]
