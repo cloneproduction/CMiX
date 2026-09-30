@@ -218,3 +218,7 @@ Today an engine does not write. To let an engine send values, do this:
 Until then, engine values reach the Studio through another path. One way is
 Redis keys that the patch writes with the vvvv Redis package, and that the
 Studio reads.
+
+## Tiled Rendering
+
+See `Tiled-Rendering-Documentation.md`
