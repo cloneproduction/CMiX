@@ -55,5 +55,18 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
             ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
         }
+
+        // Saves a project with a name and a project model. The model is set the way the browse
+        // button of the model selector sets it, so modelPath must be a file that exists.
+        public static void WriteProjectWithNameAndModel(string path, string projectName, string modelPath)
+        {
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+
+            viewModel.Project.PrefabService.Name.Value = projectName;
+            viewModel.Project.Model.SetAssetFromPath(modelPath);
+            TestServiceProviderFactory.Pump();
+
+            ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
+        }
     }
 }

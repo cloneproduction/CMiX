@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Headless.XUnit;
+using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
@@ -309,6 +310,41 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             finally
             {
                 if (File.Exists(path)) File.Delete(path);
+            }
+        }
+
+        // The project name and the project model are not part of a composition. An open restores
+        // them from the file too.
+        [AvaloniaFact]
+        public async Task OpenProject_RestoresTheProjectNameAndTheProjectModel()
+        {
+            const string projectName = "Saved Project";
+            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
+            var modelPath = Path.Combine(Path.GetTempPath(), $"cmix-model-{Guid.NewGuid():N}.obj");
+            try
+            {
+                // The model selector makes an asset only for a file that exists.
+                File.WriteAllText(modelPath, string.Empty);
+                ProjectFixtures.WriteProjectWithNameAndModel(path, projectName, modelPath);
+
+                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+                var project = viewModel.Project;
+                Assert.NotEqual(projectName, project.PrefabService.Name.Value);
+                Assert.NotEqual(modelPath, project.Model.FilePath.Value);
+                Assert.Null(project.Model.Asset);
+
+                await viewModel.MainMenu.OpenProjectFromPath(path);
+                TestServiceProviderFactory.Pump();
+
+                Assert.Equal(projectName, project.PrefabService.Name.Value);
+                Assert.Equal(modelPath, project.Model.FilePath.Value);
+                var geometry = Assert.IsType<Geometry>(project.Model.Asset);
+                Assert.Equal(modelPath, geometry.FilePath);
+            }
+            finally
+            {
+                if (File.Exists(path)) File.Delete(path);
+                if (File.Exists(modelPath)) File.Delete(modelPath);
             }
         }
     }
