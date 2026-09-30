@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,25 +12,27 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Kuwahara : TextureFilterBase
     {
         public Kuwahara(PrefabService prefabService,
-                        GenericValue<float> radius,
+                        ModulatableValue<float> radius,
                         GenericValue<KuwaharaType> type,
                         GenericValue<float> control,
                         Blend blend,
                         PrefabManager modulatorManager)
             : base(prefabService, control, blend, modulatorManager)
         {
-            Radius = radius;
             Type = type;
+            Bindables = new List<ModulatableValue<float>> { radius };
+
+            radius.Label = "Radius";
+            radius.SetDefault(1.0f);
         }
 
-        public GenericValue<float> Radius { get; set; }
+        public ModulatableValue<float> Radius => Bindables[0];
         public GenericValue<KuwaharaType> Type { get; set; }
 
         public override IControlModel ToModel()
         {
             var model = new KuwaharaModel
             {
-                Radius = (GenericValueModel<float>)Radius.ToModel(),
                 Type = (GenericValueModel<KuwaharaType>)Type.ToModel()
             };
             PopulateBaseModel(model);
@@ -40,7 +43,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (KuwaharaModel)model;
             LoadBaseModel(m);
-            Radius.FromModel(m.Radius);
             Type.FromModel(m.Type);
         }
     }

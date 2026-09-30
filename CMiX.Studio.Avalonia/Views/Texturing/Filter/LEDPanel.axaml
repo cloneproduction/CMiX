@@ -4,33 +4,34 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="ledPanel">
 
     <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-        <Controls:DragValue
+        <Controls:ModulatableDragValue
             Caption="Pixel Size"
+            DataContext="{Binding PixelSize}"
             Minimum="0"
-            Value="{Binding PixelSize.Value}"
-            ResetCommand="{Binding PixelSize.ResetCommand}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
-        <Controls:DragValue
+        <Controls:ModulatableDragValue
             Caption="Mask Stagger"
+            DataContext="{Binding MaskStagger}"
             Minimum="0"
-            Value="{Binding MaskStagger.Value}"
-            ResetCommand="{Binding MaskStagger.ResetCommand}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
-        <Controls:DragValue
+        <Controls:ModulatableDragValue
             Caption="Mask Border"
+            DataContext="{Binding MaskBorder}"
             Minimum="0"
-            Value="{Binding MaskBorder.Value}"
-            ResetCommand="{Binding MaskBorder.ResetCommand}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
-        <Controls:DragValue
+        <Controls:ModulatableDragValue
             Caption="Mask Intensity"
+            DataContext="{Binding MaskIntensity}"
             Minimum="0"
-            Value="{Binding MaskIntensity.Value}"
-            ResetCommand="{Binding MaskIntensity.ResetCommand}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
     </Panels:PositionedStackPanel>
 

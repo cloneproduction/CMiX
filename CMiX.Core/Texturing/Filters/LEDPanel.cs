@@ -1,12 +1,8 @@
 // Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,34 +13,34 @@ namespace CMiX.Core.Texturing.Filters
     {
         public LEDPanel(PrefabService prefabService,
                         GenericValue<float> control,
-                        GenericValue<float> pixelSize,
-                        GenericValue<float> maskStagger,
-                        GenericValue<float> maskBorder,
-                        GenericValue<float> maskIntensity,
+                        ModulatableValue<float> pixelSize,
+                        ModulatableValue<float> maskStagger,
+                        ModulatableValue<float> maskBorder,
+                        ModulatableValue<float> maskIntensity,
                         Blend blend,
                         PrefabManager modulatorManager)
             : base(prefabService, control, blend, modulatorManager)
         {
-            PixelSize = pixelSize;
-            MaskStagger = maskStagger;
-            MaskBorder = maskBorder;
-            MaskIntensity = maskIntensity;
+            Bindables = new List<ModulatableValue<float>> { pixelSize, maskStagger, maskBorder, maskIntensity };
+
+            pixelSize.Label = "Pixel Size";
+            maskStagger.Label = "Mask Stagger";
+            maskBorder.Label = "Mask Border";
+            maskIntensity.Label = "Mask Intensity";
+            pixelSize.SetDefault(10.0f);
+            maskStagger.SetDefault(0.0f);
+            maskBorder.SetDefault(0.0f);
+            maskIntensity.SetDefault(0.0f);
         }
 
-        public GenericValue<float> PixelSize { get; set; }
-        public GenericValue<float> MaskStagger { get; set; }
-        public GenericValue<float> MaskBorder { get; set; }
-        public GenericValue<float> MaskIntensity { get; set; }
+        public ModulatableValue<float> PixelSize => Bindables[0];
+        public ModulatableValue<float> MaskStagger => Bindables[1];
+        public ModulatableValue<float> MaskBorder => Bindables[2];
+        public ModulatableValue<float> MaskIntensity => Bindables[3];
 
         public override IControlModel ToModel()
         {
-            var model = new LEDPanelModel
-            {
-                PixelSize = (GenericValueModel<float>)PixelSize.ToModel(),
-                MaskStagger = (GenericValueModel<float>)MaskStagger.ToModel(),
-                MaskBorder = (GenericValueModel<float>)MaskBorder.ToModel(),
-                MaskIntensity = (GenericValueModel<float>)MaskIntensity.ToModel()
-            };
+            var model = new LEDPanelModel();
             PopulateBaseModel(model);
             return model;
         }
@@ -53,10 +49,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (LEDPanelModel)model;
             LoadBaseModel(m);
-            PixelSize.FromModel(m.PixelSize);
-            MaskStagger.FromModel(m.MaskStagger);
-            MaskBorder.FromModel(m.MaskBorder);
-            MaskIntensity.FromModel(m.MaskIntensity);
         }
     }
 }
