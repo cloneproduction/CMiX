@@ -36,7 +36,7 @@ namespace CMiX.Core.Compositing
             // A brand-new composition otherwise starts with no output selected (Guid.Empty),
             // rendering nowhere until the user opens Settings and picks one. Default to the
             // first of the project's fixed output slots instead - see FromModel for why a
-            // loaded model's own (non-empty) selection still wins over this default.
+            // loaded model's own valid selection still wins over this default.
             SelectedOutputMappingID.Value = project.OutputMappingManager.Items.FirstOrDefault()?.ID ?? Guid.Empty;
 
             SelectedOutputMappingID.PropertyChanged += (s, e) =>
