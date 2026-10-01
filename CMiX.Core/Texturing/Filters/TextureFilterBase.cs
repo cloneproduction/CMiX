@@ -25,8 +25,6 @@ namespace CMiX.Core.Texturing.Filters
 
         private void OnModulatorManagerItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            // A reorder is a Move action. Move also fills OldItems, with the same item Move
-            // put back into NewItems, not a removed one. Only a real removal should unassign.
             if (e.Action != NotifyCollectionChangedAction.Remove) return;
             if (e.OldItems == null) return;
 
@@ -35,8 +33,6 @@ namespace CMiX.Core.Texturing.Filters
                     bindable.SetModulatorCommand.Execute(null);
         }
 
-        // Virtual so a filter that owns an extra disposable resource (a texture selector, a beat
-        // modifier) can add its own cleanup without hiding this one - see Displace and LFOUV.
         public virtual void Dispose()
         {
             ModulatorManager.ManagerData.Items.CollectionChanged -= OnModulatorManagerItemsChanged;

@@ -132,6 +132,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             if (!properties.IsLeftButtonPressed || IsEditing || Border == null)
                 return;
 
+            // A click on TrailingContent (the modulator assign button) is not a drag on the
+            // slider itself - only claim it when the press lands on the slider's own track,
+            // the same guard DragValue already uses for its own trailing content.
+            if (!Border.IsPointerOver)
+                return;
+
             isDragging = true;
             _dragStarted = false;
             lastValue = Value;
