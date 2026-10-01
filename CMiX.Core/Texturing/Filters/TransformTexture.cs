@@ -11,7 +11,6 @@ namespace CMiX.Core.Texturing.Filters
     public partial class TransformTexture : TextureFilterBase
     {
         public TransformTexture(PrefabService prefabService,
-                        PrefabManager beatModifierManager,
                         SamplerState samplerState,
                         ModulatableVector2 location,
                         ModulatableVector2 scale,

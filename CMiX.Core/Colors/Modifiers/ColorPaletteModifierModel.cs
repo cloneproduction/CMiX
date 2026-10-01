@@ -14,6 +14,5 @@ namespace CMiX.Core.Colors.Modifiers
         public PrefabServiceModel PrefabService { get; set; } = new();
         public PrefabManagerModel ColorManager { get; set; } = new();
         public GenericValueModel<ResamplingMethod> Resample { get; set; } = new(ResamplingMethod.Linear);
-        public PrefabManagerModel BeatModifierManager { get; set; } = new();
     }
 }
