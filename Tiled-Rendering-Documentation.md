@@ -204,7 +204,7 @@ Padding has three purposes. The pad must be large enough for all of them:
 
 For purpose 3, the pad must be at least the sum of the reaches of every neighbourhood filter and gather in the chain. Each filter consumes its own reach of valid neighbours from its input. A blur with radius 10 followed by a sharpen with radius 8 needs 18. A pixelate with 32 texel blocks needs 32. A chain without such filters needs only a few texels. A constant such as 64 or 128 covers most chains. The cost is a larger tile texture (section 2.6).
 
-The pad is clamped at the composition edge on each side independently. A tile that touches texel 0 does not extend to the left. A tile that touches `CompositionResolution` does not extend to the right. There are no texels beyond the composition, and every wall UV is inside it. Do not move the clamped amount to the opposite side. An edge tile is one pad narrower than an interior tile. This is correct.
+The pad is clamped at the composition edge on each side independently. A tile that touches texel 0 does not extend to the left. A tile that touches `CompositionResolution` does not extend to the right. The pad has no purpose beyond the composition: no filter needs neighbours there, and every wall UV is inside the composition. Do not move the clamped amount to the opposite side. An edge tile is one pad narrower than an interior tile. This is correct. The alignment step below may still extend the tile beyond the edge. That serves a different purpose and is allowed.
 
 Section 2.3 gives `minTexel` and `maxTexel` with the rounding applied. Convert them to integers, then:
 
@@ -215,9 +215,9 @@ minTexel = max(minTexel - pad, 0)
 maxTexel = min(maxTexel + pad, CompositionResolution)
 
 // A = alignment in texels, a power of two: 64 or 128.
-// CompositionResolution must be a multiple of A.
-minTexel = max(floor(minTexel / A) * A, 0)
-maxTexel = min(ceil(maxTexel / A) * A, CompositionResolution)
+// Origin down, end up. The end may pass the composition edge (see below).
+minTexel = floor(minTexel / A) * A
+maxTexel = ceil(maxTexel / A) * A
 
 TileOffset = minTexel / CompositionResolution
 TileSize   = (maxTexel - minTexel) / CompositionResolution
@@ -226,9 +226,13 @@ OutputSize = maxTexel - minTexel          // integer texels
 
 `TileOffset` and `TileSize` are in composition UV. No further conversion is necessary.
 
-The alignment step follows the pad. `A` is the alignment in texels. It is a power of two, 64 or 128. The step moves `minTexel` down and `maxTexel` up to a multiple of `A`. Both are clamped to 0 and `CompositionResolution`. `CompositionResolution` must be a multiple of `A`.
+The alignment step follows the pad. `A` is the alignment in texels. It is a power of two, 64 or 128. The step moves `minTexel` down and `maxTexel` up to a multiple of `A`. `minTexel` never goes below 0, because the origin is not negative. `maxTexel` is not clamped. At the right and bottom composition edge it may lie beyond `CompositionResolution`. Those texels have composition UV above 1. A procedural source computes values there. The wall material never samples them, because every wall UV is inside the unit square. An edge tile is therefore up to `A - 1` texels larger per axis, and `TileOffset + TileSize` may exceed 1 for it. This is correct. `CompositionResolution` can be any size.
 
-The reason for the alignment: a mip level L of the tile texture averages blocks of 2^L texels. These blocks start at the tile origin. Screen space derivatives (`fwidth`, `ddx`, `ddy`) pair pixels in 2x2 quads. These quads also start at the tile origin. With aligned origins and sizes, every machine builds the same blocks up to level Lmax = log2(A). Mip sampling filters and derivative based antialiasing then give identical results on every machine. Levels above Lmax still differ.
+The alignment exists for two kinds of filters. The first kind reads a mip level (the blur passes, `Edge` at a higher radius, `HeightShadows` pass 1). A mip level L of the tile texture averages blocks of 2^L texels, and these blocks start at texel 0 of the tile. Two machines whose tile origins differ by a number that is not a multiple of 2^L group different composition texels into their blocks. The same composition texel is then averaged with different neighbours on each machine. The tile size matters too: a texture whose size is not a multiple of 2^L is halved with an uneven filter, so its whole mip level differs from a cleanly halved one. The second kind uses screen space derivatives (`fwidth` in `Threshold` with antialiasing, the AieKick mode of `Edge`). The GPU pairs pixels in 2x2 quads that also start at the tile origin. Two tiles whose origins differ by an odd number of texels pair different neighbours. With origins and sizes that are multiples of `A`, every machine builds the same blocks and the same quads up to level Lmax = log2(A), and both kinds of filter give identical results. Levels above Lmax still differ.
+
+The pad does not help against either effect. It only supplies neighbours at the tile edge. The block grid and the quad grid stay anchored at the tile origin.
+
+The alignment is optional. Without it, only these two kinds of filter differ between machines, and the difference is bounded. For a mip filter the error is at most the block size of the highest level read, 2^L texels. The blur at `Strength 0.25` on a 16384 texel composition reads level 3.5, so the blocks are 8 to 16 texels, and the mismatch is a soft offset of a few texels in the blurred content. On a sharp edge inside a blurred image it looks like a faint double edge in the blend zone. On smooth content it is invisible. At a higher strength the blocks grow, but the content is also smoother, so the difference stays subtle until the top levels, where each machine averages a different tile and the result is a brightness difference. For a derivative filter the difference is one pixel wide along antialiased edges. All other filters, the sources, and the per pixel chain stay identical with or without the alignment. The shader code is the same in both cases, so the alignment can be added later when the compliance test (section 3.4.5) shows a seam in a blurred area. Without the alignment, edge tiles end at the composition edge and the tile computation has no rounding step.
 
 ### 2.6 Tile texture resolution
 
@@ -615,6 +619,7 @@ The method covers procedural sources, procedural gathers, per pixel filters, nei
 * **Global statistics** (auto levels, auto exposure, histogram effects) differ per tile (G7). They are supported only through a low resolution computation over the whole composition or a shared value.
 * **Mip levels above Lmax** differ per machine. The alignment of section 2.5 makes only the levels up to Lmax = log2(A) identical.
 * **`Kaleidoscope` and `Transform`** are unbounded gathers on a texture. They are not compliant. They are not part of the CMiX repository.
+* **`TransformTexture_CMiX_ShaderFX`** applies a matrix to the coordinate and samples a tile. Only a translation smaller than the pad is compliant; its reach is the translation in composition UV times `CompositionResolution`. A rotation or a scale reads positions that other machines render, so it is not compliant. For a rotation or a scale of the content, use the `Transform` pin of a source: a source computes any composition position on demand. The node is kept in the repository without a change.
 * **`Texturize_CMiX`** samples its input near the texture origin for every pixel. It is compliant only when that input is a shared static texture.
 * **Hashed content in a source** can differ by one pixel on a cell edge (G9).
 
@@ -630,7 +635,7 @@ Implemented, not yet tested in vvvv:
 * `TileParams` with `CompositionTexelIndex`, and `ScreenTile`, in `Common/`. Verification item 9 is still open: `ScreenTile` compiles with `TileParams` inherited, and the plain methods in `TileParams` are callable from the vertex stage and from the pixel stage.
 * The eight tile aware sources: `BubbleNoise_CMiX`, `Checkerboard_CMiX`, `Gradient_CMiX`, `Gradient_Mesh_CMiX`, `MyNoise_CMiX`, `Noise_CMiX`, `Voronoi_Border_CMiX`, `Voronoi_Dots_CMiX`.
 * The tile aware filters: `BlurPassBase_CMiX`, `BlurPass1_CMiX`, `BlurPass2_CMiX`, `BlurPass3_CMiX`, `Edge_CMiX`, `Dither_CMiX`, `Displace_CMiX`, `ShiftRGB_CMiX`, `Tiles_CMiX`, `LEDPanel_CMiX`, `ASCII_CMiX`, `Halftone_CMiX`, `HeightShadows_Pass0_CMiX`, `HeightShadows_Pass1_CMiX`. `Tiles_CMiX` is the repository equivalent of the pixelate example in G4.
-* The 2^L alignment rule of section 2.5. It is documented. The patch side in the tile computation is not yet implemented.
+* The 2^L alignment rule of section 2.5, with the tile end not clamped at the composition edge. It is documented. The patch side in the tile computation is not yet implemented.
 
 Not yet tested:
 
