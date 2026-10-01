@@ -29,7 +29,17 @@ namespace CMiX.Core.Compositing
         public Transform2D TransformTexture { get; set; }
 
         public Guid ID { get; set; }
-        public Guid CompositionID { get; set; }
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                Texture.CompositionID = value;
+            }
+        }
 
         public IControlModel ToModel() => new FullscreenQuadModel
         {
