@@ -14,6 +14,7 @@ namespace CMiX.Core.Texturing.Sources
         public BubbleNoise(PrefabService prefabService,
                            PrefabManager textureModifierManager,
                            Integer2 resolution,
+                           GenericValue<bool> useCompositionResolution,
                            GenericValue<float> speed,
                            GenericValue<float> frequency,
                            GenericValue<float> contrast,
@@ -22,6 +23,7 @@ namespace CMiX.Core.Texturing.Sources
             : base(prefabService, textureModifierManager)
         {
             Resolution = resolution;
+            UseCompositionResolution = useCompositionResolution;
             Speed = speed;
             Frequency = frequency;
             Contrast = contrast;
@@ -30,6 +32,7 @@ namespace CMiX.Core.Texturing.Sources
         }
 
         public Integer2 Resolution { get; set; }
+        public GenericValue<bool> UseCompositionResolution { get; set; }
         public GenericValue<float> Speed { get; set; }
         public GenericValue<float> Frequency { get; set; }
         public GenericValue<float> Contrast { get; set; }
@@ -41,6 +44,7 @@ namespace CMiX.Core.Texturing.Sources
             var model = new BubbleNoiseModel
             {
                 Resolution = (Integer2Model)Resolution.ToModel(),
+                UseCompositionResolution = (GenericValueModel<bool>)UseCompositionResolution.ToModel(),
                 Speed = (GenericValueModel<float>)Speed.ToModel(),
                 Frequency = (GenericValueModel<float>)Frequency.ToModel(),
                 Contrast = (GenericValueModel<float>)Contrast.ToModel(),
@@ -56,6 +60,7 @@ namespace CMiX.Core.Texturing.Sources
             var m = (BubbleNoiseModel)model;
             LoadBaseModel(m);
             Resolution.FromModel(m.Resolution);
+            UseCompositionResolution.FromModel(m.UseCompositionResolution);
             Speed.FromModel(m.Speed);
             Frequency.FromModel(m.Frequency);
             Contrast.FromModel(m.Contrast);

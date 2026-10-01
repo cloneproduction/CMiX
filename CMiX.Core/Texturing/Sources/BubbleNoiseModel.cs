@@ -13,6 +13,7 @@ namespace CMiX.Core.Texturing.Sources
         public PrefabServiceModel PrefabService { get; set; } = new();
         public PrefabManagerModel TextureModifierManager { get; set; } = new();
         public Integer2Model Resolution { get; set; } = new(512, 512);
+        public GenericValueModel<bool> UseCompositionResolution { get; set; } = new(false);
         public GenericValueModel<float> Speed { get; set; } = new(0.0f);
         public GenericValueModel<float> Frequency { get; set; } = new(3.5f);
         public GenericValueModel<float> Contrast { get; set; } = new(0.15f);

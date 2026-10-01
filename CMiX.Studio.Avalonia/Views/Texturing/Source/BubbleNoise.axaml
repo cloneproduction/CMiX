@@ -38,9 +38,14 @@
 
         </Panels:PositionedStackPanel>
 
+        <BaseControls:ToggleButton
+            Caption="Use Composition Resolution"
+            IsChecked="{Binding UseCompositionResolution.Value}" />
+
         <BaseControls:Integer2Value
             Caption="Resolution"
-            DataContext="{Binding Resolution}" />
+            DataContext="{Binding Resolution}"
+            IsEnabled="{Binding !UseCompositionResolution.Value}" />
 
     </StackPanel>
 
