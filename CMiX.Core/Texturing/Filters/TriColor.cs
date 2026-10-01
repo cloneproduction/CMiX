@@ -12,7 +12,6 @@ namespace CMiX.Core.Texturing.Filters
     public partial class TriColor : TextureFilterBase
     {
         public TriColor(PrefabService prefabService,
-                        GenericValue<float> control,
                         GenericValue<string> colorA,
                         GenericValue<string> colorB,
                         GenericValue<string> colorC,
@@ -22,7 +21,7 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<bool> clampColor,
                         Blend blend,
                         PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             ColorA = colorA;
             ColorB = colorB;

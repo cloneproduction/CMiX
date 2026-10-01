@@ -13,10 +13,9 @@ namespace CMiX.Core.Texturing.Filters
         public Blur(PrefabService prefabService,
                     GenericValue<bool> visible,
                     ModulatableValue<float> strength,
-                    GenericValue<float> control,
                     Blend blend,
                     PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { strength };
 

@@ -11,7 +11,6 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Kaleidoscope : TextureFilterBase
     {
         public Kaleidoscope(PrefabService prefabService,
-                            GenericValue<float> control,
                             GenericValue<int> divisions,
                             GenericValue<int> iterations,
                             ModulatableValue<float> iterationZoom,
@@ -23,7 +22,7 @@ namespace CMiX.Core.Texturing.Filters
                             ModulatableVector2 cellScale,
                             Blend blend,
                             PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Divisions = divisions;
             Iterations = iterations;

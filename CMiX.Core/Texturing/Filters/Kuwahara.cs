@@ -14,10 +14,9 @@ namespace CMiX.Core.Texturing.Filters
         public Kuwahara(PrefabService prefabService,
                         ModulatableValue<float> radius,
                         GenericValue<KuwaharaType> type,
-                        GenericValue<float> control,
                         Blend blend,
                         PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Type = type;
             Bindables = new List<ModulatableValue<float>> { radius };

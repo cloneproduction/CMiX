@@ -12,7 +12,6 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Halftone : TextureFilterBase
     {
         public Halftone(PrefabService prefabService,
-                        GenericValue<float> control,
                         GenericValue<HalftoneMode> mode,
                         ModulatableValue<float> numberOfTiles,
                         ModulatableValue<float> dotSize,
@@ -20,7 +19,7 @@ namespace CMiX.Core.Texturing.Filters
                         ModulatableValue<float> brightness,
                         Blend blend,
                         PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Mode = mode;
             Bindables = new List<ModulatableValue<float>> { numberOfTiles, dotSize, softness, brightness };

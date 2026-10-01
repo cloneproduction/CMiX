@@ -12,7 +12,6 @@ namespace CMiX.Core.Texturing.Filters
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
-        public GenericValueModel<float> Control { get; set; } = new(1.0f);
         public GenericValueModel<string> ColorA { get; set; } = new("#FFFF00FF");
         public GenericValueModel<string> ColorB { get; set; } = new("#FFFF00FF");
         public GenericValueModel<string> ColorC { get; set; } = new("#FFFF00FF");

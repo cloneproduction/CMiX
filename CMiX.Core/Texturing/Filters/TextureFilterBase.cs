@@ -14,10 +14,9 @@ namespace CMiX.Core.Texturing.Filters
 {
     public abstract partial class TextureFilterBase : ObservableObject, IPrefab, ITextureFilter, IDisposable
     {
-        protected TextureFilterBase(PrefabService prefabService, GenericValue<float> control, Blend blend, PrefabManager modulatorManager)
+        protected TextureFilterBase(PrefabService prefabService, Blend blend, PrefabManager modulatorManager)
         {
             PrefabService = prefabService;
-            Control = control;
             Blend = blend;
             ModulatorManager = modulatorManager;
             ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
@@ -41,7 +40,6 @@ namespace CMiX.Core.Texturing.Filters
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
-        public GenericValue<float> Control { get; set; }
         public Blend Blend { get; set; }
         public PrefabManager ModulatorManager { get; set; }
 
@@ -54,7 +52,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             model.ID = ID;
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
-            model.Control = (GenericValueModel<float>)Control.ToModel();
             model.Blend = (BlendModel)Blend.ToModel();
             model.Bindables = Bindables.Select(c => (ModulatableValueModel<float>)c.ToModel()).ToList();
             model.ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel();
@@ -64,7 +61,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             ID = model.ID;
             PrefabService.FromModel(model.PrefabService);
-            Control.FromModel(model.Control);
             Blend.FromModel(model.Blend);
 
             LoadManager(ModulatorManager, model.ModulatorManager);

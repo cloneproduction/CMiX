@@ -22,9 +22,8 @@ namespace CMiX.Core.Texturing.Filters
                       ModulatableValue<float> shadowBlurPow,
                       ModulatableValue<float> sharpOffset,
                       Blend blend,
-                      GenericValue<float> control,
                       PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             LightDirection = lightDirection;
 

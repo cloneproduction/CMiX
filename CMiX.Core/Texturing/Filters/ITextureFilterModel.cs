@@ -16,7 +16,6 @@ namespace CMiX.Core.Texturing.Filters
     {
         Guid ID { get; set; }
         PrefabServiceModel PrefabService { get; set; }
-        GenericValueModel<float> Control { get; set; }
         BlendModel Blend { get; set; }
         List<ModulatableValueModel<float>> Bindables { get; set; }
         PrefabManagerModel ModulatorManager { get; set; }

@@ -14,10 +14,9 @@ namespace CMiX.Core.Texturing.Filters
                       ModulatableValue<float> factor,
                       GenericValue<bool> invertAlpha,
                       GenericValue<InvertChannel> invertChannel,
-                      GenericValue<float> control,
                       Blend blend,
                       PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             InvertAlpha = invertAlpha;
             InvertChannelSelector = invertChannel;

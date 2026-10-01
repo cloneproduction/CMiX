@@ -12,14 +12,13 @@ namespace CMiX.Core.Texturing.Filters
     public partial class LEDPanel : TextureFilterBase
     {
         public LEDPanel(PrefabService prefabService,
-                        GenericValue<float> control,
                         ModulatableValue<float> pixelSize,
                         ModulatableValue<float> maskStagger,
                         ModulatableValue<float> maskBorder,
                         ModulatableValue<float> maskIntensity,
                         Blend blend,
                         PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { pixelSize, maskStagger, maskBorder, maskIntensity };
 

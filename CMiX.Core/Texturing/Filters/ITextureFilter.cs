@@ -7,7 +7,6 @@ namespace CMiX.Core.Texturing.Filters
 {
     public interface ITextureFilter
     {
-        public GenericValue<float> Control { get; set; }
         public Blend Blend { get; set; }
     }
 }

@@ -12,11 +12,10 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Dither : TextureFilterBase
     {
         public Dither(PrefabService prefabService,
-                      GenericValue<float> control,
                       ModulatableValue<float> threshold,
                       Blend blend,
                       PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { threshold };
 

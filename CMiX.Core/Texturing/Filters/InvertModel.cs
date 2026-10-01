@@ -14,7 +14,6 @@ namespace CMiX.Core.Texturing.Filters
         public PrefabServiceModel PrefabService { get; set; } = new();
         public GenericValueModel<InvertChannel> InvertChannelSelector { get; set; } = new(InvertChannel.Value);
         public GenericValueModel<bool> InvertAlpha { get; set; } = new(false);
-        public GenericValueModel<float> Control { get; set; } = new(1.0f);
         public BlendModel Blend { get; set; } = new();
         public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();

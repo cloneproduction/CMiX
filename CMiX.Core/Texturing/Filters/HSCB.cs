@@ -16,10 +16,9 @@ namespace CMiX.Core.Texturing.Filters
                     ModulatableValue<float> saturation,
                     ModulatableValue<float> contrast,
                     ModulatableValue<float> brightness,
-                    GenericValue<float> control,
                     Blend blend,
                     PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { hue, saturation, contrast, brightness };
 

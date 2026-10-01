@@ -13,10 +13,9 @@ namespace CMiX.Core.Texturing.Filters
         public Pixelate(PrefabService prefabService,
                         ModulatableValue<float> factorX,
                         ModulatableValue<float> factorY,
-                        GenericValue<float> control,
                         Blend blend,
                         PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { factorX, factorY };
 

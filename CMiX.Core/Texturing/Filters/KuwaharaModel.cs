@@ -12,7 +12,6 @@ namespace CMiX.Core.Texturing.Filters
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<KuwaharaType> Type { get; set; } = new(KuwaharaType.Standard);
-        public GenericValueModel<float> Control { get; set; } = new(1.0f);
         public PrefabServiceModel PrefabService { get; set; } = new();
         public BlendModel Blend { get; set; } = new();
         public List<ModulatableValueModel<float>> Bindables { get; set; } = new();

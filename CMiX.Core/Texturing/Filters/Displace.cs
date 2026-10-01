@@ -16,10 +16,9 @@ namespace CMiX.Core.Texturing.Filters
                         PrefabManager textureSelector,
                         ModulatableVector2 offset,
                         ModulatableVector2 offsetScale,
-                        GenericValue<float> control,
                         Blend blend,
                         PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             TextureSelector = textureSelector;
             Offset = offset;

@@ -12,7 +12,6 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Threshold : TextureFilterBase
     {
         public Threshold(PrefabService prefabService,
-                        GenericValue<float> control,
                         GenericValue<string> foreground,
                         GenericValue<string> background,
                         ModulatableValue<float> smooth,
@@ -21,7 +20,7 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<bool> invert,
                         Blend blend,
                         PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Foreground = foreground;
             Background = background;

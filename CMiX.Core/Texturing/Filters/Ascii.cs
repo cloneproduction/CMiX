@@ -12,14 +12,13 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Ascii : TextureFilterBase
     {
         public Ascii(PrefabService prefabService,
-                     GenericValue<float> control,
                      GenericValue<bool> grayscale,
                      ModulatableValue<float> gridSize,
                      ModulatableValue<float> characterSizeX,
                      ModulatableValue<float> characterSizeY,
                      Blend blend,
                      PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Grayscale = grayscale;
 

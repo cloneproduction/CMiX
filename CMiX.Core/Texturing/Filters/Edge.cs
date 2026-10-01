@@ -14,10 +14,9 @@ namespace CMiX.Core.Texturing.Filters
         public Edge(PrefabService prefabService,
                     ModulatableValue<float> radius,
                     ModulatableValue<float> brightness,
-                    GenericValue<float> control,
                     Blend blend,
                     PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { radius, brightness };
 

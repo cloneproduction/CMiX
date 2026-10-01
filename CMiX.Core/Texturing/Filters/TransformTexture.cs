@@ -16,10 +16,9 @@ namespace CMiX.Core.Texturing.Filters
                         ModulatableVector2 scale,
                         ModulatableValue<float> rotation,
                         ModulatableValue<float> uniform,
-                        GenericValue<float> control,
                         Blend blend,
                         PrefabManager modulatorManager)
-            : base(prefabService, control, blend, modulatorManager)
+            : base(prefabService, blend, modulatorManager)
         {
             SamplerState = samplerState;
             Location = location;
