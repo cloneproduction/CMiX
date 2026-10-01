@@ -65,6 +65,7 @@ namespace CMiX.Core.Compositing
                 new CompositionIDAssigner(ModifierManager, value);
                 if (MaterialSelector.SelectedItem is IHasCompositionID material)
                     material.CompositionID = value;
+                Texture.CompositionID = value;
             }
         }
 

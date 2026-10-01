@@ -7233,7 +7233,7 @@
                   <Pin Id="RvVf4IQRKyJP7jHeIvPlxg" Name="Composition Resolution" Kind="OutputPin" />
                   <Pin Id="UksQkeUxrGyLzKWXAngpZA" Name="Composition Resolution Int2" Kind="OutputPin" />
                 </Node>
-                <Pad Id="N8vVQcDjxSNMB3NQYgm66q" Comment="Is Fullscreen" Bounds="911,291,35,35" ShowValueBox="true" isIOBox="true">
+                <Pad Id="N8vVQcDjxSNMB3NQYgm66q" Comment="Is Fullscreen" Bounds="911,291,35,35" ShowValueBox="true" isIOBox="true" Value="True">
                   <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
                     <Choice Kind="ImmutableTypeFlag" Name="Boolean" />
                   </p:TypeAnnotation>
@@ -7321,6 +7321,16 @@
                     <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
                   </p:ValueBoxSettings>
                 </Pad>
+                <Node Bounds="709,310,85,26" Id="D6cUxxEFkazL6eBWVMjFQ8">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Prefabs.IHasCompositionID" LastDependency="CMiX.Core.csproj">
+                    <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                    <FullNameCategoryReference ID="CMiX.Core.Prefabs.IHasCompositionID" />
+                    <Choice Kind="OperationCallFlag" Name="CompositionID" />
+                  </p:NodeReference>
+                  <Pin Id="EdXJDXlQEY4LtJ2NnTdbDy" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="Hi3ubQIKP6LPXTNv672XOq" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="BgLRVUexx1aPPajnXuMiWj" Name="Composition ID" Kind="OutputPin" />
+                </Node>
               </Canvas>
               <Link Id="RxcBmFaxsZSQQhfgTedXFU" Ids="JRkNKbn5T0UMPj0v1syYct,Eak6e4BxCVnOVmFWdmHAuw" IsHidden="true" />
               <Link Id="GdWOqClQ2zFQPI1RU0G7u4" Ids="BuAlr0aKuWyPRC0qBnQ2Bt,Ry3y3voERkFMhIigsD63nZ" />
@@ -7346,7 +7356,7 @@
                 <Pin Id="OovBKjPJq3ALUSTwQTg2jx" Name="ViewModel" Kind="InputPin" />
               </Patch>
               <Patch Id="G2bxsKPGXpBNiQXK2YQX22" Name="Update" />
-              <Patch Id="SCgQazTBkm4MtlWYsrCF0k" Name="GetTexture" ParticipatingElements="CiI26AMSzTqPSovlKcjVWK,T3tt6M8szwCOw18NOUklda,Ol8nOtYMZ7gM9i6NCIeInI,P987v3Wn1gpNikT5peXdra,IENjHc954v5O62xSFrlbBi,A8cgLoZBzNKLn0LFOFxYW3,TmbyhycMpqXLiRR4FijdhL,Ny0bZTeUaugLXAjHx9IOR2">
+              <Patch Id="SCgQazTBkm4MtlWYsrCF0k" Name="GetTexture" ParticipatingElements="CiI26AMSzTqPSovlKcjVWK,T3tt6M8szwCOw18NOUklda,Ol8nOtYMZ7gM9i6NCIeInI,P987v3Wn1gpNikT5peXdra,IENjHc954v5O62xSFrlbBi,A8cgLoZBzNKLn0LFOFxYW3,TmbyhycMpqXLiRR4FijdhL,Ny0bZTeUaugLXAjHx9IOR2,Mo29bvBqIhDQCHlAPvOWsY">
                 <Pin Id="Eak6e4BxCVnOVmFWdmHAuw" Name="Output" Kind="OutputPin" />
                 <Pin Id="Ipldu2HMYGkMJJVNtAU2Ro" Name="RenderContext" Kind="InputPin" />
               </Patch>
@@ -7399,6 +7409,7 @@
               <Link Id="J4tu6LU28K1PIIKQFJYvqM" Ids="N8vVQcDjxSNMB3NQYgm66q,FuHHbcg9ESKO8ApWJTbJsj" />
               <Link Id="EF3Y5eyIrmMOe5Vj5sQfLJ" Ids="Tz36Mkd3cVrOpEu8Pz2I4J,VJkup4HTVP3PkwJeANTeBx" />
               <Link Id="VWR2Suu0wviPD0XK6DILqB" Ids="Tz36Mkd3cVrOpEu8Pz2I4J,SHfzpgvoZBvOhrTH0ZLlFX" />
+              <Link Id="Mo29bvBqIhDQCHlAPvOWsY" Ids="PSsrznC730oMEw1ABXeiNc,EdXJDXlQEY4LtJ2NnTdbDy" />
             </Patch>
           </Node>
           <!--

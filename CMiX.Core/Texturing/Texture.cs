@@ -18,7 +18,18 @@ namespace CMiX.Core.Texturing
         public DiffuseTexture DiffuseTexture { get; set; }
         public MaskTexture MaskTexture { get; set; }
         public Guid ID { get; set; }
-        public Guid CompositionID { get; set; }
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                DiffuseTexture.CompositionID = value;
+                MaskTexture.CompositionID = value;
+            }
+        }
 
         public IControlModel ToModel() => new TextureModel
         {
