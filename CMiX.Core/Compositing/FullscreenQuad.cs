@@ -5,10 +5,11 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing;
 using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class FullscreenQuad : ObservableObject, ITexturable, IPrefab, IHasCompositionID
+    public partial class FullscreenQuad : ObservableObject, ITexturable, IPrefab, IHasCompositionID, IDisposable
     {
         public FullscreenQuad(PrefabService prefabService,
                               Color color,
@@ -48,5 +49,9 @@ namespace CMiX.Core.Compositing
             Texture.FromModel(m.Texture);
             TransformTexture.FromModel(m.TransformTexture);
         }
+
+        // FullscreenQuad owns its texture directly, the same way Entity owns Texture and Material.
+        // Texture itself is not disposable, so this reaches into each texture slot's own manager.
+        public void Dispose() => DisposeAll(Texture.DiffuseTexture.TextureManager, Texture.MaskTexture.TextureManager);
     }
 }
