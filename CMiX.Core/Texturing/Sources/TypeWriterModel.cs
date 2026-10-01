@@ -14,6 +14,7 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValueModel<string> FontColor { get; set; } = new("#ff000000");
         public GenericValueModel<string> BackgroundColor { get; set; } = new("#00000000");
         public Integer2Model Resolution { get; set; } = new(1024, 1024);
+        public GenericValueModel<bool> UseCompositionResolution { get; set; } = new(false);
         public Vector2Model Position { get; set; } = new();
         public GenericValueModel<float> FontSize { get; set; } = new(0.45f);
         public GenericValueModel<string> FontFamily { get; set; } = new("Arial");

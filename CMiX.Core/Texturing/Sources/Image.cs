@@ -14,14 +14,17 @@ namespace CMiX.Core.Texturing.Sources
         public Image(PrefabService prefabService,
                      PrefabManager textureModifierManager,
                      Integer2 resolution,
+                     GenericValue<bool> useCompositionResolution,
                      AssetSelector assetSelector)
             : base(prefabService, textureModifierManager)
         {
             Resolution = resolution;
+            UseCompositionResolution = useCompositionResolution;
             AssetSelector = assetSelector;
         }
 
         public Integer2 Resolution { get; set; }
+        public GenericValue<bool> UseCompositionResolution { get; set; }
         public AssetSelector AssetSelector { get; set; }
 
         public override IControlModel ToModel()
@@ -29,6 +32,7 @@ namespace CMiX.Core.Texturing.Sources
             var model = new ImageModel
             {
                 Resolution = (Integer2Model)Resolution.ToModel(),
+                UseCompositionResolution = (GenericValueModel<bool>)UseCompositionResolution.ToModel(),
                 AssetSelector = (AssetSelectorModel)AssetSelector.ToModel()
             };
             PopulateBaseModel(model);
@@ -40,6 +44,7 @@ namespace CMiX.Core.Texturing.Sources
             var m = (ImageModel)model;
             LoadBaseModel(m);
             Resolution.FromModel(m.Resolution);
+            UseCompositionResolution.FromModel(m.UseCompositionResolution);
             AssetSelector.FromModel(m.AssetSelector);
         }
     }

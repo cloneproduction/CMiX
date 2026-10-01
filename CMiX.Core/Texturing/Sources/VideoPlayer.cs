@@ -14,6 +14,7 @@ namespace CMiX.Core.Texturing.Sources
         public VideoPlayer(PrefabService prefabService,
                            PrefabManager textureModifierManager,
                            Integer2 resolution,
+                           GenericValue<bool> useCompositionResolution,
                            GenericValue<int> seekFrame,
                            GenericValue<bool> play,
                            CMiXButton doSeek,
@@ -21,6 +22,7 @@ namespace CMiX.Core.Texturing.Sources
             : base(prefabService, textureModifierManager)
         {
             Resolution = resolution;
+            UseCompositionResolution = useCompositionResolution;
             SeekFrame = seekFrame;
             Play = play;
             DoSeek = doSeek;
@@ -32,6 +34,7 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<bool> Play { get; set; }
         public AssetSelector AssetSelector { get; set; }
         public Integer2 Resolution { get; set; }
+        public GenericValue<bool> UseCompositionResolution { get; set; }
 
         public override IControlModel ToModel()
         {
@@ -41,7 +44,8 @@ namespace CMiX.Core.Texturing.Sources
                 SeekFrame = (GenericValueModel<int>)SeekFrame.ToModel(),
                 Play = (GenericValueModel<bool>)Play.ToModel(),
                 AssetSelector = (AssetSelectorModel)AssetSelector.ToModel(),
-                Resolution = (Integer2Model)Resolution.ToModel()
+                Resolution = (Integer2Model)Resolution.ToModel(),
+                UseCompositionResolution = (GenericValueModel<bool>)UseCompositionResolution.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -56,6 +60,7 @@ namespace CMiX.Core.Texturing.Sources
             Play.FromModel(m.Play);
             AssetSelector.FromModel(m.AssetSelector);
             Resolution.FromModel(m.Resolution);
+            UseCompositionResolution.FromModel(m.UseCompositionResolution);
         }
     }
 }

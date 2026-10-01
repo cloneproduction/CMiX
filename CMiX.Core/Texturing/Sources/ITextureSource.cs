@@ -8,5 +8,6 @@ namespace CMiX.Core.Texturing.Sources
     public interface ITextureSource : ITextureModifiable
     {
         Integer2 Resolution { get; set; }
+        GenericValue<bool> UseCompositionResolution { get; set; }
     }
 }

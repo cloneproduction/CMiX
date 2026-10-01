@@ -12,6 +12,7 @@ namespace CMiX.Core.Texturing.Sources
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public Integer2Model Resolution { get; set; } = new(1024, 1024);
+        public GenericValueModel<bool> UseCompositionResolution { get; set; } = new(false);
         public PrefabServiceModel PrefabService { get; set; } = new();
         public Transform2DModel Transform2D { get; set; } = new();
         public Vector2Model CellCount { get; set; } = new(8.0f, 8.0f);

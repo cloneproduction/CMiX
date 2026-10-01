@@ -14,6 +14,7 @@ namespace CMiX.Core.Texturing.Sources
         public Gradient(PrefabService prefabService,
                         PrefabManager textureModifierManager,
                         Integer2 resolution,
+                        GenericValue<bool> useCompositionResolution,
                         GenericValue<string> from,
                         GenericValue<string> to,
                         GenericValue<float> gamma,
@@ -21,6 +22,7 @@ namespace CMiX.Core.Texturing.Sources
             : base(prefabService, textureModifierManager)
         {
             Resolution = resolution;
+            UseCompositionResolution = useCompositionResolution;
             From = from;
             To = to;
             Gamma = gamma;
@@ -28,6 +30,7 @@ namespace CMiX.Core.Texturing.Sources
         }
 
         public Integer2 Resolution { get; set; }
+        public GenericValue<bool> UseCompositionResolution { get; set; }
         public GenericValue<string> From { get; set; }
         public GenericValue<string> To { get; set; }
         public GenericValue<float> Gamma { get; set; }
@@ -38,6 +41,7 @@ namespace CMiX.Core.Texturing.Sources
             var model = new GradientModel
             {
                 Resolution = (Integer2Model)Resolution.ToModel(),
+                UseCompositionResolution = (GenericValueModel<bool>)UseCompositionResolution.ToModel(),
                 Gamma = (GenericValueModel<float>)Gamma.ToModel(),
                 From = (GenericValueModel<string>)From.ToModel(),
                 To = (GenericValueModel<string>)To.ToModel(),
@@ -52,6 +56,7 @@ namespace CMiX.Core.Texturing.Sources
             var m = (GradientModel)model;
             LoadBaseModel(m);
             Resolution.FromModel(m.Resolution);
+            UseCompositionResolution.FromModel(m.UseCompositionResolution);
             Gamma.FromModel(m.Gamma);
             From.FromModel(m.From);
             To.FromModel(m.To);
