@@ -40,7 +40,7 @@ namespace CMiX.Core.Modulation
         {
             foreach (var bindable in _nestedBindables)
             {
-                if (bindable.ModulatorID is not { } modulatorId) return;
+                if (bindable.ModulatorID is not { } modulatorId) continue;
 
                 var modulator = ModulatorManager.ManagerData.Items.OfType<IModulator>().FirstOrDefault(m => m.ID == modulatorId);
                 var output = modulator?.Outputs.FirstOrDefault(o => o.Name == bindable.BoundOutputName);
