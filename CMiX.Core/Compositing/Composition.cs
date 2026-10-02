@@ -106,9 +106,9 @@ namespace CMiX.Core.Compositing
             // and ID above is the composition's real, final id from this point on. The composition
             // is the root of the ownership tree, so this is where its id first enters the tree,
             // sent down to every item already in these managers and to anything added later.
-            new CompositionIDAssigner(ModifierManager, ID);
-            new CompositionIDAssigner(TextureModifierManager, ID);
-            new CompositionIDAssigner(LayerManager, ID);
+            ModifierManager.CompositionID = ID;
+            TextureModifierManager.CompositionID = ID;
+            LayerManager.CompositionID = ID;
         }
 
         public void Dispose() => DisposeAll(LayerManager, TextureModifierManager, ModifierManager);

@@ -32,7 +32,7 @@ namespace CMiX.Core.Texturing
             set
             {
                 _compositionID = value;
-                new CompositionIDAssigner(TextureManager, value);
+                TextureManager.CompositionID = value;
             }
         }
 

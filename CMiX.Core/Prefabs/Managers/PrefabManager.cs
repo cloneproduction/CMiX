@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -28,6 +29,7 @@ namespace CMiX.Core.Prefabs.Managers
                 if (e.PropertyName == nameof(CollectionManager.SelectedItem))
                     OnPropertyChanged(nameof(SelectedItem));
             };
+            Collection.ManagerData.Items.CollectionChanged += OnItemsChanged;
 
             Collection.AddItemCommand = new RelayCommand<Type>(AddItem);
             Collection.AddExistingItemCommand = new RelayCommand<IControl>(AddExistingItem);
@@ -73,6 +75,29 @@ namespace CMiX.Core.Prefabs.Managers
         private bool _hasRegisteredDeleter;
 
         public ManagerData ManagerData => Collection.ManagerData;
+
+        private Guid _compositionID;
+
+        // The id of the composition that owns this manager. The manager gives this id to every item.
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                foreach (var item in Collection.ManagerData.Items)
+                    if (item is IHasCompositionID owned)
+                        owned.CompositionID = value;
+            }
+        }
+
+        private void OnItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems == null) return;
+            foreach (var item in e.NewItems)
+                if (item is IHasCompositionID owned)
+                    owned.CompositionID = _compositionID;
+        }
 
         public override ICommand AddItemCommand => Collection.AddItemCommand;
         public ICommand AddExistingItemCommand => Collection.AddExistingItemCommand;
@@ -230,6 +255,7 @@ namespace CMiX.Core.Prefabs.Managers
         // managers, which the delete path only reaches once the undo stack has dropped the delete.
         public void Dispose()
         {
+            Collection.ManagerData.Items.CollectionChanged -= OnItemsChanged;
             ClearAll();
             UnregisterDeleter();
         }
