@@ -64,11 +64,11 @@ namespace CMiX.Core.Compositing
             set
             {
                 _compositionID = value;
-                new CompositionIDAssigner(ModelEntityManager, value);
-                new CompositionIDAssigner(CameraManager, value);
-                new CompositionIDAssigner(LightManager, value);
-                new CompositionIDAssigner(TextureModifierManager, value);
-                new CompositionIDAssigner(ModifierManager, value);
+                ModelEntityManager.CompositionID = value;
+                CameraManager.CompositionID = value;
+                LightManager.CompositionID = value;
+                TextureModifierManager.CompositionID = value;
+                ModifierManager.CompositionID = value;
             }
         }
 

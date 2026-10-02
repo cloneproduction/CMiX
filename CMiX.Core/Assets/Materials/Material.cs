@@ -39,7 +39,7 @@ namespace CMiX.Core.Materials
             set
             {
                 _compositionID = value;
-                new CompositionIDAssigner(ModifierManager, value);
+                ModifierManager.CompositionID = value;
                 DiffuseTexture.CompositionID = value;
                 MaskTexture.CompositionID = value;
             }

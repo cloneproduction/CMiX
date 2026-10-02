@@ -37,7 +37,7 @@ namespace CMiX.Core.Rendering.Lights
             set
             {
                 _compositionID = value;
-                new CompositionIDAssigner(ModifierManager, value);
+                ModifierManager.CompositionID = value;
             }
         }
 

@@ -53,5 +53,58 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(composition.ID, bubbleNoise.CompositionID);
         }
+
+        [Fact]
+        public void PrefabManager_GivesOnlyTheLastCompositionIDToAnItemAddedLater()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = provider.GetRequiredService<PrefabManager>();
+            var first = Guid.NewGuid();
+            var second = Guid.NewGuid();
+
+            manager.CompositionID = first;
+            manager.CompositionID = second;
+            var item = new RecordingCompositionIDControl();
+            manager.Collection.AddItem(item);
+
+            Assert.Equal(new[] { second }, item.ReceivedIDs);
+        }
+
+        [Fact]
+        public void PrefabManager_GivesTheCompositionIDToAnItemAlreadyInTheManager()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = provider.GetRequiredService<PrefabManager>();
+            manager.AddItem(typeof(Layer));
+            var layer = (Layer)manager.SelectedItem;
+            var id = Guid.NewGuid();
+
+            manager.CompositionID = id;
+
+            Assert.Equal(id, layer.CompositionID);
+            Assert.Equal(id, layer.ModifierManager.CompositionID);
+        }
+
+        // Records every composition id that it receives.
+        private class RecordingCompositionIDControl : IControl, IHasCompositionID
+        {
+            private Guid _compositionID;
+
+            public List<Guid> ReceivedIDs { get; } = new();
+            public Guid ID { get; set; } = Guid.NewGuid();
+
+            public Guid CompositionID
+            {
+                get => _compositionID;
+                set
+                {
+                    _compositionID = value;
+                    ReceivedIDs.Add(value);
+                }
+            }
+
+            public IControlModel ToModel() => null;
+            public void FromModel(IControlModel model) { }
+        }
     }
 }

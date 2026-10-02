@@ -64,7 +64,7 @@ namespace CMiX.Core.Compositing
             set
             {
                 _compositionID = value;
-                new CompositionIDAssigner(ModifierManager, value);
+                ModifierManager.CompositionID = value;
             }
         }
 
