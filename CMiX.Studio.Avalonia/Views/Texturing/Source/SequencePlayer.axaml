@@ -1,0 +1,53 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.SequencePlayer"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <StackPanel>
+
+        <Views:PathSelector
+            Margin="0,0,0,8"
+            Caption="Folder"
+            DataContext="{Binding AssetSelector}"
+            ItemsSource="{Binding AssetRepository.ImageSequences}"
+            SelectedItem="{Binding Asset}"
+            SelectsFolder="True" />
+
+        <BaseControls:IntegerValue
+            Caption="Seek Frame"
+            DataContext="{Binding SeekFrame}" />
+
+        <BaseControls:LabeledButton
+            Margin="0,8"
+            Caption="Do Seek"
+            Command="{Binding DoSeek.ClickCommand}" />
+
+        <BaseControls:DragValue
+            Caption="FPS"
+            Minimum="0.0"
+            Value="{Binding FPS.Value}" />
+
+        <BaseControls:ToggleButton
+            Caption="Play"
+            IsChecked="{Binding Play.Value}" />
+
+        <BaseControls:ToggleButton
+            Caption="Loop"
+            IsChecked="{Binding Loop.Value}" />
+
+        <BaseControls:ToggleButton
+            Margin="0,8"
+            Caption="Use Composition Resolution"
+            IsChecked="{Binding UseCompositionResolution.Value}" />
+
+        <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
+            <BaseControls:Integer2Value
+                Caption="Resolution"
+                DataContext="{Binding Resolution}" />
+        </Border>
+
+    </StackPanel>
+
+</UserControl>
