@@ -70,7 +70,7 @@ namespace CMiX.Core.Materials
             Transparency.FromModel(m.Transparency);
             BaseColor.FromModel(m.BaseColor);
             Metalness.FromModel(m.Metalness);
-            Roughness.FromModel(m.Metalness);
+            Roughness.FromModel(m.Roughness);
             Specularity.FromModel(m.Specularity);
             Glossiness.FromModel(m.Glossiness);
             Alpha.FromModel(m.Alpha);
