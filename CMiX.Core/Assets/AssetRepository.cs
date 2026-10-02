@@ -12,6 +12,7 @@ namespace CMiX.Core.Assets
         public SortableObservableCollection<Video> Videos { get; } = new();
         public SortableObservableCollection<ImageAsset> Images { get; } = new();
         public SortableObservableCollection<Geometry> Geometries { get; } = new();
+        public SortableObservableCollection<ImageSequence> ImageSequences { get; } = new();
 
         private readonly Dictionary<Type, Action<IAsset>> typeToAddAction;
 
@@ -21,7 +22,8 @@ namespace CMiX.Core.Assets
             {
                 { typeof(Video), asset => Videos.Add((Video)asset) },
                 { typeof(ImageAsset), asset => Images.Add((ImageAsset)asset) },
-                { typeof(Geometry), asset => Geometries.Add((Geometry)asset) }
+                { typeof(Geometry), asset => Geometries.Add((Geometry)asset) },
+                { typeof(ImageSequence), asset => ImageSequences.Add((ImageSequence)asset) }
             };
         }
 
@@ -35,7 +37,8 @@ namespace CMiX.Core.Assets
         {
             return Videos.FirstOrDefault(a => a.FilePath == path) as IAsset
                 ?? Images.FirstOrDefault(a => a.FilePath == path) as IAsset
-                ?? Geometries.FirstOrDefault(a => a.FilePath == path) as IAsset;
+                ?? Geometries.FirstOrDefault(a => a.FilePath == path) as IAsset
+                ?? ImageSequences.FirstOrDefault(a => a.FilePath == path) as IAsset;
         }
     }
 }

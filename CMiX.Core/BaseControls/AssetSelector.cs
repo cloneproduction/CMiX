@@ -41,6 +41,8 @@ namespace CMiX.Core.BaseControls
 
         public IAsset CreateAssetFromPath(string path)
         {
+            // A folder is an image sequence.
+            if (Directory.Exists(path)) return new ImageSequence(path);
             if (!File.Exists(path)) return null;
             if (!AssetTypes.TryResolve(path, out var kind)) return null;
 
