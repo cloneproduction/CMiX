@@ -127,6 +127,31 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Grid_ToModel_FromModel_ResolvesACountAxisAfterAnUnboundOne()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var factory = provider.GetRequiredService<ControlFactory>();
+            var grid = (GridModifier)factory.Create(typeof(GridModifier));
+            grid.ModulatorManager.AddItem(typeof(LFOModulator));
+            var lfo = (LFOModulator)grid.ModulatorManager.ManagerData.Items[0];
+            var cycles = lfo.Outputs.First(o => o.Name == "Cycles");
+
+            grid.Count.Z.SetModulatorCommand.Execute(new ModulatorOutputSelection(lfo, cycles));
+
+            var model = grid.ToModel();
+
+            var provider2 = TestServiceProviderFactory.Create();
+            var factory2 = provider2.GetRequiredService<ControlFactory>();
+            var reloaded = (GridModifier)factory2.Create(typeof(GridModifier));
+            reloaded.FromModel(model);
+
+            Assert.Null(reloaded.Count.X.BoundModulator);
+            Assert.NotNull(reloaded.Count.Z.BoundModulator);
+            Assert.Equal(lfo.ID, reloaded.Count.Z.ModulatorID);
+            Assert.Equal("Cycles", reloaded.Count.Z.BoundOutputName);
+        }
+
+        [Fact]
         public void DeletingAssignedModulator_UnassignsItFromEveryCountAxisUsingIt()
         {
             var provider = TestServiceProviderFactory.Create();
