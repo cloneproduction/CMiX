@@ -18,11 +18,7 @@
             ItemsSource="{Binding ManagerData.Items}"
             SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <!--
-                The prefab list item templates are shared with RepositoryManager.axaml
-                through Views\Managers\PrefabListItemTemplates.cs, which loads the
-                ordered template list from PrefabListItemTemplates.axaml.
-            -->
+
             <BaseControls:CMiXListBox.DataTemplates>
                 <Managers:PrefabListItemTemplates />
             </BaseControls:CMiXListBox.DataTemplates>

@@ -18,8 +18,6 @@
     <HeaderedContentControl.Header>
         <DockPanel>
 
-
-
             <StackPanel 
                 DockPanel.Dock="Right"
                 Orientation="Horizontal">
@@ -51,6 +49,7 @@
                 </Button.Content>
 
               </Button>
+              
             </StackPanel>
 
             <TextBox 
@@ -60,13 +59,9 @@
         </DockPanel>
     </HeaderedContentControl.Header>
 
-    <!--
-        The wrapper is a ControlTemplate, not a ContentTemplate. Presenting the content
-        through a DataTemplate breaks DataContext inheritance for the content in Avalonia,
-        which left the hosted views without a view model.
-    -->
     <HeaderedContentControl.Template>
         <ControlTemplate TargetType="Panels:ModifierPanel">
+          
             <Expander
                 Name="PART_Expander"
                 IsExpanded="{Binding DataContext.IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"

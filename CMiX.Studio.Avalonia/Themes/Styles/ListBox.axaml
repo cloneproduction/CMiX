@@ -13,7 +13,6 @@
     <ControlTheme x:Key="LayerListBoxItemBorderStyle" TargetType="Border">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource Shadow}" />
-        <Setter Property="BorderThickness" Value="1,0,1,1" />
         <Setter Property="Margin" Value="0" />
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
@@ -26,12 +25,10 @@
             <ControlTemplate>
                 <Border
                     Name="outerBorder"
-                    BorderBrush="{DynamicResource Grey400Brush}"
-                    BorderThickness="0.5"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
                     <DockPanel>
 
-                        <Border
+                        <!--<Border
                             Name="resizeBorder"
                             Background="{DynamicResource ListBoxBackground}"
                             DockPanel.Dock="Bottom"
@@ -43,7 +40,7 @@
                                 Opacity="0.25"
                                 IconKey="DragHandler"
                                 Size="{DynamicResource IconSizeXS}" />
-                        </Border>
+                        </Border>-->
 
                         <Border
                             Name="Bd"
@@ -66,9 +63,9 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        <Style Selector="^:pointerover /template/ Border#outerBorder">
+        <!--<Style Selector="^:pointerover /template/ Border#outerBorder">
             <Setter Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
-        </Style>
+        </Style>-->
     </ControlTheme>
 
     <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
@@ -128,43 +125,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ListBoxItemAlternationStyle" TargetType="ListBoxItem">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border Name="MainContainer" Padding="2">
-                    <Border
-                        Name="Bd"
-                        Background="Transparent"
-                        Padding="4,0,0,0"
-                        TextElement.Foreground="{DynamicResource ForegroundBrush}">
-                        <ContentPresenter
-                            Name="PART_ContentPresenter"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Border>
-                </Border>
-            </ControlTemplate>
-        </Setter>
-      
-        <Style Selector="^:nth-child(2n+1) /template/ Border#MainContainer">
-            <Setter Property="Background" Value="{DynamicResource ListBoxBackground}" />
-        </Style>
-        <Style Selector="^:pointerover /template/ Border#MainContainer">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
-        </Style>
-        <Style Selector="^:selected /template/ Border#MainContainer">
-            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
-        </Style>
-        <Style Selector="^:selected /template/ Border#Bd">
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
-        </Style>
-    </ControlTheme>
+
 
     <ControlTheme x:Key="LayerListBoxItemStyle"
                   BasedOn="{StaticResource ListBoxItemStyle}"
@@ -215,4 +176,43 @@
         </Setter>
     </ControlTheme>
 
+
+  <!--<ControlTheme x:Key="ListBoxItemAlternationStyle" TargetType="ListBoxItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="MainContainer" Padding="2">
+                    <Border
+                        Name="Bd"
+                        Background="Transparent"
+                        Padding="4,0,0,0"
+                        TextElement.Foreground="{DynamicResource ForegroundBrush}">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+      
+        <Style Selector="^:nth-child(2n+1) /template/ Border#MainContainer">
+            <Setter Property="Background" Value="{DynamicResource ListBoxBackground}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#MainContainer">
+            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        </Style>
+        <Style Selector="^:selected /template/ Border#MainContainer">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+        <Style Selector="^:selected /template/ Border#Bd">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
+        </Style>
+    </ControlTheme>-->
+  
 </ResourceDictionary>

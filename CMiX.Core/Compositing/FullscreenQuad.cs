@@ -60,8 +60,6 @@ namespace CMiX.Core.Compositing
             TransformTexture.FromModel(m.TransformTexture);
         }
 
-        // FullscreenQuad owns its texture directly, the same way Entity owns Texture and Material.
-        // Texture itself is not disposable, so this reaches into each texture slot's own manager.
         public void Dispose() => DisposeAll(Texture.DiffuseTexture.TextureManager, Texture.MaskTexture.TextureManager);
     }
 }

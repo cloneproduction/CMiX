@@ -170,81 +170,82 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>    </ControlTheme>
 
-    <ControlTheme x:Key="IndentedExpanderStyleHeaderStyle" TargetType="ToggleButton">
+      <ControlTheme x:Key="IndentedExpanderStyleHeaderStyle" TargetType="ToggleButton">
         <Setter Property="Focusable" Value="False" />
+        <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel1Brush}" />
         <Setter Property="Template">
-            <ControlTemplate>
-                <Border
-                    Name="mainBorder"
-                    Background="{DynamicResource PanelBackgroundLevel1Brush}"
-                    Height="{DynamicResource ControlHeightXL}"
+          <ControlTemplate>
+            <Border
+                Name="mainBorder"
+                Background="{TemplateBinding Background}"
+                Height="{DynamicResource ControlHeightXL}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center">
+              <DockPanel >
+                <Controls:AppIcon
+                    Name="image"
+                    Margin="4, 0"
+                    Opacity="0.75"
+                    IconKey="ChevronRight"
+                    Size="{DynamicResource IconSizeXS}" />
+                <ContentPresenter
+                    Name="PART_ContentPresenter"
+                    Content="{TemplateBinding Content}"
+                    ContentTemplate="{TemplateBinding ContentTemplate}"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center">
-                    <DockPanel >
-                        <Controls:AppIcon
-                            Name="image"
-                            Margin="4, 0"
-                            Opacity="0.75"
-                            IconKey="ChevronRight"
-                            Size="{DynamicResource IconSizeXS}" />
-                        <ContentPresenter
-                            Name="PART_ContentPresenter"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,0"
-                            RecognizesAccessKey="True"
-                            VerticalAlignment="Center" />
-                    </DockPanel>
-                </Border>
-            </ControlTemplate>
+                    Margin="0,0"
+                    RecognizesAccessKey="True"
+                    VerticalAlignment="Center" />
+              </DockPanel>
+            </Border>
+          </ControlTemplate>
         </Setter>
 
         <Style Selector="^:checked /template/ Controls|AppIcon#image">
-            <Setter Property="IconKey" Value="ChevronDown" />
+          <Setter Property="IconKey" Value="ChevronDown" />
         </Style>
-    </ControlTheme>
+      </ControlTheme>
 
-    <ControlTheme x:Key="{x:Type Panels:IndentedExpander}" TargetType="Panels:IndentedExpander">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Template">
-            <ControlTemplate>
+  <ControlTheme x:Key="{x:Type Panels:IndentedExpander}" TargetType="Panels:IndentedExpander">
+    <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel1Brush}" />
+    <!-- CHANGED: was Transparent -->
+    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border>
+          <Border Background="Transparent">
+            <DockPanel>
+              <ToggleButton
+                  Name="PART_toggle"
+                  AttachedProperties:ExpanderIndentation.Indentation="{TemplateBinding Indentation}"
+                  Background="{TemplateBinding Background}"                       
+                  Content="{TemplateBinding Header}"
+                  DockPanel.Dock="Top"
+                  Foreground="{DynamicResource ForegroundBrush}"
+                  HorizontalContentAlignment="Stretch"
+                  IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                  Theme="{StaticResource IndentedExpanderStyleHeaderStyle}"
+                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
               <Border
-                    BorderBrush="{DynamicResource PanelBorderBackground}"
-                    BorderThickness="0,1,0,0">
-                    <Border Background="Transparent">
-                        <DockPanel>
-                            <ToggleButton
-                                Name="PART_toggle"
-                                AttachedProperties:ExpanderIndentation.Indentation="{TemplateBinding Indentation}"
-                                Content="{TemplateBinding Header}"
-                                DockPanel.Dock="Top"
-                                Foreground="{DynamicResource ForegroundBrush}"
-                                HorizontalContentAlignment="Stretch"
-                                IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
-                                Theme="{StaticResource IndentedExpanderStyleHeaderStyle}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            <Border
-                                Name="contentBackground"
-                                Background="{DynamicResource PanelBackgroundLevel1Brush}"
-                                HorizontalAlignment="Stretch">
-                                <ContentPresenter
-                                    Name="PART_ContentPresenter"
-                                    Content="{TemplateBinding Content}"
-                                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                                    Focusable="False"
-                                    HorizontalAlignment="Stretch"
-                                    IsVisible="{TemplateBinding IsExpanded}"
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            </Border>
-                        </DockPanel>
-                    </Border>
-                </Border>
-            </ControlTemplate>
-        </Setter>
-    </ControlTheme>
+                  Name="contentBackground"
+                  Background="{TemplateBinding Background}"
+                  HorizontalAlignment="Stretch">
+                <ContentPresenter
+                    Name="PART_ContentPresenter"
+                    Content="{TemplateBinding Content}"
+                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                    Focusable="False"
+                    HorizontalAlignment="Stretch"
+                    IsVisible="{TemplateBinding IsExpanded}"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+              </Border>
+            </DockPanel>
+          </Border>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
 
 </ResourceDictionary>

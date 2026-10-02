@@ -27,27 +27,25 @@ namespace CMiX.Core.Compositing
             PrefabService = prefabService;
             Mesh = mesh;
             TransformSRT = transformSRT;
-            MaterialSelector = materialSelector;
+            
             ModifierManager = modifierManager;
             Color = color;
             Texture = texture;
             Material = material;
-            // MaterialSelector has no added-item event to watch, only a change notification, and
-            // that notification does not fire when a project load sets the material directly. So
-            // the initial material is stamped by the CompositionID setter below instead, and this
-            // handler only has to catch a material picked or swapped in afterward, live.
-            MaterialSelector.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(PrefabSelector.SelectedItem) &&
-                    MaterialSelector.SelectedItem is IHasCompositionID material)
-                    material.CompositionID = _compositionID;
-            };
+
+            //MaterialSelector = materialSelector;
+            //MaterialSelector.PropertyChanged += (s, e) =>
+            //{
+            //    if (e.PropertyName == nameof(PrefabSelector.SelectedItem) &&
+            //        MaterialSelector.SelectedItem is IHasCompositionID material)
+            //        material.CompositionID = _compositionID;
+            //};
         }
 
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
-        public PrefabSelector MaterialSelector { get; set; }
+        //public PrefabSelector MaterialSelector { get; set; }
         public TransformSRT TransformSRT { get; set; }
         public Mesh Mesh { get; set; }
         public Color Color { get; set; }
@@ -63,8 +61,8 @@ namespace CMiX.Core.Compositing
             {
                 _compositionID = value;
                 new CompositionIDAssigner(ModifierManager, value);
-                if (MaterialSelector.SelectedItem is IHasCompositionID material)
-                    material.CompositionID = value;
+                //if (MaterialSelector.SelectedItem is IHasCompositionID material)
+                //    material.CompositionID = value;
                 Texture.CompositionID = value;
             }
         }
@@ -92,10 +90,10 @@ namespace CMiX.Core.Compositing
             TransformSRT = (TransformSRTModel)TransformSRT.ToModel(),
             Color = (ColorModel)Color.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
-            MaterialSelector = (PrefabSelectorModel)MaterialSelector.ToModel(),
+            //MaterialSelector = (PrefabSelectorModel)MaterialSelector.ToModel(),
             Texture = (TextureModel)Texture.ToModel(),
             Material = (MaterialModel)Material.ToModel(),
-        };
+        };  
 
         public void FromModel(IControlModel model)
         {
@@ -109,13 +107,14 @@ namespace CMiX.Core.Compositing
             Material.FromModel(m.Material);
 
             LoadManager(ModifierManager, m.ModifierManager);
-            MaterialSelector.FromModel(m.MaterialSelector);
+            //MaterialSelector.FromModel(m.MaterialSelector);
         }
 
-        // The entity owns its material and its texture directly. No manager holds them, so only
-        // this call disposes them. Texture is not disposable, so the entity disposes the manager
-        // of each texture slot, the same way Material does.
-        public void Dispose() => DisposeAll(ModifierManager, Mesh, MaterialSelector, Material,
-                                            Texture.DiffuseTexture.TextureManager, Texture.MaskTexture.TextureManager);
+        public void Dispose()
+        {
+
+        }
+        //public void Dispose() => DisposeAll(ModifierManager, Mesh, MaterialSelector, Material,
+        //                                    Texture.DiffuseTexture.TextureManager, Texture.MaskTexture.TextureManager);
     }
 }
