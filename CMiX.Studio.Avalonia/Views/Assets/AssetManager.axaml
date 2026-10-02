@@ -173,6 +173,35 @@
 
                 </ListBox>
             </Expander>
+            <Expander
+                Header="Image Sequences"
+                IsExpanded="True">
+                <ListBox
+                    x:Name="imageSequencesListBox"
+                    Background="Transparent"
+                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
+                    ItemsSource="{Binding AssetRepository.ImageSequences}"
+                    SelectionMode="Multiple">
+
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        </Style>
+                    </ListBox.Styles>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Height="{DynamicResource ControlHeightSM}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+            </Expander>
         </StackPanel>
     </Border>
 </UserControl>

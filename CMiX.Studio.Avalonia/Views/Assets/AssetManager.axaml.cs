@@ -20,7 +20,7 @@ namespace CMiX.Studio.Avalonia.Views
         {
             InitializeComponent();
 
-            foreach (var target in new Control[] { dropBorder, imagesListBox, videosListBox, geometriesListBox })
+            foreach (var target in new Control[] { dropBorder, imagesListBox, videosListBox, geometriesListBox, imageSequencesListBox })
             {
                 DragDrop.SetAllowDrop(target, true);
                 target.AddHandler(DragDrop.DragOverEvent, OnDragOver);
