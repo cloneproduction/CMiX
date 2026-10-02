@@ -27,9 +27,15 @@
         <Views:Transform2D
             DataContext="{Binding Transform2D}" />
 
-        <BaseControls:Integer2Value
-            Caption="Resolution"
-            DataContext="{Binding Resolution}" />
+        <BaseControls:ToggleButton
+            Caption="Use Composition Resolution"
+            IsChecked="{Binding UseCompositionResolution.Value}" />
+
+        <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
+            <BaseControls:Integer2Value
+                Caption="Resolution"
+                DataContext="{Binding Resolution}" />
+        </Border>
 
     </StackPanel>
 

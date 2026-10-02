@@ -27,6 +27,17 @@
             Caption="Play"
             IsChecked="{Binding Play.Value}" />
 
+        <BaseControls:ToggleButton
+            Margin="0,8"
+            Caption="Use Composition Resolution"
+            IsChecked="{Binding UseCompositionResolution.Value}" />
+
+        <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
+            <BaseControls:Integer2Value
+                Caption="Resolution"
+                DataContext="{Binding Resolution}" />
+        </Border>
+
     </StackPanel>
 
 </UserControl>

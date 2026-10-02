@@ -30,9 +30,16 @@
             Caption="Horizontal"
             IsChecked="{Binding Horizontal.Value}" />
 
-        <BaseControl:Integer2Value
-            Caption="Resolution"
-            DataContext="{Binding Resolution}" />
+        <BaseControl:ToggleButton
+            Margin="0,0,0,8"
+            Caption="Use Composition Resolution"
+            IsChecked="{Binding UseCompositionResolution.Value}" />
+
+        <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
+            <BaseControl:Integer2Value
+                Caption="Resolution"
+                DataContext="{Binding Resolution}" />
+        </Border>
 
     </StackPanel>
 
