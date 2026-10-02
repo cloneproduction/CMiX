@@ -109,6 +109,29 @@ namespace CMiX.Core.Tests
             Assert.Equal(beforeTheTexture, repository.DeleterCount);
         }
 
+        [Fact]
+        public void DroppingADeletedEntity_UnregistersItsNestedManagers()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var entityManager = provider.GetRequiredService<PrefabManager>();
+
+            var beforeTheEntity = repository.DeleterCount;
+
+            entityManager.AddItem(typeof(Entity));
+            var entity = (Entity)entityManager.SelectedItem;
+
+            Assert.Same(entity, repository.GetControl(entity.ID));
+            Assert.True(repository.DeleterCount > beforeTheEntity);
+
+            entityManager.DeleteItem(entity);
+            undoManager.Clear();
+
+            Assert.Null(repository.GetControl(entity.ID));
+            Assert.Equal(beforeTheEntity, repository.DeleterCount);
+        }
+
         private static void AddAndDropALayer(Composition composition, UndoManager undoManager)
         {
             composition.LayerManager.AddItem(typeof(Layer));
