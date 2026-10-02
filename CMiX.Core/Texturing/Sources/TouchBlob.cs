@@ -18,17 +18,15 @@ namespace CMiX.Core.Texturing.Sources
                          GenericValue<float> size,
                          GenericValue<string> color,
                          GenericValue<string> background)
-            : base(prefabService, textureModifierManager)
+            : base(prefabService, textureModifierManager, useCompositionResolution)
         {
             Resolution = resolution;
-            UseCompositionResolution = useCompositionResolution;
             Size = size;
             Color = color;
             Background = background;
         }
 
         public Integer2 Resolution { get; set; }
-        public GenericValue<bool> UseCompositionResolution { get; set; }
         public GenericValue<float> Size { get; set; }
         public GenericValue<string> Color { get; set; }
         public GenericValue<string> Background { get; set; }
@@ -38,7 +36,6 @@ namespace CMiX.Core.Texturing.Sources
             var model = new TouchBlobModel
             {
                 Resolution = (Integer2Model)Resolution.ToModel(),
-                UseCompositionResolution = (GenericValueModel<bool>)UseCompositionResolution.ToModel(),
                 Size = (GenericValueModel<float>)Size.ToModel(),
                 Color = (GenericValueModel<string>)Color.ToModel(),
                 Background = (GenericValueModel<string>)Background.ToModel()
@@ -52,7 +49,6 @@ namespace CMiX.Core.Texturing.Sources
             var m = (TouchBlobModel)model;
             LoadBaseModel(m);
             Resolution.FromModel(m.Resolution);
-            UseCompositionResolution.FromModel(m.UseCompositionResolution);
             Size.FromModel(m.Size);
             Color.FromModel(m.Color);
             Background.FromModel(m.Background);

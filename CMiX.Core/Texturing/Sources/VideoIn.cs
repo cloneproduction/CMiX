@@ -16,26 +16,23 @@ namespace CMiX.Core.Texturing.Sources
                        GenericValue<int> sizeX,
                        GenericValue<int> sizeZ,
                        GenericValue<bool> useCompositionResolution)
-            : base(prefabService, textureModifierManager)
+            : base(prefabService, textureModifierManager, useCompositionResolution)
         {
             SizeX = sizeX;
             SizeY = sizeZ;
             Resolution = new Integer2(sizeX, sizeZ);
-            UseCompositionResolution = useCompositionResolution;
         }
 
         public GenericValue<int> SizeX { get; set; }
         public GenericValue<int> SizeY { get; set; }
         public Integer2 Resolution { get; set; }
-        public GenericValue<bool> UseCompositionResolution { get; set; }
 
         public override IControlModel ToModel()
         {
             var model = new VideoInModel
             {
                 SizeX = (GenericValueModel<int>)SizeX.ToModel(),
-                SizeY = (GenericValueModel<int>)SizeY.ToModel(),
-                UseCompositionResolution = (GenericValueModel<bool>)UseCompositionResolution.ToModel()
+                SizeY = (GenericValueModel<int>)SizeY.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -47,7 +44,6 @@ namespace CMiX.Core.Texturing.Sources
             LoadBaseModel(m);
             SizeX.FromModel(m.SizeX);
             SizeY.FromModel(m.SizeY);
-            UseCompositionResolution.FromModel(m.UseCompositionResolution);
         }
     }
 }

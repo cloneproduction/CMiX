@@ -1,4 +1,4 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -9,23 +9,21 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    // Every texture source shares this exact shape (ID, PrefabService, TextureModifierManager,
-    // isExpanded, and the same Dispose/load-manager plumbing) with no exceptions across the
-    // whole family, so it lives here once instead of being copy-pasted into each source. Each
-    // source still owns its own Model type, its own Resolution/AssetSelector (from
-    // ITextureSource/IAssetTextureSource, not universal enough to belong here), and its own
-    // extra fields - PopulateBaseModel/LoadBaseModel only take care of the shared three.
     public abstract partial class TextureSourceBase : ObservableObject, ITextureModifiable, IHasCompositionID, IDisposable
     {
-        protected TextureSourceBase(PrefabService prefabService, PrefabManager textureModifierManager)
+        protected TextureSourceBase(PrefabService prefabService,
+                                    PrefabManager textureModifierManager,
+                                    GenericValue<bool> useCompositionResolution)
         {
             PrefabService = prefabService;
             TextureModifierManager = textureModifierManager;
+            UseCompositionResolution = useCompositionResolution;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public PrefabManager TextureModifierManager { get; set; }
+        public GenericValue<bool> UseCompositionResolution { get; set; }
 
         private Guid _compositionID;
         public Guid CompositionID
@@ -41,8 +39,6 @@ namespace CMiX.Core.Texturing.Sources
         [ObservableProperty]
         private bool isExpanded = true;
 
-        // The filter modifiers are reachable through this manager alone, so a texture torn down
-        // without disposing it leaves their repository and their deleter registrations behind.
         public void Dispose() => DisposeAll(TextureModifierManager);
 
         protected void PopulateBaseModel(ITextureSourceModel model)
@@ -50,6 +46,7 @@ namespace CMiX.Core.Texturing.Sources
             model.ID = ID;
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
             model.TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel();
+            model.UseCompositionResolution = (GenericValueModel<bool>)UseCompositionResolution.ToModel();
         }
 
         protected void LoadBaseModel(ITextureSourceModel model)
@@ -57,6 +54,7 @@ namespace CMiX.Core.Texturing.Sources
             ID = model.ID;
             PrefabService.FromModel(model.PrefabService);
             LoadManager(TextureModifierManager, model.TextureModifierManager);
+            UseCompositionResolution.FromModel(model.UseCompositionResolution);
         }
 
         public abstract IControlModel ToModel();

@@ -23,7 +23,7 @@ namespace CMiX.Core.Texturing.Sources
                           Integer2 resolution,
                           GenericValue<bool> useCompositionResolution,
                           Vector2 position)
-            : base(prefabService, textureModifierManager)
+            : base(prefabService, textureModifierManager, useCompositionResolution)
         {
             StringControl = stringControl;
             FontFamily = fontFamily;
@@ -32,7 +32,6 @@ namespace CMiX.Core.Texturing.Sources
             FontColor = fontColor;
             BackgroundColor = backgroundColor;
             Resolution = resolution;
-            UseCompositionResolution = useCompositionResolution;
             Position = position;
         }
 
@@ -43,7 +42,6 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<string> FontColor { get; set; }
         public GenericValue<string> BackgroundColor { get; set; }
         public Integer2 Resolution { get; set; }
-        public GenericValue<bool> UseCompositionResolution { get; set; }
         public Vector2 Position { get; set; }
 
         public override IControlModel ToModel()
@@ -54,7 +52,6 @@ namespace CMiX.Core.Texturing.Sources
                 FontColor = (GenericValueModel<string>)FontColor.ToModel(),
                 BackgroundColor = (GenericValueModel<string>)BackgroundColor.ToModel(),
                 Resolution = (Integer2Model)Resolution.ToModel(),
-                UseCompositionResolution = (GenericValueModel<bool>)UseCompositionResolution.ToModel(),
                 Position = (Vector2Model)Position.ToModel(),
                 FontSize = (GenericValueModel<float>)FontSize.ToModel(),
                 FontFamily = (GenericValueModel<string>)FontFamily.ToModel(),
@@ -72,7 +69,6 @@ namespace CMiX.Core.Texturing.Sources
             FontColor.FromModel(m.FontColor);
             BackgroundColor.FromModel(m.BackgroundColor);
             Resolution.FromModel(m.Resolution);
-            UseCompositionResolution.FromModel(m.UseCompositionResolution);
             Position.FromModel(m.Position);
             FontSize.FromModel(m.FontSize);
             FontFamily.FromModel(m.FontFamily);

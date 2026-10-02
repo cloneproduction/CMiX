@@ -21,10 +21,9 @@ namespace CMiX.Core.Texturing.Sources
                             GenericValue<string> colorA,
                             GenericValue<string> colorB,
                             Transform2D transform2D)
-            : base(prefabService, textureModifierManager)
+            : base(prefabService, textureModifierManager, useCompositionResolution)
         {
             Resolution = resolution;
-            UseCompositionResolution = useCompositionResolution;
             ColorA = colorA;
             ColorB = colorB;
             CellCount = cellCount;
@@ -32,7 +31,6 @@ namespace CMiX.Core.Texturing.Sources
         }
 
         public Integer2 Resolution { get; set; }
-        public GenericValue<bool> UseCompositionResolution { get; set; }
         public Transform2D Transform2D { get; set; }
         public Vector2 CellCount { get; set; }
         public GenericValue<string> ColorA { get; set; }
@@ -43,7 +41,6 @@ namespace CMiX.Core.Texturing.Sources
             var model = new CheckerBoardModel
             {
                 Resolution = (Integer2Model)Resolution.ToModel(),
-                UseCompositionResolution = (GenericValueModel<bool>)UseCompositionResolution.ToModel(),
                 Transform2D = (Transform2DModel)Transform2D.ToModel(),
                 CellCount = (Vector2Model)CellCount.ToModel(),
                 ColorA = (GenericValueModel<string>)ColorA.ToModel(),
@@ -58,7 +55,6 @@ namespace CMiX.Core.Texturing.Sources
             var m = (CheckerBoardModel)model;
             LoadBaseModel(m);
             Resolution.FromModel(m.Resolution);
-            UseCompositionResolution.FromModel(m.UseCompositionResolution);
             Transform2D.FromModel(m.Transform2D);
             CellCount.FromModel(m.CellCount);
             ColorA.FromModel(m.ColorA);
