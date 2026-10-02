@@ -96,11 +96,7 @@ namespace CMiX.Core.Prefabs.Managers
                     if (Collection.ManagerData.Items.Contains(value))
                         SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
                 }
-                finally
-                {
-                    _isApplyingSelection = false;
-                    OnPropertyChanged(nameof(SelectedItem));
-                }
+                finally { _isApplyingSelection = false; }
             }
         }
 

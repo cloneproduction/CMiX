@@ -4,6 +4,7 @@
 using System.Collections;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Threading;
 using CMiX.Core;
 using CMiX.Core.Prefabs.Managers;
@@ -40,8 +41,10 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DataContext is not PrefabManagerBase selector) return;
-            var newItem = (sender as ComboBox)?.SelectedItem as IControl;
-            if (newItem == null) return;
+            // Not ComboBox: this namespace has its own ComboBox class, so that cast always gives null.
+            var newItem = (sender as SelectingItemsControl)?.SelectedItem as IControl;
+            // An item equal to the current selection is the binding echoing back, not a pick. Posting it can loop.
+            if (newItem == null || ReferenceEquals(newItem, selector.SelectedItem)) return;
             Dispatcher.UIThread.Post(() => selector.SelectedItem = newItem);
         }
 
