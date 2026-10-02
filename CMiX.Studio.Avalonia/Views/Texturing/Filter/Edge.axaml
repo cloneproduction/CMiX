@@ -12,14 +12,14 @@
         <Controls:ModulatableFloatSlider
             Caption="Radius"
             DataContext="{Binding Radius}"
-            Maximum="10"
+            Maximum="1"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=edge}" />
 
         <Controls:ModulatableFloatSlider
             Caption="Brightness"
             DataContext="{Binding Brightness}"
-            Maximum="10"
+            Maximum="1"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=edge}" />
 
