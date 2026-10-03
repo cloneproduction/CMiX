@@ -204,7 +204,7 @@ namespace CMiX.Core.Prefabs
             match.Action?.Invoke(control);
         }
 
-        private static int GetRenderPriority(IControl c) => c switch
+        public static int GetRenderPriority(IControl c) => c switch
         {
             Project => 0,
             Composition => 1,
