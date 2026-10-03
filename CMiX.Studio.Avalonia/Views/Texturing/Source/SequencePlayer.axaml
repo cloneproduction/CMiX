@@ -3,12 +3,13 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel>
+  <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Views:PathSelector
-            Margin="0,0,0,8"
             Caption="Folder"
             DataContext="{Binding AssetSelector}"
             ItemsSource="{Binding AssetRepository.ImageSequences}"
@@ -20,7 +21,6 @@
             DataContext="{Binding SeekFrame}" />
 
         <BaseControls:LabeledButton
-            Margin="0,8"
             Caption="Do Seek"
             Command="{Binding DoSeek.ClickCommand}" />
 
@@ -38,7 +38,6 @@
             IsChecked="{Binding Loop.Value}" />
 
         <BaseControls:ToggleButton
-            Margin="0,8"
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}" />
 
