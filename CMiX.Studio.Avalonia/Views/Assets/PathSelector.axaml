@@ -1,4 +1,4 @@
-﻿<UserControl
+<Controls:CaptionedUserControl
     x:Class="CMiX.Studio.Avalonia.Views.PathSelector"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,19 +8,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <Grid Height="{DynamicResource ControlHeightMD}">
+    <Controls:LabeledContent Caption="{Binding Caption, ElementName=pathSelector}">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40*" />
-            <ColumnDefinition Width="60*" />
-        </Grid.ColumnDefinitions>
-
-        <TextBlock
-            Margin="0,0,8,0"
-            HorizontalAlignment="Right"
-            Text="Filename" />
-
-        <DockPanel Grid.Column="1">
+        <DockPanel>
 
             <Button
                 Margin="1,0,0,0"
@@ -58,6 +48,9 @@
 
                 </ComboBox>
             </Border>
+
         </DockPanel>
-    </Grid>
-</UserControl>
+
+    </Controls:LabeledContent>
+
+</Controls:CaptionedUserControl>

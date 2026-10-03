@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
@@ -13,13 +14,19 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using CMiX.Core.Assets;
 using CMiX.Core.BaseControls;
+using CMiX.Studio.Avalonia.Views.Controls;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class PathSelector : UserControl
+    public partial class PathSelector : CaptionedUserControl
     {
+        static PathSelector()
+        {
+            CaptionProperty.OverrideDefaultValue<PathSelector>("Filename");
+        }
+
         public PathSelector()
         {
             InitializeComponent();
@@ -46,7 +53,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             var assets = (e.Data.GetFiles() ?? Enumerable.Empty<IStorageItem>())
                 .Select(f => f.TryGetLocalPath())
-                .Where(p => p != null && File.Exists(p))
+                .Where(p => p != null && (SelectsFolder ? Directory.Exists(p) : File.Exists(p)))
                 .Select(assetSelector.CreateAssetFromPath)
                 .Where(a => a != null)
                 .ToList();
@@ -67,16 +74,36 @@ namespace CMiX.Studio.Avalonia.Views
             if (DataContext is not AssetSelector assetSelector)
                 return;
 
+            var path = SelectsFolder ? await BrowseFolder(assetSelector) : await BrowseFile(assetSelector);
+            if (string.IsNullOrWhiteSpace(path))
+                return;
+
+            assetSelector.SetAssetFromPath(path);
+        }
+
+        private static async Task<string?> BrowseFile(AssetSelector assetSelector)
+        {
             var file = await App.DialogService!.ShowOpenFileDialogAsync(assetSelector, new OpenFileDialogSettings
             {
                 Filters = new List<FileFilter> { new FileFilter("Assets", AssetTypes.AllExtensions) }
             });
 
-            var path = file?.LocalPath;
-            if (string.IsNullOrWhiteSpace(path))
-                return;
+            return file?.LocalPath;
+        }
 
-            assetSelector.SetAssetFromPath(path);
+        private static async Task<string?> BrowseFolder(AssetSelector assetSelector)
+        {
+            var folder = await App.DialogService!.ShowOpenFolderDialogAsync(assetSelector, new OpenFolderDialogSettings());
+
+            return folder?.LocalPath;
+        }
+
+        public static readonly StyledProperty<bool> SelectsFolderProperty =
+            AvaloniaProperty.Register<PathSelector, bool>(nameof(SelectsFolder));
+        public bool SelectsFolder
+        {
+            get => GetValue(SelectsFolderProperty);
+            set => SetValue(SelectsFolderProperty, value);
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
