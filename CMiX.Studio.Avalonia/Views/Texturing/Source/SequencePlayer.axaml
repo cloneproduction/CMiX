@@ -10,7 +10,7 @@
   <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <Views:PathSelector
-            Caption="Folder"
+            Caption="Image Folder"
             DataContext="{Binding AssetSelector}"
             ItemsSource="{Binding AssetRepository.ImageSequences}"
             SelectedItem="{Binding Asset}"

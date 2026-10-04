@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var pathSelector = view.GetVisualDescendants().OfType<PathSelector>().Single();
 
             Assert.True(pathSelector.SelectsFolder);
-            Assert.Equal("Folder", pathSelector.Caption);
+            Assert.Equal("Image Folder", pathSelector.Caption);
             Assert.Same(player.AssetSelector.AssetRepository.ImageSequences, pathSelector.ItemsSource);
         }
 
