@@ -52,6 +52,7 @@ namespace CMiX.Core.Compositing
                 _compositionID = value;
                 ModifierManager.CompositionID = value;
                 Texture.CompositionID = value;
+                Material.CompositionID = value;
             }
         }
 
