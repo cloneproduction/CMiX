@@ -14,7 +14,7 @@
     d:DesignWidth="400">
 
     <HeaderedContentControl.Header>
-        <StackPanel>
+        <StackPanel Spacing="{DynamicResource SpacingMD}">
 
           <Views:ModifierManager 
             Caption="Add Modulator"
@@ -28,7 +28,6 @@
           </Views:ModifierManager>
           
           <Panels:IndentedExpander 
-            Margin="0, 8, 0, 0"
             Background="{DynamicResource Grey300Brush}">
 
             <Panels:IndentedExpander.Header>
@@ -62,7 +61,7 @@
                     Value="{Binding Blend.Opacity.Value}"
                     ResetCommand="{Binding Blend.Opacity.ResetCommand}" />
 
-                <Controls:ComboBox
+                <Controls:CaptionedComboBox
                     Caption="Blend Mode"
                     ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
                     SelectedItem="{Binding Blend.BlendMode.Value}" />
@@ -78,7 +77,7 @@
     <HeaderedContentControl.Template>
         <ControlTemplate TargetType="Views:FilterPanel">
 
-            <StackPanel>
+            <StackPanel Spacing="4">
 
                 <ContentPresenter
                     Content="{TemplateBinding Content}"

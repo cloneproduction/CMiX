@@ -12,18 +12,17 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
-using AvaloniaComboBox = Avalonia.Controls.ComboBox;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class ComboBox : CaptionedUserControl
+    public partial class CaptionedComboBox : CaptionedUserControl
     {
-        private AvaloniaComboBox? _innerComboBox;
+        private ComboBox? _innerComboBox;
 
-        public ComboBox()
+        public CaptionedComboBox()
         {
             InitializeComponent();
-            _innerComboBox = this.FindControl<AvaloniaComboBox>("innerComboBox");
+            _innerComboBox = this.FindControl<ComboBox>("innerComboBox");
 
             _innerComboBox?.AddHandler(PointerWheelChangedEvent, OnInnerPointerWheelChanged, RoutingStrategies.Tunnel);
             _innerComboBox?.AddHandler(PointerPressedEvent, OnInnerPointerPressed, RoutingStrategies.Tunnel);
@@ -44,9 +43,9 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         // is done explicitly here.
         private INotifyCollectionChanged? _observedItemsSource;
 
-        static ComboBox()
+        static CaptionedComboBox()
         {
-            ItemsSourceProperty.Changed.AddClassHandler<ComboBox>((comboBox, e) => comboBox.OnItemsSourceChanged(e));
+            ItemsSourceProperty.Changed.AddClassHandler<CaptionedComboBox>((comboBox, e) => comboBox.OnItemsSourceChanged(e));
         }
 
         // A bound ObservableCollection whose contents mutate in place (Clear then re-Add, as
@@ -114,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
-            AvaloniaProperty.Register<ComboBox, IEnumerable>(nameof(ItemsSource));
+            AvaloniaProperty.Register<CaptionedComboBox, IEnumerable>(nameof(ItemsSource));
         public IEnumerable ItemsSource
         {
             get => GetValue(ItemsSourceProperty);
@@ -126,7 +125,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         // changing after the item is rendered. Set this when items carry an editable display
         // value (e.g. a Name) so the dropdown stays live.
         public static readonly StyledProperty<IDataTemplate> ItemTemplateProperty =
-            AvaloniaProperty.Register<ComboBox, IDataTemplate>(nameof(ItemTemplate));
+            AvaloniaProperty.Register<CaptionedComboBox, IDataTemplate>(nameof(ItemTemplate));
         public IDataTemplate ItemTemplate
         {
             get => GetValue(ItemTemplateProperty);
@@ -134,7 +133,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<object?> SelectedItemProperty =
-            AvaloniaProperty.Register<ComboBox, object?>(nameof(SelectedItem), null, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<CaptionedComboBox, object?>(nameof(SelectedItem), null, defaultBindingMode: BindingMode.TwoWay);
         public object? SelectedItem
         {
             get => GetValue(SelectedItemProperty);
@@ -145,7 +144,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         // with a trailing button lines up with a plain one - see DragValue.TrailingContent for
         // the same mechanism on the other value editors.
         public static readonly StyledProperty<object> TrailingContentProperty =
-            AvaloniaProperty.Register<ComboBox, object>(nameof(TrailingContent));
+            AvaloniaProperty.Register<CaptionedComboBox, object>(nameof(TrailingContent));
         public object TrailingContent
         {
             get => GetValue(TrailingContentProperty);
@@ -196,7 +195,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private void OnInnerComboBoxPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
         {
-            if (e.Property == AvaloniaComboBox.IsDropDownOpenProperty && e.NewValue is false)
+            if (e.Property == ComboBox.IsDropDownOpenProperty && e.NewValue is false)
                 _innerComboBox?.Focus();
         }
     }

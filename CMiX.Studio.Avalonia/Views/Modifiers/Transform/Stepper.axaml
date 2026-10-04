@@ -29,7 +29,7 @@
                 Margin="0, 8"
                 IsChecked="{Binding PingPong.Value}" />
 
-            <BaseControls:ComboBox
+            <BaseControls:CaptionedComboBox
                 Caption="Transform"
                 SelectedItem="{Binding TransformType.Value}"
                 ItemsSource="{x:Static Resources:EnumProviders.TransformType}" />

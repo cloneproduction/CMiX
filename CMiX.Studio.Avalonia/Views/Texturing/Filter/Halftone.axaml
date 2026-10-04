@@ -12,7 +12,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Controls:ComboBox
+        <Controls:CaptionedComboBox
             Caption="Mode"
             ItemsSource="{x:Static Resources:EnumProviders.HalftoneMode}"
             SelectedItem="{Binding Mode.Value}" />

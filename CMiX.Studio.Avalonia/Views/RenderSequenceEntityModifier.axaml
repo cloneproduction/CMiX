@@ -19,7 +19,7 @@
             DataContext="{Binding Control}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=renderSequenceEntityModifier}" />
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="Entity Type"
             ItemsSource="{x:Static Resources:EnumProviders.EntityType}"
             SelectedItem="{Binding EntityType.Value}" />

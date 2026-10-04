@@ -17,7 +17,7 @@
             Minimum="0.0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=invert}" />
 
-        <Basecontrol:ComboBox
+        <Basecontrol:CaptionedComboBox
             Margin="0,8"
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.InvertChannel}"

@@ -9,7 +9,7 @@
 
     <StackPanel>
 
-        <Controls:ComboBox
+        <Controls:CaptionedComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.KuwaharaType}"
             SelectedItem="{Binding Type.Value}" />

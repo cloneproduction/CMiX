@@ -9,12 +9,12 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="Mask Mode"
             ItemsSource="{x:Static Resources:EnumProviders.MaskMode}"
             SelectedItem="{Binding LayerMaskSettings.MaskMode.Value}" />
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
             SelectedItem="{Binding LayerMaskSettings.MaskChannel.Value}" />

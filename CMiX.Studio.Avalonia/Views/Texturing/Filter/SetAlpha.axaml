@@ -10,7 +10,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.AlphaChannel}"
             SelectedItem="{Binding AlphaChannel.Value}" />

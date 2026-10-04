@@ -16,7 +16,7 @@
 
         <Views:DiffuseTexture />
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Margin="8,0"
             Caption="MaskChannel"
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"

@@ -43,22 +43,22 @@
                 </Panels:PositionedStackPanel>
 
                 <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-                    <BaseControls:ComboBox
+                    <BaseControls:CaptionedComboBox
                         Caption="Font Family"
                         ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                         SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
-                    <BaseControls:ComboBox
+                    <BaseControls:CaptionedComboBox
                         Caption="Style"
                         ItemsSource="{x:Static Resources:EnumProviders.FontStyle}"
                         SelectedItem="{Binding Style.Value}" />
                 </Panels:PositionedStackPanel>
 
                 <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-                    <BaseControls:ComboBox
+                    <BaseControls:CaptionedComboBox
                         Caption="Horizontal Alignment"
                         ItemsSource="{x:Static Resources:EnumProviders.TextHorizontalAlignment}"
                         SelectedItem="{Binding HorizontalAlignment.Value}" />
-                    <BaseControls:ComboBox
+                    <BaseControls:CaptionedComboBox
                         Caption="Anchor"
                         ItemsSource="{x:Static Resources:EnumProviders.Anchor}"
                         SelectedItem="{Binding Anchor.Value}" />

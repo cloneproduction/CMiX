@@ -18,7 +18,7 @@
             Value="{Binding Intensity.Value}"
             ResetCommand="{Binding Intensity.ResetCommand}" />
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.LightType}"
             SelectedItem="{Binding LightTypeSelector.Value}" />

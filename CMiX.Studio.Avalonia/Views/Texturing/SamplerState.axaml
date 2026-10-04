@@ -12,12 +12,12 @@
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:ComboBox
+            <BaseControls:CaptionedComboBox
                 Caption="Address U"
                 ItemsSource="{x:Static Resources:EnumProviders.TextureAddressMode}"
                 SelectedItem="{Binding AddressU.Value}" />
 
-            <BaseControls:ComboBox
+            <BaseControls:CaptionedComboBox
                 Caption="V"
                 ItemsSource="{x:Static Resources:EnumProviders.TextureAddressMode}"
                 SelectedItem="{Binding AddressV.Value}" />

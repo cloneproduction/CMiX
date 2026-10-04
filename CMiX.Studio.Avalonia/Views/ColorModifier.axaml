@@ -17,14 +17,14 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="Color Mode"
             ItemsSource="{x:Static Resources:EnumProviders.ColorMode}"
             SelectedItem="{Binding ColorMode.Value}">
-          <BaseControls:ComboBox.TrailingContent>
+          <BaseControls:CaptionedComboBox.TrailingContent>
             <Border Width="{DynamicResource ControlHeightMD}" />
-          </BaseControls:ComboBox.TrailingContent>
-        </BaseControls:ComboBox>
+          </BaseControls:CaptionedComboBox.TrailingContent>
+        </BaseControls:CaptionedComboBox>
 
         <Panels:PositionedStackPanel
             Spacing="{DynamicResource SpacingXXS}">

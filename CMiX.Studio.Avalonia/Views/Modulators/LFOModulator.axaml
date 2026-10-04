@@ -24,7 +24,7 @@
             RightResetCommand="{Binding Maximum.ResetCommand}"
             RightValue="{Binding Maximum.Value}"/>
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="Wave Type"
             ItemsSource="{x:Static Resources:EnumProviders.WaveType}"
             SelectedItem="{Binding WaveType.Value, Mode=TwoWay}" />

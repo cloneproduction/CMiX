@@ -5,16 +5,16 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <StackPanel>
-        <BaseControl:ComboBox
+        <BaseControl:CaptionedComboBox
             Caption="Output Mapping"
             ItemsSource="{Binding Project.OutputMappingManager.VisibleItems}"
             SelectedItem="{Binding SelectedOutputMapping}">
-            <BaseControl:ComboBox.ItemTemplate>
+            <BaseControl:CaptionedComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name.Value}" />
                 </DataTemplate>
-            </BaseControl:ComboBox.ItemTemplate>
-        </BaseControl:ComboBox>
+            </BaseControl:CaptionedComboBox.ItemTemplate>
+        </BaseControl:CaptionedComboBox>
 
     </StackPanel>
 

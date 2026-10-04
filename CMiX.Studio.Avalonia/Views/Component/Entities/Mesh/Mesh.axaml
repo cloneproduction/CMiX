@@ -17,7 +17,7 @@
 
     <StackPanel>
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.MeshType}"
             SelectedItem="{Binding MeshTypeSelector.Value}" />

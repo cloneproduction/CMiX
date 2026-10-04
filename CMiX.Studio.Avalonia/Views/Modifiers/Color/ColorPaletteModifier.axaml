@@ -20,7 +20,7 @@
             </Managers:PrefabSlotManager.SelectionPanel>
         </Managers:PrefabSlotManager>
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="Resample"
             ItemsSource="{x:Static Resources:EnumProviders.ResamplingMethod}"
             SelectedItem="{Binding Resample.Value}" />

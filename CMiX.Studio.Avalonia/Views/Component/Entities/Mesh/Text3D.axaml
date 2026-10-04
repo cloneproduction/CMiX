@@ -15,7 +15,7 @@
 
         <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
             
-            <BaseControls:ComboBox
+            <BaseControls:CaptionedComboBox
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                 SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
@@ -32,12 +32,12 @@
             ResetCommand="{Binding ExtrudeAmount.ResetCommand}" />
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-            <BaseControls:ComboBox
+            <BaseControls:CaptionedComboBox
                 Caption="Text Alignment"
                 ItemsSource="{x:Static Resources:EnumProviders.HorizontalAlignment}"
                 SelectedItem="{Binding HorizontalAlignment.Value}" />
 
-            <BaseControls:ComboBox
+            <BaseControls:CaptionedComboBox
                 Caption="Paragraph Alignment"
                 ItemsSource="{x:Static Resources:EnumProviders.ParagraphAlignment}"
                 SelectedItem="{Binding ParagraphAlignment.Value}" />

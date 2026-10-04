@@ -21,12 +21,12 @@
 
         <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControl:ComboBox
+            <BaseControl:CaptionedComboBox
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                 SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 
-            <BaseControl:ComboBox
+            <BaseControl:CaptionedComboBox
                 Caption="Style"
                 ItemsSource="{x:Static Resources:EnumProviders.FontStyle}"
                 SelectedItem="{Binding Style.Value}" />

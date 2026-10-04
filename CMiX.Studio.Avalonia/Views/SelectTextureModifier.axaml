@@ -9,7 +9,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="From"
             ItemsSource="{x:Static Resources:EnumProviders.TextureFrom}"
             SelectedItem="{Binding TextureFrom.Value}" />

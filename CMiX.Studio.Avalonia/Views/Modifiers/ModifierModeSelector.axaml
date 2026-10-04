@@ -13,14 +13,14 @@
 
     <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
             SelectedItem="{Binding Mode.Value}">
-          <BaseControls:ComboBox.TrailingContent>
+          <BaseControls:CaptionedComboBox.TrailingContent>
             <Border Width="{DynamicResource ControlHeightMD}" />
-          </BaseControls:ComboBox.TrailingContent>
-        </BaseControls:ComboBox>
+          </BaseControls:CaptionedComboBox.TrailingContent>
+        </BaseControls:CaptionedComboBox>
             
         <BaseControls:ModulatableIntegerValue
             Caption="Count"

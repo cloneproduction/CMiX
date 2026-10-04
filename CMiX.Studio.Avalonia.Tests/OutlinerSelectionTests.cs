@@ -9,14 +9,13 @@ using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Views.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using AvaloniaComboBox = global::Avalonia.Controls.ComboBox;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Drives the real Outliner in the real Displace view, picking an item from its dropdown.
     public class OutlinerSelectionTests
     {
-        private static (AvaloniaComboBox ComboBox, PrefabManager Selector) ShowDisplaceOutliner()
+        private static (ComboBox ComboBox, PrefabManager Selector) ShowDisplaceOutliner()
         {
             var provider = TestServiceProviderFactory.Create();
             var displace = (Displace)provider.GetRequiredService<ControlFactory>().Create(typeof(Displace));
@@ -27,7 +26,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
 
             var outliner = view.GetVisualDescendants().OfType<Outliner>().Single();
-            var comboBox = outliner.GetVisualDescendants().OfType<AvaloniaComboBox>().First();
+            var comboBox = outliner.GetVisualDescendants().OfType<ComboBox>().First();
             return (comboBox, displace.TextureSelector);
         }
 

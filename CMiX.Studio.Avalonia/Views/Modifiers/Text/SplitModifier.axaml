@@ -8,7 +8,7 @@
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
     <StackPanel>
 
-        <BaseControls:ComboBox
+        <BaseControls:CaptionedComboBox
             Margin="0,0,0,8"
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.SplitType}"
