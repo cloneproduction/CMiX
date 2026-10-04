@@ -17,7 +17,7 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests.Integration
 {
-    // Covers what File > New has to empty. The menu command sweeps the seven top level repository
+    // Covers what File > New has to empty. The menu command sweeps the six top level repository
     // managers and the composition manager, which only reaches a control that one of those still
     // references; everything else has to be released by the teardown of its owner. A control that
     // owns managers of its own, a material with its two texture slots for instance, therefore kept

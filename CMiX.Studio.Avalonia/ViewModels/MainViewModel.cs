@@ -19,7 +19,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
     {
         public MainViewModel(Project project,
                              PrefabManager textureManager,
-                             PrefabManager materialManager,
                              PrefabManager entityManager,
                              PrefabManager cameraManager,
                              PrefabManager lightManager,
@@ -35,7 +34,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
         {
             _undoManager = undoManager;
             TextureManager = SetupManager(textureManager, ManagerIDs.TextureManager);
-            MaterialManager = SetupManager(materialManager, ManagerIDs.MaterialManager);
             EntityManager = SetupManager(entityManager, ManagerIDs.EntityManager);
             CameraManager = SetupManager(cameraManager, ManagerIDs.CameraManager);
             LightManager = SetupManager(lightManager, ManagerIDs.LightManager);
@@ -49,7 +47,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             MainMenu = mainMenu;
             _repositoryManagers = new[]
             {
-                TextureManager, MaterialManager, EntityManager, CameraManager,
+                TextureManager, EntityManager, CameraManager,
                 LightManager, BeatManager, ColorPaletteManager
             };
             MainMenu.RepositoryManagers = _repositoryManagers;
@@ -65,7 +63,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         private readonly UndoManager _undoManager;
         private readonly PrefabManager[] _repositoryManagers;
 
-        // A snapshot carries the project only. The seven repository managers keep their items, so
+        // A snapshot carries the project only. The six repository managers keep their items, so
         // a Pull or a gap re-join empties them the way File > New and File > Open do. The undo
         // manager stays untouched here, because ProjectSyncTarget already clears it.
         public void ClearRepositoryManagers()
@@ -103,7 +101,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public PrefabManager LightManager { get; set; }
         public PrefabManager EntityManager { get; set; }
         public PrefabManager TextureManager { get; set; }
-        public PrefabManager MaterialManager { get; set; }
         public PrefabManager CameraManager { get; set; }
         // Named after its type so the window relative binding paths in the views read the
         // same as the manager relative ControlRepository paths the tabs use.

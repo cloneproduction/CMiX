@@ -75,7 +75,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ICommand RedoCommand { get; }
         public ICommand CloseWindowCommand { get; }
 
-        // Handed over by MainViewModel, which owns the seven top level repository managers. They
+        // Handed over by MainViewModel, which owns the six top level repository managers. They
         // are transient in the container, so resolving them here would build fresh instances
         // instead of the live ones a new project has to empty.
         public IReadOnlyList<PrefabManager> RepositoryManagers { get; set; } = Array.Empty<PrefabManager>();
@@ -159,7 +159,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         private void NewProject() => ResetSession();
 
-        // Empties the running session. The seven repository managers and the composition manager
+        // Empties the running session. The six repository managers and the composition manager
         // between them reference every control the repository holds, so letting all eight go
         // releases the whole graph, and clearing the undo stack afterwards disposes the removed
         // instances its commands were still holding on to.

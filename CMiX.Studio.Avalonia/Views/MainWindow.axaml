@@ -5,7 +5,6 @@
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
-    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
@@ -172,22 +171,6 @@
                 <Views:MainWindowEntitiesTab />
 
             </TabItem>
-
-            <!--<Managers:RepositoryTab
-                DataContext="{Binding MaterialManager}"
-                Icon="World"
-                ItemsSource="{Binding ControlRepository.Materials}"
-                ToolTipText="Material">
-                <Managers:RepositoryTab.SelectionPanel>
-                    <Button
-                        Command="{Binding AddItemCommand}"
-                        CommandParameter="{x:Type Materials:Material}"
-                        Content="New Material" />
-                </Managers:RepositoryTab.SelectionPanel>
-                <Managers:RepositoryTab.EditingPanel>
-                    <Views:Material />
-                </Managers:RepositoryTab.EditingPanel>
-            </Managers:RepositoryTab>-->
 
             <Managers:RepositoryTab
                 DataContext="{Binding TextureManager}"
