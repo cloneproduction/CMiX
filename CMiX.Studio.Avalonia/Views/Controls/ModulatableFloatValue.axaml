@@ -12,6 +12,8 @@
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelValue}"
         Caption="{Binding Caption, ElementName=channelValue, Mode=OneWay}"
         IsReadOnly="{Binding IsModulated}"
+        Maximum="{Binding Maximum, ElementName=channelValue}"
+        Minimum="{Binding Minimum, ElementName=channelValue}"
         ResetCommand="{Binding ResetCommand}"
         Value="{Binding Value}">
 
