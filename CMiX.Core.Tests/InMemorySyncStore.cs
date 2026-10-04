@@ -11,8 +11,6 @@ namespace CMiX.Core.Tests
     // It is thread-safe, because later tests drive several peers on one store from several tasks.
     public class InMemorySyncStore : ISyncStore
     {
-        private const int BlockingReadCount = 256;
-
         private readonly object _gate = new();
         private readonly List<StreamEntry> _entries = new();
         private readonly Dictionary<string, (Dictionary<string, string> Fields, DateTime Expires)> _peers = new();
@@ -150,11 +148,11 @@ namespace CMiX.Core.Tests
             }
         }
 
-        public async Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct)
+        public async Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, int count, TimeSpan timeout, CancellationToken ct)
         {
             ct.ThrowIfCancellationRequested();
 
-            var entries = await ReadRangeAsync(afterExclusive, BlockingReadCount);
+            var entries = await ReadRangeAsync(afterExclusive, count);
             if (entries.Count > 0)
                 return entries;
 
@@ -162,7 +160,7 @@ namespace CMiX.Core.Tests
             if (!signaled)
                 return Array.Empty<StreamEntry>();
 
-            return await ReadRangeAsync(afterExclusive, BlockingReadCount);
+            return await ReadRangeAsync(afterExclusive, count);
         }
 
         public Task<StreamPosition> ReadTailAsync()

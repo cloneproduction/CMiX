@@ -59,7 +59,7 @@ namespace CMiX.Core.Networking
                     }
 
                     var started = Stopwatch.GetTimestamp();
-                    var entries = await _store.ReadBlockingAsync(_position(), _timings.ReadTimeout, ct).ConfigureAwait(false);
+                    var entries = await _store.ReadBlockingAsync(_position(), _timings.ReadBatch, _timings.ReadTimeout, ct).ConfigureAwait(false);
                     _lastRead = Stopwatch.GetTimestamp();
 
                     // The read itself was away that long. Its entries can start after a trim point,

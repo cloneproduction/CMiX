@@ -246,7 +246,7 @@ namespace CMiX.Core.Tests
             await using var reader = await ConnectedStore();
             await using var writer = await ConnectedStore();
 
-            var reading = reader.ReadBlockingAsync(StreamPosition.Zero, TimeSpan.FromSeconds(5), CancellationToken.None);
+            var reading = reader.ReadBlockingAsync(StreamPosition.Zero, 256, TimeSpan.FromSeconds(5), CancellationToken.None);
             await Task.Delay(200);
 
             var stopwatch = Stopwatch.StartNew();

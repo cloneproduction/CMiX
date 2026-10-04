@@ -68,7 +68,7 @@ namespace CMiX.Core.Tests
         public Task WriteSnapshotAsync(Snapshot snapshot) => throw new InvalidOperationException();
         public Task<StreamPosition> AppendAsync(byte[] envelope) => throw new InvalidOperationException();
         public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) => throw new InvalidOperationException();
-        public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) => throw new InvalidOperationException();
+        public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, int count, TimeSpan timeout, CancellationToken ct) => throw new InvalidOperationException();
         public Task<StreamPosition> ReadTailAsync() => throw new InvalidOperationException();
         public Task TrimAsync(StreamPosition minId) => throw new InvalidOperationException();
         public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) => throw new InvalidOperationException();
@@ -190,14 +190,14 @@ namespace CMiX.Core.Tests
 
             return _inner.ReadRangeAsync(afterExclusive, count);
         }
-        public async Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct)
+        public async Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, int count, TimeSpan timeout, CancellationToken ct)
         {
             Enter();
             var before = BeforeReadBlocking;
             if (before != null)
                 await before();
 
-            var entries = await _inner.ReadBlockingAsync(afterExclusive, timeout, ct);
+            var entries = await _inner.ReadBlockingAsync(afterExclusive, count, timeout, ct);
             var gate = AfterReadBlocking;
             if (entries.Count > 0 && gate != null)
                 await gate();
@@ -253,7 +253,7 @@ namespace CMiX.Core.Tests
         public Task WriteSnapshotAsync(Snapshot snapshot) => _inner.WriteSnapshotAsync(snapshot);
         public Task<StreamPosition> AppendAsync(byte[] envelope) => _inner.AppendAsync(envelope);
         public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) => _inner.ReadRangeAsync(afterExclusive, count);
-        public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) => _inner.ReadBlockingAsync(afterExclusive, timeout, ct);
+        public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, int count, TimeSpan timeout, CancellationToken ct) => _inner.ReadBlockingAsync(afterExclusive, count, timeout, ct);
         public Task<StreamPosition> ReadTailAsync() => _inner.ReadTailAsync();
         public Task TrimAsync(StreamPosition minId) => _inner.TrimAsync(minId);
         public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) => _inner.HeartbeatAsync(peerId, fields, ttl);

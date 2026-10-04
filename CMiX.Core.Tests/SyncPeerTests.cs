@@ -1492,6 +1492,33 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public async Task AReplay_UsesTheReadBatchOfTheTimings()
+        {
+            var store = new InMemorySyncStore();
+            await store.ConnectAsync(default);
+            var ids = new List<Guid>();
+            for (var i = 0; i < 300; i++)
+            {
+                var click = new MessageOnClick(Guid.NewGuid());
+                ids.Add(click.ID);
+                await store.AppendAsync(Envelope("other", click));
+            }
+            var tail = await store.ReadTailAsync();
+
+            var queue = new MainloopQueue();
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.ReadBatch = 100;
+            peer.SetDispatcher(queue.Post);
+            peer.Start(Options("Engine"), autoJoin: true);
+
+            var applyingDrains = await DrainUntilAsync(queue, () => peer.LastAppliedId == tail, () => target.Applied.Count);
+
+            Assert.Equal(ids, target.Applied.Select(m => m.ID));
+            Assert.Equal(3, applyingDrains);
+        }
+
+        [Fact]
         public async Task TheFollower_AppliesABatchInOneAction()
         {
             var store = new InMemorySyncStore();
@@ -1606,7 +1633,7 @@ namespace CMiX.Core.Tests
             public Task WriteSnapshotAsync(Snapshot snapshot) => _inner.WriteSnapshotAsync(snapshot);
             public Task<StreamPosition> AppendAsync(byte[] envelope) => _inner.AppendAsync(envelope);
             public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) => _inner.ReadRangeAsync(afterExclusive, count);
-            public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) => _inner.ReadBlockingAsync(afterExclusive, timeout, ct);
+            public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, int count, TimeSpan timeout, CancellationToken ct) => _inner.ReadBlockingAsync(afterExclusive, count, timeout, ct);
             public Task<StreamPosition> ReadTailAsync() => _inner.ReadTailAsync();
             public Task TrimAsync(StreamPosition minId) => _inner.TrimAsync(minId);
             public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) => _inner.HeartbeatAsync(peerId, fields, ttl);
@@ -1652,7 +1679,7 @@ namespace CMiX.Core.Tests
             public Task WriteSnapshotAsync(Snapshot snapshot) { Enter(); return _inner.WriteSnapshotAsync(snapshot); }
             public Task<StreamPosition> AppendAsync(byte[] envelope) { Enter(); return _inner.AppendAsync(envelope); }
             public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) { Enter(); return _inner.ReadRangeAsync(afterExclusive, count); }
-            public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct) { Enter(); return _inner.ReadBlockingAsync(afterExclusive, timeout, ct); }
+            public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, int count, TimeSpan timeout, CancellationToken ct) { Enter(); return _inner.ReadBlockingAsync(afterExclusive, count, timeout, ct); }
             public Task<StreamPosition> ReadTailAsync() { Enter(); return _inner.ReadTailAsync(); }
             public Task TrimAsync(StreamPosition minId) { Enter(); return _inner.TrimAsync(minId); }
             public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) { Enter(); return _inner.HeartbeatAsync(peerId, fields, ttl); }

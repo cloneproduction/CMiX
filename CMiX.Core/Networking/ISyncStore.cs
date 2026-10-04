@@ -42,10 +42,10 @@ namespace CMiX.Core.Networking
         // Entries with an ID greater than afterExclusive, oldest first, at most count.
         Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count);
 
-        // Like ReadRangeAsync with count 256. When the result is empty, it waits up to timeout for a
+        // Like ReadRangeAsync with that count. When the result is empty, it waits up to timeout for a
         // wake-up signal. After a signal it reads once more. After a timeout it returns the empty
         // list.
-        Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct);
+        Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, int count, TimeSpan timeout, CancellationToken ct);
 
         // The ID of the newest entry, or StreamPosition.Zero when the store never gave one out. A
         // trim does not lower it.

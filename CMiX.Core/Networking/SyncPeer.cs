@@ -16,8 +16,6 @@ namespace CMiX.Core.Networking
     // the store, applies the edits of the other peers, and joins from the snapshot.
     public partial class SyncPeer : ObservableObject, IMessageSender, IDisposable
     {
-        private const int ReplayBatch = 256;
-
         // How many applied message IDs the peer remembers, to find an entry that arrives twice.
         private const int AppliedMemory = 1000;
 
@@ -106,6 +104,14 @@ namespace CMiX.Core.Networking
         {
             get => Timings.CompactionDelay;
             set => Timings = Timings with { CompactionDelay = value };
+        }
+
+        // How many entries one read returns, and so how many one dispatched action applies. The
+        // patch sets it before Start.
+        public int ReadBatch
+        {
+            get => Timings.ReadBatch;
+            set => Timings = Timings with { ReadBatch = value };
         }
 
         // A follower that made no read for this long checks the gap first. Tests shorten it.
@@ -850,7 +856,7 @@ namespace CMiX.Core.Networking
             while (true)
             {
                 ct.ThrowIfCancellationRequested();
-                var entries = await store.ReadRangeAsync(position, ReplayBatch).ConfigureAwait(false);
+                var entries = await store.ReadRangeAsync(position, _runTimings.ReadBatch).ConfigureAwait(false);
                 if (entries.Count == 0) return;
                 if (!IsCurrent(store, generation)) return;
 

@@ -21,7 +21,9 @@ namespace CMiX.Core.Networking
         TimeSpan MinBackoff,
         TimeSpan MaxBackoff,
         // How long the stop work waits for the loops of the run before it disposes the store.
-        TimeSpan StopTimeout)
+        TimeSpan StopTimeout,
+        // How many entries one read returns, and so how many one dispatched action applies.
+        int ReadBatch)
     {
         public static readonly SyncTimings Default = new(
             ReadTimeout: TimeSpan.FromMilliseconds(250),
@@ -33,6 +35,7 @@ namespace CMiX.Core.Networking
             RetryDelay: TimeSpan.FromMilliseconds(500),
             MinBackoff: TimeSpan.FromSeconds(1),
             MaxBackoff: TimeSpan.FromSeconds(10),
-            StopTimeout: TimeSpan.FromSeconds(5));
+            StopTimeout: TimeSpan.FromSeconds(5),
+            ReadBatch: 256);
     }
 }

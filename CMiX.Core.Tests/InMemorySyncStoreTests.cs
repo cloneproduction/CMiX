@@ -124,7 +124,7 @@ namespace CMiX.Core.Tests
             await store.AppendAsync(Payload("a"));
 
             var stopwatch = Stopwatch.StartNew();
-            var entries = await store.ReadBlockingAsync(StreamPosition.Zero, TimeSpan.FromSeconds(5), CancellationToken.None);
+            var entries = await store.ReadBlockingAsync(StreamPosition.Zero, 256, TimeSpan.FromSeconds(5), CancellationToken.None);
             stopwatch.Stop();
 
             Assert.Single(entries);
@@ -136,7 +136,7 @@ namespace CMiX.Core.Tests
         {
             var store = await ConnectedStore();
 
-            var reading = store.ReadBlockingAsync(StreamPosition.Zero, TimeSpan.FromSeconds(5), CancellationToken.None);
+            var reading = store.ReadBlockingAsync(StreamPosition.Zero, 256, TimeSpan.FromSeconds(5), CancellationToken.None);
             await Task.Delay(50);
             var appended = await store.AppendAsync(Payload("a"));
 
@@ -151,9 +151,21 @@ namespace CMiX.Core.Tests
         {
             var store = await ConnectedStore();
 
-            var entries = await store.ReadBlockingAsync(StreamPosition.Zero, TimeSpan.FromMilliseconds(100), CancellationToken.None);
+            var entries = await store.ReadBlockingAsync(StreamPosition.Zero, 256, TimeSpan.FromMilliseconds(100), CancellationToken.None);
 
             Assert.Empty(entries);
+        }
+
+        [Fact]
+        public async Task ReadBlockingAsync_HonorsCount()
+        {
+            var store = await ConnectedStore();
+            for (var i = 0; i < 5; i++)
+                await store.AppendAsync(Payload("a"));
+
+            var entries = await store.ReadBlockingAsync(StreamPosition.Zero, 2, TimeSpan.FromSeconds(5), CancellationToken.None);
+
+            Assert.Equal(2, entries.Count);
         }
 
         [Fact]
@@ -162,7 +174,7 @@ namespace CMiX.Core.Tests
             var store = await ConnectedStore();
             var before = store.ReadRangeCalls;
 
-            await store.ReadBlockingAsync(StreamPosition.Zero, TimeSpan.FromMilliseconds(200), CancellationToken.None);
+            await store.ReadBlockingAsync(StreamPosition.Zero, 256, TimeSpan.FromMilliseconds(200), CancellationToken.None);
 
             Assert.Equal(before + 1, store.ReadRangeCalls);
         }

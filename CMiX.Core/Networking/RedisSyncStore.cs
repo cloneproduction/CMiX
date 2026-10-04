@@ -16,7 +16,6 @@ namespace CMiX.Core.Networking
         private const string SnapshotWrittenByField = "writtenBy";
         private const string SnapshotWrittenAtField = "writtenAt";
         private const string EnvelopeField = "env";
-        private const int BlockingReadCount = 256;
 
         private readonly SyncOptions _options;
         private readonly ConfigurationOptions _configuration;
@@ -267,11 +266,11 @@ namespace CMiX.Core.Networking
             return Convert(entries);
         }
 
-        public async Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, TimeSpan timeout, CancellationToken ct)
+        public async Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, int count, TimeSpan timeout, CancellationToken ct)
         {
             ct.ThrowIfCancellationRequested();
 
-            var entries = await ReadRangeAsync(afterExclusive, BlockingReadCount).ConfigureAwait(false);
+            var entries = await ReadRangeAsync(afterExclusive, count).ConfigureAwait(false);
             if (entries.Count > 0)
                 return entries;
 
@@ -281,7 +280,7 @@ namespace CMiX.Core.Networking
             if (!signaled)
                 return Array.Empty<StreamEntry>();
 
-            return await ReadRangeAsync(afterExclusive, BlockingReadCount).ConfigureAwait(false);
+            return await ReadRangeAsync(afterExclusive, count).ConfigureAwait(false);
         }
 
         // XINFO STREAM returns the first and the last entry with their payloads, so the tail key is
