@@ -11,6 +11,7 @@ namespace CMiX.Core.Modulation
         Guid? ModulatorID { get; }
         string BoundOutputName { get; }
         IModulator BoundModulator { get; }
+        bool IsModulated { get; }
         ICommand SetModulatorCommand { get; }
         Func<Guid, IModulator> ModulatorLookup { get; set; }
 

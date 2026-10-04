@@ -29,9 +29,15 @@ namespace CMiX.Core.Modulation
                 // can never go stale on its own. Notify here so a bound view refreshes on every
                 // path that changes ModulatorID: SetModulator, undo, and redo alike.
                 OnPropertyChanged(nameof(BoundModulator));
+                OnPropertyChanged(nameof(IsModulated));
                 ResetCommand.NotifyCanExecuteChanged();
             };
-            BoundOutputNameSource.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(GenericValue<string>.Value)) OnPropertyChanged(nameof(BoundOutputName)); };
+            BoundOutputNameSource.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName != nameof(GenericValue<string>.Value)) return;
+                OnPropertyChanged(nameof(BoundOutputName));
+                OnPropertyChanged(nameof(IsModulated));
+            };
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -63,6 +69,8 @@ namespace CMiX.Core.Modulation
 
         public IModulator BoundModulator =>
             ModulatorID is { } id ? ModulatorLookup?.Invoke(id) : null;
+
+        public bool IsModulated => BoundModulator != null && !string.IsNullOrEmpty(BoundOutputName);
 
         public Func<Guid, IModulator> ModulatorLookup { get; set; }
 
