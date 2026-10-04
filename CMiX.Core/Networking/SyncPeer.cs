@@ -854,63 +854,73 @@ namespace CMiX.Core.Networking
                 if (entries.Count == 0) return;
                 if (!IsCurrent(store, generation)) return;
 
-                foreach (var entry in entries)
-                {
-                    await ApplyEntryAsync(store, generation, entry).ConfigureAwait(false);
-                    if (!IsCurrent(store, generation)) return;
+                await ApplyEntriesAsync(store, generation, entries).ConfigureAwait(false);
+                if (!IsCurrent(store, generation)) return;
 
-                    position = entry.Id;
-                }
+                position = entries[entries.Count - 1].Id;
             }
         }
 
-        // The store and the generation are those of the reader that found the entry. An entry that
-        // was read before a restart must change nothing after it.
-        private async Task ApplyEntryAsync(ISyncStore store, int generation, StreamEntry entry)
+        // The store and the generation are those of the reader that found the entries. Entries that
+        // were read before a restart must change nothing after it. The batch runs as one action on
+        // the dispatcher thread, and Start and Stop run on that thread too, so one generation check
+        // at the start of the action covers the whole batch. One action per batch keeps a frame
+        // based dispatcher from applying one entry per frame.
+        private async Task ApplyEntriesAsync(ISyncStore store, int generation, IReadOnlyList<StreamEntry> entries)
         {
-            MessageEnvelope envelope = null;
-            try
-            {
-                envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(entry.Envelope));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
+            if (entries.Count == 0) return;
 
-            var payload = envelope?.Payload;
-            var own = envelope == null || envelope.SenderID == _peerId || payload == null;
+            var batch = new List<(StreamEntry Entry, MessageEnvelope Envelope, bool Own)>(entries.Count);
+            foreach (var entry in entries)
+            {
+                MessageEnvelope envelope = null;
+                try
+                {
+                    envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(entry.Envelope));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+
+                var own = envelope == null || envelope.SenderID == _peerId || envelope.Payload == null;
+                batch.Add((entry, envelope, own));
+            }
 
             await DispatchCurrentAsync(store, generation, () =>
             {
-                // An append that timed out on the client but reached the store is sent again. The
-                // entry then arrives twice, and a move applied twice gives a wrong order.
-                var apply = !own && !IsDuplicate(envelope.MessageID);
-
-                if (apply)
+                foreach (var (entry, envelope, own) in batch)
                 {
-                    try
+                    var payload = envelope?.Payload;
+                    // An append that timed out on the client but reached the store is sent again.
+                    // The entry then arrives twice, and a move applied twice gives a wrong order.
+                    var apply = !own && !IsDuplicate(envelope.MessageID);
+
+                    if (apply)
                     {
-                        _target.Apply(payload);
-                        if (payload is MessageProjectSnapshot)
+                        try
                         {
-                            ForgetApplied();
-                            SnapshotApplied?.Invoke(this, EventArgs.Empty);
+                            _target.Apply(payload);
+                            if (payload is MessageProjectSnapshot)
+                            {
+                                ForgetApplied();
+                                SnapshotApplied?.Invoke(this, EventArgs.Empty);
+                            }
+
+                            AppliedMessages++;
                         }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex);
+                            ErrorMessage = ex.Message;
+                        }
+                    }
 
-                        AppliedMessages++;
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex);
-                        ErrorMessage = ex.Message;
-                    }
+                    LastAppliedId = entry.Id;
+                    if (entry.Id > TailId) TailId = entry.Id;
+
+                    if (apply) MessageApplied?.Invoke(this, new MessageAppliedEventArgs(entry, payload));
                 }
-
-                LastAppliedId = entry.Id;
-                if (entry.Id > TailId) TailId = entry.Id;
-
-                if (apply) MessageApplied?.Invoke(this, new MessageAppliedEventArgs(entry, payload));
             }).ConfigureAwait(false);
         }
 
@@ -940,7 +950,7 @@ namespace CMiX.Core.Networking
             if (cts == null || cts.IsCancellationRequested) return;
 
             var followerCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token);
-            var follower = new StreamFollower(store, () => LastAppliedId, entry => ApplyEntryAsync(store, generation, entry),
+            var follower = new StreamFollower(store, () => LastAppliedId, entries => ApplyEntriesAsync(store, generation, entries),
                 () => OnFollowerErrorAsync(store, generation), _runTimings);
             _followerCts = followerCts;
             _follower = follower;

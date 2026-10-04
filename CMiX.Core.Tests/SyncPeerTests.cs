@@ -1463,6 +1463,119 @@ namespace CMiX.Core.Tests
                 () => $"applied={target.Applied.Count} status={peer.Status} lastApplied={peer.LastAppliedId}");
         }
 
+        // The engine drains its queue once per frame. One action per entry would apply one entry
+        // per frame, so a replay hands every read batch to one action.
+        [Fact]
+        public async Task AReplay_DispatchesOneActionPerReadBatch()
+        {
+            var store = new InMemorySyncStore();
+            await store.ConnectAsync(default);
+            var ids = new List<Guid>();
+            for (var i = 0; i < 300; i++)
+            {
+                var click = new MessageOnClick(Guid.NewGuid());
+                ids.Add(click.ID);
+                await store.AppendAsync(Envelope("other", click));
+            }
+            var tail = await store.ReadTailAsync();
+
+            var queue = new MainloopQueue();
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.SetDispatcher(queue.Post);
+            peer.Start(Options("Engine"), autoJoin: true);
+
+            var applyingDrains = await DrainUntilAsync(queue, () => peer.LastAppliedId == tail, () => target.Applied.Count);
+
+            Assert.Equal(ids, target.Applied.Select(m => m.ID));
+            Assert.Equal(2, applyingDrains);
+        }
+
+        [Fact]
+        public async Task TheFollower_AppliesABatchInOneAction()
+        {
+            var store = new InMemorySyncStore();
+            var queue = new MainloopQueue();
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.SetDispatcher(queue.Post);
+            peer.Start(Options("Engine"), autoJoin: true);
+            await DrainUntilAsync(queue, () => peer.IsJoined, () => 0);
+
+            var ids = new List<Guid>();
+            for (var i = 0; i < 100; i++)
+            {
+                var click = new MessageOnClick(Guid.NewGuid());
+                ids.Add(click.ID);
+                await store.AppendAsync(Envelope("other", click));
+            }
+            var tail = await store.ReadTailAsync();
+
+            var applyingDrains = await DrainUntilAsync(queue, () => peer.LastAppliedId == tail, () => target.Applied.Count);
+
+            Assert.Equal(ids, target.Applied.Select(m => m.ID));
+            Assert.InRange(applyingDrains, 1, 3);
+        }
+
+        [Fact]
+        public async Task ADuplicateInsideABatch_IsAppliedOnce()
+        {
+            var store = new InMemorySyncStore();
+            await store.ConnectAsync(default);
+            var bytes = Envelope("other", new MessageOnClick(Guid.NewGuid()));
+            await store.AppendAsync(bytes);
+            var second = await store.AppendAsync(bytes);
+
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.LastAppliedId == second);
+
+            Assert.Single(target.Applied);
+            Assert.Equal(1, peer.AppliedMessages);
+        }
+
+        [Fact]
+        public async Task ACorruptEntryInsideABatch_AdvancesThePosition()
+        {
+            var store = new InMemorySyncStore();
+            await store.ConnectAsync(default);
+            var first = new MessageOnClick(Guid.NewGuid());
+            var last = new MessageOnClick(Guid.NewGuid());
+            await store.AppendAsync(Envelope("other", first));
+            // 0xC1 is the one byte MessagePack never uses, so the deserialize fails.
+            await store.AppendAsync(new byte[] { 0xC1 });
+            var lastId = await store.AppendAsync(Envelope("other", last));
+
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store, isWriter: false);
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.LastAppliedId == lastId);
+
+            Assert.Equal(new[] { first.ID, last.ID }, target.Applied.Select(m => m.ID));
+            Assert.Equal(string.Empty, peer.ErrorMessage);
+        }
+
+        // Drains every 10 ms until the condition holds. Returns the number of drains after which
+        // the progress value went up.
+        private static async Task<int> DrainUntilAsync(MainloopQueue queue, Func<bool> condition, Func<int> progress)
+        {
+            var watch = Stopwatch.StartNew();
+            var drains = 0;
+            while (!condition())
+            {
+                if (watch.ElapsedMilliseconds > 5000)
+                    throw new TimeoutException("The condition did not become true in time.");
+
+                var before = progress();
+                queue.Drain();
+                if (progress() > before) drains++;
+                await Task.Delay(10);
+            }
+
+            return drains;
+        }
+
         // A store that keeps its handlers after a remove, like the store of a run that subscribed
         // after its own Stop. Only the sender tells such a store from the current one.
         private sealed class LingeringSyncStore : ISyncStore

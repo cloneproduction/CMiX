@@ -5,13 +5,13 @@ using System.Diagnostics;
 
 namespace CMiX.Core.Networking
 {
-    // Reads the stream after the last applied entry and hands every entry to the peer. After a store
-    // error or a long pause it lets the peer check the gap before it reads again.
+    // Reads the stream after the last applied entry and hands every read batch to the peer. After a
+    // store error or a long pause it lets the peer check the gap before it reads again.
     public sealed class StreamFollower
     {
         private readonly ISyncStore _store;
         private readonly Func<StreamPosition> _position;
-        private readonly Func<StreamEntry, Task> _apply;
+        private readonly Func<IReadOnlyList<StreamEntry>, Task> _apply;
         private readonly Func<Task> _checkGap;
         private readonly SyncTimings _timings;
         private readonly SemaphoreSlim _wakeSignal = new(0, 1);
@@ -19,7 +19,7 @@ namespace CMiX.Core.Networking
         // When the last read returned. A pause without a store error leaves no other trace.
         private long _lastRead = Stopwatch.GetTimestamp();
 
-        public StreamFollower(ISyncStore store, Func<StreamPosition> position, Func<StreamEntry, Task> apply, Func<Task> checkGap, SyncTimings timings)
+        public StreamFollower(ISyncStore store, Func<StreamPosition> position, Func<IReadOnlyList<StreamEntry>, Task> apply, Func<Task> checkGap, SyncTimings timings)
         {
             _store = store;
             _position = position;
@@ -70,8 +70,8 @@ namespace CMiX.Core.Networking
                         continue;
                     }
 
-                    foreach (var entry in entries)
-                        await _apply(entry).ConfigureAwait(false);
+                    if (entries.Count > 0)
+                        await _apply(entries).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
