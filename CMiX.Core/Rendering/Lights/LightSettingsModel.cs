@@ -9,7 +9,7 @@ namespace CMiX.Core.Rendering.Lights
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<LightType> LightTypeSelector { get; set; } = new(LightType.AmbientLight);
-        public GenericValueModel<string> Grey700Brush { get; set; } = new("#FFFF00FF");
+        public GenericValueModel<string> LightColor { get; set; } = new("#FFFFFFFF");
         public Vector3Model Position { get; set; } = new(0.0f, 2.0f, 0.0f);
         public Vector3Model Target { get; set; } = new(0.001f, 0.0f, 0.0f);
         public GenericValueModel<float> Radius { get; set; } = new(5.0f);
