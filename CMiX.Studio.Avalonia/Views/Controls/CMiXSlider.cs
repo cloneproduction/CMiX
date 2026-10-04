@@ -35,6 +35,14 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(IsEditingProperty, value);
         }
 
+        public static readonly StyledProperty<bool> IsReadOnlyProperty =
+            AvaloniaProperty.Register<CMiXSlider, bool>(nameof(IsReadOnly), false, defaultBindingMode: BindingMode.OneWay);
+        public bool IsReadOnly
+        {
+            get => GetValue(IsReadOnlyProperty);
+            set => SetValue(IsReadOnlyProperty, value);
+        }
+
         public static readonly StyledProperty<string> CaptionProperty =
             AvaloniaProperty.Register<CMiXSlider, string>(nameof(Caption), "");
         public string Caption

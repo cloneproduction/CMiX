@@ -17,6 +17,7 @@
     <BaseControls:CMiXSlider
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelSlider}"
         Caption="{Binding Caption, ElementName=channelSlider, Mode=OneWay}"
+        IsReadOnly="{Binding IsModulated}"
         Minimum="{Binding Minimum, ElementName=channelSlider}"
         Maximum="{Binding Maximum, ElementName=channelSlider}"
         Value="{Binding Value}">

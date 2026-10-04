@@ -40,7 +40,9 @@
                         Content="{TemplateBinding TrailingContent}"
                         DockPanel.Dock="Right" />
 
-                    <Border Name="mainBorder">
+                    <Border
+                        Name="mainBorder"
+                        IsEnabled="{Binding !IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}">
                         <Panel>
 
                             <Border
@@ -117,7 +119,7 @@
             <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
         </Style>
 
-        <Style Selector="^:disabled /template/ Border#mainBorder">
+        <Style Selector="^ /template/ Border#mainBorder:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
 
