@@ -111,10 +111,7 @@ namespace CMiX.Core.Tests
             Assert.Null(repository.GetControl(replacement.ID));
         }
 
-        // DeleteEverywhere fans a single delete out to every manager that currently references the
-        // control. Two managers sharing one entity is the shape PrefabSelector and a layer's own
-        // ModelEntityManager can both end up in; AddExistingItem is the general way to reproduce it
-        // in a test without pulling in the material selection machinery.
+        // DeleteEverywhere removes a control from every manager that references it.
         [Fact]
         public void DeleteEverywhere_ControlReferencedByTwoManagers_RemovesItFromBothAndTheRepository()
         {

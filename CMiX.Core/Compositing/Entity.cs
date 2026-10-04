@@ -17,7 +17,6 @@ namespace CMiX.Core.Compositing
         public Entity(PrefabService prefabService,
                       Mesh mesh,
                       TransformSRT transformSRT,
-                      PrefabSelector materialSelector,
                       PrefabManager modifierManager,
                       Material material,
                       Texture texture,
