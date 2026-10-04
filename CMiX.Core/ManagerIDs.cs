@@ -8,7 +8,6 @@ namespace CMiX.Core
         public static readonly Guid Project = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00");
         public static readonly Guid CompositionManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF01");
         public static readonly Guid TextureManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF02");
-        public static readonly Guid MaterialManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF03");
         public static readonly Guid EntityManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF04");
         public static readonly Guid CameraManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF05");
         public static readonly Guid LightManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF06");

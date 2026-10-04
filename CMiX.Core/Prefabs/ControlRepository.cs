@@ -35,7 +35,6 @@ namespace CMiX.Core.Prefabs
                 (typeof(Camera), c => Cameras.Add((Camera)c)),
                 (typeof(LightEntity), c => Lights.Add((LightEntity)c)),
                 (typeof(Entity), c => Entities.Add((Entity)c)),
-                (typeof(Material), c => Materials.Add((Material)c)),
                 //(typeof(BeatModulator), c => BeatModulators.Add((BeatModulator)c)),
                 (typeof(TextEntity), c => Texts.Add((TextEntity)c)),
                 (typeof(ColorPaletteModifier), c => ColorPalettes.Add((ColorPaletteModifier)c))
@@ -49,7 +48,6 @@ namespace CMiX.Core.Prefabs
                 (typeof(Camera), c => Cameras.Remove((Camera)c)),
                 (typeof(LightEntity), c => Lights.Remove((LightEntity)c)),
                 (typeof(Entity), c => Entities.Remove((Entity)c)),
-                (typeof(Material), c => Materials.Remove((Material)c)),
                 //(typeof(BeatModulator), c => BeatModulators.Remove((BeatModulator)c)),
                 (typeof(TextEntity), c => Texts.Remove((TextEntity)c)),
                 (typeof(ColorPaletteModifier), c => ColorPalettes.Remove((ColorPaletteModifier)c))
@@ -62,7 +60,6 @@ namespace CMiX.Core.Prefabs
         public ObservableCollection<IControl> Controls { get; } = new();
         public ObservableCollection<Composition> Compositions { get; } = new();
         public ObservableCollection<Layer> Layers { get; } = new();
-        public ObservableCollection<Material> Materials { get; } = new();
         public ObservableCollection<ITextureSource> Textures { get; } = new();
         public ObservableCollection<Entity> Entities { get; } = new();
         public ObservableCollection<Camera> Cameras { get; } = new();
