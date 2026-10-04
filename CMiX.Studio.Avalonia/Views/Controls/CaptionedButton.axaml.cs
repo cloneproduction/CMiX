@@ -7,15 +7,15 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class LabeledButton : CaptionedUserControl
+    public partial class CaptionedButton : CaptionedUserControl
     {
-        public LabeledButton()
+        public CaptionedButton()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<ICommand> CommandProperty =
-            AvaloniaProperty.Register<LabeledButton, ICommand>(nameof(Command));
+            AvaloniaProperty.Register<CaptionedButton, ICommand>(nameof(Command));
         public ICommand Command
         {
             get => GetValue(CommandProperty);
@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<object> CommandParameterProperty =
-            AvaloniaProperty.Register<LabeledButton, object>(nameof(CommandParameter));
+            AvaloniaProperty.Register<CaptionedButton, object>(nameof(CommandParameter));
         public object CommandParameter
         {
             get => GetValue(CommandParameterProperty);

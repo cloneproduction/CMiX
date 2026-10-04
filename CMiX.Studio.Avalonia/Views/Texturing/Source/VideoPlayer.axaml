@@ -18,7 +18,7 @@
             Caption="Seek Frame"
             DataContext="{Binding SeekFrame}" />
 
-        <BaseControls:LabeledButton
+        <BaseControls:CaptionedButton
             Margin="0,8"
             Caption="Do Seek"
             Command="{Binding DoSeek.ClickCommand}" />

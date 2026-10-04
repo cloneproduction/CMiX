@@ -20,7 +20,7 @@
             Caption="Seek Frame"
             DataContext="{Binding SeekFrame}" />
 
-        <BaseControls:LabeledButton
+        <BaseControls:CaptionedButton
             Caption="Do Seek"
             Command="{Binding DoSeek.ClickCommand}" />
 
