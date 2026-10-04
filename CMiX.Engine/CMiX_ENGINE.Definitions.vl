@@ -54551,9 +54551,9 @@
               <ControlPoint Id="GX5evvsGpNRMQf1uggsyKg" Bounds="473,402" Alignment="Top" />
               <ControlPoint Id="Jz2N1bE16OCPJTzY9H9Tj1" Bounds="473,779" Alignment="Bottom" />
             </Node>
-            <ControlPoint Id="CYfN6jPJJ5TNEgRYcME43m" Bounds="613,841" />
+            <ControlPoint Id="CYfN6jPJJ5TNEgRYcME43m" Bounds="613,840" />
             <Pad Id="GZXz3jAvuExP8zWkVLoLXK" SlotId="RVOCjOVLuOzOCq0Rc2Y2h8" Bounds="613,809" />
-            <Node Bounds="790,425,337,253" Id="OUVPUg0xv7MLVLNxb8Kg6n">
+            <Node Bounds="790,405,337,253" Id="OUVPUg0xv7MLVLNxb8Kg6n">
               <p:NodeReference LastCategoryFullName="Control" LastDependency="VL.CoreLib.vl">
                 <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
                 <CategoryReference Kind="Category" Name="Control" />
@@ -54563,7 +54563,7 @@
                 <Patch Id="J2xg6nAKiSSNpKctIXwFZy" Name="Create" ManuallySortedPins="true" />
                 <Patch Id="M3jtQLPlUMmLlaUm0fV34N" Name="Update" ParticipatingElements="LhOwdRyMFFYMRDx4c0kRz2" ManuallySortedPins="true" />
                 <Patch Id="FpEnW7s34wePW73U1el46Q" Name="Dispose" ManuallySortedPins="true" />
-                <Node Bounds="935,473,61,26" Id="AGCOvEDHPPqMjcrEnYL30E">
+                <Node Bounds="935,453,61,26" Id="AGCOvEDHPPqMjcrEnYL30E">
                   <p:NodeReference LastCategoryFullName="Primitive.TypeHelpers" LastDependency="VL.CoreLib.vl">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="TypeOf" />
@@ -54571,7 +54571,7 @@
                   <Pin Id="HLmvdzMMjUfNDF2DO633qF" Name="Input" Kind="InputPin" />
                   <Pin Id="MPPLa4JmiBiOV9XXUWg1F0" Name="Result" Kind="OutputPin" />
                 </Node>
-                <Node Bounds="836,523,104,26" Id="G0CCMsNEAEiLhUbgTml5uM">
+                <Node Bounds="836,503,104,26" Id="G0CCMsNEAEiLhUbgTml5uM">
                   <p:NodeReference LastCategoryFullName="System.Application.IServiceProvider" LastDependency="VL.CoreLib.vl" OverloadStrategy="AllPinsThatAreNotCommon">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="GetRequiredService" />
@@ -54586,12 +54586,12 @@
                   <Pin Id="Qwqbr3D5r5NMoEk95VjzpD" Name="Service Type" Kind="InputPin" />
                   <Pin Id="EpQkCHkw1MkN3H3UkwWHYA" Name="Result" Kind="OutputPin" />
                 </Node>
-                <Pad Id="Oe0j3UP0OcwLE1H69Nt99f" Comment="SyncPeer" Bounds="937,453" isIOBox="true">
+                <Pad Id="Oe0j3UP0OcwLE1H69Nt99f" Comment="SyncPeer" Bounds="937,433" isIOBox="true">
                   <p:TypeAnnotation LastCategoryFullName="CMiX.Core.Networking" LastDependency="CMiX.Core.csproj">
                     <Choice Kind="TypeFlag" Name="SyncPeer" />
                   </p:TypeAnnotation>
                 </Pad>
-                <Node Bounds="836,631,48,26" Id="Jkvi3TLA8VuOZAEAKzhU1z">
+                <Node Bounds="836,611,48,26" Id="Jkvi3TLA8VuOZAEAKzhU1z">
                   <p:NodeReference LastCategoryFullName="CMiX.Core.Networking.SyncPeer" LastDependency="CMiX.Core.csproj">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <CategoryReference Kind="AssemblyCategory" Name="SyncPeer" />
@@ -54600,7 +54600,7 @@
                   <Pin Id="OeVfbFAFGPWPDwQnqSGwSJ" Name="Input" Kind="StateInputPin" />
                   <Pin Id="D2zNx3yXqaOPK6JencnmoW" Name="Output" Kind="StateOutputPin" />
                 </Node>
-                <Node Bounds="836,571,58,19" Id="AKEOP07eTUiM6CmSH4uEIy">
+                <Node Bounds="836,551,58,19" Id="AKEOP07eTUiM6CmSH4uEIy">
                   <p:NodeReference LastCategoryFullName="Primitive.Object" LastDependency="VL.CoreLib.vl">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="HardCast" />
@@ -54608,7 +54608,7 @@
                   <Pin Id="QAVf7Y5uBoyPZT87W5DsNT" Name="Input" Kind="StateInputPin" />
                   <Pin Id="ByrG1DKrsvPPFmwZnUGmTm" Name="Result" Kind="OutputPin" />
                 </Node>
-                <Node Bounds="936,639,65,19" Id="Pu4Uk1JdWL4QViqrZlkzEV">
+                <Node Bounds="936,619,65,19" Id="Pu4Uk1JdWL4QViqrZlkzEV">
                   <p:NodeReference LastCategoryFullName="System.Logging" LastDependency="VL.CoreLib.vl">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <CategoryReference Kind="Category" Name="Logging" NeedsToBeDirectParent="true" />
@@ -54622,24 +54622,24 @@
                   <Pin Id="CFND0D3ztv1OBkaRKQupAc" Name="Exception" Kind="InputPin" IsHidden="true" />
                   <Pin Id="Vu6Zy58bukONZ60RiSpWya" Name="Apply" Kind="InputPin" />
                 </Node>
-                <Pad Id="RXKPPWrVQzoND9kBWvVgJQ" Comment="Message" Bounds="938,588,116,15" ShowValueBox="true" isIOBox="true" Value="Stopping SyncPeer">
+                <Pad Id="RXKPPWrVQzoND9kBWvVgJQ" Comment="Message" Bounds="938,568,116,15" ShowValueBox="true" isIOBox="true" Value="Stopping SyncPeer">
                   <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
                     <Choice Kind="TypeFlag" Name="String" />
                   </p:TypeAnnotation>
                 </Pad>
-                <Pad Id="N0BMIssVZJiOFhEoD0qeI4" Comment="Log Level" Bounds="958,611,84,15" ShowValueBox="true" isIOBox="true" Value="Information">
+                <Pad Id="N0BMIssVZJiOFhEoD0qeI4" Comment="Log Level" Bounds="958,591,84,15" ShowValueBox="true" isIOBox="true" Value="Information">
                   <p:TypeAnnotation LastCategoryFullName="System.Logging" LastDependency="VL.CoreLib.vl">
                     <Choice Kind="TypeFlag" Name="LogLevel" />
                   </p:TypeAnnotation>
                 </Pad>
               </Patch>
               <Pin Id="TYbTnISgarUNN2zHVg4G7k" Name="Node Context" Kind="InputPin" IsHidden="true" />
-              <ControlPoint Id="HWHCyF2GyzUQPYJRWOtFLB" Bounds="803,431" Alignment="Top" />
-              <ControlPoint Id="Eshe3a50iFWM2MFBiCTnmh" Bounds="803,672" Alignment="Bottom" />
-              <ControlPoint Id="SL8Bm5wsR3yLojeavRK8eU" Bounds="1087,431" Alignment="Top" />
-              <ControlPoint Id="N9sm1J59ms5OrpozuvUBuD" Bounds="1087,672" Alignment="Bottom" />
+              <ControlPoint Id="HWHCyF2GyzUQPYJRWOtFLB" Bounds="803,411" Alignment="Top" />
+              <ControlPoint Id="Eshe3a50iFWM2MFBiCTnmh" Bounds="803,652" Alignment="Bottom" />
+              <ControlPoint Id="SL8Bm5wsR3yLojeavRK8eU" Bounds="1087,411" Alignment="Top" />
+              <ControlPoint Id="N9sm1J59ms5OrpozuvUBuD" Bounds="1087,652" Alignment="Bottom" />
             </Node>
-            <Pad Id="RA6D3WYJ8ffMo6xy5WpGab" SlotId="RVOCjOVLuOzOCq0Rc2Y2h8" Bounds="838,379" />
+            <Pad Id="RA6D3WYJ8ffMo6xy5WpGab" SlotId="RVOCjOVLuOzOCq0Rc2Y2h8" Bounds="838,361" />
             <Node Bounds="471,329,72,26" Id="H0TQWvICGRJOsdIF4ZCNCu">
               <p:NodeReference LastCategoryFullName="CMiX.Core.Networking.MainloopQueue" LastDependency="CMiX.Core.csproj">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
@@ -54648,10 +54648,10 @@
               </p:NodeReference>
               <Pin Id="SwcGrNfdL5qQTZWtZUHFEo" Name="Output" Kind="StateOutputPin" />
             </Node>
-            <Pad Id="OP0pzFrptbALQdDUYcF5TR" SlotId="MYh1pMznKDsLuhVPmjDGpo" Bounds="473,800" />
+            <Pad Id="OP0pzFrptbALQdDUYcF5TR" SlotId="MYh1pMznKDsLuhVPmjDGpo" Bounds="473,810" />
             <ControlPoint Id="TYqHpXHqhHUPQOIRG0m9sQ" Bounds="473,840" />
-            <Pad Id="RzaRYZM2OChNA8s5SkNfdS" SlotId="MYh1pMznKDsLuhVPmjDGpo" Bounds="1087,375" />
-            <Node Bounds="1085,709,72,26" Id="EsJ2wVcC5NpLso0l2tODEL">
+            <Pad Id="RzaRYZM2OChNA8s5SkNfdS" SlotId="MYh1pMznKDsLuhVPmjDGpo" Bounds="1087,361" />
+            <Node Bounds="1085,690,72,26" Id="EsJ2wVcC5NpLso0l2tODEL">
               <p:NodeReference LastCategoryFullName="CMiX.Core.Networking.MainloopQueue" LastDependency="CMiX.Core.csproj">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="MainloopQueue" />
