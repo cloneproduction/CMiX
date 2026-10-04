@@ -12,6 +12,20 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
+      <Controls:Outliner
+        DataContext="{Binding TextureSelector}"
+        ItemsSource="{Binding ControlRepository.Textures}">
+
+        <Controls:Outliner.SelectionPanel>
+          <Managers:ButtonOpenSelectionPanel Caption="New Control Texture">
+            <Managers:ButtonOpenSelectionPanel.SelectionPanel>
+              <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+            </Managers:ButtonOpenSelectionPanel.SelectionPanel>
+          </Managers:ButtonOpenSelectionPanel>
+        </Controls:Outliner.SelectionPanel>
+
+      </Controls:Outliner>
+      
         <Controls:ModulatableVectorXY
             Caption="Offset"
             DataContext="{Binding Offset}"
@@ -21,20 +35,6 @@
             Caption="OffsetScale"
             DataContext="{Binding OffsetScale}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=displace}" />
-
-        <Controls:Outliner
-            DataContext="{Binding TextureSelector}"
-            ItemsSource="{Binding ControlRepository.Textures}">
-
-            <Controls:Outliner.SelectionPanel>
-                <Managers:ButtonOpenSelectionPanel Caption="New Control Texture">
-                    <Managers:ButtonOpenSelectionPanel.SelectionPanel>
-                        <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                    </Managers:ButtonOpenSelectionPanel.SelectionPanel>
-                </Managers:ButtonOpenSelectionPanel>
-            </Controls:Outliner.SelectionPanel>
-
-        </Controls:Outliner>
 
     </StackPanel>
 
