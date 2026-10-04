@@ -10,7 +10,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Controls:ModulatableDragValue
+        <Controls:ModulatableFloatValue
             Caption="Grid Size"
             DataContext="{Binding GridSize}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ascii}" />

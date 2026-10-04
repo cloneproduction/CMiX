@@ -18,47 +18,47 @@
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:ModulatableDragValue
+            <BaseControls:ModulatableFloatValue
                 Caption="Height"
                 DataContext="{Binding Height}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:ModulatableDragValue
+            <BaseControls:ModulatableFloatValue
                 Caption="Dot Tolerance"
                 DataContext="{Binding DotTolerance}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:ModulatableDragValue
+            <BaseControls:ModulatableFloatValue
                 Caption="Ray Jitter"
                 DataContext="{Binding RayJitter}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:ModulatableDragValue
+            <BaseControls:ModulatableFloatValue
                 Caption="Ray Length"
                 DataContext="{Binding RayLength}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:ModulatableDragValue
+            <BaseControls:ModulatableFloatValue
                 Caption="Shadow Fade"
                 DataContext="{Binding ShadowFade}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:ModulatableDragValue
+            <BaseControls:ModulatableFloatValue
                 Caption="Shadow FallOff Pow"
                 DataContext="{Binding ShadowFallOffPow}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:ModulatableDragValue
+            <BaseControls:ModulatableFloatValue
                 Caption="Shadow Blur"
                 DataContext="{Binding ShadowBlur}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:ModulatableDragValue
+            <BaseControls:ModulatableFloatValue
                 Caption="Shadow Blur Pow"
                 DataContext="{Binding ShadowBlurPow}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:ModulatableDragValue
+            <BaseControls:ModulatableFloatValue
                 Caption="Sharp Offset"
                 DataContext="{Binding SharpOffset}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />

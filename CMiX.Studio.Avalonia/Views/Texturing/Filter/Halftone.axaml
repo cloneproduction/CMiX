@@ -19,25 +19,25 @@
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <Controls:ModulatableDragValue
+            <Controls:ModulatableFloatValue
                 Caption="Tile Count"
                 DataContext="{Binding NumberOfTiles}"
                 Minimum="1"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
-            <Controls:ModulatableDragValue
+            <Controls:ModulatableFloatValue
                 Caption="Dot Size"
                 DataContext="{Binding DotSize}"
                 Minimum="0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
-            <Controls:ModulatableDragValue
+            <Controls:ModulatableFloatValue
                 Caption="Softness"
                 DataContext="{Binding Softness}"
                 Minimum="0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
-            <Controls:ModulatableDragValue
+            <Controls:ModulatableFloatValue
                 Caption="Brightness"
                 DataContext="{Binding Brightness}"
                 Minimum="0"

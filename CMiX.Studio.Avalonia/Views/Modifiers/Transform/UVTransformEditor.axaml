@@ -10,7 +10,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:ModulatableDragValue
+        <BaseControls:ModulatableFloatValue
             Caption="Uniform"
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
@@ -20,7 +20,7 @@
             DataContext="{Binding Scale}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
 
-        <BaseControls:ModulatableDragValue
+        <BaseControls:ModulatableFloatValue
             Caption="Rotation"
             DataContext="{Binding Rotation}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />

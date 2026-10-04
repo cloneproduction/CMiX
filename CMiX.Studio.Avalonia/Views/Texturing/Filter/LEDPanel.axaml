@@ -9,25 +9,25 @@
 
     <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-        <Controls:ModulatableDragValue
+        <Controls:ModulatableFloatValue
             Caption="Pixel Size"
             DataContext="{Binding PixelSize}"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
-        <Controls:ModulatableDragValue
+        <Controls:ModulatableFloatValue
             Caption="Mask Stagger"
             DataContext="{Binding MaskStagger}"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
-        <Controls:ModulatableDragValue
+        <Controls:ModulatableFloatValue
             Caption="Mask Border"
             DataContext="{Binding MaskBorder}"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
-        <Controls:ModulatableDragValue
+        <Controls:ModulatableFloatValue
             Caption="Mask Intensity"
             DataContext="{Binding MaskIntensity}"
             Minimum="0"

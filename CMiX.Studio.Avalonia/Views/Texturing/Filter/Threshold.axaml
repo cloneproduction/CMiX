@@ -11,13 +11,13 @@
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <Controls:ModulatableDragValue
+            <Controls:ModulatableFloatValue
                 Caption="Threshold"
                 DataContext="{Binding ThresholdValue}"
                 Minimum="0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
 
-            <Controls:ModulatableDragValue
+            <Controls:ModulatableFloatValue
                 Caption="Smooth"
                 DataContext="{Binding Smooth}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />

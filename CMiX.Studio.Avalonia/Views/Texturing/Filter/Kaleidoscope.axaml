@@ -23,7 +23,7 @@
                 Minimum="1"
                 Value="{Binding Iterations.Value}" />
 
-            <Controls:ModulatableDragValue
+            <Controls:ModulatableFloatValue
                 Caption="Iteration Zoom"
                 DataContext="{Binding IterationZoom}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
@@ -32,12 +32,12 @@
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <Controls:ModulatableDragValue
+            <Controls:ModulatableFloatValue
                 Caption="Rotation"
                 DataContext="{Binding Rotation}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-            <Controls:ModulatableDragValue
+            <Controls:ModulatableFloatValue
                 Caption="Zoom"
                 DataContext="{Binding Zoom}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
@@ -49,7 +49,7 @@
             DataContext="{Binding Center}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        <Controls:ModulatableDragValue
+        <Controls:ModulatableFloatValue
             Caption="Cell Rotation"
             DataContext="{Binding CellRotation}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
