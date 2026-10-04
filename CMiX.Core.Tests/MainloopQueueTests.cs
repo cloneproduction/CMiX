@@ -6,13 +6,13 @@ namespace CMiX.Core.Tests
     public class MainloopQueueTests
     {
         [Fact]
-        public void Post_ThenDrain_RunsTheActionsInOrderOnTheDrainingThread()
+        public async Task Post_ThenDrain_RunsTheActionsInOrderOnTheDrainingThread()
         {
             var queue = new MainloopQueue();
             var order = new List<int>();
             var threads = new List<int>();
 
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 for (var i = 1; i <= 3; i++)
                 {
@@ -23,7 +23,7 @@ namespace CMiX.Core.Tests
                         threads.Add(Environment.CurrentManagedThreadId);
                     });
                 }
-            }).Wait();
+            });
 
             Assert.Empty(order);
 
