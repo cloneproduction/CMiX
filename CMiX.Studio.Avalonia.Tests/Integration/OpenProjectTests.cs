@@ -23,12 +23,12 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     // load's, and every reopen grew the session by another copy.
     public class OpenProjectTests
     {
-        // The four counts the reported symptom is visible in, plus the layers and the total, which
+        // The counts the reported symptom is visible in, plus the layers and the total, which
         // catch anything the per type collections would miss.
-        private static (int Compositions, int Layers, int Entities, int Materials, int Textures, int Controls)
+        private static (int Compositions, int Layers, int Entities, int Textures, int Controls)
             Counts(ControlRepository repository) =>
             (repository.Compositions.Count, repository.Layers.Count, repository.Entities.Count,
-             repository.Materials.Count, repository.Textures.Count, repository.Controls.Count);
+             repository.Textures.Count, repository.Controls.Count);
 
         [AvaloniaFact]
         public async Task OpenProject_OpenedTwice_ReplacesTheFirstLoadInsteadOfAccumulating()
@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 TestServiceProviderFactory.Pump();
 
                 var afterFirstLoad = Counts(repository);
-                Assert.Equal((1, 1, 1, 1, 2, 6), afterFirstLoad);
+                Assert.Equal((1, 1, 1, 2, 5), afterFirstLoad);
                 // Held by reference rather than by count, so the second load has to be shown to
                 // have released these very instances and not merely to hold the same number.
                 var firstLoadControls = repository.Controls.ToList();
@@ -255,7 +255,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 viewModel.MainMenu.NewProjectCommand.Execute(null);
                 TestServiceProviderFactory.Pump();
 
-                Assert.Equal((0, 0, 0, 0, 0, 0), Counts(viewModel.ControlRepository));
+                Assert.Equal((0, 0, 0, 0, 0), Counts(viewModel.ControlRepository));
                 Assert.Null(viewModel.MainMenu.FolderPath);
             }
             finally

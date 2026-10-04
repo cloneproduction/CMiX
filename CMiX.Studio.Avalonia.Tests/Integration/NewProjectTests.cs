@@ -69,42 +69,9 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             Assert.Empty(viewModel.ControlRepository.Textures);
         }
 
-        [AvaloniaFact]
-        public void NewProject_ClearsATextureHeldByAMaterialTextureSlot()
-        {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            SelectTab(window, "Material");
-
-            var newMaterialButton = window.GetVisualDescendants().OfType<Button>()
-                .Single(b => (b.Content as string) == "New Material");
-            newMaterialButton.Command!.Execute(newMaterialButton.CommandParameter);
-            TestServiceProviderFactory.Pump();
-
-            var material = Assert.IsType<CMiX.Core.Materials.Material>(Assert.Single(viewModel.MaterialManager.ManagerData.Items));
-            // Selecting the material realizes its editing panel, and expanding the texture section
-            // realizes the diffuse slot inside it, the same two steps the user takes.
-            viewModel.MaterialManager.SelectedItem = material;
-            material.DiffuseTexture.IsExpanded = true;
-            TestServiceProviderFactory.Pump();
-
-            CreateThroughPopup(window, material.DiffuseTexture.TextureManager, "Add Texture", typeof(CheckerBoard));
-
-            var texture = Assert.Single(material.DiffuseTexture.TextureManager.ManagerData.Items);
-            Assert.Contains(viewModel.ControlRepository.Textures, item => ReferenceEquals(item, texture));
-            // The slot owns it alone; the top level texture manager never saw it.
-            Assert.Empty(viewModel.TextureManager.ManagerData.Items);
-
-            viewModel.MainMenu.NewProjectCommand.Execute(null);
-            TestServiceProviderFactory.Pump();
-
-            Assert.Empty(viewModel.ControlRepository.Materials);
-            Assert.Empty(viewModel.ControlRepository.Textures);
-        }
-
         // The textures of a loaded project are reachable only through the composition graph, so this
-        // is the case the reported symptom came from: the material sits in the entity's material
-        // selector rather than in any of the swept managers, and both it and its slot textures have
-        // to come down with the composition.
+        // is the case the reported symptom came from: the slot textures sit in the entity's material
+        // rather than in any of the swept managers, and they have to come down with the composition.
         [AvaloniaFact]
         public void NewProject_ClearsTheTexturesOfALoadedProject()
         {
@@ -122,13 +89,11 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal(2, viewModel.ControlRepository.Textures.Count);
-                Assert.Single(viewModel.ControlRepository.Materials);
 
                 viewModel.MainMenu.NewProjectCommand.Execute(null);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Empty(viewModel.ControlRepository.Compositions);
-                Assert.Empty(viewModel.ControlRepository.Materials);
                 Assert.Empty(viewModel.ControlRepository.Textures);
                 Assert.Empty(viewModel.ControlRepository.Controls);
             }
