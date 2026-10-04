@@ -5,8 +5,7 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Every texture source gets UseCompositionResolution from TextureSourceBase. These tests run
-    // over every concrete source, so a new source cannot skip the parameter.
+    // Runs over every concrete texture source, so a new source cannot skip UseCompositionResolution.
     public class UseCompositionResolutionTests
     {
         public static IEnumerable<object[]> SourceTypeNames() =>

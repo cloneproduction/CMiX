@@ -7,10 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    // Implemented by every texture source's own Model record (alongside IPrefabModel) so
-    // TextureSourceBase can populate/read the four fields every source shares without knowing
-    // which concrete Model type it's holding. Standalone rather than extending IPrefabModel/
-    // IControlModel, since those only expose ID/PrefabService as get-only.
+    // Implemented by every texture source model, so TextureSourceBase can read and write the shared fields.
     public interface ITextureSourceModel
     {
         Guid ID { get; set; }

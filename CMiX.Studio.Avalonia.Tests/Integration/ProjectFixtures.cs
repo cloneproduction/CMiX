@@ -7,11 +7,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     // Shared setup for the integration tests that need a project already saved to disk.
     internal static class ProjectFixtures
     {
-        // Builds a project through the same managers the app uses, so it round trips the real
-        // model shape, then saves it to disk: a composition holding a layer, holding an entity,
-        // whose material has a texture in each of its two slots. Spins
-        // up its own throwaway window purely to construct the real DI wired object graph the save
-        // needs; that window is not the one the calling test goes on to exercise.
+        // Saves a project with a composition, a layer, an entity, and a material with a texture in each slot.
         public static void WriteProjectWithMaterialTextures(string path)
         {
             var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
@@ -30,10 +26,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
         }
 
-        // Saves three compositions, CompositionA to CompositionC, each with one layer, LayerA to
-        // LayerC. The middle composition is selected. An open adds the compositions in order and
-        // each add selects the new one, so without a restore the last one stays selected. A lost
-        // selection index reads back as 0. The middle one is neither of these.
+        // Saves compositions A to C, each with one layer, with the middle one selected.
         public static void WriteProjectWithThreeCompositions(string path)
         {
             var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
@@ -55,8 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
         }
 
-        // Saves a project with a name and a project model. The model is set the way the browse
-        // button of the model selector sets it, so modelPath must be a file that exists.
+        // Saves a project with a name and a model; modelPath must be an existing file.
         public static void WriteProjectWithNameAndModel(string path, string projectName, string modelPath)
         {
             var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
@@ -68,9 +60,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
         }
 
-        // Saves two compositions, each pointing at a different output slot, and neither at slot 0.
-        // Slot 0 is what a fresh composition defaults to, so a reload that loses its saved
-        // selection and falls back to the default is visibly wrong against either composition here.
+        // Saves two compositions on different output slots, neither of them slot 0.
         public static void WriteProjectWithDifferentOutputMappings(string path)
         {
             var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();

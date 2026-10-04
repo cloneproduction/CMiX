@@ -50,14 +50,7 @@ namespace CMiX.Core.Prefabs.Managers
             SelectedItem = null;
         }
 
-        // Ends this selector's lifetime, the counterpart of PrefabManager.Dispose. Called from the
-        // Dispose of the control that owns the selector, which the delete path only reaches once the
-        // undo stack has dropped the delete, so the dropped selection can no longer be restored: no
-        // undo entry is pushed here and the selected control is disposed as soon as nothing else
-        // references it. Clearing the selection alone only let go of this selector's own reference
-        // and left the control itself untouched, so a control that owns managers of its own, a
-        // material with its two texture slots for instance, kept their contents registered in the
-        // repository forever and a new project could never empty them.
+        // Ends the selector's lifetime: disposes the selected control once nothing else references it.
         public void Dispose()
         {
             var previousItem = _selectedItem;

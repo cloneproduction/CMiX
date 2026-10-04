@@ -1,5 +1,4 @@
 ﻿using CMiX.Core.Compositing;
-using CMiX.Core.Materials;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,8 +6,7 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Round trips a project through the file and back into a fresh object graph, which is the only
-    // place where the loaded names, the loaded ids and the repository index meet.
+    // Round trips a project through a file into a fresh object graph.
     public class ProjectLoadTests : IDisposable
     {
         private readonly TempDirectoryFixture _tempDir = new();

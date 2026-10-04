@@ -75,7 +75,6 @@ namespace CMiX.Core.Prefabs.Managers
         public void AddItem(IControl control)
         {
             AddControlToCollection(control);
-            //ManagerData.SelectedIndex = ManagerData.Items.IndexOf(control);
         }
 
         public void AddItem(IControlModel controlModel)
@@ -104,10 +103,7 @@ namespace CMiX.Core.Prefabs.Managers
             LoadControlIntoCollection(prefab);
         }
 
-        // disposeIfOrphaned stays false on the undoable delete path. There the removed instance is
-        // owned by the RemoveItemCommand sitting on the undo stack, which disposes it only once the
-        // command is dropped, so undoing a delete puts the control back with its contents intact.
-        // Teardown paths that no undo command can reverse still dispose here.
+        // Not disposed on the undoable delete path: the RemoveItemCommand owns the removed control until it is dropped.
         private (IControl removed, int newIndex) RemoveControlFromCollection(IControl control, bool disposeIfOrphaned)
         {
             var items = ManagerData.Items;
@@ -145,14 +141,6 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.SelectedIndex = -1;
         }
 
-        //public void MoveItem(int oldIndex, int newIndex)
-        //{
-        //    var items = ManagerData.Items;
-        //    if (oldIndex < 0 || oldIndex > items.Count - 1) return;
-        //    if (newIndex < 0 || newIndex > items.Count - 1) return;
-        //    items.Move(oldIndex, newIndex);
-        //}
-
         public void MoveItem(int oldIndex, int newIndex)
         {
             var items = ManagerData.Items;
@@ -163,11 +151,7 @@ namespace CMiX.Core.Prefabs.Managers
 
             items.Move(oldIndex, newIndex);
 
-            // Avalonia's SelectingItemsControl does not process
-            // NotifyCollectionChangedAction.Move, so the ListBox visually loses
-            // selection even though the moved item is still the same instance
-            // (github.com/AvaloniaUI/Avalonia/issues/2522, /issues/16279).
-            // Re-assert selection explicitly to work around it.
+            // Avalonia ignores NotifyCollectionChangedAction.Move, so the selection is set again (Avalonia issues 2522, 16279).
             if (wasSelected)
             {
                 SelectedItem = null;
@@ -195,11 +179,7 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.SelectedIndex = index;
         }
 
-        // The bare collection level swap, with no message and no undo entry. PrefabManager replaces
-        // the reset command with its own undoable path, so this one only runs for a collection that
-        // no manager owns. Nothing can put the replaced control back afterward, so it is disposed
-        // here like the other teardown paths do, and the selection follows the replacement instead
-        // of pointing at an instance the collection no longer holds.
+        // Bare swap with no message and no undo entry, for a collection no manager owns; the old control is disposed.
         public void ResetItem(IControl control)
         {
             if (control == null) return;

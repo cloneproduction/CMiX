@@ -37,13 +37,7 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerReorderService = reorderServiceFactory?.Invoke(Collection, OnMove);
             DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
 
-            // Registers under the constructor time ManagerData.ID. Two paths reassign that id
-            // afterward, so both call RegisterDeleter again once the real id is known: the seven
-            // top level managers get it from MainViewModel.SetupManager, and every manager built
-            // through ControlFactory.Create gets it from FromModel, which round trips even a
-            // brand new control through a default model. A stale ctor registration is otherwise
-            // harmless because DeleteEverywhere only looks up ids that appear in _referencers,
-            // which are always the ids AddControl was called with, always after the real id is set.
+            // Registered under the constructor ID; RegisterDeleter runs again when the real ID is set.
             RegisterDeleter();
         }
 
@@ -55,20 +49,13 @@ namespace CMiX.Core.Prefabs.Managers
         [ObservableProperty]
         private bool isExpanded = false;
 
-        // _isAdding suppresses SelectItemCommand when selection changes as a side effect of AddItem.
-        // try/finally ensures the flag is always reset even if Collection.AddItem throws.
+        // Suppresses SelectItemCommand while AddItem changes the selection.
         private bool _isAdding = false;
 
-        // Defense in depth against a selection feedback loop: a control bound to a ListBox whose
-        // ItemsSource differs from ManagerData.Items (for example a shared repository collection)
-        // can push a SelectedItem write back in here while an earlier call on this same manager is
-        // still applying its own selection change, recursing without ever converging. The guard
-        // makes the setter a no op while it is already running so no binding topology can recurse
-        // it to a stack overflow; try/finally ensures the flag always resets even if a step throws.
+        // Makes the setter a no-op while it runs, so a binding cannot recurse it into a stack overflow.
         private bool _isApplyingSelection = false;
 
-        // The id the deleter is currently registered under. ManagerData.ID is reassigned after
-        // construction, so the registration key cannot be read back from it at unregister time.
+        // The ID the deleter is registered under; ManagerData.ID changes after construction.
         private Guid _registeredDeleterId;
         private bool _hasRegisteredDeleter;
 
@@ -178,18 +165,11 @@ namespace CMiX.Core.Prefabs.Managers
             var (removed, newIndex) = Collection.DeleteItem(control);
             if (removed == null) return;
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, removed, newIndex));
-            // newIndex is -1 when the deleted item was the collection's last remaining item; that
-            // still needs an undo entry (RemoveItemCommand.Undo reinserts at the original index,
-            // it does not use newIndex), so the push no longer bails out on a negative newIndex.
+            // newIndex is -1 after the last item is deleted; the undo entry is still pushed.
             UndoManager?.Push(new RemoveItemCommand(Collection, ControlMessenger, MessageFactory, control, index, newIndex));
         }
 
-        // Replaces an item with a fresh instance of the same type, keeping its position. The raw
-        // CollectionManager.ResetItem swap sent no message, recorded no undo entry and dropped the
-        // replaced instance with its subscriptions still live, so the reset command routes through
-        // the same machinery delete and add use instead: the engine sees a remove and add pair, the
-        // swap is one undo entry, and the replaced instance is owned by that entry until it is
-        // dropped, which is the only point where its teardown is safe.
+        // Swaps in a fresh instance at the same position as one undoable remove and add.
         public void ResetItem(IControl control)
         {
             if (control == null) return;
@@ -206,11 +186,7 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(command);
         }
 
-        // Registers this manager's DeleteItem as the deleter for its current ManagerData.ID. Called
-        // from the ctor and again by app side setup code once ManagerData.ID is reassigned, since the
-        // registration key must match the id AddControl used when the control was referenced. The
-        // entry made under the previous id goes first, so a manager never leaves a stale deleter
-        // behind that would keep it and its whole item graph alive.
+        // Registers DeleteItem under the current ManagerData.ID, replacing any entry under the previous ID.
         public void RegisterDeleter()
         {
             UnregisterDeleter();
@@ -226,8 +202,7 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.ControlRepository.UnregisterDeleter(_registeredDeleterId, DeleteItem);
         }
 
-        // Ends this manager's lifetime. Called from the Dispose of every control that owns nested
-        // managers, which the delete path only reaches once the undo stack has dropped the delete.
+        // Ends the manager's lifetime; called from the Dispose of the owning control.
         public void Dispose()
         {
             ClearAll();
@@ -305,10 +280,7 @@ namespace CMiX.Core.Prefabs.Managers
             var m = (PrefabManagerModel)model;
             ManagerData.ID = m.ManagerData.ID;
             ManagerData.SelectedIndex = m.ManagerData.SelectedIndex;
-            // ControlFactory.Create round trips every freshly built control through FromModel,
-            // not only saved project loads, so nested managers get their ManagerData.ID reassigned
-            // here just like the top level ones do in MainViewModel.SetupManager; re register so
-            // the deleter key matches the id AddControl and LoadItem will use afterward.
+            // ControlFactory.Create also sets the ID through FromModel, so the deleter is registered again.
             RegisterDeleter();
         }
     }

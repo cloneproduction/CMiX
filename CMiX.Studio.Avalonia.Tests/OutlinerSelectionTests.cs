@@ -13,9 +13,7 @@ using AvaloniaComboBox = global::Avalonia.Controls.ComboBox;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // Drives the real Outliner inside the real Displace view and picks an item from its dropdown.
-    // The Outliner once cast the ComboBox to the ComboBox class of its own namespace, got null, and
-    // ignored every dropdown pick.
+    // Drives the real Outliner in the real Displace view, picking an item from its dropdown.
     public class OutlinerSelectionTests
     {
         private static (AvaloniaComboBox ComboBox, PrefabManager Selector) ShowDisplaceOutliner()
@@ -33,8 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return (comboBox, displace.TextureSelector);
         }
 
-        // The steps of the user report: create an item, clear the selection with the minus button,
-        // create a second item, then pick the first one again from the dropdown.
+        // Create an item, clear the selection, create a second item, then pick the first from the dropdown.
         [AvaloniaFact]
         public void PickingAClearedItemFromTheDropdownSelectsItAgain()
         {
@@ -56,9 +53,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Same(bubbleNoise, comboBox.SelectedItem);
         }
 
-        // Two selections happen before the posted assignments run. The Outliner must ignore the
-        // ComboBox events that only echo the view model, or the stale posts flip the selection
-        // back and forth without end and this test never finishes.
+        // Two selections before the posts run must not make stale posts flip the selection forever.
         [AvaloniaFact]
         public void PickingAnItemFromTheDropdownAfterTwoQuickAddsSelectsItWithoutLooping()
         {
