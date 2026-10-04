@@ -68,8 +68,9 @@ only while the peer is joined.
 position. It waits for the wake signal, or for 250 ms, whichever comes first.
 The peer skips an entry that it sent itself, but it still moves its position
 forward. The peer also skips an entry with a message ID that it applied before.
-It remembers the last 1000 message IDs for this. On the Studio the apply runs
-on the UI thread.
+It remembers the last 1000 message IDs for this. The follower applies one read
+batch, up to 256 entries, in one action on the dispatcher. On the Studio that
+is the UI thread. On the vvvv engine it is the mainloop.
 
 **Join.** The peer reads the snapshot and applies the model. It then replays
 the stream from the snapshot position to the tail, in batches of 256 entries.
@@ -120,8 +121,16 @@ shows "Not in sync", sending is blocked, and the user clicks Push or Pull.
 **In sync.** A peer is in sync when it is connected, joined, and its position
 equals the tail.
 
-**The UI.** No Redis call runs on the UI thread. The one accepted UI pause is
-the apply of a large snapshot, because the controls are bound to the UI.
+**The UI and the engine mainloop.** No Redis call runs on the UI thread. The
+one accepted UI pause is the apply of a large snapshot, because the controls
+are bound to the UI. The engine patch gives the peer a `MainloopQueue` through
+`ConfigureEngineTransport (Provider, Options, Queue, Read Batch)`. The patch
+drains the queue once per frame with `Drain`. Every apply, every event and
+every property change of the peer then run on the mainloop. The read batch is
+the number of entries that one such action applies. The default is 256. A
+larger value gives a faster catch-up and a longer frame. A patch that stops
+draining stalls the peer. The patch calls `Close` after `SyncPeer.Stop`, so the
+peer stops at once. `CMiX.Console` has no mainloop and applies inline.
 
 ### The Studio settings file
 
