@@ -71,5 +71,16 @@ namespace CMiX.Core.DependencyInjection
             // Engines read and apply. Only the Studio writes, so the engine peer is not a sender.
             peer.Start(options, autoJoin: true);
         }
+
+        public void ConfigureEngineTransport(IServiceProvider provider, SyncOptions options, MainloopQueue queue, int readBatch = 256)
+        {
+            var peer = provider.GetRequiredService<SyncPeer>();
+            // The patch drains the queue once per frame, so every apply runs on the vvvv mainloop.
+            // The read batch is the size of one such apply.
+            if (readBatch > 0)
+                peer.ReadBatch = readBatch;
+            peer.SetDispatcher(queue.Post);
+            peer.Start(options, autoJoin: true);
+        }
     }
 }
