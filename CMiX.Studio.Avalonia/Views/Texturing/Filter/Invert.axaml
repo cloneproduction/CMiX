@@ -23,7 +23,7 @@
             ItemsSource="{x:Static Resources:EnumProviders.InvertChannel}"
             SelectedItem="{Binding InvertChannelSelector.Value}" />
 
-        <Basecontrol:ToggleButton
+        <Basecontrol:CaptionedToggleButton
             Caption="Invert Alpha"
             IsChecked="{Binding InvertAlpha.Value}" />
 

@@ -56,7 +56,7 @@
             Caption="Position"
             DataContext="{Binding Position}" />
 
-        <BaseControl:ToggleButton
+        <BaseControl:CaptionedToggleButton
             Margin="0,0,0,8"
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}" />

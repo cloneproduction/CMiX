@@ -10,7 +10,6 @@ using CMiX.Studio.Avalonia.Views.Controls;
 using CMiX.Studio.Avalonia.Views.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using ToggleButton = CMiX.Studio.Avalonia.Views.Controls.ToggleButton;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -49,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Single(view.GetVisualDescendants().OfType<DragValue>(), v => v.Caption == "FPS");
 
-            var toggleCaptions = view.GetVisualDescendants().OfType<ToggleButton>().Select(t => t.Caption).ToList();
+            var toggleCaptions = view.GetVisualDescendants().OfType<CaptionedToggleButton>().Select(t => t.Caption).ToList();
             Assert.Contains("Play", toggleCaptions);
             Assert.Contains("Loop", toggleCaptions);
         }

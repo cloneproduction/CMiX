@@ -29,15 +29,15 @@
             Minimum="0.0"
             Value="{Binding FPS.Value}" />
 
-        <BaseControls:ToggleButton
+        <BaseControls:CaptionedToggleButton
             Caption="Play"
             IsChecked="{Binding Play.Value}" />
 
-        <BaseControls:ToggleButton
+        <BaseControls:CaptionedToggleButton
             Caption="Loop"
             IsChecked="{Binding Loop.Value}" />
 
-        <BaseControls:ToggleButton
+        <BaseControls:CaptionedToggleButton
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}" />
 

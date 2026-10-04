@@ -16,7 +16,7 @@
             Value="{Binding Radius.Value}"
             ResetCommand="{Binding Radius.ResetCommand}" />
 
-        <BaseControl:ToggleButton
+        <BaseControl:CaptionedToggleButton
             Caption="Show Helper"
             IsChecked="{Binding LightHelper.Value}" />
     </StackPanel>

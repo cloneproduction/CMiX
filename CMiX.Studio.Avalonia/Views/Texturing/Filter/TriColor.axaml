@@ -27,11 +27,11 @@
 
         </Panels:PositionedStackPanel>
 
-        <BaseControl:ToggleButton
+        <BaseControl:CaptionedToggleButton
             Caption="Single Channel"
             IsChecked="{Binding SingleChannel.Value}" />
 
-        <BaseControl:ToggleButton
+        <BaseControl:CaptionedToggleButton
             Caption="Clamp Color"
             IsChecked="{Binding ClampColor.Value}" />
 

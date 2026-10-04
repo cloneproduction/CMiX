@@ -23,11 +23,11 @@
             Caption="Do Seek"
             Command="{Binding DoSeek.ClickCommand}" />
 
-        <BaseControls:ToggleButton
+        <BaseControls:CaptionedToggleButton
             Caption="Play"
             IsChecked="{Binding Play.Value}" />
 
-        <BaseControls:ToggleButton
+        <BaseControls:CaptionedToggleButton
             Margin="0,8"
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}" />

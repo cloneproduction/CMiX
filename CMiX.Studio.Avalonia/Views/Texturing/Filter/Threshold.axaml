@@ -36,11 +36,11 @@
 
         </Panels:PositionedStackPanel>
 
-        <Controls:ToggleButton
+        <Controls:CaptionedToggleButton
             Caption="Invert"
             IsChecked="{Binding Invert.Value}" />
 
-        <Controls:ToggleButton
+        <Controls:CaptionedToggleButton
             Caption="Antialiasing"
             IsChecked="{Binding Antialiasing.Value}" />
 

@@ -7,7 +7,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControl:ToggleButton
+        <BaseControl:CaptionedToggleButton
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}" />
 

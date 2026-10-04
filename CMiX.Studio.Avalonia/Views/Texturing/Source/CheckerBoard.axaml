@@ -27,7 +27,7 @@
         <Views:Transform2D
             DataContext="{Binding Transform2D}" />
 
-        <BaseControls:ToggleButton
+        <BaseControls:CaptionedToggleButton
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}" />
 

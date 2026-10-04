@@ -24,7 +24,7 @@
                     ResetCommand="{Binding To.ResetCommand}" />
             </Panels:PositionedStackPanel>
 
-            <BaseControls:ToggleButton
+            <BaseControls:CaptionedToggleButton
                 Caption="PingPong"
                 Margin="0, 8"
                 IsChecked="{Binding PingPong.Value}" />

@@ -7,9 +7,9 @@ using Avalonia.Data;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class ToggleButton : CaptionedUserControl
+    public partial class CaptionedToggleButton : CaptionedUserControl
     {
-        public ToggleButton()
+        public CaptionedToggleButton()
         {
             InitializeComponent();
             labelBorder.PointerPressed += (s, e) =>
@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<bool> IsCheckedProperty =
-            AvaloniaProperty.Register<ToggleButton, bool>(nameof(IsChecked), false, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<CaptionedToggleButton, bool>(nameof(IsChecked), false, defaultBindingMode: BindingMode.TwoWay);
         public bool IsChecked
         {
             get => GetValue(IsCheckedProperty);

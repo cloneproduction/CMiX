@@ -22,7 +22,7 @@
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
             SelectedItem="{Binding MaskChannel.Value}" />
 
-        <BaseControls:ToggleButton
+        <BaseControls:CaptionedToggleButton
             Margin="8"
             Caption="Invert"
             IsChecked="{Binding Invert.Value}" />

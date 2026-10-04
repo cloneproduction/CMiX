@@ -14,7 +14,7 @@
             ItemsSource="{Binding AssetRepository.Images}"
             SelectedItem="{Binding Asset}" />
 
-        <BaseControls:ToggleButton
+        <BaseControls:CaptionedToggleButton
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}" />
 

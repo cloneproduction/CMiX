@@ -15,11 +15,11 @@
             ItemsSource="{x:Static Resources:EnumProviders.AlphaChannel}"
             SelectedItem="{Binding AlphaChannel.Value}" />
 
-        <BaseControls:ToggleButton
+        <BaseControls:CaptionedToggleButton
             Caption="Invert"
             IsChecked="{Binding Invert.Value}" />
 
-        <BaseControls:ToggleButton
+        <BaseControls:CaptionedToggleButton
             Caption="Keep Original Alpha"
             IsChecked="{Binding KeepOriginalAlpha.Value}" />
 

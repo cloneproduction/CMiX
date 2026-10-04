@@ -19,7 +19,7 @@
             Caption="Character Size"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ascii}" />
 
-        <Controls:ToggleButton
+        <Controls:CaptionedToggleButton
             Caption="Grayscale"
             IsChecked="{Binding Grayscale.Value}" />
 

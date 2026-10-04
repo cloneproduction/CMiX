@@ -19,7 +19,7 @@
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
             SelectedItem="{Binding LayerMaskSettings.MaskChannel.Value}" />
 
-        <BaseControls:ToggleButton 
+        <BaseControls:CaptionedToggleButton 
             Margin="0, 0, 0, 8"
             Caption="Invert" 
             IsChecked="{Binding LayerMaskSettings.Invert.Value}" />
