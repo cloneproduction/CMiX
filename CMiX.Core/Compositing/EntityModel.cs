@@ -16,7 +16,6 @@ namespace CMiX.Core.Compositing
         public MeshModel Mesh { get; set; } = new();
         public TransformSRTModel TransformSRT { get; set; } = new();
         public PrefabManagerModel ModifierManager { get; set; } = new();
-        //public PrefabSelectorModel MaterialSelector { get; set; } = new();
         public ColorModel Color { get; set; } = new();
         public TextureModel Texture { get; set; } = new();
         public MaterialModel Material { get; set; } = new();

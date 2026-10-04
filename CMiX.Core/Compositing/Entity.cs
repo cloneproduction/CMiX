@@ -32,20 +32,11 @@ namespace CMiX.Core.Compositing
             Color = color;
             Texture = texture;
             Material = material;
-
-            //MaterialSelector = materialSelector;
-            //MaterialSelector.PropertyChanged += (s, e) =>
-            //{
-            //    if (e.PropertyName == nameof(PrefabSelector.SelectedItem) &&
-            //        MaterialSelector.SelectedItem is IHasCompositionID material)
-            //        material.CompositionID = _compositionID;
-            //};
         }
 
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
-        //public PrefabSelector MaterialSelector { get; set; }
         public TransformSRT TransformSRT { get; set; }
         public Mesh Mesh { get; set; }
         public Color Color { get; set; }
@@ -61,8 +52,6 @@ namespace CMiX.Core.Compositing
             {
                 _compositionID = value;
                 new CompositionIDAssigner(ModifierManager, value);
-                //if (MaterialSelector.SelectedItem is IHasCompositionID material)
-                //    material.CompositionID = value;
                 Texture.CompositionID = value;
             }
         }
@@ -90,7 +79,6 @@ namespace CMiX.Core.Compositing
             TransformSRT = (TransformSRTModel)TransformSRT.ToModel(),
             Color = (ColorModel)Color.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
-            //MaterialSelector = (PrefabSelectorModel)MaterialSelector.ToModel(),
             Texture = (TextureModel)Texture.ToModel(),
             Material = (MaterialModel)Material.ToModel(),
         };  
@@ -107,14 +95,9 @@ namespace CMiX.Core.Compositing
             Material.FromModel(m.Material);
 
             LoadManager(ModifierManager, m.ModifierManager);
-            //MaterialSelector.FromModel(m.MaterialSelector);
         }
 
-        public void Dispose()
-        {
-
-        }
-        //public void Dispose() => DisposeAll(ModifierManager, Mesh, MaterialSelector, Material,
-        //                                    Texture.DiffuseTexture.TextureManager, Texture.MaskTexture.TextureManager);
+        public void Dispose() => DisposeAll(ModifierManager, Mesh, Material,
+                                            Texture.DiffuseTexture.TextureManager, Texture.MaskTexture.TextureManager);
     }
 }
