@@ -78,7 +78,7 @@
 
       <Panels:IndentedExpander
         Header="Material"
-        IsExpanded="{Binding MaterialManagerIsExpanded}">
+        IsExpanded="{Binding MaterialIsExpanded}">
 
         <Border IsVisible="{Binding Material, Converter={StaticResource NullToVisibility}}">
           <Views:Material DataContext="{Binding Material}" />

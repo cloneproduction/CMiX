@@ -62,7 +62,7 @@ namespace CMiX.Core.Compositing
         private bool modifierManagerIsExpanded = false;
 
         [ObservableProperty]
-        private bool materialManagerIsExpanded = false;
+        private bool materialIsExpanded = false;
 
         [ObservableProperty]
         private bool colorPaletteManagerIsExpanded = false;
