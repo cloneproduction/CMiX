@@ -80,6 +80,25 @@
         </Style>
     </ControlTheme>
 
+    <ControlTheme x:Key="ButtonInlineCaption"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="InlineButtonRight"
+        BasedOn="{StaticResource ButtonRoundedRight}"
+        TargetType="Button">
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+    </ControlTheme>
+
     <ControlTheme x:Key="ButtonColorStyle" TargetType="ToggleButton">
         <Setter Property="Template">
             <ControlTemplate>

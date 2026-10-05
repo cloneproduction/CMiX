@@ -7,6 +7,22 @@
 
     <StackPanel>
 
+        <Border Margin="0,0,0,8" Classes="BorderMask">
+            <Grid ColumnDefinitions="*,*">
+                <ToggleButton
+                    Grid.Column="0"
+                    Content="Play"
+                    IsChecked="{Binding Play.Value, Mode=TwoWay}"
+                    Theme="{StaticResource InlineToggleButtonLeft}" />
+                <Button
+                    Grid.Column="1"
+                    Margin="1,0,0,0"
+                    Content="Do Seek"
+                    Command="{Binding DoSeek.ClickCommand}"
+                    Theme="{StaticResource InlineButtonRight}" />
+            </Grid>
+        </Border>
+
         <!-- PathSelector is ported in the Assets slice and resolves at integration time. -->
         <Views:PathSelector
             Margin="0,0,0,8"
@@ -17,15 +33,6 @@
         <BaseControls:IntegerValue
             Caption="Seek Frame"
             DataContext="{Binding SeekFrame}" />
-
-        <BaseControls:CaptionedButton
-            Margin="0,8"
-            Caption="Do Seek"
-            Command="{Binding DoSeek.ClickCommand}" />
-
-        <BaseControls:CaptionedToggleButton
-            Caption="Play"
-            IsChecked="{Binding Play.Value}" />
 
         <BaseControls:CaptionedToggleButton
             Margin="0,8"

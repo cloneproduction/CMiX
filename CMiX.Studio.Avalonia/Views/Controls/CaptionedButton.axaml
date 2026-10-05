@@ -1,13 +1,13 @@
-﻿<Controls:CaptionedUserControl
+<Controls:CaptionedUserControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.CaptionedButton"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    x:Name="labeledButton">
+    x:Name="captionedButton">
 
-    <Controls:LabeledContent Caption="{Binding Caption, ElementName=labeledButton}">
-        <Border>
-            <Button Command="{Binding Command, ElementName=labeledButton}" />
-        </Border>
-    </Controls:LabeledContent>
+    <Button
+        Command="{Binding Command, ElementName=captionedButton}"
+        CommandParameter="{Binding CommandParameter, ElementName=captionedButton}"
+        Content="{Binding Caption, ElementName=captionedButton}"
+        Theme="{StaticResource ButtonInlineCaption}" />
 </Controls:CaptionedUserControl>

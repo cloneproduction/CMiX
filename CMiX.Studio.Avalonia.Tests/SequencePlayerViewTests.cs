@@ -1,5 +1,8 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
+using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core;
@@ -48,9 +51,49 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Single(view.GetVisualDescendants().OfType<DragValue>(), v => v.Caption == "FPS");
 
-            var toggleCaptions = view.GetVisualDescendants().OfType<CaptionedToggleButton>().Select(t => t.Caption).ToList();
+            var toggleCaptions = view.GetVisualDescendants().OfType<ToggleButton>().Select(t => t.Content).ToList();
             Assert.Contains("Play", toggleCaptions);
             Assert.Contains("Loop", toggleCaptions);
+        }
+
+        private static Button DoSeekButton(Views.SequencePlayer view) =>
+            view.GetVisualDescendants().OfType<Button>().Single(b => b is not ToggleButton && (b.Content as string) == "Do Seek");
+
+        [AvaloniaFact]
+        public void PlayLoopAndDoSeek_AreThreeSegmentsOfOneBarAtTheTop()
+        {
+            var (_, view) = ShowSequencePlayerView();
+
+            var buttons = view.GetVisualDescendants().OfType<Button>().ToList();
+            var play = buttons.Single(b => b is ToggleButton && (b.Content as string) == "Play");
+            var loop = buttons.Single(b => b is ToggleButton && (b.Content as string) == "Loop");
+            var doSeek = DoSeekButton(view);
+
+            Assert.Same(play.GetVisualParent(), loop.GetVisualParent());
+            Assert.Same(play.GetVisualParent(), doSeek.GetVisualParent());
+            Assert.Equal(new[] { 0, 1, 2 }, new[] { Grid.GetColumn(play), Grid.GetColumn(loop), Grid.GetColumn(doSeek) });
+            Assert.True(play.TranslatePoint(new Point(0, 0), view)!.Value.Y < view.GetVisualDescendants().OfType<DragValue>().First().TranslatePoint(new Point(0, 0), view)!.Value.Y);
+        }
+
+        [AvaloniaFact]
+        public void DoSeek_IsGreyAndTurnsAccentOnlyWhilePressed()
+        {
+            var (_, view) = ShowSequencePlayerView();
+            var doSeek = DoSeekButton(view);
+            var border = doSeek.GetVisualDescendants().OfType<Border>().First(b => b.Name == "border");
+            Color Current() => ((ISolidColorBrush)border.Background).Color;
+            Color Brush(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
+            var states = (IPseudoClasses)doSeek.Classes;
+
+            Assert.Equal(Brush("Grey600Brush"), Current());
+
+            states.Set(":pointerover", true);
+            TestServiceProviderFactory.Pump();
+            Assert.Equal(Brush("Grey700Brush"), Current());
+
+            states.Set(":pressed", true);
+            TestServiceProviderFactory.Pump();
+            Assert.Equal(Brush("AccentBrush"), Current());
         }
 
         [AvaloniaFact]
