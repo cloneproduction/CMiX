@@ -36158,15 +36158,6 @@
                     <Pin Id="SZr1QGT1Rf4OpObjs63Unu" Name="Path" Kind="InputPin" />
                     <Pin Id="UtvZkQftsOoNHjsLX3JVs5" Name="Output" Kind="StateOutputPin" />
                   </Node>
-                  <Node Bounds="434,401,58,19" Id="HlXI6RPfa3yLzur8fmGRFf">
-                    <p:NodeReference LastCategoryFullName="Primitive.Object" LastDependency="VL.CoreLib.vl">
-                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="ClassType" Name="Object" NeedsToBeDirectParent="true" />
-                      <Choice Kind="OperationCallFlag" Name="HardCast" />
-                    </p:NodeReference>
-                    <Pin Id="K27oHtnbsYIMs5plDHH3hr" Name="Input" Kind="StateInputPin" />
-                    <Pin Id="Afg7zAAwyDGMJ3d7ku9EKw" Name="Result" Kind="OutputPin" />
-                  </Node>
                 </Patch>
                 <ControlPoint Id="QERsFzOKcaZQRRiqZX8S6i" Bounds="211,367" Alignment="Top">
                   <p:TypeAnnotation LastCategoryFullName="CMiX.Engine.Assets" LastDependency="CMiX_ENGINE.Definitions.vl">
@@ -36196,11 +36187,20 @@
                 <Pin Id="JjHOREsZr1PNVjmuV2GiJG" Name="Result" Kind="OutputPin" />
                 <Pin Id="KqHjqKvV57SP7pkqVEWwLi" Name="Value" Kind="OutputPin" />
               </Node>
-              <Pad Id="NK0fK5KyUITLJRljJIxtec" Comment="" Bounds="437,170,135,15" ShowValueBox="true" isIOBox="true" Value="ICMiXServiceAssetResolver">
+              <Pad Id="NK0fK5KyUITLJRljJIxtec" Comment="" Bounds="437,160,136,15" ShowValueBox="true" isIOBox="true" Value="ICMiXServiceAssetResolver">
                 <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
                   <Choice Kind="TypeFlag" Name="String" />
                 </p:TypeAnnotation>
               </Pad>
+              <Node Bounds="435,250,58,19" Id="HlXI6RPfa3yLzur8fmGRFf">
+                <p:NodeReference LastCategoryFullName="Primitive.Object" LastDependency="VL.CoreLib.vl">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="ClassType" Name="Object" NeedsToBeDirectParent="true" />
+                  <Choice Kind="OperationCallFlag" Name="HardCast" />
+                </p:NodeReference>
+                <Pin Id="K27oHtnbsYIMs5plDHH3hr" Name="Input" Kind="StateInputPin" />
+                <Pin Id="Afg7zAAwyDGMJ3d7ku9EKw" Name="Result" Kind="OutputPin" />
+              </Node>
             </Canvas>
             <Patch Id="SaaoBvXSnvPN1wmXAkBUd4" Name="Create" />
             <Patch Id="QE5dgDG2sLZOgDDr689GDk" Name="Update">
@@ -36232,8 +36232,8 @@
             <Link Id="Jd1nz6LLNsMOuW8GRcaBTK" Ids="D4Ubc3qi9dZOYCGXWz8Ona,D1RdtpHXyhrOOf5cLTQYFA" />
             <Link Id="Lj7Ula1anNIMo9pdUPCgCL" Ids="NK0fK5KyUITLJRljJIxtec,VWQp6hvNXbAO0TWSQkdDld" />
             <Link Id="TynEGpRcrUyPTjHDZtXcxy" Ids="KqHjqKvV57SP7pkqVEWwLi,K27oHtnbsYIMs5plDHH3hr" />
-            <Link Id="GsZwgql4OkOOmXehb4TjGN" Ids="Afg7zAAwyDGMJ3d7ku9EKw,J3wC3wPLDMDLxleaT8D3iB" />
             <Link Id="AW6mYhrfx9qMFwsJGFs3pX" Ids="ENQypdxfehhME5n8fmcoDq,QERsFzOKcaZQRRiqZX8S6i" />
+            <Link Id="FzyHGKF6uy4NgZ93MHBhzE" Ids="Afg7zAAwyDGMJ3d7ku9EKw,J3wC3wPLDMDLxleaT8D3iB" />
           </Patch>
         </Node>
         <!--
