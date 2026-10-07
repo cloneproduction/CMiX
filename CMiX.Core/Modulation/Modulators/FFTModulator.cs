@@ -3,11 +3,10 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public partial class FFTModulator : ObservableObject, IModulator
+    public class FFTModulator : ModulatorBase
     {
         public FFTModulator(PrefabService prefabService,
                             GenericValue<float> fft,
@@ -15,8 +14,8 @@ namespace CMiX.Core.Modulation.Modulators
                             GenericValue<float> lowerMid,
                             GenericValue<float> higherMid,
                             GenericValue<float> high)
+            : base(prefabService)
         {
-            PrefabService = prefabService;
             FFT = fft;
             Bass = bass;
             LowerMid = lowerMid;
@@ -24,16 +23,7 @@ namespace CMiX.Core.Modulation.Modulators
             High = high;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
-
-        [ObservableProperty]
-        private bool isHovered;
-
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[]
+        public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[]
         {
             new ModulatorOutput<float>("FFT"),
             new ModulatorOutput<float>("Bass"),
@@ -49,7 +39,7 @@ namespace CMiX.Core.Modulation.Modulators
         public GenericValue<float> High { get; set; }
 
 
-        public IControlModel ToModel() => new FFTModulatorModel
+        public override IControlModel ToModel() => new FFTModulatorModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -60,7 +50,7 @@ namespace CMiX.Core.Modulation.Modulators
             High = (GenericValueModel<float>)High.ToModel()
         };
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (FFTModulatorModel)model;
             ID = m.ID;

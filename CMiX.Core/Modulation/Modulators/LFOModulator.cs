@@ -7,7 +7,7 @@ using CMiX.Core.Undo;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public class LFOModulator : ReceivableControl, IModulator
+    public class LFOModulator : ModulatorBase
     {
         public LFOModulator(PrefabService prefabService,
                             GenericValue<float> period,
@@ -16,8 +16,8 @@ namespace CMiX.Core.Modulation.Modulators
                             GenericValue<WaveTypeEnum> waveType,
                             UndoManager undoManager,
                             ControlActivationService activationService)
+            : base(prefabService)
         {
-            PrefabService = prefabService;
             Period = period;
             Minimum = minimum;
             Maximum = maximum;
@@ -31,35 +31,17 @@ namespace CMiX.Core.Modulation.Modulators
             activationService.Register(this);
         }
 
-
-        private bool _isHovered;
-        public bool IsHovered
-        {
-            get => _isHovered;
-            set { _isHovered = value; OnPropertyChanged(); }
-        }
-
-        private bool _isExpanded = true;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set { _isExpanded = value; OnPropertyChanged(); }
-        }
-
-        public IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {
+        public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {
             new ModulatorOutput<float>("Phase"),
             new ModulatorOutput<int>("Cycles"),
         };
-
-        public PrefabService PrefabService { get; set; }
-        public Guid ID { get; set; }
 
         public GenericValue<float> Period { get; set; }
         public GenericValue<float> Minimum { get; set; }
         public GenericValue<float> Maximum { get; set; }
         public GenericValue<WaveTypeEnum> WaveType { get; set; }
 
-        public IControlModel ToModel() => new LFOModulatorModel
+        public override IControlModel ToModel() => new LFOModulatorModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -68,7 +50,7 @@ namespace CMiX.Core.Modulation.Modulators
             Maximum = (GenericValueModel<float>)Maximum.ToModel(),
             WaveType = (GenericValueModel<WaveTypeEnum>)WaveType.ToModel() 
         };
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (LFOModulatorModel)model;
             ID = m.ID;
