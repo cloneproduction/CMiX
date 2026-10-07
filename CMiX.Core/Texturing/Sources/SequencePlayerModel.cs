@@ -17,7 +17,7 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValueModel<float> FPS { get; set; } = new(60f);
         public GenericValueModel<bool> Loop { get; set; } = new(true);
         public AssetSelectorModel AssetSelector { get; set; } = new();
-        public Integer2Model Resolution { get; set; } = new(0, 0);
+        public Integer2Model Resolution { get; set; } = new(1920, 1080);
         public GenericValueModel<bool> UseCompositionResolution { get; set; } = new(false);
         public PrefabManagerModel TextureModifierManager { get; set; } = new();
     }

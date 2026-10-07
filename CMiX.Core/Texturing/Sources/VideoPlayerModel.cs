@@ -15,7 +15,7 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValueModel<int> SeekFrame { get; set; } = new(0);
         public GenericValueModel<bool> Play { get; set; } = new(true);
         public AssetSelectorModel AssetSelector { get; set; } = new();
-        public Integer2Model Resolution { get; set; } = new(0, 0);
+        public Integer2Model Resolution { get; set; } = new(1920, 1080);
         public GenericValueModel<bool> UseCompositionResolution { get; set; } = new(false);
         public PrefabManagerModel TextureModifierManager { get; set; } = new();
     }
