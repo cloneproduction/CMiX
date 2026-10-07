@@ -15,6 +15,7 @@ namespace CMiX.Core.Modulation.Modulators
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
+        public Guid CompositionID { get; set; }
 
         [ObservableProperty]
         private bool isHovered;

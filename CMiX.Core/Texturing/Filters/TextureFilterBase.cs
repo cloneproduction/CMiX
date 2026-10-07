@@ -12,7 +12,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public abstract partial class TextureFilterBase : ObservableObject, IPrefab, ITextureFilter, IDisposable
+    public abstract partial class TextureFilterBase : ObservableObject, IPrefab, ITextureFilter, IHasCompositionID, IDisposable
     {
         protected TextureFilterBase(PrefabService prefabService, Blend blend, PrefabManager modulatorManager)
         {
@@ -39,6 +39,18 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                ModulatorManager.CompositionID = value;
+            }
+        }
+
         public PrefabService PrefabService { get; set; }
         public Blend Blend { get; set; }
         public PrefabManager ModulatorManager { get; set; }

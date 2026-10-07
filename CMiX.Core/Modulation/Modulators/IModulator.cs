@@ -5,7 +5,7 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public interface IModulator : IPrefab
+    public interface IModulator : IPrefab, IHasCompositionID
     {
         bool IsHovered { get; set; }
 

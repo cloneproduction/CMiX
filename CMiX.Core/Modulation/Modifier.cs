@@ -57,7 +57,17 @@ namespace CMiX.Core.Modulation
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public Guid CompositionID { get; set; }
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                ModulatorManager.CompositionID = value;
+            }
+        }
+
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModulatorManager { get; set; }
         public ControlRepository ControlRepository { get; set; }
