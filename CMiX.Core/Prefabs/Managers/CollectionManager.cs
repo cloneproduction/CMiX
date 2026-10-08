@@ -79,8 +79,15 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(IControlModel controlModel)
         {
-            var prefab = ControlFactory.Create(controlModel);
+            var prefab = CreateOrReuse(controlModel);
             AddControlToCollection(prefab);
+        }
+
+        // Managers can share one control. A model with the ID of a known control gives back that control.
+        private IControl CreateOrReuse(IControlModel controlModel)
+        {
+            var existing = controlModel.ID != Guid.Empty ? ControlRepository.GetControl(controlModel.ID) : null;
+            return existing ?? ControlFactory.Create(controlModel);
         }
 
         public void InsertItem(IControl control, int index)
@@ -99,7 +106,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void LoadItem(IControlModel controlModel)
         {
-            var prefab = ControlFactory.Create(controlModel);
+            var prefab = CreateOrReuse(controlModel);
             LoadControlIntoCollection(prefab);
         }
 
