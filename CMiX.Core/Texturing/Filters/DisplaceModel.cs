@@ -14,7 +14,8 @@ namespace CMiX.Core.Texturing.Filters
         public PrefabManagerModel TextureSelector { get; set; } = new();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public BlendModel Blend { get; set; } = new();
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableVector2Model Offset { get; set; } = ModulatableVector2Model.Of(0.5f, 0.5f);
+        public ModulatableVector2Model OffsetScale { get; set; } = ModulatableVector2Model.Of(0.1f, 0.1f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
     }
 }

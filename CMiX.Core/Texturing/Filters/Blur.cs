@@ -19,9 +19,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             Bindables = new List<ModulatableValue<float>> { strength };
 
-            strength.Label = "Strength";
-            strength.SetDefault(0.5f);
-
             Visible = visible;
         }
 
@@ -30,7 +27,7 @@ namespace CMiX.Core.Texturing.Filters
 
         public override IControlModel ToModel()
         {
-            var model = new BlurModel();
+            var model = new BlurModel { Strength = (ModulatableValueModel<float>)Strength.ToModel() };
             PopulateBaseModel(model);
             return model;
         }
@@ -39,6 +36,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (BlurModel)model;
             LoadBaseModel(m);
+            Strength.FromModel(m.Strength);
         }
     }
 }

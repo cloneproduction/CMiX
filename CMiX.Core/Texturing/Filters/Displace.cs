@@ -29,11 +29,6 @@ namespace CMiX.Core.Texturing.Filters
                 offset.X, offset.Y,
                 offsetScale.X, offsetScale.Y
             };
-
-            offset.X.SetDefault(0.5f);
-            offset.Y.SetDefault(0.5f);
-            offsetScale.X.SetDefault(0.1f);
-            offsetScale.Y.SetDefault(0.1f);
         }
 
         public PrefabManager TextureSelector { get; set; }
@@ -44,7 +39,9 @@ namespace CMiX.Core.Texturing.Filters
         {
             var model = new DisplaceModel
             {
-                TextureSelector = (PrefabManagerModel)TextureSelector.ToModel()
+                TextureSelector = (PrefabManagerModel)TextureSelector.ToModel(),
+                Offset = (ModulatableVector2Model)Offset.ToModel(),
+                OffsetScale = (ModulatableVector2Model)OffsetScale.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -54,6 +51,8 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (DisplaceModel)model;
             LoadBaseModel(m);
+            Offset.FromModel(m.Offset);
+            OffsetScale.FromModel(m.OffsetScale);
 
             LoadManager(TextureSelector, m.TextureSelector);
         }

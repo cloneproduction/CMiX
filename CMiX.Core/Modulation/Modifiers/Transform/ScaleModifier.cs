@@ -24,13 +24,6 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             ModifierModeSelector = modifierModeSelector;
             Bindables = new List<ModulatableValue<float>> { bindableX, bindableY, bindableZ, bindableUniform };
-
-            var labels = new[] { "X", "Y", "Z", "Uniform" };
-            for (int i = 0; i < Bindables.Count; i++)
-            {
-                Bindables[i].Label = labels[i];
-                Bindables[i].SetDefault(1f);
-            }
         }
 
         public ModulatableValue<float> X => Bindables[0];
@@ -45,7 +38,11 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var model = new ScaleModifierModel
             {
-                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+                X = (ModulatableValueModel<float>)X.ToModel(),
+                Y = (ModulatableValueModel<float>)Y.ToModel(),
+                Z = (ModulatableValueModel<float>)Z.ToModel(),
+                Uniform = (ModulatableValueModel<float>)Uniform.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -55,6 +52,10 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (ScaleModifierModel)model;
             LoadBaseModel(m);
+            X.FromModel(m.X);
+            Y.FromModel(m.Y);
+            Z.FromModel(m.Z);
+            Uniform.FromModel(m.Uniform);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
         }
