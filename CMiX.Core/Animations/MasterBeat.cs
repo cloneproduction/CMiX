@@ -18,24 +18,24 @@ namespace CMiX.Core.Animations
                           UndoManager undoManager,
                           ControlActivationService activationService)
         {
-            ID = ManagerIDs.MasterBeat;
             Index = index;
             Period = period;
             BeatIndex = beatIndex;
             Pause = pause;
             Resync = resync;
 
-
-            Index.SetDefault(0);
-            Period.SetDefault(1000);
-
-            Periods = new float[15];
+            Periods = new float[MasterBeatModel.PeriodCount];
             tapPeriods = new List<float>();
             tapTime = new List<float>();
 
-            GeneratePeriods(Period.Value);
+            // The default model gives the start values. The values are inactive until the end of the constructor.
+            FromModel(new MasterBeatModel());
+            Index.SetDefaults();
+            Period.SetDefaults();
+            BeatIndex.SetDefaults();
+            Pause.SetDefaults();
 
-            BeatIndex.Value = (Periods.Length - 1) / 2;
+            ID = ManagerIDs.MasterBeat;
             IsActive = false;
             UndoManager = undoManager;
 

@@ -1,3 +1,4 @@
+using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Modulation.Modulators;
@@ -69,6 +70,29 @@ namespace CMiX.Core.Tests
             beat.BeatSteps.Steps[3].Reset();
 
             Assert.True(beat.BeatSteps.Steps[3].Value);
+        }
+
+        [Fact]
+        public void MasterBeat_StartsWithTheModelDefaults_AndResetRestoresThem()
+        {
+            var beat = TestServiceProviderFactory.Create().GetRequiredService<MasterBeat>();
+
+            Assert.Equal(ManagerIDs.MasterBeat, beat.ID);
+            Assert.Equal(0, beat.Index.Value);
+            Assert.Equal(7, beat.BeatIndex.Value);
+            Assert.Equal(1000f, beat.Period.Value);
+            Assert.Equal(1000f, beat.Periods[7]);
+
+            beat.Index.Value = 2;
+            beat.BeatIndex.Value = 9;
+            beat.Period.Value = 500f;
+            beat.Index.Reset();
+            beat.BeatIndex.Reset();
+            beat.Period.Reset();
+
+            Assert.Equal(0, beat.Index.Value);
+            Assert.Equal(7, beat.BeatIndex.Value);
+            Assert.Equal(1000f, beat.Period.Value);
         }
 
         // The child is built by a nested Create while the layer loads. It must not take the loaded layer values as defaults.
