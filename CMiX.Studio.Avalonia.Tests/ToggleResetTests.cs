@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Views.Controls;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -66,6 +67,57 @@ namespace CMiX.Studio.Avalonia.Tests
             toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
 
             Assert.True(threshold.Antialiasing.Value);
+        }
+
+        [AvaloniaFact]
+        public void PlainToggle_WithoutResetCommand_HasNoMenu()
+        {
+            var toggle = new CMiXToggleButton();
+            Host(toggle);
+
+            Assert.Null(toggle.ContextMenu);
+        }
+
+        [AvaloniaFact]
+        public void PlainToggle_WithResetCommand_HasAResetMenuThatRunsIt()
+        {
+            var ran = false;
+            var toggle = new CMiXToggleButton { ResetCommand = new RelayCommand(() => ran = true) };
+            Host(toggle);
+
+            toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
+
+            Assert.True(ran);
+        }
+
+        [AvaloniaFact]
+        public void PlainToggle_LosesTheMenu_WhenTheCommandIsRemoved()
+        {
+            var toggle = new CMiXToggleButton { ResetCommand = new RelayCommand(() => { }) };
+            Host(toggle);
+            Assert.NotNull(toggle.ContextMenu);
+
+            toggle.ResetCommand = null;
+
+            Assert.Null(toggle.ContextMenu);
+        }
+
+        [AvaloniaFact]
+        public void SequencePlayerToggles_ResetRestoresTheModelDefault()
+        {
+            var player = (SequencePlayer)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(SequencePlayer));
+            var view = new Views.SequencePlayer { DataContext = player };
+            Host(view);
+            Assert.True(player.Play.Value);
+            Assert.True(player.Loop.Value);
+            player.Play.Value = false;
+            player.Loop.Value = false;
+
+            foreach (var toggle in view.GetVisualDescendants().OfType<CMiXToggleButton>())
+                toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
+
+            Assert.True(player.Play.Value);
+            Assert.True(player.Loop.Value);
         }
     }
 }

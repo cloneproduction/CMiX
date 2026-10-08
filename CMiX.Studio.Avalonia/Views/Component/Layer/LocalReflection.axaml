@@ -3,16 +3,18 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     x:Name="uc">
 
     <Panels:IndentedExpander>
 
         <Panels:IndentedExpander.Header>
             <DockPanel>
-                <ToggleButton
+                <BaseControls:CMiXToggleButton
                     Width="14"
                     Height="14"
                     IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=uc, Mode=TwoWay}"
+                    ResetCommand="{Binding DataContext.IsEnabled.ResetCommand, ElementName=uc}"
                     Theme="{DynamicResource ToggleButtonRounded}" />
                 <TextBlock
                     Margin="8,0"

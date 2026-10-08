@@ -34,10 +34,11 @@
 
               <DockPanel>
 
-                <ToggleButton
+                <Controls:CMiXToggleButton
                     Width="14"
                     Height="14"
                     IsChecked="{Binding Blend.IsEnabled.Value}"
+                    ResetCommand="{Binding Blend.IsEnabled.ResetCommand}"
                     Theme="{DynamicResource ToggleButtonRounded}" />
 
                 <TextBlock

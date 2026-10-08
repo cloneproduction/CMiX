@@ -9,10 +9,11 @@
 
         <Border Margin="0,0,0,8" Classes="BorderMask">
             <Grid ColumnDefinitions="*,*">
-                <ToggleButton
+                <BaseControls:CMiXToggleButton
                     Grid.Column="0"
                     Content="Play"
                     IsChecked="{Binding Play.Value, Mode=TwoWay}"
+                    ResetCommand="{Binding Play.ResetCommand}"
                     Theme="{StaticResource InlineToggleButtonLeft}" />
                 <Button
                     Grid.Column="1"

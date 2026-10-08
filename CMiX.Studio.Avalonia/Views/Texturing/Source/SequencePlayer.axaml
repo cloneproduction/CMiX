@@ -11,16 +11,18 @@
     
       <Border Classes="BorderMask">
           <Grid ColumnDefinitions="*,*,*">
-              <ToggleButton
+              <BaseControls:CMiXToggleButton
                   Grid.Column="0"
                   Content="Play"
                   IsChecked="{Binding Play.Value, Mode=TwoWay}"
+                  ResetCommand="{Binding Play.ResetCommand}"
                   Theme="{StaticResource InlineToggleButtonLeft}" />
-              <ToggleButton
+              <BaseControls:CMiXToggleButton
                   Grid.Column="1"
                   Margin="1,0"
                   Content="Loop"
                   IsChecked="{Binding Loop.Value, Mode=TwoWay}"
+                  ResetCommand="{Binding Loop.ResetCommand}"
                   Theme="{StaticResource InlineToggleButtonCenter}" />
               <Button
                   Grid.Column="2"

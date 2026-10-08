@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
         };
 
         private static string Caption(Control c) =>
-            c.GetType().GetProperty("Caption")?.GetValue(c)?.ToString() ?? "";
+            c.GetType().GetProperty("Caption")?.GetValue(c)?.ToString() ?? (c as ContentControl)?.Content?.ToString() ?? "";
 
         private static bool HasResetItem(Control c) =>
             c.ContextMenu?.Items.OfType<MenuItem>().Any(i => Equals(i.Header, "Reset")) == true;
@@ -79,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 var window = Host(view);
                 viewsChecked++;
 
-                foreach (var editor in view.GetVisualDescendants().OfType<Control>().Where(c => c is CMiXSlider || c is DragValue || c is CaptionedToggleButton))
+                foreach (var editor in view.GetVisualDescendants().OfType<Control>().Where(c => c is CMiXSlider || c is DragValue || c is CaptionedToggleButton || c is CMiXToggleButton))
                 {
                     editor.ApplyTemplate();     // a hidden editor builds its menu only when its template applies
                     if (!HasResetItem(editor) && !NoReset.Contains((viewName, Caption(editor))))
