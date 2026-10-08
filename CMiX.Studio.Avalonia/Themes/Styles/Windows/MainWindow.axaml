@@ -1,37 +1,20 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
-    <!-- Same rounded dark box + drop shadow look the old Window-based popups used, ported to
-         FlyoutPresenter now that popups (Edit Connection, sync resolution) are Flyouts instead
-         of separate windows. -->
+    <!-- A FlyoutPresenter for popups. Its look comes from the PopupFrame control. -->
     <ControlTheme x:Key="PopupFlyoutStyle" TargetType="FlyoutPresenter">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="300" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border
-                    Background="Transparent"
-                    Effect="{DynamicResource WindowDropShadow}"
-                    Padding="8">
-
-                    <Panel>
-                        <Border
-                            Background="{DynamicResource Grey200Brush}"
-                            CornerRadius="{DynamicResource CornerRadiusLargeAll}"
-                            Opacity="0.9"
-                            Padding="0" />
-
-                        <Border Padding="8">
-                            <ContentPresenter
-                                Name="PART_ContentPresenter"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}" />
-                        </Border>
-
-                    </Panel>
-
-                </Border>
+                <Controls:PopupFrame>
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Controls:PopupFrame>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

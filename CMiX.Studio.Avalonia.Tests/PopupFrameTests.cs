@@ -1,6 +1,8 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Headless.XUnit;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Views.Controls;
@@ -32,6 +34,22 @@ namespace CMiX.Studio.Avalonia.Tests
             var presenter = frame.GetVisualDescendants().OfType<ContentPresenter>()
                 .Single(p => p.Name == "PART_ContentPresenter" && p.TemplatedParent == frame);
             Assert.Same(text, presenter.Content);
+        }
+
+        [AvaloniaFact]
+        public void PopupFlyoutTheme_InAWindow_WrapsItsContentInAPopupFrame()
+        {
+            var text = new TextBlock { Text = "Item" };
+            var presenter = new FlyoutPresenter
+            {
+                Theme = (ControlTheme)Application.Current!.FindResource("PopupFlyoutStyle")!,
+                Content = text
+            };
+            Host(presenter);
+
+            var frame = presenter.GetVisualDescendants().OfType<PopupFrame>().Single();
+            Assert.Equal(300, presenter.Width);
+            Assert.Contains(text, frame.GetVisualDescendants());
         }
     }
 }
