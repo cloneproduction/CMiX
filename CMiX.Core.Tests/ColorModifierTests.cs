@@ -16,7 +16,7 @@ namespace CMiX.Core.Tests
         public void ColorModifier_HasFourBindablesLabeledHueSaturationValueAlpha()
         {
             var provider = TestServiceProviderFactory.Create();
-            var hsv = provider.GetRequiredService<ColorModifier>();
+            var hsv = (ColorModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(ColorModifier));
 
             Assert.Equal(4, hsv.Bindables.Count);
             Assert.Equal("Hue", hsv.Bindables[0].Label);
@@ -110,7 +110,7 @@ namespace CMiX.Core.Tests
         public void AllFourBindables_ConstructAtTheirOwnDefault_AndResetReturnsToItAfterAChange()
         {
             var provider = TestServiceProviderFactory.Create();
-            var hsv = provider.GetRequiredService<ColorModifier>();
+            var hsv = (ColorModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(ColorModifier));
 
             Assert.Equal(0f, hsv.Hue.Value);
             Assert.Equal(0f, hsv.Saturation.Value);

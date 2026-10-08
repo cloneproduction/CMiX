@@ -18,9 +18,6 @@ namespace CMiX.Core.Modulation.Modifiers
                               ModulatableValue<float> bindableZ)
             : base(prefabService, modulatorManager, controlRepository)
         {
-            bindableX.Label = "X";
-            bindableY.Label = "Y";
-            bindableZ.Label = "Z";
             Bindables = new List<ModulatableValue<float>> { bindableX, bindableY, bindableZ };
         }
 
@@ -30,7 +27,12 @@ namespace CMiX.Core.Modulation.Modifiers
 
         public override IControlModel ToModel()
         {
-            var model = new TargetModifierModel();
+            var model = new TargetModifierModel
+            {
+                X = (ModulatableValueModel<float>)X.ToModel(),
+                Y = (ModulatableValueModel<float>)Y.ToModel(),
+                Z = (ModulatableValueModel<float>)Z.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -39,6 +41,9 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (TargetModifierModel)model;
             LoadBaseModel(m);
+            X.FromModel(m.X);
+            Y.FromModel(m.Y);
+            Z.FromModel(m.Z);
         }
     }
 }

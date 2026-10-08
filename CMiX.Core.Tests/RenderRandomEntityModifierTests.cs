@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
         public void RenderRandomEntityModifier_HasOneBindableLabeledControl()
         {
             var provider = TestServiceProviderFactory.Create();
-            var render = provider.GetRequiredService<RenderRandomEntityModifier>();
+            var render = (RenderRandomEntityModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(RenderRandomEntityModifier));
 
             Assert.Single(render.Bindables);
             Assert.Equal("Control", render.Bindables[0].Label);

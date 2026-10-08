@@ -17,8 +17,6 @@ namespace CMiX.Core.Modulation.Modifiers
                             ModulatableValue<float> bindableFOV)
             : base(prefabService, modulatorManager, controlRepository)
         {
-            bindableDistance.Label = "Distance";
-            bindableFOV.Label = "FOV";
             Bindables = new List<ModulatableValue<float>> { bindableDistance, bindableFOV };
         }
 
@@ -27,7 +25,11 @@ namespace CMiX.Core.Modulation.Modifiers
 
         public override IControlModel ToModel()
         {
-            var model = new ZoomModifierModel();
+            var model = new ZoomModifierModel
+            {
+                Distance = (ModulatableValueModel<float>)Distance.ToModel(),
+                FOV = (ModulatableValueModel<float>)FOV.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -36,6 +38,8 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (ZoomModifierModel)model;
             LoadBaseModel(m);
+            Distance.FromModel(m.Distance);
+            FOV.FromModel(m.FOV);
         }
     }
 }

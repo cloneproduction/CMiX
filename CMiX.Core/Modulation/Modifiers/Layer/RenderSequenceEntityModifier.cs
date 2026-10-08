@@ -21,8 +21,6 @@ namespace CMiX.Core.Modulation.Modifiers
             : base(prefabService, modulatorManager, controlRepository)
         {
             EntityType = entityType;
-            control.Label = "Control";
-            control.SetDefault(1.0f);
             Bindables = new List<ModulatableValue<float>> { control };
         }
 
@@ -34,7 +32,8 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var model = new RenderSequenceEntityModifierModel
             {
-                EntityType = (GenericValueModel<EntityType>)EntityType.ToModel()
+                EntityType = (GenericValueModel<EntityType>)EntityType.ToModel(),
+                Control = (ModulatableValueModel<float>)Control.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -44,6 +43,7 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (RenderSequenceEntityModifierModel)model;
             LoadBaseModel(m);
+            Control.FromModel(m.Control);
             EntityType.FromModel(m.EntityType);
         }
     }

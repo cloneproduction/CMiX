@@ -29,17 +29,7 @@ namespace CMiX.Core.Modulation.Modifiers
             ModifierModeSelector = modifierModeSelector;
             ColorMode = colorMode;
 
-            hue.Label = "Hue";
-            saturation.Label = "Saturation";
-            value.Label = "Value";
-            alpha.Label = "Alpha";
-
             Bindables = new List<ModulatableValue<float>> { hue, saturation, value, alpha };
-
-            hue.SetDefault(0f);
-            saturation.SetDefault(0f);
-            value.SetDefault(1f);
-            alpha.SetDefault(1f);
 
             // Reacts to a mode switch: converts the three channels so the perceived
             // color stays the same, then notifies the captions describing them.
@@ -93,7 +83,11 @@ namespace CMiX.Core.Modulation.Modifiers
             var model = new ColorModifierModel
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
-                ColorMode = (GenericValueModel<ColorMode>)ColorMode.ToModel()
+                ColorMode = (GenericValueModel<ColorMode>)ColorMode.ToModel(),
+                Hue = (ModulatableValueModel<float>)Hue.ToModel(),
+                Saturation = (ModulatableValueModel<float>)Saturation.ToModel(),
+                Value = (ModulatableValueModel<float>)Value.ToModel(),
+                Alpha = (ModulatableValueModel<float>)Alpha.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -103,6 +97,10 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (ColorModifierModel)model;
             LoadBaseModel(m);
+            Hue.FromModel(m.Hue);
+            Saturation.FromModel(m.Saturation);
+            Value.FromModel(m.Value);
+            Alpha.FromModel(m.Alpha);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
             ColorMode.FromModel(m.ColorMode);

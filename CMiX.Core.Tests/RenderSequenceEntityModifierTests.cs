@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
         public void RenderSequenceEntityModifier_HasOneBindableLabeledControl()
         {
             var provider = TestServiceProviderFactory.Create();
-            var render = provider.GetRequiredService<RenderSequenceEntityModifier>();
+            var render = (RenderSequenceEntityModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(RenderSequenceEntityModifier));
 
             Assert.Single(render.Bindables);
             Assert.Equal("Control", render.Bindables[0].Label);
