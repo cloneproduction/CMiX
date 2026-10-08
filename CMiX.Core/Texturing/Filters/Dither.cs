@@ -18,16 +18,13 @@ namespace CMiX.Core.Texturing.Filters
             : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { threshold };
-
-            threshold.Label = "Threshold";
-            threshold.SetDefault(1.0f);
         }
 
         public ModulatableValue<float> Threshold => Bindables[0];
 
         public override IControlModel ToModel()
         {
-            var model = new DitherModel();
+            var model = new DitherModel { Threshold = (ModulatableValueModel<float>)Threshold.ToModel() };
             PopulateBaseModel(model);
             return model;
         }
@@ -36,6 +33,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (DitherModel)model;
             LoadBaseModel(m);
+            Threshold.FromModel(m.Threshold);
         }
     }
 }

@@ -14,7 +14,9 @@ namespace CMiX.Core.Texturing.Filters
         public PrefabServiceModel PrefabService { get; set; } = new();
         public GenericValueModel<bool> Grayscale { get; set; } = new(false);
         public BlendModel Blend { get; set; } = new();
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableValueModel<float> GridSize { get; set; } = ModulatableValueModel<float>.Of("Grid Size", 0.66f);
+        public ModulatableValueModel<float> X { get; set; } = ModulatableValueModel<float>.Of("X", 16.0f);
+        public ModulatableValueModel<float> Y { get; set; } = ModulatableValueModel<float>.Of("Y", 16.0f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
     }
 }

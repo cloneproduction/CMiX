@@ -14,7 +14,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<KuwaharaType> Type { get; set; } = new(KuwaharaType.Standard);
         public PrefabServiceModel PrefabService { get; set; } = new();
         public BlendModel Blend { get; set; } = new();
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableValueModel<float> Radius { get; set; } = ModulatableValueModel<float>.Of("Radius", 1.0f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
     }
 }

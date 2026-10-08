@@ -14,7 +14,10 @@ namespace CMiX.Core.Texturing.Filters
         public PrefabServiceModel PrefabService { get; set; } = new();
         public GenericValueModel<HalftoneMode> Mode { get; set; } = new(HalftoneMode.Pixels);
         public BlendModel Blend { get; set; } = new();
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableValueModel<float> NumberOfTiles { get; set; } = ModulatableValueModel<float>.Of("Tile Count", 48.0f);
+        public ModulatableValueModel<float> DotSize { get; set; } = ModulatableValueModel<float>.Of("Dot Size", 0.01f);
+        public ModulatableValueModel<float> Softness { get; set; } = ModulatableValueModel<float>.Of("Softness", 1.35f);
+        public ModulatableValueModel<float> Brightness { get; set; } = ModulatableValueModel<float>.Of("Brightness", 1.0f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
 
     }

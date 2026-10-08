@@ -18,16 +18,13 @@ namespace CMiX.Core.Texturing.Filters
             : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { factor };
-
-            factor.Label = "Factor";
-            factor.SetDefault(0.9f);
         }
 
         public ModulatableValue<float> Factor => Bindables[0];
 
         public override IControlModel ToModel()
         {
-            var model = new FeedbackModel();
+            var model = new FeedbackModel { Factor = (ModulatableValueModel<float>)Factor.ToModel() };
             PopulateBaseModel(model);
             return model;
         }
@@ -36,6 +33,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (FeedbackModel)model;
             LoadBaseModel(m);
+            Factor.FromModel(m.Factor);
         }
     }
 }

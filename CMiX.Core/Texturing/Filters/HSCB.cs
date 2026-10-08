@@ -21,15 +21,6 @@ namespace CMiX.Core.Texturing.Filters
             : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { hue, saturation, contrast, brightness };
-
-            hue.Label = "Hue";
-            saturation.Label = "Saturation";
-            contrast.Label = "Contrast";
-            brightness.Label = "Brightness";
-            hue.SetDefault(0.0f);
-            saturation.SetDefault(1.0f);
-            contrast.SetDefault(0.0f);
-            brightness.SetDefault(0.0f);
         }
 
         public ModulatableValue<float> Hue => Bindables[0];
@@ -39,7 +30,13 @@ namespace CMiX.Core.Texturing.Filters
 
         public override IControlModel ToModel()
         {
-            var model = new HSCBModel();
+            var model = new HSCBModel
+            {
+                Hue = (ModulatableValueModel<float>)Hue.ToModel(),
+                Saturation = (ModulatableValueModel<float>)Saturation.ToModel(),
+                Contrast = (ModulatableValueModel<float>)Contrast.ToModel(),
+                Brightness = (ModulatableValueModel<float>)Brightness.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -48,6 +45,10 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (HSCBModel)model;
             LoadBaseModel(m);
+            Hue.FromModel(m.Hue);
+            Saturation.FromModel(m.Saturation);
+            Contrast.FromModel(m.Contrast);
+            Brightness.FromModel(m.Brightness);
         }
     }
 }

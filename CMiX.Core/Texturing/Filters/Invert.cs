@@ -22,9 +22,6 @@ namespace CMiX.Core.Texturing.Filters
             InvertChannelSelector = invertChannel;
 
             Bindables = new List<ModulatableValue<float>> { factor };
-
-            factor.Label = "Factor";
-            factor.SetDefault(1.0f);
         }
 
         public ModulatableValue<float> Factor => Bindables[0];
@@ -36,7 +33,8 @@ namespace CMiX.Core.Texturing.Filters
             var model = new InvertModel
             {
                 InvertChannelSelector = (GenericValueModel<InvertChannel>)InvertChannelSelector.ToModel(),
-                InvertAlpha = (GenericValueModel<bool>)InvertAlpha.ToModel()
+                InvertAlpha = (GenericValueModel<bool>)InvertAlpha.ToModel(),
+                Factor = (ModulatableValueModel<float>)Factor.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -46,6 +44,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (InvertModel)model;
             LoadBaseModel(m);
+            Factor.FromModel(m.Factor);
             InvertChannelSelector.FromModel(m.InvertChannelSelector);
             InvertAlpha.FromModel(m.InvertAlpha);
         }

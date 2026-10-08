@@ -15,7 +15,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<InvertChannel> InvertChannelSelector { get; set; } = new(InvertChannel.Value);
         public GenericValueModel<bool> InvertAlpha { get; set; } = new(false);
         public BlendModel Blend { get; set; } = new();
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableValueModel<float> Factor { get; set; } = ModulatableValueModel<float>.Of("Factor", 1.0f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
     }
 }
