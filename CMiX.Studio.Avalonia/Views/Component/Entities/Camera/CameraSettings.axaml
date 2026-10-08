@@ -44,7 +44,8 @@
         <BaseControls:CaptionedToggleButton
             Margin="0,8"
             Caption="Orthographic"
-            IsChecked="{Binding IsOrthographic.Value}" />
+            IsChecked="{Binding IsOrthographic.Value}"
+            ResetCommand="{Binding IsOrthographic.ResetCommand}" />
 
         <BaseControls:DragValue
             IsVisible="{Binding IsOrthographic.Value}"

@@ -34,7 +34,8 @@
 
         <BaseControls:CaptionedToggleButton 
             Caption="Is Shadow Caster" 
-            IsChecked="{Binding IsShadowCaster.Value}" />
+            IsChecked="{Binding IsShadowCaster.Value}"
+            ResetCommand="{Binding IsShadowCaster.ResetCommand}" />
 
         <BaseControls:CaptionedComboBox
             Caption="Pipeline"

@@ -17,11 +17,13 @@
 
         <BaseControls:CaptionedToggleButton
             Caption="Invert"
-            IsChecked="{Binding Invert.Value}" />
+            IsChecked="{Binding Invert.Value}"
+            ResetCommand="{Binding Invert.ResetCommand}" />
 
         <BaseControls:CaptionedToggleButton
             Caption="Keep Original Alpha"
-            IsChecked="{Binding KeepOriginalAlpha.Value}" />
+            IsChecked="{Binding KeepOriginalAlpha.Value}"
+            ResetCommand="{Binding KeepOriginalAlpha.ResetCommand}" />
 
     </StackPanel>
 

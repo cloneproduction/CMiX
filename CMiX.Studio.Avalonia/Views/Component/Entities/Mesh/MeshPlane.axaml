@@ -22,7 +22,8 @@
 
         <BaseControl:CaptionedToggleButton
             Caption="Generate Backface"
-            IsChecked="{Binding GenerateBackFace.Value}" />
+            IsChecked="{Binding GenerateBackFace.Value}"
+            ResetCommand="{Binding GenerateBackFace.ResetCommand}" />
 
     </StackPanel>
 

@@ -9,7 +9,8 @@
 
         <BaseControl:CaptionedToggleButton
             Caption="Use Composition Resolution"
-            IsChecked="{Binding UseCompositionResolution.Value}" />
+            IsChecked="{Binding UseCompositionResolution.Value}"
+            ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
             <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">

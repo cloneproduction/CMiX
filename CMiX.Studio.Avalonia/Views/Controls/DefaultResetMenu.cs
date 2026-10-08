@@ -1,6 +1,7 @@
 // Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Styling;
@@ -21,6 +22,21 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 menu.Theme = controlTheme;
 
             return menu;
+        }
+
+        // The owner has the default menu only while it has a reset command. A menu set in XAML stays.
+        public static void Update(Control owner, ICommand? resetCommand, ref ContextMenu? ownMenu)
+        {
+            if (resetCommand == null)
+            {
+                if (ownMenu != null && owner.ContextMenu == ownMenu)
+                    owner.ContextMenu = null;
+                ownMenu = null;
+                return;
+            }
+
+            if (owner.ContextMenu == null)
+                owner.ContextMenu = ownMenu = Create(owner);
         }
     }
 }

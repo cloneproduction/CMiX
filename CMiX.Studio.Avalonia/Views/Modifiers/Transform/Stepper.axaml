@@ -27,7 +27,8 @@
             <BaseControls:CaptionedToggleButton
                 Caption="PingPong"
                 Margin="0, 8"
-                IsChecked="{Binding PingPong.Value}" />
+                IsChecked="{Binding PingPong.Value}"
+                ResetCommand="{Binding PingPong.ResetCommand}" />
 
             <BaseControls:CaptionedComboBox
                 Caption="Transform"

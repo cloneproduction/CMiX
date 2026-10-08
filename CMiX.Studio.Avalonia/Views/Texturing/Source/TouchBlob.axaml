@@ -27,7 +27,8 @@
         <BaseControls:CaptionedToggleButton
             Margin="0,0,0,8"
             Caption="Use Composition Resolution"
-            IsChecked="{Binding UseCompositionResolution.Value}" />
+            IsChecked="{Binding UseCompositionResolution.Value}"
+            ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
             <BaseControls:Integer2Value

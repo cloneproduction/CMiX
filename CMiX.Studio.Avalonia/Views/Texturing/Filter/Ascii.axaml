@@ -21,7 +21,8 @@
 
         <Controls:CaptionedToggleButton
             Caption="Grayscale"
-            IsChecked="{Binding Grayscale.Value}" />
+            IsChecked="{Binding Grayscale.Value}"
+            ResetCommand="{Binding Grayscale.ResetCommand}" />
 
     </StackPanel>
 

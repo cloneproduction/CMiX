@@ -79,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 var window = Host(view);
                 viewsChecked++;
 
-                foreach (var editor in view.GetVisualDescendants().OfType<Control>().Where(c => c is CMiXSlider || c is DragValue))
+                foreach (var editor in view.GetVisualDescendants().OfType<Control>().Where(c => c is CMiXSlider || c is DragValue || c is CaptionedToggleButton))
                 {
                     editor.ApplyTemplate();     // a hidden editor builds its menu only when its template applies
                     if (!HasResetItem(editor) && !NoReset.Contains((viewName, Caption(editor))))

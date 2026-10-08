@@ -25,7 +25,8 @@
 
         <Basecontrol:CaptionedToggleButton
             Caption="Invert Alpha"
-            IsChecked="{Binding InvertAlpha.Value}" />
+            IsChecked="{Binding InvertAlpha.Value}"
+            ResetCommand="{Binding InvertAlpha.ResetCommand}" />
 
     </StackPanel>
 

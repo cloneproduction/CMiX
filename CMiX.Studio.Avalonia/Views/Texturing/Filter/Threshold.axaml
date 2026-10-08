@@ -41,11 +41,13 @@
 
     <Controls:CaptionedToggleButton
         Caption="Invert"
-        IsChecked="{Binding Invert.Value}" />
+        IsChecked="{Binding Invert.Value}"
+        ResetCommand="{Binding Invert.ResetCommand}" />
 
     <Controls:CaptionedToggleButton
         Caption="Antialiasing"
-        IsChecked="{Binding Antialiasing.Value}" />
+        IsChecked="{Binding Antialiasing.Value}"
+        ResetCommand="{Binding Antialiasing.ResetCommand}" />
 
   </StackPanel>
 

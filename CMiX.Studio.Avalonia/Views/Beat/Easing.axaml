@@ -13,6 +13,7 @@
         <BaseControls:CaptionedToggleButton 
             Margin="0, 0, 0, 8"
             IsChecked="{Binding IsEnabled.Value}"
+            ResetCommand="{Binding IsEnabled.ResetCommand}"
             Caption="Easing"/>
 
         <Panels:PositionedStackPanel

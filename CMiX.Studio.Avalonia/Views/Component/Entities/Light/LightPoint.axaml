@@ -18,7 +18,8 @@
 
         <BaseControl:CaptionedToggleButton
             Caption="Show Helper"
-            IsChecked="{Binding LightHelper.Value}" />
+            IsChecked="{Binding LightHelper.Value}"
+            ResetCommand="{Binding LightHelper.ResetCommand}" />
     </StackPanel>
 
 </UserControl>

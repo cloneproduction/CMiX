@@ -29,11 +29,13 @@
 
         <BaseControl:CaptionedToggleButton
             Caption="Single Channel"
-            IsChecked="{Binding SingleChannel.Value}" />
+            IsChecked="{Binding SingleChannel.Value}"
+            ResetCommand="{Binding SingleChannel.ResetCommand}" />
 
         <BaseControl:CaptionedToggleButton
             Caption="Clamp Color"
-            IsChecked="{Binding ClampColor.Value}" />
+            IsChecked="{Binding ClampColor.Value}"
+            ResetCommand="{Binding ClampColor.ResetCommand}" />
 
         <Panels:PositionedStackPanel
             Spacing="{DynamicResource SpacingXXS}">

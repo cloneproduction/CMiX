@@ -25,7 +25,8 @@
         <BaseControls:CaptionedToggleButton
             Margin="8"
             Caption="Invert"
-            IsChecked="{Binding Invert.Value}" />
+            IsChecked="{Binding Invert.Value}"
+            ResetCommand="{Binding Invert.ResetCommand}" />
       
       <Panels:IndentedExpander 
         Indentation="4"

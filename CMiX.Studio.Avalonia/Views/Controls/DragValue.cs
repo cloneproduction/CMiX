@@ -57,27 +57,14 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             UpdateResetMenu();
         }
 
-        // The default menu exists only while the editor has a reset command. A menu set in XAML stays.
-        private void UpdateResetMenu()
-        {
-            if (ResetCommand == null)
-            {
-                if (_resetMenu != null && ContextMenu == _resetMenu)
-                    ContextMenu = null;
-                _resetMenu = null;
-                return;
-            }
-
-            if (ContextMenu == null)
-                ContextMenu = _resetMenu = DefaultResetMenu.Create(this);
-        }
-
         protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
         {
             base.OnPropertyChanged(change);
             if (_templateApplied && change.Property == ResetCommandProperty)
                 UpdateResetMenu();
         }
+
+        private void UpdateResetMenu() => DefaultResetMenu.Update(this, ResetCommand, ref _resetMenu);
 
         private static double Distance(Point a, Point b)
         {

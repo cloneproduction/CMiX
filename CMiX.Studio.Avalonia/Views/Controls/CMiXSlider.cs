@@ -93,27 +93,14 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             UpdateResetMenu();
         }
 
-        // The default menu exists only while the editor has a reset command. A menu set in XAML stays.
-        private void UpdateResetMenu()
-        {
-            if (ResetCommand == null)
-            {
-                if (_resetMenu != null && ContextMenu == _resetMenu)
-                    ContextMenu = null;
-                _resetMenu = null;
-                return;
-            }
-
-            if (ContextMenu == null)
-                ContextMenu = _resetMenu = DefaultResetMenu.Create(this);
-        }
-
         protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
         {
             base.OnPropertyChanged(change);
             if (_templateApplied && change.Property == ResetCommandProperty)
                 UpdateResetMenu();
         }
+
+        private void UpdateResetMenu() => DefaultResetMenu.Update(this, ResetCommand, ref _resetMenu);
 
         // A gesture that loses the pointer without a release must not leave the value interaction
         // scope open, which would keep throttling every later write in the application. Ending
