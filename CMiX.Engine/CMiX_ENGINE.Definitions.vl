@@ -13112,7 +13112,7 @@
                   <Pin Id="V4D805YzYlmLXRF3Rlo6Wx" Name="Output" Kind="StateOutputPin" />
                   <Pin Id="AiiJEuKfJkEOgyms7ojs6W" Name="Antialiasing" Kind="OutputPin" />
                 </Node>
-                <Node Bounds="447,290,70,26" Id="TZm3yz76JCiNifnrNplQ3M">
+                <Node Bounds="357,292,70,26" Id="TZm3yz76JCiNifnrNplQ3M">
                   <p:NodeReference LastCategoryFullName="CMiX.Core.Texturing.Filters.Threshold" LastDependency="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <CategoryReference Kind="AssemblyCategory" Name="Threshold" />
@@ -13122,7 +13122,7 @@
                   <Pin Id="GobeDps6KKcLZrOR2kaXBS" Name="Output" Kind="StateOutputPin" />
                   <Pin Id="Dmh5cvFpKSYOSYZKbmqFy1" Name="Background" Kind="OutputPin" />
                 </Node>
-                <Node Bounds="357,290,69,26" Id="TclgOzNu3goOKhTynH68fN">
+                <Node Bounds="447,292,69,26" Id="TclgOzNu3goOKhTynH68fN">
                   <p:NodeReference LastCategoryFullName="CMiX.Core.Texturing.Filters.Threshold" LastDependency="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <CategoryReference Kind="AssemblyCategory" Name="Threshold" />
@@ -13162,7 +13162,7 @@
                   <Pin Id="ID1IZn0AYqjLUiQbUEHmBJ" Name="Output" Kind="StateOutputPin" />
                   <Pin Id="K6LihqmSvXoQNgicG5vM4S" Name="Value" Kind="OutputPin" />
                 </Node>
-                <Node Bounds="447,348,66,19" Id="H96I3gf8Ci6LwAVMpswhsj">
+                <Node Bounds="357,350,66,19" Id="H96I3gf8Ci6LwAVMpswhsj">
                   <p:NodeReference LastCategoryFullName="CMiX.Engine.BaseControls" LastDependency="CMiX_ENGINE.vl">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="ProcessAppFlag" Name="ColorValue" />
@@ -13171,7 +13171,7 @@
                   <Pin Id="O41X6ZSem8TNXNEPlHqdeE" Name="Input" Kind="InputPin" />
                   <Pin Id="BX25EKagmDSL2jtxvTnvjH" Name="Color" Kind="OutputPin" />
                 </Node>
-                <Node Bounds="357,348,66,19" Id="FJVIrjAOekrPXFUW3ot0Fq">
+                <Node Bounds="447,350,66,19" Id="FJVIrjAOekrPXFUW3ot0Fq">
                   <p:NodeReference LastCategoryFullName="CMiX.Engine.BaseControls" LastDependency="CMiX_ENGINE.vl">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="ProcessAppFlag" Name="ColorValue" />
@@ -13249,9 +13249,7 @@
               <Slot Id="QCZZ1R61MzpOfZkX2ZsoOB" Name="ViewModel" />
               <Link Id="PVVMAhx39ZONMqsMnWAnVo" Ids="AiiJEuKfJkEOgyms7ojs6W,VwJGjxApQXjOmQbdRjhysE" />
               <Link Id="EhuKSz5u0NPQFXLzuTaOU8" Ids="Dmh5cvFpKSYOSYZKbmqFy1,O41X6ZSem8TNXNEPlHqdeE" />
-              <Link Id="JMq2zLQI4mMNpxj1Uaux44" Ids="BX25EKagmDSL2jtxvTnvjH,FhR7lv8FyY4OerB493BJcs" />
               <Link Id="LNnVVRNv1vhLXo5WyoMieT" Ids="IxV1pCgQKpvNhCm3rrRK2P,VjhuLwCtNjeP5B4ho2dqSs" />
-              <Link Id="BneSilgIipyQEBlKBzK51K" Ids="RvkPJhHAg4sOESKRrU4IUg,R52YPihX8i9LutNKclnrOn" />
               <Link Id="UN2fEwxUSQ2MP5rjLBYZnj" Ids="K6LihqmSvXoQNgicG5vM4S,CKfICDPWdnDLZfAFWxWWtz" />
               <Link Id="TkD4xZgPhliO3Ag0np7kjE" Ids="EI0CI6xxfWvMkfkByNZaA4,AugY96eVNUKLS6JBV0LyAC" />
               <Link Id="GDVgz4X15UHOFYSByYvolH" Ids="EiwvlGtpM4GL4a9Olr3T2F,ArimbWjs28dMEnZiNGwbGk" />
@@ -13265,6 +13263,8 @@
               <Link Id="LKTKT47blpvOwp8eIVJZ4R" Ids="AoDcwQWKfPcPeyV8vVxgPu,J0FEazQmOt8PlqnCzHfRqc" />
               <Link Id="CMwfgpbYfatPR0ShHKf3yf" Ids="AoDcwQWKfPcPeyV8vVxgPu,D5pp5Ntt19iLedIIPJkBwV" />
               <Link Id="U0ga6S57RALNbh28hQxsCf" Ids="AoDcwQWKfPcPeyV8vVxgPu,SNaig7B3k80MRAvHHiAFpd" />
+              <Link Id="BBMDtgSKWebQD3WXKfh3Hf" Ids="RvkPJhHAg4sOESKRrU4IUg,FhR7lv8FyY4OerB493BJcs" />
+              <Link Id="AvLdfkCygB1MoXX2pwpqR9" Ids="BX25EKagmDSL2jtxvTnvjH,R52YPihX8i9LutNKclnrOn" />
             </Patch>
           </Node>
           <!--
@@ -51459,11 +51459,6 @@
             <Pad Id="OBllTfQLZL0NiRv14TGkcr" SlotId="TQXOJwrO3DzP9a7uMgb0Dt" Bounds="581,429" />
           </Canvas>
           <Patch Id="A4V4DA53CfmPyOTII5EJqC" Name="Create" />
-          <ProcessDefinition Id="HwLFWoR4vA9Pi3VGQmrgCF">
-            <Fragment Id="ADSKTus22NzL864SFAZlh6" Patch="A4V4DA53CfmPyOTII5EJqC" Enabled="true" />
-            <Fragment Id="VMXAiuqW7G2LvecTnijL3R" Patch="AhsaZXB3woZMzZXE2mtyM8" Enabled="true" />
-            <Fragment Id="OYRGWLqJ4MMNA7EkxFL0gt" Patch="HrC8hRipEFEOFi7UmLDCwq" />
-          </ProcessDefinition>
           <Patch Id="AhsaZXB3woZMzZXE2mtyM8" Name="Update" ManuallySortedPins="true">
             <Pin Id="Ga0KYKmiGAcPNYltE20kiU" Name="EngineService" Kind="InputPin" />
             <Pin Id="RVtMiVdtkF8NASgXK2GIau" Name="Redis Client" Kind="InputPin" />
@@ -51520,6 +51515,11 @@
           <Link Id="KvtYN1cP3KfNJpIjO3FHpb" Ids="QVwhaFJfNliN3egxiKyFG1,PMr451BRWTxQCvV8qgU1xi" IsHidden="true" />
           <Link Id="RbiHF8LKFfQL57Fz9p1eQE" Ids="PpKe9Xr4FL7MM916thHWHi,GeFRcdOpfFePs0oFb13ka4" />
           <Link Id="EBIlHXtH2rTQPjsnkrJLzx" Ids="OBllTfQLZL0NiRv14TGkcr,VNO9W0EUPtMOU5CyQoGDpU" />
+          <ProcessDefinition Id="HwLFWoR4vA9Pi3VGQmrgCF">
+            <Fragment Id="ADSKTus22NzL864SFAZlh6" Patch="A4V4DA53CfmPyOTII5EJqC" Enabled="true" />
+            <Fragment Id="OYRGWLqJ4MMNA7EkxFL0gt" Patch="HrC8hRipEFEOFi7UmLDCwq" />
+            <Fragment Id="VMXAiuqW7G2LvecTnijL3R" Patch="AhsaZXB3woZMzZXE2mtyM8" Enabled="true" />
+          </ProcessDefinition>
         </Patch>
       </Node>
       <!--
