@@ -28,9 +28,6 @@ namespace CMiX.Core.Texturing.Sources
             Loop = loop;
             DoSeek = doSeek;
             AssetSelector = assetSelector;
-
-            FPS.SetDefault(60f);
-            Loop.SetDefault(true);
         }
 
         public CMiXButton DoSeek { get; set; }

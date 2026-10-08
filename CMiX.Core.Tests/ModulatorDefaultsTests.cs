@@ -1,4 +1,5 @@
 using CMiX.Core.Modulation.Modulators;
+using CMiX.Core.Prefabs;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -10,7 +11,7 @@ namespace CMiX.Core.Tests
         public void LFOModulator_ConstructsAtItsIntendedDefaults()
         {
             var provider = TestServiceProviderFactory.Create();
-            var lfo = provider.GetRequiredService<LFOModulator>();
+            var lfo = (LFOModulator)provider.GetRequiredService<ControlFactory>().Create(typeof(LFOModulator));
 
             Assert.Equal(10.0f, lfo.Period.Value);
             Assert.Equal(-1.0f, lfo.Minimum.Value);
@@ -33,7 +34,7 @@ namespace CMiX.Core.Tests
         public void BeatRandomModulator_ConstructsAtItsIntendedDefaults()
         {
             var provider = TestServiceProviderFactory.Create();
-            var beatRandom = provider.GetRequiredService<BeatRandomModulator>();
+            var beatRandom = (BeatRandomModulator)provider.GetRequiredService<ControlFactory>().Create(typeof(BeatRandomModulator));
 
             Assert.Equal(0.0f, beatRandom.Center.Value);
             Assert.Equal(1.0f, beatRandom.Width.Value);

@@ -65,7 +65,8 @@ namespace CMiX.Core.Tests
             var randomModulator = provider.GetRequiredService<RandomModulator>();
             modulatable.ModulatorLookup = id => id == randomModulator.ID ? randomModulator : null;
 
-            modulatable.SetDefault(1.5f);
+            modulatable.Value = 1.5f;
+            modulatable.ValueSource.SetDefaults();
             modulatable.Value = 4f;
             Assert.True(modulatable.ResetCommand.CanExecute(null));
 

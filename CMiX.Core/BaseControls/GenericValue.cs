@@ -40,12 +40,6 @@ namespace CMiX.Core.BaseControls
             Value = OriginalValue;
         }
 
-        public void SetDefault(T value)
-        {
-            Value = value;
-            OriginalValue = value;
-        }
-
         // Takes the current value as the value that Reset restores.
         public override void SetDefaults() => OriginalValue = Value;
 
