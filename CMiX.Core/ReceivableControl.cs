@@ -12,6 +12,9 @@ namespace CMiX.Core
         public bool IsReceiving { get; set; }
         public void Activate() => IsActive = true;
 
+        // Called by ControlFactory after a default model loads. Most controls have no default.
+        public virtual void SetDefaults() { }
+
         protected void ReceiveWithoutEcho(Action action)
         {
             IsReceiving = true;

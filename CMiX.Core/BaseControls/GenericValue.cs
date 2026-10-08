@@ -46,6 +46,9 @@ namespace CMiX.Core.BaseControls
             OriginalValue = value;
         }
 
+        // Takes the current value as the value that Reset restores.
+        public override void SetDefaults() => OriginalValue = Value;
+
         public Guid ID { get; set; }
         public ICommand ResetCommand { get; set; }
         public ControlMessenger ControlMessenger { get; set; }

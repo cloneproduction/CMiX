@@ -20,5 +20,9 @@ namespace CMiX.Core
         }
 
         public void Clear() => _controls.Clear();
+
+        // The controls built since the last ActivateAll.
+        public IReadOnlyList<ReceivableControl> Pending => _controls;
+        public int PendingCount => _controls.Count;
     }
 }
