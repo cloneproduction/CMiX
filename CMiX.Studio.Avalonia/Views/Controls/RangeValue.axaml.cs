@@ -80,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<double> SmallChangeProperty =
-            AvaloniaProperty.Register<RangeValue, double>(nameof(SmallChange), 0.001);
+            AvaloniaProperty.Register<RangeValue, double>(nameof(SmallChange), DragValue.DefaultSmallChange);
         public double SmallChange
         {
             get => GetValue(SmallChangeProperty);
@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<double> LargeChangeProperty =
-            AvaloniaProperty.Register<RangeValue, double>(nameof(LargeChange), 0.01);
+            AvaloniaProperty.Register<RangeValue, double>(nameof(LargeChange), DragValue.DefaultLargeChange);
         public double LargeChange
         {
             get => GetValue(LargeChangeProperty);

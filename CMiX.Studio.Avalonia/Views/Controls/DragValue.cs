@@ -227,8 +227,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(ValueProperty, value);
         }
 
+        // The value change per pixel of mouse move. Shift gives the small step.
+        public const double DefaultLargeChange = 0.001;
+        public const double DefaultSmallChange = 0.0001;
+
         public static readonly StyledProperty<double> SmallChangeProperty =
-            AvaloniaProperty.Register<DragValue, double>(nameof(SmallChange), 0.001, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<DragValue, double>(nameof(SmallChange), DefaultSmallChange, defaultBindingMode: BindingMode.TwoWay);
         public double SmallChange
         {
             get => GetValue(SmallChangeProperty);
@@ -236,7 +240,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<double> LargeChangeProperty =
-            AvaloniaProperty.Register<DragValue, double>(nameof(LargeChange), 0.01, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<DragValue, double>(nameof(LargeChange), DefaultLargeChange, defaultBindingMode: BindingMode.TwoWay);
         public double LargeChange
         {
             get => GetValue(LargeChangeProperty);
