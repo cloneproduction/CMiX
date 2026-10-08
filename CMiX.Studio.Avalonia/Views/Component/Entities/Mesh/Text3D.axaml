@@ -23,7 +23,8 @@
 
             <BaseControls:IntegerValue
                 Caption="Size"
-                DataContext="{Binding FontSize}" />
+                DataContext="{Binding FontSize}"
+                Value="{Binding Value}" />
         </Panels:PositionedStackPanel>
 
         <BaseControls:DragValue

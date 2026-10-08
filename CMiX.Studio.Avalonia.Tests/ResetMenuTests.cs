@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core;
 using CMiX.Core.Animations;
+using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Controls;
@@ -20,6 +21,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static readonly HashSet<(string View, string Caption)> NoReset = new()
         {
             ("MasterBeatControl", "BPM"),
+            ("Composition", "Output Mapping"),      // picks an item, not a value
         };
 
         // Views that show a part of another control and are not named after a Core type.
@@ -45,8 +47,22 @@ namespace CMiX.Studio.Avalonia.Tests
             return window;
         }
 
-        [AvaloniaFact]
-        public void EveryEditorInEveryView_HasAWorkingResetMenu_ExceptTheListedOnes()
+        // A collapsed expander does not build its content. A nested expander shows up only after its parent opens.
+        private static void ExpandAll(Control view)
+        {
+            for (var pass = 0; pass < 5; pass++)
+            {
+                var closed = view.GetVisualDescendants().OfType<Expander>().Where(e => !e.IsExpanded).ToList();
+                if (closed.Count == 0) return;
+
+                foreach (var expander in closed)
+                    expander.IsExpanded = true;
+                Dispatcher.UIThread.RunJobs();
+            }
+        }
+
+        // Hosts the view of every control that has a model, and runs the check on each view.
+        private static int ForEachView(Action<string, Control> check)
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -61,8 +77,6 @@ namespace CMiX.Studio.Avalonia.Tests
             foreach (var (view, core) in PartViews)
                 pairs.Add((view, coreAssembly.GetTypes().First(t => t.Name == core && t.IsClass)));
 
-            var dead = new List<string>();
-            var missing = new List<string>();
             var viewsChecked = 0;
 
             foreach (var (viewName, type) in pairs)
@@ -78,7 +92,22 @@ namespace CMiX.Studio.Avalonia.Tests
                 view.DataContext = control;
                 var window = Host(view);
                 viewsChecked++;
+                ExpandAll(view);
+                check(viewName, view);
+                window.Close();
+            }
 
+            return viewsChecked;
+        }
+
+        [AvaloniaFact]
+        public void EveryEditorInEveryView_HasAWorkingResetMenu_ExceptTheListedOnes()
+        {
+            var dead = new List<string>();
+            var missing = new List<string>();
+
+            var viewsChecked = ForEachView((viewName, view) =>
+            {
                 foreach (var editor in view.GetVisualDescendants().OfType<Control>().Where(c => c is CMiXSlider || c is DragValue || c is CaptionedToggleButton || c is CMiXToggleButton || c is CaptionedComboBox))
                 {
                     editor.ApplyTemplate();     // a hidden editor builds its menu only when its template applies
@@ -98,13 +127,41 @@ namespace CMiX.Studio.Avalonia.Tests
                     }
                     menu.Close();
                 }
-
-                window.Close();
-            }
+            });
 
             Assert.True(viewsChecked > 50, $"Only {viewsChecked} views were checked.");
             Assert.True(dead.Count == 0, string.Join(Environment.NewLine, dead));
             Assert.True(missing.Count == 0, string.Join(Environment.NewLine, missing));
+        }
+
+        // An integer box needs Value="{Binding Value}" next to its DataContext. Without it, the box and the model do not meet.
+        [AvaloniaFact]
+        public void EveryIntegerBoxInEveryView_FollowsItsModelValueBothWays()
+        {
+            var broken = new List<string>();
+            var boxes = 0;
+
+            ForEachView((viewName, view) =>
+            {
+                foreach (var box in view.GetVisualDescendants().OfType<IntegerValue>())
+                {
+                    if (box.DataContext is not GenericValue<int> value) continue;
+                    boxes++;
+
+                    value.Value += 7;
+                    Dispatcher.UIThread.RunJobs();
+                    if (box.Value != value.Value)
+                        broken.Add($"{viewName}: '{box.Caption}' does not show its model value");
+
+                    box.Value += 3;
+                    Dispatcher.UIThread.RunJobs();
+                    if (box.Value != value.Value)
+                        broken.Add($"{viewName}: '{box.Caption}' does not change its model value");
+                }
+            });
+
+            Assert.True(boxes > 10, $"Only {boxes} integer boxes were checked.");
+            Assert.True(broken.Count == 0, string.Join(Environment.NewLine, broken));
         }
 
         [AvaloniaFact]

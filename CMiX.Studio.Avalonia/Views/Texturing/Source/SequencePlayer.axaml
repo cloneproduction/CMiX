@@ -41,7 +41,8 @@
     
       <BaseControls:IntegerValue
           Caption="Seek Frame"
-          DataContext="{Binding SeekFrame}" />
+          DataContext="{Binding SeekFrame}"
+          Value="{Binding Value}" />
 
       <BaseControls:DragValue
               Caption="FPS"

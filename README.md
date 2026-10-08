@@ -58,6 +58,9 @@ The editors with a Reset menu are `CMiXSlider`, `DragValue`,
 `CaptionedToggleButton`, `CaptionedComboBox` and `CMiXToggleButton`. Use
 `CMiXToggleButton`, not `ToggleButton`, for a toggle that edits a model value.
 Bind the `ResetCommand` of an editor to the `ResetCommand` of the value.
+An `IntegerValue` needs both `DataContext="{Binding Name}"` and
+`Value="{Binding Value}"`. Without the second one, the box does not follow the
+model. `ResetMenuTests` fails when one is missing.
 
 ## Sync over Redis
 
