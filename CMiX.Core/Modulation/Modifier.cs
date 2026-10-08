@@ -82,7 +82,6 @@ namespace CMiX.Core.Modulation
             model.ID = ID;
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
             model.IsExpanded = IsExpanded;
-            model.Bindables = Bindables.Select(c => (ModulatableValueModel<float>)c.ToModel()).ToList();
             model.ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel();
         }
 
@@ -93,9 +92,6 @@ namespace CMiX.Core.Modulation
             IsExpanded = model.IsExpanded;
 
             LoadManager(ModulatorManager, model.ModulatorManager);
-
-            for (int i = 0; i < Bindables.Count && i < model.Bindables.Count; i++)
-                Bindables[i].FromModel(model.Bindables[i]);
 
             foreach (var bindable in Bindables.Cast<IModulatorBindable>().Concat(_nestedBindables))
                 bindable.ModulatorLookup = id => ModulatorManager.ManagerData.Items
