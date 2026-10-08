@@ -65,7 +65,6 @@ namespace CMiX.Core.Texturing.Filters
             model.ID = ID;
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
             model.Blend = (BlendModel)Blend.ToModel();
-            model.Bindables = Bindables.Select(c => (ModulatableValueModel<float>)c.ToModel()).ToList();
             model.ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel();
         }
 
@@ -76,9 +75,6 @@ namespace CMiX.Core.Texturing.Filters
             Blend.FromModel(model.Blend);
 
             LoadManager(ModulatorManager, model.ModulatorManager);
-
-            for (int i = 0; i < Bindables.Count && i < model.Bindables.Count; i++)
-                Bindables[i].FromModel(model.Bindables[i]);
 
             foreach (var bindable in Bindables.Cast<IModulatorBindable>())
                 bindable.ModulatorLookup = id => ModulatorManager.ManagerData.Items
