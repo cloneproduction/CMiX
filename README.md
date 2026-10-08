@@ -62,6 +62,22 @@ An `IntegerValue` needs both `DataContext="{Binding Name}"` and
 `Value="{Binding Value}"`. Without the second one, the box does not follow the
 model. `ResetMenuTests` fails when one is missing.
 
+## Menus and popups
+
+Every menu and popup has one look. The control `PopupFrame` holds it: the shadow, the rounded translucent panel and the padding. No other file defines this look.
+
+| Popup | Theme | Use |
+|---|---|---|
+| Context menu | `ContextMenuDefault` | `<ContextMenu Theme="{StaticResource ContextMenuDefault}">`. It opens with its middle on the click. |
+| Menu popup | `MenuFlyoutPresenterDefault` | A `MenuFlyout` with this `FlyoutPresenterTheme`. |
+| Panel popup | `PopupFlyoutStyle` | A `Flyout` for settings and other content. It is 300 wide. |
+
+`ContextMenuDefault` and `MenuFlyoutPresenterDefault` derive from the theme `MenuPanel`. A row is a `MenuItem` with the theme `ContextMenuSubItem`. A row with the header `-` is a separator. A row with `IsChecked` has the accent background.
+
+A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that the code updates in place. A new `ItemsSource` does not refresh a menu that was shown before. `ModulatorAssignButton` is an example.
+
+`PopupThemeGuardTests` fails when a `ContextMenu`, a `Flyout` or a `MenuFlyout` in an AXAML file does not use one of these themes.
+
 ## Sync over Redis
 
 ### The three parts
