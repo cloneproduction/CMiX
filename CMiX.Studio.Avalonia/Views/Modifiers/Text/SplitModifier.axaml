@@ -12,6 +12,7 @@
             Margin="0,0,0,8"
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.SplitType}"
+            ResetCommand="{Binding Type.ResetCommand}"
             SelectedItem="{Binding Type.Value}" />
 
         <Grid IsEnabled="{Binding Type.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Modifiers:SplitType.Separator}}">

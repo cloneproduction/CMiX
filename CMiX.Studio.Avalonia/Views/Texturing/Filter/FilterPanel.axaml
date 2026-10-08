@@ -65,6 +65,7 @@
                 <Controls:CaptionedComboBox
                     Caption="Blend Mode"
                     ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
+                    ResetCommand="{Binding Blend.BlendMode.ResetCommand}"
                     SelectedItem="{Binding Blend.BlendMode.Value}" />
 
               </StackPanel>

@@ -23,6 +23,7 @@
         <BaseControls:CaptionedComboBox
             Caption="Resample"
             ItemsSource="{x:Static Resources:EnumProviders.ResamplingMethod}"
+            ResetCommand="{Binding Resample.ResetCommand}"
             SelectedItem="{Binding Resample.Value}" />
 
     </StackPanel>

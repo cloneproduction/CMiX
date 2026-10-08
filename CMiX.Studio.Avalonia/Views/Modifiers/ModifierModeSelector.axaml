@@ -16,6 +16,7 @@
         <BaseControls:CaptionedComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
+            ResetCommand="{Binding Mode.ResetCommand}"
             SelectedItem="{Binding Mode.Value}">
           <BaseControls:CaptionedComboBox.TrailingContent>
             <Border Width="{DynamicResource ControlHeightMD}" />

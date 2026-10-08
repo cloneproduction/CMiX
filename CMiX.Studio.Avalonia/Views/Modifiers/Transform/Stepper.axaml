@@ -32,6 +32,7 @@
 
             <BaseControls:CaptionedComboBox
                 Caption="Transform"
+                ResetCommand="{Binding TransformType.ResetCommand}"
                 SelectedItem="{Binding TransformType.Value}"
                 ItemsSource="{x:Static Resources:EnumProviders.TransformType}" />
 

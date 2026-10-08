@@ -55,9 +55,9 @@ does not open in edit mode. It does not open for a right-click in a popup below
 the editor.
 
 The editors with a Reset menu are `CMiXSlider`, `DragValue`,
-`CaptionedToggleButton` and `CMiXToggleButton`. Use `CMiXToggleButton`, not
-`ToggleButton`, for a toggle that edits a model value. Bind its `ResetCommand`
-to the `ResetCommand` of the value.
+`CaptionedToggleButton`, `CaptionedComboBox` and `CMiXToggleButton`. Use
+`CMiXToggleButton`, not `ToggleButton`, for a toggle that edits a model value.
+Bind the `ResetCommand` of an editor to the `ResetCommand` of the value.
 
 ## Sync over Redis
 

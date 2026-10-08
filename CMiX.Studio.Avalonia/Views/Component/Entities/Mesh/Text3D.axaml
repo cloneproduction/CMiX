@@ -18,6 +18,7 @@
             <BaseControls:CaptionedComboBox
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
+                ResetCommand="{Binding FontFamily.ResetCommand}"
                 SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 
             <BaseControls:IntegerValue
@@ -35,11 +36,13 @@
             <BaseControls:CaptionedComboBox
                 Caption="Text Alignment"
                 ItemsSource="{x:Static Resources:EnumProviders.HorizontalAlignment}"
+                ResetCommand="{Binding HorizontalAlignment.ResetCommand}"
                 SelectedItem="{Binding HorizontalAlignment.Value}" />
 
             <BaseControls:CaptionedComboBox
                 Caption="Paragraph Alignment"
                 ItemsSource="{x:Static Resources:EnumProviders.ParagraphAlignment}"
+                ResetCommand="{Binding ParagraphAlignment.ResetCommand}"
                 SelectedItem="{Binding ParagraphAlignment.Value}" />
         </Panels:PositionedStackPanel>
 

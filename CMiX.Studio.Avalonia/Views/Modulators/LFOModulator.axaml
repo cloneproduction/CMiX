@@ -28,6 +28,7 @@
         <BaseControls:CaptionedComboBox
             Caption="Wave Type"
             ItemsSource="{x:Static Resources:EnumProviders.WaveType}"
+            ResetCommand="{Binding WaveType.ResetCommand}"
             SelectedItem="{Binding WaveType.Value, Mode=TwoWay}" />
 
     </StackPanel>

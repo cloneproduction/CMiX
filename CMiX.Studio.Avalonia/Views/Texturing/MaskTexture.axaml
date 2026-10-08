@@ -20,6 +20,7 @@
             Margin="8,0"
             Caption="MaskChannel"
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
+            ResetCommand="{Binding MaskChannel.ResetCommand}"
             SelectedItem="{Binding MaskChannel.Value}" />
 
         <BaseControls:CaptionedToggleButton

@@ -24,11 +24,13 @@
             <BaseControl:CaptionedComboBox
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
+                ResetCommand="{Binding FontFamily.ResetCommand}"
                 SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 
             <BaseControl:CaptionedComboBox
                 Caption="Style"
                 ItemsSource="{x:Static Resources:EnumProviders.FontStyle}"
+                ResetCommand="{Binding Style.ResetCommand}"
                 SelectedItem="{Binding Style.Value}" />
 
         </Panels:PositionedStackPanel>

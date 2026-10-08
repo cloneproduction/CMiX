@@ -20,6 +20,7 @@
         <BaseControls:CaptionedComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.MeshType}"
+            ResetCommand="{Binding MeshTypeSelector.ResetCommand}"
             SelectedItem="{Binding MeshTypeSelector.Value}" />
 
         <Panel Margin="0, 8">

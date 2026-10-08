@@ -23,11 +23,13 @@
             <BaseControls:CaptionedComboBox
                 Caption="Cull Mode"
                 ItemsSource="{x:Static Resources:EnumProviders.CullModeType}"
+                ResetCommand="{Binding CullMode.ResetCommand}"
                 SelectedItem="{Binding CullMode.Value}" />
 
             <BaseControls:CaptionedComboBox
                 Caption="Transparency"
                 ItemsSource="{x:Static Resources:EnumProviders.TransparencyType}"
+                ResetCommand="{Binding Transparency.ResetCommand}"
                 SelectedItem="{Binding Transparency.Value}" />
 
         </Panels:PositionedStackPanel>
@@ -40,6 +42,7 @@
         <BaseControls:CaptionedComboBox
             Caption="Pipeline"
             ItemsSource="{x:Static Resources:EnumProviders.PipelineType}"
+            ResetCommand="{Binding Pipeline.ResetCommand}"
             SelectedItem="{Binding Pipeline.Value}" />
 
         <Panels:PositionedStackPanel

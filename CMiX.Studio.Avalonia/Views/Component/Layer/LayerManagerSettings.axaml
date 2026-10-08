@@ -14,6 +14,7 @@
             IsVisible="{Binding !LayerMaskSettings.IsMask.Value}"
             Caption="Blend Mode"
             ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
+            ResetCommand="{Binding LayerSettings.BlendMode.ResetCommand}"
             SelectedItem="{Binding LayerSettings.BlendMode.Value, Mode=TwoWay}" />
 
         <BaseControls:ColorSelector

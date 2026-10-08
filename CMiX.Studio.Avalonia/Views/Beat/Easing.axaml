@@ -23,11 +23,13 @@
             <BaseControls:CaptionedComboBox
                 Caption="Function"
                 ItemsSource="{x:Static Resources:EnumProviders.TweenerTransition}"
+                ResetCommand="{Binding Transition.ResetCommand}"
                 SelectedItem="{Binding Transition.Value}" />
 
             <BaseControls:CaptionedComboBox
                 Caption="Mode"
                 ItemsSource="{x:Static Resources:EnumProviders.TweenerMode}"
+                ResetCommand="{Binding Mode.ResetCommand}"
                 SelectedItem="{Binding Mode.Value}" />
 
         </Panels:PositionedStackPanel>

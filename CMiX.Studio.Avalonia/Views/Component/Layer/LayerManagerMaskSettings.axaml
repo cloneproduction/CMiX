@@ -12,11 +12,13 @@
         <BaseControls:CaptionedComboBox
             Caption="Mask Mode"
             ItemsSource="{x:Static Resources:EnumProviders.MaskMode}"
+            ResetCommand="{Binding LayerMaskSettings.MaskMode.ResetCommand}"
             SelectedItem="{Binding LayerMaskSettings.MaskMode.Value}" />
 
         <BaseControls:CaptionedComboBox
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
+            ResetCommand="{Binding LayerMaskSettings.MaskChannel.ResetCommand}"
             SelectedItem="{Binding LayerMaskSettings.MaskChannel.Value}" />
 
         <BaseControls:CaptionedToggleButton 
