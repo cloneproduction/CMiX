@@ -17,7 +17,9 @@ namespace CMiX.Core.Texturing.Filters
         Guid ID { get; set; }
         PrefabServiceModel PrefabService { get; set; }
         BlendModel Blend { get; set; }
-        List<ModulatableValueModel<float>> Bindables { get; set; }
+        // A model that keeps its values as named properties has no list. This default stands in for it
+        // until every filter model is moved, then the member goes.
+        List<ModulatableValueModel<float>> Bindables { get => new(); set { } }
         PrefabManagerModel ModulatorManager { get; set; }
     }
 }

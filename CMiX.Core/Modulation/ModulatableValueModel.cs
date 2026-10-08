@@ -12,5 +12,9 @@ namespace CMiX.Core.Modulation
         public GenericValueModel<T> Value { get; init; } = new(default);
         public GenericValueModel<Guid?> ModulatorID { get; init; } = new(null);
         public GenericValueModel<string> BoundOutputName { get; init; } = new(null);
+
+        // The default of a value: its label and its start value.
+        public static ModulatableValueModel<T> Of(string label, T value) =>
+            new() { Label = label, Value = new GenericValueModel<T>(value) };
     }
 }
