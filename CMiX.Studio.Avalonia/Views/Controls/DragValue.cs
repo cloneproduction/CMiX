@@ -9,7 +9,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Styling;
 using CMiX.Core.BaseControls;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
@@ -22,10 +21,14 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private bool _dragging;
         private Point _lastScreenPos;
         private ValueInteractionScope _interaction;
+        private ContextMenu? _resetMenu;
+        private bool _templateApplied;
+        private bool _suppressContextMenu;
 
         public DragValue()
         {
             AddHandler(PointerPressedEvent, Control_PointerPressed, RoutingStrategies.Tunnel);
+            AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -50,22 +53,30 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             if (subButton != null)
                 subButton.Click += SubButton_Click;
 
-            // Built here, in code, rather than as a themed ContextMenu Setter: a ContextMenu's
-            // content renders through a separate popup surface, not the control template's own
-            // visual tree, so neither TemplatedParent nor PlacementTarget reliably reach back to
-            // this specific DragValue instance. An explicit binding Source sidesteps that
-            // entirely, this always resolves to the exact control it was built for.
-            if (ContextMenu == null)
+            _templateApplied = true;
+            UpdateResetMenu();
+        }
+
+        // The default menu exists only while the editor has a reset command. A menu set in XAML stays.
+        private void UpdateResetMenu()
+        {
+            if (ResetCommand == null)
             {
-                var resetItem = new MenuItem { Header = "Reset" };
-                resetItem.Bind(MenuItem.CommandProperty, new Binding(nameof(ResetCommand)) { Source = this });
-
-                var contextMenu = new ContextMenu { ItemsSource = new[] { resetItem } };
-                if (this.TryFindResource("ContextMenuDefault", out var theme) && theme is ControlTheme controlTheme)
-                    contextMenu.Theme = controlTheme;
-
-                ContextMenu = contextMenu;
+                if (_resetMenu != null && ContextMenu == _resetMenu)
+                    ContextMenu = null;
+                _resetMenu = null;
+                return;
             }
+
+            if (ContextMenu == null)
+                ContextMenu = _resetMenu = DefaultResetMenu.Create(this);
+        }
+
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+        {
+            base.OnPropertyChanged(change);
+            if (_templateApplied && change.Property == ResetCommandProperty)
+                UpdateResetMenu();
         }
 
         private static double Distance(Point a, Point b)
@@ -161,9 +172,22 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             _dragging = false;
         }
 
+        // A right-click that ends editing must not open the menu when the button is released.
+        private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)
+        {
+            if (!_suppressContextMenu && !IsEditing && !ContextMenuGuard.FromPopup(this, e))
+                return;
+
+            _suppressContextMenu = false;
+            e.Handled = true;
+        }
+
         private void Control_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            if (e.GetCurrentPoint(this).Properties.IsRightButtonPressed)
+            var rightPressed = e.GetCurrentPoint(this).Properties.IsRightButtonPressed;
+            _suppressContextMenu = rightPressed && IsEditing;
+
+            if (rightPressed)
                 IsEditing = false;
         }
 

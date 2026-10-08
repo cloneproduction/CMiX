@@ -44,6 +44,7 @@
       <BaseControls:DragValue
               Caption="FPS"
               Minimum="0.0"
+              ResetCommand="{Binding FPS.ResetCommand}"
               Value="{Binding FPS.Value}" />
 
       <BaseControls:CaptionedToggleButton

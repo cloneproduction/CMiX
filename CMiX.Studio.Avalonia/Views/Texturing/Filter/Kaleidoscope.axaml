@@ -13,15 +13,17 @@
 
         <Controls:IntegerValue
             Caption="Divisions"
+            DataContext="{Binding Divisions}"
             Minimum="1"
-            Value="{Binding Divisions.Value}" />
+            Value="{Binding Value}" />
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <Controls:IntegerValue
                 Caption="Iterations"
+                DataContext="{Binding Iterations}"
                 Minimum="1"
-                Value="{Binding Iterations.Value}" />
+                Value="{Binding Value}" />
 
             <Controls:ModulatableFloatValue
                 Caption="Iteration Zoom"

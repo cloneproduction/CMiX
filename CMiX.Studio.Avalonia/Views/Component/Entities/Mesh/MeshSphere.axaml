@@ -17,8 +17,9 @@
         <BaseControl:IntegerValue
             Margin="0,8,0,0"
             Caption="Tessellation"
+            DataContext="{Binding Tessellation}"
             Minimum="1"
-            Value="{Binding Tessellation.Value}" />
+            Value="{Binding Value}" />
 
     </StackPanel>
 

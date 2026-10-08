@@ -17,11 +17,6 @@
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControl:DragValue
-                Caption="Range"
-                Value="{Binding Range.Value}"
-                ResetCommand="{Binding Range.ResetCommand}" />
-
-            <BaseControl:DragValue
                 Caption="Angle"
                 Value="{Binding Angle.Value}"
                 ResetCommand="{Binding Angle.ResetCommand}" />

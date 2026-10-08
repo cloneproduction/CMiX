@@ -11,7 +11,6 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using Avalonia.Styling;
 using CMiX.Core.BaseControls;
 using CMiX.Studio.Avalonia.Mathematics;
 
@@ -73,12 +72,16 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         protected override Type StyleKeyOverride => typeof(CMiXSlider);
 
         private Border? Border { get; set; }
+        private ContextMenu? _resetMenu;
+        private bool _templateApplied;
+        private bool _suppressContextMenu;
 
         public CMiXSlider()
         {
             AddHandler(PointerPressedEvent, OnTunnelPointerPressed, RoutingStrategies.Tunnel);
             AddHandler(PointerMovedEvent, OnTunnelPointerMoved, RoutingStrategies.Tunnel);
             AddHandler(PointerReleasedEvent, OnTunnelPointerReleased, RoutingStrategies.Tunnel);
+            AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -86,22 +89,30 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             base.OnApplyTemplate(e);
             Border = e.NameScope.Find<Border>("sliderBorder");
 
-            // Built here, in code, rather than as a themed ContextMenu Setter: a ContextMenu's
-            // content renders through a separate popup surface, not the control template's own
-            // visual tree, so neither TemplatedParent nor PlacementTarget reliably reach back to
-            // this specific CMiXSlider instance. An explicit binding Source sidesteps that
-            // entirely, this always resolves to the exact control it was built for.
-            if (ContextMenu == null)
+            _templateApplied = true;
+            UpdateResetMenu();
+        }
+
+        // The default menu exists only while the editor has a reset command. A menu set in XAML stays.
+        private void UpdateResetMenu()
+        {
+            if (ResetCommand == null)
             {
-                var resetItem = new MenuItem { Header = "Reset" };
-                resetItem.Bind(MenuItem.CommandProperty, new Binding(nameof(ResetCommand)) { Source = this });
-
-                var contextMenu = new ContextMenu { ItemsSource = new[] { resetItem } };
-                if (this.TryFindResource("ContextMenuDefault", out var theme) && theme is ControlTheme controlTheme)
-                    contextMenu.Theme = controlTheme;
-
-                ContextMenu = contextMenu;
+                if (_resetMenu != null && ContextMenu == _resetMenu)
+                    ContextMenu = null;
+                _resetMenu = null;
+                return;
             }
+
+            if (ContextMenu == null)
+                ContextMenu = _resetMenu = DefaultResetMenu.Create(this);
+        }
+
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+        {
+            base.OnPropertyChanged(change);
+            if (_templateApplied && change.Property == ResetCommandProperty)
+                UpdateResetMenu();
         }
 
         // A gesture that loses the pointer without a release must not leave the value interaction
@@ -123,9 +134,20 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private static double Length(Point p) => Math.Sqrt(p.X * p.X + p.Y * p.Y);
 
+        // A right-click that ends editing must not open the menu when the button is released.
+        private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)
+        {
+            if (!_suppressContextMenu && !IsEditing && !ContextMenuGuard.FromPopup(this, e))
+                return;
+
+            _suppressContextMenu = false;
+            e.Handled = true;
+        }
+
         private void OnTunnelPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             var properties = e.GetCurrentPoint(this).Properties;
+            _suppressContextMenu = properties.IsRightButtonPressed && IsEditing;
 
             if (properties.IsRightButtonPressed)
             {
