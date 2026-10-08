@@ -3,19 +3,19 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
     x:Name="modulatorAssignButton"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignHeight="400"
     d:DesignWidth="400">
 
-    <BaseControls:ModulatorAssignableUserControl.Styles>
-        <Style Selector="Separator">
-            <Setter Property="Height" Value="0.5" />
-            <Setter Property="Margin" Value="0,4" />
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
-        </Style>
-    </BaseControls:ModulatorAssignableUserControl.Styles>
+    <BaseControls:ModulatorAssignableUserControl.Resources>
+        <!-- A menu row bound to a ModulatorOutputChoice. -->
+        <ControlTheme x:Key="ModulatorOutputRow" TargetType="MenuItem" BasedOn="{StaticResource ContextMenuSubItem}">
+            <Setter Property="Header" Value="{Binding Label}" />
+            <Setter Property="IsChecked" Value="{Binding IsAssigned}" />
+            <Setter Property="Command" Value="{Binding Command}" />
+        </ControlTheme>
+    </BaseControls:ModulatorAssignableUserControl.Resources>
 
     <Button
         x:Name="assignButton"
@@ -41,65 +41,10 @@
         </Ellipse>
 
         <Button.Flyout>
-
-            <Flyout Placement="Bottom" 
-                    FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                <StackPanel MinWidth="100" Margin="0">
-
-                    <Border 
-                        Margin="0,-4, 0, 0"
-                        Height="{DynamicResource ControlHeightMD}" 
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch">
-                        <TextBlock
-                            Text="Assign Modulator"
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource Grey700Brush}" />                    
-                    </Border>
-
-                    <Separator />
-
-                    <ItemsControl ItemsSource="{Binding FlattenedItems, ElementName=modulatorAssignButton}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type Modulation:ModulatorOutputSelection}">
-                                <Button
-                                    HorizontalContentAlignment="Stretch"
-                                    Click="Assign"
-                                    Theme="{DynamicResource ButtonItemControl}">
-
-                                    <Border Margin="-8,0,0,0"
-                                            HorizontalAlignment="Stretch"
-                                            CornerRadius="{DynamicResource CornerRadiusAll}">
-                                        <Border.Background>
-
-                                            <MultiBinding Converter="{StaticResource IsAssignedOutput}">
-                                                <Binding />
-                                                <Binding Path="DataContext.BoundModulator" ElementName="modulatorAssignButton" />
-                                                <Binding Path="DataContext.BoundOutputName" ElementName="modulatorAssignButton" />
-                                                <Binding Source="{StaticResource AccentInactiveBrush}" />
-                                            </MultiBinding>
-
-                                        </Border.Background>
-
-                                        <TextBlock
-                                            Margin="8,0,0,0"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Converter={StaticResource ModulatorOutputSelectionToLabel}}" />
-
-                                    </Border>
-                                </Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <Button
-                        Content="Unassign"
-                        Click="Assign"
-                        IsEnabled="{Binding DataContext.BoundModulator, ElementName=modulatorAssignButton, Converter={StaticResource NullToVisibility}}"
-                        Theme="{DynamicResource ButtonItemControl}" />
-
-                </StackPanel>
-            </Flyout>
+            <MenuFlyout
+                FlyoutPresenterTheme="{StaticResource MenuFlyoutPresenterDefault}"
+                ItemContainerTheme="{StaticResource ModulatorOutputRow}"
+                Placement="Bottom" />
         </Button.Flyout>
     </Button>
 

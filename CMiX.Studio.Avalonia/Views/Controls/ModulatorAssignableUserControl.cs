@@ -2,9 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using Avalonia;
-using Avalonia.Controls;
 using CMiX.Core.Prefabs.Managers;
-using Modulation = CMiX.Core.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
@@ -16,15 +14,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         {
             get => GetValue(ModulatorManagerProperty);
             set => SetValue(ModulatorManagerProperty, value);
-        }
-
-        protected void AssignFromDataContext(object sender)
-        {
-            if (DataContext is Modulation.IModulatorBindable channel)
-            {
-                var selection = (sender as Control)?.DataContext as Modulation.ModulatorOutputSelection;
-                channel.SetModulatorCommand.Execute(selection);
-            }
         }
     }
 }

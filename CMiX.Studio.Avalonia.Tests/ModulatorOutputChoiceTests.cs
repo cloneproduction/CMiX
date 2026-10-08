@@ -1,10 +1,8 @@
-﻿using System.Globalization;
-using Avalonia.Headless.XUnit;
+﻿using Avalonia.Headless.XUnit;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Studio.Avalonia.Converters;
 using CMiX.Studio.Avalonia.Views.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -50,18 +48,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Null(rows[0].Selection);
             Assert.Null(rows[1].Selection);
             Assert.Null(rows[^1].Selection);
-        }
-
-        [AvaloniaFact]
-        public void Label_IsTheSameTextAsTheOldConverter()
-        {
-            var (_, random, fft) = CreateBlurWithModulators();
-            var converter = new ModulatorOutputSelectionToLabelConverter();
-
-            foreach (var selection in Selections(random, fft))
-                Assert.Equal(
-                    converter.Convert(selection, typeof(string), null, CultureInfo.InvariantCulture),
-                    ModulatorOutputChoice.For(selection, null).Label);
         }
 
         [AvaloniaFact]
