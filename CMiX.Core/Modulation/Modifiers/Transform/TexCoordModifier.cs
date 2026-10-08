@@ -25,11 +25,6 @@ namespace CMiX.Core.Modulation.Modifiers
             : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-
-            uniform.SetDefault(1.0f);
-            scaleX.SetDefault(1.0f);
-            scaleY.SetDefault(1.0f);
-
             Transform = new TexCoordTransform(locationX, locationY, scaleX, scaleY, rotation, uniform);
             Bindables = Transform.Bindables;
         }
@@ -47,6 +42,10 @@ namespace CMiX.Core.Modulation.Modifiers
             var model = new TexCoordModifierModel
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+                Location = (ModulatableVector2Model)Location.ToModel(),
+                Scale = (ModulatableVector2Model)Scale.ToModel(),
+                Rotation = (ModulatableValueModel<float>)Rotation.ToModel(),
+                Uniform = (ModulatableValueModel<float>)Uniform.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -56,6 +55,10 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (TexCoordModifierModel)model;
             LoadBaseModel(m);
+            Location.FromModel(m.Location);
+            Scale.FromModel(m.Scale);
+            Rotation.FromModel(m.Rotation);
+            Uniform.FromModel(m.Uniform);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
         }

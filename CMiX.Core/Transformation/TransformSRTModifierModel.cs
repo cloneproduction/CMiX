@@ -14,7 +14,16 @@ namespace CMiX.Core.Transformation
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public bool IsExpanded { get; set; } = true;
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableValueModel<float> TranslateX { get; set; } = ModulatableValueModel<float>.Of("X", 0f);
+        public ModulatableValueModel<float> TranslateY { get; set; } = ModulatableValueModel<float>.Of("Y", 0f);
+        public ModulatableValueModel<float> TranslateZ { get; set; } = ModulatableValueModel<float>.Of("Z", 0f);
+        public ModulatableValueModel<float> ScaleX { get; set; } = ModulatableValueModel<float>.Of("X", 0f);
+        public ModulatableValueModel<float> ScaleY { get; set; } = ModulatableValueModel<float>.Of("Y", 0f);
+        public ModulatableValueModel<float> ScaleZ { get; set; } = ModulatableValueModel<float>.Of("Z", 0f);
+        public ModulatableValueModel<float> ScaleUniform { get; set; } = ModulatableValueModel<float>.Of("Uniform", 0f);
+        public ModulatableValueModel<float> RotationX { get; set; } = ModulatableValueModel<float>.Of("X", 0f);
+        public ModulatableValueModel<float> RotationY { get; set; } = ModulatableValueModel<float>.Of("Y", 0f);
+        public ModulatableValueModel<float> RotationZ { get; set; } = ModulatableValueModel<float>.Of("Z", 0f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
         public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new(ModifierMode.PerInstance, 1);
         public DirectionXYZModel DirectionXYZ { get; set; } = new(false, false, false);

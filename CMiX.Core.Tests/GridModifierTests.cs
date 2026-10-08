@@ -175,7 +175,7 @@ namespace CMiX.Core.Tests
         public void CountXYZ_ConstructAtDefaultOfOne_AndResetReturnsToItAfterAChange()
         {
             var provider = TestServiceProviderFactory.Create();
-            var grid = provider.GetRequiredService<GridModifier>();
+            var grid = (GridModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(GridModifier));
 
             Assert.Equal(1, grid.Count.X.Value);
             Assert.Equal(1, grid.Count.Y.Value);

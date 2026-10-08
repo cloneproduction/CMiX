@@ -16,7 +16,7 @@ namespace CMiX.Core.Tests
         public void CircularSpread_HasFourBindables()
         {
             var provider = TestServiceProviderFactory.Create();
-            var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
+            var circularSpread = (CircularSpreadModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(CircularSpreadModifier));
 
             Assert.Equal(4, circularSpread.Bindables.Count);
             Assert.Equal("X", circularSpread.Bindables[0].Label);

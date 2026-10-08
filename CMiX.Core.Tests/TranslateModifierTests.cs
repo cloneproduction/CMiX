@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
         public void TranslateModifier_HasThreeBindablesLabeledXYZ()
         {
             var provider = TestServiceProviderFactory.Create();
-            var position = provider.GetRequiredService<TranslateModifier>();
+            var position = (TranslateModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(TranslateModifier));
 
             Assert.Equal(3, position.Bindables.Count);
             Assert.Equal("X", position.Bindables[0].Label);

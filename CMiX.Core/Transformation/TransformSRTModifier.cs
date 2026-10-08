@@ -36,17 +36,6 @@ namespace CMiX.Core.Transformation
             DirectionXYZ = directionXYZ;
             Mode = mode;
 
-            translateX.Label = "X";
-            translateY.Label = "Y";
-            translateZ.Label = "Z";
-            scaleX.Label = "X";
-            scaleY.Label = "Y";
-            scaleZ.Label = "Z";
-            scaleUniform.Label = "Uniform";
-            rotationX.Label = "X";
-            rotationY.Label = "Y";
-            rotationZ.Label = "Z";
-
             Bindables = new List<ModulatableValue<float>>
             {
                 translateX, translateY, translateZ,
@@ -76,7 +65,17 @@ namespace CMiX.Core.Transformation
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
                 DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel(),
-                Mode = (GenericValueModel<ModifierMode>)Mode.ToModel()
+                Mode = (GenericValueModel<ModifierMode>)Mode.ToModel(),
+                TranslateX = (ModulatableValueModel<float>)TranslateX.ToModel(),
+                TranslateY = (ModulatableValueModel<float>)TranslateY.ToModel(),
+                TranslateZ = (ModulatableValueModel<float>)TranslateZ.ToModel(),
+                ScaleX = (ModulatableValueModel<float>)ScaleX.ToModel(),
+                ScaleY = (ModulatableValueModel<float>)ScaleY.ToModel(),
+                ScaleZ = (ModulatableValueModel<float>)ScaleZ.ToModel(),
+                ScaleUniform = (ModulatableValueModel<float>)ScaleUniform.ToModel(),
+                RotationX = (ModulatableValueModel<float>)RotationX.ToModel(),
+                RotationY = (ModulatableValueModel<float>)RotationY.ToModel(),
+                RotationZ = (ModulatableValueModel<float>)RotationZ.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -86,6 +85,16 @@ namespace CMiX.Core.Transformation
         {
             var m = (TransformSRTModifierModel)model;
             LoadBaseModel(m);
+            TranslateX.FromModel(m.TranslateX);
+            TranslateY.FromModel(m.TranslateY);
+            TranslateZ.FromModel(m.TranslateZ);
+            ScaleX.FromModel(m.ScaleX);
+            ScaleY.FromModel(m.ScaleY);
+            ScaleZ.FromModel(m.ScaleZ);
+            ScaleUniform.FromModel(m.ScaleUniform);
+            RotationX.FromModel(m.RotationX);
+            RotationY.FromModel(m.RotationY);
+            RotationZ.FromModel(m.RotationZ);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
             DirectionXYZ.FromModel(m.DirectionXYZ);

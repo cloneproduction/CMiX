@@ -26,13 +26,6 @@ namespace CMiX.Core.Modulation.Modifiers
             : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            widthX.Label = "X";
-            widthY.Label = "Y";
-            phase.Label = "Phase";
-            factor.Label = "Factor";
-            widthX.SetDefault(1.0f);
-            widthY.SetDefault(1.0f);
-            factor.SetDefault(1.0f);
             Bindables = new List<ModulatableValue<float>> { widthX, widthY, phase, factor };
         }
 
@@ -47,7 +40,11 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var model = new CircularSpreadModifierModel
             {
-                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+                X = (ModulatableValueModel<float>)X.ToModel(),
+                Y = (ModulatableValueModel<float>)Y.ToModel(),
+                Phase = (ModulatableValueModel<float>)Phase.ToModel(),
+                Factor = (ModulatableValueModel<float>)Factor.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -57,6 +54,10 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (CircularSpreadModifierModel)model;
             LoadBaseModel(m);
+            X.FromModel(m.X);
+            Y.FromModel(m.Y);
+            Phase.FromModel(m.Phase);
+            Factor.FromModel(m.Factor);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
         }

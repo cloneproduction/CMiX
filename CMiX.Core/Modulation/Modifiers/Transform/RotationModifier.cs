@@ -25,9 +25,6 @@ namespace CMiX.Core.Modulation.Modifiers
             : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            bindableX.Label = "X";
-            bindableY.Label = "Y";
-            bindableZ.Label = "Z";
             Bindables = new List<ModulatableValue<float>> { bindableX, bindableY, bindableZ };
         }
 
@@ -41,7 +38,10 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var model = new RotationModifierModel
             {
-                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+                X = (ModulatableValueModel<float>)X.ToModel(),
+                Y = (ModulatableValueModel<float>)Y.ToModel(),
+                Z = (ModulatableValueModel<float>)Z.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -51,6 +51,9 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (RotationModifierModel)model;
             LoadBaseModel(m);
+            X.FromModel(m.X);
+            Y.FromModel(m.Y);
+            Z.FromModel(m.Z);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
         }

@@ -21,8 +21,6 @@ namespace CMiX.Core.Modulation.Modifiers
             : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            width.Label = "Width";
-            phase.Label = "Phase";
             Bindables = new List<ModulatableValue<float>> { width, phase };
         }
 
@@ -35,7 +33,9 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var model = new LinearModifierModel
             {
-                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+                Width = (ModulatableValueModel<float>)Width.ToModel(),
+                Phase = (ModulatableValueModel<float>)Phase.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -45,6 +45,8 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (LinearModifierModel)model;
             LoadBaseModel(m);
+            Width.FromModel(m.Width);
+            Phase.FromModel(m.Phase);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
         }

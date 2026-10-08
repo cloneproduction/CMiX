@@ -13,7 +13,8 @@ namespace CMiX.Core.Modulation.Modifiers
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public bool IsExpanded { get; set; } = true;
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableVector3Model Width { get; set; } = ModulatableVector3Model.Of(0f, 0f, 0f);
+        public ModulatableVector3Model Phase { get; set; } = ModulatableVector3Model.Of(0f, 0f, 0f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
         public ModulatableValueModel<int> CountX { get; set; } = new() { Value = new GenericValueModel<int>(1) };
         public ModulatableValueModel<int> CountY { get; set; } = new() { Value = new GenericValueModel<int>(1) };
