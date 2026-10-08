@@ -28,6 +28,32 @@ server, so composing and rendering can run on separate machines.
     dotnet test CMiX.Core.Tests\CMiX.Core.Tests.csproj
     dotnet test CMiX.Studio.Avalonia.Tests\CMiX.Studio.Avalonia.Tests.csproj
 
+## Values, defaults and reset
+
+The default of a value lives in its model, never in the control. A model holds
+each value as a named property with its default. For example, BlurModel has
+`Strength = ModulatableValueModel<float>.Of("Strength", 0.5f)`.
+
+`ControlFactory.Create` builds a new control, loads a default model into it, and
+calls `SetDefaults()` on every new value. This takes the loaded value as the
+value that Reset restores. Then it loads the real model.
+
+To add a value to a filter or a modifier:
+
+1. Add a named property with its label and default to the model.
+2. Add the value to `Bindables` in the constructor. Add a line for it in
+   `ToModel` and in `FromModel`.
+3. In a test, build the control with `ControlFactory.Create(typeof(X))`. Do not
+   use `GetRequiredService<X>()`: a control that DI builds has no default.
+
+`FilterAndModifierRoundTripTests` fails when a value is missing in `ToModel` or
+`FromModel`. `ResetMenuTests` fails when an editor in a view has no working Reset
+menu.
+
+A value editor shows a Reset menu only when it has a `ResetCommand`. The menu
+does not open in edit mode. It does not open for a right-click in a popup below
+the editor.
+
 ## Sync over Redis
 
 ### The three parts
