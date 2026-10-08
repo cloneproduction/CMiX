@@ -18,9 +18,6 @@ namespace CMiX.Core.Tests
                 .OrderBy(t => t.Name)
                 .Select(t => new object[] { t });
 
-        // Values that are not saved today: Blur.Visible is never read or written anywhere.
-        private static readonly HashSet<string> NotSaved = new() { "Blur.Visible" };
-
         private static ControlFactory CreateFactory() =>
             TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
 
@@ -48,7 +45,6 @@ namespace CMiX.Core.Tests
 
             foreach (var (path, value) in before)
             {
-                if (NotSaved.Contains(path)) continue;
                 Assert.True(after.ContainsKey(path), $"{path} is missing after the load.");
                 Assert.True(Equals(value.Value, after[path].Value),
                     $"{path} was {value.Value} before the save and {after[path].Value} after the load.");

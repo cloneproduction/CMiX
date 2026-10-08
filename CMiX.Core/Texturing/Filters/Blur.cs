@@ -11,19 +11,15 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Blur : TextureFilterBase
     {
         public Blur(PrefabService prefabService,
-                    GenericValue<bool> visible,
                     ModulatableValue<float> strength,
                     Blend blend,
                     PrefabManager modulatorManager)
             : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { strength };
-
-            Visible = visible;
         }
 
         public ModulatableValue<float> Strength => Bindables[0];
-        public GenericValue<bool> Visible { get; set; }
 
         public override IControlModel ToModel()
         {
