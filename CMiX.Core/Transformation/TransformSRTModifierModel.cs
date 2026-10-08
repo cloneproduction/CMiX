@@ -17,10 +17,10 @@ namespace CMiX.Core.Transformation
         public ModulatableValueModel<float> TranslateX { get; set; } = ModulatableValueModel<float>.Of("X", 0f);
         public ModulatableValueModel<float> TranslateY { get; set; } = ModulatableValueModel<float>.Of("Y", 0f);
         public ModulatableValueModel<float> TranslateZ { get; set; } = ModulatableValueModel<float>.Of("Z", 0f);
-        public ModulatableValueModel<float> ScaleX { get; set; } = ModulatableValueModel<float>.Of("X", 0f);
-        public ModulatableValueModel<float> ScaleY { get; set; } = ModulatableValueModel<float>.Of("Y", 0f);
-        public ModulatableValueModel<float> ScaleZ { get; set; } = ModulatableValueModel<float>.Of("Z", 0f);
-        public ModulatableValueModel<float> ScaleUniform { get; set; } = ModulatableValueModel<float>.Of("Uniform", 0f);
+        public ModulatableValueModel<float> ScaleX { get; set; } = ModulatableValueModel<float>.Of("X", 1f);
+        public ModulatableValueModel<float> ScaleY { get; set; } = ModulatableValueModel<float>.Of("Y", 1f);
+        public ModulatableValueModel<float> ScaleZ { get; set; } = ModulatableValueModel<float>.Of("Z", 1f);
+        public ModulatableValueModel<float> ScaleUniform { get; set; } = ModulatableValueModel<float>.Of("Uniform", 1f);
         public ModulatableValueModel<float> RotationX { get; set; } = ModulatableValueModel<float>.Of("X", 0f);
         public ModulatableValueModel<float> RotationY { get; set; } = ModulatableValueModel<float>.Of("Y", 0f);
         public ModulatableValueModel<float> RotationZ { get; set; } = ModulatableValueModel<float>.Of("Z", 0f);

@@ -4,6 +4,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Transformation;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -70,6 +71,22 @@ namespace CMiX.Core.Tests
             beat.BeatSteps.Steps[3].Reset();
 
             Assert.True(beat.BeatSteps.Steps[3].Value);
+        }
+
+        [Fact]
+        public void TransformSRTModifier_ScaleStartsAtOne_AndResetRestoresIt()
+        {
+            var modifier = (TransformSRTModifier)CreateFactory().Create(typeof(TransformSRTModifier));
+
+            Assert.All(new[] { modifier.ScaleX, modifier.ScaleY, modifier.ScaleZ, modifier.ScaleUniform },
+                scale => Assert.Equal(1f, scale.Value));
+
+            modifier.ScaleX.Value = 3f;
+            modifier.ScaleX.ResetCommand.Execute(null);
+
+            Assert.Equal(1f, modifier.ScaleX.Value);
+            Assert.Equal(0f, modifier.TranslateX.Value);
+            Assert.Equal(0f, modifier.RotationX.Value);
         }
 
         [Fact]
