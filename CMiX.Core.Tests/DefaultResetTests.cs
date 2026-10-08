@@ -1,5 +1,6 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
+using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,6 +57,18 @@ namespace CMiX.Core.Tests
             Assert.Equal(0.9f, blur.Strength.Value);
             blur.Strength.ResetCommand.Execute(null);
             Assert.Equal(0.5f, blur.Strength.Value);
+        }
+
+        [Fact]
+        public void BeatSteps_ResetRestoresTheModelDefault()
+        {
+            var beat = (BeatRandomModulator)CreateFactory().Create(typeof(BeatRandomModulator));
+
+            Assert.All(beat.BeatSteps.Steps, step => Assert.True(step.Value));
+            beat.BeatSteps.Steps[3].Value = false;
+            beat.BeatSteps.Steps[3].Reset();
+
+            Assert.True(beat.BeatSteps.Steps[3].Value);
         }
 
         // The child is built by a nested Create while the layer loads. It must not take the loaded layer values as defaults.

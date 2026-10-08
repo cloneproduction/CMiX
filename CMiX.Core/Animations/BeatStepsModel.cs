@@ -7,7 +7,10 @@ namespace CMiX.Core.Animations
 {
     public record BeatStepsModel : IControlModel
     {
+        public const int DefaultStepCount = 8;
+
         public Guid ID { get; init; } = Guid.NewGuid();
-        public List<GenericValueModel<bool>> Steps { get; init; } = new();
+        public List<GenericValueModel<bool>> Steps { get; init; } =
+            Enumerable.Range(0, DefaultStepCount).Select(_ => new GenericValueModel<bool>(true)).ToList();
     }
 }
