@@ -1,5 +1,8 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
+using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
@@ -90,6 +93,40 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
 
             Assert.False(combo.ContextMenu!.IsOpen);
+        }
+
+        // The headless mouse does not reach the combo, so the test raises the pointer events on the toggle of the combo.
+        private static void Click(Window window, Control target, MouseButton button)
+        {
+            var pointer = new Pointer(Pointer.GetNextFreeId(), PointerType.Mouse, true);
+            var position = target.TranslatePoint(new Point(target.Bounds.Width / 2, target.Bounds.Height / 2), window)!.Value;
+            var left = button == MouseButton.Left;
+
+            target.RaiseEvent(new PointerPressedEventArgs(target, pointer, window, position, 1,
+                new PointerPointProperties(left ? RawInputModifiers.LeftMouseButton : RawInputModifiers.RightMouseButton,
+                    left ? PointerUpdateKind.LeftButtonPressed : PointerUpdateKind.RightButtonPressed), KeyModifiers.None));
+            target.RaiseEvent(new PointerReleasedEventArgs(target, pointer, window, position, 2,
+                new PointerPointProperties(RawInputModifiers.None,
+                    left ? PointerUpdateKind.LeftButtonReleased : PointerUpdateKind.RightButtonReleased), KeyModifiers.None, button));
+            Dispatcher.UIThread.RunJobs();
+        }
+
+        [AvaloniaFact]
+        public void Combo_AfterARightClick_TheNextLeftClickKeepsTheDropDownOpen()
+        {
+            var combo = NewCombo();
+            combo.ResetCommand = new RelayCommand(() => { });
+            var window = Host(combo);
+            var inner = combo.GetVisualDescendants().OfType<ComboBox>().Single();
+            var toggle = inner.GetVisualDescendants().OfType<ToggleButton>().Single();
+
+            Click(window, toggle, MouseButton.Right);
+            Assert.True(combo.ContextMenu!.IsOpen);
+            Assert.False(inner.IsDropDownOpen);
+            combo.ContextMenu.Close();
+            Click(window, toggle, MouseButton.Left);
+
+            Assert.True(inner.IsDropDownOpen);
         }
 
         [AvaloniaFact]

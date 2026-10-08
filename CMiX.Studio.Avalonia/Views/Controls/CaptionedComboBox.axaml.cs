@@ -219,9 +219,15 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             e.Handled = true;
         }
 
+        // The ComboBox sets its pressed state for every button and clears it on the release. The Reset menu
+        // takes the release of a right-click, so the state stays and the next click closes the drop-down it opened.
         private void OnInnerPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            _innerComboBox?.Focus();        }
+            _innerComboBox?.Focus();
+
+            if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+                e.Handled = true;
+        }
 
         private void OnInnerComboBoxPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
         {
