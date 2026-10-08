@@ -10006,6 +10006,20 @@
                   <Pin Id="MGmA009n4JmLUBVFgoNQGz" Name="Output" Kind="OutputPin" />
                   <Pin Id="PkyGixt28omNok1Qa4dH7P" Name="Default Value" Kind="InputPin" />
                 </Node>
+                <Node Bounds="245,391,25,19" Id="PC5MCYXc5WDLNaoakQCPYX">
+                  <p:NodeReference LastCategoryFullName="Math" LastDependency="VL.CoreLib.vl">
+                    <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                    <Choice Kind="OperationCallFlag" Name="*" />
+                  </p:NodeReference>
+                  <Pin Id="RTdPgbKeJ3JPJL6UFcJFQ1" Name="Input" Kind="InputPin" />
+                  <Pin Id="N9MWvm4LVsgLf4CsxtTHsJ" Name="Input 2" Kind="InputPin" />
+                  <Pin Id="RyiIxH5TLwfMOgDESSqL9B" Name="Output" Kind="OutputPin" />
+                </Node>
+                <Pad Id="QeKee0vw8cZM3cZhdyI5nA" Comment="" Bounds="280,360,35,28" ShowValueBox="true" isIOBox="true" Value="50, 50">
+                  <p:TypeAnnotation LastCategoryFullName="2D" LastDependency="VL.CoreLib.vl">
+                    <Choice Kind="TypeFlag" Name="Vector2" />
+                  </p:TypeAnnotation>
+                </Pad>
               </Canvas>
               <ProcessDefinition Id="QdGzTqCnqHCLRJqSDeifLt" IsHidden="true">
                 <Fragment Id="Krb9EY0qmykPjhLqQPxPRu" Patch="Q2CkKxLocc5PhhQlPuLm7F" Enabled="true" />
@@ -10044,7 +10058,9 @@
               <Link Id="VKGN0mzab85N4l4c5UsXfk" Ids="MQ1LITneS7YMdHjeSRO6SX,KfVyCRnsheSPnnNtWubaKa" />
               <Link Id="VaavmwJXPNOPAitSbEdsBq" Ids="MGmA009n4JmLUBVFgoNQGz,UEPcqWpnhLFNyhl6ldsSSe" />
               <Link Id="USUjDRFt37XMylHMQpxi73" Ids="UOeGe9Par8UPhh72lff1en,GpAo9Ofad6jP5uYzJVhdvF" />
-              <Link Id="O7AN3bqu9V0NxLw8GmGcXa" Ids="A6BEXce3DgOLJ2VHqHUCau,SMX1TUvvPgSLbzFhJ3wvaD" />
+              <Link Id="ACE8ZWCqNXzPfuphVCd7f0" Ids="A6BEXce3DgOLJ2VHqHUCau,RTdPgbKeJ3JPJL6UFcJFQ1" />
+              <Link Id="IiYEDPsWBqhOjgK2Hgk1ai" Ids="RyiIxH5TLwfMOgDESSqL9B,SMX1TUvvPgSLbzFhJ3wvaD" />
+              <Link Id="QPpFZ1vnCFzO0oqMTUFxFg" Ids="QeKee0vw8cZM3cZhdyI5nA,N9MWvm4LVsgLf4CsxtTHsJ" />
             </Patch>
           </Node>
           <!--
