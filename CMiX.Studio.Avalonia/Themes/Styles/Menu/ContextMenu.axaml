@@ -84,12 +84,17 @@
             <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
         </Style>
 
+        <Style Selector="^:checked /template/ Border#root">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+
         <Style Selector="^:disabled /template/ Border#root">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ContextMenuDefault" TargetType="ContextMenu">
+    <!-- The look of every menu popup. A context menu and a menu flyout derive from it. -->
+    <ControlTheme x:Key="MenuPanel" TargetType="MenuBase">
         <Setter Property="Grid.IsSharedSizeScope" Value="True" />
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ContextMenuSubItem}" />
         <Setter Property="Template">
@@ -105,5 +110,9 @@
             </ControlTemplate>
         </Setter>
     </ControlTheme>
+
+    <ControlTheme x:Key="ContextMenuDefault" TargetType="ContextMenu" BasedOn="{StaticResource MenuPanel}" />
+
+    <ControlTheme x:Key="MenuFlyoutPresenterDefault" TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource MenuPanel}" />
 
 </ResourceDictionary>
