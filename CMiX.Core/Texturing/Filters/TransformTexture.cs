@@ -30,16 +30,6 @@ namespace CMiX.Core.Texturing.Filters
                 location.X, location.Y,
                 scale.X, scale.Y
             };
-
-            rotation.Label = "Rotation";
-            uniform.Label = "Uniform";
-
-            rotation.SetDefault(0.0f);
-            uniform.SetDefault(1.0f);
-            location.X.SetDefault(0.0f);
-            location.Y.SetDefault(0.0f);
-            scale.X.SetDefault(1.0f);
-            scale.Y.SetDefault(1.0f);
         }
 
         public ModulatableVector2 Location { get; }
@@ -52,7 +42,11 @@ namespace CMiX.Core.Texturing.Filters
         {
             var model = new TransformTextureModel
             {
-                SamplerState = (SamplerStateModel)SamplerState.ToModel()
+                SamplerState = (SamplerStateModel)SamplerState.ToModel(),
+                Rotation = (ModulatableValueModel<float>)Rotation.ToModel(),
+                Uniform = (ModulatableValueModel<float>)Uniform.ToModel(),
+                Location = (ModulatableVector2Model)Location.ToModel(),
+                Scale = (ModulatableVector2Model)Scale.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -62,6 +56,10 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (TransformTextureModel)model;
             LoadBaseModel(m);
+            Rotation.FromModel(m.Rotation);
+            Uniform.FromModel(m.Uniform);
+            Location.FromModel(m.Location);
+            Scale.FromModel(m.Scale);
             SamplerState.FromModel(m.SamplerState);
         }
     }

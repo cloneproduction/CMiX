@@ -20,13 +20,6 @@ namespace CMiX.Core.Texturing.Filters
             : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { direction, shift, hue };
-
-            direction.Label = "Direction";
-            shift.Label = "Shift";
-            hue.Label = "Hue";
-            direction.SetDefault(0.25f);
-            shift.SetDefault(0.2f);
-            hue.SetDefault(0.0f);
         }
 
         public ModulatableValue<float> Direction => Bindables[0];
@@ -35,7 +28,12 @@ namespace CMiX.Core.Texturing.Filters
 
         public override IControlModel ToModel()
         {
-            var model = new ShiftRGBModel();
+            var model = new ShiftRGBModel
+            {
+                Direction = (ModulatableValueModel<float>)Direction.ToModel(),
+                Shift = (ModulatableValueModel<float>)Shift.ToModel(),
+                Hue = (ModulatableValueModel<float>)Hue.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -44,6 +42,9 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (ShiftRGBModel)model;
             LoadBaseModel(m);
+            Direction.FromModel(m.Direction);
+            Shift.FromModel(m.Shift);
+            Hue.FromModel(m.Hue);
         }
     }
 }

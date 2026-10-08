@@ -33,29 +33,6 @@ namespace CMiX.Core.Texturing.Filters
                 shadowFallOffPow, shadowBlur, shadowBlurPow, sharpOffset,
                 lightDirection.X, lightDirection.Y, lightDirection.Z
             };
-
-            height.Label = "Height";
-            dotTolerance.Label = "Dot Tolerance";
-            rayJitter.Label = "Ray Jitter";
-            rayLength.Label = "Ray Length";
-            shadowFade.Label = "Shadow Fade";
-            shadowFallOffPow.Label = "Shadow FallOff Pow";
-            shadowBlur.Label = "Shadow Blur";
-            shadowBlurPow.Label = "Shadow Blur Pow";
-            sharpOffset.Label = "Sharp Offset";
-
-            height.SetDefault(0.85f);
-            dotTolerance.SetDefault(0.36f);
-            rayJitter.SetDefault(0.0f);
-            rayLength.SetDefault(-0.07f);
-            shadowFade.SetDefault(0.04f);
-            shadowFallOffPow.SetDefault(0.6f);
-            shadowBlur.SetDefault(0.001f);
-            shadowBlurPow.SetDefault(-0.49f);
-            sharpOffset.SetDefault(-0.05f);
-            lightDirection.X.SetDefault(2.51f);
-            lightDirection.Y.SetDefault(-0.91f);
-            lightDirection.Z.SetDefault(1.15f);
         }
 
         public ModulatableVector3 LightDirection { get; }
@@ -71,7 +48,19 @@ namespace CMiX.Core.Texturing.Filters
 
         public override IControlModel ToModel()
         {
-            var model = new ShadowModel();
+            var model = new ShadowModel
+            {
+                Height = (ModulatableValueModel<float>)Height.ToModel(),
+                DotTolerance = (ModulatableValueModel<float>)DotTolerance.ToModel(),
+                RayJitter = (ModulatableValueModel<float>)RayJitter.ToModel(),
+                RayLength = (ModulatableValueModel<float>)RayLength.ToModel(),
+                ShadowFade = (ModulatableValueModel<float>)ShadowFade.ToModel(),
+                ShadowFallOffPow = (ModulatableValueModel<float>)ShadowFallOffPow.ToModel(),
+                ShadowBlur = (ModulatableValueModel<float>)ShadowBlur.ToModel(),
+                ShadowBlurPow = (ModulatableValueModel<float>)ShadowBlurPow.ToModel(),
+                SharpOffset = (ModulatableValueModel<float>)SharpOffset.ToModel(),
+                LightDirection = (ModulatableVector3Model)LightDirection.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -80,6 +69,16 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (ShadowModel)model;
             LoadBaseModel(m);
+            Height.FromModel(m.Height);
+            DotTolerance.FromModel(m.DotTolerance);
+            RayJitter.FromModel(m.RayJitter);
+            RayLength.FromModel(m.RayLength);
+            ShadowFade.FromModel(m.ShadowFade);
+            ShadowFallOffPow.FromModel(m.ShadowFallOffPow);
+            ShadowBlur.FromModel(m.ShadowBlur);
+            ShadowBlurPow.FromModel(m.ShadowBlurPow);
+            SharpOffset.FromModel(m.SharpOffset);
+            LightDirection.FromModel(m.LightDirection);
         }
     }
 }

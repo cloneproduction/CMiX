@@ -28,11 +28,6 @@ namespace CMiX.Core.Texturing.Filters
             Invert = invert;
 
             Bindables = new List<ModulatableValue<float>> { smooth, thresholdValue };
-
-            smooth.Label = "Smooth";
-            thresholdValue.Label = "Threshold";
-            smooth.SetDefault(0.5f);
-            thresholdValue.SetDefault(0.5f);
         }
 
         public ModulatableValue<float> Smooth => Bindables[0];
@@ -49,7 +44,9 @@ namespace CMiX.Core.Texturing.Filters
                 Foreground = (GenericValueModel<string>)Foreground.ToModel(),
                 Background = (GenericValueModel<string>)Background.ToModel(),
                 Antialiasing = (GenericValueModel<bool>)Antialiasing.ToModel(),
-                Invert = (GenericValueModel<bool>)Invert.ToModel()
+                Invert = (GenericValueModel<bool>)Invert.ToModel(),
+                Smooth = (ModulatableValueModel<float>)Smooth.ToModel(),
+                ThresholdValue = (ModulatableValueModel<float>)ThresholdValue.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -59,6 +56,8 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (ThresholdModel)model;
             LoadBaseModel(m);
+            Smooth.FromModel(m.Smooth);
+            ThresholdValue.FromModel(m.ThresholdValue);
             Foreground.FromModel(m.Foreground);
             Background.FromModel(m.Background);
             Antialiasing.FromModel(m.Antialiasing);

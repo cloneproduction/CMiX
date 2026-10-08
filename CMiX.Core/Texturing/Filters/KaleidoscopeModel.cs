@@ -15,7 +15,13 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<int> Divisions { get; set; } = new(2);
         public GenericValueModel<int> Iterations { get; set; } = new(2);
         public BlendModel Blend { get; set; } = new();
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableValueModel<float> IterationZoom { get; set; } = ModulatableValueModel<float>.Of("Iteration Zoom", 0.0f);
+        public ModulatableValueModel<float> Rotation { get; set; } = ModulatableValueModel<float>.Of("Rotation", 0.0f);
+        public ModulatableValueModel<float> Zoom { get; set; } = ModulatableValueModel<float>.Of("Zoom", 0.5f);
+        public ModulatableValueModel<float> CellRotation { get; set; } = ModulatableValueModel<float>.Of("Cell Rotation", 0.0f);
+        public ModulatableVector2Model Center { get; set; } = ModulatableVector2Model.Of(0.0f, 0.0f);
+        public ModulatableVector2Model CellOffset { get; set; } = ModulatableVector2Model.Of(0.0f, 0.0f);
+        public ModulatableVector2Model CellScale { get; set; } = ModulatableVector2Model.Of(1.0f, 1.0f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
     }
 }

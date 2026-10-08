@@ -17,7 +17,8 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<bool> Antialiasing { get; set; } = new(true);
         public GenericValueModel<bool> Invert { get; set; } = new(false);
         public BlendModel Blend { get; set; } = new();
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableValueModel<float> Smooth { get; set; } = ModulatableValueModel<float>.Of("Smooth", 0.5f);
+        public ModulatableValueModel<float> ThresholdValue { get; set; } = ModulatableValueModel<float>.Of("Threshold", 0.5f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
     }
 }

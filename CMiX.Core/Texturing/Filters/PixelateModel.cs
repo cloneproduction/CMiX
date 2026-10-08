@@ -13,7 +13,8 @@ namespace CMiX.Core.Texturing.Filters
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public BlendModel Blend { get; set; } = new();
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableValueModel<float> X { get; set; } = ModulatableValueModel<float>.Of("X", 0.5f);
+        public ModulatableValueModel<float> Y { get; set; } = ModulatableValueModel<float>.Of("Y", 0.5f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
     }
 }

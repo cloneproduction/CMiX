@@ -16,7 +16,6 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<bool> KeepOriginalAlpha { get; set; } = new(true);
         public GenericValueModel<AlphaChannel> AlphaChannel { get; set; } = new(Filters.AlphaChannel.Lightness);
         public BlendModel Blend { get; set; } = new();
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();
     }
 }

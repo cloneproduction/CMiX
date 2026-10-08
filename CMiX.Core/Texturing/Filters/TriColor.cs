@@ -30,11 +30,6 @@ namespace CMiX.Core.Texturing.Filters
             ClampColor = clampColor;
 
             Bindables = new List<ModulatableValue<float>> { smooth, center };
-
-            smooth.Label = "Smooth";
-            center.Label = "Center";
-            smooth.SetDefault(0.5f);
-            center.SetDefault(0.5f);
         }
 
         public ModulatableValue<float> Smooth => Bindables[0];
@@ -53,7 +48,9 @@ namespace CMiX.Core.Texturing.Filters
                 ColorB = (GenericValueModel<string>)ColorB.ToModel(),
                 ColorC = (GenericValueModel<string>)ColorC.ToModel(),
                 SingleChannel = (GenericValueModel<bool>)SingleChannel.ToModel(),
-                ClampColor = (GenericValueModel<bool>)ClampColor.ToModel()
+                ClampColor = (GenericValueModel<bool>)ClampColor.ToModel(),
+                Smooth = (ModulatableValueModel<float>)Smooth.ToModel(),
+                Center = (ModulatableValueModel<float>)Center.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -63,6 +60,8 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (TriColorModel)model;
             LoadBaseModel(m);
+            Smooth.FromModel(m.Smooth);
+            Center.FromModel(m.Center);
             ColorA.FromModel(m.ColorA);
             ColorB.FromModel(m.ColorB);
             ColorC.FromModel(m.ColorC);
