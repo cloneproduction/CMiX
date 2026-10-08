@@ -21,12 +21,15 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         protected override Type StyleKeyOverride => typeof(PopupFrame);
 
-        // A menu that opens at the pointer hangs to the bottom right. This puts its middle under the pointer.
+        // A menu that opens at the pointer hangs to the bottom right. This puts its middle on the pointer.
         protected override Size ArrangeOverride(Size finalSize)
         {
             var size = base.ArrangeOverride(finalSize);
             if (CentersOnPointer && TemplatedParent is Control { Parent: Popup { Placement: PlacementMode.Pointer } popup })
+            {
                 popup.HorizontalOffset = -size.Width / 2;
+                popup.VerticalOffset = -size.Height / 2;
+            }
 
             return size;
         }
