@@ -99,7 +99,17 @@ namespace CMiX.Core.Prefabs
 
         public IControl Create(IControlModel model)
         {
+            var first = _activationService.PendingCount;
             var control = CreateControlInstance(model);
+
+            // The default model gives each new value the default that Reset restores.
+            var defaults = CreateDefaultModel(model.GetType());
+            if (defaults != null)
+            {
+                control.FromModel(defaults);
+                SetNewDefaults(first);
+            }
+
             control.FromModel(model);
 
             // A model that already carries a name comes from a load or a duplicate, where the name
@@ -112,6 +122,19 @@ namespace CMiX.Core.Prefabs
 
             _activationService.ActivateAll();
             return control;
+        }
+
+        private static IControlModel CreateDefaultModel(Type modelType) =>
+            modelType.GetConstructor(Type.EmptyTypes) != null
+                ? (IControlModel)Activator.CreateInstance(modelType)
+                : null;
+
+        // Only the values built since "first" belong to this control. Outer controls keep their own.
+        private void SetNewDefaults(int first)
+        {
+            var pending = _activationService.Pending;
+            for (var i = first; i < pending.Count; i++)
+                pending[i].SetDefaults();
         }
 
         private static bool TryGetStoredName(IControl control, out string storedName)
