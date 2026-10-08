@@ -94,7 +94,7 @@
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ContextMenuSubItem}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Controls:PopupFrame>
+                <Controls:PopupFrame CentersOnPointer="True">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <ItemsPresenter
                             Name="PART_ItemsPresenter"
