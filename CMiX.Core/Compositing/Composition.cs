@@ -33,10 +33,6 @@ namespace CMiX.Core.Compositing
             TextureModifierManager = textureModifierManager;
             Project = project;
 
-            // A brand-new composition otherwise starts with no output selected (Guid.Empty),
-            // rendering nowhere until the user opens Settings and picks one. Default to the
-            // first of the project's fixed output slots instead - see FromModel for why a
-            // loaded model's own valid selection still wins over this default.
             SelectedOutputMappingID.Value = project.OutputMappingManager.Items.FirstOrDefault()?.ID ?? Guid.Empty;
 
             SelectedOutputMappingID.PropertyChanged += (s, e) =>
@@ -57,8 +53,6 @@ namespace CMiX.Core.Compositing
 
         public LayerMaskSettings LayerMaskSettings { get; set; }
 
-        // The output mapping this composition currently renders to, looked up in the project's
-        // fixed set of 10 by ID. Null once the referenced slot is disabled or was never set.
         public OutputMapping SelectedOutputMapping
         {
             get => Project.OutputMappingManager.GetByID(SelectedOutputMappingID.Value);
@@ -88,13 +82,11 @@ namespace CMiX.Core.Compositing
             var m = (CompositionModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
-            // Keep the constructor default when the model has no selection (Guid.Empty).
-            // A new composition and an old project file give such a model.
-            // Also keep the default when the ID names no output slot of the project.
-            // Duplicate and open replace every GUID in the model JSON, and this ID too.
+
             if (m.SelectedOutputMappingID.Value != Guid.Empty &&
                 Project.OutputMappingManager.GetByID(m.SelectedOutputMappingID.Value) != null)
                 SelectedOutputMappingID.FromModel(m.SelectedOutputMappingID);
+
             LayerSettings.FromModel(m.LayerSettings);
             LayerMaskSettings.FromModel(m.LayerMaskSettings);
 
@@ -102,15 +94,16 @@ namespace CMiX.Core.Compositing
             LoadManager(LayerManager, m.LayerManager);
             LoadManager(ModifierManager, m.ModifierManager);
 
-            // FromModel runs for every composition, fresh or loaded, right after construction,
-            // and ID above is the composition's real, final id from this point on. The composition
-            // is the root of the ownership tree, so this is where its id first enters the tree,
-            // sent down to every item already in these managers and to anything added later.
             ModifierManager.CompositionID = ID;
             TextureModifierManager.CompositionID = ID;
             LayerManager.CompositionID = ID;
         }
 
-        public void Dispose() => DisposeAll(LayerManager, TextureModifierManager, ModifierManager);
+        public void Dispose() => DisposeAll
+        (
+            LayerManager, 
+            TextureModifierManager, 
+            ModifierManager
+        );
     }
 }
