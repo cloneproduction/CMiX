@@ -6,20 +6,13 @@
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     x:Name="channelSlider">
 
-    <BaseControls:ModulatorAssignableUserControl.ContextMenu>
-        <ContextMenu Theme="{StaticResource ContextMenuDefault}">
-            <MenuItem
-                Command="{Binding ResetCommand}"
-                Header="Reset" />
-        </ContextMenu>
-    </BaseControls:ModulatorAssignableUserControl.ContextMenu>
-
     <BaseControls:CMiXSlider
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelSlider}"
         Caption="{Binding Caption, ElementName=channelSlider, Mode=OneWay}"
         IsReadOnly="{Binding IsModulated}"
         Minimum="{Binding Minimum, ElementName=channelSlider}"
         Maximum="{Binding Maximum, ElementName=channelSlider}"
+        ResetCommand="{Binding ResetCommand}"
         Value="{Binding Value}">
         <BaseControls:CMiXSlider.TrailingContent>
             <BaseControls:ModulatorAssignButton ModulatorManager="{Binding ModulatorManager, ElementName=channelSlider}" />
