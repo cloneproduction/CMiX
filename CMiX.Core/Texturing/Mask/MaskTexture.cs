@@ -10,7 +10,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class MaskTexture : ObservableObject, IControl, ITexture, IHasCompositionID
+    public partial class MaskTexture : ObservableObject, IControl, ITexture, IHasCompositionID, IMaskable
     {
         public MaskTexture(PrefabManager prefabManager,
                            Transform2D transform2D,

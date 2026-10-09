@@ -6,7 +6,7 @@ using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Compositing
 {
-    public class MaskSettings : IControl
+    public class MaskSettings : IControl, IMaskable
     {
         public MaskSettings(GenericValue<bool> isMask,
                             GenericValue<MaskChannel> maskChannel,
