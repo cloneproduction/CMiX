@@ -7,10 +7,10 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class LayerManager : UserControl
+    public partial class ComposableManager : UserControl
     {
         public static readonly StyledProperty<Type?> ItemTypeProperty =
-            AvaloniaProperty.Register<LayerManager, Type?>(nameof(ItemType));
+            AvaloniaProperty.Register<ComposableManager, Type?>(nameof(ItemType));
 
         public Type? ItemType
         {
@@ -18,7 +18,7 @@ namespace CMiX.Studio.Avalonia.Views
             set => SetValue(ItemTypeProperty, value);
         }
 
-        public LayerManager()
+        public ComposableManager()
         {
             InitializeComponent();
         }

@@ -14,7 +14,7 @@
             Width="{DynamicResource ControlHeightMD}"
             Background="Transparent"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{Binding $parent[views:LayerManager].ItemType}"
+            CommandParameter="{Binding $parent[views:ComposableManager].ItemType}"
             Theme="{StaticResource ButtonRounded}">
             <Button.Content>
                 <Controls:AppIcon Opacity="0.9" IconKey="Add" Size="{DynamicResource IconSizeXS}" />
