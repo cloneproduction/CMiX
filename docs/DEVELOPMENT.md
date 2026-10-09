@@ -1,4 +1,4 @@
-# CMiX
+# CMiX development notes
 
 CMiX is a VJ (visual jockey) tool. It pairs a desktop Studio application, used
 to build and control compositions live, with a vvvv gamma engine that renders
