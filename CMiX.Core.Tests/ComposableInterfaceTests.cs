@@ -26,8 +26,8 @@ namespace CMiX.Core.Tests
             var layer = (Layer)CreateFactory().Create(typeof(Layer));
             var composable = (IComposable)layer;
 
-            Assert.Same(layer.LayerSettings, composable.Compositing);
-            Assert.Same(layer.LayerMaskSettings, composable.Mask);
+            Assert.Same(layer.Compositing, composable.Compositing);
+            Assert.Same(layer.Mask, composable.Mask);
         }
 
         [Fact]
@@ -36,8 +36,8 @@ namespace CMiX.Core.Tests
             var composition = (Composition)CreateFactory().Create(typeof(Composition));
             var composable = (IComposable)composition;
 
-            Assert.Same(composition.LayerSettings, composable.Compositing);
-            Assert.Same(composition.LayerMaskSettings, composable.Mask);
+            Assert.Same(composition.Compositing, composable.Compositing);
+            Assert.Same(composition.Mask, composable.Mask);
         }
     }
 }

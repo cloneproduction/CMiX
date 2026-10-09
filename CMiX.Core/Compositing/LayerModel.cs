@@ -11,8 +11,8 @@ namespace CMiX.Core.Compositing
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; init; } = new();
-        public CompositingSettingsModel LayerSettings { get; init; } = new();
-        public MaskSettingsModel LayerMaskSettings { get; init; } = new();
+        public CompositingSettingsModel Compositing { get; init; } = new();
+        public MaskSettingsModel Mask { get; init; } = new();
         public PrefabManagerModel TextureModifierManager { get; init; } = new();
         public PrefabManagerModel ModifierManager { get; init; } = new();
         public AmbientOcclusionModel AmbientOcclusion { get; init; } = new();

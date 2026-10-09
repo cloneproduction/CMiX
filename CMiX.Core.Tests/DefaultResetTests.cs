@@ -117,7 +117,7 @@ namespace CMiX.Core.Tests
         public void NestedCreate_DoesNotOverwriteTheParentDefaults()
         {
             var source = (Layer)CreateFactory().Create(typeof(Layer));
-            source.LayerSettings.Opacity.Value = 0.5f;
+            source.Compositing.Opacity.Value = 0.5f;
             source.ModelEntityManager.AddItem(typeof(Entity));
             var model = (LayerModel)source.ToModel();
             Assert.Single(model.ModelEntityManager.ManagerData.Items);
@@ -125,9 +125,9 @@ namespace CMiX.Core.Tests
             var loaded = (Layer)CreateFactory().Create(model);
 
             Assert.Single(loaded.ModelEntityManager.ManagerData.Items);
-            Assert.Equal(0.5f, loaded.LayerSettings.Opacity.Value);
-            loaded.LayerSettings.Opacity.Reset();
-            Assert.Equal(1.0f, loaded.LayerSettings.Opacity.Value);
+            Assert.Equal(0.5f, loaded.Compositing.Opacity.Value);
+            loaded.Compositing.Opacity.Reset();
+            Assert.Equal(1.0f, loaded.Compositing.Opacity.Value);
         }
     }
 }

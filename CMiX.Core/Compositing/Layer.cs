@@ -14,8 +14,8 @@ namespace CMiX.Core.Compositing
     public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable, IHasCompositionID, IDisposable, IComposable
     {
         public Layer(PrefabService prefabService,
-                     CompositingSettings layerSettings,
-                     MaskSettings layerMaskSettings,
+                     CompositingSettings compositingSettings,
+                     MaskSettings maskSettings,
                      AmbientOcclusion ambientOcclusion,
                      LocalReflection localReflectionModel,
                      PrefabManager modelEntityManager,
@@ -28,8 +28,8 @@ namespace CMiX.Core.Compositing
 
             PrefabService = prefabService;
 
-            LayerSettings = layerSettings;
-            LayerMaskSettings = layerMaskSettings;
+            Compositing = compositingSettings;
+            Mask = maskSettings;
             AmbientOcclusion = ambientOcclusion;
             LocalReflection = localReflectionModel;
 
@@ -44,11 +44,8 @@ namespace CMiX.Core.Compositing
 
         public PrefabService PrefabService { get; set; }
 
-        public CompositingSettings LayerSettings { get; set; }
-        public MaskSettings LayerMaskSettings { get; set; }
-        // Explicit, so the public members of the class stay the same.
-        CompositingSettings IComposable.Compositing => LayerSettings;
-        MaskSettings IComposable.Mask => LayerMaskSettings;
+        public CompositingSettings Compositing { get; set; }
+        public MaskSettings Mask { get; set; }
 
         public AmbientOcclusion AmbientOcclusion { get; set; }
         public LocalReflection LocalReflection { get; set; }
@@ -82,8 +79,8 @@ namespace CMiX.Core.Compositing
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            LayerSettings = (CompositingSettingsModel)LayerSettings.ToModel(),
-            LayerMaskSettings = (MaskSettingsModel)LayerMaskSettings.ToModel(),
+            Compositing = (CompositingSettingsModel)Compositing.ToModel(),
+            Mask = (MaskSettingsModel)Mask.ToModel(),
             AmbientOcclusion = (AmbientOcclusionModel)AmbientOcclusion.ToModel(),
             LocalReflection = (LocalReflectionModel)LocalReflection.ToModel(),
             TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
@@ -98,8 +95,8 @@ namespace CMiX.Core.Compositing
             var m = (LayerModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
-            LayerSettings.FromModel(m.LayerSettings);
-            LayerMaskSettings.FromModel(m.LayerMaskSettings);
+            Compositing.FromModel(m.Compositing);
+            Mask.FromModel(m.Mask);
             AmbientOcclusion.FromModel(m.AmbientOcclusion);
             LocalReflection.FromModel(m.LocalReflection);
 

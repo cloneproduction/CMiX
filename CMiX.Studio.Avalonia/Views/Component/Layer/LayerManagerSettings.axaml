@@ -11,23 +11,23 @@
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
         <BaseControls:CaptionedComboBox
-            IsVisible="{Binding !LayerMaskSettings.IsMask.Value}"
+            IsVisible="{Binding !Mask.IsMask.Value}"
             Caption="Blend Mode"
             ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
-            ResetCommand="{Binding LayerSettings.BlendMode.ResetCommand}"
-            SelectedItem="{Binding LayerSettings.BlendMode.Value, Mode=TwoWay}" />
+            ResetCommand="{Binding Compositing.BlendMode.ResetCommand}"
+            SelectedItem="{Binding Compositing.BlendMode.Value, Mode=TwoWay}" />
 
         <BaseControls:ColorSelector
             Caption="Background"
-            DataContext="{Binding LayerSettings.BackgroundColor}" />
+            DataContext="{Binding Compositing.BackgroundColor}" />
 
         <Controls:CMiXSlider
             Height="{DynamicResource ControlHeightMD}"
             Caption="Alpha"
             Maximum="1"
             Minimum="0"
-            Value="{Binding LayerSettings.Opacity.Value}"
-            ResetCommand="{Binding LayerSettings.Opacity.ResetCommand}" />
+            Value="{Binding Compositing.Opacity.Value}"
+            ResetCommand="{Binding Compositing.Opacity.ResetCommand}" />
 
     </StackPanel>
 

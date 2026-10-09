@@ -167,7 +167,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined);
 
             project.CompositionManager.AddItem(typeof(Composition));
-            var opacity = ((Composition)project.CompositionManager.ManagerData.Items[0]).LayerSettings.Opacity;
+            var opacity = ((Composition)project.CompositionManager.ManagerData.Items[0]).Compositing.Opacity;
             await WaitUntilAsync(() => peer.SentMessages >= 2);
 
             var change = new MessageValueChanged(opacity.ID, new GenericValueModel<float> { ID = opacity.ID, Value = 0.25f });

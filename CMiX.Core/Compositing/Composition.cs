@@ -19,16 +19,16 @@ namespace CMiX.Core.Compositing
                            PrefabManager textureModifierManager,
                            PrefabManager modifierManager,
                            GenericValue<Guid> selectedOutputMappingID,
-                           CompositingSettings layerSettings,
-                           MaskSettings layerMaskSettings,
+                           CompositingSettings compositingSettings,
+                           MaskSettings maskSettings,
                            Project project)
         {
             ID = prefabService.ID;
             PrefabService = prefabService;
             SelectedOutputMappingID = selectedOutputMappingID;
             LayerManager = prefabManager;
-            LayerSettings = layerSettings;
-            LayerMaskSettings = layerMaskSettings;
+            Compositing = compositingSettings;
+            Mask = maskSettings;
             ModifierManager = modifierManager;
             TextureModifierManager = textureModifierManager;
             Project = project;
@@ -48,13 +48,10 @@ namespace CMiX.Core.Compositing
         public PrefabManager TextureModifierManager { get; set; }
         public GenericValue<Guid> SelectedOutputMappingID { get; set; }
         public PrefabManager ModifierManager { get; set; }
-        public CompositingSettings LayerSettings { get; set; }
+        public CompositingSettings Compositing { get; set; }
         public Project Project { get; }
 
-        public MaskSettings LayerMaskSettings { get; set; }
-        // Explicit, so the public members of the class stay the same.
-        CompositingSettings IComposable.Compositing => LayerSettings;
-        MaskSettings IComposable.Mask => LayerMaskSettings;
+        public MaskSettings Mask { get; set; }
 
         public OutputMapping SelectedOutputMapping
         {
@@ -76,8 +73,8 @@ namespace CMiX.Core.Compositing
             TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             LayerManager = (PrefabManagerModel)LayerManager.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
-            LayerSettings = (CompositingSettingsModel)LayerSettings.ToModel(),
-            LayerMaskSettings = (MaskSettingsModel)LayerMaskSettings.ToModel(),
+            Compositing = (CompositingSettingsModel)Compositing.ToModel(),
+            Mask = (MaskSettingsModel)Mask.ToModel(),
         };
 
         public void FromModel(IControlModel model)
@@ -90,8 +87,8 @@ namespace CMiX.Core.Compositing
                 Project.OutputMappingManager.GetByID(m.SelectedOutputMappingID.Value) != null)
                 SelectedOutputMappingID.FromModel(m.SelectedOutputMappingID);
 
-            LayerSettings.FromModel(m.LayerSettings);
-            LayerMaskSettings.FromModel(m.LayerMaskSettings);
+            Compositing.FromModel(m.Compositing);
+            Mask.FromModel(m.Mask);
 
             LoadManager(TextureModifierManager, m.TextureModifierManager);
             LoadManager(LayerManager, m.LayerManager);
