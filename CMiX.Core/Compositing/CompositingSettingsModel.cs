@@ -6,7 +6,7 @@ using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Compositing
 {
-    public record LayerSettingsModel : IControlModel
+    public record CompositingSettingsModel : IControlModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<BlendMode> BlendMode { get; set; } = new(CMiX.Core.Texturing.BlendMode.Normal);

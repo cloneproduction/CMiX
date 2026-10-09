@@ -6,9 +6,9 @@ using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Compositing
 {
-    public class LayerSettings : IControl
+    public class CompositingSettings : IControl
     {
-        public LayerSettings(GenericValue<float> opacity,
+        public CompositingSettings(GenericValue<float> opacity,
                              GenericValue<string> backgroundColor, 
                              GenericValue<BlendMode> blendMode) 
         {
@@ -22,7 +22,7 @@ namespace CMiX.Core.Compositing
         public GenericValue<BlendMode> BlendMode { get; set; }
         public Guid ID { get; set; } = Guid.NewGuid();
 
-        public IControlModel ToModel() => new LayerSettingsModel
+        public IControlModel ToModel() => new CompositingSettingsModel
         {
             ID = ID,
             BlendMode = (GenericValueModel<BlendMode>)BlendMode.ToModel(),
@@ -32,7 +32,7 @@ namespace CMiX.Core.Compositing
 
         public void FromModel(IControlModel model)
         {
-            var m = (LayerSettingsModel)model;
+            var m = (CompositingSettingsModel)model;
             ID = m.ID;
             BlendMode.FromModel(m.BlendMode);
             Opacity.FromModel(m.Opacity);

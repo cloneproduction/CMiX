@@ -8,7 +8,7 @@ namespace CMiX.Core.Compositing
     // An item that is blended and masked in a stack: a Layer or a Composition.
     public interface IComposable
     {
-        LayerSettings Compositing { get; }
+        CompositingSettings Compositing { get; }
         LayerMaskSettings Mask { get; }
     }
 }
