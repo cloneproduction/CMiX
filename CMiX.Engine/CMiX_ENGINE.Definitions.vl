@@ -46816,7 +46816,7 @@
     ************************ TilingInfo ************************
 
 -->
-        <Node Name="TilingInfo" Bounds="440,470" Id="KqKhKhntpwYMgTp5cyzjWW">
+        <Node Name="TilingInfo" Bounds="626,490" Id="KqKhKhntpwYMgTp5cyzjWW">
           <p:NodeReference>
             <Choice Kind="ClassDefinition" />
           </p:NodeReference>
@@ -46964,7 +46964,7 @@
     ************************ ICMiXServiceTilingInfo ************************
 
 -->
-        <Node Name="ICMiXServiceTilingInfo" Bounds="440,420" Id="CJndzDrF0IlM0unHkKmFJM">
+        <Node Name="ICMiXServiceTilingInfo" Bounds="626,440" Id="CJndzDrF0IlM0unHkKmFJM">
           <p:NodeReference>
             <Choice Kind="InterfaceDefinition" />
           </p:NodeReference>
@@ -46990,7 +46990,7 @@
     ************************ TFXTilingInfo ************************
 
 -->
-        <Node Name="TFXTilingInfo" Bounds="479,679" Id="UfShh3ObjT9OLdP6ZfpEci">
+        <Node Name="TFXTilingInfo" Bounds="665,699" Id="UfShh3ObjT9OLdP6ZfpEci">
           <p:NodeReference>
             <Choice Kind="RecordDefinition" Name="Record" />
             <CategoryReference Kind="Category" Name="Primitive" />
@@ -47057,7 +47057,7 @@
     ************************ CameraTilingInfo ************************
 
 -->
-        <Node Name="CameraTilingInfo" Bounds="479,550" Id="JynmV2KwhM8NnpyAFfZ67D">
+        <Node Name="CameraTilingInfo" Bounds="665,570" Id="JynmV2KwhM8NnpyAFfZ67D">
           <p:NodeReference>
             <Choice Kind="RecordDefinition" Name="Record" />
             <CategoryReference Kind="Category" Name="Primitive" />
@@ -47110,7 +47110,7 @@
     ************************ RenderingTilingInfo ************************
 
 -->
-        <Node Name="RenderingTilingInfo" Bounds="479,636" Id="CmSoX424erLMlvCMvgXovE">
+        <Node Name="RenderingTilingInfo" Bounds="665,656" Id="CmSoX424erLMlvCMvgXovE">
           <p:NodeReference>
             <Choice Kind="RecordDefinition" Name="Record" />
             <CategoryReference Kind="Category" Name="Primitive" />
@@ -47207,7 +47207,7 @@
     ************************ CalculateTiling ************************
 
 -->
-        <Node Name="CalculateTiling" Bounds="444,380" Id="Clu9P6Y3l9iMJxy54PBfso">
+        <Node Name="CalculateTiling" Bounds="630,400" Id="Clu9P6Y3l9iMJxy54PBfso">
           <p:NodeReference>
             <Choice Kind="ClassDefinition" />
           </p:NodeReference>
@@ -47817,7 +47817,7 @@
     ************************ ProjectionMatrix ************************
 
 -->
-        <Node Name="ProjectionMatrix" Bounds="440,310" Id="AvjLJRSTMtILfnI0XKnPS4">
+        <Node Name="ProjectionMatrix" Bounds="626,330" Id="AvjLJRSTMtILfnI0XKnPS4">
           <p:NodeReference>
             <Choice Kind="ClassDefinition" Name="Class" />
             <CategoryReference Kind="Category" Name="Primitive" />
@@ -48643,7 +48643,7 @@
     ************************ TexCoordTiling ************************
 
 -->
-        <Node Name="TexCoordTiling" Bounds="466,510" Id="E3osWwdqfX1OOjl8xheN93">
+        <Node Name="TexCoordTiling" Bounds="652,530" Id="E3osWwdqfX1OOjl8xheN93">
           <p:NodeReference>
             <Choice Kind="RecordDefinition" Name="Record" />
             <CategoryReference Kind="Category" Name="Primitive" />
@@ -48748,7 +48748,7 @@
     ************************ PreviewTilingInfo ************************
 
 -->
-        <Node Name="PreviewTilingInfo" Bounds="479,593" Id="MQqSVwUJ8dWQJwJmccwrDK">
+        <Node Name="PreviewTilingInfo" Bounds="665,613" Id="MQqSVwUJ8dWQJwJmccwrDK">
           <p:NodeReference>
             <Choice Kind="RecordDefinition" />
           </p:NodeReference>
@@ -48855,7 +48855,7 @@
     ************************ DummyTilingInfo ************************
 
 -->
-        <Node Name="DummyTilingInfo" Bounds="664,330" Id="L9uK2If6kIgPYixeFPZvRN">
+        <Node Name="DummyTilingInfo" Bounds="850,350" Id="L9uK2If6kIgPYixeFPZvRN">
           <p:NodeReference>
             <Choice Kind="ClassDefinition" />
           </p:NodeReference>
@@ -49398,6 +49398,161 @@
               </p:TypeAnnotation>
             </Slot>
             <Link Id="OhSK6XTrgaLNHEaOnqFYRs" Ids="ENutj38tU60OntlTXkbsbR,Oht98PwDqtqQBiIjnpSxdS" IsHidden="true" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ ICMIXServiceScalableDisplay ************************
+
+-->
+        <Node Name="ICMIXServiceScalableDisplay" Bounds="99,1260" Id="DaewXa1503fOXafX8CeiUT">
+          <p:NodeReference>
+            <Choice Kind="InterfaceDefinition" />
+          </p:NodeReference>
+          <Patch Id="U0PEs8JVJPfPPhKYdSNQm0">
+            <Canvas Id="HINPT1rqSACNU65adeUSio" CanvasType="Group">
+              <ControlPoint Id="IESr0smnyBYPDdESjYzRb9" Bounds="318,330" />
+            </Canvas>
+            <ProcessDefinition Id="FSfL7JuqHOeLfnTKOq9Ef5" IsHidden="true">
+              <Fragment Id="KA4yCZMmJFDO0raCmg7rnx" Patch="Kv3xULZuPLfNbj66KC5uWN" />
+            </ProcessDefinition>
+            <Patch Id="Kv3xULZuPLfNbj66KC5uWN" Name="Output">
+              <Pin Id="BVm4QI3fhqfNGpztwo0Sfm" Name="Output" Kind="OutputPin">
+                <p:TypeAnnotation LastCategoryFullName="CMiX.Engine.IO" LastDependency="CMiX_ENGINE.Definitions.vl">
+                  <Choice Kind="TypeFlag" Name="ScalableData" />
+                </p:TypeAnnotation>
+              </Pin>
+            </Patch>
+            <Link Id="UR6NXayFARtLUdWhQkts5J" Ids="IESr0smnyBYPDdESjYzRb9,BVm4QI3fhqfNGpztwo0Sfm" IsHidden="true" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ ScalableData ************************
+
+-->
+        <Node Name="ScalableData" Bounds="111,1300" Id="Pnijrrp0XQ7La3ooYn92kQ">
+          <p:NodeReference>
+            <Choice Kind="ClassDefinition" />
+          </p:NodeReference>
+          <Patch Id="PdslxeFQrDZPLERqmzStS7">
+            <Canvas Id="OLcNXiAkuPPNYbAXjlHBNs" CanvasType="Group">
+              <Pad Id="KL1N98qI8oBQAzzfl6PVz2" SlotId="S8Z8OguIOQWOtqw6RoPgsE" Bounds="239,133" />
+              <ControlPoint Id="QfaG0FiUdIDNwernI3WE84" Bounds="239,83" />
+              <ControlPoint Id="Hz7tTqkCeK3MRcTWxrdl9i" Bounds="239,180" />
+              <Pad Id="ToPB6Ow535jOuGDoAGtehk" SlotId="BjsHwVGxpciPJYchiWbnJV" Bounds="74,133" />
+              <ControlPoint Id="LYfmVkgtn25Ou55R3pN4kF" Bounds="74,83" />
+              <ControlPoint Id="E7YACXHxRnRNqsTNGFsLOq" Bounds="74,180" />
+              <Pad Id="KqalyxuhONvLUu9R02pzs8" SlotId="Rzm757RwvffODSBOWoRAs9" Bounds="404,133" />
+              <ControlPoint Id="HMM2CTpSejyNshclC13Nqx" Bounds="404,83" />
+              <ControlPoint Id="VSOAeFlpc9lNjCtLZMhK9I" Bounds="404,180" />
+              <Pad Id="OR113pZb5OsNBewHEaRdNm" SlotId="SDyrLjG0Q7aP0ZgWdGXdUQ" Bounds="562,133" />
+              <ControlPoint Id="PPFlS6GFzOfPqCrX7S6uGU" Bounds="562,83" />
+              <ControlPoint Id="AZfqVagYnekLtUbkiq37ME" Bounds="562,180" />
+              <ControlPoint Id="T0nekWsJYRSPu0DIrBbLaB" Bounds="649,180" />
+              <ControlPoint Id="U3uV4gj4wz6LGewL2cXzDu" Bounds="478,180" />
+              <ControlPoint Id="S7MJqwjGL2HOLSTZgdiAcV" Bounds="306,180" />
+              <ControlPoint Id="KgjvTExy8AfNgBM0cWlVbX" Bounds="149,180" />
+            </Canvas>
+            <Patch Id="AxTUE1ZYJgtPHjj4vvbBGh" Name="Create" />
+            <ProcessDefinition Id="JDFItLQW6RSNJZJT68P4VG" HasStateOut="true">
+              <Fragment Id="JtrQBKlegOGLprcQMbluOQ" Patch="AxTUE1ZYJgtPHjj4vvbBGh" Enabled="true" />
+              <Fragment Id="MLsdfIHy4mXOReTQl9FAr9" Patch="Vw5fuHxIzrgNbwzhwr5E7g" Enabled="true" />
+              <Fragment Id="OBA2ccIcf0SLzFHjoC7Nk2" Patch="LzshoUbAflmL9AJLmJ0RUM" />
+              <Fragment Id="DQG1P9eqWwjOvMTeCWy8BE" Patch="AdVMbu9iNqrLMEEIYtazyX" />
+              <Fragment Id="JuWUyYZNfuDOcC4Q0lbT2A" Patch="PtWGIBPWsSjP2KN0XMRY3P" />
+              <Fragment Id="QJTYcez8nREQDHbkoOljKR" Patch="A1OIm5uF2FbLTOoDruIPfv" />
+              <Fragment Id="D2aRFPq1dpQLYgEkoDC3xE" Patch="Cot9pfKM9NVM1dglXPmtHa" />
+            </ProcessDefinition>
+            <Slot Id="S8Z8OguIOQWOtqw6RoPgsE" Name="Scalable">
+              <p:TypeAnnotation p:Type="TypeReference">
+                <Choice Kind="TypeFlag" Name="Spread" />
+                <p:TypeArguments>
+                  <TypeReference>
+                    <Choice Kind="TypeFlag" Name="Scalable" />
+                  </TypeReference>
+                </p:TypeArguments>
+              </p:TypeAnnotation>
+            </Slot>
+            <Link Id="P9WJChtVLx3OXue2ViyvmI" Ids="QfaG0FiUdIDNwernI3WE84,KL1N98qI8oBQAzzfl6PVz2" />
+            <Link Id="VnVUPmm7sdCPQrvvI4k8hV" Ids="IbNUwZfeYAGO3UJ64QggUe,QfaG0FiUdIDNwernI3WE84" IsHidden="true" />
+            <Patch Id="Vw5fuHxIzrgNbwzhwr5E7g" Name="Update">
+              <Pin Id="CA16tzQoxDrN3xvQvLon2k" Name="File Paths" Kind="InputPin" />
+              <Pin Id="IbNUwZfeYAGO3UJ64QggUe" Name="Scalable" Kind="InputPin" />
+              <Pin Id="UTo3feOflqaO52ZsWAxKkM" Name="Cameras" Kind="InputPin" />
+              <Pin Id="DgSR4vzKsQ7N37DVdnaOwl" Name="RenderViews" Kind="InputPin" />
+            </Patch>
+            <Link Id="NRdR9VhS3obPtByvN9lroX" Ids="KL1N98qI8oBQAzzfl6PVz2,Hz7tTqkCeK3MRcTWxrdl9i" />
+            <Link Id="BUuhOF7A9FVPZKy6xcGqNT" Ids="Hz7tTqkCeK3MRcTWxrdl9i,I0K6NCZ0tCoNwGO1M2waMu" IsHidden="true" />
+            <Patch Id="LzshoUbAflmL9AJLmJ0RUM" Name="Scalable">
+              <Pin Id="I0K6NCZ0tCoNwGO1M2waMu" Name="Scalable" Kind="OutputPin" />
+            </Patch>
+            <Slot Id="BjsHwVGxpciPJYchiWbnJV" Name="File Paths">
+              <p:TypeAnnotation p:Type="TypeReference">
+                <Choice Kind="TypeFlag" Name="Spread" />
+                <p:TypeArguments>
+                  <TypeReference>
+                    <Choice Kind="TypeFlag" Name="Path" />
+                  </TypeReference>
+                </p:TypeArguments>
+              </p:TypeAnnotation>
+            </Slot>
+            <Link Id="GZg0lBZUsfHOZrV1hdkIV6" Ids="LYfmVkgtn25Ou55R3pN4kF,ToPB6Ow535jOuGDoAGtehk" />
+            <Link Id="Cz6xlNtMICeLF4fQpD1A1J" Ids="CA16tzQoxDrN3xvQvLon2k,LYfmVkgtn25Ou55R3pN4kF" IsHidden="true" />
+            <Link Id="NU81ZDzggNTMSyqlQvgnmg" Ids="ToPB6Ow535jOuGDoAGtehk,E7YACXHxRnRNqsTNGFsLOq" />
+            <Link Id="L6S6fFpZngDPQwzBMGAI5h" Ids="E7YACXHxRnRNqsTNGFsLOq,TYzSkw3eGC6PsBtzNAyjE6" IsHidden="true" />
+            <Patch Id="AdVMbu9iNqrLMEEIYtazyX" Name="FilePaths">
+              <Pin Id="TYzSkw3eGC6PsBtzNAyjE6" Name="File Paths" Kind="OutputPin" />
+            </Patch>
+            <Slot Id="Rzm757RwvffODSBOWoRAs9" Name="Cameras">
+              <p:TypeAnnotation p:Type="TypeReference">
+                <Choice Kind="TypeFlag" Name="Spread" />
+                <p:TypeArguments>
+                  <TypeReference>
+                    <Choice Kind="TypeFlag" Name="Entity" />
+                    <FullNameCategoryReference ID="Stride.API.Engine" />
+                  </TypeReference>
+                </p:TypeArguments>
+              </p:TypeAnnotation>
+            </Slot>
+            <Link Id="NKeYt2u839pMddFkCVZDFW" Ids="HMM2CTpSejyNshclC13Nqx,KqalyxuhONvLUu9R02pzs8" />
+            <Link Id="BvJDFik2JMuNH9MrGzCFR5" Ids="UTo3feOflqaO52ZsWAxKkM,HMM2CTpSejyNshclC13Nqx" IsHidden="true" />
+            <Link Id="L8PK0JF1MrmPokwA45mSJQ" Ids="KqalyxuhONvLUu9R02pzs8,VSOAeFlpc9lNjCtLZMhK9I" />
+            <Link Id="IGSOPC3PHG6L4fI0oQw7so" Ids="VSOAeFlpc9lNjCtLZMhK9I,KJUn9VkSWAbOBWeDwYVFX1" IsHidden="true" />
+            <Patch Id="PtWGIBPWsSjP2KN0XMRY3P" Name="Cameras">
+              <Pin Id="KJUn9VkSWAbOBWeDwYVFX1" Name="Cameras" Kind="OutputPin" />
+            </Patch>
+            <Slot Id="SDyrLjG0Q7aP0ZgWdGXdUQ" Name="RenderViews">
+              <p:TypeAnnotation p:Type="TypeReference">
+                <Choice Kind="TypeFlag" Name="Spread" />
+                <p:TypeArguments>
+                  <TypeReference>
+                    <Choice Kind="TypeFlag" Name="RenderView" />
+                  </TypeReference>
+                </p:TypeArguments>
+              </p:TypeAnnotation>
+            </Slot>
+            <Link Id="GpYGBB75BybLEMAM8G0WlD" Ids="PPFlS6GFzOfPqCrX7S6uGU,OR113pZb5OsNBewHEaRdNm" />
+            <Link Id="F0IihayCXkmNF7qt8cHGuS" Ids="DgSR4vzKsQ7N37DVdnaOwl,PPFlS6GFzOfPqCrX7S6uGU" IsHidden="true" />
+            <Link Id="PvHC1GagK97QYEfU9cYaby" Ids="OR113pZb5OsNBewHEaRdNm,AZfqVagYnekLtUbkiq37ME" />
+            <Link Id="Bf7DxWtFQegOMX9yRwWJ1F" Ids="AZfqVagYnekLtUbkiq37ME,NWUP7DTexJ6QaSRHsBJv1l" IsHidden="true" />
+            <Patch Id="A1OIm5uF2FbLTOoDruIPfv" Name="RenderViews">
+              <Pin Id="NWUP7DTexJ6QaSRHsBJv1l" Name="RenderViews" Kind="OutputPin" />
+            </Patch>
+            <Link Id="PmA1mJeOkF5NVLyLiGzaey" Ids="OR113pZb5OsNBewHEaRdNm,T0nekWsJYRSPu0DIrBbLaB" />
+            <Link Id="OvHE9I3iKGLMB6l50dcScT" Ids="T0nekWsJYRSPu0DIrBbLaB,F8I4HJSIXq8OLhpk9IlD5P" IsHidden="true" />
+            <Link Id="NM7C4vQuJepMOqENx0NlPr" Ids="KqalyxuhONvLUu9R02pzs8,U3uV4gj4wz6LGewL2cXzDu" />
+            <Link Id="SgqqKsb5TlgMVO9bbPVyNb" Ids="U3uV4gj4wz6LGewL2cXzDu,IsvKRFqRQiXOAKxCuRE11O" IsHidden="true" />
+            <Link Id="PxCSWmSw6lHOCdVj8UVDNy" Ids="KL1N98qI8oBQAzzfl6PVz2,S7MJqwjGL2HOLSTZgdiAcV" />
+            <Link Id="Im4cRmLiY84QNNa3Yypr1a" Ids="S7MJqwjGL2HOLSTZgdiAcV,MzwyNpUBpiONmFNvrXhtgy" IsHidden="true" />
+            <Link Id="Us5sbnYQZY3PpaGM1mMMas" Ids="ToPB6Ow535jOuGDoAGtehk,KgjvTExy8AfNgBM0cWlVbX" />
+            <Link Id="BJHaIW2vhKsMyo70hYIXhO" Ids="KgjvTExy8AfNgBM0cWlVbX,Miv9vN82ZRWPoax7PLa23o" IsHidden="true" />
+            <Patch Id="Cot9pfKM9NVM1dglXPmtHa" Name="Split">
+              <Pin Id="Miv9vN82ZRWPoax7PLa23o" Name="File Paths" Kind="OutputPin" />
+              <Pin Id="MzwyNpUBpiONmFNvrXhtgy" Name="Scalable" Kind="OutputPin" />
+              <Pin Id="IsvKRFqRQiXOAKxCuRE11O" Name="Cameras" Kind="OutputPin" />
+              <Pin Id="F8I4HJSIXq8OLhpk9IlD5P" Name="RenderViews" Kind="OutputPin" />
+            </Patch>
           </Patch>
         </Node>
       </Canvas>
@@ -55834,7 +55989,7 @@
   <NugetDependency Id="SoBpzGCukzrMhNONYcGMJt" Location="VL.Serialization.MessagePack" />
   <NugetDependency Id="APHyxjm0ygjNWZQsxQLln4" Location="VL.Addons.Control" Version="0.5.5" />
   <NugetDependency Id="LlCZS6ubjIEP7qtiJFRB1Y" Location="VL.Addons.Stride" Version="0.5.5" />
-  <ProjectDependency Location="../CMiX.Core/CMiX.Core.csproj" />
+  <ProjectDependency Location="../CMiX.Core/CMiX.Core.csproj" IsForward="true" />
   <NugetDependency Id="MnQ8FEGLgpTLTqXTh5EmgV" Location="VL.Addons.Collections" Version="0.5.5" />
   <PlatformDependency Id="Irppcr6dDJvQI63qhZVgT8" Location="System.Runtime" />
   <NugetDependency Id="ObjDmHfQzD3MlzY7IxOkwr" Location="VL.Audio" Version="1.9.19" />
@@ -55844,4 +55999,5 @@
   <NugetDependency Id="LjJDKM5KFvXMlFj4GzvVMv" Location="VL.ImGui.Skia" />
   <PlatformDependency Id="VEJtk1OFSacNvzW3vszcU4" Location="Stride.dll" />
   <PlatformDependency Id="NDiw2zKSCEYOcLk2eNdFev" Location="C:/DL_work/ga_art_v1/vvvv_gamma_7.1-bg-0021-gadc301d88e-win-x64/packs/VL.Stride.Runtime/lib/net8.0/VL.CoreLib.dll" />
+  <NugetDependency Id="LCrR47RbtdyQZAXnWOxzhd" Location="VL.Fuse.ScalableDisplay" Version="0.1.0" />
 </Document>
