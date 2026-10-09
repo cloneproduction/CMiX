@@ -11,7 +11,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable, IHasCompositionID, IDisposable
+    public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable, IHasCompositionID, IDisposable, IComposable
     {
         public Layer(PrefabService prefabService,
                      LayerSettings layerSettings,
@@ -46,6 +46,9 @@ namespace CMiX.Core.Compositing
 
         public LayerSettings LayerSettings { get; set; }
         public LayerMaskSettings LayerMaskSettings { get; set; }
+        // Explicit, so the public members of the class stay the same.
+        LayerSettings IComposable.Compositing => LayerSettings;
+        LayerMaskSettings IComposable.Mask => LayerMaskSettings;
 
         public AmbientOcclusion AmbientOcclusion { get; set; }
         public LocalReflection LocalReflection { get; set; }

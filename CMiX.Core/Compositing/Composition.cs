@@ -12,7 +12,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Composition : ObservableObject, IPrefab, ITextureModifiable, IModifiable, IDisposable
+    public partial class Composition : ObservableObject, IPrefab, ITextureModifiable, IModifiable, IDisposable, IComposable
     {
         public Composition(PrefabService prefabService,
                            PrefabManager prefabManager,
@@ -52,6 +52,9 @@ namespace CMiX.Core.Compositing
         public Project Project { get; }
 
         public LayerMaskSettings LayerMaskSettings { get; set; }
+        // Explicit, so the public members of the class stay the same.
+        LayerSettings IComposable.Compositing => LayerSettings;
+        LayerMaskSettings IComposable.Mask => LayerMaskSettings;
 
         public OutputMapping SelectedOutputMapping
         {
