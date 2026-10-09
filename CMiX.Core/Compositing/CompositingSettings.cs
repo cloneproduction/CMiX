@@ -6,7 +6,7 @@ using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Compositing
 {
-    public class CompositingSettings : IControl
+    public class CompositingSettings : IControl, IBlendable
     {
         public CompositingSettings(GenericValue<float> opacity,
                                    GenericValue<string> backgroundColor, 

@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Blend : ObservableRecipient, IControl
+    public partial class Blend : ObservableRecipient, IControl, IBlendable
     {
         public Blend(GenericValue<bool> isEnabled,
                      GenericValue<BlendMode> blendMode,
