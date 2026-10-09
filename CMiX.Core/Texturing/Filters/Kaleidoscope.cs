@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modulation;
@@ -37,22 +37,6 @@ namespace CMiX.Core.Texturing.Filters
                 cellOffset.X, cellOffset.Y,
                 cellScale.X, cellScale.Y
             };
-
-            iterationZoom.Label = "Iteration Zoom";
-            rotation.Label = "Rotation";
-            zoom.Label = "Zoom";
-            cellRotation.Label = "Cell Rotation";
-
-            iterationZoom.SetDefault(0.0f);
-            rotation.SetDefault(0.0f);
-            zoom.SetDefault(0.5f);
-            cellRotation.SetDefault(0.0f);
-            center.X.SetDefault(0.0f);
-            center.Y.SetDefault(0.0f);
-            cellOffset.X.SetDefault(0.0f);
-            cellOffset.Y.SetDefault(0.0f);
-            cellScale.X.SetDefault(1.0f);
-            cellScale.Y.SetDefault(1.0f);
         }
 
         public GenericValue<int> Divisions { get; set; }
@@ -70,7 +54,14 @@ namespace CMiX.Core.Texturing.Filters
             var model = new KaleidoscopeModel
             {
                 Divisions = (GenericValueModel<int>)Divisions.ToModel(),
-                Iterations = (GenericValueModel<int>)Iterations.ToModel()
+                Iterations = (GenericValueModel<int>)Iterations.ToModel(),
+                IterationZoom = (ModulatableValueModel<float>)IterationZoom.ToModel(),
+                Rotation = (ModulatableValueModel<float>)Rotation.ToModel(),
+                Zoom = (ModulatableValueModel<float>)Zoom.ToModel(),
+                CellRotation = (ModulatableValueModel<float>)CellRotation.ToModel(),
+                Center = (ModulatableVector2Model)Center.ToModel(),
+                CellOffset = (ModulatableVector2Model)CellOffset.ToModel(),
+                CellScale = (ModulatableVector2Model)CellScale.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -80,6 +71,13 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (KaleidoscopeModel)model;
             LoadBaseModel(m);
+            IterationZoom.FromModel(m.IterationZoom);
+            Rotation.FromModel(m.Rotation);
+            Zoom.FromModel(m.Zoom);
+            CellRotation.FromModel(m.CellRotation);
+            Center.FromModel(m.Center);
+            CellOffset.FromModel(m.CellOffset);
+            CellScale.FromModel(m.CellScale);
             Divisions.FromModel(m.Divisions);
             Iterations.FromModel(m.Iterations);
         }

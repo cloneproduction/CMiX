@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.Compositing;
 using CMiX.Core.Modulation;
@@ -19,7 +19,6 @@ namespace CMiX.Core.Modulation.Modifiers
                                   ModulatableValue<float> bindableValue)
             : base(prefabService, modulatorManager, controlRepository)
         {
-            bindableValue.SetDefault(0.5f);
             Bindables = new List<ModulatableValue<float>> { bindableValue };
         }
 
@@ -27,7 +26,10 @@ namespace CMiX.Core.Modulation.Modifiers
 
         public override IControlModel ToModel()
         {
-            var model = new VisibilityModifierModel();
+            var model = new VisibilityModifierModel
+            {
+                Value = (ModulatableValueModel<float>)Value.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -36,6 +38,7 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (VisibilityModifierModel)model;
             LoadBaseModel(m);
+            Value.FromModel(m.Value);
         }
     }
 }

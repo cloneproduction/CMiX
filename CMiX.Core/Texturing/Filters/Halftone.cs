@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modulation;
@@ -23,15 +23,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             Mode = mode;
             Bindables = new List<ModulatableValue<float>> { numberOfTiles, dotSize, softness, brightness };
-
-            numberOfTiles.Label = "Tile Count";
-            dotSize.Label = "Dot Size";
-            softness.Label = "Softness";
-            brightness.Label = "Brightness";
-            numberOfTiles.SetDefault(48.0f);
-            dotSize.SetDefault(0.01f);
-            softness.SetDefault(1.35f);
-            brightness.SetDefault(1.0f);
         }
 
         public GenericValue<HalftoneMode> Mode { get; set; }
@@ -44,7 +35,11 @@ namespace CMiX.Core.Texturing.Filters
         {
             var model = new HalftoneModel
             {
-                Mode = (GenericValueModel<HalftoneMode>)Mode.ToModel()
+                Mode = (GenericValueModel<HalftoneMode>)Mode.ToModel(),
+                NumberOfTiles = (ModulatableValueModel<float>)NumberOfTiles.ToModel(),
+                DotSize = (ModulatableValueModel<float>)DotSize.ToModel(),
+                Softness = (ModulatableValueModel<float>)Softness.ToModel(),
+                Brightness = (ModulatableValueModel<float>)Brightness.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -54,6 +49,10 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (HalftoneModel)model;
             LoadBaseModel(m);
+            NumberOfTiles.FromModel(m.NumberOfTiles);
+            DotSize.FromModel(m.DotSize);
+            Softness.FromModel(m.Softness);
+            Brightness.FromModel(m.Brightness);
             Mode.FromModel(m.Mode);
         }
     }

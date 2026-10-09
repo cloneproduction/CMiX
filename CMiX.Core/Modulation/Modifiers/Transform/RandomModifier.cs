@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
@@ -24,10 +24,6 @@ namespace CMiX.Core.Modulation.Modifiers
             : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
-            seed.Label = "Seed";
-            center.Label = "Center";
-            width.Label = "Width";
-            width.SetDefault(1.0f);
             Bindables = new List<ModulatableValue<float>> { seed, center, width };
         }
 
@@ -41,7 +37,10 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var model = new RandomModifierModel
             {
-                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+                Seed = (ModulatableValueModel<float>)Seed.ToModel(),
+                Center = (ModulatableValueModel<float>)Center.ToModel(),
+                Width = (ModulatableValueModel<float>)Width.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -51,6 +50,9 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (RandomModifierModel)model;
             LoadBaseModel(m);
+            Seed.FromModel(m.Seed);
+            Center.FromModel(m.Center);
+            Width.FromModel(m.Width);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             ResolveNestedBindables();
         }

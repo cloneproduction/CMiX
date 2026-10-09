@@ -1,5 +1,5 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.ObjectModel;
 using CMiX.Core.BaseControls;
@@ -16,14 +16,10 @@ namespace CMiX.Core.Animations
                          MessageFactory messageFactory,
                          ControlActivationService activationService,
                          UndoManager undoManager,
-                         int stepCount = 8)
+                         int stepCount = BeatStepsModel.DefaultStepCount)
         {
             for (int i = 0; i < stepCount; i++)
-            {
-                var step = new GenericValue<bool>(controlMessenger, messageFactory, activationService, undoManager);
-                step.SetDefault(true);
-                Steps.Add(step);
-            }
+                Steps.Add(new GenericValue<bool>(controlMessenger, messageFactory, activationService, undoManager));
         }
         public Guid ID { get; set; } = Guid.NewGuid();
 

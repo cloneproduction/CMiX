@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
         public void LinearXYZ_HasTwoBindablesLabeledWidthAndPhase()
         {
             var provider = TestServiceProviderFactory.Create();
-            var linearXYZ = provider.GetRequiredService<LinearModifier>();
+            var linearXYZ = (LinearModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(LinearModifier));
 
             Assert.Equal(2, linearXYZ.Bindables.Count);
             Assert.Equal("Width", linearXYZ.Bindables[0].Label);

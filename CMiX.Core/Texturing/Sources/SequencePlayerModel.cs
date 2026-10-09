@@ -1,5 +1,5 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
@@ -17,7 +17,7 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValueModel<float> FPS { get; set; } = new(60f);
         public GenericValueModel<bool> Loop { get; set; } = new(true);
         public AssetSelectorModel AssetSelector { get; set; } = new();
-        public Integer2Model Resolution { get; set; } = new(0, 0);
+        public Integer2Model Resolution { get; set; } = new(1920, 1080);
         public GenericValueModel<bool> UseCompositionResolution { get; set; } = new(false);
         public PrefabManagerModel TextureModifierManager { get; set; } = new();
     }

@@ -7,13 +7,13 @@ namespace CMiX.Core.Tests
     public class CompositeResetAllTests
     {
         [Fact]
-        public void Integer2_ResetAllCommand_ResetsBothAxesToTheirSetDefault()
+        public void Integer2_ResetAllCommand_ResetsBothAxesToTheirDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var x = provider.GetRequiredService<GenericValue<int>>();
             var y = provider.GetRequiredService<GenericValue<int>>();
-            x.SetDefault(1);
-            y.SetDefault(2);
+            x.Value = 1; x.SetDefaults();
+            y.Value = 2; y.SetDefaults();
             var integer2 = new Integer2(x, y);
 
             x.Value = 9;
@@ -25,15 +25,15 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Integer3_ResetAllCommand_ResetsAllThreeAxesToTheirSetDefault()
+        public void Integer3_ResetAllCommand_ResetsAllThreeAxesToTheirDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var x = provider.GetRequiredService<GenericValue<int>>();
             var y = provider.GetRequiredService<GenericValue<int>>();
             var z = provider.GetRequiredService<GenericValue<int>>();
-            x.SetDefault(1);
-            y.SetDefault(2);
-            z.SetDefault(3);
+            x.Value = 1; x.SetDefaults();
+            y.Value = 2; y.SetDefaults();
+            z.Value = 3; z.SetDefaults();
             var integer3 = new Integer3(x, y, z);
 
             x.Value = 9;
@@ -47,13 +47,13 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Vector2_ResetAllCommand_ResetsBothAxesToTheirSetDefault()
+        public void Vector2_ResetAllCommand_ResetsBothAxesToTheirDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var x = provider.GetRequiredService<GenericValue<float>>();
             var y = provider.GetRequiredService<GenericValue<float>>();
-            x.SetDefault(1f);
-            y.SetDefault(2f);
+            x.Value = 1f; x.SetDefaults();
+            y.Value = 2f; y.SetDefaults();
             var vector2 = new Vector2(x, y);
 
             x.Value = 9f;
@@ -65,15 +65,15 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Vector3_ResetAllCommand_ResetsAllThreeAxesToTheirSetDefault()
+        public void Vector3_ResetAllCommand_ResetsAllThreeAxesToTheirDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var x = provider.GetRequiredService<GenericValue<float>>();
             var y = provider.GetRequiredService<GenericValue<float>>();
             var z = provider.GetRequiredService<GenericValue<float>>();
-            x.SetDefault(1f);
-            y.SetDefault(2f);
-            z.SetDefault(3f);
+            x.Value = 1f; x.SetDefaults();
+            y.Value = 2f; y.SetDefaults();
+            z.Value = 3f; z.SetDefaults();
             var vector3 = new Vector3(x, y, z);
 
             x.Value = 9f;

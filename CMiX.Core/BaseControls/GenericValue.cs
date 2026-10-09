@@ -1,5 +1,5 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Diagnostics;
 using System.Windows.Input;
@@ -40,11 +40,8 @@ namespace CMiX.Core.BaseControls
             Value = OriginalValue;
         }
 
-        public void SetDefault(T value)
-        {
-            Value = value;
-            OriginalValue = value;
-        }
+        // Takes the current value as the value that Reset restores.
+        public override void SetDefaults() => OriginalValue = Value;
 
         public Guid ID { get; set; }
         public ICommand ResetCommand { get; set; }

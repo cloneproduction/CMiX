@@ -12,6 +12,7 @@
         <BaseControls:CaptionedComboBox
             Caption="From"
             ItemsSource="{x:Static Resources:EnumProviders.TextureFrom}"
+            ResetCommand="{Binding TextureFrom.ResetCommand}"
             SelectedItem="{Binding TextureFrom.Value}" />
 
     </StackPanel>

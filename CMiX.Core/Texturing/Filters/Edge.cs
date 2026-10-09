@@ -1,5 +1,5 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
@@ -17,11 +17,6 @@ namespace CMiX.Core.Texturing.Filters
             : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { radius, brightness };
-
-            radius.Label = "Radius";
-            brightness.Label = "Brightness";
-            radius.SetDefault(1.0f);
-            brightness.SetDefault(1.0f);
         }
 
         public ModulatableValue<float> Radius => Bindables[0];
@@ -29,7 +24,11 @@ namespace CMiX.Core.Texturing.Filters
 
         public override IControlModel ToModel()
         {
-            var model = new EdgeModel();
+            var model = new EdgeModel
+            {
+                Radius = (ModulatableValueModel<float>)Radius.ToModel(),
+                Brightness = (ModulatableValueModel<float>)Brightness.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -38,6 +37,8 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (EdgeModel)model;
             LoadBaseModel(m);
+            Radius.FromModel(m.Radius);
+            Brightness.FromModel(m.Brightness);
         }
     }
 }

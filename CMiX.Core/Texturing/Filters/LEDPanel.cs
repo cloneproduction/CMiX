@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modulation;
@@ -21,15 +21,6 @@ namespace CMiX.Core.Texturing.Filters
             : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { pixelSize, maskStagger, maskBorder, maskIntensity };
-
-            pixelSize.Label = "Pixel Size";
-            maskStagger.Label = "Mask Stagger";
-            maskBorder.Label = "Mask Border";
-            maskIntensity.Label = "Mask Intensity";
-            pixelSize.SetDefault(10.0f);
-            maskStagger.SetDefault(0.0f);
-            maskBorder.SetDefault(0.0f);
-            maskIntensity.SetDefault(0.0f);
         }
 
         public ModulatableValue<float> PixelSize => Bindables[0];
@@ -39,7 +30,13 @@ namespace CMiX.Core.Texturing.Filters
 
         public override IControlModel ToModel()
         {
-            var model = new LEDPanelModel();
+            var model = new LEDPanelModel
+            {
+                PixelSize = (ModulatableValueModel<float>)PixelSize.ToModel(),
+                MaskStagger = (ModulatableValueModel<float>)MaskStagger.ToModel(),
+                MaskBorder = (ModulatableValueModel<float>)MaskBorder.ToModel(),
+                MaskIntensity = (ModulatableValueModel<float>)MaskIntensity.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -48,6 +45,10 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (LEDPanelModel)model;
             LoadBaseModel(m);
+            PixelSize.FromModel(m.PixelSize);
+            MaskStagger.FromModel(m.MaskStagger);
+            MaskBorder.FromModel(m.MaskBorder);
+            MaskIntensity.FromModel(m.MaskIntensity);
         }
     }
 }

@@ -24,11 +24,13 @@
             <BaseControl:CaptionedComboBox
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
+                ResetCommand="{Binding FontFamily.ResetCommand}"
                 SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 
             <BaseControl:CaptionedComboBox
                 Caption="Style"
                 ItemsSource="{x:Static Resources:EnumProviders.FontStyle}"
+                ResetCommand="{Binding Style.ResetCommand}"
                 SelectedItem="{Binding Style.Value}" />
 
         </Panels:PositionedStackPanel>
@@ -59,7 +61,8 @@
         <BaseControl:CaptionedToggleButton
             Margin="0,0,0,8"
             Caption="Use Composition Resolution"
-            IsChecked="{Binding UseCompositionResolution.Value}" />
+            IsChecked="{Binding UseCompositionResolution.Value}"
+            ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
             <BaseControl:Integer2Value

@@ -52,8 +52,8 @@
               
             </StackPanel>
 
-            <TextBox 
-                Margin="0, 0, 4, 0" 
+            <TextBlock 
+
                 Text="{Binding DataContext.PrefabService.Name.Value, ElementName=modifierPanel}" />
 
         </DockPanel>

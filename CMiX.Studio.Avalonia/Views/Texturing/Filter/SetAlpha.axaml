@@ -13,15 +13,18 @@
         <BaseControls:CaptionedComboBox
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.AlphaChannel}"
+            ResetCommand="{Binding AlphaChannel.ResetCommand}"
             SelectedItem="{Binding AlphaChannel.Value}" />
 
         <BaseControls:CaptionedToggleButton
             Caption="Invert"
-            IsChecked="{Binding Invert.Value}" />
+            IsChecked="{Binding Invert.Value}"
+            ResetCommand="{Binding Invert.ResetCommand}" />
 
         <BaseControls:CaptionedToggleButton
             Caption="Keep Original Alpha"
-            IsChecked="{Binding KeepOriginalAlpha.Value}" />
+            IsChecked="{Binding KeepOriginalAlpha.Value}"
+            ResetCommand="{Binding KeepOriginalAlpha.ResetCommand}" />
 
     </StackPanel>
 

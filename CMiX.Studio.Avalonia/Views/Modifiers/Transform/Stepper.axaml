@@ -27,10 +27,12 @@
             <BaseControls:CaptionedToggleButton
                 Caption="PingPong"
                 Margin="0, 8"
-                IsChecked="{Binding PingPong.Value}" />
+                IsChecked="{Binding PingPong.Value}"
+                ResetCommand="{Binding PingPong.ResetCommand}" />
 
             <BaseControls:CaptionedComboBox
                 Caption="Transform"
+                ResetCommand="{Binding TransformType.ResetCommand}"
                 SelectedItem="{Binding TransformType.Value}"
                 ItemsSource="{x:Static Resources:EnumProviders.TransformType}" />
 

@@ -12,10 +12,11 @@
 
             <DockPanel>
 
-                <ToggleButton
+                <BaseControls:CMiXToggleButton
                     Width="14"
                     Height="14"
                     IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=uc, Mode=TwoWay}"
+                    ResetCommand="{Binding DataContext.IsEnabled.ResetCommand, ElementName=uc}"
                     Theme="{DynamicResource ToggleButtonRounded}" />
 
                 <TextBlock
@@ -31,7 +32,7 @@
 
             <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-                <BaseControls:IntegerValue Caption="Samples" DataContext="{Binding Samples}" />
+                <BaseControls:IntegerValue Caption="Samples" DataContext="{Binding Samples}" Value="{Binding Value}" />
 
                 <BaseControls:DragValue
                     Caption="Intensity"
@@ -52,7 +53,8 @@
                 <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
                     <BaseControls:IntegerValue
                         Caption="Blur Count"
-                        DataContext="{Binding BlurCount}" />
+                        DataContext="{Binding BlurCount}"
+                        Value="{Binding Value}" />
                     <BaseControls:DragValue
                         Caption="Blur Radius"
                         Value="{Binding BlurRadius.Value}"

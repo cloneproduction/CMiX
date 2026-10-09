@@ -21,11 +21,13 @@
             Margin="0,8"
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.InvertChannel}"
+            ResetCommand="{Binding InvertChannelSelector.ResetCommand}"
             SelectedItem="{Binding InvertChannelSelector.Value}" />
 
         <Basecontrol:CaptionedToggleButton
             Caption="Invert Alpha"
-            IsChecked="{Binding InvertAlpha.Value}" />
+            IsChecked="{Binding InvertAlpha.Value}"
+            ResetCommand="{Binding InvertAlpha.ResetCommand}" />
 
     </StackPanel>
 

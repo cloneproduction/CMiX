@@ -69,7 +69,8 @@ namespace CMiX.Core.Tests
             var randomModulator = provider.GetRequiredService<RandomModulator>();
             count.ModulatorLookup = id => id == randomModulator.ID ? randomModulator : null;
 
-            count.SetDefault(3);
+            count.Value = 3;
+            count.ValueSource.SetDefaults();
             count.Value = 9;
             Assert.True(count.ResetCommand.CanExecute(null));
 

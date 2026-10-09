@@ -15,6 +15,7 @@
         <Controls:CaptionedComboBox
             Caption="Mode"
             ItemsSource="{x:Static Resources:EnumProviders.HalftoneMode}"
+            ResetCommand="{Binding Mode.ResetCommand}"
             SelectedItem="{Binding Mode.Value}" />
 
         <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">

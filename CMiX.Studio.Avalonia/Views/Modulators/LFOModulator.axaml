@@ -14,6 +14,7 @@
         <BaseControls:DragValue
             Caption="Period"
             Minimum="0.0"
+            ResetCommand="{Binding Period.ResetCommand}"
             Value="{Binding Period.Value}" />
 
         <BaseControls:RangeValue
@@ -27,6 +28,7 @@
         <BaseControls:CaptionedComboBox
             Caption="Wave Type"
             ItemsSource="{x:Static Resources:EnumProviders.WaveType}"
+            ResetCommand="{Binding WaveType.ResetCommand}"
             SelectedItem="{Binding WaveType.Value, Mode=TwoWay}" />
 
     </StackPanel>

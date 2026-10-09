@@ -1,5 +1,5 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation.Modulators;
@@ -57,7 +57,17 @@ namespace CMiX.Core.Modulation
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public Guid CompositionID { get; set; }
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                ModulatorManager.CompositionID = value;
+            }
+        }
+
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModulatorManager { get; set; }
         public ControlRepository ControlRepository { get; set; }
@@ -72,7 +82,6 @@ namespace CMiX.Core.Modulation
             model.ID = ID;
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
             model.IsExpanded = IsExpanded;
-            model.Bindables = Bindables.Select(c => (ModulatableValueModel<float>)c.ToModel()).ToList();
             model.ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel();
         }
 
@@ -83,9 +92,6 @@ namespace CMiX.Core.Modulation
             IsExpanded = model.IsExpanded;
 
             LoadManager(ModulatorManager, model.ModulatorManager);
-
-            for (int i = 0; i < Bindables.Count && i < model.Bindables.Count; i++)
-                Bindables[i].FromModel(model.Bindables[i]);
 
             foreach (var bindable in Bindables.Cast<IModulatorBindable>().Concat(_nestedBindables))
                 bindable.ModulatorLookup = id => ModulatorManager.ManagerData.Items

@@ -1,12 +1,11 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System.Collections;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using Avalonia;
-using Avalonia.Interactivity;
+using Avalonia.Controls;
 using Avalonia.VisualTree;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
@@ -15,14 +14,8 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 {
     public partial class ModulatorAssignButton : ModulatorAssignableUserControl
     {
-        public static readonly StyledProperty<IEnumerable> FlattenedItemsProperty =
-            AvaloniaProperty.Register<ModulatorAssignButton, IEnumerable>(nameof(FlattenedItems));
-        public IEnumerable FlattenedItems
-        {
-            get => GetValue(FlattenedItemsProperty);
-            private set => SetValue(FlattenedItemsProperty, value);
-        }
-
+        // One collection for the whole life of the menu: a new ItemsSource would not refresh the open menu.
+        private readonly ObservableCollection<ModulatorOutputChoice> _choices = new();
         private INotifyCollectionChanged _observedItems;
 
         static ModulatorAssignButton()
@@ -33,8 +26,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         public ModulatorAssignButton()
         {
             InitializeComponent();
+            Flyout.ItemsSource = _choices;
+            Flyout.Opening += (s, e) => RebuildChoices();
             OnModulatorManagerChanged();
         }
+
+        private MenuFlyout Flyout => (MenuFlyout)assignButton.Flyout!;
 
         private void OnModulatorManagerChanged()
         {
@@ -45,42 +42,35 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             if (_observedItems != null)
                 _observedItems.CollectionChanged += OnItemsCollectionChanged;
 
-            RebuildFlattenedItems();
+            RebuildChoices();
         }
 
-        private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => RebuildFlattenedItems();
+        private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => RebuildChoices();
 
         protected override void OnDataContextChanged(System.EventArgs e)
         {
             base.OnDataContextChanged(e);
-            RebuildFlattenedItems();
+            RebuildChoices();
         }
 
-        private void RebuildFlattenedItems()
+        // The menu rows are built again each time the menu opens, so the assigned row is current.
+        private void RebuildChoices()
         {
+            _choices.Clear();
+
             var items = ModulatorManager?.ManagerData?.Items;
             if (items == null)
-            {
-                FlattenedItems = null;
                 return;
-            }
 
             var bindable = DataContext as IModulatorBindable;
 
-            var flattened = new List<object>();
-            foreach (var item in items)
-            {
-                if (item is not IModulator modulator)
-                    continue;
+            // No bindable context means show every output.
+            var selections = items.OfType<IModulator>().SelectMany(modulator => modulator.Outputs
+                .Where(output => bindable?.CanBind(output) ?? true)
+                .Select(output => new ModulatorOutputSelection(modulator, output)));
 
-                // No bindable context means show every output.
-                var outputs = modulator.Outputs.Where(o => bindable?.CanBind(o) ?? true).ToList();
-
-                foreach (var output in outputs)
-                    flattened.Add(new ModulatorOutputSelection(modulator, output));
-            }
-
-            FlattenedItems = flattened;
+            foreach (var choice in ModulatorOutputChoice.Build(selections, bindable))
+                _choices.Add(choice);
         }
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -97,12 +87,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 _observedItems.CollectionChanged -= OnItemsCollectionChanged;
                 _observedItems = null;
             }
-        }
-
-        private void Assign(object sender, RoutedEventArgs e)
-        {
-            AssignFromDataContext(sender);
-            assignButton.Flyout!.Hide();
         }
     }
 }

@@ -22,6 +22,7 @@
         <BaseControls:CaptionedComboBox
             Caption="Entity Type"
             ItemsSource="{x:Static Resources:EnumProviders.EntityType}"
+            ResetCommand="{Binding EntityType.ResetCommand}"
             SelectedItem="{Binding EntityType.Value}" />
 
     </StackPanel>

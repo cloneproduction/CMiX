@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -17,8 +17,6 @@ namespace CMiX.Core.Modulation.Modifiers
                              ModulatableValue<float> bindablePitch)
             : base(prefabService, modulatorManager, controlRepository)
         {
-            bindableYaw.Label = "Yaw";
-            bindablePitch.Label = "Pitch";
             Bindables = new List<ModulatableValue<float>> { bindableYaw, bindablePitch };
         }
 
@@ -27,7 +25,11 @@ namespace CMiX.Core.Modulation.Modifiers
 
         public override IControlModel ToModel()
         {
-            var model = new OrbitModifierModel();
+            var model = new OrbitModifierModel
+            {
+                Yaw = (ModulatableValueModel<float>)Yaw.ToModel(),
+                Pitch = (ModulatableValueModel<float>)Pitch.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -36,6 +38,8 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (OrbitModifierModel)model;
             LoadBaseModel(m);
+            Yaw.FromModel(m.Yaw);
+            Pitch.FromModel(m.Pitch);
         }
     }
 }

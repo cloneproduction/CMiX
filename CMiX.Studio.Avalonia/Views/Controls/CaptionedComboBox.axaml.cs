@@ -1,10 +1,11 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
@@ -18,6 +19,8 @@ namespace CMiX.Studio.Avalonia.Views.Controls
     public partial class CaptionedComboBox : CaptionedUserControl
     {
         private ComboBox? _innerComboBox;
+        private ContextMenu? _resetMenu;
+        private bool _attached;
 
         public CaptionedComboBox()
         {
@@ -26,6 +29,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
             _innerComboBox?.AddHandler(PointerWheelChangedEvent, OnInnerPointerWheelChanged, RoutingStrategies.Tunnel);
             _innerComboBox?.AddHandler(PointerPressedEvent, OnInnerPointerPressed, RoutingStrategies.Tunnel);
+            AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
 
             if (_innerComboBox != null)
             {
@@ -76,7 +80,25 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnAttachedToVisualTree(e);
+            _attached = true;
+            UpdateResetMenu();
             ResubscribeItemsSource();
+        }
+
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+        {
+            base.OnPropertyChanged(change);
+            if (_attached && change.Property == ResetCommandProperty)
+                UpdateResetMenu();
+        }
+
+        private void UpdateResetMenu() => DefaultResetMenu.Update(this, ResetCommand, ref _resetMenu);
+
+        // The drop-down list sends its right-clicks up to the control. They must not open the Reset menu.
+        private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)
+        {
+            if (ContextMenuGuard.FromPopup(this, e))
+                e.Handled = true;
         }
 
         // The subscription above is otherwise never released: a project-lifetime collection like
@@ -140,6 +162,14 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(SelectedItemProperty, value);
         }
 
+        public static readonly StyledProperty<ICommand?> ResetCommandProperty =
+            AvaloniaProperty.Register<CaptionedComboBox, ICommand?>(nameof(ResetCommand));
+        public ICommand? ResetCommand
+        {
+            get => GetValue(ResetCommandProperty);
+            set => SetValue(ResetCommandProperty, value);
+        }
+
         // Reserves space on the right for a control like ModulatorAssignButton, so a ComboBox
         // with a trailing button lines up with a plain one - see DragValue.TrailingContent for
         // the same mechanism on the other value editors.
@@ -189,9 +219,15 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             e.Handled = true;
         }
 
+        // The ComboBox sets its pressed state for every button and clears it on the release. The Reset menu
+        // takes the release of a right-click, so the state stays and the next click closes the drop-down it opened.
         private void OnInnerPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            _innerComboBox?.Focus();        }
+            _innerComboBox?.Focus();
+
+            if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+                e.Handled = true;
+        }
 
         private void OnInnerComboBoxPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
         {

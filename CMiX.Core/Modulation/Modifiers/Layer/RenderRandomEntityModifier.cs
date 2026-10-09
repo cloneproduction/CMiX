@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
@@ -21,8 +21,6 @@ namespace CMiX.Core.Modulation.Modifiers
             : base(prefabService, modulatorManager, controlRepository)
         {
             EntityType = entityType;
-            control.Label = "Control";
-            control.SetDefault(1.0f);
             Bindables = new List<ModulatableValue<float>> { control };
         }
 
@@ -34,7 +32,8 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var model = new RenderRandomEntityModifierModel
             {
-                EntityType = (GenericValueModel<EntityType>)EntityType.ToModel()
+                EntityType = (GenericValueModel<EntityType>)EntityType.ToModel(),
+                Control = (ModulatableValueModel<float>)Control.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -44,6 +43,7 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (RenderRandomEntityModifierModel)model;
             LoadBaseModel(m);
+            Control.FromModel(m.Control);
             EntityType.FromModel(m.EntityType);
         }
     }

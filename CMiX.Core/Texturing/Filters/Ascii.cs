@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modulation;
@@ -23,13 +23,6 @@ namespace CMiX.Core.Texturing.Filters
             Grayscale = grayscale;
 
             Bindables = new List<ModulatableValue<float>> { gridSize, characterSizeX, characterSizeY };
-
-            gridSize.Label = "Grid Size";
-            characterSizeX.Label = "X";
-            characterSizeY.Label = "Y";
-            gridSize.SetDefault(0.66f);
-            characterSizeX.SetDefault(16.0f);
-            characterSizeY.SetDefault(16.0f);
         }
 
         public ModulatableValue<float> GridSize => Bindables[0];
@@ -41,7 +34,10 @@ namespace CMiX.Core.Texturing.Filters
         {
             var model = new AsciiModel
             {
-                Grayscale = (GenericValueModel<bool>)Grayscale.ToModel()
+                Grayscale = (GenericValueModel<bool>)Grayscale.ToModel(),
+                GridSize = (ModulatableValueModel<float>)GridSize.ToModel(),
+                X = (ModulatableValueModel<float>)X.ToModel(),
+                Y = (ModulatableValueModel<float>)Y.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -51,6 +47,9 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (AsciiModel)model;
             LoadBaseModel(m);
+            GridSize.FromModel(m.GridSize);
+            X.FromModel(m.X);
+            Y.FromModel(m.Y);
             Grayscale.FromModel(m.Grayscale);
         }
     }

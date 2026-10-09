@@ -5,45 +5,50 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    x:Name="threshold">
+    x:Name="threshold"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel>
+  <StackPanel>
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <Controls:ModulatableFloatValue
-                Caption="Threshold"
-                DataContext="{Binding ThresholdValue}"
-                Minimum="0"
-                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
+      <Controls:ModulatableFloatValue
+          Caption="Threshold"
+          DataContext="{Binding ThresholdValue}"
+          Minimum="0"
+          ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
 
-            <Controls:ModulatableFloatValue
-                Caption="Smooth"
-                DataContext="{Binding Smooth}"
-                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
+      <Controls:ModulatableFloatValue
+          Caption="Smooth"
+          DataContext="{Binding Smooth}"
+          Minimum="0"
+          ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
 
-        </Panels:PositionedStackPanel>
+    </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
+    <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
-            <Controls:ColorSelector
-                Caption="Foreground"
-                DataContext="{Binding Foreground}" />
+      <Controls:ColorSelector
+          Caption="Foreground"
+          DataContext="{Binding Foreground}" />
 
-            <Controls:ColorSelector
-                Caption="Background"
-                DataContext="{Binding Background}" />
+      <Controls:ColorSelector
+          Caption="Background"
+          DataContext="{Binding Background}" />
 
-        </Panels:PositionedStackPanel>
+    </Panels:PositionedStackPanel>
 
-        <Controls:CaptionedToggleButton
-            Caption="Invert"
-            IsChecked="{Binding Invert.Value}" />
+    <Controls:CaptionedToggleButton
+        Caption="Invert"
+        IsChecked="{Binding Invert.Value}"
+        ResetCommand="{Binding Invert.ResetCommand}" />
 
-        <Controls:CaptionedToggleButton
-            Caption="Antialiasing"
-            IsChecked="{Binding Antialiasing.Value}" />
+    <Controls:CaptionedToggleButton
+        Caption="Antialiasing"
+        IsChecked="{Binding Antialiasing.Value}"
+        ResetCommand="{Binding Antialiasing.ResetCommand}" />
 
-    </StackPanel>
+  </StackPanel>
 
 </Views:FilterPanel>

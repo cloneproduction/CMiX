@@ -89,7 +89,7 @@ namespace CMiX.Core.Tests
         public void XAndY_DefaultToPointFive()
         {
             var provider = TestServiceProviderFactory.Create();
-            var pixelate = provider.GetRequiredService<Pixelate>();
+            var pixelate = (Pixelate)provider.GetRequiredService<ControlFactory>().Create(typeof(Pixelate));
 
             Assert.Equal(0.5f, pixelate.X.Value);
             Assert.Equal(0.5f, pixelate.Y.Value);

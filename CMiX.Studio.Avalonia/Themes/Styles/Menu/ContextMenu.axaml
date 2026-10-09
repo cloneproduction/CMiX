@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:sys="using:System">
+    xmlns:sys="using:System"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <ControlTheme x:Key="ContextMenuSubItem" TargetType="MenuItem">
         <Setter Property="Background" Value="Transparent" />
@@ -67,15 +68,24 @@
         </Setter>
 
         <Style Selector="^:separator">
+            <!-- NaN clears the row height, so the row is as high as the thin line. -->
+            <Setter Property="Height" Value="NaN" />
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Separator />
+                    <Separator
+                        Height="0.5"
+                        Margin="0,4"
+                        Background="{DynamicResource Grey600Brush}" />
                 </ControlTemplate>
             </Setter>
         </Style>
 
         <Style Selector="^:pointerover /template/ Border#root">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        </Style>
+
+        <Style Selector="^:checked /template/ Border#root">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
         </Style>
 
         <Style Selector="^:disabled /template/ Border#root">
@@ -83,29 +93,26 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ContextMenuDefault" TargetType="ContextMenu">
-        <Setter Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
-        <Setter Property="BorderThickness" Value="1" />
+    <!-- The look of every menu popup. A context menu and a menu flyout derive from it. -->
+    <ControlTheme x:Key="MenuPanel" TargetType="MenuBase">
         <Setter Property="Grid.IsSharedSizeScope" Value="True" />
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ContextMenuSubItem}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border
-                    Margin="8"
-                    Background="{DynamicResource Grey400Brush}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    BoxShadow="0 0 8 0 #80000000"
-                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                <Controls:PopupFrame CentersOnPointer="True">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <ItemsPresenter
                             Name="PART_ItemsPresenter"
                             ItemsPanel="{TemplateBinding ItemsPanel}"
                             KeyboardNavigation.TabNavigation="Continue" />
                     </ScrollViewer>
-                </Border>
+                </Controls:PopupFrame>
             </ControlTemplate>
         </Setter>
     </ControlTheme>
+
+    <ControlTheme x:Key="ContextMenuDefault" TargetType="ContextMenu" BasedOn="{StaticResource MenuPanel}" />
+
+    <ControlTheme x:Key="MenuFlyoutPresenterDefault" TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource MenuPanel}" />
 
 </ResourceDictionary>

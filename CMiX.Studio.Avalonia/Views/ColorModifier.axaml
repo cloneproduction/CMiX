@@ -20,6 +20,7 @@
         <BaseControls:CaptionedComboBox
             Caption="Color Mode"
             ItemsSource="{x:Static Resources:EnumProviders.ColorMode}"
+            ResetCommand="{Binding ColorMode.ResetCommand}"
             SelectedItem="{Binding ColorMode.Value}">
           <BaseControls:CaptionedComboBox.TrailingContent>
             <Border Width="{DynamicResource ControlHeightMD}" />

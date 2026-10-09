@@ -9,10 +9,11 @@
 
         <Border Margin="0,0,0,8" Classes="BorderMask">
             <Grid ColumnDefinitions="*,*">
-                <ToggleButton
+                <BaseControls:CMiXToggleButton
                     Grid.Column="0"
                     Content="Play"
                     IsChecked="{Binding Play.Value, Mode=TwoWay}"
+                    ResetCommand="{Binding Play.ResetCommand}"
                     Theme="{StaticResource InlineToggleButtonLeft}" />
                 <Button
                     Grid.Column="1"
@@ -32,12 +33,14 @@
 
         <BaseControls:IntegerValue
             Caption="Seek Frame"
-            DataContext="{Binding SeekFrame}" />
+            DataContext="{Binding SeekFrame}"
+            Value="{Binding Value}" />
 
         <BaseControls:CaptionedToggleButton
             Margin="0,8"
             Caption="Use Composition Resolution"
-            IsChecked="{Binding UseCompositionResolution.Value}" />
+            IsChecked="{Binding UseCompositionResolution.Value}"
+            ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
             <BaseControls:Integer2Value

@@ -14,7 +14,7 @@ namespace CMiX.Core.Tests
         public void ScaleModifier_HasFourBindablesLabeledXYZUniform()
         {
             var provider = TestServiceProviderFactory.Create();
-            var scale = provider.GetRequiredService<ScaleModifier>();
+            var scale = (ScaleModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(ScaleModifier));
 
             Assert.Equal(4, scale.Bindables.Count);
             Assert.Equal("X", scale.Bindables[0].Label);
@@ -180,7 +180,7 @@ namespace CMiX.Core.Tests
         public void AllFourBindables_ConstructAtDefaultOfOne_AndResetReturnsToItAfterAChange()
         {
             var provider = TestServiceProviderFactory.Create();
-            var scale = provider.GetRequiredService<ScaleModifier>();
+            var scale = (ScaleModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(ScaleModifier));
 
             Assert.Equal(1f, scale.X.Value);
             Assert.Equal(1f, scale.Y.Value);

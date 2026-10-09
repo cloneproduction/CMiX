@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modulation;
@@ -17,7 +17,6 @@ namespace CMiX.Core.Texturing.Filters
         Guid ID { get; set; }
         PrefabServiceModel PrefabService { get; set; }
         BlendModel Blend { get; set; }
-        List<ModulatableValueModel<float>> Bindables { get; set; }
         PrefabManagerModel ModulatorManager { get; set; }
     }
 }

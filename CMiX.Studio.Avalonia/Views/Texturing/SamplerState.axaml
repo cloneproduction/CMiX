@@ -15,11 +15,13 @@
             <BaseControls:CaptionedComboBox
                 Caption="Address U"
                 ItemsSource="{x:Static Resources:EnumProviders.TextureAddressMode}"
+                ResetCommand="{Binding AddressU.ResetCommand}"
                 SelectedItem="{Binding AddressU.Value}" />
 
             <BaseControls:CaptionedComboBox
                 Caption="V"
                 ItemsSource="{x:Static Resources:EnumProviders.TextureAddressMode}"
+                ResetCommand="{Binding AddressV.ResetCommand}"
                 SelectedItem="{Binding AddressV.Value}" />
 
         </Panels:PositionedStackPanel>

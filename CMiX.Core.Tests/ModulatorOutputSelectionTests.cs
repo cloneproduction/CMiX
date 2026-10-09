@@ -12,6 +12,7 @@ namespace CMiX.Core.Tests
         {
             public Guid ID { get; set; } = Guid.NewGuid();
             public PrefabService PrefabService { get; set; }
+            public Guid CompositionID { get; set; }
             public bool IsHovered { get; set; }
             public bool IsExpanded { get; set; }
             public IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[]

@@ -1,5 +1,5 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Windows.Input;
 using CMiX.Core.Animations;
@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public class BeatRandomModulator : ReceivableControl, IDisposable, IModulator, IBeatTimedModulator
+    public class BeatRandomModulator : ModulatorBase, IDisposable, IBeatTimedModulator
     {
         public BeatRandomModulator(PrefabService prefabService,
                                    MasterBeat masterBeat,
@@ -21,16 +21,13 @@ namespace CMiX.Core.Modulation.Modulators
                                    BeatSteps beatSteps,
                                    UndoManager undoManager,
                                    ControlActivationService activationService)
+            : base(prefabService)
         {
-            PrefabService = prefabService;
             BeatIndex = beatIndex;
             Easing = easing;
             BeatSteps = beatSteps;
             Center = center;
             Width = width;
-
-            Center.SetDefault(0.0f);
-            Width.SetDefault(1.0f);
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
@@ -58,9 +55,7 @@ namespace CMiX.Core.Modulation.Modulators
         public ICommand ResetCommand { get; set; }
         public ICommand MultiplyCommand { get; set; }
         public ICommand DivideCommand { get; set; }
-        public Guid ID { get; set; } = Guid.NewGuid();
         public Easing Easing { get; set; }
-        public PrefabService PrefabService { get; set; }
         public GenericValue<int> BeatIndex { get; set; }
 
         public GenericValue<float> Center { get; set; }
@@ -69,21 +64,7 @@ namespace CMiX.Core.Modulation.Modulators
 
         public BeatSteps BeatSteps { get; set; }
 
-        private bool _isHovered;
-        public bool IsHovered
-        {
-            get => _isHovered;
-            set { _isHovered = value; OnPropertyChanged(); }
-        }
-
-        private bool _isExpanded = true;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set { _isExpanded = value; OnPropertyChanged(); }
-        }
-
-        public IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] { new ModulatorOutput<float>("Value") };
+        public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] { new ModulatorOutput<float>("Value") };
 
 
         private void OnResync(object sender, EventArgs e)
@@ -216,7 +197,7 @@ namespace CMiX.Core.Modulation.Modulators
             AnimatedDouble = null;
         }
 
-        public IControlModel ToModel() => new BeatRandomModulatorModel
+        public override IControlModel ToModel() => new BeatRandomModulatorModel
         {
             ID = ID,
             Easing = (EasingModel)Easing.ToModel(),
@@ -227,7 +208,7 @@ namespace CMiX.Core.Modulation.Modulators
             Width = (GenericValueModel<float>)Width.ToModel()
         };
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (BeatRandomModulatorModel)model;
             ID = m.ID;

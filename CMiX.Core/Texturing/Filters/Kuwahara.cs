@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modulation;
@@ -20,9 +20,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             Type = type;
             Bindables = new List<ModulatableValue<float>> { radius };
-
-            radius.Label = "Radius";
-            radius.SetDefault(1.0f);
         }
 
         public ModulatableValue<float> Radius => Bindables[0];
@@ -32,7 +29,8 @@ namespace CMiX.Core.Texturing.Filters
         {
             var model = new KuwaharaModel
             {
-                Type = (GenericValueModel<KuwaharaType>)Type.ToModel()
+                Type = (GenericValueModel<KuwaharaType>)Type.ToModel(),
+                Radius = (ModulatableValueModel<float>)Radius.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -42,6 +40,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (KuwaharaModel)model;
             LoadBaseModel(m);
+            Radius.FromModel(m.Radius);
             Type.FromModel(m.Type);
         }
     }

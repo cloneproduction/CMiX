@@ -1,35 +1,25 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public partial class TrackingModulator : ObservableObject, IModulator
+    public class TrackingModulator : ModulatorBase
     {
         public TrackingModulator(PrefabService prefabService, 
                                  GenericValue<int> count, 
                                  GenericValue<float> x,
                                  GenericValue<float> y)
+            : base(prefabService)
         {
-            PrefabService = prefabService;
             Count = count;
             X = x;
             Y = y;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
-
-        [ObservableProperty]
-        private bool isHovered;
-
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[]
+        public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[]
         {
             new ModulatorOutput<int>("Count"),
             new ModulatorOutput<float>("X"),
@@ -40,7 +30,7 @@ namespace CMiX.Core.Modulation.Modulators
         public GenericValue<float> X { get; set; }
         public GenericValue<float> Y { get; set; }
 
-        public IControlModel ToModel() => new TrackingModulatorModel
+        public override IControlModel ToModel() => new TrackingModulatorModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -49,7 +39,7 @@ namespace CMiX.Core.Modulation.Modulators
             Y = (GenericValueModel<float>)Y.ToModel()
         };
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (TrackingModulatorModel)model;
             ID = m.ID;

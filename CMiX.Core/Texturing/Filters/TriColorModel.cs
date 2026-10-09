@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modulation;
@@ -18,7 +18,8 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<bool> SingleChannel { get; set; } = new(true);
         public GenericValueModel<bool> ClampColor { get; set; } = new(true);
         public BlendModel Blend { get; set; } = new();
-        public List<ModulatableValueModel<float>> Bindables { get; set; } = new();
+        public ModulatableValueModel<float> Smooth { get; set; } = ModulatableValueModel<float>.Of("Smooth", 0.5f);
+        public ModulatableValueModel<float> Center { get; set; } = ModulatableValueModel<float>.Of("Center", 0.5f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
     }
 }

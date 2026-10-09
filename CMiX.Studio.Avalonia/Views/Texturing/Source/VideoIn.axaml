@@ -9,18 +9,21 @@
 
         <BaseControl:CaptionedToggleButton
             Caption="Use Composition Resolution"
-            IsChecked="{Binding UseCompositionResolution.Value}" />
+            IsChecked="{Binding UseCompositionResolution.Value}"
+            ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
             <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
                 <BaseControl:IntegerValue
                     Caption="Resolution X"
-                    DataContext="{Binding SizeX}" />
+                    DataContext="{Binding SizeX}"
+                    Value="{Binding Value}" />
 
                 <BaseControl:IntegerValue
                     Caption="Y"
-                    DataContext="{Binding SizeY}" />
+                    DataContext="{Binding SizeY}"
+                    Value="{Binding Value}" />
 
             </Panels:PositionedStackPanel>
         </Border>

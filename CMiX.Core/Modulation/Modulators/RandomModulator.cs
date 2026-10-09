@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
@@ -7,7 +7,7 @@ using CMiX.Core.Undo;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public class RandomModulator : ReceivableControl, IModulator
+    public class RandomModulator : ModulatorBase
     {
         public RandomModulator(PrefabService prefabService,
                                GenericValue<float> center,
@@ -15,8 +15,8 @@ namespace CMiX.Core.Modulation.Modulators
                                GenericValue<int> seed,
                                UndoManager undoManager,
                                ControlActivationService activationService)
+            : base(prefabService)
         {
-            PrefabService = prefabService;
             Center = center;
             Width = width;
             Seed = seed;
@@ -26,32 +26,15 @@ namespace CMiX.Core.Modulation.Modulators
             activationService.Register(this);
         }
 
-        private bool _isHovered;
-        public bool IsHovered
-        {
-            get => _isHovered;
-            set { _isHovered = value; OnPropertyChanged(); }
-        }
-
-        private bool _isExpanded = true;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set { _isExpanded = value; OnPropertyChanged(); }
-        }
-
-        public IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {
+        public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {
             new ModulatorOutput<float>("Value"),
         };
-
-        public PrefabService PrefabService { get; set; }
-        public Guid ID { get; set; }
 
         public GenericValue<float> Center { get; set; }
         public GenericValue<float> Width { get; set; }
         public GenericValue<int> Seed { get; set; }
 
-        public IControlModel ToModel() => new RandomModulatorModel
+        public override IControlModel ToModel() => new RandomModulatorModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -60,7 +43,7 @@ namespace CMiX.Core.Modulation.Modulators
             Seed = (GenericValueModel<int>)Seed.ToModel(),
         };
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (RandomModulatorModel)model;
             ID = m.ID;

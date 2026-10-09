@@ -1,12 +1,11 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 namespace CMiX.Core.Modulation
 {
-    // The Location/Scale/Rotation/Uniform shape shared by anything that transforms texture
-    // coordinates - TexCoordModifier (an Entity) and TextureTexCoord (a Texture's own mandatory
-    // transform). Pure data: whoever owns an instance also owns the ModulatorManager and decides
-    // how Bindables gets saved and loaded.
+    // The Location, Scale, Rotation and Uniform values that TexCoordModifier uses to transform
+    // texture coordinates. Pure data: whoever owns an instance also owns the ModulatorManager
+    // and decides how Bindables gets saved and loaded.
     public class TexCoordTransform
     {
         public TexCoordTransform(ModulatableValue<float> locationX, ModulatableValue<float> locationY,

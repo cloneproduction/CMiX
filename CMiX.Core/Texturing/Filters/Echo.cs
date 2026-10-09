@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modulation;
@@ -18,16 +18,13 @@ namespace CMiX.Core.Texturing.Filters
             : base(prefabService, blend, modulatorManager)
         {
             Bindables = new List<ModulatableValue<float>> { factor };
-
-            factor.Label = "Factor";
-            factor.SetDefault(0.9f);
         }
 
         public ModulatableValue<float> Factor => Bindables[0];
 
         public override IControlModel ToModel()
         {
-            var model = new EchoModel();
+            var model = new EchoModel { Factor = (ModulatableValueModel<float>)Factor.ToModel() };
             PopulateBaseModel(model);
             return model;
         }
@@ -36,6 +33,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             var m = (EchoModel)model;
             LoadBaseModel(m);
+            Factor.FromModel(m.Factor);
         }
     }
 }

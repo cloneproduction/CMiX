@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
         public void RotationModifier_HasThreeBindablesLabeledXYZ()
         {
             var provider = TestServiceProviderFactory.Create();
-            var rotation = provider.GetRequiredService<RotationModifier>();
+            var rotation = (RotationModifier)provider.GetRequiredService<ControlFactory>().Create(typeof(RotationModifier));
 
             Assert.Equal(3, rotation.Bindables.Count);
             Assert.Equal("X", rotation.Bindables[0].Label);

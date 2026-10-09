@@ -21,6 +21,7 @@
         <BaseControls:CaptionedComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.LightType}"
+            ResetCommand="{Binding LightTypeSelector.ResetCommand}"
             SelectedItem="{Binding LightTypeSelector.Value}" />
 
         <Panel>

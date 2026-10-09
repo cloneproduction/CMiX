@@ -1,5 +1,5 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -79,8 +79,15 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(IControlModel controlModel)
         {
-            var prefab = ControlFactory.Create(controlModel);
+            var prefab = CreateOrReuse(controlModel);
             AddControlToCollection(prefab);
+        }
+
+        // Managers can share one control. A model with the ID of a known control gives back that control.
+        private IControl CreateOrReuse(IControlModel controlModel)
+        {
+            var existing = controlModel.ID != Guid.Empty ? ControlRepository.GetControl(controlModel.ID) : null;
+            return existing ?? ControlFactory.Create(controlModel);
         }
 
         public void InsertItem(IControl control, int index)
@@ -99,7 +106,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void LoadItem(IControlModel controlModel)
         {
-            var prefab = ControlFactory.Create(controlModel);
+            var prefab = CreateOrReuse(controlModel);
             LoadControlIntoCollection(prefab);
         }
 

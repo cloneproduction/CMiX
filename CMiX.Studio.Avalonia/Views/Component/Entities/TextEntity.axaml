@@ -46,10 +46,12 @@
                     <BaseControls:CaptionedComboBox
                         Caption="Font Family"
                         ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
+                        ResetCommand="{Binding FontFamily.ResetCommand}"
                         SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
                     <BaseControls:CaptionedComboBox
                         Caption="Style"
                         ItemsSource="{x:Static Resources:EnumProviders.FontStyle}"
+                        ResetCommand="{Binding Style.ResetCommand}"
                         SelectedItem="{Binding Style.Value}" />
                 </Panels:PositionedStackPanel>
 
@@ -57,10 +59,12 @@
                     <BaseControls:CaptionedComboBox
                         Caption="Horizontal Alignment"
                         ItemsSource="{x:Static Resources:EnumProviders.TextHorizontalAlignment}"
+                        ResetCommand="{Binding HorizontalAlignment.ResetCommand}"
                         SelectedItem="{Binding HorizontalAlignment.Value}" />
                     <BaseControls:CaptionedComboBox
                         Caption="Anchor"
                         ItemsSource="{x:Static Resources:EnumProviders.Anchor}"
+                        ResetCommand="{Binding Anchor.ResetCommand}"
                         SelectedItem="{Binding Anchor.Value}" />
                 </Panels:PositionedStackPanel>
 

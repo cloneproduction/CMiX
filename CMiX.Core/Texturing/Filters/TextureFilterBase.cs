@@ -1,5 +1,5 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.Specialized;
 using CMiX.Core.BaseControls;
@@ -12,7 +12,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public abstract partial class TextureFilterBase : ObservableObject, IPrefab, ITextureFilter, IDisposable
+    public abstract partial class TextureFilterBase : ObservableObject, IPrefab, ITextureFilter, IHasCompositionID, IDisposable
     {
         protected TextureFilterBase(PrefabService prefabService, Blend blend, PrefabManager modulatorManager)
         {
@@ -39,6 +39,18 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                ModulatorManager.CompositionID = value;
+            }
+        }
+
         public PrefabService PrefabService { get; set; }
         public Blend Blend { get; set; }
         public PrefabManager ModulatorManager { get; set; }
@@ -53,7 +65,6 @@ namespace CMiX.Core.Texturing.Filters
             model.ID = ID;
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
             model.Blend = (BlendModel)Blend.ToModel();
-            model.Bindables = Bindables.Select(c => (ModulatableValueModel<float>)c.ToModel()).ToList();
             model.ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel();
         }
 
@@ -64,9 +75,6 @@ namespace CMiX.Core.Texturing.Filters
             Blend.FromModel(model.Blend);
 
             LoadManager(ModulatorManager, model.ModulatorManager);
-
-            for (int i = 0; i < Bindables.Count && i < model.Bindables.Count; i++)
-                Bindables[i].FromModel(model.Bindables[i]);
 
             foreach (var bindable in Bindables.Cast<IModulatorBindable>())
                 bindable.ModulatorLookup = id => ModulatorManager.ManagerData.Items

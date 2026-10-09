@@ -12,6 +12,7 @@
         <Controls:CaptionedComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.KuwaharaType}"
+            ResetCommand="{Binding Type.ResetCommand}"
             SelectedItem="{Binding Type.Value}" />
 
         <Controls:ModulatableFloatSlider

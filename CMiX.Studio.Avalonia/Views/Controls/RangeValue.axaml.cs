@@ -1,5 +1,5 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Windows.Input;
 using Avalonia;
@@ -80,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<double> SmallChangeProperty =
-            AvaloniaProperty.Register<RangeValue, double>(nameof(SmallChange), 0.001);
+            AvaloniaProperty.Register<RangeValue, double>(nameof(SmallChange), DragValue.DefaultSmallChange);
         public double SmallChange
         {
             get => GetValue(SmallChangeProperty);
@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<double> LargeChangeProperty =
-            AvaloniaProperty.Register<RangeValue, double>(nameof(LargeChange), 0.01);
+            AvaloniaProperty.Register<RangeValue, double>(nameof(LargeChange), DragValue.DefaultLargeChange);
         public double LargeChange
         {
             get => GetValue(LargeChangeProperty);

@@ -34,10 +34,11 @@
 
               <DockPanel>
 
-                <ToggleButton
+                <Controls:CMiXToggleButton
                     Width="14"
                     Height="14"
                     IsChecked="{Binding Blend.IsEnabled.Value}"
+                    ResetCommand="{Binding Blend.IsEnabled.ResetCommand}"
                     Theme="{DynamicResource ToggleButtonRounded}" />
 
                 <TextBlock
@@ -64,6 +65,7 @@
                 <Controls:CaptionedComboBox
                     Caption="Blend Mode"
                     ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
+                    ResetCommand="{Binding Blend.BlendMode.ResetCommand}"
                     SelectedItem="{Binding Blend.BlendMode.Value}" />
 
               </StackPanel>
