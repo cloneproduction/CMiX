@@ -1,6 +1,6 @@
 # CMiX
 
-CMiX is a VJ (visual jockey) tool. A desktop Studio builds and controls compositions. One or more vvvv gamma engines render the output. The Studio and the engines share their state through a Redis server.
+CMiX is a realtime graphic composition tool.
 
 ## Requirements
 
@@ -21,7 +21,5 @@ CMiX is free software under the [GNU LGPL, version 3 or later](LICENSE). The GPL
 ## Credits
 
 Created by CloneProduction
-
-Additional development: bjorn
 
 Sponsored by Refik Anadol Studio

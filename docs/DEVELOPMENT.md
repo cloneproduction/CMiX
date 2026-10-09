@@ -1,6 +1,6 @@
 # CMiX development notes
 
-CMiX is a VJ (visual jockey) tool. It pairs a desktop Studio application, used
+CMiX is a realtime graphic composition tool. It pairs a desktop Studio application, used
 to build and control compositions live, with a vvvv gamma engine that renders
 the output. The Studio and the engines exchange their state through a Redis
 server, so composing and rendering can run on separate machines.
