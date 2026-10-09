@@ -11,7 +11,7 @@
     <Border >
         <DockPanel >
 
-            <views:LayerManagerToolbar 
+            <views:ComposableManagerToolbar 
                 Background="{DynamicResource Grey300Brush}"
                 DockPanel.Dock="Bottom" 
                 Padding="4"/>
@@ -20,8 +20,8 @@
                     Background="{DynamicResource Grey200Brush}"
                     IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
                 <StackPanel Margin="8" DataContext="{Binding SelectedItem}">
-                    <views:LayerManagerMaskSettings IsVisible="{Binding Mask.IsMask.Value}" />
-                    <views:LayerManagerSettings />
+                    <views:ComposableManagerMaskSettings IsVisible="{Binding Mask.IsMask.Value}" />
+                    <views:ComposableManagerSettings />
                 </StackPanel>
             </Border>
 
@@ -31,10 +31,10 @@
                 ItemsSource="{Binding ManagerData.Items}"
                 SelectedIndex="{Binding ManagerData.SelectedIndex}"
                 SelectedItem="{Binding SelectedItem}"
-                Theme="{StaticResource LayerListBoxStyle}">
+                Theme="{StaticResource ComposableListBoxStyle}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <views:LayerManagerItem DragHandlerIsPressed="{Binding $parent[ListBox].DataContext.ManagerReorderService.DragHandlerIsPressed, Mode=TwoWay}" />
+                        <views:ComposableManagerItem DragHandlerIsPressed="{Binding $parent[ListBox].DataContext.ManagerReorderService.DragHandlerIsPressed, Mode=TwoWay}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

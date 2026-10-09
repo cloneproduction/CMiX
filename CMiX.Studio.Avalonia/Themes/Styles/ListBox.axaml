@@ -10,7 +10,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="LayerListBoxItemBorderStyle" TargetType="Border">
+    <ControlTheme x:Key="ComposableListBoxItemBorderStyle" TargetType="Border">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource Shadow}" />
         <Setter Property="Margin" Value="0" />
@@ -127,14 +127,14 @@
 
 
 
-    <ControlTheme x:Key="LayerListBoxItemStyle"
+    <ControlTheme x:Key="ComposableListBoxItemStyle"
                   BasedOn="{StaticResource ListBoxItemStyle}"
                   TargetType="ListBoxItem">
         <Setter Property="Height" Value="NaN" />
         <Setter Property="Padding" Value="1,0,0,0" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="Bd" Theme="{StaticResource LayerListBoxItemBorderStyle}">
+                <Border Name="Bd" Theme="{StaticResource ComposableListBoxItemBorderStyle}">
                     <ContentPresenter
                         Name="PART_ContentPresenter"
                         Content="{TemplateBinding Content}"
@@ -155,9 +155,9 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="LayerListBoxStyle" TargetType="ListBox">
+    <ControlTheme x:Key="ComposableListBoxStyle" TargetType="ListBox">
         <Setter Property="Background" Value="{DynamicResource Grey100Brush}" />
-        <Setter Property="ItemContainerTheme" Value="{DynamicResource LayerListBoxItemStyle}" />
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource ComposableListBoxItemStyle}" />
         <Setter Property="Template">
             <ControlTemplate>
               <Border Background="{TemplateBinding Background}">

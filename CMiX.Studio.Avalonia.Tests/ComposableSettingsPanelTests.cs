@@ -33,8 +33,8 @@ namespace CMiX.Studio.Avalonia.Tests
                 {
                     Children =
                     {
-                        new Views.LayerManagerSettings { DataContext = item },
-                        new Views.LayerManagerMaskSettings { DataContext = item }
+                        new Views.ComposableManagerSettings { DataContext = item },
+                        new Views.ComposableManagerMaskSettings { DataContext = item }
                     }
                 };
                 new Window { Content = panels, Width = 400, Height = 600 }.Show();

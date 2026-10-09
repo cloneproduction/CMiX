@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class LayerManagerMaskSettings : UserControl
+    public partial class ComposableManagerToolbar : UserControl
     {
-        public LayerManagerMaskSettings()
+        public ComposableManagerToolbar()
         {
             InitializeComponent();
         }

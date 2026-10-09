@@ -8,15 +8,15 @@ using Avalonia.Input;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class LayerManagerItem : UserControl
+    public partial class ComposableManagerItem : UserControl
     {
-        public LayerManagerItem()
+        public ComposableManagerItem()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<bool> DragHandlerIsPressedProperty =
-            AvaloniaProperty.Register<LayerManagerItem, bool>(nameof(DragHandlerIsPressed), false, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<ComposableManagerItem, bool>(nameof(DragHandlerIsPressed), false, defaultBindingMode: BindingMode.TwoWay);
         public bool DragHandlerIsPressed
         {
             get => GetValue(DragHandlerIsPressedProperty);
