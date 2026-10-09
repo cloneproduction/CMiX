@@ -9,8 +9,8 @@ namespace CMiX.Core.Compositing
     public class CompositingSettings : IControl
     {
         public CompositingSettings(GenericValue<float> opacity,
-                             GenericValue<string> backgroundColor, 
-                             GenericValue<BlendMode> blendMode) 
+                                   GenericValue<string> backgroundColor, 
+                                   GenericValue<BlendMode> blendMode) 
         {
             Opacity = opacity;
             BackgroundColor = backgroundColor;

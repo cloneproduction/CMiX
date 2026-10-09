@@ -9,9 +9,9 @@ namespace CMiX.Core.Compositing
     public class MaskSettings : IControl
     {
         public MaskSettings(GenericValue<bool> isMask,
-                                GenericValue<MaskChannel> maskChannel,
-                                GenericValue<MaskMode> maskMode,
-                                GenericValue<bool> invert)
+                            GenericValue<MaskChannel> maskChannel,
+                            GenericValue<MaskMode> maskMode,
+                            GenericValue<bool> invert)
         {
             IsMask = isMask;
             MaskChannel = maskChannel;
