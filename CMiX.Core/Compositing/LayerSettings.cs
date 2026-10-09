@@ -10,7 +10,7 @@ namespace CMiX.Core.Compositing
     {
         public LayerSettings(GenericValue<float> opacity,
                              GenericValue<string> backgroundColor, 
-                             GenericValue<BlendModeEnum> blendMode) 
+                             GenericValue<BlendMode> blendMode) 
         {
             Opacity = opacity;
             BackgroundColor = backgroundColor;
@@ -19,13 +19,13 @@ namespace CMiX.Core.Compositing
 
         public GenericValue<float> Opacity { get; set; }
         public GenericValue<string> BackgroundColor { get; set; }
-        public GenericValue<BlendModeEnum> BlendMode { get; set; }
+        public GenericValue<BlendMode> BlendMode { get; set; }
         public Guid ID { get; set; } = Guid.NewGuid();
 
         public IControlModel ToModel() => new LayerSettingsModel
         {
             ID = ID,
-            BlendMode = (GenericValueModel<BlendModeEnum>)BlendMode.ToModel(),
+            BlendMode = (GenericValueModel<BlendMode>)BlendMode.ToModel(),
             Opacity = (GenericValueModel<float>)Opacity.ToModel(),
             BackgroundColor = (GenericValueModel<string>)BackgroundColor.ToModel()
         };

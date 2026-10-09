@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Texturing
 {
-    public enum BlendModeEnum
+    public enum BlendMode
     {
         Normal,
         Add,

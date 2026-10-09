@@ -9,7 +9,7 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Blend : ObservableRecipient, IControl
     {
         public Blend(GenericValue<bool> isEnabled,
-                     GenericValue<BlendModeEnum> blendMode,
+                     GenericValue<BlendMode> blendMode,
                      GenericValue<float> opacity)
         {
             IsEnabled = isEnabled;
@@ -19,7 +19,7 @@ namespace CMiX.Core.Texturing.Filters
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<bool> IsEnabled { get; set; }
-        public GenericValue<BlendModeEnum> BlendMode { get; set; }
+        public GenericValue<BlendMode> BlendMode { get; set; }
         public GenericValue<float> Opacity { get; set; }
 
         [ObservableProperty]
@@ -29,7 +29,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             ID = ID,
             IsEnabled = (GenericValueModel<bool>)IsEnabled.ToModel(),
-            BlendMode = (GenericValueModel<BlendModeEnum>)BlendMode.ToModel(),
+            BlendMode = (GenericValueModel<BlendMode>)BlendMode.ToModel(),
             Opacity = (GenericValueModel<float>)Opacity.ToModel()
         };
 

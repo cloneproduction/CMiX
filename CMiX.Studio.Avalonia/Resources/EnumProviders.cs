@@ -91,8 +91,8 @@ namespace CMiX.Studio.Avalonia.Resources
         public static CMiX.Core.Materials.CullModeType[] CullModeType { get; } =
             Enum.GetValues<CMiX.Core.Materials.CullModeType>();
 
-        public static CMiX.Core.Texturing.BlendModeEnum[] BlendMode { get; } =
-            Enum.GetValues<CMiX.Core.Texturing.BlendModeEnum>();
+        public static CMiX.Core.Texturing.BlendMode[] BlendMode { get; } =
+            Enum.GetValues<CMiX.Core.Texturing.BlendMode>();
 
         public static CMiX.Core.Texturing.MaskMode[] MaskMode { get; } =
             Enum.GetValues<CMiX.Core.Texturing.MaskMode>();

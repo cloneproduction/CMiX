@@ -9,7 +9,7 @@ namespace CMiX.Core.Texturing.Filters
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<bool> IsEnabled { get; set; } = new(false);
-        public GenericValueModel<BlendModeEnum> BlendMode { get; set; } = new(BlendModeEnum.Normal);
+        public GenericValueModel<BlendMode> BlendMode { get; set; } = new(CMiX.Core.Texturing.BlendMode.Normal);
         public GenericValueModel<float> Opacity { get; set; } = new(1.0f);
     }
 }
