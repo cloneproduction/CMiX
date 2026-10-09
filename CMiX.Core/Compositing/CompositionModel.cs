@@ -4,7 +4,6 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Compositing
 {
@@ -14,7 +13,7 @@ namespace CMiX.Core.Compositing
         public PrefabServiceModel PrefabService { get; init; } = new();
         public GenericValueModel<Guid> SelectedOutputMappingID { get; init; } = new(Guid.Empty);
         public CompositingSettingsModel LayerSettings { get; init; } = new();
-        public LayerMaskSettingsModel LayerMaskSettings { get; init; } = new();
+        public MaskSettingsModel LayerMaskSettings { get; init; } = new();
         public PrefabManagerModel TextureModifierManager { get; init; } = new();
         public PrefabManagerModel LayerManager { get; init; } = new();
         public PrefabManagerModel ModifierManager { get; init; } = new();

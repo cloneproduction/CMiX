@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Texturing;
 
-namespace CMiX.Core.Texturing
+namespace CMiX.Core.Compositing
 {
-    public record LayerMaskSettingsModel : IControlModel
+    public record MaskSettingsModel : IControlModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<bool> IsMask { get; init; } = new();

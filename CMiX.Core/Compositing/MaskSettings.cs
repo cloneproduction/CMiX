@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Texturing;
 
-namespace CMiX.Core.Texturing
+namespace CMiX.Core.Compositing
 {
-    public class LayerMaskSettings : IControl
+    public class MaskSettings : IControl
     {
-        public LayerMaskSettings(GenericValue<bool> isMask,
+        public MaskSettings(GenericValue<bool> isMask,
                                 GenericValue<MaskChannel> maskChannel,
                                 GenericValue<MaskMode> maskMode,
                                 GenericValue<bool> invert)
@@ -26,7 +27,7 @@ namespace CMiX.Core.Texturing
 
         public void FromModel(IControlModel model)
         {
-            var m = (LayerMaskSettingsModel)model;
+            var m = (MaskSettingsModel)model;
             ID = m.ID;
             IsMask.FromModel(m.IsMask);
             MaskChannel.FromModel(m.MaskChannel);
@@ -34,7 +35,7 @@ namespace CMiX.Core.Texturing
             Invert.FromModel(m.Invert);
         }
 
-        public IControlModel ToModel() => new LayerMaskSettingsModel
+        public IControlModel ToModel() => new MaskSettingsModel
         {
             ID = ID,
             IsMask = (GenericValueModel<bool>)IsMask.ToModel(),

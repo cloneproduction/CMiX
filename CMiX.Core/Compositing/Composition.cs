@@ -20,7 +20,7 @@ namespace CMiX.Core.Compositing
                            PrefabManager modifierManager,
                            GenericValue<Guid> selectedOutputMappingID,
                            CompositingSettings layerSettings,
-                           LayerMaskSettings layerMaskSettings,
+                           MaskSettings layerMaskSettings,
                            Project project)
         {
             ID = prefabService.ID;
@@ -51,10 +51,10 @@ namespace CMiX.Core.Compositing
         public CompositingSettings LayerSettings { get; set; }
         public Project Project { get; }
 
-        public LayerMaskSettings LayerMaskSettings { get; set; }
+        public MaskSettings LayerMaskSettings { get; set; }
         // Explicit, so the public members of the class stay the same.
         CompositingSettings IComposable.Compositing => LayerSettings;
-        LayerMaskSettings IComposable.Mask => LayerMaskSettings;
+        MaskSettings IComposable.Mask => LayerMaskSettings;
 
         public OutputMapping SelectedOutputMapping
         {
@@ -77,7 +77,7 @@ namespace CMiX.Core.Compositing
             LayerManager = (PrefabManagerModel)LayerManager.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
             LayerSettings = (CompositingSettingsModel)LayerSettings.ToModel(),
-            LayerMaskSettings = (LayerMaskSettingsModel)LayerMaskSettings.ToModel(),
+            LayerMaskSettings = (MaskSettingsModel)LayerMaskSettings.ToModel(),
         };
 
         public void FromModel(IControlModel model)
