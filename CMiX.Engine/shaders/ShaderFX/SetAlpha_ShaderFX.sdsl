@@ -1,0 +1,37 @@
+shader SetAlpha_ShaderFX : ComputeColor, CMiXBlendOperations
+{
+    compose ComputeColor ColorIn;
+
+    [Default(1, 1, 1, 1)]
+    compose ComputeColor AlphaMask;
+
+    [Default(1.0)]
+    compose ComputeFloat Opacity;
+
+    stage int TextureChannelIn = 0;
+    stage bool Invert = true;
+
+    override float4 Compute()
+    {
+        float4 col = ColorIn.Compute();
+        float4 alphaMask = AlphaMask.Compute();
+        float opacity = Opacity.Compute();
+        float alpha = 1.0;
+
+        switch (TextureChannelIn)
+        {
+            case 0 : alpha = RGBtoHSL(alphaMask.rgb).z; break; // luma
+            case 1 : alpha = RGBtoHSV(alphaMask.rgb).z; break; // value
+            case 2 : alpha = RGBtoHSV(alphaMask.rgb).y; break; // saturation
+            case 3 : alpha = alphaMask.a; break;               // alpha
+            case 4 : alpha = RGBtoHSV(alphaMask.rgb).x; break; // hue
+            case 5 : alpha = alphaMask.r; break;               // red
+            case 6 : alpha = alphaMask.g; break;               // green
+            case 7 : alpha = alphaMask.b; break;               // blue
+        }
+
+        float a = Invert ? 1.0 - alpha : alpha;
+
+        return col * (a * opacity);
+    }
+};
