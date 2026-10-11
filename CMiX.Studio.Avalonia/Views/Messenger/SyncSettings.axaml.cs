@@ -11,6 +11,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using CMiX.Core.Networking;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Views.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -20,8 +21,15 @@ namespace CMiX.Studio.Avalonia.Views
         {
             InitializeComponent();
             EditConnectionButton.Flyout!.Opened += EditConnectionFlyout_Opened;
+            UseCredentialManagerBox.PropertyChanged += (s, e) =>
+            {
+                if (e.Property == CaptionedToggleButton.IsCheckedProperty)
+                    UpdateCredentialBoxes();
+            };
+            CredentialNameBox.TextChanged += (s, e) => UpdateCredentialBoxes();
         }
 
+        private readonly WindowsCredentialStore _store = new();
         private SyncPeer Peer => (SyncPeer)DataContext!;
         private SyncPeer? _subscribedPeer;
 
@@ -58,14 +66,22 @@ namespace CMiX.Studio.Avalonia.Views
             var options = peer.Options;
             EndpointText.Text = options == null
                 ? string.Empty
-                : $"{options.Ip}:{options.Port} db {options.Database}";
+                : $"{options.Ip}:{options.Port} db {options.Database}, user {options.User} {StudioSettings.Load().Resolve(_store).UserSource}";
         }
 
-        // The fields show the file content. WithFallbacks fills the empty entries, so IPBox
-        // always gets four parts.
+        private void UpdateCredentialBoxes()
+        {
+            var useCredential = UseCredentialManagerBox.IsChecked && !string.IsNullOrEmpty(CredentialNameBox.Text);
+            UserBox.IsEnabled = !useCredential;
+            PasswordBox.IsEnabled = !useCredential;
+        }
+
+        // The boxes show the file content. WithFallbacks fills the empty entries, so IPBox
+        // always gets four parts. User and Password show the file values, never the credential.
         private void EditConnectionFlyout_Opened(object? sender, EventArgs e)
         {
-            var options = StudioSettings.Load().ToSyncOptions();
+            var settings = StudioSettings.Load();
+            var options = settings.ToSyncOptions();
             IpBox.IPAddress = options.Ip;
             PortBox.Text = options.Port.ToString(CultureInfo.InvariantCulture);
             DatabaseBox.Text = options.Database.ToString(CultureInfo.InvariantCulture);
@@ -73,6 +89,9 @@ namespace CMiX.Studio.Avalonia.Views
             PasswordBox.Text = options.Password;
             KeyPrefixBox.Text = options.KeyPrefix;
             PeerNameBox.Text = options.PeerName;
+            UseCredentialManagerBox.IsChecked = settings.Redis.UseCredentialManager;
+            CredentialNameBox.Text = settings.Redis.CredentialName;
+            UpdateCredentialBoxes();
             ErrorText.Text = string.Empty;
         }
 
@@ -94,6 +113,8 @@ namespace CMiX.Studio.Avalonia.Views
                 PasswordBox.Text ?? string.Empty, KeyPrefixBox.Text ?? string.Empty,
                 PeerNameBox.Text ?? string.Empty, "studio");
             var settings = StudioSettings.FromSyncOptions(edited);
+            settings.Redis.UseCredentialManager = UseCredentialManagerBox.IsChecked;
+            settings.Redis.CredentialName = CredentialNameBox.Text ?? string.Empty;
 
             try
             {
@@ -110,7 +131,7 @@ namespace CMiX.Studio.Avalonia.Views
             // Both calls return at once. The peer connects on a background task.
             var peer = Peer;
             peer.Stop();
-            peer.Start(settings.ToSyncOptions(), autoJoin: false);
+            peer.Start(settings.Resolve(_store).Options, autoJoin: false);
             ShowEndpoint(peer);
             EditConnectionButton.Flyout!.Hide();
         }
