@@ -21,7 +21,6 @@ class Build : FalloutBuild
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
     AbsolutePath ChocoDirectory => RootDirectory / "choco" / "CMiX.Studio";
-    AbsolutePath ChocoToolsDirectory => ChocoDirectory / "tools";
     AbsolutePath NuspecFile => ChocoDirectory / "cmix-studio.nuspec";
     AbsolutePath StudioProject => RootDirectory / "CMiX.Studio.Avalonia" / "CMiX.Studio.Avalonia.csproj";
     AbsolutePath DefaultSettingsFile => RootDirectory / "CMiX.Studio.Avalonia" / "studio-settings.json";
@@ -37,7 +36,6 @@ class Build : FalloutBuild
         .Executes(() =>
         {
             ArtifactsDirectory.CreateOrCleanDirectory();
-            ChocoToolsDirectory.GlobFiles("*.zip").DeleteFiles();
         });
 
     Target Publish => _ => _
@@ -71,8 +69,6 @@ class Build : FalloutBuild
         .Produces(PackageFile)
         .Executes(() =>
         {
-            ZipFile.CopyToDirectory(ChocoToolsDirectory, ExistsPolicy.FileOverwrite);
-
             ChocolateyTasks.ChocolateyPack(s => s
                 .SetPathToNuspec(NuspecFile)
                 .SetOutputDirectory(ArtifactsDirectory)

@@ -20,10 +20,10 @@ The Fallout pipeline in `build/Build.cs` publishes the Studio for distribution. 
 
 Targets:
 
-- `Clean`: empties `artifacts` and deletes the zip in `choco/CMiX.Studio/tools`.
+- `Clean`: empties `artifacts`.
 - `Publish`: publishes the Studio to `artifacts/CMiX.Studio` and copies the settings file over `studio-settings.json`.
 - `Zip`: zips the folder to `artifacts/CMiX.Studio_<version>_win-x64.zip`. This is the default target.
-- `Pack`: copies the zip into `choco/CMiX.Studio/tools` and builds the Chocolatey package in `artifacts`.
+- `Pack`: builds the Chocolatey package in `artifacts` from the zip.
 - `Push`: pushes the Chocolatey package to a feed.
 
 This command builds `artifacts\CMiX.Studio` and the zip:
