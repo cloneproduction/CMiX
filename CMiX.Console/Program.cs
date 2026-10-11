@@ -24,7 +24,7 @@ namespace CMiX.Console
                 return 0;
             }
 
-            var options = ConsoleArguments.Parse(args);
+            var options = ConsoleArguments.Parse(args, new WindowsCredentialStore());
             if (options == null)
                 return 2;
 

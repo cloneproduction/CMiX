@@ -15,12 +15,14 @@ namespace CMiX.Console
             System.Console.WriteLine("  --password <text>   Redis password. Default empty.");
             System.Console.WriteLine("  --prefix <text>     Key prefix for the store. Default cmix:default.");
             System.Console.WriteLine("  --name <text>       Peer name. Default is the machine name.");
+            System.Console.WriteLine("  --credential <text> Name of a generic credential in the Windows Credential Manager.");
+            System.Console.WriteLine("                      Its user name and password replace --user and --password. Default empty.");
             System.Console.WriteLine("  --help              Show this usage text.");
         }
 
         // Reads the arguments in pairs of flag and value. Returns null when an argument is
         // unknown or a value is missing or invalid. The caller then exits with code 2.
-        public static SyncOptions? Parse(string[] args)
+        public static SyncOptions? Parse(string[] args, ICredentialStore store)
         {
             var ip = "";
             var port = 0;
@@ -29,6 +31,7 @@ namespace CMiX.Console
             var password = "";
             var prefix = "";
             var name = "";
+            var credential = string.Empty;
 
             for (var i = 0; i < args.Length; i += 2)
             {
@@ -63,6 +66,9 @@ namespace CMiX.Console
                     case "--name":
                         name = value;
                         break;
+                    case "--credential":
+                        credential = value;
+                        break;
                     default:
                         PrintUnknown(flag);
                         return null;
@@ -72,7 +78,10 @@ namespace CMiX.Console
             if (string.IsNullOrEmpty(name))
                 name = System.Environment.MachineName;
 
-            return SyncOptions.Create(ip, port, database, user, password, prefix, name);
+            var options = SyncOptions.Create(ip, port, database, user, password, prefix, name);
+            var resolved = options.WithCredential(credential, store, "arguments");
+            System.Console.WriteLine($"User {resolved.Options.User} {resolved.UserSource}");
+            return resolved.Options;
         }
 
         private static void PrintUnknown(string arg)
