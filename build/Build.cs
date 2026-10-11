@@ -1,6 +1,7 @@
 using System.IO;
 using Fallout.Common;
 using Fallout.Common.IO;
+using Fallout.Common.Tools.Chocolatey;
 using Fallout.Common.Tools.DotNet;
 using Serilog;
 using static Fallout.Common.Tools.DotNet.DotNetTasks;
@@ -13,12 +14,15 @@ class Build : FalloutBuild
     readonly AbsolutePath SettingsFile;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
-    AbsolutePath ChocoToolsDirectory => RootDirectory / "choco" / "CMiX.Studio" / "tools";
+    AbsolutePath ChocoDirectory => RootDirectory / "choco" / "CMiX.Studio";
+    AbsolutePath ChocoToolsDirectory => ChocoDirectory / "tools";
+    AbsolutePath NuspecFile => ChocoDirectory / "cmix-studio.nuspec";
     AbsolutePath StudioProject => RootDirectory / "CMiX.Studio.Avalonia" / "CMiX.Studio.Avalonia.csproj";
     AbsolutePath DefaultSettingsFile => RootDirectory / "CMiX.Studio.Avalonia" / "studio-settings.json";
     AbsolutePath VersionFile => RootDirectory / "version.txt";
     AbsolutePath PublishDirectory => ArtifactsDirectory / "CMiX.Studio";
     AbsolutePath ZipFile => ArtifactsDirectory / $"CMiX.Studio_{Version}_win-x64.zip";
+    AbsolutePath PackageFile => ArtifactsDirectory / $"cmix-studio.{Version}.nupkg";
 
     string Version => File.ReadAllText(VersionFile).Trim();
     AbsolutePath ShippedSettingsFile => SettingsFile ?? DefaultSettingsFile;
@@ -54,5 +58,18 @@ class Build : FalloutBuild
         .Executes(() =>
         {
             PublishDirectory.ZipTo(ZipFile);
+        });
+
+    Target Pack => _ => _
+        .DependsOn(Zip)
+        .Produces(PackageFile)
+        .Executes(() =>
+        {
+            ZipFile.CopyToDirectory(ChocoToolsDirectory, ExistsPolicy.FileOverwrite);
+
+            ChocolateyTasks.ChocolateyPack(s => s
+                .SetPathToNuspec(NuspecFile)
+                .SetOutputDirectory(ArtifactsDirectory)
+                .SetVersion(Version));
         });
 }

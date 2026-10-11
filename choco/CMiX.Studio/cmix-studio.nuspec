@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>cmix-studio</id>
+    <version>0.0.0</version>
+    <title>CMiX Studio</title>
+    <authors>CMiX contributors</authors>
+    <projectUrl>https://github.com/cloneproduction/CMiX</projectUrl>
+    <licenseUrl>https://github.com/cloneproduction/CMiX/blob/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>cmix studio vvvv</tags>
+    <summary>The CMiX Studio, the editor of the CMiX realtime graphic composition tool.</summary>
+    <description>This package installs the CMiX Studio into C:\tools\CMiX.Studio. It also adds a CMiX Studio shortcut to the desktop.</description>
+    <dependencies>
+      <dependency id="dotnet-8.0-runtime" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
