@@ -13,6 +13,12 @@ class Build : FalloutBuild
     [Parameter("Path of the studio-settings.json to ship. Default: the file in CMiX.Studio.Avalonia.")]
     readonly AbsolutePath SettingsFile;
 
+    [Parameter("URL of the Chocolatey feed")]
+    readonly string Feed;
+
+    [Parameter("API key of the Chocolatey feed")] [Secret]
+    readonly string ApiKey;
+
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
     AbsolutePath ChocoDirectory => RootDirectory / "choco" / "CMiX.Studio";
     AbsolutePath ChocoToolsDirectory => ChocoDirectory / "tools";
@@ -71,5 +77,18 @@ class Build : FalloutBuild
                 .SetPathToNuspec(NuspecFile)
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetVersion(Version));
+        });
+
+    Target Push => _ => _
+        .DependsOn(Pack)
+        .Requires(() => Feed)
+        .Requires(() => ApiKey)
+        .Executes(() =>
+        {
+            ChocolateyTasks.ChocolateyPush(s => s
+                .SetPathToNuGetPackage(PackageFile)
+                .SetSource(Feed)
+                .SetApiKey(ApiKey)
+                .SetForce(true));
         });
 }

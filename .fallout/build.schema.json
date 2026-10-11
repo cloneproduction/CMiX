@@ -27,6 +27,7 @@
         "Clean",
         "Pack",
         "Publish",
+        "Push",
         "Zip"
       ]
     },
@@ -108,6 +109,15 @@
   "allOf": [
     {
       "properties": {
+        "ApiKey": {
+          "type": "string",
+          "description": "API key of the Chocolatey feed",
+          "default": "Secrets must be entered via 'fallout :secrets [profile]'"
+        },
+        "Feed": {
+          "type": "string",
+          "description": "URL of the Chocolatey feed"
+        },
         "SettingsFile": {
           "type": "string",
           "description": "Path of the studio-settings.json to ship. Default: the file in CMiX.Studio.Avalonia"
