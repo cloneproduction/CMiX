@@ -158,6 +158,12 @@
                             <TextBox x:Name="DatabaseBox" />
                         </BaseControl:LabeledContent>
 
+                        <BaseControl:CaptionedToggleButton x:Name="UseCredentialManagerBox" Caption="Use Credential Manager" />
+
+                        <BaseControl:LabeledContent Caption="Credential Name">
+                            <TextBox x:Name="CredentialNameBox" />
+                        </BaseControl:LabeledContent>
+
                         <BaseControl:LabeledContent Caption="User">
                             <TextBox Grid.Column="1" x:Name="UserBox" />
                         </BaseControl:LabeledContent>
@@ -172,12 +178,6 @@
 
                         <BaseControl:LabeledContent Caption="Peer Name">
                             <TextBox Grid.Column="1" x:Name="PeerNameBox" />
-                        </BaseControl:LabeledContent>
-
-                        <BaseControl:CaptionedToggleButton x:Name="UseCredentialManagerBox" Caption="Use Credential Manager" />
-
-                        <BaseControl:LabeledContent Caption="Credential Name">
-                            <TextBox x:Name="CredentialNameBox" />
                         </BaseControl:LabeledContent>
 
                         <!-- Reserves space so the popup does not resize when a message appears. -->

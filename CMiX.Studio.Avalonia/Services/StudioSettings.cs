@@ -16,12 +16,12 @@ namespace CMiX.Studio.Avalonia.Services
     //     "Ip": "127.0.0.1",
     //     "Port": 6379,
     //     "Database": 0,
+    //     "UseCredentialManager": false,
+    //     "CredentialName": "",
     //     "User": "default",
     //     "Password": "",
     //     "KeyPrefix": "cmix:default",
-    //     "PeerName": "Studio",
-    //     "UseCredentialManager": false,
-    //     "CredentialName": ""
+    //     "PeerName": "Studio"
     //   }
     // }
     //
@@ -32,12 +32,12 @@ namespace CMiX.Studio.Avalonia.Services
         public string Ip { get; set; } = "";
         public int Port { get; set; } = 0;
         public int Database { get; set; } = 0;
+        public bool UseCredentialManager { get; set; } = false;
+        public string CredentialName { get; set; } = "";
         public string User { get; set; } = "";
         public string Password { get; set; } = "";
         public string KeyPrefix { get; set; } = "";
         public string PeerName { get; set; } = "";
-        public bool UseCredentialManager { get; set; } = false;
-        public string CredentialName { get; set; } = "";
     }
 
     public class StudioSettings

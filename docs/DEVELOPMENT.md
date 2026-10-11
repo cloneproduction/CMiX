@@ -196,12 +196,12 @@ The file holds one `Redis` object with nine fields:
     "Ip": "127.0.0.1",
     "Port": 6379,
     "Database": 0,
+    "UseCredentialManager": false,
+    "CredentialName": "",
     "User": "default",
     "Password": "",
     "KeyPrefix": "cmix:default",
-    "PeerName": "Studio",
-    "UseCredentialManager": false,
-    "CredentialName": ""
+    "PeerName": "Studio"
   }
 }
 ```
@@ -214,12 +214,12 @@ field gives the same fallback:
 | `Ip` | `127.0.0.1` |
 | `Port` | `6379` |
 | `Database` | `0` |
+| `UseCredentialManager` | `false` |
+| `CredentialName` | empty |
 | `User` | `default` |
 | `Password` | no password |
 | `KeyPrefix` | `cmix:default` |
 | `PeerName` | `Studio` |
-| `UseCredentialManager` | `false` |
-| `CredentialName` | empty |
 
 When `UseCredentialManager` is true and `CredentialName` is not empty, the Studio
 reads the generic credential with that name from the Windows Credential Manager.
