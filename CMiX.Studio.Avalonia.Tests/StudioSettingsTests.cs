@@ -73,7 +73,9 @@ namespace CMiX.Studio.Avalonia.Tests
                         User = "studio-user",
                         Password = "secret",
                         KeyPrefix = "cmix:studio",
-                        PeerName = "MyStudio"
+                        PeerName = "MyStudio",
+                        UseCredentialManager = true,
+                        CredentialName = "MyRedis"
                     }
                 };
                 settings.Save(path);
@@ -87,6 +89,8 @@ namespace CMiX.Studio.Avalonia.Tests
                 Assert.Equal(settings.Redis.Password, loaded.Redis.Password);
                 Assert.Equal(settings.Redis.KeyPrefix, loaded.Redis.KeyPrefix);
                 Assert.Equal(settings.Redis.PeerName, loaded.Redis.PeerName);
+                Assert.True(loaded.Redis.UseCredentialManager);
+                Assert.Equal("MyRedis", loaded.Redis.CredentialName);
             }
             finally
             {
@@ -132,6 +136,92 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(original.KeyPrefix, roundTripped.KeyPrefix);
             Assert.Equal(original.PeerName, roundTripped.PeerName);
             Assert.Equal("studio", roundTripped.Role);
+        }
+
+        [Fact]
+        public void Load_FileWithoutCredentialFields_GivesFalseAndEmptyName()
+        {
+            var path = TempPath();
+            try
+            {
+                File.WriteAllText(path, "{ \"Redis\": { \"Ip\": \"10.0.0.5\", \"Port\": 6400, \"Database\": 2, \"User\": \"u\", \"Password\": \"p\", \"KeyPrefix\": \"k\", \"PeerName\": \"n\" } }");
+
+                var loaded = StudioSettings.Load(path);
+
+                Assert.False(loaded.Redis.UseCredentialManager);
+                Assert.Equal("", loaded.Redis.CredentialName);
+            }
+            finally
+            {
+                if (File.Exists(path)) File.Delete(path);
+            }
+        }
+
+        private static FakeCredentialStore StoreWithMyRedis()
+        {
+            var store = new FakeCredentialStore();
+            store.Add("MyRedis", "alice", "secret");
+            return store;
+        }
+
+        [Fact]
+        public void Resolve_UseOff_IgnoresStore()
+        {
+            var settings = new StudioSettings
+            {
+                Redis = new RedisSettings { User = "fileUser", UseCredentialManager = false, CredentialName = "MyRedis" }
+            };
+
+            var resolved = settings.Resolve(StoreWithMyRedis());
+
+            Assert.Equal("fileUser", resolved.Options.User);
+            Assert.Equal("from file", resolved.UserSource);
+        }
+
+        [Fact]
+        public void Resolve_UseOnWithEmptyName_UsesFile()
+        {
+            var settings = new StudioSettings
+            {
+                Redis = new RedisSettings { User = "fileUser", UseCredentialManager = true, CredentialName = "" }
+            };
+
+            var resolved = settings.Resolve(StoreWithMyRedis());
+
+            Assert.Equal("fileUser", resolved.Options.User);
+            Assert.Equal("from file", resolved.UserSource);
+        }
+
+        [Fact]
+        public void Resolve_UseOnAndFound_TakesCredential()
+        {
+            var settings = new StudioSettings
+            {
+                Redis = new RedisSettings { User = "fileUser", UseCredentialManager = true, CredentialName = "MyRedis" }
+            };
+
+            var resolved = settings.Resolve(StoreWithMyRedis());
+
+            Assert.Equal("alice", resolved.Options.User);
+            Assert.Equal("secret", resolved.Options.Password);
+            Assert.Equal("from credential MyRedis", resolved.UserSource);
+            Assert.Equal("Studio", resolved.Options.PeerName);
+            Assert.Equal("studio", resolved.Options.Role);
+        }
+
+        [Fact]
+        public void Resolve_UseOnAndNotFound_UsesFile()
+        {
+            var settings = new StudioSettings
+            {
+                Redis = new RedisSettings { User = "", Password = "", UseCredentialManager = true, CredentialName = "Other" }
+            };
+
+            var resolved = settings.Resolve(StoreWithMyRedis());
+
+            Assert.Equal("default", resolved.Options.User);
+            Assert.Equal("", resolved.Options.Password);
+            Assert.Equal("from file, credential Other not found", resolved.UserSource);
         }
     }
 }

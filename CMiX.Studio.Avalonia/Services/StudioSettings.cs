@@ -19,12 +19,14 @@ namespace CMiX.Studio.Avalonia.Services
     //     "User": "default",
     //     "Password": "",
     //     "KeyPrefix": "cmix:default",
-    //     "PeerName": "Studio"
+    //     "PeerName": "Studio",
+    //     "UseCredentialManager": false,
+    //     "CredentialName": ""
     //   }
     // }
     //
-    // The password is clear text for now. A later step can read the user name and the password
-    // from the Windows Credential Manager. That is out of scope here.
+    // UseCredentialManager and CredentialName take the user name and the password from a generic
+    // credential of the Windows Credential Manager. The file values stay the fallback.
     public class RedisSettings
     {
         public string Ip { get; set; } = "";
@@ -34,6 +36,8 @@ namespace CMiX.Studio.Avalonia.Services
         public string Password { get; set; } = "";
         public string KeyPrefix { get; set; } = "";
         public string PeerName { get; set; } = "";
+        public bool UseCredentialManager { get; set; } = false;
+        public string CredentialName { get; set; } = "";
     }
 
     public class StudioSettings
@@ -75,12 +79,19 @@ namespace CMiX.Studio.Avalonia.Services
             File.WriteAllText(path, json);
         }
 
+        // The file values with fallbacks. Resolve adds the Credential Manager.
         // WithFallbacks would give the machine name, so the Studio sets its own default first.
         public SyncOptions ToSyncOptions()
         {
             var peerName = string.IsNullOrEmpty(Redis.PeerName) ? "Studio" : Redis.PeerName;
             return new SyncOptions(Redis.Ip, Redis.Port, Redis.Database, Redis.User, Redis.Password, Redis.KeyPrefix, peerName, "studio")
                 .WithFallbacks();
+        }
+
+        public ResolvedSyncOptions Resolve(ICredentialStore store)
+        {
+            var name = Redis.UseCredentialManager ? Redis.CredentialName : string.Empty;
+            return ToSyncOptions().WithCredential(name, store, "file");
         }
 
         public static StudioSettings FromSyncOptions(SyncOptions options) => new()
