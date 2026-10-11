@@ -21,6 +21,20 @@ namespace CMiX.Core.Networking
             string.IsNullOrEmpty(PeerName) ? Environment.MachineName : PeerName,
             Role ?? Defaults.Role);
 
+        // Takes the user name and the password from the generic credential with that name.
+        // An empty name or a missing credential keeps the given values. givenSource names them
+        // in the text, for example "file" or "arguments".
+        public ResolvedSyncOptions WithCredential(string credentialName, ICredentialStore store, string givenSource)
+        {
+            if (string.IsNullOrEmpty(credentialName))
+                return new ResolvedSyncOptions(this, $"from {givenSource}");
+
+            if (store.TryRead(credentialName, out var user, out var password))
+                return new ResolvedSyncOptions((this with { User = user, Password = password }).WithFallbacks(), $"from credential {credentialName}");
+
+            return new ResolvedSyncOptions(this, $"from {givenSource}, credential {credentialName} not found");
+        }
+
         // The vvvv patch calls this as a node. Keep the parameter list stable.
         public static SyncOptions Create(string ip, int port, int database, string user, string password, string keyPrefix, string peerName)
             => new SyncOptions(ip, port, database, user, password, keyPrefix, peerName, "engine").WithFallbacks();

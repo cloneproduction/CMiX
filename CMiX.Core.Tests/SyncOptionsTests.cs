@@ -52,5 +52,82 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(original, original.WithFallbacks());
         }
+
+        [Fact]
+        public void WithCredential_EmptyName_KeepsOptions()
+        {
+            var options = SyncOptions.Defaults with { User = "fileUser", Password = "filePassword" };
+            var store = new FakeCredentialStore();
+            store.Add("MyRedis", "alice", "secret");
+
+            var fromEmpty = options.WithCredential("", store, "file");
+            var fromNull = options.WithCredential(null, store, "file");
+
+            Assert.Equal(options, fromEmpty.Options);
+            Assert.Equal("from file", fromEmpty.UserSource);
+            Assert.Equal(options, fromNull.Options);
+            Assert.Equal("from file", fromNull.UserSource);
+        }
+
+        [Fact]
+        public void WithCredential_Found_TakesUserAndPassword()
+        {
+            // The callers run WithFallbacks first, so the peer name is already set.
+            var options = (SyncOptions.Defaults with { User = "fileUser", Password = "filePassword" }).WithFallbacks();
+            var store = new FakeCredentialStore();
+            store.Add("MyRedis", "alice", "secret");
+
+            var result = options.WithCredential("MyRedis", store, "file");
+
+            Assert.Equal("alice", result.Options.User);
+            Assert.Equal("secret", result.Options.Password);
+            Assert.Equal("from credential MyRedis", result.UserSource);
+            Assert.Equal(options with { User = "alice", Password = "secret" }, result.Options);
+        }
+
+        [Fact]
+        public void WithCredential_FoundWithEmptyUser_GivesDefault()
+        {
+            var options = SyncOptions.Defaults with { User = "fileUser", Password = "filePassword" };
+            var store = new FakeCredentialStore();
+            store.Add("MyRedis", "", "secret");
+
+            var result = options.WithCredential("MyRedis", store, "file");
+
+            Assert.Equal("default", result.Options.User);
+            Assert.Equal("secret", result.Options.Password);
+        }
+
+        [Fact]
+        public void WithCredential_NotFound_KeepsOptions()
+        {
+            var options = SyncOptions.Defaults with { User = "fileUser", Password = "filePassword" };
+            var store = new FakeCredentialStore();
+            store.Add("OtherRedis", "alice", "secret");
+
+            var result = options.WithCredential("MyRedis", store, "file");
+
+            Assert.Equal(options, result.Options);
+            Assert.Equal("from file, credential MyRedis not found", result.UserSource);
+        }
+
+        [Fact]
+        public void WithCredential_NotFoundWithEmptyGivenValues_GivesFallbacks()
+        {
+            var options = (SyncOptions.Defaults with { User = "", Password = "" }).WithFallbacks();
+
+            var result = options.WithCredential("MyRedis", new FakeCredentialStore(), "file");
+
+            Assert.Equal("default", result.Options.User);
+            Assert.Equal("", result.Options.Password);
+        }
+
+        [Fact]
+        public void WithCredential_UsesGivenSourceWord()
+        {
+            var result = SyncOptions.Defaults.WithCredential("", new FakeCredentialStore(), "arguments");
+
+            Assert.Equal("from arguments", result.UserSource);
+        }
     }
 }
