@@ -82,5 +82,13 @@ namespace CMiX.Core.DependencyInjection
             peer.SetDispatcher(queue.Post);
             peer.Start(options, autoJoin: true);
         }
+
+        // Takes the user name and the password from the generic credential with that name, then
+        // starts the engine peer like the overload above. An empty name keeps the given options.
+        public void ConfigureEngineTransport(IServiceProvider provider, SyncOptions options, string credentialName, MainloopQueue queue, int readBatch = 256)
+        {
+            var resolved = options.WithCredential(credentialName, new WindowsCredentialStore(), "options");
+            ConfigureEngineTransport(provider, resolved.Options, queue, readBatch);
+        }
     }
 }

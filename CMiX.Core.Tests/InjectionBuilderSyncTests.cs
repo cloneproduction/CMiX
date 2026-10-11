@@ -113,6 +113,23 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public async Task ConfigureEngineTransport_WithEmptyCredentialName_StartsWithGivenOptions()
+        {
+            var store = new InMemorySyncStore();
+            await WriteProjectSnapshotAsync(store);
+            var provider = CreateProvider(store);
+            var queue = new MainloopQueue();
+            using var peer = provider.GetRequiredService<SyncPeer>();
+            peer.Timings = Fast;
+
+            new InjectionBuilder().ConfigureEngineTransport(provider, EngineOptions, string.Empty, queue);
+            await JoinAsync(peer, queue);
+
+            Assert.Equal(EngineOptions, peer.Options);
+            Assert.Single(provider.GetRequiredService<Project>().CompositionManager.ManagerData.Items);
+        }
+
+        [Fact]
         public async Task ConfigureEngineTransport_WithAQueue_StopsFastAfterClose()
         {
             var store = new InMemorySyncStore();
