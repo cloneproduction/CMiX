@@ -24,7 +24,9 @@
     "ExecutableTarget": {
       "type": "string",
       "enum": [
-        "Clean"
+        "Clean",
+        "Publish",
+        "Zip"
       ]
     },
     "Verbosity": {
@@ -103,7 +105,14 @@
     }
   },
   "allOf": [
-    {},
+    {
+      "properties": {
+        "SettingsFile": {
+          "type": "string",
+          "description": "Path of the studio-settings.json to ship. Default: the file in CMiX.Studio.Avalonia"
+        }
+      }
+    },
     {
       "$ref": "#/definitions/FalloutBuild"
     }
