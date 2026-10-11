@@ -3,10 +3,8 @@
 
 namespace CMiX.Core.Networking
 {
-    // Reads one generic credential of the Windows Credential Manager.
     public interface ICredentialStore
     {
-        // Returns false when the name is empty or no credential has that name. The out values are then empty.
         bool TryRead(string name, out string user, out string password);
     }
 }
