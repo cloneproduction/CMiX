@@ -174,8 +174,11 @@ equals the tail.
 **The UI and the engine mainloop.** No Redis call runs on the UI thread. The
 one accepted UI pause is the apply of a large snapshot, because the controls
 are bound to the UI. The engine patch gives the peer a `MainloopQueue` through
-`ConfigureEngineTransport (Provider, Options, Queue, Read Batch)`. The patch
-drains the queue once per frame with `Drain`. Every apply, every event and
+`ConfigureEngineTransport (Provider, Options, Queue, Read Batch)`. A third
+overload takes a credential name before the queue. It reads the generic
+credential with that name and replaces the user name and the password of the
+options. The patch does not use it yet. The patch drains the queue once per
+frame with `Drain`. Every apply, every event and
 every property change of the peer then run on the mainloop. The read batch is
 the number of entries that one such action applies. The default is 256. A
 larger value gives a faster catch-up and a longer frame. A patch that stops
@@ -185,7 +188,7 @@ peer stops at once. `CMiX.Console` has no mainloop and applies inline.
 ### The Studio settings file
 
 The Studio reads `studio-settings.json` from the directory of its executable.
-The file holds one `Redis` object with seven fields:
+The file holds one `Redis` object with nine fields:
 
 ```json
 {
@@ -196,7 +199,9 @@ The file holds one `Redis` object with seven fields:
     "User": "default",
     "Password": "",
     "KeyPrefix": "cmix:default",
-    "PeerName": "Studio"
+    "PeerName": "Studio",
+    "UseCredentialManager": false,
+    "CredentialName": ""
   }
 }
 ```
@@ -213,9 +218,23 @@ field gives the same fallback:
 | `Password` | no password |
 | `KeyPrefix` | `cmix:default` |
 | `PeerName` | `Studio` |
+| `UseCredentialManager` | `false` |
+| `CredentialName` | empty |
 
-The password is clear text for now. A later step can read the user name and the
-password from the Windows Credential Manager. That is out of scope here.
+When `UseCredentialManager` is true and `CredentialName` is not empty, the Studio
+reads the generic credential with that name from the Windows Credential Manager.
+The user name and the password of the credential replace `User` and `Password`.
+When the credential does not exist, the file values apply. The sync panel shows
+the user name and its source in the Redis line: `from file`,
+`from credential <name>`, or `from file, credential <name> not found`. The
+connection flyout disables User and Password while the toggle is on and the name
+is not empty.
+
+The password of a generic credential is stored as UTF-16, the form that the
+Control Panel and `cmdkey` write. A credential that another tool stored as UTF-8
+reads wrong. Example:
+
+    cmdkey /generic:cmix_redis /user:alice /pass:secret
 
 ### Load
 
@@ -237,7 +256,11 @@ with many keys.
     --password <text>   Redis password. Default empty.
     --prefix <text>     Key prefix for the store. Default cmix:default.
     --name <text>       Peer name. Default is the machine name.
+    --credential <text> Name of a generic credential in the Windows Credential Manager.
+                        Its user name and password replace --user and --password. Default empty.
     --help              Show this usage text.
+
+The Console prints the user name and its source after it reads the arguments.
 
 It prints the status, the applied count and the positions when they change.
 
