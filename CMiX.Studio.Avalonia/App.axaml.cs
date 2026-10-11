@@ -11,6 +11,7 @@ using CMiX.Core;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.DependencyInjection;
+using CMiX.Core.Networking;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Animations;
@@ -72,7 +73,7 @@ namespace CMiX.Studio.Avalonia
                 DialogService = serviceProvider.GetRequiredService<IDialogService>();
                 // Post, not Invoke, so the Redis reader thread never waits for the UI thread.
                 configurationBuilder.ConfigureStudioTransport(serviceProvider,
-                    a => Dispatcher.UIThread.Post(a), StudioSettings.Load().ToSyncOptions());
+                    a => Dispatcher.UIThread.Post(a), StudioSettings.Load().Resolve(new WindowsCredentialStore()).Options);
 
                 var masterBeat = serviceProvider.GetRequiredService<MasterBeat>();
                 _animationController = new MasterBeatAnimationController(masterBeat);
