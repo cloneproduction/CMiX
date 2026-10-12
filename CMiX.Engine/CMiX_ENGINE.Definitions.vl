@@ -19691,11 +19691,6 @@
                     </Pin>
                     <Pin Id="HEnNx6AOJIpPObGedxgLwB" Name="Output" Kind="OutputPin" />
                   </Patch>
-                  <!--
-
-    ************************  ************************
-
--->
                   <ProcessDefinition Id="N08z5qUdxXfLAVxSwFz2No">
                     <Fragment Id="BO76tyrEKjZNemSPoOYysd" Patch="LYkkwgD5H4xOk5rG4mrxkA" Enabled="true" />
                     <Fragment Id="BhlRQLYxUoqMMiUNP6EuOj" Patch="M509d9tkeQbNWNjpDLqnIH" Enabled="true" />
@@ -29971,11 +29966,6 @@
                           <Pin Id="GnguMWdWul2QRVevBOpheF" Name="Input 2" Kind="InputPin" />
                           <Pin Id="JmIi04Y7tYeMkBSTLMkSGw" Name="Texture" Kind="InputPin" />
                         </Patch>
-                        <!--
-
-    ************************  ************************
-
--->
                         <ProcessDefinition Id="FfNYm9d5xjgO74GS5tHMif">
                           <Fragment Id="FfxN9qUJ1cvOSte9q7FlGM" Patch="LO7sMQp2FieMGuYFUS9Dmd" Enabled="true" />
                           <Fragment Id="P164EA3igefLvx41CYlECO" Patch="P3wNgGnCnbBLL7lAiAmwgD" Enabled="true" />
@@ -30157,11 +30147,6 @@
               <Pin Id="Eem8Nf0N6I0PGYBY9NqihW" Name="Output 2" Kind="OutputPin" />
               <Pin Id="P4VwRIevrEAOgk9QwJlQID" Name="Tex Coord" Kind="InputPin" />
             </Patch>
-            <!--
-
-    ************************  ************************
-
--->
             <ProcessDefinition Id="RnN0f0hJvzpNap8eHTSxOF">
               <Fragment Id="Oj3eJaOdKNBLFYF441K77o" Patch="TKoDHa4EX38NW6YXpEL78y" Enabled="true" />
               <Fragment Id="HeOMg9fAxqDN3TF524iZNS" Patch="AiEKaCGwEliO8QJM7jCBJ6" Enabled="true" />
@@ -33161,7 +33146,6 @@
                   </CategoryReference>
                   <Choice Kind="ProcessAppFlag" Name="VideoPlayer" />
                 </p:NodeReference>
-                <Pin Id="EmwcMx6zjgPLCjDqeIrTpc" Name="Node Context" Kind="InputPin" IsHidden="true" />
                 <Pin Id="IV1dtP2V4spPxo1cDZGgO6" Name="Filename" Kind="InputPin" />
                 <Pin Id="PwbHL8vhlATM2o6tCYVGuH" Name="Play" Kind="InputPin" />
                 <Pin Id="O6Y2qsy1o6gLRiEBh4pYbb" Name="Rate" Kind="InputPin" />
@@ -33180,6 +33164,7 @@
                 <Pin Id="Ipf95AjiDWGNheXAl6muZF" Name="Texture Size" Kind="InputPin" IsHidden="true" />
                 <Pin Id="J9h0w0DyOQLNnlQUsud6dW" Name="Source Bounds" Kind="InputPin" IsHidden="true" />
                 <Pin Id="JGbbG46950YMlbav2oXf5Z" Name="Border Color" Kind="InputPin" IsHidden="true" />
+                <Pin Id="E3An9cMRAsgNhAo0n1mlQR" Name="Use Linear Texture Format" Kind="InputPin" IsHidden="true" />
               </Node>
               <Pad Id="VBpop0I3xhDPBDGchvSVDo" Comment="Volume" Bounds="319,390,35,15" ShowValueBox="true" isIOBox="true" Value="0">
                 <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
@@ -41067,7 +41052,8 @@
           </p:NodeReference>
           <Patch Id="SDiY1h1xrwPPq4gV4zSEyT">
             <Canvas Id="OVtm3dgrRNOMnuN4u6wsfs" CanvasType="Group">
-              <ControlPoint Id="Rwo8jkXP8ZYNmZlG6HnqLT" Bounds="83,81" />
+              <ControlPoint Id="Rwo8jkXP8ZYNmZlG6HnqLT" Bounds="81,90" />
+              <ControlPoint Id="CC6AXg5hSPPMJxgyU3SIYn" Bounds="155,100" />
             </Canvas>
             <ProcessDefinition Id="LEuE2GVYPj9PGRnO9lSX6d" IsHidden="true">
               <Fragment Id="TnKG5RahnMOPAQAQgkHCnO" Patch="RBHKPbf8UW6QNgqBb4EOhX" />
@@ -41078,8 +41064,14 @@
                   <Choice Kind="TypeFlag" Name="RenderOutput" />
                 </p:TypeAnnotation>
               </Pin>
+              <Pin Id="VJuOIdBnTTqNcN8goVQsSg" Name="BackgroundColor" Kind="InputPin">
+                <p:TypeAnnotation LastCategoryFullName="Color" LastDependency="VL.CoreLib.vl">
+                  <Choice Kind="TypeFlag" Name="RGBA" />
+                </p:TypeAnnotation>
+              </Pin>
             </Patch>
             <Link Id="SLAyppx7oV8PUpoamYC79N" Ids="HKZ6HTKktsOOL9SUv5nxmu,Rwo8jkXP8ZYNmZlG6HnqLT" IsHidden="true" />
+            <Link Id="Jjd1XJWABwoPRF2Ia0CU57" Ids="VJuOIdBnTTqNcN8goVQsSg,CC6AXg5hSPPMJxgyU3SIYn" IsHidden="true" />
           </Patch>
         </Node>
         <!--
@@ -41484,6 +41476,7 @@
                   <Choice Kind="TypeFlag" Name="RenderOutput" />
                 </p:TypeAnnotation>
               </Pin>
+              <Pin Id="BMUa89vbP8TPMz73EXcxwI" Name="BackgroundColor" Kind="InputPin" />
             </Patch>
             <Link Id="BTDL2hTfhn4LjPTNFAhBRK" Ids="O1SPP8VIEWWQOY8ICbqdmr,SDpJcCcfz3oLi2YLMtvJID" IsHidden="true" />
             <Link Id="C738Rx7KTOfM3KuLCTmEl1" Ids="KBId4su6nrrLFSACJ9TTyZ,BZHlQqGTewnMLoNqdmWzkE" />
@@ -41561,6 +41554,7 @@
                     <Pin Id="A4XqCW08YLdOcWIdtm3RCt" Name="State Input" Kind="StateInputPin" />
                     <Pin Id="SIwF7e0OFQDPYriRcRWcyh" Name="Input" Kind="InputPin" />
                     <Pin Id="R1irGQQE2bDL3a3RgVMbzI" Name="Output" Kind="StateOutputPin" />
+                    <Pin Id="E1qNtOUtPRWP5QZtN5lKJk" Name="BackgroundColor" Kind="InputPin" />
                   </Node>
                 </Patch>
               </Node>
@@ -50940,6 +50934,7 @@
               <Pin Id="UOitUkyfmOpLPdXjZOdSaf" Name="Client" Kind="InputPin" />
               <Pin Id="KGmDWt1Iv2DOa3FIY6EMCF" Name="Input" Kind="InputPin" />
               <Pin Id="PH3D6YPtVq5PocWjTiiMSS" Name="Key" Kind="InputPin" />
+              <Pin Id="GHWDK0uS10JM9hYziwevH0" Name="Database" Kind="InputPin" IsHidden="true" />
               <Pin Id="UgLD0IjtB1tP3Dv3Zupbz4" Name="Binding Direction" Kind="InputPin" />
               <Pin Id="Hm1pybtTYMgNu4xc3cSJGB" Name="Initialization" Kind="InputPin" />
               <Pin Id="AxMEsYHjRfjMFxLDY2XM2e" Name="Collision Handling" Kind="InputPin" />
