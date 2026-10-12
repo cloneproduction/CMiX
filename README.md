@@ -44,6 +44,21 @@ This command pushes the package. Fallout also reads both values from the environ
 
 The file `version.txt` holds the version of the zip, the package and the executable. The package installs the Studio into `C:\tools\CMiX.Studio` and adds a desktop shortcut. The Studio needs the .NET 8 runtime (package `dotnet-8.0-runtime`). An upgrade replaces `studio-settings.json` in that folder with the shipped file.
 
+## Project files
+
+The Studio saves a project as a `.cmix` file. The file stores the path of every asset relative to its own folder. A project and its assets move together to another machine when the folders between them stay the same. This example has a project and an asset:
+
+    VJ\compositions\bar.cmix
+    VJ\textures\foo.jpg
+
+The file stores the asset as `..\textures\foo.jpg`.
+
+An asset on another drive than the project file keeps its absolute path. A project file from an older version keeps its absolute paths until the next save.
+
+The emergency save in the temp folder holds paths relative to that folder. Open it from there and the paths work. Copy the file to another folder before you open it and the paths break.
+
+The start check reports "Not in sync" when you open a project on a machine other than the one that pushed the Redis snapshot, because the absolute paths differ. Click Push on that machine.
+
 ## License
 
 CMiX is free software under the [GNU LGPL, version 3 or later](LICENSE). The GPL text is in [COPYING](COPYING).

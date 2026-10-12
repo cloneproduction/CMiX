@@ -10,6 +10,7 @@ using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -345,6 +346,60 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             {
                 if (File.Exists(path)) File.Delete(path);
                 if (File.Exists(modelPath)) File.Delete(modelPath);
+            }
+        }
+
+        // A project folder copied to another place still finds its assets. The file stores the
+        // asset paths relative to itself, so the copy loads the files that sit next to it and not
+        // the files of the original tree.
+        [AvaloniaFact]
+        public async Task OpenProject_FromACopiedTree_FindsTheAssetsNextToIt()
+        {
+            var rootA = Path.Combine(Path.GetTempPath(), $"cmix-tree-a-{Guid.NewGuid():N}");
+            var rootB = Path.Combine(Path.GetTempPath(), $"cmix-tree-b-{Guid.NewGuid():N}");
+            try
+            {
+                var modelPathA = Path.Combine(rootA, "VJ", "textures", "model.obj");
+                var imagePathA = Path.Combine(rootA, "VJ", "textures", "foo.png");
+                var projectPathA = Path.Combine(rootA, "VJ", "compositions", "bar.cmix");
+                Directory.CreateDirectory(Path.GetDirectoryName(modelPathA)!);
+                Directory.CreateDirectory(Path.GetDirectoryName(projectPathA)!);
+                // The asset selectors make an asset only for a file that exists.
+                File.WriteAllText(modelPathA, string.Empty);
+                File.WriteAllText(imagePathA, string.Empty);
+                ProjectFixtures.WriteProjectWithModelAndImage(projectPathA, modelPathA, imagePathA);
+
+                // In the JSON text each backslash of the path is escaped.
+                var json = File.ReadAllText(projectPathA);
+                Assert.Contains(@"..\\textures\\foo.png", json);
+                Assert.Contains(@"..\\textures\\model.obj", json);
+
+                foreach (var file in Directory.GetFiles(Path.Combine(rootA, "VJ"), "*", SearchOption.AllDirectories))
+                {
+                    var copy = Path.Combine(rootB, Path.GetRelativePath(rootA, file));
+                    Directory.CreateDirectory(Path.GetDirectoryName(copy)!);
+                    File.Copy(file, copy);
+                }
+
+                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+                await viewModel.MainMenu.OpenProjectFromPath(Path.Combine(rootB, "VJ", "compositions", "bar.cmix"));
+                TestServiceProviderFactory.Pump();
+
+                var project = viewModel.Project;
+                Assert.Equal(Path.Combine(rootB, "VJ", "textures", "model.obj"), project.Model.FilePath.Value);
+                Assert.IsType<Geometry>(project.Model.Asset);
+
+                var composition = (Composition)Assert.Single(project.CompositionManager.ManagerData.Items);
+                var layer = (Layer)Assert.Single(composition.LayerManager.ManagerData.Items);
+                var entity = (Entity)Assert.Single(layer.ModelEntityManager.ManagerData.Items);
+                var image = (Image)Assert.Single(entity.Material.DiffuseTexture.TextureManager.ManagerData.Items);
+                Assert.Equal(Path.Combine(rootB, "VJ", "textures", "foo.png"), image.AssetSelector.FilePath.Value);
+                Assert.IsType<ImageAsset>(image.AssetSelector.Asset);
+            }
+            finally
+            {
+                if (Directory.Exists(rootA)) Directory.Delete(rootA, true);
+                if (Directory.Exists(rootB)) Directory.Delete(rootB, true);
             }
         }
 
