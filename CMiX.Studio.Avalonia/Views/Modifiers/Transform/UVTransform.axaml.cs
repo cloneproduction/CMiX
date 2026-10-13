@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class UVTransformEditor : UserControl
+    public partial class UVTransform : UserControl
     {
-        public UVTransformEditor()
+        public UVTransform()
         {
             InitializeComponent();
         }

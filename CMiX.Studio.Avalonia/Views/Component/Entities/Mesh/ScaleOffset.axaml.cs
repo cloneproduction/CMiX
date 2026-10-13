@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class ScaleOffsetEditor : UserControl
+    public partial class ScaleOffset : UserControl
     {
-        public ScaleOffsetEditor()
+        public ScaleOffset()
         {
             InitializeComponent();
         }
