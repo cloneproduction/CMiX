@@ -71,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void UpdateCredentialBoxes()
         {
-            var useCredential = UseCredentialManagerBox.IsChecked && !string.IsNullOrEmpty(CredentialNameBox.Text);
+            var useCredential = UseCredentialManagerBox.IsChecked == true && !string.IsNullOrEmpty(CredentialNameBox.Text);
             UserBox.IsEnabled = !useCredential;
             PasswordBox.IsEnabled = !useCredential;
         }
@@ -113,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Views
                 PasswordBox.Text ?? string.Empty, KeyPrefixBox.Text ?? string.Empty,
                 PeerNameBox.Text ?? string.Empty, "studio");
             var settings = StudioSettings.FromSyncOptions(edited);
-            settings.Redis.UseCredentialManager = UseCredentialManagerBox.IsChecked;
+            settings.Redis.UseCredentialManager = UseCredentialManagerBox.IsChecked == true;
             settings.Redis.CredentialName = CredentialNameBox.Text ?? string.Empty;
 
             try
