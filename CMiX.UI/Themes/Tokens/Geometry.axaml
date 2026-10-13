@@ -15,6 +15,12 @@
     <CornerRadius x:Key="CornerRadiusLargeAll">4</CornerRadius>
     <CornerRadius x:Key="CornerRadiusLargeBottom">0,0,4,4</CornerRadius>
 
+    <!-- A card is a block with rounded corners and a little space around it, such as ExpanderIndented.
+         The radius is the base radius. The margin is SpacingXS at the sides and SpacingXXS above and below.
+         Change these two entries to change all the cards. -->
+    <StaticResource x:Key="CornerRadiusCard" ResourceKey="CornerRadiusAll" />
+    <Thickness x:Key="MarginCard">2,1</Thickness>
+
     <!-- Control heights -->
     <x:Double x:Key="ControlHeightXS">16</x:Double>
     <x:Double x:Key="ControlHeightSM">20</x:Double>

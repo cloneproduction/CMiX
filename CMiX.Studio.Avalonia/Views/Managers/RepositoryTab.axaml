@@ -37,7 +37,7 @@
         <i:Interaction.Behaviors>
             <ui:ScrollViewerBehavior />
         </i:Interaction.Behaviors>
-        <Border Background="{DynamicResource Grey300Brush}">
+        <Border Background="Transparent">
             <Managers:RepositoryManager
                 ItemsSource="{Binding ItemsSource, ElementName=repositoryTab}"
                 SelectionPanel="{Binding SelectionPanel, ElementName=repositoryTab}"

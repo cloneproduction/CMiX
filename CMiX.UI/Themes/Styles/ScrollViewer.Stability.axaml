@@ -1,0 +1,13 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Nothing should scroll on its own when the user clicks. A click gives a control the focus,
+         and by default the ScrollViewer then scrolls to show that control. This turns it off for
+         every ScrollViewer. A text box keeps its own setting, because its template binds it.
+         A single ScrollViewer can turn it on again with ScrollViewer.BringIntoViewOnFocusChange. -->
+    <Style Selector="ScrollViewer">
+        <Setter Property="BringIntoViewOnFocusChange" Value="False" />
+    </Style>
+
+</Styles>

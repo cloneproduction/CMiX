@@ -209,9 +209,13 @@
     <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    <!-- The expander is a card: rounded corners and a little space around it. -->
+    <Setter Property="Margin" Value="{DynamicResource MarginCard}" />
     <Setter Property="Template">
       <ControlTemplate>
-        <Border>
+        <Border
+            CornerRadius="{DynamicResource CornerRadiusCard}"
+            ui:RoundedClip.CornerRadius="{DynamicResource CornerRadiusCard}">
           <Border Background="Transparent">
             <DockPanel>
               <ToggleButton

@@ -8,9 +8,8 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-    <Border Background="{DynamicResource Grey200Brush}" IsVisible="{Binding DataContext, ElementName=layerRoot, Converter={StaticResource NullToVisibility}}">
+    <Border Background="Transparent" IsVisible="{Binding DataContext, ElementName=layerRoot, Converter={StaticResource NullToVisibility}}">
         <TabControl
-            Background="{DynamicResource Grey100Brush}"
             TabStripPlacement="Left"
             Theme="{StaticResource TabControlVertical}">
 
