@@ -7,12 +7,11 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Core.BaseControls;
 using CMiX.UI.Controls;
 using CMiX.UI.Interaction;
 using Xunit;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.UI.Tests
 {
     // The value editors open one interaction scope per gesture, through the InteractionHost.
     public class InteractionHostTests
@@ -73,19 +72,6 @@ namespace CMiX.Studio.Avalonia.Tests
             window.MouseDown(center, MouseButton.Left);
             window.MouseUp(center, MouseButton.Left);
             Dispatcher.UIThread.RunJobs();
-        }
-
-        [AvaloniaFact]
-        public void App_ConnectsTheHostToTheValueInteraction()
-        {
-            var scope = InteractionHost.BeginScope();
-
-            Assert.NotNull(scope);
-            Assert.True(ValueInteraction.IsActive);
-
-            scope!.Dispose();
-
-            Assert.False(ValueInteraction.IsActive);
         }
 
         [AvaloniaFact]

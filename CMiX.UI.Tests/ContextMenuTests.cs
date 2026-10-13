@@ -7,13 +7,12 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Core.BaseControls;
 using CMiX.UI.Controls;
+using CMiX.UI.Tests.Support;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.UI.Tests
 {
     // The Reset menu opens on a context request, but never in edit mode or for a request from a popup below the editor.
     // The headless mouse raises a context request only in edit mode. So the normal case and the popup case raise it by hand.
@@ -129,7 +128,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static (ColorSelector Selector, Popup Popup) ShowColorSelectorWithOpenPopup()
         {
-            var color = TestServiceProviderFactory.Create().GetRequiredService<GenericValue<string>>();
+            var color = new StringValue();
             var selector = new ColorSelector { DataContext = color, Width = 200, Height = 40 };
             Host(selector);
 

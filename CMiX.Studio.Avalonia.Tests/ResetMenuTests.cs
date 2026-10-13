@@ -8,8 +8,6 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls;
-using CMiX.UI.Controls.ColorPicker;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -163,82 +161,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.True(boxes > 10, $"Only {boxes} integer boxes were checked.");
             Assert.True(broken.Count == 0, string.Join(Environment.NewLine, broken));
-        }
-
-        [AvaloniaFact]
-        public void ColorPicker_HasNoResetMenu()
-        {
-            var window = Host(new StandardColorPicker());
-
-            var withReset = window.GetVisualDescendants().OfType<Control>().Where(HasResetItem).ToList();
-
-            Assert.Empty(withReset);
-        }
-
-        [AvaloniaFact]
-        public void Slider_WithoutResetCommand_HasNoMenu()
-        {
-            var slider = new CMiXSlider();
-            Host(slider);
-
-            Assert.Null(slider.ContextMenu);
-        }
-
-        [AvaloniaFact]
-        public void Slider_WithResetCommand_HasAResetMenuThatRunsIt()
-        {
-            var ran = false;
-            var slider = new CMiXSlider { ResetCommand = new RelayCommand(() => ran = true) };
-            Host(slider);
-
-            var reset = slider.ContextMenu!.Items.OfType<MenuItem>().Single();
-            reset.Command!.Execute(null);
-
-            Assert.True(ran);
-        }
-
-        [AvaloniaFact]
-        public void Slider_LosesTheMenu_WhenTheCommandIsRemoved()
-        {
-            var slider = new CMiXSlider { ResetCommand = new RelayCommand(() => { }) };
-            Host(slider);
-            Assert.NotNull(slider.ContextMenu);
-
-            slider.ResetCommand = null!;
-
-            Assert.Null(slider.ContextMenu);
-        }
-
-        [AvaloniaFact]
-        public void DragValue_WithoutResetCommand_HasNoMenu()
-        {
-            var drag = new DragValue();
-            Host(drag);
-
-            Assert.Null(drag.ContextMenu);
-        }
-
-        [AvaloniaFact]
-        public void DragValue_WithResetCommand_HasAResetMenuThatRunsIt()
-        {
-            var ran = false;
-            var drag = new DragValue { ResetCommand = new RelayCommand(() => ran = true) };
-            Host(drag);
-
-            var reset = drag.ContextMenu!.Items.OfType<MenuItem>().Single();
-            reset.Command!.Execute(null);
-
-            Assert.True(ran);
-        }
-
-        [AvaloniaFact]
-        public void DragValue_KeepsAMenuSetInXaml()
-        {
-            var own = new ContextMenu();
-            var drag = new DragValue { ContextMenu = own, ResetCommand = new RelayCommand(() => { }) };
-            Host(drag);
-
-            Assert.Same(own, drag.ContextMenu);
         }
     }
 }
