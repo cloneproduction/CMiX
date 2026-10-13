@@ -6,6 +6,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Threading;
+using CMiX.UI.Behaviors;
 using CMiX.UI.Controls.ColorPicker;
 using CMiX.UI.Tests.Support;
 using Xunit;
@@ -84,6 +85,24 @@ namespace CMiX.UI.Tests
             Move(window, new Point(5, 5));
 
             Assert.False(popup.IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void TheDistance_IsSixtyFourByDefault()
+        {
+            Assert.Equal(64, new ClosePopupBehavior().Distance);
+        }
+
+        [AvaloniaFact]
+        public void ABiggerDistance_KeepsThePopupOpenFartherAway()
+        {
+            var (window, _, popup) = ShowWideSelectorWithOpenPopup();
+            var behavior = Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(popup).OfType<ClosePopupBehavior>().Single();
+
+            behavior.Distance = 2000;
+            Move(window, new Point(5, 5));
+
+            Assert.True(popup.IsOpen);
         }
     }
 }

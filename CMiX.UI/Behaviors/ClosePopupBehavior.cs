@@ -16,7 +16,14 @@ namespace CMiX.UI.Behaviors
     public class ClosePopupBehavior : Behavior<Popup>
     {
         // The popup closes when the pointer is farther than this from the popup and from the control that opened it.
-        private const double FarDistance = 64;
+        public static readonly StyledProperty<double> DistanceProperty =
+            AvaloniaProperty.Register<ClosePopupBehavior, double>(nameof(Distance), PointerAway.DefaultDistance);
+
+        public double Distance
+        {
+            get => GetValue(DistanceProperty);
+            set => SetValue(DistanceProperty, value);
+        }
 
         private Control? subscribedChild;
         private bool parentHandlersAdded;
@@ -141,23 +148,11 @@ namespace CMiX.UI.Behaviors
 
             // The control that opened the popup can be much wider than the popup.
             var target = popup.PlacementTarget ?? popup.Parent as Control;
-            if (IsNear(child, e) || IsNear(target, e))
+            if (!PointerAway.IsFar(e, Distance, child, target))
                 return;
 
             ClosePopup();
             RemoveParentWindowHandlers();
-        }
-
-        private static bool IsNear(Control? control, PointerEventArgs e)
-        {
-            if (control == null)
-                return false;
-
-            var size = control.Bounds.Size;
-            var pos = e.GetPosition(control);
-
-            return pos.X >= -FarDistance && pos.Y >= -FarDistance &&
-                   pos.X <= size.Width + FarDistance && pos.Y <= size.Height + FarDistance;
         }
     }
 }
