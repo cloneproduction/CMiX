@@ -11,7 +11,7 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using CMiX.Core.BaseControls;
+using CMiX.Studio.Avalonia.Interaction;
 using CMiX.Studio.Avalonia.Mathematics;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
@@ -117,7 +117,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private double lastValue;
         private Point _lastPoint;
         private Point _mouseDownPoint;
-        private ValueInteractionScope? _interaction;
+        private IDisposable? _interaction;
 
         private static double Length(Point p) => Math.Sqrt(p.X * p.X + p.Y * p.Y);
 
@@ -161,7 +161,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             _lastPoint = e.GetPosition(Border);
             _mouseDownPoint = _lastPoint;
             e.Pointer.Capture(this);
-            _interaction = ValueInteraction.BeginScope();
+            _interaction = InteractionHost.BeginScope();
             Focus();
             Cursor = new Cursor(StandardCursorType.None);
             PseudoClasses.Set(":pressed", true);

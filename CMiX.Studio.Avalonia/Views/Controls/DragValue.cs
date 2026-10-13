@@ -9,7 +9,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using CMiX.Core.BaseControls;
+using CMiX.Studio.Avalonia.Interaction;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
@@ -20,7 +20,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private Point? _cursorDownScreenPos;
         private bool _dragging;
         private Point _lastScreenPos;
-        private ValueInteractionScope _interaction;
+        private IDisposable? _interaction;
         private ContextMenu? _resetMenu;
         private bool _templateApplied;
         private bool _suppressContextMenu;
@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 _borderValueDisplay.AddHandler(PointerPressedEvent, Border_PointerPressed, RoutingStrategies.Tunnel);
                 _borderValueDisplay.AddHandler(PointerReleasedEvent, Border_PointerReleased, RoutingStrategies.Tunnel);
                 _borderValueDisplay.AddHandler(PointerMovedEvent, Border_PointerMoved, RoutingStrategies.Tunnel);
-                _borderValueDisplay.PointerCaptureLost += (s, ev) => _interaction.Dispose();
+                _borderValueDisplay.PointerCaptureLost += (s, ev) => _interaction?.Dispose();
             }
 
             if (addButton != null)
@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             _dragging = false;
 
             e.Pointer.Capture(_borderValueDisplay);
-            _interaction = ValueInteraction.BeginScope();
+            _interaction = InteractionHost.BeginScope();
             e.Handled = true;
         }
 
@@ -139,7 +139,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private void Border_PointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             e.Pointer.Capture(null);
-            _interaction.Dispose();
+            _interaction?.Dispose();
 
             if (_mouseDownPos == null || _borderValueDisplay == null)
                 return;
