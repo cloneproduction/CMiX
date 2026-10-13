@@ -173,9 +173,11 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
 - The word `Value` ends the names of the editors of one value: `DragValue`,
   `IntegerValue`, `RangeValue`, `EditableValue`. No standard control is called
   `Value`, so there is nothing to put first. These names stay as they are.
-- In the Studio, the ending `Modulatable` marks the editor with a modulator button:
-  `DragValueModulatable`, `SliderModulatable`, `Vector2Modulatable`. Their base is
-  `UserControlModulatable`. The button is `ButtonModulatorAssign`.
+- In the Studio, the ending `Modulatable` marks a control that takes modulators. An
+  editor has a modulator button: `DragValueModulatable`, `SliderModulatable`,
+  `Vector2Modulatable`. Their base is `UserControlModulatable`. The button is
+  `ButtonModulatorAssign`. A panel has a list of modulators: `PanelModulatable` is the
+  base of the modifier views.
 - `CMiXTheme` is the one name that keeps the brand in front, like `FluentTheme` in
   Avalonia.
 

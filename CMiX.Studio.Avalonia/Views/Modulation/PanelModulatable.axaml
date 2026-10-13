@@ -1,5 +1,5 @@
 <HeaderedContentControl
-    x:Class="CMiX.Studio.Avalonia.Views.Modulation.ModulatablePanel"
+    x:Class="CMiX.Studio.Avalonia.Views.Modulation.PanelModulatable"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
@@ -25,7 +25,7 @@
     </HeaderedContentControl.Header>
 
     <HeaderedContentControl.Template>
-        <ControlTemplate TargetType="Modulation:ModulatablePanel">
+        <ControlTemplate TargetType="Modulation:PanelModulatable">
             <StackPanel>
 
                 <ContentPresenter

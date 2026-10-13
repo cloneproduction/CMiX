@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class TranslateModifier : ModulatablePanel
+    public partial class TranslateModifier : PanelModulatable
     {
         public TranslateModifier()
         {

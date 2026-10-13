@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class TexCoordModifier : ModulatablePanel
+    public partial class TexCoordModifier : PanelModulatable
     {
         public TexCoordModifier()
         {
