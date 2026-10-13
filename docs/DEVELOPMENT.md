@@ -52,7 +52,7 @@ To add a value to a filter or a modifier:
 
 `FilterAndModifierRoundTripTests` fails when a value is missing in `ToModel` or
 `FromModel`. `ResetMenuTests` (Studio tests) fails when an editor in a view has no
-working Reset menu. `EditorResetMenuTests` (CMiX.UI.Tests) checks the editors alone.
+working Reset menu. `ValueResetMenuTests` (CMiX.UI.Tests) checks the editors alone.
 
 A value editor shows a Reset menu only when it has a `ResetCommand`. The menu
 does not open in edit mode. It does not open for a right-click in a popup below
@@ -66,7 +66,7 @@ Bind the `ResetCommand` of an editor to the `ResetCommand` of the value.
 steps of 1. It takes the same bindings as `DragValue`:
 `Value="{Binding Name.Value}"` and `ResetCommand="{Binding Name.ResetCommand}"`.
 An editor that is one part of a group (a vector) also takes a `ResetAllCommand`, and
-its Reset menu then has a Reset All row. `NumberEditorBindingTests` fails when a
+its Reset menu then has a Reset All row. `ValueBindingTests` fails when a
 `DragValue` or an `IntegerValue` in an AXAML file has no `Value` binding.
 
 ## Views and folders
