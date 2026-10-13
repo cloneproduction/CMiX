@@ -83,7 +83,7 @@
                         <i:Interaction.Behaviors>
                             <ui:CloseFlyoutOnPointerAwayBehavior />
                         </i:Interaction.Behaviors>
-                        <StackPanel KeyDown="SyncFlyout_KeyDown" Margin="4">
+                        <StackPanel Margin="4">
                             <TextBlock
                                 Margin="0,0,0,16"
                                 Text="The loaded project and the Redis state are different. Choose how to resolve it."
@@ -148,9 +148,7 @@
                         <ui:CloseFlyoutOnPointerAwayBehavior />
                     </i:Interaction.Behaviors>
 
-                    <StackPanel 
-                        Spacing="{DynamicResource SpacingMD}"
-                        KeyDown="EditConnectionFlyout_KeyDown">
+                    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
                         <TextBlock Text="Connection Settings"
                                    Margin="0, 0, 0, 8"/>
