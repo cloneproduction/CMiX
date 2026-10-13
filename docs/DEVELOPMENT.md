@@ -170,6 +170,12 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
 - `UserControlCaptioned` is the base of the controls that have a `Caption`. The word
   `Captioned` is at the end of a name only when the control is the standard control
   with a caption added.
+- The word `Value` ends the names of the editors of one value: `DragValue`,
+  `IntegerValue`, `RangeValue`, `EditableValue`. No standard control is called
+  `Value`, so there is nothing to put first. These names stay as they are.
+- In the Studio, the ending `Modulatable` marks the editor with a modulator button:
+  `DragValueModulatable`, `SliderModulatable`, `Vector2Modulatable`. Their base is
+  `UserControlModulatable`. The button is `ButtonModulatorAssign`.
 - `CMiXTheme` is the one name that keeps the brand in front, like `FluentTheme` in
   Avalonia.
 
