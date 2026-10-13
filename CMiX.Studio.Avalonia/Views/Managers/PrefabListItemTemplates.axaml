@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
@@ -16,43 +15,43 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">
-        <Controls:PrefabListItem Icon="TextIcon" />
+        <ui:ListItemIcon Icon="TextIcon" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:Entity}">
-        <Controls:PrefabListItem Icon="Geometry" />
+        <ui:ListItemIcon Icon="Geometry" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
   <DataTemplate DataType="{x:Type Compositing:FullscreenQuad}">
-    <Controls:PrefabListItem Icon="FullscreenQuad" />
+    <ui:ListItemIcon Icon="FullscreenQuad" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
   </DataTemplate>
   
     <DataTemplate DataType="{x:Type Lights:LightEntity}">
-        <Controls:PrefabListItem Icon="MeshLight" />
+        <ui:ListItemIcon Icon="MeshLight" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Cameras:Camera}">
-        <Controls:PrefabListItem Icon="Camera" />
+        <ui:ListItemIcon Icon="Camera" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSources:TextureSourceBase}">
-        <Controls:PrefabListItem Icon="Texture" />
+        <ui:ListItemIcon Icon="Texture" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Materials:Material}">
-        <Controls:PrefabListItem Icon="World" />
+        <ui:ListItemIcon Icon="World" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 <!--
     <DataTemplate DataType="{x:Type Modulators:BeatModulator}">
-        <Controls:PrefabListItem Icon="Beat" />
+        <ui:ListItemIcon Icon="Beat" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>-->
 
     <DataTemplate DataType="{x:Type Modulators:TrackingModulator}">
-        <Controls:PrefabListItem Icon="Camera" />
+        <ui:ListItemIcon Icon="Camera" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ColorModifiers:ColorPaletteModifier}">
-        <Controls:PrefabListItem Icon="Coloration" />
+        <ui:ListItemIcon Icon="Coloration" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
 </DataTemplates>

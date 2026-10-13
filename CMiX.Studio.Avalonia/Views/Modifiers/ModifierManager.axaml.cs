@@ -37,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Views
             set => SetValue(CaptionProperty, value);
         }
 
-        // Forwarded onto each item's ModifierPanel; see ModifierPanel.PanelBackground for why a
+        // Forwarded onto each item's PanelItem; see PanelItem.PanelBackground for why a
         // null value here is safe (it simply leaves the item's default theme color untouched).
         public static readonly StyledProperty<IBrush> PanelBackgroundProperty =
             AvaloniaProperty.Register<ModifierManager, IBrush>(nameof(PanelBackground));

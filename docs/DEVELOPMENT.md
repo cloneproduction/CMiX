@@ -74,8 +74,8 @@ its Reset menu then has a Reset All row. `ValueBindingTests` fails when a
 `ViewModelToViewTemplate` finds the view of a model by name. The view has the type
 name of the model, for example `Blur` for the model `Blur`. It looks at the
 controls in the namespace `CMiX.Studio.Avalonia.Views` and in its child
-namespaces. The child namespaces `Controls`, `Managers`, `Menus`, `Modifiers`, `Modulation`
-and `Windows` hold support controls, so the locator skips them. Two views with the same name
+namespaces. The child namespaces `Controls`, `Managers`, `Menus`, `Modulation` and
+`Windows` hold support controls, so the locator skips them. Two views with the same name
 make the locator throw, and the message names both types.
 
 The domain views keep the one namespace `CMiX.Studio.Avalonia.Views`, whatever the
@@ -128,9 +128,38 @@ come from the value editors of vvvv:
 | `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus`, `TextBlockTrimmed` |
 | `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
+| `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxDetail` |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `PopupCMiX` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
+
+### Panels of a list
+
+The panels in `Collection` get their data only through their own properties. They never
+read the DataContext, so they know no model. The application sets the properties in its
+own XAML, for example `Title="{Binding PrefabService.Name.Value}"`. The test
+`CollectionPanelContractTests` fails when a binding in these files reads the DataContext.
+
+- `PanelItem` is an item of a list: a `Title`, a body, a toggle (`IsChecked`), a close
+  button and a drag handle. `PanelItemList` is a list of them with an add button.
+  `ListItemIcon` is a row with an icon, a name and a toggle. `ListBoxDetail` is a list
+  with a delete button, an add area and the detail of the selected item.
+- A variant of a panel is a theme, not a switch. The default theme of `PanelItem` has a
+  body that collapses, an eye, a close button and a drag handle. An application writes
+  its own theme from the library parts (`ToggleButtonPower`, `ToggleButtonVisibility`,
+  `ButtonIconClose`, `ButtonDragHandle`) and sets it with `Theme=`. A theme that does not
+  use a property just leaves it out.
+- The list is reordered only when the application sets `ReorderService` on it.
+- A control that shows content of the application, such as `AddContent`, is a composed
+  `UserControl` and not a templated control. A templated control takes over the template
+  parent of the content that it shows in its template. Then a `TemplateBinding` inside that
+  content, such as the owner type of the add panel of an entity, reads from the wrong
+  control and finds nothing. `EntityModifiersSectionTests` keeps this case.
+- A Studio control tells the library control which properties of the model to use.
+  `ModifierManager` is a `PanelItemList` of `PanelItem` rows. `RepositoryManager` is a
+  `ListBoxDetail` with the icon templates of the prefabs. `ModulatorHoverBehavior` tells
+  a modulator that the pointer is over its panel, because the library panel knows no
+  modulator.
 
 Use `TextBlockTrimmed` instead of `TextBlock` for a name that can be long, such as the name
 of a file, a folder or a prefab. The text stays on one line and ends with "..." when it does

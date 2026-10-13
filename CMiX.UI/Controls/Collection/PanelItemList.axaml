@@ -1,0 +1,51 @@
+<UserControl
+    x:Class="CMiX.UI.Controls.Collection.PanelItemList"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    x:Name="panelItemList">
+
+    <!-- The items, then the add button. The popup of the button shows AddContent.
+         This control is not a templated control on purpose: a control that shows foreign content
+         in its template takes over the template parent of that content, and the bindings of the
+         application to its own template would break. -->
+    <StackPanel>
+
+        <ItemsControl
+            ui:ListBoxReorder.Service="{Binding ReorderService, ElementName=panelItemList}"
+            ItemTemplate="{Binding ItemTemplate, ElementName=panelItemList}"
+            ItemsSource="{Binding ItemsSource, ElementName=panelItemList}" />
+
+        <ToggleButton
+            x:Name="AddToggle"
+            Margin="0,8,0,0"
+            Background="{DynamicResource Grey600Brush}"
+            Content="{Binding AddCaption, ElementName=panelItemList}"
+            Theme="{StaticResource ToggleButtonPopup}" />
+
+        <Popup
+            Width="{Binding Bounds.Width, ElementName=AddToggle}"
+            IsLightDismissEnabled="False"
+            IsOpen="{Binding IsChecked, ElementName=AddToggle}"
+            Placement="Bottom"
+            PlacementTarget="{Binding ElementName=AddToggle}">
+
+            <i:Interaction.Behaviors>
+                <ui:ClosePopupBehavior />
+            </i:Interaction.Behaviors>
+
+            <Border
+                Padding="2"
+                Background="{DynamicResource Grey100Brush}"
+                CornerRadius="{DynamicResource CornerRadiusLargeBottom}">
+
+                <ContentControl Content="{Binding AddContent, ElementName=panelItemList}" />
+
+            </Border>
+
+        </Popup>
+
+    </StackPanel>
+
+</UserControl>

@@ -1,0 +1,70 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
+
+    <!-- The default look: the body collapses. The header has the toggle (an eye), the close button
+         and the drag handle, from left to right. -->
+    <ControlTheme x:Key="{x:Type ui:PanelItem}" TargetType="ui:PanelItem">
+
+        <Setter Property="ClipToBounds" Value="False" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Expander
+                    Name="PART_Expander"
+                    IsExpanded="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                    Theme="{StaticResource ExpanderItem}">
+
+                    <!-- The parts inside the panel do not clip. -->
+                    <Expander.Styles>
+                        <Style Selector=":is(ContentControl)">
+                            <Setter Property="ClipToBounds" Value="False" />
+                        </Style>
+                    </Expander.Styles>
+
+                    <Expander.Header>
+                        <DockPanel>
+
+                            <StackPanel
+                                DockPanel.Dock="Right"
+                                Orientation="Horizontal">
+
+                                <ToggleButton
+                                    Width="{DynamicResource ControlHeightMD}"
+                                    IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                    Theme="{DynamicResource ToggleButtonVisibility}" />
+
+                                <Button
+                                    Command="{TemplateBinding CloseCommand}"
+                                    CommandParameter="{TemplateBinding CloseCommandParameter}"
+                                    Theme="{DynamicResource ButtonIconClose}" />
+
+                                <Button
+                                    Margin="8,0,2,0"
+                                    ui:DragHandle.IsEnabled="True"
+                                    ui:DragHandle.IsPressed="{Binding DragHandleIsPressed, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                    Theme="{StaticResource ButtonDragHandle}">
+                                    <ui:AppIcon
+                                        IconKey="DragHandle"
+                                        Size="{DynamicResource IconSizeXS}" />
+                                </Button>
+
+                            </StackPanel>
+
+                            <TextBlock Text="{TemplateBinding Title}" />
+
+                        </DockPanel>
+                    </Expander.Header>
+
+                    <ContentPresenter
+                        Padding="8"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                </Expander>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>
