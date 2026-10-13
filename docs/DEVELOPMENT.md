@@ -124,6 +124,7 @@ come from the value editors of vvvv:
 | `Boolean` | on, off, or a press | `ToggleButtonCaptioned`, `ToggleButtonCMiX`, `ButtonCaptioned` |
 | `Enum` | one item of a fixed list | `ComboBoxCaptioned` |
 | `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus` |
+| `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector` and the color picker |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `PopupCMiX` |
 
@@ -136,8 +137,8 @@ The folder follows the data, not the screen. The screen is a view in the Studio.
 A folder name is also a namespace, so it must not hide a .NET or Avalonia type that
 the code in `CMiX.UI.Controls` uses by its simple name. That is why the folder for
 colors is `ColorPicker`, not `Color`: the code uses the Avalonia type `Color`. Inside
-the folders `String`, `Boolean` and `Enum`, write `string`, `bool` and `System.Enum`,
-not `String`, `Boolean` and `Enum`. The folder `TextInput` does not exist for the
+the folders `String`, `Boolean`, `Enum` and `Path`, write `string`, `bool`,
+`System.Enum` and `System.IO.Path`, not `String`, `Boolean`, `Enum` and `Path`. The folder `TextInput` does not exist for the
 same reason: a namespace `TextBox` would hide the Avalonia `TextBox`.
 
 ### Names of the controls
@@ -164,6 +165,13 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
   with a caption added.
 - `CMiXTheme` is the one name that keeps the brand in front, like `FluentTheme` in
   Avalonia.
+
+`PathSelector` chooses a file or a folder: a list of known items, a Browse button and a
+drop of files from the file explorer. It only finds the path and raises `PathChosen`
+and `PathsDropped`. It does not know what the path becomes. The Studio has
+`AssetPathSelector`, which turns the path into an asset of its repository. The drop
+is done by `FileDropBehavior`, which any control can use. `TextureDropBehavior` of the
+Studio is built on it.
 
 The application connects three things to the library:
 

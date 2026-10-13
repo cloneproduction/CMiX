@@ -7,8 +7,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <!-- PathSelector is ported in the Assets slice and resolves at integration time. -->
-        <Views:PathSelector
+        <Views:AssetPathSelector
             VerticalAlignment="Top"
             DataContext="{Binding AssetSelector}"
             ItemsSource="{Binding AssetRepository.Images}"

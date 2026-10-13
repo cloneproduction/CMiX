@@ -26,7 +26,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var buttons = view.GetVisualDescendants().OfType<Button>().ToList();
             var play = buttons.Single(b => b is ToggleButton && (b.Content as string) == "Play");
             var doSeek = buttons.Single(b => b is not ToggleButton && (b.Content as string) == "Do Seek");
-            var pathSelector = view.GetVisualDescendants().OfType<PathSelector>().Single();
+            var pathSelector = view.GetVisualDescendants().OfType<AssetPathSelector>().Single();
 
             Assert.Same(play.GetVisualParent(), doSeek.GetVisualParent());
             Assert.Equal(new[] { 0, 1 }, new[] { Grid.GetColumn(play), Grid.GetColumn(doSeek) });

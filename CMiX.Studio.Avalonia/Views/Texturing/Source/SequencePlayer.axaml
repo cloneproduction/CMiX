@@ -32,7 +32,7 @@
           </Grid>
       </Border>
     
-      <Views:PathSelector
+      <Views:AssetPathSelector
         Caption="Image Folder"
         DataContext="{Binding AssetSelector}"
         ItemsSource="{Binding AssetRepository.ImageSequences}"

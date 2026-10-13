@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia
         // The rule for ambient statics in this app, so the four that exist do not become a
         // habit. A static is acceptable only when the consumer has no injection point at all:
         // either XAML constructs it and its code behind cannot take constructor arguments
-        // (DialogService, reached from PathSelector, and InteractionHost, reached from the value
+        // (DialogService, reached from AssetManager, and InteractionHost, reached from the value
         // editors), or it runs at process level after the
         // container is gone (_crashSaveProject, read by the unhandled exception handler).
         // Anything a container builds takes a constructor dependency instead, which is why the
