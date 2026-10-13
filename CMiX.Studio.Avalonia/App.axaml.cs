@@ -18,6 +18,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Animations;
 using CMiX.Studio.Avalonia.Interaction;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
@@ -47,6 +48,7 @@ namespace CMiX.Studio.Avalonia
 
         public override void Initialize()
         {
+            StudioIcons.Register();
             AvaloniaXamlLoader.Load(this);
             InteractionHost.BeginScopeHandler = () => ValueInteraction.BeginScope();
             // Registered last so explicit templates declared in views win over the reflection locator.
