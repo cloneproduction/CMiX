@@ -25,6 +25,7 @@ namespace CMiX.UI.Behaviors
             set => SetValue(DistanceProperty, value);
         }
 
+        private readonly TypingGuard typingGuard = new();
         private Control? subscribedChild;
         private bool parentHandlersAdded;
 
@@ -59,6 +60,7 @@ namespace CMiX.UI.Behaviors
                 return;
 
             subscribedChild = child;
+            typingGuard.Watch(child);
             child.PointerEntered += OnPointerEntered;
             child.PointerExited += OnPointerExited;
 
@@ -67,6 +69,7 @@ namespace CMiX.UI.Behaviors
 
         private void RemoveChildHandlers()
         {
+            typingGuard.Stop();
             if (subscribedChild == null)
                 return;
 
@@ -148,7 +151,7 @@ namespace CMiX.UI.Behaviors
 
             // The control that opened the popup can be much wider than the popup.
             var target = popup.PlacementTarget ?? popup.Parent as Control;
-            if (!PointerAway.IsFar(e, Distance, child, target) || PointerAway.IsTyping(child))
+            if (!PointerAway.IsFar(e, Distance, child, target) || typingGuard.IsTyping)
                 return;
 
             ClosePopup();

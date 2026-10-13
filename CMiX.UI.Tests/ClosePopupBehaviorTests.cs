@@ -134,12 +134,25 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void WhileATextBoxInThePopupHasFocus_APointerFarAway_KeepsThePopupOpen()
+        public void ATextBoxWithFocusButNoTyping_APointerFarAway_ClosesThePopup()
         {
             var (window, popup, box) = ShowPopupWithTextBox();
             box.Focus();
             Dispatcher.UIThread.RunJobs();
             Assert.True(box.IsFocused);
+
+            Move(window, new Point(790, 5));
+
+            Assert.False(popup.IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void AfterTypingInATextBoxOfThePopup_APointerFarAway_KeepsThePopupOpen()
+        {
+            var (window, popup, box) = ShowPopupWithTextBox();
+            box.Focus();
+            window.KeyPress(Key.A, RawInputModifiers.None, PhysicalKey.A, "a");
+            Dispatcher.UIThread.RunJobs();
 
             Move(window, new Point(790, 5));
 
