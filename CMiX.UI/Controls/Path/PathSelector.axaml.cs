@@ -78,11 +78,11 @@ namespace CMiX.UI.Controls.Path
 
             if (SelectsFolder)
             {
-                var folders = await storage.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false });
+                var folders = await storage.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Select a folder" });
                 return folders.FirstOrDefault()?.TryGetLocalPath();
             }
 
-            var options = new FilePickerOpenOptions { AllowMultiple = false };
+            var options = new FilePickerOpenOptions { AllowMultiple = false, Title = "Select a file" };
             var patterns = Extensions?.Select(extension => "*." + extension.TrimStart('.')).ToList();
             if (patterns is { Count: > 0 })
                 options.FileTypeFilter = new[] { new FilePickerFileType(FileTypeName) { Patterns = patterns } };
