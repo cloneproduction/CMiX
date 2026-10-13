@@ -11,6 +11,8 @@
 
     <ControlTheme x:Key="{x:Type ui:ListBoxCMiX}" TargetType="ui:ListBoxCMiX">
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemCMiX}" />
+        <!-- A pick in the list must not scroll the list, or the panels around it. -->
+        <Setter Property="AutoScrollToSelectedItem" Value="False" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border
@@ -60,6 +62,8 @@
 
     <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemCMiX}" />
+        <!-- A pick in the list must not scroll the list, or the panels around it. -->
+        <Setter Property="AutoScrollToSelectedItem" Value="False" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border

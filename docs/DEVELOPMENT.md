@@ -240,6 +240,16 @@ styles first, then what makes it different. `ButtonRounded`, `ToggleButtonInline
 - `ResourceReferenceTests` fails when an AXAML file names a resource key that nothing
   defines.
 
+### Scrolling
+
+A click must not make a view scroll or jump. `CMiXTheme` turns off the two ways that Avalonia
+scrolls on its own: `ScrollViewer.BringIntoViewOnFocusChange` (a click gives focus, and the view
+scrolls to the control) and `ListBox.AutoScrollToSelectedItem` (a pick scrolls the list and the
+views around it). A text box keeps its own setting. One ScrollViewer can turn the first one on
+again with `BringIntoViewOnFocusChange="True"`. A change of the total height, for example a
+panel above the click that grows or collapses, still moves the content. `ScrollViewerBehavior`
+restores the offset when the height grows. `ScrollStabilityTests` shows both behaviors.
+
 The application connects three things to the library:
 
 - `InteractionHost.BeginScopeHandler`, set in `App.Initialize`. See above.
