@@ -2,21 +2,21 @@
     x:Class="CMiX.Studio.Avalonia.Views.LightPoint"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel>
 
-        <BaseControl:VectorXYZ
+        <ui:VectorXYZ
             Caption="Position"
             DataContext="{Binding Position}" />
 
-        <BaseControl:DragValue
+        <ui:DragValue
             Margin="0,8"
             Caption="Radius"
             Value="{Binding Radius.Value}"
             ResetCommand="{Binding Radius.ResetCommand}" />
 
-        <BaseControl:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Show Helper"
             IsChecked="{Binding LightHelper.Value}"
             ResetCommand="{Binding LightHelper.ResetCommand}" />

@@ -2,42 +2,14 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Selector based styles for non templated elements. -->
-    <StyleInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Border.axaml" />
-    <StyleInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/TextBlock.axaml" />
-
-    <!-- Selector based styles that read nesting depth from the control tree. -->
-    <StyleInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/IndentedExpanderDepth.axaml" />
-
-    <!-- Control themes, merged in dependency order so StaticResource BasedOn references resolve. -->
+    <!-- The Studio styles. They build on the CMiX.UI theme, which the application adds first. -->
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/ScrollViewer.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/ToolTip.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Label.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/LabeledContent.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Button.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/ToggleButton.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/RadioButton.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/TextBox.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/ListBox.axaml" />
+                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/ComposableListBox.axaml" />
+                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/TypeWriter.axaml" />
                 <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/StatusIndicators.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/ComboBox.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Menu/PopupFrame.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Menu/Menu.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Menu/ContextMenu.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Tab.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Expander.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/GridSplitter.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/NumericInput.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/DragValue.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Sliders/Slider.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Sliders/ColorWheel.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Modifier.axaml" />
                 <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/EntityModifiersSection.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Windows/Window.axaml" />
-                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Windows/MainWindow.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

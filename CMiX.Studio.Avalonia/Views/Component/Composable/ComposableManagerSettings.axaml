@@ -2,26 +2,25 @@
     x:Class="CMiX.Studio.Avalonia.Views.ComposableManagerSettings"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:CaptionedComboBox
+        <ui:CaptionedComboBox
             IsVisible="{Binding !Mask.IsMask.Value}"
             Caption="Blend Mode"
             ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
             ResetCommand="{Binding Compositing.BlendMode.ResetCommand}"
             SelectedItem="{Binding Compositing.BlendMode.Value, Mode=TwoWay}" />
 
-        <BaseControls:ColorSelector
+        <ui:ColorSelector
             Caption="Background"
             DataContext="{Binding Compositing.BackgroundColor}" />
 
-        <Controls:CMiXSlider
+        <ui:CMiXSlider
             Height="{DynamicResource ControlHeightMD}"
             Caption="Alpha"
             Maximum="1"

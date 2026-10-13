@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.Managers.OutputMappingsPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
@@ -12,12 +12,12 @@
             ItemsSource="{Binding AssetRepository.Geometries}"
             SelectedItem="{Binding Asset}" />
 
-        <BaseControl:CMiXListBox
+        <ui:CMiXListBox
             MinHeight="105"
             ItemsSource="{Binding Items}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
-            <BaseControl:CMiXListBox.ItemTemplate>
+            <ui:CMiXListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
 
@@ -27,16 +27,16 @@
                             IsChecked="{Binding !Visibility.Value}"
                             Theme="{DynamicResource ToggleVisibility}" />
 
-                        <BaseControl:EditableTextBox Text="{Binding Name.Value}" />
+                        <ui:EditableTextBox Text="{Binding Name.Value}" />
 
                     </DockPanel>
                 </DataTemplate>
-            </BaseControl:CMiXListBox.ItemTemplate>
-        </BaseControl:CMiXListBox>
+            </ui:CMiXListBox.ItemTemplate>
+        </ui:CMiXListBox>
 
         <StackPanel
             DataContext="{Binding SelectedItem}">
-            <BaseControl:Integer2Value 
+            <ui:Integer2Value 
                 Caption="Resolution" 
                 DataContext="{Binding Resolution}" />
         </StackPanel>

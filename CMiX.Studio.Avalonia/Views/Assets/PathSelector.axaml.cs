@@ -14,7 +14,7 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using CMiX.Core.Assets;
 using CMiX.Core.BaseControls;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls.Parts;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 

@@ -1,0 +1,27 @@
+<StudioControls:ModulatorAssignableUserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.ModulatableIntegerValue"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    x:Name="countValue"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <ui:DragValue
+        ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=countValue}"
+        Caption="{Binding Caption, ElementName=countValue, Mode=OneWay}"
+        IsInteger="True"
+        IsReadOnly="{Binding IsModulated}"
+        LargeChange="1.0"
+        Minimum="1"
+        ResetCommand="{Binding ResetCommand}"
+        SmallChange="1.0"
+        Value="{Binding Value}">
+        <ui:DragValue.TrailingContent>
+            <StudioControls:ModulatorAssignButton
+                ModulatorManager="{Binding ModulatorManager, ElementName=countValue}" />
+        </ui:DragValue.TrailingContent>
+    </ui:DragValue>
+
+</StudioControls:ModulatorAssignableUserControl>

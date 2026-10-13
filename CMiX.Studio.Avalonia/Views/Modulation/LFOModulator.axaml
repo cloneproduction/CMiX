@@ -1,0 +1,36 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LFOModulator"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:Panels="using:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    d:DesignWidth="400">
+
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
+
+        <ui:DragValue
+            Caption="Period"
+            Minimum="0.0"
+            ResetCommand="{Binding Period.ResetCommand}"
+            Value="{Binding Period.Value}" />
+
+        <ui:RangeValue
+            LeftValue="{Binding Minimum.Value}"
+            LeftCaption="Min"
+            LeftResetCommand="{Binding Minimum.ResetCommand}"
+            RightCaption="Max"
+            RightResetCommand="{Binding Maximum.ResetCommand}"
+            RightValue="{Binding Maximum.Value}"/>
+
+        <ui:CaptionedComboBox
+            Caption="Wave Type"
+            ItemsSource="{x:Static Resources:EnumProviders.WaveType}"
+            ResetCommand="{Binding WaveType.ResetCommand}"
+            SelectedItem="{Binding WaveType.Value, Mode=TwoWay}" />
+
+    </StackPanel>
+
+</UserControl>

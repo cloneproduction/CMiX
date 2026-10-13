@@ -1,0 +1,27 @@
+<UserControl
+    x:Class="CMiX.UI.Controls.AppIcon"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    x:Name="uc">
+
+    <!--
+        Default color lives here as a style, not as a local value on the root (as it was before) -
+        a local value can never be beaten by anything a consumer sets, which blocked every
+        external override. A style default behaves normally: nothing here changes for the many
+        existing usages that never set Foreground, but a consumer can now override it.
+    -->
+    <UserControl.Styles>
+        <Style Selector="ui|AppIcon">
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        </Style>
+    </UserControl.Styles>
+
+    <materialIcons:MaterialIcon
+        x:Name="materialIcon"
+        Width="{Binding Size, ElementName=uc}"
+        Height="{Binding Size, ElementName=uc}"
+        Foreground="{Binding Foreground, ElementName=uc}" />
+
+</UserControl>

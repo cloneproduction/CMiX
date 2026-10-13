@@ -3,8 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     x:Name="repositoryTab"
@@ -24,7 +23,7 @@
         same way RepositoryManager tracks its own, see LogicalPanelContent.
     -->
     <TabItem.Header>
-        <Controls:AppIcon
+        <ui:AppIcon
             Margin="8"
             IconKey="{Binding Icon, ElementName=repositoryTab}"
             Size="{DynamicResource IconSizeXS}"
@@ -36,7 +35,7 @@
 
     <ScrollViewer DataContext="{Binding DataContext, ElementName=repositoryTab}" VerticalScrollBarVisibility="Hidden">
         <i:Interaction.Behaviors>
-            <Behaviors:ScrollViewerBehavior />
+            <ui:ScrollViewerBehavior />
         </i:Interaction.Behaviors>
         <Border Background="{DynamicResource Grey300Brush}">
             <Managers:RepositoryManager

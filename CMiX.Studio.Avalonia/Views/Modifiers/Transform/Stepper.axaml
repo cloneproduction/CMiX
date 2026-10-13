@@ -3,8 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
@@ -13,30 +12,30 @@
 
         <StackPanel>
 
-            <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-                <BaseControls:DragValue
+            <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+                <ui:DragValue
                     Caption="From"
                     Value="{Binding From.Value}"
                     ResetCommand="{Binding From.ResetCommand}" />
-                <BaseControls:DragValue
+                <ui:DragValue
                     Caption="To"
                     Value="{Binding To.Value}"
                     ResetCommand="{Binding To.ResetCommand}" />
-            </Panels:PositionedStackPanel>
+            </ui:PositionedStackPanel>
 
-            <BaseControls:CaptionedToggleButton
+            <ui:CaptionedToggleButton
                 Caption="PingPong"
                 Margin="0, 8"
                 IsChecked="{Binding PingPong.Value}"
                 ResetCommand="{Binding PingPong.ResetCommand}" />
 
-            <BaseControls:CaptionedComboBox
+            <ui:CaptionedComboBox
                 Caption="Transform"
                 ResetCommand="{Binding TransformType.ResetCommand}"
                 SelectedItem="{Binding TransformType.Value}"
                 ItemsSource="{x:Static Resources:EnumProviders.TransformType}" />
 
-            <BaseControls:AxisSelector3D
+            <ui:AxisSelector3D
                 Margin="0, 1, 0, 0"
                 XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
                 YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"

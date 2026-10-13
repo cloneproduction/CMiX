@@ -1,0 +1,13 @@
+<ui:CaptionedUserControl
+    x:Class="CMiX.UI.Controls.Boolean.CaptionedButton"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    x:Name="captionedButton">
+
+    <Button
+        Command="{Binding Command, ElementName=captionedButton}"
+        CommandParameter="{Binding CommandParameter, ElementName=captionedButton}"
+        Content="{Binding Caption, ElementName=captionedButton}"
+        Theme="{StaticResource ButtonInlineCaption}" />
+</ui:CaptionedUserControl>

@@ -1,0 +1,19 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
+
+    <!--
+        BorderMask now clips the border it's applied to directly via ClipToBoundsBehavior,
+        instead of providing a separate invisible border referenced by a VisualBrush
+        OpacityMask elsewhere. Avalonia's compositor caches VisualBrush-based OpacityMask
+        as a rasterized bitmap and does not reliably invalidate it on resize; Border.Clip
+        is evaluated live against current Bounds each render pass, so it has no such
+        staleness problem. Consumers apply Classes="BorderMask" to the border that should
+        be clipped/rounded, not to a separate mask element.
+    -->
+    <Style Selector="Border.BorderMask">
+        <Setter Property="ui:ClipToBoundsBehavior.CornerRadius" Value="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource Self}, Converter={StaticResource PositionToCornerRadius}}" />
+    </Style>
+
+</Styles>

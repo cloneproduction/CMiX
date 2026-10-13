@@ -1,0 +1,36 @@
+﻿<ui:CaptionedUserControl
+    x:Class="CMiX.UI.Controls.Enum.CaptionedComboBox"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    x:Name="comboBox">
+
+    <ui:LabeledContent Caption="{Binding Caption, ElementName=comboBox}">
+
+        <DockPanel>
+
+            <ContentPresenter
+                Content="{Binding TrailingContent, ElementName=comboBox}"
+                DockPanel.Dock="Right" />
+
+            <Border
+                x:Name="mainBorder"
+                ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=comboBox}"
+                Background="{DynamicResource Grey500Brush}"
+                BorderBrush="Transparent"
+                Classes="BorderMask">
+
+                <ComboBox
+                    x:Name="innerComboBox"
+                    ui:PositionedControl.Position="None"
+                    ItemsSource="{Binding ItemsSource, ElementName=comboBox}"
+                    ItemTemplate="{Binding ItemTemplate, ElementName=comboBox}"
+                    SelectedItem="{Binding SelectedItem, ElementName=comboBox, Mode=OneWay}" />
+
+            </Border>
+
+        </DockPanel>
+
+    </ui:LabeledContent>
+
+</ui:CaptionedUserControl>

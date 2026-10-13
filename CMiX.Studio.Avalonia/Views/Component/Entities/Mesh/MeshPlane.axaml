@@ -2,25 +2,25 @@
     x:Class="CMiX.Studio.Avalonia.Views.MeshPlane"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel>
 
-        <BaseControl:Vector2
+        <ui:Vector2
             Caption="Scale"
             DataContext="{Binding Scale}" />
 
-        <BaseControl:VectorXYZ
+        <ui:VectorXYZ
             Margin="0,8"
             Caption="Offset"
             DataContext="{Binding Offset}" />
 
-        <BaseControl:Integer2Value
+        <ui:Integer2Value
             Margin="0,0,0,8"
             Caption="Tessellation"
             DataContext="{Binding TessellationXY}" />
 
-        <BaseControl:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Generate Backface"
             IsChecked="{Binding GenerateBackFace.Value}"
             ResetCommand="{Binding GenerateBackFace.ResetCommand}" />

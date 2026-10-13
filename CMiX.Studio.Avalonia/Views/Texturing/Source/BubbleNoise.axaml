@@ -2,49 +2,48 @@
     x:Class="CMiX.Studio.Avalonia.Views.BubbleNoise"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:DragValue
+            <ui:DragValue
                 Caption="Speed"
                 Value="{Binding Speed.Value}"
                 ResetCommand="{Binding Speed.ResetCommand}" />
 
-            <BaseControls:DragValue
+            <ui:DragValue
                 Caption="Frequency"
                 Value="{Binding Frequency.Value}"
                 ResetCommand="{Binding Frequency.ResetCommand}" />
 
-            <BaseControls:DragValue
+            <ui:DragValue
                 Caption="Contrast"
                 Value="{Binding Contrast.Value}"
                 ResetCommand="{Binding Contrast.ResetCommand}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:ColorSelector
+            <ui:ColorSelector
                 Caption="Background"
                 DataContext="{Binding BackgroundColor}" />
 
-            <BaseControls:ColorSelector
+            <ui:ColorSelector
                 Caption="Bubble"
                 DataContext="{Binding BubbleColor}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
-        <BaseControls:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <BaseControls:Integer2Value
+            <ui:Integer2Value
                 Caption="Resolution"
                 DataContext="{Binding Resolution}" />
         </Border>

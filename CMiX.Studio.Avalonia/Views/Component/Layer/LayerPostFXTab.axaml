@@ -5,19 +5,18 @@
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:Layering="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
-    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers">
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
 
         <i:Interaction.Behaviors>
-            <Behaviors:ScrollViewerBehavior />
+            <ui:ScrollViewerBehavior />
         </i:Interaction.Behaviors>
 
         <StackPanel>
-            <Panels:IndentedExpander Header="Texture Filters">
+            <ui:IndentedExpander Header="Texture Filters">
                 <Views:ModifierManager
                     Caption="Add Filter"
                     Margin="8"
@@ -28,9 +27,9 @@
                     </Views:ModifierManager.SelectionPanel>
 
                 </Views:ModifierManager>
-            </Panels:IndentedExpander>
+            </ui:IndentedExpander>
 
-            <Panels:IndentedExpander Header="Modifiers">
+            <ui:IndentedExpander Header="Modifiers">
                 <Views:ModifierManager
                     Caption="Add Modifier"
                     Margin="8"
@@ -41,7 +40,7 @@
                     </Views:ModifierManager.SelectionPanel>
 
                 </Views:ModifierManager>
-            </Panels:IndentedExpander>
+            </ui:IndentedExpander>
 
             <Views:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
 

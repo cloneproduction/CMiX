@@ -2,38 +2,37 @@
     x:Class="CMiX.Studio.Avalonia.Views.CheckerBoard"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:Vector2
+        <ui:Vector2
             Caption="Cell Count"
             DataContext="{Binding CellCount}" />
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:ColorSelector
+            <ui:ColorSelector
                 Caption="Color A"
                 DataContext="{Binding ColorA}" />
 
-            <BaseControls:ColorSelector
+            <ui:ColorSelector
                 Caption="Color B"
                 DataContext="{Binding ColorB}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
         <Views:Transform2D
             DataContext="{Binding Transform2D}" />
 
-        <BaseControls:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <BaseControls:Integer2Value
+            <ui:Integer2Value
                 Caption="Resolution"
                 DataContext="{Binding Resolution}" />
         </Border>

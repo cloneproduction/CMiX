@@ -2,8 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.Managers.PrefabSlotManager"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     x:Name="prefabSlotManager"    
@@ -12,17 +11,17 @@
 
     <StackPanel>
 
-        <BaseControls:CMiXListBox
+        <ui:CMiXListBox
             x:Name="prefabListBox"
             MinHeight="105"
             ItemsSource="{Binding ManagerData.Items}"
             SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
-            <BaseControls:CMiXListBox.DataTemplates>
+            <ui:CMiXListBox.DataTemplates>
                 <Managers:PrefabListItemTemplates />
-            </BaseControls:CMiXListBox.DataTemplates>
-        </BaseControls:CMiXListBox>
+            </ui:CMiXListBox.DataTemplates>
+        </ui:CMiXListBox>
 
         <DockPanel Margin="0,4,0,0">
 
@@ -43,7 +42,7 @@
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource ButtonStraight}">
-                <BaseControls:AppIcon Opacity="0.7" IconKey="ArrowUp" Size="{DynamicResource IconSizeXS}" />
+                <ui:AppIcon Opacity="0.7" IconKey="ArrowUp" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
             <Button
@@ -53,7 +52,7 @@
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource ButtonStraight}">
-                <BaseControls:AppIcon Opacity="0.7" IconKey="ArrowDown" Size="{DynamicResource IconSizeXS}" />
+                <ui:AppIcon Opacity="0.7" IconKey="ArrowDown" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
             <ToggleButton
@@ -70,7 +69,7 @@
                 PlacementTarget="{Binding ElementName=SwapToggle}"
                 VerticalOffset="-1">
                 <i:Interaction.Behaviors>
-                    <Behaviors:ClosePopupBehavior />
+                    <ui:ClosePopupBehavior />
                 </i:Interaction.Behaviors>
                 <Border
                     Width="250"

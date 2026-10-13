@@ -2,31 +2,30 @@
     x:Class="CMiX.Studio.Avalonia.Views.LightSpot"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel>
 
-        <BaseControl:VectorXYZ Caption="Position" DataContext="{Binding Position}" />
+        <ui:VectorXYZ Caption="Position" DataContext="{Binding Position}" />
 
-        <BaseControl:VectorXYZ
+        <ui:VectorXYZ
             Margin="0,8"
             Caption="Target"
             DataContext="{Binding Target}" />
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControl:DragValue
+            <ui:DragValue
                 Caption="Angle"
                 Value="{Binding Angle.Value}"
                 ResetCommand="{Binding Angle.ResetCommand}" />
 
-            <BaseControl:DragValue
+            <ui:DragValue
                 Caption="Softness"
                 Value="{Binding Softness.Value}"
                 ResetCommand="{Binding Softness.ResetCommand}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
     </StackPanel>
 

@@ -13,29 +13,13 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static readonly Regex FlyoutPresenterTheme = new(@"FlyoutPresenterTheme\s*=\s*""[^""]*(PopupFlyoutStyle|MenuFlyoutPresenterDefault)[^""]*""");
 
-        // The AXAML is compiled into the assembly, so the test reads the files of the source tree.
-        private static string StudioFolder()
-        {
-            for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir != null; dir = dir.Parent)
-            {
-                var studio = Path.Combine(dir.FullName, "CMiX.Studio.Avalonia");
-                if (File.Exists(Path.Combine(studio, "CMiX.Studio.Avalonia.csproj")))
-                    return studio;
-            }
-
-            throw new DirectoryNotFoundException("The folder CMiX.Studio.Avalonia was not found above " + AppContext.BaseDirectory);
-        }
-
         [Fact]
         public void EveryContextMenuAndFlyoutInTheAxaml_UsesASharedPopupTheme()
         {
-            var studio = StudioFolder();
             var violations = new List<string>();
             var tagCount = 0;
 
-            foreach (var file in Directory.EnumerateFiles(studio, "*.axaml", SearchOption.AllDirectories)
-                         .Where(f => !f.Contains(Path.DirectorySeparatorChar + "obj" + Path.DirectorySeparatorChar)
-                                  && !f.Contains(Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar)))
+            foreach (var file in SourceTree.AxamlFiles())
             {
                 var text = Comment.Replace(File.ReadAllText(file), "");
 
@@ -49,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
                         ? attributes.Contains("ContextMenuDefault")
                         : FlyoutPresenterTheme.IsMatch(attributes);
                     if (!shared)
-                        violations.Add($"{Path.GetRelativePath(studio, file)}: {name} has no shared popup theme");
+                        violations.Add($"{SourceTree.Relative(file)}: {name} has no shared popup theme");
                 }
             }
 

@@ -3,6 +3,7 @@
 
 using Avalonia;
 using Avalonia.Controls;
+using CMiX.UI.AttachedProperties;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {

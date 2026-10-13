@@ -2,17 +2,16 @@
     x:Class="CMiX.Studio.Avalonia.Views.AmbientOcclusion"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="uc">
 
-    <Panels:IndentedExpander>
+    <ui:IndentedExpander>
 
-        <Panels:IndentedExpander.Header>
+        <ui:IndentedExpander.Header>
 
             <DockPanel>
 
-                <BaseControls:CMiXToggleButton
+                <ui:CMiXToggleButton
                     Width="14"
                     Height="14"
                     IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=uc, Mode=TwoWay}"
@@ -26,42 +25,42 @@
 
             </DockPanel>
 
-        </Panels:IndentedExpander.Header>
+        </ui:IndentedExpander.Header>
 
         <Border Margin="8" IsEnabled="{Binding IsEnabled.Value}">
 
             <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-                <BaseControls:IntegerValue Caption="Samples" DataContext="{Binding Samples}" Value="{Binding Value}" />
+                <ui:IntegerValue Caption="Samples" DataContext="{Binding Samples}" Value="{Binding Value}" />
 
-                <BaseControls:DragValue
+                <ui:DragValue
                     Caption="Intensity"
                     Value="{Binding Intensity.Value}"
                     ResetCommand="{Binding Intensity.ResetCommand}" />
 
-                <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-                    <BaseControls:DragValue
+                <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+                    <ui:DragValue
                         Caption="SampleBias"
                         Value="{Binding SampleBias.Value}"
                         ResetCommand="{Binding SampleBias.ResetCommand}" />
-                    <BaseControls:DragValue
+                    <ui:DragValue
                         Caption="SampleRadius"
                         Value="{Binding SampleRadius.Value}"
                         ResetCommand="{Binding SampleRadius.ResetCommand}" />
-                </Panels:PositionedStackPanel>
+                </ui:PositionedStackPanel>
 
-                <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-                    <BaseControls:IntegerValue
+                <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+                    <ui:IntegerValue
                         Caption="Blur Count"
                         DataContext="{Binding BlurCount}"
                         Value="{Binding Value}" />
-                    <BaseControls:DragValue
+                    <ui:DragValue
                         Caption="Blur Radius"
                         Value="{Binding BlurRadius.Value}"
                         ResetCommand="{Binding BlurRadius.ResetCommand}" />
-                </Panels:PositionedStackPanel>
+                </ui:PositionedStackPanel>
 
-                <BaseControls:DragValue
+                <ui:DragValue
                     Margin="0,0,0,8"
                     Caption="Edge Sharpness"
                     Value="{Binding EdgeSharpness.Value}"
@@ -71,6 +70,6 @@
 
         </Border>
 
-    </Panels:IndentedExpander>
+    </ui:IndentedExpander>
 
 </UserControl>

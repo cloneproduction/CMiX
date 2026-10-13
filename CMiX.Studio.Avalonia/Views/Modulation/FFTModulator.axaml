@@ -1,0 +1,47 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.FFTModulator"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    d:DesignWidth="400">
+
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
+      
+      <ui:DragValue
+        Caption="FFT"
+        Minimum="0.0"
+        Value="{Binding FFT.Value}"
+        ResetCommand="{Binding FFT.ResetCommand}" />
+
+      <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+
+        <ui:DragValue
+          Caption="Bass"
+          Minimum="0.0"
+          Value="{Binding Bass.Value}"
+          ResetCommand="{Binding Bass.ResetCommand}"/>
+
+        <ui:DragValue
+          Caption="Lower Mid"
+          Minimum="0.0"
+          Value="{Binding LowerMid.Value}"
+          ResetCommand="{Binding LowerMid.ResetCommand}"/>
+
+        <ui:DragValue
+          Caption="Higher Mid"
+          Minimum="0.0"
+          Value="{Binding HigherMid.Value}"
+          ResetCommand="{Binding HigherMid.ResetCommand}"/>
+
+        <ui:DragValue
+          Caption="High"
+          Minimum="0.0"
+          Value="{Binding High.Value}"
+          ResetCommand="{Binding High.ResetCommand}"/>
+        
+    </ui:PositionedStackPanel>
+      
+  </StackPanel>
+  
+</UserControl>

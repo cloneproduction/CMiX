@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
-    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers">
 
     <ScrollViewer>
         <i:Interaction.Behaviors>
-            <Behaviors:ScrollViewerBehavior />
+            <ui:ScrollViewerBehavior />
         </i:Interaction.Behaviors>
         <DockPanel>
             <Managers:PrefabSlotManager

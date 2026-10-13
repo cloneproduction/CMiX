@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
@@ -16,7 +16,7 @@
             DataContext="{Binding LightDirection}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ModulatableFloatValue
                 Caption="Height"
@@ -63,7 +63,7 @@
                 DataContext="{Binding SharpOffset}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
     </StackPanel>
 

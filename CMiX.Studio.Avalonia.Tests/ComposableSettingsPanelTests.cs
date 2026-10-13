@@ -5,7 +5,8 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls.Boolean;
+using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

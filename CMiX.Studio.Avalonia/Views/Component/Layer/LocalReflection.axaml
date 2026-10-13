@@ -2,15 +2,14 @@
     x:Class="CMiX.Studio.Avalonia.Views.LocalReflection"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="uc">
 
-    <Panels:IndentedExpander>
+    <ui:IndentedExpander>
 
-        <Panels:IndentedExpander.Header>
+        <ui:IndentedExpander.Header>
             <DockPanel>
-                <BaseControls:CMiXToggleButton
+                <ui:CMiXToggleButton
                     Width="14"
                     Height="14"
                     IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=uc, Mode=TwoWay}"
@@ -21,11 +20,11 @@
                     Foreground="{DynamicResource ForegroundBrush}"
                     Text="Local Reflection" />
             </DockPanel>
-        </Panels:IndentedExpander.Header>
+        </ui:IndentedExpander.Header>
 
         <Border Margin="8" IsEnabled="{Binding IsEnabled.Value}">
 
         </Border>
 
-    </Panels:IndentedExpander>
+    </ui:IndentedExpander>
 </UserControl>

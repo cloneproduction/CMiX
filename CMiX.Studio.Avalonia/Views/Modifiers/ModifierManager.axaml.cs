@@ -4,6 +4,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using CMiX.UI.AttachedProperties;
 
 namespace CMiX.Studio.Avalonia.Views
 {

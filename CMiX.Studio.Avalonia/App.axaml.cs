@@ -8,6 +8,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using CMiX.Core;
+using CMiX.Core.BaseControls;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.DependencyInjection;
@@ -16,7 +17,9 @@ using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Animations;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels;
+using CMiX.UI.Interaction;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,23 +30,27 @@ namespace CMiX.Studio.Avalonia
     {
         private MasterBeatAnimationController? _animationController;
 
-        // The rule for ambient statics in this app, so the three that exist do not become a
+        // The rule for ambient statics in this app, so the four that exist do not become a
         // habit. A static is acceptable only when the consumer has no injection point at all:
         // either XAML constructs it and its code behind cannot take constructor arguments
-        // (DialogService, reached from PathSelector), or it runs at process level after the
+        // (DialogService, reached from PathSelector, and InteractionHost, reached from the value
+        // editors), or it runs at process level after the
         // container is gone (_crashSaveProject, read by the unhandled exception handler).
         // Anything a container builds takes a constructor dependency instead, which is why the
         // view models, the managers and the messenger are all injected rather than reachable
         // here. The one static outside both clauses is CMiX.Core.BaseControls.ValueInteraction,
         // whose whole purpose is being ambient across controls that do not know each other; it
         // is held to the rule by ownership instead, its BeginScope returns a handle and only
-        // that handle can end the scope it opened.
+        // that handle can end the scope it opened. The editors reach it only through
+        // InteractionHost, which App.Initialize connects to it.
         private static Project? _crashSaveProject;
         public static IDialogService? DialogService { get; private set; }
 
         public override void Initialize()
         {
+            StudioIcons.Register();
             AvaloniaXamlLoader.Load(this);
+            InteractionHost.BeginScopeHandler = () => ValueInteraction.BeginScope();
             // Registered last so explicit templates declared in views win over the reflection locator.
             DataTemplates.Add(new Views.ViewModelToViewTemplate());
         }

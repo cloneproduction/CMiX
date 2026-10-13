@@ -5,7 +5,7 @@
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="uc"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
@@ -14,7 +14,7 @@
 
       <Views:MaterialSettings Margin="8" DataContext="{Binding MaterialSettings}" />
 
-        <Panels:IndentedExpander
+        <ui:IndentedExpander
             Header="Modifiers"
             Indentation="8"
             IsExpanded="{Binding ModifierManagerIsExpanded}">
@@ -23,7 +23,7 @@
                     <Managers:AutoSelectionPanel PanelOwner="{x:Type Materials:Material}" />
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
-        </Panels:IndentedExpander>
+        </ui:IndentedExpander>
 
     </StackPanel>
 

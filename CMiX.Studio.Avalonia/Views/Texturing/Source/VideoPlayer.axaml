@@ -2,14 +2,14 @@
     x:Class="CMiX.Studio.Avalonia.Views.VideoPlayer"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <StackPanel>
 
         <Border Margin="0,0,0,8" Classes="BorderMask">
             <Grid ColumnDefinitions="*,*">
-                <BaseControls:CMiXToggleButton
+                <ui:CMiXToggleButton
                     Grid.Column="0"
                     Content="Play"
                     IsChecked="{Binding Play.Value, Mode=TwoWay}"
@@ -31,19 +31,19 @@
             ItemsSource="{Binding AssetRepository.Videos}"
             SelectedItem="{Binding Asset}" />
 
-        <BaseControls:IntegerValue
+        <ui:IntegerValue
             Caption="Seek Frame"
             DataContext="{Binding SeekFrame}"
             Value="{Binding Value}" />
 
-        <BaseControls:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Margin="0,8"
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <BaseControls:Integer2Value
+            <ui:Integer2Value
                 Caption="Resolution"
                 DataContext="{Binding Resolution}" />
         </Border>

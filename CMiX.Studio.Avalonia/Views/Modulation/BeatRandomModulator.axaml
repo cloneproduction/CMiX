@@ -1,0 +1,25 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.BeatRandomModulator"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
+
+        <Views:BeatControls/>
+
+        <ui:RangeValue
+            LeftValue="{Binding Center.Value}"
+            LeftCaption="Center"
+            LeftResetCommand="{Binding Center.ResetCommand}"
+            RightCaption="Width"
+            RightResetCommand="{Binding Width.ResetCommand}"
+            RightValue="{Binding Width.Value}"/>
+
+        <Views:Easing  DataContext="{Binding Easing}" />
+
+    </StackPanel>
+</UserControl>

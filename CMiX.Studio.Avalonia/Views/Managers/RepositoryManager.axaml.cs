@@ -5,6 +5,7 @@ using System.Collections;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
+using CMiX.UI.AttachedProperties;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {

@@ -1,0 +1,50 @@
+﻿<ui:CaptionedUserControl
+    x:Class="CMiX.UI.Controls.ColorPicker.ColorSelector"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    x:Name="colorSelector"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <ui:CaptionedUserControl.ContextMenu>
+        <ContextMenu Theme="{StaticResource ContextMenuDefault}">
+            <MenuItem
+                Command="{Binding ResetCommand}"
+                Header="Reset" />
+        </ContextMenu>
+    </ui:CaptionedUserControl.ContextMenu>
+
+    <ui:LabeledContent Caption="{Binding Caption, ElementName=colorSelector}">
+
+        <Panel>
+
+            <ToggleButton
+                x:Name="PopupToggle"
+                ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=colorSelector}"
+                Background="{Binding Value, Converter={StaticResource HexToBrush}}"
+                Theme="{DynamicResource ButtonColorStyle}" />
+
+            <Popup
+                x:Name="colorPickerPopup"
+                IsLightDismissEnabled="False"
+                Placement="Top">
+                <i:Interaction.Behaviors>
+                    <ui:ClosePopupBehavior />
+                </i:Interaction.Behaviors>
+                <Border
+                    x:Name="popupBorder"
+                    Background="{DynamicResource Grey200Brush}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <ui:StandardColorPicker
+                        Margin="8"
+                        SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />
+                </Border>
+            </Popup>
+
+        </Panel>
+
+    </ui:LabeledContent>
+
+</ui:CaptionedUserControl>

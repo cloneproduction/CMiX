@@ -3,12 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ControlTheme x:Key="{x:Type Views:EntityModifiersSection}" TargetType="Views:EntityModifiersSection">
         <Setter Property="Template">
             <ControlTemplate>
-                <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
+                <ui:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
                     <Views:ModifierManager Caption="Add Modifier" Margin="8, 0, 8, 8" DataContext="{Binding ModifierManager}">
                         <Views:ModifierManager.SelectionPanel>
                             <StackPanel>
@@ -17,7 +17,7 @@
                             </StackPanel>
                         </Views:ModifierManager.SelectionPanel>
                     </Views:ModifierManager>
-                </Panels:IndentedExpander>
+                </ui:IndentedExpander>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

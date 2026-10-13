@@ -1,14 +1,13 @@
-<Controls:CaptionedUserControl
+<ui:CaptionedUserControl
     x:Class="CMiX.Studio.Avalonia.Views.PathSelector"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="pathSelector"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <Controls:LabeledContent Caption="{Binding Caption, ElementName=pathSelector}">
+    <ui:LabeledContent Caption="{Binding Caption, ElementName=pathSelector}">
 
         <DockPanel>
 
@@ -18,19 +17,19 @@
                 DockPanel.Dock="Right"
                 Click="BrowseButton_Click"
                 Theme="{StaticResource ButtonRoundedRight}">
-                <Controls:AppIcon IconKey="Folder" Size="{DynamicResource IconSizeXS}" />
+                <ui:AppIcon IconKey="Folder" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
             <Border
                 x:Name="mainBorder"
-                AttachedProperties:PositionedControl.Position="Left"
+                ui:PositionedControl.Position="Left"
                 Background="{DynamicResource Grey500Brush}"
                 BorderBrush="Transparent"
                 Classes="BorderMask">
 
                 <ComboBox
                     x:Name="pathComboBox"
-                    AttachedProperties:PositionedControl.Position="Left"
+                    ui:PositionedControl.Position="Left"
                     ItemsSource="{Binding ItemsSource, ElementName=pathSelector}"
                     SelectedItem="{Binding SelectedItem, ElementName=pathSelector}">
 
@@ -51,6 +50,6 @@
 
         </DockPanel>
 
-    </Controls:LabeledContent>
+    </ui:LabeledContent>
 
-</Controls:CaptionedUserControl>
+</ui:CaptionedUserControl>

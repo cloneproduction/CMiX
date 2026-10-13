@@ -2,23 +2,22 @@
     x:Class="CMiX.Studio.Avalonia.Views.LightSettings"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
 
     <StackPanel Margin="8">
 
-        <BaseControls:ColorSelector Caption="Color" DataContext="{Binding LightColor}" />
+        <ui:ColorSelector Caption="Color" DataContext="{Binding LightColor}" />
 
-        <BaseControls:DragValue
+        <ui:DragValue
             Margin="0,8"
             Caption="Intensity"
             Value="{Binding Intensity.Value}"
             ResetCommand="{Binding Intensity.ResetCommand}" />
 
-        <BaseControls:CaptionedComboBox
+        <ui:CaptionedComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.LightType}"
             ResetCommand="{Binding LightTypeSelector.ResetCommand}"
@@ -26,19 +25,19 @@
 
         <Panel>
 
-            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.PointLight}}">
+            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.PointLight}}">
                 <Views:LightPoint Margin="0,8,0,0" />
             </Border>
 
-            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.SpotLight}}">
+            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.SpotLight}}">
                 <Views:LightSpot Margin="0,8,0,0" />
             </Border>
 
-            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.AmbientLight}}">
+            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.AmbientLight}}">
                 <Views:LightAmbient />
             </Border>
 
-            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.DirectionalLight}}">
+            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.DirectionalLight}}">
                 <Views:LightDirectional Margin="0,8,0,0" />
             </Border>
 

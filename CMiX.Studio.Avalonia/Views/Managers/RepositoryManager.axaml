@@ -2,22 +2,22 @@
     x:Class="CMiX.Studio.Avalonia.Views.Managers.RepositoryManager"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     x:Name="repositoryManager">
 
     <StackPanel>
 
-        <BaseControls:CMiXListBox
+        <ui:CMiXListBox
             x:Name="prefabListBox"
             MinHeight="105"
             Margin="8"
             ItemsSource="{Binding ItemsSource, ElementName=repositoryManager}"
             SelectedItem="{Binding SelectedItem}">
-            <BaseControls:CMiXListBox.DataTemplates>
+            <ui:CMiXListBox.DataTemplates>
                 <Managers:PrefabListItemTemplates />
-            </BaseControls:CMiXListBox.DataTemplates>
-        </BaseControls:CMiXListBox>
+            </ui:CMiXListBox.DataTemplates>
+        </ui:CMiXListBox>
 
         <DockPanel Margin="8,0,8,8">
 

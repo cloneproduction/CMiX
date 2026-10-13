@@ -4,22 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <StackPanel>
-        <Panels:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
+        <ui:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
             <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
-        </Panels:IndentedExpander>
+        </ui:IndentedExpander>
         <Views:EntityModifiersSection PanelOwner="{x:Type Compositing:TextEntity}">
             <Managers:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />
         </Views:EntityModifiersSection>
 
-        <Panels:IndentedExpander Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
+        <ui:IndentedExpander Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
             <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
 
                 <TextBox
@@ -27,55 +26,55 @@
                     Text="{Binding Text.Value}"
                     Theme="{StaticResource TypeWriterStyle}" />
 
-                <BaseControls:ColorSelector
+                <ui:ColorSelector
                     Caption="Color"
                     DataContext="{Binding Color}" />
 
-                <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-                    <BaseControls:DragValue
+                <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+                    <ui:DragValue
                         Caption="Size"
                         Value="{Binding Size.Value}"
                         ResetCommand="{Binding Size.ResetCommand}" />
-                    <BaseControls:DragValue
+                    <ui:DragValue
                         Caption="Line Height"
                         Value="{Binding LineHeight.Value}"
                         ResetCommand="{Binding LineHeight.ResetCommand}" />
-                </Panels:PositionedStackPanel>
+                </ui:PositionedStackPanel>
 
-                <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-                    <BaseControls:CaptionedComboBox
+                <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+                    <ui:CaptionedComboBox
                         Caption="Font Family"
                         ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                         ResetCommand="{Binding FontFamily.ResetCommand}"
                         SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
-                    <BaseControls:CaptionedComboBox
+                    <ui:CaptionedComboBox
                         Caption="Style"
                         ItemsSource="{x:Static Resources:EnumProviders.FontStyle}"
                         ResetCommand="{Binding Style.ResetCommand}"
                         SelectedItem="{Binding Style.Value}" />
-                </Panels:PositionedStackPanel>
+                </ui:PositionedStackPanel>
 
-                <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-                    <BaseControls:CaptionedComboBox
+                <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+                    <ui:CaptionedComboBox
                         Caption="Horizontal Alignment"
                         ItemsSource="{x:Static Resources:EnumProviders.TextHorizontalAlignment}"
                         ResetCommand="{Binding HorizontalAlignment.ResetCommand}"
                         SelectedItem="{Binding HorizontalAlignment.Value}" />
-                    <BaseControls:CaptionedComboBox
+                    <ui:CaptionedComboBox
                         Caption="Anchor"
                         ItemsSource="{x:Static Resources:EnumProviders.Anchor}"
                         ResetCommand="{Binding Anchor.ResetCommand}"
                         SelectedItem="{Binding Anchor.Value}" />
-                </Panels:PositionedStackPanel>
+                </ui:PositionedStackPanel>
 
-                <BaseControls:DragValue
+                <ui:DragValue
                     Margin="0,0,0,8"
                     Caption="Width"
                     Value="{Binding Width.Value}"
                     ResetCommand="{Binding Width.ResetCommand}" />
 
             </StackPanel>
-        </Panels:IndentedExpander>
+        </ui:IndentedExpander>
 
     </StackPanel>
 

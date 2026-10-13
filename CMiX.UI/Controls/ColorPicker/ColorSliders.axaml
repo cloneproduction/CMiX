@@ -1,0 +1,141 @@
+﻿<ui:PickerControlBase
+    x:Class="CMiX.UI.Controls.ColorPicker.ColorSliders"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    x:Name="uc">
+
+    <StackPanel>
+
+        <!--
+            PositionedUniformGrid and PositionedStackPanel are ported (Views\Controls\Panels) but
+            are not needed here: plain panels are used instead and the PositionedControl.Position
+            attached property is set explicitly on each child to drive the position pseudo classes.
+        -->
+        <Border Height="{DynamicResource ControlHeightMD}">
+            <UniformGrid Columns="3">
+                <RadioButton
+                    x:Name="HSVRadio"
+                    ui:PositionedControl.Position="Left"
+                    Content="HSV"
+                    IsChecked="True" />
+                <RadioButton
+                    x:Name="RGBRadio"
+                    Margin="1,0"
+                    ui:PositionedControl.Position="Middle"
+                    Content="RGB" />
+                <RadioButton
+                    x:Name="HEXRadio"
+                    ui:PositionedControl.Position="Right"
+                    Content="HEX" />
+            </UniformGrid>
+        </Border>
+
+        <Panel Margin="0,8" VerticalAlignment="Top">
+            <Panel.Styles>
+                <Style Selector="Border.hiddenMode">
+                    <Setter Property="Opacity" Value="0" />
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="IsHitTestVisible" Value="False" />
+                </Style>
+            </Panel.Styles>
+            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=HEXRadio}">
+                <StackPanel>
+                    <TextBox
+                        Height="{DynamicResource ControlHeightMD}"
+                        Text="{Binding SelectedColor, ElementName=uc, Mode=TwoWay, Converter={StaticResource ColorToHex}}" />
+                </StackPanel>
+            </Border>
+            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=RGBRadio}">
+                <StackPanel>
+
+                    <ui:CMiXSlider
+                        ui:PositionedControl.Position="Top"
+                        Caption="R"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.RGB_R, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                                                    <i:Interaction.Behaviors>
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                    </ui:CMiXSlider>
+
+                    <ui:CMiXSlider
+                        Margin="0,1"
+                        ui:PositionedControl.Position="Middle"
+                        Caption="G"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.RGB_G, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                                                    <i:Interaction.Behaviors>
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                    </ui:CMiXSlider>
+
+                    <ui:CMiXSlider
+                        ui:PositionedControl.Position="Bottom"
+                        Caption="B"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.RGB_B, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                                                    <i:Interaction.Behaviors>
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                    </ui:CMiXSlider>
+
+                </StackPanel>
+            </Border>
+            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=HSVRadio}">
+
+                <StackPanel>
+                    <ui:CMiXSlider
+                        ui:PositionedControl.Position="Top"
+                        Caption="H"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.HSV_H, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=360, ToMin=0, ToMax=1}}">
+                                                    <i:Interaction.Behaviors>
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                    </ui:CMiXSlider>
+
+                    <ui:CMiXSlider
+                        Margin="0,1"
+                        ui:PositionedControl.Position="Middle"
+                        Caption="S"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.HSV_S, ElementName=uc, Mode=TwoWay}">
+                                                    <i:Interaction.Behaviors>
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                    </ui:CMiXSlider>
+
+                    <ui:CMiXSlider
+                        ui:PositionedControl.Position="Bottom"
+                        Caption="V"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
+                                                    <i:Interaction.Behaviors>
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                    </ui:CMiXSlider>
+                </StackPanel>
+
+            </Border>
+        </Panel>
+
+        <ui:CMiXSlider
+            Caption="Alpha"
+            Maximum="1"
+            Minimum="0"
+            Value="{Binding Color.A, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                            <i:Interaction.Behaviors>
+                    <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                </i:Interaction.Behaviors>
+        </ui:CMiXSlider>
+
+    </StackPanel>
+</ui:PickerControlBase>

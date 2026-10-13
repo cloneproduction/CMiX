@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.Layer"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="layerRoot"    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
@@ -16,28 +16,28 @@
 
             <TabItem IsSelected="True">
                 <TabItem.Header>
-                    <Controls:AppIcon Margin="8" IconKey="Entity" Size="{DynamicResource IconSizeXS}" />
+                    <ui:AppIcon Margin="8" IconKey="Entity" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
                 <Views:LayerEntityTab />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
-                    <Controls:AppIcon Margin="8" IconKey="Camera" Size="{DynamicResource IconSizeXS}" />
+                    <ui:AppIcon Margin="8" IconKey="Camera" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
                 <Views:LayerCameraTab />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
-                    <Controls:AppIcon Margin="8" IconKey="MeshLight" Size="{DynamicResource IconSizeXS}" />
+                    <ui:AppIcon Margin="8" IconKey="MeshLight" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
                 <Views:LayerLightTab />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
-                    <Controls:AppIcon Margin="8" IconKey="PostFX" Size="{DynamicResource IconSizeXS}" />
+                    <ui:AppIcon Margin="8" IconKey="PostFX" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
                 <Views:LayerPostFXTab />
             </TabItem>

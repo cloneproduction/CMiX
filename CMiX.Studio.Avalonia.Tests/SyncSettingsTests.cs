@@ -3,7 +3,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using CMiX.Core.Networking;
 using CMiX.Studio.Avalonia.Views;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls.Boolean;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

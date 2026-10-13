@@ -1,0 +1,41 @@
+﻿<ui:PickerControlBase
+    x:Class="CMiX.UI.Controls.ColorPicker.StandardColorPicker"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    x:Name="uc">
+
+    <StackPanel>
+
+        <Border>
+            <StackPanel Orientation="Horizontal">
+
+                <ui:ColorWheel
+                    Width="200"
+                    Height="200"
+                    ColorState="{Binding ColorState, ElementName=uc, Mode=TwoWay}"
+                    Theme="{StaticResource ColorWheelStyle}" />
+
+                <ui:CMiXSlider
+                    Width="16"
+                    IsEditable="False"
+                    Maximum="1"
+                    Minimum="0"
+                    Theme="{StaticResource ValueSliderVertical}"
+                    Value="{Binding Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
+                                            <i:Interaction.Behaviors>
+                            <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                        </i:Interaction.Behaviors>
+                </ui:CMiXSlider>
+
+            </StackPanel>
+        </Border>
+
+        <ui:ColorSliders
+            Margin="0,8,0,0"
+            ColorState="{Binding ColorState, ElementName=uc, Mode=TwoWay}" />
+
+    </StackPanel>
+
+</ui:PickerControlBase>

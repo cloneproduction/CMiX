@@ -2,7 +2,8 @@
     x:Class="CMiX.Studio.Avalonia.Views.Ascii"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
@@ -10,16 +11,16 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Controls:ModulatableFloatValue
+        <StudioControls:ModulatableFloatValue
             Caption="Grid Size"
             DataContext="{Binding GridSize}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ascii}" />
 
-        <Controls:ModulatableVectorXY
+        <StudioControls:ModulatableVectorXY
             Caption="Character Size"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ascii}" />
 
-        <Controls:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Grayscale"
             IsChecked="{Binding Grayscale.Value}"
             ResetCommand="{Binding Grayscale.ResetCommand}" />

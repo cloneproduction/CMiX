@@ -2,8 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.TypeWriter"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
 
     <StackPanel>
@@ -19,53 +18,53 @@
                 Theme="{StaticResource TypeWriterStyle}" />
         </Border>
 
-        <Panels:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControl:CaptionedComboBox
+            <ui:CaptionedComboBox
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                 ResetCommand="{Binding FontFamily.ResetCommand}"
                 SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 
-            <BaseControl:CaptionedComboBox
+            <ui:CaptionedComboBox
                 Caption="Style"
                 ItemsSource="{x:Static Resources:EnumProviders.FontStyle}"
                 ResetCommand="{Binding Style.ResetCommand}"
                 SelectedItem="{Binding Style.Value}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
-        <BaseControl:DragValue
+        <ui:DragValue
             Margin="0,8"
             Caption="Size"
             Value="{Binding FontSize.Value}"
             ResetCommand="{Binding FontSize.ResetCommand}" />
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControl:ColorSelector
+            <ui:ColorSelector
                 Caption="Font Color"
                 DataContext="{Binding FontColor}" />
 
-            <BaseControl:ColorSelector
+            <ui:ColorSelector
                 Caption="Background Color"
                 DataContext="{Binding BackgroundColor}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
-        <BaseControl:Vector2
+        <ui:Vector2
             Margin="0,8"
             Caption="Position"
             DataContext="{Binding Position}" />
 
-        <BaseControl:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Margin="0,0,0,8"
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <BaseControl:Integer2Value
+            <ui:Integer2Value
                 Caption="Resolution"
                 DataContext="{Binding Resolution}" />
         </Border>

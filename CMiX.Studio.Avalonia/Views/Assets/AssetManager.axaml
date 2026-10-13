@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Assets="clr-namespace:CMiX.Core.Assets;assembly=CMiX.Core"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -20,19 +20,19 @@
                         <Panel
                             Margin="6"
                             DockPanel.Dock="Left">
-                            <Controls:AppIcon
+                            <ui:AppIcon
                                 IsVisible="{Binding !$parent[TreeViewItem].IsExpanded}"
                                 Opacity="0.75"
                                 IconKey="Folder"
                                 Size="{DynamicResource IconSizeXS}" />
-                            <Controls:AppIcon
+                            <ui:AppIcon
                                 IsVisible="{Binding $parent[TreeViewItem].IsExpanded}"
                                 Opacity="0.75"
                                 IconKey="Folder_Opened"
                                 Size="{DynamicResource IconSizeXS}" />
                         </Panel>
 
-                        <Controls:EditableTextBox
+                        <ui:EditableTextBox
                             HorizontalAlignment="Stretch"
                             IsEditing="{Binding IsRenaming, Mode=TwoWay}"
                             Text="{Binding Name, Mode=TwoWay}" />
@@ -50,7 +50,7 @@
                     Header="New Folder"
                     IsEnabled="{Binding CanAddAsset}">
                     <MenuItem.Icon>
-                        <Controls:AppIcon IconKey="Add" Size="{DynamicResource IconSizeXS}" />
+                        <ui:AppIcon IconKey="Add" Size="{DynamicResource IconSizeXS}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
@@ -58,7 +58,7 @@
                     Header="Rename"
                     IsEnabled="{Binding CanRenameAsset}">
                     <MenuItem.Icon>
-                        <Controls:AppIcon IconKey="Rename" Size="{DynamicResource IconSizeXS}" />
+                        <ui:AppIcon IconKey="Rename" Size="{DynamicResource IconSizeXS}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
@@ -66,7 +66,7 @@
                     Header="Delete"
                     IsEnabled="{Binding CanDeleteAsset}">
                     <MenuItem.Icon>
-                        <Controls:AppIcon IconKey="DeleteLayer" Size="{DynamicResource IconSizeXS}" />
+                        <ui:AppIcon IconKey="DeleteLayer" Size="{DynamicResource IconSizeXS}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
@@ -74,7 +74,7 @@
                     Header="Relink"
                     IsEnabled="{Binding CanRelinkAsset}">
                     <MenuItem.Icon>
-                        <Controls:AppIcon IconKey="DeleteLayer" Size="{DynamicResource IconSizeXS}" />
+                        <ui:AppIcon IconKey="DeleteLayer" Size="{DynamicResource IconSizeXS}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </ContextMenu>

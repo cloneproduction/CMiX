@@ -1,34 +1,33 @@
-﻿<BaseControls:ModulatorAssignableUserControl
+﻿<StudioControls:ModulatorAssignableUserControl
     x:Class="CMiX.Studio.Avalonia.Views.ModifierModeSelector"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     x:Name="modifierModeSelector"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:CaptionedComboBox
+        <ui:CaptionedComboBox
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
             ResetCommand="{Binding Mode.ResetCommand}"
             SelectedItem="{Binding Mode.Value}">
-          <BaseControls:CaptionedComboBox.TrailingContent>
+          <ui:CaptionedComboBox.TrailingContent>
             <Border Width="{DynamicResource ControlHeightMD}" />
-          </BaseControls:CaptionedComboBox.TrailingContent>
-        </BaseControls:CaptionedComboBox>
+          </ui:CaptionedComboBox.TrailingContent>
+        </ui:CaptionedComboBox>
             
-        <BaseControls:ModulatableIntegerValue
+        <StudioControls:ModulatableIntegerValue
             Caption="Count"
             DataContext="{Binding Count}"
-            IsEnabled="{Binding DataContext.Mode.Value, ElementName=modifierModeSelector, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
+            IsEnabled="{Binding DataContext.Mode.Value, ElementName=modifierModeSelector, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
             ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
 
-    </Panels:PositionedStackPanel>
+    </ui:PositionedStackPanel>
 
-</BaseControls:ModulatorAssignableUserControl>
+</StudioControls:ModulatorAssignableUserControl>
