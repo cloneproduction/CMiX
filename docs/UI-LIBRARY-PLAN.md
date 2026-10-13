@@ -2,6 +2,10 @@
 
 Audited at CMiX commit `f85be64` (submodule `dependencies/submodules/CMiX`, branch master).
 
+Status: phases 0 to 4 are done. The layout of `CMiX.UI/Controls` changed after the plan: the controls
+are now in folders by the type of data they edit. The current layout is in `docs/DEVELOPMENT.md`,
+section "The UI library". The target layout below is the plan as it was written.
+
 ## Context
 
 `CMiX.Studio.Avalonia` holds about 9.7k lines of C# and 10.6k lines of AXAML (157 views, 36 theme files). Generic UI (controls, theme, behaviors, converters) and domain views live in the same project. The goal is a separate `CMiX.UI` library that does not reference `CMiX.Core`, plus a light reorganization of Studio's folders and namespaces done at the same time. No visual or behavior change.

@@ -107,11 +107,35 @@ An application uses the library in two steps:
 2. In AXAML, declare `xmlns:ui="https://github.com/cloneproduction/CMiX.UI"`. This
    one name maps all the namespaces of the library.
 
-The folders and namespaces follow each other: `CMiX.UI.Controls`,
-`Controls.ColorPicker`, `Controls.TextInput`, `Panels`, `AttachedProperties`,
-`Behaviors`, `Converters`, `Interaction`, `Mathematics` and `Themes`. The folder
-for text inputs is `TextInput`, because a namespace `TextBox` would hide the
-Avalonia `TextBox` inside `CMiX.UI.Controls`.
+The folders and namespaces follow each other. The top folders are `Controls`,
+`Panels`, `AttachedProperties`, `Behaviors`, `Converters`, `Interaction`,
+`Mathematics` and `Themes`.
+
+`Controls` has one folder for each type of data that an editor changes. The names
+come from the value editors of vvvv:
+
+| Folder | The data | In it |
+|---|---|---|
+| `Number` | one number | `DragValue`, `CMiXSlider`, `NumericInput`, `NumericText`, `IntegerValue`, `RangeValue`, `InputNumbersOnly` |
+| `Vector` | several numbers | `Vector2`, `VectorXYZ`, `Integer2Value`, `Integer3Value`, `AxisSelector2D`, `AxisSelector3D` |
+| `Boolean` | on, off, or a press | `CaptionedToggleButton`, `CMiXToggleButton`, `CaptionedButton` |
+| `Enum` | one item of a fixed list | `CaptionedComboBox` |
+| `String` | text or an address | `EditableTextBox`, `EditableValue`, `IPBox`, `SelectTextOnFocus` |
+| `ColorPicker` | a color | `ColorSelector` and the color picker |
+| `Parts` | nothing: what every editor is made of | `LabeledContent`, `CaptionedUserControl`, `DefaultResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `CMiXPopup` |
+
+`AppIcon` and `CMiXListBox` stay in the root of `Controls`. They do not change a value.
+
+To place a new control, ask "what data does it change?". A curve editor changes a
+curve, so it gets a new folder `Curve`, even when the first use is a color adjustment.
+The folder follows the data, not the screen. The screen is a view in the Studio.
+
+A folder name is also a namespace, so it must not hide a .NET or Avalonia type that
+the code in `CMiX.UI.Controls` uses by its simple name. That is why the folder for
+colors is `ColorPicker`, not `Color`: the code uses the Avalonia type `Color`. Inside
+the folders `String`, `Boolean` and `Enum`, write `string`, `bool` and `System.Enum`,
+not `String`, `Boolean` and `Enum`. The folder `TextInput` does not exist for the
+same reason: a namespace `TextBox` would hide the Avalonia `TextBox`.
 
 The application connects three things to the library:
 
@@ -127,7 +151,7 @@ The Studio has its own styles in `Themes/Generic.axaml` and its own converters i
 
 To add a control to the library:
 
-1. Put the class in the folder of its namespace.
+1. Put the class in the folder of the data it changes. The namespace is the folder.
 2. If it is a new namespace, add an `XmlnsDefinition` in `CMiX.UI/XmlnsDefinitions.cs`.
 3. Put its style in `Themes/Styles` and include the file in `Themes/CMiXTheme.axaml`.
 4. Add a test in CMiX.UI.Tests. `ThemeTests` already loads every control with only
