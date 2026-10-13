@@ -17,7 +17,7 @@
 
       <Border
           Grid.Row="1"
-          Background="{DynamicResource PanelBackgroundLevel0Brush}"
+          Background="Transparent"
           BorderBrush="{DynamicResource Grey100Brush}"
           BorderThickness="0,2"
           IsVisible="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}}">

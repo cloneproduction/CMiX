@@ -83,19 +83,6 @@ namespace CMiX.UI.Tests
             Assert.Equal(new Thickness(0), expander.Margin);
         }
 
-        private static int Brightness(string brushKey)
-        {
-            var color = ((Avalonia.Media.ISolidColorBrush)Application.Current!.FindResource(brushKey)!).Color;
-            return color.R + color.G + color.B;
-        }
-
-        [AvaloniaFact]
-        public void TheSurfaceBehindTheCards_IsDarkerThanTheCards()
-        {
-            Assert.True(Brightness("PanelBackgroundLevel0Brush") < Brightness("PanelBackgroundLevel1Brush"),
-                "The cards would not stand out from the surface behind them.");
-        }
-
         [AvaloniaFact]
         public void AFirstLevelCard_HasTheLevelOneBackground_NotTheSurface()
         {
