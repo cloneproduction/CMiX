@@ -298,10 +298,13 @@ A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that
 
 ### Close when the pointer goes away
 
-A popup or a flyout can close when the pointer moves away from it. Add a behavior from CMiX.UI:
+A popup, a flyout or a context menu can close when the pointer moves away from it:
 
-- A `Popup` uses `ClosePopupBehavior`. It also closes the popup on a click outside it and on a click on a button in it.
-- A `Flyout` or a `MenuFlyout` uses `CloseFlyoutOnPointerAwayBehavior`. It only checks the distance.
+- A `Popup` uses the behavior `ClosePopupBehavior`. It also closes the popup on a click outside it and on a click on a button in it.
+- A `Flyout` or a `MenuFlyout` uses the behavior `CloseFlyoutOnPointerAwayBehavior`. It only checks the distance.
+- A `ContextMenu` with the theme `ContextMenuDefault` has it already, for example the Reset menu of a value editor. The theme sets the attached property `ContextMenuPointerAway.IsEnabled`. Set it to false on a menu to switch the rule off.
+
+All three use the class `PointerAwayCloser`. A new kind of popup needs only a small wrapper around it.
 
 The pointer is away when it is farther than `Distance` from the content and from the control that opened it. The default is 64. The pointer on the control that opened the popup is never away, also when the control is much wider than the popup. After the user types in a text box of the popup, the popup stays open, because a close would lose the text. The behaviors only check the distance when the pointer moves.
 
