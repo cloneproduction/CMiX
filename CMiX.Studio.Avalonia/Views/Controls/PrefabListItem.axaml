@@ -3,14 +3,14 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="uc">
+    x:Name="prefabListItem">
 
     <DockPanel>
 
         <ui:AppIcon
             Margin="4,0"
             Opacity="0.7"
-            IconKey="{Binding Icon, ElementName=uc}"
+            IconKey="{Binding Icon, ElementName=prefabListItem}"
             Size="{DynamicResource IconSizeXS}" />
 
         <ToggleButton

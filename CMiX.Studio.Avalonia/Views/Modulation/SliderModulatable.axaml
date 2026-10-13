@@ -4,18 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
-    x:Name="channelSlider">
+    x:Name="sliderModulatable">
 
     <ui:SliderCMiX
-        ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=channelSlider}"
-        Caption="{Binding Caption, ElementName=channelSlider, Mode=OneWay}"
+        ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=sliderModulatable}"
+        Caption="{Binding Caption, ElementName=sliderModulatable, Mode=OneWay}"
         IsReadOnly="{Binding IsModulated}"
-        Minimum="{Binding Minimum, ElementName=channelSlider}"
-        Maximum="{Binding Maximum, ElementName=channelSlider}"
+        Minimum="{Binding Minimum, ElementName=sliderModulatable}"
+        Maximum="{Binding Maximum, ElementName=sliderModulatable}"
         ResetCommand="{Binding ResetCommand}"
         Value="{Binding Value}">
         <ui:SliderCMiX.TrailingContent>
-            <Modulation:ButtonModulatorAssign ModulatorManager="{Binding ModulatorManager, ElementName=channelSlider}" />
+            <Modulation:ButtonModulatorAssign ModulatorManager="{Binding ModulatorManager, ElementName=sliderModulatable}" />
         </ui:SliderCMiX.TrailingContent>
     </ui:SliderCMiX>
 

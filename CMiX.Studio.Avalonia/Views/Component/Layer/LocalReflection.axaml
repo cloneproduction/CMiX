@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="uc">
+    x:Name="localReflection">
 
     <ui:ExpanderIndented>
 
@@ -12,8 +12,8 @@
                 <ui:ToggleButtonCMiX
                     Width="14"
                     Height="14"
-                    IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=uc, Mode=TwoWay}"
-                    ResetCommand="{Binding DataContext.IsEnabled.ResetCommand, ElementName=uc}"
+                    IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=localReflection, Mode=TwoWay}"
+                    ResetCommand="{Binding DataContext.IsEnabled.ResetCommand, ElementName=localReflection}"
                     Theme="{DynamicResource ToggleButtonRounded}" />
                 <TextBlock
                     Margin="8,0"

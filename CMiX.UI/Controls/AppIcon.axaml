@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="uc">
+    x:Name="appIcon">
 
     <!--
         Default color lives here as a style, not as a local value on the root (as it was before) -
@@ -20,8 +20,8 @@
 
     <materialIcons:MaterialIcon
         x:Name="materialIcon"
-        Width="{Binding Size, ElementName=uc}"
-        Height="{Binding Size, ElementName=uc}"
-        Foreground="{Binding Foreground, ElementName=uc}" />
+        Width="{Binding Size, ElementName=appIcon}"
+        Height="{Binding Size, ElementName=appIcon}"
+        Foreground="{Binding Foreground, ElementName=appIcon}" />
 
 </UserControl>
