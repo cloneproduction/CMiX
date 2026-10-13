@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="modifierManager"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -19,20 +19,24 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
 
-                    <Modifiers:ModifierPanel
+                    <ui:PanelItem
                         Margin="0, 4"
+                        Title="{Binding PrefabService.Name.Value}"
+                        IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}"
                         DragHandleIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandleIsPressed}"
-                        CloseModifierCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
-                        CloseModifierCommandParameter="{Binding}"
-                        PanelBackground="{Binding $parent[Views:ModifierManager].PanelBackground}"
-                        ResetModifierCommand="{Binding $parent[ItemsControl].DataContext.ResetItemCommand}"
-                        ResetModifierCommandParameter="{Binding}">
+                        CloseCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
+                        CloseCommandParameter="{Binding}"
+                        PanelBackground="{Binding $parent[Views:ModifierManager].PanelBackground}">
 
-                        <Modifiers:ModifierPanel.Content>
+                        <i:Interaction.Behaviors>
+                            <Behaviors:ModulatorHoverBehavior />
+                        </i:Interaction.Behaviors>
+
+                        <ui:PanelItem.Content>
                             <ContentControl Content="{Binding}" />
-                        </Modifiers:ModifierPanel.Content>
+                        </ui:PanelItem.Content>
 
-                    </Modifiers:ModifierPanel>
+                    </ui:PanelItem>
 
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
