@@ -17,16 +17,9 @@ namespace CMiX.UI.Controls.ColorPicker
         {
             InitializeComponent();
 
-            AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
+            ContextMenuGuard.Install(this);
             Loaded += (s, e) => colorPickerPopup.PlacementTarget = PopupToggle;
             PopupToggle.IsCheckedChanged += (s, e) => colorPickerPopup.IsOpen = PopupToggle.IsChecked == true;
-        }
-
-        // The color picker popup sends its right-clicks up to here. They must not open the Reset menu of the color.
-        private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)
-        {
-            if (ContextMenuGuard.FromPopup(this, e))
-                e.Handled = true;
         }
 
         public static readonly StyledProperty<Color> SelectedColorProperty =

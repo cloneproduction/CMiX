@@ -22,14 +22,13 @@ namespace CMiX.UI.Controls.Number
         private bool _dragging;
         private Point _lastScreenPos;
         private IDisposable? _interaction;
-        private ContextMenu? _resetMenu;
-        private bool _templateApplied;
-        private bool _suppressContextMenu;
+        private readonly ContextMenuGuard _contextMenuGuard;
 
         public DragValue()
         {
             AddHandler(PointerPressedEvent, Control_PointerPressed, RoutingStrategies.Tunnel);
-            AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
+            _contextMenuGuard = ContextMenuGuard.Install(this, () => IsEditing);
+            ResetMenu.Follow(this, ResetCommandProperty, ResetAllCommandProperty);
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -53,19 +52,7 @@ namespace CMiX.UI.Controls.Number
 
             if (subButton != null)
                 subButton.Click += SubButton_Click;
-
-            _templateApplied = true;
-            UpdateResetMenu();
         }
-
-        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-        {
-            base.OnPropertyChanged(change);
-            if (_templateApplied && (change.Property == ResetCommandProperty || change.Property == ResetAllCommandProperty))
-                UpdateResetMenu();
-        }
-
-        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ResetAllCommand, ref _resetMenu);
 
         private static double Distance(Point a, Point b)
         {
@@ -160,20 +147,10 @@ namespace CMiX.UI.Controls.Number
             _dragging = false;
         }
 
-        // A right-click that ends editing must not open the menu when the button is released.
-        private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)
-        {
-            if (!_suppressContextMenu && !IsEditing && !ContextMenuGuard.FromPopup(this, e))
-                return;
-
-            _suppressContextMenu = false;
-            e.Handled = true;
-        }
-
         private void Control_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             var rightPressed = e.GetCurrentPoint(this).Properties.IsRightButtonPressed;
-            _suppressContextMenu = rightPressed && IsEditing;
+            _contextMenuGuard.PointerPressed(rightPressed);
 
             if (rightPressed)
                 IsEditing = false;

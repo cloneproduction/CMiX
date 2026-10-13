@@ -129,7 +129,7 @@ come from the value editors of vvvv:
 | `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
 | `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxDetail` |
-| `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `PopupCMiX` |
+| `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
 
@@ -185,7 +185,7 @@ with what makes it different: `StackPanelPositioned`, `ExpanderIndented`,
 in the autocomplete. The Color, Popup and Drag families work the same way.
 
 - The ending `CMiX` marks the default CMiX version of a standard control:
-  `SliderCMiX`, `ListBoxCMiX`, `ToggleButtonCMiX`, `PopupCMiX`. It derives from the
+  `SliderCMiX`, `ListBoxCMiX`, `ToggleButtonCMiX`. It derives from the
   standard control and keeps its API. A variant with a special purpose gets its own
   word instead, as `ExpanderIndented` does. A later variant never needs a rename.
 - A control with no standard equivalent has its own name: `DragValue`, `RangeValue`,
@@ -295,6 +295,18 @@ The themes and `PopupFrame` are in CMiX.UI.
 A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that the code updates in place. A new `ItemsSource` does not refresh a menu that was shown before. `ButtonModulatorAssign` is an example.
 
 `PopupThemeGuardTests` fails when a `ContextMenu`, a `Flyout` or a `MenuFlyout` in an AXAML file of the Studio or of CMiX.UI does not use one of these themes.
+
+### Close when the pointer goes away
+
+A popup, a flyout or a context menu can close when the pointer moves away from it:
+
+- A `Popup` uses the behavior `ClosePopupBehavior`. It also closes the popup on a click outside it and on a click on a button in it.
+- A `Flyout` or a `MenuFlyout` uses the behavior `CloseFlyoutOnPointerAwayBehavior`. It only checks the distance.
+- A `ContextMenu` with the theme `ContextMenuDefault` has it already, for example the Reset menu of a value editor. The theme sets the attached property `ContextMenuPointerAway.IsEnabled`. Set it to false on a menu to switch the rule off.
+
+All three use the class `PointerAwayCloser`. A new kind of popup needs only a small wrapper around it.
+
+The pointer is away when it is farther than `Distance` from the content and from the control that opened it. The default is 64. The pointer on the control that opened the popup is never away, also when the control is much wider than the popup. After the user types in a text box of the popup, the popup stays open, because a close would lose the text. The behaviors only check the distance when the pointer moves.
 
 ## Sync over Redis
 

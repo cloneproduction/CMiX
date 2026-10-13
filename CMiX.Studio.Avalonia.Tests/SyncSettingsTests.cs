@@ -1,5 +1,7 @@
 using Avalonia.Controls;
+using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
+using Avalonia.Input;
 using Avalonia.Threading;
 using CMiX.Core.Networking;
 using CMiX.Studio.Avalonia.Views;
@@ -52,6 +54,32 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(passwordBox.IsEnabled);
 
             button.Flyout.Hide();
+            peer.Dispose();
+            window.Close();
+        }
+
+        [AvaloniaTheory]
+        [InlineData("SyncButton")]
+        [InlineData("EditConnectionButton")]
+        public void TheFlyouts_CloseOnEscape(string buttonName)
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var peer = provider.GetRequiredService<SyncPeer>();
+            var view = new SyncSettings { DataContext = peer };
+            var window = new Window { Content = view, Width = 400, Height = 600 };
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            var button = view.FindControl<Button>(buttonName)!;
+            button.Flyout!.ShowAt(button);
+            TestServiceProviderFactory.Pump();
+            Assert.True(button.Flyout.IsOpen);
+
+            window.KeyPress(Key.Escape, RawInputModifiers.None, PhysicalKey.Escape, null);
+            window.KeyRelease(Key.Escape, RawInputModifiers.None, PhysicalKey.Escape, null);
+            TestServiceProviderFactory.Pump();
+
+            Assert.False(button.Flyout.IsOpen);
             peer.Dispose();
             window.Close();
         }
