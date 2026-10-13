@@ -137,6 +137,31 @@ the folders `String`, `Boolean` and `Enum`, write `string`, `bool` and `System.E
 not `String`, `Boolean` and `Enum`. The folder `TextInput` does not exist for the
 same reason: a namespace `TextBox` would hide the Avalonia `TextBox`.
 
+### Names of the controls
+
+The name of a control starts with the standard control or the thing it is, and ends
+with what makes it different: `StackPanelPositioned`, `ExpanderIndented`,
+`ComboBoxCaptioned`. All the variants of a control then sit together in a list and
+in the autocomplete. The Color, Popup and Drag families work the same way.
+
+- The ending `CMiX` marks the default CMiX version of a standard control:
+  `SliderCMiX`, `ListBoxCMiX`, `ToggleButtonCMiX`, `PopupCMiX`. It derives from the
+  standard control and keeps its API. A variant with a special purpose gets its own
+  word instead, as `ExpanderIndented` does. A later variant never needs a rename.
+- A control with no standard equivalent has its own name: `DragValue`, `RangeValue`,
+  `Vector2`, `ColorSelector`.
+- The dimension is a digit: `Vector3`, `Integer2`, `AxisSelector3`. Never 2D, 3D, XY
+  or XYZ.
+- The kind stays at the end for converters (`...Converter`), for a real
+  `Behavior<T>` (`...Behavior`) and for static helpers (`...Helper`). An attached
+  feature has a plain name: `NumbersOnly`, `SelectOnFocus`, `DragHandle`,
+  `RoundedClip`. Its on/off switch is `IsEnabled`.
+- `UserControlCaptioned` is the base of the controls that have a `Caption`. The word
+  `Captioned` is at the end of a name only when the control is the standard control
+  with a caption added.
+- `CMiXTheme` is the one name that keeps the brand in front, like `FluentTheme` in
+  Avalonia.
+
 The application connects three things to the library:
 
 - `InteractionHost.BeginScopeHandler`, set in `App.Initialize`. See above.
