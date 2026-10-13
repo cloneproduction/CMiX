@@ -7,6 +7,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Core.Compositing;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -92,6 +93,44 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.False(modulators[0].IsHovered);
             Assert.True(modulators[1].IsHovered);
+        }
+
+        [AvaloniaFact]
+        public void AFilterAddedToAComposition_IsOpenWhenItIsCreated_AndFollowsTheModel()
+        {
+            var composition = (Composition)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Composition));
+            composition.TextureModifierManager.AddItem(typeof(Blur));
+            var view = new Views.ModifierManager { DataContext = composition.TextureModifierManager, Caption = "Add Filter" };
+            new Window { Content = view, Width = 400, Height = 600 }.Show();
+            Dispatcher.UIThread.RunJobs();
+            var filter = (Blur)composition.TextureModifierManager.ManagerData.Items.Single();
+            var panel = Items(view).Single();
+
+            Assert.True(filter.IsExpanded);
+            Assert.True(panel.IsExpanded);
+
+            panel.IsExpanded = false;
+            Dispatcher.UIThread.RunJobs();
+            Assert.False(filter.IsExpanded);
+
+            filter.IsExpanded = true;
+            Dispatcher.UIThread.RunJobs();
+            Assert.True(panel.IsExpanded);
+        }
+
+        [AvaloniaFact]
+        public void AModulator_IsOpenWhenItIsCreated_AndFollowsTheModel()
+        {
+            var (manager, _, view) = Show(1);
+            var modulator = manager.ManagerData.Items.Cast<IModulator>().Single();
+            var panel = Items(view).Single();
+
+            Assert.True(modulator.IsExpanded);
+            Assert.True(panel.IsExpanded);
+
+            panel.IsExpanded = false;
+            Dispatcher.UIThread.RunJobs();
+            Assert.False(modulator.IsExpanded);
         }
 
         [AvaloniaFact]

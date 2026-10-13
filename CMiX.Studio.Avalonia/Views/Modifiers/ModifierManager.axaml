@@ -24,6 +24,7 @@
                     Margin="0, 4"
                     Title="{Binding PrefabService.Name.Value}"
                     IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}"
+                    IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
                     DragHandleIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandleIsPressed}"
                     CloseCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
                     CloseCommandParameter="{Binding}"
