@@ -16,13 +16,13 @@
 
                 <ui:IntegerValue
                     Caption="Resolution X"
-                    DataContext="{Binding SizeX}"
-                    Value="{Binding Value}" />
+                    Value="{Binding SizeX.Value}"
+                    ResetCommand="{Binding SizeX.ResetCommand}" />
 
                 <ui:IntegerValue
                     Caption="Y"
-                    DataContext="{Binding SizeY}"
-                    Value="{Binding Value}" />
+                    Value="{Binding SizeY.Value}"
+                    ResetCommand="{Binding SizeY.ResetCommand}" />
 
             </ui:StackPanelPositioned>
         </Border>

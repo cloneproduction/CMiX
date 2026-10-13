@@ -13,17 +13,17 @@
 
         <ui:IntegerValue
             Caption="Divisions"
-            DataContext="{Binding Divisions}"
             Minimum="1"
-            Value="{Binding Value}" />
+            Value="{Binding Divisions.Value}"
+            ResetCommand="{Binding Divisions.ResetCommand}" />
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:IntegerValue
                 Caption="Iterations"
-                DataContext="{Binding Iterations}"
                 Minimum="1"
-                Value="{Binding Value}" />
+                Value="{Binding Iterations.Value}"
+                ResetCommand="{Binding Iterations.ResetCommand}" />
 
             <StudioControls:ModulatableFloatValue
                 Caption="Iteration Zoom"

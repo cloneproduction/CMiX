@@ -62,9 +62,12 @@ The editors with a Reset menu are `SliderCMiX`, `DragValue`,
 `ToggleButtonCaptioned`, `ComboBoxCaptioned` and `ToggleButtonCMiX`. Use
 `ToggleButtonCMiX`, not `ToggleButton`, for a toggle that edits a model value.
 Bind the `ResetCommand` of an editor to the `ResetCommand` of the value.
-An `IntegerValue` needs both `DataContext="{Binding Name}"` and
-`Value="{Binding Value}"`. Without the second one, the box does not follow the
-model. `ResetMenuTests` fails when one is missing.
+`IntegerValue` is a `DragValue` for whole numbers: it starts with `IsInteger` on and
+steps of 1. It takes the same bindings as `DragValue`:
+`Value="{Binding Name.Value}"` and `ResetCommand="{Binding Name.ResetCommand}"`.
+An editor that is one part of a group (a vector) also takes a `ResetAllCommand`, and
+its Reset menu then has a Reset All row. `NumberEditorBindingTests` fails when a
+`DragValue` or an `IntegerValue` in an AXAML file has no `Value` binding.
 
 ## Views and folders
 

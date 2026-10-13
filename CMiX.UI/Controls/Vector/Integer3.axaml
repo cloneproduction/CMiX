@@ -10,21 +10,21 @@
 
         <ui:IntegerValue
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer3Value, Mode=OneWay}"
-            DataContext="{Binding X}"
-            ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=integer3Value}"
-            Value="{Binding Value}" />
+            ResetAllCommand="{Binding ResetAllCommand}"
+            Value="{Binding X.Value}"
+            ResetCommand="{Binding X.ResetCommand}" />
 
         <ui:IntegerValue
             Caption="Y"
-            DataContext="{Binding Y}"
-            ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=integer3Value}"
-            Value="{Binding Value}" />
+            ResetAllCommand="{Binding ResetAllCommand}"
+            Value="{Binding Y.Value}"
+            ResetCommand="{Binding Y.ResetCommand}" />
 
         <ui:IntegerValue
             Caption="Z"
-            DataContext="{Binding Z}"
-            ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=integer3Value}"
-            Value="{Binding Value}" />
+            ResetAllCommand="{Binding ResetAllCommand}"
+            Value="{Binding Z.Value}"
+            ResetCommand="{Binding Z.ResetCommand}" />
 
     </ui:StackPanelPositioned>
 

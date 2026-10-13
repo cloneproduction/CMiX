@@ -31,7 +31,7 @@
 
             <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-                <ui:IntegerValue Caption="Samples" DataContext="{Binding Samples}" Value="{Binding Value}" />
+                <ui:IntegerValue Caption="Samples" Value="{Binding Samples.Value}" ResetCommand="{Binding Samples.ResetCommand}" />
 
                 <ui:DragValue
                     Caption="Intensity"
@@ -52,8 +52,8 @@
                 <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
                     <ui:IntegerValue
                         Caption="Blur Count"
-                        DataContext="{Binding BlurCount}"
-                        Value="{Binding Value}" />
+                        Value="{Binding BlurCount.Value}"
+                        ResetCommand="{Binding BlurCount.ResetCommand}" />
                     <ui:DragValue
                         Caption="Blur Radius"
                         Value="{Binding BlurRadius.Value}"

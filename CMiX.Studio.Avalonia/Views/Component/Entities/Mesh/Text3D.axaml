@@ -22,8 +22,8 @@
 
             <ui:IntegerValue
                 Caption="Size"
-                DataContext="{Binding FontSize}"
-                Value="{Binding Value}" />
+                Value="{Binding FontSize.Value}"
+                ResetCommand="{Binding FontSize.ResetCommand}" />
         </ui:StackPanelPositioned>
 
         <ui:DragValue

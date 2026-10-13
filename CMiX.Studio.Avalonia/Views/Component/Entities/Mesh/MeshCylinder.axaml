@@ -26,9 +26,9 @@
         <ui:IntegerValue
             Margin="0,8,0,0"
             Caption="Tessellation"
-            DataContext="{Binding Tessellation}"
             Minimum="1"
-            Value="{Binding Value}" />
+            Value="{Binding Tessellation.Value}"
+            ResetCommand="{Binding Tessellation.ResetCommand}" />
 
     </StackPanel>
 
