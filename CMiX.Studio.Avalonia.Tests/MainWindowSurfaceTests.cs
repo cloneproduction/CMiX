@@ -1,8 +1,11 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.VisualTree;
+using CMiX.Core.Compositing;
+using CMiX.UI.Panels;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
@@ -27,6 +30,40 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var mainPanel = window.GetVisualDescendants().OfType<DockPanel>().First(d => d.Background != null);
             Assert.True(Brightness(mainPanel.Background) < cards, "The main panel is not darker than the cards.");
+        }
+
+        // Where the card of a ModelEntity is shown: the Entities tab, and the entity tab of a layer.
+        [AvaloniaTheory]
+        [InlineData("MainWindowEntitiesTab")]
+        [InlineData("MainWindowLayersTab")]
+        public void NothingBehindTheCards_IsLighterThanTheWindow(string tabName)
+        {
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            viewModel.EntityManager.AddItem(typeof(Entity));
+            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
+            composition.LayerManager.AddItem(typeof(Layer));
+            ((Layer)composition.LayerManager.SelectedItem).ModelEntityManager.AddItem(typeof(Entity));
+            var tabs = TestServiceProviderFactory.MainTabControl(window);
+            tabs.SelectedItem = tabs.Items.OfType<TabItem>().First(t => t.Content?.GetType().Name == tabName);
+            TestServiceProviderFactory.Pump();
+
+            var card = window.GetVisualDescendants().OfType<ExpanderIndented>().First();
+            var window0 = Brightness(window.Background);
+
+            foreach (var ancestor in card.GetVisualAncestors())
+            {
+                var brush = ancestor switch
+                {
+                    Border border => border.Background,
+                    Panel panel => panel.Background,
+                    ContentPresenter presenter => presenter.Background,
+                    _ => null,
+                } as ISolidColorBrush;
+
+                if (brush != null && brush.Color.A > 0)
+                    Assert.True(Brightness(brush) <= window0, $"{ancestor.GetType().Name} {(ancestor as Control)?.Name} paints a color lighter than the window behind the cards.");
+            }
         }
     }
 }
