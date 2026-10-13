@@ -14,7 +14,7 @@ namespace CMiX.UI.Tests
         private static (PopupButton Panel, TextBlock Content) Show()
         {
             var content = new TextBlock { Text = "choice" };
-            var panel = new PopupButton { Caption = "Add", SelectionPanel = content, Width = 200 };
+            var panel = new PopupButton { Caption = "Add", PopupContent = content, Width = 200 };
             var window = new Window { Content = panel, Width = 300, Height = 200 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

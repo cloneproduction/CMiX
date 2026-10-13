@@ -12,7 +12,7 @@ namespace CMiX.UI.Controls
         // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
         static PopupButton()
         {
-            LogicalPanelContent.Track<PopupButton>(SelectionPanelProperty);
+            LogicalPanelContent.Track<PopupButton>(PopupContentProperty);
         }
 
         public PopupButton()
@@ -20,12 +20,12 @@ namespace CMiX.UI.Controls
             InitializeComponent();
         }
 
-        public static readonly StyledProperty<Control> SelectionPanelProperty =
-            AvaloniaProperty.Register<PopupButton, Control>(nameof(SelectionPanel));
-        public Control SelectionPanel
+        public static readonly StyledProperty<Control> PopupContentProperty =
+            AvaloniaProperty.Register<PopupButton, Control>(nameof(PopupContent));
+        public Control PopupContent
         {
-            get => GetValue(SelectionPanelProperty);
-            set => SetValue(SelectionPanelProperty, value);
+            get => GetValue(PopupContentProperty);
+            set => SetValue(PopupContentProperty, value);
         }
 
         public static readonly StyledProperty<string> CaptionProperty =
