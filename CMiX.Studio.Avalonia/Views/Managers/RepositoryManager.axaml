@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="CMiX.Studio.Avalonia.Views.Managers.RepositoryManager"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,41 +6,19 @@
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     x:Name="repositoryManager">
 
-    <StackPanel>
+    <!-- The list is from the library. This control tells it which properties of the manager to use
+         and which icon each type of prefab gets. -->
+    <ui:ListBoxDetail
+        AddContent="{Binding SelectionPanel, ElementName=repositoryManager}"
+        DeleteCommand="{Binding DeleteEverywhereCommand}"
+        DetailContent="{Binding EditingPanel, ElementName=repositoryManager}"
+        ItemsSource="{Binding ItemsSource, ElementName=repositoryManager}"
+        SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
-        <ui:ListBoxCMiX
-            x:Name="prefabListBox"
-            MinHeight="105"
-            Margin="8"
-            ItemsSource="{Binding ItemsSource, ElementName=repositoryManager}"
-            SelectedItem="{Binding SelectedItem}">
-            <ui:ListBoxCMiX.DataTemplates>
-                <Managers:PrefabListItemTemplates />
-            </ui:ListBoxCMiX.DataTemplates>
-        </ui:ListBoxCMiX>
+        <ui:ListBoxDetail.DataTemplates>
+            <Managers:PrefabListItemTemplates />
+        </ui:ListBoxDetail.DataTemplates>
 
-        <DockPanel Margin="8,0,8,8">
-
-            <!--  DELETE EVERYWHERE  -->
-            <Button
-                Width="{DynamicResource ControlHeightMD}"
-                Height="{DynamicResource ControlHeightMD}"
-                Command="{Binding DeleteEverywhereCommand}"
-                CommandParameter="{Binding SelectedItem}"
-                Content="-"
-                DockPanel.Dock="Right"
-                Theme="{StaticResource ButtonRoundedRight}" />
-
-            <ContentControl Content="{Binding SelectionPanel, ElementName=repositoryManager}" />
-
-        </DockPanel>
-
-        <!-- NullToVisibility returns a bool in this project; the Collapsed converter parameter is gone. -->
-        <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-            <ContentControl
-                Content="{Binding EditingPanel, ElementName=repositoryManager}"
-                DataContext="{Binding SelectedItem}" />
-        </Border>
-    </StackPanel>
+    </ui:ListBoxDetail>
 
 </UserControl>
