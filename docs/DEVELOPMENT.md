@@ -129,7 +129,7 @@ come from the value editors of vvvv:
 | `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
 | `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxDetail` |
-| `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `PopupCMiX` |
+| `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
 
@@ -185,7 +185,7 @@ with what makes it different: `StackPanelPositioned`, `ExpanderIndented`,
 in the autocomplete. The Color, Popup and Drag families work the same way.
 
 - The ending `CMiX` marks the default CMiX version of a standard control:
-  `SliderCMiX`, `ListBoxCMiX`, `ToggleButtonCMiX`, `PopupCMiX`. It derives from the
+  `SliderCMiX`, `ListBoxCMiX`, `ToggleButtonCMiX`. It derives from the
   standard control and keeps its API. A variant with a special purpose gets its own
   word instead, as `ExpanderIndented` does. A later variant never needs a rename.
 - A control with no standard equivalent has its own name: `DragValue`, `RangeValue`,
