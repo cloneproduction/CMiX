@@ -21,7 +21,7 @@
 
                     <Panels:ModifierPanel
                         Margin="0, 4"
-                        DragHandlerIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandlerIsPressed}"
+                        DragHandleIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandleIsPressed}"
                         CloseModifierCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
                         CloseModifierCommandParameter="{Binding}"
                         PanelBackground="{Binding $parent[Views:ModifierManager].PanelBackground}"

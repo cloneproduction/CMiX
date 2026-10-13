@@ -151,14 +151,14 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Dropped_ClearsTheDragHandlerFlag()
+        public void Dropped_ClearsTheDragHandleFlag()
         {
             var manager = CreateManagerWithItems(out _);
-            var service = new ManagerReorderService(manager, (_, _) => { }) { DragHandlerIsPressed = true };
+            var service = new ManagerReorderService(manager, (_, _) => { }) { DragHandleIsPressed = true };
 
             service.Dropped(0, 2);
 
-            Assert.False(service.DragHandlerIsPressed);
+            Assert.False(service.DragHandleIsPressed);
         }
     }
 }

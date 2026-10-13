@@ -137,8 +137,8 @@ namespace CMiX.UI.Behaviors
                 return;
             }
 
-            // The drag handle sets DragHandlerIsPressed, matching the WPF gong StartDrag guard.
-            if (!service.DragHandlerIsPressed)
+            // The drag handle sets DragHandleIsPressed, matching the WPF gong StartDrag guard.
+            if (!service.DragHandleIsPressed)
                 return;
 
             var current = e.GetPosition(listBox);
@@ -192,7 +192,7 @@ namespace CMiX.UI.Behaviors
             listBox.Cursor = null;
 
             if (service != null)
-                service.DragHandlerIsPressed = false;
+                service.DragHandleIsPressed = false;
         }
 
         private static int ComputeInsertIndex(ItemsControl listBox, Point position)

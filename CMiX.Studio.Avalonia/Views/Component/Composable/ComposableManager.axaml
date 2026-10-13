@@ -34,7 +34,7 @@
                 Theme="{StaticResource ListBoxComposable}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <views:ComposableManagerItem DragHandlerIsPressed="{Binding $parent[ListBox].DataContext.ManagerReorderService.DragHandlerIsPressed, Mode=TwoWay}" />
+                        <views:ComposableManagerItem DragHandleIsPressed="{Binding $parent[ListBox].DataContext.ManagerReorderService.DragHandleIsPressed, Mode=TwoWay}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

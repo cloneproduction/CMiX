@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Services
         private readonly Action<int, int> _onMove;
 
         [ObservableProperty]
-        private bool _dragHandlerIsPressed = false;
+        private bool _dragHandleIsPressed = false;
 
         [RelayCommand]
         public void ItemUp(IControl control)
@@ -58,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Services
                 targetIndex -= 1;
 
             Move(sourceIndex, targetIndex);
-            DragHandlerIsPressed = false;
+            DragHandleIsPressed = false;
         }
 
         private void Move(int sourceIndex, int targetIndex)
