@@ -2,14 +2,14 @@
     x:Class="CMiX.Studio.Avalonia.Views.Pixelate"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="pixelate">
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <Controls:ModulatableVector2
+        <Modulation:Vector2Modulatable
             Caption="Factor"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=pixelate}" />
 

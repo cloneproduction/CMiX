@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    x:Name="buttonOpenSelectionPanel">
+    x:Name="popupButton">
 
     <Panel>
 
         <ToggleButton
             x:Name="PopUpToggle"
-            Content="{Binding Caption, ElementName=buttonOpenSelectionPanel}" />
+            Content="{Binding Caption, ElementName=popupButton}" />
 
         <Popup
             Width="{Binding Bounds.Width, ElementName=PopUpToggle}"
@@ -27,7 +27,7 @@
                 BorderThickness="1,0,1,2"
                 CornerRadius="{DynamicResource CornerRadiusBottom}">
 
-                <ContentControl Content="{Binding SelectionPanel, ElementName=buttonOpenSelectionPanel}" />
+                <ContentControl Content="{Binding PopupContent, ElementName=popupButton}" />
 
             </Border>
 

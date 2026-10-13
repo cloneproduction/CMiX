@@ -27,14 +27,14 @@
 
             <ListBox
                 DockPanel.Dock="Top"
-                ui:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}"
+                ui:ListBoxReorder.Service="{Binding ManagerReorderService}"
                 ItemsSource="{Binding ManagerData.Items}"
                 SelectedIndex="{Binding ManagerData.SelectedIndex}"
                 SelectedItem="{Binding SelectedItem}"
                 Theme="{StaticResource ListBoxComposable}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <views:ComposableManagerItem DragHandlerIsPressed="{Binding $parent[ListBox].DataContext.ManagerReorderService.DragHandlerIsPressed, Mode=TwoWay}" />
+                        <views:ComposableManagerItem DragHandleIsPressed="{Binding $parent[ListBox].DataContext.ManagerReorderService.DragHandleIsPressed, Mode=TwoWay}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

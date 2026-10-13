@@ -15,24 +15,24 @@ namespace CMiX.Studio.Avalonia.Views
             InitializeComponent();
         }
 
-        public static readonly StyledProperty<bool> DragHandlerIsPressedProperty =
-            AvaloniaProperty.Register<ComposableManagerItem, bool>(nameof(DragHandlerIsPressed), false, defaultBindingMode: BindingMode.TwoWay);
-        public bool DragHandlerIsPressed
+        public static readonly StyledProperty<bool> DragHandleIsPressedProperty =
+            AvaloniaProperty.Register<ComposableManagerItem, bool>(nameof(DragHandleIsPressed), false, defaultBindingMode: BindingMode.TwoWay);
+        public bool DragHandleIsPressed
         {
-            get => GetValue(DragHandlerIsPressedProperty);
-            set => SetValue(DragHandlerIsPressedProperty, value);
+            get => GetValue(DragHandleIsPressedProperty);
+            set => SetValue(DragHandleIsPressedProperty, value);
         }
 
         private void Border_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (sender is Control control && e.GetCurrentPoint(control).Properties.IsLeftButtonPressed)
-                DragHandlerIsPressed = true;
+                DragHandleIsPressed = true;
         }
 
         private void Border_PointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             if (e.InitialPressMouseButton == MouseButton.Left)
-                DragHandlerIsPressed = false;
+                DragHandleIsPressed = false;
         }
     }
 }

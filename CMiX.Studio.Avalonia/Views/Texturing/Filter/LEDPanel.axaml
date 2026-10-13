@@ -2,32 +2,32 @@
     x:Class="CMiX.Studio.Avalonia.Views.LEDPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="ledPanel">
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <Controls:ModulatableFloatValue
+        <Modulation:DragValueModulatable
             Caption="Pixel Size"
             DataContext="{Binding PixelSize}"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
-        <Controls:ModulatableFloatValue
+        <Modulation:DragValueModulatable
             Caption="Mask Stagger"
             DataContext="{Binding MaskStagger}"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
-        <Controls:ModulatableFloatValue
+        <Modulation:DragValueModulatable
             Caption="Mask Border"
             DataContext="{Binding MaskBorder}"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
-        <Controls:ModulatableFloatValue
+        <Modulation:DragValueModulatable
             Caption="Mask Intensity"
             DataContext="{Binding MaskIntensity}"
             Minimum="0"

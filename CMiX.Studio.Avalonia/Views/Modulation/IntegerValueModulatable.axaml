@@ -1,9 +1,9 @@
-<StudioControls:ModulatorAssignableUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.ModulatableIntegerValue"
+<Modulation:UserControlModulatable
+    x:Class="CMiX.Studio.Avalonia.Views.Modulation.IntegerValueModulatable"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     x:Name="countValue"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
@@ -19,9 +19,9 @@
         SmallChange="1.0"
         Value="{Binding Value}">
         <ui:DragValue.TrailingContent>
-            <StudioControls:ModulatorAssignButton
+            <Modulation:ButtonModulatorAssign
                 ModulatorManager="{Binding ModulatorManager, ElementName=countValue}" />
         </ui:DragValue.TrailingContent>
     </ui:DragValue>
 
-</StudioControls:ModulatorAssignableUserControl>
+</Modulation:UserControlModulatable>

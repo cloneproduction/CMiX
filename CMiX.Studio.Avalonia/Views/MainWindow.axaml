@@ -178,9 +178,9 @@
                 ToolTipText="Textures">
                 <Managers:RepositoryTab.SelectionPanel>
                     <ui:PopupButton Caption="New Texture">
-                        <ui:PopupButton.SelectionPanel>
+                        <ui:PopupButton.PopupContent>
                             <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                        </ui:PopupButton.SelectionPanel>
+                        </ui:PopupButton.PopupContent>
                     </ui:PopupButton>
                 </Managers:RepositoryTab.SelectionPanel>
                 <Managers:RepositoryTab.EditingPanel>

@@ -55,7 +55,7 @@
                         Caption="R"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.RGB_R, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                        Value="{Binding Color.RGB_R, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
@@ -67,7 +67,7 @@
                         Caption="G"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.RGB_G, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                        Value="{Binding Color.RGB_G, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
@@ -78,7 +78,7 @@
                         Caption="B"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.RGB_B, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                        Value="{Binding Color.RGB_B, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
@@ -94,7 +94,7 @@
                         Caption="H"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.HSV_H, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=360, ToMin=0, ToMax=1}}">
+                        Value="{Binding Color.HSV_H, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=360, ToMin=0, ToMax=1}}">
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
@@ -117,7 +117,7 @@
                         Caption="V"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
+                        Value="{Binding Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
@@ -131,7 +131,7 @@
             Caption="Alpha"
             Maximum="1"
             Minimum="0"
-            Value="{Binding Color.A, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+            Value="{Binding Color.A, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                             <i:Interaction.Behaviors>
                     <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                 </i:Interaction.Behaviors>

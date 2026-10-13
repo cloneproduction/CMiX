@@ -7,7 +7,7 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
             owner.GetVisualDescendants().OfType<T>().Single(c => c.Name == name && c.TemplatedParent == owner);
 
         private static Button AssignButton(Control view, object dataContext) =>
-            Find<ModulatorAssignButton>(view, dataContext).FindControl<Button>("assignButton")!;
+            Find<ButtonModulatorAssign>(view, dataContext).FindControl<Button>("assignButton")!;
 
         [AvaloniaFact]
         public void Slider_Unbound_IsEditable()
@@ -84,7 +84,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Bind(blur, blur.Strength);
 
-            Assert.True(Find<ModulatorAssignButton>(view, blur.Strength).IsEffectivelyEnabled);
+            Assert.True(Find<ButtonModulatorAssign>(view, blur.Strength).IsEffectivelyEnabled);
             Assert.True(AssignButton(view, blur.Strength).IsEffectivelyEnabled);
         }
 
@@ -124,7 +124,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Bind(kaleidoscope, kaleidoscope.Rotation);
 
-            Assert.True(Find<ModulatorAssignButton>(view, kaleidoscope.Rotation).IsEffectivelyEnabled);
+            Assert.True(Find<ButtonModulatorAssign>(view, kaleidoscope.Rotation).IsEffectivelyEnabled);
             Assert.True(AssignButton(view, kaleidoscope.Rotation).IsEffectivelyEnabled);
         }
 
@@ -136,7 +136,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             foreach (var bindable in halftone.Bindables)
             {
-                var floatValue = Find<ModulatableFloatValue>(view, bindable);
+                var floatValue = Find<DragValueModulatable>(view, bindable);
                 var dragValue = Find<DragValue>(floatValue, bindable);
                 Assert.Equal(floatValue.Minimum, dragValue.Minimum);
                 Assert.Equal(floatValue.Maximum, dragValue.Maximum);

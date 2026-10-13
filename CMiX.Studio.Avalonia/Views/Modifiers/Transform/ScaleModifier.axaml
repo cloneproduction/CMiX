@@ -1,9 +1,8 @@
-<Controls:ModulatablePanel
+<Modulation:ModulatablePanel
     x:Class="CMiX.Studio.Avalonia.Views.ScaleModifier"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="scaleModifier"
     xmlns:panels="using:CMiX.Studio.Avalonia.Views.Controls.Panels"
@@ -16,15 +15,15 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 
-        <BaseControls:ModulatableFloatValue
+        <Modulation:DragValueModulatable
             Caption="Uniform"
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 
-        <BaseControls:ModulatableVector3
+        <Modulation:Vector3Modulatable
             Caption="Scale"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 
     </StackPanel>
 
-</Controls:ModulatablePanel>
+</Modulation:ModulatablePanel>

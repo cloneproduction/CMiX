@@ -1,9 +1,9 @@
-<StudioControls:ModulatorAssignableUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.ModulatableFloatSlider"
+<Modulation:UserControlModulatable
+    x:Class="CMiX.Studio.Avalonia.Views.Modulation.SliderModulatable"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     x:Name="channelSlider">
 
     <ui:SliderCMiX
@@ -15,8 +15,8 @@
         ResetCommand="{Binding ResetCommand}"
         Value="{Binding Value}">
         <ui:SliderCMiX.TrailingContent>
-            <StudioControls:ModulatorAssignButton ModulatorManager="{Binding ModulatorManager, ElementName=channelSlider}" />
+            <Modulation:ButtonModulatorAssign ModulatorManager="{Binding ModulatorManager, ElementName=channelSlider}" />
         </ui:SliderCMiX.TrailingContent>
     </ui:SliderCMiX>
 
-</StudioControls:ModulatorAssignableUserControl>
+</Modulation:UserControlModulatable>

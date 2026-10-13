@@ -1,21 +1,21 @@
-<BaseControls:ModulatorAssignableUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.ModulatorAssignButton"
+<Modulation:UserControlModulatable
+    x:Class="CMiX.Studio.Avalonia.Views.Modulation.ButtonModulatorAssign"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     x:Name="modulatorAssignButton"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignHeight="400"
     d:DesignWidth="400">
 
-    <BaseControls:ModulatorAssignableUserControl.Resources>
+    <Modulation:UserControlModulatable.Resources>
         <!-- A menu row bound to a ModulatorOutputChoice. -->
         <ControlTheme x:Key="ModulatorOutputRow" TargetType="MenuItem" BasedOn="{StaticResource MenuItemContext}">
             <Setter Property="Header" Value="{Binding Label}" />
             <Setter Property="IsChecked" Value="{Binding IsAssigned}" />
             <Setter Property="Command" Value="{Binding Command}" />
         </ControlTheme>
-    </BaseControls:ModulatorAssignableUserControl.Resources>
+    </Modulation:UserControlModulatable.Resources>
 
     <Button
         x:Name="assignButton"
@@ -48,4 +48,4 @@
         </Button.Flyout>
     </Button>
 
-</BaseControls:ModulatorAssignableUserControl>
+</Modulation:UserControlModulatable>

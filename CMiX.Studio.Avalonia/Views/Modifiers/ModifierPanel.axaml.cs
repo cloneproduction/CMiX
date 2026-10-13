@@ -97,12 +97,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls.Panels
             set => SetValue(CloseModifierCommandParameterProperty, value);
         }
 
-        public static readonly StyledProperty<bool> DragHandlerIsPressedProperty =
-            AvaloniaProperty.Register<ModifierPanel, bool>(nameof(DragHandlerIsPressed), false, defaultBindingMode: BindingMode.TwoWay);
-        public bool DragHandlerIsPressed
+        public static readonly StyledProperty<bool> DragHandleIsPressedProperty =
+            AvaloniaProperty.Register<ModifierPanel, bool>(nameof(DragHandleIsPressed), false, defaultBindingMode: BindingMode.TwoWay);
+        public bool DragHandleIsPressed
         {
-            get => GetValue(DragHandlerIsPressedProperty);
-            set => SetValue(DragHandlerIsPressedProperty, value);
+            get => GetValue(DragHandleIsPressedProperty);
+            set => SetValue(DragHandleIsPressedProperty, value);
         }
     }
 }

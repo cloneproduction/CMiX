@@ -3,10 +3,10 @@
 
 namespace CMiX.UI.Behaviors
 {
-    // What ListBoxReorderDragDrop needs from the object that reorders the items.
+    // What ListBoxReorder needs from the object that reorders the items.
     public interface IReorderService
     {
-        bool DragHandlerIsPressed { get; set; }
+        bool DragHandleIsPressed { get; set; }
 
         bool CanDrop(int sourceIndex, int insertIndex);
 

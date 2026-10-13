@@ -1,31 +1,31 @@
 <UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.UVTransformEditor"
+    x:Class="CMiX.Studio.Avalonia.Views.UVTransform"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
     x:Name="uvTransformEditor">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:ModulatableFloatValue
+        <Modulation:DragValueModulatable
             Caption="Uniform"
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
 
-        <BaseControls:ModulatableVector2
+        <Modulation:Vector2Modulatable
             Caption="Scale"
             DataContext="{Binding Scale}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
 
-        <BaseControls:ModulatableFloatValue
+        <Modulation:DragValueModulatable
             Caption="Rotation"
             DataContext="{Binding Rotation}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
 
-        <BaseControls:ModulatableVector2
+        <Modulation:Vector2Modulatable
             Caption="Translate"
             DataContext="{Binding Location}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />

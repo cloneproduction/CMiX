@@ -2,28 +2,28 @@
     x:Class="CMiX.Studio.Avalonia.Views.ShiftRGB"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="shiftRGB">
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:ModulatableFloatSlider
+        <Modulation:SliderModulatable
             Caption="Direction"
             DataContext="{Binding Direction}"
             Maximum="1"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shiftRGB}" />
 
-        <BaseControls:ModulatableFloatSlider
+        <Modulation:SliderModulatable
             Caption="Shift"
             DataContext="{Binding Shift}"
             Maximum="1"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shiftRGB}" />
 
-        <BaseControls:ModulatableFloatSlider
+        <Modulation:SliderModulatable
             Caption="Hue"
             DataContext="{Binding Hue}"
             Maximum="1"

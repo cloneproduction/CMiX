@@ -11,7 +11,7 @@ using Avalonia.VisualTree;
 
 namespace CMiX.UI.Behaviors
 {
-    public static class ListBoxReorderDragDrop
+    public static class ListBoxReorder
     {
         private const double DragThreshold = 4.0;
         private static readonly Cursor MoveCursor = new(StandardCursorType.DragMove);
@@ -19,12 +19,12 @@ namespace CMiX.UI.Behaviors
         public static readonly AttachedProperty<IReorderService> ServiceProperty =
             AvaloniaProperty.RegisterAttached<ItemsControl, IReorderService>(
                 "Service",
-                typeof(ListBoxReorderDragDrop));
+                typeof(ListBoxReorder));
 
         public static void SetService(ItemsControl element, IReorderService value) => element.SetValue(ServiceProperty, value);
         public static IReorderService GetService(ItemsControl element) => element.GetValue(ServiceProperty);
 
-        static ListBoxReorderDragDrop()
+        static ListBoxReorder()
         {
             ServiceProperty.Changed.AddClassHandler<ItemsControl>(OnServiceChanged);
         }
@@ -56,16 +56,16 @@ namespace CMiX.UI.Behaviors
         }
 
         private static readonly AttachedProperty<Point?> PressPointProperty =
-            AvaloniaProperty.RegisterAttached<ItemsControl, Point?>("PressPoint", typeof(ListBoxReorderDragDrop));
+            AvaloniaProperty.RegisterAttached<ItemsControl, Point?>("PressPoint", typeof(ListBoxReorder));
 
         private static readonly AttachedProperty<int> PressIndexProperty =
-            AvaloniaProperty.RegisterAttached<ItemsControl, int>("PressIndex", typeof(ListBoxReorderDragDrop), -1);
+            AvaloniaProperty.RegisterAttached<ItemsControl, int>("PressIndex", typeof(ListBoxReorder), -1);
 
         private static readonly AttachedProperty<bool> IsDraggingProperty =
-            AvaloniaProperty.RegisterAttached<ItemsControl, bool>("IsDragging", typeof(ListBoxReorderDragDrop));
+            AvaloniaProperty.RegisterAttached<ItemsControl, bool>("IsDragging", typeof(ListBoxReorder));
 
         private static readonly AttachedProperty<int> DragSourceIndexProperty =
-            AvaloniaProperty.RegisterAttached<ItemsControl, int>("DragSourceIndex", typeof(ListBoxReorderDragDrop), -1);
+            AvaloniaProperty.RegisterAttached<ItemsControl, int>("DragSourceIndex", typeof(ListBoxReorder), -1);
 
         private static void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
@@ -137,8 +137,8 @@ namespace CMiX.UI.Behaviors
                 return;
             }
 
-            // The drag handle sets DragHandlerIsPressed, matching the WPF gong StartDrag guard.
-            if (!service.DragHandlerIsPressed)
+            // The drag handle sets DragHandleIsPressed, matching the WPF gong StartDrag guard.
+            if (!service.DragHandleIsPressed)
                 return;
 
             var current = e.GetPosition(listBox);
@@ -192,7 +192,7 @@ namespace CMiX.UI.Behaviors
             listBox.Cursor = null;
 
             if (service != null)
-                service.DragHandlerIsPressed = false;
+                service.DragHandleIsPressed = false;
         }
 
         private static int ComputeInsertIndex(ItemsControl listBox, Point position)
@@ -232,7 +232,7 @@ namespace CMiX.UI.Behaviors
         }
 
         private static readonly AttachedProperty<InsertionIndicator> IndicatorProperty =
-            AvaloniaProperty.RegisterAttached<ItemsControl, InsertionIndicator>("Indicator", typeof(ListBoxReorderDragDrop));
+            AvaloniaProperty.RegisterAttached<ItemsControl, InsertionIndicator>("Indicator", typeof(ListBoxReorder));
 
         private static void ShowIndicator(ItemsControl listBox, double y)
         {

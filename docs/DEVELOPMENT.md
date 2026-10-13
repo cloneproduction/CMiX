@@ -74,16 +74,18 @@ its Reset menu then has a Reset All row. `NumberEditorBindingTests` fails when a
 `ViewModelToViewTemplate` finds the view of a model by name. The view has the type
 name of the model, for example `Blur` for the model `Blur`. It looks at the
 controls in the namespace `CMiX.Studio.Avalonia.Views` and in its child
-namespaces. The child namespaces `Controls`, `Managers`, `Menus` and `Windows`
-hold support controls, so the locator skips them. Two views with the same name
+namespaces. The child namespaces `Controls`, `Managers`, `Menus`, `Modulation` and
+`Windows` hold support controls, so the locator skips them. Two views with the same name
 make the locator throw, and the message names both types.
 
 The domain views keep the one namespace `CMiX.Studio.Avalonia.Views`, whatever the
 folder. A view can move to another folder without a change to its namespace or its
 `x:Class`. The folders are:
 
-- `Views/Modulation`: the modulatable value editors, the modulator assign button
-  and the modulator views.
+- `Views/Modulation`: the modulator views, and the modulatable value editors
+  (`DragValueModulatable`, `SliderModulatable`, ...) with the modulator assign button.
+  The editors and the button are support controls. Their namespace is
+  `CMiX.Studio.Avalonia.Views.Modulation`, which the locator skips.
 - `Views/Modifiers`: the modifier views. The subfolders `Camera`, `Color`, `Layer`,
   `Material`, `Text` and `Transform` follow `CMiX.Core/Modulation/Modifiers`.
 - `Views/Controls`: the Studio controls that are not views, for example the
@@ -168,6 +170,12 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
 - `UserControlCaptioned` is the base of the controls that have a `Caption`. The word
   `Captioned` is at the end of a name only when the control is the standard control
   with a caption added.
+- The word `Value` ends the names of the editors of one value: `DragValue`,
+  `IntegerValue`, `RangeValue`, `EditableValue`. No standard control is called
+  `Value`, so there is nothing to put first. These names stay as they are.
+- In the Studio, the ending `Modulatable` marks the editor with a modulator button:
+  `DragValueModulatable`, `SliderModulatable`, `Vector2Modulatable`. Their base is
+  `UserControlModulatable`. The button is `ButtonModulatorAssign`.
 - `CMiXTheme` is the one name that keeps the brand in front, like `FluentTheme` in
   Avalonia.
 
@@ -202,7 +210,7 @@ The application connects three things to the library:
   own in `StudioIcons.Register`, also in `App.Initialize`, before the XAML loads.
   `IconKeyTests` fails when an `IconKey` in the AXAML is not registered.
 - `IReorderService`, the type of the attached property
-  `ListBoxReorderDragDrop.Service`. `ManagerReorderService` implements it.
+  `ListBoxReorder.Service`. `ManagerReorderService` implements it.
 
 The Studio has its own styles in `Themes/Generic.axaml` and its own converters in
 `Themes/StudioConverters.axaml`. They build on the library theme.
@@ -237,7 +245,7 @@ The themes and `PopupFrame` are in CMiX.UI.
 
 `ContextMenuDefault` and `MenuFlyoutPresenterDefault` derive from the theme `MenuPanel`. A row is a `MenuItem` with the theme `MenuItemContext`. A row with the header `-` is a separator. A row with `IsChecked` has the accent background.
 
-A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that the code updates in place. A new `ItemsSource` does not refresh a menu that was shown before. `ModulatorAssignButton` is an example.
+A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that the code updates in place. A new `ItemsSource` does not refresh a menu that was shown before. `ButtonModulatorAssign` is an example.
 
 `PopupThemeGuardTests` fails when a `ContextMenu`, a `Flyout` or a `MenuFlyout` in an AXAML file of the Studio or of CMiX.UI does not use one of these themes.
 

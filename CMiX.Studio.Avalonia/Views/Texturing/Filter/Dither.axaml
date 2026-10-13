@@ -2,12 +2,12 @@
     x:Class="CMiX.Studio.Avalonia.Views.Dither"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="dither">
 
 
-        <Controls:ModulatableFloatSlider
+        <Modulation:SliderModulatable
             Caption="Threshold"
             DataContext="{Binding Threshold}"
             Maximum="1"

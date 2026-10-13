@@ -93,9 +93,9 @@
                     ItemsSource="{Binding ControlRepository.Textures}">
                     <StudioControls:Outliner.SelectionPanel>
                         <ui:PopupButton Caption="New Control Texture">
-                            <ui:PopupButton.SelectionPanel>
+                            <ui:PopupButton.PopupContent>
                                 <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                            </ui:PopupButton.SelectionPanel>
+                            </ui:PopupButton.PopupContent>
                         </ui:PopupButton>
                     </StudioControls:Outliner.SelectionPanel>
                 </StudioControls:Outliner>
@@ -129,9 +129,9 @@
                   
                     <StudioControls:Outliner.SelectionPanel>
                         <ui:PopupButton Caption="New Control Texture">
-                            <ui:PopupButton.SelectionPanel>
+                            <ui:PopupButton.PopupContent>
                                 <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                            </ui:PopupButton.SelectionPanel>
+                            </ui:PopupButton.PopupContent>
                         </ui:PopupButton>
                     </StudioControls:Outliner.SelectionPanel>
                 </StudioControls:Outliner>

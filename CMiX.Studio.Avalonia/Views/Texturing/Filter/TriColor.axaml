@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
@@ -40,14 +40,14 @@
         <ui:StackPanelPositioned
             Spacing="{DynamicResource SpacingXXS}">
 
-            <StudioControls:ModulatableFloatSlider
+            <Modulation:SliderModulatable
                 Caption="Smooth"
                 DataContext="{Binding Smooth}"
                 Maximum="1.0"
                 Minimum="0.0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=triColor}" />
 
-            <StudioControls:ModulatableFloatSlider
+            <Modulation:SliderModulatable
                 Caption="Center"
                 DataContext="{Binding Center}"
                 Maximum="1.0"

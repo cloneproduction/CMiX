@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="kuwahara">
@@ -16,7 +16,7 @@
             ResetCommand="{Binding Type.ResetCommand}"
             SelectedItem="{Binding Type.Value}" />
 
-        <StudioControls:ModulatableFloatSlider
+        <Modulation:SliderModulatable
             Margin="0,8,0,0"
             Caption="Radius"
             DataContext="{Binding Radius}"

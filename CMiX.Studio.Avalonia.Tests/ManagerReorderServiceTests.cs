@@ -10,7 +10,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // Covers the drop index math of ManagerReorderService exhaustively over a five item list,
     // which is the D6 blind spot of the post parity audit. The audit reported finding A10, an
     // off by one when dragging upward onto the second to last slot. It does not reproduce:
-    // ListBoxReorderDragDrop only ever calls Dropped with a source index that is a realized
+    // ListBoxReorder only ever calls Dropped with a source index that is a realized
     // container index, so sourceIndex is always at most itemCount - 1, which makes the two
     // itemCount clauses of the condition subsets of the targetIndex >= sourceIndex clause.
     // These tests pin the whole table so a future edit of that condition cannot regress it.
@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static string Describe(int sourceIndex, int insertIndex, IEnumerable<int> order)
             => $"source {sourceIndex} insert {insertIndex} to {string.Join(",", order)}";
 
-        // ComputeInsertIndex in ListBoxReorderDragDrop returns 0 to ItemCount inclusive, and the
+        // ComputeInsertIndex in ListBoxReorder returns 0 to ItemCount inclusive, and the
         // source index always comes from an item container, so it never reaches ItemCount.
         public static IEnumerable<(int sourceIndex, int insertIndex)> AllReachablePairs()
         {
@@ -151,14 +151,14 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Dropped_ClearsTheDragHandlerFlag()
+        public void Dropped_ClearsTheDragHandleFlag()
         {
             var manager = CreateManagerWithItems(out _);
-            var service = new ManagerReorderService(manager, (_, _) => { }) { DragHandlerIsPressed = true };
+            var service = new ManagerReorderService(manager, (_, _) => { }) { DragHandleIsPressed = true };
 
             service.Dropped(0, 2);
 
-            Assert.False(service.DragHandlerIsPressed);
+            Assert.False(service.DragHandleIsPressed);
         }
     }
 }

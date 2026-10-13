@@ -1,9 +1,9 @@
-<StudioControls:ModulatorAssignableUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.ModulatableFloatValue"
+<Modulation:UserControlModulatable
+    x:Class="CMiX.Studio.Avalonia.Views.Modulation.DragValueModulatable"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     x:Name="channelValue"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
@@ -18,9 +18,9 @@
         Value="{Binding Value}">
 
         <ui:DragValue.TrailingContent>
-            <StudioControls:ModulatorAssignButton
+            <Modulation:ButtonModulatorAssign
                 ModulatorManager="{Binding ModulatorManager, ElementName=channelValue}" />
         </ui:DragValue.TrailingContent>
     </ui:DragValue>
 
-</StudioControls:ModulatorAssignableUserControl>
+</Modulation:UserControlModulatable>
