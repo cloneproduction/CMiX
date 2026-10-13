@@ -15,6 +15,9 @@ namespace CMiX.UI.Behaviors
 {
     public class ClosePopupBehavior : Behavior<Popup>
     {
+        // The popup closes when the pointer is farther than this from the popup and from the control that opened it.
+        private const double FarDistance = 64;
+
         private Control? subscribedChild;
         private bool parentHandlersAdded;
 
@@ -131,19 +134,30 @@ namespace CMiX.UI.Behaviors
 
         private void OnParentPointerMoved(object? sender, PointerEventArgs e)
         {
-            var child = AssociatedObject?.Child;
-            if (child == null)
+            var popup = AssociatedObject;
+            var child = popup?.Child;
+            if (popup == null || child == null)
                 return;
 
-            var size = child.Bounds.Size;
-            var pos = e.GetPosition(child);
+            // The control that opened the popup can be much wider than the popup.
+            var target = popup.PlacementTarget ?? popup.Parent as Control;
+            if (IsNear(child, e) || IsNear(target, e))
+                return;
 
-            if (pos.X < -64 || pos.Y < -64 ||
-                pos.X > size.Width + 64 || pos.Y > size.Height + 64)
-            {
-                ClosePopup();
-                RemoveParentWindowHandlers();
-            }
+            ClosePopup();
+            RemoveParentWindowHandlers();
+        }
+
+        private static bool IsNear(Control? control, PointerEventArgs e)
+        {
+            if (control == null)
+                return false;
+
+            var size = control.Bounds.Size;
+            var pos = e.GetPosition(control);
+
+            return pos.X >= -FarDistance && pos.Y >= -FarDistance &&
+                   pos.X <= size.Width + FarDistance && pos.Y <= size.Height + FarDistance;
         }
     }
 }
