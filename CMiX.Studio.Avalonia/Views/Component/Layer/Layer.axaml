@@ -10,7 +10,6 @@
 
     <Border Background="Transparent" IsVisible="{Binding DataContext, ElementName=layerRoot, Converter={StaticResource NullToVisibility}}">
         <TabControl
-            Background="{DynamicResource Grey100Brush}"
             TabStripPlacement="Left"
             Theme="{StaticResource TabControlVertical}">
 

@@ -65,5 +65,25 @@ namespace CMiX.Studio.Avalonia.Tests
                     Assert.True(Brightness(brush) <= window0, $"{ancestor.GetType().Name} {(ancestor as Control)?.Name} paints a color lighter than the window behind the cards.");
             }
         }
+
+        // The tabs of a layer (entity, camera, light, ...) sit on a strip lighter than the window.
+        // The strip runs down the whole height, also under the last tab.
+        [AvaloniaFact]
+        public void TheTabStripOfALayer_IsLighterThanTheWindow_AndFillsTheHeight()
+        {
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
+            composition.LayerManager.AddItem(typeof(Layer));
+            var mainTabs = TestServiceProviderFactory.MainTabControl(window);
+            mainTabs.SelectedItem = mainTabs.Items.OfType<TabItem>().First(t => t.Content?.GetType().Name == "MainWindowLayersTab");
+            TestServiceProviderFactory.Pump();
+
+            var layerTabs = window.GetVisualDescendants().OfType<Views.Layer>().First().GetVisualDescendants().OfType<TabControl>().First();
+            var strip = layerTabs.GetVisualDescendants().OfType<Border>().First(b => b.Child is ItemsPresenter);
+
+            Assert.True(Brightness(strip.Background) > Brightness(window.Background), "The tab strip is not lighter than the window.");
+            Assert.Equal(layerTabs.Bounds.Height, strip.Bounds.Height);
+        }
     }
 }
