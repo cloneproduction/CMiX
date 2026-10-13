@@ -11,10 +11,10 @@ using CMiX.UI.Controls.Parts;
 namespace CMiX.UI.Controls.Boolean
 {
     // A ToggleButton for a model value. It shows a Reset menu while it has a ResetCommand.
-    public class CMiXToggleButton : ToggleButton
+    public class ToggleButtonCMiX : ToggleButton
     {
         public static readonly StyledProperty<ICommand?> ResetCommandProperty =
-            AvaloniaProperty.Register<CMiXToggleButton, ICommand?>(nameof(ResetCommand));
+            AvaloniaProperty.Register<ToggleButtonCMiX, ICommand?>(nameof(ResetCommand));
         public ICommand? ResetCommand
         {
             get => GetValue(ResetCommandProperty);

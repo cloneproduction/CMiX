@@ -12,7 +12,7 @@ using Avalonia.VisualTree;
 namespace CMiX.UI.Controls.Parts
 {
     // Popup with a draggable title area named dragBar in its content.
-    public class CMiXPopup : Popup
+    public class PopupCMiX : Popup
     {
         Point _initialMousePosition;
         bool _isDragging;
@@ -20,13 +20,13 @@ namespace CMiX.UI.Controls.Parts
         double actualHeight;
         Border? _dragBar;
 
-        public CMiXPopup()
+        public PopupCMiX()
         {
-            Opened += CMiXPopup_Opened;
-            Closed += CMiXPopup_Closed;
+            Opened += PopupCMiX_Opened;
+            Closed += PopupCMiX_Closed;
         }
 
-        private void CMiXPopup_Opened(object? sender, EventArgs e)
+        private void PopupCMiX_Opened(object? sender, EventArgs e)
         {
             if (_dragBar != null)
                 return;
@@ -76,7 +76,7 @@ namespace CMiX.UI.Controls.Parts
             }
         }
 
-        private void CMiXPopup_Closed(object? sender, EventArgs e)
+        private void PopupCMiX_Closed(object? sender, EventArgs e)
         {
             HorizontalOffset = -actualWidth * 0.5;
             VerticalOffset = -actualHeight * 0.5;

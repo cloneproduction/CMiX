@@ -7,12 +7,12 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="pixelate">
 
-    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
         <Controls:ModulatableVectorXY
             Caption="Factor"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=pixelate}" />
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
 </Views:FilterPanel>

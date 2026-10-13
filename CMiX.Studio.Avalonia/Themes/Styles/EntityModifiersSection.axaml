@@ -8,7 +8,7 @@
     <ControlTheme x:Key="{x:Type Views:EntityModifiersSection}" TargetType="Views:EntityModifiersSection">
         <Setter Property="Template">
             <ControlTemplate>
-                <ui:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
+                <ui:ExpanderIndented Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
                     <Views:ModifierManager Caption="Add Modifier" Margin="8, 0, 8, 8" DataContext="{Binding ModifierManager}">
                         <Views:ModifierManager.SelectionPanel>
                             <StackPanel>
@@ -17,7 +17,7 @@
                             </StackPanel>
                         </Views:ModifierManager.SelectionPanel>
                     </Views:ModifierManager>
-                </ui:IndentedExpander>
+                </ui:ExpanderIndented>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

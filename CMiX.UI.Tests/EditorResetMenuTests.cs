@@ -36,7 +36,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Slider_WithoutResetCommand_HasNoMenu()
         {
-            var slider = new CMiXSlider();
+            var slider = new SliderCMiX();
             Host(slider);
 
             Assert.Null(slider.ContextMenu);
@@ -46,7 +46,7 @@ namespace CMiX.UI.Tests
         public void Slider_WithResetCommand_HasAResetMenuThatRunsIt()
         {
             var ran = false;
-            var slider = new CMiXSlider { ResetCommand = new RelayCommand(() => ran = true) };
+            var slider = new SliderCMiX { ResetCommand = new RelayCommand(() => ran = true) };
             Host(slider);
 
             var reset = slider.ContextMenu!.Items.OfType<MenuItem>().Single();
@@ -58,7 +58,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Slider_LosesTheMenu_WhenTheCommandIsRemoved()
         {
-            var slider = new CMiXSlider { ResetCommand = new RelayCommand(() => { }) };
+            var slider = new SliderCMiX { ResetCommand = new RelayCommand(() => { }) };
             Host(slider);
             Assert.NotNull(slider.ContextMenu);
 

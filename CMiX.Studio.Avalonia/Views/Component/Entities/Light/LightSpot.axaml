@@ -13,7 +13,7 @@
             Caption="Target"
             DataContext="{Binding Target}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:DragValue
                 Caption="Angle"
@@ -25,7 +25,7 @@
                 Value="{Binding Softness.Value}"
                 ResetCommand="{Binding Softness.ResetCommand}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
     </StackPanel>
 

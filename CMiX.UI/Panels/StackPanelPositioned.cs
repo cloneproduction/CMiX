@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
+using Avalonia.Layout;
 using CMiX.UI.AttachedProperties;
 
 namespace CMiX.UI.Panels
 {
-    public class PositionedUniformGrid : UniformGrid
+    public class StackPanelPositioned : StackPanel
     {
-        public PositionedUniformGrid()
+        public StackPanelPositioned()
         {
             // Avalonia panels have no OnVisualChildrenChanged; the children collection raises changes instead.
             Children.CollectionChanged += (s, e) => UpdateChildPositions();
@@ -29,9 +29,9 @@ namespace CMiX.UI.Panels
                     if (count == 1)
                         position = ControlPosition.All;
                     else if (i == 0)
-                        position = Rows > Columns ? ControlPosition.Top : ControlPosition.Left;
+                        position = Orientation == Orientation.Vertical ? ControlPosition.Top : ControlPosition.Left;
                     else if (i == count - 1)
-                        position = Rows > Columns ? ControlPosition.Bottom : ControlPosition.Right;
+                        position = Orientation == Orientation.Vertical ? ControlPosition.Bottom : ControlPosition.Right;
                     else
                         position = ControlPosition.None;
 

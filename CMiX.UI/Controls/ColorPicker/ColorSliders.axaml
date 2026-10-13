@@ -9,7 +9,7 @@
     <StackPanel>
 
         <!--
-            PositionedUniformGrid and PositionedStackPanel are ported (Views\Controls\Panels) but
+            UniformGridPositioned and StackPanelPositioned are ported (Views\Controls\Panels) but
             are not needed here: plain panels are used instead and the PositionedControl.Position
             attached property is set explicitly on each child to drive the position pseudo classes.
         -->
@@ -50,7 +50,7 @@
             <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=RGBRadio}">
                 <StackPanel>
 
-                    <ui:CMiXSlider
+                    <ui:SliderCMiX
                         ui:PositionedControl.Position="Top"
                         Caption="R"
                         Maximum="1"
@@ -59,9 +59,9 @@
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
-                    </ui:CMiXSlider>
+                    </ui:SliderCMiX>
 
-                    <ui:CMiXSlider
+                    <ui:SliderCMiX
                         Margin="0,1"
                         ui:PositionedControl.Position="Middle"
                         Caption="G"
@@ -71,9 +71,9 @@
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
-                    </ui:CMiXSlider>
+                    </ui:SliderCMiX>
 
-                    <ui:CMiXSlider
+                    <ui:SliderCMiX
                         ui:PositionedControl.Position="Bottom"
                         Caption="B"
                         Maximum="1"
@@ -82,14 +82,14 @@
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
-                    </ui:CMiXSlider>
+                    </ui:SliderCMiX>
 
                 </StackPanel>
             </Border>
             <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=HSVRadio}">
 
                 <StackPanel>
-                    <ui:CMiXSlider
+                    <ui:SliderCMiX
                         ui:PositionedControl.Position="Top"
                         Caption="H"
                         Maximum="1"
@@ -98,9 +98,9 @@
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
-                    </ui:CMiXSlider>
+                    </ui:SliderCMiX>
 
-                    <ui:CMiXSlider
+                    <ui:SliderCMiX
                         Margin="0,1"
                         ui:PositionedControl.Position="Middle"
                         Caption="S"
@@ -110,9 +110,9 @@
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
-                    </ui:CMiXSlider>
+                    </ui:SliderCMiX>
 
-                    <ui:CMiXSlider
+                    <ui:SliderCMiX
                         ui:PositionedControl.Position="Bottom"
                         Caption="V"
                         Maximum="1"
@@ -121,13 +121,13 @@
                                                     <i:Interaction.Behaviors>
                                 <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                             </i:Interaction.Behaviors>
-                    </ui:CMiXSlider>
+                    </ui:SliderCMiX>
                 </StackPanel>
 
             </Border>
         </Panel>
 
-        <ui:CMiXSlider
+        <ui:SliderCMiX
             Caption="Alpha"
             Maximum="1"
             Minimum="0"
@@ -135,7 +135,7 @@
                             <i:Interaction.Behaviors>
                     <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                 </i:Interaction.Behaviors>
-        </ui:CMiXSlider>
+        </ui:SliderCMiX>
 
     </StackPanel>
 </ui:ColorPickerBase>

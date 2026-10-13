@@ -16,7 +16,7 @@
         </i:Interaction.Behaviors>
 
         <StackPanel>
-            <ui:IndentedExpander Header="Texture Filters">
+            <ui:ExpanderIndented Header="Texture Filters">
                 <Views:ModifierManager
                     Caption="Add Filter"
                     Margin="8"
@@ -27,9 +27,9 @@
                     </Views:ModifierManager.SelectionPanel>
 
                 </Views:ModifierManager>
-            </ui:IndentedExpander>
+            </ui:ExpanderIndented>
 
-            <ui:IndentedExpander Header="Modifiers">
+            <ui:ExpanderIndented Header="Modifiers">
                 <Views:ModifierManager
                     Caption="Add Modifier"
                     Margin="8"
@@ -40,7 +40,7 @@
                     </Views:ModifierManager.SelectionPanel>
 
                 </Views:ModifierManager>
-            </ui:IndentedExpander>
+            </ui:ExpanderIndented>
 
             <Views:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
 

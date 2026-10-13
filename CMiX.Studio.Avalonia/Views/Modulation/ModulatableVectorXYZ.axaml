@@ -8,7 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:ModulatableFloatValue
             Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} X', Mode=OneWay}"
@@ -25,6 +25,6 @@
             DataContext="{Binding Z}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
 </BaseControls:ModulatorAssignableUserControl>

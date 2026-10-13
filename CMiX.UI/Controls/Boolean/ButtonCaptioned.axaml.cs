@@ -8,15 +8,15 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Boolean
 {
-    public partial class CaptionedButton : CaptionedUserControl
+    public partial class ButtonCaptioned : UserControlCaptioned
     {
-        public CaptionedButton()
+        public ButtonCaptioned()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<ICommand> CommandProperty =
-            AvaloniaProperty.Register<CaptionedButton, ICommand>(nameof(Command));
+            AvaloniaProperty.Register<ButtonCaptioned, ICommand>(nameof(Command));
         public ICommand Command
         {
             get => GetValue(CommandProperty);
@@ -24,7 +24,7 @@ namespace CMiX.UI.Controls.Boolean
         }
 
         public static readonly StyledProperty<object> CommandParameterProperty =
-            AvaloniaProperty.Register<CaptionedButton, object>(nameof(CommandParameter));
+            AvaloniaProperty.Register<ButtonCaptioned, object>(nameof(CommandParameter));
         public object CommandParameter
         {
             get => GetValue(CommandParameterProperty);

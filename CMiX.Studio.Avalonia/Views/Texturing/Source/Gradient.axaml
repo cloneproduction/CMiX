@@ -12,7 +12,7 @@
             Value="{Binding Gamma.Value}"
             ResetCommand="{Binding Gamma.ResetCommand}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:ColorSelector
                 Caption="From"
@@ -22,15 +22,15 @@
                 Caption="To"
                 DataContext="{Binding To}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Margin="0,8"
             Caption="Horizontal"
             IsChecked="{Binding Horizontal.Value}"
             ResetCommand="{Binding Horizontal.ResetCommand}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Margin="0,0,0,8"
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"

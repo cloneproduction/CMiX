@@ -16,7 +16,7 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
             <BaseControls:ModulatableFloatValue
                 Caption="Center"
                 DataContext="{Binding Center}"
@@ -26,7 +26,7 @@
                 Caption="Width"
                 DataContext="{Binding Width}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <BaseControls:ModulatableFloatValue
             Caption="Seed"

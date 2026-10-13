@@ -11,7 +11,7 @@ using CMiX.UI.Controls.Number;
 
 namespace CMiX.UI.Behaviors
 {
-    public class ColorSliderBehavior : Behavior<CMiXSlider>, IColorStateStorage
+    public class ColorSliderBehavior : Behavior<SliderCMiX>, IColorStateStorage
     {
         public static readonly StyledProperty<ColorState> ColorStateProperty =
             AvaloniaProperty.Register<ColorSliderBehavior, ColorState>(

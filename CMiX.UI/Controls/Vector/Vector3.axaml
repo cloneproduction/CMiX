@@ -1,4 +1,4 @@
-﻿<ui:CaptionedUserControl
+﻿<ui:UserControlCaptioned
     x:Class="CMiX.UI.Controls.Vector.Vector3"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,7 +7,7 @@
     d:DesignWidth="400"
     x:Name="vectorXYZ">
 
-    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
         <!-- Mode OneWay stops the TwoWay default from writing the formatted string back. -->
         <ui:DragValue
@@ -46,6 +46,6 @@
             </ui:DragValue.ContextMenu>
         </ui:DragValue>
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
-</ui:CaptionedUserControl>
+</ui:UserControlCaptioned>

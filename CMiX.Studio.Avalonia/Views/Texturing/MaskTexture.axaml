@@ -15,20 +15,20 @@
 
         <Views:DiffuseTexture />
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Margin="8,0"
             Caption="MaskChannel"
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
             ResetCommand="{Binding MaskChannel.ResetCommand}"
             SelectedItem="{Binding MaskChannel.Value}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Margin="8"
             Caption="Invert"
             IsChecked="{Binding Invert.Value}"
             ResetCommand="{Binding Invert.ResetCommand}" />
       
-      <ui:IndentedExpander 
+      <ui:ExpanderIndented 
         Indentation="4"
         Header="Transform" 
         IsExpanded="{Binding IsExpanded}">
@@ -43,7 +43,7 @@
           
         </StackPanel>
 
-      </ui:IndentedExpander>
+      </ui:ExpanderIndented>
       
     </StackPanel>
 

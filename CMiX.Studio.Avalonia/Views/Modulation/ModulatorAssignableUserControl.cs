@@ -7,7 +7,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public abstract class ModulatorAssignableUserControl : CaptionedUserControl
+    public abstract class ModulatorAssignableUserControl : UserControlCaptioned
     {
         public static readonly StyledProperty<PrefabManager> ModulatorManagerProperty =
             AvaloniaProperty.Register<ModulatorAssignableUserControl, PrefabManager>(nameof(ModulatorManager));

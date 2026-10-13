@@ -8,16 +8,16 @@
 
     <StackPanel>
 
-        <ui:CMiXListBox
+        <ui:ListBoxCMiX
             x:Name="prefabListBox"
             MinHeight="105"
             Margin="8"
             ItemsSource="{Binding ItemsSource, ElementName=repositoryManager}"
             SelectedItem="{Binding SelectedItem}">
-            <ui:CMiXListBox.DataTemplates>
+            <ui:ListBoxCMiX.DataTemplates>
                 <Managers:PrefabListItemTemplates />
-            </ui:CMiXListBox.DataTemplates>
-        </ui:CMiXListBox>
+            </ui:ListBoxCMiX.DataTemplates>
+        </ui:ListBoxCMiX>
 
         <DockPanel Margin="8,0,8,8">
 

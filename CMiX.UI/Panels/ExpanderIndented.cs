@@ -7,10 +7,10 @@ using Avalonia.Data;
 
 namespace CMiX.UI.Panels
 {
-    public class IndentedExpander : Expander
+    public class ExpanderIndented : Expander
     {
         public static readonly StyledProperty<int> IndentationProperty =
-            AvaloniaProperty.Register<IndentedExpander, int>(nameof(Indentation), 0, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<ExpanderIndented, int>(nameof(Indentation), 0, defaultBindingMode: BindingMode.TwoWay);
         public int Indentation
         {
             get => GetValue(IndentationProperty);

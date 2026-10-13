@@ -9,7 +9,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Number
 {
-    public partial class IntegerValue : CaptionedUserControl
+    public partial class IntegerValue : UserControlCaptioned
     {
         public IntegerValue()
         {

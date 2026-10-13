@@ -16,7 +16,7 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ModulatableFloatValue
                 Caption="Width"
@@ -28,7 +28,7 @@
                 DataContext="{Binding Phase}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
     </StackPanel>
 

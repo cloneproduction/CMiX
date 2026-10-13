@@ -12,9 +12,9 @@
             Text="{Binding Text.Value}"
             Theme="{StaticResource TypeWriterStyle}" />
 
-        <ui:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
             
-            <ui:CaptionedComboBox
+            <ui:ComboBoxCaptioned
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                 ResetCommand="{Binding FontFamily.ResetCommand}"
@@ -24,7 +24,7 @@
                 Caption="Size"
                 DataContext="{Binding FontSize}"
                 Value="{Binding Value}" />
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <ui:DragValue
             Margin="0,8"
@@ -32,19 +32,19 @@
             Value="{Binding ExtrudeAmount.Value}"
             ResetCommand="{Binding ExtrudeAmount.ResetCommand}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-            <ui:CaptionedComboBox
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
+            <ui:ComboBoxCaptioned
                 Caption="Text Alignment"
                 ItemsSource="{x:Static Resources:EnumProviders.HorizontalAlignment}"
                 ResetCommand="{Binding HorizontalAlignment.ResetCommand}"
                 SelectedItem="{Binding HorizontalAlignment.Value}" />
 
-            <ui:CaptionedComboBox
+            <ui:ComboBoxCaptioned
                 Caption="Paragraph Alignment"
                 ItemsSource="{x:Static Resources:EnumProviders.ParagraphAlignment}"
                 ResetCommand="{Binding ParagraphAlignment.ResetCommand}"
                 SelectedItem="{Binding ParagraphAlignment.Value}" />
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
     </StackPanel>
 

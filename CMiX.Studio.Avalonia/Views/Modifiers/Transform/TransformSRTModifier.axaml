@@ -21,13 +21,13 @@
             DataContext="{Binding ScaleUniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
             <StudioControls:ModulatableFloatValue Caption="Scale X" DataContext="{Binding ScaleX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <StudioControls:ModulatableFloatValue Caption="Y" DataContext="{Binding ScaleY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <StudioControls:ModulatableFloatValue Caption="Z" DataContext="{Binding ScaleZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
             <StudioControls:ModulatableFloatValue 
                 Caption="Translate X" 
                 DataContext="{Binding TranslateX}" 
@@ -40,13 +40,13 @@
                 Caption="Z" 
                 DataContext="{Binding TranslateZ}" 
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
             <StudioControls:ModulatableFloatValue Caption="Rotation X" DataContext="{Binding RotationX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <StudioControls:ModulatableFloatValue Caption="Y" DataContext="{Binding RotationY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <StudioControls:ModulatableFloatValue Caption="Z" DataContext="{Binding RotationZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <ui:AxisSelector3
             Caption="Flip"

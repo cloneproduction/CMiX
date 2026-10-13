@@ -9,9 +9,9 @@ using Avalonia.VisualTree;
 
 namespace CMiX.UI.Controls
 {
-    public partial class CMiXListBox : ListBox
+    public partial class ListBoxCMiX : ListBox
     {
-        protected override Type StyleKeyOverride => typeof(CMiXListBox);
+        protected override Type StyleKeyOverride => typeof(ListBoxCMiX);
 
         Border? Border { get; set; }
         Border? Bd { get; set; }

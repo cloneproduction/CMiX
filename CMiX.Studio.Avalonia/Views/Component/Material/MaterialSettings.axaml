@@ -10,40 +10,40 @@
 
     <StackPanel Spacing="8">
 
-        <!--<ui:CMiXSlider
+        <!--<ui:SliderCMiX
             Caption="Alpha"
             Maximum="1"
             Minimum="0"
             Value="{Binding Alpha.Value}" />-->
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <ui:CaptionedComboBox
+            <ui:ComboBoxCaptioned
                 Caption="Cull Mode"
                 ItemsSource="{x:Static Resources:EnumProviders.CullModeType}"
                 ResetCommand="{Binding CullMode.ResetCommand}"
                 SelectedItem="{Binding CullMode.Value}" />
 
-            <ui:CaptionedComboBox
+            <ui:ComboBoxCaptioned
                 Caption="Transparency"
                 ItemsSource="{x:Static Resources:EnumProviders.TransparencyType}"
                 ResetCommand="{Binding Transparency.ResetCommand}"
                 SelectedItem="{Binding Transparency.Value}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:CaptionedToggleButton 
+        <ui:ToggleButtonCaptioned 
             Caption="Is Shadow Caster" 
             IsChecked="{Binding IsShadowCaster.Value}"
             ResetCommand="{Binding IsShadowCaster.ResetCommand}" />
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Pipeline"
             ItemsSource="{x:Static Resources:EnumProviders.PipelineType}"
             ResetCommand="{Binding Pipeline.ResetCommand}"
             SelectedItem="{Binding Pipeline.Value}" />
 
-        <ui:PositionedStackPanel
+        <ui:StackPanelPositioned
             Spacing="{DynamicResource SpacingXXS}"
             IsVisible="{Binding Pipeline.Value, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static Materials:PipelineType.Metallic}}">
 
@@ -57,27 +57,27 @@
                     Value="{Binding Roughness.Value}"
                     ResetCommand="{Binding Roughness.ResetCommand}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:PositionedStackPanel 
+        <ui:StackPanelPositioned 
           Spacing="{DynamicResource SpacingXXS}" 
           IsVisible="{Binding Pipeline.Value, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static Materials:PipelineType.Specular}}">
 
-            <ui:CMiXSlider
+            <ui:SliderCMiX
                 Caption="Glossiness"
                 Maximum="1"
                 Minimum="0"
                 Value="{Binding Glossiness.Value}"
                 ResetCommand="{Binding Glossiness.ResetCommand}" />
 
-            <ui:CMiXSlider
+            <ui:SliderCMiX
                 Caption="Specularity"
                 Maximum="1"
                 Minimum="0"
                 Value="{Binding Specularity.Value}"
                 ResetCommand="{Binding Specularity.ResetCommand}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
     </StackPanel>
 </UserControl>

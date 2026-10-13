@@ -6,13 +6,13 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+            <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
                 <ui:IntegerValue
                     Caption="Resolution X"
@@ -24,7 +24,7 @@
                     DataContext="{Binding SizeY}"
                     Value="{Binding Value}" />
 
-            </ui:PositionedStackPanel>
+            </ui:StackPanelPositioned>
         </Border>
 
     </StackPanel>

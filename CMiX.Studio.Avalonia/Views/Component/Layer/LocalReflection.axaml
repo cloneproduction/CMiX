@@ -5,11 +5,11 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="uc">
 
-    <ui:IndentedExpander>
+    <ui:ExpanderIndented>
 
-        <ui:IndentedExpander.Header>
+        <ui:ExpanderIndented.Header>
             <DockPanel>
-                <ui:CMiXToggleButton
+                <ui:ToggleButtonCMiX
                     Width="14"
                     Height="14"
                     IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=uc, Mode=TwoWay}"
@@ -20,11 +20,11 @@
                     Foreground="{DynamicResource ForegroundBrush}"
                     Text="Local Reflection" />
             </DockPanel>
-        </ui:IndentedExpander.Header>
+        </ui:ExpanderIndented.Header>
 
         <Border Margin="8" IsEnabled="{Binding IsEnabled.Value}">
 
         </Border>
 
-    </ui:IndentedExpander>
+    </ui:ExpanderIndented>
 </UserControl>

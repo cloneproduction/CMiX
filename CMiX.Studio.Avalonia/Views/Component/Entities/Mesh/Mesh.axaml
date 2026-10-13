@@ -16,7 +16,7 @@
 
     <StackPanel>
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.MeshType}"
             ResetCommand="{Binding MeshTypeSelector.ResetCommand}"
@@ -67,7 +67,7 @@
 
         </Panel>
 
-        <ui:IndentedExpander
+        <ui:ExpanderIndented
             Header="Geometry FX"
             Indentation="4"
             IsExpanded="False">
@@ -81,7 +81,7 @@
                     Value="{Binding ExplodeStrength.Value}"
                     ResetCommand="{Binding ExplodeStrength.ResetCommand}" />
 
-                <ui:CMiXSlider
+                <ui:SliderCMiX
                     Caption="Flat Normals"
                     Maximum="1.0"
                     Minimum="0.0"
@@ -105,9 +105,9 @@
                 </Border>
             </StackPanel>
 
-        </ui:IndentedExpander>
+        </ui:ExpanderIndented>
 
-        <ui:IndentedExpander
+        <ui:ExpanderIndented
 
             Header="Displacement"
             Indentation="4"
@@ -141,7 +141,7 @@
                 </Border>
             </StackPanel>
 
-        </ui:IndentedExpander>
+        </ui:ExpanderIndented>
     </StackPanel>
 
 </UserControl>

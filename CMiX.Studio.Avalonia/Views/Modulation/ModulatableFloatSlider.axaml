@@ -6,7 +6,7 @@
     xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     x:Name="channelSlider">
 
-    <ui:CMiXSlider
+    <ui:SliderCMiX
         ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=channelSlider}"
         Caption="{Binding Caption, ElementName=channelSlider, Mode=OneWay}"
         IsReadOnly="{Binding IsModulated}"
@@ -14,9 +14,9 @@
         Maximum="{Binding Maximum, ElementName=channelSlider}"
         ResetCommand="{Binding ResetCommand}"
         Value="{Binding Value}">
-        <ui:CMiXSlider.TrailingContent>
+        <ui:SliderCMiX.TrailingContent>
             <StudioControls:ModulatorAssignButton ModulatorManager="{Binding ModulatorManager, ElementName=channelSlider}" />
-        </ui:CMiXSlider.TrailingContent>
-    </ui:CMiXSlider>
+        </ui:SliderCMiX.TrailingContent>
+    </ui:SliderCMiX>
 
 </StudioControls:ModulatorAssignableUserControl>

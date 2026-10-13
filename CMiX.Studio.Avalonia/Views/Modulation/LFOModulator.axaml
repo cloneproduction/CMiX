@@ -25,7 +25,7 @@
             RightResetCommand="{Binding Maximum.ResetCommand}"
             RightValue="{Binding Maximum.Value}"/>
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Wave Type"
             ItemsSource="{x:Static Resources:EnumProviders.WaveType}"
             ResetCommand="{Binding WaveType.ResetCommand}"

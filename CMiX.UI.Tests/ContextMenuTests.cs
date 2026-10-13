@@ -48,7 +48,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
         }
 
-        private static CMiXSlider NewSlider() =>
+        private static SliderCMiX NewSlider() =>
             new() { Width = 200, Height = 30, ResetCommand = new RelayCommand(() => { }) };
 
         private static DragValue NewDragValue() =>
@@ -154,7 +154,7 @@ namespace CMiX.UI.Tests
         public void ColorSelector_ContextRequestInsideThePopup_OpensNoMenu()
         {
             var (selector, popup) = ShowColorSelectorWithOpenPopup();
-            var insidePopup = popup.Child!.GetVisualDescendants().OfType<CMiXSlider>().First();
+            var insidePopup = popup.Child!.GetVisualDescendants().OfType<SliderCMiX>().First();
 
             RequestMenu(insidePopup);
 

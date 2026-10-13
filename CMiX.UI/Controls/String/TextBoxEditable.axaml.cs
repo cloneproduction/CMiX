@@ -10,10 +10,10 @@ using Avalonia.VisualTree;
 
 namespace CMiX.UI.Controls.String
 {
-    public partial class EditableTextBox : UserControl
+    public partial class TextBoxEditable : UserControl
     {
         public static readonly StyledProperty<bool> IsEditingProperty =
-            AvaloniaProperty.Register<EditableTextBox, bool>(nameof(IsEditing));
+            AvaloniaProperty.Register<TextBoxEditable, bool>(nameof(IsEditing));
         public bool IsEditing
         {
             get => GetValue(IsEditingProperty);
@@ -21,7 +21,7 @@ namespace CMiX.UI.Controls.String
         }
 
         public static readonly StyledProperty<bool> IsSelectedProperty =
-            AvaloniaProperty.Register<EditableTextBox, bool>(nameof(IsSelected));
+            AvaloniaProperty.Register<TextBoxEditable, bool>(nameof(IsSelected));
         public bool IsSelected
         {
             get => GetValue(IsSelectedProperty);
@@ -29,7 +29,7 @@ namespace CMiX.UI.Controls.String
         }
 
         public static readonly StyledProperty<string> TextProperty =
-            AvaloniaProperty.Register<EditableTextBox, string>(nameof(Text), defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<TextBoxEditable, string>(nameof(Text), defaultBindingMode: BindingMode.TwoWay);
         public string Text
         {
             get => GetValue(TextProperty);
@@ -38,9 +38,9 @@ namespace CMiX.UI.Controls.String
 
         private TopLevel? _parentTopLevel;
 
-        static EditableTextBox()
+        static TextBoxEditable()
         {
-            IsEditingProperty.Changed.AddClassHandler<EditableTextBox>((textbox, e) =>
+            IsEditingProperty.Changed.AddClassHandler<TextBoxEditable>((textbox, e) =>
             {
                 if (!e.GetNewValue<bool>()) return;
 
@@ -50,12 +50,12 @@ namespace CMiX.UI.Controls.String
             });
         }
 
-        public EditableTextBox()
+        public TextBoxEditable()
         {
             InitializeComponent();
             SetInputVisible(false);
-            DoubleTapped += EditableTextBox_DoubleTapped;
-            AddHandler(PointerPressedEvent, EditableTextBox_PointerPressed, RoutingStrategies.Tunnel);
+            DoubleTapped += TextBoxEditable_DoubleTapped;
+            AddHandler(PointerPressedEvent, TextBoxEditable_PointerPressed, RoutingStrategies.Tunnel);
         }
 
         private void SetInputVisible(bool editing)
@@ -64,7 +64,7 @@ namespace CMiX.UI.Controls.String
             TextDisplay.IsVisible = !editing;
         }
 
-        private void EditableTextBox_PointerPressed(object? sender, PointerPressedEventArgs e)
+        private void TextBoxEditable_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
                 return;
@@ -74,7 +74,7 @@ namespace CMiX.UI.Controls.String
                 item.IsSelected = true;
         }
 
-        private void EditableTextBox_DoubleTapped(object? sender, TappedEventArgs e)
+        private void TextBoxEditable_DoubleTapped(object? sender, TappedEventArgs e)
         {
             OnSwitchToEditingMode();
         }

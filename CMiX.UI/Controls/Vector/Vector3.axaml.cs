@@ -8,7 +8,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Vector
 {
-    public partial class Vector3 : CaptionedUserControl
+    public partial class Vector3 : UserControlCaptioned
     {
         public Vector3()
         {

@@ -7,7 +7,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="shiftRGB">
 
-    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:ModulatableFloatSlider
             Caption="Direction"
@@ -30,6 +30,6 @@
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shiftRGB}" />
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
 </Views:FilterPanel>

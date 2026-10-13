@@ -10,17 +10,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
             ResetCommand="{Binding Mode.ResetCommand}"
             SelectedItem="{Binding Mode.Value}">
-          <ui:CaptionedComboBox.TrailingContent>
+          <ui:ComboBoxCaptioned.TrailingContent>
             <Border Width="{DynamicResource ControlHeightMD}" />
-          </ui:CaptionedComboBox.TrailingContent>
-        </ui:CaptionedComboBox>
+          </ui:ComboBoxCaptioned.TrailingContent>
+        </ui:ComboBoxCaptioned>
             
         <StudioControls:ModulatableIntegerValue
             Caption="Count"
@@ -28,6 +28,6 @@
             IsEnabled="{Binding DataContext.Mode.Value, ElementName=modifierModeSelector, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
             ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
 </StudioControls:ModulatorAssignableUserControl>

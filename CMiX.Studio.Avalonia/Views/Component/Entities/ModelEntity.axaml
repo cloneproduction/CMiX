@@ -20,15 +20,15 @@
     
     <StackPanel Spacing="{DynamicResource SpacingXS}">
       
-      <ui:IndentedExpander
+      <ui:ExpanderIndented
           Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
         <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
-      </ui:IndentedExpander>
+      </ui:ExpanderIndented>
 
       <Views:EntityModifiersSection
           PanelOwner="{x:Type Compositing:Entity}" />
 
-      <ui:IndentedExpander
+      <ui:ExpanderIndented
           Header="Texture"
           IsExpanded="{Binding TextureIsExpanded}">
 
@@ -36,13 +36,13 @@
 
           <Views:DiffuseTexture DataContext="{Binding Texture.DiffuseTexture}" />
 
-          <ui:IndentedExpander
+          <ui:ExpanderIndented
               Indentation="4"
               IsExpanded="{Binding Texture.MaskTexture.IsExpanded}">
 
-            <ui:IndentedExpander.Header>
+            <ui:ExpanderIndented.Header>
               <DockPanel>
-                <ui:CMiXToggleButton
+                <ui:ToggleButtonCMiX
                     Width="14"
                     Height="14"
                     IsChecked="{Binding Texture.MaskTexture.IsEnabled.Value, Mode=TwoWay}"
@@ -50,17 +50,17 @@
                     Theme="{StaticResource ToggleButtonIcon}" />
                 <TextBlock Margin="8,0" Text="Mask" />
               </DockPanel>
-            </ui:IndentedExpander.Header>
+            </ui:ExpanderIndented.Header>
 
             <Views:MaskTexture DataContext="{Binding Texture.MaskTexture}" />
 
-          </ui:IndentedExpander>
+          </ui:ExpanderIndented>
 
         </StackPanel>
 
-      </ui:IndentedExpander>
+      </ui:ExpanderIndented>
 
-      <ui:IndentedExpander
+      <ui:ExpanderIndented
         Header="Transform Texture"
         IsExpanded="{Binding TransformTextureIsExpanded}">
 
@@ -74,9 +74,9 @@
 
         </StackPanel>
 
-      </ui:IndentedExpander>
+      </ui:ExpanderIndented>
 
-      <ui:IndentedExpander
+      <ui:ExpanderIndented
         Header="Material"
         IsExpanded="{Binding MaterialIsExpanded}">
 
@@ -84,11 +84,11 @@
           <Views:Material DataContext="{Binding Material}" />
         </Border>
 
-      </ui:IndentedExpander>
+      </ui:ExpanderIndented>
 
-      <ui:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
+      <ui:ExpanderIndented Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
         <Views:Mesh Margin="8" DataContext="{Binding Mesh}" />
-      </ui:IndentedExpander>
+      </ui:ExpanderIndented>
 
     </StackPanel>
 

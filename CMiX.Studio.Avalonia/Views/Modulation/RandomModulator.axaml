@@ -8,7 +8,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:DragValue
                 Caption="Center"
@@ -21,7 +21,7 @@
                 Value="{Binding Width.Value}"
                 ResetCommand="{Binding Width.ResetCommand}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <ui:DragValue
             Caption="Seed"

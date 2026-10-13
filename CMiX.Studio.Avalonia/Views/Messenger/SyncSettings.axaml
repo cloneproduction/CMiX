@@ -158,7 +158,7 @@
                             <TextBox x:Name="DatabaseBox" />
                         </ui:ContentCaptioned>
 
-                        <ui:CaptionedToggleButton x:Name="UseCredentialManagerBox" Caption="Use Credential Manager" />
+                        <ui:ToggleButtonCaptioned x:Name="UseCredentialManagerBox" Caption="Use Credential Manager" />
 
                         <ui:ContentCaptioned Caption="Credential Name">
                             <TextBox x:Name="CredentialNameBox" />

@@ -20,7 +20,7 @@
             Caption="Tessellation"
             DataContext="{Binding TessellationXY}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Generate Backface"
             IsChecked="{Binding GenerateBackFace.Value}"
             ResetCommand="{Binding GenerateBackFace.ResetCommand}" />

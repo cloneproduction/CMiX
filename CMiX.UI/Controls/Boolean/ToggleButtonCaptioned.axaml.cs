@@ -9,9 +9,9 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Boolean
 {
-    public partial class CaptionedToggleButton : CaptionedUserControl
+    public partial class ToggleButtonCaptioned : UserControlCaptioned
     {
-        public CaptionedToggleButton()
+        public ToggleButtonCaptioned()
         {
             InitializeComponent();
             labelBorder.PointerPressed += (s, e) =>
@@ -25,7 +25,7 @@ namespace CMiX.UI.Controls.Boolean
         }
 
         public static readonly StyledProperty<bool> IsCheckedProperty =
-            AvaloniaProperty.Register<CaptionedToggleButton, bool>(nameof(IsChecked), false, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<ToggleButtonCaptioned, bool>(nameof(IsChecked), false, defaultBindingMode: BindingMode.TwoWay);
         public bool IsChecked
         {
             get => GetValue(IsCheckedProperty);
@@ -33,7 +33,7 @@ namespace CMiX.UI.Controls.Boolean
         }
 
         public static readonly StyledProperty<ICommand> ResetCommandProperty =
-            AvaloniaProperty.Register<CaptionedToggleButton, ICommand>(nameof(ResetCommand));
+            AvaloniaProperty.Register<ToggleButtonCaptioned, ICommand>(nameof(ResetCommand));
         public ICommand ResetCommand
         {
             get => GetValue(ResetCommandProperty);

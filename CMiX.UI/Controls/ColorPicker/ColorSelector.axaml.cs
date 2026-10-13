@@ -11,7 +11,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.ColorPicker
 {
-    public partial class ColorSelector : CaptionedUserControl
+    public partial class ColorSelector : UserControlCaptioned
     {
         public ColorSelector()
         {

@@ -10,18 +10,18 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.AlphaChannel}"
             ResetCommand="{Binding AlphaChannel.ResetCommand}"
             SelectedItem="{Binding AlphaChannel.Value}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Invert"
             IsChecked="{Binding Invert.Value}"
             ResetCommand="{Binding Invert.ResetCommand}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Keep Original Alpha"
             IsChecked="{Binding KeepOriginalAlpha.Value}"
             ResetCommand="{Binding KeepOriginalAlpha.ResetCommand}" />

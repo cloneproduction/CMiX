@@ -17,13 +17,13 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Enum
 {
-    public partial class CaptionedComboBox : CaptionedUserControl
+    public partial class ComboBoxCaptioned : UserControlCaptioned
     {
         private ComboBox? _innerComboBox;
         private ContextMenu? _resetMenu;
         private bool _attached;
 
-        public CaptionedComboBox()
+        public ComboBoxCaptioned()
         {
             InitializeComponent();
             _innerComboBox = this.FindControl<ComboBox>("innerComboBox");
@@ -48,9 +48,9 @@ namespace CMiX.UI.Controls.Enum
         // is done explicitly here.
         private INotifyCollectionChanged? _observedItemsSource;
 
-        static CaptionedComboBox()
+        static ComboBoxCaptioned()
         {
-            ItemsSourceProperty.Changed.AddClassHandler<CaptionedComboBox>((comboBox, e) => comboBox.OnItemsSourceChanged(e));
+            ItemsSourceProperty.Changed.AddClassHandler<ComboBoxCaptioned>((comboBox, e) => comboBox.OnItemsSourceChanged(e));
         }
 
         // A bound ObservableCollection whose contents mutate in place (Clear then re-Add, as
@@ -136,7 +136,7 @@ namespace CMiX.UI.Controls.Enum
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
-            AvaloniaProperty.Register<CaptionedComboBox, IEnumerable>(nameof(ItemsSource));
+            AvaloniaProperty.Register<ComboBoxCaptioned, IEnumerable>(nameof(ItemsSource));
         public IEnumerable ItemsSource
         {
             get => GetValue(ItemsSourceProperty);
@@ -148,7 +148,7 @@ namespace CMiX.UI.Controls.Enum
         // changing after the item is rendered. Set this when items carry an editable display
         // value (e.g. a Name) so the dropdown stays live.
         public static readonly StyledProperty<IDataTemplate> ItemTemplateProperty =
-            AvaloniaProperty.Register<CaptionedComboBox, IDataTemplate>(nameof(ItemTemplate));
+            AvaloniaProperty.Register<ComboBoxCaptioned, IDataTemplate>(nameof(ItemTemplate));
         public IDataTemplate ItemTemplate
         {
             get => GetValue(ItemTemplateProperty);
@@ -156,7 +156,7 @@ namespace CMiX.UI.Controls.Enum
         }
 
         public static readonly StyledProperty<object?> SelectedItemProperty =
-            AvaloniaProperty.Register<CaptionedComboBox, object?>(nameof(SelectedItem), null, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<ComboBoxCaptioned, object?>(nameof(SelectedItem), null, defaultBindingMode: BindingMode.TwoWay);
         public object? SelectedItem
         {
             get => GetValue(SelectedItemProperty);
@@ -164,7 +164,7 @@ namespace CMiX.UI.Controls.Enum
         }
 
         public static readonly StyledProperty<ICommand?> ResetCommandProperty =
-            AvaloniaProperty.Register<CaptionedComboBox, ICommand?>(nameof(ResetCommand));
+            AvaloniaProperty.Register<ComboBoxCaptioned, ICommand?>(nameof(ResetCommand));
         public ICommand? ResetCommand
         {
             get => GetValue(ResetCommandProperty);
@@ -175,7 +175,7 @@ namespace CMiX.UI.Controls.Enum
         // with a trailing button lines up with a plain one - see DragValue.TrailingContent for
         // the same mechanism on the other value editors.
         public static readonly StyledProperty<object> TrailingContentProperty =
-            AvaloniaProperty.Register<CaptionedComboBox, object>(nameof(TrailingContent));
+            AvaloniaProperty.Register<ComboBoxCaptioned, object>(nameof(TrailingContent));
         public object TrailingContent
         {
             get => GetValue(TrailingContentProperty);

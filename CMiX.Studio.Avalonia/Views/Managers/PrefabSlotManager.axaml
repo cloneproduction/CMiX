@@ -11,17 +11,17 @@
 
     <StackPanel>
 
-        <ui:CMiXListBox
+        <ui:ListBoxCMiX
             x:Name="prefabListBox"
             MinHeight="105"
             ItemsSource="{Binding ManagerData.Items}"
             SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
-            <ui:CMiXListBox.DataTemplates>
+            <ui:ListBoxCMiX.DataTemplates>
                 <Managers:PrefabListItemTemplates />
-            </ui:CMiXListBox.DataTemplates>
-        </ui:CMiXListBox>
+            </ui:ListBoxCMiX.DataTemplates>
+        </ui:ListBoxCMiX>
 
         <DockPanel Margin="0,4,0,0">
 

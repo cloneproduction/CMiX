@@ -11,7 +11,7 @@
 
   <StackPanel>
 
-    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
       <StudioControls:ModulatableFloatValue
           Caption="Threshold"
@@ -25,9 +25,9 @@
           Minimum="0"
           ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
-    <ui:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
       <ui:ColorSelector
           Caption="Foreground"
@@ -37,14 +37,14 @@
           Caption="Background"
           DataContext="{Binding Background}" />
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
-    <ui:CaptionedToggleButton
+    <ui:ToggleButtonCaptioned
         Caption="Invert"
         IsChecked="{Binding Invert.Value}"
         ResetCommand="{Binding Invert.ResetCommand}" />
 
-    <ui:CaptionedToggleButton
+    <ui:ToggleButtonCaptioned
         Caption="Antialiasing"
         IsChecked="{Binding Antialiasing.Value}"
         ResetCommand="{Binding Antialiasing.ResetCommand}" />

@@ -11,7 +11,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:ColorSelector
                 Caption="Color A"
@@ -25,19 +25,19 @@
                 Caption="Color C"
                 DataContext="{Binding ColorC}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Single Channel"
             IsChecked="{Binding SingleChannel.Value}"
             ResetCommand="{Binding SingleChannel.ResetCommand}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Clamp Color"
             IsChecked="{Binding ClampColor.Value}"
             ResetCommand="{Binding ClampColor.ResetCommand}" />
 
-        <ui:PositionedStackPanel
+        <ui:StackPanelPositioned
             Spacing="{DynamicResource SpacingXXS}">
 
             <StudioControls:ModulatableFloatSlider
@@ -54,7 +54,7 @@
                 Minimum="0.0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=triColor}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
     </StackPanel>
 

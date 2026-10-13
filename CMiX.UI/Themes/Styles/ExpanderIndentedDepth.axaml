@@ -4,20 +4,20 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <!--
-        The background of an IndentedExpander comes from the number of IndentedExpander
+        The background of an ExpanderIndented comes from the number of ExpanderIndented
         parents. Level 1 is the default background set in Expander.axaml. Level 3 is the
         darkest. A deeper expander keeps the level 3 color, it does not get darker again.
     -->
-    <Style Selector="ui|IndentedExpander ui|IndentedExpander /template/ Border#contentBackground">
+    <Style Selector="ui|ExpanderIndented ui|ExpanderIndented /template/ Border#contentBackground">
         <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel2Brush}" />
     </Style>
-    <Style Selector="ui|IndentedExpander ui|IndentedExpander /template/ ToggleButton#PART_toggle /template/ Border#mainBorder">
+    <Style Selector="ui|ExpanderIndented ui|ExpanderIndented /template/ ToggleButton#PART_toggle /template/ Border#mainBorder">
         <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel2Brush}" />
     </Style>
-    <Style Selector="ui|IndentedExpander ui|IndentedExpander ui|IndentedExpander /template/ Border#contentBackground">
+    <Style Selector="ui|ExpanderIndented ui|ExpanderIndented ui|ExpanderIndented /template/ Border#contentBackground">
         <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel3Brush}" />
     </Style>
-    <Style Selector="ui|IndentedExpander ui|IndentedExpander ui|IndentedExpander /template/ ToggleButton#PART_toggle /template/ Border#mainBorder">
+    <Style Selector="ui|ExpanderIndented ui|ExpanderIndented ui|ExpanderIndented /template/ ToggleButton#PART_toggle /template/ Border#mainBorder">
         <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel3Brush}" />
     </Style>
 

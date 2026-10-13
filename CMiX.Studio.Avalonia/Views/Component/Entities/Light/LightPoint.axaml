@@ -16,7 +16,7 @@
             Value="{Binding Radius.Value}"
             ResetCommand="{Binding Radius.ResetCommand}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Show Helper"
             IsChecked="{Binding LightHelper.Value}"
             ResetCommand="{Binding LightHelper.ResetCommand}" />

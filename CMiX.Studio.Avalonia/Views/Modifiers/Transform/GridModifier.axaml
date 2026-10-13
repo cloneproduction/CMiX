@@ -11,7 +11,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ModulatableIntegerValue
                 Caption="Count X"
@@ -28,7 +28,7 @@
                 DataContext="{Binding Count.Z}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <BaseControls:ModulatableVectorXYZ
             Caption="Width"

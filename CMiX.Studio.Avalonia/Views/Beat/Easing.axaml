@@ -9,29 +9,29 @@
 
     <StackPanel>
 
-        <ui:CaptionedToggleButton 
+        <ui:ToggleButtonCaptioned 
             Margin="0, 0, 0, 8"
             IsChecked="{Binding IsEnabled.Value}"
             ResetCommand="{Binding IsEnabled.ResetCommand}"
             Caption="Easing"/>
 
-        <ui:PositionedStackPanel
+        <ui:StackPanelPositioned
             Spacing="{DynamicResource SpacingXXS}"
             IsEnabled="{Binding IsEnabled.Value}">
 
-            <ui:CaptionedComboBox
+            <ui:ComboBoxCaptioned
                 Caption="Function"
                 ItemsSource="{x:Static Resources:EnumProviders.TweenerTransition}"
                 ResetCommand="{Binding Transition.ResetCommand}"
                 SelectedItem="{Binding Transition.Value}" />
 
-            <ui:CaptionedComboBox
+            <ui:ComboBoxCaptioned
                 Caption="Mode"
                 ItemsSource="{x:Static Resources:EnumProviders.TweenerMode}"
                 ResetCommand="{Binding Mode.ResetCommand}"
                 SelectedItem="{Binding Mode.Value}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
     </StackPanel>
 </UserControl>

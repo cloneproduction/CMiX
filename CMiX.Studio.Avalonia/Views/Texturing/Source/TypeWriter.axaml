@@ -18,21 +18,21 @@
                 Theme="{StaticResource TypeWriterStyle}" />
         </Border>
 
-        <ui:PositionedStackPanel Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">
 
-            <ui:CaptionedComboBox
+            <ui:ComboBoxCaptioned
                 Caption="Font Family"
                 ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                 ResetCommand="{Binding FontFamily.ResetCommand}"
                 SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 
-            <ui:CaptionedComboBox
+            <ui:ComboBoxCaptioned
                 Caption="Style"
                 ItemsSource="{x:Static Resources:EnumProviders.FontStyle}"
                 ResetCommand="{Binding Style.ResetCommand}"
                 SelectedItem="{Binding Style.Value}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <ui:DragValue
             Margin="0,8"
@@ -40,7 +40,7 @@
             Value="{Binding FontSize.Value}"
             ResetCommand="{Binding FontSize.ResetCommand}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:ColorSelector
                 Caption="Font Color"
@@ -50,14 +50,14 @@
                 Caption="Background Color"
                 DataContext="{Binding BackgroundColor}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <ui:Vector2
             Margin="0,8"
             Caption="Position"
             DataContext="{Binding Position}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Margin="0,0,0,8"
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"

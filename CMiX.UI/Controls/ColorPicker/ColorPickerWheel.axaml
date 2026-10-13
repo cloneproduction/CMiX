@@ -17,7 +17,7 @@
                     ColorState="{Binding ColorState, ElementName=uc, Mode=TwoWay}"
                     Theme="{StaticResource ColorWheelStyle}" />
 
-                <ui:CMiXSlider
+                <ui:SliderCMiX
                     Width="16"
                     IsEditable="False"
                     Maximum="1"
@@ -27,7 +27,7 @@
                                             <i:Interaction.Behaviors>
                             <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                         </i:Interaction.Behaviors>
-                </ui:CMiXSlider>
+                </ui:SliderCMiX>
 
             </StackPanel>
         </Border>

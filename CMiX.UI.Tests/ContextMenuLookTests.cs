@@ -27,7 +27,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void ResetMenuOfASlider_WhenOpen_ShowsItsItemInAPopupFrame()
         {
-            var slider = new CMiXSlider { Width = 200, Height = 30, ResetCommand = new RelayCommand(() => { }) };
+            var slider = new SliderCMiX { Width = 200, Height = 30, ResetCommand = new RelayCommand(() => { }) };
             Host(slider);
 
             slider.ContextMenu!.Open(slider);

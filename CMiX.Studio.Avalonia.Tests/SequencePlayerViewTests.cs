@@ -109,7 +109,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var listBox = repositoryManager.GetVisualDescendants().OfType<CMiXListBox>().Single();
+            var listBox = repositoryManager.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
             listBox.ItemsSource = new List<IControl> { player };
             TestServiceProviderFactory.Pump();
 

@@ -17,10 +17,10 @@ using CMiX.UI.Mathematics;
 
 namespace CMiX.UI.Controls.Number
 {
-    public class CMiXSlider : Slider
+    public class SliderCMiX : Slider
     {
         public static readonly StyledProperty<bool> IsEditableProperty =
-            AvaloniaProperty.Register<CMiXSlider, bool>(nameof(IsEditable), true);
+            AvaloniaProperty.Register<SliderCMiX, bool>(nameof(IsEditable), true);
         public bool IsEditable
         {
             get => GetValue(IsEditableProperty);
@@ -28,7 +28,7 @@ namespace CMiX.UI.Controls.Number
         }
 
         public static readonly StyledProperty<bool> IsEditingProperty =
-            AvaloniaProperty.Register<CMiXSlider, bool>(nameof(IsEditing));
+            AvaloniaProperty.Register<SliderCMiX, bool>(nameof(IsEditing));
         public bool IsEditing
         {
             get => GetValue(IsEditingProperty);
@@ -36,7 +36,7 @@ namespace CMiX.UI.Controls.Number
         }
 
         public static readonly StyledProperty<bool> IsReadOnlyProperty =
-            AvaloniaProperty.Register<CMiXSlider, bool>(nameof(IsReadOnly), false, defaultBindingMode: BindingMode.OneWay);
+            AvaloniaProperty.Register<SliderCMiX, bool>(nameof(IsReadOnly), false, defaultBindingMode: BindingMode.OneWay);
         public bool IsReadOnly
         {
             get => GetValue(IsReadOnlyProperty);
@@ -44,18 +44,18 @@ namespace CMiX.UI.Controls.Number
         }
 
         public static readonly StyledProperty<string> CaptionProperty =
-            AvaloniaProperty.Register<CMiXSlider, string>(nameof(Caption), "");
+            AvaloniaProperty.Register<SliderCMiX, string>(nameof(Caption), "");
         public string Caption
         {
             get => GetValue(CaptionProperty);
             set => SetValue(CaptionProperty, value);
         }
 
-        // Reserves space on the right for a control like ModulatorAssignButton, so a CMiXSlider
+        // Reserves space on the right for a control like ModulatorAssignButton, so a SliderCMiX
         // with a trailing button lines up with a plain one - see DragValue.TrailingContent for the
         // same mechanism on the other value editor.
         public static readonly StyledProperty<object> TrailingContentProperty =
-            AvaloniaProperty.Register<CMiXSlider, object>(nameof(TrailingContent));
+            AvaloniaProperty.Register<SliderCMiX, object>(nameof(TrailingContent));
         public object TrailingContent
         {
             get => GetValue(TrailingContentProperty);
@@ -63,21 +63,21 @@ namespace CMiX.UI.Controls.Number
         }
 
         public static readonly StyledProperty<ICommand> ResetCommandProperty =
-            AvaloniaProperty.Register<CMiXSlider, ICommand>(nameof(ResetCommand));
+            AvaloniaProperty.Register<SliderCMiX, ICommand>(nameof(ResetCommand));
         public ICommand ResetCommand
         {
             get => GetValue(ResetCommandProperty);
             set => SetValue(ResetCommandProperty, value);
         }
 
-        protected override Type StyleKeyOverride => typeof(CMiXSlider);
+        protected override Type StyleKeyOverride => typeof(SliderCMiX);
 
         private Border? Border { get; set; }
         private ContextMenu? _resetMenu;
         private bool _templateApplied;
         private bool _suppressContextMenu;
 
-        public CMiXSlider()
+        public SliderCMiX()
         {
             AddHandler(PointerPressedEvent, OnTunnelPointerPressed, RoutingStrategies.Tunnel);
             AddHandler(PointerMovedEvent, OnTunnelPointerMoved, RoutingStrategies.Tunnel);
