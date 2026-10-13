@@ -6,8 +6,8 @@ using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Xaml.Interactivity;
-using CMiX.UI.Controls;
 using CMiX.UI.Controls.ColorPicker;
+using CMiX.UI.Controls.Number;
 
 namespace CMiX.UI.Behaviors
 {

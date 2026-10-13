@@ -11,7 +11,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using CMiX.Core.Networking;
 using CMiX.Studio.Avalonia.Services;
-using CMiX.UI.Controls;
+using CMiX.UI.Controls.Boolean;
 
 namespace CMiX.Studio.Avalonia.Views
 {

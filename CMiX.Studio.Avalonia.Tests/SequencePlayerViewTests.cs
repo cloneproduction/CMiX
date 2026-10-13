@@ -12,6 +12,7 @@ using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Controls;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls;
+using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

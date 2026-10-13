@@ -6,7 +6,7 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Xunit;
-using CMiX.UI.Controls;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Tests
 {

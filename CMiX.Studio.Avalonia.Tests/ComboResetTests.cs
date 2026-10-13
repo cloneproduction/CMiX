@@ -6,10 +6,10 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
-using CMiX.UI.Controls;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using CMiX.UI.Controls.Enum;
 using CMiX.UI.Tests.Support;
 
 namespace CMiX.Studio.Avalonia.Tests

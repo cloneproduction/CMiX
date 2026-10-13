@@ -7,7 +7,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.UI.Controls;
+using CMiX.UI.Controls.Number;
 using CMiX.UI.Interaction;
 using Xunit;
 

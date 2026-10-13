@@ -10,7 +10,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
-using CMiX.UI.Controls;
+using CMiX.UI.Controls.Parts;
 using CMiX.UI.Tests.Support;
 
 namespace CMiX.UI.Tests

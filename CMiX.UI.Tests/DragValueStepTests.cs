@@ -1,6 +1,6 @@
 using Avalonia.Headless.XUnit;
 using Xunit;
-using CMiX.UI.Controls;
+using CMiX.UI.Controls.Number;
 
 namespace CMiX.UI.Tests
 {

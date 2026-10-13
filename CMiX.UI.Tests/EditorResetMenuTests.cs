@@ -2,8 +2,8 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.UI.Controls;
 using CMiX.UI.Controls.ColorPicker;
+using CMiX.UI.Controls.Number;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 

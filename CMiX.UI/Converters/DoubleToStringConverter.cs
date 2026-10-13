@@ -5,7 +5,7 @@ using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Data.Converters;
-using CMiX.UI.Controls;
+using CMiX.UI.Controls.Number;
 
 namespace CMiX.UI.Converters
 {

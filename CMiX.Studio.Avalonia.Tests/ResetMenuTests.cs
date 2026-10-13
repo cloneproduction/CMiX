@@ -7,7 +7,9 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Studio.Avalonia.Views;
-using CMiX.UI.Controls;
+using CMiX.UI.Controls.Boolean;
+using CMiX.UI.Controls.Enum;
+using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

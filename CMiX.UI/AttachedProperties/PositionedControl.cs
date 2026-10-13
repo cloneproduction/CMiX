@@ -4,7 +4,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Styling;
-using CMiX.UI.Controls;
+using CMiX.UI.Panels;
 
 namespace CMiX.UI.AttachedProperties
 {

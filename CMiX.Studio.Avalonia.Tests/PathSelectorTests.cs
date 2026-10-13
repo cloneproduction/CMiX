@@ -3,7 +3,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Xunit;
-using CMiX.UI.Controls;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
