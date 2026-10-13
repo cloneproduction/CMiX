@@ -62,6 +62,28 @@ An `IntegerValue` needs both `DataContext="{Binding Name}"` and
 `Value="{Binding Value}"`. Without the second one, the box does not follow the
 model. `ResetMenuTests` fails when one is missing.
 
+## Views and folders
+
+`ViewModelToViewTemplate` finds the view of a model by name. The view has the type
+name of the model, for example `Blur` for the model `Blur`. It looks at the
+controls in the namespace `CMiX.Studio.Avalonia.Views` and in its child
+namespaces. The child namespaces `Controls`, `Managers`, `Menus` and `Windows`
+hold support controls, so the locator skips them. Two views with the same name
+make the locator throw, and the message names both types.
+
+The domain views keep the one namespace `CMiX.Studio.Avalonia.Views`, whatever the
+folder. A view can move to another folder without a change to its namespace or its
+`x:Class`. The folders are:
+
+- `Views/Modulation`: the modulatable value editors, the modulator assign button
+  and the modulator views.
+- `Views/Modifiers`: the modifier views. The subfolders `Camera`, `Color`, `Layer`,
+  `Material`, `Text` and `Transform` follow `CMiX.Core/Modulation/Modifiers`.
+- `Views/Controls`: the controls that belong to the Studio.
+
+The value editors start a drag through `InteractionHost`. The App connects it to
+`ValueInteraction` in `App.Initialize`.
+
 ## Menus and popups
 
 Every menu and popup has one look. The control `PopupFrame` holds it: the shadow, the rounded translucent panel and the padding. No other file defines this look.
