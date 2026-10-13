@@ -92,7 +92,6 @@
                 <ListBox
                     x:Name="imagesListBox"
                     Background="Transparent"
-                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
                     ItemsSource="{Binding AssetRepository.Images}"
                     SelectionMode="Multiple">
 
@@ -121,7 +120,6 @@
                 <ListBox
                     x:Name="videosListBox"
                     Background="Transparent"
-                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
                     ItemsSource="{Binding AssetRepository.Videos}"
                     SelectionMode="Multiple">
 
@@ -150,7 +148,6 @@
                 <ListBox
                     x:Name="geometriesListBox"
                     Background="Transparent"
-                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
                     ItemsSource="{Binding AssetRepository.Geometries}"
                     SelectionMode="Multiple">
 
@@ -179,7 +176,6 @@
                 <ListBox
                     x:Name="imageSequencesListBox"
                     Background="Transparent"
-                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
                     ItemsSource="{Binding AssetRepository.ImageSequences}"
                     SelectionMode="Multiple">
 
