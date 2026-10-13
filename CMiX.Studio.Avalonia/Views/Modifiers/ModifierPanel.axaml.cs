@@ -9,7 +9,7 @@ using Avalonia.Data;
 using Avalonia.Media;
 using CMiX.Core.Modulation.Modulators;
 
-namespace CMiX.Studio.Avalonia.Views.Controls.Panels
+namespace CMiX.Studio.Avalonia.Views.Modifiers
 {
     public partial class ModifierPanel : HeaderedContentControl
     {

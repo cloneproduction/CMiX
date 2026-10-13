@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="modifierManager"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -19,7 +19,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
 
-                    <Panels:ModifierPanel
+                    <Modifiers:ModifierPanel
                         Margin="0, 4"
                         DragHandleIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandleIsPressed}"
                         CloseModifierCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
@@ -28,11 +28,11 @@
                         ResetModifierCommand="{Binding $parent[ItemsControl].DataContext.ResetItemCommand}"
                         ResetModifierCommandParameter="{Binding}">
 
-                        <Panels:ModifierPanel.Content>
+                        <Modifiers:ModifierPanel.Content>
                             <ContentControl Content="{Binding}" />
-                        </Panels:ModifierPanel.Content>
+                        </Modifiers:ModifierPanel.Content>
 
-                    </Panels:ModifierPanel>
+                    </Modifiers:ModifierPanel>
 
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
