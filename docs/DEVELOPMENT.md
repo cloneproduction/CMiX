@@ -296,6 +296,15 @@ A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that
 
 `PopupThemeGuardTests` fails when a `ContextMenu`, a `Flyout` or a `MenuFlyout` in an AXAML file of the Studio or of CMiX.UI does not use one of these themes.
 
+### Close when the pointer goes away
+
+A popup or a flyout can close when the pointer moves away from it. Add a behavior from CMiX.UI:
+
+- A `Popup` uses `ClosePopupBehavior`. It also closes the popup on a click outside it and on a click on a button in it.
+- A `Flyout` or a `MenuFlyout` uses `CloseFlyoutOnPointerAwayBehavior`. It only checks the distance.
+
+The pointer is away when it is farther than `Distance` from the content and from the control that opened it. The default is 64. The pointer on the control that opened the popup is never away, also when the control is much wider than the popup. After the user types in a text box of the popup, the popup stays open, because a close would lose the text. The behaviors only check the distance when the pointer moves.
+
 ## Sync over Redis
 
 ### The three parts
