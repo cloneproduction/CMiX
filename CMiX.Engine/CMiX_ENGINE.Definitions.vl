@@ -11758,7 +11758,7 @@
                     <Choice Kind="TypeFlag" Name="Float32" />
                   </p:TypeAnnotation>
                 </Pad>
-                <Node Bounds="87,320,88,26" Id="ACiS9SM4kLSN8m1rDWjmY4">
+                <Node Bounds="86,270,88,26" Id="ACiS9SM4kLSN8m1rDWjmY4">
                   <p:NodeReference LastCategoryFullName="CMiX.Core.Texturing.Filters.Displace" LastDependency="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <CategoryReference Kind="AssemblyCategory" Name="Displace" />
@@ -11843,7 +11843,7 @@
                   <Pin Id="NqiAFJCetFSLEF13fhArIF" Name="Input" Kind="InputPin" />
                   <Pin Id="OOCTaqcpwiQNka9L0uRycL" Name="Output" Kind="OutputPin" />
                 </Node>
-                <Pad Id="CiYovp3rE78LRW3bmUtbV8" SlotId="O7zwnofqmZ6LeZibEzRgBn" Bounds="89,300" />
+                <Pad Id="CiYovp3rE78LRW3bmUtbV8" SlotId="O7zwnofqmZ6LeZibEzRgBn" Bounds="88,250" />
                 <Pad Id="LgA287bah7BOWYN4onLN56" SlotId="O7zwnofqmZ6LeZibEzRgBn" Bounds="497,310" />
                 <ControlPoint Id="ESxJiUSFypaP7SrCDBhZke" Bounds="292,500" />
                 <ControlPoint Id="L2cIbq7BQgiN1qfllXUu6R" Bounds="273,99" />
@@ -11868,6 +11868,16 @@
                     <p:buttonmode p:Assembly="VL.UI.Forms" p:Type="VL.HDE.PatchEditor.Editors.ButtonModeEnum">Toggle</p:buttonmode>
                   </p:ValueBoxSettings>
                 </Pad>
+                <Node Bounds="101,330,74,26" Id="FQBmwNGjyP4PmV1oAiQj1F">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Prefabs.Managers.PrefabManager" LastDependency="CMiX.Core.dll">
+                    <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                    <CategoryReference Kind="AssemblyCategory" Name="PrefabManager" />
+                    <Choice Kind="OperationCallFlag" Name="SelectedItem" />
+                  </p:NodeReference>
+                  <Pin Id="TFPlI9UkEFHMe0PFVbCzeg" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="Kvvu8QmAmeSPk02mGlYCeD" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="Rw8OLiiYvCtMeE9keTXjTb" Name="Selected Item" Kind="OutputPin" />
+                </Node>
               </Canvas>
               <Patch Id="Kj1SdYoVkGyQTsvKuxzBLf" Name="Create" ParticipatingElements="C1ABEomaKtqNcXlaDNvXYm,UaHKzt2SRU9PPbIKESytab">
                 <Pin Id="KnneA0gvM6LP6JTaXqTbPw" Name="ViewModel" Kind="InputPin" />
@@ -11903,7 +11913,6 @@
               </Patch>
               <Slot Id="O7zwnofqmZ6LeZibEzRgBn" Name="ViewModel" />
               <Link Id="P40gfFlPXMFLJl49bRInJi" Ids="D1YLHLGC5JJNmkbiuNqNDg,NeKNH4Udsc8QGNPbhC5cXl" />
-              <Link Id="E5jWdgUHmvNOrjq7AEiM7Z" Ids="CjBv169bgmVOSBUGeBv1bI,PYj4uOalNs7OHbJvznwXul" />
               <Link Id="IpyHrFQuGcxPGmBKkjnyex" Ids="SSoqw75xjlXOAyEizfnEGp,VU2vhbpRvAdQVvdd551yJl" />
               <Link Id="KpZ9TiOZbPgPAYjz4f1UzV" Ids="NY57tbiWIBfPTM9pU5tAc3,RWPbaQcwvNnMPDyMEg7qwh" />
               <Link Id="Juyl78grqNSNQpiX268gA0" Ids="ANDJonPnSbjLiVBlYgF6ep,KPIwDGY7vQHQBJOFPiBNq8" />
@@ -11958,6 +11967,8 @@
                 <Fragment Id="UW0U1WrjRMCNkQr8aXRouf" Patch="MAJ3rr9VLATOm9JUqSngKe" />
                 <Fragment Id="JAizbHRLBp9NeZPILmbmvE" Patch="NWX5qiuYlLiPmQMAJk7TmZ" />
               </ProcessDefinition>
+              <Link Id="GwC7Rt7HLGJLpzmiZB8zZZ" Ids="CjBv169bgmVOSBUGeBv1bI,TFPlI9UkEFHMe0PFVbCzeg" />
+              <Link Id="HngTrgxslHYPui6sV9sAGJ" Ids="Rw8OLiiYvCtMeE9keTXjTb,PYj4uOalNs7OHbJvznwXul" />
             </Patch>
           </Node>
           <!--
@@ -42610,7 +42621,7 @@
                 <Pin Id="PstdqGDWHWZOoDtUv7R82f" Name="Result" Kind="OutputPin" />
                 <Pin Id="E6ILH8AjnY2PBnAE4GVdrq" Name="Key" Kind="InputPin" />
               </Node>
-              <Pad Id="Qm7Xkf5uncqMv1WtNtRewO" Comment="IEnginePrefabs" Bounds="566,110,190,132" ShowValueBox="true" isIOBox="true" />
+              <Pad Id="Qm7Xkf5uncqMv1WtNtRewO" Comment="IEnginePrefabs" Bounds="547,660,190,132" ShowValueBox="true" isIOBox="true" />
               <Node Bounds="462,111,44,19" Id="LUn2Hk8iEFPLFsIVtesTRs">
                 <p:NodeReference LastCategoryFullName="Collections.Sequence" LastDependency="VL.CoreLib.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
