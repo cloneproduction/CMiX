@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     x:Name="prefabSlotManager"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
@@ -64,13 +63,9 @@
                 Theme="{StaticResource ToggleButtonRoundedLeft}" />
 
             <Popup
-                IsOpen="{Binding IsChecked, ElementName=SwapToggle}"
+                ui:TogglePopup.Toggle="{Binding ElementName=SwapToggle}"
                 Placement="BottomEdgeAlignedLeft"
-                PlacementTarget="{Binding ElementName=SwapToggle}"
                 VerticalOffset="-1">
-                <i:Interaction.Behaviors>
-                    <ui:ClosePopupBehavior />
-                </i:Interaction.Behaviors>
                 <Border
                     Width="250"
                     Padding="2"
