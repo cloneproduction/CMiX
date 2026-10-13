@@ -4,6 +4,7 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Every Popup in the AXAML is opened by a toggle button through TogglePopup.Toggle. A new popup must not wire itself by hand.
+    // The popups in the Themes folder are parts of control templates, such as the drop-down of a ComboBox. The control opens them.
     public class PopupWiringGuardTests
     {
         private static readonly Regex Comment = new("<!--.*?-->", RegexOptions.Singleline);
@@ -17,7 +18,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var violations = new List<string>();
             var tagCount = 0;
 
-            foreach (var file in SourceTree.AxamlFiles())
+            var themes = Path.DirectorySeparatorChar + "Themes" + Path.DirectorySeparatorChar;
+
+            foreach (var file in SourceTree.AxamlFiles().Where(f => !f.Contains(themes)))
             {
                 var text = Comment.Replace(File.ReadAllText(file), "");
 
