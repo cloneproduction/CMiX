@@ -18,8 +18,6 @@ namespace CMiX.UI.Controls.ColorPicker
             InitializeComponent();
 
             ContextMenuGuard.Install(this);
-            Loaded += (s, e) => colorPickerPopup.PlacementTarget = PopupToggle;
-            PopupToggle.IsCheckedChanged += (s, e) => colorPickerPopup.IsOpen = PopupToggle.IsChecked == true;
         }
 
         public static readonly StyledProperty<Color> SelectedColorProperty =

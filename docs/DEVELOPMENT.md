@@ -296,6 +296,17 @@ A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that
 
 `PopupThemeGuardTests` fails when a `ContextMenu`, a `Flyout` or a `MenuFlyout` in an AXAML file of the Studio or of CMiX.UI does not use one of these themes.
 
+### Open a popup with a toggle button
+
+A `Popup` that a `ToggleButton` opens uses the attached property `TogglePopup.Toggle`:
+
+```xml
+<ToggleButton x:Name="MyToggle" />
+<Popup ui:TogglePopup.Toggle="{Binding ElementName=MyToggle}" Placement="Bottom">
+```
+
+The popup is open while the toggle is checked. The property sets the placement target, switches the light dismiss off and adds `ClosePopupBehavior`. Do not set these by hand. `PopupButton` is a ready-made toggle with a popup. `PopupWiringGuardTests` fails when a `Popup` outside the Themes folder does not use the property.
+
 ### Close when the pointer goes away
 
 A popup, a flyout or a context menu can close when the pointer moves away from it:

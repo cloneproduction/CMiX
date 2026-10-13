@@ -2,7 +2,6 @@
     x:Class="CMiX.UI.Controls.Collection.PanelItemList"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="panelItemList">
 
@@ -25,15 +24,9 @@
             Theme="{StaticResource ToggleButtonPopup}" />
 
         <Popup
+            ui:TogglePopup.Toggle="{Binding ElementName=AddToggle}"
             Width="{Binding Bounds.Width, ElementName=AddToggle}"
-            IsLightDismissEnabled="False"
-            IsOpen="{Binding IsChecked, ElementName=AddToggle}"
-            Placement="Bottom"
-            PlacementTarget="{Binding ElementName=AddToggle}">
-
-            <i:Interaction.Behaviors>
-                <ui:ClosePopupBehavior />
-            </i:Interaction.Behaviors>
+            Placement="Bottom">
 
             <Border
                 Padding="2"
