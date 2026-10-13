@@ -78,7 +78,7 @@ namespace CMiX.UI.Controls
             TextBox txtbox = (TextBox)sender;
             if (txtbox != null && txtbox.IsLoaded)
             {
-                if (txtbox.Text != String.Empty)
+                if (txtbox.Text != string.Empty)
                 {
                     IPAddress = txtboxFirstPart.Text + "." + txtboxSecondPart.Text + "." + txtboxThridPart.Text + "." + txtboxFourthPart.Text;
                 }
@@ -102,7 +102,7 @@ namespace CMiX.UI.Controls
             if (e.Key == Key.OemPeriod || e.Key == Key.Decimal)
             {
                 txtboxSecondPart.Focus();
-                txtboxSecondPart.Text = String.Empty;
+                txtboxSecondPart.Text = string.Empty;
                 focusMoved = true;
             }
             else
@@ -116,7 +116,7 @@ namespace CMiX.UI.Controls
             if (e.Key == Key.OemPeriod || e.Key == Key.Decimal && !focusMoved)
             {
                 txtboxThridPart.Focus();
-                txtboxThridPart.Text = String.Empty;
+                txtboxThridPart.Text = string.Empty;
                 focusMoved = true;
             }
             else
@@ -130,7 +130,7 @@ namespace CMiX.UI.Controls
             if (e.Key == Key.OemPeriod || e.Key == Key.Decimal)
             {
                 txtboxFourthPart.Focus();
-                txtboxFourthPart.Text = String.Empty;
+                txtboxFourthPart.Text = string.Empty;
             }
         }
     }
