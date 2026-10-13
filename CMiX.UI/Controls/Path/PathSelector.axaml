@@ -29,7 +29,7 @@
                     SelectedItem="{Binding SelectedItem, ElementName=pathSelector}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
+                            <ui:TextBlockTrimmed Text="{Binding Name}" ToolTipText="{Binding FilePath}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                     <ComboBox.ItemsPanel>
