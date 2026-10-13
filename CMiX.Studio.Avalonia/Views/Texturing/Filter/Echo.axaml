@@ -6,7 +6,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="echo">
 
-    <BaseControl:ModulatableFloatSlider
+    <BaseControl:SliderModulatable
         Caption="Factor"
         DataContext="{Binding Factor}"
         Maximum="1"

@@ -11,12 +11,12 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:ModulatableFloatValue
+        <BaseControls:DragValueModulatable
             Caption="Distance"
             DataContext="{Binding Distance}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=zoomModifier}" />
 
-        <BaseControls:ModulatableFloatValue
+        <BaseControls:DragValueModulatable
             Caption="FOV"
             DataContext="{Binding FOV}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=zoomModifier}" />

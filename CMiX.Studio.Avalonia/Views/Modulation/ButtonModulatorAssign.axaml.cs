@@ -12,18 +12,18 @@ using CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class ModulatorAssignButton : ModulatorAssignableUserControl
+    public partial class ButtonModulatorAssign : UserControlModulatable
     {
         // One collection for the whole life of the menu: a new ItemsSource would not refresh the open menu.
         private readonly ObservableCollection<ModulatorOutputChoice> _choices = new();
         private INotifyCollectionChanged _observedItems;
 
-        static ModulatorAssignButton()
+        static ButtonModulatorAssign()
         {
-            ModulatorManagerProperty.Changed.AddClassHandler<ModulatorAssignButton>((c, e) => c.OnModulatorManagerChanged());
+            ModulatorManagerProperty.Changed.AddClassHandler<ButtonModulatorAssign>((c, e) => c.OnModulatorManagerChanged());
         }
 
-        public ModulatorAssignButton()
+        public ButtonModulatorAssign()
         {
             InitializeComponent();
             Flyout.ItemsSource = _choices;

@@ -11,12 +11,12 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:ModulatableFloatValue
+        <BaseControls:DragValueModulatable
             Caption="Yaw"
             DataContext="{Binding Yaw}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=orbitModifier}" />
 
-        <BaseControls:ModulatableFloatValue
+        <BaseControls:DragValueModulatable
             Caption="Pitch"
             DataContext="{Binding Pitch}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=orbitModifier}" />

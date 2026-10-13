@@ -9,28 +9,28 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <Controls:ModulatableFloatSlider
+        <Controls:SliderModulatable
             Caption="Hue"
             DataContext="{Binding Hue}"
             Maximum="1"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
-        <Controls:ModulatableFloatSlider
+        <Controls:SliderModulatable
             Caption="Saturation"
             DataContext="{Binding Saturation}"
             Maximum="1"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
-        <Controls:ModulatableFloatSlider
+        <Controls:SliderModulatable
             Caption="Contrast"
             DataContext="{Binding Contrast}"
             Maximum="1"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
-        <Controls:ModulatableFloatSlider
+        <Controls:SliderModulatable
             Caption="Brightness"
             DataContext="{Binding Brightness}"
             Maximum="1"

@@ -6,7 +6,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="feedback">
 
-    <BaseControls:ModulatableFloatSlider
+    <BaseControls:SliderModulatable
         Caption="Factor"
         DataContext="{Binding Factor}"
         Maximum="1"

@@ -8,7 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <BaseControls:ModulatableVector3
+    <BaseControls:Vector3Modulatable
         Caption="Target"
         ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=targetModifier}" />
 

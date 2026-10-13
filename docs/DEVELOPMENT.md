@@ -237,7 +237,7 @@ The themes and `PopupFrame` are in CMiX.UI.
 
 `ContextMenuDefault` and `MenuFlyoutPresenterDefault` derive from the theme `MenuPanel`. A row is a `MenuItem` with the theme `MenuItemContext`. A row with the header `-` is a separator. A row with `IsChecked` has the accent background.
 
-A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that the code updates in place. A new `ItemsSource` does not refresh a menu that was shown before. `ModulatorAssignButton` is an example.
+A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that the code updates in place. A new `ItemsSource` does not refresh a menu that was shown before. `ButtonModulatorAssign` is an example.
 
 `PopupThemeGuardTests` fails when a `ContextMenu`, a `Flyout` or a `MenuFlyout` in an AXAML file of the Studio or of CMiX.UI does not use one of these themes.
 

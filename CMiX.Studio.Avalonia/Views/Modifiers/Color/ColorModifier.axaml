@@ -30,22 +30,22 @@
         <ui:StackPanelPositioned
             Spacing="{DynamicResource SpacingXXS}">
 
-            <StudioControls:ModulatableFloatValue
+            <StudioControls:DragValueModulatable
                 Caption="{Binding DataContext.FirstCaption, ElementName=colorModifier}"
                 DataContext="{Binding Hue}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
-            <StudioControls:ModulatableFloatValue
+            <StudioControls:DragValueModulatable
                 Caption="{Binding DataContext.SecondCaption, ElementName=colorModifier}"
                 DataContext="{Binding Saturation}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
-            <StudioControls:ModulatableFloatValue
+            <StudioControls:DragValueModulatable
                 Caption="{Binding DataContext.ThirdCaption, ElementName=colorModifier}"
                 DataContext="{Binding Value}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
-            <StudioControls:ModulatableFloatValue
+            <StudioControls:DragValueModulatable
                 Caption="Alpha"
                 DataContext="{Binding Alpha}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />

@@ -11,12 +11,12 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <StudioControls:ModulatableFloatValue
+        <StudioControls:DragValueModulatable
             Caption="Grid Size"
             DataContext="{Binding GridSize}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ascii}" />
 
-        <StudioControls:ModulatableVector2
+        <StudioControls:Vector2Modulatable
             Caption="Character Size"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ascii}" />
 

@@ -40,14 +40,14 @@
         <ui:StackPanelPositioned
             Spacing="{DynamicResource SpacingXXS}">
 
-            <StudioControls:ModulatableFloatSlider
+            <StudioControls:SliderModulatable
                 Caption="Smooth"
                 DataContext="{Binding Smooth}"
                 Maximum="1.0"
                 Minimum="0.0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=triColor}" />
 
-            <StudioControls:ModulatableFloatSlider
+            <StudioControls:SliderModulatable
                 Caption="Center"
                 DataContext="{Binding Center}"
                 Maximum="1.0"

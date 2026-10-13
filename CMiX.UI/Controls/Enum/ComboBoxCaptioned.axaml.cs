@@ -171,7 +171,7 @@ namespace CMiX.UI.Controls.Enum
             set => SetValue(ResetCommandProperty, value);
         }
 
-        // Reserves space on the right for a control like ModulatorAssignButton, so a ComboBox
+        // Reserves space on the right for a control like ButtonModulatorAssign, so a ComboBox
         // with a trailing button lines up with a plain one - see DragValue.TrailingContent for
         // the same mechanism on the other value editors.
         public static readonly StyledProperty<object> TrailingContentProperty =

@@ -16,7 +16,7 @@
             ResetCommand="{Binding Type.ResetCommand}"
             SelectedItem="{Binding Type.Value}" />
 
-        <StudioControls:ModulatableFloatSlider
+        <StudioControls:SliderModulatable
             Margin="0,8,0,0"
             Caption="Radius"
             DataContext="{Binding Radius}"

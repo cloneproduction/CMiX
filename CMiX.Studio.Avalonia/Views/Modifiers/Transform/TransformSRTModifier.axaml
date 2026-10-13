@@ -16,36 +16,36 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         
-        <StudioControls:ModulatableFloatValue
+        <StudioControls:DragValueModulatable
             Caption="Uniform"
             DataContext="{Binding ScaleUniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
-            <StudioControls:ModulatableFloatValue Caption="Scale X" DataContext="{Binding ScaleX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <StudioControls:ModulatableFloatValue Caption="Y" DataContext="{Binding ScaleY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <StudioControls:ModulatableFloatValue Caption="Z" DataContext="{Binding ScaleZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <StudioControls:DragValueModulatable Caption="Scale X" DataContext="{Binding ScaleX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <StudioControls:DragValueModulatable Caption="Y" DataContext="{Binding ScaleY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <StudioControls:DragValueModulatable Caption="Z" DataContext="{Binding ScaleZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </ui:StackPanelPositioned>
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
-            <StudioControls:ModulatableFloatValue 
+            <StudioControls:DragValueModulatable 
                 Caption="Translate X" 
                 DataContext="{Binding TranslateX}" 
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <StudioControls:ModulatableFloatValue 
+            <StudioControls:DragValueModulatable 
                 Caption="Y" 
                 DataContext="{Binding TranslateY}" 
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <StudioControls:ModulatableFloatValue 
+            <StudioControls:DragValueModulatable 
                 Caption="Z" 
                 DataContext="{Binding TranslateZ}" 
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </ui:StackPanelPositioned>
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
-            <StudioControls:ModulatableFloatValue Caption="Rotation X" DataContext="{Binding RotationX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <StudioControls:ModulatableFloatValue Caption="Y" DataContext="{Binding RotationY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
-            <StudioControls:ModulatableFloatValue Caption="Z" DataContext="{Binding RotationZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <StudioControls:DragValueModulatable Caption="Rotation X" DataContext="{Binding RotationX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <StudioControls:DragValueModulatable Caption="Y" DataContext="{Binding RotationY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <StudioControls:DragValueModulatable Caption="Z" DataContext="{Binding RotationZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </ui:StackPanelPositioned>
 
         <ui:AxisSelector3

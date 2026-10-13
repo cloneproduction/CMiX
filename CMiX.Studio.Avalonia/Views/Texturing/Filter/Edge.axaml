@@ -9,14 +9,14 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <Controls:ModulatableFloatSlider
+        <Controls:SliderModulatable
             Caption="Radius"
             DataContext="{Binding Radius}"
             Maximum="1"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=edge}" />
 
-        <Controls:ModulatableFloatSlider
+        <Controls:SliderModulatable
             Caption="Brightness"
             DataContext="{Binding Brightness}"
             Maximum="1"

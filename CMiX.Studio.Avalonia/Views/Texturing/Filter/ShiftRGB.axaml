@@ -9,21 +9,21 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:ModulatableFloatSlider
+        <BaseControls:SliderModulatable
             Caption="Direction"
             DataContext="{Binding Direction}"
             Maximum="1"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shiftRGB}" />
 
-        <BaseControls:ModulatableFloatSlider
+        <BaseControls:SliderModulatable
             Caption="Shift"
             DataContext="{Binding Shift}"
             Maximum="1"
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shiftRGB}" />
 
-        <BaseControls:ModulatableFloatSlider
+        <BaseControls:SliderModulatable
             Caption="Hue"
             DataContext="{Binding Hue}"
             Maximum="1"

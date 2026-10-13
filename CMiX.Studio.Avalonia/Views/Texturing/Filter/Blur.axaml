@@ -6,7 +6,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="blur">
 
-    <BaseControls:ModulatableFloatSlider
+    <BaseControls:SliderModulatable
         Caption="Strength"
         DataContext="{Binding Strength}"
         Maximum="1"

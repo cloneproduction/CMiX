@@ -17,18 +17,18 @@
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
-            <BaseControls:ModulatableFloatValue
+            <BaseControls:DragValueModulatable
                 Caption="Center"
                 DataContext="{Binding Center}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
 
-            <BaseControls:ModulatableFloatValue
+            <BaseControls:DragValueModulatable
                 Caption="Width"
                 DataContext="{Binding Width}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />
         </ui:StackPanelPositioned>
 
-        <BaseControls:ModulatableFloatValue
+        <BaseControls:DragValueModulatable
             Caption="Seed"
             DataContext="{Binding Seed}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=randomModifier}" />

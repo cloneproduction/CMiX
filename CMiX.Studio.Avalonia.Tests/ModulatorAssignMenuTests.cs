@@ -18,7 +18,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // The assign popup of a real filter view: its rows, its assigned row, and what a click does.
     public class ModulatorAssignMenuTests
     {
-        private static (Blur Blur, FFTModulator Fft, Window Window, ModulatorAssignButton Button) Show()
+        private static (Blur Blur, FFTModulator Fft, Window Window, ButtonModulatorAssign Button) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var blur = (Blur)provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
@@ -30,13 +30,13 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var button = view.GetVisualDescendants().OfType<ModulatorAssignButton>().Single(b => b.DataContext == blur.Strength);
+            var button = view.GetVisualDescendants().OfType<ButtonModulatorAssign>().Single(b => b.DataContext == blur.Strength);
             return (blur, blur.ModulatorManager.ManagerData.Items.OfType<FFTModulator>().Single(), window, button);
         }
 
-        private static FlyoutBase FlyoutOf(ModulatorAssignButton button) => button.FindControl<Button>("assignButton")!.Flyout!;
+        private static FlyoutBase FlyoutOf(ButtonModulatorAssign button) => button.FindControl<Button>("assignButton")!.Flyout!;
 
-        private static List<MenuItem> Open(Window window, ModulatorAssignButton button)
+        private static List<MenuItem> Open(Window window, ButtonModulatorAssign button)
         {
             FlyoutOf(button).ShowAt(button.FindControl<Button>("assignButton")!);
             Dispatcher.UIThread.RunJobs();

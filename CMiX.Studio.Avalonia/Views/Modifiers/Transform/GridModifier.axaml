@@ -13,29 +13,29 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:ModulatableIntegerValue
+            <BaseControls:IntegerValueModulatable
                 Caption="Count X"
                 DataContext="{Binding Count.X}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
-            <BaseControls:ModulatableIntegerValue
+            <BaseControls:IntegerValueModulatable
                 Caption="Y"
                 DataContext="{Binding Count.Y}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
-            <BaseControls:ModulatableIntegerValue
+            <BaseControls:IntegerValueModulatable
                 Caption="Z"
                 DataContext="{Binding Count.Z}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
         </ui:StackPanelPositioned>
 
-        <BaseControls:ModulatableVector3
+        <BaseControls:Vector3Modulatable
             Caption="Width"
             DataContext="{Binding Width}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
-        <BaseControls:ModulatableVector3
+        <BaseControls:Vector3Modulatable
             Caption="Phase"
             DataContext="{Binding Phase}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />

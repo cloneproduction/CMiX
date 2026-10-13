@@ -1,5 +1,5 @@
-<BaseControls:ModulatorAssignableUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.ModulatableVector3"
+<BaseControls:UserControlModulatable
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.Vector3Modulatable"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
@@ -10,21 +10,21 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:ModulatableFloatValue
+        <BaseControls:DragValueModulatable
             Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} X', Mode=OneWay}"
             DataContext="{Binding X}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
-        <BaseControls:ModulatableFloatValue
+        <BaseControls:DragValueModulatable
             Caption="Y"
             DataContext="{Binding Y}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
-        <BaseControls:ModulatableFloatValue
+        <BaseControls:DragValueModulatable
             Caption="Z"
             DataContext="{Binding Z}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
     </ui:StackPanelPositioned>
 
-</BaseControls:ModulatorAssignableUserControl>
+</BaseControls:UserControlModulatable>

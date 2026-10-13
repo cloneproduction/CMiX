@@ -51,7 +51,7 @@ namespace CMiX.UI.Controls.Number
             set => SetValue(CaptionProperty, value);
         }
 
-        // Reserves space on the right for a control like ModulatorAssignButton, so a SliderCMiX
+        // Reserves space on the right for a control like ButtonModulatorAssign, so a SliderCMiX
         // with a trailing button lines up with a plain one - see DragValue.TrailingContent for the
         // same mechanism on the other value editor.
         public static readonly StyledProperty<object> TrailingContentProperty =

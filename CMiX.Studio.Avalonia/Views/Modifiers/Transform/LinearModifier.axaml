@@ -18,12 +18,12 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:ModulatableFloatValue
+            <BaseControls:DragValueModulatable
                 Caption="Width"
                 DataContext="{Binding Width}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
 
-            <BaseControls:ModulatableFloatValue
+            <BaseControls:DragValueModulatable
                 Caption="Phase"
                 DataContext="{Binding Phase}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />

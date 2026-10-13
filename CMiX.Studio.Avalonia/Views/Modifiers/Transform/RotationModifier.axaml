@@ -15,7 +15,7 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=rotationModifier}" />
 
-        <BaseControls:ModulatableVector3
+        <BaseControls:Vector3Modulatable
             Caption="Rotation"
             ModulatorManager="{Binding ModulatorManager}" />
 

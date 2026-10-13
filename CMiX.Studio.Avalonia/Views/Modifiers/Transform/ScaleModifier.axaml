@@ -16,12 +16,12 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 
-        <BaseControls:ModulatableFloatValue
+        <BaseControls:DragValueModulatable
             Caption="Uniform"
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 
-        <BaseControls:ModulatableVector3
+        <BaseControls:Vector3Modulatable
             Caption="Scale"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 

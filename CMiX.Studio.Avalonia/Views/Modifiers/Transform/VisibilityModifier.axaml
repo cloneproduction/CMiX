@@ -11,7 +11,7 @@
 
     <StackPanel>
 
-        <BaseControls:ModulatableFloatSlider
+        <BaseControls:SliderModulatable
             Caption="Control"
             DataContext="{Binding Value}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=visibilityModifier}"

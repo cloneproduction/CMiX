@@ -5,15 +5,15 @@ using Avalonia;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class ModulatableFloatValue : ModulatorAssignableUserControl
+    public partial class SliderModulatable : UserControlModulatable
     {
-        public ModulatableFloatValue()
+        public SliderModulatable()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<double> MinimumProperty =
-            AvaloniaProperty.Register<ModulatableFloatValue, double>(nameof(Minimum), -10000.0);
+            AvaloniaProperty.Register<SliderModulatable, double>(nameof(Minimum));
         public double Minimum
         {
             get => GetValue(MinimumProperty);
@@ -21,7 +21,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<double> MaximumProperty =
-            AvaloniaProperty.Register<ModulatableFloatValue, double>(nameof(Maximum), 10000.0);
+            AvaloniaProperty.Register<SliderModulatable, double>(nameof(Maximum), 1.0);
         public double Maximum
         {
             get => GetValue(MaximumProperty);

@@ -16,18 +16,18 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />
 
-        <BaseControls:ModulatableVector2
+        <BaseControls:Vector2Modulatable
             Caption="Width"
             ModulatorManager="{Binding ModulatorManager}" />
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:ModulatableFloatValue
+            <BaseControls:DragValueModulatable
                 Caption="Phase"
                 DataContext="{Binding Phase}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />
 
-            <BaseControls:ModulatableFloatValue
+            <BaseControls:DragValueModulatable
                 Caption="Factor"
                 DataContext="{Binding Factor}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />

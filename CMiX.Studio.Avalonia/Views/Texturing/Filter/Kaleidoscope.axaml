@@ -25,7 +25,7 @@
                 Value="{Binding Iterations.Value}"
                 ResetCommand="{Binding Iterations.ResetCommand}" />
 
-            <StudioControls:ModulatableFloatValue
+            <StudioControls:DragValueModulatable
                 Caption="Iteration Zoom"
                 DataContext="{Binding IterationZoom}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
@@ -34,34 +34,34 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <StudioControls:ModulatableFloatValue
+            <StudioControls:DragValueModulatable
                 Caption="Rotation"
                 DataContext="{Binding Rotation}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-            <StudioControls:ModulatableFloatValue
+            <StudioControls:DragValueModulatable
                 Caption="Zoom"
                 DataContext="{Binding Zoom}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
         </ui:StackPanelPositioned>
 
-        <StudioControls:ModulatableVector2
+        <StudioControls:Vector2Modulatable
             Caption="Center"
             DataContext="{Binding Center}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        <StudioControls:ModulatableFloatValue
+        <StudioControls:DragValueModulatable
             Caption="Cell Rotation"
             DataContext="{Binding CellRotation}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        <StudioControls:ModulatableVector2
+        <StudioControls:Vector2Modulatable
             Caption="Cell Offset"
             DataContext="{Binding CellOffset}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        <StudioControls:ModulatableVector2
+        <StudioControls:Vector2Modulatable
             Caption="Cell Scale"
             DataContext="{Binding CellScale}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />

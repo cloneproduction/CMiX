@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace CMiX.Studio.Avalonia;
 
-public partial class ModulatableModifierPanel : UserControl
+public partial class ModifierPanelModulatable : UserControl
 {
-    public ModulatableModifierPanel()
+    public ModifierPanelModulatable()
     {
         InitializeComponent();
     }

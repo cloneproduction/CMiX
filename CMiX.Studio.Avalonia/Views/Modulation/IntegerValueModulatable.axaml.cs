@@ -3,9 +3,9 @@
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class ModulatableIntegerValue : ModulatorAssignableUserControl
+    public partial class IntegerValueModulatable : UserControlModulatable
     {
-        public ModulatableIntegerValue()
+        public IntegerValueModulatable()
         {
             InitializeComponent();
         }

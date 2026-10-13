@@ -13,13 +13,13 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-      <StudioControls:ModulatableFloatValue
+      <StudioControls:DragValueModulatable
           Caption="Threshold"
           DataContext="{Binding ThresholdValue}"
           Minimum="0"
           ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
 
-      <StudioControls:ModulatableFloatValue
+      <StudioControls:DragValueModulatable
           Caption="Smooth"
           DataContext="{Binding Smooth}"
           Minimum="0"
