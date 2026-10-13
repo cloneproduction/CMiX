@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    xmlns:Layering="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
@@ -36,7 +36,7 @@
                     DataContext="{Binding ModifierManager}">
 
                     <Views:ModifierManager.SelectionPanel>
-                        <Managers:AutoSelectionPanel PanelOwner="{x:Type Layering:Layer}" />
+                        <Managers:AutoSelectionPanel PanelOwner="{x:Type Compositing:Layer}" />
                     </Views:ModifierManager.SelectionPanel>
 
                 </Views:ModifierManager>

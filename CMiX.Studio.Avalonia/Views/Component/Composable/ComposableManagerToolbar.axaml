@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <DockPanel 
 
@@ -14,7 +14,7 @@
             Width="{DynamicResource ControlHeightMD}"
             Background="Transparent"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{Binding $parent[views:ComposableManager].ItemType}"
+            CommandParameter="{Binding $parent[Views:ComposableManager].ItemType}"
             Theme="{StaticResource ButtonRounded}">
             <Button.Content>
                 <ui:AppIcon Opacity="0.9" IconKey="Add" Size="{DynamicResource IconSizeXS}" />

@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
-    xmlns:Modifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
+    xmlns:CoreModifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     x:Name="modifierModeSelector"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -25,7 +25,7 @@
         <Modulation:IntegerValueModulatable
             Caption="Count"
             DataContext="{Binding Count}"
-            IsEnabled="{Binding DataContext.Mode.Value, ElementName=modifierModeSelector, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
+            IsEnabled="{Binding DataContext.Mode.Value, ElementName=modifierModeSelector, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static CoreModifiers:ModifierMode.ToSpread}}"
             ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
 
     </ui:StackPanelPositioned>
