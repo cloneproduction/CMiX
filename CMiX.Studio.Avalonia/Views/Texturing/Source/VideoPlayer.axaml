@@ -33,8 +33,8 @@
 
         <ui:IntegerValue
             Caption="Seek Frame"
-            DataContext="{Binding SeekFrame}"
-            Value="{Binding Value}" />
+            Value="{Binding SeekFrame.Value}"
+            ResetCommand="{Binding SeekFrame.ResetCommand}" />
 
         <ui:ToggleButtonCaptioned
             Margin="0,8"

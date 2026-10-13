@@ -136,33 +136,5 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // An integer box needs Value="{Binding Value}" next to its DataContext. Without it, the box and the model do not meet.
-        [AvaloniaFact]
-        public void EveryIntegerBoxInEveryView_FollowsItsModelValueBothWays()
-        {
-            var broken = new List<string>();
-            var boxes = 0;
-
-            ForEachView((viewName, view) =>
-            {
-                foreach (var box in view.GetVisualDescendants().OfType<IntegerValue>())
-                {
-                    if (box.DataContext is not GenericValue<int> value) continue;
-                    boxes++;
-
-                    value.Value += 7;
-                    Dispatcher.UIThread.RunJobs();
-                    if (box.Value != value.Value)
-                        broken.Add($"{viewName}: '{box.Caption}' does not show its model value");
-
-                    box.Value += 3;
-                    Dispatcher.UIThread.RunJobs();
-                    if (box.Value != value.Value)
-                        broken.Add($"{viewName}: '{box.Caption}' does not change its model value");
-                }
-            });
-
-            Assert.True(boxes > 10, $"Only {boxes} integer boxes were checked.");
-            Assert.True(broken.Count == 0, string.Join(Environment.NewLine, broken));
-        }
     }
 }

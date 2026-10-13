@@ -61,11 +61,11 @@ namespace CMiX.UI.Controls.Number
         protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
         {
             base.OnPropertyChanged(change);
-            if (_templateApplied && change.Property == ResetCommandProperty)
+            if (_templateApplied && (change.Property == ResetCommandProperty || change.Property == ResetAllCommandProperty))
                 UpdateResetMenu();
         }
 
-        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ref _resetMenu);
+        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ResetAllCommand, ref _resetMenu);
 
         private static double Distance(Point a, Point b)
         {
@@ -286,6 +286,16 @@ namespace CMiX.UI.Controls.Number
         {
             get => GetValue(ResetCommandProperty);
             set => SetValue(ResetCommandProperty, value);
+        }
+
+        // Set when this editor is one part of a group (a vector). The Reset menu then also has Reset All.
+        public static readonly StyledProperty<ICommand> ResetAllCommandProperty =
+            AvaloniaProperty.Register<DragValue, ICommand>(nameof(ResetAllCommand));
+
+        public ICommand ResetAllCommand
+        {
+            get => GetValue(ResetAllCommandProperty);
+            set => SetValue(ResetAllCommandProperty, value);
         }
     }
 }
