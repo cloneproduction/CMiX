@@ -19,15 +19,8 @@
             Minimum="{Binding Minimum, ElementName=rangeValue}"
             SmallChange="{Binding SmallChange, ElementName=rangeValue}"
             Theme="{StaticResource DragValueInlineCaption}"
-            Value="{Binding LeftValue, ElementName=rangeValue, Mode=TwoWay}">
-            <ui:DragValue.ContextMenu>
-                <ContextMenu Theme="{StaticResource ContextMenuDefault}">
-                    <MenuItem
-                        Command="{Binding LeftResetCommand, ElementName=rangeValue}"
-                        Header="Reset" />
-                </ContextMenu>
-            </ui:DragValue.ContextMenu>
-        </ui:DragValue>
+            ResetCommand="{Binding LeftResetCommand, ElementName=rangeValue}"
+            Value="{Binding LeftValue, ElementName=rangeValue, Mode=TwoWay}" />
 
         <ui:DragValue
             Grid.Column="1"
@@ -40,15 +33,8 @@
             Minimum="{Binding Minimum, ElementName=rangeValue}"
             SmallChange="{Binding SmallChange, ElementName=rangeValue}"
             Theme="{StaticResource DragValueInlineCaption}"
-            Value="{Binding RightValue, ElementName=rangeValue, Mode=TwoWay}">
-            <ui:DragValue.ContextMenu>
-                <ContextMenu Theme="{StaticResource ContextMenuDefault}">
-                    <MenuItem
-                        Command="{Binding RightResetCommand, ElementName=rangeValue}"
-                        Header="Reset" />
-                </ContextMenu>
-            </ui:DragValue.ContextMenu>
-        </ui:DragValue>
+            ResetCommand="{Binding RightResetCommand, ElementName=rangeValue}"
+            Value="{Binding RightValue, ElementName=rangeValue, Mode=TwoWay}" />
 
     </Grid>
 

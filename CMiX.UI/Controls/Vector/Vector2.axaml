@@ -10,26 +10,16 @@
         <ui:DragValue
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vector2, Mode=OneWay}"
             DataContext="{Binding X}"
-            Value="{Binding Value}">
-            <ui:DragValue.ContextMenu>
-                <ContextMenu Theme="{StaticResource ContextMenuDefault}">
-                    <MenuItem Command="{Binding ResetCommand}" Header="Reset" />
-                    <MenuItem Command="{Binding DataContext.ResetAllCommand, ElementName=vector2}" Header="Reset All" />
-                </ContextMenu>
-            </ui:DragValue.ContextMenu>
-        </ui:DragValue>
+            ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=vector2}"
+            ResetCommand="{Binding ResetCommand}"
+            Value="{Binding Value}" />
 
         <ui:DragValue
             Caption="Y"
             DataContext="{Binding Y}"
-            Value="{Binding Value}">
-            <ui:DragValue.ContextMenu>
-                <ContextMenu Theme="{StaticResource ContextMenuDefault}">
-                    <MenuItem Command="{Binding ResetCommand}" Header="Reset" />
-                    <MenuItem Command="{Binding DataContext.ResetAllCommand, ElementName=vector2}" Header="Reset All" />
-                </ContextMenu>
-            </ui:DragValue.ContextMenu>
-        </ui:DragValue>
+            ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=vector2}"
+            ResetCommand="{Binding ResetCommand}"
+            Value="{Binding Value}" />
 
     </ui:StackPanelPositioned>
 
