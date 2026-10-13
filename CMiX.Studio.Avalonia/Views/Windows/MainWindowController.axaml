@@ -10,21 +10,21 @@
             CommandParameter="{Binding $parent[Window]}"
             Content="Close"
             DockPanel.Dock="Right"
-            Theme="{StaticResource ButtonWindowIconStyle}" />
+            Theme="{StaticResource ButtonWindowIcon}" />
 
         <Button
             Command="{Binding MaximizeWindowCommand}"
             CommandParameter="{Binding $parent[Window]}"
             Content="Maximize"
             DockPanel.Dock="Right"
-            Theme="{StaticResource ButtonWindowIconStyle}" />
+            Theme="{StaticResource ButtonWindowIcon}" />
 
         <Button
             Command="{Binding MinimizeWindowCommand}"
             CommandParameter="{Binding $parent[Window]}"
             Content="Minimize"
             DockPanel.Dock="Right"
-            Theme="{StaticResource ButtonWindowIconStyle}"
+            Theme="{StaticResource ButtonWindowIcon}"
             VerticalContentAlignment="Bottom" />
 
     </DockPanel>

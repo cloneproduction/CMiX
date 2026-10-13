@@ -11,7 +11,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // Opening tags only. The lookahead skips property elements such as ContextMenu.Items.
         private static readonly Regex Tag = new(@"<(ContextMenu|Flyout|MenuFlyout)(?![.\w])((?:""[^""]*""|[^>""])*)>");
 
-        private static readonly Regex FlyoutPresenterTheme = new(@"FlyoutPresenterTheme\s*=\s*""[^""]*(PopupFlyoutStyle|MenuFlyoutPresenterDefault)[^""]*""");
+        private static readonly Regex FlyoutPresenterTheme = new(@"FlyoutPresenterTheme\s*=\s*""[^""]*(FlyoutPresenterPanel|MenuFlyoutPresenterDefault)[^""]*""");
 
         [Fact]
         public void EveryContextMenuAndFlyoutInTheAxaml_UsesASharedPopupTheme()

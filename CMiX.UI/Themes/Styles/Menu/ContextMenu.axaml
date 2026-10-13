@@ -4,7 +4,7 @@
     xmlns:sys="using:System"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <ControlTheme x:Key="ContextMenuSubItem" TargetType="MenuItem">
+    <ControlTheme x:Key="MenuItemContext" TargetType="MenuItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="Template">
@@ -96,7 +96,7 @@
     <!-- The look of every menu popup. A context menu and a menu flyout derive from it. -->
     <ControlTheme x:Key="MenuPanel" TargetType="MenuBase">
         <Setter Property="Grid.IsSharedSizeScope" Value="True" />
-        <Setter Property="ItemContainerTheme" Value="{DynamicResource ContextMenuSubItem}" />
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource MenuItemContext}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <ui:PopupFrame CentersOnPointer="True">

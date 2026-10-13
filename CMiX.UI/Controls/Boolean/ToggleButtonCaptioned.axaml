@@ -13,7 +13,7 @@
                 Height="{DynamicResource ControlHeightXS}"
                 HorizontalAlignment="Left"
                 IsChecked="{Binding IsChecked, ElementName=toggleButtonControl, Mode=TwoWay}"
-                Theme="{StaticResource ToggleCheckBox}" />
+                Theme="{StaticResource ToggleButtonCheckBox}" />
             <Border
                 x:Name="labelBorder"
                 Background="Transparent">

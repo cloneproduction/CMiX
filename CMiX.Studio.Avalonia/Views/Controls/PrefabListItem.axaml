@@ -17,7 +17,7 @@
             Margin="4,0"
             DockPanel.Dock="Right"
             IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}"
-            Theme="{DynamicResource ToggleVisibility}" />
+            Theme="{DynamicResource ToggleButtonVisibility}" />
 
         <ui:TextBoxEditable Text="{Binding PrefabService.Name.Value}" />
 

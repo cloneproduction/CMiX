@@ -46,7 +46,7 @@ namespace CMiX.UI.Tests
         {
             var app = Avalonia.Application.Current!;
 
-            foreach (var key in new[] { "ForegroundBrush", "Grey100Brush", "AccentBrush", "SpacingXXS", "ControlHeightMD", "ContextMenuDefault", "PopupFlyoutStyle" })
+            foreach (var key in new[] { "ForegroundBrush", "Grey100Brush", "AccentBrush", "SpacingXXS", "ControlHeightMD", "ContextMenuDefault", "FlyoutPresenterPanel" })
                 Assert.True(app.TryFindResource(key, app.ActualThemeVariant, out var value) && value != null, $"The resource '{key}' was not found.");
         }
     }

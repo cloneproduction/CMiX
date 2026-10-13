@@ -25,19 +25,19 @@
                     Width="{DynamicResource ControlHeightMD}"
                     DockPanel.Dock="Right"
                     IsChecked="{Binding DataContext.PrefabService.Visibility.Value, ElementName=modifierPanel, Mode=TwoWay}"
-                    Theme="{DynamicResource ToggleVisibility}" />
+                    Theme="{DynamicResource ToggleButtonVisibility}" />
 
                 <Button
                     Command="{Binding CloseModifierCommand, ElementName=modifierPanel}"
                     CommandParameter="{Binding CloseModifierCommandParameter, ElementName=modifierPanel}"
-                    Theme="{DynamicResource CloseIconButton}" />
+                    Theme="{DynamicResource ButtonIconClose}" />
 
               <Button
                     Margin="8, 0, 2, 0"
                     ui:DragHandle.IsEnabled="True"
                     ui:DragHandle.IsPressed="{Binding DragHandlerIsPressed, ElementName=modifierPanel, Mode=TwoWay}"
                     DockPanel.Dock="Right"
-                    Theme="{StaticResource DragHandleButton}">
+                    Theme="{StaticResource ButtonDragHandle}">
 
                 <Button.Content>
 
@@ -64,7 +64,7 @@
             <Expander
                 Name="PART_Expander"
                 IsExpanded="{Binding DataContext.IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                Theme="{StaticResource ItemControlExpander}">
+                Theme="{StaticResource ExpanderItem}">
 
                 <Expander.Header>
                     <ContentPresenter

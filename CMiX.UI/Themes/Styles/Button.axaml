@@ -90,7 +90,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="InlineButtonRight"
+    <ControlTheme x:Key="ButtonInlineRight"
         BasedOn="{StaticResource ButtonRoundedRight}"
         TargetType="Button">
         <Style Selector="^:pressed /template/ Border#border">
@@ -98,7 +98,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ButtonColorStyle" TargetType="ToggleButton">
+    <ControlTheme x:Key="ToggleButtonColor" TargetType="ToggleButton">
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel Background="Transparent">
@@ -148,7 +148,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ButtonItemControl" TargetType="Button">
+    <ControlTheme x:Key="ButtonItem" TargetType="Button">
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -226,7 +226,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ButtonWindowControlStyle"
+    <ControlTheme x:Key="ButtonWindowControl"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="Button">
         <Setter Property="Height" Value="{DynamicResource ControlHeightXL}" />
@@ -237,8 +237,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </ControlTheme>
 
-    <ControlTheme x:Key="ButtonWindowIconStyle"
-        BasedOn="{StaticResource ButtonWindowControlStyle}"
+    <ControlTheme x:Key="ButtonWindowIcon"
+        BasedOn="{StaticResource ButtonWindowControl}"
         TargetType="Button">
         <Setter Property="Template">
             <ControlTemplate>

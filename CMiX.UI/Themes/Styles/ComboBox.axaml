@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <ControlTheme x:Key="ComboBoxToggleStyle" TargetType="ToggleButton">
+    <ControlTheme x:Key="ComboBoxToggle" TargetType="ToggleButton">
         <Setter Property="ClickMode" Value="Press" />
         <Setter Property="Focusable" Value="True" />
         <Setter Property="IsTabStop" Value="False" />
@@ -50,7 +50,7 @@
                         Background="{TemplateBinding Background}"
                         HorizontalAlignment="Stretch"
                         IsChecked="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
-                        Theme="{StaticResource ComboBoxToggleStyle}"
+                        Theme="{StaticResource ComboBoxToggle}"
                         VerticalAlignment="Stretch" />
 
                     <!-- SelectionBoxItemStringFormat has no Avalonia equivalent and was dropped -->
@@ -102,7 +102,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ComboBoxItem" TargetType="ComboBoxItem">
+    <ControlTheme x:Key="ComboBoxItemCMiX" TargetType="ComboBoxItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="HorizontalContentAlignment" Value="{Binding $parent[ComboBox].HorizontalContentAlignment}" />
@@ -137,7 +137,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem" BasedOn="{StaticResource ComboBoxItem}" />
+    <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem" BasedOn="{StaticResource ComboBoxItemCMiX}" />
 
     <ControlTheme x:Key="ComboBoxWithButton" TargetType="ComboBox">
         <Setter Property="MaxDropDownHeight" Value="168" />

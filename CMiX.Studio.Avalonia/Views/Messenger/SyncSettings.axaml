@@ -19,7 +19,7 @@
                         Height="7"
                         Classes.connected="{Binding IsConnected}"
                         Classes.connecting="{Binding Status, Converter={StaticResource SyncStatusIsConnecting}}"
-                        Theme="{StaticResource SyncConnectionIndicatorStyle}" />
+                        Theme="{StaticResource EllipseSyncConnection}" />
                     <TextBlock
                         Margin="4, 0, 0, 0"
                         VerticalAlignment="Center"
@@ -60,7 +60,7 @@
                         Height="7"
                         Margin="0,0,4,0"
                         Classes.insync="{Binding IsInSync}"
-                        Theme="{StaticResource SyncStateIndicatorStyle}" />
+                        Theme="{StaticResource EllipseSyncState}" />
                     <TextBlock
                         VerticalAlignment="Center"
                         Foreground="{DynamicResource ForegroundBrush}"
@@ -78,7 +78,7 @@
                         Placement="Pointer"
                         HorizontalOffset="-150"
                         VerticalOffset="-56"
-                        FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                        FlyoutPresenterTheme="{StaticResource FlyoutPresenterPanel}">
                         <StackPanel KeyDown="SyncFlyout_KeyDown" Margin="4">
                             <TextBlock
                                 Margin="0,0,0,16"
@@ -139,7 +139,7 @@
                     Placement="Pointer"
                     HorizontalOffset="-150"
                     VerticalOffset="-100"
-                    FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                    FlyoutPresenterTheme="{StaticResource FlyoutPresenterPanel}">
 
                     <StackPanel 
                         Spacing="{DynamicResource SpacingMD}"

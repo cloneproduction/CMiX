@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <ControlTheme x:Key="ExpanderDownHeaderStyle" TargetType="ToggleButton">
+    <ControlTheme x:Key="ExpanderDownHeader" TargetType="ToggleButton">
         <Setter Property="Template">
             <ControlTemplate>
                 <Border
@@ -57,7 +57,7 @@
                             Foreground="{DynamicResource ForegroundBrush}"
                             HorizontalContentAlignment="Stretch"
                             IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
-                            Theme="{StaticResource ExpanderDownHeaderStyle}"
+                            Theme="{StaticResource ExpanderDownHeader}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                         <Border
                             Background="{DynamicResource PanelBackground}"
@@ -80,7 +80,7 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>    </ControlTheme>
 
-    <ControlTheme x:Key="ItemControlExpanderHeaderStyle" TargetType="ToggleButton">
+    <ControlTheme x:Key="ExpanderItemHeader" TargetType="ToggleButton">
         <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -125,7 +125,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ItemControlExpander" TargetType="Expander">
+    <ControlTheme x:Key="ExpanderItem" TargetType="Expander">
         <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -147,7 +147,7 @@
                             Foreground="{DynamicResource ForegroundBrush}"
                             HorizontalContentAlignment="Left"
                             IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
-                            Theme="{StaticResource ItemControlExpanderHeaderStyle}"
+                            Theme="{StaticResource ExpanderItemHeader}"
                             VerticalContentAlignment="Center" />
                         <ContentPresenter
                             Name="PART_ContentPresenter"
@@ -168,7 +168,7 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>    </ControlTheme>
 
-      <ControlTheme x:Key="IndentedExpanderStyleHeaderStyle" TargetType="ToggleButton">
+      <ControlTheme x:Key="ExpanderIndentedHeader" TargetType="ToggleButton">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel1Brush}" />
         <Setter Property="Template">
@@ -223,7 +223,7 @@
                   Foreground="{DynamicResource ForegroundBrush}"
                   HorizontalContentAlignment="Stretch"
                   IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
-                  Theme="{StaticResource IndentedExpanderStyleHeaderStyle}"
+                  Theme="{StaticResource ExpanderIndentedHeader}"
                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
               <Border
                   Name="contentBackground"

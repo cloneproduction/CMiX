@@ -30,7 +30,7 @@ namespace CMiX.UI.Tests
         // The same shape as the item theme of the assign popup: the row theme plus bindings to the item.
         private static ControlTheme ChoiceRowTheme()
         {
-            var theme = new ControlTheme(typeof(MenuItem)) { BasedOn = Theme("ContextMenuSubItem") };
+            var theme = new ControlTheme(typeof(MenuItem)) { BasedOn = Theme("MenuItemContext") };
             theme.Setters.Add(new Setter(MenuItem.HeaderProperty, new Binding("Label")));
             theme.Setters.Add(new Setter(MenuItem.IsCheckedProperty, new Binding("IsAssigned")));
             theme.Setters.Add(new Setter(MenuItem.CommandProperty, new Binding("Command")));

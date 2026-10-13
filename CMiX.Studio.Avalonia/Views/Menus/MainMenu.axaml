@@ -18,7 +18,7 @@
             <MenuItem
                 Padding="8,0"
                 Header="File"
-                Theme="{DynamicResource TopMenuItem}">
+                Theme="{DynamicResource MenuItemTop}">
 
                 <MenuItem
                     Padding="0,0,64,0"
@@ -46,7 +46,7 @@
             <MenuItem
                 Padding="8,0"
                 Header="Edit"
-                Theme="{DynamicResource TopMenuItem}">
+                Theme="{DynamicResource MenuItemTop}">
 
                 <MenuItem
                     Command="{Binding UndoCommand}"
@@ -61,7 +61,7 @@
             <MenuItem
                 Padding="8,0"
                 Header="Compo"
-                Theme="{DynamicResource TopMenuItem}">
+                Theme="{DynamicResource MenuItemTop}">
 
                 <MenuItem
                     Command="{Binding AddCompositionCommand}"
@@ -82,7 +82,7 @@
             <MenuItem
                 Padding="8,0"
                 Header="Layer"
-                Theme="{DynamicResource TopMenuItem}">
+                Theme="{DynamicResource MenuItemTop}">
                 <MenuItem
                     Command="{Binding AddLayerCommand}"
                     Header="New Layer" />

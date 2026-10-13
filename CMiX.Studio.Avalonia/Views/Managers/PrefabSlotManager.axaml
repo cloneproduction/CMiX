@@ -85,7 +85,7 @@
                                     Command="{Binding DataContext.AddExistingItemCommand, ElementName=prefabSlotManager}"
                                     CommandParameter="{Binding}"
                                     Content="{Binding PrefabService.Name.Value}"
-                                    Theme="{DynamicResource ButtonItemControl}" />
+                                    Theme="{DynamicResource ButtonItem}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
