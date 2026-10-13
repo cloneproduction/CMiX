@@ -6,6 +6,8 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Threading;
+using Avalonia.Xaml.Interactivity;
+using AvaloniaInteraction = Avalonia.Xaml.Interactivity.Interaction;
 using CMiX.UI.Behaviors;
 using CMiX.UI.Controls.ColorPicker;
 using CMiX.UI.Tests.Support;
@@ -97,10 +99,49 @@ namespace CMiX.UI.Tests
         public void ABiggerDistance_KeepsThePopupOpenFartherAway()
         {
             var (window, _, popup) = ShowWideSelectorWithOpenPopup();
-            var behavior = Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(popup).OfType<ClosePopupBehavior>().Single();
+            var behavior = AvaloniaInteraction.GetBehaviors(popup).OfType<ClosePopupBehavior>().Single();
 
             behavior.Distance = 2000;
             Move(window, new Point(5, 5));
+
+            Assert.True(popup.IsOpen);
+        }
+
+        // A popup above a button at the bottom left of the window, with a text box inside.
+        private static (Window Window, Popup Popup, TextBox Box) ShowPopupWithTextBox()
+        {
+            var button = new Button { Content = "open", Width = 100, Height = 30, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Bottom };
+            var box = new TextBox { Width = 150 };
+            var popup = new Popup { PlacementTarget = button, Placement = PlacementMode.Top, IsLightDismissEnabled = false, Child = new Border { Child = box } };
+            AvaloniaInteraction.SetBehaviors(popup, new BehaviorCollection { new ClosePopupBehavior() });
+            var window = new Window { Content = new Panel { Children = { button, popup } }, Width = 800, Height = 500 };
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            popup.IsOpen = true;
+            Dispatcher.UIThread.RunJobs();
+            return (window, popup, box);
+        }
+
+        [AvaloniaFact]
+        public void WithoutAFocusedTextBox_APointerFarAway_ClosesThePopup()
+        {
+            var (window, popup, _) = ShowPopupWithTextBox();
+
+            Move(window, new Point(790, 5));
+
+            Assert.False(popup.IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void WhileATextBoxInThePopupHasFocus_APointerFarAway_KeepsThePopupOpen()
+        {
+            var (window, popup, box) = ShowPopupWithTextBox();
+            box.Focus();
+            Dispatcher.UIThread.RunJobs();
+            Assert.True(box.IsFocused);
+
+            Move(window, new Point(790, 5));
 
             Assert.True(popup.IsOpen);
         }

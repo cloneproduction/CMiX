@@ -148,7 +148,7 @@ namespace CMiX.UI.Behaviors
 
             // The control that opened the popup can be much wider than the popup.
             var target = popup.PlacementTarget ?? popup.Parent as Control;
-            if (!PointerAway.IsFar(e, Distance, child, target))
+            if (!PointerAway.IsFar(e, Distance, child, target) || PointerAway.IsTyping(child))
                 return;
 
             ClosePopup();

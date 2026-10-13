@@ -4,6 +4,7 @@
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.VisualTree;
 
 namespace CMiX.UI.Behaviors
 {
@@ -28,5 +29,9 @@ namespace CMiX.UI.Behaviors
         // True when the pointer is farther than the distance from every control.
         public static bool IsFar(PointerEventArgs e, double distance, params Control?[] controls) =>
             !controls.Any(control => IsNear(control, e, distance));
+
+        // True when a text box in the content has the keyboard focus. The content must stay open while the user types.
+        public static bool IsTyping(Control? content) =>
+            content != null && content.GetVisualDescendants().OfType<TextBox>().Any(box => box.IsFocused);
     }
 }
