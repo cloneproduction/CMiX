@@ -149,3 +149,59 @@ Claude cannot judge the look of the UI reliably, so you check it. Claude stops a
 2. Keep the `CMiX*` prefix on `CMiXSlider`, `CMiXListBox`, `CMiXPopup`, `CMiXToggleButton` for now (plan assumes yes).
 3. Modulation controls stay in Studio under `Views/Modulation` (plan assumes yes).
 (Settled: the branch `feature/ui-library` is created first, and the plan is committed on it as the first commit.)
+
+## Placement audit (step 1d)
+
+Rule: no Core type and no domain meaning means `CMiX.UI`. Result of the audit at the end of phase 1. "Lib" is `CMiX.UI`, "Studio" stays in `CMiX.Studio.Avalonia`. Items marked **decide** need your answer before phase 3.
+
+### Themes
+
+| File | Destination | Note |
+|---|---|---|
+| `Basic/Colors`, `Brushes`, `Geometry`, `Typography` | Lib | Tokens. Scan the brush names for domain names in 3b. |
+| `Basic/Converters.axaml` | Split | Lib: ColorToBrush, HexToBrush, ColorToHex, ColorToNoAlpha, DoubleToString, NullToVisibility, CountToVisibility, FontFamilyToString, CurrentStep, PositionToCornerRadius. Studio: ModulatorStateToBrush, MultiPeriodToBeatAnimation, PeerSyncState, SyncStatusIsConnecting. |
+| `Basic/Icons.cs` | Split | Lib: generic keys. Studio: NewLayer, DeleteLayer, PostFX, MeshLight, Scheduler and other domain keys. |
+| `Generic.axaml` | Split | Lib gets `CMiXTheme`. Studio keeps a small `Generic.axaml` for its own styles. |
+| `Styles/Border`, `Button`, `ComboBox`, `DragValue`, `GridSplitter`, `IndentedExpanderDepth`, `Label`, `LabeledContent`, `NumericInput`, `RadioButton`, `ScrollViewer`, `TextBlock`, `ToolTip` | Lib | Generic. |
+| `Styles/Expander` | Lib | Includes `IndentedExpander` and `ItemControlExpander`. |
+| `Styles/Sliders/Slider`, `Sliders/ColorWheel` | Lib | Color picker and slider styles. |
+| `Styles/Menu/ContextMenu`, `Menu`, `PopupFrame` | Lib | Popup look. |
+| `Styles/Windows/MainWindow.axaml` | Lib | Holds only `PopupFlyoutStyle`. Rename the file to `Menu/PopupFlyout.axaml`. |
+| `Styles/Windows/Window.axaml` | Lib | Holds only `WindowDropShadow`. |
+| `Styles/Modifier.axaml` | Lib | Decided. Keys become `CloseIconButton` and `DragHandleButton`. |
+| `Styles/Tab.axaml` | Lib | Decided here. The keys `TabControlLayerPanel` and `TabControlVerticalPanel` have domain names. Keep the keys in phase 3, rename later. **decide** |
+| `Styles/TextBox` | Split | Lib: the default style, `TextBoxNumbersOnly`. Studio: `TypeWriterStyle`. |
+| `Styles/ListBox` | Split | Lib: `CMiXListBox`, `ListBoxItemStyle`, `ListBoxResizeBorderStyle`, `ListBoxItemAlternationStyle`. Studio: `ComposableListBoxStyle`, `ComposableListBoxItemStyle`, `ComposableListBoxItemBorderStyle`. |
+| `Styles/ToggleButton` | Lib | `ToggleTransformModifierMenu` has a domain name. Keep in the lib, rename later. **decide** |
+| `Styles/StatusIndicators` | Studio | Two sync state ellipses. They could be a generic status dot later. |
+| `Styles/EntityModifiersSection` | Studio | Uses `ModifierManager` and `AutoSelectionPanel`. |
+
+### Controls (`Views/Controls`)
+
+| Files | Destination | Note |
+|---|---|---|
+| `DragValue`, `CMiXSlider`, `CMiXToggleButton`, `CMiXListBox`, `CMiXPopup`, `PopupFrame`, `NumericInput`, `NumericText`, `LabeledContent`, `DefaultResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `ControlPosition`, `CaptionedUserControl` | Lib | `DragValue` and `CMiXSlider` use `InteractionHost` since step 1a. |
+| `CaptionedButton`, `CaptionedComboBox`, `CaptionedToggleButton`, `IntegerValue`, `Integer2Value`, `Integer3Value`, `Vector2`, `VectorXYZ`, `RangeValue`, `AxisSelector2D`, `AxisSelector3D`, `IPBox`, `ColorSelector`, `AppIcon` | Lib | They bind to a model by property name only. |
+| `ColorPicker/*`, `TextBox/*` | Lib | No Core type. |
+| `Panels/PositionedStackPanel`, `PositionedUniformGrid`, `IndentedExpander` | Lib | |
+| `ModulatorAssignableUserControl`, `ModulatorAssignButton`, `ModulatorOutputChoice`, `ModulatablePanel`, `ModulatableFloatSlider`, `ModulatableFloatValue`, `ModulatableIntegerValue`, `ModulatableVectorXY`, `ModulatableVectorXYZ` | Studio | Use `PrefabManager`, `IModulator`. Move to `Views/Modulation` in phase 2. |
+| `Panels/ModifierPanel`, `Panels/ModulatableModifierPanel` | Studio | Move to `Views/Modifiers` or `Views/Modulation` in phase 2. |
+| `Outliner`, `PrefabListItem` | Studio | Use `PrefabManagerBase` and prefabs. |
+
+### Other folders
+
+| Item | Destination | Note |
+|---|---|---|
+| `AttachedProperties/*` (5 files) | Lib | `LogicalPanelContent` from `Views/` joins them. |
+| `Behaviors/ClosePopupBehavior`, `ScrollViewerBehavior`, `ColorSliderBehavior` | Lib | `ColorSliderBehavior` has no Core type. |
+| `Behaviors/TextureDropBehavior` | Studio | Uses assets and texture sources. |
+| `Converters`: ColorToBrush, ColorToHex, ColorToNoAlpha, HexToBrush, CountToVisibility, CurrentStep, DoubleToString, EnumMatch, FontFamilyToString, NullToVisibility, ControlPositionToCornerRadius, RemapDouble | Lib | No Core type. |
+| `Converters`: ModulatorStateToBrush, MultiPeriodToBeatAnimation, PeerSyncState, SyncStatusIsConnecting, TypeNameToDisplayLabel | Studio | Core types or sync domain. |
+| `Mathematics/MathUtils` | Lib | Used by `CMiXSlider`. |
+| `Services/ListBoxReorderDragDrop` | Lib | Only Avalonia types. |
+| `Services/EmptyViewLocator`, `MainWindowDialogManager` | Studio | Glue for the dialog package. |
+| `Services/ManagerReorderService`, `StudioSettings` | Studio | Core types. |
+| `Animations/*` | Studio | Beat animation, uses Core. |
+| `Resources/EnumProviders` | Studio | Core enums. |
+| `Interaction/InteractionHost` | Lib | Added in step 1a. |
+| `Views/ViewModelToViewTemplate`, `ViewsAssemblyMarker`, `ModifierEntry` | Studio | |
