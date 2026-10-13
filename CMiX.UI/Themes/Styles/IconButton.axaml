@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <ControlTheme x:Key="ModifierCloseButtonStyle" TargetType="Button">
+    <ControlTheme x:Key="CloseIconButton" TargetType="Button">
         <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -35,7 +35,7 @@
     </ControlTheme>
 
     <ControlTheme
-        x:Key="DragHandlerButton"
+        x:Key="DragHandleButton"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="Button">
         <Setter Property="Background" Value="Transparent" />

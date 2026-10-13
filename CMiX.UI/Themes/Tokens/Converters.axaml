@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ui:ColorToBrushConverter x:Key="ColorToBrush" />
     <ui:HexToBrushConverter x:Key="HexToBrush" />
@@ -14,17 +13,10 @@
     <ui:NullToVisibilityConverter x:Key="NullToVisibility" />
     <ui:CountToVisibilityConverter x:Key="CountToVisibility" />
 
-    <StudioConverters:MultiPeriodToBeatAnimationConverter x:Key="MultiPeriodToBeatAnimation" />
-
     <ui:FontFamilyToStringConverter x:Key="FontFamilyToString" />
 
     <ui:CurrentStepConverter x:Key="CurrentStepConverter" />
 
     <ui:ControlPositionToCornerRadiusConverter x:Key="PositionToCornerRadius" />
-
-    <StudioConverters:ModulatorStateToBrushConverter x:Key="ModulatorStateToBrush" />
-
-    <StudioConverters:SyncStatusIsConnectingConverter x:Key="SyncStatusIsConnecting" />
-    <StudioConverters:PeerSyncStateConverter x:Key="PeerSyncState" />
 
 </ResourceDictionary>

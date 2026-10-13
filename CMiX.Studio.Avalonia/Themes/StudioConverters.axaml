@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters">
+
+    <StudioConverters:MultiPeriodToBeatAnimationConverter x:Key="MultiPeriodToBeatAnimation" />
+    <StudioConverters:ModulatorStateToBrushConverter x:Key="ModulatorStateToBrush" />
+    <StudioConverters:SyncStatusIsConnectingConverter x:Key="SyncStatusIsConnecting" />
+    <StudioConverters:PeerSyncStateConverter x:Key="PeerSyncState" />
+
+</ResourceDictionary>
