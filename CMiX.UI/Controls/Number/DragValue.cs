@@ -22,12 +22,12 @@ namespace CMiX.UI.Controls.Number
         private bool _dragging;
         private Point _lastScreenPos;
         private IDisposable? _interaction;
-        private bool _suppressContextMenu;
+        private readonly ContextMenuGuard _contextMenuGuard;
 
         public DragValue()
         {
             AddHandler(PointerPressedEvent, Control_PointerPressed, RoutingStrategies.Tunnel);
-            AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
+            _contextMenuGuard = ContextMenuGuard.Install(this, () => IsEditing);
             ResetMenu.Follow(this, ResetCommandProperty, ResetAllCommandProperty);
         }
 
@@ -147,20 +147,10 @@ namespace CMiX.UI.Controls.Number
             _dragging = false;
         }
 
-        // A right-click that ends editing must not open the menu when the button is released.
-        private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)
-        {
-            if (!_suppressContextMenu && !IsEditing && !ContextMenuGuard.FromPopup(this, e))
-                return;
-
-            _suppressContextMenu = false;
-            e.Handled = true;
-        }
-
         private void Control_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             var rightPressed = e.GetCurrentPoint(this).Properties.IsRightButtonPressed;
-            _suppressContextMenu = rightPressed && IsEditing;
+            _contextMenuGuard.PointerPressed(rightPressed);
 
             if (rightPressed)
                 IsEditing = false;

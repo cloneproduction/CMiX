@@ -28,7 +28,7 @@ namespace CMiX.UI.Controls.Enum
 
             _innerComboBox?.AddHandler(PointerWheelChangedEvent, OnInnerPointerWheelChanged, RoutingStrategies.Tunnel);
             _innerComboBox?.AddHandler(PointerPressedEvent, OnInnerPointerPressed, RoutingStrategies.Tunnel);
-            AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
+            ContextMenuGuard.Install(this);
             ResetMenu.Follow(this, ResetCommandProperty);
 
             if (_innerComboBox != null)
@@ -81,13 +81,6 @@ namespace CMiX.UI.Controls.Enum
         {
             base.OnAttachedToVisualTree(e);
             ResubscribeItemsSource();
-        }
-
-        // The drop-down list sends its right-clicks up to the control. They must not open the Reset menu.
-        private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)
-        {
-            if (ContextMenuGuard.FromPopup(this, e))
-                e.Handled = true;
         }
 
         // The subscription above is otherwise never released: a project-lifetime collection like
