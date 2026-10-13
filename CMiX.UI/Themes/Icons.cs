@@ -35,6 +35,7 @@ namespace CMiX.UI.Themes
             { "Stop", MaterialIconKind.Stop },
             { "Visible", MaterialIconKind.Eye },
             { "NotVisible", MaterialIconKind.EyeOff },
+            { "Power", MaterialIconKind.Power },
             { "DragHandle", MaterialIconKind.DragHorizontal },
             { "ArrowUp", MaterialIconKind.ArrowUp },
             { "ArrowDown", MaterialIconKind.ArrowDown },

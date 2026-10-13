@@ -154,6 +154,38 @@
         </Style>
     </ControlTheme>
 
+    <!-- An on and off switch for a panel or a part. The icon is dim while off and lit while on. -->
+    <ControlTheme x:Key="ToggleButtonPower" TargetType="ToggleButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightXS}" />
+        <Setter Property="Width" Value="{DynamicResource ControlHeightXS}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Margin="0"
+                    Padding="1"
+                    Background="Transparent"
+                    Opacity="0.4">
+                    <ui:AppIcon Name="icon" IconKey="Power" Size="{DynamicResource IconSizeXS}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Opacity" Value="0.8" />
+        </Style>
+
+        <Style Selector="^:checked /template/ Border#border">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+        <Style Selector="^:checked /template/ ui|AppIcon#icon">
+            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}" />
+        </Style>
+    </ControlTheme>
+
     <ControlTheme x:Key="ToggleButtonPlayPause" TargetType="ToggleButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
