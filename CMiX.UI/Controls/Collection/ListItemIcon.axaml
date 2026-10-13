@@ -1,0 +1,26 @@
+<UserControl
+    x:Class="CMiX.UI.Controls.Collection.ListItemIcon"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    x:Name="listItemIcon">
+
+    <DockPanel>
+
+        <ui:AppIcon
+            Margin="4,0"
+            Opacity="0.7"
+            IconKey="{Binding Icon, ElementName=listItemIcon}"
+            Size="{DynamicResource IconSizeXS}" />
+
+        <ToggleButton
+            Margin="4,0"
+            DockPanel.Dock="Right"
+            IsChecked="{Binding IsChecked, ElementName=listItemIcon, Mode=TwoWay}"
+            Theme="{DynamicResource ToggleButtonVisibility}" />
+
+        <ui:TextBoxEditable Text="{Binding Title, ElementName=listItemIcon, Mode=TwoWay}" />
+
+    </DockPanel>
+
+</UserControl>
