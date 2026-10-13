@@ -4,26 +4,26 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="channelVectorXYZ"    
+    x:Name="vector3Modulatable"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
         <Modulation:DragValueModulatable
-            Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} X', Mode=OneWay}"
+            Caption="{Binding Caption, ElementName=vector3Modulatable, StringFormat=' {0} X', Mode=OneWay}"
             DataContext="{Binding X}"
-            ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
+            ModulatorManager="{Binding ModulatorManager, ElementName=vector3Modulatable}" />
 
         <Modulation:DragValueModulatable
             Caption="Y"
             DataContext="{Binding Y}"
-            ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
+            ModulatorManager="{Binding ModulatorManager, ElementName=vector3Modulatable}" />
 
         <Modulation:DragValueModulatable
             Caption="Z"
             DataContext="{Binding Z}"
-            ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
+            ModulatorManager="{Binding ModulatorManager, ElementName=vector3Modulatable}" />
 
     </ui:StackPanelPositioned>
 

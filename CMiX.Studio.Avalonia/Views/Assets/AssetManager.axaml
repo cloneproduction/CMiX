@@ -2,85 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.AssetManager"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Assets="clr-namespace:CMiX.Core.Assets;assembly=CMiX.Core"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
-
-    <UserControl.Resources>
-        <ResourceDictionary>
-
-            <TreeDataTemplate
-                x:Key="AssetDirectoryTemplate"
-                DataType="{x:Type Assets:AssetDirectory}"
-                ItemsSource="{Binding Assets}">
-                <Border
-                    Height="{DynamicResource ControlHeightXL}"
-                    HorizontalAlignment="Stretch">
-                    <DockPanel>
-
-                        <Panel
-                            Margin="6"
-                            DockPanel.Dock="Left">
-                            <ui:AppIcon
-                                IsVisible="{Binding !$parent[TreeViewItem].IsExpanded}"
-                                Opacity="0.75"
-                                IconKey="Folder"
-                                Size="{DynamicResource IconSizeXS}" />
-                            <ui:AppIcon
-                                IsVisible="{Binding $parent[TreeViewItem].IsExpanded}"
-                                Opacity="0.75"
-                                IconKey="Folder_Opened"
-                                Size="{DynamicResource IconSizeXS}" />
-                        </Panel>
-
-                        <ui:TextBoxEditable
-                            HorizontalAlignment="Stretch"
-                            IsEditing="{Binding IsRenaming, Mode=TwoWay}"
-                            Text="{Binding Name, Mode=TwoWay}" />
-
-                    </DockPanel>
-                </Border>
-            </TreeDataTemplate>
-
-            <ContextMenu
-                x:Key="ResourceContextMenu"
-                Width="175"
-                Theme="{StaticResource ContextMenuDefault}">
-                <MenuItem
-                    Command="{Binding AddAssetCommand}"
-                    Header="New Folder"
-                    IsEnabled="{Binding CanAddAsset}">
-                    <MenuItem.Icon>
-                        <ui:AppIcon IconKey="Add" Size="{DynamicResource IconSizeXS}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem
-                    Command="{Binding RenameAssetCommand}"
-                    Header="Rename"
-                    IsEnabled="{Binding CanRenameAsset}">
-                    <MenuItem.Icon>
-                        <ui:AppIcon IconKey="Rename" Size="{DynamicResource IconSizeXS}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem
-                    Command="{Binding DeleteAssetsCommand}"
-                    Header="Delete"
-                    IsEnabled="{Binding CanDeleteAsset}">
-                    <MenuItem.Icon>
-                        <ui:AppIcon IconKey="DeleteLayer" Size="{DynamicResource IconSizeXS}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem
-                    Command="{Binding RelinkAssetsCommand}"
-                    Header="Relink"
-                    IsEnabled="{Binding CanRelinkAsset}">
-                    <MenuItem.Icon>
-                        <ui:AppIcon IconKey="DeleteLayer" Size="{DynamicResource IconSizeXS}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </ContextMenu>
-
-        </ResourceDictionary>
-    </UserControl.Resources>
 
     <Border
         x:Name="dropBorder"
@@ -92,7 +14,6 @@
                 <ListBox
                     x:Name="imagesListBox"
                     Background="Transparent"
-                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
                     ItemsSource="{Binding AssetRepository.Images}"
                     SelectionMode="Multiple">
 
@@ -121,7 +42,6 @@
                 <ListBox
                     x:Name="videosListBox"
                     Background="Transparent"
-                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
                     ItemsSource="{Binding AssetRepository.Videos}"
                     SelectionMode="Multiple">
 
@@ -150,7 +70,6 @@
                 <ListBox
                     x:Name="geometriesListBox"
                     Background="Transparent"
-                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
                     ItemsSource="{Binding AssetRepository.Geometries}"
                     SelectionMode="Multiple">
 
@@ -179,7 +98,6 @@
                 <ListBox
                     x:Name="imageSequencesListBox"
                     Background="Transparent"
-                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
                     ItemsSource="{Binding AssetRepository.ImageSequences}"
                     SelectionMode="Multiple">
 

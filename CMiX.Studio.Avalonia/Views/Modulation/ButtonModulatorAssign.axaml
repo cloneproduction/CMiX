@@ -10,7 +10,7 @@
 
     <Modulation:UserControlModulatable.Resources>
         <!-- A menu row bound to a ModulatorOutputChoice. -->
-        <ControlTheme x:Key="ModulatorOutputRow" TargetType="MenuItem" BasedOn="{StaticResource MenuItemContext}">
+        <ControlTheme x:Key="MenuItemModulatorOutput" TargetType="MenuItem" BasedOn="{StaticResource MenuItemContext}">
             <Setter Property="Header" Value="{Binding Label}" />
             <Setter Property="IsChecked" Value="{Binding IsAssigned}" />
             <Setter Property="Command" Value="{Binding Command}" />
@@ -43,7 +43,7 @@
         <Button.Flyout>
             <MenuFlyout
                 FlyoutPresenterTheme="{StaticResource MenuFlyoutPresenterDefault}"
-                ItemContainerTheme="{StaticResource ModulatorOutputRow}"
+                ItemContainerTheme="{StaticResource MenuItemModulatorOutput}"
                 Placement="Bottom" />
         </Button.Flyout>
     </Button>

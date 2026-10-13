@@ -52,7 +52,7 @@ To add a value to a filter or a modifier:
 
 `FilterAndModifierRoundTripTests` fails when a value is missing in `ToModel` or
 `FromModel`. `ResetMenuTests` (Studio tests) fails when an editor in a view has no
-working Reset menu. `EditorResetMenuTests` (CMiX.UI.Tests) checks the editors alone.
+working Reset menu. `ValueResetMenuTests` (CMiX.UI.Tests) checks the editors alone.
 
 A value editor shows a Reset menu only when it has a `ResetCommand`. The menu
 does not open in edit mode. It does not open for a right-click in a popup below
@@ -66,7 +66,7 @@ Bind the `ResetCommand` of an editor to the `ResetCommand` of the value.
 steps of 1. It takes the same bindings as `DragValue`:
 `Value="{Binding Name.Value}"` and `ResetCommand="{Binding Name.ResetCommand}"`.
 An editor that is one part of a group (a vector) also takes a `ResetAllCommand`, and
-its Reset menu then has a Reset All row. `NumberEditorBindingTests` fails when a
+its Reset menu then has a Reset All row. `ValueBindingTests` fails when a
 `DragValue` or an `IntegerValue` in an AXAML file has no `Value` binding.
 
 ## Views and folders
@@ -74,8 +74,8 @@ its Reset menu then has a Reset All row. `NumberEditorBindingTests` fails when a
 `ViewModelToViewTemplate` finds the view of a model by name. The view has the type
 name of the model, for example `Blur` for the model `Blur`. It looks at the
 controls in the namespace `CMiX.Studio.Avalonia.Views` and in its child
-namespaces. The child namespaces `Controls`, `Managers`, `Menus`, `Modulation` and
-`Windows` hold support controls, so the locator skips them. Two views with the same name
+namespaces. The child namespaces `Controls`, `Managers`, `Menus`, `Modifiers`, `Modulation`
+and `Windows` hold support controls, so the locator skips them. Two views with the same name
 make the locator throw, and the message names both types.
 
 The domain views keep the one namespace `CMiX.Studio.Avalonia.Views`, whatever the
@@ -127,7 +127,7 @@ come from the value editors of vvvv:
 | `Enum` | one item of a fixed list | `ComboBoxCaptioned` |
 | `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus`, `TextBlockTrimmed` |
 | `Path` | a file or a folder | `PathSelector` |
-| `ColorPicker` | a color | `ColorSelector` and the color picker |
+| `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `PopupCMiX` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
@@ -173,9 +173,11 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
 - The word `Value` ends the names of the editors of one value: `DragValue`,
   `IntegerValue`, `RangeValue`, `EditableValue`. No standard control is called
   `Value`, so there is nothing to put first. These names stay as they are.
-- In the Studio, the ending `Modulatable` marks the editor with a modulator button:
-  `DragValueModulatable`, `SliderModulatable`, `Vector2Modulatable`. Their base is
-  `UserControlModulatable`. The button is `ButtonModulatorAssign`.
+- In the Studio, the ending `Modulatable` marks a control that takes modulators. An
+  editor has a modulator button: `DragValueModulatable`, `SliderModulatable`,
+  `Vector2Modulatable`. Their base is `UserControlModulatable`. The button is
+  `ButtonModulatorAssign`. A panel has a list of modulators: `PanelModulatable` is the
+  base of the modifier views.
 - `CMiXTheme` is the one name that keeps the brand in front, like `FluentTheme` in
   Avalonia.
 
@@ -197,7 +199,7 @@ styles first, then what makes it different. `ButtonRounded`, `ToggleButtonInline
   `MenuFlyoutPresenterDefault`.
 - `...CMiX` is the default CMiX theme of a standard control whose bare name would be
   the Avalonia type name: `ListBoxItemCMiX`, `TabItemCMiX`, `GridSplitterCMiX`.
-- A part of a control ends with the part: `ExpanderItemHeader`, `SliderCMiXVerticalThumb`.
+- A part of a control ends with the part: `ExpanderItemHeader`, `SliderCMiXBrightnessThumb`.
 - A style keeps no Studio word. The Studio concepts (layer, modifier, prefab) stay in
   the Studio styles.
 - `ResourceReferenceTests` fails when an AXAML file names a resource key that nothing

@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class RandomModifier : ModulatablePanel
+    public partial class RandomModifier : PanelModulatable
     {
         public RandomModifier()
         {

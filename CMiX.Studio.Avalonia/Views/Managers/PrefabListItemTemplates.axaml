@@ -3,56 +3,56 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
-    xmlns:TextureSource="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core">
+    xmlns:TextureSources="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core">
 
     <DataTemplate DataType="{x:Type Compositing:Color}">
         <ui:ColorSelector Caption="{Binding Value}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">
-        <StudioControls:PrefabListItem Icon="TextIcon" />
+        <Controls:PrefabListItem Icon="TextIcon" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:Entity}">
-        <StudioControls:PrefabListItem Icon="Geometry" />
+        <Controls:PrefabListItem Icon="Geometry" />
     </DataTemplate>
 
   <DataTemplate DataType="{x:Type Compositing:FullscreenQuad}">
-    <StudioControls:PrefabListItem Icon="FullscreenQuad" />
+    <Controls:PrefabListItem Icon="FullscreenQuad" />
   </DataTemplate>
   
     <DataTemplate DataType="{x:Type Lights:LightEntity}">
-        <StudioControls:PrefabListItem Icon="MeshLight" />
+        <Controls:PrefabListItem Icon="MeshLight" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Cameras:Camera}">
-        <StudioControls:PrefabListItem Icon="Camera" />
+        <Controls:PrefabListItem Icon="Camera" />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type TextureSource:TextureSourceBase}">
-        <StudioControls:PrefabListItem Icon="Texture" />
+    <DataTemplate DataType="{x:Type TextureSources:TextureSourceBase}">
+        <Controls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Materials:Material}">
-        <StudioControls:PrefabListItem Icon="World" />
+        <Controls:PrefabListItem Icon="World" />
     </DataTemplate>
 <!--
     <DataTemplate DataType="{x:Type Modulators:BeatModulator}">
-        <StudioControls:PrefabListItem Icon="Beat" />
+        <Controls:PrefabListItem Icon="Beat" />
     </DataTemplate>-->
 
     <DataTemplate DataType="{x:Type Modulators:TrackingModulator}">
-        <StudioControls:PrefabListItem Icon="Camera" />
+        <Controls:PrefabListItem Icon="Camera" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ColorModifiers:ColorPaletteModifier}">
-        <StudioControls:PrefabListItem Icon="Coloration" />
+        <Controls:PrefabListItem Icon="Coloration" />
     </DataTemplate>
 
 </DataTemplates>

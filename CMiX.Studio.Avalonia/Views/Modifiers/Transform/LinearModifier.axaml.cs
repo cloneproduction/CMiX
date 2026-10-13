@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class LinearModifier : ModulatablePanel
+    public partial class LinearModifier : PanelModulatable
     {
         public LinearModifier()
         {

@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class TransformSRTModifier : ModulatablePanel
+    public partial class TransformSRTModifier : PanelModulatable
     {
         public TransformSRTModifier()
         {

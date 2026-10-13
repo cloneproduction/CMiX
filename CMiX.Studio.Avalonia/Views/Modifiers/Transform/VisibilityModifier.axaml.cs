@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class VisibilityModifier : ModulatablePanel
+    public partial class VisibilityModifier : PanelModulatable
     {
         public VisibilityModifier()
         {

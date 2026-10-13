@@ -37,7 +37,7 @@
                     x:Name="popupBorder"
                     Background="{DynamicResource Grey200Brush}"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
-                    <ui:ColorPickerWheel
+                    <ui:ColorPickerFull
                         Margin="8"
                         SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />
                 </Border>

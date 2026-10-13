@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class RenderSequenceEntityModifier : ModulatablePanel
+    public partial class RenderSequenceEntityModifier : PanelModulatable
     {
         public RenderSequenceEntityModifier()
         {

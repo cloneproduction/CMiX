@@ -3,9 +3,9 @@
 
 namespace CMiX.UI.Controls.ColorPicker
 {
-    public partial class ColorPickerWheel : ColorPickerBase
+    public partial class ColorPickerFull : ColorPickerBase
     {
-        public ColorPickerWheel()
+        public ColorPickerFull()
         {
             InitializeComponent();
         }

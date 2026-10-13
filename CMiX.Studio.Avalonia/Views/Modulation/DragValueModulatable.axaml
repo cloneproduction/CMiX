@@ -4,22 +4,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
-    x:Name="channelValue"
+    x:Name="dragValueModulatable"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <ui:DragValue
-        ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=channelValue}"
-        Caption="{Binding Caption, ElementName=channelValue, Mode=OneWay}"
+        ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=dragValueModulatable}"
+        Caption="{Binding Caption, ElementName=dragValueModulatable, Mode=OneWay}"
         IsReadOnly="{Binding IsModulated}"
-        Maximum="{Binding Maximum, ElementName=channelValue}"
-        Minimum="{Binding Minimum, ElementName=channelValue}"
+        Maximum="{Binding Maximum, ElementName=dragValueModulatable}"
+        Minimum="{Binding Minimum, ElementName=dragValueModulatable}"
         ResetCommand="{Binding ResetCommand}"
         Value="{Binding Value}">
 
         <ui:DragValue.TrailingContent>
             <Modulation:ButtonModulatorAssign
-                ModulatorManager="{Binding ModulatorManager, ElementName=channelValue}" />
+                ModulatorManager="{Binding ModulatorManager, ElementName=dragValueModulatable}" />
         </ui:DragValue.TrailingContent>
     </ui:DragValue>
 

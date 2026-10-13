@@ -1,13 +1,11 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using Avalonia.Controls;
-
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.UI.Controls.ColorPicker
 {
-    public partial class Stepper : UserControl
+    public partial class ColorPickerSliders : ColorPickerBase
     {
-        public Stepper()
+        public ColorPickerSliders()
         {
             InitializeComponent();
         }

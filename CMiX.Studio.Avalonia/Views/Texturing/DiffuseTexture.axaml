@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.DiffuseTexture"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
+    xmlns:TextureSources="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
@@ -22,7 +22,7 @@
             <Managers:PrefabSlotManager.SelectionPanel>
                 <ui:PopupButton Caption="Add Texture">
                     <ui:PopupButton.PopupContent>
-                        <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                        <Managers:AutoSelectionPanel Interface="{x:Type TextureSources:ITextureSource}" />
                     </ui:PopupButton.PopupContent>
                 </ui:PopupButton>
             </Managers:PrefabSlotManager.SelectionPanel>

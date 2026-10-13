@@ -10,7 +10,7 @@ using Xunit;
 namespace CMiX.UI.Tests
 {
     // A value editor shows a Reset menu only when it can reset. The menu must always work.
-    public class EditorResetMenuTests
+    public class ValueResetMenuTests
     {
         private static bool HasResetItem(Control c) =>
             c.ContextMenu?.Items.OfType<MenuItem>().Any(i => Equals(i.Header, "Reset")) == true;
@@ -26,7 +26,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void ColorPicker_HasNoResetMenu()
         {
-            var window = Host(new ColorPickerWheel());
+            var window = Host(new ColorPickerFull());
 
             var withReset = window.GetVisualDescendants().OfType<Control>().Where(HasResetItem).ToList();
 

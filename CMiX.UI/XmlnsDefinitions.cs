@@ -6,6 +6,7 @@ using Avalonia.Metadata;
 // One XAML namespace for all the controls. A view writes xmlns:ui="https://github.com/cloneproduction/CMiX.UI".
 [assembly: XmlnsPrefix("https://github.com/cloneproduction/CMiX.UI", "ui")]
 [assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI")]
+[assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.Themes")]
 [assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.Controls")]
 [assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.Controls.Number")]
 [assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.Controls.Vector")]

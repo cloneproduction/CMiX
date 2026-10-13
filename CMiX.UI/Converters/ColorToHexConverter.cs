@@ -31,7 +31,7 @@ namespace CMiX.UI.Converters
             // Color.ToString() resolves to a known color's name (e.g. "White") whenever the value
             // matches one exactly, rather than always producing hex - System.Convert.ToString(value)
             // relied on that, so a control merely re-publishing an unchanged Color on its own first
-            // bind (e.g. ColorPickerWheel) silently rewrote a stored "#FFFFFFFF" to "White". Both
+            // bind (e.g. ColorPickerFull) silently rewrote a stored "#FFFFFFFF" to "White". Both
             // strings parse back to the same color, but as raw strings they're not equal, so the
             // rewrite looked like - and was recorded as - a real edit. Formatting from the channel
             // bytes directly keeps the round trip byte-for-byte stable.

@@ -1,9 +1,9 @@
 ﻿<HeaderedContentControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.Panels.ModifierPanel"
+    x:Class="CMiX.Studio.Avalonia.Views.Modifiers.ModifierPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
     x:Name="modifierPanel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
@@ -59,7 +59,7 @@
     </HeaderedContentControl.Header>
 
     <HeaderedContentControl.Template>
-        <ControlTemplate TargetType="Panels:ModifierPanel">
+        <ControlTemplate TargetType="Modifiers:ModifierPanel">
           
             <Expander
                 Name="PART_Expander"

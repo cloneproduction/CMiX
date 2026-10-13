@@ -7,9 +7,6 @@ namespace CMiX.Studio.Avalonia.Tests
     // Not every view is loaded by a test, so this test checks the AXAML text.
     public class ResourceReferenceTests
     {
-        // Known gaps. AssetManager.axaml uses a style that is only a comment in ListBox.axaml.
-        private static readonly HashSet<string> KnownMissing = new() { "ListBoxItemAlternationStyle" };
-
         private static readonly Regex Comment = new("<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex Definition = new(@"x:Key=""([^""{]+)""", RegexOptions.Compiled);
         private static readonly Regex Reference = new(@"\{(?:Static|Dynamic)Resource\s+([A-Za-z0-9_.]+)\s*\}", RegexOptions.Compiled);
@@ -36,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
             }
 
             var missing = references
-                .Where(r => !defined.Contains(r.Key) && !KnownMissing.Contains(r.Key))
+                .Where(r => !defined.Contains(r.Key))
                 .Select(r => $"{r.Key} (used in {string.Join(", ", r.Value.Distinct().Take(3))})")
                 .ToList();
 

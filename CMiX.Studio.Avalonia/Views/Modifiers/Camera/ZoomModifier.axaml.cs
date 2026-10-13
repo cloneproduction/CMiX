@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class ZoomModifier : ModulatablePanel
+    public partial class ZoomModifier : PanelModulatable
     {
         public ZoomModifier()
         {

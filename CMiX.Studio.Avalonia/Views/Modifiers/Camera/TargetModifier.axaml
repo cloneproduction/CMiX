@@ -1,4 +1,4 @@
-<Modulation:ModulatablePanel
+<Modulation:PanelModulatable
     x:Class="CMiX.Studio.Avalonia.Views.TargetModifier"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -11,4 +11,4 @@
         Caption="Target"
         ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=targetModifier}" />
 
-</Modulation:ModulatablePanel>
+</Modulation:PanelModulatable>

@@ -1,10 +1,10 @@
 ﻿<ui:ColorPickerBase
-    x:Class="CMiX.UI.Controls.ColorPicker.ColorSliders"
+    x:Class="CMiX.UI.Controls.ColorPicker.ColorPickerSliders"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    x:Name="uc">
+    x:Name="colorPickerSliders">
 
     <StackPanel>
 
@@ -44,7 +44,7 @@
                 <StackPanel>
                     <TextBox
                         Height="{DynamicResource ControlHeightMD}"
-                        Text="{Binding SelectedColor, ElementName=uc, Mode=TwoWay, Converter={StaticResource ColorToHex}}" />
+                        Text="{Binding SelectedColor, ElementName=colorPickerSliders, Mode=TwoWay, Converter={StaticResource ColorToHex}}" />
                 </StackPanel>
             </Border>
             <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=RGBRadio}">
@@ -55,9 +55,9 @@
                         Caption="R"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.RGB_R, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                        Value="{Binding Color.RGB_R, ElementName=colorPickerSliders, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                                                     <i:Interaction.Behaviors>
-                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=colorPickerSliders}" />
                             </i:Interaction.Behaviors>
                     </ui:SliderCMiX>
 
@@ -67,9 +67,9 @@
                         Caption="G"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.RGB_G, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                        Value="{Binding Color.RGB_G, ElementName=colorPickerSliders, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                                                     <i:Interaction.Behaviors>
-                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=colorPickerSliders}" />
                             </i:Interaction.Behaviors>
                     </ui:SliderCMiX>
 
@@ -78,9 +78,9 @@
                         Caption="B"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.RGB_B, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                        Value="{Binding Color.RGB_B, ElementName=colorPickerSliders, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                                                     <i:Interaction.Behaviors>
-                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=colorPickerSliders}" />
                             </i:Interaction.Behaviors>
                     </ui:SliderCMiX>
 
@@ -94,9 +94,9 @@
                         Caption="H"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.HSV_H, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=360, ToMin=0, ToMax=1}}">
+                        Value="{Binding Color.HSV_H, ElementName=colorPickerSliders, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=360, ToMin=0, ToMax=1}}">
                                                     <i:Interaction.Behaviors>
-                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=colorPickerSliders}" />
                             </i:Interaction.Behaviors>
                     </ui:SliderCMiX>
 
@@ -106,9 +106,9 @@
                         Caption="S"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.HSV_S, ElementName=uc, Mode=TwoWay}">
+                        Value="{Binding Color.HSV_S, ElementName=colorPickerSliders, Mode=TwoWay}">
                                                     <i:Interaction.Behaviors>
-                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=colorPickerSliders}" />
                             </i:Interaction.Behaviors>
                     </ui:SliderCMiX>
 
@@ -117,9 +117,9 @@
                         Caption="V"
                         Maximum="1"
                         Minimum="0"
-                        Value="{Binding Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
+                        Value="{Binding Color.HSV_V, ElementName=colorPickerSliders, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
                                                     <i:Interaction.Behaviors>
-                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                                <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=colorPickerSliders}" />
                             </i:Interaction.Behaviors>
                     </ui:SliderCMiX>
                 </StackPanel>
@@ -131,9 +131,9 @@
             Caption="Alpha"
             Maximum="1"
             Minimum="0"
-            Value="{Binding Color.A, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+            Value="{Binding Color.A, ElementName=colorPickerSliders, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                             <i:Interaction.Behaviors>
-                    <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                    <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=colorPickerSliders}" />
                 </i:Interaction.Behaviors>
         </ui:SliderCMiX>
 

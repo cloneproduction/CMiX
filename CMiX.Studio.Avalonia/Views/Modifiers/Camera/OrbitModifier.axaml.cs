@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class OrbitModifier : ModulatablePanel
+    public partial class OrbitModifier : PanelModulatable
     {
         public OrbitModifier()
         {

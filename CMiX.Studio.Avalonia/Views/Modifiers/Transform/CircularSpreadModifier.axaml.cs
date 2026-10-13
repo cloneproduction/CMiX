@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class CircularSpreadModifier : ModulatablePanel
+    public partial class CircularSpreadModifier : PanelModulatable
     {
         public CircularSpreadModifier()
         {

@@ -1,40 +1,40 @@
 ﻿<ui:ColorPickerBase
-    x:Class="CMiX.UI.Controls.ColorPicker.ColorPickerWheel"
+    x:Class="CMiX.UI.Controls.ColorPicker.ColorPickerFull"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    x:Name="uc">
+    x:Name="colorPickerFull">
 
     <StackPanel>
 
         <Border>
             <StackPanel Orientation="Horizontal">
 
-                <ui:ColorWheel
+                <ui:ColorPickerWheel
                     Width="200"
                     Height="200"
-                    ColorState="{Binding ColorState, ElementName=uc, Mode=TwoWay}"
-                    Theme="{StaticResource ColorWheelStyle}" />
+                    ColorState="{Binding ColorState, ElementName=colorPickerFull, Mode=TwoWay}"
+                    Theme="{StaticResource ColorPickerWheel}" />
 
                 <ui:SliderCMiX
                     Width="16"
                     IsEditable="False"
                     Maximum="1"
                     Minimum="0"
-                    Theme="{StaticResource SliderCMiXVertical}"
-                    Value="{Binding Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
+                    Theme="{StaticResource SliderCMiXBrightness}"
+                    Value="{Binding Color.HSV_V, ElementName=colorPickerFull, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
                                             <i:Interaction.Behaviors>
-                            <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=colorPickerFull}" />
                         </i:Interaction.Behaviors>
                 </ui:SliderCMiX>
 
             </StackPanel>
         </Border>
 
-        <ui:ColorSliders
+        <ui:ColorPickerSliders
             Margin="0,8,0,0"
-            ColorState="{Binding ColorState, ElementName=uc, Mode=TwoWay}" />
+            ColorState="{Binding ColorState, ElementName=colorPickerFull, Mode=TwoWay}" />
 
     </StackPanel>
 

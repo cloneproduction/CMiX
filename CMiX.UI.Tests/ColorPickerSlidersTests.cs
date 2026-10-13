@@ -12,12 +12,12 @@ namespace CMiX.UI.Tests
     // panels used to be swapped in with IsVisible, which collapses layout space, so the whole
     // picker resized every time the mode changed. The fix hides the inactive panels with the
     // hiddenMode class (opacity, not IsVisible) so they keep their layout space.
-    public class ColorSlidersPickerTests
+    public class ColorPickerSlidersTests
     {
         [AvaloniaFact]
         public void SwitchingColorModes_DoesNotChangePickerHeight()
         {
-            var picker = new ColorSliders
+            var picker = new ColorPickerSliders
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top

@@ -4,7 +4,7 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A number editor in a view must bind its Value. Without it the box does not follow the model.
-    public class NumberEditorBindingTests
+    public class ValueBindingTests
     {
         private static readonly Regex Editor = new(@"<ui:(DragValue|IntegerValue)(?![.\w])(?<attributes>(?:""[^""]*""|[^>""])*)>", RegexOptions.Compiled);
         private static readonly Regex Comment = new("<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);

@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.Displace"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
+    xmlns:TextureSources="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
@@ -21,7 +21,7 @@
         <Controls:Outliner.SelectionPanel>
           <ui:PopupButton Caption="New Control Texture">
             <ui:PopupButton.PopupContent>
-              <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+              <Managers:AutoSelectionPanel Interface="{x:Type TextureSources:ITextureSource}" />
             </ui:PopupButton.PopupContent>
           </ui:PopupButton>
         </Controls:Outliner.SelectionPanel>

@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class RotationModifier : ModulatablePanel
+    public partial class RotationModifier : PanelModulatable
     {
         public RotationModifier()
         {

@@ -2,11 +2,11 @@
     x:Class="CMiX.Studio.Avalonia.Views.Mesh"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
+    xmlns:TextureSources="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -88,17 +88,17 @@
                     Value="{Binding FlatNormals.Value}"
                     ResetCommand="{Binding FlatNormals.ResetCommand}" />
 
-                <StudioControls:Outliner
+                <Controls:Outliner
                     DataContext="{Binding ExplodeTriangleTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
-                    <StudioControls:Outliner.SelectionPanel>
+                    <Controls:Outliner.SelectionPanel>
                         <ui:PopupButton Caption="New Control Texture">
                             <ui:PopupButton.PopupContent>
-                                <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                                <Managers:AutoSelectionPanel Interface="{x:Type TextureSources:ITextureSource}" />
                             </ui:PopupButton.PopupContent>
                         </ui:PopupButton>
-                    </StudioControls:Outliner.SelectionPanel>
-                </StudioControls:Outliner>
+                    </Controls:Outliner.SelectionPanel>
+                </Controls:Outliner>
 
                 <Border IsVisible="{Binding ExplodeTriangleTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
                     <Views:Texture DataContext="{Binding ExplodeTriangleTextureManager.SelectedItem}" />
@@ -122,19 +122,19 @@
                   Value="{Binding DisplacementStrength.Value}"
                   ResetCommand="{Binding DisplacementStrength.ResetCommand}" />
 
-                <StudioControls:Outliner
+                <Controls:Outliner
                     Margin="0"
                     DataContext="{Binding DisplacementTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
                   
-                    <StudioControls:Outliner.SelectionPanel>
+                    <Controls:Outliner.SelectionPanel>
                         <ui:PopupButton Caption="New Control Texture">
                             <ui:PopupButton.PopupContent>
-                                <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                                <Managers:AutoSelectionPanel Interface="{x:Type TextureSources:ITextureSource}" />
                             </ui:PopupButton.PopupContent>
                         </ui:PopupButton>
-                    </StudioControls:Outliner.SelectionPanel>
-                </StudioControls:Outliner>
+                    </Controls:Outliner.SelectionPanel>
+                </Controls:Outliner>
 
                 <Border IsVisible="{Binding DisplacementTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
                     <Views:Texture DataContext="{Binding DisplacementTextureManager.SelectedItem}" />

@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class ColorModifier : ModulatablePanel
+    public partial class ColorModifier : PanelModulatable
     {
         public ColorModifier()
         {

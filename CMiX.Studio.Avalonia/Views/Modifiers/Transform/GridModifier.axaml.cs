@@ -5,7 +5,7 @@ using CMiX.Studio.Avalonia.Views.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class GridModifier : ModulatablePanel
+    public partial class GridModifier : PanelModulatable
     {
         public GridModifier()
         {
