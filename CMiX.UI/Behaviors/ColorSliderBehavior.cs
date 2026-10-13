@@ -1,10 +1,6 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-// This behavior depends on ColorState, NotifyableColor, IColorStateStorage and
-// ColorRoutedEventArgs from CMiX.Studio.Avalonia.Views.Controls. These types are ported
-// in the ColorPicker phase, this file will not compile until they exist.
-
 using System;
 using Avalonia;
 using Avalonia.Interactivity;

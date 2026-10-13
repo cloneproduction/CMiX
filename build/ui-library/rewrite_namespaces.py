@@ -3,7 +3,8 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 """Moves the generic UI types to the CMiX.UI namespaces, in place.
 
-Run from the repo root:  python build/ui-library/rewrite_namespaces.py [--dry-run]
+Run from the repo root:  python build/ui-library/rewrite_namespaces.py [--dry-run | --move]
+--move runs git mv for every moving file, into the CMiX.UI folder of its namespace.
 
 The script changes only namespaces and the names that point to them. It does not move files.
 It rewrites, in CMiX.Studio.Avalonia and CMiX.Studio.Avalonia.Tests:
@@ -386,5 +387,18 @@ def place_decl(text, decl_re, replace_with, extra, decl_text):
     return text[:start] + replace_with + glue + extra + text[m.end():]
 
 
+def move_files():
+    """git mv of every moving file to the CMiX.UI folder of its namespace. Run after the rewrite."""
+    import subprocess
+    moving = moving_files()
+    for rel, ns in sorted(moving.items()):
+        src = os.path.join(STUDIO, rel)
+        dst_dir = os.path.join('CMiX.UI', *ns.split('.')[2:])
+        os.makedirs(dst_dir, exist_ok=True)
+        subprocess.run(['git', 'mv', src, os.path.join(dst_dir, os.path.basename(rel))], check=True)
+    print('Moved', len(moving), 'files')
+    return 0
+
+
 if __name__ == '__main__':
-    sys.exit(main())
+    sys.exit(move_files() if '--move' in sys.argv else main())

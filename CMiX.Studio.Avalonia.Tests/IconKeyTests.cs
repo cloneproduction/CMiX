@@ -15,35 +15,20 @@ namespace CMiX.Studio.Avalonia.Tests
     {
         private static readonly Regex IconKey = new(@"IconKey=""([A-Za-z0-9_]+)""", RegexOptions.Compiled);
 
-        private static string StudioFolder()
-        {
-            for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir != null; dir = dir.Parent)
-            {
-                var studio = Path.Combine(dir.FullName, "CMiX.Studio.Avalonia");
-                if (File.Exists(Path.Combine(studio, "CMiX.Studio.Avalonia.csproj")))
-                    return studio;
-            }
-
-            throw new DirectoryNotFoundException("The folder CMiX.Studio.Avalonia was not found above " + AppContext.BaseDirectory);
-        }
-
         [AvaloniaFact]
         public void EveryIconKeyInTheAxaml_IsRegistered()
         {
-            var studio = StudioFolder();
             var found = 0;
             var unknown = new List<string>();
 
-            foreach (var file in Directory.EnumerateFiles(studio, "*.axaml", SearchOption.AllDirectories)
-                         .Where(f => !f.Contains(Path.DirectorySeparatorChar + "obj" + Path.DirectorySeparatorChar)
-                                  && !f.Contains(Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar)))
+            foreach (var file in SourceTree.AxamlFiles())
             {
                 foreach (Match match in IconKey.Matches(File.ReadAllText(file)))
                 {
                     found++;
                     var key = match.Groups[1].Value;
                     if (!Icons.Kinds.ContainsKey(key))
-                        unknown.Add($"{Path.GetRelativePath(studio, file)}: {key}");
+                        unknown.Add($"{SourceTree.Relative(file)}: {key}");
                 }
             }
 

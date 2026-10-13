@@ -1,10 +1,7 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-// Ported from CMiX.Studio.Mathematics.ColorSpaceHelper because the Avalonia
-// Mathematics folder does not contain it yet. Placed in this namespace so the
-// color picker stays self contained. Move to CMiX.Studio.Avalonia.Mathematics
-// when the mathematics port catches up.
+// Conversions between the color spaces of the color picker.
 
 using System;
 
