@@ -7,7 +7,7 @@
 
     <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
 
-        <Views:PathSelector
+        <Views:AssetPathSelector
             DataContext="{Binding $parent[Window].DataContext.Project.Model}"
             ItemsSource="{Binding AssetRepository.Geometries}"
             SelectedItem="{Binding Asset}" />
