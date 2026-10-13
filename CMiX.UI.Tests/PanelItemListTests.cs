@@ -7,6 +7,7 @@ using Avalonia.Data;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.Behaviors;
 using CMiX.UI.Controls.Collection;
 using Xunit;
 
@@ -18,6 +19,13 @@ namespace CMiX.UI.Tests
         private sealed class Model
         {
             public string Name => "model name";
+        }
+
+        private sealed class FakeReorder : IReorderService
+        {
+            public bool DragHandleIsPressed { get; set; }
+            public bool CanDrop(int sourceIndex, int insertIndex) => true;
+            public void Dropped(int sourceIndex, int insertIndex) { }
         }
 
         private static (Window window, PanelItemList list) Show(PanelItemList list)
@@ -36,12 +44,6 @@ namespace CMiX.UI.Tests
                 ItemTemplate = new FuncDataTemplate<string>((text, _) => new PanelItem { Title = text }),
                 AddCaption = "Add"
             };
-        }
-
-        [AvaloniaFact]
-        public void IsARealItemsControl()
-        {
-            Assert.IsAssignableFrom<ItemsControl>(new PanelItemList());
         }
 
         [AvaloniaFact]
@@ -106,6 +108,27 @@ namespace CMiX.UI.Tests
             Show(list);
 
             Assert.Equal("model name", panel.Content);
+        }
+
+        [AvaloniaFact]
+        public void TheReorderService_ReachesTheListOfItems()
+        {
+            var service = new FakeReorder();
+            var list = NewList();
+            list.ReorderService = service;
+            Show(list);
+
+            var items = list.GetVisualDescendants().OfType<ItemsControl>().Single();
+
+            Assert.Same(service, ListBoxReorder.GetService(items));
+        }
+
+        [AvaloniaFact]
+        public void WithoutAReorderService_TheListOfItemsHasNone()
+        {
+            var (_, list) = Show(NewList());
+
+            Assert.Null(ListBoxReorder.GetService(list.GetVisualDescendants().OfType<ItemsControl>().Single()));
         }
     }
 }

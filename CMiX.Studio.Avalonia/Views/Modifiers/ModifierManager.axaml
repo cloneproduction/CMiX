@@ -12,7 +12,7 @@
 
     <!-- The list is from the library. This control tells it which properties of the manager to show. -->
     <ui:PanelItemList
-        ui:ListBoxReorder.Service="{Binding ManagerReorderService}"
+        ReorderService="{Binding ManagerReorderService}"
         AddCaption="{Binding Caption, ElementName=modifierManager}"
         AddContent="{Binding SelectionPanel, ElementName=modifierManager}"
         ItemsSource="{Binding ManagerData.Items}">

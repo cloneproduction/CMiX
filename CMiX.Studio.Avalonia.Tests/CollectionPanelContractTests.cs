@@ -18,8 +18,7 @@ namespace CMiX.Studio.Avalonia.Tests
             {
                 var path = f.Replace('\\', '/');
                 return path.Contains("/CMiX.UI/Controls/Collection/")
-                    || path.EndsWith("/CMiX.UI/Themes/Styles/PanelItem.axaml")
-                    || path.EndsWith("/CMiX.UI/Themes/Styles/PanelItemList.axaml");
+                    || path.EndsWith("/CMiX.UI/Themes/Styles/PanelItem.axaml");
             });
 
         [Fact]
