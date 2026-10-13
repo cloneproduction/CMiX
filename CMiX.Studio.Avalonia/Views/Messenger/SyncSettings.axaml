@@ -2,6 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.SyncSettings"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:conv="clr-namespace:Avalonia.Data.Converters;assembly=Avalonia.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -79,6 +80,9 @@
                         HorizontalOffset="-150"
                         VerticalOffset="-56"
                         FlyoutPresenterTheme="{StaticResource FlyoutPresenterPanel}">
+                        <i:Interaction.Behaviors>
+                            <ui:CloseFlyoutOnPointerAwayBehavior />
+                        </i:Interaction.Behaviors>
                         <StackPanel KeyDown="SyncFlyout_KeyDown" Margin="4">
                             <TextBlock
                                 Margin="0,0,0,16"
@@ -140,6 +144,9 @@
                     HorizontalOffset="-150"
                     VerticalOffset="-100"
                     FlyoutPresenterTheme="{StaticResource FlyoutPresenterPanel}">
+                    <i:Interaction.Behaviors>
+                        <ui:CloseFlyoutOnPointerAwayBehavior />
+                    </i:Interaction.Behaviors>
 
                     <StackPanel 
                         Spacing="{DynamicResource SpacingMD}"
