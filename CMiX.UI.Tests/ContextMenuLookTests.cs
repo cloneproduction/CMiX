@@ -8,8 +8,9 @@ using Avalonia.VisualTree;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 using CMiX.UI.Controls;
+using CMiX.UI.Tests.Support;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.UI.Tests
 {
     // The context menu theme shows its rows in a PopupFrame, gives the separator row a thin line, and opens with its middle on the click.
     public class ContextMenuLookTests

@@ -2,7 +2,7 @@ using Avalonia.Headless.XUnit;
 using Xunit;
 using CMiX.UI.Controls;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.UI.Tests
 {
     // The drag steps have one source. Shift must stay slower than the normal drag.
     public class DragValueStepTests

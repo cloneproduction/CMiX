@@ -6,7 +6,7 @@ using Avalonia.VisualTree;
 using Xunit;
 using CMiX.UI.Controls.ColorPicker;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.UI.Tests
 {
     // Reproduces the layout regression fixed in commit fc493d82: the HSV, RGB and HEX mode
     // panels used to be swapped in with IsVisible, which collapses layout space, so the whole

@@ -10,6 +10,7 @@ using CMiX.UI.Controls;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using CMiX.UI.Tests.Support;
 
 namespace CMiX.Studio.Avalonia.Tests
 {

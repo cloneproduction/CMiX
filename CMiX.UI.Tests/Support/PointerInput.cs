@@ -4,7 +4,7 @@ using Avalonia.Headless;
 using Avalonia.Input;
 using Avalonia.Threading;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.UI.Tests.Support
 {
     internal static class PointerInput
     {

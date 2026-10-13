@@ -11,8 +11,9 @@ using Avalonia.VisualTree;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 using CMiX.UI.Controls;
+using CMiX.UI.Tests.Support;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.UI.Tests
 {
     // A MenuFlyout shows its rows in the same frame and with the same row theme as a context menu.
     public class MenuFlyoutLookTests

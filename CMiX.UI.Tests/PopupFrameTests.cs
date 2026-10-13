@@ -8,7 +8,7 @@ using Avalonia.VisualTree;
 using Xunit;
 using CMiX.UI.Controls;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.UI.Tests
 {
     // The PopupFrame theme gives the frame its template.
     public class PopupFrameTests
