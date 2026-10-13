@@ -30,12 +30,12 @@
 
         </ui:StackPanelPositioned>
 
-        <BaseControls:ModulatableVectorXYZ
+        <BaseControls:ModulatableVector3
             Caption="Width"
             DataContext="{Binding Width}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
-        <BaseControls:ModulatableVectorXYZ
+        <BaseControls:ModulatableVector3
             Caption="Phase"
             DataContext="{Binding Phase}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />

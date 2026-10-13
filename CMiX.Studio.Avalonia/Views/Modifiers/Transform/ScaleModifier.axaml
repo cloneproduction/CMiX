@@ -21,7 +21,7 @@
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 
-        <BaseControls:ModulatableVectorXYZ
+        <BaseControls:ModulatableVector3
             Caption="Scale"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 

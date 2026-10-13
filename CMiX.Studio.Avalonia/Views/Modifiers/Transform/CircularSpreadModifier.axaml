@@ -16,7 +16,7 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />
 
-        <BaseControls:ModulatableVectorXY
+        <BaseControls:ModulatableVector2
             Caption="Width"
             ModulatorManager="{Binding ModulatorManager}" />
 

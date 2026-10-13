@@ -16,7 +16,7 @@
             DataContext="{Binding GridSize}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ascii}" />
 
-        <StudioControls:ModulatableVectorXY
+        <StudioControls:ModulatableVector2
             Caption="Character Size"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ascii}" />
 

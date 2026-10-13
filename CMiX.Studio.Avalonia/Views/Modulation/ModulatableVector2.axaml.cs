@@ -3,9 +3,9 @@
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class ModulatableVectorXYZ : ModulatorAssignableUserControl
+    public partial class ModulatableVector2 : ModulatorAssignableUserControl
     {
-        public ModulatableVectorXYZ()
+        public ModulatableVector2()
         {
             InitializeComponent();
         }

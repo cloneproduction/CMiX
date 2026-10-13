@@ -46,7 +46,7 @@
 
         </ui:StackPanelPositioned>
 
-        <StudioControls:ModulatableVectorXY
+        <StudioControls:ModulatableVector2
             Caption="Center"
             DataContext="{Binding Center}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
@@ -56,12 +56,12 @@
             DataContext="{Binding CellRotation}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        <StudioControls:ModulatableVectorXY
+        <StudioControls:ModulatableVector2
             Caption="Cell Offset"
             DataContext="{Binding CellOffset}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        <StudioControls:ModulatableVectorXY
+        <StudioControls:ModulatableVector2
             Caption="Cell Scale"
             DataContext="{Binding CellScale}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
