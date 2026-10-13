@@ -6,8 +6,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Diagnostics;
 using Avalonia.Controls.Primitives;
-using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
 namespace CMiX.UI.Behaviors
@@ -17,7 +15,7 @@ namespace CMiX.UI.Behaviors
     public class CloseFlyoutOnPointerAwayBehavior : Behavior<PopupFlyoutBase>
     {
         public static readonly StyledProperty<double> DistanceProperty =
-            AvaloniaProperty.Register<CloseFlyoutOnPointerAwayBehavior, double>(nameof(Distance), PointerAway.DefaultDistance);
+            AvaloniaProperty.Register<CloseFlyoutOnPointerAwayBehavior, double>(nameof(Distance), PointerAwayCloser.DefaultDistance);
 
         public double Distance
         {
@@ -25,8 +23,17 @@ namespace CMiX.UI.Behaviors
             set => SetValue(DistanceProperty, value);
         }
 
-        private readonly TypingGuard typingGuard = new();
-        private TopLevel? watchedTopLevel;
+        private readonly PointerAwayCloser closer;
+
+        public CloseFlyoutOnPointerAwayBehavior()
+        {
+            closer = new PointerAwayCloser(
+                () => Distance,
+                // The popup host gives the presenter, the control that holds the flyout content.
+                () => (AssociatedObject as IPopupHostProvider)?.PopupHost?.Presenter?.Child,
+                () => AssociatedObject?.Target,
+                () => AssociatedObject?.Hide());
+        }
 
         protected override void OnAttached()
         {
@@ -46,39 +53,15 @@ namespace CMiX.UI.Behaviors
                 AssociatedObject.Opened -= OnOpened;
                 AssociatedObject.Closed -= OnClosed;
             }
-            StopWatching();
+            closer.Stop();
         }
 
         private void OnOpened(object? sender, EventArgs e)
         {
-            StopWatching();
             var target = AssociatedObject?.Target;
-            watchedTopLevel = target == null ? null : TopLevel.GetTopLevel(target);
-            watchedTopLevel?.AddHandler(InputElement.PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel);
-            typingGuard.Watch(PresenterContent());
+            closer.Start(target == null ? null : TopLevel.GetTopLevel(target));
         }
 
-        private void OnClosed(object? sender, EventArgs e) => StopWatching();
-
-        private void StopWatching()
-        {
-            watchedTopLevel?.RemoveHandler(InputElement.PointerMovedEvent, OnPointerMoved);
-            watchedTopLevel = null;
-            typingGuard.Stop();
-        }
-
-        // The popup host gives the presenter, the control that holds the flyout content.
-        private Control? PresenterContent() => (AssociatedObject as IPopupHostProvider)?.PopupHost?.Presenter?.Child;
-
-        private void OnPointerMoved(object? sender, PointerEventArgs e)
-        {
-            var flyout = AssociatedObject;
-            var presenter = PresenterContent();
-            if (flyout == null || presenter == null)
-                return;
-
-            if (PointerAway.IsFar(e, Distance, presenter, flyout.Target) && !typingGuard.IsTyping)
-                flyout.Hide();
-        }
+        private void OnClosed(object? sender, EventArgs e) => closer.Stop();
     }
 }
