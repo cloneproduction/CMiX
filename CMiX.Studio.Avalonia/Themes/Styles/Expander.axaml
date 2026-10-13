@@ -1,9 +1,7 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ControlTheme x:Key="ExpanderDownHeaderStyle" TargetType="ToggleButton">
         <Setter Property="Template">
@@ -16,7 +14,7 @@
                     Margin="8,0"
                     VerticalAlignment="Center">
                     <DockPanel>
-                        <Controls:AppIcon
+                        <ui:AppIcon
                             Name="image"
                             Opacity="0.5"
                             IconKey="ChevronDown"
@@ -34,7 +32,7 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ Controls|AppIcon#image">
+        <Style Selector="^:checked /template/ ui|AppIcon#image">
             <Setter Property="IconKey" Value="ChevronUp" />
         </Style>
     </ControlTheme>
@@ -182,7 +180,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center">
               <DockPanel >
-                <Controls:AppIcon
+                <ui:AppIcon
                     Name="image"
                     Margin="4, 0"
                     IconKey="ChevronRight"
@@ -200,12 +198,12 @@
           </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ Controls|AppIcon#image">
+        <Style Selector="^:checked /template/ ui|AppIcon#image">
           <Setter Property="IconKey" Value="ChevronDown" />
         </Style>
       </ControlTheme>
 
-  <ControlTheme x:Key="{x:Type Panels:IndentedExpander}" TargetType="Panels:IndentedExpander">
+  <ControlTheme x:Key="{x:Type ui:IndentedExpander}" TargetType="ui:IndentedExpander">
     <Setter Property="Background" Value="{DynamicResource PanelBackgroundLevel1Brush}" />
     <!-- CHANGED: was Transparent -->
     <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
@@ -218,7 +216,7 @@
             <DockPanel>
               <ToggleButton
                   Name="PART_toggle"
-                  AttachedProperties:ExpanderIndentation.Indentation="{TemplateBinding Indentation}"
+                  ui:ExpanderIndentation.Indentation="{TemplateBinding Indentation}"
                   Background="{TemplateBinding Background}"                       
                   Content="{TemplateBinding Header}"
                   DockPanel.Dock="Top"

@@ -11,7 +11,7 @@ using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 
-namespace CMiX.Studio.Avalonia.Behaviors
+namespace CMiX.UI.Behaviors
 {
     public class ClosePopupBehavior : Behavior<Popup>
     {

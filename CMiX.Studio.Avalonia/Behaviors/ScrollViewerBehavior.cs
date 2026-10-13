@@ -6,7 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Xaml.Interactivity;
 
-namespace CMiX.Studio.Avalonia.Behaviors
+namespace CMiX.UI.Behaviors
 {
     public class ScrollViewerBehavior : Behavior<ScrollViewer>
     {

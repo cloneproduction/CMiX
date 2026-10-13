@@ -11,7 +11,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     [TemplatePart("PART_TextBox", typeof(TextBox))]
     public class NumericInput : TemplatedControl

@@ -2,37 +2,36 @@
     x:Class="CMiX.Studio.Avalonia.Views.Easing"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <StackPanel>
 
-        <BaseControls:CaptionedToggleButton 
+        <ui:CaptionedToggleButton 
             Margin="0, 0, 0, 8"
             IsChecked="{Binding IsEnabled.Value}"
             ResetCommand="{Binding IsEnabled.ResetCommand}"
             Caption="Easing"/>
 
-        <Panels:PositionedStackPanel
+        <ui:PositionedStackPanel
             Spacing="{DynamicResource SpacingXXS}"
             IsEnabled="{Binding IsEnabled.Value}">
 
-            <BaseControls:CaptionedComboBox
+            <ui:CaptionedComboBox
                 Caption="Function"
                 ItemsSource="{x:Static Resources:EnumProviders.TweenerTransition}"
                 ResetCommand="{Binding Transition.ResetCommand}"
                 SelectedItem="{Binding Transition.Value}" />
 
-            <BaseControls:CaptionedComboBox
+            <ui:CaptionedComboBox
                 Caption="Mode"
                 ItemsSource="{x:Static Resources:EnumProviders.TweenerMode}"
                 ResetCommand="{Binding Mode.ResetCommand}"
                 SelectedItem="{Binding Mode.Value}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
     </StackPanel>
 </UserControl>

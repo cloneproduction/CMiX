@@ -11,10 +11,10 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using CMiX.Studio.Avalonia.Interaction;
-using CMiX.Studio.Avalonia.Mathematics;
+using CMiX.UI.Interaction;
+using CMiX.UI.Mathematics;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     public class CMiXSlider : Slider
     {

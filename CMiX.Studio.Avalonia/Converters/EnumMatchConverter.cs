@@ -6,7 +6,7 @@ using System.Globalization;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 
-namespace CMiX.Studio.Avalonia.Converters
+namespace CMiX.UI.Converters
 {
     public sealed class EnumMatchConverter : IValueConverter
     {

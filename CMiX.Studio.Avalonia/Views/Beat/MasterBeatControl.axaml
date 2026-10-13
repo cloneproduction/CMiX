@@ -2,11 +2,11 @@
     x:Class="CMiX.Studio.Avalonia.Views.MasterBeatControl"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel>
 
-        <BaseControl:DragValue
+        <ui:DragValue
             Margin="0,0,0,8"
             Caption="BPM"
             IsInteger="False"
@@ -32,7 +32,7 @@
                     DockPanel.Dock="Right"
                     Theme="{StaticResource ButtonRounded}">
                     <Button.Content>
-                        <BaseControl:AppIcon IconKey="Reset" Size="{DynamicResource IconSizeXS}" />
+                        <ui:AppIcon IconKey="Reset" Size="{DynamicResource IconSizeXS}" />
                     </Button.Content>
                 </Button>
 

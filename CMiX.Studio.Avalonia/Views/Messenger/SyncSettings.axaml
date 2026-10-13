@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.SyncSettings"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:conv="clr-namespace:Avalonia.Data.Converters;assembly=Avalonia.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
@@ -10,7 +10,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}" Margin="8">
 
-        <BaseControl:LabeledContent Caption="Status">
+        <ui:LabeledContent Caption="Status">
             <Border>
                 <StackPanel Orientation="Horizontal">
                     <Ellipse
@@ -27,7 +27,7 @@
                         Text="{Binding Status}" />
                 </StackPanel>
             </Border>
-        </BaseControl:LabeledContent>
+        </ui:LabeledContent>
 
         <!-- Shows the reason of a failed connection. Stays outside the flyouts so the text is
              visible right away, and stays visible until the peer clears ErrorMessage. -->
@@ -122,12 +122,12 @@
         </Grid>
 
         <!-- The endpoint line shows the options of the running peer. -->
-        <BaseControl:LabeledContent Caption="Redis">
+        <ui:LabeledContent Caption="Redis">
             <TextBlock
                 x:Name="EndpointText"
                 VerticalAlignment="Center"
                 Foreground="{DynamicResource ForegroundBrush}" />
-        </BaseControl:LabeledContent>
+        </ui:LabeledContent>
 
         <Button
             x:Name="EditConnectionButton"
@@ -148,37 +148,37 @@
                         <TextBlock Text="Connection Settings"
                                    Margin="0, 0, 0, 8"/>
 
-                        <BaseControl:IPBox x:Name="IpBox"/>
+                        <ui:IPBox x:Name="IpBox"/>
 
-                        <BaseControl:LabeledContent Caption="Port">
+                        <ui:LabeledContent Caption="Port">
                             <TextBox x:Name="PortBox" />
-                        </BaseControl:LabeledContent>
+                        </ui:LabeledContent>
 
-                        <BaseControl:LabeledContent Caption="Database">
+                        <ui:LabeledContent Caption="Database">
                             <TextBox x:Name="DatabaseBox" />
-                        </BaseControl:LabeledContent>
+                        </ui:LabeledContent>
 
-                        <BaseControl:CaptionedToggleButton x:Name="UseCredentialManagerBox" Caption="Use Credential Manager" />
+                        <ui:CaptionedToggleButton x:Name="UseCredentialManagerBox" Caption="Use Credential Manager" />
 
-                        <BaseControl:LabeledContent Caption="Credential Name">
+                        <ui:LabeledContent Caption="Credential Name">
                             <TextBox x:Name="CredentialNameBox" />
-                        </BaseControl:LabeledContent>
+                        </ui:LabeledContent>
 
-                        <BaseControl:LabeledContent Caption="User">
+                        <ui:LabeledContent Caption="User">
                             <TextBox Grid.Column="1" x:Name="UserBox" />
-                        </BaseControl:LabeledContent>
+                        </ui:LabeledContent>
 
-                        <BaseControl:LabeledContent Caption="Password">
+                        <ui:LabeledContent Caption="Password">
                             <TextBox Grid.Column="1" x:Name="PasswordBox" PasswordChar="*" />
-                        </BaseControl:LabeledContent>
+                        </ui:LabeledContent>
 
-                        <BaseControl:LabeledContent Caption="Key Prefix">
+                        <ui:LabeledContent Caption="Key Prefix">
                             <TextBox Grid.Column="1" x:Name="KeyPrefixBox" />
-                        </BaseControl:LabeledContent>
+                        </ui:LabeledContent>
 
-                        <BaseControl:LabeledContent Caption="Peer Name">
+                        <ui:LabeledContent Caption="Peer Name">
                             <TextBox Grid.Column="1" x:Name="PeerNameBox" />
-                        </BaseControl:LabeledContent>
+                        </ui:LabeledContent>
 
                         <!-- Reserves space so the popup does not resize when a message appears. -->
                         <StackPanel IsVisible="False" MinHeight="40">

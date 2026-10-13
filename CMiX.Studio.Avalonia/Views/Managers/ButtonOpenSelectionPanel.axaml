@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.Managers.ButtonOpenSelectionPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     x:Name="buttonOpenSelectionPanel">
 
@@ -18,7 +18,7 @@
             Placement="Bottom"
             PlacementTarget="{Binding ElementName=PopUpToggle}">
             <i:Interaction.Behaviors>
-                <Behaviors:ClosePopupBehavior />
+                <ui:ClosePopupBehavior />
             </i:Interaction.Behaviors>
             <Border
                 Padding="2,4,2,2"

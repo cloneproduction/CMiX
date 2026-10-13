@@ -11,6 +11,7 @@ using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Controls;
 using CMiX.Studio.Avalonia.Views.Managers;
+using CMiX.UI.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

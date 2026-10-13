@@ -7,7 +7,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     // A ToggleButton for a model value. It shows a Reset menu while it has a ResetCommand.
     public class CMiXToggleButton : ToggleButton

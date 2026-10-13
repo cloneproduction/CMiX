@@ -1,11 +1,11 @@
 ﻿<UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.AxisSelector2D"
+    x:Class="CMiX.UI.Controls.AxisSelector2D"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="axisSelector2D">
 
-    <Controls:LabeledContent Caption="Axis">
+    <ui:LabeledContent Caption="Axis">
 
         <Grid>
             <Grid.ColumnDefinitions>
@@ -27,5 +27,5 @@
 
         </Grid>
 
-    </Controls:LabeledContent>
+    </ui:LabeledContent>
 </UserControl>

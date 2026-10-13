@@ -4,19 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="CameraControl">
 
     <StackPanel>
 
         <Views:EntityModifiersSection PanelOwner="{x:Type Cameras:Camera}" />
 
-        <Panels:IndentedExpander
+        <ui:IndentedExpander
             Header="Settings"
             Indentation="0"
             IsExpanded="{Binding SettingsIsExpanded}">
             <Views:CameraSettings DataContext="{Binding Settings}" />
-        </Panels:IndentedExpander>
+        </ui:IndentedExpander>
 
     </StackPanel>
 

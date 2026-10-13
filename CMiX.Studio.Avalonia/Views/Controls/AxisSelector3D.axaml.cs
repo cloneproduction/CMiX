@@ -5,7 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     public partial class AxisSelector3D : CaptionedUserControl
     {

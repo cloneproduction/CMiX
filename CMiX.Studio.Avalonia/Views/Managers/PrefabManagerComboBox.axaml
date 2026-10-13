@@ -2,8 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.Managers.PrefabManagerComboBox"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="prefabManagerComboBox">
 
     <Grid
@@ -13,7 +12,7 @@
 
         <Border
             x:Name="mainBorder"
-            AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=prefabManagerComboBox}"
+            ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=prefabManagerComboBox}"
             Background="{DynamicResource Grey200Brush}"
             Classes="BorderMask">
             <DockPanel>
@@ -25,7 +24,7 @@
                     DockPanel.Dock="Right"
                     Theme="{StaticResource ButtonStraight}">
                     <Button.Content>
-                        <Controls:AppIcon
+                        <ui:AppIcon
                             Opacity="0.5"
                             IconKey="Add"
                             Size="{DynamicResource IconSizeXS}" />

@@ -9,7 +9,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     // Popup with a draggable title area named dragBar in its content.
     public class CMiXPopup : Popup

@@ -1,16 +1,15 @@
-﻿<Controls:CaptionedUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.AxisSelector3D"
+﻿<ui:CaptionedUserControl
+    x:Class="CMiX.UI.Controls.AxisSelector3D"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="axisSelector3D">
 
-    <Controls:LabeledContent Caption="{Binding Caption, ElementName=axisSelector3D}">
+    <ui:LabeledContent Caption="{Binding Caption, ElementName=axisSelector3D}">
 
         <Border
             x:Name="outerBorder"
-            AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=axisSelector3D}"
+            ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=axisSelector3D}"
             Classes="BorderMask">
 
             <Grid>
@@ -43,5 +42,5 @@
 
         </Border>
 
-    </Controls:LabeledContent>
-</Controls:CaptionedUserControl>
+    </ui:LabeledContent>
+</ui:CaptionedUserControl>

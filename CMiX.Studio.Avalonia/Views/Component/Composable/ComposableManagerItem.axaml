@@ -2,10 +2,10 @@
     x:Class="CMiX.Studio.Avalonia.Views.ComposableManagerItem"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <UserControl.Styles>
-        <Style Selector="ToggleButton.maskToggle:checked /template/ Controls|AppIcon#image">
+        <Style Selector="ToggleButton.maskToggle:checked /template/ ui|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
     </UserControl.Styles>
@@ -38,7 +38,7 @@
                             Padding="1"
                             Background="Transparent"
                             Opacity="0.6">
-                            <Controls:AppIcon
+                            <ui:AppIcon
                                 x:Name="image"
                                 IconKey="Mask"
                                 Size="{DynamicResource IconSizeXS}" />
@@ -47,7 +47,7 @@
                 </ToggleButton.Template>
             </ToggleButton>
 
-            <Controls:EditableTextBox
+            <ui:EditableTextBox
                 x:Name="editableTextBox"
                 Height="{DynamicResource ControlHeightSM}"
                 Foreground="{DynamicResource ForegroundBrush}"

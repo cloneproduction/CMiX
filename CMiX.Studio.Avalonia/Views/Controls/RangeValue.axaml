@@ -1,18 +1,17 @@
 <UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.RangeValue"
+    x:Class="CMiX.UI.Controls.RangeValue"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="rangeValue"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <Grid ColumnDefinitions="*,*">
 
-        <Controls:DragValue
+        <ui:DragValue
             Grid.Column="0"
-            AttachedProperties:PositionedControl.Position="Left"
+            ui:PositionedControl.Position="Left"
             Caption="{Binding LeftCaption, ElementName=rangeValue}"
             IsInteger="{Binding IsInteger, ElementName=rangeValue}"
             LargeChange="{Binding LargeChange, ElementName=rangeValue}"
@@ -21,19 +20,19 @@
             SmallChange="{Binding SmallChange, ElementName=rangeValue}"
             Theme="{StaticResource DragValueInlineCaption}"
             Value="{Binding LeftValue, ElementName=rangeValue, Mode=TwoWay}">
-            <Controls:DragValue.ContextMenu>
+            <ui:DragValue.ContextMenu>
                 <ContextMenu Theme="{StaticResource ContextMenuDefault}">
                     <MenuItem
                         Command="{Binding LeftResetCommand, ElementName=rangeValue}"
                         Header="Reset" />
                 </ContextMenu>
-            </Controls:DragValue.ContextMenu>
-        </Controls:DragValue>
+            </ui:DragValue.ContextMenu>
+        </ui:DragValue>
 
-        <Controls:DragValue
+        <ui:DragValue
             Grid.Column="1"
             Margin="1,0,0,0"
-            AttachedProperties:PositionedControl.Position="Right"
+            ui:PositionedControl.Position="Right"
             Caption="{Binding RightCaption, ElementName=rangeValue}"
             IsInteger="{Binding IsInteger, ElementName=rangeValue}"
             LargeChange="{Binding LargeChange, ElementName=rangeValue}"
@@ -42,14 +41,14 @@
             SmallChange="{Binding SmallChange, ElementName=rangeValue}"
             Theme="{StaticResource DragValueInlineCaption}"
             Value="{Binding RightValue, ElementName=rangeValue, Mode=TwoWay}">
-            <Controls:DragValue.ContextMenu>
+            <ui:DragValue.ContextMenu>
                 <ContextMenu Theme="{StaticResource ContextMenuDefault}">
                     <MenuItem
                         Command="{Binding RightResetCommand, ElementName=rangeValue}"
                         Header="Reset" />
                 </ContextMenu>
-            </Controls:DragValue.ContextMenu>
-        </Controls:DragValue>
+            </ui:DragValue.ContextMenu>
+        </ui:DragValue>
 
     </Grid>
 

@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Avalonia.Headless.XUnit;
-using CMiX.Studio.Avalonia.Themes;
 using Xunit;
+using CMiX.UI.Themes;
 
 namespace CMiX.Studio.Avalonia.Tests
 {

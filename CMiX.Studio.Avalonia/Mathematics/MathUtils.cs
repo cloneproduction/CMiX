@@ -4,7 +4,7 @@
 using System;
 using Avalonia;
 
-namespace CMiX.Studio.Avalonia.Mathematics
+namespace CMiX.UI.Mathematics
 {
     public static class MathUtils
     {

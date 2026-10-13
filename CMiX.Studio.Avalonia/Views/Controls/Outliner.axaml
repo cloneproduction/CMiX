@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.Controls.Outliner"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="outliner">
 
     <DockPanel Height="{DynamicResource ControlHeightMD}">
@@ -45,7 +45,7 @@
                     <Border
                         BorderBrush="{DynamicResource Grey300Brush}"
                         BorderThickness="0.5">
-                        <Controls:EditableTextBox
+                        <ui:EditableTextBox
                             Background="{DynamicResource Grey200Brush}"
                             Focusable="False"
                             Foreground="{DynamicResource ForegroundBrush}"

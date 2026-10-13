@@ -2,7 +2,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="using:System"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ControlTheme x:Key="ContextMenuSubItem" TargetType="MenuItem">
         <Setter Property="Background" Value="Transparent" />
@@ -99,14 +99,14 @@
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ContextMenuSubItem}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Controls:PopupFrame CentersOnPointer="True">
+                <ui:PopupFrame CentersOnPointer="True">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <ItemsPresenter
                             Name="PART_ItemsPresenter"
                             ItemsPanel="{TemplateBinding ItemsPanel}"
                             KeyboardNavigation.TabNavigation="Continue" />
                     </ScrollViewer>
-                </Controls:PopupFrame>
+                </ui:PopupFrame>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

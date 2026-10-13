@@ -1,12 +1,11 @@
-﻿<Controls:CaptionedUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.CaptionedComboBox"
+﻿<ui:CaptionedUserControl
+    x:Class="CMiX.UI.Controls.CaptionedComboBox"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="comboBox">
 
-    <Controls:LabeledContent Caption="{Binding Caption, ElementName=comboBox}">
+    <ui:LabeledContent Caption="{Binding Caption, ElementName=comboBox}">
 
         <DockPanel>
 
@@ -16,14 +15,14 @@
 
             <Border
                 x:Name="mainBorder"
-                AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=comboBox}"
+                ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=comboBox}"
                 Background="{DynamicResource Grey500Brush}"
                 BorderBrush="Transparent"
                 Classes="BorderMask">
 
                 <ComboBox
                     x:Name="innerComboBox"
-                    AttachedProperties:PositionedControl.Position="None"
+                    ui:PositionedControl.Position="None"
                     ItemsSource="{Binding ItemsSource, ElementName=comboBox}"
                     ItemTemplate="{Binding ItemTemplate, ElementName=comboBox}"
                     SelectedItem="{Binding SelectedItem, ElementName=comboBox, Mode=OneWay}" />
@@ -32,6 +31,6 @@
 
         </DockPanel>
 
-    </Controls:LabeledContent>
+    </ui:LabeledContent>
 
-</Controls:CaptionedUserControl>
+</ui:CaptionedUserControl>

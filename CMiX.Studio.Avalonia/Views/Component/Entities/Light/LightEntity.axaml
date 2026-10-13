@@ -4,30 +4,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
     d:DesignHeight="600">
 
     <StackPanel>
       
-        <Panels:IndentedExpander 
+        <ui:IndentedExpander 
           Header="Transform" 
           IsExpanded="{Binding TransformSRTIsExpanded}">
           
             <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
           
-        </Panels:IndentedExpander>
+        </ui:IndentedExpander>
 
         <Views:EntityModifiersSection PanelOwner="{x:Type Lights:LightEntity}" />
 
-        <Panels:IndentedExpander
+        <ui:IndentedExpander
           Header="Settings"
           IsExpanded="{Binding SettingsIsExpanded}">
           
           <Views:LightSettings DataContext="{Binding Settings}" />
           
-        </Panels:IndentedExpander>
+        </ui:IndentedExpander>
 
     </StackPanel>
 

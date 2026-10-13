@@ -4,12 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="orbitModifier"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:ModulatableFloatValue
             Caption="Yaw"
@@ -21,6 +21,6 @@
             DataContext="{Binding Pitch}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=orbitModifier}" />
 
-    </Panels:PositionedStackPanel>
+    </ui:PositionedStackPanel>
 
 </Controls:ModulatablePanel>

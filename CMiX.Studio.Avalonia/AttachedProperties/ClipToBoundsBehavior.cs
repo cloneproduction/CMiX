@@ -5,7 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 
-namespace CMiX.Studio.Avalonia.AttachedProperties
+namespace CMiX.UI.AttachedProperties
 {
     public static class ClipToBoundsBehavior
     {

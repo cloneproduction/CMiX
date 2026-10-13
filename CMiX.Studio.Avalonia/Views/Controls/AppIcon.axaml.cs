@@ -5,8 +5,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Material.Icons.Avalonia;
+using CMiX.UI.Themes;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     public partial class AppIcon : UserControl
     {
@@ -47,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             if (string.IsNullOrEmpty(key))
                 return;
 
-            _materialIcon.Kind = Themes.Icons.Kinds[key];
+            _materialIcon.Kind = Icons.Kinds[key];
         }
     }
 }

@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.LFOModulator"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Panels="using:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,13 +11,13 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:DragValue
+        <ui:DragValue
             Caption="Period"
             Minimum="0.0"
             ResetCommand="{Binding Period.ResetCommand}"
             Value="{Binding Period.Value}" />
 
-        <BaseControls:RangeValue
+        <ui:RangeValue
             LeftValue="{Binding Minimum.Value}"
             LeftCaption="Min"
             LeftResetCommand="{Binding Minimum.ResetCommand}"
@@ -25,7 +25,7 @@
             RightResetCommand="{Binding Maximum.ResetCommand}"
             RightValue="{Binding Maximum.Value}"/>
 
-        <BaseControls:CaptionedComboBox
+        <ui:CaptionedComboBox
             Caption="Wave Type"
             ItemsSource="{x:Static Resources:EnumProviders.WaveType}"
             ResetCommand="{Binding WaveType.ResetCommand}"

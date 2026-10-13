@@ -2,52 +2,52 @@
     x:Class="CMiX.Studio.Avalonia.Views.CameraSettings"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"    
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <StackPanel Margin="8">
 
-        <BaseControls:VectorXYZ 
+        <ui:VectorXYZ 
             Caption="Target" 
             DataContext="{Binding Target}" />
 
-        <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:DragValue
+            <ui:DragValue
                 Caption="Near"
                 Value="{Binding NearClip.Value}"
                 ResetCommand="{Binding NearClip.ResetCommand}" />
 
-            <BaseControls:DragValue
+            <ui:DragValue
                 Caption="Far"
                 Value="{Binding FarClip.Value}"
                 ResetCommand="{Binding FarClip.ResetCommand}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:DragValue
+            <ui:DragValue
                 Caption="Yaw"
                 Value="{Binding Yaw.Value}"
                 ResetCommand="{Binding Yaw.ResetCommand}" />
 
-            <BaseControls:DragValue
+            <ui:DragValue
                 Caption="Pitch"
                 Value="{Binding Pitch.Value}"
                 ResetCommand="{Binding Pitch.ResetCommand}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
-        <BaseControls:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Margin="0,8"
             Caption="Orthographic"
             IsChecked="{Binding IsOrthographic.Value}"
             ResetCommand="{Binding IsOrthographic.ResetCommand}" />
 
-        <BaseControls:DragValue
+        <ui:DragValue
             IsVisible="{Binding IsOrthographic.Value}"
             Caption="Orthographic Size"
             Value="{Binding OrthographicSize.Value}"
@@ -55,19 +55,19 @@
 
         <Border IsVisible="{Binding !IsOrthographic.Value}">
 
-            <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+            <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-                <BaseControls:DragValue
+                <ui:DragValue
                     Caption="Distance"
                     Value="{Binding Distance.Value}"
                     ResetCommand="{Binding Distance.ResetCommand}" />
 
-                <BaseControls:DragValue
+                <ui:DragValue
                     Caption="FOV"
                     Value="{Binding FOV.Value}"
                     ResetCommand="{Binding FOV.ResetCommand}" />
 
-            </Panels:PositionedStackPanel>
+            </ui:PositionedStackPanel>
 
         </Border>
     </StackPanel>

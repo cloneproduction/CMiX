@@ -3,12 +3,12 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="channelVectorXYZ"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:ModulatableFloatValue
             Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} X', Mode=OneWay}"
@@ -25,6 +25,6 @@
             DataContext="{Binding Z}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
-    </Panels:PositionedStackPanel>
+    </ui:PositionedStackPanel>
 
 </BaseControls:ModulatorAssignableUserControl>

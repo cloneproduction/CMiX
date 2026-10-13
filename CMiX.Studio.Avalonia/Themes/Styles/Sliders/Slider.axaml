@@ -1,8 +1,7 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ControlTheme x:Key="RepeatButtonDecrease" TargetType="RepeatButton">
         <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
@@ -26,9 +25,9 @@
         </Setter>
     </ControlTheme>
 
-    <ControlTheme x:Key="{x:Type Controls:CMiXSlider}" TargetType="Controls:CMiXSlider">
-        <Setter Property="(AttachedProperties:MouseDownHelper.IsEnabled)" Value="True" />
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+    <ControlTheme x:Key="{x:Type ui:CMiXSlider}" TargetType="ui:CMiXSlider">
+        <Setter Property="(ui:MouseDownHelper.IsEnabled)" Value="True" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="All" />
         <Setter Property="Caption" Value="" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
@@ -47,7 +46,7 @@
 
                             <Border
                                 Name="sliderBorder"
-                                AttachedProperties:ClipToBoundsBehavior.CornerRadius="{Binding (AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource PositionToCornerRadius}}"
+                                ui:ClipToBoundsBehavior.CornerRadius="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource PositionToCornerRadius}}"
                                 Background="Transparent"
                                 IsVisible="{Binding !IsEditing, RelativeSource={RelativeSource TemplatedParent}}">
                                 <Track
@@ -91,7 +90,7 @@
                                 Padding="0,0,8,0"
                                 VerticalAlignment="Center" />
 
-                            <Controls:NumericInput
+                            <ui:NumericInput
                                 Name="textInput"
                                 Height="{Binding Bounds.Height, RelativeSource={RelativeSource TemplatedParent}}"
                                 IsEditing="{Binding IsEditing, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"

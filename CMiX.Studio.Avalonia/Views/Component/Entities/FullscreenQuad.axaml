@@ -5,8 +5,7 @@
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="uc"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
@@ -14,12 +13,12 @@
 
     <StackPanel>
 
-      <BaseControls:ColorSelector
+      <ui:ColorSelector
           Margin="8"
           Caption="Color"
           DataContext="{Binding Color}" />
       
-      <Panels:IndentedExpander
+      <ui:IndentedExpander
           Header="Texture"
           IsExpanded="{Binding TextureIsExpanded}">
         
@@ -27,13 +26,13 @@
 
           <Views:DiffuseTexture DataContext="{Binding Texture.DiffuseTexture}" />
 
-          <Panels:IndentedExpander
+          <ui:IndentedExpander
               Indentation="4"
               IsExpanded="{Binding Texture.MaskTexture.IsExpanded}">
             
-            <Panels:IndentedExpander.Header>
+            <ui:IndentedExpander.Header>
               <DockPanel>
-                <BaseControls:CMiXToggleButton
+                <ui:CMiXToggleButton
                     Width="14"
                     Height="14"
                     IsChecked="{Binding Texture.MaskTexture.IsEnabled.Value, Mode=TwoWay}"
@@ -41,17 +40,17 @@
                     Theme="{StaticResource ToggleButtonIcon}" />
                 <TextBlock Margin="8,0" Text="Mask" />
               </DockPanel>
-            </Panels:IndentedExpander.Header>
+            </ui:IndentedExpander.Header>
             
             <Views:MaskTexture DataContext="{Binding Texture.MaskTexture}" />
             
-          </Panels:IndentedExpander>
+          </ui:IndentedExpander>
           
         </StackPanel>
 
-      </Panels:IndentedExpander>
+      </ui:IndentedExpander>
 
-      <Panels:IndentedExpander
+      <ui:IndentedExpander
         Header="Transform Texture"
         IsExpanded="{Binding TransformTextureIsExpanded}">
         
@@ -59,7 +58,7 @@
           DataContext="{Binding TransformTexture}" 
           Margin="8" />
         
-      </Panels:IndentedExpander>
+      </ui:IndentedExpander>
     </StackPanel>
 
 </UserControl>

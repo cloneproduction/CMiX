@@ -3,6 +3,7 @@
 
 using Avalonia;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.UI.Controls;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {

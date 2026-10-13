@@ -8,7 +8,7 @@
 
 using System;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls.ColorPicker
 {
     public static class ColorSpaceHelper
     {

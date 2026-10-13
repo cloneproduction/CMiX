@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.Image"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
@@ -14,13 +14,13 @@
             ItemsSource="{Binding AssetRepository.Images}"
             SelectedItem="{Binding Asset}" />
 
-        <BaseControls:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <BaseControls:Integer2Value
+            <ui:Integer2Value
                 Caption="Resolution"
                 DataContext="{Binding Resolution}" />
         </Border>

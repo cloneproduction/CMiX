@@ -1,7 +1,7 @@
 ﻿<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <!--
         BorderMask now clips the border it's applied to directly via ClipToBoundsBehavior,
@@ -13,7 +13,7 @@
         be clipped/rounded, not to a separate mask element.
     -->
     <Style Selector="Border.BorderMask">
-        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{Binding (AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource Self}, Converter={StaticResource PositionToCornerRadius}}" />
+        <Setter Property="ui:ClipToBoundsBehavior.CornerRadius" Value="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource Self}, Converter={StaticResource PositionToCornerRadius}}" />
     </Style>
 
 </Styles>

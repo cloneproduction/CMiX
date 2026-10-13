@@ -8,9 +8,8 @@
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
-    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Menus="clr-namespace:CMiX.Studio.Avalonia.Views.Menus"
     xmlns:Windows="clr-namespace:CMiX.Studio.Avalonia.Views.Windows"
@@ -108,7 +107,7 @@
             <TabItem Theme="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
-                    <Controls:AppIcon
+                    <ui:AppIcon
                         Margin="8"
                         IconKey="Settings"
                         Size="{DynamicResource IconSizeXS}"
@@ -125,7 +124,7 @@
             <TabItem Theme="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
-                    <Controls:AppIcon
+                    <ui:AppIcon
                         Margin="8"
                         IconKey="Composition"
                         Size="{DynamicResource IconSizeXS}"
@@ -142,7 +141,7 @@
             <TabItem Theme="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
-                    <Controls:AppIcon
+                    <ui:AppIcon
                         Margin="8"
                         IconKey="LayerScene"
                         Size="{DynamicResource IconSizeXS}"
@@ -158,7 +157,7 @@
 
             <TabItem Theme="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
-                    <Controls:AppIcon
+                    <ui:AppIcon
                         Margin="8"
                         IconKey="Geometry"
                         Size="{DynamicResource IconSizeXS}"
@@ -252,7 +251,7 @@
 
             <TabItem Theme="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
-                    <Controls:AppIcon
+                    <ui:AppIcon
                         Margin="8"
                         IconKey="Resources"
                         Size="{DynamicResource IconSizeXS}"
@@ -263,7 +262,7 @@
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
+                        <ui:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>
                     <Views:AssetManager DataContext="{Binding AssetManager}" />
                 </ScrollViewer>
@@ -272,7 +271,7 @@
             <TabItem Theme="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
-                    <Controls:AppIcon
+                    <ui:AppIcon
                         Margin="8"
                         IconKey="Network"
                         Size="{DynamicResource IconSizeXS}"
@@ -284,7 +283,7 @@
 
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
+                        <ui:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>
                     <Views:SyncManagementPanel DataContext="{Binding Sync}" />
                 </ScrollViewer>

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using Material.Icons;
+using CMiX.UI.Themes;
 
 namespace CMiX.Studio.Avalonia.Themes
 {

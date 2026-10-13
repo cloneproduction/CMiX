@@ -2,19 +2,19 @@
     x:Class="CMiX.Studio.Avalonia.Views.CompositionSettings"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel>
-        <BaseControl:CaptionedComboBox
+        <ui:CaptionedComboBox
             Caption="Output Mapping"
             ItemsSource="{Binding Project.OutputMappingManager.VisibleItems}"
             SelectedItem="{Binding SelectedOutputMapping}">
-            <BaseControl:CaptionedComboBox.ItemTemplate>
+            <ui:CaptionedComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name.Value}" />
                 </DataTemplate>
-            </BaseControl:CaptionedComboBox.ItemTemplate>
-        </BaseControl:CaptionedComboBox>
+            </ui:CaptionedComboBox.ItemTemplate>
+        </ui:CaptionedComboBox>
 
     </StackPanel>
 

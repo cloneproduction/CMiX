@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ControlTheme x:Key="ComboBoxToggleStyle" TargetType="ToggleButton">
         <Setter Property="ClickMode" Value="Press" />
@@ -14,7 +14,7 @@
                     Background="{TemplateBinding Background}"
                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                     VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                    <Controls:AppIcon
+                    <ui:AppIcon
                         HorizontalAlignment="Right"
                         Margin="8,0"
                         Opacity="0.5"
@@ -150,7 +150,7 @@
                         Theme="{DynamicResource ToggleButtonRoundedLeft}"
                         Width="22">
                         <ToggleButton.Content>
-                            <Controls:AppIcon
+                            <ui:AppIcon
                                 Opacity="0.5"
                                 IconKey="ChevronDown"
                                 Size="{DynamicResource IconSizeXS}" />

@@ -5,9 +5,9 @@ using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Data.Converters;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls;
 
-namespace CMiX.Studio.Avalonia.Converters
+namespace CMiX.UI.Converters
 {
     public class DoubleToStringConverter : IValueConverter
     {

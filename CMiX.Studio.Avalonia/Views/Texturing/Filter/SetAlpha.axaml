@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.SetAlpha"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,18 +10,18 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:CaptionedComboBox
+        <ui:CaptionedComboBox
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.AlphaChannel}"
             ResetCommand="{Binding AlphaChannel.ResetCommand}"
             SelectedItem="{Binding AlphaChannel.Value}" />
 
-        <BaseControls:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Invert"
             IsChecked="{Binding Invert.Value}"
             ResetCommand="{Binding Invert.ResetCommand}" />
 
-        <BaseControls:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Keep Original Alpha"
             IsChecked="{Binding KeepOriginalAlpha.Value}"
             ResetCommand="{Binding KeepOriginalAlpha.ResetCommand}" />

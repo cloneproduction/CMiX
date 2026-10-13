@@ -4,7 +4,7 @@
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls.ColorPicker
 {
     public class NotifyableColor : ObservableObject
     {

@@ -9,7 +9,7 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.UI.Behaviors
 {
     public static class ListBoxReorderDragDrop
     {

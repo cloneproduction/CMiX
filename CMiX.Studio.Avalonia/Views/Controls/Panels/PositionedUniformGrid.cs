@@ -3,9 +3,10 @@
 
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using CMiX.Studio.Avalonia.AttachedProperties;
+using CMiX.UI.AttachedProperties;
+using CMiX.UI.Controls;
 
-namespace CMiX.Studio.Avalonia.Views.Controls.Panels
+namespace CMiX.UI.Panels
 {
     public class PositionedUniformGrid : UniformGrid
     {

@@ -4,7 +4,7 @@
 using Avalonia;
 using Avalonia.Controls;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     // Generic "caption on the left, arbitrary content on the right" shell, replacing the same
     // two-column layout every BaseControl used to hand-roll individually.

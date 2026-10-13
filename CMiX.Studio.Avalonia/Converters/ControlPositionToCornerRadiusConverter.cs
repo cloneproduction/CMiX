@@ -7,9 +7,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls;
 
-namespace CMiX.Studio.Avalonia.Converters
+namespace CMiX.UI.Converters
 {
     public class ControlPositionToCornerRadiusConverter : IValueConverter
     {

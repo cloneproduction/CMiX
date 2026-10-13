@@ -4,7 +4,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

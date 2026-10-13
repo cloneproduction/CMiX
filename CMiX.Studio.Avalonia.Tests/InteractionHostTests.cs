@@ -8,8 +8,8 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.BaseControls;
-using CMiX.Studio.Avalonia.Interaction;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls;
+using CMiX.UI.Interaction;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests

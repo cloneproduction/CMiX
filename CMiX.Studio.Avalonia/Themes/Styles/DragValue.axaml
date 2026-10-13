@@ -1,14 +1,13 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <ControlTheme x:Key="{x:Type Controls:DragValue}" TargetType="Controls:DragValue">
+    <ControlTheme x:Key="{x:Type ui:DragValue}" TargetType="ui:DragValue">
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Controls:LabeledContent Caption="{TemplateBinding Caption}">
+                <ui:LabeledContent Caption="{TemplateBinding Caption}">
 
                     <DockPanel>
 
@@ -19,7 +18,7 @@
                         <Panel IsEnabled="{Binding !IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}">
                             <Border
                                 Name="mainBorder"
-                                AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
+                                ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
                                 Background="{DynamicResource Grey500Brush}"
                                 BorderBrush="Transparent"
                                 Classes="BorderMask">
@@ -27,7 +26,7 @@
                                 <Panel>
 
                                     <Panel>
-                                        <Controls:NumericInput
+                                        <ui:NumericInput
                                             Name="numericInput"
                                             Height="{Binding Bounds.Height, RelativeSource={RelativeSource TemplatedParent}}"
                                             IsEditing="{Binding IsEditing, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
@@ -63,7 +62,7 @@
                                             Theme="{StaticResource ButtonStraight}">
 
                                             <Button.Content>
-                                                <Controls:AppIcon
+                                                <ui:AppIcon
                                                     Opacity="0.5"
                                                     IconKey="Sub"
                                                     Size="{DynamicResource IconSizeXS}" />
@@ -79,7 +78,7 @@
                                             Theme="{StaticResource ButtonStraight}">
 
                                             <Button.Content>
-                                                <Controls:AppIcon
+                                                <ui:AppIcon
                                                     Opacity="0.5"
                                                     IconKey="Add"
                                                     Size="{DynamicResource IconSizeXS}" />
@@ -94,7 +93,7 @@
 
                     </DockPanel>
 
-                </Controls:LabeledContent>
+                </ui:LabeledContent>
             </ControlTemplate>
         </Setter>
 
@@ -116,7 +115,7 @@
 
     <!-- Inherits the Border#borderValueDisplay and TextBlock#valueDisplay Style blocks from the base
          theme above via BasedOn - no need to redeclare them here. -->
-    <ControlTheme x:Key="DragValueInlineCaption" TargetType="Controls:DragValue" BasedOn="{StaticResource {x:Type Controls:DragValue}}">
+    <ControlTheme x:Key="DragValueInlineCaption" TargetType="ui:DragValue" BasedOn="{StaticResource {x:Type ui:DragValue}}">
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel>
@@ -128,7 +127,7 @@
                     <Panel IsEnabled="{Binding !IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}">
                         <Border
                             Name="mainBorder"
-                            AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
+                            ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
                             Background="{DynamicResource Grey500Brush}"
                             BorderBrush="Transparent"
                             Classes="BorderMask">
@@ -136,7 +135,7 @@
                             <Panel>
 
                                 <Panel>
-                                    <Controls:NumericInput
+                                    <ui:NumericInput
                                         Name="numericInput"
                                         Height="{Binding Bounds.Height, RelativeSource={RelativeSource TemplatedParent}}"
                                         IsEditing="{Binding IsEditing, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
@@ -182,7 +181,7 @@
                                         Theme="{StaticResource ButtonStraight}">
 
                                         <Button.Content>
-                                            <Controls:AppIcon
+                                            <ui:AppIcon
                                                 Opacity="0.5"
                                                 IconKey="Sub"
                                                 Size="{DynamicResource IconSizeXS}" />
@@ -198,7 +197,7 @@
                                         Theme="{StaticResource ButtonStraight}">
 
                                         <Button.Content>
-                                            <Controls:AppIcon
+                                            <ui:AppIcon
                                                 Opacity="0.5"
                                                 IconKey="Add"
                                                 Size="{DynamicResource IconSizeXS}" />

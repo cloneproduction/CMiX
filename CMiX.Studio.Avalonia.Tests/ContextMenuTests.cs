@@ -8,7 +8,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.BaseControls;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

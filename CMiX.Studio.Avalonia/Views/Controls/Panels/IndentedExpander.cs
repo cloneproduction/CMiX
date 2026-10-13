@@ -5,7 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 
-namespace CMiX.Studio.Avalonia.Views.Controls.Panels
+namespace CMiX.UI.Panels
 {
     public class IndentedExpander : Expander
     {

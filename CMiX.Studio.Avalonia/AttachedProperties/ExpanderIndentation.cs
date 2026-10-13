@@ -4,7 +4,7 @@
 using Avalonia;
 using Avalonia.Controls;
 
-namespace CMiX.Studio.Avalonia.AttachedProperties
+namespace CMiX.UI.AttachedProperties
 {
     public static class ExpanderIndentation
     {

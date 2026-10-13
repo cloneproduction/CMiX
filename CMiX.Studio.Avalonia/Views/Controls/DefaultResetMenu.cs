@@ -6,7 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Styling;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     // The Reset menu of a value editor. The owner must have a ResetCommand property.
     // The binding has an explicit Source because a menu popup cannot reach back to its owner through TemplatedParent.

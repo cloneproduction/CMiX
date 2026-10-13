@@ -8,9 +8,9 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Studio.Avalonia.Views.Controls;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
+using CMiX.UI.Controls;
 
 namespace CMiX.Studio.Avalonia.Tests
 {

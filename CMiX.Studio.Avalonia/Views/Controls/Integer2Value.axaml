@@ -1,26 +1,25 @@
-﻿<BaseControl:CaptionedUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.Integer2Value"
+﻿<ui:CaptionedUserControl
+    x:Class="CMiX.UI.Controls.Integer2Value"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="integer2Value"
     Background="Transparent">
 
-    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControl:IntegerValue
+        <ui:IntegerValue
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer2Value, Mode=OneWay}"
             DataContext="{Binding X}"
             ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=integer2Value}"
             Value="{Binding Value}" />
 
-        <BaseControl:IntegerValue
+        <ui:IntegerValue
             Caption="Y"
             DataContext="{Binding Y}"
             ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=integer2Value}"
             Value="{Binding Value}" />
 
-    </Panels:PositionedStackPanel>
+    </ui:PositionedStackPanel>
 
-</BaseControl:CaptionedUserControl>
+</ui:CaptionedUserControl>

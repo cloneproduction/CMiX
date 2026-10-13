@@ -9,7 +9,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls.ColorPicker
 {
     [TemplatePart(PART_CursorEllipse, typeof(Ellipse))]
     public class ColorWheel : PickerControlBase

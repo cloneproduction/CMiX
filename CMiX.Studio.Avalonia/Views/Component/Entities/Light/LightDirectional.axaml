@@ -2,13 +2,13 @@
     x:Class="CMiX.Studio.Avalonia.Views.LightDirectional"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel>
-        <BaseControl:VectorXYZ 
+        <ui:VectorXYZ 
             Caption="Position" 
             DataContext="{Binding Position}" />
-        <BaseControl:VectorXYZ
+        <ui:VectorXYZ
             Margin="0,8"
             Caption="Target"
             DataContext="{Binding Target}" />

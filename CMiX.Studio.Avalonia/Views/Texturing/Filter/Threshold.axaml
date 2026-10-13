@@ -2,8 +2,8 @@
     x:Class="CMiX.Studio.Avalonia.Views.Threshold"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="threshold"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,40 +11,40 @@
 
   <StackPanel>
 
-    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-      <Controls:ModulatableFloatValue
+      <StudioControls:ModulatableFloatValue
           Caption="Threshold"
           DataContext="{Binding ThresholdValue}"
           Minimum="0"
           ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
 
-      <Controls:ModulatableFloatValue
+      <StudioControls:ModulatableFloatValue
           Caption="Smooth"
           DataContext="{Binding Smooth}"
           Minimum="0"
           ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
 
-    </Panels:PositionedStackPanel>
+    </ui:PositionedStackPanel>
 
-    <Panels:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
+    <ui:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
-      <Controls:ColorSelector
+      <ui:ColorSelector
           Caption="Foreground"
           DataContext="{Binding Foreground}" />
 
-      <Controls:ColorSelector
+      <ui:ColorSelector
           Caption="Background"
           DataContext="{Binding Background}" />
 
-    </Panels:PositionedStackPanel>
+    </ui:PositionedStackPanel>
 
-    <Controls:CaptionedToggleButton
+    <ui:CaptionedToggleButton
         Caption="Invert"
         IsChecked="{Binding Invert.Value}"
         ResetCommand="{Binding Invert.ResetCommand}" />
 
-    <Controls:CaptionedToggleButton
+    <ui:CaptionedToggleButton
         Caption="Antialiasing"
         IsChecked="{Binding Antialiasing.Value}"
         ResetCommand="{Binding Antialiasing.ResetCommand}" />

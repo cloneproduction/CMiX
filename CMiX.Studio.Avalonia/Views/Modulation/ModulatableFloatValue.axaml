@@ -1,15 +1,15 @@
-<BaseControls:ModulatorAssignableUserControl
+<StudioControls:ModulatorAssignableUserControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.ModulatableFloatValue"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     x:Name="channelValue"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <BaseControls:DragValue
-        AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelValue}"
+    <ui:DragValue
+        ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=channelValue}"
         Caption="{Binding Caption, ElementName=channelValue, Mode=OneWay}"
         IsReadOnly="{Binding IsModulated}"
         Maximum="{Binding Maximum, ElementName=channelValue}"
@@ -17,10 +17,10 @@
         ResetCommand="{Binding ResetCommand}"
         Value="{Binding Value}">
 
-        <BaseControls:DragValue.TrailingContent>
-            <BaseControls:ModulatorAssignButton
+        <ui:DragValue.TrailingContent>
+            <StudioControls:ModulatorAssignButton
                 ModulatorManager="{Binding ModulatorManager, ElementName=channelValue}" />
-        </BaseControls:DragValue.TrailingContent>
-    </BaseControls:DragValue>
+        </ui:DragValue.TrailingContent>
+    </ui:DragValue>
 
-</BaseControls:ModulatorAssignableUserControl>
+</StudioControls:ModulatorAssignableUserControl>

@@ -6,7 +6,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     // The frame of every popup and menu: shadow, rounded translucent panel and padding.
     public class PopupFrame : ContentControl

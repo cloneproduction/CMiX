@@ -10,9 +10,10 @@ using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Xaml.Interactivity;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls;
+using CMiX.UI.Controls.ColorPicker;
 
-namespace CMiX.Studio.Avalonia.Behaviors
+namespace CMiX.UI.Behaviors
 {
     public class ColorSliderBehavior : Behavior<CMiXSlider>, IColorStateStorage
     {

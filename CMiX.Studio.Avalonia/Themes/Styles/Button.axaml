@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Basic/Converters.axaml" />
@@ -15,7 +14,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="All" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -26,7 +25,7 @@
                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                     VerticalAlignment="{TemplateBinding VerticalAlignment}"
                     Background="{TemplateBinding Background}"
-                    CornerRadius="{Binding (AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource PositionToCornerRadius}}">
+                    CornerRadius="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource PositionToCornerRadius}}">
 
                     <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
                         <ContentPresenter
@@ -54,19 +53,19 @@
     <ControlTheme x:Key="ButtonStraight"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="Button">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="None" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="None" />
     </ControlTheme>
 
     <ControlTheme x:Key="ButtonRounded"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="Button">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="All" />
     </ControlTheme>
 
     <ControlTheme x:Key="ButtonRoundedRight"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="Button">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Right" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="Right" />
     </ControlTheme>
 
     <ControlTheme x:Key="ButtonRoundedRightNoHover"
@@ -107,7 +106,7 @@
                     <Border
                         Name="mask"
                         Classes="BorderMask"
-                        AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
+                        ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
                         Background="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToNoAlpha}}"
                         IsHitTestVisible="False" />
 
@@ -244,7 +243,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="border" Padding="8" Background="Transparent">
-                    <Controls:AppIcon Name="image" Opacity="0.75" IconKey="{TemplateBinding Content}" Size="{DynamicResource IconSizeXS}" />
+                    <ui:AppIcon Name="image" Opacity="0.75" IconKey="{TemplateBinding Content}" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -252,14 +251,14 @@
         <Style Selector="^:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
         </Style>
-        <Style Selector="^:pointerover /template/ Controls|AppIcon#image">
+        <Style Selector="^:pointerover /template/ ui|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
 
         <Style Selector="^:pressed /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
         </Style>
-        <Style Selector="^:pressed /template/ Controls|AppIcon#image">
+        <Style Selector="^:pressed /template/ ui|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
     </ControlTheme>

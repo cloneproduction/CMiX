@@ -5,7 +5,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace CMiX.Studio.Avalonia.Converters
+namespace CMiX.UI.Converters
 {
     // Returns a bool for IsVisible bindings.
     public sealed class NullToVisibilityConverter : IValueConverter

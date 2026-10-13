@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Basic/Converters.axaml" />
@@ -30,14 +29,14 @@
         x:Key="ToggleButtonRounded"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="ToggleButton">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="All" />
     </ControlTheme>
 
     <ControlTheme
         x:Key="ToggleButtonRoundedLeft"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="ToggleButton">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Left" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="Left" />
     </ControlTheme>
 
     <ControlTheme x:Key="ToggleCheckBox" TargetType="ToggleButton">
@@ -46,7 +45,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="All" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -59,7 +58,7 @@
                     Background="{TemplateBinding Background}"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
 
-                    <Controls:AppIcon 
+                    <ui:AppIcon 
                         Name="icon" 
                         IconKey="IsChecked" 
                         Size="{DynamicResource IconSizeXS}" />
@@ -80,7 +79,7 @@
         <Style Selector="^:checked:not(:pointerover) /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
         </Style>
-        <Style Selector="^:checked:not(:pointerover) /template/ Controls|AppIcon#icon">
+        <Style Selector="^:checked:not(:pointerover) /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="1" />
         </Style>
 
@@ -88,21 +87,21 @@
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
 
-        <Style Selector="^:checked:pointerover /template/ Controls|AppIcon#icon">
+        <Style Selector="^:checked:pointerover /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="1" />
         </Style>
 
         <Style Selector="^:unchecked:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
         </Style>
-        <Style Selector="^:unchecked:pointerover /template/ Controls|AppIcon#icon">
+        <Style Selector="^:unchecked:pointerover /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />
         </Style>
 
         <Style Selector="^:unchecked:not(:pointerover) /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
         </Style>
-        <Style Selector="^:unchecked:not(:pointerover) /template/ Controls|AppIcon#icon">
+        <Style Selector="^:unchecked:not(:pointerover) /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />
         </Style>
     </ControlTheme>
@@ -116,7 +115,7 @@
         <Style Selector="^:checked">
             <Setter Property="Content">
                 <Template>
-                    <Controls:AppIcon
+                    <ui:AppIcon
                         Margin="2"
                         Opacity="0.75"
                         IconKey="IsChecked"
@@ -141,12 +140,12 @@
                     Padding="1"
                     Background="Transparent"
                     Opacity="0.6">
-                    <Controls:AppIcon Name="image" IconKey="Visible" Size="{DynamicResource IconSizeXS}" />
+                    <ui:AppIcon Name="image" IconKey="Visible" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ Controls|AppIcon#image">
+        <Style Selector="^:checked /template/ ui|AppIcon#image">
             <Setter Property="IconKey" Value="NotVisible" />
         </Style>
 
@@ -168,12 +167,12 @@
                     Padding="1"
                     Background="Transparent"
                     Opacity="0.6">
-                    <Controls:AppIcon Name="image" IconKey="Play" Size="{DynamicResource IconSizeXS}" />
+                    <ui:AppIcon Name="image" IconKey="Play" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ Controls|AppIcon#image">
+        <Style Selector="^:checked /template/ ui|AppIcon#image">
             <Setter Property="IconKey" Value="Stop" />
         </Style>
     </ControlTheme>
@@ -211,19 +210,19 @@
     <ControlTheme x:Key="InlineToggleButtonLeft"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="ToggleButton">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Left" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="Left" />
     </ControlTheme>
 
     <ControlTheme x:Key="InlineToggleButtonCenter"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="ToggleButton">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="None" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="None" />
     </ControlTheme>
 
     <ControlTheme x:Key="InlineToggleButtonRight"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="ToggleButton">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Right" />
+        <Setter Property="(ui:PositionedControl.Position)" Value="Right" />
     </ControlTheme>
 
 </ResourceDictionary>

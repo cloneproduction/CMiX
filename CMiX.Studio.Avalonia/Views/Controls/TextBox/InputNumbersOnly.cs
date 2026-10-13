@@ -7,7 +7,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls.TextInput
 {
     // Attached property that restricts a TextBox to digit input.
     public static class InputNumbersOnly

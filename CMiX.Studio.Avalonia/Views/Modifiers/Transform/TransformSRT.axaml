@@ -1,5 +1,5 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:BaseControls="using:CMiX.Studio.Avalonia.Views.Controls"
+             xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -9,20 +9,20 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:DragValue
+        <ui:DragValue
             Caption="Uniform"
             Value="{Binding Uniform.Value}"
             ResetCommand="{Binding Uniform.ResetCommand}" />
 
-        <BaseControls:VectorXYZ
+        <ui:VectorXYZ
             Caption="Scale"
             DataContext="{Binding Scale}" />
 
-        <BaseControls:VectorXYZ
+        <ui:VectorXYZ
             Caption="Rotation"
             DataContext="{Binding Rotation}" />
 
-        <BaseControls:VectorXYZ
+        <ui:VectorXYZ
             Caption="Translate"
             DataContext="{Binding Translate}" />
 

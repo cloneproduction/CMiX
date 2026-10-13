@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Material.Icons;
 
-namespace CMiX.Studio.Avalonia.Themes
+namespace CMiX.UI.Themes
 {
     // Semantic key to MaterialIconKind, read by AppIcon. This class holds the generic keys.
     // An application adds its own keys with Register.

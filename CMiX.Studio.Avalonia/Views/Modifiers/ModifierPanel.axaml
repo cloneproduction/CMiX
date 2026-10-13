@@ -2,8 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.Controls.Panels.ModifierPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AP="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     x:Name="modifierPanel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -35,14 +34,14 @@
 
               <Button
                     Margin="8, 0, 2, 0"
-                    AP:DragHandler.IsEnabled="True"
-                    AP:DragHandler.IsPressed="{Binding DragHandlerIsPressed, ElementName=modifierPanel, Mode=TwoWay}"
+                    ui:DragHandler.IsEnabled="True"
+                    ui:DragHandler.IsPressed="{Binding DragHandlerIsPressed, ElementName=modifierPanel, Mode=TwoWay}"
                     DockPanel.Dock="Right"
                     Theme="{StaticResource DragHandlerButton}">
 
                 <Button.Content>
 
-                  <Controls:AppIcon
+                  <ui:AppIcon
                       IconKey="DragHandler"
                       Size="{DynamicResource IconSizeXS}" />
 

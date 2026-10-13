@@ -3,7 +3,7 @@
 
 using System;
 
-namespace CMiX.Studio.Avalonia.Interaction
+namespace CMiX.UI.Interaction
 {
     // The value editors ask this host for a scope when a drag starts and dispose the handle when
     // it ends. The application sets BeginScopeHandler once, in App.Initialize. Without a handler

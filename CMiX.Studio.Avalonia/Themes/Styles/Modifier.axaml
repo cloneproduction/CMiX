@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ControlTheme x:Key="ModifierCloseButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
@@ -15,7 +15,7 @@
                     Name="border"
                     Background="Transparent"
                     Padding="6">
-                    <Controls:AppIcon
+                    <ui:AppIcon
                         Name="image"
                         IconKey="Close"
                         Size="{DynamicResource IconSizeXS}" />
@@ -23,13 +23,13 @@
             </ControlTemplate>
         </Setter>
         <!-- The base opacity lives in a style so the state styles can override it -->
-        <Style Selector="^ /template/ Controls|AppIcon#image">
+        <Style Selector="^ /template/ ui|AppIcon#image">
             <Setter Property="Opacity" Value="0.6" />
         </Style>
-        <Style Selector="^:pointerover /template/ Controls|AppIcon#image">
+        <Style Selector="^:pointerover /template/ ui|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
-        <Style Selector="^:pressed /template/ Controls|AppIcon#image">
+        <Style Selector="^:pressed /template/ ui|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
     </ControlTheme>

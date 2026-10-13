@@ -2,30 +2,29 @@
     x:Class="CMiX.Studio.Avalonia.Views.VideoIn"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControl:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+            <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-                <BaseControl:IntegerValue
+                <ui:IntegerValue
                     Caption="Resolution X"
                     DataContext="{Binding SizeX}"
                     Value="{Binding Value}" />
 
-                <BaseControl:IntegerValue
+                <ui:IntegerValue
                     Caption="Y"
                     DataContext="{Binding SizeY}"
                     Value="{Binding Value}" />
 
-            </Panels:PositionedStackPanel>
+            </ui:PositionedStackPanel>
         </Border>
 
     </StackPanel>

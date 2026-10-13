@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <ControlTheme x:Key="{x:Type Controls:PopupFrame}" TargetType="Controls:PopupFrame">
+    <ControlTheme x:Key="{x:Type ui:PopupFrame}" TargetType="ui:PopupFrame">
         <Setter Property="Template">
             <ControlTemplate>
                 <Border

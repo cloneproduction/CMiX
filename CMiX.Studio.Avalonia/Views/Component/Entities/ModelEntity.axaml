@@ -5,8 +5,7 @@
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="uc"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
@@ -14,22 +13,22 @@
 
   <StackPanel Spacing="{DynamicResource SpacingMD}">
       
-        <BaseControls:ColorSelector
+        <ui:ColorSelector
             Margin="8, 8, 8, 0"
             Caption="Color"
             DataContext="{Binding Color}" />
     
     <StackPanel Spacing="{DynamicResource SpacingXS}">
       
-      <Panels:IndentedExpander
+      <ui:IndentedExpander
           Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
         <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
-      </Panels:IndentedExpander>
+      </ui:IndentedExpander>
 
       <Views:EntityModifiersSection
           PanelOwner="{x:Type Compositing:Entity}" />
 
-      <Panels:IndentedExpander
+      <ui:IndentedExpander
           Header="Texture"
           IsExpanded="{Binding TextureIsExpanded}">
 
@@ -37,13 +36,13 @@
 
           <Views:DiffuseTexture DataContext="{Binding Texture.DiffuseTexture}" />
 
-          <Panels:IndentedExpander
+          <ui:IndentedExpander
               Indentation="4"
               IsExpanded="{Binding Texture.MaskTexture.IsExpanded}">
 
-            <Panels:IndentedExpander.Header>
+            <ui:IndentedExpander.Header>
               <DockPanel>
-                <BaseControls:CMiXToggleButton
+                <ui:CMiXToggleButton
                     Width="14"
                     Height="14"
                     IsChecked="{Binding Texture.MaskTexture.IsEnabled.Value, Mode=TwoWay}"
@@ -51,17 +50,17 @@
                     Theme="{StaticResource ToggleButtonIcon}" />
                 <TextBlock Margin="8,0" Text="Mask" />
               </DockPanel>
-            </Panels:IndentedExpander.Header>
+            </ui:IndentedExpander.Header>
 
             <Views:MaskTexture DataContext="{Binding Texture.MaskTexture}" />
 
-          </Panels:IndentedExpander>
+          </ui:IndentedExpander>
 
         </StackPanel>
 
-      </Panels:IndentedExpander>
+      </ui:IndentedExpander>
 
-      <Panels:IndentedExpander
+      <ui:IndentedExpander
         Header="Transform Texture"
         IsExpanded="{Binding TransformTextureIsExpanded}">
 
@@ -75,9 +74,9 @@
 
         </StackPanel>
 
-      </Panels:IndentedExpander>
+      </ui:IndentedExpander>
 
-      <Panels:IndentedExpander
+      <ui:IndentedExpander
         Header="Material"
         IsExpanded="{Binding MaterialIsExpanded}">
 
@@ -85,11 +84,11 @@
           <Views:Material DataContext="{Binding Material}" />
         </Border>
 
-      </Panels:IndentedExpander>
+      </ui:IndentedExpander>
 
-      <Panels:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
+      <ui:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
         <Views:Mesh Margin="8" DataContext="{Binding Mesh}" />
-      </Panels:IndentedExpander>
+      </ui:IndentedExpander>
 
     </StackPanel>
 

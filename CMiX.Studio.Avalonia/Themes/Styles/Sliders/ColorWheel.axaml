@@ -1,13 +1,12 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <!-- Requires CMiX.Studio.Avalonia.Views.Controls.ColorWheel, CMiX.Studio.Avalonia.Views.Controls.CMiXSlider and CMiX.Studio.Avalonia.Views.Controls.StandardColorPicker (ported in a later phase) -->
 
-    <ControlTheme x:Key="ColorWheelStyle" TargetType="Controls:ColorWheel">
-        <Setter Property="(AttachedProperties:MouseDownHelper.IsEnabled)" Value="True" />
+    <ControlTheme x:Key="ColorWheelStyle" TargetType="ui:ColorWheel">
+        <Setter Property="(ui:MouseDownHelper.IsEnabled)" Value="True" />
         <Setter Property="Template">
             <ControlTemplate>
 
@@ -95,10 +94,10 @@
             </Setter>
         </Style>
 
-        <Style Selector="^[(AttachedProperties|MouseDownHelper.IsMouseLeftButtonDown)=True]">
+        <Style Selector="^[(ui|MouseDownHelper.IsMouseLeftButtonDown)=True]">
             <Setter Property="Cursor" Value="None" />
         </Style>
-        <Style Selector="^[(AttachedProperties|MouseDownHelper.IsMouseLeftButtonDown)=True] /template/ Ellipse#PART_CursorEllipse">
+        <Style Selector="^[(ui|MouseDownHelper.IsMouseLeftButtonDown)=True] /template/ Ellipse#PART_CursorEllipse">
             <Setter Property="RenderTransform">
                 <TransformGroup>
                     <TranslateTransform X="-6" Y="-6" />
@@ -109,8 +108,8 @@
 
     </ControlTheme>
 
-    <ControlTheme x:Key="ValueSliderVertical" TargetType="Controls:CMiXSlider">
-        <Setter Property="(AttachedProperties:MouseDownHelper.IsEnabled)" Value="True" />
+    <ControlTheme x:Key="ValueSliderVertical" TargetType="ui:CMiXSlider">
+        <Setter Property="(ui:MouseDownHelper.IsEnabled)" Value="True" />
         <Setter Property="Focusable" Value="True" />
         <Setter Property="Maximum" Value="100" />
         <Setter Property="Orientation" Value="Vertical" />
@@ -146,7 +145,7 @@
             <Setter Property="Value" Value="{TemplateBinding Value, Mode=TwoWay}" />
         </Style>
 
-        <Style Selector="^[(AttachedProperties|MouseDownHelper.IsMouseLeftButtonDown)=True]">
+        <Style Selector="^[(ui|MouseDownHelper.IsMouseLeftButtonDown)=True]">
             <Setter Property="Cursor" Value="None" />
         </Style>
 
@@ -164,7 +163,7 @@
                     <Rectangle
                         Fill="White"
                         Height="10"
-                        Opacity="{Binding $parent[Controls:StandardColorPicker].ColorState.HSV_V}"
+                        Opacity="{Binding $parent[ui:StandardColorPicker].ColorState.HSV_V}"
                         Stroke="Black"
                         StrokeThickness="0.5" />
                 </Panel>

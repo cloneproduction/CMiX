@@ -1,14 +1,13 @@
-﻿<BaseControl:CaptionedUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.IntegerValue"
+﻿<ui:CaptionedUserControl
+    x:Class="CMiX.UI.Controls.IntegerValue"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:conv="clr-namespace:Avalonia.Data.Converters;assembly=Avalonia.Base"
     x:Name="counter">
 
-    <BaseControl:DragValue
-        AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=counter}"
+    <ui:DragValue
+        ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=counter}"
         Caption="{Binding Caption, ElementName=counter}"
         IsInteger="True"
         LargeChange="1.0"
@@ -16,7 +15,7 @@
         Minimum="{Binding Minimum, ElementName=counter}"
         SmallChange="1.0"
         Value="{Binding Value, ElementName=counter, Mode=TwoWay}">
-        <BaseControl:DragValue.ContextMenu>
+        <ui:DragValue.ContextMenu>
             <ContextMenu Theme="{StaticResource ContextMenuDefault}">
                 <MenuItem Command="{Binding ResetCommand}" Header="Reset" />
                 <MenuItem
@@ -24,7 +23,7 @@
                     Header="Reset All"
                     IsVisible="{Binding ResetAllCommand, ElementName=counter, Converter={x:Static conv:ObjectConverters.IsNotNull}}" />
             </ContextMenu>
-        </BaseControl:DragValue.ContextMenu>
-    </BaseControl:DragValue>
+        </ui:DragValue.ContextMenu>
+    </ui:DragValue>
 
-</BaseControl:CaptionedUserControl>
+</ui:CaptionedUserControl>

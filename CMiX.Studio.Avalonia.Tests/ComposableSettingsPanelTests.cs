@@ -5,7 +5,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

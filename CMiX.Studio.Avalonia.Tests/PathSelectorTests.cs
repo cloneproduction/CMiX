@@ -2,8 +2,8 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Studio.Avalonia.Views.Controls;
 using Xunit;
+using CMiX.UI.Controls;
 
 namespace CMiX.Studio.Avalonia.Tests
 {

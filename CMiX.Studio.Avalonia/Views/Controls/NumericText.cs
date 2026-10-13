@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     // Formats and parses numeric text so the current culture decimal separator
     // is kept for display, but no thousands group separator is ever emitted,

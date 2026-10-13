@@ -3,11 +3,11 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="ledPanel">
 
-    <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
         <Controls:ModulatableFloatValue
             Caption="Pixel Size"
@@ -33,6 +33,6 @@
             Minimum="0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=ledPanel}" />
 
-    </Panels:PositionedStackPanel>
+    </ui:PositionedStackPanel>
 
 </Views:FilterPanel>

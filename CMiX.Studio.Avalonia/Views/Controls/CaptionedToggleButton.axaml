@@ -1,11 +1,11 @@
-﻿<Controls:CaptionedUserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.CaptionedToggleButton"
+﻿<ui:CaptionedUserControl
+    x:Class="CMiX.UI.Controls.CaptionedToggleButton"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="toggleButtonControl">
 
-    <Controls:LabeledContent>
+    <ui:LabeledContent>
         <DockPanel>
             <ToggleButton
                 x:Name="toggleButton"
@@ -24,6 +24,6 @@
                     Text="{Binding Caption, ElementName=toggleButtonControl}" />
             </Border>
         </DockPanel>
-    </Controls:LabeledContent>
+    </ui:LabeledContent>
 
-</Controls:CaptionedUserControl>
+</ui:CaptionedUserControl>

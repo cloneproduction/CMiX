@@ -2,29 +2,28 @@
     x:Class="CMiX.Studio.Avalonia.Views.MeshTorus"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Mesh="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:Mesh="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <StackPanel>
 
         <Mesh:ScaleOffsetEditor />
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControl:DragValue
+            <ui:DragValue
                 Caption="Radius"
                 Value="{Binding Radius.Value}"
                 ResetCommand="{Binding Radius.ResetCommand}" />
 
-            <BaseControl:DragValue
+            <ui:DragValue
                 Caption="Thickness"
                 Value="{Binding Thickness.Value}"
                 ResetCommand="{Binding Thickness.ResetCommand}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
-        <BaseControl:IntegerValue
+        <ui:IntegerValue
             Margin="0,8,0,0"
             Caption="Tessellation"
             DataContext="{Binding Tessellation}"

@@ -5,7 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.UI.AttachedProperties
 {
     // Controls assigned to plain styled properties, such as the SelectionPanel and
     // EditingPanel content declared in consuming views, are not part of any logical

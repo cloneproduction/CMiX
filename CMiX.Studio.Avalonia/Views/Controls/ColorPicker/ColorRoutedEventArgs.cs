@@ -4,7 +4,7 @@
 using Avalonia.Interactivity;
 using Avalonia.Media;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls.ColorPicker
 {
     public class ColorRoutedEventArgs : RoutedEventArgs
     {

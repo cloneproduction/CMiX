@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
 
     <ControlTheme x:Key="ListBoxResizeBorderStyle" TargetType="Border">
@@ -19,7 +19,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="{x:Type Controls:CMiXListBox}" TargetType="Controls:CMiXListBox">
+    <ControlTheme x:Key="{x:Type ui:CMiXListBox}" TargetType="ui:CMiXListBox">
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemStyle}" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -34,7 +34,7 @@
                             DockPanel.Dock="Bottom"
                             Height="12"
                             Theme="{StaticResource ListBoxResizeBorderStyle}">
-                            <Controls:AppIcon
+                            <ui:AppIcon
                                 IsHitTestVisible="False"
                                 Margin="1"
                                 Opacity="0.25"

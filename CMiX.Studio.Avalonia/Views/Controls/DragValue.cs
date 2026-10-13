@@ -9,9 +9,9 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using CMiX.Studio.Avalonia.Interaction;
+using CMiX.UI.Interaction;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     public class DragValue : TemplatedControl
     {

@@ -7,7 +7,7 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
-namespace CMiX.Studio.Avalonia.AttachedProperties
+namespace CMiX.UI.AttachedProperties
 {
     public static class DragHandler
     {

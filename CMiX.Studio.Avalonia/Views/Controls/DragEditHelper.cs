@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     // The app is Windows only, so the cursor wrap keeps using user32.
     // All coordinates here are physical screen pixels.

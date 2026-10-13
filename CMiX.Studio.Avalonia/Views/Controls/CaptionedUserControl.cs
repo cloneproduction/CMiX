@@ -5,7 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls
 {
     // Every BaseControl exposes a Caption with the same three lines of boilerplate - this is
     // that declaration made once instead of copy-pasted into each one (and drifting, as the

@@ -6,7 +6,7 @@ using System.Globalization;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 
-namespace CMiX.Studio.Avalonia.Converters
+namespace CMiX.UI.Converters
 {
     public class FontFamilyToStringConverter : IValueConverter
     {

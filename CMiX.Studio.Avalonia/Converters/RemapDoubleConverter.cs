@@ -6,9 +6,9 @@ using System.Globalization;
 using Avalonia;
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
-using CMiX.Studio.Avalonia.Mathematics;
+using CMiX.UI.Mathematics;
 
-namespace CMiX.Studio.Avalonia.Converters
+namespace CMiX.UI.Converters
 {
     public class RemapDoubleConverter : MarkupExtension, IValueConverter
     {

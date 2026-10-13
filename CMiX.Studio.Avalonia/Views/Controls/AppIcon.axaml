@@ -1,9 +1,9 @@
 <UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Controls.AppIcon"
+    x:Class="CMiX.UI.Controls.AppIcon"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-    xmlns:controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="uc">
 
     <!--
@@ -13,7 +13,7 @@
         existing usages that never set Foreground, but a consumer can now override it.
     -->
     <UserControl.Styles>
-        <Style Selector="controls|AppIcon">
+        <Style Selector="ui|AppIcon">
             <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         </Style>
     </UserControl.Styles>

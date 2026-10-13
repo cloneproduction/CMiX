@@ -6,7 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.UI.Controls.TextInput
 {
     // Attached property that selects the whole text when a TextBox receives focus.
     public static class SelectTextOnFocus

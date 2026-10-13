@@ -8,6 +8,7 @@ using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

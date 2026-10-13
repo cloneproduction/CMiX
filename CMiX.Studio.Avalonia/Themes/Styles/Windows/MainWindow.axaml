@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <!-- A FlyoutPresenter for popups. Its look comes from the PopupFrame control. -->
     <ControlTheme x:Key="PopupFlyoutStyle" TargetType="FlyoutPresenter">
@@ -9,12 +9,12 @@
         <Setter Property="Width" Value="300" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Controls:PopupFrame>
+                <ui:PopupFrame>
                     <ContentPresenter
                         Name="PART_ContentPresenter"
                         Content="{TemplateBinding Content}"
                         ContentTemplate="{TemplateBinding ContentTemplate}" />
-                </Controls:PopupFrame>
+                </ui:PopupFrame>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

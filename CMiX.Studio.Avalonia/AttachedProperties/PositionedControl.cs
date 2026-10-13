@@ -4,9 +4,9 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Styling;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.UI.Controls;
 
-namespace CMiX.Studio.Avalonia.AttachedProperties
+namespace CMiX.UI.AttachedProperties
 {
     public static class PositionedControl
     {

@@ -2,8 +2,8 @@
     x:Class="CMiX.Studio.Avalonia.Views.TriColor"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
@@ -11,50 +11,50 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Panels:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControl:ColorSelector
+            <ui:ColorSelector
                 Caption="Color A"
                 DataContext="{Binding ColorA}" />
 
-            <BaseControl:ColorSelector
+            <ui:ColorSelector
                 Caption="Color B"
                 DataContext="{Binding ColorB}" />
 
-            <BaseControl:ColorSelector
+            <ui:ColorSelector
                 Caption="Color C"
                 DataContext="{Binding ColorC}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
-        <BaseControl:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Single Channel"
             IsChecked="{Binding SingleChannel.Value}"
             ResetCommand="{Binding SingleChannel.ResetCommand}" />
 
-        <BaseControl:CaptionedToggleButton
+        <ui:CaptionedToggleButton
             Caption="Clamp Color"
             IsChecked="{Binding ClampColor.Value}"
             ResetCommand="{Binding ClampColor.ResetCommand}" />
 
-        <Panels:PositionedStackPanel
+        <ui:PositionedStackPanel
             Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControl:ModulatableFloatSlider
+            <StudioControls:ModulatableFloatSlider
                 Caption="Smooth"
                 DataContext="{Binding Smooth}"
                 Maximum="1.0"
                 Minimum="0.0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=triColor}" />
 
-            <BaseControl:ModulatableFloatSlider
+            <StudioControls:ModulatableFloatSlider
                 Caption="Center"
                 DataContext="{Binding Center}"
                 Maximum="1.0"
                 Minimum="0.0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=triColor}" />
 
-        </Panels:PositionedStackPanel>
+        </ui:PositionedStackPanel>
 
     </StackPanel>
 

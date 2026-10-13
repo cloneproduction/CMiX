@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel>
 
@@ -13,7 +13,7 @@
             Theme="{StaticResource ButtonItemControl}">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
-                    <Controls:AppIcon
+                    <ui:AppIcon
                         Margin="0,0,8,0"
                         Opacity="0.7"
                         IconKey="Geometry"
@@ -29,7 +29,7 @@
           Theme="{StaticResource ButtonItemControl}">
         <Button.Content>
           <StackPanel Orientation="Horizontal">
-            <Controls:AppIcon
+            <ui:AppIcon
                 Margin="0,0,8,0"
                 Opacity="0.7"
                 IconKey="FullscreenQuad"
@@ -45,7 +45,7 @@
           Theme="{StaticResource ButtonItemControl}">
           <Button.Content>
               <StackPanel Orientation="Horizontal">
-                  <Controls:AppIcon
+                  <ui:AppIcon
                       Margin="0,0,8,0"
                       Opacity="0.7"
                       IconKey="TextIcon"

@@ -5,7 +5,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace CMiX.Studio.Avalonia.Converters
+namespace CMiX.UI.Converters
 {
     // Returns a bool for IsVisible/IsEnabled bindings. ConverterParameter sets the threshold
     // (count > threshold); defaults to 1 when omitted, matching every usage that predates the
