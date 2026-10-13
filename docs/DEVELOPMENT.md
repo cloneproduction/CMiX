@@ -124,7 +124,7 @@ come from the value editors of vvvv:
 | `ColorPicker` | a color | `ColorSelector` and the color picker |
 | `Parts` | nothing: what every editor is made of | `LabeledContent`, `CaptionedUserControl`, `DefaultResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `CMiXPopup` |
 
-`AppIcon` and `CMiXListBox` stay in the root of `Controls`. They do not change a value.
+`AppIcon`, `CMiXListBox` and `ButtonOpenSelectionPanel` stay in the root of `Controls`. They do not change a value.
 
 To place a new control, ask "what data does it change?". A curve editor changes a
 curve, so it gets a new folder `Curve`, even when the first use is a color adjustment.

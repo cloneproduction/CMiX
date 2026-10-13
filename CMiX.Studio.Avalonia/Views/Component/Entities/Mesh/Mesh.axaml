@@ -92,11 +92,11 @@
                     DataContext="{Binding ExplodeTriangleTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
                     <StudioControls:Outliner.SelectionPanel>
-                        <Managers:ButtonOpenSelectionPanel Caption="New Control Texture">
-                            <Managers:ButtonOpenSelectionPanel.SelectionPanel>
+                        <ui:ButtonOpenSelectionPanel Caption="New Control Texture">
+                            <ui:ButtonOpenSelectionPanel.SelectionPanel>
                                 <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                            </Managers:ButtonOpenSelectionPanel.SelectionPanel>
-                        </Managers:ButtonOpenSelectionPanel>
+                            </ui:ButtonOpenSelectionPanel.SelectionPanel>
+                        </ui:ButtonOpenSelectionPanel>
                     </StudioControls:Outliner.SelectionPanel>
                 </StudioControls:Outliner>
 
@@ -128,11 +128,11 @@
                     ItemsSource="{Binding ControlRepository.Textures}">
                   
                     <StudioControls:Outliner.SelectionPanel>
-                        <Managers:ButtonOpenSelectionPanel Caption="New Control Texture">
-                            <Managers:ButtonOpenSelectionPanel.SelectionPanel>
+                        <ui:ButtonOpenSelectionPanel Caption="New Control Texture">
+                            <ui:ButtonOpenSelectionPanel.SelectionPanel>
                                 <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                            </Managers:ButtonOpenSelectionPanel.SelectionPanel>
-                        </Managers:ButtonOpenSelectionPanel>
+                            </ui:ButtonOpenSelectionPanel.SelectionPanel>
+                        </ui:ButtonOpenSelectionPanel>
                     </StudioControls:Outliner.SelectionPanel>
                 </StudioControls:Outliner>
 

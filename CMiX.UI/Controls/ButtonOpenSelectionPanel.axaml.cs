@@ -5,7 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using CMiX.UI.AttachedProperties;
 
-namespace CMiX.Studio.Avalonia.Views.Managers
+namespace CMiX.UI.Controls
 {
     public partial class ButtonOpenSelectionPanel : UserControl
     {
