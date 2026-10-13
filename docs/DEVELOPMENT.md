@@ -199,7 +199,7 @@ styles first, then what makes it different. `ButtonRounded`, `ToggleButtonInline
   `MenuFlyoutPresenterDefault`.
 - `...CMiX` is the default CMiX theme of a standard control whose bare name would be
   the Avalonia type name: `ListBoxItemCMiX`, `TabItemCMiX`, `GridSplitterCMiX`.
-- A part of a control ends with the part: `ExpanderItemHeader`, `SliderCMiXVerticalThumb`.
+- A part of a control ends with the part: `ExpanderItemHeader`, `SliderCMiXBrightnessThumb`.
 - A style keeps no Studio word. The Studio concepts (layer, modifier, prefab) stay in
   the Studio styles.
 - `ResourceReferenceTests` fails when an AXAML file names a resource key that nothing

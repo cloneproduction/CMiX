@@ -22,7 +22,7 @@
                     IsEditable="False"
                     Maximum="1"
                     Minimum="0"
-                    Theme="{StaticResource SliderCMiXVertical}"
+                    Theme="{StaticResource SliderCMiXBrightness}"
                     Value="{Binding Color.HSV_V, ElementName=colorPickerFull, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
                                             <i:Interaction.Behaviors>
                             <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=colorPickerFull}" />
