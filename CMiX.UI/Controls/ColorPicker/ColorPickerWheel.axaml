@@ -23,7 +23,7 @@
                     Maximum="1"
                     Minimum="0"
                     Theme="{StaticResource SliderCMiXVertical}"
-                    Value="{Binding Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={ui:RemapDoubleConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
+                    Value="{Binding Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={ui:DoubleRemapConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
                                             <i:Interaction.Behaviors>
                             <ui:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
                         </i:Interaction.Behaviors>

@@ -202,7 +202,7 @@ The application connects three things to the library:
   own in `StudioIcons.Register`, also in `App.Initialize`, before the XAML loads.
   `IconKeyTests` fails when an `IconKey` in the AXAML is not registered.
 - `IReorderService`, the type of the attached property
-  `ListBoxReorderDragDrop.Service`. `ManagerReorderService` implements it.
+  `ListBoxReorder.Service`. `ManagerReorderService` implements it.
 
 The Studio has its own styles in `Themes/Generic.axaml` and its own converters in
 `Themes/StudioConverters.axaml`. They build on the library theme.

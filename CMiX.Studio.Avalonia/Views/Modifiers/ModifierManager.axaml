@@ -13,7 +13,7 @@
     <StackPanel>
 
         <ItemsControl
-            ui:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}"
+            ui:ListBoxReorder.Service="{Binding ManagerReorderService}"
             ItemsSource="{Binding ManagerData.Items}">
 
             <ItemsControl.ItemTemplate>

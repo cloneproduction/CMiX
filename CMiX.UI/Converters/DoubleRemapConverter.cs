@@ -10,7 +10,7 @@ using CMiX.UI.Mathematics;
 
 namespace CMiX.UI.Converters
 {
-    public class RemapDoubleConverter : MarkupExtension, IValueConverter
+    public class DoubleRemapConverter : MarkupExtension, IValueConverter
     {
         public double FromMin { get; set; }
         public double FromMax { get; set; }

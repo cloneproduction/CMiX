@@ -27,7 +27,7 @@
 
             <ListBox
                 DockPanel.Dock="Top"
-                ui:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}"
+                ui:ListBoxReorder.Service="{Binding ManagerReorderService}"
                 ItemsSource="{Binding ManagerData.Items}"
                 SelectedIndex="{Binding ManagerData.SelectedIndex}"
                 SelectedItem="{Binding SelectedItem}"
