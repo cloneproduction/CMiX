@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="CMiX.Studio.Avalonia.Views.ModifierManager"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,71 +6,42 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    x:Name="modifierManager"    
+    x:Name="modifierManager"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <!-- The list is from the library. This control tells it which properties of the manager to show. -->
+    <ui:PanelItemList
+        ui:ListBoxReorder.Service="{Binding ManagerReorderService}"
+        AddCaption="{Binding Caption, ElementName=modifierManager}"
+        AddContent="{Binding SelectionPanel, ElementName=modifierManager}"
+        ItemsSource="{Binding ManagerData.Items}">
 
-        <ItemsControl
-            ui:ListBoxReorder.Service="{Binding ManagerReorderService}"
-            ItemsSource="{Binding ManagerData.Items}">
+        <ui:PanelItemList.ItemTemplate>
+            <DataTemplate>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
+                <ui:PanelItem
+                    Margin="0, 4"
+                    Title="{Binding PrefabService.Name.Value}"
+                    IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}"
+                    DragHandleIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandleIsPressed}"
+                    CloseCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
+                    CloseCommandParameter="{Binding}"
+                    PanelBackground="{Binding $parent[Views:ModifierManager].PanelBackground}">
 
-                    <ui:PanelItem
-                        Margin="0, 4"
-                        Title="{Binding PrefabService.Name.Value}"
-                        IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}"
-                        DragHandleIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandleIsPressed}"
-                        CloseCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
-                        CloseCommandParameter="{Binding}"
-                        PanelBackground="{Binding $parent[Views:ModifierManager].PanelBackground}">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ModulatorHoverBehavior />
+                    </i:Interaction.Behaviors>
 
-                        <i:Interaction.Behaviors>
-                            <Behaviors:ModulatorHoverBehavior />
-                        </i:Interaction.Behaviors>
+                    <ui:PanelItem.Content>
+                        <ContentControl Content="{Binding}" />
+                    </ui:PanelItem.Content>
 
-                        <ui:PanelItem.Content>
-                            <ContentControl Content="{Binding}" />
-                        </ui:PanelItem.Content>
+                </ui:PanelItem>
 
-                    </ui:PanelItem>
+            </DataTemplate>
+        </ui:PanelItemList.ItemTemplate>
 
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+    </ui:PanelItemList>
 
-        </ItemsControl>
-
-        <ToggleButton
-            x:Name="PopUpToggle"
-            Background="{DynamicResource Grey600Brush}"
-            Content="{Binding Caption, ElementName=modifierManager}"
-            Margin="0, 8, 0, 0"
-            Theme="{StaticResource ToggleButtonPopup}" />
-
-        <Popup
-            Width="{Binding Bounds.Width, ElementName=PopUpToggle}"
-            IsLightDismissEnabled="False"
-            IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
-            Placement="Bottom"
-            PlacementTarget="{Binding ElementName=PopUpToggle}">
-
-            <i:Interaction.Behaviors>
-                <ui:ClosePopupBehavior />
-            </i:Interaction.Behaviors>
-
-            <Border
-                Padding="2"
-                Background="{DynamicResource Grey100Brush}"
-                CornerRadius="{DynamicResource CornerRadiusLargeBottom}">
-
-                <ContentControl Content="{Binding SelectionPanel, ElementName=modifierManager}" />
-
-            </Border>
-
-        </Popup>
-
-    </StackPanel>
 </UserControl>
