@@ -10,22 +10,22 @@ using Avalonia.Interactivity;
 namespace CMiX.UI.Controls.Number
 {
     // Attached property that restricts a TextBox to digit input.
-    public static class InputNumbersOnly
+    public static class NumbersOnly
     {
-        public static readonly AttachedProperty<bool> ActiveProperty =
+        public static readonly AttachedProperty<bool> IsEnabledProperty =
             AvaloniaProperty.RegisterAttached<TextBox, bool>(
-                "Active",
-                typeof(InputNumbersOnly));
+                "IsEnabled",
+                typeof(NumbersOnly));
 
-        public static bool GetActive(TextBox obj) => obj.GetValue(ActiveProperty);
-        public static void SetActive(TextBox obj, bool value) => obj.SetValue(ActiveProperty, value);
+        public static bool GetIsEnabled(TextBox obj) => obj.GetValue(IsEnabledProperty);
+        public static void SetIsEnabled(TextBox obj, bool value) => obj.SetValue(IsEnabledProperty, value);
 
-        static InputNumbersOnly()
+        static NumbersOnly()
         {
-            ActiveProperty.Changed.AddClassHandler<TextBox>(ActivePropertyChanged);
+            IsEnabledProperty.Changed.AddClassHandler<TextBox>(IsEnabledPropertyChanged);
         }
 
-        private static void ActivePropertyChanged(TextBox textBox, AvaloniaPropertyChangedEventArgs e)
+        private static void IsEnabledPropertyChanged(TextBox textBox, AvaloniaPropertyChangedEventArgs e)
         {
             if (e.GetNewValue<bool>())
             {

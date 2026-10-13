@@ -18,11 +18,11 @@
         ItemsSource="{Binding ControlRepository.Textures}">
 
         <Controls:Outliner.SelectionPanel>
-          <ui:ButtonOpenSelectionPanel Caption="New Control Texture">
-            <ui:ButtonOpenSelectionPanel.SelectionPanel>
+          <ui:PopupButton Caption="New Control Texture">
+            <ui:PopupButton.SelectionPanel>
               <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-            </ui:ButtonOpenSelectionPanel.SelectionPanel>
-          </ui:ButtonOpenSelectionPanel>
+            </ui:PopupButton.SelectionPanel>
+          </ui:PopupButton>
         </Controls:Outliner.SelectionPanel>
 
       </Controls:Outliner>

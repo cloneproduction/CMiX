@@ -9,7 +9,7 @@ namespace CMiX.UI.Controls.Number
     // Formats and parses numeric text so the current culture decimal separator
     // is kept for display, but no thousands group separator is ever emitted,
     // and the text can always be parsed back regardless of the active culture.
-    internal static class NumericText
+    internal static class NumericTextHelper
     {
         public static string Format(double value)
         {

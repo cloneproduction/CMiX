@@ -93,7 +93,7 @@ namespace CMiX.UI.Controls.Enum
                 UpdateResetMenu();
         }
 
-        private void UpdateResetMenu() => DefaultResetMenu.Update(this, ResetCommand, ref _resetMenu);
+        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ref _resetMenu);
 
         // The drop-down list sends its right-clicks up to the control. They must not open the Reset menu.
         private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)

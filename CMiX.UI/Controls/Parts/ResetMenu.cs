@@ -10,7 +10,7 @@ namespace CMiX.UI.Controls.Parts
 {
     // The Reset menu of a value editor. The owner must have a ResetCommand property.
     // The binding has an explicit Source because a menu popup cannot reach back to its owner through TemplatedParent.
-    internal static class DefaultResetMenu
+    internal static class ResetMenu
     {
         public static ContextMenu Create(Control owner)
         {

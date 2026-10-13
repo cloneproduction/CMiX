@@ -5,7 +5,7 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="comboBox">
 
-    <ui:LabeledContent Caption="{Binding Caption, ElementName=comboBox}">
+    <ui:ContentCaptioned Caption="{Binding Caption, ElementName=comboBox}">
 
         <DockPanel>
 
@@ -31,6 +31,6 @@
 
         </DockPanel>
 
-    </ui:LabeledContent>
+    </ui:ContentCaptioned>
 
 </ui:CaptionedUserControl>

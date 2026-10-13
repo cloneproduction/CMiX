@@ -26,7 +26,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void ColorPicker_HasNoResetMenu()
         {
-            var window = Host(new StandardColorPicker());
+            var window = Host(new ColorPickerWheel());
 
             var withReset = window.GetVisualDescendants().OfType<Control>().Where(HasResetItem).ToList();
 

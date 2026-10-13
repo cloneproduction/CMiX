@@ -47,7 +47,7 @@ namespace CMiX.UI.Behaviors
         private bool ignoreColorChange;
         private bool ignoreColorPropertyChange;
         private Color previousColor = global::Avalonia.Media.Color.FromArgb(5, 5, 5, 5);
-        public NotifyableColor? Color { get; set; }
+        public ObservableColor? Color { get; set; }
 
 
         static ColorSliderBehavior()
@@ -80,7 +80,7 @@ namespace CMiX.UI.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
-            Color = new NotifyableColor(this);
+            Color = new ObservableColor(this);
             Color.PropertyChanged += Color_PropertyChanged;
             if (AssociatedObject != null)
                 AddColorChangedHandler(AssociatedObject, OnColorChanged);

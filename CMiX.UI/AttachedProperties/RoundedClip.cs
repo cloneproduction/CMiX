@@ -7,19 +7,19 @@ using Avalonia.Media;
 
 namespace CMiX.UI.AttachedProperties
 {
-    public static class ClipToBoundsBehavior
+    public static class RoundedClip
     {
         public static readonly AttachedProperty<CornerRadius> CornerRadiusProperty =
             AvaloniaProperty.RegisterAttached<Border, CornerRadius>(
-                "CornerRadius", typeof(ClipToBoundsBehavior));
+                "CornerRadius", typeof(RoundedClip));
 
         public static CornerRadius GetCornerRadius(Border border) => border.GetValue(CornerRadiusProperty);
         public static void SetCornerRadius(Border border, CornerRadius value) => border.SetValue(CornerRadiusProperty, value);
 
         private static readonly AttachedProperty<bool> IsSubscribedProperty =
-            AvaloniaProperty.RegisterAttached<Border, bool>("IsSubscribed", typeof(ClipToBoundsBehavior));
+            AvaloniaProperty.RegisterAttached<Border, bool>("IsSubscribed", typeof(RoundedClip));
 
-        static ClipToBoundsBehavior()
+        static RoundedClip()
         {
             CornerRadiusProperty.Changed.AddClassHandler<Border>((border, e) =>
             {

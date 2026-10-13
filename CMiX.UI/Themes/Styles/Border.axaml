@@ -4,7 +4,7 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <!--
-        BorderMask now clips the border it's applied to directly via ClipToBoundsBehavior,
+        BorderMask now clips the border it's applied to directly via RoundedClip,
         instead of providing a separate invisible border referenced by a VisualBrush
         OpacityMask elsewhere. Avalonia's compositor caches VisualBrush-based OpacityMask
         as a rasterized bitmap and does not reliably invalidate it on resize; Border.Clip
@@ -13,7 +13,7 @@
         be clipped/rounded, not to a separate mask element.
     -->
     <Style Selector="Border.BorderMask">
-        <Setter Property="ui:ClipToBoundsBehavior.CornerRadius" Value="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource Self}, Converter={StaticResource PositionToCornerRadius}}" />
+        <Setter Property="ui:RoundedClip.CornerRadius" Value="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource Self}, Converter={StaticResource PositionToCornerRadius}}" />
     </Style>
 
 </Styles>

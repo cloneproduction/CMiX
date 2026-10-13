@@ -9,22 +9,22 @@ using Avalonia.Interactivity;
 namespace CMiX.UI.Controls.String
 {
     // Attached property that selects the whole text when a TextBox receives focus.
-    public static class SelectTextOnFocus
+    public static class SelectOnFocus
     {
-        public static readonly AttachedProperty<bool> ActiveProperty =
+        public static readonly AttachedProperty<bool> IsEnabledProperty =
             AvaloniaProperty.RegisterAttached<TextBox, bool>(
-                "Active",
-                typeof(SelectTextOnFocus));
+                "IsEnabled",
+                typeof(SelectOnFocus));
 
-        public static bool GetActive(TextBox obj) => obj.GetValue(ActiveProperty);
-        public static void SetActive(TextBox obj, bool value) => obj.SetValue(ActiveProperty, value);
+        public static bool GetIsEnabled(TextBox obj) => obj.GetValue(IsEnabledProperty);
+        public static void SetIsEnabled(TextBox obj, bool value) => obj.SetValue(IsEnabledProperty, value);
 
-        static SelectTextOnFocus()
+        static SelectOnFocus()
         {
-            ActiveProperty.Changed.AddClassHandler<TextBox>(ActivePropertyChanged);
+            IsEnabledProperty.Changed.AddClassHandler<TextBox>(IsEnabledPropertyChanged);
         }
 
-        private static void ActivePropertyChanged(TextBox textBox, AvaloniaPropertyChangedEventArgs e)
+        private static void IsEnabledPropertyChanged(TextBox textBox, AvaloniaPropertyChangedEventArgs e)
         {
             if (e.GetNewValue<bool>())
             {

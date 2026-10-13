@@ -6,10 +6,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.UI.Controls.ColorPicker
 {
-    public class NotifyableColor : ObservableObject
+    public class ObservableColor : ObservableObject
     {
 
-        public NotifyableColor(IColorStateStorage colorStateStorage)
+        public ObservableColor(IColorStateStorage colorStateStorage)
         {
             storage = colorStateStorage;
         }

@@ -1,11 +1,11 @@
 ﻿<UserControl
-    x:Class="CMiX.UI.Controls.Vector.AxisSelector2D"
+    x:Class="CMiX.UI.Controls.Vector.AxisSelector2"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="axisSelector2D">
 
-    <ui:LabeledContent Caption="Axis">
+    <ui:ContentCaptioned Caption="Axis">
 
         <Grid>
             <Grid.ColumnDefinitions>
@@ -27,5 +27,5 @@
 
         </Grid>
 
-    </ui:LabeledContent>
+    </ui:ContentCaptioned>
 </UserControl>

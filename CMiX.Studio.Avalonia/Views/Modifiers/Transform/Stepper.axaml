@@ -35,7 +35,7 @@
                 SelectedItem="{Binding TransformType.Value}"
                 ItemsSource="{x:Static Resources:EnumProviders.TransformType}" />
 
-            <ui:AxisSelector3D
+            <ui:AxisSelector3
                 Margin="0, 1, 0, 0"
                 XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
                 YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"

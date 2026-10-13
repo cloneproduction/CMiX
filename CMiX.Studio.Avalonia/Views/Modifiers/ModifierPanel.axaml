@@ -34,8 +34,8 @@
 
               <Button
                     Margin="8, 0, 2, 0"
-                    ui:DragHandler.IsEnabled="True"
-                    ui:DragHandler.IsPressed="{Binding DragHandlerIsPressed, ElementName=modifierPanel, Mode=TwoWay}"
+                    ui:DragHandle.IsEnabled="True"
+                    ui:DragHandle.IsPressed="{Binding DragHandlerIsPressed, ElementName=modifierPanel, Mode=TwoWay}"
                     DockPanel.Dock="Right"
                     Theme="{StaticResource DragHandleButton}">
 

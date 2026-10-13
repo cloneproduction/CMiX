@@ -7,9 +7,9 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Vector
 {
-    public partial class Integer2Value : CaptionedUserControl
+    public partial class Integer3 : CaptionedUserControl
     {
-        public Integer2Value()
+        public Integer3()
         {
             InitializeComponent();
         }

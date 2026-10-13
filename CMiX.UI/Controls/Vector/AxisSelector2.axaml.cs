@@ -7,15 +7,15 @@ using Avalonia.Data;
 
 namespace CMiX.UI.Controls.Vector
 {
-    public partial class AxisSelector2D : UserControl
+    public partial class AxisSelector2 : UserControl
     {
-        public AxisSelector2D()
+        public AxisSelector2()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<bool> XIsCheckedProperty =
-            AvaloniaProperty.Register<AxisSelector2D, bool>(nameof(XIsChecked), true, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<AxisSelector2, bool>(nameof(XIsChecked), true, defaultBindingMode: BindingMode.TwoWay);
         public bool XIsChecked
         {
             get => GetValue(XIsCheckedProperty);
@@ -23,7 +23,7 @@ namespace CMiX.UI.Controls.Vector
         }
 
         public static readonly StyledProperty<bool> YIsCheckedProperty =
-            AvaloniaProperty.Register<AxisSelector2D, bool>(nameof(YIsChecked), false, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<AxisSelector2, bool>(nameof(YIsChecked), false, defaultBindingMode: BindingMode.TwoWay);
         public bool YIsChecked
         {
             get => GetValue(YIsCheckedProperty);

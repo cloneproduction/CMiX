@@ -92,11 +92,11 @@
                     DataContext="{Binding ExplodeTriangleTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
                     <StudioControls:Outliner.SelectionPanel>
-                        <ui:ButtonOpenSelectionPanel Caption="New Control Texture">
-                            <ui:ButtonOpenSelectionPanel.SelectionPanel>
+                        <ui:PopupButton Caption="New Control Texture">
+                            <ui:PopupButton.SelectionPanel>
                                 <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                            </ui:ButtonOpenSelectionPanel.SelectionPanel>
-                        </ui:ButtonOpenSelectionPanel>
+                            </ui:PopupButton.SelectionPanel>
+                        </ui:PopupButton>
                     </StudioControls:Outliner.SelectionPanel>
                 </StudioControls:Outliner>
 
@@ -128,11 +128,11 @@
                     ItemsSource="{Binding ControlRepository.Textures}">
                   
                     <StudioControls:Outliner.SelectionPanel>
-                        <ui:ButtonOpenSelectionPanel Caption="New Control Texture">
-                            <ui:ButtonOpenSelectionPanel.SelectionPanel>
+                        <ui:PopupButton Caption="New Control Texture">
+                            <ui:PopupButton.SelectionPanel>
                                 <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                            </ui:ButtonOpenSelectionPanel.SelectionPanel>
-                        </ui:ButtonOpenSelectionPanel>
+                            </ui:PopupButton.SelectionPanel>
+                        </ui:PopupButton>
                     </StudioControls:Outliner.SelectionPanel>
                 </StudioControls:Outliner>
 

@@ -7,21 +7,21 @@ using CMiX.UI.AttachedProperties;
 
 namespace CMiX.UI.Controls
 {
-    public partial class ButtonOpenSelectionPanel : UserControl
+    public partial class PopupButton : UserControl
     {
         // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
-        static ButtonOpenSelectionPanel()
+        static PopupButton()
         {
-            LogicalPanelContent.Track<ButtonOpenSelectionPanel>(SelectionPanelProperty);
+            LogicalPanelContent.Track<PopupButton>(SelectionPanelProperty);
         }
 
-        public ButtonOpenSelectionPanel()
+        public PopupButton()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<Control> SelectionPanelProperty =
-            AvaloniaProperty.Register<ButtonOpenSelectionPanel, Control>(nameof(SelectionPanel));
+            AvaloniaProperty.Register<PopupButton, Control>(nameof(SelectionPanel));
         public Control SelectionPanel
         {
             get => GetValue(SelectionPanelProperty);
@@ -29,7 +29,7 @@ namespace CMiX.UI.Controls
         }
 
         public static readonly StyledProperty<string> CaptionProperty =
-            AvaloniaProperty.Register<ButtonOpenSelectionPanel, string>(nameof(Caption), string.Empty);
+            AvaloniaProperty.Register<PopupButton, string>(nameof(Caption), string.Empty);
         public string Caption
         {
             get => GetValue(CaptionProperty);

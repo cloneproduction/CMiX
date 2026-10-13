@@ -8,15 +8,15 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Vector
 {
-    public partial class VectorXYZ : CaptionedUserControl
+    public partial class Vector3 : CaptionedUserControl
     {
-        public VectorXYZ()
+        public Vector3()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<float> XProperty =
-            AvaloniaProperty.Register<VectorXYZ, float>(nameof(X), 0.0f, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<Vector3, float>(nameof(X), 0.0f, defaultBindingMode: BindingMode.TwoWay);
         public float X
         {
             get => GetValue(XProperty);
@@ -24,7 +24,7 @@ namespace CMiX.UI.Controls.Vector
         }
 
         public static readonly StyledProperty<float> YProperty =
-            AvaloniaProperty.Register<VectorXYZ, float>(nameof(Y), 0.0f, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<Vector3, float>(nameof(Y), 0.0f, defaultBindingMode: BindingMode.TwoWay);
         public float Y
         {
             get => GetValue(YProperty);
@@ -32,7 +32,7 @@ namespace CMiX.UI.Controls.Vector
         }
 
         public static readonly StyledProperty<float> ZProperty =
-            AvaloniaProperty.Register<VectorXYZ, float>(nameof(Z), 0.0f, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<Vector3, float>(nameof(Z), 0.0f, defaultBindingMode: BindingMode.TwoWay);
         public float Z
         {
             get => GetValue(ZProperty);

@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ShowsItsCaptionInTheLabel()
         {
             var pathSelector = ShowPathSelector();
-            var label = pathSelector.GetVisualDescendants().OfType<LabeledContent>().Single();
+            var label = pathSelector.GetVisualDescendants().OfType<ContentCaptioned>().Single();
             Assert.Equal("Filename", label.Caption);
 
             pathSelector.Caption = "Folder";

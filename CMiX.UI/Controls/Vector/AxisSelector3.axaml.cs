@@ -8,15 +8,15 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Vector
 {
-    public partial class AxisSelector3D : CaptionedUserControl
+    public partial class AxisSelector3 : CaptionedUserControl
     {
-        public AxisSelector3D()
+        public AxisSelector3()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<bool> XIsCheckedProperty =
-            AvaloniaProperty.Register<AxisSelector3D, bool>(nameof(XIsChecked), true, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<AxisSelector3, bool>(nameof(XIsChecked), true, defaultBindingMode: BindingMode.TwoWay);
         public bool XIsChecked
         {
             get => GetValue(XIsCheckedProperty);
@@ -24,7 +24,7 @@ namespace CMiX.UI.Controls.Vector
         }
 
         public static readonly StyledProperty<bool> YIsCheckedProperty =
-            AvaloniaProperty.Register<AxisSelector3D, bool>(nameof(YIsChecked), false, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<AxisSelector3, bool>(nameof(YIsChecked), false, defaultBindingMode: BindingMode.TwoWay);
         public bool YIsChecked
         {
             get => GetValue(YIsCheckedProperty);
@@ -32,7 +32,7 @@ namespace CMiX.UI.Controls.Vector
         }
 
         public static readonly StyledProperty<bool> ZIsCheckedProperty =
-            AvaloniaProperty.Register<AxisSelector3D, bool>(nameof(ZIsChecked), false, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<AxisSelector3, bool>(nameof(ZIsChecked), false, defaultBindingMode: BindingMode.TwoWay);
         public bool ZIsChecked
         {
             get => GetValue(ZIsCheckedProperty);

@@ -40,6 +40,6 @@ namespace CMiX.UI.Controls.Boolean
                 UpdateResetMenu();
         }
 
-        private void UpdateResetMenu() => DefaultResetMenu.Update(this, ResetCommand, ref _resetMenu);
+        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ref _resetMenu);
     }
 }

@@ -8,12 +8,12 @@ using Avalonia.Interactivity;
 
 namespace CMiX.UI.AttachedProperties
 {
-    public static class MouseDownHelper
+    public static class MouseDown
     {
         public static readonly AttachedProperty<bool> IsEnabledProperty =
             AvaloniaProperty.RegisterAttached<Control, bool>(
                 "IsEnabled",
-                typeof(MouseDownHelper));
+                typeof(MouseDown));
 
         public static void SetIsEnabled(Control element, bool value) => element.SetValue(IsEnabledProperty, value);
         public static bool GetIsEnabled(Control element) => element.GetValue(IsEnabledProperty);
@@ -22,7 +22,7 @@ namespace CMiX.UI.AttachedProperties
         public static readonly AttachedProperty<bool> IsMouseDownProperty =
             AvaloniaProperty.RegisterAttached<Control, bool>(
                 "IsMouseDown",
-                typeof(MouseDownHelper));
+                typeof(MouseDown));
 
         internal static void SetIsMouseDown(Control element, bool value) => element.SetValue(IsMouseDownProperty, value);
         public static bool GetIsMouseDown(Control element) => element.GetValue(IsMouseDownProperty);
@@ -30,12 +30,12 @@ namespace CMiX.UI.AttachedProperties
         public static readonly AttachedProperty<bool> IsMouseLeftButtonDownProperty =
             AvaloniaProperty.RegisterAttached<Control, bool>(
                 "IsMouseLeftButtonDown",
-                typeof(MouseDownHelper));
+                typeof(MouseDown));
 
         internal static void SetIsMouseLeftButtonDown(Control element, bool value) => element.SetValue(IsMouseLeftButtonDownProperty, value);
         public static bool GetIsMouseLeftButtonDown(Control element) => element.GetValue(IsMouseLeftButtonDownProperty);
 
-        static MouseDownHelper()
+        static MouseDown()
         {
             IsEnabledProperty.Changed.AddClassHandler<Control>(OnIsEnabledChanged);
         }

@@ -6,7 +6,7 @@ using Avalonia;
 
 namespace CMiX.UI.Mathematics
 {
-    public static class MathUtils
+    public static class MathHelper
     {
         private static Random random = new Random();
 

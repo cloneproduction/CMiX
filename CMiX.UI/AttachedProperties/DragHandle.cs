@@ -9,12 +9,12 @@ using Avalonia.Interactivity;
 
 namespace CMiX.UI.AttachedProperties
 {
-    public static class DragHandler
+    public static class DragHandle
     {
         public static readonly AttachedProperty<bool> IsPressedProperty =
             AvaloniaProperty.RegisterAttached<Control, bool>(
                 "IsPressed",
-                typeof(DragHandler),
+                typeof(DragHandle),
                 defaultBindingMode: BindingMode.TwoWay);
 
         public static bool GetIsPressed(Control obj) => obj.GetValue(IsPressedProperty);
@@ -23,12 +23,12 @@ namespace CMiX.UI.AttachedProperties
         public static readonly AttachedProperty<bool> IsEnabledProperty =
             AvaloniaProperty.RegisterAttached<Control, bool>(
                 "IsEnabled",
-                typeof(DragHandler));
+                typeof(DragHandle));
 
         public static bool GetIsEnabled(Control obj) => obj.GetValue(IsEnabledProperty);
         public static void SetIsEnabled(Control obj, bool value) => obj.SetValue(IsEnabledProperty, value);
 
-        static DragHandler()
+        static DragHandle()
         {
             IsEnabledProperty.Changed.AddClassHandler<Control>(OnIsEnabledChanged);
         }

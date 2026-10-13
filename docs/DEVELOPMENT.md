@@ -116,15 +116,15 @@ come from the value editors of vvvv:
 
 | Folder | The data | In it |
 |---|---|---|
-| `Number` | one number | `DragValue`, `CMiXSlider`, `NumericInput`, `NumericText`, `IntegerValue`, `RangeValue`, `InputNumbersOnly` |
-| `Vector` | several numbers | `Vector2`, `VectorXYZ`, `Integer2Value`, `Integer3Value`, `AxisSelector2D`, `AxisSelector3D` |
+| `Number` | one number | `DragValue`, `CMiXSlider`, `NumericInput`, `NumericTextHelper`, `IntegerValue`, `RangeValue`, `NumbersOnly` |
+| `Vector` | several numbers | `Vector2`, `Vector3`, `Integer2`, `Integer3`, `AxisSelector2`, `AxisSelector3` |
 | `Boolean` | on, off, or a press | `CaptionedToggleButton`, `CMiXToggleButton`, `CaptionedButton` |
 | `Enum` | one item of a fixed list | `CaptionedComboBox` |
-| `String` | text or an address | `EditableTextBox`, `EditableValue`, `IPBox`, `SelectTextOnFocus` |
+| `String` | text or an address | `EditableTextBox`, `EditableValue`, `IPBox`, `SelectOnFocus` |
 | `ColorPicker` | a color | `ColorSelector` and the color picker |
-| `Parts` | nothing: what every editor is made of | `LabeledContent`, `CaptionedUserControl`, `DefaultResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `CMiXPopup` |
+| `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `CaptionedUserControl`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `CMiXPopup` |
 
-`AppIcon`, `CMiXListBox` and `ButtonOpenSelectionPanel` stay in the root of `Controls`. They do not change a value.
+`AppIcon`, `CMiXListBox` and `PopupButton` stay in the root of `Controls`. They do not change a value.
 
 To place a new control, ask "what data does it change?". A curve editor changes a
 curve, so it gets a new folder `Curve`, even when the first use is a color adjustment.

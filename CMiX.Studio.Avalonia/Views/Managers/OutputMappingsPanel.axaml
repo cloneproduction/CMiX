@@ -36,7 +36,7 @@
 
         <StackPanel
             DataContext="{Binding SelectedItem}">
-            <ui:Integer2Value 
+            <ui:Integer2 
                 Caption="Resolution" 
                 DataContext="{Binding Resolution}" />
         </StackPanel>

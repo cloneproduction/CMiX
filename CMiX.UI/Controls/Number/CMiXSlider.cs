@@ -101,7 +101,7 @@ namespace CMiX.UI.Controls.Number
                 UpdateResetMenu();
         }
 
-        private void UpdateResetMenu() => DefaultResetMenu.Update(this, ResetCommand, ref _resetMenu);
+        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ref _resetMenu);
 
         // A gesture that loses the pointer without a release must not leave the value interaction
         // scope open, which would keep throttling every later write in the application. Ending
@@ -187,13 +187,13 @@ namespace CMiX.UI.Controls.Number
             {
                 currentPoint = currentPoint.WithX(Border.Bounds.Width / 2);
                 Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
-                currentValue = MathUtils.Map(-offset.Y, 0, Border.Bounds.Height, Minimum, Maximum);
+                currentValue = MathHelper.Map(-offset.Y, 0, Border.Bounds.Height, Minimum, Maximum);
             }
             else if (Orientation == Orientation.Horizontal)
             {
                 currentPoint = currentPoint.WithY(Border.Bounds.Height / 2);
                 Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
-                currentValue = MathUtils.Map(offset.X, 0, Border.Bounds.Width, Minimum, Maximum);
+                currentValue = MathHelper.Map(offset.X, 0, Border.Bounds.Width, Minimum, Maximum);
             }
 
             double smooth = 1.0;
@@ -211,9 +211,9 @@ namespace CMiX.UI.Controls.Number
             var pointFromValue = new Point();
 
             if (Orientation == Orientation.Vertical)
-                pointFromValue = new Point(Border.Bounds.Width / 2, MathUtils.Map(Value, Maximum, Minimum, 0, Border.Bounds.Height));
+                pointFromValue = new Point(Border.Bounds.Width / 2, MathHelper.Map(Value, Maximum, Minimum, 0, Border.Bounds.Height));
             else if (Orientation == Orientation.Horizontal)
-                pointFromValue = new Point(MathUtils.Map(Value, Minimum, Maximum, 0, Border.Bounds.Width), Border.Bounds.Height / 2);
+                pointFromValue = new Point(MathHelper.Map(Value, Minimum, Maximum, 0, Border.Bounds.Width), Border.Bounds.Height / 2);
 
             var pointToScreen = this.PointToScreen(pointFromValue);
 

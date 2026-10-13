@@ -14,15 +14,15 @@
             Value="{Binding Uniform.Value}"
             ResetCommand="{Binding Uniform.ResetCommand}" />
 
-        <ui:VectorXYZ
+        <ui:Vector3
             Caption="Scale"
             DataContext="{Binding Scale}" />
 
-        <ui:VectorXYZ
+        <ui:Vector3
             Caption="Rotation"
             DataContext="{Binding Rotation}" />
 
-        <ui:VectorXYZ
+        <ui:Vector3
             Caption="Translate"
             DataContext="{Binding Translate}" />
 

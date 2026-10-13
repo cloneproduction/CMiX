@@ -8,33 +8,33 @@ using Avalonia.Interactivity;
 
 namespace CMiX.UI.Controls.ColorPicker
 {
-    public class PickerControlBase : UserControl, IColorStateStorage
+    public class ColorPickerBase : UserControl, IColorStateStorage
     {
         public static readonly StyledProperty<ColorState> ColorStateProperty =
-            AvaloniaProperty.Register<PickerControlBase, ColorState>(nameof(ColorState),
+            AvaloniaProperty.Register<ColorPickerBase, ColorState>(nameof(ColorState),
                 new ColorState(0, 0, 0, 1, 0, 0, 0, 0, 0, 0));
 
         public static readonly StyledProperty<global::Avalonia.Media.Color> SelectedColorProperty =
-            AvaloniaProperty.Register<PickerControlBase, global::Avalonia.Media.Color>(nameof(SelectedColor),
+            AvaloniaProperty.Register<ColorPickerBase, global::Avalonia.Media.Color>(nameof(SelectedColor),
                 global::Avalonia.Media.Colors.Black);
 
         public static readonly RoutedEvent<ColorRoutedEventArgs> ColorChangedEvent =
-            RoutedEvent.Register<PickerControlBase, ColorRoutedEventArgs>(nameof(ColorChanged), RoutingStrategies.Bubble);
+            RoutedEvent.Register<ColorPickerBase, ColorRoutedEventArgs>(nameof(ColorChanged), RoutingStrategies.Bubble);
 
         private bool ignoreColorChange;
 
         private bool ignoreColorPropertyChange;
         private global::Avalonia.Media.Color previousColor = global::Avalonia.Media.Color.FromArgb(5, 5, 5, 5);
 
-        static PickerControlBase()
+        static ColorPickerBase()
         {
-            ColorStateProperty.Changed.AddClassHandler<PickerControlBase>(OnColorStatePropertyChange);
-            SelectedColorProperty.Changed.AddClassHandler<PickerControlBase>(OnSelectedColorPropertyChange);
+            ColorStateProperty.Changed.AddClassHandler<ColorPickerBase>(OnColorStatePropertyChange);
+            SelectedColorProperty.Changed.AddClassHandler<ColorPickerBase>(OnSelectedColorPropertyChange);
         }
 
-        public PickerControlBase()
+        public ColorPickerBase()
         {
-            Color = new NotifyableColor(this);
+            Color = new ObservableColor(this);
             Color.PropertyChanged += (sender, args) =>
             {
                 var newColor = global::Avalonia.Media.Color.FromArgb(
@@ -65,7 +65,7 @@ namespace CMiX.UI.Controls.ColorPicker
             set => SetValue(SelectedColorProperty, value);
         }
 
-        public NotifyableColor Color { get; set; }
+        public ObservableColor Color { get; set; }
 
         public ColorState ColorState
         {
@@ -79,12 +79,12 @@ namespace CMiX.UI.Controls.ColorPicker
             remove => RemoveHandler(ColorChangedEvent, value);
         }
 
-        private static void OnColorStatePropertyChange(PickerControlBase sender, AvaloniaPropertyChangedEventArgs args)
+        private static void OnColorStatePropertyChange(ColorPickerBase sender, AvaloniaPropertyChangedEventArgs args)
         {
             sender.Color.UpdateEverything();
         }
 
-        private static void OnSelectedColorPropertyChange(PickerControlBase sender, AvaloniaPropertyChangedEventArgs args)
+        private static void OnSelectedColorPropertyChange(ColorPickerBase sender, AvaloniaPropertyChangedEventArgs args)
         {
             if (sender.ignoreColorPropertyChange)
                 return;

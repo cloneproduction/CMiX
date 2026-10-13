@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <ui:LabeledContent Caption="{Binding Caption, ElementName=pathSelector}">
+    <ui:ContentCaptioned Caption="{Binding Caption, ElementName=pathSelector}">
 
         <DockPanel>
 
@@ -50,6 +50,6 @@
 
         </DockPanel>
 
-    </ui:LabeledContent>
+    </ui:ContentCaptioned>
 
 </ui:CaptionedUserControl>
