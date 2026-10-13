@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
@@ -91,6 +92,39 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.False(modulators[0].IsHovered);
             Assert.True(modulators[1].IsHovered);
+        }
+
+        [AvaloniaFact]
+        public void ThePanelOfTheAddButton_GetsItsBindings_BeforeThePopupOpens()
+        {
+            var blur = (Blur)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Blur));
+            var panel = new Button();
+            panel.Bind(Button.CommandProperty, new Binding("AddItemCommand"));
+            var view = new Views.ModifierManager { DataContext = blur.ModulatorManager, Caption = "Add Modulator", SelectionPanel = panel };
+            new Window { Content = view, Width = 400, Height = 600 }.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.NotNull(panel.Command);
+        }
+
+        [AvaloniaFact]
+        public void TheAddButton_OpensThePopupThatHoldsThePanel()
+        {
+            var blur = (Blur)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Blur));
+            var panel = new Button { Content = "the panel" };
+            var view = new Views.ModifierManager { DataContext = blur.ModulatorManager, Caption = "Add Modulator", SelectionPanel = panel };
+            var window = new Window { Content = view, Width = 400, Height = 600 };
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+            var toggle = view.GetVisualDescendants().OfType<ToggleButton>().Single(t => Equals(t.Content, "Add Modulator"));
+            var popup = view.GetVisualDescendants().OfType<Popup>().Single();
+            Assert.False(popup.IsOpen);
+
+            toggle.IsChecked = true;
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.True(popup.IsOpen);
+            Assert.Same(panel, ((ContentControl)((Border)popup.Child!).Child!).Content);
         }
     }
 }
