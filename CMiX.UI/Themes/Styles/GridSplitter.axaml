@@ -4,10 +4,10 @@
 
     <!--
         Ported from CMiX.Studio\Themes\Styles\GridSplitter.xaml.
-        This is a keyed theme; consumers switch from Style="{StaticResource GridSplitter}"
-        to Theme="{StaticResource GridSplitter}".
+        This is a keyed theme; consumers switch from Style="{StaticResource GridSplitterCMiX}"
+        to Theme="{StaticResource GridSplitterCMiX}".
     -->
-    <ControlTheme x:Key="GridSplitter" TargetType="GridSplitter">
+    <ControlTheme x:Key="GridSplitterCMiX" TargetType="GridSplitter">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Template">

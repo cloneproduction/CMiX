@@ -42,7 +42,7 @@ namespace CMiX.UI.Tests
             var text = new TextBlock { Text = "Item" };
             var presenter = new FlyoutPresenter
             {
-                Theme = (ControlTheme)Application.Current!.FindResource("PopupFlyoutStyle")!,
+                Theme = (ControlTheme)Application.Current!.FindResource("FlyoutPresenterPanel")!,
                 Content = text
             };
             Host(presenter);

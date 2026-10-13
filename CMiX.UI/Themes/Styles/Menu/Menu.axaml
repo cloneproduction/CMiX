@@ -88,7 +88,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="TopMenuItem" TargetType="MenuItem">
+    <ControlTheme x:Key="MenuItemTop" TargetType="MenuItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="4" />
         <Setter Property="Template">
@@ -167,7 +167,7 @@
     <ControlTheme x:Key="MenuDefault" TargetType="Menu">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
-        <Setter Property="ItemContainerTheme" Value="{StaticResource TopMenuItem}" />
+        <Setter Property="ItemContainerTheme" Value="{StaticResource MenuItemTop}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border

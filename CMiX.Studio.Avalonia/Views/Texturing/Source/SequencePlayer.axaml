@@ -16,19 +16,19 @@
                   Content="Play"
                   IsChecked="{Binding Play.Value, Mode=TwoWay}"
                   ResetCommand="{Binding Play.ResetCommand}"
-                  Theme="{StaticResource InlineToggleButtonLeft}" />
+                  Theme="{StaticResource ToggleButtonInlineLeft}" />
               <ui:ToggleButtonCMiX
                   Grid.Column="1"
                   Margin="1,0"
                   Content="Loop"
                   IsChecked="{Binding Loop.Value, Mode=TwoWay}"
                   ResetCommand="{Binding Loop.ResetCommand}"
-                  Theme="{StaticResource InlineToggleButtonCenter}" />
+                  Theme="{StaticResource ToggleButtonInlineCenter}" />
               <Button
                   Grid.Column="2"
                   Content="Do Seek"
                   Command="{Binding DoSeek.ClickCommand}"
-                  Theme="{StaticResource InlineButtonRight}" />
+                  Theme="{StaticResource ButtonInlineRight}" />
           </Grid>
       </Border>
     

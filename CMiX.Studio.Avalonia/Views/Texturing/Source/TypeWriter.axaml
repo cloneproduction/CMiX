@@ -15,7 +15,7 @@
             <!-- Avalonia updates the Text binding on every keystroke, so UpdateSourceTrigger is not needed. -->
             <TextBox
                 Text="{Binding StringControl.Value}"
-                Theme="{StaticResource TypeWriterStyle}" />
+                Theme="{StaticResource TextBoxTypeWriter}" />
         </Border>
 
         <ui:StackPanelPositioned Margin="0,8,0,0" Spacing="{DynamicResource SpacingXXS}">

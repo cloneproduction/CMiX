@@ -107,7 +107,7 @@
 
     </ControlTheme>
 
-    <ControlTheme x:Key="ValueSliderVertical" TargetType="ui:SliderCMiX">
+    <ControlTheme x:Key="SliderCMiXVertical" TargetType="ui:SliderCMiX">
         <Setter Property="(ui:MouseDown.IsEnabled)" Value="True" />
         <Setter Property="Focusable" Value="True" />
         <Setter Property="Maximum" Value="100" />
@@ -130,7 +130,7 @@
                             IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
                             Margin="-1,-5"
                             Orientation="Vertical">
-                            <Thumb Name="Part_Thumb" Theme="{DynamicResource ValueSliderVerticalThumbStyle}" />
+                            <Thumb Name="Part_Thumb" Theme="{DynamicResource SliderCMiXVerticalThumb}" />
                         </Track>
                     </Border>
                 </Panel>
@@ -150,7 +150,7 @@
 
     </ControlTheme>
 
-    <ControlTheme x:Key="ValueSliderVerticalThumbStyle" TargetType="Thumb">
+    <ControlTheme x:Key="SliderCMiXVerticalThumb" TargetType="Thumb">
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>

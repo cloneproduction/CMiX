@@ -24,7 +24,7 @@
                 x:Name="PopupToggle"
                 ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=colorSelector}"
                 Background="{Binding Value, Converter={StaticResource HexToBrush}}"
-                Theme="{DynamicResource ButtonColorStyle}" />
+                Theme="{DynamicResource ToggleButtonColor}" />
 
             <Popup
                 x:Name="colorPickerPopup"

@@ -10,7 +10,7 @@
         <Button
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Compositing:Composition}"
-            Theme="{StaticResource ButtonItemControl}">
+            Theme="{StaticResource ButtonItem}">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <ui:AppIcon

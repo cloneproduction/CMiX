@@ -178,6 +178,23 @@ and `PathsDropped`. It does not know what the path becomes. The Studio has
 is done by `FileDropBehavior`, which any control can use. `TextureDropBehavior` of the
 Studio is built on it.
 
+### Names of the styles
+
+A style (a `ControlTheme` with an `x:Key`) is named like a control: the control it
+styles first, then what makes it different. `ButtonRounded`, `ToggleButtonInlineLeft`,
+`ExpanderIndentedHeader`.
+
+- No `Style` ending. The key is already a style.
+- `...Default` is the default theme of a popup or menu type: `ContextMenuDefault`,
+  `MenuFlyoutPresenterDefault`.
+- `...CMiX` is the default CMiX theme of a standard control whose bare name would be
+  the Avalonia type name: `ListBoxItemCMiX`, `TabItemCMiX`, `GridSplitterCMiX`.
+- A part of a control ends with the part: `ExpanderItemHeader`, `SliderCMiXVerticalThumb`.
+- A style keeps no Studio word. The Studio concepts (layer, modifier, prefab) stay in
+  the Studio styles.
+- `ResourceReferenceTests` fails when an AXAML file names a resource key that nothing
+  defines.
+
 The application connects three things to the library:
 
 - `InteractionHost.BeginScopeHandler`, set in `App.Initialize`. See above.
@@ -214,11 +231,11 @@ Every menu and popup has one look. The control `PopupFrame` holds it: the shadow
 |---|---|---|
 | Context menu | `ContextMenuDefault` | `<ContextMenu Theme="{StaticResource ContextMenuDefault}">`. It opens with its middle on the click. |
 | Menu popup | `MenuFlyoutPresenterDefault` | A `MenuFlyout` with this `FlyoutPresenterTheme`. |
-| Panel popup | `PopupFlyoutStyle` | A `Flyout` for settings and other content. It is 300 wide. |
+| Panel popup | `FlyoutPresenterPanel` | A `Flyout` for settings and other content. It is 300 wide. |
 
 The themes and `PopupFrame` are in CMiX.UI.
 
-`ContextMenuDefault` and `MenuFlyoutPresenterDefault` derive from the theme `MenuPanel`. A row is a `MenuItem` with the theme `ContextMenuSubItem`. A row with the header `-` is a separator. A row with `IsChecked` has the accent background.
+`ContextMenuDefault` and `MenuFlyoutPresenterDefault` derive from the theme `MenuPanel`. A row is a `MenuItem` with the theme `MenuItemContext`. A row with the header `-` is a separator. A row with `IsChecked` has the accent background.
 
 A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that the code updates in place. A new `ItemsSource` does not refresh a menu that was shown before. `ModulatorAssignButton` is an example.
 

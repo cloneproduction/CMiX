@@ -10,7 +10,7 @@
 
     <BaseControls:ModulatorAssignableUserControl.Resources>
         <!-- A menu row bound to a ModulatorOutputChoice. -->
-        <ControlTheme x:Key="ModulatorOutputRow" TargetType="MenuItem" BasedOn="{StaticResource ContextMenuSubItem}">
+        <ControlTheme x:Key="ModulatorOutputRow" TargetType="MenuItem" BasedOn="{StaticResource MenuItemContext}">
             <Setter Property="Header" Value="{Binding Label}" />
             <Setter Property="IsChecked" Value="{Binding IsAssigned}" />
             <Setter Property="Command" Value="{Binding Command}" />

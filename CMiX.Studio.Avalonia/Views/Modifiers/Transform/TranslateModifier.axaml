@@ -15,7 +15,7 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=translateModifier}" />
 
-        <BaseControls:ModulatableVectorXYZ
+        <BaseControls:ModulatableVector3
             Caption="Position"
             ModulatorManager="{Binding ModulatorManager}" />
 

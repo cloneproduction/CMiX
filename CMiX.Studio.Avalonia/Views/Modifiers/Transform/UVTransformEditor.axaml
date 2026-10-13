@@ -15,7 +15,7 @@
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
 
-        <BaseControls:ModulatableVectorXY
+        <BaseControls:ModulatableVector2
             Caption="Scale"
             DataContext="{Binding Scale}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
@@ -25,7 +25,7 @@
             DataContext="{Binding Rotation}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />
 
-        <BaseControls:ModulatableVectorXY
+        <BaseControls:ModulatableVector2
             Caption="Translate"
             DataContext="{Binding Location}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=uvTransformEditor}" />

@@ -31,7 +31,7 @@
                 ItemsSource="{Binding ManagerData.Items}"
                 SelectedIndex="{Binding ManagerData.SelectedIndex}"
                 SelectedItem="{Binding SelectedItem}"
-                Theme="{StaticResource ComposableListBoxStyle}">
+                Theme="{StaticResource ListBoxComposable}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <views:ComposableManagerItem DragHandlerIsPressed="{Binding $parent[ListBox].DataContext.ManagerReorderService.DragHandlerIsPressed, Mode=TwoWay}" />

@@ -4,7 +4,7 @@
 
     <!-- Ported from CMiX.Studio\Themes\Styles\Tab.xaml using the Avalonia Simple theme TabControl and TabItem templates as structural skeleton -->
 
-    <ControlTheme x:Key="TabItemStyle" TargetType="TabItem">
+    <ControlTheme x:Key="TabItemCMiX" TargetType="TabItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
@@ -57,7 +57,7 @@
     <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
         <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemStyle}" />
+        <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemCMiX}" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
@@ -134,7 +134,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="TabControlVerticalPanel" TargetType="TabControl">
+    <ControlTheme x:Key="TabControlVertical" TargetType="TabControl">
         <Setter Property="Background" Value="{DynamicResource Grey200Brush}" />
         <!-- Stretch so the page content fills the tab area; see the note on the implicit theme. -->
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -174,7 +174,7 @@
         </Setter>
     </ControlTheme>
 
-    <ControlTheme x:Key="TabControlLayerPanel" TargetType="TabControl">
+    <ControlTheme x:Key="TabControlMain" TargetType="TabControl">
         <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <!-- Stretch so the page content fills the tab area; see the note on the implicit theme. -->

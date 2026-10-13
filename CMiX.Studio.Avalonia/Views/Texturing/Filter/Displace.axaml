@@ -27,12 +27,12 @@
 
       </Controls:Outliner>
       
-        <Controls:ModulatableVectorXY
+        <Controls:ModulatableVector2
             Caption="Offset"
             DataContext="{Binding Offset}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=displace}" />
 
-        <Controls:ModulatableVectorXY
+        <Controls:ModulatableVector2
             Caption="OffsetScale"
             DataContext="{Binding OffsetScale}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=displace}" />

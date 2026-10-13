@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <ControlTheme x:Key="ComposableListBoxItemBorderStyle" TargetType="Border">
+    <ControlTheme x:Key="ListBoxItemComposableBorder" TargetType="Border">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource Shadow}" />
         <Setter Property="Margin" Value="0" />
@@ -12,14 +12,14 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ComposableListBoxItemStyle"
-                  BasedOn="{StaticResource ListBoxItemStyle}"
+    <ControlTheme x:Key="ListBoxItemComposable"
+                  BasedOn="{StaticResource ListBoxItemCMiX}"
                   TargetType="ListBoxItem">
         <Setter Property="Height" Value="NaN" />
         <Setter Property="Padding" Value="1,0,0,0" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="Bd" Theme="{StaticResource ComposableListBoxItemBorderStyle}">
+                <Border Name="Bd" Theme="{StaticResource ListBoxItemComposableBorder}">
                     <ContentPresenter
                         Name="PART_ContentPresenter"
                         Content="{TemplateBinding Content}"
@@ -40,9 +40,9 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ComposableListBoxStyle" TargetType="ListBox">
+    <ControlTheme x:Key="ListBoxComposable" TargetType="ListBox">
         <Setter Property="Background" Value="{DynamicResource Grey100Brush}" />
-        <Setter Property="ItemContainerTheme" Value="{DynamicResource ComposableListBoxItemStyle}" />
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemComposable}" />
         <Setter Property="Template">
             <ControlTemplate>
               <Border Background="{TemplateBinding Background}">

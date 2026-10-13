@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
                         Margin = new Thickness(0),
                         CommandParameter = entry.Type
                     };
-                    button[!TemplatedControl.ThemeProperty] = new DynamicResourceExtension("ButtonItemControl");
+                    button[!TemplatedControl.ThemeProperty] = new DynamicResourceExtension("ButtonItem");
                     button.Bind(Button.CommandProperty, new Binding("AddItemCommand"));
                     stack.Children.Add(button);
                 }

@@ -9,7 +9,7 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <Controls:ModulatableVectorXY
+        <Controls:ModulatableVector2
             Caption="Factor"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=pixelate}" />
 

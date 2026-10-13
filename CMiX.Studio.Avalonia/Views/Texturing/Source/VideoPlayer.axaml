@@ -14,13 +14,13 @@
                     Content="Play"
                     IsChecked="{Binding Play.Value, Mode=TwoWay}"
                     ResetCommand="{Binding Play.ResetCommand}"
-                    Theme="{StaticResource InlineToggleButtonLeft}" />
+                    Theme="{StaticResource ToggleButtonInlineLeft}" />
                 <Button
                     Grid.Column="1"
                     Margin="1,0,0,0"
                     Content="Do Seek"
                     Command="{Binding DoSeek.ClickCommand}"
-                    Theme="{StaticResource InlineButtonRight}" />
+                    Theme="{StaticResource ButtonInlineRight}" />
             </Grid>
         </Border>
 

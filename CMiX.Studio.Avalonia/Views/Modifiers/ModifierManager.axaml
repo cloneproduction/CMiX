@@ -44,7 +44,7 @@
             Background="{DynamicResource Grey600Brush}"
             Content="{Binding Caption, ElementName=modifierManager}"
             Margin="0, 8, 0, 0"
-            Theme="{StaticResource ToggleTransformModifierMenu}" />
+            Theme="{StaticResource ToggleButtonPopup}" />
 
         <Popup
             Width="{Binding Bounds.Width, ElementName=PopUpToggle}"

@@ -11,7 +11,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:ModulatableVectorXYZ
+        <BaseControls:ModulatableVector3
             Caption="Light Position"
             DataContext="{Binding LightDirection}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
