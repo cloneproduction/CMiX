@@ -20,8 +20,6 @@ namespace CMiX.UI.Controls.Enum
     public partial class ComboBoxCaptioned : UserControlCaptioned
     {
         private ComboBox? _innerComboBox;
-        private ContextMenu? _resetMenu;
-        private bool _attached;
 
         public ComboBoxCaptioned()
         {
@@ -31,6 +29,7 @@ namespace CMiX.UI.Controls.Enum
             _innerComboBox?.AddHandler(PointerWheelChangedEvent, OnInnerPointerWheelChanged, RoutingStrategies.Tunnel);
             _innerComboBox?.AddHandler(PointerPressedEvent, OnInnerPointerPressed, RoutingStrategies.Tunnel);
             AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
+            ResetMenu.Follow(this, ResetCommandProperty);
 
             if (_innerComboBox != null)
             {
@@ -81,19 +80,8 @@ namespace CMiX.UI.Controls.Enum
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnAttachedToVisualTree(e);
-            _attached = true;
-            UpdateResetMenu();
             ResubscribeItemsSource();
         }
-
-        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-        {
-            base.OnPropertyChanged(change);
-            if (_attached && change.Property == ResetCommandProperty)
-                UpdateResetMenu();
-        }
-
-        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ref _resetMenu);
 
         // The drop-down list sends its right-clicks up to the control. They must not open the Reset menu.
         private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)

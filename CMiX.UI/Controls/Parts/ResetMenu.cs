@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Windows.Input;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Styling;
@@ -33,13 +34,38 @@ namespace CMiX.UI.Controls.Parts
             return menu;
         }
 
+        // Keeps the default menu of the owner in step with its reset commands, once the owner is in the visual tree.
+        // Call it once in the constructor of the owner. The reset all property is optional.
+        public static void Follow(Control owner, AvaloniaProperty resetCommand, AvaloniaProperty? resetAllCommand = null)
+        {
+            ContextMenu? ownMenu = null;
+            var attached = false;
+
+            void Refresh() => Update(
+                owner,
+                owner.GetValue(resetCommand) as ICommand,
+                resetAllCommand == null ? null : owner.GetValue(resetAllCommand) as ICommand,
+                ref ownMenu);
+
+            owner.AttachedToVisualTree += (_, _) =>
+            {
+                attached = true;
+                Refresh();
+            };
+            owner.PropertyChanged += (_, e) =>
+            {
+                if (attached && (e.Property == resetCommand || e.Property == resetAllCommand))
+                    Refresh();
+            };
+        }
+
         // The owner has the default menu only while it has a reset command. A menu set in XAML stays.
-        public static void Update(Control owner, ICommand? resetCommand, ref ContextMenu? ownMenu)
+        private static void Update(Control owner, ICommand? resetCommand, ref ContextMenu? ownMenu)
         {
             Update(owner, resetCommand, null, ref ownMenu);
         }
 
-        public static void Update(Control owner, ICommand? resetCommand, ICommand? resetAllCommand, ref ContextMenu? ownMenu)
+        private static void Update(Control owner, ICommand? resetCommand, ICommand? resetAllCommand, ref ContextMenu? ownMenu)
         {
             if (resetCommand == null)
             {

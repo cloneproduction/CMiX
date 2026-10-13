@@ -73,8 +73,6 @@ namespace CMiX.UI.Controls.Number
         protected override Type StyleKeyOverride => typeof(SliderCMiX);
 
         private Border? Border { get; set; }
-        private ContextMenu? _resetMenu;
-        private bool _templateApplied;
         private bool _suppressContextMenu;
 
         public SliderCMiX()
@@ -83,25 +81,14 @@ namespace CMiX.UI.Controls.Number
             AddHandler(PointerMovedEvent, OnTunnelPointerMoved, RoutingStrategies.Tunnel);
             AddHandler(PointerReleasedEvent, OnTunnelPointerReleased, RoutingStrategies.Tunnel);
             AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
+            ResetMenu.Follow(this, ResetCommandProperty);
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
             Border = e.NameScope.Find<Border>("sliderBorder");
-
-            _templateApplied = true;
-            UpdateResetMenu();
         }
-
-        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-        {
-            base.OnPropertyChanged(change);
-            if (_templateApplied && change.Property == ResetCommandProperty)
-                UpdateResetMenu();
-        }
-
-        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ref _resetMenu);
 
         // A gesture that loses the pointer without a release must not leave the value interaction
         // scope open, which would keep throttling every later write in the application. Ending
