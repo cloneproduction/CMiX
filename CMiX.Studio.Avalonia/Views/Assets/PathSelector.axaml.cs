@@ -20,7 +20,7 @@ using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class PathSelector : CaptionedUserControl
+    public partial class PathSelector : UserControlCaptioned
     {
         static PathSelector()
         {

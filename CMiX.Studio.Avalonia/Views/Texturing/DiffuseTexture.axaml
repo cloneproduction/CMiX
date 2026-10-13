@@ -20,11 +20,11 @@
             </i:Interaction.Behaviors>
 
             <Managers:PrefabSlotManager.SelectionPanel>
-                <ui:ButtonOpenSelectionPanel Caption="Add Texture">
-                    <ui:ButtonOpenSelectionPanel.SelectionPanel>
+                <ui:PopupButton Caption="Add Texture">
+                    <ui:PopupButton.SelectionPanel>
                         <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                    </ui:ButtonOpenSelectionPanel.SelectionPanel>
-                </ui:ButtonOpenSelectionPanel>
+                    </ui:PopupButton.SelectionPanel>
+                </ui:PopupButton>
             </Managers:PrefabSlotManager.SelectionPanel>
 
         </Managers:PrefabSlotManager>

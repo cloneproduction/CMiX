@@ -9,7 +9,7 @@
 
         <Mesh:ScaleOffsetEditor />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:DragValue
                 Caption="Radius"
@@ -21,7 +21,7 @@
                 Value="{Binding Height.Value}"
                 ResetCommand="{Binding Height.ResetCommand}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <ui:IntegerValue
             Margin="0,8,0,0"

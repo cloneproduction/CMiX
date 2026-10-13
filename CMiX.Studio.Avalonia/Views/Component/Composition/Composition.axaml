@@ -18,7 +18,7 @@
 
         <StackPanel>
 
-            <ui:IndentedExpander
+            <ui:ExpanderIndented
                 Header="Filters"
                 IsExpanded="{Binding TextureModifierIsExpanded}">
                 <Views:ModifierManager Caption="Add Filter" Margin="8, 0, 8, 8" DataContext="{Binding TextureModifierManager}">
@@ -26,13 +26,13 @@
                         <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
                     </Views:ModifierManager.SelectionPanel>
                 </Views:ModifierManager>
-            </ui:IndentedExpander>
+            </ui:ExpanderIndented>
 
-            <ui:IndentedExpander
+            <ui:ExpanderIndented
                 Header="Settings"
                 IsExpanded="{Binding OutputSettingsIsExpanded}">
                 <Views:CompositionSettings Margin="8" DataContext="{Binding}" />
-            </ui:IndentedExpander>
+            </ui:ExpanderIndented>
 
         </StackPanel>
 

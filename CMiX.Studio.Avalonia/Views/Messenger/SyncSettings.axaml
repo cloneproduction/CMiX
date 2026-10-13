@@ -10,7 +10,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}" Margin="8">
 
-        <ui:LabeledContent Caption="Status">
+        <ui:ContentCaptioned Caption="Status">
             <Border>
                 <StackPanel Orientation="Horizontal">
                     <Ellipse
@@ -27,7 +27,7 @@
                         Text="{Binding Status}" />
                 </StackPanel>
             </Border>
-        </ui:LabeledContent>
+        </ui:ContentCaptioned>
 
         <!-- Shows the reason of a failed connection. Stays outside the flyouts so the text is
              visible right away, and stays visible until the peer clears ErrorMessage. -->
@@ -122,12 +122,12 @@
         </Grid>
 
         <!-- The endpoint line shows the options of the running peer. -->
-        <ui:LabeledContent Caption="Redis">
+        <ui:ContentCaptioned Caption="Redis">
             <TextBlock
                 x:Name="EndpointText"
                 VerticalAlignment="Center"
                 Foreground="{DynamicResource ForegroundBrush}" />
-        </ui:LabeledContent>
+        </ui:ContentCaptioned>
 
         <Button
             x:Name="EditConnectionButton"
@@ -150,35 +150,35 @@
 
                         <ui:IPBox x:Name="IpBox"/>
 
-                        <ui:LabeledContent Caption="Port">
+                        <ui:ContentCaptioned Caption="Port">
                             <TextBox x:Name="PortBox" />
-                        </ui:LabeledContent>
+                        </ui:ContentCaptioned>
 
-                        <ui:LabeledContent Caption="Database">
+                        <ui:ContentCaptioned Caption="Database">
                             <TextBox x:Name="DatabaseBox" />
-                        </ui:LabeledContent>
+                        </ui:ContentCaptioned>
 
-                        <ui:CaptionedToggleButton x:Name="UseCredentialManagerBox" Caption="Use Credential Manager" />
+                        <ui:ToggleButtonCaptioned x:Name="UseCredentialManagerBox" Caption="Use Credential Manager" />
 
-                        <ui:LabeledContent Caption="Credential Name">
+                        <ui:ContentCaptioned Caption="Credential Name">
                             <TextBox x:Name="CredentialNameBox" />
-                        </ui:LabeledContent>
+                        </ui:ContentCaptioned>
 
-                        <ui:LabeledContent Caption="User">
+                        <ui:ContentCaptioned Caption="User">
                             <TextBox Grid.Column="1" x:Name="UserBox" />
-                        </ui:LabeledContent>
+                        </ui:ContentCaptioned>
 
-                        <ui:LabeledContent Caption="Password">
+                        <ui:ContentCaptioned Caption="Password">
                             <TextBox Grid.Column="1" x:Name="PasswordBox" PasswordChar="*" />
-                        </ui:LabeledContent>
+                        </ui:ContentCaptioned>
 
-                        <ui:LabeledContent Caption="Key Prefix">
+                        <ui:ContentCaptioned Caption="Key Prefix">
                             <TextBox Grid.Column="1" x:Name="KeyPrefixBox" />
-                        </ui:LabeledContent>
+                        </ui:ContentCaptioned>
 
-                        <ui:LabeledContent Caption="Peer Name">
+                        <ui:ContentCaptioned Caption="Peer Name">
                             <TextBox Grid.Column="1" x:Name="PeerNameBox" />
-                        </ui:LabeledContent>
+                        </ui:ContentCaptioned>
 
                         <!-- Reserves space so the popup does not resize when a message appears. -->
                         <StackPanel IsVisible="False" MinHeight="40">

@@ -32,7 +32,7 @@
                                 Size="{DynamicResource IconSizeXS}" />
                         </Panel>
 
-                        <ui:EditableTextBox
+                        <ui:TextBoxEditable
                             HorizontalAlignment="Stretch"
                             IsEditing="{Binding IsRenaming, Mode=TwoWay}"
                             Text="{Binding Name, Mode=TwoWay}" />

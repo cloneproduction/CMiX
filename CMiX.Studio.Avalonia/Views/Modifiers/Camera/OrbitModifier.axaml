@@ -9,7 +9,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:ModulatableFloatValue
             Caption="Yaw"
@@ -21,6 +21,6 @@
             DataContext="{Binding Pitch}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=orbitModifier}" />
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
 </Controls:ModulatablePanel>

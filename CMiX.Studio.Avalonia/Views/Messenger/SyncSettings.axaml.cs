@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Views
             EditConnectionButton.Flyout!.Opened += EditConnectionFlyout_Opened;
             UseCredentialManagerBox.PropertyChanged += (s, e) =>
             {
-                if (e.Property == CaptionedToggleButton.IsCheckedProperty)
+                if (e.Property == ToggleButtonCaptioned.IsCheckedProperty)
                     UpdateCredentialBoxes();
             };
             CredentialNameBox.TextChanged += (s, e) => UpdateCredentialBoxes();

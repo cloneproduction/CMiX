@@ -17,17 +17,17 @@
             DataContext="{Binding ModifierModeSelector}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Color Mode"
             ItemsSource="{x:Static Resources:EnumProviders.ColorMode}"
             ResetCommand="{Binding ColorMode.ResetCommand}"
             SelectedItem="{Binding ColorMode.Value}">
-          <ui:CaptionedComboBox.TrailingContent>
+          <ui:ComboBoxCaptioned.TrailingContent>
             <Border Width="{DynamicResource ControlHeightMD}" />
-          </ui:CaptionedComboBox.TrailingContent>
-        </ui:CaptionedComboBox>
+          </ui:ComboBoxCaptioned.TrailingContent>
+        </ui:ComboBoxCaptioned>
 
-        <ui:PositionedStackPanel
+        <ui:StackPanelPositioned
             Spacing="{DynamicResource SpacingXXS}">
 
             <StudioControls:ModulatableFloatValue
@@ -50,7 +50,7 @@
                 DataContext="{Binding Alpha}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=colorModifier}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
     </StackPanel>
 

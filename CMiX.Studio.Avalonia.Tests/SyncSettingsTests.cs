@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Tests
             button.Flyout!.ShowAt(button);
             TestServiceProviderFactory.Pump();
 
-            var toggle = view.FindControl<CaptionedToggleButton>("UseCredentialManagerBox");
+            var toggle = view.FindControl<ToggleButtonCaptioned>("UseCredentialManagerBox");
             var nameBox = view.FindControl<TextBox>("CredentialNameBox");
             var userBox = view.FindControl<TextBox>("UserBox");
             var passwordBox = view.FindControl<TextBox>("PasswordBox");

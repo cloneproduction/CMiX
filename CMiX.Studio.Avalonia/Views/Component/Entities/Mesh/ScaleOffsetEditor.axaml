@@ -6,11 +6,11 @@
 
     <StackPanel>
 
-        <ui:VectorXYZ
+        <ui:Vector3
             Caption="Scale"
             DataContext="{Binding Scale}" />
 
-        <ui:VectorXYZ
+        <ui:Vector3
             Margin="0,8"
             Caption="Offset"
             DataContext="{Binding Offset}" />

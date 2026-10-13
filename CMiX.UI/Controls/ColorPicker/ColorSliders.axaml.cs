@@ -3,7 +3,7 @@
 
 namespace CMiX.UI.Controls.ColorPicker
 {
-    public partial class ColorSliders : PickerControlBase
+    public partial class ColorSliders : ColorPickerBase
     {
         public ColorSliders()
         {

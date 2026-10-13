@@ -12,7 +12,7 @@
 
     <StackPanel>
 
-        <ui:IndentedExpander
+        <ui:ExpanderIndented
             Header="Settings"
             Indentation="4"
             IsExpanded="{Binding IsExpanded, FallbackValue=False}">
@@ -25,9 +25,9 @@
                 </ContentControl.DataTemplates>
             </ContentControl>
 
-        </ui:IndentedExpander>
+        </ui:ExpanderIndented>
 
-        <ui:IndentedExpander
+        <ui:ExpanderIndented
             Header="Filter"
             Indentation="8"
             IsExpanded="{Binding TextureModifierManager.IsExpanded, FallbackValue=False}">
@@ -41,7 +41,7 @@
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
 
-        </ui:IndentedExpander>
+        </ui:ExpanderIndented>
 
     </StackPanel>
 

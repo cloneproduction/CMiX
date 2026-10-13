@@ -9,7 +9,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="From"
             ItemsSource="{x:Static Resources:EnumProviders.TextureFrom}"
             ResetCommand="{Binding TextureFrom.ResetCommand}"

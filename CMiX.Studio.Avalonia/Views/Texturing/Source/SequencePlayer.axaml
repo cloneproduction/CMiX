@@ -11,13 +11,13 @@
     
       <Border Classes="BorderMask">
           <Grid ColumnDefinitions="*,*,*">
-              <ui:CMiXToggleButton
+              <ui:ToggleButtonCMiX
                   Grid.Column="0"
                   Content="Play"
                   IsChecked="{Binding Play.Value, Mode=TwoWay}"
                   ResetCommand="{Binding Play.ResetCommand}"
                   Theme="{StaticResource InlineToggleButtonLeft}" />
-              <ui:CMiXToggleButton
+              <ui:ToggleButtonCMiX
                   Grid.Column="1"
                   Margin="1,0"
                   Content="Loop"
@@ -50,13 +50,13 @@
               ResetCommand="{Binding FPS.ResetCommand}"
               Value="{Binding FPS.Value}" />
 
-      <ui:CaptionedToggleButton
+      <ui:ToggleButtonCaptioned
           Caption="Use Composition Resolution"
           IsChecked="{Binding UseCompositionResolution.Value}"
           ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
       <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-          <ui:Integer2Value
+          <ui:Integer2
               Caption="Resolution"
               DataContext="{Binding Resolution}" />
       </Border>

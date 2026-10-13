@@ -9,7 +9,7 @@
 
         <Border Margin="0,0,0,8" Classes="BorderMask">
             <Grid ColumnDefinitions="*,*">
-                <ui:CMiXToggleButton
+                <ui:ToggleButtonCMiX
                     Grid.Column="0"
                     Content="Play"
                     IsChecked="{Binding Play.Value, Mode=TwoWay}"
@@ -36,14 +36,14 @@
             DataContext="{Binding SeekFrame}"
             Value="{Binding Value}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Margin="0,8"
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <ui:Integer2Value
+            <ui:Integer2
                 Caption="Resolution"
                 DataContext="{Binding Resolution}" />
         </Border>

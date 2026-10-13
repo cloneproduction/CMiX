@@ -1,4 +1,4 @@
-﻿<ui:CaptionedUserControl
+﻿<ui:UserControlCaptioned
     x:Class="CMiX.UI.Controls.String.IPBox"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,7 +8,7 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-    <ui:LabeledContent Caption="{Binding Caption, ElementName=ipBox}">
+    <ui:ContentCaptioned Caption="{Binding Caption, ElementName=ipBox}">
         <Border VerticalAlignment="Stretch" CornerRadius="8" Height="{DynamicResource ControlHeightMD}">
         <Grid >
             <Grid.ColumnDefinitions>
@@ -82,6 +82,6 @@
         </Grid>
         </Border>
 
-    </ui:LabeledContent>
+    </ui:ContentCaptioned>
 
-</ui:CaptionedUserControl>
+</ui:UserControlCaptioned>

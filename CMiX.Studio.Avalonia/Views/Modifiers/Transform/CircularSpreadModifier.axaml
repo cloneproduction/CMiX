@@ -20,7 +20,7 @@
             Caption="Width"
             ModulatorManager="{Binding ModulatorManager}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ModulatableFloatValue
                 Caption="Phase"
@@ -32,7 +32,7 @@
                 DataContext="{Binding Factor}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
     </StackPanel>
 

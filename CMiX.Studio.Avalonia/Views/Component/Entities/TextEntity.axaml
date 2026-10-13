@@ -11,14 +11,14 @@
     d:DesignWidth="400">
 
     <StackPanel>
-        <ui:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
+        <ui:ExpanderIndented Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
             <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
-        </ui:IndentedExpander>
+        </ui:ExpanderIndented>
         <Views:EntityModifiersSection PanelOwner="{x:Type Compositing:TextEntity}">
             <Managers:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />
         </Views:EntityModifiersSection>
 
-        <ui:IndentedExpander Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
+        <ui:ExpanderIndented Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
             <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
 
                 <TextBox
@@ -30,7 +30,7 @@
                     Caption="Color"
                     DataContext="{Binding Color}" />
 
-                <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+                <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
                     <ui:DragValue
                         Caption="Size"
                         Value="{Binding Size.Value}"
@@ -39,33 +39,33 @@
                         Caption="Line Height"
                         Value="{Binding LineHeight.Value}"
                         ResetCommand="{Binding LineHeight.ResetCommand}" />
-                </ui:PositionedStackPanel>
+                </ui:StackPanelPositioned>
 
-                <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-                    <ui:CaptionedComboBox
+                <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
+                    <ui:ComboBoxCaptioned
                         Caption="Font Family"
                         ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
                         ResetCommand="{Binding FontFamily.ResetCommand}"
                         SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
-                    <ui:CaptionedComboBox
+                    <ui:ComboBoxCaptioned
                         Caption="Style"
                         ItemsSource="{x:Static Resources:EnumProviders.FontStyle}"
                         ResetCommand="{Binding Style.ResetCommand}"
                         SelectedItem="{Binding Style.Value}" />
-                </ui:PositionedStackPanel>
+                </ui:StackPanelPositioned>
 
-                <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
-                    <ui:CaptionedComboBox
+                <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
+                    <ui:ComboBoxCaptioned
                         Caption="Horizontal Alignment"
                         ItemsSource="{x:Static Resources:EnumProviders.TextHorizontalAlignment}"
                         ResetCommand="{Binding HorizontalAlignment.ResetCommand}"
                         SelectedItem="{Binding HorizontalAlignment.Value}" />
-                    <ui:CaptionedComboBox
+                    <ui:ComboBoxCaptioned
                         Caption="Anchor"
                         ItemsSource="{x:Static Resources:EnumProviders.Anchor}"
                         ResetCommand="{Binding Anchor.ResetCommand}"
                         SelectedItem="{Binding Anchor.Value}" />
-                </ui:PositionedStackPanel>
+                </ui:StackPanelPositioned>
 
                 <ui:DragValue
                     Margin="0,0,0,8"
@@ -74,7 +74,7 @@
                     ResetCommand="{Binding Width.ResetCommand}" />
 
             </StackPanel>
-        </ui:IndentedExpander>
+        </ui:ExpanderIndented>
 
     </StackPanel>
 

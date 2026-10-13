@@ -9,7 +9,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Number
 {
-    public partial class IntegerValue : CaptionedUserControl
+    public partial class IntegerValue : UserControlCaptioned
     {
         public IntegerValue()
         {
@@ -40,7 +40,7 @@ namespace CMiX.UI.Controls.Number
             set => SetValue(MinimumProperty, value);
         }
 
-        // Set only when this control is one axis of a composite (Integer2Value, Integer3Value),
+        // Set only when this control is one axis of a composite (Integer2, Integer3),
         // so its context menu can offer "Reset All" next to its own "Reset".
         public static readonly StyledProperty<ICommand> ResetAllCommandProperty =
             AvaloniaProperty.Register<IntegerValue, ICommand>(nameof(ResetAllCommand));

@@ -1,0 +1,85 @@
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+using System;
+using System.Linq;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Input;
+using Avalonia.VisualTree;
+
+namespace CMiX.UI.Controls.Parts
+{
+    // Popup with a draggable title area named dragBar in its content.
+    public class PopupCMiX : Popup
+    {
+        Point _initialMousePosition;
+        bool _isDragging;
+        double actualWidth;
+        double actualHeight;
+        Border? _dragBar;
+
+        public PopupCMiX()
+        {
+            Opened += PopupCMiX_Opened;
+            Closed += PopupCMiX_Closed;
+        }
+
+        private void PopupCMiX_Opened(object? sender, EventArgs e)
+        {
+            if (_dragBar != null)
+                return;
+
+            _dragBar = (Child as Visual)?.GetVisualDescendants()
+                                         .OfType<Border>()
+                                         .FirstOrDefault(b => b.Name == "dragBar");
+
+            if (_dragBar != null)
+            {
+                _dragBar.PointerPressed += DragBar_PointerPressed;
+                _dragBar.PointerReleased += DragBar_PointerReleased;
+                _dragBar.PointerMoved += DragBar_PointerMoved;
+            }
+        }
+
+        private void DragBar_PointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            if (_dragBar == null || !e.GetCurrentPoint(_dragBar).Properties.IsLeftButtonPressed)
+                return;
+
+            e.Handled = true;
+            actualWidth = _dragBar.Bounds.Width;
+            actualHeight = _dragBar.Bounds.Height;
+            _initialMousePosition = e.GetPosition(null);
+            _isDragging = true;
+            e.Pointer.Capture(_dragBar);
+        }
+
+        private void DragBar_PointerMoved(object? sender, PointerEventArgs e)
+        {
+            if (_isDragging)
+            {
+                var currentPoint = e.GetPosition(null);
+                HorizontalOffset = HorizontalOffset + (currentPoint.X - _initialMousePosition.X);
+                VerticalOffset = VerticalOffset + (currentPoint.Y - _initialMousePosition.Y);
+            }
+        }
+
+        private void DragBar_PointerReleased(object? sender, PointerReleasedEventArgs e)
+        {
+            if (_isDragging)
+            {
+                _isDragging = false;
+                e.Pointer.Capture(null);
+                e.Handled = true;
+            }
+        }
+
+        private void PopupCMiX_Closed(object? sender, EventArgs e)
+        {
+            HorizontalOffset = -actualWidth * 0.5;
+            VerticalOffset = -actualHeight * 0.5;
+        }
+    }
+}

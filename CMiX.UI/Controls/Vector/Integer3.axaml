@@ -1,0 +1,31 @@
+﻿<ui:UserControlCaptioned
+    x:Class="CMiX.UI.Controls.Vector.Integer3"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    x:Name="integer3Value"
+    Background="Transparent">
+
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
+
+        <ui:IntegerValue
+            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer3Value, Mode=OneWay}"
+            DataContext="{Binding X}"
+            ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=integer3Value}"
+            Value="{Binding Value}" />
+
+        <ui:IntegerValue
+            Caption="Y"
+            DataContext="{Binding Y}"
+            ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=integer3Value}"
+            Value="{Binding Value}" />
+
+        <ui:IntegerValue
+            Caption="Z"
+            DataContext="{Binding Z}"
+            ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=integer3Value}"
+            Value="{Binding Value}" />
+
+    </ui:StackPanelPositioned>
+
+</ui:UserControlCaptioned>

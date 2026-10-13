@@ -1,0 +1,239 @@
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Windows.Input;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Templates;
+using Avalonia.Data;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.VisualTree;
+using CMiX.UI.Controls.Parts;
+
+namespace CMiX.UI.Controls.Enum
+{
+    public partial class ComboBoxCaptioned : UserControlCaptioned
+    {
+        private ComboBox? _innerComboBox;
+        private ContextMenu? _resetMenu;
+        private bool _attached;
+
+        public ComboBoxCaptioned()
+        {
+            InitializeComponent();
+            _innerComboBox = this.FindControl<ComboBox>("innerComboBox");
+
+            _innerComboBox?.AddHandler(PointerWheelChangedEvent, OnInnerPointerWheelChanged, RoutingStrategies.Tunnel);
+            _innerComboBox?.AddHandler(PointerPressedEvent, OnInnerPointerPressed, RoutingStrategies.Tunnel);
+            AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
+
+            if (_innerComboBox != null)
+            {
+                _innerComboBox.PropertyChanged += OnInnerComboBoxPropertyChanged;
+                _innerComboBox.SelectionChanged += OnInnerSelectionChanged;
+            }
+        }
+
+        // ItemsSource and SelectedItem bind independently through ElementName, with no ordering
+        // guarantee. If ItemsSource is empty (or momentarily empty - see below) when SelectedItem
+        // is set, the inner ComboBox cannot find the item and clears its own selection. The XAML
+        // binding on the inner control is one-way (wrapper -> inner only, see OnInnerSelectionChanged
+        // below for why), so that spurious clear cannot echo back into the bound view model on its
+        // own - but nothing re-tries the selection once the item is findable again either, so that
+        // is done explicitly here.
+        private INotifyCollectionChanged? _observedItemsSource;
+
+        static ComboBoxCaptioned()
+        {
+            ItemsSourceProperty.Changed.AddClassHandler<ComboBoxCaptioned>((comboBox, e) => comboBox.OnItemsSourceChanged(e));
+        }
+
+        // A bound ObservableCollection whose contents mutate in place (Clear then re-Add, as
+        // OutputMappingManager.RebuildEnabledItems does when a slot's IsEnabled toggles) never
+        // raises this property's own Changed event - the ItemsSource reference itself never
+        // changes, only its contents do, transiently emptying the list along the way. Track the
+        // collection's own change notifications too so the selection gets reasserted once it
+        // settles, not just when a whole new ItemsSource is assigned.
+        private void OnItemsSourceChanged(AvaloniaPropertyChangedEventArgs e) => ResubscribeItemsSource();
+
+        // Detaching and reattaching the control (a side effect of unrelated sibling UI changes)
+        // does not raise the ItemsSource property's own Changed event either, so the reattach
+        // path below also needs this, reading the current ItemsSource value directly.
+        private void ResubscribeItemsSource()
+        {
+            if (_observedItemsSource != null)
+                _observedItemsSource.CollectionChanged -= OnItemsCollectionChanged;
+
+            _observedItemsSource = ItemsSource as INotifyCollectionChanged;
+            if (_observedItemsSource != null)
+                _observedItemsSource.CollectionChanged += OnItemsCollectionChanged;
+
+            ReassertSelection();
+        }
+
+        private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => ReassertSelection();
+
+        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnAttachedToVisualTree(e);
+            _attached = true;
+            UpdateResetMenu();
+            ResubscribeItemsSource();
+        }
+
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+        {
+            base.OnPropertyChanged(change);
+            if (_attached && change.Property == ResetCommandProperty)
+                UpdateResetMenu();
+        }
+
+        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ref _resetMenu);
+
+        // The drop-down list sends its right-clicks up to the control. They must not open the Reset menu.
+        private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)
+        {
+            if (ContextMenuGuard.FromPopup(this, e))
+                e.Handled = true;
+        }
+
+        // The subscription above is otherwise never released: a project-lifetime collection like
+        // OutputMappingManager.EnabledItems outlives any one view that binds to it (the panel gets
+        // torn down and recreated on every tab switch), so without this the collection keeps this
+        // discarded control's handler alive for the rest of the session.
+        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnDetachedFromVisualTree(e);
+            if (_observedItemsSource != null)
+            {
+                _observedItemsSource.CollectionChanged -= OnItemsCollectionChanged;
+                _observedItemsSource = null;
+            }
+        }
+
+        private void ReassertSelection()
+        {
+            var selected = SelectedItem;
+            if (selected == null || _innerComboBox == null) return;
+            _innerComboBox.SelectedItem = null;
+            _innerComboBox.SelectedItem = selected;
+        }
+
+        // The inner ComboBox's SelectedItem binding is intentionally one-way. A plain TwoWay
+        // binding echoes every internal reset - including the spurious "item not found in an
+        // as-yet-empty ItemsSource" clear described above - straight back up into the bound view
+        // model, silently wiping out the real selection. Only a genuine pick (AddedItems non-empty)
+        // should propagate outward, so that path is handled explicitly here instead.
+        private void OnInnerSelectionChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+                SelectedItem = e.AddedItems[0];
+        }
+
+        public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
+            AvaloniaProperty.Register<ComboBoxCaptioned, IEnumerable>(nameof(ItemsSource));
+        public IEnumerable ItemsSource
+        {
+            get => GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
+        }
+
+        // Optional; when unset the inner ComboBox falls back to its default item rendering
+        // (ToString()), which is fine for enum items but does not react to a bound property
+        // changing after the item is rendered. Set this when items carry an editable display
+        // value (e.g. a Name) so the dropdown stays live.
+        public static readonly StyledProperty<IDataTemplate> ItemTemplateProperty =
+            AvaloniaProperty.Register<ComboBoxCaptioned, IDataTemplate>(nameof(ItemTemplate));
+        public IDataTemplate ItemTemplate
+        {
+            get => GetValue(ItemTemplateProperty);
+            set => SetValue(ItemTemplateProperty, value);
+        }
+
+        public static readonly StyledProperty<object?> SelectedItemProperty =
+            AvaloniaProperty.Register<ComboBoxCaptioned, object?>(nameof(SelectedItem), null, defaultBindingMode: BindingMode.TwoWay);
+        public object? SelectedItem
+        {
+            get => GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
+        }
+
+        public static readonly StyledProperty<ICommand?> ResetCommandProperty =
+            AvaloniaProperty.Register<ComboBoxCaptioned, ICommand?>(nameof(ResetCommand));
+        public ICommand? ResetCommand
+        {
+            get => GetValue(ResetCommandProperty);
+            set => SetValue(ResetCommandProperty, value);
+        }
+
+        // Reserves space on the right for a control like ModulatorAssignButton, so a ComboBox
+        // with a trailing button lines up with a plain one - see DragValue.TrailingContent for
+        // the same mechanism on the other value editors.
+        public static readonly StyledProperty<object> TrailingContentProperty =
+            AvaloniaProperty.Register<ComboBoxCaptioned, object>(nameof(TrailingContent));
+        public object TrailingContent
+        {
+            get => GetValue(TrailingContentProperty);
+            set => SetValue(TrailingContentProperty, value);
+        }
+
+        private bool IsComboBoxFocused()
+        {
+            var focused = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement() as Visual;
+            if (focused == null || _innerComboBox == null)
+                return false;
+
+            return focused == _innerComboBox || focused.GetVisualAncestors().Contains(_innerComboBox);
+        }
+
+        private void OnInnerPointerWheelChanged(object? sender, PointerWheelEventArgs e)
+        {
+            bool shouldCycleSelection =
+                IsComboBoxFocused() &&
+                _innerComboBox != null &&
+                !_innerComboBox.IsDropDownOpen &&
+                ItemsSource != null;
+
+            if (!shouldCycleSelection)
+                return; // leave e.Handled false: bubbles up normally (dropdown scroll, or an ancestor ScrollViewer)
+
+            List<object> items = ItemsSource!.Cast<object>().ToList();
+            if (items.Count == 0)
+                return;
+
+            int currentIndex = SelectedItem != null ? items.IndexOf(SelectedItem) : -1;
+            int newIndex = currentIndex - (int)e.Delta.Y;
+
+            if (newIndex < 0)
+                newIndex = 0;
+            else if (newIndex >= items.Count)
+                newIndex = items.Count - 1;
+
+            if (newIndex != currentIndex)
+                SelectedItem = items[newIndex];
+
+            e.Handled = true;
+        }
+
+        // The ComboBox sets its pressed state for every button and clears it on the release. The Reset menu
+        // takes the release of a right-click, so the state stays and the next click closes the drop-down it opened.
+        private void OnInnerPointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            _innerComboBox?.Focus();
+
+            if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+                e.Handled = true;
+        }
+
+        private void OnInnerComboBoxPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+        {
+            if (e.Property == ComboBox.IsDropDownOpenProperty && e.NewValue is false)
+                _innerComboBox?.Focus();
+        }
+    }
+}

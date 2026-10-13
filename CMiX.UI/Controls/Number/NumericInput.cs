@@ -111,7 +111,7 @@ namespace CMiX.UI.Controls.Number
             if (_textBox == null) return;
 
             _valueBeforeEdit = Value;
-            _textBox.Text = IsInteger ? NumericText.Format((int)Value) : NumericText.Format(Value);
+            _textBox.Text = IsInteger ? NumericTextHelper.Format((int)Value) : NumericTextHelper.Format(Value);
             AddParentWindowHandlers();
             Dispatcher.UIThread.Post(() =>
             {
@@ -132,10 +132,10 @@ namespace CMiX.UI.Controls.Number
         {
             if (_textBox != null)
             {
-                if (_textBox.Text != null && NumericText.TryParse(_textBox.Text, out double result))
+                if (_textBox.Text != null && NumericTextHelper.TryParse(_textBox.Text, out double result))
                     Value = Math.Clamp(result, Minimum, Maximum);
                 else
-                    _textBox.Text = NumericText.Format(Value);
+                    _textBox.Text = NumericTextHelper.Format(Value);
             }
             IsEditing = false;
         }
@@ -145,7 +145,7 @@ namespace CMiX.UI.Controls.Number
             if (_textBox != null)
             {
                 Value = _valueBeforeEdit;
-                _textBox.Text = NumericText.Format(_valueBeforeEdit);
+                _textBox.Text = NumericTextHelper.Format(_valueBeforeEdit);
             }
             IsEditing = false;
         }

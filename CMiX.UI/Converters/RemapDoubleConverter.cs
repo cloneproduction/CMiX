@@ -22,7 +22,7 @@ namespace CMiX.UI.Converters
             if (value is not double d)
                 return AvaloniaProperty.UnsetValue;
 
-            return MathUtils.Map(d, FromMin, FromMax, ToMin, ToMax);
+            return MathHelper.Map(d, FromMin, FromMax, ToMin, ToMax);
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -30,7 +30,7 @@ namespace CMiX.UI.Converters
             if (value is not double d)
                 return AvaloniaProperty.UnsetValue;
 
-            return MathUtils.Map(d, ToMin, ToMax, FromMin, FromMax);
+            return MathHelper.Map(d, ToMin, ToMax, FromMin, FromMax);
         }
 
         public override object ProvideValue(IServiceProvider serviceProvider)

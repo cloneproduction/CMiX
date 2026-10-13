@@ -11,12 +11,12 @@
 
         <Views:EntityModifiersSection PanelOwner="{x:Type Cameras:Camera}" />
 
-        <ui:IndentedExpander
+        <ui:ExpanderIndented
             Header="Settings"
             Indentation="0"
             IsExpanded="{Binding SettingsIsExpanded}">
             <Views:CameraSettings DataContext="{Binding Settings}" />
-        </ui:IndentedExpander>
+        </ui:ExpanderIndented>
 
     </StackPanel>
 

@@ -114,13 +114,13 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void CMiXSlider_OpensOneScopeAndEndsItOnRelease()
+        public void SliderCMiX_OpensOneScopeAndEndsItOnRelease()
         {
             var saved = InteractionHost.BeginScopeHandler;
             try
             {
                 var counter = Install();
-                var slider = new CMiXSlider { Minimum = 0, Maximum = 1, Width = 200, Height = 20 };
+                var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Width = 200, Height = 20 };
                 var window = Show(slider);
 
                 Press(window, slider);

@@ -9,7 +9,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:ModulatableFloatValue
             Caption="Distance"
@@ -21,6 +21,6 @@
             DataContext="{Binding FOV}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=zoomModifier}" />
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
 </Controls:ModulatablePanel>

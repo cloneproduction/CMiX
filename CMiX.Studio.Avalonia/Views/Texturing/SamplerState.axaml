@@ -9,21 +9,21 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <ui:CaptionedComboBox
+            <ui:ComboBoxCaptioned
                 Caption="Address U"
                 ItemsSource="{x:Static Resources:EnumProviders.TextureAddressMode}"
                 ResetCommand="{Binding AddressU.ResetCommand}"
                 SelectedItem="{Binding AddressU.Value}" />
 
-            <ui:CaptionedComboBox
+            <ui:ComboBoxCaptioned
                 Caption="V"
                 ItemsSource="{x:Static Resources:EnumProviders.TextureAddressMode}"
                 ResetCommand="{Binding AddressV.ResetCommand}"
                 SelectedItem="{Binding AddressV.Value}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <ui:ColorSelector
             Caption="Border Color"

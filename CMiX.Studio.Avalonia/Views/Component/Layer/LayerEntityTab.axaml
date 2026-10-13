@@ -27,11 +27,11 @@
                 ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.EntitiesAndTexts}">
 
                 <Managers:PrefabSlotManager.SelectionPanel>
-                    <ui:ButtonOpenSelectionPanel Caption="Add Entity">
-                        <ui:ButtonOpenSelectionPanel.SelectionPanel>
+                    <ui:PopupButton Caption="Add Entity">
+                        <ui:PopupButton.SelectionPanel>
                             <Views:EntitySelectionPanel />
-                        </ui:ButtonOpenSelectionPanel.SelectionPanel>
-                    </ui:ButtonOpenSelectionPanel>
+                        </ui:PopupButton.SelectionPanel>
+                    </ui:PopupButton>
                 </Managers:PrefabSlotManager.SelectionPanel>
 
             </Managers:PrefabSlotManager>

@@ -14,7 +14,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
     // lives in PrefabListItemTemplates.axaml (declaration order matters, derived types
     // before base types); this class loads it once and exposes it as a single
     // IDataTemplate, following the precedent of Views\ViewModelToViewTemplate.cs.
-    // Consumers add an instance to BaseControls:CMiXListBox.DataTemplates.
+    // Consumers add an instance to BaseControls:ListBoxCMiX.DataTemplates.
     public class PrefabListItemTemplates : IDataTemplate
     {
         private static readonly Lazy<DataTemplates> Templates = new(LoadTemplates);

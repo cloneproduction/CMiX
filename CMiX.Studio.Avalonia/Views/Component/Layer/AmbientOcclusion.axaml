@@ -5,13 +5,13 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="uc">
 
-    <ui:IndentedExpander>
+    <ui:ExpanderIndented>
 
-        <ui:IndentedExpander.Header>
+        <ui:ExpanderIndented.Header>
 
             <DockPanel>
 
-                <ui:CMiXToggleButton
+                <ui:ToggleButtonCMiX
                     Width="14"
                     Height="14"
                     IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=uc, Mode=TwoWay}"
@@ -25,7 +25,7 @@
 
             </DockPanel>
 
-        </ui:IndentedExpander.Header>
+        </ui:ExpanderIndented.Header>
 
         <Border Margin="8" IsEnabled="{Binding IsEnabled.Value}">
 
@@ -38,7 +38,7 @@
                     Value="{Binding Intensity.Value}"
                     ResetCommand="{Binding Intensity.ResetCommand}" />
 
-                <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+                <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
                     <ui:DragValue
                         Caption="SampleBias"
                         Value="{Binding SampleBias.Value}"
@@ -47,9 +47,9 @@
                         Caption="SampleRadius"
                         Value="{Binding SampleRadius.Value}"
                         ResetCommand="{Binding SampleRadius.ResetCommand}" />
-                </ui:PositionedStackPanel>
+                </ui:StackPanelPositioned>
 
-                <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+                <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
                     <ui:IntegerValue
                         Caption="Blur Count"
                         DataContext="{Binding BlurCount}"
@@ -58,7 +58,7 @@
                         Caption="Blur Radius"
                         Value="{Binding BlurRadius.Value}"
                         ResetCommand="{Binding BlurRadius.ResetCommand}" />
-                </ui:PositionedStackPanel>
+                </ui:StackPanelPositioned>
 
                 <ui:DragValue
                     Margin="0,0,0,8"
@@ -70,6 +70,6 @@
 
         </Border>
 
-    </ui:IndentedExpander>
+    </ui:ExpanderIndented>
 
 </UserControl>

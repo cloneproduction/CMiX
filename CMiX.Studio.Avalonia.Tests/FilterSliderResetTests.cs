@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
 
             hscb.Saturation.Value = 0.3f;
-            var slider = view.GetVisualDescendants().OfType<CMiXSlider>().Single(c => c.DataContext == hscb.Saturation);
+            var slider = view.GetVisualDescendants().OfType<SliderCMiX>().Single(c => c.DataContext == hscb.Saturation);
             var reset = slider.ContextMenu!.Items.OfType<MenuItem>().Single();
 
             Assert.NotNull(reset.Command);

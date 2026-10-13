@@ -58,9 +58,9 @@ A value editor shows a Reset menu only when it has a `ResetCommand`. The menu
 does not open in edit mode. It does not open for a right-click in a popup below
 the editor.
 
-The editors with a Reset menu are `CMiXSlider`, `DragValue`,
-`CaptionedToggleButton`, `CaptionedComboBox` and `CMiXToggleButton`. Use
-`CMiXToggleButton`, not `ToggleButton`, for a toggle that edits a model value.
+The editors with a Reset menu are `SliderCMiX`, `DragValue`,
+`ToggleButtonCaptioned`, `ComboBoxCaptioned` and `ToggleButtonCMiX`. Use
+`ToggleButtonCMiX`, not `ToggleButton`, for a toggle that edits a model value.
 Bind the `ResetCommand` of an editor to the `ResetCommand` of the value.
 An `IntegerValue` needs both `DataContext="{Binding Name}"` and
 `Value="{Binding Value}"`. Without the second one, the box does not follow the
@@ -116,15 +116,15 @@ come from the value editors of vvvv:
 
 | Folder | The data | In it |
 |---|---|---|
-| `Number` | one number | `DragValue`, `CMiXSlider`, `NumericInput`, `NumericText`, `IntegerValue`, `RangeValue`, `InputNumbersOnly` |
-| `Vector` | several numbers | `Vector2`, `VectorXYZ`, `Integer2Value`, `Integer3Value`, `AxisSelector2D`, `AxisSelector3D` |
-| `Boolean` | on, off, or a press | `CaptionedToggleButton`, `CMiXToggleButton`, `CaptionedButton` |
-| `Enum` | one item of a fixed list | `CaptionedComboBox` |
-| `String` | text or an address | `EditableTextBox`, `EditableValue`, `IPBox`, `SelectTextOnFocus` |
+| `Number` | one number | `DragValue`, `SliderCMiX`, `NumericInput`, `NumericTextHelper`, `IntegerValue`, `RangeValue`, `NumbersOnly` |
+| `Vector` | several numbers | `Vector2`, `Vector3`, `Integer2`, `Integer3`, `AxisSelector2`, `AxisSelector3` |
+| `Boolean` | on, off, or a press | `ToggleButtonCaptioned`, `ToggleButtonCMiX`, `ButtonCaptioned` |
+| `Enum` | one item of a fixed list | `ComboBoxCaptioned` |
+| `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus` |
 | `ColorPicker` | a color | `ColorSelector` and the color picker |
-| `Parts` | nothing: what every editor is made of | `LabeledContent`, `CaptionedUserControl`, `DefaultResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `CMiXPopup` |
+| `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `PopupCMiX` |
 
-`AppIcon`, `CMiXListBox` and `ButtonOpenSelectionPanel` stay in the root of `Controls`. They do not change a value.
+`AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
 
 To place a new control, ask "what data does it change?". A curve editor changes a
 curve, so it gets a new folder `Curve`, even when the first use is a color adjustment.
@@ -136,6 +136,31 @@ colors is `ColorPicker`, not `Color`: the code uses the Avalonia type `Color`. I
 the folders `String`, `Boolean` and `Enum`, write `string`, `bool` and `System.Enum`,
 not `String`, `Boolean` and `Enum`. The folder `TextInput` does not exist for the
 same reason: a namespace `TextBox` would hide the Avalonia `TextBox`.
+
+### Names of the controls
+
+The name of a control starts with the standard control or the thing it is, and ends
+with what makes it different: `StackPanelPositioned`, `ExpanderIndented`,
+`ComboBoxCaptioned`. All the variants of a control then sit together in a list and
+in the autocomplete. The Color, Popup and Drag families work the same way.
+
+- The ending `CMiX` marks the default CMiX version of a standard control:
+  `SliderCMiX`, `ListBoxCMiX`, `ToggleButtonCMiX`, `PopupCMiX`. It derives from the
+  standard control and keeps its API. A variant with a special purpose gets its own
+  word instead, as `ExpanderIndented` does. A later variant never needs a rename.
+- A control with no standard equivalent has its own name: `DragValue`, `RangeValue`,
+  `Vector2`, `ColorSelector`.
+- The dimension is a digit: `Vector3`, `Integer2`, `AxisSelector3`. Never 2D, 3D, XY
+  or XYZ.
+- The kind stays at the end for converters (`...Converter`), for a real
+  `Behavior<T>` (`...Behavior`) and for static helpers (`...Helper`). An attached
+  feature has a plain name: `NumbersOnly`, `SelectOnFocus`, `DragHandle`,
+  `RoundedClip`. Its on/off switch is `IsEnabled`.
+- `UserControlCaptioned` is the base of the controls that have a `Caption`. The word
+  `Captioned` is at the end of a name only when the control is the standard control
+  with a caption added.
+- `CMiXTheme` is the one name that keeps the brand in front, like `FluentTheme` in
+  Avalonia.
 
 The application connects three things to the library:
 

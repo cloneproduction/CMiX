@@ -16,7 +16,7 @@ namespace CMiX.UI.Converters
             if (value is not double b)
                 return AvaloniaProperty.UnsetValue;
 
-            return NumericText.Format(b);
+            return NumericTextHelper.Format(b);
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -24,7 +24,7 @@ namespace CMiX.UI.Converters
             if (value is not string strValue)
                 return AvaloniaProperty.UnsetValue;
 
-            if (NumericText.TryParse(strValue, out double resultDouble))
+            if (NumericTextHelper.TryParse(strValue, out double resultDouble))
                 return resultDouble;
             else
                 return AvaloniaProperty.UnsetValue;

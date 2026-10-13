@@ -15,7 +15,7 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Reproduces the regression fixed in commits f0406d5b and 82b09f3c: CheckerBoard, TouchBlob
-    // and ColorPaletteModifier had no DataTemplate in the CMiXListBox.DataTemplates collections that
+    // and ColorPaletteModifier had no DataTemplate in the ListBoxCMiX.DataTemplates collections that
     // RepositoryManager and PrefabSlotManager inline, so a list row for one of these types fell
     // through to the Application level reflection view locator (Views.ViewModelToViewTemplate),
     // which resolves by exact type name to the full settings editing view (for example
@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var colorPalette = controlFactory.Create(typeof(ColorPaletteModifier));
 
             var repositoryManager = CreateShownRepositoryManager();
-            var listBox = repositoryManager.GetVisualDescendants().OfType<CMiXListBox>().Single();
+            var listBox = repositoryManager.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
 
             var items = new List<IControl> { checkerBoard, touchBlob, colorPalette };
             listBox.ItemsSource = items;

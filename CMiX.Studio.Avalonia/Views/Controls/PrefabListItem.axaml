@@ -19,7 +19,7 @@
             IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}"
             Theme="{DynamicResource ToggleVisibility}" />
 
-        <ui:EditableTextBox Text="{Binding PrefabService.Name.Value}" />
+        <ui:TextBoxEditable Text="{Binding PrefabService.Name.Value}" />
 
     </DockPanel>
 

@@ -9,19 +9,19 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Mask Mode"
             ItemsSource="{x:Static Resources:EnumProviders.MaskMode}"
             ResetCommand="{Binding Mask.MaskMode.ResetCommand}"
             SelectedItem="{Binding Mask.MaskMode.Value}" />
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
             ResetCommand="{Binding Mask.MaskChannel.ResetCommand}"
             SelectedItem="{Binding Mask.MaskChannel.Value}" />
 
-        <ui:CaptionedToggleButton 
+        <ui:ToggleButtonCaptioned 
             Margin="0, 0, 0, 8"
             Caption="Invert" 
             IsChecked="{Binding Mask.Invert.Value}"

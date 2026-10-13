@@ -11,7 +11,7 @@
             Caption="Cell Count"
             DataContext="{Binding CellCount}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:ColorSelector
                 Caption="Color A"
@@ -21,18 +21,18 @@
                 Caption="Color B"
                 DataContext="{Binding ColorB}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <Views:Transform2D
             DataContext="{Binding Transform2D}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <ui:Integer2Value
+            <ui:Integer2
                 Caption="Resolution"
                 DataContext="{Binding Resolution}" />
         </Border>

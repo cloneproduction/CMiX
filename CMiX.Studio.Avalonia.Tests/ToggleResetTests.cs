@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Toggle_WithoutResetCommand_HasNoMenu()
         {
-            var toggle = new CaptionedToggleButton();
+            var toggle = new ToggleButtonCaptioned();
             Host(toggle);
 
             Assert.Null(toggle.ContextMenu);
@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Toggle_WithResetCommand_HasAResetMenuThatRunsIt()
         {
             var ran = false;
-            var toggle = new CaptionedToggleButton { ResetCommand = new RelayCommand(() => ran = true) };
+            var toggle = new ToggleButtonCaptioned { ResetCommand = new RelayCommand(() => ran = true) };
             Host(toggle);
 
             toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Toggle_LosesTheMenu_WhenTheCommandIsRemoved()
         {
-            var toggle = new CaptionedToggleButton { ResetCommand = new RelayCommand(() => { }) };
+            var toggle = new ToggleButtonCaptioned { ResetCommand = new RelayCommand(() => { }) };
             Host(toggle);
             Assert.NotNull(toggle.ContextMenu);
 
@@ -63,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(threshold.Antialiasing.Value);
             threshold.Antialiasing.Value = false;
 
-            var toggle = view.GetVisualDescendants().OfType<CaptionedToggleButton>().Single(t => t.Caption == "Antialiasing");
+            var toggle = view.GetVisualDescendants().OfType<ToggleButtonCaptioned>().Single(t => t.Caption == "Antialiasing");
             toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
 
             Assert.True(threshold.Antialiasing.Value);
@@ -72,7 +72,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void PlainToggle_WithoutResetCommand_HasNoMenu()
         {
-            var toggle = new CMiXToggleButton();
+            var toggle = new ToggleButtonCMiX();
             Host(toggle);
 
             Assert.Null(toggle.ContextMenu);
@@ -82,7 +82,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void PlainToggle_WithResetCommand_HasAResetMenuThatRunsIt()
         {
             var ran = false;
-            var toggle = new CMiXToggleButton { ResetCommand = new RelayCommand(() => ran = true) };
+            var toggle = new ToggleButtonCMiX { ResetCommand = new RelayCommand(() => ran = true) };
             Host(toggle);
 
             toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
@@ -93,7 +93,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void PlainToggle_LosesTheMenu_WhenTheCommandIsRemoved()
         {
-            var toggle = new CMiXToggleButton { ResetCommand = new RelayCommand(() => { }) };
+            var toggle = new ToggleButtonCMiX { ResetCommand = new RelayCommand(() => { }) };
             Host(toggle);
             Assert.NotNull(toggle.ContextMenu);
 
@@ -113,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
             player.Play.Value = false;
             player.Loop.Value = false;
 
-            foreach (var toggle in view.GetVisualDescendants().OfType<CMiXToggleButton>())
+            foreach (var toggle in view.GetVisualDescendants().OfType<ToggleButtonCMiX>())
                 toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
 
             Assert.True(player.Play.Value);

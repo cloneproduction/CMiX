@@ -5,7 +5,7 @@
 
 
     <ControlTheme x:Key="ColorWheelStyle" TargetType="ui:ColorWheel">
-        <Setter Property="(ui:MouseDownHelper.IsEnabled)" Value="True" />
+        <Setter Property="(ui:MouseDown.IsEnabled)" Value="True" />
         <Setter Property="Template">
             <ControlTemplate>
 
@@ -93,10 +93,10 @@
             </Setter>
         </Style>
 
-        <Style Selector="^[(ui|MouseDownHelper.IsMouseLeftButtonDown)=True]">
+        <Style Selector="^[(ui|MouseDown.IsMouseLeftButtonDown)=True]">
             <Setter Property="Cursor" Value="None" />
         </Style>
-        <Style Selector="^[(ui|MouseDownHelper.IsMouseLeftButtonDown)=True] /template/ Ellipse#PART_CursorEllipse">
+        <Style Selector="^[(ui|MouseDown.IsMouseLeftButtonDown)=True] /template/ Ellipse#PART_CursorEllipse">
             <Setter Property="RenderTransform">
                 <TransformGroup>
                     <TranslateTransform X="-6" Y="-6" />
@@ -107,8 +107,8 @@
 
     </ControlTheme>
 
-    <ControlTheme x:Key="ValueSliderVertical" TargetType="ui:CMiXSlider">
-        <Setter Property="(ui:MouseDownHelper.IsEnabled)" Value="True" />
+    <ControlTheme x:Key="ValueSliderVertical" TargetType="ui:SliderCMiX">
+        <Setter Property="(ui:MouseDown.IsEnabled)" Value="True" />
         <Setter Property="Focusable" Value="True" />
         <Setter Property="Maximum" Value="100" />
         <Setter Property="Orientation" Value="Vertical" />
@@ -144,7 +144,7 @@
             <Setter Property="Value" Value="{TemplateBinding Value, Mode=TwoWay}" />
         </Style>
 
-        <Style Selector="^[(ui|MouseDownHelper.IsMouseLeftButtonDown)=True]">
+        <Style Selector="^[(ui|MouseDown.IsMouseLeftButtonDown)=True]">
             <Setter Property="Cursor" Value="None" />
         </Style>
 
@@ -162,7 +162,7 @@
                     <Rectangle
                         Fill="White"
                         Height="10"
-                        Opacity="{Binding $parent[ui:StandardColorPicker].ColorState.HSV_V}"
+                        Opacity="{Binding $parent[ui:ColorPickerWheel].ColorState.HSV_V}"
                         Stroke="Black"
                         StrokeThickness="0.5" />
                 </Panel>

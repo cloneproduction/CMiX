@@ -1,11 +1,11 @@
-﻿<ui:CaptionedUserControl
+﻿<ui:UserControlCaptioned
     x:Class="CMiX.UI.Controls.Vector.Vector2"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="vector2">
 
-    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
         <ui:DragValue
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vector2, Mode=OneWay}"
@@ -31,6 +31,6 @@
             </ui:DragValue.ContextMenu>
         </ui:DragValue>
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
-</ui:CaptionedUserControl>
+</ui:UserControlCaptioned>

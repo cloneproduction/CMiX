@@ -10,17 +10,17 @@
             Caption="Scale"
             DataContext="{Binding Scale}" />
 
-        <ui:VectorXYZ
+        <ui:Vector3
             Margin="0,8"
             Caption="Offset"
             DataContext="{Binding Offset}" />
 
-        <ui:Integer2Value
+        <ui:Integer2
             Margin="0,0,0,8"
             Caption="Tessellation"
             DataContext="{Binding TessellationXY}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Generate Backface"
             IsChecked="{Binding GenerateBackFace.Value}"
             ResetCommand="{Binding GenerateBackFace.ResetCommand}" />

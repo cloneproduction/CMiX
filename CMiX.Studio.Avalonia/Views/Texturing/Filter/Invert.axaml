@@ -17,14 +17,14 @@
             Minimum="0.0"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=invert}" />
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Margin="0,8"
             Caption="Channel"
             ItemsSource="{x:Static Resources:EnumProviders.InvertChannel}"
             ResetCommand="{Binding InvertChannelSelector.ResetCommand}"
             SelectedItem="{Binding InvertChannelSelector.Value}" />
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Invert Alpha"
             IsChecked="{Binding InvertAlpha.Value}"
             ResetCommand="{Binding InvertAlpha.ResetCommand}" />

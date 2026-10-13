@@ -11,23 +11,23 @@
 
     <StackPanel>
       
-        <ui:IndentedExpander 
+        <ui:ExpanderIndented 
           Header="Transform" 
           IsExpanded="{Binding TransformSRTIsExpanded}">
           
             <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
           
-        </ui:IndentedExpander>
+        </ui:ExpanderIndented>
 
         <Views:EntityModifiersSection PanelOwner="{x:Type Lights:LightEntity}" />
 
-        <ui:IndentedExpander
+        <ui:ExpanderIndented
           Header="Settings"
           IsExpanded="{Binding SettingsIsExpanded}">
           
           <Views:LightSettings DataContext="{Binding Settings}" />
           
-        </ui:IndentedExpander>
+        </ui:ExpanderIndented>
 
     </StackPanel>
 

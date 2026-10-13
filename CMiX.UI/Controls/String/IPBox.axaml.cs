@@ -11,7 +11,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.String
 {
-    public partial class IPBox : CaptionedUserControl
+    public partial class IPBox : UserControlCaptioned
     {
         public IPBox()
         {

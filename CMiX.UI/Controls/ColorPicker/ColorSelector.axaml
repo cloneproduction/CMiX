@@ -1,4 +1,4 @@
-﻿<ui:CaptionedUserControl
+﻿<ui:UserControlCaptioned
     x:Class="CMiX.UI.Controls.ColorPicker.ColorSelector"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,15 +8,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <ui:CaptionedUserControl.ContextMenu>
+    <ui:UserControlCaptioned.ContextMenu>
         <ContextMenu Theme="{StaticResource ContextMenuDefault}">
             <MenuItem
                 Command="{Binding ResetCommand}"
                 Header="Reset" />
         </ContextMenu>
-    </ui:CaptionedUserControl.ContextMenu>
+    </ui:UserControlCaptioned.ContextMenu>
 
-    <ui:LabeledContent Caption="{Binding Caption, ElementName=colorSelector}">
+    <ui:ContentCaptioned Caption="{Binding Caption, ElementName=colorSelector}">
 
         <Panel>
 
@@ -37,7 +37,7 @@
                     x:Name="popupBorder"
                     Background="{DynamicResource Grey200Brush}"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
-                    <ui:StandardColorPicker
+                    <ui:ColorPickerWheel
                         Margin="8"
                         SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />
                 </Border>
@@ -45,6 +45,6 @@
 
         </Panel>
 
-    </ui:LabeledContent>
+    </ui:ContentCaptioned>
 
-</ui:CaptionedUserControl>
+</ui:UserControlCaptioned>

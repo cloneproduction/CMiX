@@ -10,7 +10,7 @@
 
     <StackPanel>
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Type"
             ItemsSource="{x:Static Resources:EnumProviders.KuwaharaType}"
             ResetCommand="{Binding Type.ResetCommand}"

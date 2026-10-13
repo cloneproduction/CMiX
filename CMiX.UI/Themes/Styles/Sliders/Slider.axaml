@@ -25,8 +25,8 @@
         </Setter>
     </ControlTheme>
 
-    <ControlTheme x:Key="{x:Type ui:CMiXSlider}" TargetType="ui:CMiXSlider">
-        <Setter Property="(ui:MouseDownHelper.IsEnabled)" Value="True" />
+    <ControlTheme x:Key="{x:Type ui:SliderCMiX}" TargetType="ui:SliderCMiX">
+        <Setter Property="(ui:MouseDown.IsEnabled)" Value="True" />
         <Setter Property="(ui:PositionedControl.Position)" Value="All" />
         <Setter Property="Caption" Value="" />
         <Setter Property="Focusable" Value="False" />
@@ -46,7 +46,7 @@
 
                             <Border
                                 Name="sliderBorder"
-                                ui:ClipToBoundsBehavior.CornerRadius="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource PositionToCornerRadius}}"
+                                ui:RoundedClip.CornerRadius="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource PositionToCornerRadius}}"
                                 Background="Transparent"
                                 IsVisible="{Binding !IsEditing, RelativeSource={RelativeSource TemplatedParent}}">
                                 <Track

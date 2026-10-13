@@ -5,16 +5,16 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel>
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Output Mapping"
             ItemsSource="{Binding Project.OutputMappingManager.VisibleItems}"
             SelectedItem="{Binding SelectedOutputMapping}">
-            <ui:CaptionedComboBox.ItemTemplate>
+            <ui:ComboBoxCaptioned.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name.Value}" />
                 </DataTemplate>
-            </ui:CaptionedComboBox.ItemTemplate>
-        </ui:CaptionedComboBox>
+            </ui:ComboBoxCaptioned.ItemTemplate>
+        </ui:ComboBoxCaptioned>
 
     </StackPanel>
 

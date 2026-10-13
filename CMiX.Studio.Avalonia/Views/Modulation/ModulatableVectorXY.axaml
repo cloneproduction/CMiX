@@ -6,7 +6,7 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="channelVectorXY">
 
-    <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
         <BaseControls:ModulatableFloatValue
             Caption="{Binding Caption, ElementName=channelVectorXY, StringFormat=' {0} X', Mode=OneWay}"
@@ -18,6 +18,6 @@
             DataContext="{Binding Y}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXY}" />
 
-    </ui:PositionedStackPanel>
+    </ui:StackPanelPositioned>
 
 </BaseControls:ModulatorAssignableUserControl>

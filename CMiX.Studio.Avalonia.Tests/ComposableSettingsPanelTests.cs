@@ -49,9 +49,9 @@ namespace CMiX.Studio.Avalonia.Tests
                     .ToList();
                 Assert.True(errors.Count == 0, string.Join(Environment.NewLine, errors));
 
-                var alpha = panels.GetVisualDescendants().OfType<CMiXSlider>().Single(s => s.Caption == "Alpha");
+                var alpha = panels.GetVisualDescendants().OfType<SliderCMiX>().Single(s => s.Caption == "Alpha");
                 Assert.Equal(0.25, alpha.Value, 3);
-                var invert = panels.GetVisualDescendants().OfType<CaptionedToggleButton>().Single(t => t.Caption == "Invert");
+                var invert = panels.GetVisualDescendants().OfType<ToggleButtonCaptioned>().Single(t => t.Caption == "Invert");
                 Assert.True(invert.IsChecked);
             }
             finally

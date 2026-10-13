@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return window;
         }
 
-        private static CaptionedComboBox NewCombo() =>
+        private static ComboBoxCaptioned NewCombo() =>
             new() { Width = 200, Height = 30, ItemsSource = new[] { "A", "B" }, SelectedItem = "A" };
 
         [AvaloniaFact]
@@ -122,7 +122,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var original = filter.AlphaChannel.Value;
             filter.AlphaChannel.Value = Enum.GetValues<AlphaChannel>().First(v => v != original);
 
-            var combo = view.GetVisualDescendants().OfType<CaptionedComboBox>().Single();
+            var combo = view.GetVisualDescendants().OfType<ComboBoxCaptioned>().Single();
             combo.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
 
             Assert.Equal(original, filter.AlphaChannel.Value);

@@ -16,7 +16,7 @@
             DataContext="{Binding LightDirection}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <BaseControls:ModulatableFloatValue
                 Caption="Height"
@@ -63,7 +63,7 @@
                 DataContext="{Binding SharpOffset}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
     </StackPanel>
 

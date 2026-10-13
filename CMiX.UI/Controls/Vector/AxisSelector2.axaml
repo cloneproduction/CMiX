@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="CMiX.UI.Controls.Vector.AxisSelector2"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    x:Name="axisSelector2D">
+
+    <ui:ContentCaptioned Caption="Axis">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ToggleButton
+                Grid.Column="0"
+                Content="X"
+                IsChecked="{Binding XIsChecked, ElementName=axisSelector2D, Mode=TwoWay}"
+                Theme="{StaticResource InlineToggleButtonLeft}" />
+            <ToggleButton
+                Grid.Column="1"
+                Margin="1,0"
+                Content="Y"
+                IsChecked="{Binding YIsChecked, ElementName=axisSelector2D, Mode=TwoWay}"
+                Theme="{StaticResource InlineToggleButtonCenter}" />
+
+        </Grid>
+
+    </ui:ContentCaptioned>
+</UserControl>

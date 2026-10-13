@@ -12,7 +12,7 @@ using Avalonia.Input;
 namespace CMiX.UI.Controls.ColorPicker
 {
     [TemplatePart(PART_CursorEllipse, typeof(Ellipse))]
-    public class ColorWheel : PickerControlBase
+    public class ColorWheel : ColorPickerBase
     {
         private const string PART_CursorEllipse = "PART_CursorEllipse";
 

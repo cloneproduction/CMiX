@@ -12,13 +12,13 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Mode"
             ItemsSource="{x:Static Resources:EnumProviders.HalftoneMode}"
             ResetCommand="{Binding Mode.ResetCommand}"
             SelectedItem="{Binding Mode.Value}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <StudioControls:ModulatableFloatValue
                 Caption="Tile Count"
@@ -44,7 +44,7 @@
                 Minimum="0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
     </StackPanel>
 

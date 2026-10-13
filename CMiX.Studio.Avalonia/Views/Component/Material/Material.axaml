@@ -14,7 +14,7 @@
 
       <Views:MaterialSettings Margin="8" DataContext="{Binding MaterialSettings}" />
 
-        <ui:IndentedExpander
+        <ui:ExpanderIndented
             Header="Modifiers"
             Indentation="8"
             IsExpanded="{Binding ModifierManagerIsExpanded}">
@@ -23,7 +23,7 @@
                     <Managers:AutoSelectionPanel PanelOwner="{x:Type Materials:Material}" />
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
-        </ui:IndentedExpander>
+        </ui:ExpanderIndented>
 
     </StackPanel>
 

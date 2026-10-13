@@ -6,7 +6,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:DragValue
                 Caption="Speed"
@@ -23,9 +23,9 @@
                 Value="{Binding Contrast.Value}"
                 ResetCommand="{Binding Contrast.ResetCommand}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:ColorSelector
                 Caption="Background"
@@ -35,15 +35,15 @@
                 Caption="Bubble"
                 DataContext="{Binding BubbleColor}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <ui:Integer2Value
+            <ui:Integer2
                 Caption="Resolution"
                 DataContext="{Binding Resolution}" />
         </Border>

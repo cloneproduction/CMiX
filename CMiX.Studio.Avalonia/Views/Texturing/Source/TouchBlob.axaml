@@ -11,7 +11,7 @@
             Value="{Binding Size.Value}"
             ResetCommand="{Binding Size.ResetCommand}" />
 
-        <ui:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
             <ui:ColorSelector
                 Caption="Color"
@@ -21,16 +21,16 @@
                 Caption="Background"
                 DataContext="{Binding Background}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Margin="0,0,0,8"
             Caption="Use Composition Resolution"
             IsChecked="{Binding UseCompositionResolution.Value}"
             ResetCommand="{Binding UseCompositionResolution.ResetCommand}" />
 
         <Border IsEnabled="{Binding !UseCompositionResolution.Value}">
-            <ui:Integer2Value
+            <ui:Integer2
                 Caption="Resolution"
                 DataContext="{Binding Resolution}" />
         </Border>

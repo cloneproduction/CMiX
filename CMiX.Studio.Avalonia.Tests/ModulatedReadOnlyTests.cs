@@ -58,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Slider_Unbound_IsEditable()
         {
             var (blur, view) = Show<Blur, Views.Blur>();
-            var slider = Find<CMiXSlider>(view, blur.Strength);
+            var slider = Find<SliderCMiX>(view, blur.Strength);
 
             Assert.False(slider.IsReadOnly);
             Assert.True(TemplatePart<Border>(slider, "mainBorder").IsEnabled);
@@ -69,7 +69,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Slider_Bound_DisablesTheTrack()
         {
             var (blur, view) = Show<Blur, Views.Blur>();
-            var slider = Find<CMiXSlider>(view, blur.Strength);
+            var slider = Find<SliderCMiX>(view, blur.Strength);
 
             Bind(blur, blur.Strength);
 
@@ -92,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Slider_UnboundAfterBinding_EnablesTheTrackAgain()
         {
             var (blur, view) = Show<Blur, Views.Blur>();
-            var slider = Find<CMiXSlider>(view, blur.Strength);
+            var slider = Find<SliderCMiX>(view, blur.Strength);
             Bind(blur, blur.Strength);
 
             Unbind(blur.Strength);

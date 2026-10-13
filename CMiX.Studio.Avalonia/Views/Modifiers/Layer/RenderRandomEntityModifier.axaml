@@ -20,7 +20,7 @@
             DataContext="{Binding Control}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=renderRandomEntityModifier}" />
 
-        <ui:CaptionedComboBox
+        <ui:ComboBoxCaptioned
             Caption="Entity Type"
             ItemsSource="{x:Static Resources:EnumProviders.EntityType}"
             ResetCommand="{Binding EntityType.ResetCommand}"

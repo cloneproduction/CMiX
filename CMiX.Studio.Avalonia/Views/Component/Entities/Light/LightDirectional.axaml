@@ -5,10 +5,10 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <StackPanel>
-        <ui:VectorXYZ 
+        <ui:Vector3 
             Caption="Position" 
             DataContext="{Binding Position}" />
-        <ui:VectorXYZ
+        <ui:Vector3
             Margin="0,8"
             Caption="Target"
             DataContext="{Binding Target}" />

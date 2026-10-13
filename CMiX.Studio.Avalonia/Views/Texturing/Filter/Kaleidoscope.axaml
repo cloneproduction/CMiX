@@ -17,7 +17,7 @@
             Minimum="1"
             Value="{Binding Value}" />
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:IntegerValue
                 Caption="Iterations"
@@ -30,9 +30,9 @@
                 DataContext="{Binding IterationZoom}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <StudioControls:ModulatableFloatValue
                 Caption="Rotation"
@@ -44,7 +44,7 @@
                 DataContext="{Binding Zoom}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=kaleidoscope}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
         <StudioControls:ModulatableVectorXY
             Caption="Center"

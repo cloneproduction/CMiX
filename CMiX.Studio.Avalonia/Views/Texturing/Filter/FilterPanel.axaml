@@ -25,14 +25,14 @@
             </Views:ModifierManager.SelectionPanel>
           </Views:ModifierManager>
           
-          <ui:IndentedExpander 
+          <ui:ExpanderIndented 
             Background="{DynamicResource Grey300Brush}">
 
-            <ui:IndentedExpander.Header>
+            <ui:ExpanderIndented.Header>
 
               <DockPanel>
 
-                <ui:CMiXToggleButton
+                <ui:ToggleButtonCMiX
                     Width="14"
                     Height="14"
                     IsChecked="{Binding Blend.IsEnabled.Value}"
@@ -46,13 +46,13 @@
 
               </DockPanel>
 
-            </ui:IndentedExpander.Header>
+            </ui:ExpanderIndented.Header>
 
               <StackPanel
                   IsEnabled="{Binding Blend.IsEnabled.Value}"
                   Spacing="{DynamicResource SpacingMD}">
 
-                <ui:CMiXSlider
+                <ui:SliderCMiX
                     ui:PositionedControl.Position="All"
                     Caption="Opacity"
                     Maximum="1"
@@ -60,7 +60,7 @@
                     Value="{Binding Blend.Opacity.Value}"
                     ResetCommand="{Binding Blend.Opacity.ResetCommand}" />
 
-                <ui:CaptionedComboBox
+                <ui:ComboBoxCaptioned
                     Caption="Blend Mode"
                     ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
                     ResetCommand="{Binding Blend.BlendMode.ResetCommand}"
@@ -68,7 +68,7 @@
 
               </StackPanel>
             
-            </ui:IndentedExpander>
+            </ui:ExpanderIndented>
 
         </StackPanel>
       

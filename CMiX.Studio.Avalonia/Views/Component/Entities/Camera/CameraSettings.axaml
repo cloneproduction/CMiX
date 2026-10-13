@@ -9,11 +9,11 @@
 
     <StackPanel Margin="8">
 
-        <ui:VectorXYZ 
+        <ui:Vector3 
             Caption="Target" 
             DataContext="{Binding Target}" />
 
-        <ui:PositionedStackPanel Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
             <ui:DragValue
                 Caption="Near"
@@ -25,9 +25,9 @@
                 Value="{Binding FarClip.Value}"
                 ResetCommand="{Binding FarClip.ResetCommand}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+        <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:DragValue
                 Caption="Yaw"
@@ -39,9 +39,9 @@
                 Value="{Binding Pitch.Value}"
                 ResetCommand="{Binding Pitch.ResetCommand}" />
 
-        </ui:PositionedStackPanel>
+        </ui:StackPanelPositioned>
 
-        <ui:CaptionedToggleButton
+        <ui:ToggleButtonCaptioned
             Margin="0,8"
             Caption="Orthographic"
             IsChecked="{Binding IsOrthographic.Value}"
@@ -55,7 +55,7 @@
 
         <Border IsVisible="{Binding !IsOrthographic.Value}">
 
-            <ui:PositionedStackPanel Spacing="{DynamicResource SpacingXXS}">
+            <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
                 <ui:DragValue
                     Caption="Distance"
@@ -67,7 +67,7 @@
                     Value="{Binding FOV.Value}"
                     ResetCommand="{Binding FOV.ResetCommand}" />
 
-            </ui:PositionedStackPanel>
+            </ui:StackPanelPositioned>
 
         </Border>
     </StackPanel>
