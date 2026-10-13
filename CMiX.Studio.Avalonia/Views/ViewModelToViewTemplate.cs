@@ -3,20 +3,36 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 
 namespace CMiX.Studio.Avalonia.Views
 {
+    // Finds the view of a model by name: the view has the type name of the model. The views are
+    // the controls in the root namespace and in its child namespaces, so a view can sit in any
+    // folder. The child namespaces in ExcludedNamespaces hold support controls, not views.
     public class ViewModelToViewTemplate : IDataTemplate
     {
+        private static readonly string[] ExcludedNamespaces = { "Controls", "Managers", "Menus", "Windows" };
+
         private readonly Assembly _viewsAssembly;
+        private readonly string _rootNamespace;
+        private readonly string[] _excludedNamespaces;
         private readonly Dictionary<Type, Type?> _cache = new();
+        private Dictionary<string, Type>? _index;
 
         public ViewModelToViewTemplate()
+            : this(typeof(ViewsAssemblyMarker).Assembly, typeof(ViewsAssemblyMarker).Namespace!, ExcludedNamespaces)
         {
-            _viewsAssembly = typeof(ViewsAssemblyMarker).Assembly;
+        }
+
+        public ViewModelToViewTemplate(Assembly viewsAssembly, string rootNamespace, params string[] excludedNamespaces)
+        {
+            _viewsAssembly = viewsAssembly;
+            _rootNamespace = rootNamespace;
+            _excludedNamespaces = excludedNamespaces;
         }
 
         public bool Match(object? data)
@@ -38,11 +54,42 @@ namespace CMiX.Studio.Avalonia.Views
             if (_cache.TryGetValue(vmType, out var cached))
                 return cached;
 
-            string viewNamespace = "CMiX.Studio.Avalonia.Views";
-            var viewType = _viewsAssembly.GetType($"{viewNamespace}.{vmType.Name}");
-
-            _cache[vmType] = viewType!;
+            _index ??= BuildIndex();
+            _index.TryGetValue(vmType.Name, out var viewType);
+            _cache[vmType] = viewType;
             return viewType;
+        }
+
+        private Dictionary<string, Type> BuildIndex()
+        {
+            var index = new Dictionary<string, Type>();
+            foreach (var type in _viewsAssembly.GetTypes().Where(IsView))
+            {
+                if (index.TryGetValue(type.Name, out var other))
+                    throw new InvalidOperationException(
+                        $"Two views are named '{type.Name}': {other.FullName} and {type.FullName}.");
+
+                index[type.Name] = type;
+            }
+
+            return index;
+        }
+
+        private bool IsView(Type type)
+        {
+            if (!type.IsClass || type.IsAbstract || !typeof(Control).IsAssignableFrom(type))
+                return false;
+
+            var ns = type.Namespace;
+            if (ns == _rootNamespace)
+                return true;
+
+            if (ns == null || !ns.StartsWith(_rootNamespace + "."))
+                return false;
+
+            var childNamespace = ns.Substring(_rootNamespace.Length + 1);
+            return !_excludedNamespaces.Any(excluded =>
+                childNamespace == excluded || childNamespace.StartsWith(excluded + "."));
         }
     }
 }
