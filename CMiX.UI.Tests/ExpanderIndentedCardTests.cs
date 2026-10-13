@@ -94,5 +94,22 @@ namespace CMiX.UI.Tests
 
             Assert.Equal(level1, color);
         }
+
+        [AvaloniaFact]
+        public void TheCardRadius_IsTheBaseRadius()
+        {
+            Assert.Equal(Token<CornerRadius>("CornerRadiusAll"), Token<CornerRadius>("CornerRadiusCard"));
+        }
+
+        [AvaloniaFact]
+        public void TheCardMargin_IsMadeOfTheSpacingScale()
+        {
+            var margin = Token<Thickness>("MarginCard");
+
+            Assert.Equal(Token<double>("SpacingXS"), margin.Left);
+            Assert.Equal(Token<double>("SpacingXS"), margin.Right);
+            Assert.Equal(Token<double>("SpacingXXS"), margin.Top);
+            Assert.Equal(Token<double>("SpacingXXS"), margin.Bottom);
+        }
     }
 }
