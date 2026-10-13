@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using CMiX.UI;
+using CMiX.UI.Themes;
 using Xunit;
 
 namespace CMiX.UI.Tests
