@@ -123,12 +123,17 @@ come from the value editors of vvvv:
 | `Vector` | several numbers | `Vector2`, `Vector3`, `Integer2`, `Integer3`, `AxisSelector2`, `AxisSelector3` |
 | `Boolean` | on, off, or a press | `ToggleButtonCaptioned`, `ToggleButtonCMiX`, `ButtonCaptioned` |
 | `Enum` | one item of a fixed list | `ComboBoxCaptioned` |
-| `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus` |
+| `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus`, `TextBlockTrimmed` |
 | `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector` and the color picker |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `PopupCMiX` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
+
+Use `TextBlockTrimmed` instead of `TextBlock` for a name that can be long, such as the name
+of a file, a folder or a prefab. The text stays on one line and ends with "..." when it does
+not fit. The full text shows on hover, but only while the text is cut. `ToolTipText` replaces
+the hover text, for example with the whole path of a file.
 
 To place a new control, ask "what data does it change?". A curve editor changes a
 curve, so it gets a new folder `Curve`, even when the first use is a color adjustment.

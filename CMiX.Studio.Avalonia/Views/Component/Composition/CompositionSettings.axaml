@@ -11,7 +11,7 @@
             SelectedItem="{Binding SelectedOutputMapping}">
             <ui:ComboBoxCaptioned.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name.Value}" />
+                    <ui:TextBlockTrimmed Text="{Binding Name.Value}" />
                 </DataTemplate>
             </ui:ComboBoxCaptioned.ItemTemplate>
         </ui:ComboBoxCaptioned>

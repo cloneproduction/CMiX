@@ -108,7 +108,7 @@
                                 Height="{DynamicResource ControlHeightSM}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Name}" />
+                                <ui:TextBlockTrimmed Text="{Binding Name}" ToolTipText="{Binding FilePath}" />
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -137,7 +137,7 @@
                                 Height="{DynamicResource ControlHeightSM}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Name}" />
+                                <ui:TextBlockTrimmed Text="{Binding Name}" ToolTipText="{Binding FilePath}" />
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -166,7 +166,7 @@
                                 Height="{DynamicResource ControlHeightSM}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Name}" />
+                                <ui:TextBlockTrimmed Text="{Binding Name}" ToolTipText="{Binding FilePath}" />
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -195,7 +195,7 @@
                                 Height="{DynamicResource ControlHeightSM}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Name}" />
+                                <ui:TextBlockTrimmed Text="{Binding Name}" ToolTipText="{Binding FilePath}" />
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
