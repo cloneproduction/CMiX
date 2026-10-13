@@ -234,6 +234,11 @@ namespace CMiX.UI.Controls.Enum
         {
             if (e.Property == ComboBox.IsDropDownOpenProperty && e.NewValue is false)
                 _innerComboBox?.Focus();
+
+            // The inner ComboBox gets its items through a binding. It can get them after the selection
+            // was set on it, and then it shows nothing. So the selection is set again when its items change.
+            if (e.Property == ItemsControl.ItemsSourceProperty)
+                ReassertSelection();
         }
     }
 }

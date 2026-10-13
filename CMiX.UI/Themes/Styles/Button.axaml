@@ -263,4 +263,8 @@
         </Style>
     </ControlTheme>
 
+    <ControlTheme x:Key="{x:Type ui:ButtonCaptioned}"
+        BasedOn="{StaticResource ButtonInlineCaption}"
+        TargetType="ui:ButtonCaptioned" />
+
 </ResourceDictionary>

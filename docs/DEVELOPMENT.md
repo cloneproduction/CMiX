@@ -167,9 +167,15 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
   `Behavior<T>` (`...Behavior`) and for static helpers (`...Helper`). An attached
   feature has a plain name: `NumbersOnly`, `SelectOnFocus`, `DragHandle`,
   `RoundedClip`. Its on/off switch is `IsEnabled`.
-- `UserControlCaptioned` is the base of the controls that have a `Caption`. The word
-  `Captioned` is at the end of a name only when the control is the standard control
-  with a caption added.
+- The word `Captioned` is at the end of a name only when the control is the standard
+  control with a caption added. `ButtonCaptioned` is a `Button` and
+  `ToggleButtonCaptioned` is a `ToggleButtonCMiX`, so both keep the whole API of the
+  standard control. `ComboBoxCaptioned` is a `UserControl` with a `ComboBox` inside, on
+  purpose. It keeps its own `SelectedItem` and sends only real picks to the model.
+  A plain `ComboBox` loses a selection that comes before its items, and it sends an
+  empty selection to the model while its items are replaced.
+  `ComboBoxCaptionedSelectionTests` keeps this protection.
+- `UserControlCaptioned` is the base of the other controls that have a `Caption`.
 - The word `Value` ends the names of the editors of one value: `DragValue`,
   `IntegerValue`, `RangeValue`, `EditableValue`. No standard control is called
   `Value`, so there is nothing to put first. These names stay as they are.
