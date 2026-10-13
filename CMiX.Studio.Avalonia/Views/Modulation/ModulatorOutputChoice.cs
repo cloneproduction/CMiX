@@ -8,7 +8,7 @@ using System.Windows.Input;
 using CMiX.Core.Modulation;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.Studio.Avalonia.Views.Modulation
 {
     // One row of the modulator assign menu.
     public sealed class ModulatorOutputChoice

@@ -1,9 +1,8 @@
-<Controls:ModulatablePanel
+<Modulation:ModulatablePanel
     x:Class="CMiX.Studio.Avalonia.Views.OrbitModifier"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="orbitModifier"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,16 +10,16 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <BaseControls:DragValueModulatable
+        <Modulation:DragValueModulatable
             Caption="Yaw"
             DataContext="{Binding Yaw}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=orbitModifier}" />
 
-        <BaseControls:DragValueModulatable
+        <Modulation:DragValueModulatable
             Caption="Pitch"
             DataContext="{Binding Pitch}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=orbitModifier}" />
 
     </ui:StackPanelPositioned>
 
-</Controls:ModulatablePanel>
+</Modulation:ModulatablePanel>

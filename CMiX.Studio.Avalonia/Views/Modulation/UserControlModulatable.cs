@@ -5,7 +5,7 @@ using Avalonia;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.UI.Controls.Parts;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.Studio.Avalonia.Views.Modulation
 {
     public abstract class UserControlModulatable : UserControlCaptioned
     {

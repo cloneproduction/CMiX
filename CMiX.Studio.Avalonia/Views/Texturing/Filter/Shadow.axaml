@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.Shadow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,54 +11,54 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <BaseControls:Vector3Modulatable
+        <Modulation:Vector3Modulatable
             Caption="Light Position"
             DataContext="{Binding LightDirection}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Height"
                 DataContext="{Binding Height}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Dot Tolerance"
                 DataContext="{Binding DotTolerance}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Ray Jitter"
                 DataContext="{Binding RayJitter}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Ray Length"
                 DataContext="{Binding RayLength}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Shadow Fade"
                 DataContext="{Binding ShadowFade}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Shadow FallOff Pow"
                 DataContext="{Binding ShadowFallOffPow}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Shadow Blur"
                 DataContext="{Binding ShadowBlur}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Shadow Blur Pow"
                 DataContext="{Binding ShadowBlurPow}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Sharp Offset"
                 DataContext="{Binding SharpOffset}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=shadow}" />

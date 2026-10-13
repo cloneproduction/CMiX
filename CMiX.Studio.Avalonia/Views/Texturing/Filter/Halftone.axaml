@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -20,25 +20,25 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <StudioControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Tile Count"
                 DataContext="{Binding NumberOfTiles}"
                 Minimum="1"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
-            <StudioControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Dot Size"
                 DataContext="{Binding DotSize}"
                 Minimum="0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
-            <StudioControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Softness"
                 DataContext="{Binding Softness}"
                 Minimum="0"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=halftone}" />
 
-            <StudioControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Brightness"
                 DataContext="{Binding Brightness}"
                 Minimum="0"

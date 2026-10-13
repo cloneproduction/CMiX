@@ -1,10 +1,9 @@
-<Controls:ModulatablePanel
+<Modulation:ModulatablePanel
     x:Class="CMiX.Studio.Avalonia.Views.RenderSequenceEntityModifier"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     x:Name="renderSequenceEntityModifier"
@@ -13,7 +12,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <StudioControls:SliderModulatable
+        <Modulation:SliderModulatable
             Caption="Control"
             Minimum="0"
             Maximum="1"
@@ -28,4 +27,4 @@
 
     </StackPanel>
 
-</Controls:ModulatablePanel>
+</Modulation:ModulatablePanel>

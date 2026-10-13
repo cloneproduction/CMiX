@@ -15,7 +15,7 @@ namespace CMiX.Studio.Avalonia.Views
     // folder. The child namespaces in ExcludedNamespaces hold support controls, not views.
     public class ViewModelToViewTemplate : IDataTemplate
     {
-        private static readonly string[] ExcludedNamespaces = { "Controls", "Managers", "Menus", "Windows" };
+        private static readonly string[] ExcludedNamespaces = { "Controls", "Managers", "Menus", "Modulation", "Windows" };
 
         private readonly Assembly _viewsAssembly;
         private readonly string _rootNamespace;

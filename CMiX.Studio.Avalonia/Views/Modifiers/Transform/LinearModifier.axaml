@@ -1,9 +1,8 @@
-<Controls:ModulatablePanel
+<Modulation:ModulatablePanel
     x:Class="CMiX.Studio.Avalonia.Views.LinearModifier"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="linearXYZModifier"
@@ -18,12 +17,12 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Width"
                 DataContext="{Binding Width}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
 
-            <BaseControls:DragValueModulatable
+            <Modulation:DragValueModulatable
                 Caption="Phase"
                 DataContext="{Binding Phase}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
@@ -32,4 +31,4 @@
 
     </StackPanel>
 
-</Controls:ModulatablePanel>
+</Modulation:ModulatablePanel>

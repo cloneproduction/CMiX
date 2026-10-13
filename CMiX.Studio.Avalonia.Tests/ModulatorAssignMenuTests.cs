@@ -7,7 +7,7 @@ using Avalonia.VisualTree;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.Studio.Avalonia.Views.Modulation;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using CMiX.UI.Controls.Parts;

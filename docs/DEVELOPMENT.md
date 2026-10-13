@@ -74,16 +74,18 @@ its Reset menu then has a Reset All row. `NumberEditorBindingTests` fails when a
 `ViewModelToViewTemplate` finds the view of a model by name. The view has the type
 name of the model, for example `Blur` for the model `Blur`. It looks at the
 controls in the namespace `CMiX.Studio.Avalonia.Views` and in its child
-namespaces. The child namespaces `Controls`, `Managers`, `Menus` and `Windows`
-hold support controls, so the locator skips them. Two views with the same name
+namespaces. The child namespaces `Controls`, `Managers`, `Menus`, `Modulation` and
+`Windows` hold support controls, so the locator skips them. Two views with the same name
 make the locator throw, and the message names both types.
 
 The domain views keep the one namespace `CMiX.Studio.Avalonia.Views`, whatever the
 folder. A view can move to another folder without a change to its namespace or its
 `x:Class`. The folders are:
 
-- `Views/Modulation`: the modulatable value editors, the modulator assign button
-  and the modulator views.
+- `Views/Modulation`: the modulator views, and the modulatable value editors
+  (`DragValueModulatable`, `SliderModulatable`, ...) with the modulator assign button.
+  The editors and the button are support controls. Their namespace is
+  `CMiX.Studio.Avalonia.Views.Modulation`, which the locator skips.
 - `Views/Modifiers`: the modifier views. The subfolders `Camera`, `Color`, `Layer`,
   `Material`, `Text` and `Transform` follow `CMiX.Core/Modulation/Modifiers`.
 - `Views/Controls`: the Studio controls that are not views, for example the

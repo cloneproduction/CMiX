@@ -1,9 +1,9 @@
-﻿<StudioControls:UserControlModulatable
+﻿<Modulation:UserControlModulatable
     x:Class="CMiX.Studio.Avalonia.Views.ModifierModeSelector"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     x:Name="modifierModeSelector"
@@ -22,7 +22,7 @@
           </ui:ComboBoxCaptioned.TrailingContent>
         </ui:ComboBoxCaptioned>
             
-        <StudioControls:IntegerValueModulatable
+        <Modulation:IntegerValueModulatable
             Caption="Count"
             DataContext="{Binding Count}"
             IsEnabled="{Binding DataContext.Mode.Value, ElementName=modifierModeSelector, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
@@ -30,4 +30,4 @@
 
     </ui:StackPanelPositioned>
 
-</StudioControls:UserControlModulatable>
+</Modulation:UserControlModulatable>

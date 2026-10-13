@@ -7,7 +7,7 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

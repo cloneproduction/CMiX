@@ -10,7 +10,7 @@ using Avalonia.VisualTree;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.Studio.Avalonia.Views.Modulation
 {
     public partial class ButtonModulatorAssign : UserControlModulatable
     {

@@ -3,7 +3,7 @@
 
 using Avalonia.Controls.Primitives;
 
-namespace CMiX.Studio.Avalonia.Views.Controls
+namespace CMiX.Studio.Avalonia.Views.Modulation
 {
     public partial class ModulatablePanel : HeaderedContentControl
     {

@@ -1,9 +1,8 @@
-<Controls:ModulatablePanel
+<Modulation:ModulatablePanel
     x:Class="CMiX.Studio.Avalonia.Views.GridModifier"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     x:Name="gridModifier"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,33 +12,33 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <BaseControls:IntegerValueModulatable
+            <Modulation:IntegerValueModulatable
                 Caption="Count X"
                 DataContext="{Binding Count.X}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
-            <BaseControls:IntegerValueModulatable
+            <Modulation:IntegerValueModulatable
                 Caption="Y"
                 DataContext="{Binding Count.Y}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
-            <BaseControls:IntegerValueModulatable
+            <Modulation:IntegerValueModulatable
                 Caption="Z"
                 DataContext="{Binding Count.Z}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
         </ui:StackPanelPositioned>
 
-        <BaseControls:Vector3Modulatable
+        <Modulation:Vector3Modulatable
             Caption="Width"
             DataContext="{Binding Width}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
-        <BaseControls:Vector3Modulatable
+        <Modulation:Vector3Modulatable
             Caption="Phase"
             DataContext="{Binding Phase}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
     </StackPanel>
 
-</Controls:ModulatablePanel>
+</Modulation:ModulatablePanel>

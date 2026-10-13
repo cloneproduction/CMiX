@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:StudioControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="threshold"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,13 +13,13 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-      <StudioControls:DragValueModulatable
+      <Modulation:DragValueModulatable
           Caption="Threshold"
           DataContext="{Binding ThresholdValue}"
           Minimum="0"
           ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=threshold}" />
 
-      <StudioControls:DragValueModulatable
+      <Modulation:DragValueModulatable
           Caption="Smooth"
           DataContext="{Binding Smooth}"
           Minimum="0"
