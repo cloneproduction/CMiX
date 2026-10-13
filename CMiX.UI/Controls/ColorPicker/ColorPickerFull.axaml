@@ -1,5 +1,5 @@
 ﻿<ui:ColorPickerBase
-    x:Class="CMiX.UI.Controls.ColorPicker.ColorPickerWheel"
+    x:Class="CMiX.UI.Controls.ColorPicker.ColorPickerFull"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
@@ -11,11 +11,11 @@
         <Border>
             <StackPanel Orientation="Horizontal">
 
-                <ui:ColorWheel
+                <ui:ColorPickerWheel
                     Width="200"
                     Height="200"
                     ColorState="{Binding ColorState, ElementName=uc, Mode=TwoWay}"
-                    Theme="{StaticResource ColorWheelStyle}" />
+                    Theme="{StaticResource ColorPickerWheel}" />
 
                 <ui:SliderCMiX
                     Width="16"
@@ -32,7 +32,7 @@
             </StackPanel>
         </Border>
 
-        <ui:ColorSliders
+        <ui:ColorPickerSliders
             Margin="0,8,0,0"
             ColorState="{Binding ColorState, ElementName=uc, Mode=TwoWay}" />
 

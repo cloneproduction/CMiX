@@ -4,7 +4,7 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
 
-    <ControlTheme x:Key="ColorWheelStyle" TargetType="ui:ColorWheel">
+    <ControlTheme x:Key="ColorPickerWheel" TargetType="ui:ColorPickerWheel">
         <Setter Property="(ui:MouseDown.IsEnabled)" Value="True" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -20,12 +20,12 @@
                         VerticalAlignment="Stretch" />
 
                     <!--
-                        Replaces the old ColorWheel.png ImageBrush with two stacked gradients:
+                        Replaces the old ColorPickerWheel.png ImageBrush with two stacked gradients:
                         a conic sweep for hue, and a white-center radial overlay for saturation.
                         Both fade together with the same HSV_V-bound Opacity the single PNG
                         ellipse used to carry, so the darkness axis behaves identically.
 
-                        ConicGradientBrush sweeps clockwise as Offset increases, but ColorWheel's
+                        ConicGradientBrush sweeps clockwise as Offset increases, but ColorPickerWheel's
                         pointer math (SetColor/GetColorLocation) places Hue 0 at 3 o'clock and
                         increases counter-clockwise. Left uncorrected, the two ran in opposite
                         directions: verified empirically by rendering this exact brush headlessly
@@ -162,7 +162,7 @@
                     <Rectangle
                         Fill="White"
                         Height="10"
-                        Opacity="{Binding $parent[ui:ColorPickerWheel].ColorState.HSV_V}"
+                        Opacity="{Binding $parent[ui:ColorPickerFull].ColorState.HSV_V}"
                         Stroke="Black"
                         StrokeThickness="0.5" />
                 </Panel>

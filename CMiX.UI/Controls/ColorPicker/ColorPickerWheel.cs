@@ -12,20 +12,20 @@ using Avalonia.Input;
 namespace CMiX.UI.Controls.ColorPicker
 {
     [TemplatePart(PART_CursorEllipse, typeof(Ellipse))]
-    public class ColorWheel : ColorPickerBase
+    public class ColorPickerWheel : ColorPickerBase
     {
         private const string PART_CursorEllipse = "PART_CursorEllipse";
 
         private Ellipse? _cursorEllipse;
         private bool _isDragging;
-        protected override Type StyleKeyOverride => typeof(ColorWheel);
+        protected override Type StyleKeyOverride => typeof(ColorPickerWheel);
 
-        public ColorWheel()
+        public ColorPickerWheel()
         {
             PointerPressed += OnPointerPressed;
             PointerMoved += OnPointerMoved;
             PointerReleased += OnPointerReleased;
-            ColorChanged += ColorWheel_ColorChanged;
+            ColorChanged += ColorPickerWheel_ColorChanged;
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -37,7 +37,7 @@ namespace CMiX.UI.Controls.ColorPicker
             SetCursor();
         }
 
-        private void ColorWheel_ColorChanged(object? sender, ColorRoutedEventArgs e) => SetCursor();
+        private void ColorPickerWheel_ColorChanged(object? sender, ColorRoutedEventArgs e) => SetCursor();
 
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {

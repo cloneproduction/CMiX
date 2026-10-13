@@ -127,7 +127,7 @@ come from the value editors of vvvv:
 | `Enum` | one item of a fixed list | `ComboBoxCaptioned` |
 | `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus`, `TextBlockTrimmed` |
 | `Path` | a file or a folder | `PathSelector` |
-| `ColorPicker` | a color | `ColorSelector` and the color picker |
+| `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `PopupCMiX` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
