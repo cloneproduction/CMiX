@@ -79,7 +79,7 @@ folder. A view can move to another folder without a change to its namespace or i
   and the modulator views.
 - `Views/Modifiers`: the modifier views. The subfolders `Camera`, `Color`, `Layer`,
   `Material`, `Text` and `Transform` follow `CMiX.Core/Modulation/Modifiers`.
-- `Views/Controls`: the controls that belong to the Studio.
+- `Views/Controls`: the shared controls and their helpers.
 
 The value editors start a drag through `InteractionHost`. The App connects it to
 `ValueInteraction` in `App.Initialize`.
