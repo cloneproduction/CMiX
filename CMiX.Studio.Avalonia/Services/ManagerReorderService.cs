@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Studio.Avalonia.Services
 {
-    public partial class ManagerReorderService : ObservableObject, IManagerReorderService
+    public partial class ManagerReorderService : ObservableObject, IManagerReorderService, IReorderService
     {
         public ManagerReorderService(CollectionManager collectionManager, Action<int, int> onMove)
         {

@@ -16,13 +16,13 @@ namespace CMiX.Studio.Avalonia.Services
         private const double DragThreshold = 4.0;
         private static readonly Cursor MoveCursor = new(StandardCursorType.DragMove);
 
-        public static readonly AttachedProperty<ManagerReorderService> ServiceProperty =
-            AvaloniaProperty.RegisterAttached<ItemsControl, ManagerReorderService>(
+        public static readonly AttachedProperty<IReorderService> ServiceProperty =
+            AvaloniaProperty.RegisterAttached<ItemsControl, IReorderService>(
                 "Service",
                 typeof(ListBoxReorderDragDrop));
 
-        public static void SetService(ItemsControl element, ManagerReorderService value) => element.SetValue(ServiceProperty, value);
-        public static ManagerReorderService GetService(ItemsControl element) => element.GetValue(ServiceProperty);
+        public static void SetService(ItemsControl element, IReorderService value) => element.SetValue(ServiceProperty, value);
+        public static IReorderService GetService(ItemsControl element) => element.GetValue(ServiceProperty);
 
         static ListBoxReorderDragDrop()
         {
@@ -184,7 +184,7 @@ namespace CMiX.Studio.Avalonia.Services
             EndDrag(listBox, GetService(listBox));
         }
 
-        private static void EndDrag(ItemsControl listBox, ManagerReorderService service)
+        private static void EndDrag(ItemsControl listBox, IReorderService service)
         {
             listBox.SetValue(IsDraggingProperty, false);
             listBox.SetValue(DragSourceIndexProperty, -1);
