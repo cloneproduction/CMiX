@@ -25,6 +25,7 @@ namespace CMiX.UI.Controls.ColorPicker
             PointerPressed += OnPointerPressed;
             PointerMoved += OnPointerMoved;
             PointerReleased += OnPointerReleased;
+            PointerCaptureLost += (s, e) => _isDragging = false;
             ColorChanged += ColorPickerWheel_ColorChanged;
         }
 
@@ -56,7 +57,7 @@ namespace CMiX.UI.Controls.ColorPicker
 
         private void OnPointerMoved(object? sender, PointerEventArgs e)
         {
-            if (_isDragging)
+            if (_isDragging && e.Pointer.Captured == this)
             {
                 SetColor(e.GetPosition(this));
                 SetCursor();

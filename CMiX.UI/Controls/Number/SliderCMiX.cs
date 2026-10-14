@@ -98,6 +98,17 @@ namespace CMiX.UI.Controls.Number
         {
             base.OnPointerCaptureLost(e);
             _interaction?.Dispose();
+            EndDrag();
+        }
+
+        // The pointer can be taken away without a release, for example when the popup of the slider closes.
+        // The slider must not keep following the mouse after that.
+        private void EndDrag()
+        {
+            isDragging = false;
+            _dragStarted = false;
+            PseudoClasses.Set(":pressed", false);
+            Cursor = Cursor.Default;
         }
 
         private bool isDragging = false;
@@ -148,7 +159,7 @@ namespace CMiX.UI.Controls.Number
 
         private void OnTunnelPointerMoved(object? sender, PointerEventArgs e)
         {
-            if (IsEditing || !isDragging || Border == null)
+            if (IsEditing || !isDragging || Border == null || e.Pointer.Captured != this)
                 return;
 
             if (!_dragStarted)
@@ -180,6 +191,24 @@ namespace CMiX.UI.Controls.Number
             Value = Math.Clamp(lastValue + currentValue * smooth, Minimum, Maximum);
         }
 
+        // The cursor goes back on the thumb. At the end of the track the thumb is on the far edge, and a cursor on
+        // the edge itself is outside the track, so the next press would miss the slider. The cursor stays a few
+        // pixels inside the track, on the screen.
+        private const int CursorInset = 3;
+
+        private Point InsideTheTrack(PixelPoint point)
+        {
+            var topLeft = Border!.PointToScreen(new Point(0, 0));
+            var bottomRight = Border.PointToScreen(new Point(Border.Bounds.Width, Border.Bounds.Height));
+
+            return new Point(
+                Clamp(point.X, topLeft.X + CursorInset, bottomRight.X - 1 - CursorInset),
+                Clamp(point.Y, topLeft.Y + CursorInset, bottomRight.Y - 1 - CursorInset));
+        }
+
+        // A track shorter than twice the inset keeps its middle.
+        private static int Clamp(int value, int low, int high) => low > high ? (low + high) / 2 : Math.Clamp(value, low, high);
+
         private void OnTunnelPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             if (!isDragging || Border == null)
@@ -202,7 +231,7 @@ namespace CMiX.UI.Controls.Number
                 IsEditing = true;
             }
 
-            DragEditHelper.PlaceCursorAt(new Point(pointToScreen.X, pointToScreen.Y));
+            DragEditHelper.PlaceCursorAt(InsideTheTrack(pointToScreen));
             e.Pointer.Capture(null);
             _interaction?.Dispose();
 

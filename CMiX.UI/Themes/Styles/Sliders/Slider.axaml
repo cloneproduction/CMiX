@@ -86,6 +86,7 @@
                                 Name="textDisplay"
                                 Content="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleToString}, StringFormat='{}{0:0.000}'}"
                                 HorizontalAlignment="Right"
+                                IsHitTestVisible="False"
                                 IsVisible="{Binding !IsEditing, RelativeSource={RelativeSource TemplatedParent}}"
                                 Padding="0,0,8,0"
                                 VerticalAlignment="Center" />

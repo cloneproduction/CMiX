@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -14,6 +15,10 @@ namespace CMiX.UI.Behaviors
     // The owner calls Start when the content opens and Stop when it closes.
     // The pointer is away when it is farther than the distance from the content and from the control that opened it.
     // It is not away after the user typed in a text box of the content, because a close would lose the text.
+    // It does not close while a control of the content holds the pointer, for example a slider that is dragged,
+    // because the drag goes on far from the content. It does nothing on the release itself: the control that held
+    // the pointer ends its drag first, for example a slider that puts the cursor back on its thumb. The next move
+    // of the pointer decides.
     internal sealed class PointerAwayCloser
     {
         public const double DefaultDistance = 64;
@@ -61,11 +66,17 @@ namespace CMiX.UI.Behaviors
             if (popupContent == null)
                 return;
 
+            if (IsHeldByContent(e, popupContent))
+                return;
+
             if (IsNear(popupContent, e) || IsNear(target(), e) || IsTyping(popupContent))
                 return;
 
             close();
         }
+
+        private static bool IsHeldByContent(PointerEventArgs e, Control popupContent) =>
+            e.Pointer.Captured is Visual held && (held == popupContent || held.GetVisualAncestors().Contains(popupContent));
 
         private bool IsNear(Control? control, PointerEventArgs e)
         {

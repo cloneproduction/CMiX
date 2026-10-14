@@ -82,6 +82,7 @@ namespace CMiX.UI.Controls
             if (Border != null)
             {
                 Border.PointerMoved -= Border_PointerMoved;
+                Border.PointerCaptureLost -= Border_PointerCaptureLost;
                 Border.RemoveHandler(PointerPressedEvent, Border_PointerPressed);
                 Border.RemoveHandler(PointerReleasedEvent, Border_PointerReleased);
             }
@@ -95,6 +96,7 @@ namespace CMiX.UI.Controls
             if (Border != null)
             {
                 Border.PointerMoved += Border_PointerMoved;
+                Border.PointerCaptureLost += Border_PointerCaptureLost;
                 Border.AddHandler(PointerPressedEvent, Border_PointerPressed, RoutingStrategies.Tunnel);
                 Border.AddHandler(PointerReleasedEvent, Border_PointerReleased, RoutingStrategies.Tunnel);
             }
@@ -155,6 +157,9 @@ namespace CMiX.UI.Controls
 
             Bd.Height = SnapHeight(pos, Bd.MinHeight);
         }
+
+        // The resize ends when the pointer is taken away without a release.
+        private void Border_PointerCaptureLost(object? sender, PointerCaptureLostEventArgs e) => _resizing = false;
 
         private void Border_PointerReleased(object? sender, PointerReleasedEventArgs e)
         {
