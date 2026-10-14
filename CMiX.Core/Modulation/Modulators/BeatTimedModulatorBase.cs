@@ -182,7 +182,7 @@ namespace CMiX.Core.Modulation.Modulators
                 BeatIndex.Value++;
         });
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             BeatIndex.PropertyChanged -= _onBPMChanged;
             if (_masterBeat != null)
