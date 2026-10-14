@@ -12,6 +12,7 @@
     <StackPanel>
         <Managers:PrefabSlotManager
             Margin="8"
+            MinItemCount="2"
             DataContext="{Binding TextureManager}"
             ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Textures}">
 

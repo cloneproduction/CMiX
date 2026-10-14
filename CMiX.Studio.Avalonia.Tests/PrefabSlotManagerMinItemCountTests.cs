@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls;
 using Xunit;
@@ -50,6 +51,31 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(2, list.MinItemCount);
             Assert.Equal(HeightOfRows(2), list.MinHeight);
+        }
+
+        [AvaloniaFact]
+        public void TheTextureList_ShowsTwoRows()
+        {
+            var texture = new DiffuseTexture();
+            new Window { Content = texture, Width = 400, Height = 800 }.Show();
+            Dispatcher.UIThread.RunJobs();
+            var list = texture.GetVisualDescendants().OfType<ListBoxCMiX>().First();
+
+            Assert.Equal(2, list.MinItemCount);
+            Assert.Equal(HeightOfRows(2), list.MinHeight);
+        }
+
+        [AvaloniaFact]
+        public void InsideTheMask_TheTextureListIsOneMarginFromTheEdge()
+        {
+            var mask = new MaskTexture();
+            new Window { Content = mask, Width = 400, Height = 800 }.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            var manager = mask.GetVisualDescendants().OfType<PrefabSlotManager>().First();
+            var left = manager.TranslatePoint(new Point(0, 0), mask)!.Value.X;
+
+            Assert.Equal(Token<double>("SpacingMD"), left);
         }
     }
 }
