@@ -14,7 +14,7 @@ namespace CMiX.UI.Tests
     // The wheel moves the list of a ComboBox by whole items, so no row is cut at the top or at the bottom.
     public class ScrollStepTests
     {
-        private const double ItemHeight = 24;
+        private static double ItemHeight => Tokens.RowHeight;
 
         private static (ComboBox combo, ScrollViewer scroll) OpenCombo(int itemCount, int selectedIndex = 0)
         {
@@ -54,6 +54,14 @@ namespace CMiX.UI.Tests
             var (_, scroll) = OpenCombo(30);
 
             Assert.Equal(ItemHeight, ScrollStep.GetItemHeight(scroll));
+        }
+
+        [AvaloniaFact]
+        public void TheDropDown_ShowsTheNumberOfRowsOfTheToken()
+        {
+            var (_, scroll) = OpenCombo(30);
+
+            Assert.Equal(Tokens.Get<int>("ComboBoxVisibleItems") * ItemHeight, scroll.Viewport.Height);
         }
 
         [AvaloniaFact]

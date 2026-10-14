@@ -36,6 +36,19 @@
     <x:Double x:Key="IconSizeMD">16</x:Double>
     <x:Double x:Key="IconSizeLG">24</x:Double>
 
+    <!-- Lists and drop downs. The height of each is a number of rows of ControlHeightMD, plus the
+         margins and the spaces around the rows. No other file holds one of these numbers.
+         ListBoxCMiX: ListVisibleItems rows + the top and bottom of ListScrollMargin.
+         ListBoxEditable: ListEditableVisibleItems rows + the spaces of ListEditableSpacing + ListEditablePadding.
+         ComboBox: ComboBoxVisibleItems rows. -->
+    <x:Int32 x:Key="ListVisibleItems">5</x:Int32>
+    <Thickness x:Key="ListScrollMargin">2</Thickness>
+    <x:Double x:Key="ListResizeHandleHeight">12</x:Double>
+    <x:Int32 x:Key="ListEditableVisibleItems">4</x:Int32>
+    <x:Double x:Key="ListEditableSpacing">2</x:Double>
+    <Thickness x:Key="ListEditablePadding">4</Thickness>
+    <x:Int32 x:Key="ComboBoxVisibleItems">7</x:Int32>
+
     <!-- Spacing scale for Margin/Padding -->
     <x:Double x:Key="SpacingXXS">1</x:Double>
     <x:Double x:Key="SpacingXS">2</x:Double>
