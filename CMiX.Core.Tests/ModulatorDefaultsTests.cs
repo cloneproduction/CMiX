@@ -48,5 +48,24 @@ namespace CMiX.Core.Tests
             Assert.Equal(0.0f, beatRandom.Center.Value);
             Assert.Equal(1.0f, beatRandom.Width.Value);
         }
+
+        [Fact]
+        public void BeatLFOModulator_ConstructsAtItsIntendedDefaults()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var beatLfo = (BeatLFOModulator)provider.GetRequiredService<ControlFactory>().Create(typeof(BeatLFOModulator));
+
+            Assert.Equal(0.0f, beatLfo.Center.Value);
+            Assert.Equal(1.0f, beatLfo.Width.Value);
+
+            beatLfo.Center.Value = 2.0f;
+            beatLfo.Width.Value = 4.0f;
+
+            beatLfo.Center.Reset();
+            beatLfo.Width.Reset();
+
+            Assert.Equal(0.0f, beatLfo.Center.Value);
+            Assert.Equal(1.0f, beatLfo.Width.Value);
+        }
     }
 }
