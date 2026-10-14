@@ -201,7 +201,7 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
   or XYZ.
 - The kind stays at the end for converters (`...Converter`), for a real
   `Behavior<T>` (`...Behavior`) and for static helpers (`...Helper`). An attached
-  feature has a plain name: `NumbersOnly`, `SelectOnFocus`, `DragHandle`,
+  feature has a plain name: `NumbersOnly`, `SelectOnFocus`, `DragHandle`, `ScrollStep`,
   `RoundedClip`. Its on/off switch is `IsEnabled`.
 - The word `Captioned` is at the end of a name only when the control is the standard
   control with a caption added. `ButtonCaptioned` is a `Button` and

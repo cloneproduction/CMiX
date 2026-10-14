@@ -84,6 +84,7 @@
                                     Name="DropDownScrollViewer"
                                     HorizontalScrollBarVisibility="Hidden"
                                     MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                    ui:ScrollStep.ItemHeight="{DynamicResource ControlHeightMD}"
                                     VerticalScrollBarVisibility="Hidden">
                                     <ItemsPresenter
                                         Name="PART_ItemsPresenter"
@@ -175,6 +176,7 @@
                                     Name="DropDownScrollViewer"
                                     HorizontalScrollBarVisibility="Hidden"
                                     MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                    ui:ScrollStep.ItemHeight="{DynamicResource ControlHeightMD}"
                                     VerticalScrollBarVisibility="Hidden">
                                     <ItemsPresenter
                                         Name="PART_ItemsPresenter"
