@@ -34,6 +34,11 @@ namespace CMiX.Studio.Avalonia.Tests
                 foreach (Match match in Binding.Matches(text))
                 {
                     checkedCount++;
+                    // An empty binding is the item of a row. The panel hands it to the template of the application
+                    // and reads no property of it, so it ties the panel to no model.
+                    if (match.Value.Trim() == "{Binding}")
+                        continue;
+
                     if (!KnownSource.IsMatch(match.Groups[1].Value))
                         wrong.Add($"{match.Value.Trim()} in {SourceTree.Relative(file)}");
                 }
