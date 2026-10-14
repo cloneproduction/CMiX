@@ -15,9 +15,9 @@
             <Border>
                 <StackPanel Orientation="Horizontal">
                     <Ellipse
-                        Width="7"
+                        Width="{DynamicResource IndicatorSize}"
                         VerticalAlignment="Center"
-                        Height="7"
+                        Height="{DynamicResource IndicatorSize}"
                         Classes.connected="{Binding IsConnected}"
                         Classes.connecting="{Binding Status, Converter={StaticResource SyncStatusIsConnecting}}"
                         Theme="{StaticResource EllipseSyncConnection}" />
@@ -57,8 +57,8 @@
                 Theme="{StaticResource ButtonRounded}">
                 <StackPanel Orientation="Horizontal">
                     <Ellipse
-                        Width="7"
-                        Height="7"
+                        Width="{DynamicResource IndicatorSize}"
+                        Height="{DynamicResource IndicatorSize}"
                         Margin="0,0,4,0"
                         Classes.insync="{Binding IsInSync}"
                         Theme="{StaticResource EllipseSyncState}" />

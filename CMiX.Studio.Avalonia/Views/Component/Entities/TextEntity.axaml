@@ -22,7 +22,7 @@
             <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
 
                 <TextBox
-                    Height="88"
+                    Height="{DynamicResource TextAreaHeight4}"
                     Text="{Binding Text.Value}"
                     Theme="{StaticResource TextBoxTypeWriter}" />
 

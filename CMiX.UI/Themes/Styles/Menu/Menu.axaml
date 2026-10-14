@@ -19,8 +19,8 @@
                         <ContentControl
                             Name="PART_IconPresenter"
                             Grid.Column="0"
-                            Width="16"
-                            Height="16"
+                            Width="{DynamicResource IconSizeXS}"
+                            Height="{DynamicResource IconSizeXS}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Content="{TemplateBinding Icon}"

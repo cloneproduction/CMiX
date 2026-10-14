@@ -27,8 +27,8 @@
         Theme="{StaticResource ButtonRoundedRightNoHover}">
 
         <Ellipse
-            Width="8"
-            Height="8"
+            Width="{DynamicResource IndicatorSize}"
+            Height="{DynamicResource IndicatorSize}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <Ellipse.Fill>
