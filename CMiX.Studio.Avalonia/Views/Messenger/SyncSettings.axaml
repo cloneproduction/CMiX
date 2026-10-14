@@ -2,6 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.SyncSettings"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:conv="clr-namespace:Avalonia.Data.Converters;assembly=Avalonia.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,9 +15,9 @@
             <Border>
                 <StackPanel Orientation="Horizontal">
                     <Ellipse
-                        Width="7"
+                        Width="{DynamicResource IndicatorSize}"
                         VerticalAlignment="Center"
-                        Height="7"
+                        Height="{DynamicResource IndicatorSize}"
                         Classes.connected="{Binding IsConnected}"
                         Classes.connecting="{Binding Status, Converter={StaticResource SyncStatusIsConnecting}}"
                         Theme="{StaticResource EllipseSyncConnection}" />
@@ -56,8 +57,8 @@
                 Theme="{StaticResource ButtonRounded}">
                 <StackPanel Orientation="Horizontal">
                     <Ellipse
-                        Width="7"
-                        Height="7"
+                        Width="{DynamicResource IndicatorSize}"
+                        Height="{DynamicResource IndicatorSize}"
                         Margin="0,0,4,0"
                         Classes.insync="{Binding IsInSync}"
                         Theme="{StaticResource EllipseSyncState}" />
@@ -79,7 +80,10 @@
                         HorizontalOffset="-150"
                         VerticalOffset="-56"
                         FlyoutPresenterTheme="{StaticResource FlyoutPresenterPanel}">
-                        <StackPanel KeyDown="SyncFlyout_KeyDown" Margin="4">
+                        <i:Interaction.Behaviors>
+                            <ui:CloseFlyoutOnPointerAwayBehavior />
+                        </i:Interaction.Behaviors>
+                        <StackPanel Margin="4">
                             <TextBlock
                                 Margin="0,0,0,16"
                                 Text="The loaded project and the Redis state are different. Choose how to resolve it."
@@ -140,10 +144,11 @@
                     HorizontalOffset="-150"
                     VerticalOffset="-100"
                     FlyoutPresenterTheme="{StaticResource FlyoutPresenterPanel}">
+                    <i:Interaction.Behaviors>
+                        <ui:CloseFlyoutOnPointerAwayBehavior />
+                    </i:Interaction.Behaviors>
 
-                    <StackPanel 
-                        Spacing="{DynamicResource SpacingMD}"
-                        KeyDown="EditConnectionFlyout_KeyDown">
+                    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
                         <TextBlock Text="Connection Settings"
                                    Margin="0, 0, 0, 8"/>

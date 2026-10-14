@@ -40,7 +40,6 @@
         <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="MaxDropDownHeight" Value="168" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -83,7 +82,8 @@
                                 <ScrollViewer
                                     Name="DropDownScrollViewer"
                                     HorizontalScrollBarVisibility="Hidden"
-                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                    ui:ScrollStep.ItemHeight="{DynamicResource ControlHeightMD}"
+                                    ui:ScrollStep.VisibleItemCount="{DynamicResource ComboBoxVisibleItems}"
                                     VerticalScrollBarVisibility="Hidden">
                                     <ItemsPresenter
                                         Name="PART_ItemsPresenter"
@@ -140,7 +140,6 @@
     <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem" BasedOn="{StaticResource ComboBoxItemCMiX}" />
 
     <ControlTheme x:Key="ComboBoxWithButton" TargetType="ComboBox">
-        <Setter Property="MaxDropDownHeight" Value="168" />
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel Name="templateRoot">
@@ -174,7 +173,8 @@
                                 <ScrollViewer
                                     Name="DropDownScrollViewer"
                                     HorizontalScrollBarVisibility="Hidden"
-                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                    ui:ScrollStep.ItemHeight="{DynamicResource ControlHeightMD}"
+                                    ui:ScrollStep.VisibleItemCount="{DynamicResource ComboBoxVisibleItems}"
                                     VerticalScrollBarVisibility="Hidden">
                                     <ItemsPresenter
                                         Name="PART_ItemsPresenter"

@@ -23,23 +23,9 @@ namespace CMiX.UI.Controls.Boolean
 
         protected override Type StyleKeyOverride => typeof(ToggleButton);
 
-        private ContextMenu? _resetMenu;
-        private bool _attached;
-
-        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        public ToggleButtonCMiX()
         {
-            base.OnAttachedToVisualTree(e);
-            _attached = true;
-            UpdateResetMenu();
+            ResetMenu.Follow(this, ResetCommandProperty);
         }
-
-        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-        {
-            base.OnPropertyChanged(change);
-            if (_attached && change.Property == ResetCommandProperty)
-                UpdateResetMenu();
-        }
-
-        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ref _resetMenu);
     }
 }

@@ -10,11 +10,11 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The right-click menu of a filter slider must reset the value to its default.
-    public class FilterSliderResetTests
+    // The right-click menu of a filter value must reset it to its default.
+    public class FilterValueResetTests
     {
         [AvaloniaFact]
-        public void SliderResetMenu_RestoresTheDefault()
+        public void DragValueResetMenu_RestoresTheDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var hscb = (HSCB)provider.GetRequiredService<ControlFactory>().Create(typeof(HSCB));
@@ -24,8 +24,8 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
 
             hscb.Saturation.Value = 0.3f;
-            var slider = view.GetVisualDescendants().OfType<SliderCMiX>().Single(c => c.DataContext == hscb.Saturation);
-            var reset = slider.ContextMenu!.Items.OfType<MenuItem>().Single();
+            var value = view.GetVisualDescendants().OfType<DragValue>().Single(c => c.DataContext == hscb.Saturation);
+            var reset = value.ContextMenu!.Items.OfType<MenuItem>().Single();
 
             Assert.NotNull(reset.Command);
             reset.Command.Execute(null);

@@ -15,8 +15,29 @@ namespace CMiX.UI.Behaviors
 {
     public class ClosePopupBehavior : Behavior<Popup>
     {
+        // The popup closes when the pointer is farther than this from the popup and from the control that opened it.
+        public static readonly StyledProperty<double> DistanceProperty =
+            AvaloniaProperty.Register<ClosePopupBehavior, double>(nameof(Distance), PointerAwayCloser.DefaultDistance);
+
+        public double Distance
+        {
+            get => GetValue(DistanceProperty);
+            set => SetValue(DistanceProperty, value);
+        }
+
+        private readonly PointerAwayCloser closer;
         private Control? subscribedChild;
         private bool parentHandlersAdded;
+
+        public ClosePopupBehavior()
+        {
+            closer = new PointerAwayCloser(
+                () => Distance,
+                () => AssociatedObject?.Child,
+                // The control that opened the popup can be much wider than the popup.
+                () => AssociatedObject?.PlacementTarget ?? AssociatedObject?.Parent as Control,
+                ClosePopup);
+        }
 
         protected override void OnAttached()
         {
@@ -38,6 +59,7 @@ namespace CMiX.UI.Behaviors
             }
             RemoveChildHandlers();
             RemoveParentWindowHandlers();
+            closer.Stop();
         }
 
         private TopLevel? ParentTopLevel => AssociatedObject == null ? null : TopLevel.GetTopLevel(AssociatedObject);
@@ -75,7 +97,6 @@ namespace CMiX.UI.Behaviors
             parentHandlersAdded = true;
 
             topLevel.AddHandler(InputElement.PointerPressedEvent, OnParentPointerPressed, RoutingStrategies.Tunnel);
-            topLevel.AddHandler(InputElement.PointerMovedEvent, OnParentPointerMoved, RoutingStrategies.Tunnel);
         }
 
         private void RemoveParentWindowHandlers()
@@ -86,7 +107,6 @@ namespace CMiX.UI.Behaviors
 
             parentHandlersAdded = false;
             topLevel.RemoveHandler(InputElement.PointerPressedEvent, OnParentPointerPressed);
-            topLevel.RemoveHandler(InputElement.PointerMovedEvent, OnParentPointerMoved);
         }
 
         private void ClosePopup()
@@ -103,10 +123,12 @@ namespace CMiX.UI.Behaviors
         {
             AddChildHandlers();
             AddParentWindowHandlers();
+            closer.Start(ParentTopLevel);
         }
 
         private void OnClosed(object? sender, EventArgs e)
         {
+            closer.Stop();
             RemoveParentWindowHandlers();
             RemoveChildHandlers();
             var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
@@ -127,23 +149,6 @@ namespace CMiX.UI.Behaviors
         {
             ClosePopup();
             e.Handled = true;
-        }
-
-        private void OnParentPointerMoved(object? sender, PointerEventArgs e)
-        {
-            var child = AssociatedObject?.Child;
-            if (child == null)
-                return;
-
-            var size = child.Bounds.Size;
-            var pos = e.GetPosition(child);
-
-            if (pos.X < -64 || pos.Y < -64 ||
-                pos.X > size.Width + 64 || pos.Y > size.Height + 64)
-            {
-                ClosePopup();
-                RemoveParentWindowHandlers();
-            }
         }
     }
 }

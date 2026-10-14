@@ -1,0 +1,23 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Quantize"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <ui:IntegerValue
+        Caption="Quantize"
+        IsReadOnly="{Binding !IsEnabled.Value}"
+        Minimum="1"
+        ResetCommand="{Binding Steps.ResetCommand}"
+        Value="{Binding Steps.Value}">
+        <ui:DragValue.LeadingContent>
+            <ToggleButton
+                Margin="0,0,4,0"
+                IsChecked="{Binding IsEnabled.Value}"
+                Theme="{StaticResource ToggleButtonBox}" />
+        </ui:DragValue.LeadingContent>
+    </ui:IntegerValue>
+
+</UserControl>

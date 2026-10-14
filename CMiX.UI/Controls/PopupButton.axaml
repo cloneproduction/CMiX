@@ -3,7 +3,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     x:Name="popupButton">
 
     <Panel>
@@ -13,13 +12,9 @@
             Content="{Binding Caption, ElementName=popupButton}" />
 
         <Popup
+            ui:TogglePopup.Toggle="{Binding ElementName=PopUpToggle}"
             Width="{Binding Bounds.Width, ElementName=PopUpToggle}"
-            IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
-            Placement="Bottom"
-            PlacementTarget="{Binding ElementName=PopUpToggle}">
-            <i:Interaction.Behaviors>
-                <ui:ClosePopupBehavior />
-            </i:Interaction.Behaviors>
+            Placement="Bottom">
             <Border
                 Padding="2,4,2,2"
                 Background="{DynamicResource Grey200Brush}"

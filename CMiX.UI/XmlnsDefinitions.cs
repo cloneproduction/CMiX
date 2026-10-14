@@ -16,6 +16,7 @@ using Avalonia.Metadata;
 [assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.Controls.Path")]
 [assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.Controls.ColorPicker")]
 [assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.Controls.Parts")]
+[assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.Controls.Collection")]
 [assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.Panels")]
 [assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.AttachedProperties")]
 [assembly: XmlnsDefinition("https://github.com/cloneproduction/CMiX.UI", "CMiX.UI.Behaviors")]

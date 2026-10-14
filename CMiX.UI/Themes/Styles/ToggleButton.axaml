@@ -154,6 +154,38 @@
         </Style>
     </ControlTheme>
 
+    <!-- An on and off switch for a panel or a part. The icon is dim while off and lit while on. -->
+    <ControlTheme x:Key="ToggleButtonPower" TargetType="ToggleButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightXS}" />
+        <Setter Property="Width" Value="{DynamicResource ControlHeightXS}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Margin="0"
+                    Padding="1"
+                    Background="Transparent"
+                    Opacity="0.4">
+                    <ui:AppIcon Name="icon" IconKey="Power" Size="{DynamicResource IconSizeXS}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Opacity" Value="0.8" />
+        </Style>
+
+        <Style Selector="^:checked /template/ Border#border">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+        <Style Selector="^:checked /template/ ui|AppIcon#icon">
+            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}" />
+        </Style>
+    </ControlTheme>
+
     <ControlTheme x:Key="ToggleButtonPlayPause" TargetType="ToggleButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -223,6 +255,56 @@
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="ToggleButton">
         <Setter Property="(ui:PositionedControl.Position)" Value="Right" />
+    </ControlTheme>
+
+    <!-- The box of ToggleButtonCaptioned without the caption, for a toggle inside another control. -->
+    <ControlTheme x:Key="ToggleButtonBox" TargetType="ToggleButton">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="box"
+                    Width="{DynamicResource ControlHeightXS}"
+                    Height="{DynamicResource ControlHeightXS}"
+                    Padding="4"
+                    Background="{DynamicResource Grey500Brush}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <ui:AppIcon
+                        Name="icon"
+                        IconKey="IsChecked"
+                        Size="{DynamicResource IconSizeXS}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pressed /template/ Border#box">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#box">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <Style Selector="^:checked /template/ Border#box:not(:pointerover)">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+        <Style Selector="^:checked /template/ Border#box:pointerover">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:checked /template/ ui|AppIcon#icon">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+
+        <Style Selector="^:unchecked /template/ Border#box:pointerover">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+        <Style Selector="^:unchecked /template/ Border#box:not(:pointerover)">
+            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        </Style>
+        <Style Selector="^:unchecked /template/ ui|AppIcon#icon">
+            <Setter Property="Opacity" Value="0" />
+        </Style>
     </ControlTheme>
 
     <!-- The box in the value column and the Caption beside it. The box reacts to its own hover. -->

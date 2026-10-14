@@ -28,6 +28,9 @@ namespace CMiX.Core.Tests
             Assert.Equal(10.0f, lfo.Period.Value);
             Assert.Equal(-1.0f, lfo.Minimum.Value);
             Assert.Equal(1.0f, lfo.Maximum.Value);
+
+            Assert.False(lfo.Quantize.IsEnabled.Value);
+            Assert.Equal(4, lfo.Quantize.Steps.Value);
         }
 
         [Fact]
@@ -47,6 +50,37 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(0.0f, beatRandom.Center.Value);
             Assert.Equal(1.0f, beatRandom.Width.Value);
+        }
+
+        [Fact]
+        public void BeatLFOModulator_ConstructsAtItsIntendedDefaults()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var beatLfo = (BeatLFOModulator)provider.GetRequiredService<ControlFactory>().Create(typeof(BeatLFOModulator));
+
+            Assert.Equal(0.0f, beatLfo.Center.Value);
+            Assert.Equal(1.0f, beatLfo.Width.Value);
+
+            beatLfo.Center.Value = 2.0f;
+            beatLfo.Width.Value = 4.0f;
+
+            beatLfo.Center.Reset();
+            beatLfo.Width.Reset();
+
+            Assert.Equal(0.0f, beatLfo.Center.Value);
+            Assert.Equal(1.0f, beatLfo.Width.Value);
+
+            Assert.False(beatLfo.Quantize.IsEnabled.Value);
+            Assert.Equal(4, beatLfo.Quantize.Steps.Value);
+
+            beatLfo.Quantize.IsEnabled.Value = true;
+            beatLfo.Quantize.Steps.Value = 8;
+
+            beatLfo.Quantize.IsEnabled.Reset();
+            beatLfo.Quantize.Steps.Reset();
+
+            Assert.False(beatLfo.Quantize.IsEnabled.Value);
+            Assert.Equal(4, beatLfo.Quantize.Steps.Value);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Undo;
@@ -14,6 +15,7 @@ namespace CMiX.Core.Modulation.Modulators
                             GenericValue<float> minimum,
                             GenericValue<float> maximum,
                             GenericValue<WaveTypeEnum> waveType,
+                            Quantize quantize,
                             UndoManager undoManager,
                             ControlActivationService activationService)
             : base(prefabService)
@@ -22,6 +24,7 @@ namespace CMiX.Core.Modulation.Modulators
             Minimum = minimum;
             Maximum = maximum;
             WaveType = waveType;
+            Quantize = quantize;
 
             UndoManager = undoManager;
             IsActive = false;
@@ -37,6 +40,7 @@ namespace CMiX.Core.Modulation.Modulators
         public GenericValue<float> Minimum { get; set; }
         public GenericValue<float> Maximum { get; set; }
         public GenericValue<WaveTypeEnum> WaveType { get; set; }
+        public Quantize Quantize { get; set; }
 
         public override IControlModel ToModel() => new LFOModulatorModel
         {
@@ -45,7 +49,8 @@ namespace CMiX.Core.Modulation.Modulators
             Period = (GenericValueModel<float>)Period.ToModel(),
             Minimum = (GenericValueModel<float>)Minimum.ToModel(),
             Maximum = (GenericValueModel<float>)Maximum.ToModel(),
-            WaveType = (GenericValueModel<WaveTypeEnum>)WaveType.ToModel() 
+            WaveType = (GenericValueModel<WaveTypeEnum>)WaveType.ToModel(),
+            Quantize = (QuantizeModel)Quantize.ToModel()
         };
         public override void FromModel(IControlModel model)
         {
@@ -55,6 +60,7 @@ namespace CMiX.Core.Modulation.Modulators
             Minimum.FromModel(m.Minimum);
             Maximum.FromModel(m.Maximum);
             WaveType.FromModel(m.WaveType);
+            Quantize.FromModel(m.Quantize);
         }
     }
 }

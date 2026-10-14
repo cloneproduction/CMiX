@@ -9,6 +9,7 @@ using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Views.Controls;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls;
+using CMiX.UI.Controls.Collection;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -19,7 +20,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // RepositoryManager and PrefabSlotManager inline, so a list row for one of these types fell
     // through to the Application level reflection view locator (Views.ViewModelToViewTemplate),
     // which resolves by exact type name to the full settings editing view (for example
-    // Views.CheckerBoard, the heavy editor panel) instead of the small PrefabListItem row used
+    // Views.CheckerBoard, the heavy editor panel) instead of the small ListItemIcon row used
     // by every other prefab type.
     public class ListTemplateRegressionTests
     {
@@ -33,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void CheckerBoard_TouchBlob_ColorPaletteModifier_RealizeAsPrefabListItem()
+        public void CheckerBoard_TouchBlob_ColorPaletteModifier_RealizeAsListItemIcon()
         {
             var provider = TestServiceProviderFactory.Create();
             var controlFactory = provider.GetRequiredService<ControlFactory>();
@@ -54,12 +55,30 @@ namespace CMiX.Studio.Avalonia.Tests
                 var container = listBox.ContainerFromItem(item);
                 Assert.True(container != null, $"{item.GetType().Name} did not realize a list container.");
 
-                var realizedAsListItem = container.GetVisualDescendants().OfType<PrefabListItem>().Any();
+                var realizedAsListItem = container.GetVisualDescendants().OfType<ListItemIcon>().Any();
                 Assert.True(
                     realizedAsListItem,
-                    $"{item.GetType().Name} did not realize as a PrefabListItem; it likely fell through " +
+                    $"{item.GetType().Name} did not realize as a ListItemIcon; it likely fell through " +
                     "to the reflection view locator and rendered its full editing view instead.");
             }
+        }
+
+        [AvaloniaFact]
+        public void ARow_ShowsThePrefabName_AndItsToggleWritesTheVisibility()
+        {
+            var checkerBoard = (CheckerBoard)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(CheckerBoard));
+            var listBox = CreateShownRepositoryManager().GetVisualDescendants().OfType<ListBoxCMiX>().Single();
+            listBox.ItemsSource = new List<IControl> { checkerBoard };
+            TestServiceProviderFactory.Pump();
+
+            var row = listBox.ContainerFromItem(checkerBoard)!.GetVisualDescendants().OfType<ListItemIcon>().Single();
+            Assert.Equal(checkerBoard.PrefabService.Name.Value, row.Title);
+
+            var before = checkerBoard.PrefabService.Visibility.Value;
+            row.IsChecked = !before;
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(!before, checkerBoard.PrefabService.Visibility.Value);
         }
     }
 }

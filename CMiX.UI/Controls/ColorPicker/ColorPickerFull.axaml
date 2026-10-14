@@ -12,8 +12,8 @@
             <StackPanel Orientation="Horizontal">
 
                 <ui:ColorPickerWheel
-                    Width="200"
-                    Height="200"
+                    Width="{DynamicResource ColorWheelSize}"
+                    Height="{DynamicResource ColorWheelSize}"
                     ColorState="{Binding ColorState, ElementName=colorPickerFull, Mode=TwoWay}"
                     Theme="{StaticResource ColorPickerWheel}" />
 

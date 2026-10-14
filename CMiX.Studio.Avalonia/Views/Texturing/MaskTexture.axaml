@@ -9,9 +9,7 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-    <StackPanel 
-      Margin="8" 
-      IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
+    <StackPanel IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
 
         <Views:DiffuseTexture />
 

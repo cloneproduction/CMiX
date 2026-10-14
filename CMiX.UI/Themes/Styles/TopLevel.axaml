@@ -1,0 +1,11 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- The size of the text of the whole UI. A TextBlock, a TextBox or any other control gets it from its window
+         or its popup. A control that needs another size sets its own FontSize. -->
+    <Style Selector=":is(TopLevel)">
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeMD}" />
+    </Style>
+
+</Styles>

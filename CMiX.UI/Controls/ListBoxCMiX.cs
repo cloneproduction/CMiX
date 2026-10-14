@@ -13,6 +13,63 @@ namespace CMiX.UI.Controls
     {
         protected override Type StyleKeyOverride => typeof(ListBoxCMiX);
 
+        static ListBoxCMiX()
+        {
+            MinItemCountProperty.Changed.AddClassHandler<ListBoxCMiX>((list, _) => list.UpdateHeight());
+        }
+
+        // The least number of whole rows that the list shows, for example the token ListVisibleItems. The user
+        // can make the list taller, row by row, but not below this. Zero leaves the height to MinHeight.
+        public static readonly StyledProperty<int> MinItemCountProperty =
+            AvaloniaProperty.Register<ListBoxCMiX, int>(nameof(MinItemCount));
+
+        public int MinItemCount
+        {
+            get => GetValue(MinItemCountProperty);
+            set => SetValue(MinItemCountProperty, value);
+        }
+
+        // The height of a row and the space above and below the rows, from the tokens ControlHeightMD and
+        // ListScrollMargin. Before the list is in a window the tokens are not found.
+        private bool TryGetMetrics(out double rowHeight, out double verticalMargin)
+        {
+            rowHeight = 0;
+            verticalMargin = 0;
+
+            if (!this.TryFindResource("ControlHeightMD", ActualThemeVariant, out var row) || row is not double height)
+                return false;
+
+            if (!this.TryFindResource("ListScrollMargin", ActualThemeVariant, out var margin) || margin is not Thickness thickness)
+                return false;
+
+            rowHeight = height;
+            verticalMargin = thickness.Top + thickness.Bottom;
+            return true;
+        }
+
+        private void UpdateHeight()
+        {
+            if (MinItemCount <= 0 || !TryGetMetrics(out var rowHeight, out var verticalMargin))
+                return;
+
+            MinHeight = MinItemCount * rowHeight + verticalMargin;
+
+            if (Bd != null)
+                Bd.Height = MinHeight;
+        }
+
+        // The nearest height that shows a whole number of rows, and not less than the minimum.
+        private double SnapHeight(double height, double minimum)
+        {
+            if (TryGetMetrics(out var rowHeight, out var verticalMargin) && rowHeight > 0)
+            {
+                var rows = Math.Max(0, Math.Round((height - verticalMargin) / rowHeight));
+                height = rows * rowHeight + verticalMargin;
+            }
+
+            return Math.Max(height, minimum);
+        }
+
         Border? Border { get; set; }
         Border? Bd { get; set; }
 
@@ -44,6 +101,7 @@ namespace CMiX.UI.Controls
 
             if (Bd != null)
             {
+                UpdateHeight();
                 Bd.Height = Bd.MinHeight;
                 Bd.AddHandler(PointerWheelChangedEvent, Bd_PointerWheelChanged, RoutingStrategies.Tunnel);
             }
@@ -95,11 +153,7 @@ namespace CMiX.UI.Controls
             var current = e.GetPosition(this);
             var pos = current.Y - initPoint.Y + currentHeight;
 
-            if (pos > 0)
-                Bd.Height = pos;
-
-            if (pos <= Bd.MinHeight)
-                Bd.Height = Bd.MinHeight;
+            Bd.Height = SnapHeight(pos, Bd.MinHeight);
         }
 
         private void Border_PointerReleased(object? sender, PointerReleasedEventArgs e)

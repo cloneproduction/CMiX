@@ -74,8 +74,8 @@ its Reset menu then has a Reset All row. `ValueBindingTests` fails when a
 `ViewModelToViewTemplate` finds the view of a model by name. The view has the type
 name of the model, for example `Blur` for the model `Blur`. It looks at the
 controls in the namespace `CMiX.Studio.Avalonia.Views` and in its child
-namespaces. The child namespaces `Controls`, `Managers`, `Menus`, `Modifiers`, `Modulation`
-and `Windows` hold support controls, so the locator skips them. Two views with the same name
+namespaces. The child namespaces `Controls`, `Managers`, `Menus`, `Modulation` and
+`Windows` hold support controls, so the locator skips them. Two views with the same name
 make the locator throw, and the message names both types.
 
 The domain views keep the one namespace `CMiX.Studio.Avalonia.Views`, whatever the
@@ -128,9 +128,87 @@ come from the value editors of vvvv:
 | `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus`, `TextBlockTrimmed` |
 | `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
-| `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame`, `PopupCMiX` |
+| `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxDetail`, `ListBoxEditable` |
+| `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
+
+### Heights of lists and drop downs
+
+A list or a drop down shows a whole number of rows, so no row is cut at the bottom, and the wheel moves it
+by one row. The height of a row is the token `ControlHeightMD`. No file holds a height as a number. The
+sizes come from the tokens in `Themes/Tokens/Geometry.axaml`:
+
+- `ListBoxCMiX`: `MinItemCount` rows (the token `ListVisibleItems`) plus the top and the bottom of
+  `ListScrollMargin`. The user can drag the strip under the list to make it taller. The height then goes by
+  whole rows, and it never goes below `MinItemCount` rows. There is no largest height.
+- `ListBoxEditable`: `MinItemCount` rows, or `ListEditableVisibleItems` rows when it is 0, the spaces of `ListEditableSpacing` between them, and
+  `ListEditablePadding` around them. The list has no scroll viewer, so it grows with its items.
+- `ComboBox`: `ComboBoxVisibleItems` rows.
+
+The attached property `ScrollStep` does the work for a `ScrollViewer`: `ItemHeight` is the height of a row and
+`VisibleItemCount` is the number of rows. The wheel goes on to the panel around the list when the list is at
+its start or end. To change how many rows a list shows, change its token. A new list takes its numbers from
+the tokens too.
+
+### The scale of sizes
+
+All the sizes of the UI come from one scale in `Themes/Tokens/Geometry.axaml`. No AXAML file holds a height as
+a number: the test `HeightLiteralTests` fails for a new `Height`, `MinHeight` or `MaxHeight` that is a number.
+It has a short list of exceptions, each with its reason, and the size of a `Window` is not checked.
+
+XAML cannot add two tokens, so the tokens that follow `ControlHeightMD` are numbers, and `ScaleTokensTests` keeps
+them in step with it:
+
+| Token | Value |
+|---|---|
+| `ControlHeightXS`, `SM`, `XL`, `XXL` | `ControlHeightMD` minus 8, minus 4, plus 6, plus 10 |
+| `IconSizeXS` and `IconSizeMD` | `ControlHeightMD` minus 8 |
+| `IconSizeSM` | `IconSizeXS` minus 4 |
+| `IconSizeLG` | `ControlHeightMD` |
+| `TextAreaHeight2` and `TextAreaHeight4` | 2 and 4 times (`ControlHeightMD` minus 2) |
+| `FontSizeMD` | about half of `ControlHeightMD` |
+
+To make the UI bigger or smaller, change `ControlHeightMD` and move the other tokens of the table by the same
+amount. The test tells you which one is not in step. Even numbers keep the text and the icons on whole pixels.
+The text size comes from `FontSizeMD`, which the style in `Styles/TopLevel.axaml` gives to every window and popup.
+The small parts that are not controls (`IndicatorSize`, `SplitterSize`, `ScrollBarSize` and the like) are separate
+tokens and do not move with the scale.
+
+### Panels of a list
+
+The panels in `Collection` get their data only through their own properties. They never
+read the DataContext, so they know no model. The application sets the properties in its
+own XAML, for example `Title="{Binding PrefabService.Name.Value}"`. The test
+`CollectionPanelContractTests` fails when a binding in these files reads the DataContext.
+
+- `PanelItem` is an item of a list: a `Title`, a body, a toggle (`IsChecked`), a close
+  button and a drag handle. `PanelItemList` is a list of them with an add button.
+  `ListItemIcon` is a row with an icon, a name and a toggle. `ListBoxDetail` is a list
+  with a delete button, an add area and the detail of the selected item.
+- A variant of a panel is a theme, not a switch. The default theme of `PanelItem` has a
+  body that collapses, an eye, a close button and a drag handle. An application writes
+  its own theme from the library parts (`ToggleButtonPower`, `ToggleButtonVisibility`,
+  `ButtonIconClose`, `ButtonDragHandle`) and sets it with `Theme=`. A theme that does not
+  use a property just leaves it out.
+- The list is reordered only when the application sets `ReorderService` on it.
+- `ListBoxEditable` is a list of items of one type, with a column of buttons on its right: add and
+  remove, then move up and move down. The application sets the
+  `ItemTemplate`, so an item can be a `DragValue`, a `ColorSelector` or any other editor. A button
+  shows only when its command (`AddCommand`, `RemoveCommand`, `MoveUpCommand`, `MoveDownCommand`)
+  is set. `AddCommandParameter` is the parameter of the add command, and the other commands get the
+  selected item. When `ReorderService` is set, each row has a drag handle. The `BeatStepModulator`
+  uses it for its list of steps.
+- A control that shows content of the application, such as `AddContent`, is a composed
+  `UserControl` and not a templated control. A templated control takes over the template
+  parent of the content that it shows in its template. Then a `TemplateBinding` inside that
+  content, such as the owner type of the add panel of an entity, reads from the wrong
+  control and finds nothing. `EntityModifiersSectionTests` keeps this case.
+- A Studio control tells the library control which properties of the model to use.
+  `ModifierManager` is a `PanelItemList` of `PanelItem` rows. `RepositoryManager` is a
+  `ListBoxDetail` with the icon templates of the prefabs. `ModulatorHoverBehavior` tells
+  a modulator that the pointer is over its panel, because the library panel knows no
+  modulator.
 
 Use `TextBlockTrimmed` instead of `TextBlock` for a name that can be long, such as the name
 of a file, a folder or a prefab. The text stays on one line and ends with "..." when it does
@@ -156,7 +234,7 @@ with what makes it different: `StackPanelPositioned`, `ExpanderIndented`,
 in the autocomplete. The Color, Popup and Drag families work the same way.
 
 - The ending `CMiX` marks the default CMiX version of a standard control:
-  `SliderCMiX`, `ListBoxCMiX`, `ToggleButtonCMiX`, `PopupCMiX`. It derives from the
+  `SliderCMiX`, `ListBoxCMiX`, `ToggleButtonCMiX`. It derives from the
   standard control and keeps its API. A variant with a special purpose gets its own
   word instead, as `ExpanderIndented` does. A later variant never needs a rename.
 - A control with no standard equivalent has its own name: `DragValue`, `RangeValue`,
@@ -165,7 +243,7 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
   or XYZ.
 - The kind stays at the end for converters (`...Converter`), for a real
   `Behavior<T>` (`...Behavior`) and for static helpers (`...Helper`). An attached
-  feature has a plain name: `NumbersOnly`, `SelectOnFocus`, `DragHandle`,
+  feature has a plain name: `NumbersOnly`, `SelectOnFocus`, `DragHandle`, `ScrollStep`,
   `RoundedClip`. Its on/off switch is `IsEnabled`.
 - The word `Captioned` is at the end of a name only when the control is the standard
   control with a caption added. `ButtonCaptioned` is a `Button` and
@@ -210,6 +288,16 @@ styles first, then what makes it different. `ButtonRounded`, `ToggleButtonInline
   the Studio styles.
 - `ResourceReferenceTests` fails when an AXAML file names a resource key that nothing
   defines.
+
+### Scrolling
+
+A click must not make a view scroll or jump. `CMiXTheme` turns off the two ways that Avalonia
+scrolls on its own: `ScrollViewer.BringIntoViewOnFocusChange` (a click gives focus, and the view
+scrolls to the control) and `ListBox.AutoScrollToSelectedItem` (a pick scrolls the list and the
+views around it). A text box keeps its own setting. One ScrollViewer can turn the first one on
+again with `BringIntoViewOnFocusChange="True"`. A change of the total height, for example a
+panel above the click that grows or collapses, still moves the content. `ScrollViewerBehavior`
+restores the offset when the height grows. `ScrollStabilityTests` shows both behaviors.
 
 The application connects three things to the library:
 
@@ -256,6 +344,29 @@ The themes and `PopupFrame` are in CMiX.UI.
 A `MenuFlyout` whose rows come from a list needs one `ObservableCollection` that the code updates in place. A new `ItemsSource` does not refresh a menu that was shown before. `ButtonModulatorAssign` is an example.
 
 `PopupThemeGuardTests` fails when a `ContextMenu`, a `Flyout` or a `MenuFlyout` in an AXAML file of the Studio or of CMiX.UI does not use one of these themes.
+
+### Open a popup with a toggle button
+
+A `Popup` that a `ToggleButton` opens uses the attached property `TogglePopup.Toggle`:
+
+```xml
+<ToggleButton x:Name="MyToggle" />
+<Popup ui:TogglePopup.Toggle="{Binding ElementName=MyToggle}" Placement="Bottom">
+```
+
+The popup is open while the toggle is checked. The property sets the placement target, switches the light dismiss off and adds `ClosePopupBehavior`. Do not set these by hand. `PopupButton` is a ready-made toggle with a popup. `PopupWiringGuardTests` fails when a `Popup` outside the Themes folder does not use the property.
+
+### Close when the pointer goes away
+
+A popup, a flyout or a context menu can close when the pointer moves away from it:
+
+- A `Popup` uses the behavior `ClosePopupBehavior`. It also closes the popup on a click outside it and on a click on a button in it.
+- A `Flyout` or a `MenuFlyout` uses the behavior `CloseFlyoutOnPointerAwayBehavior`. It only checks the distance.
+- A `ContextMenu` with the theme `ContextMenuDefault` has it already, for example the Reset menu of a value editor. The theme sets the attached property `ContextMenuPointerAway.IsEnabled`. Set it to false on a menu to switch the rule off.
+
+All three use the class `PointerAwayCloser`. A new kind of popup needs only a small wrapper around it.
+
+The pointer is away when it is farther than `Distance` from the content and from the control that opened it. The default is 64. The pointer on the control that opened the popup is never away, also when the control is much wider than the popup. After the user types in a text box of the popup, the popup stays open, because a close would lose the text. The behaviors only check the distance when the pointer moves.
 
 ## Sync over Redis
 

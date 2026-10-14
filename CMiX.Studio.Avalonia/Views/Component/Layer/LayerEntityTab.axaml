@@ -22,6 +22,7 @@
 
             <Managers:PrefabSlotManager
                 Margin="8"
+                MinItemCount="3"
                 DataContext="{Binding ModelEntityManager}"
                 DockPanel.Dock="Top"
                 ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.EntitiesAndTexts}">
@@ -36,7 +37,7 @@
 
             </Managers:PrefabSlotManager>
 
-            <Border IsVisible="{Binding ModelEntityManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+            <Border Margin="8, 0" IsVisible="{Binding ModelEntityManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
                 <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.SelectedItem}">
                     <ContentControl.DataTemplates>
 

@@ -5,38 +5,33 @@
     xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    x:Name="hscb">
+    x:Name="hscb"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
+  <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <Modulation:SliderModulatable
-            Caption="Hue"
-            DataContext="{Binding Hue}"
-            Maximum="1"
-            Minimum="0"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
+    <Modulation:DragValueModulatable
+        Caption="Hue"
+        DataContext="{Binding Hue}"
+        ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
-        <Modulation:SliderModulatable
-            Caption="Saturation"
-            DataContext="{Binding Saturation}"
-            Maximum="1"
-            Minimum="0"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
+    <Modulation:DragValueModulatable
+        Caption="Saturation"
+        Minimum="0"
+        DataContext="{Binding Saturation}"
+        ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
-        <Modulation:SliderModulatable
-            Caption="Contrast"
-            DataContext="{Binding Contrast}"
-            Maximum="1"
-            Minimum="0"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
+    <Modulation:DragValueModulatable
+        Caption="Contrast"
+        DataContext="{Binding Contrast}"
+        ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
-        <Modulation:SliderModulatable
-            Caption="Brightness"
-            DataContext="{Binding Brightness}"
-            Maximum="1"
-            Minimum="0"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
+    <Modulation:DragValueModulatable
+        Caption="Brightness"
+        DataContext="{Binding Brightness}"
+        ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hscb}" />
 
-    </ui:StackPanelPositioned>
+  </ui:StackPanelPositioned>
 
 </Views:FilterPanel>

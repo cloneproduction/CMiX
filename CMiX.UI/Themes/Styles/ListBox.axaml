@@ -11,6 +11,8 @@
 
     <ControlTheme x:Key="{x:Type ui:ListBoxCMiX}" TargetType="ui:ListBoxCMiX">
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemCMiX}" />
+        <!-- A pick in the list must not scroll the list, or the panels around it. -->
+        <Setter Property="AutoScrollToSelectedItem" Value="False" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border
@@ -18,11 +20,11 @@
                     CornerRadius="{DynamicResource CornerRadiusAll}">
                     <DockPanel>
 
-                        <!--<Border
+                        <Border
                             Name="resizeBorder"
                             Background="{DynamicResource ListBoxBackground}"
                             DockPanel.Dock="Bottom"
-                            Height="12"
+                            Height="{DynamicResource ListResizeHandleHeight}"
                             Theme="{StaticResource ListBoxResizeBorder}">
                             <ui:AppIcon
                                 IsHitTestVisible="False"
@@ -30,7 +32,7 @@
                                 Opacity="0.25"
                                 IconKey="DragHandle"
                                 Size="{DynamicResource IconSizeXS}" />
-                        </Border>-->
+                        </Border>
 
                         <Border
                             Name="Bd"
@@ -41,7 +43,8 @@
                                 Name="PART_ScrollViewer"
                                 Focusable="False"
                                 HorizontalScrollBarVisibility="Disabled"
-                                Margin="2"
+                                Margin="{DynamicResource ListScrollMargin}"
+                                ui:ScrollStep.ItemHeight="{DynamicResource ControlHeightMD}"
                                 VerticalScrollBarVisibility="Auto">
                                 <ItemsPresenter
                                     Name="PART_ItemsPresenter"
@@ -60,6 +63,8 @@
 
     <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemCMiX}" />
+        <!-- A pick in the list must not scroll the list, or the panels around it. -->
+        <Setter Property="AutoScrollToSelectedItem" Value="False" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border
@@ -70,7 +75,8 @@
                         Name="PART_ScrollViewer"
                         Focusable="False"
                         HorizontalScrollBarVisibility="Disabled"
-                        Margin="2"
+                        Margin="{DynamicResource ListScrollMargin}"
+                        ui:ScrollStep.ItemHeight="{DynamicResource ControlHeightMD}"
                         VerticalScrollBarVisibility="Auto">
                         <ItemsPresenter
                             Name="PART_ItemsPresenter"
@@ -79,6 +85,67 @@
                 </Border>
             </ControlTemplate>
         </Setter>
+    </ControlTheme>
+
+    <!-- The list of ListBoxEditable: dark, with no scroll viewer, as high as its items, and a space
+         between the items. The dark is a black with some opacity, so the list is darker than the panel
+         behind it, whatever the grey of that panel. The minimum height is computed in ListBoxEditable from the tokens ControlHeightMD, ListEditableVisibleItems,
+         ListEditableSpacing and ListEditablePadding. The spacing and the padding below are the same tokens. -->
+    <ControlTheme x:Key="ListBoxEditableList" TargetType="ListBox">
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemEditable}" />
+        <Setter Property="AutoScrollToSelectedItem" Value="False" />
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <StackPanel Spacing="{DynamicResource ListEditableSpacing}" />
+            </ItemsPanelTemplate>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="Bd"
+                    Padding="{DynamicResource ListEditablePadding}"
+                    Background="{DynamicResource ListBoxBackground}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <ItemsPresenter
+                        Name="PART_ItemsPresenter"
+                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <!-- A row of ListBoxEditable. It is exactly as high as its content, so the highlight has the
+         size of the content. The space between the rows comes from the items panel of the list.
+         A row is transparent, grey when the pointer is over it, and blue when it is selected. -->
+    <ControlTheme x:Key="ListBoxItemEditable" TargetType="ListBoxItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="Bd"
+                    Background="Transparent"
+                    CornerRadius="{DynamicResource CornerRadiusAll}"
+                    TextElement.Foreground="{DynamicResource ForegroundBrush}">
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:selected:pointerover /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:selected:not(:pointerover) /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+        <Style Selector="^:pointerover:not(:selected) /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
+        </Style>
     </ControlTheme>
 
     <ControlTheme x:Key="ListBoxItemCMiX" TargetType="ListBoxItem">

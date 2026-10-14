@@ -22,8 +22,8 @@
                         <ContentControl
                             Name="PART_IconPresenter"
                             Grid.Column="0"
-                            Width="10"
-                            Height="10"
+                            Width="{DynamicResource ContextMenuIconSize}"
+                            Height="{DynamicResource ContextMenuIconSize}"
                             Margin="0,0,16,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -73,7 +73,7 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <Separator
-                        Height="0.5"
+                        Height="{DynamicResource SeparatorSize}"
                         Margin="0,4"
                         Background="{DynamicResource Grey600Brush}" />
                 </ControlTemplate>
@@ -111,7 +111,9 @@
         </Setter>
     </ControlTheme>
 
-    <ControlTheme x:Key="ContextMenuDefault" TargetType="ContextMenu" BasedOn="{StaticResource MenuPanel}" />
+    <ControlTheme x:Key="ContextMenuDefault" TargetType="ContextMenu" BasedOn="{StaticResource MenuPanel}">
+        <Setter Property="ui:ContextMenuPointerAway.IsEnabled" Value="True" />
+    </ControlTheme>
 
     <ControlTheme x:Key="MenuFlyoutPresenterDefault" TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource MenuPanel}" />
 

@@ -73,35 +73,22 @@ namespace CMiX.UI.Controls.Number
         protected override Type StyleKeyOverride => typeof(SliderCMiX);
 
         private Border? Border { get; set; }
-        private ContextMenu? _resetMenu;
-        private bool _templateApplied;
-        private bool _suppressContextMenu;
+        private readonly ContextMenuGuard _contextMenuGuard;
 
         public SliderCMiX()
         {
             AddHandler(PointerPressedEvent, OnTunnelPointerPressed, RoutingStrategies.Tunnel);
             AddHandler(PointerMovedEvent, OnTunnelPointerMoved, RoutingStrategies.Tunnel);
             AddHandler(PointerReleasedEvent, OnTunnelPointerReleased, RoutingStrategies.Tunnel);
-            AddHandler(ContextRequestedEvent, OnTunnelContextRequested, RoutingStrategies.Tunnel);
+            _contextMenuGuard = ContextMenuGuard.Install(this, () => IsEditing);
+            ResetMenu.Follow(this, ResetCommandProperty);
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
             Border = e.NameScope.Find<Border>("sliderBorder");
-
-            _templateApplied = true;
-            UpdateResetMenu();
         }
-
-        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-        {
-            base.OnPropertyChanged(change);
-            if (_templateApplied && change.Property == ResetCommandProperty)
-                UpdateResetMenu();
-        }
-
-        private void UpdateResetMenu() => ResetMenu.Update(this, ResetCommand, ref _resetMenu);
 
         // A gesture that loses the pointer without a release must not leave the value interaction
         // scope open, which would keep throttling every later write in the application. Ending
@@ -122,20 +109,10 @@ namespace CMiX.UI.Controls.Number
 
         private static double Length(Point p) => Math.Sqrt(p.X * p.X + p.Y * p.Y);
 
-        // A right-click that ends editing must not open the menu when the button is released.
-        private void OnTunnelContextRequested(object? sender, ContextRequestedEventArgs e)
-        {
-            if (!_suppressContextMenu && !IsEditing && !ContextMenuGuard.FromPopup(this, e))
-                return;
-
-            _suppressContextMenu = false;
-            e.Handled = true;
-        }
-
         private void OnTunnelPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             var properties = e.GetCurrentPoint(this).Properties;
-            _suppressContextMenu = properties.IsRightButtonPressed && IsEditing;
+            _contextMenuGuard.PointerPressed(properties.IsRightButtonPressed);
 
             if (properties.IsRightButtonPressed)
             {

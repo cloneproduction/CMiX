@@ -1,0 +1,100 @@
+<UserControl
+    x:Class="CMiX.UI.Controls.Collection.ListBoxEditable"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    x:Name="listBoxEditable">
+
+    <!-- The list, and on its right a column of buttons: add and remove, then move up and move down. A button shows only when its command is set. Each row has a
+         drag handle at its end when ReorderService is set. The list has no scroll viewer: it is as
+         high as its items. -->
+    <DockPanel>
+
+        <!-- Two groups: add and remove, then move up and move down. The code sets the position of each
+             button, so the corners are rounded at the ends of a group, also when a button is hidden. -->
+        <StackPanel
+            Margin="4,0,0,0"
+            VerticalAlignment="Top"
+            DockPanel.Dock="Right"
+            Spacing="6">
+
+            <StackPanel x:Name="editGroup" Spacing="1">
+
+                <Button
+                    x:Name="addButton"
+                    Width="{DynamicResource ControlHeightMD}"
+                    Height="{DynamicResource ControlHeightMD}"
+                    Command="{Binding AddCommand, ElementName=listBoxEditable}"
+                    CommandParameter="{Binding AddCommandParameter, ElementName=listBoxEditable}"
+                    Content="+" />
+
+                <Button
+                    x:Name="removeButton"
+                    Width="{DynamicResource ControlHeightMD}"
+                    Height="{DynamicResource ControlHeightMD}"
+                    Command="{Binding RemoveCommand, ElementName=listBoxEditable}"
+                    CommandParameter="{Binding SelectedItem, ElementName=listBoxEditable}"
+                    Content="-" />
+
+            </StackPanel>
+
+            <StackPanel x:Name="moveGroup" Spacing="1">
+
+                <Button
+                    x:Name="moveUpButton"
+                    Width="{DynamicResource ControlHeightMD}"
+                    Height="{DynamicResource ControlHeightMD}"
+                    Command="{Binding MoveUpCommand, ElementName=listBoxEditable}"
+                    CommandParameter="{Binding SelectedItem, ElementName=listBoxEditable}">
+                    <ui:AppIcon IconKey="ArrowUp" Opacity="0.7" Size="{DynamicResource IconSizeXS}" />
+                </Button>
+
+                <Button
+                    x:Name="moveDownButton"
+                    Width="{DynamicResource ControlHeightMD}"
+                    Height="{DynamicResource ControlHeightMD}"
+                    Command="{Binding MoveDownCommand, ElementName=listBoxEditable}"
+                    CommandParameter="{Binding SelectedItem, ElementName=listBoxEditable}">
+                    <ui:AppIcon IconKey="ArrowDown" Opacity="0.7" Size="{DynamicResource IconSizeXS}" />
+                </Button>
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <ListBox
+            x:Name="itemsList"
+            VerticalAlignment="Top"
+            ui:ListBoxReorder.Service="{Binding ReorderService, ElementName=listBoxEditable}"
+            ItemsSource="{Binding ItemsSource, ElementName=listBoxEditable}"
+            SelectedIndex="{Binding SelectedIndex, ElementName=listBoxEditable, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedItem, ElementName=listBoxEditable, Mode=TwoWay}"
+            Theme="{StaticResource ListBoxEditableList}">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+
+                        <Button
+                            Width="{DynamicResource ControlHeightMD}"
+                            Height="{DynamicResource ControlHeightMD}"
+                            DockPanel.Dock="Right"
+                            IsVisible="{Binding $parent[ui:ListBoxEditable].ReorderService, Converter={x:Static ObjectConverters.IsNotNull}}"
+                            ui:DragHandle.IsEnabled="True"
+                            ui:DragHandle.IsPressed="{Binding $parent[ui:ListBoxEditable].ReorderService.DragHandleIsPressed, Mode=TwoWay}"
+                            Theme="{StaticResource ButtonDragHandle}">
+                            <ui:AppIcon IconKey="DragHandle" Size="{DynamicResource IconSizeXS}" />
+                        </Button>
+
+                        <ContentControl
+                            Content="{Binding}"
+                            ContentTemplate="{Binding $parent[ui:ListBoxEditable].ItemTemplate}" />
+
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+
+    </DockPanel>
+</UserControl>

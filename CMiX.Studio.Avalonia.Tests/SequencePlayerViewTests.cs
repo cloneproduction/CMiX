@@ -13,6 +13,7 @@ using CMiX.Studio.Avalonia.Views.Controls;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Number;
+using CMiX.UI.Controls.Collection;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -99,7 +100,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ListRow_RealizesAsPrefabListItem()
+        public void ListRow_RealizesAsListItemIcon()
         {
             var provider = TestServiceProviderFactory.Create();
             var player = provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.SequencePlayer));
@@ -115,7 +116,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var container = listBox.ContainerFromItem(player);
             Assert.NotNull(container);
-            Assert.NotEmpty(container.GetVisualDescendants().OfType<PrefabListItem>());
+            Assert.NotEmpty(container.GetVisualDescendants().OfType<ListItemIcon>());
         }
     }
 }

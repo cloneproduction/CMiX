@@ -1,10 +1,9 @@
-﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Data;
 using CMiX.UI.AttachedProperties;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
@@ -45,14 +44,6 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         {
             get => GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
-        }
-
-        public static readonly StyledProperty<object> SelectedItemProperty =
-            AvaloniaProperty.Register<RepositoryManager, object>(nameof(SelectedItem), defaultBindingMode: BindingMode.TwoWay);
-        public object SelectedItem
-        {
-            get => GetValue(SelectedItemProperty);
-            set => SetValue(SelectedItemProperty, value);
         }
     }
 }

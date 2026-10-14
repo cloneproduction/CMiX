@@ -50,6 +50,26 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         }
 
         [AvaloniaFact]
+        public void TheDeleteButton_HasTheDeleteEverywhereCommandOfTheManager_AndTheSelectedTexture()
+        {
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var tabControl = TestServiceProviderFactory.MainTabControl(window);
+            tabControl.SelectedItem = tabControl.Items.OfType<RepositoryTab>()
+                .Single(tab => ReferenceEquals(tab.DataContext, viewModel.TextureManager));
+            Dispatcher.UIThread.RunJobs();
+            viewModel.TextureManager.AddItem(typeof(CheckerBoard));
+            var texture = Assert.Single(viewModel.TextureManager.ManagerData.Items);
+            viewModel.TextureManager.SelectedItem = texture;
+            TestServiceProviderFactory.Pump();
+
+            var repositoryManager = Assert.Single(window.GetVisualDescendants().OfType<RepositoryManager>());
+            var delete = repositoryManager.GetVisualDescendants().OfType<Button>().Single(b => Equals(b.Content, "-"));
+
+            Assert.Same(viewModel.TextureManager.DeleteEverywhereCommand, delete.Command);
+            Assert.Same(texture, delete.CommandParameter);
+        }
+
+        [AvaloniaFact]
         public void LayerView_ReachesTheRepositoryThroughTheWindowDataContext()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();

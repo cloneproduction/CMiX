@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using CMiX.Core.Networking;
@@ -141,12 +140,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void CancelEditConnection_Click(object sender, RoutedEventArgs e) => EditConnectionButton.Flyout!.Hide();
 
-        private void EditConnectionFlyout_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-                EditConnectionButton.Flyout!.Hide();
-        }
-
         // The buttons run the bound command. The Flyout closes after the click, so the command
         // still finds its content attached.
         private void Push_Click(object sender, RoutedEventArgs e) => HideSyncFlyout();
@@ -156,11 +149,5 @@ namespace CMiX.Studio.Avalonia.Views
         private void CancelSync_Click(object sender, RoutedEventArgs e) => SyncButton.Flyout!.Hide();
 
         private void HideSyncFlyout() => Dispatcher.UIThread.Post(() => SyncButton.Flyout?.Hide());
-
-        private void SyncFlyout_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-                SyncButton.Flyout!.Hide();
-        }
     }
 }

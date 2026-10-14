@@ -6,6 +6,8 @@
     <!-- Selector based styles for non templated elements. -->
     <StyleInclude Source="avares://CMiX.UI/Themes/Styles/Border.axaml" />
     <StyleInclude Source="avares://CMiX.UI/Themes/Styles/TextBlock.axaml" />
+    <StyleInclude Source="avares://CMiX.UI/Themes/Styles/TopLevel.axaml" />
+    <StyleInclude Source="avares://CMiX.UI/Themes/Styles/ScrollViewer.Stability.axaml" />
 
     <!-- Selector based styles that read nesting depth from the control tree. -->
     <StyleInclude Source="avares://CMiX.UI/Themes/Styles/ExpanderIndentedDepth.axaml" />
@@ -36,6 +38,7 @@
                 <ResourceInclude Source="avares://CMiX.UI/Themes/Styles/Sliders/Slider.axaml" />
                 <ResourceInclude Source="avares://CMiX.UI/Themes/Styles/Sliders/ColorPickerWheel.axaml" />
                 <ResourceInclude Source="avares://CMiX.UI/Themes/Styles/IconButton.axaml" />
+                <ResourceInclude Source="avares://CMiX.UI/Themes/Styles/PanelItem.axaml" />
                 <ResourceInclude Source="avares://CMiX.UI/Themes/Styles/Windows/Window.axaml" />
                 <ResourceInclude Source="avares://CMiX.UI/Themes/Styles/Menu/PopupFlyout.axaml" />
             </ResourceDictionary.MergedDictionaries>

@@ -41,7 +41,7 @@
         </Style>
 
         <Style Selector="^:horizontal">
-            <Setter Property="Height" Value="8" />
+            <Setter Property="Height" Value="{DynamicResource ScrollBarSize}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border>

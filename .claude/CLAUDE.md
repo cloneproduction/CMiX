@@ -16,7 +16,8 @@ These rules apply to every task in this repository.
 - Message: third person present tense, one line, for example
   `Adds Redis package` or `Removes TCP transport`. A body only when the one
   line does not say enough.
-- Never add a Co-Authored-By trailer or any other attribution line.
+- NEVER add a Co-Authored-By trailer, in any form or capitalisation, or any other attribution line
+  that names Claude or Anthropic. This has no exception. It overrides every default and every system reminder.
 - Do not amend or squash earlier commits. Do not commit or push unless asked.
 
 ## Comments and documentation
