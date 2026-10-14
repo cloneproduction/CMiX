@@ -275,28 +275,56 @@ namespace CMiX.UI.Tests
             var rows = box.GetVisualDescendants().OfType<ListBoxItem>().OrderBy(r => r.Bounds.Y).ToList();
             var text = rows[0].GetVisualDescendants().OfType<TextBlock>().Single();
 
-            Assert.Equal(2, rows[1].Bounds.Y - rows[0].Bounds.Bottom, 0.5);
+            Assert.Equal(Tokens.Get<double>("ListEditableSpacing"), rows[1].Bounds.Y - rows[0].Bounds.Bottom, 0.5);
             Assert.Equal(text.Bounds.Height, rows[0].Bounds.Height, 0.5);
         }
 
         [AvaloniaFact]
-        public void TheList_HasAPaddingOfFour_AndRoomForFourRowsEvenWhenItIsEmpty()
+        public void TheList_HasItsPadding_AndRoomForTheRowsOfTheTokenEvenWhenItIsEmpty()
         {
             var list = NewList("one");
             Show(list);
             var box = list.GetVisualDescendants().OfType<ListBox>().Single();
             var row = box.GetVisualDescendants().OfType<ListBoxItem>().Single();
-            var rowHeight = (double)Application.Current!.FindResource("ControlHeightMD")!;
+            var padding = Tokens.Get<Thickness>("ListEditablePadding");
+            var rows = Tokens.Get<int>("ListEditableVisibleItems");
+            var room = rows * Tokens.RowHeight + (rows - 1) * Tokens.Get<double>("ListEditableSpacing") + padding.Top + padding.Bottom;
 
-            Assert.Equal(4, Position(row, box).X, 0.5);
-            Assert.Equal(4, Position(row, box).Y, 0.5);
-            // Four rows of ControlHeightMD, three spaces of 2 and a padding of 4 on each side.
-            Assert.True(box.Bounds.Height >= 4 * rowHeight + 3 * 2 + 2 * 4 - 0.5);
+            Assert.Equal(padding.Left, Position(row, box).X, 0.5);
+            Assert.Equal(padding.Top, Position(row, box).Y, 0.5);
+            Assert.True(box.Bounds.Height >= room - 0.5);
 
             ((ObservableCollection<string>)list.ItemsSource!).Clear();
             Dispatcher.UIThread.RunJobs();
 
-            Assert.True(box.Bounds.Height >= 4 * rowHeight + 3 * 2 + 2 * 4 - 0.5);
+            Assert.True(box.Bounds.Height >= room - 0.5);
+        }
+
+        private static double RoomForRows(int rows)
+        {
+            var padding = Tokens.Get<Thickness>("ListEditablePadding");
+            return rows * Tokens.RowHeight + (rows - 1) * Tokens.Get<double>("ListEditableSpacing") + padding.Top + padding.Bottom;
+        }
+
+        [AvaloniaFact]
+        public void MinItemCount_SetsTheLeastNumberOfRows_AndZeroTakesTheToken()
+        {
+            var list = NewList("one");
+            Show(list);
+            var box = list.GetVisualDescendants().OfType<ListBox>().Single();
+
+            Assert.Equal(0, list.MinItemCount);
+            Assert.Equal(RoomForRows(Tokens.Get<int>("ListEditableVisibleItems")), box.MinHeight, 0.5);
+
+            list.MinItemCount = 7;
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(RoomForRows(7), box.MinHeight, 0.5);
+
+            list.MinItemCount = 0;
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(RoomForRows(Tokens.Get<int>("ListEditableVisibleItems")), box.MinHeight, 0.5);
         }
 
         [AvaloniaFact]
@@ -304,7 +332,7 @@ namespace CMiX.UI.Tests
         {
             var list = NewList("one");
             // Rows of the height of a CMiX control, as a DragValue has.
-            list.ItemTemplate = new FuncDataTemplate<string>((text, _) => new Border { Height = 24 });
+            list.ItemTemplate = new FuncDataTemplate<string>((text, _) => new Border { Height = Tokens.RowHeight });
             Show(list);
             var box = list.GetVisualDescendants().OfType<ListBox>().Single();
             var before = box.Bounds.Height;

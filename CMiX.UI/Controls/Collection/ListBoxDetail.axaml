@@ -8,7 +8,7 @@
     <StackPanel>
 
         <ui:ListBoxCMiX
-            MinHeight="105"
+            MinItemCount="{DynamicResource ListVisibleItems}"
             Margin="8"
             ItemsSource="{Binding ItemsSource, ElementName=listBoxDetail}"
             SelectedItem="{Binding SelectedItem, ElementName=listBoxDetail, Mode=TwoWay}" />

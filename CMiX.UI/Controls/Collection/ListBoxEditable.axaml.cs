@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System;
 using System.Collections;
 using System.Windows.Input;
 using Avalonia;
@@ -21,6 +22,8 @@ namespace CMiX.UI.Controls.Collection
     {
         static ListBoxEditable()
         {
+            MinItemCountProperty.Changed.AddClassHandler<ListBoxEditable>((list, _) => list.UpdateMinHeight());
+
             // A button shows only when its command is set, and the corners depend on which buttons show.
             foreach (var property in new[] { AddCommandProperty, RemoveCommandProperty, MoveUpCommandProperty, MoveDownCommandProperty })
                 property.Changed.AddClassHandler<ListBoxEditable>((list, e) => list.UpdateButtons());
@@ -33,6 +36,27 @@ namespace CMiX.UI.Controls.Collection
 
             itemsList.ContainerPrepared += (s, e) => SetRowNumber(e.Container, e.Index + 1);
             itemsList.ContainerIndexChanged += (s, e) => SetRowNumber(e.Container, e.NewIndex + 1);
+        }
+
+        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnAttachedToVisualTree(e);
+            UpdateMinHeight();
+        }
+
+        // Room for MinItemCount rows (or the token ListEditableVisibleItems) of ControlHeightMD, the spaces
+        // between them and the padding of the list. The numbers are tokens in Geometry.axaml. Before the list
+        // is in a window they are not found, and the list calls this again when it is attached.
+        private void UpdateMinHeight()
+        {
+            if (!this.TryFindResource("ControlHeightMD", ActualThemeVariant, out var row) || row is not double rowHeight
+                || !this.TryFindResource("ListEditableVisibleItems", ActualThemeVariant, out var count) || count is not int tokenRows
+                || !this.TryFindResource("ListEditableSpacing", ActualThemeVariant, out var spacing) || spacing is not double space
+                || !this.TryFindResource("ListEditablePadding", ActualThemeVariant, out var padding) || padding is not Thickness margin)
+                return;
+
+            var rows = MinItemCount > 0 ? MinItemCount : tokenRows;
+            itemsList.MinHeight = rows * rowHeight + Math.Max(0, rows - 1) * space + margin.Top + margin.Bottom;
         }
 
         // The place of a row in the list, from 1. It is set on the container of the row, so the
@@ -61,6 +85,17 @@ namespace CMiX.UI.Controls.Collection
             var both = firstShown && secondShown;
             PositionedControl.SetPosition(first, both ? ControlPosition.Top : ControlPosition.All);
             PositionedControl.SetPosition(second, both ? ControlPosition.Bottom : ControlPosition.All);
+        }
+
+        // The least number of rows of the list, for example 6. Zero, the default, takes the token
+        // ListEditableVisibleItems. The list is as high as its items when it has more rows.
+        public static readonly StyledProperty<int> MinItemCountProperty =
+            AvaloniaProperty.Register<ListBoxEditable, int>(nameof(MinItemCount));
+
+        public int MinItemCount
+        {
+            get => GetValue(MinItemCountProperty);
+            set => SetValue(MinItemCountProperty, value);
         }
 
         public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty =

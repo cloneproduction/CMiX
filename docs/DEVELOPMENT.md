@@ -133,6 +133,24 @@ come from the value editors of vvvv:
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
 
+### Heights of lists and drop downs
+
+A list or a drop down shows a whole number of rows, so no row is cut at the bottom, and the wheel moves it
+by one row. The height of a row is the token `ControlHeightMD`. No file holds a height as a number. The
+sizes come from the tokens in `Themes/Tokens/Geometry.axaml`:
+
+- `ListBoxCMiX`: `MinItemCount` rows (the token `ListVisibleItems`) plus the top and the bottom of
+  `ListScrollMargin`. The user can drag the strip under the list to make it taller. The height then goes by
+  whole rows, and it never goes below `MinItemCount` rows. There is no largest height.
+- `ListBoxEditable`: `MinItemCount` rows, or `ListEditableVisibleItems` rows when it is 0, the spaces of `ListEditableSpacing` between them, and
+  `ListEditablePadding` around them. The list has no scroll viewer, so it grows with its items.
+- `ComboBox`: `ComboBoxVisibleItems` rows.
+
+The attached property `ScrollStep` does the work for a `ScrollViewer`: `ItemHeight` is the height of a row and
+`VisibleItemCount` is the number of rows. The wheel goes on to the panel around the list when the list is at
+its start or end. To change how many rows a list shows, change its token. A new list takes its numbers from
+the tokens too.
+
 ### Panels of a list
 
 The panels in `Collection` get their data only through their own properties. They never
