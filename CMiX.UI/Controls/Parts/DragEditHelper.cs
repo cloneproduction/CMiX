@@ -29,10 +29,10 @@ namespace CMiX.UI.Controls.Parts
             return new Point(w32Mouse.X, w32Mouse.Y);
         }
 
-        public static void PlaceCursorAt(Point screenPoint)
-        {
-            SetCursorPos((int)screenPoint.X, (int)screenPoint.Y);
-        }
+        // What places the cursor. A test replaces it, to see where the cursor goes and to leave the real cursor alone.
+        internal static Action<Point> CursorPlacer { get; set; } = point => SetCursorPos((int)point.X, (int)point.Y);
+
+        public static void PlaceCursorAt(Point screenPoint) => CursorPlacer(screenPoint);
 
         public static PixelRect GetScreenBounds(Visual visual)
         {

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="CMiX.UI.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.2.1" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.2.0.14" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
