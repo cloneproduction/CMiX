@@ -10,8 +10,8 @@
         <ui:ExpanderIndented.Header>
             <DockPanel>
                 <ui:ToggleButtonCMiX
-                    Width="14"
-                    Height="14"
+                    Width="{DynamicResource ControlHeightXS}"
+                    Height="{DynamicResource ControlHeightXS}"
                     IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=localReflection, Mode=TwoWay}"
                     ResetCommand="{Binding DataContext.IsEnabled.ResetCommand, ElementName=localReflection}"
                     Theme="{DynamicResource ToggleButtonRounded}" />
