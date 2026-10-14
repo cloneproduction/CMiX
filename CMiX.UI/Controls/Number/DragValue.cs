@@ -249,6 +249,14 @@ namespace CMiX.UI.Controls.Number
             set => SetValue(IsReadOnlyProperty, value);
         }
 
+        public static readonly StyledProperty<object> LeadingContentProperty =
+            AvaloniaProperty.Register<DragValue, object>(nameof(LeadingContent));
+        public object LeadingContent
+        {
+            get => GetValue(LeadingContentProperty);
+            set => SetValue(LeadingContentProperty, value);
+        }
+
         public static readonly StyledProperty<object> TrailingContentProperty =
             AvaloniaProperty.Register<DragValue, object>(nameof(TrailingContent));
         public object TrailingContent

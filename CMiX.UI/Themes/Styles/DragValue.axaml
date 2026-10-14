@@ -12,6 +12,10 @@
                     <DockPanel>
 
                         <ContentPresenter
+                            Content="{TemplateBinding LeadingContent}"
+                            DockPanel.Dock="Left" />
+
+                        <ContentPresenter
                             Content="{TemplateBinding TrailingContent}"
                             DockPanel.Dock="Right" />
 
@@ -119,6 +123,10 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel>
+
+                    <ContentPresenter
+                        Content="{TemplateBinding LeadingContent}"
+                        DockPanel.Dock="Left" />
 
                     <ContentPresenter
                         Content="{TemplateBinding TrailingContent}"
