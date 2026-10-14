@@ -30,6 +30,8 @@
             ResetCommand="{Binding WaveType.ResetCommand}"
             SelectedItem="{Binding WaveType.Value, Mode=TwoWay}" />
 
+        <Views:Quantize DataContext="{Binding Quantize}" />
+
     </StackPanel>
 
 </UserControl>

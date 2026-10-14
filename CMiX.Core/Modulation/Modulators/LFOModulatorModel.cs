@@ -15,5 +15,6 @@ namespace CMiX.Core.Modulation.Modulators
         public GenericValueModel<float> Minimum { get; set; } = new(-1.0f);
         public GenericValueModel<float> Maximum { get; set; } = new(1.0f);
         public GenericValueModel<WaveTypeEnum> WaveType { get; set; } = new(WaveTypeEnum.Triangle);
+        public QuantizeModel Quantize { get; set; } = new();
     }
 }

@@ -17,12 +17,16 @@ namespace CMiX.Core.Modulation.Modulators
                                 GenericValue<float> center,
                                 GenericValue<float> width,
                                 Easing easing,
+                                Quantize quantize,
                                 BeatSteps beatSteps,
                                 UndoManager undoManager,
                                 ControlActivationService activationService)
             : base(prefabService, masterBeat, beatIndex, center, width, easing, beatSteps, undoManager, activationService)
         {
+            Quantize = quantize;
         }
+
+        public Quantize Quantize { get; set; }
 
         public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] { new ModulatorOutput<float>("Value") };
 
@@ -30,6 +34,7 @@ namespace CMiX.Core.Modulation.Modulators
         {
             ID = ID,
             Easing = (EasingModel)Easing.ToModel(),
+            Quantize = (QuantizeModel)Quantize.ToModel(),
             BeatIndex = (GenericValueModel<int>)BeatIndex.ToModel(),
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             BeatSteps = (BeatStepsModel)BeatSteps.ToModel(),
@@ -42,6 +47,7 @@ namespace CMiX.Core.Modulation.Modulators
             var m = (BeatLFOModulatorModel)model;
             ID = m.ID;
             Easing.FromModel(m.Easing);
+            Quantize.FromModel(m.Quantize);
             BeatIndex.FromModel(m.BeatIndex);
             PrefabService.FromModel(m.PrefabService);
             BeatSteps.FromModel(m.BeatSteps);

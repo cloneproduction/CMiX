@@ -12,6 +12,7 @@ namespace CMiX.Core.Modulation.Modulators
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public EasingModel Easing { get; set; } = new();
+        public QuantizeModel Quantize { get; set; } = new();
         public GenericValueModel<int> BeatIndex { get; set; } = new(0);
         public BeatStepsModel BeatSteps { get; set; } = new();
 
