@@ -214,8 +214,8 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Border
-            CornerRadius="{DynamicResource CornerRadiusCard}"
-            ui:RoundedClip.CornerRadius="{DynamicResource CornerRadiusCard}">
+            CornerRadius="{DynamicResource CornerRadiusAll}"
+            ui:RoundedClip.CornerRadius="{DynamicResource CornerRadiusAll}">
           <Border Background="Transparent">
             <DockPanel>
               <ToggleButton

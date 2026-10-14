@@ -28,13 +28,13 @@ namespace CMiX.UI.Tests
         private static T Token<T>(string key) => (T)Application.Current!.FindResource(key)!;
 
         [AvaloniaFact]
-        public void TheCard_HasTheRoundedCornersOfTheToken_AndClipsItsContentToThem()
+        public void TheCard_HasTheBaseRoundedCorners_AndClipsItsContentToThem()
         {
             var (_, first, _) = Show();
             var outline = Outline(first);
 
-            Assert.Equal(Token<CornerRadius>("CornerRadiusCard"), outline.CornerRadius);
-            Assert.Equal(Token<CornerRadius>("CornerRadiusCard"), RoundedClip.GetCornerRadius(outline));
+            Assert.Equal(Token<CornerRadius>("CornerRadiusAll"), outline.CornerRadius);
+            Assert.Equal(Token<CornerRadius>("CornerRadiusAll"), RoundedClip.GetCornerRadius(outline));
             Assert.NotNull(outline.Clip);
         }
 
@@ -61,7 +61,7 @@ namespace CMiX.UI.Tests
         public void FoldedAndOpen_TheCardKeepsItsRoundedOutline()
         {
             var (_, first, _) = Show();
-            var radius = Token<CornerRadius>("CornerRadiusCard");
+            var radius = Token<CornerRadius>("CornerRadiusAll");
 
             first.IsExpanded = false;
             Dispatcher.UIThread.RunJobs();
@@ -93,12 +93,6 @@ namespace CMiX.UI.Tests
             var level1 = ((Avalonia.Media.ISolidColorBrush)Application.Current!.FindResource("PanelBackgroundLevel1Brush")!).Color;
 
             Assert.Equal(level1, color);
-        }
-
-        [AvaloniaFact]
-        public void TheCardRadius_IsTheBaseRadius()
-        {
-            Assert.Equal(Token<CornerRadius>("CornerRadiusAll"), Token<CornerRadius>("CornerRadiusCard"));
         }
 
         [AvaloniaFact]
