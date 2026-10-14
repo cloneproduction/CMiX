@@ -22,6 +22,7 @@
 
             <Managers:PrefabSlotManager
                 Margin="8"
+                MinItemCount="2"
                 DataContext="{Binding ModelEntityManager}"
                 DockPanel.Dock="Top"
                 ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.EntitiesAndTexts}">

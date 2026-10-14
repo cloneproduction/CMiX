@@ -15,6 +15,7 @@
         <DockPanel>
             <Managers:PrefabSlotManager
                 Margin="8"
+                MinItemCount="2"
                 DataContext="{Binding CameraManager}"
                 DockPanel.Dock="Top"
                 ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Cameras}">

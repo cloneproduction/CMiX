@@ -13,7 +13,7 @@
             SelectedItem="{Binding Asset}" />
 
         <ui:ListBoxCMiX
-            MinHeight="105"
+            MinItemCount="{DynamicResource ListVisibleItems}"
             ItemsSource="{Binding Items}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 

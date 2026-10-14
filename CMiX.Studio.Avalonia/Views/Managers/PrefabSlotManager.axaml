@@ -12,7 +12,7 @@
 
         <ui:ListBoxCMiX
             x:Name="prefabListBox"
-            MinHeight="105"
+            MinItemCount="{Binding MinItemCount, ElementName=prefabSlotManager}"
             ItemsSource="{Binding ManagerData.Items}"
             SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">

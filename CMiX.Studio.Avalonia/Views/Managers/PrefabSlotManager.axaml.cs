@@ -21,6 +21,24 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             InitializeComponent();
         }
 
+        // The least number of rows of the list. Zero, the default, takes the token ListVisibleItems when the
+        // manager is in a window.
+        public static readonly StyledProperty<int> MinItemCountProperty =
+            AvaloniaProperty.Register<PrefabSlotManager, int>(nameof(MinItemCount));
+        public int MinItemCount
+        {
+            get => GetValue(MinItemCountProperty);
+            set => SetValue(MinItemCountProperty, value);
+        }
+
+        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnAttachedToVisualTree(e);
+
+            if (MinItemCount == 0 && this.TryFindResource("ListVisibleItems", ActualThemeVariant, out var rows) && rows is int count)
+                SetCurrentValue(MinItemCountProperty, count);
+        }
+
         public static readonly StyledProperty<Control> SelectionPanelProperty =
             AvaloniaProperty.Register<PrefabSlotManager, Control>(nameof(SelectionPanel));
         public Control SelectionPanel
