@@ -43,10 +43,10 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
         }
 
-        private static void Move(Control target, Pointer pointer, Point inWindow, Window window)
+        private static void Move(Control target, Pointer pointer, Point inWindow, Window window, KeyModifiers modifiers = KeyModifiers.None)
         {
             target.RaiseEvent(new PointerEventArgs(InputElement.PointerMovedEvent, target, pointer, window, inWindow, 0,
-                new PointerPointProperties(RawInputModifiers.None, PointerUpdateKind.Other), KeyModifiers.None));
+                new PointerPointProperties(RawInputModifiers.None, PointerUpdateKind.Other), modifiers));
             Dispatcher.UIThread.RunJobs();
         }
 
@@ -376,14 +376,14 @@ namespace CMiX.UI.Tests
 
         private static SliderCMiX HorizontalSlider() => new()
         {
-            Minimum = 0, Maximum = 1, Value = 0.5, Width = 300, Height = 30, IsEditable = false,
+            Minimum = 0, Maximum = 1, Value = 0.5, Width = 300, Height = 30, IsEditable = false, LargeChange = 1,
         };
 
         // The slider next to the color wheel: vertical, the maximum at the top.
         private static SliderCMiX BrightnessSlider() => new()
         {
             Theme = (ControlTheme)Application.Current!.FindResource("SliderCMiXBrightness")!,
-            Minimum = 0, Maximum = 100, Value = 50, Width = 16, Height = 200, IsEditable = false,
+            Minimum = 0, Maximum = 100, Value = 50, Width = 16, Height = 200, IsEditable = false, LargeChange = 1,
         };
 
         [AvaloniaTheory]
@@ -456,6 +456,7 @@ namespace CMiX.UI.Tests
                 visual.Clip = null;
             Dispatcher.UIThread.RunJobs();
             var slider = HorizontalSliderUnderTheMouse(window, popup);
+            slider.LargeChange = 1;
             var center = slider.TranslatePoint(new Point(slider.Bounds.Width / 2, slider.Bounds.Height / 2), window)!.Value;
 
             DragAndRelease(window, slider, new Point(center.X + 300, center.Y));
@@ -465,6 +466,246 @@ namespace CMiX.UI.Tests
             Assert.InRange(spy.Placed[^1].X, right.X - 12, right.X);
             Assert.True(popup.IsOpen);
             Assert.True(OverTheTrackAt(window, slider, spy.Placed[^1]));
+        }
+
+        // ---------------------------------------------------------------- the cursor goes back on the wheel
+
+        // Where the indicator of the color is, on the screen: the same formula as the wheel uses.
+        private static Point IndicatorOnScreen(ColorPickerWheel wheel)
+        {
+            var ellipse = wheel.GetVisualDescendants().OfType<Avalonia.Controls.Shapes.Ellipse>().First(e => e.Name == "PART_CursorEllipse");
+            var angle = wheel.Color.HSV_H * Math.PI / 180;
+            var radius = (wheel.Height - ellipse.Height) / 2 * wheel.Color.HSV_S;
+            var location = new Point(wheel.Width / 2 + Math.Cos(angle) * radius, wheel.Height / 2 - Math.Sin(angle) * radius);
+            var onScreen = wheel.PointToScreen(location);
+
+            return new Point(onScreen.X, onScreen.Y);
+        }
+
+        [AvaloniaTheory]
+        [InlineData(120, 0)]
+        [InlineData(450, -80)]
+        [InlineData(-250, 300)]
+        public void AWheel_PutsTheCursorBackOnTheIndicator_AlsoAfterALongDragOutside(double dx, double dy)
+        {
+            using var spy = new CursorSpy();
+            var (wheel, window, colors) = ShowWheel();
+            var origin = wheel.TranslatePoint(new Point(0, 0), window)!.Value;
+            var start = new Point(origin.X + 150, origin.Y + 100);
+
+            window.MouseMove(start);
+            window.MouseDown(start, MouseButton.Left);
+            Dispatcher.UIThread.RunJobs();
+            var end = new Point(start.X + dx, start.Y + dy);
+            for (var i = 1; i <= 4; i++)
+            {
+                window.MouseMove(new Point(start.X + dx * i / 4, start.Y + dy * i / 4));
+                Dispatcher.UIThread.RunJobs();
+            }
+            window.MouseUp(end, MouseButton.Left);
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.NotEmpty(colors);
+            var placed = Assert.Single(spy.Placed);
+            var expected = IndicatorOnScreen(wheel);
+            Assert.InRange(placed.X, expected.X - 1, expected.X + 1);
+            Assert.InRange(placed.Y, expected.Y - 1, expected.Y + 1);
+
+            // The cursor is inside the circle of the wheel.
+            var center = wheel.PointToScreen(new Point(wheel.Width / 2, wheel.Height / 2));
+            Assert.True(Math.Sqrt(Math.Pow(placed.X - center.X, 2) + Math.Pow(placed.Y - center.Y, 2)) < wheel.Width / 2);
+        }
+
+        [AvaloniaFact]
+        public void AWheel_CanBeDraggedAgainFromWhereTheCursorIsPutBack()
+        {
+            using var spy = new CursorSpy();
+            var (wheel, window, colors) = ShowWheel();
+            var origin = wheel.TranslatePoint(new Point(0, 0), window)!.Value;
+            var start = new Point(origin.X + 150, origin.Y + 100);
+
+            window.MouseMove(start);
+            window.MouseDown(start, MouseButton.Left);
+            window.MouseMove(new Point(start.X + 400, start.Y - 60));
+            window.MouseUp(new Point(start.X + 400, start.Y - 60), MouseButton.Left);
+            Dispatcher.UIThread.RunJobs();
+
+            var at = window.PointToClient(new PixelPoint((int)spy.Placed[^1].X, (int)spy.Placed[^1].Y));
+            var before = colors.Count;
+            window.MouseMove(at);
+            window.MouseDown(at, MouseButton.Left);
+            window.MouseMove(new Point(at.X - 40, at.Y + 30));
+            window.MouseMove(new Point(at.X - 80, at.Y + 60));
+            window.MouseUp(new Point(at.X - 80, at.Y + 60), MouseButton.Left);
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.True(colors.Count > before);
+        }
+
+        [AvaloniaFact]
+        public void APressExactlyAtTheCenterOfAWheel_KeepsAValidHue()
+        {
+            var (wheel, window, _) = ShowWheel();
+            var pointer = NewPointer();
+            var center = wheel.TranslatePoint(new Point(wheel.Width / 2, wheel.Height / 2), window)!.Value;
+
+            Press(wheel, pointer, center, window);
+
+            Assert.True(double.IsFinite(wheel.Color.HSV_H));
+            Assert.Equal(0, wheel.Color.HSV_S);
+        }
+
+        [AvaloniaFact]
+        public void AWheel_WhoseCaptureIsLost_DoesNotMoveTheCursor()
+        {
+            using var spy = new CursorSpy();
+            var (wheel, window, _) = ShowWheel();
+            var pointer = NewPointer();
+            var at = wheel.TranslatePoint(new Point(150, 100), window)!.Value;
+
+            Press(wheel, pointer, at, window);
+            pointer.Capture(null);
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Empty(spy.Placed);
+        }
+
+        // ---------------------------------------------------------------- the cursor stays hidden for the whole drag
+
+        private static string? CursorName(ColorPickerWheel wheel) => wheel.Cursor?.ToString();
+
+        [AvaloniaFact]
+        public void AWheel_HidesTheCursorForTheWholeDrag_AlsoWhenThePointerLeavesIt()
+        {
+            using var spy = new CursorSpy();
+            var (wheel, window, _) = ShowWheel();
+            var origin = wheel.TranslatePoint(new Point(0, 0), window)!.Value;
+            var start = new Point(origin.X + 150, origin.Y + 100);
+            var outside = new Point(origin.X + 330, origin.Y + 100);
+            var before = CursorName(wheel);
+
+            window.MouseMove(start);
+            window.MouseDown(start, MouseButton.Left);
+            Dispatcher.UIThread.RunJobs();
+            Assert.Equal(StandardCursorType.None.ToString(), CursorName(wheel));
+            Assert.Contains(":dragging", wheel.Classes);
+
+            // The pointer leaves the wheel and the control says so, while the drag goes on.
+            window.MouseMove(outside);
+            wheel.RaiseEvent(new PointerEventArgs(InputElement.PointerExitedEvent, wheel, NewPointer(), window, outside, 0,
+                new PointerPointProperties(RawInputModifiers.LeftMouseButton, PointerUpdateKind.Other), KeyModifiers.None));
+            Dispatcher.UIThread.RunJobs();
+            Assert.Equal(StandardCursorType.None.ToString(), CursorName(wheel));
+            Assert.Contains(":dragging", wheel.Classes);
+
+            // It comes back with the release, which puts the cursor on the indicator.
+            window.MouseUp(outside, MouseButton.Left);
+            Dispatcher.UIThread.RunJobs();
+            Assert.Equal(before, CursorName(wheel));
+            Assert.DoesNotContain(":dragging", wheel.Classes);
+            Assert.Single(spy.Placed);
+        }
+
+        [AvaloniaFact]
+        public void AWheel_ShowsTheCursorAgain_WhenItsCaptureIsLost()
+        {
+            var (wheel, window, _) = ShowWheel();
+            var pointer = NewPointer();
+            var before = CursorName(wheel);
+
+            Press(wheel, pointer, wheel.TranslatePoint(new Point(150, 100), window)!.Value, window);
+            Assert.Equal(StandardCursorType.None.ToString(), CursorName(wheel));
+
+            pointer.Capture(null);
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(before, CursorName(wheel));
+            Assert.DoesNotContain(":dragging", wheel.Classes);
+        }
+
+        // ---------------------------------------------------------------- Shift slows the movement
+
+        // The saturation of the wheel after a press at the given local point and the moves that follow.
+        private static double SaturationAfter(Point pressAt, params (Point At, KeyModifiers Modifiers)[] moves)
+        {
+            var (wheel, window, _) = ShowWheel();
+            var pointer = NewPointer();
+            var origin = wheel.TranslatePoint(new Point(0, 0), window)!.Value;
+            Point InWindow(Point local) => new(origin.X + local.X, origin.Y + local.Y);
+
+            Press(wheel, pointer, InWindow(pressAt), window);
+            foreach (var move in moves)
+                Move(wheel, pointer, InWindow(move.At), window, move.Modifiers);
+
+            return wheel.Color.HSV_S;
+        }
+
+        [AvaloniaFact]
+        public void AWheel_WithShift_MovesTheIndicatorByAFractionOfTheMouse()
+        {
+            var press = new Point(130, 100);
+            var to = new Point(170, 100);
+            var start = SaturationAfter(press);
+
+            var normal = SaturationAfter(press, (to, KeyModifiers.None)) - start;
+            var fine = SaturationAfter(press, (to, KeyModifiers.Shift)) - start;
+
+            Assert.True(normal > 0.3);
+            Assert.InRange(fine / normal, DragEditHelperFineSpeed * 0.9, DragEditHelperFineSpeed * 1.1);
+        }
+
+        [AvaloniaFact]
+        public void AWheel_DoesNotJump_WhenShiftIsLetGo()
+        {
+            var (wheel, window, _) = ShowWheel();
+            var pointer = NewPointer();
+            var origin = wheel.TranslatePoint(new Point(0, 0), window)!.Value;
+            Point InWindow(double x, double y) => new(origin.X + x, origin.Y + y);
+
+            Press(wheel, pointer, InWindow(130, 100), window);
+            var start = wheel.Color.HSV_S;
+            Move(wheel, pointer, InWindow(170, 100), window, KeyModifiers.Shift);
+            var slowed = wheel.Color.HSV_S;
+            Assert.InRange(slowed - start, 0, 0.01);
+
+            // Shift is let go and the mouse has not moved: the indicator stays where it is.
+            Move(wheel, pointer, InWindow(170, 100), window);
+            Assert.Equal(slowed, wheel.Color.HSV_S, 9);
+
+            // And it follows the mouse at full speed again.
+            Move(wheel, pointer, InWindow(180, 100), window);
+            Assert.Equal(slowed + 10 / ((wheel.Height - 12) / 2), wheel.Color.HSV_S, 3);
+        }
+
+        private const double DragEditHelperFineSpeed = 0.01;
+
+        private static double SliderGainWith(RawInputModifiers modifiers)
+        {
+            var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.5, Width = 300, Height = 30, IsEditable = false };
+            var window = Show(slider, 1500, 400);
+            var center = slider.TranslatePoint(new Point(150, 15), window)!.Value;
+
+            window.MouseMove(center);
+            window.MouseDown(center, MouseButton.Left);
+            Dispatcher.UIThread.RunJobs();
+            window.MouseMove(new Point(center.X + 30, center.Y), modifiers);
+            window.MouseMove(new Point(center.X + 60, center.Y), modifiers);
+            Dispatcher.UIThread.RunJobs();
+            var value = slider.Value;
+            window.MouseUp(new Point(center.X + 60, center.Y), MouseButton.Left);
+
+            return value - 0.5;
+        }
+
+        [AvaloniaFact]
+        public void ASlider_MovesAsSlowAsADragValue()
+        {
+            var normal = SliderGainWith(RawInputModifiers.None);
+            var fine = SliderGainWith(RawInputModifiers.Shift);
+
+            // 60 pixels at 0.001 a pixel, and the small step of a DragValue with Shift.
+            Assert.InRange(normal, 0.059, 0.061);
+            Assert.InRange(fine / normal, 0.099, 0.101);
         }
     }
 }

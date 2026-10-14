@@ -107,13 +107,32 @@ namespace CMiX.UI.Controls.Number
         {
             isDragging = false;
             _dragStarted = false;
+            _wrap = null;
             PseudoClasses.Set(":pressed", false);
             Cursor = Cursor.Default;
         }
 
+        // The value change per pixel of mouse move, as a part of the range. A slider from 0 to 1 moves as a DragValue.
+        // Shift gives the small step.
+        public static readonly StyledProperty<double> SmallChangeProperty =
+            AvaloniaProperty.Register<SliderCMiX, double>(nameof(SmallChange), DragValue.DefaultSmallChange);
+        public double SmallChange
+        {
+            get => GetValue(SmallChangeProperty);
+            set => SetValue(SmallChangeProperty, value);
+        }
+
+        public static readonly StyledProperty<double> LargeChangeProperty =
+            AvaloniaProperty.Register<SliderCMiX, double>(nameof(LargeChange), DragValue.DefaultLargeChange);
+        public double LargeChange
+        {
+            get => GetValue(LargeChangeProperty);
+            set => SetValue(LargeChangeProperty, value);
+        }
+
+        private DragCursorWrap? _wrap;
         private bool isDragging = false;
         private bool _dragStarted = false;
-        private double lastValue;
         private Point _lastPoint;
         private Point _mouseDownPoint;
         private IDisposable? _interaction;
@@ -146,9 +165,9 @@ namespace CMiX.UI.Controls.Number
 
             isDragging = true;
             _dragStarted = false;
-            lastValue = Value;
             _lastPoint = e.GetPosition(Border);
             _mouseDownPoint = _lastPoint;
+            _wrap = new DragCursorWrap(Border, _lastPoint);
             e.Pointer.Capture(this);
             _interaction = InteractionHost.BeginScope();
             Focus();
@@ -162,33 +181,22 @@ namespace CMiX.UI.Controls.Number
             if (IsEditing || !isDragging || Border == null || e.Pointer.Captured != this)
                 return;
 
+            // The position goes on when the cursor is moved to the other side of the screen.
+            var currentPoint = _wrap?.Position(e) ?? e.GetPosition(Border);
+
             if (!_dragStarted)
             {
                 _dragStarted = true;
                 return;
             }
 
-            var currentPoint = e.GetPosition(Border);
-            var currentValue = 0.0;
+            // The value changes by a fixed part of the range for each pixel, whatever the size of the track.
+            var delta = Orientation == Orientation.Vertical ? _lastPoint.Y - currentPoint.Y : currentPoint.X - _lastPoint.X;
+            _lastPoint = currentPoint;
 
-            if (Orientation == Orientation.Vertical)
-            {
-                currentPoint = currentPoint.WithX(Border.Bounds.Width / 2);
-                Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
-                currentValue = MathHelper.Map(-offset.Y, 0, Border.Bounds.Height, Minimum, Maximum);
-            }
-            else if (Orientation == Orientation.Horizontal)
-            {
-                currentPoint = currentPoint.WithY(Border.Bounds.Height / 2);
-                Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
-                currentValue = MathHelper.Map(offset.X, 0, Border.Bounds.Width, Minimum, Maximum);
-            }
-
-            double smooth = 1.0;
-            if (e.KeyModifiers.HasFlag(KeyModifiers.Shift))
-                smooth = 0.01;
-
-            Value = Math.Clamp(lastValue + currentValue * smooth, Minimum, Maximum);
+            var scaling = TopLevel.GetTopLevel(this)?.RenderScaling ?? 1;
+            var step = e.KeyModifiers.HasFlag(KeyModifiers.Shift) ? SmallChange : LargeChange;
+            Value = Math.Clamp(Value + delta * scaling * step * (Maximum - Minimum), Minimum, Maximum);
         }
 
         // The cursor goes back on the thumb. At the end of the track the thumb is on the far edge, and a cursor on
@@ -236,7 +244,6 @@ namespace CMiX.UI.Controls.Number
             _interaction?.Dispose();
 
             isDragging = false;
-            lastValue = Value;
             PseudoClasses.Set(":pressed", false);
             Cursor = Cursor.Default;
         }

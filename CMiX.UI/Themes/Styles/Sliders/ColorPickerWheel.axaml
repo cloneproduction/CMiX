@@ -5,7 +5,6 @@
 
 
     <ControlTheme x:Key="ColorPickerWheel" TargetType="ui:ColorPickerWheel">
-        <Setter Property="(ui:MouseDown.IsEnabled)" Value="True" />
         <Setter Property="Template">
             <ControlTemplate>
 
@@ -93,10 +92,8 @@
             </Setter>
         </Style>
 
-        <Style Selector="^[(ui|MouseDown.IsMouseLeftButtonDown)=True]">
-            <Setter Property="Cursor" Value="None" />
-        </Style>
-        <Style Selector="^[(ui|MouseDown.IsMouseLeftButtonDown)=True] /template/ Ellipse#PART_CursorEllipse">
+        <!-- The wheel sets :dragging for the whole drag, and hides the cursor in code. -->
+        <Style Selector="^:dragging /template/ Ellipse#PART_CursorEllipse">
             <Setter Property="RenderTransform">
                 <TransformGroup>
                     <TranslateTransform X="-6" Y="-6" />

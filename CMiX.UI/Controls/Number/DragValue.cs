@@ -20,7 +20,8 @@ namespace CMiX.UI.Controls.Number
         private Point? _mouseDownPos;
         private Point? _cursorDownScreenPos;
         private bool _dragging;
-        private Point _lastScreenPos;
+        private Point _lastPosition;
+        private DragCursorWrap? _wrap;
         private IDisposable? _interaction;
         private readonly ContextMenuGuard _contextMenuGuard;
 
@@ -71,6 +72,7 @@ namespace CMiX.UI.Controls.Number
 
             _mouseDownPos = e.GetPosition(_borderValueDisplay);
             _cursorDownScreenPos = DragEditHelper.GetMousePosition();
+            _wrap = new DragCursorWrap(_borderValueDisplay, _mouseDownPos.Value);
             _dragging = false;
 
             e.Pointer.Capture(_borderValueDisplay);
@@ -83,7 +85,8 @@ namespace CMiX.UI.Controls.Number
             if (_mouseDownPos == null || _borderValueDisplay == null)
                 return;
 
-            var current = e.GetPosition(_borderValueDisplay);
+            // The position goes on when the cursor is moved to the other side of the screen.
+            var current = _wrap?.Position(e) ?? e.GetPosition(_borderValueDisplay);
 
             if (!_dragging)
             {
@@ -92,36 +95,15 @@ namespace CMiX.UI.Controls.Number
 
                 _dragging = true;
                 _borderValueDisplay.Cursor = new Cursor(StandardCursorType.None);
-                _lastScreenPos = DragEditHelper.GetMousePosition();
+                _lastPosition = current;
                 return;
             }
 
-            var screenPos = DragEditHelper.GetMousePosition();
-            var delta = screenPos - _lastScreenPos;
-
-            double screenWidth = DragEditHelper.GetScreenBounds(this).Width;
-
-            bool wrapped = false;
-            if (screenPos.X >= screenWidth - 1)
-            {
-                DragEditHelper.PlaceCursorAt(new Point(1, screenPos.Y));
-                wrapped = true;
-            }
-            else if (screenPos.X <= 0)
-            {
-                DragEditHelper.PlaceCursorAt(new Point(screenWidth - 2, screenPos.Y));
-                wrapped = true;
-            }
-
-            if (wrapped)
-            {
-                _lastScreenPos = DragEditHelper.GetMousePosition();
-                return;
-            }
-
+            // The value changes by pixels of the screen, so the units of the visual are scaled back.
+            var scaling = TopLevel.GetTopLevel(this)?.RenderScaling ?? 1;
             double step = e.KeyModifiers.HasFlag(KeyModifiers.Shift) ? SmallChange : LargeChange;
-            AdjustValue(delta.X * step);
-            _lastScreenPos = screenPos;
+            AdjustValue((current.X - _lastPosition.X) * scaling * step);
+            _lastPosition = current;
         }
 
         private void Border_PointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -143,6 +125,7 @@ namespace CMiX.UI.Controls.Number
                 DragEditHelper.PlaceCursorAt(_cursorDownScreenPos.Value);
 
             _mouseDownPos = null;
+            _wrap = null;
             _cursorDownScreenPos = null;
             _dragging = false;
         }

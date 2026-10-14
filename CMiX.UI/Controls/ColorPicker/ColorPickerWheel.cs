@@ -8,6 +8,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.ColorPicker
 {
@@ -18,6 +19,14 @@ namespace CMiX.UI.Controls.ColorPicker
 
         private Ellipse? _cursorEllipse;
         private bool _isDragging;
+        private Cursor? _cursorBeforeDrag;
+
+        // The pointer of the last event, and how far the point that sets the color is from the pointer. The point
+        // follows the pointer exactly, until Shift slows it down: then it moves only a fraction of the mouse, and the
+        // distance keeps what it lost, so the indicator does not jump when Shift is let go.
+        private Point _lastPointer;
+        private DragCursorWrap? _wrap;
+        private global::Avalonia.Vector _offset;
         protected override Type StyleKeyOverride => typeof(ColorPickerWheel);
 
         public ColorPickerWheel()
@@ -25,7 +34,7 @@ namespace CMiX.UI.Controls.ColorPicker
             PointerPressed += OnPointerPressed;
             PointerMoved += OnPointerMoved;
             PointerReleased += OnPointerReleased;
-            PointerCaptureLost += (s, e) => _isDragging = false;
+            PointerCaptureLost += (s, e) => EndDrag();
             ColorChanged += ColorPickerWheel_ColorChanged;
         }
 
@@ -47,9 +56,12 @@ namespace CMiX.UI.Controls.ColorPicker
 
             if (!_isDragging)
             {
-                _isDragging = true;
+                BeginDrag();
 
-                SetColor(e.GetPosition(this));
+                _lastPointer = e.GetPosition(this);
+                _wrap = new DragCursorWrap(this, _lastPointer);
+                _offset = default;
+                SetColor(_lastPointer);
                 e.Pointer.Capture(this);
                 e.Handled = true;
             }
@@ -59,7 +71,14 @@ namespace CMiX.UI.Controls.ColorPicker
         {
             if (_isDragging && e.Pointer.Captured == this)
             {
-                SetColor(e.GetPosition(this));
+                // The position goes on when the cursor is moved to the other side of the screen.
+                var position = _wrap?.Position(e) ?? e.GetPosition(this);
+
+                if (e.KeyModifiers.HasFlag(KeyModifiers.Shift))
+                    _offset += (position - _lastPointer) * (DragEditHelper.FineSpeed - 1);
+
+                _lastPointer = position;
+                SetColor(position + _offset);
                 SetCursor();
             }
         }
@@ -68,10 +87,44 @@ namespace CMiX.UI.Controls.ColorPicker
         {
             if (_isDragging)
             {
-                _isDragging = false;
+                EndDrag();
+                PlaceCursorOnTheIndicator();
                 e.Pointer.Capture(null);
                 TopLevel.GetTopLevel(this)?.FocusManager?.ClearFocus();
             }
+        }
+
+        // The cursor is hidden for the whole drag, also when the mouse is outside the wheel, and comes back at the end.
+        // This is set here and not by a style on the state of the mouse, because that state ends when the pointer
+        // leaves the wheel, while the drag goes on.
+        private void BeginDrag()
+        {
+            _isDragging = true;
+            PseudoClasses.Set(":dragging", true);
+            _cursorBeforeDrag = Cursor;
+            Cursor = new Cursor(StandardCursorType.None);
+        }
+
+        private void EndDrag()
+        {
+            if (!_isDragging)
+                return;
+
+            _isDragging = false;
+            _wrap = null;
+            PseudoClasses.Set(":dragging", false);
+            Cursor = _cursorBeforeDrag;
+        }
+
+        // The cursor goes back on the indicator of the color, as the cursor of a slider goes back on its thumb.
+        // The indicator is inside the circle, so the cursor is never on the edge of the control.
+        private void PlaceCursorOnTheIndicator()
+        {
+            if (GetColorLocation() is not { } location)
+                return;
+
+            var onScreen = this.PointToScreen(location);
+            DragEditHelper.PlaceCursorAt(new Point(onScreen.X, onScreen.Y));
         }
 
         private void SetCursor()
@@ -99,6 +152,14 @@ namespace CMiX.UI.Controls.ColorPicker
 
             var dx = Math.Abs(mousePosition.X - centerPoint.X);
             var dy = Math.Abs(mousePosition.Y - centerPoint.Y);
+
+            // At the exact center there is no direction. The color has no saturation and keeps its hue.
+            if (dx == 0 && dy == 0)
+            {
+                Color.HSV_S = 0;
+                Color.UpdateEverything();
+                return;
+            }
 
             var angle = Math.Atan(dy / dx) / Math.PI * 180;
             var distance = Math.Pow(Math.Pow(dx, 2) + Math.Pow(dy, 2), 0.5);
