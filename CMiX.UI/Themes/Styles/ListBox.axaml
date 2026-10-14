@@ -85,6 +85,69 @@
         </Setter>
     </ControlTheme>
 
+    <!-- The list of ListBoxEditable: dark, with no scroll viewer, as high as its items, and a space
+         between the items. The dark is a black with some opacity, so the list is darker than the panel
+         behind it, whatever the grey of that panel. The minimum height holds four rows of
+         ControlHeightMD (24), three spaces of 2 and a padding of 4 on each side: 4 * 24 + 3 * 2 + 2 * 4.
+         A test keeps this number in step with ControlHeightMD. -->
+    <ControlTheme x:Key="ListBoxEditableList" TargetType="ListBox">
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemEditable}" />
+        <Setter Property="AutoScrollToSelectedItem" Value="False" />
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <StackPanel Spacing="2" />
+            </ItemsPanelTemplate>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="Bd"
+                    MinHeight="110"
+                    Padding="4"
+                    Background="{DynamicResource ListBoxBackground}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <ItemsPresenter
+                        Name="PART_ItemsPresenter"
+                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <!-- A row of ListBoxEditable. It is exactly as high as its content, so the highlight has the
+         size of the content. The space between the rows comes from the items panel of the list.
+         A row is transparent, grey when the pointer is over it, and blue when it is selected. -->
+    <ControlTheme x:Key="ListBoxItemEditable" TargetType="ListBoxItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="Bd"
+                    Background="Transparent"
+                    CornerRadius="{DynamicResource CornerRadiusAll}"
+                    TextElement.Foreground="{DynamicResource ForegroundBrush}">
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:selected:pointerover /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:selected:not(:pointerover) /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+        <Style Selector="^:pointerover:not(:selected) /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
+        </Style>
+    </ControlTheme>
+
     <ControlTheme x:Key="ListBoxItemCMiX" TargetType="ListBoxItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
