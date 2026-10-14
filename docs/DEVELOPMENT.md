@@ -151,6 +151,30 @@ The attached property `ScrollStep` does the work for a `ScrollViewer`: `ItemHeig
 its start or end. To change how many rows a list shows, change its token. A new list takes its numbers from
 the tokens too.
 
+### The scale of sizes
+
+All the sizes of the UI come from one scale in `Themes/Tokens/Geometry.axaml`. No AXAML file holds a height as
+a number: the test `HeightLiteralTests` fails for a new `Height`, `MinHeight` or `MaxHeight` that is a number.
+It has a short list of exceptions, each with its reason, and the size of a `Window` is not checked.
+
+XAML cannot add two tokens, so the tokens that follow `ControlHeightMD` are numbers, and `ScaleTokensTests` keeps
+them in step with it:
+
+| Token | Value |
+|---|---|
+| `ControlHeightXS`, `SM`, `XL`, `XXL` | `ControlHeightMD` minus 8, minus 4, plus 6, plus 10 |
+| `IconSizeXS` and `IconSizeMD` | `ControlHeightMD` minus 8 |
+| `IconSizeSM` | `IconSizeXS` minus 4 |
+| `IconSizeLG` | `ControlHeightMD` |
+| `TextAreaHeight2` and `TextAreaHeight4` | 2 and 4 times (`ControlHeightMD` minus 2) |
+| `FontSizeMD` | about half of `ControlHeightMD` |
+
+To make the UI bigger or smaller, change `ControlHeightMD` and move the other tokens of the table by the same
+amount. The test tells you which one is not in step. Even numbers keep the text and the icons on whole pixels.
+The text size comes from `FontSizeMD`, which the style in `Styles/TopLevel.axaml` gives to every window and popup.
+The small parts that are not controls (`IndicatorSize`, `SplitterSize`, `ScrollBarSize` and the like) are separate
+tokens and do not move with the scale.
+
 ### Panels of a list
 
 The panels in `Collection` get their data only through their own properties. They never
