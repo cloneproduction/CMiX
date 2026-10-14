@@ -128,7 +128,7 @@ come from the value editors of vvvv:
 | `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus`, `TextBlockTrimmed` |
 | `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
-| `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxDetail` |
+| `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxDetail`, `ListBoxEditable` |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
@@ -150,6 +150,13 @@ own XAML, for example `Title="{Binding PrefabService.Name.Value}"`. The test
   `ButtonIconClose`, `ButtonDragHandle`) and sets it with `Theme=`. A theme that does not
   use a property just leaves it out.
 - The list is reordered only when the application sets `ReorderService` on it.
+- `ListBoxEditable` is a list of items of one type, with a column of buttons on its right: add and
+  remove, then move up and move down. The application sets the
+  `ItemTemplate`, so an item can be a `DragValue`, a `ColorSelector` or any other editor. A button
+  shows only when its command (`AddCommand`, `RemoveCommand`, `MoveUpCommand`, `MoveDownCommand`)
+  is set. `AddCommandParameter` is the parameter of the add command, and the other commands get the
+  selected item. When `ReorderService` is set, each row has a drag handle. The `BeatStepModulator`
+  uses it for its list of steps.
 - A control that shows content of the application, such as `AddContent`, is a composed
   `UserControl` and not a templated control. A templated control takes over the template
   parent of the content that it shows in its template. Then a `TemplateBinding` inside that
