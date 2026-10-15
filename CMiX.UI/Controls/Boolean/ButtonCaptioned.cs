@@ -4,11 +4,12 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Boolean
 {
     // A Button whose Caption is its label. A Content that is set on its own replaces the Caption.
-    public class ButtonCaptioned : Button
+    public class ButtonCaptioned : Button, ICaptioned
     {
         static ButtonCaptioned()
         {

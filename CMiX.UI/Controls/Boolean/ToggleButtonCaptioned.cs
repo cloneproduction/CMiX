@@ -4,12 +4,13 @@
 using System;
 using Avalonia;
 using Avalonia.Data;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Boolean
 {
     // A ToggleButtonCMiX with a Caption. The box sits in the value column and the Caption is
     // beside it. A click on the Caption toggles it, like a click on the box.
-    public class ToggleButtonCaptioned : ToggleButtonCMiX
+    public class ToggleButtonCaptioned : ToggleButtonCMiX, ICaptioned
     {
         public static readonly StyledProperty<string> CaptionProperty =
             AvaloniaProperty.Register<ToggleButtonCaptioned, string>(nameof(Caption), string.Empty, defaultBindingMode: BindingMode.TwoWay);

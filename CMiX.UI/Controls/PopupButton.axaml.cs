@@ -4,10 +4,11 @@
 using Avalonia;
 using Avalonia.Controls;
 using CMiX.UI.AttachedProperties;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls
 {
-    public partial class PopupButton : UserControl
+    public partial class PopupButton : UserControl, ICaptioned
     {
         // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
         static PopupButton()

@@ -3,6 +3,7 @@
 
 using Avalonia;
 using Avalonia.Controls;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.AttachedProperties
 {
@@ -21,7 +22,7 @@ namespace CMiX.UI.AttachedProperties
         {
             var text = GetText(control);
             if (string.IsNullOrWhiteSpace(text))
-                text = control.GetType().GetProperty("Caption")?.GetValue(control) as string;
+                text = (control as ICaptioned)?.Caption;
 
             return text?.Trim() ?? string.Empty;
         }

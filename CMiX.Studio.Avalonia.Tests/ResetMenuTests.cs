@@ -10,6 +10,7 @@ using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Enum;
 using CMiX.UI.Controls.Number;
+using CMiX.UI.Controls.Parts;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -35,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
         };
 
         private static string Caption(Control c) =>
-            c.GetType().GetProperty("Caption")?.GetValue(c)?.ToString() ?? (c as ContentControl)?.Content?.ToString() ?? "";
+            (c as ICaptioned)?.Caption ?? (c as ContentControl)?.Content?.ToString() ?? "";
 
         private static bool HasResetItem(Control c) =>
             c.ContextMenu?.Items.OfType<MenuItem>().Any(i => Equals(i.Header, "Reset")) == true;

@@ -8,7 +8,7 @@ namespace CMiX.UI.Controls.Parts
 {
     // Generic "caption on the left, arbitrary content on the right" shell, replacing the same
     // two-column layout every BaseControl used to hand-roll individually.
-    public class ContentCaptioned : ContentControl
+    public class ContentCaptioned : ContentControl, ICaptioned
     {
         public static readonly StyledProperty<string> CaptionProperty =
             AvaloniaProperty.Register<ContentCaptioned, string>(nameof(Caption), string.Empty);

@@ -12,7 +12,7 @@ namespace CMiX.UI.Controls.Parts
     // BindingMode inconsistency across them showed before this existed). SliderCMiX is the one
     // exception: it has to inherit Avalonia's own Slider for its drag/track behavior, so it
     // can't also inherit this and keeps its own independent Caption property.
-    public class UserControlCaptioned : UserControl
+    public class UserControlCaptioned : UserControl, ICaptioned
     {
         public static readonly StyledProperty<string> CaptionProperty =
             AvaloniaProperty.Register<UserControlCaptioned, string>(nameof(Caption), string.Empty, defaultBindingMode: BindingMode.TwoWay);

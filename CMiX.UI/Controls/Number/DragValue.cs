@@ -14,7 +14,7 @@ using CMiX.UI.Interaction;
 
 namespace CMiX.UI.Controls.Number
 {
-    public class DragValue : TemplatedControl, IValueText
+    public class DragValue : TemplatedControl, IValueText, ICaptioned
     {
         private Border? _borderValueDisplay;
         private Point? _mouseDownPos;

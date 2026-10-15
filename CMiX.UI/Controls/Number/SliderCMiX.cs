@@ -17,7 +17,7 @@ using CMiX.UI.Mathematics;
 
 namespace CMiX.UI.Controls.Number
 {
-    public class SliderCMiX : Slider, IValueText
+    public class SliderCMiX : Slider, IValueText, ICaptioned
     {
         public static readonly StyledProperty<bool> IsEditableProperty =
             AvaloniaProperty.Register<SliderCMiX, bool>(nameof(IsEditable), true);
