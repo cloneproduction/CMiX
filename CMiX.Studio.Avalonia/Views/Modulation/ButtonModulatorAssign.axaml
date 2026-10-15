@@ -11,11 +11,12 @@
     d:DesignWidth="400">
 
     <Modulation:UserControlModulatable.Resources>
-        <!-- A menu row bound to a ModulatorOutputChoice. -->
+        <!-- A menu row bound to a ModulatorOutputChoice. The assigned row is the anchor: the popup opens with it under the pointer. -->
         <ControlTheme x:Key="MenuItemModulatorOutput" TargetType="MenuItem" BasedOn="{StaticResource MenuItemContext}">
             <Setter Property="Header" Value="{Binding Label}" />
             <Setter Property="IsChecked" Value="{Binding IsAssigned}" />
             <Setter Property="Command" Value="{Binding Command}" />
+            <Setter Property="ui:MenuAnchor.IsAnchor" Value="{Binding IsAssigned}" />
         </ControlTheme>
     </Modulation:UserControlModulatable.Resources>
 
@@ -46,7 +47,7 @@
             <MenuFlyout
                 FlyoutPresenterTheme="{StaticResource MenuFlyoutPresenterDefault}"
                 ItemContainerTheme="{StaticResource MenuItemModulatorOutput}"
-                Placement="Bottom">
+                Placement="Pointer">
                 <i:Interaction.Behaviors>
                     <ui:CloseFlyoutOnPointerAwayBehavior />
                 </i:Interaction.Behaviors>

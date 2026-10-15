@@ -10,6 +10,7 @@ using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Tests.Support;
 
@@ -103,6 +104,51 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Null(blur.Strength.BoundModulator);
             Assert.False(FlyoutOf(button).IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void AssignPopup_OpensAtThePointer_LikeAContextMenu()
+        {
+            var (_, _, _, button) = Show();
+
+            Assert.Equal(PlacementMode.Pointer, ((PopupFlyoutBase)FlyoutOf(button)).Placement);
+        }
+
+        [AvaloniaFact]
+        public void AssignPopup_WithNothingBound_HasNoAnchorRow()
+        {
+            var (_, _, window, button) = Show();
+
+            var rows = Open(window, button);
+
+            Assert.DoesNotContain(rows, row => MenuAnchor.GetIsAnchor(row));
+        }
+
+        [AvaloniaFact]
+        public void AssignPopup_WithABoundOutput_AnchorsOnlyTheAssignedRow()
+        {
+            var (_, _, window, button) = Show();
+            PointerInput.Click(window, Row(Open(window, button), "FFT Bass"), MouseButton.Left);
+            TestServiceProviderFactory.Pump();
+
+            var rows = Open(window, button);
+
+            Assert.True(MenuAnchor.GetIsAnchor(Row(rows, "FFT Bass")));
+            Assert.Single(rows, row => MenuAnchor.GetIsAnchor(row));
+        }
+
+        [AvaloniaFact]
+        public void AssignPopup_AfterUnassign_HasNoAnchorRowAgain()
+        {
+            var (_, _, window, button) = Show();
+            PointerInput.Click(window, Row(Open(window, button), "FFT Bass"), MouseButton.Left);
+            TestServiceProviderFactory.Pump();
+            PointerInput.Click(window, Row(Open(window, button), "Unassign"), MouseButton.Left);
+            TestServiceProviderFactory.Pump();
+
+            var rows = Open(window, button);
+
+            Assert.DoesNotContain(rows, row => MenuAnchor.GetIsAnchor(row));
         }
 
         [AvaloniaFact]
