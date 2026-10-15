@@ -207,16 +207,6 @@
         </Style>
     </ControlTheme>
 
-    <!-- The switch that makes a layer a mask. -->
-    <ControlTheme
-        x:Key="ToggleButtonMask"
-        BasedOn="{StaticResource ToggleButtonPower}"
-        TargetType="ToggleButton">
-        <Style Selector="^ /template/ ui|AppIcon#icon">
-            <Setter Property="IconKey" Value="Mask" />
-        </Style>
-    </ControlTheme>
-
     <ControlTheme x:Key="ToggleButtonPlayPause" TargetType="ToggleButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />

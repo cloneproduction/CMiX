@@ -10,18 +10,13 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Tests.Support;
-using CMiX.UI.Themes;
-using Material.Icons;
 using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // The icon toggles (power, update, mask, eye) look the same: a dim icon while off, a lit icon while on.
+    // The icon toggles (power, update, eye) look the same: a dim icon while off, a lit icon while on.
     public class ToggleButtonPowerTests
     {
-        // The Mask key belongs to the Studio app. The test registers the same key.
-        static ToggleButtonPowerTests() => Icons.Register("Mask", MaterialIconKind.CircleBox);
-
         private static (Window window, ToggleButton toggle) Show(string theme = "ToggleButtonPower")
         {
             var toggle = new ToggleButton { Theme = (ControlTheme)Application.Current!.FindResource(theme)! };
@@ -47,7 +42,6 @@ namespace CMiX.UI.Tests
 
         [AvaloniaTheory]
         [InlineData("ToggleButtonUpdate", "Update")]
-        [InlineData("ToggleButtonMask", "Mask")]
         public void AThemeBasedOnPower_ShowsItsOwnIcon(string theme, string iconKey)
         {
             var (_, toggle) = Show(theme);
@@ -58,7 +52,6 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData("ToggleButtonPower")]
         [InlineData("ToggleButtonUpdate")]
-        [InlineData("ToggleButtonMask")]
         [InlineData("ToggleButtonVisibility")]
         public void WhileOff_TheIconIsDim(string theme)
         {
@@ -71,7 +64,6 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData("ToggleButtonPower")]
         [InlineData("ToggleButtonUpdate")]
-        [InlineData("ToggleButtonMask")]
         public void WhileOn_TheIconIsLit_InTheSameColorAsWhileOff(string theme)
         {
             var (_, toggle) = Show(theme);

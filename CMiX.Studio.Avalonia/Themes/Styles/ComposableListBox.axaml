@@ -61,4 +61,13 @@
         </Setter>
     </ControlTheme>
 
+    <!-- The switch that makes a layer a mask. The icon key Mask is registered in StudioIcons.cs. -->
+    <ControlTheme x:Key="ToggleButtonMask"
+                  BasedOn="{StaticResource ToggleButtonPower}"
+                  TargetType="ToggleButton">
+        <Style Selector="^ /template/ ui|AppIcon#icon">
+            <Setter Property="IconKey" Value="Mask" />
+        </Style>
+    </ControlTheme>
+
 </ResourceDictionary>
