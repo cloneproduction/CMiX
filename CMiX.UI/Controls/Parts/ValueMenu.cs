@@ -22,8 +22,11 @@ namespace CMiX.UI.Controls.Parts
     // The binding has an explicit Source because a menu popup cannot reach back to its owner through TemplatedParent.
     internal static class ValueMenu
     {
-        private const string ResetAllHeader = "Reset All";
-        private const string CopyHeader = "Copy";
+        // The ids of the rows (see MenuAnchor.Id). The labels can change without touching them.
+        private const string CopyId = "value.copy";
+        private const string PasteId = "value.paste";
+        private const string ResetId = "value.reset";
+        private const string ResetAllId = "value.reset-all";
 
         public static ContextMenu Create(Control owner, bool withResetAll = false)
         {
@@ -34,12 +37,13 @@ namespace CMiX.UI.Controls.Parts
             // The rows that can open under the pointer. A click on one of them is remembered by the window.
             // A row with a command marks its click as handled when it runs the command, so the handler also takes handled clicks.
             var actionRows = new List<MenuItem>();
-            MenuItem Action(MenuItem row)
+            MenuItem Action(string id, MenuItem row)
             {
+                MenuAnchor.SetId(row, id);
                 row.AddHandler(MenuItem.ClickEvent, (_, _) =>
                 {
                     if (TopLevel.GetTopLevel(owner) is { } window)
-                        MenuAnchor.SetLastUsed(window, row.Header);
+                        MenuAnchor.SetLastUsed(window, id);
                 }, RoutingStrategies.Bubble, handledEventsToo: true);
                 actionRows.Add(row);
                 return row;
@@ -49,21 +53,21 @@ namespace CMiX.UI.Controls.Parts
             MenuItem? pasteItem = null;
             if (owner is IValueText valueText)
             {
-                copyItem = Action(new MenuItem { Header = CopyHeader });
+                copyItem = Action(CopyId, new MenuItem { Header = "Copy" });
                 copyItem.Click += async (_, _) => await CopyAsync(owner, valueText);
-                pasteItem = Action(new MenuItem { Header = "Paste", IsEnabled = false });
+                pasteItem = Action(PasteId, new MenuItem { Header = "Paste", IsEnabled = false });
                 pasteItem.Click += async (_, _) => await PasteAsync(owner, valueText);
                 items.Add(copyItem);
                 items.Add(pasteItem);
                 items.Add(new MenuItem { Header = "-" });
             }
 
-            var resetItem = Action(new MenuItem { Header = "Reset" });
+            var resetItem = Action(ResetId, new MenuItem { Header = "Reset" });
             resetItem.Bind(MenuItem.CommandProperty, new Binding("ResetCommand") { Source = owner });
             items.Add(resetItem);
             if (withResetAll)
             {
-                var resetAllItem = Action(new MenuItem { Header = ResetAllHeader });
+                var resetAllItem = Action(ResetAllId, new MenuItem { Header = "Reset All" });
                 resetAllItem.Bind(MenuItem.CommandProperty, new Binding("ResetAllCommand") { Source = owner });
                 items.Add(resetAllItem);
             }
@@ -78,12 +82,12 @@ namespace CMiX.UI.Controls.Parts
                 titleItem.IsVisible = lineItem.IsVisible = title.Length > 0;
             }
 
-            // The row used last, if this menu has it. Else Copy. Else the first row.
+            // The row with the id used last, if this menu has it. Else Copy. Else the first row.
             void MarkAnchor()
             {
                 var last = TopLevel.GetTopLevel(owner) is { } window ? MenuAnchor.GetLastUsed(window) : null;
-                var anchor = actionRows.FirstOrDefault(row => Equals(row.Header, last))
-                             ?? actionRows.FirstOrDefault(row => Equals(row.Header, CopyHeader))
+                var anchor = actionRows.FirstOrDefault(row => MenuAnchor.GetId(row) == last)
+                             ?? actionRows.FirstOrDefault(row => MenuAnchor.GetId(row) == CopyId)
                              ?? actionRows.FirstOrDefault();
                 foreach (var row in actionRows)
                     MenuAnchor.SetIsAnchor(row, row == anchor);
@@ -172,6 +176,6 @@ namespace CMiX.UI.Controls.Parts
         }
 
         private static bool HasResetAll(ContextMenu menu) =>
-            menu.Items.OfType<MenuItem>().Any(item => Equals(item.Header, ResetAllHeader));
+            menu.Items.OfType<MenuItem>().Any(item => MenuAnchor.GetId(item) == ResetAllId);
     }
 }

@@ -51,6 +51,9 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
         }
 
+        private static MenuItem RowOf(Control editor, string header) =>
+            editor.ContextMenu!.Items.OfType<MenuItem>().Single(item => Equals(item.Header, header));
+
         // The vertical offset that puts the middle of the row under the pointer.
         private static double OffsetOf(Control editor, PopupFrame frame, string header)
         {
@@ -94,7 +97,7 @@ namespace CMiX.UI.Tests
             Open(withAll);
 
             Use(withAll, "Reset All");
-            Assert.Equal("Reset All", MenuAnchor.GetLastUsed(window));
+            Assert.Equal(MenuAnchor.GetId(RowOf(withAll, "Reset All")), MenuAnchor.GetLastUsed(window));
             var frame = Open(plain);
 
             Assert.Equal(OffsetOf(plain, frame, "Copy"), frame.PointerOffset(frame.Bounds.Size).Y);
@@ -115,6 +118,36 @@ namespace CMiX.UI.Tests
             var frame = Open(second);
 
             Assert.Equal(OffsetOf(second, frame, "Copy"), frame.PointerOffset(frame.Bounds.Size).Y);
+        }
+
+        [AvaloniaFact]
+        public void ARowIsKnownByItsId_NotByItsLabel()
+        {
+            var first = Box();
+            var second = Box();
+            ShowIn(first, second);
+            Open(first);
+            Use(first, "Reset");
+
+            // The label of the row in the other menu is not the same, as in a translation.
+            RowOf(second, "Reset").Header = "Réinitialiser";
+            var frame = Open(second);
+
+            Assert.Equal(OffsetOf(second, frame, "Réinitialiser"), frame.PointerOffset(frame.Bounds.Size).Y);
+        }
+
+        [AvaloniaFact]
+        public void ResetAllIsRecognizedById_AfterItsLabelChanged()
+        {
+            var box = Box(withResetAll: true);
+            ShowIn(box);
+            var resetAllRow = RowOf(box, "Reset All");
+            resetAllRow.Header = "Tout réinitialiser";
+
+            box.ResetAllCommand = null;
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.DoesNotContain(resetAllRow, box.ContextMenu!.Items.OfType<MenuItem>());
         }
 
         [AvaloniaFact]
