@@ -11,6 +11,7 @@ namespace CMiX.Core.Texturing.Sources
     {
         public SequencePlayer(PrefabService prefabService,
                               PrefabManager textureModifierManager,
+                              PrefabManager modulatorManager,
                               Integer2 resolution,
                               GenericValue<bool> useCompositionResolution,
                               GenericValue<int> seekFrame,
@@ -19,7 +20,7 @@ namespace CMiX.Core.Texturing.Sources
                               GenericValue<bool> loop,
                               CMiXButton doSeek,
                               AssetSelector assetSelector)
-            : base(prefabService, textureModifierManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
         {
             Resolution = resolution;
             SeekFrame = seekFrame;

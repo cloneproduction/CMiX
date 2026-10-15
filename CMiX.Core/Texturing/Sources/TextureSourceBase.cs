@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -13,16 +14,20 @@ namespace CMiX.Core.Texturing.Sources
     {
         protected TextureSourceBase(PrefabService prefabService,
                                     PrefabManager textureModifierManager,
+                                    PrefabManager modulatorManager,
                                     GenericValue<bool> useCompositionResolution)
         {
             PrefabService = prefabService;
             TextureModifierManager = textureModifierManager;
+            Modulators = new ModulatorHost(modulatorManager);
             UseCompositionResolution = useCompositionResolution;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public PrefabManager TextureModifierManager { get; set; }
+        public ModulatorHost Modulators { get; }
+        public PrefabManager ModulatorManager => Modulators.Manager;
         public GenericValue<bool> UseCompositionResolution { get; set; }
 
         private Guid _compositionID;
@@ -33,19 +38,21 @@ namespace CMiX.Core.Texturing.Sources
             {
                 _compositionID = value;
                 TextureModifierManager.CompositionID = value;
+                Modulators.Manager.CompositionID = value;
             }
         }
 
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public void Dispose() => DisposeAll(TextureModifierManager);
+        public void Dispose() => DisposeAll(TextureModifierManager, Modulators);
 
         protected void PopulateBaseModel(ITextureSourceModel model)
         {
             model.ID = ID;
             model.PrefabService = (PrefabServiceModel)PrefabService.ToModel();
             model.TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel();
+            model.ModulatorManager = (PrefabManagerModel)ModulatorManager.ToModel();
             model.UseCompositionResolution = (GenericValueModel<bool>)UseCompositionResolution.ToModel();
         }
 
@@ -54,6 +61,7 @@ namespace CMiX.Core.Texturing.Sources
             ID = model.ID;
             PrefabService.FromModel(model.PrefabService);
             LoadManager(TextureModifierManager, model.TextureModifierManager);
+            Modulators.Load(model.ModulatorManager);
             UseCompositionResolution.FromModel(model.UseCompositionResolution);
         }
 

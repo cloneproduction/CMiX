@@ -13,10 +13,11 @@ namespace CMiX.Core.Texturing.Sources
     {
         public VideoIn(PrefabService prefabService,
                        PrefabManager textureModifierManager,
+                       PrefabManager modulatorManager,
                        GenericValue<int> sizeX,
                        GenericValue<int> sizeZ,
                        GenericValue<bool> useCompositionResolution)
-            : base(prefabService, textureModifierManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
         {
             SizeX = sizeX;
             SizeY = sizeZ;

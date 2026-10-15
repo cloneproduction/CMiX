@@ -13,6 +13,7 @@ namespace CMiX.Core.Texturing.Sources
         Guid ID { get; set; }
         PrefabServiceModel PrefabService { get; set; }
         PrefabManagerModel TextureModifierManager { get; set; }
+        PrefabManagerModel ModulatorManager { get; set; }
         GenericValueModel<bool> UseCompositionResolution { get; set; }
     }
 }

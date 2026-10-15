@@ -11,6 +11,7 @@ namespace CMiX.Core.Texturing.Sources
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabManagerModel TextureModifierManager { get; set; } = new();
+        public PrefabManagerModel ModulatorManager { get; set; } = new();
         public GenericValueModel<int> SizeX { get; set; } = new(1920);
         public GenericValueModel<int> SizeY { get; set; } = new(1080);
         public GenericValueModel<bool> UseCompositionResolution { get; set; } = new(false);

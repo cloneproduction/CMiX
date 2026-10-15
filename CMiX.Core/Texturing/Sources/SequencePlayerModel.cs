@@ -20,5 +20,6 @@ namespace CMiX.Core.Texturing.Sources
         public Integer2Model Resolution { get; set; } = new(1920, 1080);
         public GenericValueModel<bool> UseCompositionResolution { get; set; } = new(false);
         public PrefabManagerModel TextureModifierManager { get; set; } = new();
+        public PrefabManagerModel ModulatorManager { get; set; } = new();
     }
 }
