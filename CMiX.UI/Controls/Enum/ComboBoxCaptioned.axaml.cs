@@ -17,7 +17,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Enum
 {
-    public partial class ComboBoxCaptioned : UserControlCaptioned
+    public partial class ComboBoxCaptioned : UserControlCaptioned, IValueText
     {
         private ComboBox? _innerComboBox;
 
@@ -29,13 +29,34 @@ namespace CMiX.UI.Controls.Enum
             _innerComboBox?.AddHandler(PointerWheelChangedEvent, OnInnerPointerWheelChanged, RoutingStrategies.Tunnel);
             _innerComboBox?.AddHandler(PointerPressedEvent, OnInnerPointerPressed, RoutingStrategies.Tunnel);
             ContextMenuGuard.Install(this);
-            ResetMenu.Follow(this, ResetCommandProperty);
+            ValueMenu.Follow(this, ResetCommandProperty);
 
             if (_innerComboBox != null)
             {
                 _innerComboBox.PropertyChanged += OnInnerComboBoxPropertyChanged;
                 _innerComboBox.SelectionChanged += OnInnerSelectionChanged;
             }
+        }
+
+        // Copy and Paste work for items that are an enum, a string or a number. Other items have no text that names them.
+        private static bool HasText(object? item) => item is System.Enum or string || item?.GetType().IsPrimitive == true;
+
+        private object? ItemWithText(string? text) =>
+            string.IsNullOrWhiteSpace(text) || ItemsSource == null
+                ? null
+                : ItemsSource.Cast<object?>().FirstOrDefault(item => HasText(item) && string.Equals(item!.ToString(), text.Trim(), System.StringComparison.OrdinalIgnoreCase));
+
+        bool IValueText.CanCopyValueText() => HasText(SelectedItem);
+
+        string IValueText.CopyValueText() => SelectedItem?.ToString() ?? string.Empty;
+
+        bool IValueText.CanPasteValueText(string? text) => ItemWithText(text) != null;
+
+        void IValueText.PasteValueText(string? text)
+        {
+            var item = ItemWithText(text);
+            if (item != null)
+                SelectedItem = item;
         }
 
         // ItemsSource and SelectedItem bind independently through ElementName, with no ordering

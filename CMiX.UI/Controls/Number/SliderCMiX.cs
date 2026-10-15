@@ -17,7 +17,7 @@ using CMiX.UI.Mathematics;
 
 namespace CMiX.UI.Controls.Number
 {
-    public class SliderCMiX : Slider
+    public class SliderCMiX : Slider, IValueText
     {
         public static readonly StyledProperty<bool> IsEditableProperty =
             AvaloniaProperty.Register<SliderCMiX, bool>(nameof(IsEditable), true);
@@ -70,6 +70,21 @@ namespace CMiX.UI.Controls.Number
             set => SetValue(ResetCommandProperty, value);
         }
 
+
+        bool IValueText.CanCopyValueText() => true;
+
+        string IValueText.CopyValueText() => ValueText.Format(Value);
+
+        bool IValueText.CanPasteValueText(string? text) => !IsReadOnly && ValueText.TryParse(text, out _);
+
+        void IValueText.PasteValueText(string? text)
+        {
+            if (IsReadOnly || !ValueText.TryParse(text, out var number))
+                return;
+
+            Value = Math.Clamp(number, Minimum, Maximum);
+        }
+
         protected override Type StyleKeyOverride => typeof(SliderCMiX);
 
         private Border? Border { get; set; }
@@ -81,7 +96,7 @@ namespace CMiX.UI.Controls.Number
             AddHandler(PointerMovedEvent, OnTunnelPointerMoved, RoutingStrategies.Tunnel);
             AddHandler(PointerReleasedEvent, OnTunnelPointerReleased, RoutingStrategies.Tunnel);
             _contextMenuGuard = ContextMenuGuard.Install(this, () => IsEditing);
-            ResetMenu.Follow(this, ResetCommandProperty);
+            ValueMenu.Follow(this, ResetCommandProperty);
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)

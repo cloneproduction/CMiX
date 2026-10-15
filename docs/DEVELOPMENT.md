@@ -129,7 +129,7 @@ come from the value editors of vvvv:
 | `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
 | `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxDetail`, `ListBoxEditable` |
-| `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ResetMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
+| `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ValueMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
 

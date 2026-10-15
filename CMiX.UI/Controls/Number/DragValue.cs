@@ -14,7 +14,7 @@ using CMiX.UI.Interaction;
 
 namespace CMiX.UI.Controls.Number
 {
-    public class DragValue : TemplatedControl
+    public class DragValue : TemplatedControl, IValueText
     {
         private Border? _borderValueDisplay;
         private Point? _mouseDownPos;
@@ -29,7 +29,7 @@ namespace CMiX.UI.Controls.Number
         {
             AddHandler(PointerPressedEvent, Control_PointerPressed, RoutingStrategies.Tunnel);
             _contextMenuGuard = ContextMenuGuard.Install(this, () => IsEditing);
-            ResetMenu.Follow(this, ResetCommandProperty, ResetAllCommandProperty);
+            ValueMenu.Follow(this, ResetCommandProperty, ResetAllCommandProperty);
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -53,6 +53,23 @@ namespace CMiX.UI.Controls.Number
 
             if (subButton != null)
                 subButton.Click += SubButton_Click;
+        }
+
+
+        bool IValueText.CanCopyValueText() => true;
+
+        string IValueText.CopyValueText() => ValueText.Format(Value);
+
+        bool IValueText.CanPasteValueText(string? text) => !IsReadOnly && ValueText.TryParse(text, out _);
+
+        void IValueText.PasteValueText(string? text)
+        {
+            if (IsReadOnly || !ValueText.TryParse(text, out var number))
+                return;
+
+            if (IsInteger)
+                number = Math.Round(number);
+            Value = Math.Clamp(number, Minimum, Maximum);
         }
 
         private static double Distance(Point a, Point b)

@@ -11,7 +11,7 @@ using CMiX.UI.Controls.Parts;
 namespace CMiX.UI.Controls.Boolean
 {
     // A ToggleButton for a model value. It shows a Reset menu while it has a ResetCommand.
-    public class ToggleButtonCMiX : ToggleButton
+    public class ToggleButtonCMiX : ToggleButton, IValueText
     {
         public static readonly StyledProperty<ICommand?> ResetCommandProperty =
             AvaloniaProperty.Register<ToggleButtonCMiX, ICommand?>(nameof(ResetCommand));
@@ -23,9 +23,21 @@ namespace CMiX.UI.Controls.Boolean
 
         protected override Type StyleKeyOverride => typeof(ToggleButton);
 
+        bool IValueText.CanCopyValueText() => true;
+
+        string IValueText.CopyValueText() => (IsChecked == true).ToString();
+
+        bool IValueText.CanPasteValueText(string? text) => bool.TryParse(text?.Trim(), out _);
+
+        void IValueText.PasteValueText(string? text)
+        {
+            if (bool.TryParse(text?.Trim(), out var isChecked))
+                IsChecked = isChecked;
+        }
+
         public ToggleButtonCMiX()
         {
-            ResetMenu.Follow(this, ResetCommandProperty);
+            ValueMenu.Follow(this, ResetCommandProperty);
         }
     }
 }

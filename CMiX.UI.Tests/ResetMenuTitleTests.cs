@@ -8,7 +8,7 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // The Reset menu starts with the name of the control, then a line, then the reset rows.
+    // The menu of a value editor starts with the name of the control, then a line, then the rows.
     public class ResetMenuTitleTests
     {
         private static DragValue Show(DragValue box)
@@ -30,7 +30,7 @@ namespace CMiX.UI.Tests
             Assert.Equal("Position X", rows[0].Header);
             Assert.False(rows[0].IsEnabled);
             Assert.Equal("-", rows[1].Header);
-            Assert.Equal("Reset", rows[2].Header);
+            Assert.Equal("Copy", rows[2].Header);
         }
 
         [AvaloniaFact]
@@ -55,12 +55,12 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void WithResetAll_TheMenuHasFourRows()
+        public void WithResetAll_TheMenuEndsWithResetAndResetAll()
         {
             var box = new DragValue { Caption = "Position X", ResetAllCommand = new RelayCommand(() => { }) };
             Show(box);
 
-            Assert.Equal(new object?[] { "Position X", "-", "Reset", "Reset All" }, Rows(box).Select(r => r.Header).ToArray());
+            Assert.Equal(new object?[] { "Position X", "-", "Copy", "Paste", "-", "Reset", "Reset All" }, Rows(box).Select(r => r.Header).ToArray());
         }
     }
 }
