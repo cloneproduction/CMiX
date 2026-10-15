@@ -112,10 +112,12 @@
             <Setter Property="Value" Value="{TemplateBinding Value, Mode=TwoWay}" />
         </Style>
 
-        <Style Selector="^:pointerover /template/ RepeatButton#PART_DecreaseButton">
+        <!-- The pointer must be over the slider body, mainBorder. The trailing content is outside it, so hovering the
+             trailing content does not light the track. -->
+        <Style Selector="^ /template/ Border#mainBorder:pointerover RepeatButton#PART_DecreaseButton">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
-        <Style Selector="^:pointerover /template/ RepeatButton#PART_IncreaseButton">
+        <Style Selector="^ /template/ Border#mainBorder:pointerover RepeatButton#PART_IncreaseButton">
             <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
         </Style>
 
