@@ -153,11 +153,6 @@ namespace CMiX.UI.Controls.Parts
         }
 
         // The owner has the default menu only while it has a reset command. A menu set in XAML stays.
-        private static void Update(Control owner, ICommand? resetCommand, ref ContextMenu? ownMenu)
-        {
-            Update(owner, resetCommand, null, ref ownMenu);
-        }
-
         private static void Update(Control owner, ICommand? resetCommand, ICommand? resetAllCommand, ref ContextMenu? ownMenu)
         {
             if (resetCommand == null)
