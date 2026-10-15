@@ -13,6 +13,7 @@ namespace CMiX.Core.Texturing.Sources
     public partial class TypeWriter : TextureSourceBase, ITextureSource
     {
         public TypeWriter(PrefabManager textureModifierManager,
+                          PrefabManager modulatorManager,
                           PrefabService prefabService,
                           GenericValue<string> stringControl,
                           GenericValue<string> fontFamily,
@@ -23,7 +24,7 @@ namespace CMiX.Core.Texturing.Sources
                           Integer2 resolution,
                           GenericValue<bool> useCompositionResolution,
                           Vector2 position)
-            : base(prefabService, textureModifierManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
         {
             StringControl = stringControl;
             FontFamily = fontFamily;

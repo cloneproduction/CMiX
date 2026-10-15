@@ -1,37 +1,42 @@
-﻿<UserControl
+﻿<Modulation:PanelModulatable
     x:Class="CMiX.Studio.Avalonia.Views.SequencePlayer"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
+    x:Name="sequencePlayer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
   <StackPanel Spacing="{DynamicResource SpacingMD}">
     
-      <Border Classes="BorderMask">
-          <Grid ColumnDefinitions="*,*,*">
-              <ui:ToggleButtonCMiX
-                  Grid.Column="0"
-                  Content="Play"
-                  IsChecked="{Binding Play.Value, Mode=TwoWay}"
-                  ResetCommand="{Binding Play.ResetCommand}"
-                  Theme="{StaticResource ToggleButtonInlineLeft}" />
-              <ui:ToggleButtonCMiX
-                  Grid.Column="1"
-                  Margin="1,0"
-                  Content="Loop"
-                  IsChecked="{Binding Loop.Value, Mode=TwoWay}"
-                  ResetCommand="{Binding Loop.ResetCommand}"
-                  Theme="{StaticResource ToggleButtonInlineCenter}" />
-              <Button
-                  Grid.Column="2"
-                  Content="Do Seek"
-                  Command="{Binding DoSeek.ClickCommand}"
-                  Theme="{StaticResource ButtonInlineRight}" />
-          </Grid>
-      </Border>
-    
+      <!-- One panel: the rows share the corners and the spacing, like the Resolution below. -->
+      <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
+
+          <Modulation:ToggleButtonModulatable
+              Caption="Play"
+              DataContext="{Binding Playing}"
+              ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=sequencePlayer}" />
+
+          <Modulation:ToggleButtonModulatable
+              Caption="Loop"
+              DataContext="{Binding Looping}"
+              ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=sequencePlayer}" />
+
+          <ui:ContentCaptioned x:Name="doSeekRow">
+              <DockPanel>
+                  <Border DockPanel.Dock="Right" Width="{DynamicResource ControlHeightMD}" />
+                  <Button
+                      Content="Do Seek"
+                      Command="{Binding DoSeek.ClickCommand}"
+                      Theme="{StaticResource ButtonInlineRight}"
+                      ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=doSeekRow}" />
+              </DockPanel>
+          </ui:ContentCaptioned>
+
+      </ui:StackPanelPositioned>
+
       <Views:AssetPathSelector
         Caption="Image Folder"
         DataContext="{Binding AssetSelector}"
@@ -39,10 +44,11 @@
         SelectedItem="{Binding Asset}"
         SelectsFolder="True" />
     
-      <ui:IntegerValue
+      <Modulation:IntegerValueModulatable
           Caption="Seek Frame"
-          Value="{Binding SeekFrame.Value}"
-          ResetCommand="{Binding SeekFrame.ResetCommand}" />
+          DataContext="{Binding SeekTarget}"
+          Minimum="0"
+          ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=sequencePlayer}" />
 
       <ui:DragValue
               Caption="FPS"
@@ -63,4 +69,4 @@
 
     </StackPanel>
 
-</UserControl>
+</Modulation:PanelModulatable>

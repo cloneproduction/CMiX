@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 
@@ -11,30 +12,33 @@ namespace CMiX.Core.Texturing.Sources
     {
         public SequencePlayer(PrefabService prefabService,
                               PrefabManager textureModifierManager,
+                              PrefabManager modulatorManager,
                               Integer2 resolution,
                               GenericValue<bool> useCompositionResolution,
-                              GenericValue<int> seekFrame,
-                              GenericValue<bool> play,
+                              ModulatableValue<int> seekTarget,
+                              ModulatableValue<bool> playing,
                               GenericValue<float> fps,
-                              GenericValue<bool> loop,
+                              ModulatableValue<bool> looping,
                               CMiXButton doSeek,
                               AssetSelector assetSelector)
-            : base(prefabService, textureModifierManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
         {
             Resolution = resolution;
-            SeekFrame = seekFrame;
-            Play = play;
+            SeekTarget = seekTarget;
+            Playing = playing;
             FPS = fps;
-            Loop = loop;
+            Looping = looping;
             DoSeek = doSeek;
             AssetSelector = assetSelector;
+
+            Modulators.Add(Playing, Looping, SeekTarget);
         }
 
         public CMiXButton DoSeek { get; set; }
-        public GenericValue<int> SeekFrame { get; set; }
-        public GenericValue<bool> Play { get; set; }
+        public ModulatableValue<int> SeekTarget { get; set; }
+        public ModulatableValue<bool> Playing { get; set; }
         public GenericValue<float> FPS { get; set; }
-        public GenericValue<bool> Loop { get; set; }
+        public ModulatableValue<bool> Looping { get; set; }
         public AssetSelector AssetSelector { get; set; }
         public Integer2 Resolution { get; set; }
 
@@ -43,10 +47,10 @@ namespace CMiX.Core.Texturing.Sources
             var model = new SequencePlayerModel
             {
                 DoSeek = (ButtonModel)DoSeek.ToModel(),
-                SeekFrame = (GenericValueModel<int>)SeekFrame.ToModel(),
-                Play = (GenericValueModel<bool>)Play.ToModel(),
+                SeekTarget = (ModulatableValueModel<int>)SeekTarget.ToModel(),
+                Playing = (ModulatableValueModel<bool>)Playing.ToModel(),
                 FPS = (GenericValueModel<float>)FPS.ToModel(),
-                Loop = (GenericValueModel<bool>)Loop.ToModel(),
+                Looping = (ModulatableValueModel<bool>)Looping.ToModel(),
                 AssetSelector = (AssetSelectorModel)AssetSelector.ToModel(),
                 Resolution = (Integer2Model)Resolution.ToModel()
             };
@@ -59,10 +63,10 @@ namespace CMiX.Core.Texturing.Sources
             var m = (SequencePlayerModel)model;
             LoadBaseModel(m);
             DoSeek.FromModel(m.DoSeek);
-            SeekFrame.FromModel(m.SeekFrame);
-            Play.FromModel(m.Play);
+            SeekTarget.FromModel(m.SeekTarget);
+            Playing.FromModel(m.Playing);
             FPS.FromModel(m.FPS);
-            Loop.FromModel(m.Loop);
+            Looping.FromModel(m.Looping);
             AssetSelector.FromModel(m.AssetSelector);
             Resolution.FromModel(m.Resolution);
         }

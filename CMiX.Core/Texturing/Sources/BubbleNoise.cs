@@ -11,6 +11,7 @@ namespace CMiX.Core.Texturing.Sources
     {
         public BubbleNoise(PrefabService prefabService,
                            PrefabManager textureModifierManager,
+                           PrefabManager modulatorManager,
                            Integer2 resolution,
                            GenericValue<bool> useCompositionResolution,
                            GenericValue<float> speed,
@@ -18,7 +19,7 @@ namespace CMiX.Core.Texturing.Sources
                            GenericValue<float> contrast,
                            GenericValue<string> backgroundColor,
                            GenericValue<string> bubbleColor)
-            : base(prefabService, textureModifierManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
         {
             Resolution = resolution;
             Speed = speed;

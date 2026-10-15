@@ -13,12 +13,13 @@ namespace CMiX.Core.Texturing.Sources
     {
         public TouchBlob(PrefabService prefabService,
                          PrefabManager textureModifierManager,
+                         PrefabManager modulatorManager,
                          Integer2 resolution,
                          GenericValue<bool> useCompositionResolution,
                          GenericValue<float> size,
                          GenericValue<string> color,
                          GenericValue<string> background)
-            : base(prefabService, textureModifierManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
         {
             Resolution = resolution;
             Size = size;

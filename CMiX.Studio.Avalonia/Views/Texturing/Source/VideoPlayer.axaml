@@ -1,28 +1,34 @@
-﻿<UserControl
+﻿<Modulation:PanelModulatable
     x:Class="CMiX.Studio.Avalonia.Views.VideoPlayer"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Modulation="clr-namespace:CMiX.Studio.Avalonia.Views.Modulation"
+    x:Name="videoPlayer">
 
     <StackPanel>
 
-        <Border Margin="0,0,0,8" Classes="BorderMask">
-            <Grid ColumnDefinitions="*,*">
-                <ui:ToggleButtonCMiX
-                    Grid.Column="0"
-                    Content="Play"
-                    IsChecked="{Binding Play.Value, Mode=TwoWay}"
-                    ResetCommand="{Binding Play.ResetCommand}"
-                    Theme="{StaticResource ToggleButtonInlineLeft}" />
-                <Button
-                    Grid.Column="1"
-                    Margin="1,0,0,0"
-                    Content="Do Seek"
-                    Command="{Binding DoSeek.ClickCommand}"
-                    Theme="{StaticResource ButtonInlineRight}" />
-            </Grid>
-        </Border>
+        <!-- One panel: the rows share the corners and the spacing, like the Resolution below. -->
+        <ui:StackPanelPositioned Margin="0,0,0,8" Spacing="{DynamicResource SpacingXXS}">
+
+            <Modulation:ToggleButtonModulatable
+                Caption="Play"
+                DataContext="{Binding Playing}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=videoPlayer}" />
+
+            <ui:ContentCaptioned x:Name="doSeekRow">
+                <DockPanel>
+                    <Border DockPanel.Dock="Right" Width="{DynamicResource ControlHeightMD}" />
+                    <Button
+                        Content="Do Seek"
+                        Command="{Binding DoSeek.ClickCommand}"
+                        Theme="{StaticResource ButtonInlineRight}"
+                        ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=doSeekRow}" />
+                </DockPanel>
+            </ui:ContentCaptioned>
+
+        </ui:StackPanelPositioned>
 
         <Views:AssetPathSelector
             Margin="0,0,0,8"
@@ -30,10 +36,11 @@
             ItemsSource="{Binding AssetRepository.Videos}"
             SelectedItem="{Binding Asset}" />
 
-        <ui:IntegerValue
+        <Modulation:IntegerValueModulatable
             Caption="Seek Frame"
-            Value="{Binding SeekFrame.Value}"
-            ResetCommand="{Binding SeekFrame.ResetCommand}" />
+            DataContext="{Binding SeekTarget}"
+            Minimum="0"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=videoPlayer}" />
 
         <ui:ToggleButtonCaptioned
             Margin="0,8"
@@ -49,4 +56,4 @@
 
     </StackPanel>
 
-</UserControl>
+</Modulation:PanelModulatable>

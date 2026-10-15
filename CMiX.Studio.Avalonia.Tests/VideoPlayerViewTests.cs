@@ -14,7 +14,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class VideoPlayerViewTests
     {
         [AvaloniaFact]
-        public void PlayAndDoSeek_AreTwoSegmentsOfOneBarAtTheTop()
+        public void PlayAndDoSeek_AreAboveThePathSelector()
         {
             var provider = TestServiceProviderFactory.Create();
             var player = provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.VideoPlayer));
@@ -23,14 +23,15 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var buttons = view.GetVisualDescendants().OfType<Button>().ToList();
-            var play = buttons.Single(b => b is ToggleButton && (b.Content as string) == "Play");
-            var doSeek = buttons.Single(b => b is not ToggleButton && (b.Content as string) == "Do Seek");
+            var play = view.GetVisualDescendants().OfType<CMiX.UI.Controls.Boolean.ToggleButtonCMiX>().Single(t => (t.Content as string) == "Play");
+            var doSeek = view.GetVisualDescendants().OfType<Button>().Single(b => b is not ToggleButton && (b.Content as string) == "Do Seek");
             var pathSelector = view.GetVisualDescendants().OfType<AssetPathSelector>().Single();
 
-            Assert.Same(play.GetVisualParent(), doSeek.GetVisualParent());
-            Assert.Equal(new[] { 0, 1 }, new[] { Grid.GetColumn(play), Grid.GetColumn(doSeek) });
-            Assert.True(play.TranslatePoint(new Point(0, 0), view)!.Value.Y < pathSelector.TranslatePoint(new Point(0, 0), view)!.Value.Y);
+            var playY = play.TranslatePoint(new Point(0, 0), view)!.Value.Y;
+            var doSeekY = doSeek.TranslatePoint(new Point(0, 0), view)!.Value.Y;
+            var pathY = pathSelector.TranslatePoint(new Point(0, 0), view)!.Value.Y;
+            Assert.True(playY < doSeekY);
+            Assert.True(doSeekY < pathY);
         }
 
         // The user picks a video in the file dialog. The video must appear in the list and be selected.

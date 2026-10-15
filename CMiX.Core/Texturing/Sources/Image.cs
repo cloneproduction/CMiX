@@ -13,10 +13,11 @@ namespace CMiX.Core.Texturing.Sources
     {
         public Image(PrefabService prefabService,
                      PrefabManager textureModifierManager,
+                     PrefabManager modulatorManager,
                      Integer2 resolution,
                      GenericValue<bool> useCompositionResolution,
                      AssetSelector assetSelector)
-            : base(prefabService, textureModifierManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
         {
             Resolution = resolution;
             AssetSelector = assetSelector;

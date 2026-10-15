@@ -11,7 +11,9 @@ using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Controls;
 using CMiX.Studio.Avalonia.Views.Managers;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls;
+using CMiX.UI.Panels;
 using CMiX.UI.Controls.Number;
 using CMiX.UI.Controls.Collection;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Tests
             view.GetVisualDescendants().OfType<Button>().Single(b => b is not ToggleButton && (b.Content as string) == "Do Seek");
 
         [AvaloniaFact]
-        public void PlayLoopAndDoSeek_AreThreeSegmentsOfOneBarAtTheTop()
+        public void PlayLoopAndDoSeek_AreThreeRowsOfOnePanelAtTheTop()
         {
             var (_, view) = ShowSequencePlayerView();
 
@@ -72,10 +74,25 @@ namespace CMiX.Studio.Avalonia.Tests
             var loop = buttons.Single(b => b is ToggleButton && (b.Content as string) == "Loop");
             var doSeek = DoSeekButton(view);
 
-            Assert.Same(play.GetVisualParent(), loop.GetVisualParent());
-            Assert.Same(play.GetVisualParent(), doSeek.GetVisualParent());
-            Assert.Equal(new[] { 0, 1, 2 }, new[] { Grid.GetColumn(play), Grid.GetColumn(loop), Grid.GetColumn(doSeek) });
-            Assert.True(play.TranslatePoint(new Point(0, 0), view)!.Value.Y < view.GetVisualDescendants().OfType<DragValue>().First().TranslatePoint(new Point(0, 0), view)!.Value.Y);
+            Assert.Equal(ControlPosition.Top, PositionedControl.GetPosition(play));
+            Assert.Equal(ControlPosition.None, PositionedControl.GetPosition(loop));
+            Assert.Equal(ControlPosition.Bottom, PositionedControl.GetPosition(doSeek));
+
+            double Y(Control c) => c.TranslatePoint(new Point(0, 0), view)!.Value.Y;
+            Assert.True(Y(play) < Y(loop));
+            Assert.True(Y(loop) < Y(doSeek));
+            Assert.True(Y(doSeek) < view.GetVisualDescendants().OfType<DragValue>().First().TranslatePoint(new Point(0, 0), view)!.Value.Y);
+        }
+
+        [AvaloniaFact]
+        public void PlayLoopAndSeekFrame_EachHaveAModulatorAssignButton()
+        {
+            var (player, view) = ShowSequencePlayerView();
+
+            var assigns = view.GetVisualDescendants().OfType<CMiX.Studio.Avalonia.Views.Modulation.ButtonModulatorAssign>().ToList();
+
+            Assert.Equal(3, assigns.Count);
+            Assert.All(assigns, a => Assert.Same(player.ModulatorManager, a.ModulatorManager));
         }
 
         [AvaloniaFact]
