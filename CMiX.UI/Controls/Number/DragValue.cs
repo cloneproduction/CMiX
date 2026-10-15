@@ -28,7 +28,7 @@ namespace CMiX.UI.Controls.Number
         public DragValue()
         {
             AddHandler(PointerPressedEvent, Control_PointerPressed, RoutingStrategies.Tunnel);
-            _contextMenuGuard = ContextMenuGuard.Install(this, () => IsEditing);
+            _contextMenuGuard = ContextMenuGuard.Install(this, () => IsEditing, () => new[] { LeadingContent, TrailingContent });
             ValueMenu.Follow(this, ResetCommandProperty, ResetAllCommandProperty);
         }
 

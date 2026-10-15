@@ -28,7 +28,7 @@ namespace CMiX.UI.Controls.Enum
 
             _innerComboBox?.AddHandler(PointerWheelChangedEvent, OnInnerPointerWheelChanged, RoutingStrategies.Tunnel);
             _innerComboBox?.AddHandler(PointerPressedEvent, OnInnerPointerPressed, RoutingStrategies.Tunnel);
-            ContextMenuGuard.Install(this);
+            ContextMenuGuard.Install(this, sideContent: () => new[] { TrailingContent });
             ValueMenu.Follow(this, ResetCommandProperty);
 
             if (_innerComboBox != null)

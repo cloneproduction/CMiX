@@ -95,7 +95,7 @@ namespace CMiX.UI.Controls.Number
             AddHandler(PointerPressedEvent, OnTunnelPointerPressed, RoutingStrategies.Tunnel);
             AddHandler(PointerMovedEvent, OnTunnelPointerMoved, RoutingStrategies.Tunnel);
             AddHandler(PointerReleasedEvent, OnTunnelPointerReleased, RoutingStrategies.Tunnel);
-            _contextMenuGuard = ContextMenuGuard.Install(this, () => IsEditing);
+            _contextMenuGuard = ContextMenuGuard.Install(this, () => IsEditing, () => new[] { TrailingContent });
             ValueMenu.Follow(this, ResetCommandProperty);
         }
 
