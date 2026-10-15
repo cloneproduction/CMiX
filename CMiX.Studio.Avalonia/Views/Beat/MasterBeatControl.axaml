@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <StackPanel>
+    <StackPanel ui:EditCycle.IsLoop="True">
 
         <ui:DragValue
             Margin="0,0,0,8"

@@ -67,6 +67,7 @@
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 Focusable="False"
+                                ui:EditCycle.IsLoop="True"
                                 HorizontalAlignment="Stretch"
                                 IsVisible="{TemplateBinding IsExpanded}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -154,6 +155,7 @@
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             Focusable="False"
+                            ui:EditCycle.IsLoop="True"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             IsVisible="{TemplateBinding IsExpanded}"
                             Margin="{TemplateBinding Padding}"
@@ -238,6 +240,7 @@
                     Content="{TemplateBinding Content}"
                     ContentTemplate="{TemplateBinding ContentTemplate}"
                     Focusable="False"
+                    ui:EditCycle.IsLoop="True"
                     HorizontalAlignment="Stretch"
                     IsVisible="{TemplateBinding IsExpanded}"
                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />

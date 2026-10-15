@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Ported from CMiX.Studio\Themes\Styles\Tab.xaml using the Avalonia Simple theme TabControl and TabItem templates as structural skeleton -->
@@ -81,7 +82,8 @@
                         Name="contentPanel"
                         Background="Transparent"
                         Grid.Row="1"
-                        Padding="4">
+                        Padding="4"
+                        ui:EditCycle.IsLoop="True">
                         <ContentPresenter
                             Name="PART_SelectedContentHost"
                             Content="{TemplateBinding SelectedContent}"
@@ -167,7 +169,8 @@
                             Content="{TemplateBinding SelectedContent}"
                             ContentTemplate="{TemplateBinding SelectedContentTemplate}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            ui:EditCycle.IsLoop="True" />
                     </Border>
                 </Grid>
             </ControlTemplate>
@@ -210,7 +213,8 @@
                             Content="{TemplateBinding SelectedContent}"
                             ContentTemplate="{TemplateBinding SelectedContentTemplate}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            ui:EditCycle.IsLoop="True" />
                     </Border>
                 </Grid>
             </ControlTemplate>

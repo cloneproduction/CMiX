@@ -17,7 +17,7 @@ using CMiX.UI.Mathematics;
 
 namespace CMiX.UI.Controls.Number
 {
-    public class SliderCMiX : Slider, IValueText, ICaptioned
+    public class SliderCMiX : Slider, IValueText, ICaptioned, IEditableValue
     {
         public static readonly StyledProperty<bool> IsEditableProperty =
             AvaloniaProperty.Register<SliderCMiX, bool>(nameof(IsEditable), true);
@@ -104,6 +104,8 @@ namespace CMiX.UI.Controls.Number
             base.OnApplyTemplate(e);
             Border = e.NameScope.Find<Border>("sliderBorder");
         }
+
+        bool IEditableValue.CanEdit => IsEditable && !IsReadOnly;
 
         // A gesture that loses the pointer without a release must not leave the value interaction
         // scope open, which would keep throttling every later write in the application. Ending

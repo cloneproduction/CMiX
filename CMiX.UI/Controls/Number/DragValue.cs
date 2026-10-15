@@ -14,7 +14,7 @@ using CMiX.UI.Interaction;
 
 namespace CMiX.UI.Controls.Number
 {
-    public class DragValue : TemplatedControl, IValueText, ICaptioned
+    public class DragValue : TemplatedControl, IValueText, ICaptioned, IEditableValue
     {
         private Border? _borderValueDisplay;
         private Point? _mouseDownPos;
@@ -71,6 +71,8 @@ namespace CMiX.UI.Controls.Number
                 number = Math.Round(number);
             Value = Math.Clamp(number, Minimum, Maximum);
         }
+
+        bool IEditableValue.CanEdit => !IsReadOnly;
 
         private static double Distance(Point a, Point b)
         {
