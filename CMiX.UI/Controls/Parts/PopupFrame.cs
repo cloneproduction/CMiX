@@ -22,6 +22,15 @@ namespace CMiX.UI.Controls.Parts
             set => SetValue(CentersOnPointerProperty, value);
         }
 
+        // The least width of the visible panel, without the margin of the shadow.
+        public static readonly StyledProperty<double> PanelMinWidthProperty =
+            AvaloniaProperty.Register<PopupFrame, double>(nameof(PanelMinWidth));
+        public double PanelMinWidth
+        {
+            get => GetValue(PanelMinWidthProperty);
+            set => SetValue(PanelMinWidthProperty, value);
+        }
+
         protected override Type StyleKeyOverride => typeof(PopupFrame);
 
         // A menu that opens at the pointer hangs to the bottom right. This puts its middle on the pointer.

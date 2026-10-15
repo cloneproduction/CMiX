@@ -67,7 +67,6 @@
                 Placement="BottomEdgeAlignedLeft"
                 VerticalOffset="-1">
                 <Border
-                    Width="250"
                     Padding="2"
                     Background="{DynamicResource Grey100Brush}"
                     CornerRadius="{DynamicResource CornerRadiusLargeAll}">
@@ -75,7 +74,6 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button
-                                    Width="{Binding $parent[Border].Bounds.Width}"
                                     Margin="2"
                                     Command="{Binding DataContext.AddExistingItemCommand, ElementName=prefabSlotManager}"
                                     CommandParameter="{Binding}"

@@ -31,6 +31,9 @@
     <x:Double x:Key="ScrollBarSize">8</x:Double>
     <x:Double x:Key="SeparatorSize">0.5</x:Double>
     <x:Double x:Key="ContextMenuIconSize">10</x:Double>
+    <!-- The least width of the visible panel of every menu and popup, without the margin of the shadow.
+         More content makes it wider. A popup can follow the width of its toggle instead: TogglePopup.MatchesToggleWidth. -->
+    <x:Double x:Key="PopupMinWidth">200</x:Double>
     <x:Double x:Key="ColorWheelSize">200</x:Double>
 
     <!-- Multi line text boxes: two lines and four lines. -->

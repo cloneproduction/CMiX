@@ -24,8 +24,8 @@
             Theme="{StaticResource ToggleButtonPopup}" />
 
         <Popup
+            ui:TogglePopup.MatchesToggleWidth="True"
             ui:TogglePopup.Toggle="{Binding ElementName=AddToggle}"
-            Width="{Binding Bounds.Width, ElementName=AddToggle}"
             Placement="Bottom">
 
             <Border

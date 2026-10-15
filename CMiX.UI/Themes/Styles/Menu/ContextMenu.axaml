@@ -99,7 +99,7 @@
         <Setter Property="ItemContainerTheme" Value="{DynamicResource MenuItemContext}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <ui:PopupFrame CentersOnPointer="True">
+                <ui:PopupFrame CentersOnPointer="True" PanelMinWidth="{DynamicResource PopupMinWidth}">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <ItemsPresenter
                             Name="PART_ItemsPresenter"

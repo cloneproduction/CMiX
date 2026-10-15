@@ -15,6 +15,8 @@ namespace CMiX.UI.AttachedProperties
     //     <Popup ui:TogglePopup.Toggle="{Binding ElementName=MyToggle}">
     // The popup is open while the toggle is checked. The popup has the toggle as its placement target,
     // no light dismiss, and the behavior ClosePopupBehavior, which closes it when the pointer goes away.
+    // The content of the popup is at least PopupMinWidth wide. With MatchesToggleWidth the popup is as wide as the toggle instead:
+    //     <Popup ui:TogglePopup.Toggle="{Binding ElementName=MyToggle}" ui:TogglePopup.MatchesToggleWidth="True">
     public static class TogglePopup
     {
         public static readonly AttachedProperty<ToggleButton?> ToggleProperty =
@@ -22,6 +24,14 @@ namespace CMiX.UI.AttachedProperties
 
         public static void SetToggle(Popup popup, ToggleButton? value) => popup.SetValue(ToggleProperty, value);
         public static ToggleButton? GetToggle(Popup popup) => popup.GetValue(ToggleProperty);
+
+        // True: the popup is as wide as its toggle, also when the toggle changes its width.
+        // False: the content of the popup is at least PopupMinWidth wide.
+        public static readonly AttachedProperty<bool> MatchesToggleWidthProperty =
+            AvaloniaProperty.RegisterAttached<Popup, bool>("MatchesToggleWidth", typeof(TogglePopup));
+
+        public static void SetMatchesToggleWidth(Popup popup, bool value) => popup.SetValue(MatchesToggleWidthProperty, value);
+        public static bool GetMatchesToggleWidth(Popup popup) => popup.GetValue(MatchesToggleWidthProperty);
 
         private static readonly ConditionalWeakTable<Popup, Hook> hooks = new();
 
@@ -62,6 +72,7 @@ namespace CMiX.UI.AttachedProperties
                     behaviors.Add(new ClosePopupBehavior());
 
                 toggle.IsCheckedChanged += OnToggleChecked;
+                toggle.PropertyChanged += OnToggleChanged;
                 popup.Opened += OnPopupOpened;
                 popup.Closed += OnPopupClosed;
                 popup.IsOpen = toggle.IsChecked == true;
@@ -70,6 +81,7 @@ namespace CMiX.UI.AttachedProperties
             public void Detach()
             {
                 toggle.IsCheckedChanged -= OnToggleChecked;
+                toggle.PropertyChanged -= OnToggleChanged;
                 popup.Opened -= OnPopupOpened;
                 popup.Closed -= OnPopupClosed;
                 if (ReferenceEquals(popup.PlacementTarget, toggle))
@@ -79,7 +91,31 @@ namespace CMiX.UI.AttachedProperties
             private void OnToggleChecked(object? sender, Avalonia.Interactivity.RoutedEventArgs e) =>
                 popup.IsOpen = toggle.IsChecked == true;
 
-            private void OnPopupOpened(object? sender, System.EventArgs e) => toggle.IsChecked = true;
+            private void OnPopupOpened(object? sender, System.EventArgs e)
+            {
+                toggle.IsChecked = true;
+                ApplyWidth();
+            }
+
+            private void OnToggleChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+            {
+                if (e.Property == Visual.BoundsProperty && GetMatchesToggleWidth(popup))
+                    ApplyWidth();
+            }
+
+            // Read when the popup opens, so the order of the properties in the AXAML does not matter.
+            private void ApplyWidth()
+            {
+                if (GetMatchesToggleWidth(popup))
+                {
+                    popup.Width = toggle.Bounds.Width;
+                    return;
+                }
+
+                popup.Width = double.NaN;
+                if (popup.Child is Control child && popup.TryFindResource("PopupMinWidth", out var minWidth) && minWidth is double width)
+                    child.MinWidth = width;
+            }
 
             private void OnPopupClosed(object? sender, System.EventArgs e) => toggle.IsChecked = false;
         }

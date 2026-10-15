@@ -11,7 +11,7 @@
                     Effect="{DynamicResource DropShadowWindow}"
                     Padding="8">
 
-                    <Panel>
+                    <Panel MinWidth="{TemplateBinding PanelMinWidth}">
                         <Border
                             Background="{DynamicResource Grey200Brush}"
                             CornerRadius="{DynamicResource CornerRadiusLargeAll}"

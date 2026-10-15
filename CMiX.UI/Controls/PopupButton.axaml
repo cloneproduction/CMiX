@@ -12,8 +12,8 @@
             Content="{Binding Caption, ElementName=popupButton}" />
 
         <Popup
+            ui:TogglePopup.MatchesToggleWidth="True"
             ui:TogglePopup.Toggle="{Binding ElementName=PopUpToggle}"
-            Width="{Binding Bounds.Width, ElementName=PopUpToggle}"
             Placement="Bottom">
             <Border
                 Padding="2,4,2,2"
