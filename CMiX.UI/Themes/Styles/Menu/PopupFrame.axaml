@@ -22,7 +22,8 @@
                             <ContentPresenter
                                 Name="PART_ContentPresenter"
                                 Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                ui:EditCycle.IsLoop="True" />
                         </Border>
 
                     </Panel>

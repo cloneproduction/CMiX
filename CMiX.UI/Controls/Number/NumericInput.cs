@@ -156,6 +156,20 @@ namespace CMiX.UI.Controls.Number
                 Commit();
             else if (e.Key == Key.Escape)
                 Cancel();
+            else if (e.Key == Key.Tab)
+                CommitAndEditNext(e);
+        }
+
+        // Tab commits the value and edits the next editor. Shift+Tab edits the previous one.
+        private void CommitAndEditNext(KeyEventArgs e)
+        {
+            e.Handled = true;
+            var next = EditCycle.Find(this, e.KeyModifiers.HasFlag(KeyModifiers.Shift));
+            Commit();
+            if (next == null) return;
+
+            next.IsEditing = true;
+            (next as Control)?.BringIntoView();
         }
 
         private void TextBox_PointerExited(object? sender, PointerEventArgs e)
