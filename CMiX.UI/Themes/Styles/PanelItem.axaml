@@ -57,10 +57,12 @@
                         </DockPanel>
                     </Expander.Header>
 
+                    <!-- Tab and Shift+Tab in an edit box go from value to value inside the body. -->
                     <ContentPresenter
                         Padding="8"
                         Content="{TemplateBinding Content}"
-                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        ui:EditCycle.IsLoop="True" />
 
                 </Expander>
             </ControlTemplate>
