@@ -34,6 +34,7 @@ namespace CMiX.Core.Modulation.Modulators
         public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {
             new ModulatorOutput<float>("Phase"),
             new ModulatorOutput<int>("Cycles"),
+            new ModulatorOutput<bool>("Gate"),
         };
 
         public GenericValue<float> Period { get; set; }

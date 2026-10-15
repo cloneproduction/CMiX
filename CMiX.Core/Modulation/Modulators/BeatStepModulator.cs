@@ -31,7 +31,10 @@ namespace CMiX.Core.Modulation.Modulators
 
         public PrefabManager StepManager { get; set; }
 
-        public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] { new ModulatorOutput<float>("Value") };
+        public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {
+            new ModulatorOutput<float>("Value"),
+            new ModulatorOutput<bool>("Gate"),
+        };
 
         public override void Dispose()
         {
