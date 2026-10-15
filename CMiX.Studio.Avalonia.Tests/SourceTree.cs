@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -10,15 +11,18 @@ namespace CMiX.Studio.Avalonia.Tests
     {
         private static readonly string[] Projects = { "CMiX.Studio.Avalonia", "CMiX.UI" };
 
+        // The compiler writes the path of this file into the test assembly. The tests then find the source files
+        // from any output folder, not only from a folder under the project.
+        private static string ThisFile([CallerFilePath] string path = "") => path;
+
         public static string Root()
         {
-            for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir != null; dir = dir.Parent)
-            {
-                if (File.Exists(Path.Combine(dir.FullName, "CMiX.Studio.Avalonia", "CMiX.Studio.Avalonia.csproj")))
-                    return dir.FullName;
-            }
+            // This file is in CMiX.Studio.Avalonia.Tests, so the folder above it holds all the projects.
+            var root = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(ThisFile())!, ".."));
+            if (!File.Exists(Path.Combine(root, "CMiX.Studio.Avalonia", "CMiX.Studio.Avalonia.csproj")))
+                throw new DirectoryNotFoundException("The folder CMiX.Studio.Avalonia was not found above " + ThisFile());
 
-            throw new DirectoryNotFoundException("The folder CMiX.Studio.Avalonia was not found above " + AppContext.BaseDirectory);
+            return root;
         }
 
         // Every AXAML file of the Studio and of CMiX.UI, without the build folders.

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using CMiX.UI;
 using CMiX.UI.Themes;
@@ -10,16 +11,18 @@ namespace CMiX.UI.Tests
     {
         private static readonly string[] Forbidden = { "CMiX.Core", "CMiX.Studio" };
 
+        // The compiler writes the path of this file into the test assembly, so the test finds the source
+        // files from any output folder.
+        private static string ThisFile([CallerFilePath] string path = "") => path;
+
         private static string LibraryFolder()
         {
-            for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir != null; dir = dir.Parent)
-            {
-                var folder = Path.Combine(dir.FullName, "CMiX.UI");
-                if (File.Exists(Path.Combine(folder, "CMiX.UI.csproj")))
-                    return folder;
-            }
+            // This file is in CMiX.UI.Tests, so the folder above it holds all the projects.
+            var folder = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(ThisFile())!, "..", "CMiX.UI"));
+            if (!File.Exists(Path.Combine(folder, "CMiX.UI.csproj")))
+                throw new DirectoryNotFoundException("The folder CMiX.UI was not found next to " + ThisFile());
 
-            throw new DirectoryNotFoundException("The folder CMiX.UI was not found above " + AppContext.BaseDirectory);
+            return folder;
         }
 
         [Fact]
