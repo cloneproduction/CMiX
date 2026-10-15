@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Globalization;
+using Avalonia.Media;
 
 namespace CMiX.UI.Controls.Parts
 {
@@ -9,6 +10,9 @@ namespace CMiX.UI.Controls.Parts
     internal static class ValueText
     {
         public static string Format(double value) => value.ToString("R", CultureInfo.InvariantCulture);
+
+        // The color as #AARRGGBB, made from the bytes. Color.ToString() gives the name of a known color, such as White.
+        public static string Format(Color color) => $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
 
         // The invariant format first, then the format of the user.
         public static bool TryParse(string? text, out double value)

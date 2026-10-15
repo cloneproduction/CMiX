@@ -6,6 +6,8 @@ using System.Globalization;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 
+using CMiX.UI.Controls.Parts;
+
 namespace CMiX.UI.Converters
 {
     public class ColorToHexConverter : IValueConverter
@@ -36,7 +38,7 @@ namespace CMiX.UI.Converters
             // rewrite looked like - and was recorded as - a real edit. Formatting from the channel
             // bytes directly keeps the round trip byte-for-byte stable.
             if (value is Color color)
-                return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
+                return ValueText.Format(color);
 
             return System.Convert.ToString(value);
         }

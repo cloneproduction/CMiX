@@ -37,8 +37,8 @@ namespace CMiX.Studio.Avalonia.Tests
                 }
             }
 
-            // The AXAML has one ContextMenu (the color selector) and three flyouts. The Reset menus of the editors are built in code.
-            Assert.True(tagCount >= 4, $"The scan found only {tagCount} tags. The scan is broken.");
+            // The AXAML has three flyouts. The menus of the editors, the color selector too, are built in code (ValueMenu).
+            Assert.True(tagCount >= 3, $"The scan found only {tagCount} tags. The scan is broken.");
             Assert.True(violations.Count == 0, string.Join(Environment.NewLine, violations));
         }
     }
