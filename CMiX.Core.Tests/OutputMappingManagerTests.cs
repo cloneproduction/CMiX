@@ -37,7 +37,7 @@ namespace CMiX.Core.Tests
             Assert.Equal(ManagerIDs.OutputMappingManager, project1.OutputMappingManager.ID);
             Assert.Equal(project1.OutputMappingManager.ID, project2.OutputMappingManager.ID);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < OutputMappingManager.SlotCount; i++)
             {
                 AssertFixedIds(project1.OutputMappingManager.Items[i], i);
 
@@ -70,7 +70,7 @@ namespace CMiX.Core.Tests
             var project2 = provider2.GetRequiredService<Project>();
             project2.FromModel(loadedModel);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < OutputMappingManager.SlotCount; i++)
                 AssertFixedIds(project2.OutputMappingManager.Items[i], i);
 
             Assert.Equal(640, project2.OutputMappingManager.Items[3].Resolution.X.Value);
