@@ -1,5 +1,6 @@
 using System.Collections.Specialized;
 using CMiX.Core.Compositing;
+using CMiX.Core.Rendering;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -43,7 +44,7 @@ namespace CMiX.Core.Tests
 
             Assert.Contains(slot0, manager.VisibleItems);
             Assert.DoesNotContain(slot1, manager.VisibleItems);
-            Assert.Equal(9, manager.VisibleItems.Count);
+            Assert.Equal(OutputMappingManager.SlotCount - 1, manager.VisibleItems.Count);
         }
     }
 }
