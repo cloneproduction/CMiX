@@ -267,6 +267,57 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             }
         }
 
+        // File > New gives the output mappings, the project name and the project model the values
+        // of a new project. The master beat keeps its tempo, and the undo stack stays empty.
+        [AvaloniaFact]
+        public async Task NewProject_ResetsTheOutputMappingsTheNameAndTheModel()
+        {
+            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
+            var modelPath = Path.Combine(Path.GetTempPath(), $"cmix-model-{Guid.NewGuid():N}.obj");
+            try
+            {
+                // The model selector makes an asset only for a file that exists.
+                File.WriteAllText(modelPath, string.Empty);
+                ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
+
+                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+                var undoManager = provider.GetRequiredService<UndoManager>();
+                var project = viewModel.Project;
+                var slots = project.OutputMappingManager.Items;
+
+                await viewModel.MainMenu.OpenProjectFromPath(path);
+                TestServiceProviderFactory.Pump();
+                project.PrefabService.Name.Value = "Saved Project";
+                project.Model.SetAssetFromPath(modelPath);
+                project.MasterBeat.Period.Value = 437.5f;
+                TestServiceProviderFactory.Pump();
+
+                Assert.Equal("LeftWall", slots[3].Name.Value);
+                Assert.Equal("Saved Project", project.PrefabService.Name.Value);
+                Assert.IsType<Geometry>(project.Model.Asset);
+                var period = project.MasterBeat.Period.Value;
+
+                viewModel.MainMenu.NewProjectCommand.Execute(null);
+                TestServiceProviderFactory.Pump();
+
+                Assert.Equal("Output 4", slots[3].Name.Value);
+                Assert.Equal(1920, slots[3].Resolution.X.Value);
+                Assert.Equal(1080, slots[3].Resolution.Y.Value);
+                Assert.True(slots[5].Visibility.Value);
+                Assert.Null(project.PrefabService.Name.Value);
+                Assert.Equal(string.Empty, project.Model.FilePath.Value);
+                Assert.Null(project.Model.Asset);
+                Assert.Equal(period, project.MasterBeat.Period.Value);
+                Assert.False(undoManager.CanUndo);
+                Assert.False(undoManager.CanRedo);
+            }
+            finally
+            {
+                if (File.Exists(path)) File.Delete(path);
+                if (File.Exists(modelPath)) File.Delete(modelPath);
+            }
+        }
+
         // An open loads every composition of the file in file order. Each one keeps its own layer
         // and gets new ids of its own. The composition that was selected at save time is selected
         // again.

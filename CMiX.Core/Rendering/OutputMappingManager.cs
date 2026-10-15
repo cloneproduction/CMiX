@@ -28,20 +28,40 @@ namespace CMiX.Core.Rendering
 
             var items = new List<OutputMapping>(SlotCount);
             for (int i = 0; i < SlotCount; i++)
-            {
-                var mapping = (OutputMapping)controlFactory.Create(typeof(OutputMapping));
-                AssignFixedIds(mapping, i);
-                mapping.Name.Value = $"Output {i + 1}";
-                mapping.TexcoordSemantic.Value = (TexcoordSemantic)i;
-                items.Add(mapping);
-            }
+                items.Add((OutputMapping)controlFactory.Create(typeof(OutputMapping)));
             Items = items;
+
+            for (int i = 0; i < SlotCount; i++)
+                ResetSlot(i);
 
             foreach (var mapping in Items)
                 mapping.Visibility.PropertyChanged += OnMappingVisibilityChanged;
 
             RebuildVisibleItems();
             SelectedItem = Items[0];
+        }
+
+        // Gives every slot the values of a new project. The slot instances stay the same.
+        public void Reset()
+        {
+            for (int i = 0; i < SlotCount; i++)
+                ResetSlot(i);
+            RebuildVisibleItems();
+            SelectedItem = Items[0];
+        }
+
+        // The ids are assigned before the values change, so each value message carries the fixed id
+        // of the slot. OutputMapping.FromModel would send the values with the random ids of the model.
+        private void ResetSlot(int i)
+        {
+            var mapping = Items[i];
+            var defaults = new OutputMappingModel();
+            AssignFixedIds(mapping, i);
+            mapping.Name.Value = $"Output {i + 1}";
+            mapping.Resolution.X.Value = defaults.Resolution.X.Value;
+            mapping.Resolution.Y.Value = defaults.Resolution.Y.Value;
+            mapping.TexcoordSemantic.Value = (TexcoordSemantic)i;
+            mapping.Visibility.Value = defaults.Visibility.Value;
         }
 
         // Fixed, like ManagerIDs.Project/CompositionManager/etc.: this manager and its 10 slots

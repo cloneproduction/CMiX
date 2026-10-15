@@ -76,5 +76,32 @@ namespace CMiX.Core.Tests
             Assert.Equal(640, project2.OutputMappingManager.Items[3].Resolution.X.Value);
             Assert.Equal("Renamed", project2.OutputMappingManager.Items[3].Name.Value);
         }
+
+        // A reset gives every slot the values of a new project. The slot instances, their fixed ids
+        // and the visible list stay correct.
+        [Fact]
+        public void Reset_RestoresTheDefaultsAndKeepsTheInstances()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = provider.GetRequiredService<Project>().OutputMappingManager;
+            var slot3 = manager.Items[3];
+            slot3.Name.Value = "LeftWall";
+            slot3.Resolution.X.Value = 3840;
+            manager.Items[5].Visibility.Value = false;
+
+            manager.Reset();
+
+            Assert.Same(slot3, manager.Items[3]);
+            Assert.Equal("Output 4", slot3.Name.Value);
+            Assert.Equal(1920, slot3.Resolution.X.Value);
+            Assert.Equal(1080, slot3.Resolution.Y.Value);
+            Assert.True(manager.Items[5].Visibility.Value);
+            Assert.Contains(manager.Items[5], manager.VisibleItems);
+            Assert.Equal(OutputMappingManager.SlotCount, manager.VisibleItems.Count);
+            Assert.Same(manager.Items[0], manager.SelectedItem);
+
+            for (int i = 0; i < OutputMappingManager.SlotCount; i++)
+                AssertFixedIds(manager.Items[i], i);
+        }
     }
 }

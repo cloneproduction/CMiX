@@ -77,6 +77,18 @@ namespace CMiX.Core.Compositing
             LoadManager(CompositionManager, m.CompositionManager);
         }
 
+        // Gives the output mappings, the name and the model the values of a new project. The master
+        // beat keeps its tempo. The values are set directly because FromModel replaces the fixed ids.
+        public void Reset()
+        {
+            OutputMappingManager.Reset();
+            PrefabService.Name.Value = null;
+            PrefabService.IsSelected.Value = false;
+            PrefabService.Visibility.Value = false;
+            PrefabService.IsUpdating.Value = true;
+            Model.FilePath.Value = string.Empty;
+        }
+
         // FromModel only adds items, so clear first to make this a real replacement.
         public void ApplySnapshot(ProjectModel model)
         {

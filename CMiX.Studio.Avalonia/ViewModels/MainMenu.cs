@@ -162,12 +162,14 @@ namespace CMiX.Studio.Avalonia.ViewModels
         // Empties the running session. The six repository managers and the composition manager
         // between them reference every control the repository holds, so letting all eight go
         // releases the whole graph, and clearing the undo stack afterwards disposes the removed
-        // instances its commands were still holding on to.
+        // instances its commands were still holding on to. The project reset runs before the undo
+        // clear, so its value writes leave nothing on the stack.
         private void ResetSession()
         {
             Project.CompositionManager.ClearAll();
             foreach (var manager in RepositoryManagers)
                 manager.ClearAll();
+            Project.Reset();
             _undoManager.Clear();
             FolderPath = null;
         }
