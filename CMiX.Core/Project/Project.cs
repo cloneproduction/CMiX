@@ -34,6 +34,9 @@ namespace CMiX.Core.Compositing
             PrefabService.Name.ID = ManagerIDs.ProjectPrefabServiceName;
             PrefabService.IsSelected.ID = ManagerIDs.ProjectPrefabServiceIsSelected;
             PrefabService.Visibility.ID = ManagerIDs.ProjectPrefabServiceVisibility;
+            PrefabService.IsUpdating.ID = ManagerIDs.ProjectPrefabServiceIsUpdating;
+            PrefabService.IsUpdating.Value = true;
+            PrefabService.IsUpdating.SetDefaults();
             compositionManager.Activate();
         }
 
@@ -65,6 +68,7 @@ namespace CMiX.Core.Compositing
             PrefabService.Name.ID = ManagerIDs.ProjectPrefabServiceName;
             PrefabService.IsSelected.ID = ManagerIDs.ProjectPrefabServiceIsSelected;
             PrefabService.Visibility.ID = ManagerIDs.ProjectPrefabServiceVisibility;
+            PrefabService.IsUpdating.ID = ManagerIDs.ProjectPrefabServiceIsUpdating;
             MasterBeat.FromModel(m.MasterBeat);
             MasterBeat.ID = ManagerIDs.MasterBeat;
             OutputMappingManager.FromModel(m.OutputMappingManager);

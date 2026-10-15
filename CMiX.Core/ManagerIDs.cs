@@ -26,6 +26,7 @@ namespace CMiX.Core
         public static readonly Guid ProjectPrefabServiceName = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5C");
         public static readonly Guid ProjectPrefabServiceIsSelected = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5D");
         public static readonly Guid ProjectPrefabServiceVisibility = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5E");
+        public static readonly Guid ProjectPrefabServiceIsUpdating = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF60");
 
         // Project.Model.FilePath, fixed the same way - created directly at Project startup, not
         // announced through MessageAddItem, so both sides must agree on this ID up front.
