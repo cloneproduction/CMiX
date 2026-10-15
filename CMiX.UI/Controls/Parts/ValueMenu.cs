@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
+using Avalonia.Interactivity;
 using Avalonia.Styling;
 using CMiX.UI.AttachedProperties;
 
@@ -16,10 +17,13 @@ namespace CMiX.UI.Controls.Parts
     // The menu starts with the title of the owner (see ControlTitle) and a line. It hides both while the title is empty.
     // An owner that is an IValueText also gets the rows Copy and Paste. They use the clipboard of the system.
     // An owner with a ResetAllCommand also gets a Reset All row while that command is set.
+    // The menu opens with the row that the user used last under the pointer, as in Blender (see MenuAnchor).
+    // The first time, it is Copy.
     // The binding has an explicit Source because a menu popup cannot reach back to its owner through TemplatedParent.
     internal static class ValueMenu
     {
         private const string ResetAllHeader = "Reset All";
+        private const string CopyHeader = "Copy";
 
         public static ContextMenu Create(Control owner, bool withResetAll = false)
         {
@@ -27,25 +31,39 @@ namespace CMiX.UI.Controls.Parts
             var lineItem = new MenuItem { Header = "-" };
             var items = new List<MenuItem> { titleItem, lineItem };
 
+            // The rows that can open under the pointer. A click on one of them is remembered by the window.
+            // A row with a command marks its click as handled when it runs the command, so the handler also takes handled clicks.
+            var actionRows = new List<MenuItem>();
+            MenuItem Action(MenuItem row)
+            {
+                row.AddHandler(MenuItem.ClickEvent, (_, _) =>
+                {
+                    if (TopLevel.GetTopLevel(owner) is { } window)
+                        MenuAnchor.SetLastUsed(window, row.Header);
+                }, RoutingStrategies.Bubble, handledEventsToo: true);
+                actionRows.Add(row);
+                return row;
+            }
+
             MenuItem? copyItem = null;
             MenuItem? pasteItem = null;
             if (owner is IValueText valueText)
             {
-                copyItem = new MenuItem { Header = "Copy" };
+                copyItem = Action(new MenuItem { Header = CopyHeader });
                 copyItem.Click += async (_, _) => await CopyAsync(owner, valueText);
-                pasteItem = new MenuItem { Header = "Paste", IsEnabled = false };
+                pasteItem = Action(new MenuItem { Header = "Paste", IsEnabled = false });
                 pasteItem.Click += async (_, _) => await PasteAsync(owner, valueText);
                 items.Add(copyItem);
                 items.Add(pasteItem);
                 items.Add(new MenuItem { Header = "-" });
             }
 
-            var resetItem = new MenuItem { Header = "Reset" };
+            var resetItem = Action(new MenuItem { Header = "Reset" });
             resetItem.Bind(MenuItem.CommandProperty, new Binding("ResetCommand") { Source = owner });
             items.Add(resetItem);
             if (withResetAll)
             {
-                var resetAllItem = new MenuItem { Header = ResetAllHeader };
+                var resetAllItem = Action(new MenuItem { Header = ResetAllHeader });
                 resetAllItem.Bind(MenuItem.CommandProperty, new Binding("ResetAllCommand") { Source = owner });
                 items.Add(resetAllItem);
             }
@@ -60,10 +78,23 @@ namespace CMiX.UI.Controls.Parts
                 titleItem.IsVisible = lineItem.IsVisible = title.Length > 0;
             }
 
+            // The row used last, if this menu has it. Else Copy. Else the first row.
+            void MarkAnchor()
+            {
+                var last = TopLevel.GetTopLevel(owner) is { } window ? MenuAnchor.GetLastUsed(window) : null;
+                var anchor = actionRows.FirstOrDefault(row => Equals(row.Header, last))
+                             ?? actionRows.FirstOrDefault(row => Equals(row.Header, CopyHeader))
+                             ?? actionRows.FirstOrDefault();
+                foreach (var row in actionRows)
+                    MenuAnchor.SetIsAnchor(row, row == anchor);
+            }
+
             Refresh();
+            MarkAnchor();
             menu.Opening += async (_, _) =>
             {
                 Refresh();
+                MarkAnchor();
                 if (copyItem != null && pasteItem != null && owner is IValueText target)
                 {
                     copyItem.IsEnabled = target.CanCopyValueText();
