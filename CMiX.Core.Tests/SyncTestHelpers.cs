@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -143,12 +144,23 @@ namespace CMiX.Core.Tests
             ConnectionChanged?.Invoke(this, !fail);
         }
 
-        private void Enter()
+        private readonly ConcurrentDictionary<string, int> _failedByCall = new();
+
+        // Which calls failed, for example "ReadBlockingAsync=2,HeartbeatAsync=5". A test prints it when a wait times out.
+        public string FailedSummary => string.Join(",", _failedByCall.OrderBy(pair => pair.Key).Select(pair => $"{pair.Key}={pair.Value}"));
+
+        // The reads of the follower that failed. The follower is in its recovery after one of its own reads failed.
+        // A read that was already running when the outage began is not failed, and it can still deliver entries.
+        // A test that writes entries during an outage waits for this count first, so the follower cannot read them.
+        public int FailedReads => _failedByCall.TryGetValue(nameof(ISyncStore.ReadBlockingAsync), out var count) ? count : 0;
+
+        private void Enter([CallerMemberName] string call = "")
         {
             CallThreads.Add(Environment.CurrentManagedThreadId);
             if (!Fail) return;
 
             Interlocked.Increment(ref _failedCalls);
+            _failedByCall.AddOrUpdate(call, 1, (_, count) => count + 1);
             throw new InvalidOperationException("The store is failing.");
         }
 

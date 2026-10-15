@@ -275,7 +275,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
-            await WaitUntilAsync(() => !peer.IsConnected && store.FailedCalls > 0);
+            await WaitUntilAsync(() => !peer.IsConnected && store.FailedReads > 0);
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
@@ -316,7 +316,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => a.IsJoined);
 
             storeB.SetFail(true);
-            await WaitUntilAsync(() => !b.IsConnected && storeB.FailedCalls > 0);
+            await WaitUntilAsync(() => !b.IsConnected && storeB.FailedReads > 0);
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
@@ -345,7 +345,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
-            await WaitUntilAsync(() => !peer.IsConnected && store.FailedCalls > 0);
+            await WaitUntilAsync(() => !peer.IsConnected && store.FailedReads > 0);
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
@@ -370,7 +370,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
-            await WaitUntilAsync(() => !peer.IsConnected && store.FailedCalls > 0);
+            await WaitUntilAsync(() => !peer.IsConnected && store.FailedReads > 0);
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
@@ -412,7 +412,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
-            await WaitUntilAsync(() => !peer.IsConnected && store.FailedCalls > 0);
+            await WaitUntilAsync(() => !peer.IsConnected && store.FailedReads > 0);
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
@@ -428,7 +428,8 @@ namespace CMiX.Core.Tests
                 await release.Task;
             };
             store.SetFail(false);
-            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000,
+                () => $"status={peer.Status} last={peer.LastAppliedId} tail={tail} failed=[{store.FailedSummary}] snapshotsApplied={target.SnapshotsApplied}");
 
             await Task.Delay(300);
             release.SetResult(true);
@@ -640,7 +641,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
-            await WaitUntilAsync(() => !peer.IsConnected && store.FailedCalls > 0);
+            await WaitUntilAsync(() => !peer.IsConnected && store.FailedReads > 0);
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
@@ -1221,7 +1222,7 @@ namespace CMiX.Core.Tests
             // The stream of the old store is trimmed past the own position, so the recovery reads
             // the snapshot.
             storeA.SetFail(true);
-            await WaitUntilAsync(() => !peer.IsConnected && storeA.FailedCalls > 0);
+            await WaitUntilAsync(() => !peer.IsConnected && storeA.FailedReads > 0);
             await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tailA = await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var modelA = ModelWithOneComposition();
@@ -1236,7 +1237,8 @@ namespace CMiX.Core.Tests
                 await release.Task;
             };
             storeA.SetFail(false);
-            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000,
+                () => $"status={peer.Status} last={peer.LastAppliedId} tailA={tailA} failed=[{storeA.FailedSummary}] snapshotsApplied={target.SnapshotsApplied}");
 
             peer.Stop();
             peer.Start(Options("Studio"), autoJoin: true);
