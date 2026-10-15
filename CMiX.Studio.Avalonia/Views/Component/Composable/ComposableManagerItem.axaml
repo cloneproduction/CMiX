@@ -4,52 +4,40 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <UserControl.Styles>
-        <Style Selector="ToggleButton.maskToggle:checked /template/ ui|AppIcon#image">
-            <Setter Property="Opacity" Value="1.0" />
-        </Style>
-    </UserControl.Styles>
-
     <Border
         Background="Transparent"
         PointerPressed="Border_PointerPressed"
         PointerReleased="Border_PointerReleased">
 
-        <DockPanel>
+        <DockPanel MinHeight="{DynamicResource ControlHeightMD}">
 
-            <ToggleButton
+            <StackPanel
                 Margin="4,0"
-                Width="{DynamicResource ControlHeightMD}"
-                Height="{DynamicResource ControlHeightMD}"
-                DockPanel.Dock="Left"
-                IsChecked="{Binding PrefabService.Visibility.Value}"
-                Theme="{DynamicResource ToggleButtonVisibility}" />
-
-
-            <ToggleButton
-                Classes="maskToggle"
                 DockPanel.Dock="Right"
-                IsChecked="{Binding Mask.IsMask.Value}">
-                <ToggleButton.Template>
-                    <ControlTemplate>
-                        <Border
-                            Height="{DynamicResource ControlHeightXS}"
-                            Margin="4,0"
-                            Padding="1"
-                            Background="Transparent"
-                            Opacity="0.6">
-                            <ui:AppIcon
-                                x:Name="image"
-                                IconKey="Mask"
-                                Size="{DynamicResource IconSizeXS}" />
-                        </Border>
-                    </ControlTemplate>
-                </ToggleButton.Template>
-            </ToggleButton>
+                Orientation="Horizontal"
+                Spacing="{DynamicResource SpacingSM}">
 
+                <ToggleButton
+                    IsChecked="{Binding PrefabService.Visibility.Value}"
+                    Theme="{DynamicResource ToggleButtonVisibility}" />
+
+                <ToggleButton
+                    IsChecked="{Binding PrefabService.IsUpdating.Value}"
+                    Theme="{DynamicResource ToggleButtonUpdate}"
+                    ToolTip.Tip="Update" />
+
+                <ToggleButton
+                    IsChecked="{Binding Mask.IsMask.Value}"
+                    Theme="{DynamicResource ToggleButtonMask}"
+                    ToolTip.Tip="Mask" />
+
+            </StackPanel>
+
+            <!-- The name starts 8 from the left: 1 of the item padding, 3 of the margin and 4 of the text padding. -->
             <ui:TextBoxEditable
                 x:Name="editableTextBox"
                 Height="{DynamicResource ControlHeightSM}"
+                Margin="3,0,0,0"
                 Foreground="{DynamicResource ForegroundBrush}"
                 Text="{Binding PrefabService.Name.Value, Mode=TwoWay}" />
 

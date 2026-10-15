@@ -45,7 +45,7 @@ namespace CMiX.UI.Tests
         public void TheToggle_FollowsIsChecked_AndWritesIt()
         {
             var item = Show(new ListItemIcon());
-            var toggle = item.GetVisualDescendants().OfType<ToggleButton>().Single();
+            var toggle = item.GetVisualDescendants().OfType<ToggleButton>().First();
 
             item.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
@@ -54,6 +54,30 @@ namespace CMiX.UI.Tests
             toggle.IsChecked = false;
             Dispatcher.UIThread.RunJobs();
             Assert.False(item.IsChecked);
+        }
+
+        [AvaloniaFact]
+        public void ThePowerToggle_IsHiddenUntilIsUpdatingHasAValue()
+        {
+            var item = Show(new ListItemIcon());
+            var power = item.GetVisualDescendants().OfType<ToggleButton>().Last();
+            Assert.False(power.IsVisible);
+
+            item.IsUpdating = true;
+            Dispatcher.UIThread.RunJobs();
+            Assert.True(power.IsVisible);
+        }
+
+        [AvaloniaFact]
+        public void ThePowerToggle_FollowsIsUpdating_AndWritesIt()
+        {
+            var item = Show(new ListItemIcon { IsUpdating = true });
+            var power = item.GetVisualDescendants().OfType<ToggleButton>().Last();
+            Assert.True(power.IsChecked);
+
+            power.IsChecked = false;
+            Dispatcher.UIThread.RunJobs();
+            Assert.False(item.IsUpdating);
         }
     }
 }

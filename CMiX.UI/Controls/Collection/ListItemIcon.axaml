@@ -13,11 +13,23 @@
             IconKey="{Binding Icon, ElementName=listItemIcon}"
             Size="{DynamicResource IconSizeXS}" />
 
-        <ToggleButton
+        <StackPanel
             Margin="4,0"
             DockPanel.Dock="Right"
-            IsChecked="{Binding IsChecked, ElementName=listItemIcon, Mode=TwoWay}"
-            Theme="{DynamicResource ToggleButtonVisibility}" />
+            Orientation="Horizontal"
+            Spacing="{DynamicResource SpacingSM}">
+
+            <ToggleButton
+                IsChecked="{Binding IsChecked, ElementName=listItemIcon, Mode=TwoWay}"
+                Theme="{DynamicResource ToggleButtonVisibility}" />
+
+            <ToggleButton
+                IsChecked="{Binding IsUpdating, ElementName=listItemIcon, Mode=TwoWay}"
+                IsVisible="{Binding IsUpdating, ElementName=listItemIcon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                Theme="{DynamicResource ToggleButtonUpdate}"
+                ToolTip.Tip="Update" />
+
+        </StackPanel>
 
         <ui:TextBoxEditable Text="{Binding Title, ElementName=listItemIcon, Mode=TwoWay}" />
 

@@ -44,5 +44,15 @@ namespace CMiX.UI.Controls.Collection
             get => GetValue(IsCheckedProperty);
             set => SetValue(IsCheckedProperty, value);
         }
+
+        public static readonly StyledProperty<bool?> IsUpdatingProperty =
+            AvaloniaProperty.Register<ListItemIcon, bool?>(nameof(IsUpdating), null, defaultBindingMode: BindingMode.TwoWay);
+
+        // The power toggle. It is hidden while this property has no value.
+        public bool? IsUpdating
+        {
+            get => GetValue(IsUpdatingProperty);
+            set => SetValue(IsUpdatingProperty, value);
+        }
     }
 }

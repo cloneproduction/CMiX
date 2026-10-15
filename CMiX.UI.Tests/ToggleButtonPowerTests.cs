@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Media;
@@ -9,16 +10,21 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Tests.Support;
+using CMiX.UI.Themes;
+using Material.Icons;
 using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // The power switch: a dim icon while off, a lit icon while on.
+    // The icon toggles (power, update, mask, eye) look the same: a dim icon while off, a lit icon while on.
     public class ToggleButtonPowerTests
     {
-        private static (Window window, ToggleButton toggle) Show()
+        // The Mask key belongs to the Studio app. The test registers the same key.
+        static ToggleButtonPowerTests() => Icons.Register("Mask", MaterialIconKind.CircleBox);
+
+        private static (Window window, ToggleButton toggle) Show(string theme = "ToggleButtonPower")
         {
-            var toggle = new ToggleButton { Theme = (ControlTheme)Application.Current!.FindResource("ToggleButtonPower")! };
+            var toggle = new ToggleButton { Theme = (ControlTheme)Application.Current!.FindResource(theme)! };
             var window = new Window { Content = toggle, Width = 200, Height = 100 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
@@ -39,25 +45,53 @@ namespace CMiX.UI.Tests
             Assert.Equal("Power", Icon(toggle).IconKey);
         }
 
-        [AvaloniaFact]
-        public void WhileOff_TheIconIsDim()
+        [AvaloniaTheory]
+        [InlineData("ToggleButtonUpdate", "Update")]
+        [InlineData("ToggleButtonMask", "Mask")]
+        public void AThemeBasedOnPower_ShowsItsOwnIcon(string theme, string iconKey)
         {
-            var (_, toggle) = Show();
+            var (_, toggle) = Show(theme);
 
-            Assert.Equal(0.4, Box(toggle).Opacity);
+            Assert.Equal(iconKey, Icon(toggle).IconKey);
+        }
+
+        [AvaloniaTheory]
+        [InlineData("ToggleButtonPower")]
+        [InlineData("ToggleButtonUpdate")]
+        [InlineData("ToggleButtonMask")]
+        [InlineData("ToggleButtonVisibility")]
+        public void WhileOff_TheIconIsDim(string theme)
+        {
+            var (_, toggle) = Show(theme);
+
+            Assert.Equal(0.6, Box(toggle).Opacity);
             Assert.Equal(BrushColor("ForegroundBrush"), ((ISolidColorBrush)Icon(toggle).Foreground!).Color);
         }
 
-        [AvaloniaFact]
-        public void WhileOn_TheIconIsLitInTheAccentColor()
+        [AvaloniaTheory]
+        [InlineData("ToggleButtonPower")]
+        [InlineData("ToggleButtonUpdate")]
+        [InlineData("ToggleButtonMask")]
+        public void WhileOn_TheIconIsLit_InTheSameColorAsWhileOff(string theme)
         {
-            var (_, toggle) = Show();
+            var (_, toggle) = Show(theme);
 
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
 
             Assert.Equal(1, Box(toggle).Opacity);
-            Assert.Equal(BrushColor("AccentBrush"), ((ISolidColorBrush)Icon(toggle).Foreground!).Color);
+            Assert.Equal(BrushColor("ForegroundBrush"), ((ISolidColorBrush)Icon(toggle).Foreground!).Color);
+        }
+
+        [AvaloniaFact]
+        public void TheEye_IsLitUnderThePointer()
+        {
+            var (window, toggle) = Show("ToggleButtonVisibility");
+
+            window.MouseMove(Box(toggle).TranslatePoint(new Point(4, 4), window)!.Value);
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(1, Box(toggle).Opacity);
         }
 
         [AvaloniaFact]
