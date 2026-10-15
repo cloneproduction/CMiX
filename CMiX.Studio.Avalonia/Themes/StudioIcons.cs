@@ -28,13 +28,13 @@ namespace CMiX.Studio.Avalonia.Themes
             Icons.Register("CubeCol", MaterialIconKind.CubeScan);
             Icons.Register("LayerScene", MaterialIconKind.Layers);
             Icons.Register("Entity", MaterialIconKind.Shape);
-            Icons.Register("FullscreenQuad", MaterialIconKind.Fullscreen);
+            Icons.Register("FullscreenQuad", MaterialIconKind.FitToScreenOutline);
             Icons.Register("Composition", MaterialIconKind.ViewQuilt);
             Icons.Register("Scene", MaterialIconKind.MovieOpen);
             Icons.Register("Scheduler", MaterialIconKind.CalendarClock);
             Icons.Register("Playlist", MaterialIconKind.PlaylistMusic);
             Icons.Register("World", MaterialIconKind.Earth);
-            Icons.Register("MeshLight", MaterialIconKind.LightbulbSpot);
+            Icons.Register("MeshLight", MaterialIconKind.Lightbulb);
             Icons.Register("Camera", MaterialIconKind.Camera);
             Icons.Register("Beat", MaterialIconKind.Metronome);
             Icons.Register("TextIcon", MaterialIconKind.FormatText);
