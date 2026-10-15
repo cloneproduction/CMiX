@@ -8,6 +8,7 @@
         Height="{DynamicResource ControlHeightSM}"
         Background="Transparent">
 
+        <!-- The TextBox has a 1 border, so its padding is 3,1. The text then starts at the same place as in the TextBlock (4,0). -->
         <TextBlock
             x:Name="TextDisplay"
             Padding="4,0"
@@ -23,6 +24,7 @@
             VerticalContentAlignment="Center"
             CaretBrush="{DynamicResource AccentInactiveBrush}"
             ContextFlyout="{x:Null}"
+            Padding="3,1"
             Foreground="{DynamicResource ActiveForegroundBrush}"
             SelectionBrush="{DynamicResource AccentBrush}"
             Text="{Binding Text, ElementName=editableTextBox}" />
