@@ -63,6 +63,9 @@ namespace CMiX.Core.Compositing
         private bool textureModifierIsExpanded = false;
 
         [ObservableProperty]
+        private bool modifierIsExpanded = false;
+
+        [ObservableProperty]
         private bool outputSettingsIsExpanded = false;
 
         public IControlModel ToModel() => new CompositionModel

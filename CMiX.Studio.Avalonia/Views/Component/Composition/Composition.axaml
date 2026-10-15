@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
@@ -24,6 +25,16 @@
                 <Views:ModifierManager Caption="Add Filter" Margin="8, 0, 8, 8" DataContext="{Binding TextureModifierManager}">
                     <Views:ModifierManager.SelectionPanel>
                         <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
+                    </Views:ModifierManager.SelectionPanel>
+                </Views:ModifierManager>
+            </ui:ExpanderIndented>
+
+            <ui:ExpanderIndented
+                Header="Modifiers"
+                IsExpanded="{Binding ModifierIsExpanded}">
+                <Views:ModifierManager Caption="Add Modifier" Margin="8, 0, 8, 8" DataContext="{Binding ModifierManager}">
+                    <Views:ModifierManager.SelectionPanel>
+                        <Managers:AutoSelectionPanel PanelOwner="{x:Type Compositing:Composition}" />
                     </Views:ModifierManager.SelectionPanel>
                 </Views:ModifierManager>
             </ui:ExpanderIndented>
