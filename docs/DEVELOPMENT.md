@@ -289,6 +289,21 @@ styles first, then what makes it different. `ButtonRounded`, `ToggleButtonInline
 - `ResourceReferenceTests` fails when an AXAML file names a resource key that nothing
   defines.
 
+### Toggle buttons
+
+A toggle shows that it is on in the way that fits its look. There are two families.
+
+- A toggle with a surface (a box or a pill) turns its background to the accent color when it is on.
+  These are `ToggleButtonRounded`, `ToggleButtonInlineLeft`, `ToggleButtonBox`, `ToggleButtonPopup` and
+  the others. They build on the base `ToggleButton` theme.
+- A toggle that is only an icon has no surface. The icon is dim at rest (opacity 0.6) and lit when the
+  toggle is on or under the pointer (1.0). `ToggleButtonVisibility` and `ToggleButtonPower` are of this
+  family. `ToggleButtonPlayPause` is dim at rest, and its icon changes when it is on.
+- A theme for one more icon toggle builds on `ToggleButtonPower` and only sets the icon with `IconKey` in
+  a style. `ToggleButtonUpdate` does this. The Studio does it for its mask toggle.
+- The opacity is always a style, never a value on the template. A value there beats every style, so the
+  on and hover states would not show. `ToggleButtonPowerTests` checks this.
+
 ### Scrolling
 
 A click must not make a view scroll or jump. `CMiXTheme` turns off the two ways that Avalonia

@@ -218,12 +218,16 @@
                     Name="border"
                     Margin="0"
                     Padding="1"
-                    Background="Transparent"
-                    Opacity="0.6">
+                    Background="Transparent">
                     <ui:AppIcon Name="image" IconKey="Play" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
+
+        <!-- A style, not a value on the template. A value there would beat every style. -->
+        <Style Selector="^ /template/ Border#border">
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
 
         <Style Selector="^:checked /template/ ui|AppIcon#image">
             <Setter Property="IconKey" Value="Stop" />
