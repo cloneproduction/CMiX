@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 
@@ -13,7 +14,7 @@ namespace CMiX.Core.Texturing.Sources
         public ButtonModel DoSeek { get; set; } = new();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public GenericValueModel<int> SeekFrame { get; set; } = new(0);
-        public GenericValueModel<bool> Play { get; set; } = new(true);
+        public ModulatableValueModel<bool> Playing { get; set; } = ModulatableValueModel<bool>.Of("", true);
         public AssetSelectorModel AssetSelector { get; set; } = new();
         public Integer2Model Resolution { get; set; } = new(1920, 1080);
         public GenericValueModel<bool> UseCompositionResolution { get; set; } = new(false);
