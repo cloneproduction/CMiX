@@ -7,19 +7,26 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Styling;
+using CMiX.UI.AttachedProperties;
 
 namespace CMiX.UI.Controls.Parts
 {
     // The Reset menu of a value editor. The owner must have a ResetCommand property.
+    // The menu starts with the title of the owner (see ControlTitle) and a line. It hides both while the title is empty.
     // An owner with a ResetAllCommand also gets a Reset All row while that command is set.
     // The binding has an explicit Source because a menu popup cannot reach back to its owner through TemplatedParent.
     internal static class ResetMenu
     {
+        // The title, the line, Reset and Reset All.
+        private const int ItemCountWithResetAll = 4;
+
         public static ContextMenu Create(Control owner, bool withResetAll = false)
         {
+            var titleItem = new MenuItem { IsEnabled = false };
+            var lineItem = new MenuItem { Header = "-" };
             var resetItem = new MenuItem { Header = "Reset" };
             resetItem.Bind(MenuItem.CommandProperty, new Binding("ResetCommand") { Source = owner });
-            var items = new List<MenuItem> { resetItem };
+            var items = new List<MenuItem> { titleItem, lineItem, resetItem };
             if (withResetAll)
             {
                 var resetAllItem = new MenuItem { Header = "Reset All" };
@@ -28,6 +35,17 @@ namespace CMiX.UI.Controls.Parts
             }
 
             var menu = new ContextMenu { ItemsSource = items };
+
+            // The caption can change after the menu is built, so the title is read each time the menu opens.
+            void RefreshTitle()
+            {
+                var title = ControlTitle.Of(owner);
+                titleItem.Header = title;
+                titleItem.IsVisible = lineItem.IsVisible = title.Length > 0;
+            }
+
+            RefreshTitle();
+            menu.Opening += (_, _) => RefreshTitle();
             if (owner.TryFindResource("ContextMenuDefault", out var theme) && theme is ControlTheme controlTheme)
                 menu.Theme = controlTheme;
 
@@ -76,7 +94,7 @@ namespace CMiX.UI.Controls.Parts
             }
 
             var withResetAll = resetAllCommand != null;
-            if (ownMenu != null && owner.ContextMenu == ownMenu && (ownMenu.ItemCount == 2) != withResetAll)
+            if (ownMenu != null && owner.ContextMenu == ownMenu && (ownMenu.ItemCount == ItemCountWithResetAll) != withResetAll)
                 owner.ContextMenu = null;
 
             if (owner.ContextMenu == null)

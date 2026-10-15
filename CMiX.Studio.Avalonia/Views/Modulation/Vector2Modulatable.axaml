@@ -14,6 +14,7 @@
             ModulatorManager="{Binding ModulatorManager, ElementName=vector2Modulatable}" />
 
         <Modulation:DragValueModulatable
+            ui:ControlTitle.Text="{Binding Caption, StringFormat=' {0} Y', ElementName=vector2Modulatable, Mode=OneWay}"
             Caption="Y"
             DataContext="{Binding Y}"
             ModulatorManager="{Binding ModulatorManager, ElementName=vector2Modulatable}" />

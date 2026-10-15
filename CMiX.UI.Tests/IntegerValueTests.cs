@@ -69,16 +69,16 @@ namespace CMiX.UI.Tests
             };
             Host(box);
 
-            var headers = box.ContextMenu!.Items.OfType<MenuItem>().Select(i => i.Header).ToList();
+            var headers = box.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Select(i => i.Header).ToList();
             Assert.Equal(new object?[] { "Reset", "Reset All" }, headers);
 
-            box.ContextMenu.Items.OfType<MenuItem>().Last().Command!.Execute(null);
+            box.ContextMenu.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Last().Command!.Execute(null);
             Assert.Equal("all", ran);
 
             box.ResetAllCommand = null!;
             Dispatcher.UIThread.RunJobs();
 
-            Assert.Equal(new object?[] { "Reset" }, box.ContextMenu!.Items.OfType<MenuItem>().Select(i => i.Header).ToList());
+            Assert.Equal(new object?[] { "Reset" }, box.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Select(i => i.Header).ToList());
         }
     }
 }

@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             hscb.Saturation.Value = 0.3f;
             var value = view.GetVisualDescendants().OfType<DragValue>().Single(c => c.DataContext == hscb.Saturation);
-            var reset = value.ContextMenu!.Items.OfType<MenuItem>().Single();
+            var reset = value.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, "Reset"));
 
             Assert.NotNull(reset.Command);
             reset.Command.Execute(null);

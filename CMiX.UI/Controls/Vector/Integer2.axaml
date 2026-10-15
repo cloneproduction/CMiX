@@ -15,6 +15,7 @@
             ResetCommand="{Binding X.ResetCommand}" />
 
         <ui:IntegerValue
+            ui:ControlTitle.Text="{Binding Caption, StringFormat=' {0} Y', ElementName=integer2Value, Mode=OneWay}"
             Caption="Y"
             ResetAllCommand="{Binding ResetAllCommand}"
             Value="{Binding Y.Value}"

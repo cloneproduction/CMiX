@@ -37,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var toggle = new ToggleButtonCaptioned { ResetCommand = new RelayCommand(() => ran = true) };
             Host(toggle);
 
-            toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
+            toggle.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, "Reset")).Command!.Execute(null);
 
             Assert.True(ran);
         }
@@ -64,7 +64,7 @@ namespace CMiX.Studio.Avalonia.Tests
             threshold.Antialiasing.Value = false;
 
             var toggle = view.GetVisualDescendants().OfType<ToggleButtonCaptioned>().Single(t => t.Caption == "Antialiasing");
-            toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
+            toggle.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, "Reset")).Command!.Execute(null);
 
             Assert.True(threshold.Antialiasing.Value);
         }
@@ -85,7 +85,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var toggle = new ToggleButtonCMiX { ResetCommand = new RelayCommand(() => ran = true) };
             Host(toggle);
 
-            toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
+            toggle.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, "Reset")).Command!.Execute(null);
 
             Assert.True(ran);
         }
@@ -114,7 +114,7 @@ namespace CMiX.Studio.Avalonia.Tests
             player.Loop.Value = false;
 
             foreach (var toggle in view.GetVisualDescendants().OfType<ToggleButtonCMiX>())
-                toggle.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
+                toggle.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, "Reset")).Command!.Execute(null);
 
             Assert.True(player.Play.Value);
             Assert.True(player.Loop.Value);

@@ -11,6 +11,7 @@
     <ui:DragValue
         ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=dragValueModulatable}"
         Caption="{Binding Caption, ElementName=dragValueModulatable, Mode=OneWay}"
+        ui:ControlTitle.Text="{Binding (ui:ControlTitle.Text), ElementName=dragValueModulatable}"
         IsReadOnly="{Binding IsModulated}"
         Maximum="{Binding Maximum, ElementName=dragValueModulatable}"
         Minimum="{Binding Minimum, ElementName=dragValueModulatable}"

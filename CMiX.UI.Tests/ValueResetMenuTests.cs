@@ -49,7 +49,7 @@ namespace CMiX.UI.Tests
             var slider = new SliderCMiX { ResetCommand = new RelayCommand(() => ran = true) };
             Host(slider);
 
-            var reset = slider.ContextMenu!.Items.OfType<MenuItem>().Single();
+            var reset = slider.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Single();
             reset.Command!.Execute(null);
 
             Assert.True(ran);
@@ -83,7 +83,7 @@ namespace CMiX.UI.Tests
             var drag = new DragValue { ResetCommand = new RelayCommand(() => ran = true) };
             Host(drag);
 
-            var reset = drag.ContextMenu!.Items.OfType<MenuItem>().Single();
+            var reset = drag.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Single();
             reset.Command!.Execute(null);
 
             Assert.True(ran);

@@ -20,6 +20,7 @@
                     ResetCommand="{Binding SizeX.ResetCommand}" />
 
                 <ui:IntegerValue
+                    ui:ControlTitle.Text="Resolution Y"
                     Caption="Y"
                     Value="{Binding SizeY.Value}"
                     ResetCommand="{Binding SizeY.ResetCommand}" />

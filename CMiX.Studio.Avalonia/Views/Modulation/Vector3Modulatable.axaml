@@ -16,11 +16,13 @@
             ModulatorManager="{Binding ModulatorManager, ElementName=vector3Modulatable}" />
 
         <Modulation:DragValueModulatable
+            ui:ControlTitle.Text="{Binding Caption, StringFormat=' {0} Y', ElementName=vector3Modulatable, Mode=OneWay}"
             Caption="Y"
             DataContext="{Binding Y}"
             ModulatorManager="{Binding ModulatorManager, ElementName=vector3Modulatable}" />
 
         <Modulation:DragValueModulatable
+            ui:ControlTitle.Text="{Binding Caption, StringFormat=' {0} Z', ElementName=vector3Modulatable, Mode=OneWay}"
             Caption="Z"
             DataContext="{Binding Z}"
             ModulatorManager="{Binding ModulatorManager, ElementName=vector3Modulatable}" />

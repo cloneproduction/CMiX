@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests
             combo.ResetCommand = new RelayCommand(() => ran = true);
             Host(combo);
 
-            combo.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
+            combo.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, "Reset")).Command!.Execute(null);
 
             Assert.True(ran);
         }
@@ -123,7 +123,7 @@ namespace CMiX.Studio.Avalonia.Tests
             filter.AlphaChannel.Value = Enum.GetValues<AlphaChannel>().First(v => v != original);
 
             var combo = view.GetVisualDescendants().OfType<ComboBoxCaptioned>().Single();
-            combo.ContextMenu!.Items.OfType<MenuItem>().Single().Command!.Execute(null);
+            combo.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, "Reset")).Command!.Execute(null);
 
             Assert.Equal(original, filter.AlphaChannel.Value);
         }

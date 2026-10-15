@@ -15,6 +15,7 @@
             Value="{Binding Value}" />
 
         <ui:DragValue
+            ui:ControlTitle.Text="{Binding Caption, StringFormat=' {0} Y', ElementName=vector2, Mode=OneWay}"
             Caption="Y"
             DataContext="{Binding Y}"
             ResetAllCommand="{Binding DataContext.ResetAllCommand, ElementName=vector2}"

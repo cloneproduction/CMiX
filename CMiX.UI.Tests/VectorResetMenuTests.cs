@@ -58,7 +58,7 @@ namespace CMiX.UI.Tests
             var drags = DragValuesOf(vector);
 
             Assert.Equal(2, drags.Count);
-            Assert.All(drags, d => Assert.Equal(new object?[] { "Reset", "Reset All" }, d.ContextMenu!.Items.OfType<MenuItem>().Select(i => i.Header).ToArray()));
+            Assert.All(drags, d => Assert.Equal(new object?[] { "Reset", "Reset All" }, d.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Select(i => i.Header).ToArray()));
 
             model.X.Value = 1;
             model.Y.Value = 2;
@@ -79,7 +79,7 @@ namespace CMiX.UI.Tests
             var drags = DragValuesOf(vector);
 
             Assert.Equal(3, drags.Count);
-            Assert.All(drags, d => Assert.Equal(new object?[] { "Reset", "Reset All" }, d.ContextMenu!.Items.OfType<MenuItem>().Select(i => i.Header).ToArray()));
+            Assert.All(drags, d => Assert.Equal(new object?[] { "Reset", "Reset All" }, d.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Select(i => i.Header).ToArray()));
 
             model.Z.Value = 1;
             model.X.Value = 2;
@@ -105,7 +105,7 @@ namespace CMiX.UI.Tests
             var drags = DragValuesOf(range);
 
             Assert.Equal(2, drags.Count);
-            Assert.All(drags, d => Assert.Equal(new object?[] { "Reset" }, d.ContextMenu!.Items.OfType<MenuItem>().Select(i => i.Header).ToArray()));
+            Assert.All(drags, d => Assert.Equal(new object?[] { "Reset" }, d.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Select(i => i.Header).ToArray()));
 
             Run(drags[0], "Reset");
             Assert.Equal((1, 0), (left, right));

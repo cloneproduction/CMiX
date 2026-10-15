@@ -18,11 +18,13 @@
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
             <Modulation:IntegerValueModulatable
+                ui:ControlTitle.Text="Count Y"
                 Caption="Y"
                 DataContext="{Binding Count.Y}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
             <Modulation:IntegerValueModulatable
+                ui:ControlTitle.Text="Count Z"
                 Caption="Z"
                 DataContext="{Binding Count.Z}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />

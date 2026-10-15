@@ -11,6 +11,7 @@
     <ui:DragValue
         ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=countValue}"
         Caption="{Binding Caption, ElementName=countValue, Mode=OneWay}"
+        ui:ControlTitle.Text="{Binding (ui:ControlTitle.Text), ElementName=countValue}"
         IsInteger="True"
         IsReadOnly="{Binding IsModulated}"
         LargeChange="1.0"
