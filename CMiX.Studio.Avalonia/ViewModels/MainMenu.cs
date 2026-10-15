@@ -225,6 +225,11 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 _undoManager.SuppressUndo();
                 try
                 {
+                    // The slots are restored before the compositions, because the rebuild of VisibleItems
+                    // would drop the output mapping selection of a composition that is already bound.
+                    if (loaded.Project.OutputMappingManager != null)
+                        Project.OutputMappingManager.FromModel(loaded.Project.OutputMappingManager);
+
                     foreach (var composition in loaded.Compositions)
                         Project.CompositionManager.AddItem(composition);
 
@@ -239,7 +244,8 @@ namespace CMiX.Studio.Avalonia.ViewModels
                     // file as loaded rather than from the guid replaced clone each composition goes
                     // through. Project files written before the master beat was serialized carry
                     // none. PrefabService and Model (the project's 3D backdrop) carry their own
-                    // well known ids the same way and are restored the same way.
+                    // well known ids the same way and are restored the same way. The output mappings
+                    // also keep their fixed ids and are restored above, before the compositions.
                     if (loaded.Project.MasterBeat != null)
                         Project.MasterBeat.FromModel(loaded.Project.MasterBeat);
 

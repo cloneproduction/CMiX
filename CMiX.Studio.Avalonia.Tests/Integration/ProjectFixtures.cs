@@ -97,5 +97,25 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
             ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
         }
+
+        // Saves slot 3 renamed with a new resolution, slot 5 hidden, and one composition on slot 3.
+        public static void WriteProjectWithRenamedOutputMappings(string path)
+        {
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var compositionManager = viewModel.Project.CompositionManager;
+            var slots = viewModel.Project.OutputMappingManager.Items;
+
+            slots[3].Name.Value = "LeftWall";
+            slots[3].Resolution.X.Value = 3840;
+            slots[3].Resolution.Y.Value = 1200;
+            slots[5].Visibility.Value = false;
+
+            compositionManager.AddItem(typeof(Composition));
+            ((Composition)compositionManager.SelectedItem).SelectedOutputMapping = slots[3];
+
+            TestServiceProviderFactory.Pump();
+
+            ProjectSerializer.Save(ProjectModelBuilder.Build(viewModel.Project), path);
+        }
     }
 }

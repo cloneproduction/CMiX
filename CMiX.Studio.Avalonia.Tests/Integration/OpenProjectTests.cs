@@ -6,10 +6,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Headless.XUnit;
+using CMiX.Core;
 using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Rendering;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.ViewModels;
@@ -426,6 +428,46 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 Assert.Equal(2, compositions.Count);
                 Assert.Same(slots[1], compositions[0].SelectedOutputMapping);
                 Assert.Same(slots[2], compositions[1].SelectedOutputMapping);
+            }
+            finally
+            {
+                if (File.Exists(path)) File.Delete(path);
+            }
+        }
+
+        // The output mappings are project data, not composition data. An open restores their
+        // names, resolutions and visibility from the file into the same nine slot instances.
+        // The slots keep their fixed ids, and a composition keeps its saved slot.
+        [AvaloniaFact]
+        public async Task OpenProject_RestoresTheOutputMappingNamesAndResolutions()
+        {
+            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
+            try
+            {
+                ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
+
+                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+                var outputMappingManager = viewModel.Project.OutputMappingManager;
+                var slots = outputMappingManager.Items;
+                Assert.Equal("Output 4", slots[3].Name.Value);
+
+                await viewModel.MainMenu.OpenProjectFromPath(path);
+                TestServiceProviderFactory.Pump();
+
+                Assert.Equal("LeftWall", slots[3].Name.Value);
+                Assert.Equal(3840, slots[3].Resolution.X.Value);
+                Assert.Equal(1200, slots[3].Resolution.Y.Value);
+                Assert.False(slots[5].Visibility.Value);
+                Assert.DoesNotContain(slots[5], outputMappingManager.VisibleItems);
+
+                var composition = (Composition)Assert.Single(viewModel.Project.CompositionManager.ManagerData.Items);
+                Assert.Same(slots[3], composition.SelectedOutputMapping);
+
+                for (var i = 0; i < OutputMappingManager.SlotCount; i++)
+                {
+                    Assert.Equal(ManagerIDs.OutputMappingSlots[i], slots[i].ID);
+                    Assert.Equal(ManagerIDs.OutputMappingSlotFields[i].Name, slots[i].Name.ID);
+                }
             }
             finally
             {
