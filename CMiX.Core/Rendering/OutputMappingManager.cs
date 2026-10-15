@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.ObjectModel;
@@ -12,14 +12,15 @@ using CMiX.Core;
 
 namespace CMiX.Core.Rendering
 {
-    // A fixed set of exactly 10 output mappings, one per TexcoordSemantic channel (Texcoord0-9).
+    // A fixed set of exactly 9 output mappings, one per TexcoordSemantic channel (Texcoord0-8).
+    // In theory Texcoord9 should also work but does not for some reason, selecting it resulted in a SharpDX exception.
     // Unlike PrefabManager/CollectionManager the slot count never changes: nothing adds or removes
     // an item, so this class carries none of their add/remove messaging or undo plumbing. Each
     // slot's own fields (Resolution, TexcoordSemantic, Visibility) are GenericValue<T> and already
     // sync themselves over the network and through undo individually.
     public partial class OutputMappingManager : ObservableObject, IControl
     {
-        public const int SlotCount = 10;
+        public const int SlotCount = 9; 
 
         public OutputMappingManager(ControlFactory controlFactory)
         {
