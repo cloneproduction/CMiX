@@ -15,23 +15,23 @@ namespace CMiX.Core.Texturing.Sources
                            PrefabManager modulatorManager,
                            Integer2 resolution,
                            GenericValue<bool> useCompositionResolution,
-                           GenericValue<int> seekFrame,
+                           ModulatableValue<int> seekTarget,
                            ModulatableValue<bool> playing,
                            CMiXButton doSeek,
                            AssetSelector assetSelector)
             : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
         {
             Resolution = resolution;
-            SeekFrame = seekFrame;
+            SeekTarget = seekTarget;
             Playing = playing;
             DoSeek = doSeek;
             AssetSelector = assetSelector;
 
-            Modulators.Add(Playing);
+            Modulators.Add(Playing, SeekTarget);
         }
 
         public CMiXButton DoSeek { get; set; }
-        public GenericValue<int> SeekFrame { get; set; }
+        public ModulatableValue<int> SeekTarget { get; set; }
         public ModulatableValue<bool> Playing { get; set; }
         public AssetSelector AssetSelector { get; set; }
         public Integer2 Resolution { get; set; }
@@ -41,7 +41,7 @@ namespace CMiX.Core.Texturing.Sources
             var model = new VideoPlayerModel
             {
                 DoSeek = (ButtonModel)DoSeek.ToModel(),
-                SeekFrame = (GenericValueModel<int>)SeekFrame.ToModel(),
+                SeekTarget = (ModulatableValueModel<int>)SeekTarget.ToModel(),
                 Playing = (ModulatableValueModel<bool>)Playing.ToModel(),
                 AssetSelector = (AssetSelectorModel)AssetSelector.ToModel(),
                 Resolution = (Integer2Model)Resolution.ToModel()
@@ -55,7 +55,7 @@ namespace CMiX.Core.Texturing.Sources
             var m = (VideoPlayerModel)model;
             LoadBaseModel(m);
             DoSeek.FromModel(m.DoSeek);
-            SeekFrame.FromModel(m.SeekFrame);
+            SeekTarget.FromModel(m.SeekTarget);
             Playing.FromModel(m.Playing);
             AssetSelector.FromModel(m.AssetSelector);
             Resolution.FromModel(m.Resolution);

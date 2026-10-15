@@ -15,7 +15,7 @@
         IsInteger="True"
         IsReadOnly="{Binding IsModulated}"
         LargeChange="1.0"
-        Minimum="1"
+        Minimum="{Binding Minimum, ElementName=countValue}"
         ResetCommand="{Binding ResetCommand}"
         SmallChange="1.0"
         Value="{Binding Value}">

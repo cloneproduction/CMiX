@@ -59,6 +59,17 @@ namespace CMiX.Core.Tests
             Assert.Equal(id, modulator.CompositionID);
         }
 
+        [Theory]
+        [InlineData(typeof(VideoPlayer), 2)]
+        [InlineData(typeof(SequencePlayer), 3)]
+        public void Players_ModulateTheirPlayLoopAndSeekValues(Type type, int count)
+        {
+            var player = (TextureSourceBase)Create(type);
+
+            Assert.Equal(count, player.Modulators.Bindables.Count);
+            Assert.Contains(player.Modulators.Bindables, b => b is ModulatableValue<int>);
+        }
+
         [Fact]
         public void Host_UnbindsAValue_WhenItsModulatorIsRemoved()
         {

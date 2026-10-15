@@ -23,6 +23,7 @@
                     <Button
                         Content="Do Seek"
                         Command="{Binding DoSeek.ClickCommand}"
+                        Theme="{StaticResource ButtonInlineRight}"
                         ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=doSeekRow}" />
                 </DockPanel>
             </ui:ContentCaptioned>
@@ -35,10 +36,11 @@
             ItemsSource="{Binding AssetRepository.Videos}"
             SelectedItem="{Binding Asset}" />
 
-        <ui:IntegerValue
+        <Modulation:IntegerValueModulatable
             Caption="Seek Frame"
-            Value="{Binding SeekFrame.Value}"
-            ResetCommand="{Binding SeekFrame.ResetCommand}" />
+            DataContext="{Binding SeekTarget}"
+            Minimum="0"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=videoPlayer}" />
 
         <ui:ToggleButtonCaptioned
             Margin="0,8"

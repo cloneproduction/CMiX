@@ -85,7 +85,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var doSeek = view.GetVisualDescendants().OfType<Button>()
                 .Single(b => b is not ToggleButton && (b.Content as string) == "Do Seek");
             var seekFrame = view.GetVisualDescendants().OfType<Border>()
-                .First(b => b.Name == "mainBorder" && b.FindAncestorOfType<IntegerValue>() != null);
+                .First(b => b.Name == "mainBorder" && b.FindAncestorOfType<DragValue>() != null);
 
             double Left(Control c) => c.TranslatePoint(new Point(0, 0), view)!.Value.X;
 
@@ -108,6 +108,19 @@ namespace CMiX.Studio.Avalonia.Tests
             var gap = doSeek.TranslatePoint(new Point(0, 0), view)!.Value.Y
                       - (play.TranslatePoint(new Point(0, 0), view)!.Value.Y + play.Bounds.Height);
             Assert.InRange(gap, 0, 4);
+        }
+
+        [AvaloniaFact]
+        public void SeekFrame_IsAModulatableDragValueFromZero()
+        {
+            var (player, view) = Show();
+
+            var seek = view.GetVisualDescendants().OfType<DragValue>().Single(d => d.Caption == "Seek Frame");
+
+            Assert.Equal(0, seek.Minimum);
+            Assert.True(seek.IsInteger);
+            Assert.IsType<ButtonModulatorAssign>(seek.TrailingContent);
+            Assert.Same(player.ModulatorManager, ((ButtonModulatorAssign)seek.TrailingContent!).ModulatorManager);
         }
 
         [AvaloniaFact]

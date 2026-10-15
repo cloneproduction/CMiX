@@ -13,7 +13,7 @@ namespace CMiX.Core.Texturing.Sources
         public Guid ID { get; set; } = Guid.NewGuid();
         public ButtonModel DoSeek { get; set; } = new();
         public PrefabServiceModel PrefabService { get; set; } = new();
-        public GenericValueModel<int> SeekFrame { get; set; } = new(0);
+        public ModulatableValueModel<int> SeekTarget { get; set; } = ModulatableValueModel<int>.Of("", 0);
         public ModulatableValueModel<bool> Playing { get; set; } = ModulatableValueModel<bool>.Of("", true);
         public AssetSelectorModel AssetSelector { get; set; } = new();
         public Integer2Model Resolution { get; set; } = new(1920, 1080);

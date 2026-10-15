@@ -108,16 +108,16 @@ namespace CMiX.Studio.Avalonia.Tests
             var player = (SequencePlayer)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(SequencePlayer));
             var view = new Views.SequencePlayer { DataContext = player };
             Host(view);
-            Assert.True(player.Play.Value);
-            Assert.True(player.Loop.Value);
-            player.Play.Value = false;
-            player.Loop.Value = false;
+            Assert.True(player.Playing.Value);
+            Assert.True(player.Looping.Value);
+            player.Playing.Value = false;
+            player.Looping.Value = false;
 
             foreach (var toggle in view.GetVisualDescendants().OfType<ToggleButtonCMiX>())
                 toggle.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, "Reset")).Command!.Execute(null);
 
-            Assert.True(player.Play.Value);
-            Assert.True(player.Loop.Value);
+            Assert.True(player.Playing.Value);
+            Assert.True(player.Looping.Value);
         }
     }
 }
