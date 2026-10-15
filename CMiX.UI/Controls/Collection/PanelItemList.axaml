@@ -24,7 +24,9 @@
             Theme="{StaticResource ToggleButtonPopup}" />
 
         <Popup
+            ui:TogglePopup.ClosesOnPointerAway="{Binding AddClosesOnPointerAway, ElementName=panelItemList}"
             ui:TogglePopup.MatchesToggleWidth="True"
+            ui:TogglePopup.PointerAwayDistance="{Binding AddPointerAwayDistance, ElementName=panelItemList}"
             ui:TogglePopup.Toggle="{Binding ElementName=AddToggle}"
             Placement="Bottom">
 

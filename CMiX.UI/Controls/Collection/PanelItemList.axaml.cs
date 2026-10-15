@@ -70,5 +70,25 @@ namespace CMiX.UI.Controls.Collection
             get => GetValue(AddContentProperty);
             set => SetValue(AddContentProperty, value);
         }
+
+        // False: the add popup stays open when the pointer goes away (see TogglePopup.ClosesOnPointerAway).
+        public static readonly StyledProperty<bool> AddClosesOnPointerAwayProperty =
+            AvaloniaProperty.Register<PanelItemList, bool>(nameof(AddClosesOnPointerAway), true);
+
+        public bool AddClosesOnPointerAway
+        {
+            get => GetValue(AddClosesOnPointerAwayProperty);
+            set => SetValue(AddClosesOnPointerAwayProperty, value);
+        }
+
+        // The distance of the pointer from the popup and the toggle, in pixels, that closes the add popup.
+        public static readonly StyledProperty<double> AddPointerAwayDistanceProperty =
+            AvaloniaProperty.Register<PanelItemList, double>(nameof(AddPointerAwayDistance), 64);
+
+        public double AddPointerAwayDistance
+        {
+            get => GetValue(AddPointerAwayDistanceProperty);
+            set => SetValue(AddPointerAwayDistanceProperty, value);
+        }
     }
 }

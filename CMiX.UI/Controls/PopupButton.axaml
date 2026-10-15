@@ -12,7 +12,9 @@
             Content="{Binding Caption, ElementName=popupButton}" />
 
         <Popup
+            ui:TogglePopup.ClosesOnPointerAway="{Binding ClosesOnPointerAway, ElementName=popupButton}"
             ui:TogglePopup.MatchesToggleWidth="True"
+            ui:TogglePopup.PointerAwayDistance="{Binding PointerAwayDistance, ElementName=popupButton}"
             ui:TogglePopup.Toggle="{Binding ElementName=PopUpToggle}"
             Placement="Bottom">
             <Border

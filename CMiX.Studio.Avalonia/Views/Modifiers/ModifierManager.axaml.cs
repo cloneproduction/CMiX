@@ -46,5 +46,26 @@ namespace CMiX.Studio.Avalonia.Views
             get => GetValue(PanelBackgroundProperty);
             set => SetValue(PanelBackgroundProperty, value);
         }
+
+        // The add popup of the modifier panels stays open when the pointer goes away. A press outside it, a click on a modifier
+        // and the toggle close it (see TogglePopup.ClosesOnPointerAway). Set it to true for a panel that should close like the others.
+        public static readonly StyledProperty<bool> AddClosesOnPointerAwayProperty =
+            AvaloniaProperty.Register<ModifierManager, bool>(nameof(AddClosesOnPointerAway), false);
+
+        public bool AddClosesOnPointerAway
+        {
+            get => GetValue(AddClosesOnPointerAwayProperty);
+            set => SetValue(AddClosesOnPointerAwayProperty, value);
+        }
+
+        // The distance of the pointer from the popup and the toggle, in pixels, that closes the add popup.
+        public static readonly StyledProperty<double> AddPointerAwayDistanceProperty =
+            AvaloniaProperty.Register<ModifierManager, double>(nameof(AddPointerAwayDistance), 64);
+
+        public double AddPointerAwayDistance
+        {
+            get => GetValue(AddPointerAwayDistanceProperty);
+            set => SetValue(AddPointerAwayDistanceProperty, value);
+        }
     }
 }

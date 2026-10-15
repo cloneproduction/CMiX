@@ -14,6 +14,8 @@
     <ui:PanelItemList
         ReorderService="{Binding ManagerReorderService}"
         AddCaption="{Binding Caption, ElementName=modifierManager}"
+        AddClosesOnPointerAway="{Binding AddClosesOnPointerAway, ElementName=modifierManager}"
+        AddPointerAwayDistance="{Binding AddPointerAwayDistance, ElementName=modifierManager}"
         AddContent="{Binding SelectionPanel, ElementName=modifierManager}"
         ItemsSource="{Binding ManagerData.Items}">
 

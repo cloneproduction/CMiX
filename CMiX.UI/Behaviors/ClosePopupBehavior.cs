@@ -25,6 +25,21 @@ namespace CMiX.UI.Behaviors
             set => SetValue(DistanceProperty, value);
         }
 
+        // False: the pointer going away does not close the popup. A press outside the popup and a click on a button of it still do.
+        public static readonly StyledProperty<bool> ClosesOnPointerAwayProperty =
+            AvaloniaProperty.Register<ClosePopupBehavior, bool>(nameof(ClosesOnPointerAway), true);
+
+        public bool ClosesOnPointerAway
+        {
+            get => GetValue(ClosesOnPointerAwayProperty);
+            set => SetValue(ClosesOnPointerAwayProperty, value);
+        }
+
+        static ClosePopupBehavior()
+        {
+            ClosesOnPointerAwayProperty.Changed.AddClassHandler<ClosePopupBehavior>((behavior, _) => behavior.UpdateCloser());
+        }
+
         private readonly PointerAwayCloser closer;
         private Control? subscribedChild;
         private bool parentHandlersAdded;
@@ -123,7 +138,16 @@ namespace CMiX.UI.Behaviors
         {
             AddChildHandlers();
             AddParentWindowHandlers();
-            closer.Start(ParentTopLevel);
+            UpdateCloser();
+        }
+
+        // The closer runs while the popup is open and the behavior closes on pointer away.
+        private void UpdateCloser()
+        {
+            if (AssociatedObject?.IsOpen == true && ClosesOnPointerAway)
+                closer.Start(ParentTopLevel);
+            else
+                closer.Stop();
         }
 
         private void OnClosed(object? sender, EventArgs e)
