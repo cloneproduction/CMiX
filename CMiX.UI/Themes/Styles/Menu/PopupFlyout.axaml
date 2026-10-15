@@ -3,13 +3,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <!-- A FlyoutPresenter for popups. Its look comes from the PopupFrame control. -->
+    <!-- A FlyoutPresenter for popups. Its look comes from the PopupFrame control.
+         The frame centers the flyout on the pointer, so a flyout with this theme sets no offset. -->
     <ControlTheme x:Key="FlyoutPresenterPanel" TargetType="FlyoutPresenter">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="300" />
         <Setter Property="Template">
             <ControlTemplate>
-                <ui:PopupFrame>
+                <ui:PopupFrame CentersOnPointer="True">
                     <ContentPresenter
                         Name="PART_ContentPresenter"
                         Content="{TemplateBinding Content}"

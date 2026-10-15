@@ -77,8 +77,6 @@
                 <Button.Flyout>
                     <Flyout
                         Placement="Pointer"
-                        HorizontalOffset="-150"
-                        VerticalOffset="-56"
                         FlyoutPresenterTheme="{StaticResource FlyoutPresenterPanel}">
                         <i:Interaction.Behaviors>
                             <ui:CloseFlyoutOnPointerAwayBehavior />
@@ -88,7 +86,7 @@
                                 Margin="0,0,0,16"
                                 Text="The loaded project and the Redis state are different. Choose how to resolve it."
                                 TextWrapping="Wrap" />
-                            <Grid Height="{DynamicResource ControlHeightMD}">
+                            <Grid Height="{DynamicResource ControlHeightMD}" ui:MenuAnchor.IsAnchor="True">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
@@ -141,8 +139,6 @@
             <Button.Flyout>
                 <Flyout
                     Placement="Pointer"
-                    HorizontalOffset="-150"
-                    VerticalOffset="-100"
                     FlyoutPresenterTheme="{StaticResource FlyoutPresenterPanel}">
                     <i:Interaction.Behaviors>
                         <ui:CloseFlyoutOnPointerAwayBehavior />

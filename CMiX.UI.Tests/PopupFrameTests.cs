@@ -51,5 +51,22 @@ namespace CMiX.UI.Tests
             Assert.Equal(300, presenter.Width);
             Assert.Contains(text, frame.GetVisualDescendants());
         }
+
+        [AvaloniaFact]
+        public void PopupFlyoutTheme_CentersTheFlyoutOnThePointer_WhateverItsWidth()
+        {
+            var presenter = new FlyoutPresenter
+            {
+                Theme = (ControlTheme)Application.Current!.FindResource("FlyoutPresenterPanel")!,
+                Content = new TextBlock { Text = "Item" },
+                Width = 420
+            };
+            Host(presenter);
+
+            var frame = presenter.GetVisualDescendants().OfType<PopupFrame>().Single();
+            Assert.True(frame.CentersOnPointer);
+            Assert.Equal(-frame.Bounds.Width / 2, frame.PointerOffset(frame.Bounds.Size).X);
+            Assert.Equal(-frame.Bounds.Height / 2, frame.PointerOffset(frame.Bounds.Size).Y);
+        }
     }
 }

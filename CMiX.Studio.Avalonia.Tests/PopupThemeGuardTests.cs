@@ -41,5 +41,32 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(tagCount >= 3, $"The scan found only {tagCount} tags. The scan is broken.");
             Assert.True(violations.Count == 0, string.Join(Environment.NewLine, violations));
         }
+
+        // The frame of FlyoutPresenterPanel centers the flyout on the pointer. An offset in the AXAML would move it off the center.
+        [Fact]
+        public void AFlyoutWithThePanelTheme_SetsNoOffset()
+        {
+            var violations = new List<string>();
+            var flyoutsWithTheme = 0;
+
+            foreach (var file in SourceTree.AxamlFiles())
+            {
+                var text = Comment.Replace(File.ReadAllText(file), "");
+
+                foreach (Match match in Tag.Matches(text))
+                {
+                    var attributes = match.Groups[2].Value;
+                    if (!attributes.Contains("FlyoutPresenterPanel"))
+                        continue;
+
+                    flyoutsWithTheme++;
+                    if (attributes.Contains("HorizontalOffset") || attributes.Contains("VerticalOffset"))
+                        violations.Add($"{SourceTree.Relative(file)}: a flyout with FlyoutPresenterPanel sets an offset");
+                }
+            }
+
+            Assert.True(flyoutsWithTheme >= 2, $"The scan found only {flyoutsWithTheme} flyouts with the theme. The scan is broken.");
+            Assert.True(violations.Count == 0, string.Join(Environment.NewLine, violations));
+        }
     }
 }
