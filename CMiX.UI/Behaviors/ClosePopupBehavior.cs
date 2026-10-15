@@ -48,6 +48,7 @@ namespace CMiX.UI.Behaviors
         {
             closer = new PointerAwayCloser(
                 () => Distance,
+                () => ClosesOnPointerAway,
                 () => AssociatedObject?.Child,
                 // The control that opened the popup can be much wider than the popup.
                 () => AssociatedObject?.PlacementTarget ?? AssociatedObject?.Parent as Control,
@@ -141,10 +142,10 @@ namespace CMiX.UI.Behaviors
             UpdateCloser();
         }
 
-        // The closer runs while the popup is open and the behavior closes on pointer away.
+        // The closer runs while the popup is open. It starts only while ClosesOnPointerAway is true.
         private void UpdateCloser()
         {
-            if (AssociatedObject?.IsOpen == true && ClosesOnPointerAway)
+            if (AssociatedObject?.IsOpen == true)
                 closer.Start(ParentTopLevel);
             else
                 closer.Stop();

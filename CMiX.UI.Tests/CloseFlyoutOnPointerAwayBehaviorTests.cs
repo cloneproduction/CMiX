@@ -22,11 +22,12 @@ namespace CMiX.UI.Tests
             : new Flyout { Content = new StackPanel { Width = 200, Children = { box ?? new TextBox() } } };
 
         // The button is wide and sits at the top left of the window. The flyout opens below it.
-        private static (Window Window, Button Button, PopupFlyoutBase Flyout) ShowWithOpenFlyout(string kind, TextBox? box = null)
+        private static (Window Window, Button Button, PopupFlyoutBase Flyout) ShowWithOpenFlyout(string kind, TextBox? box = null, Action<CloseFlyoutOnPointerAwayBehavior>? configure = null)
         {
             var flyout = CreateFlyout(kind, box);
             flyout.Placement = PlacementMode.Bottom;
             var behavior = new CloseFlyoutOnPointerAwayBehavior();
+            configure?.Invoke(behavior);
             AvaloniaInteraction.SetBehaviors(flyout, new BehaviorCollection { behavior });
             var button = new Button { Content = "open", Width = 700, Height = 30, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
             var window = new Window { Content = button, Width = 800, Height = 500 };
@@ -80,6 +81,37 @@ namespace CMiX.UI.Tests
             Move(window, new Point(790, 490));
 
             Assert.True(flyout.IsOpen);
+        }
+
+        [AvaloniaTheory]
+        [InlineData("flyout")]
+        [InlineData("menu")]
+        public void WithoutClosesOnPointerAway_TheFlyoutStaysOpen(string kind)
+        {
+            var (window, _, flyout) = ShowWithOpenFlyout(kind, configure: behavior => behavior.ClosesOnPointerAway = false);
+
+            Move(window, new Point(790, 490));
+
+            Assert.True(flyout.IsOpen);
+        }
+
+        [AvaloniaTheory]
+        [InlineData("flyout")]
+        [InlineData("menu")]
+        public void TheSwitch_CanChangeWhileTheFlyoutIsOpen(string kind)
+        {
+            var (window, _, flyout) = ShowWithOpenFlyout(kind);
+
+            AvaloniaInteraction.GetBehaviors(flyout).OfType<CloseFlyoutOnPointerAwayBehavior>().Single().ClosesOnPointerAway = false;
+            Move(window, new Point(790, 490));
+
+            Assert.True(flyout.IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void ClosesOnPointerAway_IsOnByDefault()
+        {
+            Assert.True(new CloseFlyoutOnPointerAwayBehavior().ClosesOnPointerAway);
         }
 
         [AvaloniaFact]

@@ -13,6 +13,7 @@ namespace CMiX.UI.Behaviors
 {
     // Closes a popup, a flyout or a menu when the pointer goes away from it.
     // The owner calls Start when the content opens and Stop when it closes.
+    // Start does nothing while isEnabled gives false, so the closer is the one place that decides whether the pointer is watched.
     // The pointer is away when it is farther than the distance from the content and from the control that opened it.
     // It is not away after the user typed in a text box of the content, because a close would lose the text.
     // It does not close while a control of the content holds the pointer, for example a slider that is dragged,
@@ -24,6 +25,7 @@ namespace CMiX.UI.Behaviors
         public const double DefaultDistance = 64;
 
         private readonly Func<double> distance;
+        private readonly Func<bool> isEnabled;
         private readonly Func<Control?> content;
         private readonly Func<Control?> target;
         private readonly Action close;
@@ -31,9 +33,10 @@ namespace CMiX.UI.Behaviors
         private Control? watchedContent;
         private bool keyPressed;
 
-        public PointerAwayCloser(Func<double> distance, Func<Control?> content, Func<Control?> target, Action close)
+        public PointerAwayCloser(Func<double> distance, Func<bool> isEnabled, Func<Control?> content, Func<Control?> target, Action close)
         {
             this.distance = distance;
+            this.isEnabled = isEnabled;
             this.content = content;
             this.target = target;
             this.close = close;
@@ -42,6 +45,9 @@ namespace CMiX.UI.Behaviors
         public void Start(TopLevel? pointerSource)
         {
             Stop();
+            if (!isEnabled())
+                return;
+
             topLevel = pointerSource;
             topLevel?.AddHandler(InputElement.PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel);
 

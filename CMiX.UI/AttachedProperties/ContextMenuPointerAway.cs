@@ -54,7 +54,7 @@ namespace CMiX.UI.AttachedProperties
             public Hook(ContextMenu menu)
             {
                 this.menu = menu;
-                closer = new PointerAwayCloser(() => GetDistance(menu), () => menu, () => Owner, menu.Close);
+                closer = new PointerAwayCloser(() => GetDistance(menu), () => true, () => menu, () => Owner, menu.Close);
                 menu.Opened += OnOpened;
                 menu.Closed += OnClosed;
             }
