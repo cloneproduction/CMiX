@@ -16,6 +16,10 @@ namespace CMiX.Studio.Avalonia.Converters
 
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
+            var label = (value as Type) is { } type ? ControlFactory.StringHelper.LabelOf(type) : null;
+            if (label != null)
+                return label;
+
             var name = (value as Type)?.Name ?? "";
             foreach (var suffix in TypeNameSuffixes)
             {

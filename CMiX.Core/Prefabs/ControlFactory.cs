@@ -156,7 +156,8 @@ namespace CMiX.Core.Prefabs
         {
             if (control is not IPrefab prefab) return;
 
-            var typeName = StringHelper.PascalCaseToDisplay(control.GetType().Name);
+            var label = StringHelper.LabelOf(control.GetType());
+            var typeName = label != null ? label + " Modifier" : StringHelper.PascalCaseToDisplay(control.GetType().Name);
 
             prefab.PrefabService.Name.IsActive = false;
             _applyingName = true;
@@ -195,6 +196,10 @@ namespace CMiX.Core.Prefabs
 
         public static class StringHelper
         {
+            // The ModifierLabel of a type, or null when it has none.
+            public static string LabelOf(Type type) =>
+                System.Reflection.CustomAttributeExtensions.GetCustomAttribute<ModifierLabelAttribute>(type)?.Label;
+
             public static string PascalCaseToDisplay(string name) =>
                 System.Text.RegularExpressions.Regex.Replace(
                     System.Text.RegularExpressions.Regex.Replace(name, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"),
