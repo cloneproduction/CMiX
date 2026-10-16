@@ -61,7 +61,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         // Text of the title bar: the file name of the open project, or "(Unsaved)" when there is none.
         // The full path is the tooltip of the title bar.
         public string TitleBarText =>
-            $"CMiX - ({(string.IsNullOrWhiteSpace(FolderPath) ? "Unsaved" : Path.GetFileName(FolderPath))})";
+            $"CMiX - {(string.IsNullOrWhiteSpace(FolderPath) ? "(Unsaved)" : Path.GetFileName(FolderPath))}";
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public ControlFactory ControlFactory { get; set; }
