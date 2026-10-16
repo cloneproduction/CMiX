@@ -25,8 +25,7 @@ namespace CMiX.Studio.Avalonia.Views
         private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (e.Source is ILogical source &&
-                (source.FindLogicalAncestorOfType<Menus.MainMenu>(true) != null ||
-                 source.FindLogicalAncestorOfType<Windows.MainWindowController>(true) != null))
+                source.FindLogicalAncestorOfType<Windows.MainWindowController>(true) != null)
                 return;
 
             if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)

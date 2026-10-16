@@ -31,14 +31,24 @@
             Background="{DynamicResource Grey100Brush}"
             DockPanel.Dock="Top">
 
-            <DockPanel LastChildFill="False">
+            <DockPanel LastChildFill="True">
 
                 <Windows:MainWindowController DataContext="{Binding MainWindowController}" DockPanel.Dock="Right" />
 
-                <Menus:MainMenu DataContext="{Binding MainMenu}" DockPanel.Dock="Left" />
+                <ui:TextBlockTrimmed
+                    Margin="8,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    DataContext="{Binding MainMenu}"
+                    Text="{Binding TitleBarText}"
+                    ToolTipText="{Binding FolderPath}" />
 
             </DockPanel>
         </Border>
+
+        <Menus:MainMenu
+            DataContext="{Binding MainMenu}"
+            DockPanel.Dock="Top" />
 
         <Border
             Height="{DynamicResource ControlHeightXL}"
