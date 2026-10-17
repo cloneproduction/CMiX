@@ -1,0 +1,62 @@
+shader TextureControlTriangleSingle_ShaderFX : MaterialExtension
+{
+    cbuffer PerMaterial
+    {
+        stage float4x4 TransformShrinkTexture;
+        stage float4x4 TransformExplodeTexture;
+    }
+
+    rgroup PerMaterial
+    {
+        stage Texture2D ShrinkTexture;
+        stage Texture2D ExplodeTexture;
+        stage compose ComputeFloat ShrinkStrength;
+        stage compose ComputeFloat ExplodeStrength;
+        stage compose ComputeFloat FlatNormals;
+    }
+
+    // Average brightness of the texture at the 3 corners, times strength.
+    float CalcAmount(Texture2D tex, Input input[3], float4x4 tTex, float strength)
+    {
+        float3 c0 = tex.SampleLevel(LinearSampler, mul(input[0].TexCoord, tTex), 0).xyz;
+        float3 c1 = tex.SampleLevel(LinearSampler, mul(input[1].TexCoord, tTex), 0).xyz;
+        float3 c2 = tex.SampleLevel(LinearSampler, mul(input[2].TexCoord, tTex), 0).xyz;
+
+        return dot(c0 + c1 + c2, 0.11) * strength;
+    }
+
+    [maxvertexcount(3)]
+    stage void GSMain(triangle Input input[3], inout TriangleStream<Output> gsOut)
+    {
+        float3 p[3] = { input[0].Position.xyz, input[1].Position.xyz, input[2].Position.xyz };
+        float3 centre = (p[0] + p[1] + p[2]) / 3.0f;
+
+        // Read each composition once per triangle.
+        float shrinkStrength  = ShrinkStrength.Compute();
+        float explodeStrength = ExplodeStrength.Compute();
+        float flatNormals     = FlatNormals.Compute();
+
+        // Skip the texture reads when the effect is off.
+        float shrinkAmount  = shrinkStrength  != 0 ? CalcAmount(ShrinkTexture,  input, TransformShrinkTexture,  shrinkStrength)  : 0;
+        float explodeAmount = explodeStrength != 0 ? CalcAmount(ExplodeTexture, input, TransformExplodeTexture, explodeStrength) : 0;
+
+        // Shrinking to the centre keeps the plane, so the original corners give the same normal.
+        float3 norm = normalize(cross(p[1] - p[0], p[2] - p[0]));
+        float3 offset = norm * explodeAmount;
+
+        [unroll]
+        for (int i = 0; i < 3; i++)
+        {
+            float3 pos = lerp(p[i], centre, shrinkAmount) + offset;
+            float3 n   = lerp(input[i].meshNormal, norm, flatNormals);
+
+            streams = input[i];
+            streams.PositionWS      = mul(float4(pos, input[i].Position.w), World);
+            streams.ShadingPosition = mul(streams.PositionWS, ViewProjection);
+            streams.normalWS        = normalize(mul(n, (float3x3)World));
+            gsOut.Append(streams);
+        }
+
+        gsOut.RestartStrip();
+    }
+};
