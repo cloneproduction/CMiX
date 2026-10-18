@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2026.8.0-0164-gf0fa821471" Version="0.128">
+<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2026.8.0-0188-gcb7ddbf18d" Version="0.128">
   <NugetDependency Id="IUe3DNEcZotPCXZwjVtivO" Location="VL.CoreLib" />
   <Patch Id="T9GSBtl3PLoMotw6vgDtsk">
     <Canvas Id="OChrtsq8T1iOBNfVT1Yj0P" DefaultCategory="CMiX.Engine" CanvasType="FullCategory">
@@ -21945,7 +21945,7 @@
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="ProcessAppFlag" Name="ApplyMasks" />
                     </p:NodeReference>
-                    <Pin Id="DfGg1prItUtNt3bX06JcN4" Name="Node Context" Kind="InputPin" IsHidden="true" />
+                    <Pin Id="Tfbss6SjjMRNdGnSkymHin" Name="Node Context" Kind="InputPin" IsHidden="true" />
                     <Pin Id="Rn7Z60krAP5NI9YaM5AdKx" Name="Composables" Kind="InputPin" />
                     <Pin Id="FG2Kzxw02WeMYPdwZEHTnU" Name="Textures" Kind="InputPin" />
                     <Pin Id="IRcrqfEYq1lLzv9BRYliGq" Name="Index" Kind="InputPin" />
@@ -22008,7 +22008,7 @@
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="ProcessAppFlag" Name="ApplyMasks" />
                     </p:NodeReference>
-                    <Pin Id="QPUnkNHY984LwKuAN4UP4s" Name="Node Context" Kind="InputPin" IsHidden="true" />
+                    <Pin Id="ABATJZUdEVvLaSf7MzHHXH" Name="Node Context" Kind="InputPin" IsHidden="true" />
                     <Pin Id="IaxLQ4PMEM9M4VXA4cFTbT" Name="Composables" Kind="InputPin" />
                     <Pin Id="FGMTQYuZi6UQagxs2GtIto" Name="Textures" Kind="InputPin" />
                     <Pin Id="HjpFmpc41rxQDLiycFcpUS" Name="Index" Kind="InputPin" />
@@ -55467,11 +55467,10 @@
         <Patch Id="ByiuwVD22zzNvAmrbUvtvA">
           <Canvas Id="LeTdJcvwHKONkSAe3CabTu" CanvasType="Group">
             <Node Bounds="70,130,111,19" Id="KJodlR4drBrMfK59Go9tmw">
-              <p:NodeReference LastCategoryFullName="CMiX.Engine.Compositing.Service" LastDependency="CMiX_ENGINE.Definitions.vl">
+              <p:NodeReference LastCategoryFullName="CMiX.Engine" LastDependency="CMiX_ENGINE.Definitions.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <Choice Kind="ProcessAppFlag" Name="GetEnginePrefabByID" />
+                <Choice Kind="OperationCallFlag" Name="GetEnginePrefabByID" />
               </p:NodeReference>
-              <Pin Id="Drhe0uVeFS9Nnh8kA2HzCF" Name="Node Context" Kind="InputPin" IsHidden="true" />
               <Pin Id="HLCJiIoKEIWLLxi9GzL2ma" Name="ID" Kind="InputPin" />
               <Pin Id="JH4FnyDHdkkMXwRprY8SzG" Name="Result" Kind="OutputPin" />
             </Node>
