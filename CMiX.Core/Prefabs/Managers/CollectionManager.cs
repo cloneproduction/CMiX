@@ -33,8 +33,8 @@ namespace CMiX.Core.Prefabs.Managers
             foreach (var item in ManagerData.Items.ToList())
                 RemoveControlFromCollection(item, disposeIfOrphaned: true);
 
-            ManagerData.SelectedIndex = -1;
             SelectedItem = null;
+            ManagerData.SelectedIndex = -1;
         }
 
         private void AddControlToCollection(IControl prefab)
@@ -42,8 +42,8 @@ namespace CMiX.Core.Prefabs.Managers
             var items = ManagerData.Items;
             ControlRepository.AddControl(prefab, ManagerData.ID);
             items.Add(prefab);
-            ManagerData.SelectedIndex = items.IndexOf(prefab);
             SelectedItem = prefab;
+            ManagerData.SelectedIndex = items.IndexOf(prefab);
         }
 
         public (IControl prefab, int index) AddItem(Type type)
@@ -75,8 +75,8 @@ namespace CMiX.Core.Prefabs.Managers
         {
             ControlRepository.AddControl(control, ManagerData.ID);
             ManagerData.Items.Insert(index, control);
-            ManagerData.SelectedIndex = index;
             SelectedItem = control;
+            ManagerData.SelectedIndex = index;
         }
 
         // The index is kept inside the list, so a stale index from a peer cannot throw.
