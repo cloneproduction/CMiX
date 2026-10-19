@@ -26,6 +26,7 @@ namespace CMiX.Core.Prefabs.Managers
 
             Collection = collection;
             this.messageHandler = messageHandler;
+            sync = new CollectionSync(collection, controlMessenger, messageFactory);
             Collection.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(CollectionManager.SelectedItem))
@@ -43,6 +44,7 @@ namespace CMiX.Core.Prefabs.Managers
         }
 
         private readonly MessageCollectionManagerHandler messageHandler;
+        private readonly CollectionSync sync;
 
         public CollectionManager Collection { get; set; }
         public IManagerReorderService ManagerReorderService { get; }
@@ -97,7 +99,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         private void AddItemInternal(IControl prefab, int index, IControl previousItem, int previousIndex)
         {
-            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
+            sync.SendAdd(prefab, index);
             UndoManager?.Push(new AddItemCommand(Collection, ControlRepository, ControlMessenger, MessageFactory, prefab, index, previousItem, previousIndex));
         }
 
@@ -117,7 +119,7 @@ namespace CMiX.Core.Prefabs.Managers
             var items = Collection.ManagerData.Items.ToList();
             Collection.ClearAll();
             foreach (var item in items)
-                ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, item, -1));
+                sync.SendRemove(item, -1);
         }
 
         public void AddItem(Type type)
@@ -134,7 +136,7 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.AddItem(model);
             var prefab = Collection.SelectedItem;
             var index = Collection.ManagerData.Items.IndexOf(prefab);
-            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
+            sync.SendAdd(prefab, index);
         }
 
         // Adds a deep copy right after the source, with new ids and the next free name, as one undo step.
@@ -250,7 +252,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         private void OnMove(int oldIndex, int newIndex)
         {
-            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageMoveItem>(ManagerData.ID, oldIndex, newIndex));
+            sync.SendMove(oldIndex, newIndex);
             UndoManager?.Push(new MoveItemCommand(Collection, ControlMessenger, MessageFactory, oldIndex, newIndex));
         }
 
@@ -259,7 +261,7 @@ namespace CMiX.Core.Prefabs.Managers
             var previousItem = Collection.SelectedItem;
             var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
             Collection.RemoveSelectedItem();
-            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveSelectedItem>(ManagerData.ID));
+            sync.SendRemoveSelected();
             if (previousIndex < 0) return;
             UndoManager?.Push(new RemoveSelectedItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex));
         }
@@ -270,7 +272,7 @@ namespace CMiX.Core.Prefabs.Managers
             var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
             Collection.SelectedItemChanged(index);
             if (ReferenceEquals(previousItem, Collection.SelectedItem)) return;
-            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageSelectedItemChanged>(ManagerData.ID, Collection.SelectedItem, index));
+            sync.SendSelect(Collection.SelectedItem, index);
             if (previousItem == null) return;
             UndoManager?.Push(new SelectItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex, index));
         }
