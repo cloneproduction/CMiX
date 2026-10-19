@@ -193,14 +193,16 @@ namespace CMiX.Core.Prefabs.Managers
             SelectedItemChanged(Collection.ManagerData.Items.IndexOf(control));
         }
 
-        public void DeleteItem(IControl control)
+        public void DeleteItem(IControl control) => DeleteFrom(Collection, control);
+
+        private void DeleteFrom(CollectionManager collectionManager, IControl control)
         {
-            var index = Collection.ManagerData.Items.IndexOf(control);
-            var (removed, newIndex) = Collection.DeleteItem(control);
+            var index = collectionManager.ManagerData.Items.IndexOf(control);
+            var (removed, newIndex) = collectionManager.DeleteItem(control);
             if (removed == null) return;
-            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, removed, newIndex));
+            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(collectionManager.ManagerData.ID, removed, newIndex));
             // newIndex is -1 after the last item is deleted; the undo entry is still pushed.
-            UndoManager?.Push(new RemoveItemCommand(Collection, ControlMessenger, MessageFactory, control, index, newIndex));
+            UndoManager?.Push(new RemoveItemCommand(collectionManager, ControlMessenger, MessageFactory, control, index, newIndex));
         }
 
         // Swaps in a fresh instance at the same position as one undoable remove and add.
@@ -246,10 +248,12 @@ namespace CMiX.Core.Prefabs.Managers
 
         private void DeleteEverywhere(IControl control)
         {
+            control ??= SelectedItem;
             UndoManager?.BeginCapture();
             try
             {
-                Collection.ControlRepository.DeleteEverywhere(control ?? SelectedItem);
+                foreach (var collectionManager in Collection.ControlRepository.CollectionManagersHolding(control))
+                    DeleteFrom(collectionManager, control);
             }
             finally
             {
