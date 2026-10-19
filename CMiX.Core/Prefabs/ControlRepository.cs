@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
 using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing.Sources;
@@ -22,9 +20,6 @@ namespace CMiX.Core.Prefabs
 
         private readonly Dictionary<Guid, IControl> _controlsById = new();
 
-        private readonly List<(Type Type, Action<IControl> Action)> typeToAddAction;
-        private readonly List<(Type Type, Action<IControl> Action)> typeToRemoveAction;
-
         public ControlRepository()
         {
             Compositions = new FilteredControls<Composition>(Controls);
@@ -36,17 +31,6 @@ namespace CMiX.Core.Prefabs
             Entities = new FilteredControls<Entity>(Controls);
             Texts = new FilteredControls<TextEntity>(Controls);
             ModelEntities = new FilteredControls<IPrefab>(Controls, prefab => prefab is Entity or TextEntity);
-
-            typeToAddAction = new List<(Type, Action<IControl>)>
-            {
-                //(typeof(BeatModulator), c => BeatModulators.Add((BeatModulator)c)),
-            };
-
-            typeToRemoveAction = new List<(Type, Action<IControl>)>
-            {
-                //(typeof(BeatModulator), c => BeatModulators.Remove((BeatModulator)c)),
-            };
-
         }
 
         public ObservableCollection<IControl> Controls { get; } = new();
@@ -56,7 +40,6 @@ namespace CMiX.Core.Prefabs
         public FilteredControls<Entity> Entities { get; }
         public FilteredControls<Camera> Cameras { get; }
         public FilteredControls<LightEntity> Lights { get; }
-        //public ObservableCollection<BeatModulator> BeatModulators { get; } = new();
         public FilteredControls<TextEntity> Texts { get; }
         public FilteredControls<ColorPaletteModifier> ColorPalettes { get; }
 
@@ -76,7 +59,6 @@ namespace CMiX.Core.Prefabs
             {
                 _controlsById[control.ID] = control;
                 Controls.Add(control);
-                AddToSpecificRepo(control);
             }
         }
 
@@ -93,7 +75,6 @@ namespace CMiX.Core.Prefabs
                 if (_controlsById.TryGetValue(control.ID, out var indexed) && ReferenceEquals(indexed, control))
                     _controlsById.Remove(control.ID);
                 Controls.Remove(control);
-                RemoveFromSpecificRepo(control);
             }
         }
 
@@ -112,18 +93,6 @@ namespace CMiX.Core.Prefabs
             control != null && _collectionManagers.TryGetValue(control.ID, out var collectionManagers)
                 ? collectionManagers.ToList()
                 : new List<CollectionManager>();
-
-        private void AddToSpecificRepo(IControl control)
-        {
-            var match = typeToAddAction.FirstOrDefault(entry => entry.Type.IsInstanceOfType(control));
-            match.Action?.Invoke(control);
-        }
-
-        private void RemoveFromSpecificRepo(IControl control)
-        {
-            var match = typeToRemoveAction.FirstOrDefault(entry => entry.Type.IsInstanceOfType(control));
-            match.Action?.Invoke(control);
-        }
 
         public static int GetRenderPriority(IControl c) => c switch
         {
