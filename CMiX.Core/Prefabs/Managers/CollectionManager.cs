@@ -18,8 +18,6 @@ namespace CMiX.Core.Prefabs.Managers
         public ControlRepository ControlRepository { get; }
         private readonly ControlFactory _controlFactory;
 
-        public IControl SelectedItem => ManagerData.SelectedItem;
-
         public void ClearAll()
         {
             foreach (var item in ManagerData.Items.ToList())
@@ -89,8 +87,6 @@ namespace CMiX.Core.Prefabs.Managers
                 RemoveAndDispose(control);
         }
 
-        public void RemoveSelectedItem() => ManagerData.ClearSelection();
-
         public void MoveItem(int oldIndex, int newIndex)
         {
             var selected = ManagerData.SelectedItem;
@@ -104,13 +100,5 @@ namespace CMiX.Core.Prefabs.Managers
                 ManagerData.Select(selected);
             }
         }
-
-        public void SelectedItemChanged(Guid controlID)
-        {
-            var control = controlID != Guid.Empty ? ControlRepository.GetControl(controlID) : null;
-            ManagerData.Select(control);
-        }
-
-        public void SelectedItemChanged(int index) => ManagerData.SelectAt(index);
     }
 }

@@ -9,7 +9,7 @@ namespace CMiX.Core
             manager.FromModel(model);
             foreach (var item in model.ManagerData.Items)
                 manager.LoadItem(item);
-            manager.Collection.SelectedItemChanged(model.ManagerData.SelectedIndex);
+            manager.ManagerData.SelectAt(model.ManagerData.SelectedIndex);
         }
 
         // Sibling to LoadManager, for the common "Dispose owns nothing but a fixed set of child

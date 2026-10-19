@@ -244,7 +244,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                     // file was saved instead, by position in the file's own list.
                     var savedIndex = loaded.Project.CompositionManager.ManagerData.SelectedIndex;
                     if (savedIndex >= 0 && savedIndex < loaded.Compositions.Count)
-                        Project.CompositionManager.Collection.SelectedItemChanged(savedIndex);
+                        Project.CompositionManager.ManagerData.SelectAt(savedIndex);
 
                     // The master beat keeps the ids it was saved with, so it is restored from the
                     // file as loaded rather than from the guid replaced clone each composition goes

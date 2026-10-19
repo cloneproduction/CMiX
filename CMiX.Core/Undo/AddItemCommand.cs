@@ -23,7 +23,7 @@ namespace CMiX.Core.Undo
         public void Execute()
         {
             var collection = _sync.Collection;
-            _previousItem = collection.SelectedItem;
+            _previousItem = collection.ManagerData.SelectedItem;
             _previousIndex = collection.ManagerData.Items.IndexOf(_previousItem);
 
             collection.InsertItem(_item, Math.Min(_index, collection.ManagerData.Items.Count));
@@ -38,7 +38,7 @@ namespace CMiX.Core.Undo
 
             if (_previousItem != null && collection.ManagerData.Items.Contains(_previousItem))
             {
-                collection.SelectedItemChanged(_previousIndex);
+                collection.ManagerData.SelectAt(_previousIndex);
                 _sync.SendSelect(_previousItem, _previousIndex);
             }
         }

@@ -22,13 +22,13 @@ namespace CMiX.Core.Undo
 
         public void Execute()
         {
-            _sync.Collection.RemoveSelectedItem();
+            _sync.Collection.ManagerData.ClearSelection();
             _sync.SendRemoveSelected();
         }
 
         public void Undo()
         {
-            _sync.Collection.SelectedItemChanged(_previousIndex);
+            _sync.Collection.ManagerData.SelectAt(_previousIndex);
             _sync.SendSelect(_previousItem, _previousIndex);
         }
     }

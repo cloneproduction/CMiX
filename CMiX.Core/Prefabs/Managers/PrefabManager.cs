@@ -89,11 +89,11 @@ namespace CMiX.Core.Prefabs.Managers
 
         public override IControl SelectedItem
         {
-            get => Collection.SelectedItem;
+            get => ManagerData.SelectedItem;
             set
             {
-                if (ReferenceEquals(value, Collection.SelectedItem)) return;
-                if (value == null) { Collection.RemoveSelectedItem(); return; }
+                if (ReferenceEquals(value, ManagerData.SelectedItem)) return;
+                if (value == null) { ManagerData.ClearSelection(); return; }
                 EnsureItemInCollection(value);
                 if (Collection.ManagerData.Items.Contains(value))
                     SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
@@ -125,7 +125,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void AddItem(IControlModel model)
         {
             Collection.AddItem(model);
-            var prefab = Collection.SelectedItem;
+            var prefab = ManagerData.SelectedItem;
             var index = Collection.ManagerData.Items.IndexOf(prefab);
             _sync.SendAdd(prefab, index);
         }
@@ -243,9 +243,9 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void RemoveSelectedItem()
         {
-            var previousItem = Collection.SelectedItem;
-            var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
-            Collection.RemoveSelectedItem();
+            var previousItem = ManagerData.SelectedItem;
+            var previousIndex = ManagerData.Items.IndexOf(previousItem);
+            ManagerData.ClearSelection();
             _sync.SendRemoveSelected();
             if (previousIndex < 0) return;
             UndoManager?.Push(new RemoveSelectedItemCommand(_sync, previousItem, previousIndex));
@@ -253,11 +253,11 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void SelectedItemChanged(int index)
         {
-            var previousItem = Collection.SelectedItem;
-            var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
-            Collection.SelectedItemChanged(index);
-            if (ReferenceEquals(previousItem, Collection.SelectedItem)) return;
-            _sync.SendSelect(Collection.SelectedItem, index);
+            var previousItem = ManagerData.SelectedItem;
+            var previousIndex = ManagerData.Items.IndexOf(previousItem);
+            ManagerData.SelectAt(index);
+            if (ReferenceEquals(previousItem, ManagerData.SelectedItem)) return;
+            _sync.SendSelect(ManagerData.SelectedItem, index);
             if (previousItem == null) return;
             UndoManager?.Push(new SelectItemCommand(_sync, previousItem, previousIndex, index));
         }

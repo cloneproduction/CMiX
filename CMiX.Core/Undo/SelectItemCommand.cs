@@ -27,15 +27,15 @@ namespace CMiX.Core.Undo
         {
             var collection = _sync.Collection;
             if (_newIndex < 0 || _newIndex >= collection.ManagerData.Items.Count) return;
-            collection.SelectedItemChanged(_newIndex);
-            _sync.SendSelect(collection.SelectedItem, _newIndex);
+            collection.ManagerData.SelectAt(_newIndex);
+            _sync.SendSelect(collection.ManagerData.SelectedItem, _newIndex);
         }
 
         public void Undo()
         {
             var collection = _sync.Collection;
             if (_previousIndex < 0 || _previousIndex >= collection.ManagerData.Items.Count) return;
-            collection.SelectedItemChanged(_previousIndex);
+            collection.ManagerData.SelectAt(_previousIndex);
             _sync.SendSelect(_previousItem, _previousIndex);
         }
     }
