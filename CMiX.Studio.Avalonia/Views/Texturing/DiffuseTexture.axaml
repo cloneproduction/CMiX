@@ -14,7 +14,7 @@
             Margin="8"
             MinItemCount="2"
             DataContext="{Binding TextureManager}"
-            ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Textures}">
+            ItemsSource="{Binding ControlRepository.Textures}">
 
             <i:Interaction.Behaviors>
                 <Behaviors:TextureDropBehavior PrefabManager="{Binding}" />

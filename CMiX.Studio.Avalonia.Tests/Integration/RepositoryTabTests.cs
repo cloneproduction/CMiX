@@ -13,8 +13,8 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     // template, so that content does not inherit the tab DataContext on its own and
     // RepositoryTab rebinds it explicitly by ElementName. A regression there leaves the
     // repository manager on the window DataContext, where every manager binding silently
-    // resolves to nothing. The second test covers the opposite idiom, the window relative
-    // path the layer view uses to reach the same repository.
+    // resolves to nothing. The second test covers the layer view, which reaches the same
+    // repository through the manager of each slot.
     public class RepositoryTabTests
     {
         [AvaloniaFact]
@@ -70,7 +70,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         }
 
         [AvaloniaFact]
-        public void LayerView_ReachesTheRepositoryThroughTheWindowDataContext()
+        public void LayerView_BindsTheEntitySlotsToTheModelEntitiesOfTheRepository()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             Assert.True(
                 layerView.GetVisualDescendants().OfType<PrefabSlotManager>()
                     .Any(slotManager => ReferenceEquals(slotManager.ItemsSource, viewModel.ControlRepository.ModelEntities)),
-                "The layer entity slots did not resolve the repository through the window DataContext.");
+                "The layer entity slots did not resolve the model entities of the repository.");
         }
     }
 }
