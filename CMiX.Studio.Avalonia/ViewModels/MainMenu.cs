@@ -225,41 +225,13 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 // at all, which is also why the reset stays outside: its own clear is what disposes
                 // the instances the replaced session's commands were still holding.
                 //
-                // Suppression counts, so the master beat restore below, which suppresses and
+                // Suppression counts, so the master beat restore in Project.Open, which suppresses and
                 // resumes around each of its own writes, nests inside this without reopening
                 // recording halfway through.
                 _undoManager.SuppressUndo();
                 try
                 {
-                    // The slots are restored before the compositions, because the rebuild of VisibleItems
-                    // would drop the output mapping selection of a composition that is already bound.
-                    if (loaded.Project.OutputMappingManager != null)
-                        Project.OutputMappingManager.FromModel(loaded.Project.OutputMappingManager);
-
-                    foreach (var composition in loaded.Compositions)
-                        Project.CompositionManager.AddItem(composition);
-
-                    // Adding always selects the item just added, so the loop above always leaves the
-                    // last composition selected. Restore whichever one was actually selected when the
-                    // file was saved instead, by position in the file's own list.
-                    var savedIndex = loaded.Project.CompositionManager.ManagerData.SelectedIndex;
-                    if (savedIndex >= 0 && savedIndex < loaded.Compositions.Count)
-                        Project.CompositionManager.ManagerData.SelectAt(savedIndex);
-
-                    // The master beat keeps the ids it was saved with, so it is restored from the
-                    // file as loaded rather than from the guid replaced clone each composition goes
-                    // through. Project files written before the master beat was serialized carry
-                    // none. PrefabService and Model (the project's 3D backdrop) carry their own
-                    // well known ids the same way and are restored the same way. The output mappings
-                    // also keep their fixed ids and are restored above, before the compositions.
-                    if (loaded.Project.MasterBeat != null)
-                        Project.MasterBeat.FromModel(loaded.Project.MasterBeat);
-
-                    if (loaded.Project.PrefabService != null)
-                        Project.PrefabService.FromModel(loaded.Project.PrefabService);
-
-                    if (loaded.Project.Model != null)
-                        Project.Model.FromModel(loaded.Project.Model);
+                    Project.Open(loaded.Project, loaded.Compositions);
                 }
                 finally
                 {

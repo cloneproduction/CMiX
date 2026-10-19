@@ -89,6 +89,41 @@ namespace CMiX.Core.Compositing
             Model.FilePath.Value = string.Empty;
         }
 
+        // Applies a project file to an empty session. The compositions are the file's compositions,
+        // already given new ids, in file order.
+        public void Open(ProjectModel model, IReadOnlyList<CompositionModel> compositions)
+        {
+            // The slots are restored before the compositions, because the rebuild of VisibleItems
+            // would drop the output mapping selection of a composition that is already bound.
+            if (model.OutputMappingManager != null)
+                OutputMappingManager.FromModel(model.OutputMappingManager);
+
+            foreach (var composition in compositions)
+                CompositionManager.AddItem(composition);
+
+            // Adding always selects the item just added, so the loop above always leaves the
+            // last composition selected. Restore whichever one was actually selected when the
+            // file was saved instead, by position in the file's own list.
+            var savedIndex = model.CompositionManager.ManagerData.SelectedIndex;
+            if (savedIndex >= 0 && savedIndex < compositions.Count)
+                CompositionManager.ManagerData.SelectAt(savedIndex);
+
+            // The master beat keeps the ids it was saved with, so it is restored from the
+            // file as loaded rather than from the guid replaced clone each composition goes
+            // through. Project files written before the master beat was serialized carry
+            // none. PrefabService and Model (the project's 3D backdrop) carry their own
+            // well known ids the same way and are restored the same way. The output mappings
+            // also keep their fixed ids and are restored above, before the compositions.
+            if (model.MasterBeat != null)
+                MasterBeat.FromModel(model.MasterBeat);
+
+            if (model.PrefabService != null)
+                PrefabService.FromModel(model.PrefabService);
+
+            if (model.Model != null)
+                Model.FromModel(model.Model);
+        }
+
         // FromModel only adds items, so clear first to make this a real replacement.
         public void ApplySnapshot(ProjectModel model)
         {
