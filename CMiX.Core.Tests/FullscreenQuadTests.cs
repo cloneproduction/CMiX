@@ -26,7 +26,7 @@ namespace CMiX.Core.Tests
             composition.LayerManager.AddItem(typeof(Layer));
             var layer = (Layer)composition.LayerManager.SelectedItem;
 
-            var heldBeforeTheQuad = RepositoryHolding.CollectionManagerCount(repository);
+            var heldBeforeTheQuad = HeldCollectionManagers.Count(repository);
 
             layer.ModelEntityManager.AddItem(typeof(FullscreenQuad));
             var quad = (FullscreenQuad)layer.ModelEntityManager.SelectedItem;
@@ -36,14 +36,14 @@ namespace CMiX.Core.Tests
                 .Concat(quad.Texture.MaskTexture.TextureManager.ManagerData.Items)
                 .ToList();
 
-            Assert.True(RepositoryHolding.CollectionManagerCount(repository) > heldBeforeTheQuad);
+            Assert.True(HeldCollectionManagers.Count(repository) > heldBeforeTheQuad);
 
             layer.ModelEntityManager.DeleteItem(quad);
             undoManager.Clear();
 
             Assert.Null(repository.GetControl(quad.ID));
             Assert.All(textures, texture => Assert.Null(repository.GetControl(texture.ID)));
-            Assert.Equal(heldBeforeTheQuad, RepositoryHolding.CollectionManagerCount(repository));
+            Assert.Equal(heldBeforeTheQuad, HeldCollectionManagers.Count(repository));
         }
     }
 }

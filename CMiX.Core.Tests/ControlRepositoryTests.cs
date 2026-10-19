@@ -1,7 +1,9 @@
 ﻿using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -129,6 +131,124 @@ namespace CMiX.Core.Tests
             Assert.Empty(repository.ModelEntities);
             Assert.Empty(repository.Entities);
             Assert.Empty(repository.Texts);
+        }
+
+        [Fact]
+        public void ARemovedControl_IsNoLongerHeldByThatCollectionManager()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var manager = provider.GetRequiredService<PrefabManager>();
+
+            manager.AddItem(typeof(CheckerBoard));
+            var texture = manager.ManagerData.Items[0];
+
+            Assert.Same(manager.Collection, Assert.Single(repository.GetCollectionManagers(texture)));
+
+            manager.DeleteItem(texture);
+
+            Assert.Empty(repository.GetCollectionManagers(texture));
+        }
+
+        [Fact]
+        public void ADisposedManager_ReleasesEveryControlItHeld()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var manager = provider.GetRequiredService<PrefabManager>();
+            manager.AddItem(typeof(CheckerBoard));
+            manager.AddItem(typeof(CheckerBoard));
+            var items = manager.ManagerData.Items.ToList();
+
+            manager.Dispose();
+
+            Assert.All(items, item => Assert.Empty(repository.GetCollectionManagers(item)));
+            Assert.Equal(0, HeldCollectionManagers.Count(repository));
+        }
+
+        [Fact]
+        public void DeletingLayersRepeatedly_DoesNotGrowTheCollectionManagersTheRepositoryHolds()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var compositionManager = provider.GetRequiredService<PrefabManager>();
+
+            compositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)compositionManager.SelectedItem;
+
+            AddAndDropALayer(composition, undoManager);
+            var baseline = HeldCollectionManagers.Count(repository);
+
+            for (int i = 0; i < 5; i++)
+                AddAndDropALayer(composition, undoManager);
+
+            Assert.Equal(baseline, HeldCollectionManagers.Count(repository));
+        }
+
+        [Fact]
+        public void DroppingTheUndoEntryOfADeletedLayer_ReleasesItsNestedManagers()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var compositionManager = provider.GetRequiredService<PrefabManager>();
+
+            compositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)compositionManager.SelectedItem;
+
+            var beforeTheLayer = HeldCollectionManagers.Count(repository);
+            composition.LayerManager.AddItem(typeof(Layer));
+            var layer = (Layer)composition.LayerManager.SelectedItem;
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+
+            Assert.True(HeldCollectionManagers.Count(repository) > beforeTheLayer);
+
+            composition.LayerManager.DeleteItem(layer);
+
+            Assert.True(HeldCollectionManagers.Count(repository) > beforeTheLayer);
+
+            undoManager.Clear();
+
+            Assert.Equal(beforeTheLayer, HeldCollectionManagers.Count(repository));
+        }
+
+        [Fact]
+        public void DroppingATexture_TakesItsFilterModifiersWithIt()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var textureManager = provider.GetRequiredService<PrefabManager>();
+
+            var beforeTheTexture = HeldCollectionManagers.Count(repository);
+
+            textureManager.AddItem(typeof(CheckerBoard));
+            var texture = (CheckerBoard)textureManager.SelectedItem;
+            texture.TextureModifierManager.AddItem(typeof(Blur));
+            var filter = (Blur)texture.TextureModifierManager.SelectedItem;
+
+            Assert.Same(filter, repository.GetControl(filter.ID));
+            Assert.True(HeldCollectionManagers.Count(repository) > beforeTheTexture);
+
+            textureManager.DeleteItem(texture);
+
+            Assert.Same(filter, repository.GetControl(filter.ID));
+
+            undoManager.Clear();
+
+            Assert.Null(repository.GetControl(texture.ID));
+            Assert.Null(repository.GetControl(filter.ID));
+            Assert.Equal(beforeTheTexture, HeldCollectionManagers.Count(repository));
+        }
+
+        private static void AddAndDropALayer(Composition composition, UndoManager undoManager)
+        {
+            composition.LayerManager.AddItem(typeof(Layer));
+            var layer = (Layer)composition.LayerManager.SelectedItem;
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+            composition.LayerManager.DeleteItem(layer);
+            undoManager.Clear();
         }
     }
 }

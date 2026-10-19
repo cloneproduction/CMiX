@@ -2,9 +2,9 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Tests
 {
-    internal static class RepositoryHolding
+    internal static class HeldCollectionManagers
     {
-        public static int CollectionManagerCount(ControlRepository repository) =>
+        public static int Count(ControlRepository repository) =>
             repository.Controls.SelectMany(repository.GetCollectionManagers).Distinct().Count();
     }
 }
