@@ -56,9 +56,6 @@ namespace CMiX.Core.Prefabs.Managers
         // Suppresses SelectItemCommand while AddItem changes the selection.
         private bool _isAdding = false;
 
-        // Makes the setter a no-op while it runs, so a binding cannot recurse it into a stack overflow.
-        private bool _isApplyingSelection = false;
-
         // The ID the deleter is registered under; ManagerData.ID changes after construction.
         private Guid _registeredDeleterId;
         private bool _hasRegisteredDeleter;
@@ -100,17 +97,11 @@ namespace CMiX.Core.Prefabs.Managers
             get => Collection.SelectedItem;
             set
             {
-                if (_isApplyingSelection) return;
-                _isApplyingSelection = true;
-                try
-                {
-                    if (value == null) { Collection.RemoveSelectedItem(); return; }
-                    if (UndoManager?.IsApplying == true) return;
-                    EnsureItemInCollection(value);
-                    if (Collection.ManagerData.Items.Contains(value))
-                        SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
-                }
-                finally { _isApplyingSelection = false; }
+                if (ReferenceEquals(value, Collection.SelectedItem)) return;
+                if (value == null) { Collection.RemoveSelectedItem(); return; }
+                EnsureItemInCollection(value);
+                if (Collection.ManagerData.Items.Contains(value))
+                    SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
             }
         }
 
