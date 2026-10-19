@@ -97,21 +97,11 @@ namespace CMiX.Core.Prefabs.Managers
             }
         }
 
-        private void AddItemInternal(IControl prefab, int index, IControl previousItem, int previousIndex)
-        {
-            sync.SendAdd(prefab, index);
-            UndoManager?.Push(new AddItemCommand(Collection, ControlRepository, ControlMessenger, MessageFactory, prefab, index, previousItem, previousIndex));
-        }
-
         private void EnsureItemInCollection(IControl control)
         {
             if (Collection.ManagerData.Items.Contains(control)) return;
 
-            var previousItem = Collection.SelectedItem;
-            var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
-            Collection.AddItem(control);
-            var index = Collection.ManagerData.Items.IndexOf(control);
-            AddItemInternal(control, index, previousItem, previousIndex);
+            Run(new AddItemCommand(sync, control, ManagerData.Items.Count));
         }
 
         public void ClearAll()
@@ -124,11 +114,9 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(Type type)
         {
-            var previousItem = Collection.SelectedItem;
-            var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
-            var (prefab, index) = Collection.AddItem(type);
-            if (prefab == null) return;
-            AddItemInternal(prefab, index, previousItem, previousIndex);
+            var item = Collection.ControlFactory.Create(type);
+            if (item == null) return;
+            Run(new AddItemCommand(sync, item, ManagerData.Items.Count));
         }
 
         public void AddItem(IControlModel model)
@@ -145,9 +133,6 @@ namespace CMiX.Core.Prefabs.Managers
             var index = Collection.ManagerData.Items.IndexOf(source);
             if (index < 0 || UndoManager?.IsApplying == true) return null;
 
-            var previousItem = Collection.SelectedItem;
-            var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
-
             var factory = Collection.ControlFactory;
             var copy = factory.Create(ControlCloner.CloneWithNewGuids(source.ToModel()));
             if (copy is IPrefab prefab)
@@ -160,9 +145,7 @@ namespace CMiX.Core.Prefabs.Managers
                 finally { name.IsActive = true; }
             }
 
-            Collection.InsertItem(copy, index + 1);
-
-            AddItemInternal(copy, index + 1, previousItem, previousIndex);
+            Run(new AddItemCommand(sync, copy, index + 1));
             return copy;
         }
 
@@ -171,13 +154,11 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.BeginCapture();
             try
             {
-                var previousItem = Collection.SelectedItem;
-                var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
-                var (prefab, index) = Collection.AddItem(type);
-                if (prefab == null) return;
-                if (prefab is IAssetTextureSource source)
+                var item = Collection.ControlFactory.Create(type);
+                if (item == null) return;
+                Run(new AddItemCommand(sync, item, ManagerData.Items.Count));
+                if (item is IAssetTextureSource source)
                     source.AssetSelector.SetAssetFromPath(filePath);
-                AddItemInternal(prefab, index, previousItem, previousIndex);
             }
             finally { UndoManager?.EndCapture(); }
         }

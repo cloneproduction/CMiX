@@ -1,8 +1,5 @@
-﻿using CMiX.Core.Networking;
-using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs;
+﻿using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Prefabs.Messages;
 
 namespace CMiX.Core.Undo
 {
@@ -10,58 +7,45 @@ namespace CMiX.Core.Undo
     // owns the instance and disposes it when UndoManager drops the command.
     public class AddItemCommand : IUndoCommand, IDisposable
     {
-        private readonly CollectionManager _collection;
-        private readonly ControlRepository _repository;
-        private readonly ControlMessenger _messenger;
-        private readonly MessageFactory _messageFactory;
+        private readonly CollectionSync _sync;
         private readonly IControl _item;
         private readonly int _index;
-        private readonly IControl _previousItem;
-        private readonly int _previousIndex;
+        private IControl _previousItem;
+        private int _previousIndex;
 
-        public AddItemCommand(CollectionManager collection,
-                              ControlRepository repository,
-                              ControlMessenger messenger,
-                              MessageFactory messageFactory,
-                              IControl item,
-                              int index,
-                              IControl previousItem,
-                              int previousIndex)
+        public AddItemCommand(CollectionSync sync, IControl item, int index)
         {
-            _collection = collection;
-            _repository = repository;
-            _messenger = messenger;
-            _messageFactory = messageFactory;
+            _sync = sync;
             _item = item;
             _index = index;
-            _previousItem = previousItem;
-            _previousIndex = previousIndex;
         }
 
         public void Execute()
         {
-            _collection.InsertItem(_item, Math.Min(_index, _collection.ManagerData.Items.Count));
-            _messenger.SendMessage(_messageFactory.CreateMessage<MessageAddItem>(
-                _collection.ManagerData.ID, _item, _index));
+            var collection = _sync.Collection;
+            _previousItem = collection.SelectedItem;
+            _previousIndex = collection.ManagerData.Items.IndexOf(_previousItem);
+
+            collection.InsertItem(_item, Math.Min(_index, collection.ManagerData.Items.Count));
+            _sync.SendAdd(_item, collection.ManagerData.Items.IndexOf(_item));
         }
 
         public void Undo()
         {
-            _collection.DeleteItem(_item);
-            _messenger.SendMessage(_messageFactory.CreateMessage<MessageRemoveItem>(
-                _collection.ManagerData.ID, _item, _collection.ManagerData.SelectedIndex));
+            var collection = _sync.Collection;
+            collection.DeleteItem(_item);
+            _sync.SendRemove(_item, collection.ManagerData.SelectedIndex);
 
-            if (_previousItem != null && _collection.ManagerData.Items.Contains(_previousItem))
+            if (_previousItem != null && collection.ManagerData.Items.Contains(_previousItem))
             {
-                _collection.SelectedItemChanged(_previousIndex);
-                _messenger.SendMessage(_messageFactory.CreateMessage<MessageSelectedItemChanged>(
-                    _collection.ManagerData.ID, _previousItem, _previousIndex));
+                collection.SelectedItemChanged(_previousIndex);
+                _sync.SendSelect(_previousItem, _previousIndex);
             }
         }
 
         public void Dispose()
         {
-            OwnedControl.DisposeIfOrphaned(_repository, _item);
+            OwnedControl.DisposeIfOrphaned(_sync.Collection.ControlRepository, _item);
         }
     }
 }

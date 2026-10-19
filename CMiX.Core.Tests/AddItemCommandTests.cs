@@ -22,9 +22,11 @@ namespace CMiX.Core.Tests
             var items = layers.ManagerData.Items.ToList();
 
             var added = layers.Collection.ControlFactory.Create(typeof(Layer));
-            layers.Collection.InsertItem(added, 1);
-            var command = new AddItemCommand(layers.Collection, layers.ControlRepository, layers.ControlMessenger,
-                layers.MessageFactory, added, 1, items[0], 0);
+            var sync = new CollectionSync(layers.Collection, layers.ControlMessenger, layers.MessageFactory);
+            var command = new AddItemCommand(sync, added, 1);
+
+            command.Execute();
+            Assert.Equal(new[] { items[0], added, items[1], items[2] }, layers.ManagerData.Items);
 
             command.Undo();
             Assert.Equal(items, layers.ManagerData.Items);
