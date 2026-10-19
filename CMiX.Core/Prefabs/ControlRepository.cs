@@ -35,6 +35,7 @@ namespace CMiX.Core.Prefabs
             ColorPalettes = new FilteredControls<ColorPaletteModifier>(Controls);
             Entities = new FilteredControls<Entity>(Controls);
             Texts = new FilteredControls<TextEntity>(Controls);
+            ModelEntities = new FilteredControls<IPrefab>(Controls, prefab => prefab is Entity or TextEntity);
 
             typeToAddAction = new List<(Type, Action<IControl>)>
             {
@@ -46,8 +47,6 @@ namespace CMiX.Core.Prefabs
                 //(typeof(BeatModulator), c => BeatModulators.Remove((BeatModulator)c)),
             };
 
-            ((INotifyCollectionChanged)Entities).CollectionChanged += OnEntitiesOrTextsChanged;
-            ((INotifyCollectionChanged)Texts).CollectionChanged += OnEntitiesOrTextsChanged;
         }
 
         public ObservableCollection<IControl> Controls { get; } = new();
@@ -61,47 +60,7 @@ namespace CMiX.Core.Prefabs
         public FilteredControls<TextEntity> Texts { get; }
         public FilteredControls<ColorPaletteModifier> ColorPalettes { get; }
 
-        public ObservableCollection<IControl> EntitiesAndTexts { get; } = new();
-
-        private void OnEntitiesOrTextsChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (var item in e.NewItems)
-                        AddToEntitiesAndTexts((IControl)item, sender == Texts);
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (var item in e.OldItems)
-                        EntitiesAndTexts.Remove((IControl)item);
-                    break;
-                default:
-                    ResyncEntitiesAndTexts();
-                    break;
-            }
-        }
-
-        private void AddToEntitiesAndTexts(IControl item, bool isText)
-        {
-            if (!isText)
-            {
-                var insertIndex = EntitiesAndTexts.Count(x => x is Entity);
-                EntitiesAndTexts.Insert(insertIndex, item);
-            }
-            else
-            {
-                EntitiesAndTexts.Add(item);
-            }
-        }
-
-        private void ResyncEntitiesAndTexts()
-        {
-            EntitiesAndTexts.Clear();
-            foreach (var entity in Entities)
-                EntitiesAndTexts.Add(entity);
-            foreach (var text in Texts)
-                EntitiesAndTexts.Add(text);
-        }
+        public FilteredControls<IPrefab> ModelEntities { get; }
 
         public void AddControl(IControl control, CollectionManager collectionManager)
         {

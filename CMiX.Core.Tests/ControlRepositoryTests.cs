@@ -78,12 +78,8 @@ namespace CMiX.Core.Tests
             Assert.Equal("Checker Board.001", third.PrefabService.Name.Value);
         }
 
-        // EntitiesAndTexts merges two independent source collections into the single list the layer
-        // entity slot swap popup lists from, keeping entities ahead of texts. Add and remove both
-        // kinds interleaved and check the merge stays consistent rather than only checking a single
-        // snapshot.
         [Fact]
-        public void EntitiesAndTexts_KeepsEntitiesAheadOfTextsAsBothAreAddedAndRemovedInterleaved()
+        public void ModelEntities_HoldsEntitiesAndTextsInTheOrderTheyWereAdded()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -101,21 +97,20 @@ namespace CMiX.Core.Tests
             repository.AddControl(entity2, collectionManager);
             repository.AddControl(text2, collectionManager);
 
-            Assert.Equal(new[] { entity1, entity2, text1, text2 }, repository.EntitiesAndTexts);
+            Assert.Equal(new[] { entity1, text1, entity2, text2 }, repository.ModelEntities);
 
             repository.RemoveControl(entity1, collectionManager);
             repository.RemoveControl(text1, collectionManager);
 
-            Assert.Equal(new[] { entity2, text2 }, repository.EntitiesAndTexts);
+            Assert.Equal(new[] { entity2, text2 }, repository.ModelEntities);
 
             repository.AddControl(entity3, collectionManager);
 
-            // A newly added entity keeps inserting ahead of the texts block, not at the tail.
-            Assert.Equal(new[] { entity2, entity3, text2 }, repository.EntitiesAndTexts);
+            Assert.Equal(new[] { entity2, text2, entity3 }, repository.ModelEntities);
         }
 
         [Fact]
-        public void EntitiesAndTexts_EmptiesWhenControlsIsCleared()
+        public void ModelEntities_EmptiesWhenControlsIsCleared()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -127,11 +122,11 @@ namespace CMiX.Core.Tests
             repository.AddControl(entity, collectionManager);
             repository.AddControl(text, collectionManager);
 
-            Assert.Equal(new[] { entity, text }, repository.EntitiesAndTexts);
+            Assert.Equal(new[] { entity, text }, repository.ModelEntities);
 
             repository.Controls.Clear();
 
-            Assert.Empty(repository.EntitiesAndTexts);
+            Assert.Empty(repository.ModelEntities);
             Assert.Empty(repository.Entities);
             Assert.Empty(repository.Texts);
         }
