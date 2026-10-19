@@ -111,7 +111,6 @@ namespace CMiX.Core.Prefabs.Managers
         private void EnsureItemInCollection(IControl control)
         {
             if (Collection.ManagerData.Items.Contains(control)) return;
-            if (UndoManager?.IsApplying == true) return;
 
             var previousItem = Collection.SelectedItem;
             var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
