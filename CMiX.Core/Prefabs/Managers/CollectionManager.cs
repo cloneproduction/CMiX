@@ -98,6 +98,13 @@ namespace CMiX.Core.Prefabs.Managers
             SelectedItem = control;
         }
 
+        // The index is kept inside the list, so a stale index from a peer cannot throw.
+        public void InsertItem(IControlModel controlModel, int index)
+        {
+            var prefab = CreateOrReuse(controlModel);
+            InsertItem(prefab, Math.Clamp(index, 0, ManagerData.Items.Count));
+        }
+
         public void LoadControlIntoCollection(IControl prefab)
         {
             ControlRepository.AddControl(prefab, ManagerData.ID);

@@ -87,6 +87,20 @@ namespace CMiX.Core.Prefabs
             _namesAreStale = false;
         }
 
+        // The first free name of the form "Base.001" for a name that is already used, as in Blender.
+        // A number the name already ends with is dropped first: "Layer.001" gives "Layer.002".
+        public string UniqueName(string name)
+        {
+            var baseName = System.Text.RegularExpressions.Regex.Replace(name ?? string.Empty, @"\.\d{3,}$", "");
+            if (_namesAreStale) RebuildNames();
+
+            var count = 1;
+            string candidate;
+            do candidate = $"{baseName}.{count++:000}";
+            while (_names.Contains(candidate));
+            return candidate;
+        }
+
         public IControl Create(Type viewModelType)
         {
             if (viewModelType == null) throw new ArgumentNullException(nameof(viewModelType));

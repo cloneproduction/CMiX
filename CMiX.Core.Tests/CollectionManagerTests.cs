@@ -109,5 +109,34 @@ namespace CMiX.Core.Tests
             Assert.Null(removed);
             Assert.Equal(-1, index);
         }
+
+        [Fact]
+        public void InsertItem_FromModel_PutsTheItemAtTheIndexAndSelectsIt()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = CreateManagerWithItems(provider, 3, out var items);
+            var model = (TouchBlobModel)items[0].ToModel();
+
+            manager.InsertItem(model with { ID = Guid.NewGuid() }, 1);
+
+            Assert.Equal(4, manager.ManagerData.Items.Count);
+            Assert.Same(items[0], manager.ManagerData.Items[0]);
+            Assert.NotSame(items[1], manager.ManagerData.Items[1]);
+            Assert.Same(items[1], manager.ManagerData.Items[2]);
+            Assert.Equal(1, manager.ManagerData.SelectedIndex);
+        }
+
+        [Fact]
+        public void InsertItem_FromModel_WithIndexOutOfRange_AddsAtTheEnd()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = CreateManagerWithItems(provider, 2, out var items);
+            var model = (TouchBlobModel)items[0].ToModel();
+
+            manager.InsertItem(model with { ID = Guid.NewGuid() }, 9);
+
+            Assert.Equal(3, manager.ManagerData.Items.Count);
+            Assert.Equal(2, manager.ManagerData.SelectedIndex);
+        }
     }
 }
