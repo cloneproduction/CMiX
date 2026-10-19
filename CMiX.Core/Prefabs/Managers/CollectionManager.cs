@@ -9,14 +9,13 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public partial class CollectionManager : ObservableObject, IControl
+    public class CollectionManager : ObservableObject
     {
         public CollectionManager(ManagerData managerData,
                                  ControlRepository controlRepository,
                                  ControlFactory controlFactory,
                                  MessageCollectionManagerHandler messageCollectionManagerHandler)
         {
-            ID = managerData.ID;
             ManagerData = managerData;
             ControlRepository = controlRepository;
             ControlFactory = controlFactory;
@@ -28,7 +27,6 @@ namespace CMiX.Core.Prefabs.Managers
             ResetItemCommand = new RelayCommand<IControl>(ResetItem);
         }
 
-        public Guid ID { get; set; }
         public ManagerData ManagerData { get; }
         public ControlRepository ControlRepository { get; }
         public ControlFactory ControlFactory { get; }
@@ -208,28 +206,6 @@ namespace CMiX.Core.Prefabs.Managers
                 SelectedItem = newControl;
 
             OwnedControl.DisposeIfOrphaned(ControlRepository, control);
-        }
-
-        public IControlModel ToModel() => new CollectionManagerModel
-        {
-            ID = ID,
-            ManagerData = new ManagerDataModel
-            {
-                ID = ManagerData.ID,
-                SelectedIndex = ManagerData.SelectedIndex,
-                Items = new Collection<IControlModel>(
-                    ManagerData.Items
-                        .Select(c => c.ToModel())
-                        .ToList()
-                )
-            }
-        };
-
-        public void FromModel(IControlModel model)
-        {
-            var m = (CollectionManagerModel)model;
-            ID = m.ID;
-            ManagerData.SelectedIndex = m.ManagerData.SelectedIndex;
         }
     }
 }
