@@ -30,7 +30,7 @@ namespace CMiX.Core.Prefabs
             ColorPalettes = new FilteredControls<ColorPaletteModifier>(Controls);
             Entities = new FilteredControls<Entity>(Controls);
             Texts = new FilteredControls<TextEntity>(Controls);
-            ModelEntities = new FilteredControls<IPrefab>(Controls, prefab => prefab is Entity or TextEntity);
+            ModelEntities = new FilteredControls<IPrefab>(Controls, prefab => prefab is Entity or TextEntity or FullscreenQuad);
         }
 
         public ObservableCollection<IControl> Controls { get; } = new();
