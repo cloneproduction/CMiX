@@ -21,18 +21,17 @@ namespace CMiX.Core.Prefabs.Messages
                     throw new ArgumentNullException(nameof(message));
 
                 case MessageSelectedItemChanged messageSelectedItemChanged:
-                    collection.SelectedItemChanged(messageSelectedItemChanged.ControlID, messageSelectedItemChanged.Index);
+                    collection.SelectedItemChanged(messageSelectedItemChanged.ControlID);
                     return true;
 
                 case MessageAddItem messageAddPrefab:
                     // A late peer can see an add for an item its snapshot already holds.
                     if (collection.ManagerData.Items.Any(item => item.ID == messageAddPrefab.Model.ID))
                     {
-                        collection.ManagerData.SelectedIndex = messageAddPrefab.SelectedIndex;
+                        collection.SelectedItemChanged(messageAddPrefab.SelectedIndex);
                         return true;
                     }
                     collection.InsertItem(messageAddPrefab.Model, messageAddPrefab.SelectedIndex);
-                    collection.ManagerData.SelectedIndex = messageAddPrefab.SelectedIndex;
                     return true;
 
                 case MessageRemoveItem messageRemovePrefab:

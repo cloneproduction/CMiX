@@ -1,12 +1,9 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-
 namespace CMiX.Core.Prefabs.Managers
 {
-    public class CollectionManager : ObservableObject
+    public class CollectionManager
     {
         public CollectionManager(ManagerData managerData,
                                  ControlRepository controlRepository,
@@ -21,29 +18,18 @@ namespace CMiX.Core.Prefabs.Managers
         public ControlRepository ControlRepository { get; }
         private readonly ControlFactory _controlFactory;
 
-        private IControl _selectedItem;
-        public IControl SelectedItem
-        {
-            get => _selectedItem;
-            set => SetProperty(ref _selectedItem, value);
-        }
+        public IControl SelectedItem => ManagerData.SelectedItem;
 
         public void ClearAll()
         {
             foreach (var item in ManagerData.Items.ToList())
                 RemoveAndDispose(item);
-
-            SelectedItem = null;
-            ManagerData.SelectedIndex = -1;
         }
 
         private void AddControlToCollection(IControl prefab)
         {
-            var items = ManagerData.Items;
             ControlRepository.AddControl(prefab, this);
-            items.Add(prefab);
-            SelectedItem = prefab;
-            ManagerData.SelectedIndex = items.IndexOf(prefab);
+            ManagerData.Insert(ManagerData.Items.Count, prefab);
         }
 
         public void AddItem(IControlModel controlModel)
@@ -62,9 +48,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void InsertItem(IControl control, int index)
         {
             ControlRepository.AddControl(control, this);
-            ManagerData.Items.Insert(index, control);
-            SelectedItem = control;
-            ManagerData.SelectedIndex = index;
+            ManagerData.Insert(index, control);
         }
 
         // The index is kept inside the list, so a stale index from a peer cannot throw.
@@ -83,16 +67,9 @@ namespace CMiX.Core.Prefabs.Managers
 
         private int RemoveFromList(IControl control)
         {
-            var items = ManagerData.Items;
-            var index = items.IndexOf(control);
-            if (index < 0) return -1;
-
-            items.RemoveAt(index);
-            ControlRepository.RemoveControl(control, this);
-
-            int newIndex = items.Count == 0 ? -1 : index == 0 ? 0 : index - 1;
-            SelectedItem = items.Count == 0 ? null : items[newIndex];
-            ManagerData.SelectedIndex = newIndex;
+            var index = ManagerData.Remove(control);
+            if (index >= 0)
+                ControlRepository.RemoveControl(control, this);
             return index;
         }
 
@@ -112,48 +89,28 @@ namespace CMiX.Core.Prefabs.Managers
                 RemoveAndDispose(control);
         }
 
-        public void RemoveSelectedItem()
-        {
-            SelectedItem = null;
-            ManagerData.SelectedIndex = -1;
-        }
+        public void RemoveSelectedItem() => ManagerData.ClearSelection();
 
         public void MoveItem(int oldIndex, int newIndex)
         {
-            var items = ManagerData.Items;
-            if (oldIndex < 0 || oldIndex > items.Count - 1) return;
-            if (newIndex < 0 || newIndex > items.Count - 1) return;
+            var selected = ManagerData.SelectedItem;
 
-            var wasSelected = SelectedItem == items[oldIndex];
-
-            items.Move(oldIndex, newIndex);
+            if (!ManagerData.Move(oldIndex, newIndex)) return;
 
             // Avalonia ignores NotifyCollectionChangedAction.Move, so the selection is set again (Avalonia issues 2522, 16279).
-            if (wasSelected)
+            if (ReferenceEquals(selected, ManagerData.Items[newIndex]))
             {
-                SelectedItem = null;
-                SelectedItem = items[newIndex];
-                ManagerData.SelectedIndex = newIndex;
+                ManagerData.ClearSelection();
+                ManagerData.Select(selected);
             }
         }
 
-        public void SelectedItemChanged(Guid controlID, int index)
+        public void SelectedItemChanged(Guid controlID)
         {
             var control = controlID != Guid.Empty ? ControlRepository.GetControl(controlID) : null;
-            SelectedItem = control;
-            ManagerData.SelectedIndex = control != null ? index : -1;
+            ManagerData.Select(control);
         }
 
-        public void SelectedItemChanged(int index)
-        {
-            if (index < 0 || ManagerData.Items.Count == 0)
-            {
-                SelectedItem = null;
-                ManagerData.SelectedIndex = -1;
-                return;
-            }
-            SelectedItem = ManagerData.Items[index];
-            ManagerData.SelectedIndex = index;
-        }
+        public void SelectedItemChanged(int index) => ManagerData.SelectAt(index);
     }
 }

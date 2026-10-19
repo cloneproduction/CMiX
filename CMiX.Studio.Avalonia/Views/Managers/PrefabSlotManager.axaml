@@ -14,7 +14,6 @@
             x:Name="prefabListBox"
             MinItemCount="{Binding MinItemCount, ElementName=prefabSlotManager}"
             ItemsSource="{Binding ManagerData.Items}"
-            SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
             <ui:ListBoxCMiX.DataTemplates>

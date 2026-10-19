@@ -29,9 +29,9 @@ namespace CMiX.Core.Prefabs.Managers
             _controlFactory = controlFactory;
             _messageHandler = messageHandler;
             _sync = new CollectionSync(collection, controlMessenger, messageFactory);
-            Collection.PropertyChanged += (s, e) =>
+            Collection.ManagerData.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(CollectionManager.SelectedItem))
+                if (e.PropertyName == nameof(ManagerData.SelectedItem))
                     OnPropertyChanged(nameof(SelectedItem));
             };
             Collection.ManagerData.Items.CollectionChanged += OnItemsChanged;
@@ -291,7 +291,6 @@ namespace CMiX.Core.Prefabs.Managers
         {
             var m = (PrefabManagerModel)model;
             ManagerData.ID = m.ManagerData.ID;
-            ManagerData.SelectedIndex = m.ManagerData.SelectedIndex;
         }
     }
 }

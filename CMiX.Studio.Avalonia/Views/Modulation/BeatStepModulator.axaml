@@ -21,7 +21,6 @@
             MoveUpCommand="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
             RemoveCommand="{Binding DeleteItemCommand}"
             ReorderService="{Binding ManagerReorderService}"
-            SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
             <ui:ListBoxEditable.ItemTemplate>
