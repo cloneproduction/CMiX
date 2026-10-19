@@ -134,7 +134,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
                 var model = (CompositionModel)composition.ToModel();
-                Project.CompositionManager.AddItem(CloneCompositionWithNewGuids(model));
+                Project.CompositionManager.AddItem(ControlCloner.CloneWithNewGuids(model));
             });
         }
 
@@ -159,7 +159,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
                 if (composition.LayerManager.SelectedItem is not Layer layer) return;
                 var model = (LayerModel)layer.ToModel();
-                composition.LayerManager.AddItem(CloneWithNewGuids(model));
+                composition.LayerManager.AddItem(ControlCloner.CloneWithNewGuids(model));
             });
         }
 
@@ -208,7 +208,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                     // nothing when this list is empty.
                     var compositions = projectModel.CompositionManager.ManagerData.Items
                         .Cast<CompositionModel>()
-                        .Select(CloneCompositionWithNewGuids)
+                        .Select(m => ControlCloner.CloneWithNewGuids(m))
                         .ToList();
 
                     return (Project: projectModel, Compositions: compositions);
@@ -274,42 +274,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
             {
                 await _dialogService.ShowMessageBoxAsync(this, $"{Path.GetFileName(path)}: {ex.Message}", "Open Project");
             }
-        }
-
-        // Shared by DuplicateComposition, DuplicateLayer and OpenProject, which all need a deep
-        // copy of a model with every id replaced so the clone does not collide with the original.
-        private static T CloneWithNewGuids<T>(T model) where T : IControlModel
-        {
-            var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
-            return JsonSerializer.Deserialize<T>(json, ProjectSerializer.Options)
-                ?? throw new InvalidOperationException($"Failed to clone {typeof(T).Name}: deserialization returned null.");
-        }
-
-        // CloneWithNewGuids gives every id in the model a fresh value, including
-        // SelectedOutputMappingID. That field is a pointer into the project's fixed output
-        // slots, not an identity, and those slots are never cloned. Restore the original
-        // value after the clone, so a valid selection survives Open and Duplicate Composition
-        // instead of losing its target and falling back to the default slot every time.
-        private static CompositionModel CloneCompositionWithNewGuids(CompositionModel model)
-        {
-            var cloned = CloneWithNewGuids(model);
-            return cloned with { SelectedOutputMappingID = model.SelectedOutputMappingID };
-        }
-
-        private static string ReplaceAllGuids(string json)
-        {
-            var guidPattern = @"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
-            var guidMap = new Dictionary<string, string>();
-            return Regex.Replace(json, guidPattern, match =>
-            {
-                var original = match.Value;
-                if (!guidMap.TryGetValue(original, out var newGuid))
-                {
-                    newGuid = Guid.NewGuid().ToString();
-                    guidMap[original] = newGuid;
-                }
-                return newGuid;
-            });
         }
 
         private async Task SaveProject()

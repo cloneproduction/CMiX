@@ -162,6 +162,35 @@ namespace CMiX.Core.Prefabs.Managers
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
         }
 
+        // Adds a deep copy right after the source, with new ids and the next free name, as one undo step.
+        public IControl DuplicateItem(IControl source)
+        {
+            var index = Collection.ManagerData.Items.IndexOf(source);
+            if (index < 0 || UndoManager?.IsApplying == true) return null;
+
+            var previousItem = Collection.SelectedItem;
+            var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
+
+            var factory = Collection.ControlFactory;
+            var copy = factory.Create(ControlCloner.CloneWithNewGuids(source.ToModel()));
+            if (copy is IPrefab prefab)
+            {
+                // The rename is part of the copy: it sends no message and leaves no undo step of its own.
+                var name = prefab.PrefabService.Name;
+                var newName = factory.UniqueName(name.Value);
+                name.IsActive = false;
+                try { name.Value = newName; }
+                finally { name.IsActive = true; }
+            }
+
+            _isAdding = true;
+            try { Collection.InsertItem(copy, index + 1); }
+            finally { _isAdding = false; }
+
+            AddItemInternal(copy, index + 1, previousItem, previousIndex);
+            return copy;
+        }
+
         public void AddItemFromFilePath(Type type, string filePath)
         {
             UndoManager?.BeginCapture();
