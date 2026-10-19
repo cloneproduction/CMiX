@@ -31,7 +31,7 @@ namespace CMiX.Core.Prefabs.Messages
                         collection.ManagerData.SelectedIndex = messageAddPrefab.SelectedIndex;
                         return true;
                     }
-                    collection.AddItem(messageAddPrefab.Model);
+                    collection.InsertItem(messageAddPrefab.Model, messageAddPrefab.SelectedIndex);
                     collection.ManagerData.SelectedIndex = messageAddPrefab.SelectedIndex;
                     return true;
 
