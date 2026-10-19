@@ -46,18 +46,6 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.SelectedIndex = items.IndexOf(prefab);
         }
 
-        public (IControl prefab, int index) AddItem(Type type)
-        {
-            var prefab = ControlFactory.Create(type);
-            AddControlToCollection(prefab);
-            return (prefab, ManagerData.SelectedIndex);
-        }
-
-        public void AddItem(IControl control)
-        {
-            AddControlToCollection(control);
-        }
-
         public void AddItem(IControlModel controlModel)
         {
             var prefab = CreateOrReuse(controlModel);

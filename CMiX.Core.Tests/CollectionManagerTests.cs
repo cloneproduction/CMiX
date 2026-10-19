@@ -1,4 +1,5 @@
-﻿using CMiX.Core.Prefabs.Managers;
+﻿using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -15,7 +16,8 @@ namespace CMiX.Core.Tests
             items = new List<TouchBlob>();
             for (int i = 0; i < count; i++)
             {
-                var (prefab, _) = manager.AddItem(typeof(TouchBlob));
+                var prefab = provider.GetRequiredService<ControlFactory>().Create(typeof(TouchBlob));
+                manager.InsertItem(prefab, manager.ManagerData.Items.Count);
                 items.Add((TouchBlob)prefab);
             }
             return manager;
@@ -63,7 +65,8 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 1, out _);
             var otherManager = provider.GetRequiredService<CollectionManager>();
-            var (foreignControl, _) = otherManager.AddItem(typeof(TouchBlob));
+            var foreignControl = provider.GetRequiredService<ControlFactory>().Create(typeof(TouchBlob));
+            otherManager.InsertItem(foreignControl, 0);
 
             var (removed, index) = manager.DeleteItem(foreignControl);
 

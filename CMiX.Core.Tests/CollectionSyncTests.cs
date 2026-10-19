@@ -1,5 +1,6 @@
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Texturing.Sources;
@@ -14,7 +15,8 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var collection = provider.GetRequiredService<CollectionManager>();
-            var (item, _) = collection.AddItem(typeof(CheckerBoard));
+            var item = provider.GetRequiredService<ControlFactory>().Create(typeof(CheckerBoard));
+            collection.InsertItem(item, 0);
             var messenger = provider.GetRequiredService<ControlMessenger>();
             var sender = new RecordingMessageSender();
             messenger.Register(sender);

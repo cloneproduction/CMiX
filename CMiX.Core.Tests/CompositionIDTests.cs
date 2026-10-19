@@ -65,7 +65,7 @@ namespace CMiX.Core.Tests
             manager.CompositionID = first;
             manager.CompositionID = second;
             var item = new RecordingCompositionIDControl();
-            manager.Collection.AddItem(item);
+            manager.Collection.InsertItem(item, manager.ManagerData.Items.Count);
 
             Assert.Equal(new[] { second }, item.ReceivedIDs);
         }

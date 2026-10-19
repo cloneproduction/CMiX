@@ -1,4 +1,5 @@
 ﻿using CMiX.Core;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Services;
@@ -25,7 +26,8 @@ namespace CMiX.Studio.Avalonia.Tests
             items = new List<IControl>();
             for (var i = 0; i < ItemCount; i++)
             {
-                var (prefab, _) = manager.AddItem(typeof(TouchBlob));
+                var prefab = provider.GetRequiredService<ControlFactory>().Create(typeof(TouchBlob));
+                manager.InsertItem(prefab, manager.ManagerData.Items.Count);
                 items.Add(prefab);
             }
             return manager;
