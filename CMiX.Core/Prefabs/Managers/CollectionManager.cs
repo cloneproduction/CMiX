@@ -40,7 +40,7 @@ namespace CMiX.Core.Prefabs.Managers
         private void AddControlToCollection(IControl prefab)
         {
             var items = ManagerData.Items;
-            ControlRepository.AddControl(prefab, ManagerData.ID);
+            ControlRepository.AddControl(prefab, this);
             items.Add(prefab);
             SelectedItem = prefab;
             ManagerData.SelectedIndex = items.IndexOf(prefab);
@@ -73,7 +73,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void InsertItem(IControl control, int index)
         {
-            ControlRepository.AddControl(control, ManagerData.ID);
+            ControlRepository.AddControl(control, this);
             ManagerData.Items.Insert(index, control);
             SelectedItem = control;
             ManagerData.SelectedIndex = index;
@@ -89,7 +89,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void LoadItem(IControlModel controlModel)
         {
             var prefab = CreateOrReuse(controlModel);
-            ControlRepository.AddControl(prefab, ManagerData.ID);
+            ControlRepository.AddControl(prefab, this);
             ManagerData.Items.Add(prefab);
         }
 
@@ -101,7 +101,7 @@ namespace CMiX.Core.Prefabs.Managers
             if (index < 0) return (null, -1);
 
             items.RemoveAt(index);
-            ControlRepository.RemoveControl(control, ManagerData.ID);
+            ControlRepository.RemoveControl(control, this);
 
             if (disposeIfOrphaned)
                 OwnedControl.DisposeIfOrphaned(ControlRepository, control);

@@ -11,13 +11,14 @@ using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Prefabs
 {
     public class ControlRepository : ObservableObject
     {
-        private readonly Dictionary<Guid, HashSet<Guid>> _referencers = new();
+        private readonly Dictionary<Guid, HashSet<CollectionManager>> _collectionManagers = new();
 
         private readonly Dictionary<Guid, IControl> _controlsById = new();
 
@@ -110,15 +111,15 @@ namespace CMiX.Core.Prefabs
                 EntitiesAndTexts.Add(text);
         }
 
-        public void AddControl(IControl control, Guid referencerId)
+        public void AddControl(IControl control, CollectionManager collectionManager)
         {
             if (control == null)
                 return;
 
-            if (!_referencers.ContainsKey(control.ID))
-                _referencers[control.ID] = new HashSet<Guid>();
+            if (!_collectionManagers.ContainsKey(control.ID))
+                _collectionManagers[control.ID] = new HashSet<CollectionManager>();
 
-            _referencers[control.ID].Add(referencerId);
+            _collectionManagers[control.ID].Add(collectionManager);
 
             if (!_controlsById.ContainsKey(control.ID))
             {
@@ -128,28 +129,21 @@ namespace CMiX.Core.Prefabs
             }
         }
 
-        public void RemoveControl(IControl control, Guid referencerId)
+        public void RemoveControl(IControl control, CollectionManager collectionManager)
         {
-            if (control == null || !_referencers.ContainsKey(control.ID))
+            if (control == null || !_collectionManagers.ContainsKey(control.ID))
                 return;
 
-            _referencers[control.ID].Remove(referencerId);
+            _collectionManagers[control.ID].Remove(collectionManager);
 
-            if (_referencers[control.ID].Count == 0)
+            if (_collectionManagers[control.ID].Count == 0)
             {
-                _referencers.Remove(control.ID);
+                _collectionManagers.Remove(control.ID);
                 if (_controlsById.TryGetValue(control.ID, out var indexed) && ReferenceEquals(indexed, control))
                     _controlsById.Remove(control.ID);
                 Controls.Remove(control);
                 RemoveFromSpecificRepo(control);
             }
-        }
-
-        public void RemoveControl(Guid id, Guid referencerId)
-        {
-            var control = GetControl(id);
-            if (control != null)
-                RemoveControl(control, referencerId);
         }
 
         public IControl GetControl(Guid id)
@@ -159,9 +153,14 @@ namespace CMiX.Core.Prefabs
 
         public bool HasUsers(IControl control)
         {
-            if (!_referencers.ContainsKey(control.ID)) return false;
-            return _referencers[control.ID].Count > 0;
+            if (!_collectionManagers.ContainsKey(control.ID)) return false;
+            return _collectionManagers[control.ID].Count > 0;
         }
+
+        public IReadOnlyList<CollectionManager> CollectionManagersHolding(IControl control) =>
+            control != null && _collectionManagers.TryGetValue(control.ID, out var collectionManagers)
+                ? collectionManagers.ToList()
+                : new List<CollectionManager>();
 
         public void RegisterDeleter(Guid managerId, Action<IControl> deleter)
         {
@@ -180,11 +179,9 @@ namespace CMiX.Core.Prefabs
         public void DeleteEverywhere(IControl control)
         {
             if (control == null) return;
-            if (!_referencers.TryGetValue(control.ID, out var referencerIds)) return;
-
-            foreach (var managerId in referencerIds.ToList())
+            foreach (var collectionManager in CollectionManagersHolding(control))
             {
-                if (_deleters.TryGetValue(managerId, out var deleter))
+                if (_deleters.TryGetValue(collectionManager.ManagerData.ID, out var deleter))
                     deleter(control);
             }
         }

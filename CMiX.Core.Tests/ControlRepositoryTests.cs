@@ -1,5 +1,6 @@
 ﻿using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -14,18 +15,18 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var referencer = Guid.NewGuid();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
 
             var first = factory.Create(typeof(CheckerBoard));
             var second = factory.Create(typeof(CheckerBoard));
-            repository.AddControl(first, referencer);
-            repository.AddControl(second, referencer);
+            repository.AddControl(first, collectionManager);
+            repository.AddControl(second, collectionManager);
 
             Assert.Same(first, repository.GetControl(first.ID));
             Assert.Same(second, repository.GetControl(second.ID));
             Assert.Null(repository.GetControl(Guid.NewGuid()));
 
-            repository.RemoveControl(first, referencer);
+            repository.RemoveControl(first, collectionManager);
 
             Assert.Null(repository.GetControl(first.ID));
             Assert.Same(second, repository.GetControl(second.ID));
@@ -38,14 +39,14 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var referencer = Guid.NewGuid();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
 
             var first = factory.Create(typeof(CheckerBoard));
             var second = factory.Create(typeof(CheckerBoard));
             second.ID = first.ID;
 
-            repository.AddControl(first, referencer);
-            repository.AddControl(second, referencer);
+            repository.AddControl(first, collectionManager);
+            repository.AddControl(second, collectionManager);
 
             Assert.Single(repository.Controls);
             Assert.Same(first, repository.GetControl(first.ID));
@@ -59,12 +60,12 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var referencer = Guid.NewGuid();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
 
             var first = (IPrefab)factory.Create(typeof(CheckerBoard));
-            repository.AddControl((IControl)first, referencer);
+            repository.AddControl((IControl)first, collectionManager);
             var second = (IPrefab)factory.Create(typeof(CheckerBoard));
-            repository.AddControl((IControl)second, referencer);
+            repository.AddControl((IControl)second, collectionManager);
 
             Assert.Equal("Checker Board", first.PrefabService.Name.Value);
             Assert.Equal("Checker Board.001", second.PrefabService.Name.Value);
@@ -72,7 +73,7 @@ namespace CMiX.Core.Tests
             second.PrefabService.Name.Value = "Checker Board.002";
 
             var third = (IPrefab)factory.Create(typeof(CheckerBoard));
-            repository.AddControl((IControl)third, referencer);
+            repository.AddControl((IControl)third, collectionManager);
 
             Assert.Equal("Checker Board.001", third.PrefabService.Name.Value);
         }
@@ -87,7 +88,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var referencer = Guid.NewGuid();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
 
             var entity1 = factory.Create(typeof(Entity));
             var text1 = factory.Create(typeof(TextEntity));
@@ -95,19 +96,19 @@ namespace CMiX.Core.Tests
             var text2 = factory.Create(typeof(TextEntity));
             var entity3 = factory.Create(typeof(Entity));
 
-            repository.AddControl(entity1, referencer);
-            repository.AddControl(text1, referencer);
-            repository.AddControl(entity2, referencer);
-            repository.AddControl(text2, referencer);
+            repository.AddControl(entity1, collectionManager);
+            repository.AddControl(text1, collectionManager);
+            repository.AddControl(entity2, collectionManager);
+            repository.AddControl(text2, collectionManager);
 
             Assert.Equal(new[] { entity1, entity2, text1, text2 }, repository.EntitiesAndTexts);
 
-            repository.RemoveControl(entity1, referencer);
-            repository.RemoveControl(text1, referencer);
+            repository.RemoveControl(entity1, collectionManager);
+            repository.RemoveControl(text1, collectionManager);
 
             Assert.Equal(new[] { entity2, text2 }, repository.EntitiesAndTexts);
 
-            repository.AddControl(entity3, referencer);
+            repository.AddControl(entity3, collectionManager);
 
             // A newly added entity keeps inserting ahead of the texts block, not at the tail.
             Assert.Equal(new[] { entity2, entity3, text2 }, repository.EntitiesAndTexts);
@@ -122,12 +123,12 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var referencer = Guid.NewGuid();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
 
             var entity = factory.Create(typeof(Entity));
             var text = factory.Create(typeof(TextEntity));
-            repository.AddControl(entity, referencer);
-            repository.AddControl(text, referencer);
+            repository.AddControl(entity, collectionManager);
+            repository.AddControl(text, collectionManager);
 
             Assert.Equal(new[] { entity, text }, repository.EntitiesAndTexts);
 
