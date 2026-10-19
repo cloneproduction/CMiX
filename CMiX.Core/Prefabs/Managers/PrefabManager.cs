@@ -53,9 +53,6 @@ namespace CMiX.Core.Prefabs.Managers
         [ObservableProperty]
         private bool isExpanded = false;
 
-        // Suppresses SelectItemCommand while AddItem changes the selection.
-        private bool _isAdding = false;
-
         // The ID the deleter is registered under; ManagerData.ID changes after construction.
         private Guid _registeredDeleterId;
         private bool _hasRegisteredDeleter;
@@ -105,13 +102,6 @@ namespace CMiX.Core.Prefabs.Managers
             }
         }
 
-        private (IControl prefab, int index) CreateItem(Type type)
-        {
-            _isAdding = true;
-            try { return Collection.AddItem(type); }
-            finally { _isAdding = false; }
-        }
-
         private void AddItemInternal(IControl prefab, int index, IControl previousItem, int previousIndex)
         {
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
@@ -142,7 +132,7 @@ namespace CMiX.Core.Prefabs.Managers
         {
             var previousItem = Collection.SelectedItem;
             var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
-            var (prefab, index) = CreateItem(type);
+            var (prefab, index) = Collection.AddItem(type);
             if (prefab == null) return;
             AddItemInternal(prefab, index, previousItem, previousIndex);
         }
@@ -176,9 +166,7 @@ namespace CMiX.Core.Prefabs.Managers
                 finally { name.IsActive = true; }
             }
 
-            _isAdding = true;
-            try { Collection.InsertItem(copy, index + 1); }
-            finally { _isAdding = false; }
+            Collection.InsertItem(copy, index + 1);
 
             AddItemInternal(copy, index + 1, previousItem, previousIndex);
             return copy;
@@ -191,7 +179,7 @@ namespace CMiX.Core.Prefabs.Managers
             {
                 var previousItem = Collection.SelectedItem;
                 var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
-                var (prefab, index) = CreateItem(type);
+                var (prefab, index) = Collection.AddItem(type);
                 if (prefab == null) return;
                 if (prefab is IAssetTextureSource source)
                     source.AssetSelector.SetAssetFromPath(filePath);
@@ -302,10 +290,9 @@ namespace CMiX.Core.Prefabs.Managers
             var previousItem = Collection.SelectedItem;
             var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
             Collection.SelectedItemChanged(index);
+            if (ReferenceEquals(previousItem, Collection.SelectedItem)) return;
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageSelectedItemChanged>(ManagerData.ID, Collection.SelectedItem, index));
-            if (UndoManager?.IsApplying ?? false) return;
-            if (_isAdding) return;
-            if (previousItem == null || previousItem == Collection.SelectedItem) return;
+            if (previousItem == null) return;
             UndoManager?.Push(new SelectItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex, index));
         }
 

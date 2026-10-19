@@ -257,7 +257,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(0, peer.UndoSteps);
         }
 
-        [AvaloniaFact(Skip = "Today a peer sends a select message back for every add it receives. The selection guard of phase 2 must stop it.")]
+        [AvaloniaFact]
         public void PeerReceivingTheMessages_SendsNothingBack()
         {
             var (_, peer) = ReplayOnAPeer();
