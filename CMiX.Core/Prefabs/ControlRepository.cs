@@ -33,34 +33,32 @@ namespace CMiX.Core.Prefabs
             Cameras = new FilteredControls<Camera>(Controls);
             Lights = new FilteredControls<LightEntity>(Controls);
             ColorPalettes = new FilteredControls<ColorPaletteModifier>(Controls);
+            Entities = new FilteredControls<Entity>(Controls);
+            Texts = new FilteredControls<TextEntity>(Controls);
 
             typeToAddAction = new List<(Type, Action<IControl>)>
             {
-                (typeof(Entity), c => Entities.Add((Entity)c)),
                 //(typeof(BeatModulator), c => BeatModulators.Add((BeatModulator)c)),
-                (typeof(TextEntity), c => Texts.Add((TextEntity)c)),
             };
 
             typeToRemoveAction = new List<(Type, Action<IControl>)>
             {
-                (typeof(Entity), c => Entities.Remove((Entity)c)),
                 //(typeof(BeatModulator), c => BeatModulators.Remove((BeatModulator)c)),
-                (typeof(TextEntity), c => Texts.Remove((TextEntity)c)),
             };
 
-            Entities.CollectionChanged += OnEntitiesOrTextsChanged;
-            Texts.CollectionChanged += OnEntitiesOrTextsChanged;
+            ((INotifyCollectionChanged)Entities).CollectionChanged += OnEntitiesOrTextsChanged;
+            ((INotifyCollectionChanged)Texts).CollectionChanged += OnEntitiesOrTextsChanged;
         }
 
         public ObservableCollection<IControl> Controls { get; } = new();
         public FilteredControls<Composition> Compositions { get; }
         public FilteredControls<Layer> Layers { get; }
         public FilteredControls<ITextureSource> Textures { get; }
-        public ObservableCollection<Entity> Entities { get; } = new();
+        public FilteredControls<Entity> Entities { get; }
         public FilteredControls<Camera> Cameras { get; }
         public FilteredControls<LightEntity> Lights { get; }
         //public ObservableCollection<BeatModulator> BeatModulators { get; } = new();
-        public ObservableCollection<TextEntity> Texts { get; } = new();
+        public FilteredControls<TextEntity> Texts { get; }
         public FilteredControls<ColorPaletteModifier> ColorPalettes { get; }
 
         public ObservableCollection<IControl> EntitiesAndTexts { get; } = new();

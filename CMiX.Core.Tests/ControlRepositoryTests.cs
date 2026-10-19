@@ -114,11 +114,8 @@ namespace CMiX.Core.Tests
             Assert.Equal(new[] { entity2, entity3, text2 }, repository.EntitiesAndTexts);
         }
 
-        // Nothing in production code clears Entities or Texts directly today; every removal goes
-        // through RemoveControl one item at a time. The Reset branch of the merge exists for a bulk
-        // clear anyway, so it needs its own coverage rather than riding along on the Remove branch.
         [Fact]
-        public void EntitiesAndTexts_ResyncsWhenASourceCollectionRaisesAReset()
+        public void EntitiesAndTexts_EmptiesWhenControlsIsCleared()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -132,13 +129,11 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(new[] { entity, text }, repository.EntitiesAndTexts);
 
-            repository.Entities.Clear();
-
-            Assert.Equal(new[] { text }, repository.EntitiesAndTexts);
-
-            repository.Texts.Clear();
+            repository.Controls.Clear();
 
             Assert.Empty(repository.EntitiesAndTexts);
+            Assert.Empty(repository.Entities);
+            Assert.Empty(repository.Texts);
         }
     }
 }
