@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public class ManagerData : ObservableObject, IControl
+    public class ManagerData : ObservableObject
     {
         public ManagerData()
         {
@@ -67,20 +67,5 @@ namespace CMiX.Core.Prefabs.Managers
         public void SelectAt(int index) => Select(index >= 0 && index < Items.Count ? Items[index] : null);
 
         public void ClearSelection() => SelectedItem = null;
-
-        public IControlModel ToModel() => new ManagerDataModel
-        {
-            ID = ID,
-            SelectedIndex = SelectedIndex,
-            Items = new Collection<IControlModel>(
-            Items.Select(c => c.ToModel()).ToList())
-        };
-
-        public void FromModel(IControlModel model)
-        {
-            var m = (ManagerDataModel)model;
-            ID = m.ID;
-            SelectAt(m.SelectedIndex);
-        }
     }
 }

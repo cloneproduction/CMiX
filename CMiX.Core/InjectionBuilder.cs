@@ -41,6 +41,7 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<ControlRepository>();
             services.AddSingleton<AssetRepository>();
             services.AddSingleton<MessageCollectionManagerHandler>();
+            services.AddTransient<ManagerData>();
             services.AddTransient<CollectionManager>();
 
             services.AddSingleton<ISyncTarget, ProjectSyncTarget>();

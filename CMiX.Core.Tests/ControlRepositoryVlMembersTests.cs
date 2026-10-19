@@ -15,6 +15,13 @@ namespace CMiX.Core.Tests
     // GetRenderPriority, GetOrderedControls and Controls are used from VL patches.
     public class ControlRepositoryVlMembersTests
     {
+        private sealed class ControlOfNoKnownKind : IControl
+        {
+            public Guid ID { get; set; } = Guid.NewGuid();
+            public IControlModel ToModel() => throw new NotSupportedException();
+            public void FromModel(IControlModel model) => throw new NotSupportedException();
+        }
+
         private static (ControlFactory Factory, ControlRepository Repository, CollectionManager CollectionManager, IServiceProvider Provider) Create()
         {
             var provider = TestServiceProviderFactory.Create();
@@ -45,7 +52,7 @@ namespace CMiX.Core.Tests
             Assert.Equal(4, ControlRepository.GetRenderPriority(factory.Create(typeof(Material))));
             Assert.Equal(5, ControlRepository.GetRenderPriority(factory.Create(typeof(CheckerBoard))));
             Assert.Equal(6, ControlRepository.GetRenderPriority(factory.Create(typeof(AlphaModifier))));
-            Assert.Equal(99, ControlRepository.GetRenderPriority(provider.GetRequiredService<ManagerData>()));
+            Assert.Equal(99, ControlRepository.GetRenderPriority(new ControlOfNoKnownKind()));
         }
 
         [Fact]
