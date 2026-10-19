@@ -125,15 +125,6 @@ namespace CMiX.UI.Controls.Collection
             set => SetValue(SelectedItemProperty, value);
         }
 
-        public static readonly StyledProperty<int> SelectedIndexProperty =
-            AvaloniaProperty.Register<ListBoxEditable, int>(nameof(SelectedIndex), -1, defaultBindingMode: BindingMode.TwoWay);
-
-        public int SelectedIndex
-        {
-            get => GetValue(SelectedIndexProperty);
-            set => SetValue(SelectedIndexProperty, value);
-        }
-
         // Without a service the items cannot be reordered with the pointer.
         public static readonly StyledProperty<IReorderService?> ReorderServiceProperty =
             AvaloniaProperty.Register<ListBoxEditable, IReorderService?>(nameof(ReorderService));
