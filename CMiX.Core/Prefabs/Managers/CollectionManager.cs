@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Prefabs.Managers
 {
@@ -20,23 +18,12 @@ namespace CMiX.Core.Prefabs.Managers
             ControlRepository = controlRepository;
             ControlFactory = controlFactory;
             MessageCollectionManagerHandler = messageCollectionManagerHandler;
-
-            AddItemCommand = new RelayCommand<Type>(t => AddItem(t));
-            DeleteItemCommand = new RelayCommand<IControl>(c => DeleteItem(c));
-            RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
-            ResetItemCommand = new RelayCommand<IControl>(ResetItem);
         }
 
         public ManagerData ManagerData { get; }
         public ControlRepository ControlRepository { get; }
         public ControlFactory ControlFactory { get; }
         public MessageCollectionManagerHandler MessageCollectionManagerHandler { get; }
-
-        public ICommand AddItemCommand { get; set; }
-        public ICommand AddExistingItemCommand { get; set; }
-        public ICommand DeleteItemCommand { get; set; }
-        public ICommand RemoveSelectedItemCommand { get; set; }
-        public ICommand ResetItemCommand { get; set; }
 
         private IControl _selectedItem;
         public IControl SelectedItem

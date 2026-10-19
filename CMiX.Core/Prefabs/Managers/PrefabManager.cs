@@ -31,11 +31,11 @@ namespace CMiX.Core.Prefabs.Managers
             };
             Collection.ManagerData.Items.CollectionChanged += OnItemsChanged;
 
-            Collection.AddItemCommand = new RelayCommand<Type>(AddItem);
-            Collection.AddExistingItemCommand = new RelayCommand<IControl>(AddExistingItem);
-            Collection.DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
-            Collection.RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
-            Collection.ResetItemCommand = new RelayCommand<IControl>(ResetItem);
+            AddItemCommand = new RelayCommand<Type>(AddItem);
+            AddExistingItemCommand = new RelayCommand<IControl>(AddExistingItem);
+            DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
+            RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
+            ResetItemCommand = new RelayCommand<IControl>(ResetItem);
             ManagerReorderService = reorderServiceFactory?.Invoke(Collection, OnMove);
             DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
 
@@ -86,11 +86,11 @@ namespace CMiX.Core.Prefabs.Managers
                     owned.CompositionID = _compositionID;
         }
 
-        public override ICommand AddItemCommand => Collection.AddItemCommand;
-        public ICommand AddExistingItemCommand => Collection.AddExistingItemCommand;
-        public ICommand DeleteItemCommand => Collection.DeleteItemCommand;
-        public override ICommand RemoveSelectedItemCommand => Collection.RemoveSelectedItemCommand;
-        public ICommand ResetItemCommand => Collection.ResetItemCommand;
+        public override ICommand AddItemCommand { get; }
+        public ICommand AddExistingItemCommand { get; }
+        public ICommand DeleteItemCommand { get; }
+        public override ICommand RemoveSelectedItemCommand { get; }
+        public ICommand ResetItemCommand { get; }
         public ICommand DeleteEverywhereCommand { get; }
 
         public override IControl SelectedItem
