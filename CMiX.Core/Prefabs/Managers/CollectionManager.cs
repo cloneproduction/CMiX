@@ -177,22 +177,5 @@ namespace CMiX.Core.Prefabs.Managers
             SelectedItem = ManagerData.Items[index];
             ManagerData.SelectedIndex = index;
         }
-
-        // Bare swap with no message and no undo entry, for a collection no manager owns; the old control is disposed.
-        public void ResetItem(IControl control)
-        {
-            if (control == null) return;
-            var index = ManagerData.Items.IndexOf(control);
-            if (index < 0) return;
-            var newControl = ControlFactory.Create(control.GetType());
-            ManagerData.Items[index] = newControl;
-            ControlRepository.RemoveControl(control, ManagerData.ID);
-            ControlRepository.AddControl(newControl, ManagerData.ID);
-
-            if (SelectedItem == control)
-                SelectedItem = newControl;
-
-            OwnedControl.DisposeIfOrphaned(ControlRepository, control);
-        }
     }
 }

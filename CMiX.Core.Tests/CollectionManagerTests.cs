@@ -5,7 +5,7 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Covers the guards added in commit 59a147eb: MoveItem and ResetItem used to trust their
+    // Covers the guards added in commit 59a147eb: MoveItem used to trust their
     // arguments and would throw or corrupt state on stale or absent controls.
     public class CollectionManagerTests
     {
@@ -55,32 +55,6 @@ namespace CMiX.Core.Tests
 
             Assert.Null(exception);
             Assert.Equal(items, manager.ManagerData.Items);
-        }
-
-        [Fact]
-        public void ResetItem_NullControl_IsNoOp()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var manager = CreateManagerWithItems(provider, 1, out var items);
-
-            var exception = Record.Exception(() => manager.ResetItem(null));
-
-            Assert.Null(exception);
-            Assert.Same(items[0], manager.ManagerData.Items[0]);
-        }
-
-        [Fact]
-        public void ResetItem_ControlNotInCollection_IsNoOp()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var manager = CreateManagerWithItems(provider, 1, out var items);
-            var otherManager = provider.GetRequiredService<CollectionManager>();
-            var (foreignControl, _) = otherManager.AddItem(typeof(TouchBlob));
-
-            var exception = Record.Exception(() => manager.ResetItem(foreignControl));
-
-            Assert.Null(exception);
-            Assert.Same(items[0], manager.ManagerData.Items[0]);
         }
 
         [Fact]
