@@ -40,7 +40,7 @@ namespace CMiX.Core.Undo
 
         public void Execute()
         {
-            _collection.AddItem(_item);
+            _collection.InsertItem(_item, Math.Min(_index, _collection.ManagerData.Items.Count));
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageAddItem>(
                 _collection.ManagerData.ID, _item, _index));
         }
