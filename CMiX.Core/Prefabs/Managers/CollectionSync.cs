@@ -9,31 +9,31 @@ namespace CMiX.Core.Prefabs.Managers
 {
     public class CollectionSync
     {
-        private readonly ControlMessenger messenger;
-        private readonly MessageFactory messageFactory;
+        private readonly ControlMessenger _messenger;
+        private readonly MessageFactory _messageFactory;
 
         public CollectionSync(CollectionManager collection, ControlMessenger messenger, MessageFactory messageFactory)
         {
             Collection = collection;
-            this.messenger = messenger;
-            this.messageFactory = messageFactory;
+            _messenger = messenger;
+            _messageFactory = messageFactory;
         }
 
         public CollectionManager Collection { get; }
 
         public void SendAdd(IControl item, int index) =>
-            messenger.SendMessage(messageFactory.CreateMessage<MessageAddItem>(Collection.ManagerData.ID, item, index));
+            _messenger.SendMessage(_messageFactory.CreateMessage<MessageAddItem>(Collection.ManagerData.ID, item, index));
 
         public void SendRemove(IControl item, int selectedIndex) =>
-            messenger.SendMessage(messageFactory.CreateMessage<MessageRemoveItem>(Collection.ManagerData.ID, item, selectedIndex));
+            _messenger.SendMessage(_messageFactory.CreateMessage<MessageRemoveItem>(Collection.ManagerData.ID, item, selectedIndex));
 
         public void SendMove(int oldIndex, int newIndex) =>
-            messenger.SendMessage(messageFactory.CreateMessage<MessageMoveItem>(Collection.ManagerData.ID, oldIndex, newIndex));
+            _messenger.SendMessage(_messageFactory.CreateMessage<MessageMoveItem>(Collection.ManagerData.ID, oldIndex, newIndex));
 
         public void SendSelect(IControl item, int index) =>
-            messenger.SendMessage(messageFactory.CreateMessage<MessageSelectedItemChanged>(Collection.ManagerData.ID, item, index));
+            _messenger.SendMessage(_messageFactory.CreateMessage<MessageSelectedItemChanged>(Collection.ManagerData.ID, item, index));
 
         public void SendRemoveSelected() =>
-            messenger.SendMessage(messageFactory.CreateMessage<MessageRemoveSelectedItem>(Collection.ManagerData.ID));
+            _messenger.SendMessage(_messageFactory.CreateMessage<MessageRemoveSelectedItem>(Collection.ManagerData.ID));
     }
 }

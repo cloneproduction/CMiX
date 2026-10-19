@@ -25,8 +25,8 @@ namespace CMiX.Core.Prefabs.Managers
             ID = collection.ManagerData.ID;
 
             Collection = collection;
-            this.messageHandler = messageHandler;
-            sync = new CollectionSync(collection, controlMessenger, messageFactory);
+            _messageHandler = messageHandler;
+            _sync = new CollectionSync(collection, controlMessenger, messageFactory);
             Collection.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(CollectionManager.SelectedItem))
@@ -43,8 +43,8 @@ namespace CMiX.Core.Prefabs.Managers
             DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
         }
 
-        private readonly MessageCollectionManagerHandler messageHandler;
-        private readonly CollectionSync sync;
+        private readonly MessageCollectionManagerHandler _messageHandler;
+        private readonly CollectionSync _sync;
 
         public CollectionManager Collection { get; set; }
         public IManagerReorderService ManagerReorderService { get; }
@@ -101,7 +101,7 @@ namespace CMiX.Core.Prefabs.Managers
         {
             if (Collection.ManagerData.Items.Contains(control)) return;
 
-            Run(new AddItemCommand(sync, control, ManagerData.Items.Count));
+            Run(new AddItemCommand(_sync, control, ManagerData.Items.Count));
         }
 
         public void ClearAll()
@@ -109,14 +109,14 @@ namespace CMiX.Core.Prefabs.Managers
             var items = Collection.ManagerData.Items.ToList();
             Collection.ClearAll();
             foreach (var item in items)
-                sync.SendRemove(item, -1);
+                _sync.SendRemove(item, -1);
         }
 
         public void AddItem(Type type)
         {
             var item = Collection.ControlFactory.Create(type);
             if (item == null) return;
-            Run(new AddItemCommand(sync, item, ManagerData.Items.Count));
+            Run(new AddItemCommand(_sync, item, ManagerData.Items.Count));
         }
 
         public void AddItem(IControlModel model)
@@ -124,7 +124,7 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.AddItem(model);
             var prefab = Collection.SelectedItem;
             var index = Collection.ManagerData.Items.IndexOf(prefab);
-            sync.SendAdd(prefab, index);
+            _sync.SendAdd(prefab, index);
         }
 
         // Adds a deep copy right after the source, with new ids and the next free name, as one undo step.
@@ -145,7 +145,7 @@ namespace CMiX.Core.Prefabs.Managers
                 finally { name.IsActive = true; }
             }
 
-            Run(new AddItemCommand(sync, copy, index + 1));
+            Run(new AddItemCommand(_sync, copy, index + 1));
             return copy;
         }
 
@@ -156,7 +156,7 @@ namespace CMiX.Core.Prefabs.Managers
             {
                 var item = Collection.ControlFactory.Create(type);
                 if (item == null) return;
-                Run(new AddItemCommand(sync, item, ManagerData.Items.Count));
+                Run(new AddItemCommand(_sync, item, ManagerData.Items.Count));
                 if (item is IAssetTextureSource source)
                     source.AssetSelector.SetAssetFromPath(filePath);
             }
@@ -189,7 +189,7 @@ namespace CMiX.Core.Prefabs.Managers
             var replacement = Collection.ControlFactory.Create(control.GetType());
             if (replacement == null) return;
 
-            var command = new ReplaceItemCommand(sync, control, replacement, index);
+            var command = new ReplaceItemCommand(_sync, control, replacement, index);
             command.Execute();
             UndoManager?.Push(command);
         }
@@ -223,13 +223,13 @@ namespace CMiX.Core.Prefabs.Managers
             var oldIndex = items.IndexOf(item);
             if (oldIndex < 0 || oldIndex == newIndex || newIndex < 0 || newIndex >= items.Count) return;
 
-            Run(new MoveItemCommand(sync, oldIndex, newIndex));
+            Run(new MoveItemCommand(_sync, oldIndex, newIndex));
         }
 
         private void OnMove(int oldIndex, int newIndex)
         {
-            sync.SendMove(oldIndex, newIndex);
-            UndoManager?.Push(new MoveItemCommand(sync, oldIndex, newIndex));
+            _sync.SendMove(oldIndex, newIndex);
+            UndoManager?.Push(new MoveItemCommand(_sync, oldIndex, newIndex));
         }
 
         private void Run(IUndoCommand command)
@@ -243,9 +243,9 @@ namespace CMiX.Core.Prefabs.Managers
             var previousItem = Collection.SelectedItem;
             var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
             Collection.RemoveSelectedItem();
-            sync.SendRemoveSelected();
+            _sync.SendRemoveSelected();
             if (previousIndex < 0) return;
-            UndoManager?.Push(new RemoveSelectedItemCommand(sync, previousItem, previousIndex));
+            UndoManager?.Push(new RemoveSelectedItemCommand(_sync, previousItem, previousIndex));
         }
 
         public void SelectedItemChanged(int index)
@@ -254,9 +254,9 @@ namespace CMiX.Core.Prefabs.Managers
             var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
             Collection.SelectedItemChanged(index);
             if (ReferenceEquals(previousItem, Collection.SelectedItem)) return;
-            sync.SendSelect(Collection.SelectedItem, index);
+            _sync.SendSelect(Collection.SelectedItem, index);
             if (previousItem == null) return;
-            UndoManager?.Push(new SelectItemCommand(sync, previousItem, previousIndex, index));
+            UndoManager?.Push(new SelectItemCommand(_sync, previousItem, previousIndex, index));
         }
 
         public void LoadItem(IControlModel controlModel) => Collection.LoadItem(controlModel);
@@ -265,7 +265,7 @@ namespace CMiX.Core.Prefabs.Managers
         {
             if (message is not IMessageManager || ManagerData.ID != message.ID)
                 return;
-            ReceiveWithoutEcho(() => messageHandler.Handle(Collection, message));
+            ReceiveWithoutEcho(() => _messageHandler.Handle(Collection, message));
         }
 
         public override IControlModel ToModel() => new PrefabManagerModel
