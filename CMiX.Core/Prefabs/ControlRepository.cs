@@ -10,11 +10,10 @@ using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Prefabs.Managers;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Prefabs
 {
-    public class ControlRepository : ObservableObject
+    public class ControlRepository
     {
         private readonly Dictionary<Guid, HashSet<CollectionManager>> _collectionManagers = new();
 
