@@ -23,9 +23,8 @@ namespace CMiX.Core.Undo
 
         public void Execute()
         {
-            _index = _sync.Collection.ManagerData.Items.IndexOf(_item);
-            var (_, newIndex) = _sync.Collection.DeleteItem(_item);
-            _sync.SendRemove(_item, newIndex);
+            _index = _sync.Collection.DeleteItem(_item);
+            _sync.SendRemove(_item, _sync.Collection.ManagerData.SelectedIndex);
         }
 
         public void Undo()

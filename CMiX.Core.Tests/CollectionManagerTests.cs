@@ -60,7 +60,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DeleteItem_AbsentControl_ReturnsNullAndNegativeOne()
+        public void DeleteItem_AbsentControl_ReturnsNegativeOne()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 1, out _);
@@ -68,22 +68,20 @@ namespace CMiX.Core.Tests
             var foreignControl = provider.GetRequiredService<ControlFactory>().Create(typeof(TouchBlob));
             otherManager.InsertItem(foreignControl, 0);
 
-            var (removed, index) = manager.DeleteItem(foreignControl);
+            var index = manager.DeleteItem(foreignControl);
 
-            Assert.Null(removed);
             Assert.Equal(-1, index);
             Assert.Single(manager.ManagerData.Items);
         }
 
         [Fact]
-        public void DeleteItem_NullControl_ReturnsNullAndNegativeOne()
+        public void DeleteItem_NullControl_ReturnsNegativeOne()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 1, out _);
 
-            var (removed, index) = manager.DeleteItem(null);
+            var index = manager.DeleteItem(null);
 
-            Assert.Null(removed);
             Assert.Equal(-1, index);
         }
 
