@@ -1,11 +1,8 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using CMiX.Core.Networking;
-using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Prefabs.Messages;
 
 namespace CMiX.Core.Undo
 {
@@ -14,45 +11,32 @@ namespace CMiX.Core.Undo
     // drops it, which is the only point where the removal becomes permanent.
     public class RemoveItemCommand : IUndoCommand, IDisposable
     {
-        private readonly CollectionManager _collection;
-        private readonly ControlMessenger _messenger;
-        private readonly MessageFactory _messageFactory;
+        private readonly CollectionSync _sync;
         private readonly IControl _item;
-        private readonly int _index;
-        private readonly int _newIndex;
+        private int _index;
 
-        public RemoveItemCommand(CollectionManager collection,
-                                 ControlMessenger messenger,
-                                 MessageFactory messageFactory,
-                                 IControl item,
-                                 int index,
-                                 int newIndex)
+        public RemoveItemCommand(CollectionSync sync, IControl item)
         {
-            _collection = collection;
-            _messenger = messenger;
-            _messageFactory = messageFactory;
+            _sync = sync;
             _item = item;
-            _index = index;
-            _newIndex = newIndex;
         }
 
         public void Execute()
         {
-            _collection.DeleteItem(_item);
-            _messenger.SendMessage(_messageFactory.CreateMessage<MessageRemoveItem>(
-                _collection.ManagerData.ID, _item, _newIndex));
+            _index = _sync.Collection.ManagerData.Items.IndexOf(_item);
+            var (_, newIndex) = _sync.Collection.DeleteItem(_item);
+            _sync.SendRemove(_item, newIndex);
         }
 
         public void Undo()
         {
-            _collection.InsertItem(_item, _index);
-            _messenger.SendMessage(_messageFactory.CreateMessage<MessageAddItem>(
-                _collection.ManagerData.ID, _item, _index));
+            _sync.Collection.InsertItem(_item, _index);
+            _sync.SendAdd(_item, _index);
         }
 
         public void Dispose()
         {
-            OwnedControl.DisposeIfOrphaned(_collection.ControlRepository, _item);
+            OwnedControl.DisposeIfOrphaned(_sync.Collection.ControlRepository, _item);
         }
     }
 }

@@ -192,12 +192,8 @@ namespace CMiX.Core.Prefabs.Managers
 
         private void DeleteFrom(CollectionManager collectionManager, IControl control)
         {
-            var index = collectionManager.ManagerData.Items.IndexOf(control);
-            var (removed, newIndex) = collectionManager.DeleteItem(control);
-            if (removed == null) return;
-            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(collectionManager.ManagerData.ID, removed, newIndex));
-            // newIndex is -1 after the last item is deleted; the undo entry is still pushed.
-            UndoManager?.Push(new RemoveItemCommand(collectionManager, ControlMessenger, MessageFactory, control, index, newIndex));
+            if (!collectionManager.ManagerData.Items.Contains(control)) return;
+            Run(new RemoveItemCommand(new CollectionSync(collectionManager, ControlMessenger, MessageFactory), control));
         }
 
         // Swaps in a fresh instance at the same position as one undoable remove and add.
