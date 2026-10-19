@@ -24,7 +24,6 @@ namespace CMiX.Core.Prefabs
 
         private readonly List<(Type Type, Action<IControl> Action)> typeToAddAction;
         private readonly List<(Type Type, Action<IControl> Action)> typeToRemoveAction;
-        private readonly Dictionary<Guid, Action<IControl>> _deleters = new();
 
         public ControlRepository()
         {
@@ -161,30 +160,6 @@ namespace CMiX.Core.Prefabs
             control != null && _collectionManagers.TryGetValue(control.ID, out var collectionManagers)
                 ? collectionManagers.ToList()
                 : new List<CollectionManager>();
-
-        public void RegisterDeleter(Guid managerId, Action<IControl> deleter)
-        {
-            _deleters[managerId] = deleter;
-        }
-
-        public void UnregisterDeleter(Guid managerId, Action<IControl> deleter)
-        {
-            if (deleter == null) return;
-            if (_deleters.TryGetValue(managerId, out var registered) && registered.Equals(deleter))
-                _deleters.Remove(managerId);
-        }
-
-        internal int DeleterCount => _deleters.Count;
-
-        public void DeleteEverywhere(IControl control)
-        {
-            if (control == null) return;
-            foreach (var collectionManager in CollectionManagersHolding(control))
-            {
-                if (_deleters.TryGetValue(collectionManager.ManagerData.ID, out var deleter))
-                    deleter(control);
-            }
-        }
 
         private void AddToSpecificRepo(IControl control)
         {

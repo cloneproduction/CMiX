@@ -1,6 +1,7 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -25,18 +26,24 @@ namespace CMiX.Core.Tests
             composition.LayerManager.AddItem(typeof(Layer));
             var layer = (Layer)composition.LayerManager.SelectedItem;
 
+            var heldBeforeTheQuad = RepositoryHolding.CollectionManagerCount(repository);
+
             layer.ModelEntityManager.AddItem(typeof(FullscreenQuad));
             var quad = (FullscreenQuad)layer.ModelEntityManager.SelectedItem;
+            quad.Texture.DiffuseTexture.TextureManager.AddItem(typeof(CheckerBoard));
+            quad.Texture.MaskTexture.TextureManager.AddItem(typeof(CheckerBoard));
+            var textures = quad.Texture.DiffuseTexture.TextureManager.ManagerData.Items
+                .Concat(quad.Texture.MaskTexture.TextureManager.ManagerData.Items)
+                .ToList();
 
-            var deleterCountBeforeDelete = repository.DeleterCount;
+            Assert.True(RepositoryHolding.CollectionManagerCount(repository) > heldBeforeTheQuad);
 
             layer.ModelEntityManager.DeleteItem(quad);
             undoManager.Clear();
 
             Assert.Null(repository.GetControl(quad.ID));
-            // The quad's two texture slot managers, diffuse and mask, are disposed along with it,
-            // each unregistering its own deleter.
-            Assert.Equal(deleterCountBeforeDelete - 2, repository.DeleterCount);
+            Assert.All(textures, texture => Assert.Null(repository.GetControl(texture.ID)));
+            Assert.Equal(heldBeforeTheQuad, RepositoryHolding.CollectionManagerCount(repository));
         }
     }
 }

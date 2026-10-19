@@ -40,9 +40,6 @@ namespace CMiX.Core.Prefabs.Managers
             ResetItemCommand = new RelayCommand<IControl>(ResetItem);
             ManagerReorderService = reorderServiceFactory?.Invoke(Collection, OnMove);
             DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
-
-            // Registered under the constructor ID; RegisterDeleter runs again when the real ID is set.
-            RegisterDeleter();
         }
 
         private readonly MessageCollectionManagerHandler messageHandler;
@@ -52,10 +49,6 @@ namespace CMiX.Core.Prefabs.Managers
 
         [ObservableProperty]
         private bool isExpanded = false;
-
-        // The ID the deleter is registered under; ManagerData.ID changes after construction.
-        private Guid _registeredDeleterId;
-        private bool _hasRegisteredDeleter;
 
         public ManagerData ManagerData => Collection.ManagerData;
 
@@ -222,28 +215,11 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(command);
         }
 
-        // Registers DeleteItem under the current ManagerData.ID, replacing any entry under the previous ID.
-        public void RegisterDeleter()
-        {
-            UnregisterDeleter();
-            _registeredDeleterId = ManagerData.ID;
-            _hasRegisteredDeleter = true;
-            Collection.ControlRepository.RegisterDeleter(_registeredDeleterId, DeleteItem);
-        }
-
-        public void UnregisterDeleter()
-        {
-            if (!_hasRegisteredDeleter) return;
-            _hasRegisteredDeleter = false;
-            Collection.ControlRepository.UnregisterDeleter(_registeredDeleterId, DeleteItem);
-        }
-
         // Ends the manager's lifetime; called from the Dispose of the owning control.
         public void Dispose()
         {
             Collection.ManagerData.Items.CollectionChanged -= OnItemsChanged;
             ClearAll();
-            UnregisterDeleter();
         }
 
         private void DeleteEverywhere(IControl control)
@@ -329,8 +305,6 @@ namespace CMiX.Core.Prefabs.Managers
             var m = (PrefabManagerModel)model;
             ManagerData.ID = m.ManagerData.ID;
             ManagerData.SelectedIndex = m.ManagerData.SelectedIndex;
-            // ControlFactory.Create also sets the ID through FromModel, so the deleter is registered again.
-            RegisterDeleter();
         }
     }
 }

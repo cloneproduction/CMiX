@@ -1,4 +1,4 @@
-﻿using CMiX.Core.Compositing;
+using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
@@ -9,27 +9,43 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Every manager registers a deleter that captures the manager, its collection and its items,
-    // so an entry that outlives its manager pins the whole graph it was holding.
-    public class DeleterRegistryTests
+    public class CollectionManagerHoldingTests
     {
         [Fact]
-        public void RegisterDeleter_AfterAnIdReassignment_LeavesNoEntryUnderTheOldId()
+        public void ARemovedControl_IsNoLongerHeldByThatCollectionManager()
         {
             var provider = TestServiceProviderFactory.Create();
             var repository = provider.GetRequiredService<ControlRepository>();
             var manager = provider.GetRequiredService<PrefabManager>();
 
-            var countAfterConstruction = repository.DeleterCount;
+            manager.AddItem(typeof(CheckerBoard));
+            var texture = manager.ManagerData.Items[0];
 
-            manager.ManagerData.ID = Guid.NewGuid();
-            manager.RegisterDeleter();
+            Assert.Same(manager.Collection, Assert.Single(repository.CollectionManagersHolding(texture)));
 
-            Assert.Equal(countAfterConstruction, repository.DeleterCount);
+            manager.DeleteItem(texture);
+
+            Assert.Empty(repository.CollectionManagersHolding(texture));
         }
 
         [Fact]
-        public void DeletingLayersRepeatedly_DoesNotGrowTheDeleterRegistry()
+        public void ADisposedManager_ReleasesEveryControlItHeld()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var manager = provider.GetRequiredService<PrefabManager>();
+            manager.AddItem(typeof(CheckerBoard));
+            manager.AddItem(typeof(CheckerBoard));
+            var items = manager.ManagerData.Items.ToList();
+
+            manager.Dispose();
+
+            Assert.All(items, item => Assert.Empty(repository.CollectionManagersHolding(item)));
+            Assert.Equal(0, RepositoryHolding.CollectionManagerCount(repository));
+        }
+
+        [Fact]
+        public void DeletingLayersRepeatedly_DoesNotGrowTheCollectionManagersTheRepositoryHolds()
         {
             var provider = TestServiceProviderFactory.Create();
             var repository = provider.GetRequiredService<ControlRepository>();
@@ -40,16 +56,16 @@ namespace CMiX.Core.Tests
             var composition = (Composition)compositionManager.SelectedItem;
 
             AddAndDropALayer(composition, undoManager);
-            var baseline = repository.DeleterCount;
+            var baseline = RepositoryHolding.CollectionManagerCount(repository);
 
             for (int i = 0; i < 5; i++)
                 AddAndDropALayer(composition, undoManager);
 
-            Assert.Equal(baseline, repository.DeleterCount);
+            Assert.Equal(baseline, RepositoryHolding.CollectionManagerCount(repository));
         }
 
         [Fact]
-        public void DroppingTheUndoEntryOfADeletedLayer_UnregistersItsNestedManagers()
+        public void DroppingTheUndoEntryOfADeletedLayer_ReleasesItsNestedManagers()
         {
             var provider = TestServiceProviderFactory.Create();
             var repository = provider.GetRequiredService<ControlRepository>();
@@ -59,26 +75,22 @@ namespace CMiX.Core.Tests
             compositionManager.AddItem(typeof(Composition));
             var composition = (Composition)compositionManager.SelectedItem;
 
-            var beforeTheLayer = repository.DeleterCount;
+            var beforeTheLayer = RepositoryHolding.CollectionManagerCount(repository);
             composition.LayerManager.AddItem(typeof(Layer));
             var layer = (Layer)composition.LayerManager.SelectedItem;
+            layer.ModelEntityManager.AddItem(typeof(Entity));
 
-            Assert.True(repository.DeleterCount > beforeTheLayer);
+            Assert.True(RepositoryHolding.CollectionManagerCount(repository) > beforeTheLayer);
 
             composition.LayerManager.DeleteItem(layer);
 
-            // The undo entry still holds the layer, so its managers stay registered until it drops.
-            Assert.True(repository.DeleterCount > beforeTheLayer);
+            Assert.True(RepositoryHolding.CollectionManagerCount(repository) > beforeTheLayer);
 
             undoManager.Clear();
 
-            Assert.Equal(beforeTheLayer, repository.DeleterCount);
+            Assert.Equal(beforeTheLayer, RepositoryHolding.CollectionManagerCount(repository));
         }
 
-        // A texture source owns a manager of filter modifiers the same way an entity owns a manager
-        // of its modifiers, but it used to be the one owner of a nested manager that was not
-        // disposable, so tearing a texture down left every filter it held in the repository and
-        // every one of its managers in the deleter registry.
         [Fact]
         public void DroppingATexture_TakesItsFilterModifiersWithIt()
         {
@@ -87,7 +99,7 @@ namespace CMiX.Core.Tests
             var undoManager = provider.GetRequiredService<UndoManager>();
             var textureManager = provider.GetRequiredService<PrefabManager>();
 
-            var beforeTheTexture = repository.DeleterCount;
+            var beforeTheTexture = RepositoryHolding.CollectionManagerCount(repository);
 
             textureManager.AddItem(typeof(CheckerBoard));
             var texture = (CheckerBoard)textureManager.SelectedItem;
@@ -95,18 +107,17 @@ namespace CMiX.Core.Tests
             var filter = (Blur)texture.TextureModifierManager.SelectedItem;
 
             Assert.Same(filter, repository.GetControl(filter.ID));
-            Assert.True(repository.DeleterCount > beforeTheTexture);
+            Assert.True(RepositoryHolding.CollectionManagerCount(repository) > beforeTheTexture);
 
             textureManager.DeleteItem(texture);
 
-            // The undo entry still owns the texture, so nothing is torn down until it drops.
             Assert.Same(filter, repository.GetControl(filter.ID));
 
             undoManager.Clear();
 
             Assert.Null(repository.GetControl(texture.ID));
             Assert.Null(repository.GetControl(filter.ID));
-            Assert.Equal(beforeTheTexture, repository.DeleterCount);
+            Assert.Equal(beforeTheTexture, RepositoryHolding.CollectionManagerCount(repository));
         }
 
         private static void AddAndDropALayer(Composition composition, UndoManager undoManager)
@@ -114,7 +125,6 @@ namespace CMiX.Core.Tests
             composition.LayerManager.AddItem(typeof(Layer));
             var layer = (Layer)composition.LayerManager.SelectedItem;
             layer.ModelEntityManager.AddItem(typeof(Entity));
-
             composition.LayerManager.DeleteItem(layer);
             undoManager.Clear();
         }
