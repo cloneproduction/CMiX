@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 new MainWindowDialogManager(new EmptyViewLocator(), new DialogFactory().AddMessageBox()),
                 viewModelFactory: type => provider.GetService(type)));
             serviceCollection.AddSingleton<ManagerReorderServiceFactory>(
-                _ => (collection, onMove) => new ManagerReorderService(collection, onMove));
+                _ => (data, move) => new ManagerReorderService(data, move));
 
             return serviceCollection.BuildServiceProvider();
         }

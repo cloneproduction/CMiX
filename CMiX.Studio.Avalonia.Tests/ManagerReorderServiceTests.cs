@@ -33,6 +33,14 @@ namespace CMiX.Studio.Avalonia.Tests
             return manager;
         }
 
+        // Gives the service the same move action that PrefabManager gives it: the list moves, and the move is recorded.
+        private static ManagerReorderService ServiceFor(CollectionManager manager, List<(int oldIndex, int newIndex)>? moves = null) =>
+            new(manager.ManagerData, (oldIndex, newIndex) =>
+            {
+                moves?.Add((oldIndex, newIndex));
+                manager.ManagerData.Move(oldIndex, newIndex);
+            });
+
         // The order the list must end up in, expressed as original indices. Insert index i means
         // insert in front of the item that currently sits at i, and ItemCount means append.
         private static List<int> ExpectedOrder(int sourceIndex, int insertIndex)
@@ -63,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void CanDrop_RejectsOnlyTheTwoNoOpInsertPositions()
         {
             var manager = CreateManagerWithItems(out _);
-            var service = new ManagerReorderService(manager, (_, _) => { });
+            var service = ServiceFor(manager);
 
             var expected = new List<string>();
             var actual = new List<string>();
@@ -86,7 +94,7 @@ namespace CMiX.Studio.Avalonia.Tests
             foreach (var (sourceIndex, insertIndex) in AllReachablePairs())
             {
                 var manager = CreateManagerWithItems(out var items);
-                var service = new ManagerReorderService(manager, (_, _) => { });
+                var service = ServiceFor(manager);
                 if (!service.CanDrop(sourceIndex, insertIndex))
                     continue;
 
@@ -109,7 +117,7 @@ namespace CMiX.Studio.Avalonia.Tests
             {
                 var manager = CreateManagerWithItems(out var items);
                 var moves = new List<(int oldIndex, int newIndex)>();
-                var service = new ManagerReorderService(manager, (oldIndex, newIndex) => moves.Add((oldIndex, newIndex)));
+                var service = ServiceFor(manager, moves);
                 if (!service.CanDrop(sourceIndex, insertIndex))
                     continue;
 
@@ -130,7 +138,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var manager = CreateManagerWithItems(out var items);
             var moves = new List<(int oldIndex, int newIndex)>();
-            var service = new ManagerReorderService(manager, (oldIndex, newIndex) => moves.Add((oldIndex, newIndex)));
+            var service = ServiceFor(manager, moves);
 
             service.Dropped(4, 3);
 
@@ -144,7 +152,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var manager = CreateManagerWithItems(out var items);
             var moves = new List<(int oldIndex, int newIndex)>();
-            var service = new ManagerReorderService(manager, (oldIndex, newIndex) => moves.Add((oldIndex, newIndex)));
+            var service = ServiceFor(manager, moves);
 
             service.Dropped(0, ItemCount);
 
@@ -156,7 +164,8 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dropped_ClearsTheDragHandleFlag()
         {
             var manager = CreateManagerWithItems(out _);
-            var service = new ManagerReorderService(manager, (_, _) => { }) { DragHandleIsPressed = true };
+            var service = ServiceFor(manager);
+            service.DragHandleIsPressed = true;
 
             service.Dropped(0, 2);
 

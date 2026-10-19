@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia
                     new MainWindowDialogManager(new Services.EmptyViewLocator(), new DialogFactory().AddMessageBox()),
                     viewModelFactory: type => provider.GetService(type)));
                 serviceCollection.AddSingleton<ManagerReorderServiceFactory>(
-                    _ => (collection, onMove) => new ManagerReorderService(collection, onMove));
+                    _ => (data, move) => new ManagerReorderService(data, move));
 
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();

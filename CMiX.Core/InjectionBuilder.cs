@@ -52,7 +52,7 @@ namespace CMiX.Core.DependencyInjection
         public void ConfigureVvvvServices(IServiceCollection services)
         {
             services.AddSingleton<ManagerReorderServiceFactory>(
-                _ => (collection, onMove) => null);
+                _ => (data, move) => null);
         }
 
         public void ConfigureStudioTransport(IServiceProvider provider, Action<Action> dispatcher, SyncOptions options)

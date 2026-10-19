@@ -40,7 +40,7 @@ namespace CMiX.Core.Prefabs.Managers
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
             ResetItemCommand = new RelayCommand<IControl>(ResetItem);
-            ManagerReorderService = reorderServiceFactory?.Invoke(Collection, OnMove);
+            ManagerReorderService = reorderServiceFactory?.Invoke(ManagerData, MoveItemAt);
             DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
         }
 
@@ -219,19 +219,15 @@ namespace CMiX.Core.Prefabs.Managers
         }
 
         // Moves an item to a new index as one undoable step that peers also see. Does nothing for a bad index.
-        public void MoveItemTo(IControl item, int newIndex)
+        public void MoveItemTo(IControl item, int newIndex) =>
+            MoveItemAt(ManagerData.Items.IndexOf(item), newIndex);
+
+        public void MoveItemAt(int oldIndex, int newIndex)
         {
-            var items = Collection.ManagerData.Items;
-            var oldIndex = items.IndexOf(item);
-            if (oldIndex < 0 || oldIndex == newIndex || newIndex < 0 || newIndex >= items.Count) return;
+            var count = ManagerData.Items.Count;
+            if (oldIndex < 0 || oldIndex == newIndex || newIndex < 0 || newIndex >= count) return;
 
             Run(new MoveItemCommand(_sync, oldIndex, newIndex));
-        }
-
-        private void OnMove(int oldIndex, int newIndex)
-        {
-            _sync.SendMove(oldIndex, newIndex);
-            UndoManager?.Push(new MoveItemCommand(_sync, oldIndex, newIndex));
         }
 
         private void Run(IUndoCommand command)

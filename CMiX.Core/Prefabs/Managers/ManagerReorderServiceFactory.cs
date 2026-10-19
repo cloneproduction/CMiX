@@ -4,5 +4,5 @@
 namespace CMiX.Core.Prefabs.Managers
 {
     public delegate IManagerReorderService ManagerReorderServiceFactory(
-        CollectionManager collectionManager, Action<int, int> onMove);
+        ManagerData data, Action<int, int> move);
 }
