@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
@@ -9,6 +10,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Views;
 using Composition = CMiX.Core.Compositing.Composition;
 using Layer = CMiX.Core.Compositing.Layer;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.String;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -53,13 +55,51 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Menu_ListsTheRowsInOrder()
+        public void Menu_StartsWithTheNameOfTheItemAndALine_ThenListsTheRows()
+        {
+            var (manager, rows, _) = Show(1);
+            var name = ((Layer)manager.ManagerData.Items[0]).PrefabService.Name.Value;
+
+            OpenMenu(rows[0]);
+            var headers = rows[0].ContextMenu!.Items.OfType<MenuItem>().Select(row => row.Header).ToList();
+
+            Assert.Equal(
+                new object[] { name, "-", "Duplicate", "Rename", "-", "Move Up", "Move Down", "Move To Top", "Move To Bottom", "-", "Delete" },
+                headers);
+            Assert.False(Row(rows[0], name).IsEnabled);
+        }
+
+        [AvaloniaFact]
+        public void Menu_UsesTheSharedPopupTheme()
         {
             var (_, rows, _) = Show(1);
 
-            var headers = rows[0].ContextMenu!.Items.OfType<MenuItem>().Select(row => row.Header).ToList();
+            Assert.Same(Application.Current!.FindResource("ContextMenuDefault"), rows[0].ContextMenu!.Theme);
+        }
 
-            Assert.Equal(new object[] { "Duplicate", "Rename", "Move Up", "Move Down", "Move To Top", "Move To Bottom", "Delete" }, headers);
+        [AvaloniaFact]
+        public void Title_FollowsARename()
+        {
+            var (manager, rows, _) = Show(1);
+            ((Layer)manager.ManagerData.Items[0]).PrefabService.Name.Value = "Hero";
+
+            OpenMenu(rows[0]);
+
+            Assert.Equal("Hero", rows[0].ContextMenu!.Items.OfType<MenuItem>().First().Header);
+        }
+
+        [AvaloniaFact]
+        public void TheFirstTime_DuplicateIsUnderThePointer_AndThenTheRowUsedLast()
+        {
+            var (_, rows, _) = Show();
+            OpenMenu(rows[0]);
+            Assert.True(MenuAnchor.GetIsAnchor(Row(rows[0], "Duplicate")));
+
+            Click(rows[0], "Move To Bottom");
+            OpenMenu(rows[1]);
+
+            Assert.True(MenuAnchor.GetIsAnchor(Row(rows[1], "Move To Bottom")));
+            Assert.False(MenuAnchor.GetIsAnchor(Row(rows[1], "Duplicate")));
         }
 
         [AvaloniaFact]

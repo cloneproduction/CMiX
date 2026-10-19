@@ -9,7 +9,9 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -18,7 +20,8 @@ namespace CMiX.Studio.Avalonia.Views
         public ComposableManagerItem()
         {
             InitializeComponent();
-            ContextMenu = BuildContextMenu();
+            // The menu is built once the row is in the window, because the theme of the menu comes from the resources of the app.
+            AttachedToVisualTree += (_, _) => ContextMenu ??= BuildContextMenu();
         }
 
         private MenuItem _moveUp = null!;
@@ -26,45 +29,42 @@ namespace CMiX.Studio.Avalonia.Views
         private MenuItem _moveToTop = null!;
         private MenuItem _moveToBottom = null!;
 
-        // The menu of a row. It acts on the item of the row, not on the selected item.
+        // The ids of the rows (see MenuAnchor.Id). The labels can change without touching them.
+        private const string DuplicateId = "composable.duplicate";
+        private const string RenameId = "composable.rename";
+        private const string MoveUpId = "composable.move-up";
+        private const string MoveDownId = "composable.move-down";
+        private const string MoveToTopId = "composable.move-to-top";
+        private const string MoveToBottomId = "composable.move-to-bottom";
+        private const string DeleteId = "composable.delete";
+
+        // The menu of a row, in the look of the other menus (see TitledContextMenu). It starts with the name
+        // of the item and acts on the item of the row, not on the selected item.
         // The list box that holds the row has the manager of the list as its data context.
         private ContextMenu BuildContextMenu()
         {
-            MenuItem Row(string header, Action<PrefabManager, IControl> action, bool deferred = true)
-            {
-                var row = new MenuItem { Header = header };
-                row.Click += (_, _) =>
+            var builder = new TitledContextMenu(this, () => (DataContext as IPrefab)?.PrefabService.Name.Value?.Trim() ?? string.Empty, DuplicateId);
+
+            MenuItem Row(string id, string header, Action<PrefabManager, IControl> action) =>
+                builder.Action(id, header, () =>
                 {
                     if (Target() is not { } target) return;
                     // Posted so the popup closes before the bound list changes.
-                    if (deferred) Dispatcher.UIThread.Post(() => action(target.Manager, target.Item));
-                    else action(target.Manager, target.Item);
-                };
-                return row;
-            }
+                    Dispatcher.UIThread.Post(() => action(target.Manager, target.Item));
+                });
 
-            var duplicate = Row("Duplicate", (manager, item) => manager.DuplicateItem(item));
-            var rename = Row("Rename", (_, _) => editableTextBox.IsEditing = true);
-            _moveUp = Row("Move Up", (manager, item) => MoveBy(manager, item, -1));
-            _moveDown = Row("Move Down", (manager, item) => MoveBy(manager, item, 1));
-            _moveToTop = Row("Move To Top", (manager, item) => manager.MoveItemTo(item, 0));
-            _moveToBottom = Row("Move To Bottom", (manager, item) => manager.MoveItemTo(item, manager.ManagerData.Items.Count - 1));
-            var delete = Row("Delete", (manager, item) => manager.DeleteItem(item));
+            Row(DuplicateId, "Duplicate", (manager, item) => manager.DuplicateItem(item));
+            Row(RenameId, "Rename", (_, _) => editableTextBox.IsEditing = true);
+            builder.Line();
+            _moveUp = Row(MoveUpId, "Move Up", (manager, item) => MoveBy(manager, item, -1));
+            _moveDown = Row(MoveDownId, "Move Down", (manager, item) => MoveBy(manager, item, 1));
+            _moveToTop = Row(MoveToTopId, "Move To Top", (manager, item) => manager.MoveItemTo(item, 0));
+            _moveToBottom = Row(MoveToBottomId, "Move To Bottom", (manager, item) => manager.MoveItemTo(item, manager.ManagerData.Items.Count - 1));
+            builder.Line();
+            Row(DeleteId, "Delete", (manager, item) => manager.DeleteItem(item));
 
-            var menu = new ContextMenu
-            {
-                ItemsSource = new object[]
-                {
-                    duplicate, rename,
-                    new Separator(),
-                    _moveUp, _moveDown, _moveToTop, _moveToBottom,
-                    new Separator(),
-                    delete
-                }
-            };
+            var menu = builder.Build();
             menu.Opening += (_, _) => RefreshMoveRows();
-            if (this.TryFindResource("ContextMenuDefault", out var theme) && theme is global::Avalonia.Styling.ControlTheme controlTheme)
-                menu.Theme = controlTheme;
             return menu;
         }
 
