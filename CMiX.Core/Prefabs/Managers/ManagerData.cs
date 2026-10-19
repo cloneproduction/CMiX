@@ -36,14 +36,17 @@ namespace CMiX.Core.Prefabs.Managers
             SelectedItem = control;
         }
 
-        // Returns the index the control had, or -1 when it is not in the list. The selection moves to the item before it.
+        // Returns the index the control had, or -1 when it is not in the list.
+        // The selection moves to the item before it only when the removed item was selected.
         public int Remove(IControl control)
         {
             var index = Items.IndexOf(control);
             if (index < 0) return -1;
 
+            var wasSelected = ReferenceEquals(control, SelectedItem);
             Items.RemoveAt(index);
-            SelectedItem = Items.Count == 0 ? null : Items[index == 0 ? 0 : index - 1];
+            if (wasSelected)
+                SelectedItem = Items.Count == 0 ? null : Items[index == 0 ? 0 : index - 1];
             return index;
         }
 

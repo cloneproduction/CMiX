@@ -47,15 +47,43 @@ namespace CMiX.Core.Tests
         [InlineData(0, 0)]
         [InlineData(1, 0)]
         [InlineData(2, 1)]
-        public void Remove_SelectsTheItemBeforeTheRemovedOne_OrTheNewFirstItem(int removed, int expectedIndex)
+        public void Remove_OfTheSelectedItem_SelectsTheItemBeforeIt_OrTheNewFirstItem(int removed, int expectedIndex)
         {
             var (data, items) = WithItems(3);
+            data.Select(items[removed]);
 
             var index = data.Remove(items[removed]);
 
             Assert.Equal(removed, index);
             Assert.Equal(expectedIndex, data.SelectedIndex);
             Assert.Same(data.Items[expectedIndex], data.SelectedItem);
+        }
+
+        [Theory]
+        [InlineData(2, 0, 1)]
+        [InlineData(2, 1, 1)]
+        [InlineData(0, 2, 0)]
+        [InlineData(1, 0, 0)]
+        public void Remove_OfAnItemThatIsNotSelected_KeepsTheSelectionOnTheSameItem(int selected, int removed, int expectedIndex)
+        {
+            var (data, items) = WithItems(3);
+            data.Select(items[selected]);
+
+            data.Remove(items[removed]);
+
+            Assert.Same(items[selected], data.SelectedItem);
+            Assert.Equal(expectedIndex, data.SelectedIndex);
+        }
+
+        [Fact]
+        public void Remove_WhenNothingIsSelected_LeavesNothingSelected()
+        {
+            var (data, items) = WithItems(3);
+            data.ClearSelection();
+
+            data.Remove(items[1]);
+
+            Assert.Null(data.SelectedItem);
         }
 
         [Fact]

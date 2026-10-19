@@ -14,6 +14,7 @@ namespace CMiX.Core.Undo
         private readonly CollectionSync _sync;
         private readonly IControl _item;
         private int _index;
+        private IControl _selectedBefore;
 
         public RemoveItemCommand(CollectionSync sync, IControl item)
         {
@@ -23,14 +24,20 @@ namespace CMiX.Core.Undo
 
         public void Execute()
         {
+            _selectedBefore = _sync.Collection.ManagerData.SelectedItem;
             _index = _sync.Collection.DeleteItem(_item);
             _sync.SendRemove(_item, _sync.Collection.ManagerData.SelectedIndex);
         }
 
         public void Undo()
         {
+            var data = _sync.Collection.ManagerData;
             _sync.Collection.InsertItem(_item, _index);
             _sync.SendAdd(_item, _index);
+
+            if (ReferenceEquals(_selectedBefore, _item)) return;
+            data.Select(_selectedBefore);
+            _sync.SendSelect(_selectedBefore, data.SelectedIndex);
         }
 
         public void Dispose()
