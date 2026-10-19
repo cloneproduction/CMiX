@@ -189,7 +189,7 @@ namespace CMiX.Core.Prefabs.Managers
             var replacement = Collection.ControlFactory.Create(control.GetType());
             if (replacement == null) return;
 
-            var command = new ReplaceItemCommand(Collection, ControlMessenger, MessageFactory, control, replacement, index);
+            var command = new ReplaceItemCommand(sync, control, replacement, index);
             command.Execute();
             UndoManager?.Push(command);
         }
@@ -245,7 +245,7 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.RemoveSelectedItem();
             sync.SendRemoveSelected();
             if (previousIndex < 0) return;
-            UndoManager?.Push(new RemoveSelectedItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex));
+            UndoManager?.Push(new RemoveSelectedItemCommand(sync, previousItem, previousIndex));
         }
 
         public void SelectedItemChanged(int index)
@@ -256,7 +256,7 @@ namespace CMiX.Core.Prefabs.Managers
             if (ReferenceEquals(previousItem, Collection.SelectedItem)) return;
             sync.SendSelect(Collection.SelectedItem, index);
             if (previousItem == null) return;
-            UndoManager?.Push(new SelectItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex, index));
+            UndoManager?.Push(new SelectItemCommand(sync, previousItem, previousIndex, index));
         }
 
         public void LoadItem(IControlModel controlModel) => Collection.LoadItem(controlModel);

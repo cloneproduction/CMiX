@@ -1,11 +1,8 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using CMiX.Core.Networking;
-using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Prefabs.Messages;
 
 namespace CMiX.Core.Undo
 {
@@ -21,23 +18,17 @@ namespace CMiX.Core.Undo
     // does there.
     public class ReplaceItemCommand : IUndoCommand, IDisposable
     {
-        private readonly CollectionManager _collection;
-        private readonly ControlMessenger _messenger;
-        private readonly MessageFactory _messageFactory;
+        private readonly CollectionSync _sync;
         private readonly IControl _previousItem;
         private readonly IControl _newItem;
         private readonly int _index;
 
-        public ReplaceItemCommand(CollectionManager collection,
-                                  ControlMessenger messenger,
-                                  MessageFactory messageFactory,
+        public ReplaceItemCommand(CollectionSync sync,
                                   IControl previousItem,
                                   IControl newItem,
                                   int index)
         {
-            _collection = collection;
-            _messenger = messenger;
-            _messageFactory = messageFactory;
+            _sync = sync;
             _previousItem = previousItem;
             _newItem = newItem;
             _index = index;
@@ -49,25 +40,24 @@ namespace CMiX.Core.Undo
 
         private void Replace(IControl outgoing, IControl incoming)
         {
-            var index = _collection.ManagerData.Items.IndexOf(outgoing);
+            var collection = _sync.Collection;
+            var index = collection.ManagerData.Items.IndexOf(outgoing);
             if (index < 0) index = _index;
 
-            _collection.DeleteItem(outgoing);
-            _messenger.SendMessage(_messageFactory.CreateMessage<MessageRemoveItem>(
-                _collection.ManagerData.ID, outgoing, _collection.ManagerData.SelectedIndex));
+            collection.DeleteItem(outgoing);
+            _sync.SendRemove(outgoing, collection.ManagerData.SelectedIndex);
 
-            if (index > _collection.ManagerData.Items.Count)
-                index = _collection.ManagerData.Items.Count;
+            if (index > collection.ManagerData.Items.Count)
+                index = collection.ManagerData.Items.Count;
 
-            _collection.InsertItem(incoming, index);
-            _messenger.SendMessage(_messageFactory.CreateMessage<MessageAddItem>(
-                _collection.ManagerData.ID, incoming, index));
+            collection.InsertItem(incoming, index);
+            _sync.SendAdd(incoming, index);
         }
 
         public void Dispose()
         {
-            OwnedControl.DisposeIfOrphaned(_collection.ControlRepository, _previousItem);
-            OwnedControl.DisposeIfOrphaned(_collection.ControlRepository, _newItem);
+            OwnedControl.DisposeIfOrphaned(_sync.Collection.ControlRepository, _previousItem);
+            OwnedControl.DisposeIfOrphaned(_sync.Collection.ControlRepository, _newItem);
         }
     }
 }
