@@ -14,6 +14,7 @@ namespace CMiX.Core.Prefabs.Managers
     public partial class PrefabManager : PrefabManagerBase, IDisposable
     {
         public PrefabManager(CollectionManager collection,
+                             ControlFactory controlFactory,
                              MessageCollectionManagerHandler messageHandler,
                              ControlMessenger controlMessenger,
                              MessageFactory messageFactory,
@@ -25,6 +26,7 @@ namespace CMiX.Core.Prefabs.Managers
             ID = collection.ManagerData.ID;
 
             Collection = collection;
+            _controlFactory = controlFactory;
             _messageHandler = messageHandler;
             _sync = new CollectionSync(collection, controlMessenger, messageFactory);
             Collection.PropertyChanged += (s, e) =>
@@ -43,6 +45,7 @@ namespace CMiX.Core.Prefabs.Managers
             DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
         }
 
+        private readonly ControlFactory _controlFactory;
         private readonly MessageCollectionManagerHandler _messageHandler;
         private readonly CollectionSync _sync;
 
@@ -114,7 +117,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(Type type)
         {
-            var item = Collection.ControlFactory.Create(type);
+            var item = _controlFactory.Create(type);
             if (item == null) return;
             Run(new AddItemCommand(_sync, item, ManagerData.Items.Count));
         }
@@ -133,7 +136,7 @@ namespace CMiX.Core.Prefabs.Managers
             var index = Collection.ManagerData.Items.IndexOf(source);
             if (index < 0 || UndoManager?.IsApplying == true) return null;
 
-            var factory = Collection.ControlFactory;
+            var factory = _controlFactory;
             var copy = factory.Create(ControlCloner.CloneWithNewGuids(source.ToModel()));
             if (copy is IPrefab prefab)
             {
@@ -154,7 +157,7 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.BeginCapture();
             try
             {
-                var item = Collection.ControlFactory.Create(type);
+                var item = _controlFactory.Create(type);
                 if (item == null) return;
                 Run(new AddItemCommand(_sync, item, ManagerData.Items.Count));
                 if (item is IAssetTextureSource source)
@@ -186,7 +189,7 @@ namespace CMiX.Core.Prefabs.Managers
             var index = Collection.ManagerData.Items.IndexOf(control);
             if (index < 0) return;
 
-            var replacement = Collection.ControlFactory.Create(control.GetType());
+            var replacement = _controlFactory.Create(control.GetType());
             if (replacement == null) return;
 
             var command = new ReplaceItemCommand(_sync, control, replacement, index);

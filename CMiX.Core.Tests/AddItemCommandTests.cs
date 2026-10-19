@@ -1,4 +1,5 @@
 using CMiX.Core.Compositing;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,7 @@ namespace CMiX.Core.Tests
             layers.AddItem(typeof(Layer));
             var items = layers.ManagerData.Items.ToList();
 
-            var added = layers.Collection.ControlFactory.Create(typeof(Layer));
+            var added = provider.GetRequiredService<ControlFactory>().Create(typeof(Layer));
             var sync = new CollectionSync(layers.Collection, layers.ControlMessenger, layers.MessageFactory);
             var command = new AddItemCommand(sync, added, 1);
 

@@ -14,12 +14,12 @@ namespace CMiX.Core.Prefabs.Managers
         {
             ManagerData = managerData;
             ControlRepository = controlRepository;
-            ControlFactory = controlFactory;
+            _controlFactory = controlFactory;
         }
 
         public ManagerData ManagerData { get; }
         public ControlRepository ControlRepository { get; }
-        public ControlFactory ControlFactory { get; }
+        private readonly ControlFactory _controlFactory;
 
         private IControl _selectedItem;
         public IControl SelectedItem
@@ -56,7 +56,7 @@ namespace CMiX.Core.Prefabs.Managers
         private IControl CreateOrReuse(IControlModel controlModel)
         {
             var existing = controlModel.ID != Guid.Empty ? ControlRepository.GetControl(controlModel.ID) : null;
-            return existing ?? ControlFactory.Create(controlModel);
+            return existing ?? _controlFactory.Create(controlModel);
         }
 
         public void InsertItem(IControl control, int index)
