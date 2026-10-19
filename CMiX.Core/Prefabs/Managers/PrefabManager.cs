@@ -277,6 +277,17 @@ namespace CMiX.Core.Prefabs.Managers
             }
         }
 
+        // Moves an item to a new index as one undoable step that peers also see. Does nothing for a bad index.
+        public void MoveItemTo(IControl item, int newIndex)
+        {
+            var items = Collection.ManagerData.Items;
+            var oldIndex = items.IndexOf(item);
+            if (oldIndex < 0 || oldIndex == newIndex || newIndex < 0 || newIndex >= items.Count) return;
+
+            Collection.MoveItem(oldIndex, newIndex);
+            OnMove(oldIndex, newIndex);
+        }
+
         private void OnMove(int oldIndex, int newIndex)
         {
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageMoveItem>(ManagerData.ID, oldIndex, newIndex));
