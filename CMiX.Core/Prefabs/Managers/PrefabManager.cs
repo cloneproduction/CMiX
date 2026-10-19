@@ -246,14 +246,19 @@ namespace CMiX.Core.Prefabs.Managers
             var oldIndex = items.IndexOf(item);
             if (oldIndex < 0 || oldIndex == newIndex || newIndex < 0 || newIndex >= items.Count) return;
 
-            Collection.MoveItem(oldIndex, newIndex);
-            OnMove(oldIndex, newIndex);
+            Run(new MoveItemCommand(sync, oldIndex, newIndex));
         }
 
         private void OnMove(int oldIndex, int newIndex)
         {
             sync.SendMove(oldIndex, newIndex);
-            UndoManager?.Push(new MoveItemCommand(Collection, ControlMessenger, MessageFactory, oldIndex, newIndex));
+            UndoManager?.Push(new MoveItemCommand(sync, oldIndex, newIndex));
+        }
+
+        private void Run(IUndoCommand command)
+        {
+            command.Execute();
+            UndoManager?.Push(command);
         }
 
         public void RemoveSelectedItem()
