@@ -4,7 +4,6 @@ using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -152,7 +151,8 @@ namespace CMiX.Core.Prefabs.Managers
             return copy;
         }
 
-        public void AddItemFromFilePath(Type type, string filePath)
+        // The add and the action are one undo step.
+        public void AddItem(Type type, Action<IControl> afterAdd)
         {
             UndoManager?.BeginCapture();
             try
@@ -160,8 +160,7 @@ namespace CMiX.Core.Prefabs.Managers
                 var item = _controlFactory.Create(type);
                 if (item == null) return;
                 Run(new AddItemCommand(_sync, item, ManagerData.Items.Count));
-                if (item is IAssetTextureSource source)
-                    source.AssetSelector.SetAssetFromPath(filePath);
+                afterAdd(item);
             }
             finally { UndoManager?.EndCapture(); }
         }

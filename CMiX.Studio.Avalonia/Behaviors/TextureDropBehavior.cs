@@ -44,7 +44,11 @@ namespace CMiX.Studio.Avalonia.Behaviors
                 if (textureType == null)
                     continue;
 
-                PrefabManager.AddItemFromFilePath(textureType, file);
+                PrefabManager.AddItem(textureType, item =>
+                {
+                    if (item is IAssetTextureSource source)
+                        source.AssetSelector.SetAssetFromPath(file);
+                });
             }
         }
     }
