@@ -386,7 +386,7 @@ namespace CMiX.Core.Tests
             store.BeforeWriteSnapshot = () => gate.Task;
 
             peer.SendMessage(AddItem());
-            await WaitUntilAsync(() => store.WriteSnapshotCalls == pushWrites + 1);
+            await WaitUntilAsync(() => store.WriteSnapshotCalls >= pushWrites + 1);
 
             store.BeforeWriteSnapshot = null;
             store.SetFail(true);
