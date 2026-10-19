@@ -60,6 +60,53 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Select_ByTheIDOfAControlOfTheList_SelectsIt()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = CreateManagerWithItems(provider, 3, out var items);
+
+            manager.Select(items[0].ID);
+
+            Assert.Same(items[0], manager.ManagerData.SelectedItem);
+        }
+
+        [Fact]
+        public void Select_ByTheIDOfAControlOfAnotherList_LeavesNothingSelected()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = CreateManagerWithItems(provider, 2, out _);
+            var otherManager = provider.GetRequiredService<CollectionManager>();
+            var foreignControl = provider.GetRequiredService<ControlFactory>().Create(typeof(TouchBlob));
+            otherManager.InsertItem(foreignControl, 0);
+
+            manager.Select(foreignControl.ID);
+
+            Assert.Null(manager.ManagerData.SelectedItem);
+        }
+
+        [Fact]
+        public void Select_ByAnUnknownID_LeavesNothingSelected()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = CreateManagerWithItems(provider, 2, out _);
+
+            manager.Select(Guid.NewGuid());
+
+            Assert.Null(manager.ManagerData.SelectedItem);
+        }
+
+        [Fact]
+        public void Select_ByAnEmptyID_LeavesNothingSelected()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = CreateManagerWithItems(provider, 2, out _);
+
+            manager.Select(Guid.Empty);
+
+            Assert.Null(manager.ManagerData.SelectedItem);
+        }
+
+        [Fact]
         public void DeleteItem_AbsentControl_ReturnsNegativeOne()
         {
             var provider = TestServiceProviderFactory.Create();

@@ -56,6 +56,8 @@ namespace CMiX.Core.Prefabs.Managers
             InsertItem(prefab, Math.Clamp(index, 0, ManagerData.Items.Count));
         }
 
+        public void Select(Guid controlID) => ManagerData.Select(ControlRepository.GetControl(controlID));
+
         public void LoadItem(IControlModel controlModel)
         {
             var prefab = CreateOrReuse(controlModel);
