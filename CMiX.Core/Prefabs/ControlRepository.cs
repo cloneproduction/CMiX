@@ -156,7 +156,7 @@ namespace CMiX.Core.Prefabs
             return _collectionManagers[control.ID].Count > 0;
         }
 
-        public IReadOnlyList<CollectionManager> CollectionManagersHolding(IControl control) =>
+        public IReadOnlyList<CollectionManager> GetCollectionManagers(IControl control) =>
             control != null && _collectionManagers.TryGetValue(control.ID, out var collectionManagers)
                 ? collectionManagers.ToList()
                 : new List<CollectionManager>();

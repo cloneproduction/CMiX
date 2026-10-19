@@ -228,7 +228,7 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.BeginCapture();
             try
             {
-                foreach (var collectionManager in Collection.ControlRepository.CollectionManagersHolding(control))
+                foreach (var collectionManager in Collection.ControlRepository.GetCollectionManagers(control))
                     DeleteFrom(collectionManager, control);
             }
             finally

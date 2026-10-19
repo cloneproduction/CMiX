@@ -21,11 +21,11 @@ namespace CMiX.Core.Tests
             manager.AddItem(typeof(CheckerBoard));
             var texture = manager.ManagerData.Items[0];
 
-            Assert.Same(manager.Collection, Assert.Single(repository.CollectionManagersHolding(texture)));
+            Assert.Same(manager.Collection, Assert.Single(repository.GetCollectionManagers(texture)));
 
             manager.DeleteItem(texture);
 
-            Assert.Empty(repository.CollectionManagersHolding(texture));
+            Assert.Empty(repository.GetCollectionManagers(texture));
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace CMiX.Core.Tests
 
             manager.Dispose();
 
-            Assert.All(items, item => Assert.Empty(repository.CollectionManagersHolding(item)));
+            Assert.All(items, item => Assert.Empty(repository.GetCollectionManagers(item)));
             Assert.Equal(0, RepositoryHolding.CollectionManagerCount(repository));
         }
 
