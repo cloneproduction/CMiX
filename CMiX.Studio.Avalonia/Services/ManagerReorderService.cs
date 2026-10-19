@@ -63,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Services
 
         private void Move(int sourceIndex, int targetIndex)
         {
-            CollectionManager.MoveItem(sourceIndex, targetIndex);
+            CollectionManager.ManagerData.Move(sourceIndex, targetIndex);
             _onMove(sourceIndex, targetIndex);
         }
     }

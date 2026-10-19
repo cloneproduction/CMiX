@@ -86,19 +86,5 @@ namespace CMiX.Core.Prefabs.Managers
             if (control != null)
                 RemoveAndDispose(control);
         }
-
-        public void MoveItem(int oldIndex, int newIndex)
-        {
-            var selected = ManagerData.SelectedItem;
-
-            if (!ManagerData.Move(oldIndex, newIndex)) return;
-
-            // Avalonia ignores NotifyCollectionChangedAction.Move, so the selection is set again (Avalonia issues 2522, 16279).
-            if (ReferenceEquals(selected, ManagerData.Items[newIndex]))
-            {
-                ManagerData.ClearSelection();
-                ManagerData.Select(selected);
-            }
-        }
     }
 }

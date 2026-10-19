@@ -40,7 +40,7 @@ namespace CMiX.Core.Prefabs.Messages
                     return true;
 
                 case MessageMoveItem messageMovePrefab:
-                    collection.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
+                    collection.ManagerData.Move(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
                     return true;
 
                 case MessageRemoveSelectedItem:

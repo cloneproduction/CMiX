@@ -150,6 +150,30 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Move_KeepsTheSelection_WhenAListenerClearsItDuringTheMove()
+        {
+            var (data, items) = WithItems(3);
+            data.Select(items[0]);
+            data.Items.CollectionChanged += (_, _) => data.ClearSelection();
+
+            data.Move(0, 2);
+
+            Assert.Same(items[0], data.SelectedItem);
+            Assert.Equal(2, data.SelectedIndex);
+        }
+
+        [Fact]
+        public void Move_WhenNothingIsSelected_LeavesNothingSelected()
+        {
+            var (data, _) = WithItems(3);
+            data.ClearSelection();
+
+            data.Move(0, 2);
+
+            Assert.Null(data.SelectedItem);
+        }
+
+        [Fact]
         public void Move_OfAnotherItem_ShiftsTheIndexOfTheSelection()
         {
             var (data, items) = WithItems(3);

@@ -49,12 +49,15 @@ namespace CMiX.Core.Prefabs.Managers
             return index;
         }
 
+        // The selection stays on the moved item, also when a listener clears it during the move.
         public bool Move(int oldIndex, int newIndex)
         {
             if (oldIndex < 0 || oldIndex >= Items.Count) return false;
             if (newIndex < 0 || newIndex >= Items.Count) return false;
 
+            var selected = SelectedItem;
             Items.Move(oldIndex, newIndex);
+            Select(selected);
             return true;
         }
 

@@ -20,13 +20,13 @@ namespace CMiX.Core.Undo
 
         public void Execute()
         {
-            _sync.Collection.MoveItem(_oldIndex, _newIndex);
+            _sync.Collection.ManagerData.Move(_oldIndex, _newIndex);
             _sync.SendMove(_oldIndex, _newIndex);
         }
 
         public void Undo()
         {
-            _sync.Collection.MoveItem(_newIndex, _oldIndex);
+            _sync.Collection.ManagerData.Move(_newIndex, _oldIndex);
             _sync.SendMove(_newIndex, _oldIndex);
         }
     }

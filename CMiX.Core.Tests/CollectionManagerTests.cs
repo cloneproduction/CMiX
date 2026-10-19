@@ -24,36 +24,36 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void MoveItem_OutOfRangeOldIndex_IsNoOp()
+        public void Move_OutOfRangeOldIndex_IsNoOp()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 2, out var items);
 
-            var exception = Record.Exception(() => manager.MoveItem(5, 0));
+            var exception = Record.Exception(() => manager.ManagerData.Move(5, 0));
 
             Assert.Null(exception);
             Assert.Equal(items, manager.ManagerData.Items);
         }
 
         [Fact]
-        public void MoveItem_OutOfRangeNewIndex_IsNoOp()
+        public void Move_OutOfRangeNewIndex_IsNoOp()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 2, out var items);
 
-            var exception = Record.Exception(() => manager.MoveItem(0, 9));
+            var exception = Record.Exception(() => manager.ManagerData.Move(0, 9));
 
             Assert.Null(exception);
             Assert.Equal(items, manager.ManagerData.Items);
         }
 
         [Fact]
-        public void MoveItem_NegativeIndices_IsNoOp()
+        public void Move_NegativeIndices_IsNoOp()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 2, out var items);
 
-            var exception = Record.Exception(() => manager.MoveItem(-1, -1));
+            var exception = Record.Exception(() => manager.ManagerData.Move(-1, -1));
 
             Assert.Null(exception);
             Assert.Equal(items, manager.ManagerData.Items);
