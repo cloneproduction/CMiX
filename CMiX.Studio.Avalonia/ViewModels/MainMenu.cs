@@ -133,8 +133,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             Dispatcher.UIThread.Post(() =>
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
-                var model = (CompositionModel)composition.ToModel();
-                Project.CompositionManager.AddItem(ControlCloner.CloneWithNewGuids(model));
+                Project.CompositionManager.DuplicateItem(composition);
             });
         }
 
@@ -158,8 +157,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
                 if (composition.LayerManager.SelectedItem is not Layer layer) return;
-                var model = (LayerModel)layer.ToModel();
-                composition.LayerManager.AddItem(ControlCloner.CloneWithNewGuids(model));
+                composition.LayerManager.DuplicateItem(layer);
             });
         }
 
