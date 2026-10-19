@@ -43,10 +43,9 @@ namespace CMiX.Core.Prefabs.Managers
             var index = Items.IndexOf(control);
             if (index < 0) return -1;
 
-            var wasSelected = ReferenceEquals(control, SelectedItem);
+            if (ReferenceEquals(control, SelectedItem))
+                SelectedItem = Items.Count == 1 ? null : Items[index == 0 ? 1 : index - 1];
             Items.RemoveAt(index);
-            if (wasSelected)
-                SelectedItem = Items.Count == 0 ? null : Items[index == 0 ? 0 : index - 1];
             return index;
         }
 

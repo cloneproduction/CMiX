@@ -60,6 +60,34 @@ namespace CMiX.Core.Tests
         }
 
         [Theory]
+        [InlineData(0, 1)]
+        [InlineData(1, 0)]
+        [InlineData(2, 1)]
+        public void Remove_OfTheSelectedItem_SelectsTheNeighborBeforeTheItemLeavesTheList(int removed, int neighbor)
+        {
+            var (data, items) = WithItems(3);
+            data.Select(items[removed]);
+            var selectedWhenTheItemLeft = new List<IControl>();
+            data.Items.CollectionChanged += (_, _) => selectedWhenTheItemLeft.Add(data.SelectedItem);
+
+            data.Remove(items[removed]);
+
+            Assert.Same(items[neighbor], Assert.Single(selectedWhenTheItemLeft));
+        }
+
+        [Fact]
+        public void Remove_OfTheOnlyItem_ClearsTheSelectionBeforeTheItemLeavesTheList()
+        {
+            var (data, items) = WithItems(1);
+            var selectedWhenTheItemLeft = new List<IControl>();
+            data.Items.CollectionChanged += (_, _) => selectedWhenTheItemLeft.Add(data.SelectedItem);
+
+            data.Remove(items[0]);
+
+            Assert.Null(Assert.Single(selectedWhenTheItemLeft));
+        }
+
+        [Theory]
         [InlineData(2, 0, 1)]
         [InlineData(2, 1, 1)]
         [InlineData(0, 2, 0)]
