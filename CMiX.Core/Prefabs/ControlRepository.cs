@@ -83,7 +83,7 @@ namespace CMiX.Core.Prefabs
             return _controlsById.TryGetValue(id, out var control) ? control : null;
         }
 
-        public bool HasUsers(IControl control)
+        public bool HasCollectionManagers(IControl control)
         {
             if (!_collectionManagers.ContainsKey(control.ID)) return false;
             return _collectionManagers[control.ID].Count > 0;

@@ -277,7 +277,7 @@ namespace CMiX.Core.Prefabs.Managers
                 SelectedIndex = ManagerData.SelectedIndex,
                 Items = new Collection<IControlModel>(
                     ManagerData.Items
-                        .Where(c => Collection.ControlRepository.HasUsers(c))
+                        .Where(c => Collection.ControlRepository.HasCollectionManagers(c))
                         .Select(c => c.ToModel())
                         .ToList()
                 )
