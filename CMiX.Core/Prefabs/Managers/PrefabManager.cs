@@ -14,6 +14,7 @@ namespace CMiX.Core.Prefabs.Managers
     public partial class PrefabManager : PrefabManagerBase, IDisposable
     {
         public PrefabManager(CollectionManager collection,
+                             MessageCollectionManagerHandler messageHandler,
                              ControlMessenger controlMessenger,
                              MessageFactory messageFactory,
                              ControlActivationService activationService,
@@ -24,6 +25,7 @@ namespace CMiX.Core.Prefabs.Managers
             ID = collection.ManagerData.ID;
 
             Collection = collection;
+            this.messageHandler = messageHandler;
             Collection.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(CollectionManager.SelectedItem))
@@ -43,7 +45,7 @@ namespace CMiX.Core.Prefabs.Managers
             RegisterDeleter();
         }
 
-        private MessageCollectionManagerHandler MessageCollectionManagerHandler => Collection.MessageCollectionManagerHandler;
+        private readonly MessageCollectionManagerHandler messageHandler;
 
         public CollectionManager Collection { get; set; }
         public IManagerReorderService ManagerReorderService { get; }
@@ -322,7 +324,7 @@ namespace CMiX.Core.Prefabs.Managers
         {
             if (message is not IMessageManager || ManagerData.ID != message.ID)
                 return;
-            ReceiveWithoutEcho(() => MessageCollectionManagerHandler.Handle(Collection, message));
+            ReceiveWithoutEcho(() => messageHandler.Handle(Collection, message));
         }
 
         public override IControlModel ToModel() => new PrefabManagerModel

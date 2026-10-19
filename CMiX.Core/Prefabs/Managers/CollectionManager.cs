@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.ObjectModel;
-using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Prefabs.Managers
@@ -11,19 +10,16 @@ namespace CMiX.Core.Prefabs.Managers
     {
         public CollectionManager(ManagerData managerData,
                                  ControlRepository controlRepository,
-                                 ControlFactory controlFactory,
-                                 MessageCollectionManagerHandler messageCollectionManagerHandler)
+                                 ControlFactory controlFactory)
         {
             ManagerData = managerData;
             ControlRepository = controlRepository;
             ControlFactory = controlFactory;
-            MessageCollectionManagerHandler = messageCollectionManagerHandler;
         }
 
         public ManagerData ManagerData { get; }
         public ControlRepository ControlRepository { get; }
         public ControlFactory ControlFactory { get; }
-        public MessageCollectionManagerHandler MessageCollectionManagerHandler { get; }
 
         private IControl _selectedItem;
         public IControl SelectedItem
@@ -90,16 +86,11 @@ namespace CMiX.Core.Prefabs.Managers
             InsertItem(prefab, Math.Clamp(index, 0, ManagerData.Items.Count));
         }
 
-        public void LoadControlIntoCollection(IControl prefab)
-        {
-            ControlRepository.AddControl(prefab, ManagerData.ID);
-            ManagerData.Items.Add(prefab);
-        }
-
         public void LoadItem(IControlModel controlModel)
         {
             var prefab = CreateOrReuse(controlModel);
-            LoadControlIntoCollection(prefab);
+            ControlRepository.AddControl(prefab, ManagerData.ID);
+            ManagerData.Items.Add(prefab);
         }
 
         // Not disposed on the undoable delete path: the RemoveItemCommand owns the removed control until it is dropped.
