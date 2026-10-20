@@ -6,7 +6,7 @@ using CMiX.Core.Prefabs;
 namespace CMiX.Core.Modulation.Modulators
 {
     // One float output for each Redis address of the project.
-    public class RedisAddressModulator : ModulatorBase
+    public class RedisAddressModulator : ModulatorBase, INotifyOutputRemoved
     {
         public RedisAddressModulator(PrefabService prefabService, RedisAddressRegistry registry)
             : base(prefabService)
@@ -15,6 +15,12 @@ namespace CMiX.Core.Modulation.Modulators
         }
 
         public RedisAddressRegistry Registry { get; }
+
+        public event Action<string> OutputRemoved
+        {
+            add => Registry.AddressRemoved += value;
+            remove => Registry.AddressRemoved -= value;
+        }
 
         // The output name is the ID of the address, so editing the address keeps the assignments.
         public override IReadOnlyList<IModulatorOutput> Outputs =>
