@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Modulation;
+using CMiX.Core.Modulation.Modulators;
 using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Studio.Avalonia.Views.Modulation
@@ -64,7 +65,8 @@ namespace CMiX.Studio.Avalonia.Views.Modulation
             if (modulatorName != null && modulatorName.EndsWith(ModulatorSuffix, StringComparison.Ordinal))
                 modulatorName = modulatorName[..^ModulatorSuffix.Length];
 
-            return $"{modulatorName} {selection.Output?.Name}";
+            var outputName = selection.Output is AddressedOutput addressed ? addressed.Address : selection.Output?.Name;
+            return $"{modulatorName} {outputName}";
         }
     }
 }
