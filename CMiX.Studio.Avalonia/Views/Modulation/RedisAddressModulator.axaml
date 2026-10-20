@@ -12,12 +12,18 @@
         AddCommand="{Binding AddItemCommand}"
         AddCommandParameter="{x:Type Animations:RedisAddress}"
         ItemsSource="{Binding ManagerData.Items}"
+        MoveDownCommand="{Binding ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
+        MoveUpCommand="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
         RemoveCommand="{Binding DeleteItemCommand}"
+        ReorderService="{Binding ManagerReorderService}"
         SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
         <ui:ListBoxEditable.ItemTemplate>
             <DataTemplate DataType="{x:Type Animations:RedisAddress}">
-                <TextBox Text="{Binding Value, Mode=TwoWay}" Watermark="Redis address" />
+                <ui:TextBoxEditable
+                    Height="{DynamicResource ControlHeightSM}"
+                    Foreground="{DynamicResource ForegroundBrush}"
+                    Text="{Binding Value, Mode=TwoWay}" />
             </DataTemplate>
         </ui:ListBoxEditable.ItemTemplate>
 
