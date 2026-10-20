@@ -16,6 +16,7 @@
             <Managers:PrefabSlotManager
                 Margin="8"
                 MinItemCount="3"
+                RowMenu="Slot"
                 DataContext="{Binding LightManager}"
                 DockPanel.Dock="Top"
                 ItemsSource="{Binding ControlRepository.Lights}">
