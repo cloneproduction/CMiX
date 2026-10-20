@@ -5,7 +5,7 @@ namespace CMiX.Core.Undo
 {
     // Undo takes the added item back out of the collection, so from that point on this command
     // owns the instance and disposes it when UndoManager drops the command.
-    public class AddItemCommand : IUndoCommand, IDisposable
+    public class AddItemUndoCommand : IUndoCommand, IDisposable
     {
         private readonly CollectionSync _sync;
         private readonly IControl _item;
@@ -13,7 +13,7 @@ namespace CMiX.Core.Undo
         private IControl _previousItem;
         private int _previousIndex;
 
-        public AddItemCommand(CollectionSync sync, IControl item, int index)
+        public AddItemUndoCommand(CollectionSync sync, IControl item, int index)
         {
             _sync = sync;
             _item = item;

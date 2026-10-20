@@ -103,7 +103,7 @@ namespace CMiX.Core.Prefabs.Managers
         {
             if (Collection.ManagerData.Items.Contains(control)) return;
 
-            Run(new AddItemCommand(_sync, control, ManagerData.Items.Count));
+            Run(new AddItemUndoCommand(_sync, control, ManagerData.Items.Count));
         }
 
         public void ClearAll()
@@ -118,7 +118,7 @@ namespace CMiX.Core.Prefabs.Managers
         {
             var item = _controlFactory.Create(type);
             if (item == null) return;
-            Run(new AddItemCommand(_sync, item, ManagerData.Items.Count));
+            Run(new AddItemUndoCommand(_sync, item, ManagerData.Items.Count));
         }
 
         public void AddItem(IControlModel model)
@@ -147,7 +147,7 @@ namespace CMiX.Core.Prefabs.Managers
                 finally { name.IsActive = true; }
             }
 
-            Run(new AddItemCommand(_sync, copy, index + 1));
+            Run(new AddItemUndoCommand(_sync, copy, index + 1));
             return copy;
         }
 
@@ -159,7 +159,7 @@ namespace CMiX.Core.Prefabs.Managers
             {
                 var item = _controlFactory.Create(type);
                 if (item == null) return;
-                Run(new AddItemCommand(_sync, item, ManagerData.Items.Count));
+                Run(new AddItemUndoCommand(_sync, item, ManagerData.Items.Count));
                 afterAdd(item);
             }
             finally { UndoManager?.EndCapture(); }
@@ -176,7 +176,7 @@ namespace CMiX.Core.Prefabs.Managers
         private void DeleteFrom(CollectionManager collectionManager, IControl control)
         {
             if (!collectionManager.ManagerData.Items.Contains(control)) return;
-            Run(new RemoveItemCommand(new CollectionSync(collectionManager, ControlMessenger, MessageFactory), control));
+            Run(new RemoveItemUndoCommand(new CollectionSync(collectionManager, ControlMessenger, MessageFactory), control));
         }
 
         // Swaps in a fresh instance at the same position as one undoable remove and add.
@@ -191,7 +191,7 @@ namespace CMiX.Core.Prefabs.Managers
             var replacement = _controlFactory.Create(control.GetType());
             if (replacement == null) return;
 
-            var command = new ReplaceItemCommand(_sync, control, replacement, index);
+            var command = new ReplaceItemUndoCommand(_sync, control, replacement, index);
             command.Execute();
             UndoManager?.Push(command);
         }
@@ -227,7 +227,7 @@ namespace CMiX.Core.Prefabs.Managers
             var count = ManagerData.Items.Count;
             if (oldIndex < 0 || oldIndex == newIndex || newIndex < 0 || newIndex >= count) return;
 
-            Run(new MoveItemCommand(_sync, oldIndex, newIndex));
+            Run(new MoveItemUndoCommand(_sync, oldIndex, newIndex));
         }
 
         private void Run(IUndoCommand command)
@@ -254,7 +254,7 @@ namespace CMiX.Core.Prefabs.Managers
             if (ReferenceEquals(previousItem, ManagerData.SelectedItem)) return;
             _sync.SendSelect(ManagerData.SelectedItem, index);
             if (previousItem == null) return;
-            UndoManager?.Push(new SelectItemCommand(_sync, previousItem, previousIndex, index));
+            UndoManager?.Push(new SelectItemUndoCommand(_sync, previousItem, previousIndex, index));
         }
 
         public void LoadItem(IControlModel controlModel) => Collection.LoadItem(controlModel);

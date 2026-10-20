@@ -79,7 +79,7 @@ namespace CMiX.Core.Prefabs.Managers
                 OwnedControl.DisposeIfOrphaned(ControlRepository, control);
         }
 
-        // Not disposed on the undoable delete path: the RemoveItemCommand owns the removed control until it is dropped.
+        // Not disposed on the undoable delete path: the RemoveItemUndoCommand owns the removed control until it is dropped.
         public int DeleteItem(IControl control) => control == null ? -1 : RemoveFromList(control);
 
         public void DeleteItem(Guid id)

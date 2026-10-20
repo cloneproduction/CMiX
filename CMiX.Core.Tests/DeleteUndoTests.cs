@@ -9,7 +9,7 @@ namespace CMiX.Core.Tests
 {
     // Covers the deferred disposal of a deleted control: the delete path no longer disposes, the
     // undo command that holds the removed instance does, and only once it is dropped. Reset item
-    // follows the same ownership rule since it routes through ReplaceItemCommand, so its tests
+    // follows the same ownership rule since it routes through ReplaceItemUndoCommand, so its tests
     // live here too.
     public class DeleteUndoTests
     {

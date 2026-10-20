@@ -9,14 +9,14 @@ namespace CMiX.Core.Undo
     // Owns the removed item while this command sits on a stack, so the item keeps its nested
     // contents and can be reinserted whole by Undo. UndoManager disposes the command when it
     // drops it, which is the only point where the removal becomes permanent.
-    public class RemoveItemCommand : IUndoCommand, IDisposable
+    public class RemoveItemUndoCommand : IUndoCommand, IDisposable
     {
         private readonly CollectionSync _sync;
         private readonly IControl _item;
         private int _index;
         private IControl _selectedBefore;
 
-        public RemoveItemCommand(CollectionSync sync, IControl item)
+        public RemoveItemUndoCommand(CollectionSync sync, IControl item)
         {
             _sync = sync;
             _item = item;
