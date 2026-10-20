@@ -7,8 +7,7 @@
 
     <ui:ListBoxEditable
         Margin="8"
-        AddCommand="{Binding AddressManager.AddItemCommand}"
-        AddCommandParameter="{x:Type Animations:RedisAddress}"
+        AddCommand="{Binding AddAddressCommand}"
         ItemsSource="{Binding AddressManager.ManagerData.Items}"
         MoveDownCommand="{Binding AddressManager.ManagerReorderService.MoveItemDownCommand, FallbackValue={x:Null}}"
         MoveUpCommand="{Binding AddressManager.ManagerReorderService.MoveItemUpCommand, FallbackValue={x:Null}}"

@@ -11,5 +11,13 @@ namespace CMiX.Studio.Avalonia.Views
         {
             InitializeComponent();
         }
+
+        protected override void OnDataContextChanged(System.EventArgs e)
+        {
+            base.OnDataContextChanged(e);
+
+            if (DataContext is Core.Modulation.Modulators.RedisAddressModulator modulator)
+                modulator.Registry.EnsureGainsWithoutUndo(modulator);
+        }
     }
 }

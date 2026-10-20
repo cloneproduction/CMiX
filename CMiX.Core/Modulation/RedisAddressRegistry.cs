@@ -48,6 +48,20 @@ namespace CMiX.Core.Modulation
         // The values bound to the address go back to normal in the same undo step as the delete.
         public void DeleteAddress(IControl address) => InOneUndoStep(() => AddressManager.RemoveItem(address));
 
+        // For a modulator that is new or from an older project. It leaves no undo step.
+        public void EnsureGainsWithoutUndo(RedisAddressModulator modulator)
+        {
+            _undoManager?.SuppressUndo();
+            try
+            {
+                modulator.EnsureGains();
+            }
+            finally
+            {
+                _undoManager?.ResumeUndo();
+            }
+        }
+
         // Every modulator of the project gets or loses the gain of the address in the same undo step.
         private void InOneUndoStep(Action change)
         {
