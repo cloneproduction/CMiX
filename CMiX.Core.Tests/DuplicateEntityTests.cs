@@ -188,5 +188,25 @@ namespace CMiX.Core.Tests
             Assert.Null(repository.GetControl(copyTextureID));
             Assert.Null(repository.GetControl(copy.ID));
         }
+
+        [Fact]
+        public void DuplicateItem_OfAnEntityThatTwoLayersShare_GivesTheCopyToThisLayerOnly()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var factory = provider.GetRequiredService<ControlFactory>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var first = (Layer)factory.Create(typeof(Layer));
+            var second = (Layer)factory.Create(typeof(Layer));
+            first.ModelEntityManager.AddItem(typeof(Entity));
+            var entity = first.ModelEntityManager.ManagerData.Items[0];
+            second.ModelEntityManager.AddExistingItem(entity);
+
+            var copy = first.ModelEntityManager.DuplicateItem(entity);
+
+            Assert.Equal(new[] { entity, copy }, first.ModelEntityManager.ManagerData.Items);
+            Assert.Same(entity, Assert.Single(second.ModelEntityManager.ManagerData.Items));
+            Assert.Equal(2, repository.GetCollectionManagers(entity).Count);
+            Assert.Single(repository.GetCollectionManagers(copy));
+        }
     }
 }
