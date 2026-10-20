@@ -16,7 +16,7 @@ namespace CMiX.Core.Tests
             var id = Guid.NewGuid();
             var controlID = Guid.NewGuid();
 
-            var message = Assert.IsType<MessageSelectedItemChanged>(Roundtrip(new MessageSelectedItemChanged(id, controlID, 2)).Payload);
+            var message = Assert.IsType<MessageSelectItem>(Roundtrip(new MessageSelectItem(id, controlID, 2)).Payload);
 
             Assert.Equal((id, controlID, 2), (message.ID, message.ControlID, message.Index));
         }
@@ -26,7 +26,7 @@ namespace CMiX.Core.Tests
         {
             var id = Guid.NewGuid();
 
-            var message = Assert.IsType<MessageRemoveSelectedItem>(Roundtrip(new MessageRemoveSelectedItem(id)).Payload);
+            var message = Assert.IsType<MessageClearSelection>(Roundtrip(new MessageClearSelection(id)).Payload);
 
             Assert.Equal(id, message.ID);
         }

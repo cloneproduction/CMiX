@@ -68,7 +68,7 @@ namespace CMiX.Core.Tests
 
             sync.SendSelect(item, 0);
 
-            var message = Assert.IsType<MessageSelectedItemChanged>(Assert.Single(sender.Sent));
+            var message = Assert.IsType<MessageSelectItem>(Assert.Single(sender.Sent));
             Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
             Assert.Equal(item.ID, message.ControlID);
             Assert.Equal(0, message.Index);
@@ -81,7 +81,7 @@ namespace CMiX.Core.Tests
 
             sync.SendClearSelection();
 
-            var message = Assert.IsType<MessageRemoveSelectedItem>(Assert.Single(sender.Sent));
+            var message = Assert.IsType<MessageClearSelection>(Assert.Single(sender.Sent));
             Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
         }
     }

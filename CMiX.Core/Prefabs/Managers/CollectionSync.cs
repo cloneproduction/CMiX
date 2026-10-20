@@ -31,9 +31,9 @@ namespace CMiX.Core.Prefabs.Managers
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageMoveItem>(Collection.ManagerData.ID, oldIndex, newIndex));
 
         public void SendSelect(IControl item, int index) =>
-            _messenger.SendMessage(_messageFactory.CreateMessage<MessageSelectedItemChanged>(Collection.ManagerData.ID, item, index));
+            _messenger.SendMessage(_messageFactory.CreateMessage<MessageSelectItem>(Collection.ManagerData.ID, item, index));
 
         public void SendClearSelection() =>
-            _messenger.SendMessage(_messageFactory.CreateMessage<MessageRemoveSelectedItem>(Collection.ManagerData.ID));
+            _messenger.SendMessage(_messageFactory.CreateMessage<MessageClearSelection>(Collection.ManagerData.ID));
     }
 }

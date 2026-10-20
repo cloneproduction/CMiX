@@ -71,7 +71,7 @@ namespace CMiX.Core.Tests
             setup.Manager.RemoveItem(setup.Items[0]);
 
             Assert.Equal(1, Assert.Single(setup.Sent.Sent.OfType<MessageRemoveItem>()).SelectedIndex);
-            Assert.Empty(setup.Sent.Sent.OfType<MessageSelectedItemChanged>());
+            Assert.Empty(setup.Sent.Sent.OfType<MessageSelectItem>());
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace CMiX.Core.Tests
             Assert.Equal(setup.Items, setup.Manager.ManagerData.Items);
             Assert.Same(setup.Items[2], setup.Manager.SelectedItem);
             Assert.Equal(2, setup.Manager.ManagerData.SelectedIndex);
-            var selected = Assert.Single(setup.Sent.Sent.OfType<MessageSelectedItemChanged>());
+            var selected = Assert.Single(setup.Sent.Sent.OfType<MessageSelectItem>());
             Assert.Equal(setup.Items[2].ID, selected.ControlID);
             Assert.Equal(2, selected.Index);
         }

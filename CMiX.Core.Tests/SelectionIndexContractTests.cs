@@ -37,7 +37,7 @@ namespace CMiX.Core.Tests
 
             recorder.Sent.Clear();
             manager.SelectAt(0);
-            Assert.Equal(0, Assert.Single(recorder.Sent.OfType<MessageSelectedItemChanged>()).Index);
+            Assert.Equal(0, Assert.Single(recorder.Sent.OfType<MessageSelectItem>()).Index);
 
             recorder.Sent.Clear();
             manager.RemoveItem(manager.ManagerData.Items[0]);

@@ -20,7 +20,7 @@ namespace CMiX.Core.Tests
             public List<IControl> Items { get; init; } = null!;
 
             public void Receive(Guid controlID, int index = 0) =>
-                Manager.Receive(new MessageSelectedItemChanged(Manager.ManagerData.ID, controlID, index));
+                Manager.Receive(new MessageSelectItem(Manager.ManagerData.ID, controlID, index));
         }
 
         private static Setup ThreeItems()

@@ -20,8 +20,8 @@ namespace CMiX.Core.Prefabs.Messages
                 case null:
                     throw new ArgumentNullException(nameof(message));
 
-                case MessageSelectedItemChanged messageSelectedItemChanged:
-                    collection.Select(messageSelectedItemChanged.ControlID);
+                case MessageSelectItem messageSelectItem:
+                    collection.Select(messageSelectItem.ControlID);
                     return true;
 
                 case MessageAddItem messageAddItem:
@@ -43,7 +43,7 @@ namespace CMiX.Core.Prefabs.Messages
                     collection.ManagerData.Move(messageMoveItem.OldIndex, messageMoveItem.NewIndex);
                     return true;
 
-                case MessageRemoveSelectedItem:
+                case MessageClearSelection:
                     collection.ManagerData.ClearSelection();
                     return true;
 

@@ -114,7 +114,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(1, harness.UndoSteps);
             Assert.Equal(0, harness.Selected);
-            Assert.Equal(0, Assert.Single(harness.Sent<MessageSelectedItemChanged>()).Index);
+            Assert.Equal(0, Assert.Single(harness.Sent<MessageSelectItem>()).Index);
             Assert.Single(harness.Recorder.Sent);
         }
 
