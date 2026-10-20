@@ -123,11 +123,11 @@
                         Size="{DynamicResource IconSizeXS}"
                         ToolTip.HorizontalOffset="-10"
                         ToolTip.Placement="Pointer"
-                        ToolTip.Tip="Output Mappings"
+                        ToolTip.Tip="Settings"
                         ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
 
-                <Managers:OutputMappingsPanel DataContext="{Binding Project.OutputMappingManager}" />
+                <Views:SettingsTab />
 
             </TabItem>
 
