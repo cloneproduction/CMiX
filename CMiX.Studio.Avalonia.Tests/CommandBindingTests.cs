@@ -51,7 +51,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var button = view.GetVisualDescendants().OfType<Button>().Single(b => b.Name == "deleteItemButton");
 
-            Assert.Same(manager.RemoveSelectedItemCommand, button.Command);
+            Assert.Same(manager.ClearSelectionCommand, button.Command);
         }
 
         [AvaloniaFact]

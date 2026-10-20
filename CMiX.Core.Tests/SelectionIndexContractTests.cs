@@ -52,7 +52,7 @@ namespace CMiX.Core.Tests
             for (var i = 0; i < 3; i++)
                 layer.ModelEntityManager.AddItem(typeof(Entity));
             if (selectedIndex < 0)
-                layer.ModelEntityManager.RemoveSelectedItem();
+                layer.ModelEntityManager.ClearSelection();
             else
                 layer.ModelEntityManager.SelectedItemChanged(selectedIndex);
             return (layer, factory);

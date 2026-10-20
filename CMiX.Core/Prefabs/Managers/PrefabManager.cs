@@ -38,7 +38,7 @@ namespace CMiX.Core.Prefabs.Managers
             AddItemCommand = new RelayCommand<Type>(AddItem);
             AddExistingItemCommand = new RelayCommand<IControl>(AddExistingItem);
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
-            RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
+            ClearSelectionCommand = new RelayCommand(ClearSelection);
             ResetItemCommand = new RelayCommand<IControl>(ResetItem);
             ManagerReorderService = reorderServiceFactory?.Invoke(ManagerData, MoveItemAt);
             DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
@@ -82,7 +82,7 @@ namespace CMiX.Core.Prefabs.Managers
         public override ICommand AddItemCommand { get; }
         public ICommand AddExistingItemCommand { get; }
         public ICommand DeleteItemCommand { get; }
-        public override ICommand RemoveSelectedItemCommand { get; }
+        public override ICommand ClearSelectionCommand { get; }
         public ICommand ResetItemCommand { get; }
         public ICommand DeleteEverywhereCommand { get; }
 
@@ -236,14 +236,14 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(command);
         }
 
-        public void RemoveSelectedItem()
+        public void ClearSelection()
         {
             var previousItem = ManagerData.SelectedItem;
             var previousIndex = ManagerData.Items.IndexOf(previousItem);
             ManagerData.ClearSelection();
-            _sync.SendRemoveSelected();
+            _sync.SendClearSelection();
             if (previousIndex < 0) return;
-            UndoManager?.Push(new RemoveSelectedItemCommand(_sync, previousItem, previousIndex));
+            UndoManager?.Push(new ClearSelectionUndoCommand(_sync, previousItem, previousIndex));
         }
 
         public void SelectedItemChanged(int index)

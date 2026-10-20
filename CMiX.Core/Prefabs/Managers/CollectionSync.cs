@@ -33,7 +33,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void SendSelect(IControl item, int index) =>
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageSelectedItemChanged>(Collection.ManagerData.ID, item, index));
 
-        public void SendRemoveSelected() =>
+        public void SendClearSelection() =>
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageRemoveSelectedItem>(Collection.ManagerData.ID));
     }
 }

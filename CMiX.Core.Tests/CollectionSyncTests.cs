@@ -79,7 +79,7 @@ namespace CMiX.Core.Tests
         {
             var (sync, sender, _) = Create();
 
-            sync.SendRemoveSelected();
+            sync.SendClearSelection();
 
             var message = Assert.IsType<MessageRemoveSelectedItem>(Assert.Single(sender.Sent));
             Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
