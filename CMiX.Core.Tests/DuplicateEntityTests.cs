@@ -3,11 +3,13 @@ using System.Text.RegularExpressions;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -133,6 +135,58 @@ namespace CMiX.Core.Tests
             Assert.Equal(
                 manager.ManagerData.Items.Select(item => item.ID),
                 peer.ManagerData.Items.Select(item => item.ID));
+        }
+
+        private static (IServiceProvider Provider, Layer Layer, Entity Entity) EntityWithATextureAndAModifier()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var layer = (Layer)provider.GetRequiredService<ControlFactory>().Create(typeof(Layer));
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+            var entity = (Entity)layer.ModelEntityManager.ManagerData.Items[0];
+            entity.Material.DiffuseTexture.TextureManager.AddItem(typeof(CheckerBoard));
+            entity.ModifierManager.AddItem(typeof(AlphaModifier));
+            provider.GetRequiredService<UndoManager>().Clear();
+            return (provider, layer, entity);
+        }
+
+        [Fact]
+        public void DuplicateItem_OfAnEntityWithATextureAndAModifier_GivesTheCopyItsOwnOnes()
+        {
+            var (provider, layer, entity) = EntityWithATextureAndAModifier();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var texture = entity.Material.DiffuseTexture.TextureManager.ManagerData.Items.Single();
+            var modifier = entity.ModifierManager.ManagerData.Items.Single();
+            var controlsBefore = repository.Controls.Count;
+
+            var copy = (Entity)layer.ModelEntityManager.DuplicateItem(entity);
+
+            var copyTexture = copy.Material.DiffuseTexture.TextureManager.ManagerData.Items.Single();
+            var copyModifier = copy.ModifierManager.ManagerData.Items.Single();
+            Assert.NotSame(texture, copyTexture);
+            Assert.NotSame(modifier, copyModifier);
+            Assert.NotEqual(texture.ID, copyTexture.ID);
+            Assert.NotEqual(modifier.ID, copyModifier.ID);
+            Assert.Same(copyTexture, repository.GetControl(copyTexture.ID));
+            Assert.Same(copyModifier, repository.GetControl(copyModifier.ID));
+            Assert.Equal(controlsBefore + 3, repository.Controls.Count);
+        }
+
+        [Fact]
+        public void DuplicateItem_OfAnEntityWithATextureAndAModifier_UndoFreesTheCopyWhenTheStepIsDropped()
+        {
+            var (provider, layer, entity) = EntityWithATextureAndAModifier();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var undo = provider.GetRequiredService<UndoManager>();
+            var controlsBefore = repository.Controls.Count;
+
+            var copy = (Entity)layer.ModelEntityManager.DuplicateItem(entity);
+            var copyTextureID = copy.Material.DiffuseTexture.TextureManager.ManagerData.Items.Single().ID;
+            undo.Undo();
+            undo.Clear();
+
+            Assert.Equal(controlsBefore, repository.Controls.Count);
+            Assert.Null(repository.GetControl(copyTextureID));
+            Assert.Null(repository.GetControl(copy.ID));
         }
     }
 }
