@@ -4,6 +4,8 @@
 using System.Collections.Specialized;
 using System.Windows.Input;
 using CMiX.Core.Animations;
+using CMiX.Core.Modulation.Modulators;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.Input;
@@ -14,21 +16,25 @@ namespace CMiX.Core.Modulation
     public class RedisAddressRegistry
     {
         private readonly UndoManager _undoManager;
+        private readonly ControlRepository _controlRepository;
 
-        public RedisAddressRegistry(PrefabManager addressManager, UndoManager undoManager)
+        public RedisAddressRegistry(PrefabManager addressManager, UndoManager undoManager, ControlRepository controlRepository)
         {
             addressManager.ManagerData.ID = ManagerIDs.RedisAddressManager;
             addressManager.UndoManager = undoManager;
             _undoManager = undoManager;
+            _controlRepository = controlRepository;
             AddressManager = addressManager;
             addressManager.Activate();
 
             addressManager.ManagerData.Items.CollectionChanged += OnItemsChanged;
+            AddAddressCommand = new RelayCommand(AddAddress);
             DeleteAddressCommand = new RelayCommand<IControl>(DeleteAddress);
         }
 
         public PrefabManager AddressManager { get; }
 
+        public ICommand AddAddressCommand { get; }
         public ICommand DeleteAddressCommand { get; }
 
         public IEnumerable<RedisAddress> Addresses =>
@@ -37,13 +43,21 @@ namespace CMiX.Core.Modulation
         // The name of an address output is the ID of the address.
         public event Action<string> AddressRemoved;
 
+        public void AddAddress() => InOneUndoStep(() => AddressManager.AddItem(typeof(RedisAddress)));
+
         // The values bound to the address go back to normal in the same undo step as the delete.
-        public void DeleteAddress(IControl address)
+        public void DeleteAddress(IControl address) => InOneUndoStep(() => AddressManager.RemoveItem(address));
+
+        // Every modulator of the project gets or loses the gain of the address in the same undo step.
+        private void InOneUndoStep(Action change)
         {
             _undoManager?.BeginCapture();
             try
             {
-                AddressManager.RemoveItem(address);
+                change();
+
+                foreach (var modulator in _controlRepository.Controls.OfType<RedisAddressModulator>().ToList())
+                    modulator.EnsureGains();
             }
             finally
             {
