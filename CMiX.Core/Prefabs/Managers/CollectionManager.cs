@@ -80,9 +80,9 @@ namespace CMiX.Core.Prefabs.Managers
         }
 
         // Not disposed on the undoable delete path: the RemoveItemUndoCommand owns the removed control until it is dropped.
-        public int DeleteItem(IControl control) => control == null ? -1 : RemoveFromList(control);
+        public int RemoveItem(IControl control) => control == null ? -1 : RemoveFromList(control);
 
-        public void DeleteItem(Guid id)
+        public void RemoveItem(Guid id)
         {
             var control = ManagerData.Items.FirstOrDefault(x => x.ID == id);
             if (control != null)

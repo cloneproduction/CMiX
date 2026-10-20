@@ -76,7 +76,7 @@ namespace CMiX.Core.Tests
             var first = AddAddress(registry, "cmix:a");
             AddAddress(registry, "cmix:b");
 
-            registry.AddressManager.DeleteItemCommand.Execute(first);
+            registry.AddressManager.RemoveItemCommand.Execute(first);
 
             Assert.Equal(new[] { "cmix:b" },
                 modulator.Outputs.Cast<AddressedOutput>().Select(output => output.Address));

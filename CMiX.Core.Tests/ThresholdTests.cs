@@ -55,7 +55,7 @@ namespace CMiX.Core.Tests
             threshold.Smooth.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             threshold.ThresholdValue.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            threshold.ModulatorManager.DeleteItem(randomModulator);
+            threshold.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(threshold.Smooth.ModulatorID);
             Assert.Null(threshold.Smooth.BoundModulator);

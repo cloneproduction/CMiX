@@ -28,7 +28,7 @@
                     IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}"
                     IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
                     DragHandleIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandleIsPressed}"
-                    CloseCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
+                    CloseCommand="{Binding $parent[ItemsControl].DataContext.RemoveItemCommand}"
                     CloseCommandParameter="{Binding}"
                     PanelBackground="{Binding $parent[Views:ModifierManager].PanelBackground}">
 

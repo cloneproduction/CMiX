@@ -54,7 +54,7 @@ namespace CMiX.Core.Tests
 
             shadow.LightDirection.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            shadow.ModulatorManager.DeleteItem(randomModulator);
+            shadow.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(shadow.LightDirection.Y.ModulatorID);
             Assert.Null(shadow.LightDirection.Y.BoundModulator);

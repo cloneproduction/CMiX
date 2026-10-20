@@ -35,7 +35,7 @@ namespace CMiX.Core.Prefabs.Messages
                     return true;
 
                 case MessageRemoveItem messageRemoveItem:
-                    collection.DeleteItem(messageRemoveItem.ModelID);
+                    collection.RemoveItem(messageRemoveItem.ModelID);
                     collection.ManagerData.SelectAt(messageRemoveItem.SelectedIndex);
                     return true;
 

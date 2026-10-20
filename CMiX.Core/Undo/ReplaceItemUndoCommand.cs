@@ -44,7 +44,7 @@ namespace CMiX.Core.Undo
             var index = collection.ManagerData.Items.IndexOf(outgoing);
             if (index < 0) index = _index;
 
-            collection.DeleteItem(outgoing);
+            collection.RemoveItem(outgoing);
             _sync.SendRemove(outgoing, collection.ManagerData.SelectedIndex);
 
             if (index > collection.ManagerData.Items.Count)

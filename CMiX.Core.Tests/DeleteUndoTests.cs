@@ -38,7 +38,7 @@ namespace CMiX.Core.Tests
 
             var (composition, layer, entity) = CreateGraph(provider, compositionManager);
 
-            composition.LayerManager.DeleteItem(layer);
+            composition.LayerManager.RemoveItem(layer);
 
             Assert.DoesNotContain(layer, composition.LayerManager.ManagerData.Items);
 
@@ -59,7 +59,7 @@ namespace CMiX.Core.Tests
 
             var (composition, layer, entity) = CreateGraph(provider, compositionManager);
 
-            composition.LayerManager.DeleteItem(layer);
+            composition.LayerManager.RemoveItem(layer);
             undoManager.Clear();
 
             Assert.Empty(layer.ModelEntityManager.ManagerData.Items);
@@ -111,9 +111,9 @@ namespace CMiX.Core.Tests
             Assert.Null(repository.GetControl(replacement.ID));
         }
 
-        // DeleteEverywhere removes a control from every manager that references it.
+        // RemoveEverywhere removes a control from every manager that references it.
         [Fact]
-        public void DeleteEverywhere_ControlReferencedByTwoManagers_RemovesItFromBothAndTheRepository()
+        public void RemoveEverywhere_ControlReferencedByTwoManagers_RemovesItFromBothAndTheRepository()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
@@ -129,7 +129,7 @@ namespace CMiX.Core.Tests
             Assert.Contains(entity, managerB.ManagerData.Items);
             undoManager.Clear();
 
-            managerA.DeleteEverywhereCommand.Execute(entity);
+            managerA.RemoveEverywhereCommand.Execute(entity);
 
             Assert.DoesNotContain(entity, managerA.ManagerData.Items);
             Assert.DoesNotContain(entity, managerB.ManagerData.Items);
@@ -137,7 +137,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DeleteEverywhereThenUndo_RestoresBothReferencesAsOneStep()
+        public void RemoveEverywhereThenUndo_RestoresBothReferencesAsOneStep()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
@@ -150,7 +150,7 @@ namespace CMiX.Core.Tests
             managerB.AddExistingItem(entity);
             undoManager.Clear();
 
-            managerA.DeleteEverywhereCommand.Execute(entity);
+            managerA.RemoveEverywhereCommand.Execute(entity);
             Assert.True(undoManager.CanUndo);
 
             undoManager.Undo();

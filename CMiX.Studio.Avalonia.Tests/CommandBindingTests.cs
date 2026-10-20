@@ -67,7 +67,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Contains(manager.AddItemCommand, commands);
             Assert.Contains(service.ItemUpCommand, commands);
             Assert.Contains(service.ItemDownCommand, commands);
-            Assert.Contains(manager.DeleteItemCommand, commands);
+            Assert.Contains(manager.RemoveItemCommand, commands);
         }
 
         [AvaloniaFact]
@@ -80,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var commands = CommandsOf(view);
 
-            Assert.Contains(manager.DeleteItemCommand, commands);
+            Assert.Contains(manager.RemoveItemCommand, commands);
             Assert.Contains(service.ItemUpCommand, commands);
             Assert.Contains(service.ItemDownCommand, commands);
         }
@@ -97,7 +97,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var rows = view.GetVisualDescendants().OfType<PanelItem>().ToList();
 
             Assert.Equal(2, rows.Count);
-            Assert.All(rows, row => Assert.Same(blur.ModulatorManager.DeleteItemCommand, row.CloseCommand));
+            Assert.All(rows, row => Assert.Same(blur.ModulatorManager.RemoveItemCommand, row.CloseCommand));
         }
 
         [AvaloniaFact]
@@ -110,7 +110,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var list = view.GetVisualDescendants().OfType<ListBoxEditable>().Single();
 
-            Assert.Same(modulator.StepManager.DeleteItemCommand, list.RemoveCommand);
+            Assert.Same(modulator.StepManager.RemoveItemCommand, list.RemoveCommand);
             Assert.Same(service.ItemUpCommand, list.MoveUpCommand);
             Assert.Same(service.ItemDownCommand, list.MoveDownCommand);
         }
@@ -124,7 +124,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var list = view.GetVisualDescendants().OfType<ListBoxDetail>().Single();
 
-            Assert.Same(manager.DeleteEverywhereCommand, list.DeleteCommand);
+            Assert.Same(manager.RemoveEverywhereCommand, list.DeleteCommand);
         }
     }
 }

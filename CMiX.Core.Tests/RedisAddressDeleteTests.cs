@@ -115,7 +115,7 @@ namespace CMiX.Core.Tests
             var modulator = AddModulator(blur.ModulatorManager);
             var address = AddAddress("cmix:a");
             Bind(blur.Strength, modulator, address);
-            blur.ModulatorManager.DeleteItem(modulator);
+            blur.ModulatorManager.RemoveItem(modulator);
 
             Registry.DeleteAddress(address);
 

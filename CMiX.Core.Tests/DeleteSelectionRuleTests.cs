@@ -47,7 +47,7 @@ namespace CMiX.Core.Tests
             var setup = ThreeItemsWithTheSelectionOn(selected);
             var selectedItem = setup.Items[selected];
 
-            setup.Manager.DeleteItem(setup.Items[deleted]);
+            setup.Manager.RemoveItem(setup.Items[deleted]);
 
             Assert.Same(selectedItem, setup.Manager.SelectedItem);
             Assert.Equal(expectedIndex, setup.Manager.ManagerData.SelectedIndex);
@@ -58,7 +58,7 @@ namespace CMiX.Core.Tests
         {
             var setup = ThreeItemsWithTheSelectionOn(2);
 
-            setup.Manager.DeleteItem(setup.Items[2]);
+            setup.Manager.RemoveItem(setup.Items[2]);
 
             Assert.Same(setup.Items[1], setup.Manager.SelectedItem);
         }
@@ -68,7 +68,7 @@ namespace CMiX.Core.Tests
         {
             var setup = ThreeItemsWithTheSelectionOn(2);
 
-            setup.Manager.DeleteItem(setup.Items[0]);
+            setup.Manager.RemoveItem(setup.Items[0]);
 
             Assert.Equal(1, Assert.Single(setup.Sent.Sent.OfType<MessageRemoveItem>()).SelectedIndex);
             Assert.Empty(setup.Sent.Sent.OfType<MessageSelectedItemChanged>());
@@ -78,7 +78,7 @@ namespace CMiX.Core.Tests
         public void UndoingTheDeleteOfAnItemThatWasNotSelected_SelectsTheSameItemAsBefore()
         {
             var setup = ThreeItemsWithTheSelectionOn(2);
-            setup.Manager.DeleteItem(setup.Items[0]);
+            setup.Manager.RemoveItem(setup.Items[0]);
             setup.Sent.Sent.Clear();
 
             setup.Undo.Undo();
@@ -95,7 +95,7 @@ namespace CMiX.Core.Tests
         public void UndoingTheDeleteOfTheSelectedItem_SelectsTheRestoredItem()
         {
             var setup = ThreeItemsWithTheSelectionOn(1);
-            setup.Manager.DeleteItem(setup.Items[1]);
+            setup.Manager.RemoveItem(setup.Items[1]);
 
             setup.Undo.Undo();
 
@@ -107,7 +107,7 @@ namespace CMiX.Core.Tests
         public void RedoingTheDeleteOfAnItemThatWasNotSelected_KeepsTheSelectionOnTheSameItem()
         {
             var setup = ThreeItemsWithTheSelectionOn(2);
-            setup.Manager.DeleteItem(setup.Items[0]);
+            setup.Manager.RemoveItem(setup.Items[0]);
             setup.Undo.Undo();
 
             setup.Undo.Redo();

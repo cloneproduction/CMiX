@@ -43,7 +43,7 @@ namespace CMiX.Core.Modulation
             _undoManager?.BeginCapture();
             try
             {
-                AddressManager.DeleteItem(address);
+                AddressManager.RemoveItem(address);
             }
             finally
             {

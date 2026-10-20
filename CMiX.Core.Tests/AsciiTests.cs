@@ -56,7 +56,7 @@ namespace CMiX.Core.Tests
             ascii.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             ascii.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            ascii.ModulatorManager.DeleteItem(randomModulator);
+            ascii.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(ascii.GridSize.ModulatorID);
             Assert.Null(ascii.GridSize.BoundModulator);

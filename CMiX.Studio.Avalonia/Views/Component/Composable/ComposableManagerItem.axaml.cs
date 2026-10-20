@@ -61,7 +61,7 @@ namespace CMiX.Studio.Avalonia.Views
             _moveToTop = Row(MoveToTopId, "Move To Top", (manager, item) => manager.MoveItemTo(item, 0));
             _moveToBottom = Row(MoveToBottomId, "Move To Bottom", (manager, item) => manager.MoveItemTo(item, manager.ManagerData.Items.Count - 1));
             builder.Line();
-            Row(DeleteId, "Delete", (manager, item) => manager.DeleteItem(item));
+            Row(DeleteId, "Delete", (manager, item) => manager.RemoveItem(item));
 
             var menu = builder.Build();
             menu.Opening += (_, _) => RefreshMoveRows();

@@ -28,7 +28,7 @@ namespace CMiX.Core.Tests
             Assert.Equal(new[] { 0, 1, 2 }, recorder.Sent.OfType<MessageAddItem>().Select(message => message.SelectedIndex));
 
             recorder.Sent.Clear();
-            manager.DeleteItem(manager.ManagerData.Items[2]);
+            manager.RemoveItem(manager.ManagerData.Items[2]);
             Assert.Equal(1, Assert.Single(recorder.Sent.OfType<MessageRemoveItem>()).SelectedIndex);
 
             recorder.Sent.Clear();
@@ -40,7 +40,7 @@ namespace CMiX.Core.Tests
             Assert.Equal(0, Assert.Single(recorder.Sent.OfType<MessageSelectedItemChanged>()).Index);
 
             recorder.Sent.Clear();
-            manager.DeleteItem(manager.ManagerData.Items[0]);
+            manager.RemoveItem(manager.ManagerData.Items[0]);
             Assert.Equal(0, Assert.Single(recorder.Sent.OfType<MessageRemoveItem>()).SelectedIndex);
         }
 

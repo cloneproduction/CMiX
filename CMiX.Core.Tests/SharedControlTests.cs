@@ -36,10 +36,10 @@ namespace CMiX.Core.Tests
             var repository = provider.GetRequiredService<ControlRepository>();
             var (_, first, second, entity) = CreateSharedEntity(provider);
 
-            first.ModelEntityManager.DeleteItem(entity);
+            first.ModelEntityManager.RemoveItem(entity);
             Assert.Same(entity, repository.GetControl(entity.ID));
 
-            second.ModelEntityManager.DeleteItem(entity);
+            second.ModelEntityManager.RemoveItem(entity);
             Assert.Null(repository.GetControl(entity.ID));
             Assert.Empty(repository.Entities);
         }
@@ -112,8 +112,8 @@ namespace CMiX.Core.Tests
             Assert.Single(repository.Entities);
 
             var entity = layers[0].ModelEntityManager.ManagerData.Items[0];
-            layers[0].ModelEntityManager.DeleteItem(entity);
-            layers[1].ModelEntityManager.DeleteItem(entity);
+            layers[0].ModelEntityManager.RemoveItem(entity);
+            layers[1].ModelEntityManager.RemoveItem(entity);
             Assert.Empty(repository.Entities);
         }
     }

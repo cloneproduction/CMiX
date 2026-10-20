@@ -19,7 +19,7 @@
             ItemsSource="{Binding ManagerData.Items}"
             MoveDownCommand="{Binding ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
             MoveUpCommand="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
-            RemoveCommand="{Binding DeleteItemCommand}"
+            RemoveCommand="{Binding RemoveItemCommand}"
             ReorderService="{Binding ManagerReorderService}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 

@@ -186,7 +186,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var harness = Harness.Create(3);
             var ids = harness.Ids;
 
-            harness.Do(() => harness.Layers.DeleteItem(harness.Layers.ManagerData.Items[1]));
+            harness.Do(() => harness.Layers.RemoveItem(harness.Layers.ManagerData.Items[1]));
 
             Assert.Equal(new[] { ids[0], ids[2] }, harness.Ids);
             Assert.Equal(1, harness.UndoSteps);

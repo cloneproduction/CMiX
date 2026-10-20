@@ -50,7 +50,7 @@ namespace CMiX.Core.Tests
 
             invert.Factor.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            invert.ModulatorManager.DeleteItem(randomModulator);
+            invert.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(invert.Factor.ModulatorID);
             Assert.Null(invert.Factor.BoundModulator);

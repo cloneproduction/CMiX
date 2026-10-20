@@ -10,7 +10,7 @@ namespace CMiX.Core.Tests
     public class DeleteLastItemTests
     {
         [Fact]
-        public void DeleteItem_OfTheOnlyComposition_LeavesNoneAndUndoBringsItBack()
+        public void RemoveItem_OfTheOnlyComposition_LeavesNoneAndUndoBringsItBack()
         {
             var provider = TestServiceProviderFactory.Create();
             var undo = provider.GetRequiredService<UndoManager>();
@@ -19,7 +19,7 @@ namespace CMiX.Core.Tests
             var composition = (Composition)compositions.SelectedItem;
             composition.LayerManager.AddItem(typeof(Layer));
 
-            compositions.DeleteItem(composition);
+            compositions.RemoveItem(composition);
 
             Assert.Empty(compositions.ManagerData.Items);
             Assert.Null(compositions.SelectedItem);
@@ -31,7 +31,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DeleteItem_OfAMiddleLayer_UndoRestoresItAtTheSameIndex()
+        public void RemoveItem_OfAMiddleLayer_UndoRestoresItAtTheSameIndex()
         {
             var provider = TestServiceProviderFactory.Create();
             var undo = provider.GetRequiredService<UndoManager>();
@@ -42,7 +42,7 @@ namespace CMiX.Core.Tests
                 layers.AddItem(typeof(Layer));
             var items = layers.ManagerData.Items.ToList();
 
-            layers.DeleteItem(items[1]);
+            layers.RemoveItem(items[1]);
             Assert.Equal(new[] { items[0], items[2] }, layers.ManagerData.Items);
 
             undo.Undo();

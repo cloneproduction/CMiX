@@ -37,11 +37,11 @@ namespace CMiX.Core.Prefabs.Managers
 
             AddItemCommand = new RelayCommand<Type>(AddItem);
             AddExistingItemCommand = new RelayCommand<IControl>(AddExistingItem);
-            DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
+            RemoveItemCommand = new RelayCommand<IControl>(RemoveItem);
             ClearSelectionCommand = new RelayCommand(ClearSelection);
             ResetItemCommand = new RelayCommand<IControl>(ResetItem);
             ManagerReorderService = reorderServiceFactory?.Invoke(ManagerData, MoveItem);
-            DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
+            RemoveEverywhereCommand = new RelayCommand<IControl>(RemoveEverywhere);
         }
 
         private readonly ControlFactory _controlFactory;
@@ -81,10 +81,10 @@ namespace CMiX.Core.Prefabs.Managers
 
         public override ICommand AddItemCommand { get; }
         public ICommand AddExistingItemCommand { get; }
-        public ICommand DeleteItemCommand { get; }
+        public ICommand RemoveItemCommand { get; }
         public override ICommand ClearSelectionCommand { get; }
         public ICommand ResetItemCommand { get; }
-        public ICommand DeleteEverywhereCommand { get; }
+        public ICommand RemoveEverywhereCommand { get; }
 
         public override IControl SelectedItem
         {
@@ -171,9 +171,9 @@ namespace CMiX.Core.Prefabs.Managers
             SelectAt(Collection.ManagerData.Items.IndexOf(control));
         }
 
-        public void DeleteItem(IControl control) => DeleteFrom(Collection, control);
+        public void RemoveItem(IControl control) => RemoveFrom(Collection, control);
 
-        private void DeleteFrom(CollectionManager collectionManager, IControl control)
+        private void RemoveFrom(CollectionManager collectionManager, IControl control)
         {
             if (!collectionManager.ManagerData.Items.Contains(control)) return;
             Run(new RemoveItemUndoCommand(new CollectionSync(collectionManager, ControlMessenger, MessageFactory), control));
@@ -203,14 +203,14 @@ namespace CMiX.Core.Prefabs.Managers
             ClearAll();
         }
 
-        private void DeleteEverywhere(IControl control)
+        private void RemoveEverywhere(IControl control)
         {
             control ??= SelectedItem;
             UndoManager?.BeginCapture();
             try
             {
                 foreach (var collectionManager in Collection.ControlRepository.GetCollectionManagers(control))
-                    DeleteFrom(collectionManager, control);
+                    RemoveFrom(collectionManager, control);
             }
             finally
             {

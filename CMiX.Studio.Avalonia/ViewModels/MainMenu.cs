@@ -122,7 +122,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             Dispatcher.UIThread.Post(() =>
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
-                Project.CompositionManager.DeleteItem(composition);
+                Project.CompositionManager.RemoveItem(composition);
             });
         }
 
@@ -145,7 +145,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
                 if (composition.LayerManager.SelectedItem is not Layer layer) return;
-                composition.LayerManager.DeleteItem(layer);
+                composition.LayerManager.RemoveItem(layer);
             });
         }
 

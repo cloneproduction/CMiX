@@ -33,7 +33,7 @@ namespace CMiX.Core.Undo
         public void Undo()
         {
             var collection = _sync.Collection;
-            collection.DeleteItem(_item);
+            collection.RemoveItem(_item);
             _sync.SendRemove(_item, collection.ManagerData.SelectedIndex);
 
             if (_previousItem != null && collection.ManagerData.Items.Contains(_previousItem))

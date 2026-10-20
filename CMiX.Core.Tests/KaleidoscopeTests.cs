@@ -54,7 +54,7 @@ namespace CMiX.Core.Tests
 
             kaleidoscope.CellScale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            kaleidoscope.ModulatorManager.DeleteItem(randomModulator);
+            kaleidoscope.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(kaleidoscope.CellScale.Y.ModulatorID);
             Assert.Null(kaleidoscope.CellScale.Y.BoundModulator);

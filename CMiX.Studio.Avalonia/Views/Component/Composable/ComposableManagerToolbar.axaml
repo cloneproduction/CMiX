@@ -53,7 +53,7 @@
             Height="{DynamicResource ControlHeightMD}"
             Width="{DynamicResource ControlHeightMD}"
             Background="Transparent"
-            Command="{Binding DeleteItemCommand}"
+            Command="{Binding RemoveItemCommand}"
             CommandParameter="{Binding SelectedItem}"
             DockPanel.Dock="Right"
             Theme="{StaticResource ButtonRounded}">

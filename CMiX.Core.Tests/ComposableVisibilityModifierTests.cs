@@ -58,7 +58,7 @@ namespace CMiX.Core.Tests
             var gate = lfo.Outputs.Single(o => o is ModulatorOutput<bool>);
             modifier.Visible.SetModulatorCommand.Execute(new ModulatorOutputSelection(lfo, gate));
 
-            modifier.ModulatorManager.DeleteItem(lfo);
+            modifier.ModulatorManager.RemoveItem(lfo);
 
             Assert.Null(modifier.Visible.ModulatorID);
         }

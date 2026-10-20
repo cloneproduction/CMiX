@@ -25,7 +25,7 @@ namespace CMiX.Core.Undo
         public void Execute()
         {
             _selectedBefore = _sync.Collection.ManagerData.SelectedItem;
-            _index = _sync.Collection.DeleteItem(_item);
+            _index = _sync.Collection.RemoveItem(_item);
             _sync.SendRemove(_item, _sync.Collection.ManagerData.SelectedIndex);
         }
 
