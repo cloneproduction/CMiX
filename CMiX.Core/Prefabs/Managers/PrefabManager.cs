@@ -40,7 +40,7 @@ namespace CMiX.Core.Prefabs.Managers
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             ClearSelectionCommand = new RelayCommand(ClearSelection);
             ResetItemCommand = new RelayCommand<IControl>(ResetItem);
-            ManagerReorderService = reorderServiceFactory?.Invoke(ManagerData, MoveItemAt);
+            ManagerReorderService = reorderServiceFactory?.Invoke(ManagerData, MoveItem);
             DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
         }
 
@@ -220,9 +220,9 @@ namespace CMiX.Core.Prefabs.Managers
 
         // Moves an item to a new index as one undoable step that peers also see. Does nothing for a bad index.
         public void MoveItemTo(IControl item, int newIndex) =>
-            MoveItemAt(ManagerData.Items.IndexOf(item), newIndex);
+            MoveItem(ManagerData.Items.IndexOf(item), newIndex);
 
-        public void MoveItemAt(int oldIndex, int newIndex)
+        public void MoveItem(int oldIndex, int newIndex)
         {
             var count = ManagerData.Items.Count;
             if (oldIndex < 0 || oldIndex == newIndex || newIndex < 0 || newIndex >= count) return;
