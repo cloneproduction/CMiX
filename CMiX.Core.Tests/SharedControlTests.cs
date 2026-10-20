@@ -103,7 +103,7 @@ namespace CMiX.Core.Tests
             var receiver = TestServiceProviderFactory.Create();
             var repository = receiver.GetRequiredService<ControlRepository>();
             var project = receiver.GetRequiredService<Project>();
-            project.CompositionManager.AddItem(compositionModel);
+            project.CompositionManager.AddItemFromModel(compositionModel);
 
             var composition = (Composition)project.CompositionManager.SelectedItem;
             var layers = composition.LayerManager.ManagerData.Items.Cast<Layer>().ToList();

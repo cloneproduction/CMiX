@@ -30,7 +30,7 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.Insert(ManagerData.Items.Count, control);
         }
 
-        public void AddItem(IControlModel controlModel)
+        public void AddItemFromModel(IControlModel controlModel)
         {
             var control = CreateOrReuse(controlModel);
             AddControlToCollection(control);

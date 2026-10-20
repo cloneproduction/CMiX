@@ -108,7 +108,7 @@ namespace CMiX.Core.Compositing
             LoadAddresses(model.RedisAddressManager);
 
             foreach (var composition in compositions)
-                CompositionManager.AddItem(composition);
+                CompositionManager.AddItemFromModel(composition);
 
             // Adding always selects the item just added, so the loop above always leaves the
             // last composition selected. Restore whichever one was actually selected when the

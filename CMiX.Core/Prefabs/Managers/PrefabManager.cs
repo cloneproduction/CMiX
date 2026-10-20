@@ -121,9 +121,9 @@ namespace CMiX.Core.Prefabs.Managers
             Run(new AddItemUndoCommand(_sync, item, ManagerData.Items.Count));
         }
 
-        public void AddItem(IControlModel model)
+        public void AddItemFromModel(IControlModel model)
         {
-            Collection.AddItem(model);
+            Collection.AddItemFromModel(model);
             var item = ManagerData.SelectedItem;
             var index = Collection.ManagerData.Items.IndexOf(item);
             _sync.SendAdd(item, index);
