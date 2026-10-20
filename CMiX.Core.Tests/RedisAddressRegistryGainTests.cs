@@ -41,13 +41,13 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DeletingAnAddress_TakesAwayItsGainInEveryModulator()
+        public void RemovingAnAddress_TakesAwayItsGainInEveryModulator()
         {
             var first = AddModulator(NewBlur().ModulatorManager);
             var second = AddModulator(NewBlur().ModulatorManager);
             Registry.AddAddress();
 
-            Registry.DeleteAddress(Registry.Addresses.Single());
+            Registry.RemoveAddress(Registry.Addresses.Single());
 
             Assert.Empty(first.Gains);
             Assert.Empty(second.Gains);
@@ -67,14 +67,14 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void OneUndo_BringsBackTheDeletedAddressWithTheValueOfItsGain()
+        public void OneUndo_BringsBackTheRemovedAddressWithTheValueOfItsGain()
         {
             var modulator = AddModulator(NewBlur().ModulatorManager);
             Registry.AddAddress();
             modulator.Gains.Single().Value = 2.5f;
             Undo.Clear();
 
-            Registry.DeleteAddress(Registry.Addresses.Single());
+            Registry.RemoveAddress(Registry.Addresses.Single());
             Undo.Undo();
 
             Assert.Single(Registry.Addresses);

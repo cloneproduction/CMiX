@@ -11,7 +11,7 @@
         ItemsSource="{Binding AddressManager.ManagerData.Items}"
         MoveDownCommand="{Binding AddressManager.ManagerReorderService.MoveItemDownCommand, FallbackValue={x:Null}}"
         MoveUpCommand="{Binding AddressManager.ManagerReorderService.MoveItemUpCommand, FallbackValue={x:Null}}"
-        RemoveCommand="{Binding DeleteAddressCommand}"
+        RemoveCommand="{Binding RemoveAddressCommand}"
         ReorderService="{Binding AddressManager.ManagerReorderService}"
         SelectedItem="{Binding AddressManager.SelectedItem, Mode=TwoWay}">
 

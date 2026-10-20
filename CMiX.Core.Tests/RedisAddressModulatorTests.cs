@@ -70,7 +70,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DeletingAnAddress_RemovesItsOutput()
+        public void RemovingAnAddress_RemovesItsOutput()
         {
             var (modulator, registry, _) = Create();
             var first = AddAddress(registry, "cmix:a");

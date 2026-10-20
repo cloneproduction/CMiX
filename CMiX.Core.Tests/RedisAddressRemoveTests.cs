@@ -12,8 +12,8 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Deleting a global address takes the values bound to it back to normal.
-    public class RedisAddressDeleteTests
+    // Removing a global address takes the values bound to it back to normal.
+    public class RedisAddressRemoveTests
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
 
@@ -45,7 +45,7 @@ namespace CMiX.Core.Tests
             var address = AddAddress("cmix:a");
             Bind(blur.Strength, modulator, address);
 
-            Registry.DeleteAddress(address);
+            Registry.RemoveAddress(address);
 
             Assert.Null(blur.Strength.ModulatorID);
             Assert.False(blur.Strength.IsModulated);
@@ -59,7 +59,7 @@ namespace CMiX.Core.Tests
             var address = AddAddress("cmix:a");
             Bind(scale.X, modulator, address);
 
-            Registry.DeleteAddress(address);
+            Registry.RemoveAddress(address);
 
             Assert.Null(scale.X.ModulatorID);
         }
@@ -72,7 +72,7 @@ namespace CMiX.Core.Tests
             var address = AddAddress("cmix:a");
             Bind(source.SeekTarget, modulator, address);
 
-            Registry.DeleteAddress(address);
+            Registry.RemoveAddress(address);
 
             Assert.Null(source.SeekTarget.ModulatorID);
         }
@@ -86,7 +86,7 @@ namespace CMiX.Core.Tests
             var kept = AddAddress("cmix:b");
             Bind(blur.Strength, modulator, kept);
 
-            Registry.DeleteAddress(deleted);
+            Registry.RemoveAddress(deleted);
 
             Assert.Equal(modulator.ID, blur.Strength.ModulatorID);
             Assert.Equal(kept.ID.ToString(), blur.Strength.BoundOutputName);
@@ -109,7 +109,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AfterTheModulatorIsRemoved_TheDeleteStillWorks()
+        public void AfterTheModulatorIsRemoved_TheRemoveStillWorks()
         {
             var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var modulator = AddModulator(blur.ModulatorManager);
@@ -117,7 +117,7 @@ namespace CMiX.Core.Tests
             Bind(blur.Strength, modulator, address);
             blur.ModulatorManager.RemoveItem(modulator);
 
-            Registry.DeleteAddress(address);
+            Registry.RemoveAddress(address);
 
             Assert.Empty(Registry.Addresses);
             Assert.Null(blur.Strength.ModulatorID);
@@ -132,7 +132,7 @@ namespace CMiX.Core.Tests
             Bind(blur.Strength, modulator, address);
             _provider.GetRequiredService<UndoManager>().Clear();
 
-            Registry.DeleteAddress(address);
+            Registry.RemoveAddress(address);
             _provider.GetRequiredService<UndoManager>().Undo();
 
             Assert.Single(Registry.Addresses);

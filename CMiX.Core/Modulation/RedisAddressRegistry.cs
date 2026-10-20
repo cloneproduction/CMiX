@@ -29,13 +29,13 @@ namespace CMiX.Core.Modulation
 
             addressManager.ManagerData.Items.CollectionChanged += OnItemsChanged;
             AddAddressCommand = new RelayCommand(AddAddress);
-            DeleteAddressCommand = new RelayCommand<IControl>(DeleteAddress);
+            RemoveAddressCommand = new RelayCommand<IControl>(RemoveAddress);
         }
 
         public PrefabManager AddressManager { get; }
 
         public ICommand AddAddressCommand { get; }
-        public ICommand DeleteAddressCommand { get; }
+        public ICommand RemoveAddressCommand { get; }
 
         public IEnumerable<RedisAddress> Addresses =>
             AddressManager.ManagerData.Items.OfType<RedisAddress>();
@@ -45,8 +45,8 @@ namespace CMiX.Core.Modulation
 
         public void AddAddress() => InOneUndoStep(() => AddressManager.AddItem(typeof(RedisAddress)));
 
-        // The values bound to the address go back to normal in the same undo step as the delete.
-        public void DeleteAddress(IControl address) => InOneUndoStep(() => AddressManager.RemoveItem(address));
+        // The values bound to the address go back to normal in the same undo step as the removal.
+        public void RemoveAddress(IControl address) => InOneUndoStep(() => AddressManager.RemoveItem(address));
 
         // For a modulator that is new or from an older project. It leaves no undo step.
         public void EnsureGainsWithoutUndo(RedisAddressModulator modulator)

@@ -74,7 +74,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void EnsureGains_TakesAwayTheGainOfADeletedAddress()
+        public void EnsureGains_TakesAwayTheGainOfARemovedAddress()
         {
             var modulator = NewModulator();
             var first = AddAddress("cmix:a");
