@@ -8,6 +8,7 @@
     <StackPanel>
 
         <ui:ListBoxCMiX
+            x:Name="itemsList"
             MinItemCount="{DynamicResource ListVisibleItems}"
             Margin="8"
             ItemsSource="{Binding ItemsSource, ElementName=listBoxDetail}"

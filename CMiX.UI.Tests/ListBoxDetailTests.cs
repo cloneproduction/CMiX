@@ -36,6 +36,16 @@ namespace CMiX.UI.Tests
         private static ListBoxCMiX ListOf(ListBoxDetail detail) => detail.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
 
         [AvaloniaFact]
+        public void ContainerPrepared_IsRaisedForEachRow_WithTheItemAsDataContext()
+        {
+            var prepared = new List<object?>();
+
+            var (_, _, rows) = Show(detail => detail.ContainerPrepared += (_, e) => prepared.Add(e.Container.DataContext));
+
+            Assert.Equal(rows.Cast<object?>(), prepared);
+        }
+
+        [AvaloniaFact]
         public void ShowsTheItems_WithTheTemplatesOfTheApplication()
         {
             var (_, detail, _) = Show();
