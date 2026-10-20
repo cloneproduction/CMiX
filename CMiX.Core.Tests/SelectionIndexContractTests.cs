@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
     public class SelectionIndexContractTests
     {
         [Fact]
-        public void TheMessagesCarryTheIndexOfTheItemThatIsSelectedAfterTheEdit()
+        public void Messages_CarryTheIndexOfTheItemThatIsSelectedAfterTheEdit()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = provider.GetRequiredService<PrefabManager>();
@@ -62,7 +62,7 @@ namespace CMiX.Core.Tests
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
-        public void TheSelectionOfAManagerSurvivesASaveAndALoad(int selectedIndex)
+        public void Selection_SurvivesASaveAndALoad(int selectedIndex)
         {
             var (layer, factory) = LayerWithEntities(selectedIndex);
             var model = (LayerModel)layer.ToModel();
@@ -75,7 +75,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ANoSelectionSurvivesASaveAndALoad()
+        public void NoSelection_SurvivesASaveAndALoad()
         {
             var (layer, factory) = LayerWithEntities(-1);
             var model = (LayerModel)layer.ToModel();

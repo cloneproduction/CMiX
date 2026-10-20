@@ -75,7 +75,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void SendRemoveSelected_SendsTheIdOfTheCollection()
+        public void SendClearSelection_SendsTheIdOfTheCollection()
         {
             var (sync, sender, _) = Create();
 
