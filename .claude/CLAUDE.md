@@ -52,6 +52,61 @@ These rules apply to every task in this repository.
 - The UI never waits for Redis. Every store call runs on a background task.
 - StackExchange.Redis stays on 2.8.31, the version the vvvv Redis package ships.
 
+## Names
+
+- One verb for one action, and the same word in every layer: the list
+  (`ManagerData`), the manager (`PrefabManager`), the view command (`...Command`),
+  the undo class (`...UndoCommand`), the wire message (`Message...`) and the sender
+  (`CollectionSync.Send...`). One search for the verb finds the whole chain.
+- The verbs of the list code:
+  - `AddItem` adds an item as one undo step. `AddItemFromModel` adds from a model
+    and is not an undo step. `InsertItem` and `LoadItem` are the low level forms.
+  - `RemoveItem` takes an item out of one list. `RemoveEverywhere` takes it out of every list.
+  - `Select` and `SelectAt` select. `ClearSelection` selects nothing.
+  - `Move` moves in the list. `MoveItem(old, new)`, `MoveItemTo(item, index)`,
+    `MoveItemUp` and `MoveItemDown` move as one undo step.
+  - `DuplicateItem` copies an item and puts the copy after it.
+- Do not use Delete in the code. A menu or a button can say Delete to the user.
+- The verb comes first: `MoveItemUp`, not `ItemUp`.
+- `...Command` is a command of a view for the XAML. `...UndoCommand` is an undo step.
+  The two never share a name.
+- A wire message has the name of its action: `MessageAddItem`, `MessageRemoveItem`,
+  `MessageMoveItem`, `MessageSelectItem`, `MessageClearSelection`.
+- A local that holds an `IControl` is `control` or `item`. Use `prefab` only for an `IPrefab`.
+- A test class ends with `Tests`. A test method is `Method_Scenario_Result`, for example
+  `Move_Rows_MoveTheItemAndStopAtTheEdges`. A file has the name of its type.
+  When a member gets a new name, the tests that carry the old name get the new one.
+
+### Names that do not change without a plan
+
+The compiler does not check these names. Ask the owner before you change one.
+
+- Names that the VL patches use: `ManagerData` with `Items`, `ID` and `SelectedIndex`;
+  `PrefabManager` with `SelectedItem` and `ManagerData`; `ControlRepository` with
+  `Controls`, `GetControl`, `GetRenderPriority` and `GetOrderedControls`.
+  The test `ControlRepositoryVlMembersTests` pins `Controls`, `GetRenderPriority` and
+  `GetOrderedControls`. The patches are `CMiX.Engine/*.vl` in this repository, and
+  `dependencies/extensions/CMiX.Extensions.vl` and `dl_pm.vl` in the parent repository.
+  A renamed name turns a node red.
+- Names in a project file: `$type` is the full name of the `...Model` class. When you
+  rename a model class, add a line to `LegacyTypeNames` in `IControlModelJsonConverter`.
+  A property name of a model is a JSON key. A new name needs `[JsonPropertyName]`.
+- Names on the wire: the type name of a message travels. An older build ignores a message
+  that it does not know, without an error. Studio and engine must update together.
+- Names in XAML: a binding to a wrong name gives no error. The tests
+  `CommandBindingTests` and `RepositoryBindingTests` catch some of them. Add a test
+  for each new binding to a command.
+
+### How to rename
+
+1. Search the name in `.cs`, `.axaml`, `.md` and the VL patches: `git grep -nw OldName`,
+   in this repository and in the parent repository.
+2. Write or find the test that shows the name works, before the change.
+3. Replace whole words only, for example `sed -E 's/\bOldName\b/NewName/g'`. Never replace plain text.
+4. Build. Run the three suites. Search the old name again. One commit per rename.
+5. For a bigger change or a new group of types, run the skill `naming-consistency` if you
+   have it. It reports and does not rename. It is a personal skill and not part of this repository.
+
 ## Tests
 
 - Unit tests use xUnit, TestServiceProviderFactory.Create() for a real object
