@@ -1,0 +1,25 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.RedisAddressModulator"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
+
+    <ui:ListBoxEditable
+        DataContext="{Binding AddressManager}"
+        AddCommand="{Binding AddItemCommand}"
+        AddCommandParameter="{x:Type Animations:RedisAddress}"
+        ItemsSource="{Binding ManagerData.Items}"
+        RemoveCommand="{Binding DeleteItemCommand}"
+        SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+
+        <ui:ListBoxEditable.ItemTemplate>
+            <DataTemplate DataType="{x:Type Animations:RedisAddress}">
+                <TextBox Text="{Binding Value, Mode=TwoWay}" Watermark="Redis address" />
+            </DataTemplate>
+        </ui:ListBoxEditable.ItemTemplate>
+
+    </ui:ListBoxEditable>
+</UserControl>
