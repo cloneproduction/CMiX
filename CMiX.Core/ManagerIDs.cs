@@ -32,6 +32,10 @@ namespace CMiX.Core
         // announced through MessageAddItem, so both sides must agree on this ID up front.
         public static readonly Guid ProjectModelFilePath = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5F");
 
+        // The list of Redis addresses of the project. It is created at Project startup, so both
+        // sides must agree on this ID up front.
+        public static readonly Guid RedisAddressManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF61");
+
         // Fixed like everything above: OutputMappingManager and its 10 slots are created directly
         // at Project startup on both the .NET and vvvv sides, never announced through
         // MessageAddItem, so both sides must agree on these IDs up front rather than learn them
