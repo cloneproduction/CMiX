@@ -95,7 +95,7 @@ namespace CMiX.Core.Prefabs.Managers
                 if (value == null) { ManagerData.ClearSelection(); return; }
                 EnsureItemInCollection(value);
                 if (Collection.ManagerData.Items.Contains(value))
-                    SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
+                    SelectAt(Collection.ManagerData.Items.IndexOf(value));
             }
         }
 
@@ -168,7 +168,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void AddExistingItem(IControl control)
         {
             EnsureItemInCollection(control);
-            SelectedItemChanged(Collection.ManagerData.Items.IndexOf(control));
+            SelectAt(Collection.ManagerData.Items.IndexOf(control));
         }
 
         public void DeleteItem(IControl control) => DeleteFrom(Collection, control);
@@ -246,7 +246,7 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(new ClearSelectionUndoCommand(_sync, previousItem, previousIndex));
         }
 
-        public void SelectedItemChanged(int index)
+        public void SelectAt(int index)
         {
             var previousItem = ManagerData.SelectedItem;
             var previousIndex = ManagerData.Items.IndexOf(previousItem);

@@ -26,7 +26,7 @@ namespace CMiX.Core.Tests
             var manager = provider.GetRequiredService<PrefabManager>();
             for (var i = 0; i < 3; i++)
                 manager.AddItem(typeof(CheckerBoard));
-            manager.SelectedItemChanged(selectedIndex);
+            manager.SelectAt(selectedIndex);
 
             var recorder = new RecordingMessageSender();
             provider.GetRequiredService<ControlMessenger>().Register(recorder);

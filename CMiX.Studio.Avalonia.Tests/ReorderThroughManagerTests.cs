@@ -123,7 +123,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void MovingTheSelectedItem_KeepsItSelected()
         {
             var setup = FourItems();
-            setup.Manager.SelectedItemChanged(0);
+            setup.Manager.SelectAt(0);
             setup.Undo.Clear();
 
             setup.Service.ItemDown(setup.Items[0]);

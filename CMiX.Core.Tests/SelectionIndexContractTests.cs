@@ -36,7 +36,7 @@ namespace CMiX.Core.Tests
             Assert.Equal(2, Assert.Single(recorder.Sent.OfType<MessageAddItem>()).SelectedIndex);
 
             recorder.Sent.Clear();
-            manager.SelectedItemChanged(0);
+            manager.SelectAt(0);
             Assert.Equal(0, Assert.Single(recorder.Sent.OfType<MessageSelectedItemChanged>()).Index);
 
             recorder.Sent.Clear();
@@ -54,7 +54,7 @@ namespace CMiX.Core.Tests
             if (selectedIndex < 0)
                 layer.ModelEntityManager.ClearSelection();
             else
-                layer.ModelEntityManager.SelectedItemChanged(selectedIndex);
+                layer.ModelEntityManager.SelectAt(selectedIndex);
             return (layer, factory);
         }
 
