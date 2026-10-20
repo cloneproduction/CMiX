@@ -24,16 +24,16 @@ namespace CMiX.Core.Prefabs.Managers
                 RemoveAndDispose(item);
         }
 
-        private void AddControlToCollection(IControl prefab)
+        private void AddControlToCollection(IControl control)
         {
-            ControlRepository.AddControl(prefab, this);
-            ManagerData.Insert(ManagerData.Items.Count, prefab);
+            ControlRepository.AddControl(control, this);
+            ManagerData.Insert(ManagerData.Items.Count, control);
         }
 
         public void AddItem(IControlModel controlModel)
         {
-            var prefab = CreateOrReuse(controlModel);
-            AddControlToCollection(prefab);
+            var control = CreateOrReuse(controlModel);
+            AddControlToCollection(control);
         }
 
         // Managers can share one control. A model with the ID of a known control gives back that control.
@@ -52,17 +52,17 @@ namespace CMiX.Core.Prefabs.Managers
         // The index is kept inside the list, so a stale index from a peer cannot throw.
         public void InsertItem(IControlModel controlModel, int index)
         {
-            var prefab = CreateOrReuse(controlModel);
-            InsertItem(prefab, Math.Clamp(index, 0, ManagerData.Items.Count));
+            var control = CreateOrReuse(controlModel);
+            InsertItem(control, Math.Clamp(index, 0, ManagerData.Items.Count));
         }
 
         public void Select(Guid controlID) => ManagerData.Select(ControlRepository.GetControl(controlID));
 
         public void LoadItem(IControlModel controlModel)
         {
-            var prefab = CreateOrReuse(controlModel);
-            ControlRepository.AddControl(prefab, this);
-            ManagerData.Items.Add(prefab);
+            var control = CreateOrReuse(controlModel);
+            ControlRepository.AddControl(control, this);
+            ManagerData.Items.Add(control);
         }
 
         private int RemoveFromList(IControl control)

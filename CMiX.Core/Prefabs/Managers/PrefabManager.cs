@@ -124,9 +124,9 @@ namespace CMiX.Core.Prefabs.Managers
         public void AddItem(IControlModel model)
         {
             Collection.AddItem(model);
-            var prefab = ManagerData.SelectedItem;
-            var index = Collection.ManagerData.Items.IndexOf(prefab);
-            _sync.SendAdd(prefab, index);
+            var item = ManagerData.SelectedItem;
+            var index = Collection.ManagerData.Items.IndexOf(item);
+            _sync.SendAdd(item, index);
         }
 
         // Adds a deep copy right after the source, with new ids and the next free name, as one undo step.
