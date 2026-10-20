@@ -8,6 +8,8 @@ namespace CMiX.Studio.Avalonia.Views.Managers
     {
         None,
         // The list of a layer: the items are in this list only by reference, so a row can be moved and removed from it.
-        Slot
+        Slot,
+        // The list of all the items of the project: a row has no place to move to, and it is deleted from every list.
+        Repository
     }
 }

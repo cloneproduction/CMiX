@@ -206,7 +206,7 @@ namespace CMiX.Core.Prefabs.Managers
             ClearAll();
         }
 
-        private void RemoveEverywhere(IControl control)
+        public void RemoveEverywhere(IControl control)
         {
             control ??= SelectedItem;
             UndoManager?.BeginCapture();

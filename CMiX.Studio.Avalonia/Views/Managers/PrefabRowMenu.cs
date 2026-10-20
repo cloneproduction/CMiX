@@ -29,6 +29,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         private const string MoveToTopId = "row.move-to-top";
         private const string MoveToBottomId = "row.move-to-bottom";
         private const string RemoveId = "row.remove";
+        private const string RemoveEverywhereId = "row.remove-everywhere";
 
         private readonly Control _row;
         private readonly Func<TextBoxEditable?> _nameBox;
@@ -50,20 +51,28 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             if (kind == RowMenuKind.None || row.ContextMenu != null) return;
 
             if (row.IsAttachedToVisualTree())
-                row.ContextMenu = Build(row);
+                row.ContextMenu = Build(row, kind);
             else
-                row.AttachedToVisualTree += (_, _) => row.ContextMenu ??= Build(row);
+                row.AttachedToVisualTree += (_, _) => row.ContextMenu ??= Build(row, kind);
         }
 
-        private static ContextMenu Build(Control row)
+        private static ContextMenu Build(Control row, RowMenuKind kind)
         {
             var menu = new PrefabRowMenu(row, () => row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault());
             menu.Duplicate();
             menu.Rename();
             menu.Line();
-            menu.Moves();
-            menu.Line();
-            menu.Remove("Remove");
+            switch (kind)
+            {
+                case RowMenuKind.Slot:
+                    menu.Moves();
+                    menu.Line();
+                    menu.Remove("Remove");
+                    break;
+                case RowMenuKind.Repository:
+                    menu.RemoveEverywhere("Delete Everywhere");
+                    break;
+            }
             return menu.Build();
         }
 
@@ -84,6 +93,8 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         }
 
         public void Remove(string header) => Row(RemoveId, header, (manager, item) => manager.RemoveItem(item));
+
+        public void RemoveEverywhere(string header) => Row(RemoveEverywhereId, header, (manager, item) => manager.RemoveEverywhere(item));
 
         public void Line() => _builder.Line();
 

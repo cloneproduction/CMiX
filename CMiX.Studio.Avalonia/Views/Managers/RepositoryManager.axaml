@@ -9,6 +9,7 @@
     <!-- The list is from the library. This control tells it which properties of the manager to use
          and which icon each type of prefab gets. -->
     <ui:ListBoxDetail
+        x:Name="detailList"
         AddContent="{Binding SelectionPanel, ElementName=repositoryManager}"
         DeleteCommand="{Binding RemoveEverywhereCommand}"
         DetailContent="{Binding EditingPanel, ElementName=repositoryManager}"

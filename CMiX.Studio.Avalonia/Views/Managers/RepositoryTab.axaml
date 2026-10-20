@@ -40,6 +40,7 @@
         <Border Background="Transparent">
             <Managers:RepositoryManager
                 ItemsSource="{Binding ItemsSource, ElementName=repositoryTab}"
+                RowMenu="{Binding RowMenu, ElementName=repositoryTab}"
                 SelectionPanel="{Binding SelectionPanel, ElementName=repositoryTab}"
                 EditingPanel="{Binding EditingPanel, ElementName=repositoryTab}" />
         </Border>
