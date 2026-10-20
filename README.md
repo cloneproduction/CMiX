@@ -59,6 +59,14 @@ The emergency save in the temp folder holds paths relative to that folder. Open 
 
 The start check reports "Not in sync" when you open a project on a machine other than the one that pushed the Redis snapshot, because the absolute paths differ. Click Push on that machine.
 
+## Redis addresses
+
+The Settings tab holds the list of Redis addresses of the project. Click an address to edit it. The buttons at the side add, remove and move addresses. The project file stores the list.
+
+The Redis Address modulator has one float output for each address of the list. Assign a value to an output in the same way as to any other modulator output. The name of an output is the ID of the address. An edit of the address text keeps the assignments. When you delete an address, the values bound to it go back to normal in the same undo step.
+
+The list has a fixed manager ID, `ManagerIDs.RedisAddressManager`. The vvvv side creates the list at startup with this ID.
+
 ## License
 
 CMiX is free software under the [GNU LGPL, version 3 or later](LICENSE). The GPL text is in [COPYING](COPYING).
