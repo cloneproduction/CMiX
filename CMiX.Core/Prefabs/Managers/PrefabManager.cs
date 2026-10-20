@@ -130,10 +130,13 @@ namespace CMiX.Core.Prefabs.Managers
         }
 
         // Adds a deep copy right after the source, with new ids and the next free name, as one undo step.
+        // A source that is not in this list gives a copy at the end of the list.
         public IControl DuplicateItem(IControl source)
         {
-            var index = Collection.ManagerData.Items.IndexOf(source);
-            if (index < 0 || UndoManager?.IsApplying == true) return null;
+            if (source == null || UndoManager?.IsApplying == true) return null;
+
+            var index = ManagerData.Items.IndexOf(source);
+            var insertAt = index < 0 ? ManagerData.Items.Count : index + 1;
 
             var factory = _controlFactory;
             var copy = factory.Create(ControlCloner.CloneWithNewGuids(source.ToModel()));
@@ -147,7 +150,7 @@ namespace CMiX.Core.Prefabs.Managers
                 finally { name.IsActive = true; }
             }
 
-            Run(new AddItemUndoCommand(_sync, copy, index + 1));
+            Run(new AddItemUndoCommand(_sync, copy, insertAt));
             return copy;
         }
 

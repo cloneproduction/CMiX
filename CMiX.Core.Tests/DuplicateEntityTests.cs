@@ -189,6 +189,22 @@ namespace CMiX.Core.Tests
             Assert.Null(repository.GetControl(copy.ID));
         }
 
+        [Theory]
+        [MemberData(nameof(Kinds))]
+        public void DuplicateItem_OfAnItemThatLivesInALayer_ThroughTheManagerOfTheRepository_PutsTheCopyAtTheEndOfItsList(Type kind)
+        {
+            var (provider, layerManager, items) = ThreeOf(kind);
+            var repositoryManager = provider.GetRequiredService<PrefabManager>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+
+            var copy = repositoryManager.DuplicateItem(items[1]);
+
+            Assert.IsType(kind, copy);
+            Assert.Same(copy, Assert.Single(repositoryManager.ManagerData.Items));
+            Assert.Same(copy, repository.GetControl(copy.ID));
+            Assert.Equal(items, layerManager.ManagerData.Items);
+        }
+
         [Fact]
         public void DuplicateItem_OfAnEntityThatTwoLayersShare_GivesTheCopyToThisLayerOnly()
         {
