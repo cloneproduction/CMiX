@@ -36,7 +36,7 @@
                 Width="{DynamicResource ControlHeightMD}"
                 Height="{DynamicResource ControlHeightMD}"
                 Margin="1,0"
-                Command="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
+                Command="{Binding ManagerReorderService.MoveItemUpCommand, FallbackValue={x:Null}}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource ButtonStraight}">
@@ -46,7 +46,7 @@
             <Button
                 Width="{DynamicResource ControlHeightMD}"
                 Height="{DynamicResource ControlHeightMD}"
-                Command="{Binding ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
+                Command="{Binding ManagerReorderService.MoveItemDownCommand, FallbackValue={x:Null}}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource ButtonStraight}">

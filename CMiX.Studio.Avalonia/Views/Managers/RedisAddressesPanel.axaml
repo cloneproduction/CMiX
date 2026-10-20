@@ -10,8 +10,8 @@
         AddCommand="{Binding AddressManager.AddItemCommand}"
         AddCommandParameter="{x:Type Animations:RedisAddress}"
         ItemsSource="{Binding AddressManager.ManagerData.Items}"
-        MoveDownCommand="{Binding AddressManager.ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
-        MoveUpCommand="{Binding AddressManager.ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
+        MoveDownCommand="{Binding AddressManager.ManagerReorderService.MoveItemDownCommand, FallbackValue={x:Null}}"
+        MoveUpCommand="{Binding AddressManager.ManagerReorderService.MoveItemUpCommand, FallbackValue={x:Null}}"
         RemoveCommand="{Binding DeleteAddressCommand}"
         ReorderService="{Binding AddressManager.ManagerReorderService}"
         SelectedItem="{Binding AddressManager.SelectedItem, Mode=TwoWay}">

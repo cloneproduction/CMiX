@@ -27,14 +27,14 @@ namespace CMiX.Studio.Avalonia.Services
         private bool _dragHandleIsPressed = false;
 
         [RelayCommand]
-        public void ItemUp(IControl control)
+        public void MoveItemUp(IControl control)
         {
             var index = _data.Items.IndexOf(control);
             if (index > 0) _move(index, index - 1);
         }
 
         [RelayCommand]
-        public void ItemDown(IControl control)
+        public void MoveItemDown(IControl control)
         {
             var items = _data.Items;
             var index = items.IndexOf(control);
