@@ -57,8 +57,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var (blur, _, _) = CreateBlurWithModulators();
             blur.ModulatorManager.AddItem(typeof(RedisAddressModulator));
             var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisAddressModulator>().Single();
-            modulator.AddressManager.AddItem(typeof(RedisAddress));
-            ((RedisAddress)modulator.AddressManager.SelectedItem).Value = "cmix:speed";
+            modulator.Registry.AddressManager.AddItem(typeof(RedisAddress));
+            ((RedisAddress)modulator.Registry.AddressManager.SelectedItem).Value = "cmix:speed";
 
             var rows = ModulatorOutputChoice.Build(Selections(modulator), blur.Strength);
 

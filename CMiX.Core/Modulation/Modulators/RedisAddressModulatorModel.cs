@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Modulation.Modulators
 {
@@ -10,6 +9,5 @@ namespace CMiX.Core.Modulation.Modulators
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
-        public PrefabManagerModel AddressManager { get; set; } = new();
     }
 }

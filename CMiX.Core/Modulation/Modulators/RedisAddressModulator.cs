@@ -1,38 +1,31 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using CMiX.Core.Animations;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
-using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    // A list of Redis addresses. Each address is one float output.
-    public class RedisAddressModulator : ModulatorBase, IDisposable
+    // One float output for each Redis address of the project.
+    public class RedisAddressModulator : ModulatorBase
     {
-        public RedisAddressModulator(PrefabService prefabService, PrefabManager addressManager)
+        public RedisAddressModulator(PrefabService prefabService, RedisAddressRegistry registry)
             : base(prefabService)
         {
-            AddressManager = addressManager;
+            Registry = registry;
         }
 
-        public PrefabManager AddressManager { get; set; }
+        public RedisAddressRegistry Registry { get; }
 
         // The output name is the ID of the address, so editing the address keeps the assignments.
         public override IReadOnlyList<IModulatorOutput> Outputs =>
-            AddressManager.ManagerData.Items
-                .OfType<RedisAddress>()
+            Registry.Addresses
                 .Select(address => new AddressedOutput(address.ID.ToString(), address.Value))
                 .ToList();
-
-        public void Dispose() => AddressManager.Dispose();
 
         public override IControlModel ToModel() => new RedisAddressModulatorModel
         {
             ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            AddressManager = (PrefabManagerModel)AddressManager.ToModel()
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel()
         };
 
         public override void FromModel(IControlModel model)
@@ -40,8 +33,6 @@ namespace CMiX.Core.Modulation.Modulators
             var m = (RedisAddressModulatorModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
-
-            LoadManager(AddressManager, m.AddressManager);
         }
     }
 }

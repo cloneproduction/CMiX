@@ -1,6 +1,7 @@
 using System.Text.Json;
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
@@ -9,17 +10,20 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // The list of a RedisAddressModulator: each address is one float output.
+    // The outputs of a RedisAddressModulator: one float output for each address of the project.
     public class RedisAddressModulatorTests
     {
-        private static RedisAddressModulator NewModulator() =>
-            (RedisAddressModulator)TestServiceProviderFactory.Create()
-                .GetRequiredService<ControlFactory>().Create(typeof(RedisAddressModulator));
-
-        private static RedisAddress AddAddress(RedisAddressModulator modulator, string text)
+        private static (RedisAddressModulator Modulator, RedisAddressRegistry Registry, IServiceProvider Provider) Create()
         {
-            modulator.AddressManager.AddItem(typeof(RedisAddress));
-            var address = (RedisAddress)modulator.AddressManager.SelectedItem;
+            var provider = TestServiceProviderFactory.Create();
+            var modulator = (RedisAddressModulator)provider.GetRequiredService<ControlFactory>().Create(typeof(RedisAddressModulator));
+            return (modulator, provider.GetRequiredService<RedisAddressRegistry>(), provider);
+        }
+
+        private static RedisAddress AddAddress(RedisAddressRegistry registry, string text)
+        {
+            registry.AddressManager.AddItem(typeof(RedisAddress));
+            var address = (RedisAddress)registry.AddressManager.SelectedItem;
             address.Value = text;
             return address;
         }
@@ -27,15 +31,15 @@ namespace CMiX.Core.Tests
         [Fact]
         public void ItStartsWithNoOutput()
         {
-            Assert.Empty(NewModulator().Outputs);
+            Assert.Empty(Create().Modulator.Outputs);
         }
 
         [Fact]
         public void EachAddress_IsOneFloatOutput()
         {
-            var modulator = NewModulator();
-            AddAddress(modulator, "cmix:a");
-            AddAddress(modulator, "cmix:b");
+            var (modulator, registry, _) = Create();
+            AddAddress(registry, "cmix:a");
+            AddAddress(registry, "cmix:b");
 
             Assert.Equal(new[] { "cmix:a", "cmix:b" },
                 modulator.Outputs.Cast<AddressedOutput>().Select(output => output.Address));
@@ -43,10 +47,20 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void TwoModulators_GiveTheSameOutputs()
+        {
+            var (first, registry, provider) = Create();
+            var second = (RedisAddressModulator)provider.GetRequiredService<ControlFactory>().Create(typeof(RedisAddressModulator));
+            AddAddress(registry, "cmix:a");
+
+            Assert.Equal(first.Outputs, second.Outputs);
+        }
+
+        [Fact]
         public void EditingAnAddress_KeepsTheOutputName()
         {
-            var modulator = NewModulator();
-            var address = AddAddress(modulator, "cmix:a");
+            var (modulator, registry, _) = Create();
+            var address = AddAddress(registry, "cmix:a");
             var nameBefore = modulator.Outputs[0].Name;
 
             address.Value = "cmix:changed";
@@ -58,41 +72,38 @@ namespace CMiX.Core.Tests
         [Fact]
         public void DeletingAnAddress_RemovesItsOutput()
         {
-            var modulator = NewModulator();
-            var first = AddAddress(modulator, "cmix:a");
-            AddAddress(modulator, "cmix:b");
+            var (modulator, registry, _) = Create();
+            var first = AddAddress(registry, "cmix:a");
+            AddAddress(registry, "cmix:b");
 
-            modulator.AddressManager.DeleteItemCommand.Execute(first);
+            registry.AddressManager.DeleteItemCommand.Execute(first);
 
             Assert.Equal(new[] { "cmix:b" },
                 modulator.Outputs.Cast<AddressedOutput>().Select(output => output.Address));
         }
 
         [Fact]
-        public void TheAddresses_SurviveSavingAndLoading()
+        public void MovingAnAddress_ChangesTheOrderOfTheOutputs()
         {
-            var modulator = NewModulator();
-            AddAddress(modulator, "cmix:a");
-            AddAddress(modulator, "cmix:b");
+            var (modulator, registry, _) = Create();
+            var first = AddAddress(registry, "cmix:a");
+            AddAddress(registry, "cmix:b");
+
+            registry.AddressManager.MoveItemTo(first, 1);
+
+            Assert.Equal(new[] { "cmix:b", "cmix:a" },
+                modulator.Outputs.Cast<AddressedOutput>().Select(output => output.Address));
+        }
+
+        [Fact]
+        public void TheModulator_SurvivesSavingAndLoading()
+        {
+            var (modulator, _, _) = Create();
 
             var json = JsonSerializer.Serialize<IControlModel>(modulator.ToModel(), ProjectSerializer.Options);
             var model = (RedisAddressModulatorModel)JsonSerializer.Deserialize<IControlModel>(json, ProjectSerializer.Options)!;
 
-            Assert.Equal(new[] { "cmix:a", "cmix:b" },
-                model.AddressManager.ManagerData.Items.Cast<RedisAddressModel>().Select(address => address.Value));
-        }
-
-        [Fact]
-        public void LoadingAModel_GivesTheSameOutputNames()
-        {
-            var modulator = NewModulator();
-            AddAddress(modulator, "cmix:a");
-            var namesBefore = modulator.Outputs.Select(output => output.Name).ToList();
-
-            var loaded = NewModulator();
-            loaded.FromModel(modulator.ToModel());
-
-            Assert.Equal(namesBefore, loaded.Outputs.Select(output => output.Name));
+            Assert.Equal(modulator.ID, model.ID);
         }
     }
 }

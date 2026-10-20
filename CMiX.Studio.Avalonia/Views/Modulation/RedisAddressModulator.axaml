@@ -2,30 +2,11 @@
     x:Class="CMiX.Studio.Avalonia.Views.RedisAddressModulator"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <ui:ListBoxEditable
-        DataContext="{Binding AddressManager}"
-        AddCommand="{Binding AddItemCommand}"
-        AddCommandParameter="{x:Type Animations:RedisAddress}"
-        ItemsSource="{Binding ManagerData.Items}"
-        MoveDownCommand="{Binding ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
-        MoveUpCommand="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
-        RemoveCommand="{Binding DeleteItemCommand}"
-        ReorderService="{Binding ManagerReorderService}"
-        SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-
-        <ui:ListBoxEditable.ItemTemplate>
-            <DataTemplate DataType="{x:Type Animations:RedisAddress}">
-                <ui:TextBoxEditable
-                    Height="{DynamicResource ControlHeightSM}"
-                    Foreground="{DynamicResource ForegroundBrush}"
-                    Text="{Binding Value, Mode=TwoWay}" />
-            </DataTemplate>
-        </ui:ListBoxEditable.ItemTemplate>
-
-    </ui:ListBoxEditable>
+    <TextBlock
+        Foreground="{DynamicResource ForegroundBrush}"
+        Text="The addresses come from the Settings tab."
+        TextWrapping="Wrap" />
 </UserControl>
