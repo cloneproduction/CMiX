@@ -2,12 +2,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.VisualTree;
 using CMiX.UI.AttachedProperties;
-using CMiX.UI.Controls.String;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
@@ -22,7 +19,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         public PrefabSlotManager()
         {
             InitializeComponent();
-            prefabListBox.ContainerPrepared += (_, e) => GiveMenu(e.Container);
+            prefabListBox.ContainerPrepared += (_, e) => PrefabRowMenu.Give(e.Container, RowMenu);
         }
 
         // The menu of the rows. None, the default, gives them no menu.
@@ -32,29 +29,6 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         {
             get => GetValue(RowMenuProperty);
             set => SetValue(RowMenuProperty, value);
-        }
-
-        // The menu is built once the row is in the window, because the theme of the menu comes from the resources of the app.
-        private void GiveMenu(Control row)
-        {
-            if (RowMenu != RowMenuKind.Slot || row.ContextMenu != null) return;
-
-            if (row.IsAttachedToVisualTree())
-                row.ContextMenu = BuildSlotMenu(row);
-            else
-                row.AttachedToVisualTree += (_, _) => row.ContextMenu ??= BuildSlotMenu(row);
-        }
-
-        private static ContextMenu BuildSlotMenu(Control row)
-        {
-            var menu = new PrefabRowMenu(row, () => row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault());
-            menu.Duplicate();
-            menu.Rename();
-            menu.Line();
-            menu.Moves();
-            menu.Line();
-            menu.Remove("Remove");
-            return menu.Build();
         }
 
         // The least number of rows of the list. Zero, the default, takes the token ListVisibleItems when the

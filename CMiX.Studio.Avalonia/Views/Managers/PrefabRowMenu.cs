@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
@@ -40,6 +41,30 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             _row = row;
             _nameBox = nameBox;
             _builder = new TitledContextMenu(row, () => (row.DataContext as IPrefab)?.PrefabService.Name.Value?.Trim() ?? string.Empty, DuplicateId);
+        }
+
+        // Gives a row of a list the menu of the kind of the list. The menu is built once the row is in the window,
+        // because the theme of the menu comes from the resources of the app.
+        public static void Give(Control row, RowMenuKind kind)
+        {
+            if (kind == RowMenuKind.None || row.ContextMenu != null) return;
+
+            if (row.IsAttachedToVisualTree())
+                row.ContextMenu = Build(row);
+            else
+                row.AttachedToVisualTree += (_, _) => row.ContextMenu ??= Build(row);
+        }
+
+        private static ContextMenu Build(Control row)
+        {
+            var menu = new PrefabRowMenu(row, () => row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault());
+            menu.Duplicate();
+            menu.Rename();
+            menu.Line();
+            menu.Moves();
+            menu.Line();
+            menu.Remove("Remove");
+            return menu.Build();
         }
 
         public void Duplicate() => Row(DuplicateId, "Duplicate", (manager, item) => manager.DuplicateItem(item));
