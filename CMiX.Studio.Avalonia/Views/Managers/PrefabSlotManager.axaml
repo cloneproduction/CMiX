@@ -59,6 +59,7 @@
                 Height="{DynamicResource ControlHeightMD}"
                 Content="⇄"
                 DockPanel.Dock="Left"
+                IsEnabled="{Binding ItemsSource.Count, ElementName=prefabSlotManager, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
                 Theme="{StaticResource ToggleButtonRoundedLeft}" />
 
             <Popup
