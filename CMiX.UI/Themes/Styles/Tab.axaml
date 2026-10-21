@@ -138,7 +138,8 @@
     </ControlTheme>
 
     <ControlTheme x:Key="TabControlVertical" TargetType="TabControl">
-        <Setter Property="Background" Value="{DynamicResource Grey200Brush}" />
+        <!-- The strip under the tabs is the darkest grey, so the tabs (grey 200) stand out from it. -->
+        <Setter Property="Background" Value="{DynamicResource Grey100Brush}" />
         <!-- Stretch so the page content fills the tab area; see the note on the implicit theme. -->
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemHorizontal}" />
