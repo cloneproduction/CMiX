@@ -33,7 +33,7 @@ namespace CMiX.UI.Gallery
 
             Bind(IdleBox, "StateIdleBrush", "Grey600Brush");
             Bind(HoverBox, "StateHoverBrush", "Grey700Brush");
-            Bind(PressedBox, "StatePressedBrush", "Grey500Brush");
+            Bind(PressedBox, "StatePressedBrush", "Grey300Brush");
             Bind(RowBox, "RowHoverBrush", "Grey500Brush");
 
             Sections.Children.Add(Section("Surface controls", "surface", SurfaceSamples()));

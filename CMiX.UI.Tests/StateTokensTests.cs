@@ -25,7 +25,7 @@ namespace CMiX.UI.Tests
         {
             Assert.Equal(Grey(600), Token("StateIdleBrush"));
             Assert.Equal(Grey(700), Token("StateHoverBrush"));
-            Assert.Equal(Grey(500), Token("StatePressedBrush"));
+            Assert.Equal(Grey(300), Token("StatePressedBrush"));
             Assert.Equal(Grey(500), Token("RowHoverBrush"));
         }
 
