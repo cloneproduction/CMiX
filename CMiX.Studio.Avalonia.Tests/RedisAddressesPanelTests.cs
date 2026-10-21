@@ -85,15 +85,17 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheSettingsTab_HasAnExpanderForEachSection()
+        public void TheSettingsTab_ShowsOnlyTheOutputMappings()
         {
             var tab = new Views.SettingsTab();
             new Window { Content = tab, Width = 400, Height = 400 }.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var headers = tab.GetVisualDescendants().OfType<ExpanderIndented>().Select(expander => expander.Header);
+            var headers = tab.GetVisualDescendants().OfType<ExpanderIndented>()
+                .Where(expander => expander.IsEffectivelyVisible)
+                .Select(expander => expander.Header);
 
-            Assert.Equal(new object[] { "Output Mappings", "Redis Addresses" }, headers);
+            Assert.Equal(new object[] { "Output Mappings" }, headers);
         }
     }
 }

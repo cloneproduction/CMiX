@@ -18,7 +18,7 @@
                 <Managers:OutputMappingsPanel DataContext="{Binding Project.OutputMappingManager}" />
             </ui:ExpanderIndented>
 
-            <ui:ExpanderIndented Header="Redis Addresses">
+            <ui:ExpanderIndented Header="Redis Addresses" IsVisible="False">
                 <Managers:RedisAddressesPanel DataContext="{Binding Project.RedisAddressRegistry}" />
             </ui:ExpanderIndented>
 
