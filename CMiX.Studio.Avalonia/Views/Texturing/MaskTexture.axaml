@@ -28,8 +28,9 @@
       
       <ui:ExpanderIndented 
         Indentation="4"
-        Header="Transform" 
-        IsExpanded="{Binding IsExpanded}">
+        Header="Transform"
+        IsExpanded="{Binding IsExpanded}"
+        IsVisible="{Binding TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
         
         <StackPanel Spacing="{DynamicResource SpacingMD}">
           

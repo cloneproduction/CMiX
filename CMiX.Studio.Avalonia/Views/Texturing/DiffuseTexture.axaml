@@ -30,8 +30,9 @@
 
         </Managers:PrefabSlotManager>
 
-        <Views:Texture DataContext="{Binding TextureManager.SelectedItem}"
-                        IsVisible="{Binding TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}"/>
+        <Border IsVisible="{Binding TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+            <Views:Texture DataContext="{Binding TextureManager.SelectedItem}" />
+        </Border>
 
     </StackPanel>
 
