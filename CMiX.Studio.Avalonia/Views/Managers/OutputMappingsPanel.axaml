@@ -12,12 +12,11 @@
             ItemsSource="{Binding AssetRepository.Geometries}"
             SelectedItem="{Binding Asset}" />
 
-        <ui:ListBoxCMiX
-            MinItemCount="{DynamicResource ListVisibleItems}"
+        <ListBox
             ItemsSource="{Binding Items}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
-            <ui:ListBoxCMiX.ItemTemplate>
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
 
@@ -31,8 +30,8 @@
 
                     </DockPanel>
                 </DataTemplate>
-            </ui:ListBoxCMiX.ItemTemplate>
-        </ui:ListBoxCMiX>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <StackPanel
             DataContext="{Binding SelectedItem}">
