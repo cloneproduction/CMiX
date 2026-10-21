@@ -1,12 +1,14 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Number;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -23,7 +25,7 @@ namespace CMiX.UI.Tests
         {
             Assert.Equal(Grey(600), Token("StateIdleBrush"));
             Assert.Equal(Grey(700), Token("StateHoverBrush"));
-            Assert.Equal(Grey(800), Token("StatePressedBrush"));
+            Assert.Equal(Grey(500), Token("StatePressedBrush"));
             Assert.Equal(Grey(500), Token("RowHoverBrush"));
         }
 
@@ -74,6 +76,43 @@ namespace CMiX.UI.Tests
 
             Force(drag, ":pointerover");
             Assert.Equal(Token("StateHoverBrush"), Background(border));
+
+            Force(drag, ":pressed");
+            Assert.Equal(Token("StatePressedBrush"), Background(border));
+        }
+
+        [AvaloniaFact]
+        public void APressedState_IsDarkerThanIdle()
+        {
+            var idle = Token("StateIdleBrush");
+            var pressed = Token("StatePressedBrush");
+
+            Assert.True(pressed.R < idle.R);
+        }
+
+        [AvaloniaFact]
+        public void ADragValue_IsPressed_WhileTheMouseButtonIsDown()
+        {
+            using var spy = new CursorSpy();
+            var drag = new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Width = 160, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left };
+            var window = new Window { Content = drag, Width = 300, Height = 100 };
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+            foreach (var visual in window.GetVisualDescendants().Where(v => v.Clip != null))
+                visual.Clip = null;
+            Dispatcher.UIThread.RunJobs();
+            var border = drag.GetVisualDescendants().OfType<Border>().First(part => part.Name == "borderValueDisplay");
+            var at = border.TranslatePoint(new Point(border.Bounds.Width / 2, border.Bounds.Height / 2), window)!.Value;
+
+            window.MouseMove(at);
+            window.MouseDown(at, MouseButton.Left);
+            Dispatcher.UIThread.RunJobs();
+            Assert.Contains(":pressed", drag.Classes);
+            Assert.Equal(Token("StatePressedBrush"), Background(border));
+
+            window.MouseUp(at, MouseButton.Left);
+            Dispatcher.UIThread.RunJobs();
+            Assert.DoesNotContain(":pressed", drag.Classes);
         }
     }
 }

@@ -47,7 +47,11 @@ namespace CMiX.UI.Controls.Number
                 _borderValueDisplay.AddHandler(PointerPressedEvent, Border_PointerPressed, RoutingStrategies.Tunnel);
                 _borderValueDisplay.AddHandler(PointerReleasedEvent, Border_PointerReleased, RoutingStrategies.Tunnel);
                 _borderValueDisplay.AddHandler(PointerMovedEvent, Border_PointerMoved, RoutingStrategies.Tunnel);
-                _borderValueDisplay.PointerCaptureLost += (s, ev) => _interaction?.Dispose();
+                _borderValueDisplay.PointerCaptureLost += (s, ev) =>
+                {
+                    _interaction?.Dispose();
+                    PseudoClasses.Set(":pressed", false);
+                };
             }
 
             if (addButton != null)
@@ -100,6 +104,7 @@ namespace CMiX.UI.Controls.Number
             _dragging = false;
 
             e.Pointer.Capture(_borderValueDisplay);
+            PseudoClasses.Set(":pressed", true);
             _interaction = InteractionHost.BeginScope();
             e.Handled = true;
         }
@@ -132,6 +137,7 @@ namespace CMiX.UI.Controls.Number
 
         private void Border_PointerReleased(object? sender, PointerReleasedEventArgs e)
         {
+            PseudoClasses.Set(":pressed", false);
             e.Pointer.Capture(null);
             _interaction?.Dispose();
 

@@ -108,6 +108,9 @@
             <Setter Property="Cursor" Value="SizeWestEast" />
             <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
+        <Style Selector="^:pressed /template/ Border#borderValueDisplay">
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
+        </Style>
 
         <Style Selector="^ /template/ TextBlock#valueDisplay">
             <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:N3}}" />
