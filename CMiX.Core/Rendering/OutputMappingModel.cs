@@ -11,6 +11,5 @@ namespace CMiX.Core.Rendering
         public GenericValueModel<string> Name { get; init; } = new(string.Empty);
         public Integer2Model Resolution { get; init; } = new(1920, 1080);
         public GenericValueModel<TexcoordSemantic> TexcoordSemantic { get; init; } = new(Rendering.TexcoordSemantic.Texcoord0);
-        public GenericValueModel<bool> Visibility { get; init; } = new(true);
     }
 }

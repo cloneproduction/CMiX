@@ -10,13 +10,11 @@ namespace CMiX.Core.Rendering
     {
         public OutputMapping(GenericValue<string> name,
                              Integer2 resolution,
-                             GenericValue<TexcoordSemantic> texcoordSemantic,
-                             GenericValue<bool> visibility)
+                             GenericValue<TexcoordSemantic> texcoordSemantic)
         {
             Name = name;
             Resolution = resolution;
             TexcoordSemantic = texcoordSemantic;
-            Visibility = visibility;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -28,17 +26,12 @@ namespace CMiX.Core.Rendering
         // editing, only carried through so the engine can read it.
         public GenericValue<TexcoordSemantic> TexcoordSemantic { get; set; }
 
-        // Same naming/shape as PrefabService.Visibility used for Composition/Layer, so this
-        // reads consistently with the rest of the codebase.
-        public GenericValue<bool> Visibility { get; set; }
-
         public IControlModel ToModel() => new OutputMappingModel
         {
             ID = ID,
             Name = (GenericValueModel<string>)Name.ToModel(),
             Resolution = (Integer2Model)Resolution.ToModel(),
-            TexcoordSemantic = (GenericValueModel<TexcoordSemantic>)TexcoordSemantic.ToModel(),
-            Visibility = (GenericValueModel<bool>)Visibility.ToModel()
+            TexcoordSemantic = (GenericValueModel<TexcoordSemantic>)TexcoordSemantic.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -50,7 +43,6 @@ namespace CMiX.Core.Rendering
             Name.FromModel(m.Name);
             Resolution.FromModel(m.Resolution);
             TexcoordSemantic.FromModel(m.TexcoordSemantic);
-            Visibility.FromModel(m.Visibility);
         }
 
         public override string ToString() => Name.Value;

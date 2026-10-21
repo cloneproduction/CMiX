@@ -100,8 +100,7 @@ namespace CMiX.Core.Compositing
         // already given new ids, in file order.
         public void Open(ProjectModel model, IReadOnlyList<CompositionModel> compositions)
         {
-            // The slots are restored before the compositions, because the rebuild of VisibleItems
-            // would drop the output mapping selection of a composition that is already bound.
+            // The slots are restored before the compositions, because a composition refers to a slot.
             if (model.OutputMappingManager != null)
                 OutputMappingManager.FromModel(model.OutputMappingManager);
 

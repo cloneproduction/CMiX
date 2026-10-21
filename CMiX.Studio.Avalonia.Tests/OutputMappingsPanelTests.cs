@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
+using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -10,6 +11,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Rendering;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls;
+using CMiX.UI.Controls.Enum;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -40,6 +42,29 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(OutputMappingManager.SlotCount, OutputList(panel).ItemCount);
             Assert.Equal(scroll.Extent.Height, scroll.Viewport.Height);
+        }
+
+        [AvaloniaFact]
+        public void TheRowsOfTheList_HaveNoVisibilityToggle()
+        {
+            var panel = Panel();
+            Show(panel);
+
+            Assert.Empty(OutputList(panel).GetVisualDescendants().OfType<ToggleButton>());
+        }
+
+        [AvaloniaFact]
+        public void TheOutputMappingOfAComposition_CanBeAnyOfTheOutputs()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var project = provider.GetRequiredService<Project>();
+            project.CompositionManager.AddItem(typeof(Composition));
+            var view = new Views.CompositionSettings { DataContext = project.CompositionManager.SelectedItem };
+            Show(view);
+
+            var combo = view.GetVisualDescendants().OfType<ComboBoxCaptioned>().Single();
+
+            Assert.Equal(OutputMappingManager.SlotCount, combo.ItemsSource!.Cast<object>().Count());
         }
 
         [AvaloniaFact]

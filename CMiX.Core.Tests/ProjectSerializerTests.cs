@@ -1,7 +1,9 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Nodes;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
+using CMiX.Core.Rendering;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -19,6 +21,23 @@ namespace CMiX.Core.Tests
             var project = provider.GetRequiredService<Project>();
             project.CompositionManager.AddItem(typeof(Composition));
             return (ProjectModel)project.ToModel();
+        }
+
+        // An output used to have a visibility. A file from that time still loads, and the key is ignored.
+        [Fact]
+        public void Load_FileWithTheRemovedOutputVisibility_StillLoads()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var path = Path.Combine(_directory, "old-outputs.cmix");
+            ProjectSerializer.Save(BuildMinimalProjectModel(provider), path);
+            var root = JsonNode.Parse(File.ReadAllText(path))!;
+            foreach (var item in root["OutputMappingManager"]!["Items"]!.AsArray())
+                item!.AsObject()["Visibility"] = JsonNode.Parse("{\"ID\":\"00000000-0000-0000-0000-000000000000\",\"Value\":false}");
+            File.WriteAllText(path, root.ToJsonString());
+
+            var loaded = ProjectSerializer.Load(path);
+
+            Assert.Equal(OutputMappingManager.SlotCount, loaded.OutputMappingManager.Items.Count);
         }
 
         [Fact]

@@ -18,17 +18,7 @@
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel>
-
-                        <ToggleButton
-                            Margin="0, 0, 8, 0"
-                            DockPanel.Dock="Right"
-                            IsChecked="{Binding !Visibility.Value}"
-                            Theme="{DynamicResource ToggleButtonVisibility}" />
-
-                        <ui:TextBoxEditable Text="{Binding Name.Value}" />
-
-                    </DockPanel>
+                    <ui:TextBoxEditable Text="{Binding Name.Value}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
