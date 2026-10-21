@@ -54,7 +54,7 @@ namespace CMiX.Core.BaseControls
             get => _value;
             set
             {
-                if (IsActive)
+                if (IsActive && !IsSendingSuppressed)
                 {
                     if (ValueInteraction.IsActive)
                     {
@@ -71,7 +71,7 @@ namespace CMiX.Core.BaseControls
 
                     var before = CaptureModel();
                     SetProperty(ref _value, value);
-                    if (!IsReceiving && !(UndoManager?.IsApplying ?? false))
+                    if (!(UndoManager?.IsApplying ?? false))
                     {
                         var after = CaptureModel();
                         UndoManager?.Push(new ValueChangedCommand(this, before, after));
@@ -97,8 +97,7 @@ namespace CMiX.Core.BaseControls
                 _inInteraction = true;
                 // Undo state is decided once per gesture, matching what the unthrottled path would
                 // have recorded for the first write of the gesture.
-                var recordsUndo = !IsReceiving
-                                  && !(UndoManager?.IsApplying ?? false)
+                var recordsUndo = !(UndoManager?.IsApplying ?? false)
                                   && !(UndoManager?.IsSuppressed ?? false);
                 _interactionBefore = recordsUndo ? CaptureModel() : null;
                 _lastInteractionSendTicks = Stopwatch.GetTimestamp() - InteractionSendIntervalTicks;
@@ -160,8 +159,9 @@ namespace CMiX.Core.BaseControls
         public void Receive(IMessage message)
         {
             if (message.ID != this.ID) return;
-            if (message is MessageValueChanged change)
-                ReceiveWithoutEcho(() => Value = ((GenericValueModel<T>)change.Value).Value);
+            if (message is not MessageValueChanged change) return;
+            using (SuppressSending())
+                Value = ((GenericValueModel<T>)change.Value).Value;
         }
 
         public IControlModel ToModel() => new GenericValueModel<T>

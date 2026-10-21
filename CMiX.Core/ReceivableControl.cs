@@ -9,25 +9,30 @@ namespace CMiX.Core
     public abstract class ReceivableControl : ObservableRecipient
     {
         public UndoManager UndoManager { get; set; }
-        public bool IsReceiving { get; set; }
         public void Activate() => IsActive = true;
 
         // Called by ControlFactory after a default model loads. Most controls have no default.
         public virtual void SetDefaults() { }
 
-        protected void ReceiveWithoutEcho(Action action)
+        private int _suppressionDepth;
+
+        public bool IsSendingSuppressed => _suppressionDepth > 0;
+
+        // Stops the network messages and the undo steps of this control until the scope ends.
+        // Scopes can nest. Always use it in a using statement.
+        public SuppressionScope SuppressSending()
         {
-            IsReceiving = true;
-            IsActive = false;
-            try
-            {
-                action();
-            }
-            finally
-            {
-                IsActive = true;
-                IsReceiving = false;
-            }
+            _suppressionDepth++;
+            return new SuppressionScope(this);
+        }
+
+        public readonly struct SuppressionScope : IDisposable
+        {
+            private readonly ReceivableControl _owner;
+
+            internal SuppressionScope(ReceivableControl owner) => _owner = owner;
+
+            public void Dispose() => _owner._suppressionDepth--;
         }
     }
 }
