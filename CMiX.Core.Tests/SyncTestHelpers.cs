@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
+using Microsoft.Extensions.DependencyInjection;
 using VL.Serialization.MessagePack;
 
 namespace CMiX.Core.Tests
@@ -322,6 +323,32 @@ namespace CMiX.Core.Tests
                 if (watch.ElapsedMilliseconds > timeoutMs)
                     throw new TimeoutException("The condition did not become true in time. " + detail?.Invoke());
 
+                await Task.Delay(10);
+            }
+        }
+
+        // Writes a project with one composition as the snapshot that an engine joins.
+        public static async Task WriteProjectSnapshotAsync(InMemorySyncStore store)
+        {
+            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            project.CompositionManager.AddItem(typeof(Composition));
+            var model = project.ToModel();
+
+            await store.ConnectAsync(default);
+            await store.WriteSnapshotAsync(new Snapshot(
+                MessagePackSerialization.Serialize((ProjectModel)model), StreamPosition.Zero, "other", DateTime.UtcNow));
+        }
+
+        // Drains the queue until the peer has joined.
+        public static async Task JoinAsync(SyncPeer peer, MainloopQueue queue)
+        {
+            var watch = Stopwatch.StartNew();
+            while (!peer.IsJoined)
+            {
+                if (watch.ElapsedMilliseconds > 5000)
+                    throw new TimeoutException("The peer did not join in time.");
+
+                queue.Drain();
                 await Task.Delay(10);
             }
         }

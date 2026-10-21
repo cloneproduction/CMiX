@@ -4,7 +4,6 @@ using CMiX.Core.Engine;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs.Managers;
 using Microsoft.Extensions.DependencyInjection;
-using VL.Serialization.MessagePack;
 using Xunit;
 using static CMiX.Core.Tests.SyncTestHelpers;
 
@@ -25,30 +24,6 @@ namespace CMiX.Core.Tests
                 return peer;
             });
         });
-
-        private static async Task WriteProjectSnapshotAsync(InMemorySyncStore store)
-        {
-            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            project.CompositionManager.AddItem(typeof(Composition));
-            var model = project.ToModel();
-
-            await store.ConnectAsync(default);
-            await store.WriteSnapshotAsync(new Snapshot(
-                MessagePackSerialization.Serialize((ProjectModel)model), StreamPosition.Zero, "other", DateTime.UtcNow));
-        }
-
-        private static async Task JoinAsync(SyncPeer peer, MainloopQueue queue)
-        {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            while (!peer.IsJoined)
-            {
-                if (watch.ElapsedMilliseconds > 5000)
-                    throw new TimeoutException("The peer did not join in time.");
-
-                queue.Drain();
-                await Task.Delay(10);
-            }
-        }
 
         [Fact]
         public void BeforeStart_TheProviderAndTheQueueAreNull()
