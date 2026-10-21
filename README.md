@@ -69,6 +69,12 @@ Each Redis Address modulator also has one gain for each address, with a start va
 
 The list has a fixed manager ID, `ManagerIDs.RedisAddressManager`. The vvvv side creates the list at startup with this ID.
 
+## Hidden types
+
+A class with the attribute `[HiddenInMenu]` is not in the add menus. A saved project can still hold it, and it still works. To show the class again, remove the attribute.
+
+These classes are hidden now: `RenderRandomEntityModifier`, `RenderSequenceEntityModifier`, `BillboardModifier` and `RedisAddressModulator`. The section Redis Addresses of the Settings tab is hidden too. Its `IsVisible` is `False` in `SettingsTab.axaml`.
+
 ## License
 
 CMiX is free software under the [GNU LGPL, version 3 or later](LICENSE). The GPL text is in [COPYING](COPYING).
