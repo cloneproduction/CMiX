@@ -108,6 +108,12 @@ The compiler does not check these names. Ask the owner before you change one.
 5. For a bigger change or a new group of types, run the skill `naming-consistency` if you
    have it. It reports and does not rename. It is a personal skill and not part of this repository.
 
+## Checking the UI
+
+- Do not take or read screenshots of the application. The owner looks at the UI.
+- Check a look with a test that measures a value: a color, a size or a position.
+  Then tell the owner what to look at.
+
 ## Tests
 
 - Unit tests use xUnit, TestServiceProviderFactory.Create() for a real object
