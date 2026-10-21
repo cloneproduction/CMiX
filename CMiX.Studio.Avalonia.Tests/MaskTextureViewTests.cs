@@ -1,9 +1,13 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Views.Managers;
+using CMiX.UI.Controls.Boolean;
+using CMiX.UI.Controls.Enum;
 using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -40,6 +44,22 @@ namespace CMiX.Studio.Avalonia.Tests
             new Window { Content = view, Width = 400, Height = 800 }.Show();
             Dispatcher.UIThread.RunJobs();
             return (mask, view);
+        }
+
+        private static double TopOf(Control control, Control view) => control.TranslatePoint(new Point(0, 0), view)!.Value.Y;
+
+        [AvaloniaFact]
+        public void MaskChannelAndInvert_StayAboveTheSlotAndEverythingUnderIt()
+        {
+            var (_, view) = ShowWithATexture();
+            var maskChannel = view.GetVisualDescendants().OfType<ComboBoxCaptioned>().Single(combo => combo.Caption == "MaskChannel");
+            var invert = view.GetVisualDescendants().OfType<ToggleButtonCaptioned>().Single(toggle => toggle.Caption == "Invert");
+            var slot = view.GetVisualDescendants().OfType<PrefabSlotManager>().Single();
+            var below = new Control[] { slot, ExpanderWithHeader(view, "Settings"), ExpanderWithHeader(view, "Filter"), ExpanderWithHeader(view, "Transform") };
+
+            Assert.All(below, control => Assert.True(TopOf(maskChannel, view) < TopOf(control, view)));
+            Assert.All(below, control => Assert.True(TopOf(invert, view) < TopOf(control, view)));
+            Assert.True(TopOf(maskChannel, view) < TopOf(invert, view));
         }
 
         [AvaloniaFact]
