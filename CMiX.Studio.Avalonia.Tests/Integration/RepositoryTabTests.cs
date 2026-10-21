@@ -63,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             TestServiceProviderFactory.Pump();
 
             var repositoryManager = Assert.Single(window.GetVisualDescendants().OfType<RepositoryManager>());
-            var delete = repositoryManager.GetVisualDescendants().OfType<Button>().Single(b => Equals(b.Content, "-"));
+            var delete = repositoryManager.GetVisualDescendants().OfType<Button>().Single(b => b.Name == "RemoveButton");
 
             Assert.Same(viewModel.TextureManager.RemoveEverywhereCommand, delete.Command);
             Assert.Same(texture, delete.CommandParameter);

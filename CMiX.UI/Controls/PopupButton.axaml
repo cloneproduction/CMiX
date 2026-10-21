@@ -9,7 +9,8 @@
 
         <ToggleButton
             x:Name="PopUpToggle"
-            Content="{Binding Caption, ElementName=popupButton}" />
+            Content="{Binding Caption, ElementName=popupButton}"
+            ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=popupButton}" />
 
         <Popup
             ui:TogglePopup.ClosesOnPointerAway="{Binding ClosesOnPointerAway, ElementName=popupButton}"
