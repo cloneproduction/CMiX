@@ -1,0 +1,11 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.SelectedTexture"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <Border IsVisible="{Binding TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+        <Views:Texture DataContext="{Binding TextureManager.SelectedItem}" />
+    </Border>
+
+</UserControl>

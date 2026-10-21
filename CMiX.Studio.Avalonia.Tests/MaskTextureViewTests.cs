@@ -48,18 +48,35 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static double TopOf(Control control, Control view) => control.TranslatePoint(new Point(0, 0), view)!.Value.Y;
 
+        private static (ComboBoxCaptioned MaskChannel, ToggleButtonCaptioned Invert, PrefabSlotManager Slot) SlotAndMaskControls(Control view) =>
+            (view.GetVisualDescendants().OfType<ComboBoxCaptioned>().Single(combo => combo.Caption == "MaskChannel"),
+             view.GetVisualDescendants().OfType<ToggleButtonCaptioned>().Single(toggle => toggle.Caption == "Invert"),
+             view.GetVisualDescendants().OfType<PrefabSlotManager>().Single());
+
         [AvaloniaFact]
-        public void MaskChannelAndInvert_StayAboveTheSlotAndEverythingUnderIt()
+        public void MaskChannelAndInvert_SitUnderTheSlot_AndAboveSettingsFilterAndTransform()
         {
             var (_, view) = ShowWithATexture();
-            var maskChannel = view.GetVisualDescendants().OfType<ComboBoxCaptioned>().Single(combo => combo.Caption == "MaskChannel");
-            var invert = view.GetVisualDescendants().OfType<ToggleButtonCaptioned>().Single(toggle => toggle.Caption == "Invert");
-            var slot = view.GetVisualDescendants().OfType<PrefabSlotManager>().Single();
-            var below = new Control[] { slot, ExpanderWithHeader(view, "Settings"), ExpanderWithHeader(view, "Filter"), ExpanderWithHeader(view, "Transform") };
+            var (maskChannel, invert, slot) = SlotAndMaskControls(view);
+            var below = new Control[] { ExpanderWithHeader(view, "Settings"), ExpanderWithHeader(view, "Filter"), ExpanderWithHeader(view, "Transform") };
 
-            Assert.All(below, control => Assert.True(TopOf(maskChannel, view) < TopOf(control, view)));
-            Assert.All(below, control => Assert.True(TopOf(invert, view) < TopOf(control, view)));
+            Assert.True(TopOf(slot, view) < TopOf(maskChannel, view));
             Assert.True(TopOf(maskChannel, view) < TopOf(invert, view));
+            Assert.All(below, control => Assert.True(TopOf(invert, view) < TopOf(control, view)));
+        }
+
+        [AvaloniaFact]
+        public void EmptySlot_StillShowsMaskChannelAndInvertUnderTheSlot()
+        {
+            var mask = CreateMask();
+            var view = new Views.MaskTexture { DataContext = mask };
+            new Window { Content = view, Width = 400, Height = 800 }.Show();
+            Dispatcher.UIThread.RunJobs();
+            var (maskChannel, invert, slot) = SlotAndMaskControls(view);
+
+            Assert.True(maskChannel.IsEffectivelyVisible);
+            Assert.True(invert.IsEffectivelyVisible);
+            Assert.True(TopOf(slot, view) < TopOf(maskChannel, view));
         }
 
         [AvaloniaFact]
