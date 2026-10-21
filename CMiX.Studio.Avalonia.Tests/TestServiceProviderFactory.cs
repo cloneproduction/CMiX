@@ -17,11 +17,10 @@ namespace CMiX.Studio.Avalonia.Tests
     {
         public static IServiceProvider Create()
         {
-            var configurationBuilder = new InjectionBuilder();
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging();
 
-            configurationBuilder.ConfigureAllServices(serviceCollection);
+            serviceCollection.AddCMiXCore();
             serviceCollection.AddSingleton<Views.MainWindow>();
             serviceCollection.AddSingleton<MainViewModel>();
             serviceCollection.AddSingleton<MainWindowController>();
