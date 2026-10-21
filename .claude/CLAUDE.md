@@ -43,8 +43,9 @@ These rules apply to every task in this repository.
 ## Code patterns
 
 - State objects use CommunityToolkit.Mvvm (ObservableObject, [ObservableProperty],
-  RelayCommand, AsyncRelayCommand). Services are singletons in
-  InjectionBuilder.ConfigureAllServices with constructor injection. No statics.
+  RelayCommand, AsyncRelayCommand). Services are singletons, registered in
+  `AddCMiXCore` with constructor injection. No statics. Each host starts its peer
+  with `SyncPeerStartup` (`StartAsStudio`, `StartAsEngine`).
 - Wire data uses MessagePack through VL.Serialization.MessagePack. Project
   files and hashes use System.Text.Json with ProjectSerializer.Options.
 - Namespaces follow the folder. CMiX.Core has nullable disabled; the Avalonia

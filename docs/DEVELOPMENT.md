@@ -595,7 +595,7 @@ The tests skip when no server answers.
 Today an engine does not write. To let an engine send values, do this:
 
 1. Register the engine peer with the messenger again in
-   `ConfigureEngineTransport`, and set `IsWriter`.
+   `SyncPeerStartup.StartAsEngine`, and set `IsWriter`.
 2. Handle the own entries of the engine after a snapshot apply. Keep a set of
    the message IDs that the engine sent since the last snapshot apply. An own
    entry that the snapshot overwrote is applied again. An own entry that came
