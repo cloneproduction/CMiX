@@ -120,19 +120,20 @@
             </ControlTemplate>
         </Setter>
 
+        <!-- A tab of icons is a row of icon toggles: the icon is dim at rest, and lit under the pointer and while selected. -->
         <Style Selector="^:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Opacity" Value="0.8" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+
+        <Style Selector="^:not(:selected):pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Opacity" Value="1.0" />
         </Style>
 
         <Style Selector="^:selected">
             <Setter Property="ZIndex" Value="1" />
         </Style>
         <Style Selector="^:selected /template/ Border#mainBorder">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
-        </Style>
-
-        <Style Selector="^:not(:selected):pointerover /template/ Border#mainBorder">
-            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
     </ControlTheme>
 
