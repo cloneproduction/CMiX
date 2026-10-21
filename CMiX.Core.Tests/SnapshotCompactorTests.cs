@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Threading.Tasks;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;

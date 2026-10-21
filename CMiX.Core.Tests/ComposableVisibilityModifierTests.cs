@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Reflection;
 using CMiX.Core.Compositing;
 using CMiX.Core.Modulation;

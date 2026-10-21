@@ -3,7 +3,6 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Layering.Modifiers;
-using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 

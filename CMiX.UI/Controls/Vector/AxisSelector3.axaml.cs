@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Data;
 using CMiX.UI.Controls.Parts;
 

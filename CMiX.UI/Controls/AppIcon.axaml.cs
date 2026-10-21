@@ -3,7 +3,6 @@
 
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media;
 using Material.Icons.Avalonia;
 using CMiX.UI.Themes;
 

@@ -4,7 +4,6 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;

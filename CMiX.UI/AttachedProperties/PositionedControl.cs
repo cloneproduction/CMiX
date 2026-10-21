@@ -3,7 +3,6 @@
 
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Styling;
 using CMiX.UI.Panels;
 
 namespace CMiX.UI.AttachedProperties

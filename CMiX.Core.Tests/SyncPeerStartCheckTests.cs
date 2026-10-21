@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;

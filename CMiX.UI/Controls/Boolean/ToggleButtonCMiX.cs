@@ -4,7 +4,6 @@
 using System;
 using System.Windows.Input;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using CMiX.UI.Controls.Parts;
 

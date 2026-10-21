@@ -4,7 +4,6 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Texturing;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

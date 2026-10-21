@@ -1,11 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Studio.Avalonia.Views;

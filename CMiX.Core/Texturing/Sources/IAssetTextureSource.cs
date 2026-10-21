@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
-using CMiX.Core;
 
 namespace CMiX.Core.Texturing.Sources
 {

@@ -1,5 +1,4 @@
 using CMiX.Core.Compositing;
-using CMiX.Core.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

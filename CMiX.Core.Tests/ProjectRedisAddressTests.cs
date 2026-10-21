@@ -1,7 +1,6 @@
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
-using CMiX.Core.Prefabs;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

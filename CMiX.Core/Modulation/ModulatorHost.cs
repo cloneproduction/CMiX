@@ -3,7 +3,6 @@
 
 using System.Collections.Specialized;
 using CMiX.Core.Modulation.Modulators;
-using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using static CMiX.Core.ControlExtensions;
 

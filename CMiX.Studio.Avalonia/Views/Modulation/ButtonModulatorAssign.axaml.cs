@@ -6,7 +6,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.VisualTree;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 

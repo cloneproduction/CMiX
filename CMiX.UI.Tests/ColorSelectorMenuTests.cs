@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
-using Avalonia.Interactivity;
 using Avalonia.Threading;
 using CMiX.UI.Controls.ColorPicker;
 using CMiX.UI.Controls.Parts;

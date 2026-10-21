@@ -1,7 +1,6 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +13,6 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
-using CMiX.Studio.Avalonia.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

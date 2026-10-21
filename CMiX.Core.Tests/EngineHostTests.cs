@@ -1,5 +1,4 @@
 using CMiX.Core.Compositing;
-using CMiX.Core.DependencyInjection;
 using CMiX.Core.Engine;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs.Managers;

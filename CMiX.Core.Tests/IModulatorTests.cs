@@ -1,4 +1,3 @@
-using System.Linq;
 using CMiX.Core.Modulation.Modulators;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

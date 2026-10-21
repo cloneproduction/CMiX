@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CMiX.Core.Networking;
+﻿using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 
 namespace CMiX.Core.Tests

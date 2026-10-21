@@ -7,9 +7,6 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-// ManagerIDs lives in the CMiX.Core root namespace.
-using CMiX.Core;
-
 namespace CMiX.Core.Rendering
 {
     // A fixed set of exactly 9 output mappings, one per TexcoordSemantic channel (Texcoord0-8).

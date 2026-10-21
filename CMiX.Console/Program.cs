@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel;
-using System.Threading;
 using CMiX.Core.Compositing;
 using CMiX.Core.DependencyInjection;
 using CMiX.Core.Networking;

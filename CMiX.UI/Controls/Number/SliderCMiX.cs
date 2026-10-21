@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
-using System.Linq;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;

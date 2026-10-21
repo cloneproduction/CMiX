@@ -1,18 +1,14 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
-using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
-using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.Views.Managers;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests.Integration

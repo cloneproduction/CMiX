@@ -4,7 +4,6 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;

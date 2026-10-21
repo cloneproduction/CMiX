@@ -1,9 +1,7 @@
 using Avalonia;
 using Avalonia.Headless;
-using Avalonia.Headless.XUnit;
 using Avalonia.Styling;
 using Avalonia.Themes.Simple;
-using CMiX.UI;
 using CMiX.UI.Themes;
 using Material.Icons.Avalonia;
 

@@ -1,11 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Views;
 using Composition = CMiX.Core.Compositing.Composition;

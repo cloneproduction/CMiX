@@ -1,5 +1,4 @@
-﻿using CMiX.Core;
-using CMiX.Core.BaseControls;
+﻿using CMiX.Core.BaseControls;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
