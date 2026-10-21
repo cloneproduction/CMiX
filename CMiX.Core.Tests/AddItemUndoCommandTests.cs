@@ -8,7 +8,7 @@ using Xunit;
 namespace CMiX.Core.Tests
 {
     // Redo of an add puts the item back at the index where it was added, not at the end.
-    public class AddItemCommandTests
+    public class AddItemUndoCommandTests
     {
         [Fact]
         public void UndoThenRedo_OfAnItemInTheMiddle_KeepsItsIndex()
@@ -24,7 +24,7 @@ namespace CMiX.Core.Tests
 
             var added = provider.GetRequiredService<ControlFactory>().Create(typeof(Layer));
             var sync = new CollectionSync(layers.Collection, layers.ControlMessenger, layers.MessageFactory);
-            var command = new AddItemCommand(sync, added, 1);
+            var command = new AddItemUndoCommand(sync, added, 1);
 
             command.Execute();
             Assert.Equal(new[] { items[0], added, items[1], items[2] }, layers.ManagerData.Items);

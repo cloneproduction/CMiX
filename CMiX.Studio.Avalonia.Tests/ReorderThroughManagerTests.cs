@@ -60,7 +60,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var setup = FourItems();
 
-            setup.Service.ItemDown(setup.Items[0]);
+            setup.Service.MoveItemDown(setup.Items[0]);
 
             Assert.Equal(new List<int> { 1, 0, 2, 3 }, setup.Order);
             var move = Assert.Single(setup.Moves);
@@ -80,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var setup = FourItems();
 
-            setup.Service.ItemUp(setup.Items[3]);
+            setup.Service.MoveItemUp(setup.Items[3]);
 
             Assert.Equal(new List<int> { 0, 1, 3, 2 }, setup.Order);
             var move = Assert.Single(setup.Moves);
@@ -111,7 +111,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void RedoingAMove_MovesTheItemAgain()
         {
             var setup = FourItems();
-            setup.Service.ItemDown(setup.Items[0]);
+            setup.Service.MoveItemDown(setup.Items[0]);
             setup.Undo.Undo();
 
             setup.Undo.Redo();
@@ -123,10 +123,10 @@ namespace CMiX.Studio.Avalonia.Tests
         public void MovingTheSelectedItem_KeepsItSelected()
         {
             var setup = FourItems();
-            setup.Manager.SelectedItemChanged(0);
+            setup.Manager.SelectAt(0);
             setup.Undo.Clear();
 
-            setup.Service.ItemDown(setup.Items[0]);
+            setup.Service.MoveItemDown(setup.Items[0]);
 
             Assert.Same(setup.Items[0], setup.Manager.SelectedItem);
             Assert.Equal(1, setup.Manager.ManagerData.SelectedIndex);

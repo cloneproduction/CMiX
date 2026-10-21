@@ -62,12 +62,34 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DuplicateItem_ForAnItemOfAnotherList_DoesNothing()
+        public void DuplicateItem_ForAnItemOfAnotherList_PutsTheCopyAtTheEndOfThisListAsOneUndoStep()
         {
-            var (_, composition, layers, _) = Create(1);
-            var other = Create(1).layers[0];
+            var (provider, composition, layers, compositions) = Create(1);
+            compositions.AddItem(typeof(Composition));
+            var otherComposition = (Composition)compositions.SelectedItem;
+            otherComposition.LayerManager.AddItem(typeof(Layer));
+            var foreign = otherComposition.LayerManager.ManagerData.Items[0];
+            var undo = provider.GetRequiredService<UndoManager>();
+            undo.Clear();
 
-            Assert.Null(composition.LayerManager.DuplicateItem(other));
+            var copy = composition.LayerManager.DuplicateItem(foreign);
+
+            Assert.Equal(new[] { layers[0], copy }, composition.LayerManager.ManagerData.Items);
+            Assert.NotEqual(foreign.ID, copy.ID);
+            Assert.Same(copy, composition.LayerManager.SelectedItem);
+            Assert.Same(foreign, Assert.Single(otherComposition.LayerManager.ManagerData.Items));
+
+            undo.Undo();
+
+            Assert.Single(composition.LayerManager.ManagerData.Items);
+        }
+
+        [Fact]
+        public void DuplicateItem_OfNothing_DoesNothing()
+        {
+            var (_, composition, _, _) = Create(1);
+
+            Assert.Null(composition.LayerManager.DuplicateItem(null));
             Assert.Single(composition.LayerManager.ManagerData.Items);
         }
 

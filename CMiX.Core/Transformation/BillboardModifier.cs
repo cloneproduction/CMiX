@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
+    [HiddenInMenu]
     [ModifierPanel(typeof(Entity))]
     public partial class BillboardModifier : ObservableObject, IModifier
     {

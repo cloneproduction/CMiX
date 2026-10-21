@@ -52,7 +52,7 @@ namespace CMiX.Core.Undo
         private List<IUndoCommand> _captureList = null;
         private int _captureDepth = 0;
 
-        // Nestable so a capture opened by one caller (for example DeleteEverywhere) survives a
+        // Nestable so a capture opened by one caller (for example RemoveEverywhere) survives a
         // second capture opened by code it calls into (for example a per file loop). Only the
         // outermost BeginCapture starts a new list, and only the outermost EndCapture flushes it.
         public void BeginCapture()

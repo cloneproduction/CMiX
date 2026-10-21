@@ -54,7 +54,7 @@ namespace CMiX.Core.Tests
 
             displace.Offset.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            displace.ModulatorManager.DeleteItem(randomModulator);
+            displace.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(displace.Offset.Y.ModulatorID);
             Assert.Null(displace.Offset.Y.BoundModulator);

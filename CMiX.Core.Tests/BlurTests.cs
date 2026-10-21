@@ -50,7 +50,7 @@ namespace CMiX.Core.Tests
 
             blur.Strength.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            blur.ModulatorManager.DeleteItem(randomModulator);
+            blur.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(blur.Strength.ModulatorID);
             Assert.Null(blur.Strength.BoundModulator);

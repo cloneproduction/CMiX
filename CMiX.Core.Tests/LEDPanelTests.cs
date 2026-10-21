@@ -57,7 +57,7 @@ namespace CMiX.Core.Tests
             ledPanel.MaskBorder.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             ledPanel.MaskIntensity.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            ledPanel.ModulatorManager.DeleteItem(randomModulator);
+            ledPanel.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(ledPanel.PixelSize.ModulatorID);
             Assert.Null(ledPanel.PixelSize.BoundModulator);

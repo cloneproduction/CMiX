@@ -24,16 +24,16 @@ namespace CMiX.Core.Prefabs.Managers
                 RemoveAndDispose(item);
         }
 
-        private void AddControlToCollection(IControl prefab)
+        private void AddControlToCollection(IControl control)
         {
-            ControlRepository.AddControl(prefab, this);
-            ManagerData.Insert(ManagerData.Items.Count, prefab);
+            ControlRepository.AddControl(control, this);
+            ManagerData.Insert(ManagerData.Items.Count, control);
         }
 
-        public void AddItem(IControlModel controlModel)
+        public void AddItemFromModel(IControlModel controlModel)
         {
-            var prefab = CreateOrReuse(controlModel);
-            AddControlToCollection(prefab);
+            var control = CreateOrReuse(controlModel);
+            AddControlToCollection(control);
         }
 
         // Managers can share one control. A model with the ID of a known control gives back that control.
@@ -52,17 +52,17 @@ namespace CMiX.Core.Prefabs.Managers
         // The index is kept inside the list, so a stale index from a peer cannot throw.
         public void InsertItem(IControlModel controlModel, int index)
         {
-            var prefab = CreateOrReuse(controlModel);
-            InsertItem(prefab, Math.Clamp(index, 0, ManagerData.Items.Count));
+            var control = CreateOrReuse(controlModel);
+            InsertItem(control, Math.Clamp(index, 0, ManagerData.Items.Count));
         }
 
         public void Select(Guid controlID) => ManagerData.Select(ControlRepository.GetControl(controlID));
 
         public void LoadItem(IControlModel controlModel)
         {
-            var prefab = CreateOrReuse(controlModel);
-            ControlRepository.AddControl(prefab, this);
-            ManagerData.Items.Add(prefab);
+            var control = CreateOrReuse(controlModel);
+            ControlRepository.AddControl(control, this);
+            ManagerData.Items.Add(control);
         }
 
         private int RemoveFromList(IControl control)
@@ -79,10 +79,10 @@ namespace CMiX.Core.Prefabs.Managers
                 OwnedControl.DisposeIfOrphaned(ControlRepository, control);
         }
 
-        // Not disposed on the undoable delete path: the RemoveItemCommand owns the removed control until it is dropped.
-        public int DeleteItem(IControl control) => control == null ? -1 : RemoveFromList(control);
+        // Not disposed on the undoable delete path: the RemoveItemUndoCommand owns the removed control until it is dropped.
+        public int RemoveItem(IControl control) => control == null ? -1 : RemoveFromList(control);
 
-        public void DeleteItem(Guid id)
+        public void RemoveItem(Guid id)
         {
             var control = ManagerData.Items.FirstOrDefault(x => x.ID == id);
             if (control != null)

@@ -20,7 +20,7 @@ namespace CMiX.Core.Prefabs.Messages
 
         private static readonly Dictionary<Type, Func<Guid, IControlModel, int, IMessage>> _factoriesWithIndex = new()
         {
-            [typeof(MessageSelectedItemChanged)] = (id, model, index) => new MessageSelectedItemChanged(id, model?.ID ?? Guid.Empty, index),
+            [typeof(MessageSelectItem)] = (id, model, index) => new MessageSelectItem(id, model?.ID ?? Guid.Empty, index),
             [typeof(MessageAddItem)] = (id, model, index) => new MessageAddItem(id, model, index),
             [typeof(MessageRemoveItem)] = (id, model, index) => new MessageRemoveItem(id, model.ID, index),
         };
@@ -50,8 +50,8 @@ namespace CMiX.Core.Prefabs.Messages
 
         public IMessage CreateMessage<T>(Guid id)
         {
-            if (typeof(T) == typeof(MessageRemoveSelectedItem))
-                return new MessageRemoveSelectedItem(id);
+            if (typeof(T) == typeof(MessageClearSelection))
+                return new MessageClearSelection(id);
             throw new NotSupportedException($"CreateMessage does not support type {typeof(T).Name}");
         }
 

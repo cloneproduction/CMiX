@@ -148,7 +148,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             {
                 compositionManager.AddItem(typeof(Composition));
                 discarded = (Composition)compositionManager.SelectedItem;
-                compositionManager.DeleteItem(discarded);
+                compositionManager.RemoveItem(discarded);
                 TestServiceProviderFactory.Pump();
                 Assert.True(undoManager.CanUndo);
             }

@@ -5,13 +5,13 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Undo
 {
-    public class MoveItemCommand : IUndoCommand
+    public class MoveItemUndoCommand : IUndoCommand
     {
         private readonly CollectionSync _sync;
         private readonly int _oldIndex;
         private readonly int _newIndex;
 
-        public MoveItemCommand(CollectionSync sync, int oldIndex, int newIndex)
+        public MoveItemUndoCommand(CollectionSync sync, int oldIndex, int newIndex)
         {
             _sync = sync;
             _oldIndex = oldIndex;

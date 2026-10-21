@@ -107,7 +107,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (manager, rows, _) = Show();
             var first = manager.ManagerData.Items[0];
-            manager.SelectedItemChanged(2);
+            manager.SelectAt(2);
 
             Click(rows[0], "Duplicate");
 

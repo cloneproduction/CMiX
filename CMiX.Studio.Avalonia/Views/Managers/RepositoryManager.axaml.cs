@@ -20,6 +20,16 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         public RepositoryManager()
         {
             InitializeComponent();
+            detailList.ContainerPrepared += (_, e) => PrefabRowMenu.Give(e.Container, RowMenu);
+        }
+
+        // The menu of the rows. None, the default, gives them no menu.
+        public static readonly StyledProperty<RowMenuKind> RowMenuProperty =
+            AvaloniaProperty.Register<RepositoryManager, RowMenuKind>(nameof(RowMenu));
+        public RowMenuKind RowMenu
+        {
+            get => GetValue(RowMenuProperty);
+            set => SetValue(RowMenuProperty, value);
         }
 
         public static readonly StyledProperty<Control> SelectionPanelProperty =

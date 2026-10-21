@@ -85,7 +85,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 // The steps MainMenu.OpenProject takes once the file dialog has returned a path.
                 var projectModel = ProjectSerializer.Load(path);
                 var compositionModel = (CompositionModel)projectModel.CompositionManager.ManagerData.Items.First();
-                viewModel.Project.CompositionManager.AddItem(compositionModel);
+                viewModel.Project.CompositionManager.AddItemFromModel(compositionModel);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal(2, viewModel.ControlRepository.Textures.Count);

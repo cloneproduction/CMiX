@@ -50,7 +50,7 @@ namespace CMiX.Core.Tests
 
             dither.Threshold.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            dither.ModulatorManager.DeleteItem(randomModulator);
+            dither.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(dither.Threshold.ModulatorID);
             Assert.Null(dither.Threshold.BoundModulator);

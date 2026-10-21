@@ -82,7 +82,7 @@ namespace CMiX.Core.Tests
             blur.Strength.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[0]));
             Assert.Equal(modulator.ID, blur.Strength.ModulatorID);
 
-            host.Manager.DeleteItem(modulator);
+            host.Manager.RemoveItem(modulator);
 
             Assert.Null(blur.Strength.ModulatorID);
         }

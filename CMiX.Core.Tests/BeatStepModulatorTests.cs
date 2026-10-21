@@ -46,7 +46,7 @@ namespace CMiX.Core.Tests
             modulator.StepManager.AddItem(typeof(BeatStep));
             var first = modulator.StepManager.ManagerData.Items[0];
 
-            modulator.StepManager.DeleteItemCommand.Execute(first);
+            modulator.StepManager.RemoveItemCommand.Execute(first);
 
             Assert.Single(modulator.StepManager.ManagerData.Items);
             Assert.DoesNotContain(first, modulator.StepManager.ManagerData.Items);

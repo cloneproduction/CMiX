@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
     public class SelectionIndexContractTests
     {
         [Fact]
-        public void TheMessagesCarryTheIndexOfTheItemThatIsSelectedAfterTheEdit()
+        public void Messages_CarryTheIndexOfTheItemThatIsSelectedAfterTheEdit()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = provider.GetRequiredService<PrefabManager>();
@@ -28,7 +28,7 @@ namespace CMiX.Core.Tests
             Assert.Equal(new[] { 0, 1, 2 }, recorder.Sent.OfType<MessageAddItem>().Select(message => message.SelectedIndex));
 
             recorder.Sent.Clear();
-            manager.DeleteItem(manager.ManagerData.Items[2]);
+            manager.RemoveItem(manager.ManagerData.Items[2]);
             Assert.Equal(1, Assert.Single(recorder.Sent.OfType<MessageRemoveItem>()).SelectedIndex);
 
             recorder.Sent.Clear();
@@ -36,11 +36,11 @@ namespace CMiX.Core.Tests
             Assert.Equal(2, Assert.Single(recorder.Sent.OfType<MessageAddItem>()).SelectedIndex);
 
             recorder.Sent.Clear();
-            manager.SelectedItemChanged(0);
-            Assert.Equal(0, Assert.Single(recorder.Sent.OfType<MessageSelectedItemChanged>()).Index);
+            manager.SelectAt(0);
+            Assert.Equal(0, Assert.Single(recorder.Sent.OfType<MessageSelectItem>()).Index);
 
             recorder.Sent.Clear();
-            manager.DeleteItem(manager.ManagerData.Items[0]);
+            manager.RemoveItem(manager.ManagerData.Items[0]);
             Assert.Equal(0, Assert.Single(recorder.Sent.OfType<MessageRemoveItem>()).SelectedIndex);
         }
 
@@ -52,9 +52,9 @@ namespace CMiX.Core.Tests
             for (var i = 0; i < 3; i++)
                 layer.ModelEntityManager.AddItem(typeof(Entity));
             if (selectedIndex < 0)
-                layer.ModelEntityManager.RemoveSelectedItem();
+                layer.ModelEntityManager.ClearSelection();
             else
-                layer.ModelEntityManager.SelectedItemChanged(selectedIndex);
+                layer.ModelEntityManager.SelectAt(selectedIndex);
             return (layer, factory);
         }
 
@@ -62,7 +62,7 @@ namespace CMiX.Core.Tests
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
-        public void TheSelectionOfAManagerSurvivesASaveAndALoad(int selectedIndex)
+        public void Selection_SurvivesASaveAndALoad(int selectedIndex)
         {
             var (layer, factory) = LayerWithEntities(selectedIndex);
             var model = (LayerModel)layer.ToModel();
@@ -75,7 +75,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ANoSelectionSurvivesASaveAndALoad()
+        public void NoSelection_SurvivesASaveAndALoad()
         {
             var (layer, factory) = LayerWithEntities(-1);
             var model = (LayerModel)layer.ToModel();

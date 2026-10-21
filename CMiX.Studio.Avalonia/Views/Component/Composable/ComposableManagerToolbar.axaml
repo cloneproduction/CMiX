@@ -27,7 +27,7 @@
                     Height="{DynamicResource ControlHeightMD}"
                     Width="{DynamicResource ControlHeightMD}"
                     Background="Transparent"
-                    Command="{Binding ManagerReorderService.ItemUpCommand}"
+                    Command="{Binding ManagerReorderService.MoveItemUpCommand}"
                     CommandParameter="{Binding SelectedItem}"
                     Theme="{StaticResource ButtonRounded}">
                     <Button.Content>
@@ -39,7 +39,7 @@
                     Height="{DynamicResource ControlHeightMD}"
                     Width="{DynamicResource ControlHeightMD}"
                     Background="Transparent"
-                    Command="{Binding ManagerReorderService.ItemDownCommand}"
+                    Command="{Binding ManagerReorderService.MoveItemDownCommand}"
                     CommandParameter="{Binding SelectedItem}"
                     Theme="{StaticResource ButtonRounded}">
                     <Button.Content>
@@ -53,7 +53,7 @@
             Height="{DynamicResource ControlHeightMD}"
             Width="{DynamicResource ControlHeightMD}"
             Background="Transparent"
-            Command="{Binding DeleteItemCommand}"
+            Command="{Binding RemoveItemCommand}"
             CommandParameter="{Binding SelectedItem}"
             DockPanel.Dock="Right"
             Theme="{StaticResource ButtonRounded}">

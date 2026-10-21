@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             selector.AddItemCommand.Execute(typeof(BubbleNoise));
             var bubbleNoise = selector.SelectedItem;
-            selector.RemoveSelectedItemCommand.Execute(null);
+            selector.ClearSelectionCommand.Execute(null);
             selector.AddItemCommand.Execute(typeof(CheckerBoard));
             TestServiceProviderFactory.Pump();
 

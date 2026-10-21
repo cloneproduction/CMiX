@@ -38,7 +38,7 @@ namespace CMiX.Core.Tests
 
             Assert.True(HeldCollectionManagers.Count(repository) > heldBeforeTheQuad);
 
-            layer.ModelEntityManager.DeleteItem(quad);
+            layer.ModelEntityManager.RemoveItem(quad);
             undoManager.Clear();
 
             Assert.Null(repository.GetControl(quad.ID));

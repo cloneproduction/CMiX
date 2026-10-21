@@ -5,13 +5,13 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Undo
 {
-    public class RemoveSelectedItemCommand : IUndoCommand
+    public class ClearSelectionUndoCommand : IUndoCommand
     {
         private readonly CollectionSync _sync;
         private readonly IControl _previousItem;
         private readonly int _previousIndex;
 
-        public RemoveSelectedItemCommand(CollectionSync sync,
+        public ClearSelectionUndoCommand(CollectionSync sync,
                                          IControl previousItem,
                                          int previousIndex)
         {
@@ -23,7 +23,7 @@ namespace CMiX.Core.Undo
         public void Execute()
         {
             _sync.Collection.ManagerData.ClearSelection();
-            _sync.SendRemoveSelected();
+            _sync.SendClearSelection();
         }
 
         public void Undo()

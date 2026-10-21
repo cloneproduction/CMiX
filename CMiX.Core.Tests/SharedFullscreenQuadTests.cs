@@ -42,11 +42,11 @@ namespace CMiX.Core.Tests
             Assert.Same(quad, second.ModelEntityManager.ManagerData.Items[0]);
             Assert.Same(quad, Assert.Single(repository.ModelEntities));
 
-            first.ModelEntityManager.DeleteItem(quad);
+            first.ModelEntityManager.RemoveItem(quad);
             Assert.Same(quad, repository.GetControl(quad.ID));
             Assert.Same(quad, Assert.Single(repository.ModelEntities));
 
-            second.ModelEntityManager.DeleteItem(quad);
+            second.ModelEntityManager.RemoveItem(quad);
             Assert.Null(repository.GetControl(quad.ID));
             Assert.Empty(repository.ModelEntities);
         }

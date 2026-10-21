@@ -8,7 +8,7 @@ namespace CMiX.Core.Undo
 {
     // Backs the reset item path, which swaps a fresh instance in for one already in a collection.
     // Both instances stay alive here while the command sits on a stack, following the same
-    // ownership rule as RemoveItemCommand: whichever of the two is left unreferenced once the
+    // ownership rule as RemoveItemUndoCommand: whichever of the two is left unreferenced once the
     // command is dropped is disposed then, and never earlier, so an undo can always put the
     // original back with its nested contents intact.
     //
@@ -16,14 +16,14 @@ namespace CMiX.Core.Undo
     // there is no replace message in the protocol. That mirrors what undoing a delete sends, so
     // the receiving side reorders the item to the end of its collection exactly as it already
     // does there.
-    public class ReplaceItemCommand : IUndoCommand, IDisposable
+    public class ReplaceItemUndoCommand : IUndoCommand, IDisposable
     {
         private readonly CollectionSync _sync;
         private readonly IControl _previousItem;
         private readonly IControl _newItem;
         private readonly int _index;
 
-        public ReplaceItemCommand(CollectionSync sync,
+        public ReplaceItemUndoCommand(CollectionSync sync,
                                   IControl previousItem,
                                   IControl newItem,
                                   int index)
@@ -44,7 +44,7 @@ namespace CMiX.Core.Undo
             var index = collection.ManagerData.Items.IndexOf(outgoing);
             if (index < 0) index = _index;
 
-            collection.DeleteItem(outgoing);
+            collection.RemoveItem(outgoing);
             _sync.SendRemove(outgoing, collection.ManagerData.SelectedIndex);
 
             if (index > collection.ManagerData.Items.Count)

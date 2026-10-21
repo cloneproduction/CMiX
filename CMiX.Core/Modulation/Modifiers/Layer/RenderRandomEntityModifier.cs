@@ -10,6 +10,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {
+    [HiddenInMenu]
     [ModifierPanel(typeof(Layer))]
     public partial class RenderRandomEntityModifier : Modifier
     {

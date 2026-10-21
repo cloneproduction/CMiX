@@ -162,7 +162,7 @@ namespace CMiX.Core.Tests
             grid.Count.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             grid.Count.Z.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            grid.ModulatorManager.DeleteItem(randomModulator);
+            grid.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(grid.Count.X.ModulatorID);
             Assert.Null(grid.Count.X.BoundModulator);

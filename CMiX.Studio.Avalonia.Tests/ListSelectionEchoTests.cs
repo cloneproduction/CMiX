@@ -132,7 +132,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(1, harness.UndoSteps);
             Assert.Equal(0, harness.Manager.ManagerData.SelectedIndex);
-            Assert.Equal(0, Assert.Single(harness.Sent<MessageSelectedItemChanged>()).Index);
+            Assert.Equal(0, Assert.Single(harness.Sent<MessageSelectItem>()).Index);
             Assert.Single(harness.Recorder.Sent);
         }
 
@@ -183,7 +183,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var harness = ListHarness.Create(kind, 3);
             var ids = harness.Ids;
 
-            harness.Do(() => harness.Manager.DeleteItem(harness.Manager.ManagerData.Items[1]));
+            harness.Do(() => harness.Manager.RemoveItem(harness.Manager.ManagerData.Items[1]));
 
             Assert.Equal(new[] { ids[0], ids[2] }, harness.Ids);
             Assert.Equal(1, harness.UndoSteps);

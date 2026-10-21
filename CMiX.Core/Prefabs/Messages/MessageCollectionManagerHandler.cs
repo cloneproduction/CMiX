@@ -20,30 +20,30 @@ namespace CMiX.Core.Prefabs.Messages
                 case null:
                     throw new ArgumentNullException(nameof(message));
 
-                case MessageSelectedItemChanged messageSelectedItemChanged:
-                    collection.Select(messageSelectedItemChanged.ControlID);
+                case MessageSelectItem messageSelectItem:
+                    collection.Select(messageSelectItem.ControlID);
                     return true;
 
-                case MessageAddItem messageAddPrefab:
+                case MessageAddItem messageAddItem:
                     // A late peer can see an add for an item its snapshot already holds.
-                    if (collection.ManagerData.Items.Any(item => item.ID == messageAddPrefab.Model.ID))
+                    if (collection.ManagerData.Items.Any(item => item.ID == messageAddItem.Model.ID))
                     {
-                        collection.ManagerData.SelectAt(messageAddPrefab.SelectedIndex);
+                        collection.ManagerData.SelectAt(messageAddItem.SelectedIndex);
                         return true;
                     }
-                    collection.InsertItem(messageAddPrefab.Model, messageAddPrefab.SelectedIndex);
+                    collection.InsertItem(messageAddItem.Model, messageAddItem.SelectedIndex);
                     return true;
 
-                case MessageRemoveItem messageRemovePrefab:
-                    collection.DeleteItem(messageRemovePrefab.ModelID);
-                    collection.ManagerData.SelectAt(messageRemovePrefab.SelectedIndex);
+                case MessageRemoveItem messageRemoveItem:
+                    collection.RemoveItem(messageRemoveItem.ModelID);
+                    collection.ManagerData.SelectAt(messageRemoveItem.SelectedIndex);
                     return true;
 
-                case MessageMoveItem messageMovePrefab:
-                    collection.ManagerData.Move(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
+                case MessageMoveItem messageMoveItem:
+                    collection.ManagerData.Move(messageMoveItem.OldIndex, messageMoveItem.NewIndex);
                     return true;
 
-                case MessageRemoveSelectedItem:
+                case MessageClearSelection:
                     collection.ManagerData.ClearSelection();
                     return true;
 

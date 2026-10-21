@@ -1,0 +1,29 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.RedisAddressModulator"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    d:DesignWidth="400">
+
+    <ItemsControl ItemsSource="{Binding GainManager.ManagerData.Items}">
+
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Spacing="{DynamicResource SpacingXXS}" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+
+        <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type Animations:RedisAddressGain}">
+                <ui:DragValue
+                    Caption="{Binding Address.Value, FallbackValue=''}"
+                    Minimum="0.0"
+                    ResetCommand="{Binding ResetCommand}"
+                    Value="{Binding Value}" />
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+
+    </ItemsControl>
+</UserControl>

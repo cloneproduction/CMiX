@@ -36,7 +36,7 @@
                         x:Name="deleteItemButton"
                         Width="22"
                         Height="{DynamicResource ControlHeightMD}"
-                        Command="{Binding RemoveSelectedItemCommand}"
+                        Command="{Binding ClearSelectionCommand}"
                         CommandParameter="{Binding SelectedItem}"
                         Content="-"
                         DockPanel.Dock="Right"

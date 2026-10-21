@@ -57,7 +57,7 @@ namespace CMiX.Core.Tests
             halftone.Softness.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             halftone.Brightness.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            halftone.ModulatorManager.DeleteItem(randomModulator);
+            halftone.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(halftone.NumberOfTiles.ModulatorID);
             Assert.Null(halftone.NumberOfTiles.BoundModulator);

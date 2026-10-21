@@ -145,7 +145,7 @@ namespace CMiX.Core.Tests
 
             Assert.Same(manager.Collection, Assert.Single(repository.GetCollectionManagers(texture)));
 
-            manager.DeleteItem(texture);
+            manager.RemoveItem(texture);
 
             Assert.Empty(repository.GetCollectionManagers(texture));
         }
@@ -204,7 +204,7 @@ namespace CMiX.Core.Tests
 
             Assert.True(HeldCollectionManagers.Count(repository) > beforeTheLayer);
 
-            composition.LayerManager.DeleteItem(layer);
+            composition.LayerManager.RemoveItem(layer);
 
             Assert.True(HeldCollectionManagers.Count(repository) > beforeTheLayer);
 
@@ -231,7 +231,7 @@ namespace CMiX.Core.Tests
             Assert.Same(filter, repository.GetControl(filter.ID));
             Assert.True(HeldCollectionManagers.Count(repository) > beforeTheTexture);
 
-            textureManager.DeleteItem(texture);
+            textureManager.RemoveItem(texture);
 
             Assert.Same(filter, repository.GetControl(filter.ID));
 
@@ -247,7 +247,7 @@ namespace CMiX.Core.Tests
             composition.LayerManager.AddItem(typeof(Layer));
             var layer = (Layer)composition.LayerManager.SelectedItem;
             layer.ModelEntityManager.AddItem(typeof(Entity));
-            composition.LayerManager.DeleteItem(layer);
+            composition.LayerManager.RemoveItem(layer);
             undoManager.Clear();
         }
     }

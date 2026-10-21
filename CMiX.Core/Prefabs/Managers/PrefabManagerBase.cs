@@ -28,7 +28,7 @@ namespace CMiX.Core.Prefabs.Managers
         public MessageFactory MessageFactory { get; }
 
         public abstract ICommand AddItemCommand { get; }
-        public abstract ICommand RemoveSelectedItemCommand { get; }
+        public abstract ICommand ClearSelectionCommand { get; }
         public abstract IControl SelectedItem { get; set; }
         public Guid ID { get; set; }
 

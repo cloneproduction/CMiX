@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System;
 using System.Collections;
 using System.Windows.Input;
 using Avalonia;
@@ -24,7 +25,11 @@ namespace CMiX.UI.Controls.Collection
         public ListBoxDetail()
         {
             InitializeComponent();
+            itemsList.ContainerPrepared += (_, e) => ContainerPrepared?.Invoke(this, e);
         }
+
+        // Raised for each row that the list makes ready, so the application can give the rows a menu.
+        public event EventHandler<ContainerPreparedEventArgs>? ContainerPrepared;
 
         public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty =
             AvaloniaProperty.Register<ListBoxDetail, IEnumerable?>(nameof(ItemsSource));

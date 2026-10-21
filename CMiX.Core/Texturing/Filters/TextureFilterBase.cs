@@ -20,7 +20,10 @@ namespace CMiX.Core.Texturing.Filters
             Blend = blend;
             ModulatorManager = modulatorManager;
             ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
+            _outputWatcher = new ModulatorOutputWatcher(modulatorManager, () => Bindables.Cast<IModulatorBindable>());
         }
+
+        private readonly ModulatorOutputWatcher _outputWatcher;
 
         private void OnModulatorManagerItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -35,6 +38,7 @@ namespace CMiX.Core.Texturing.Filters
         public virtual void Dispose()
         {
             ModulatorManager.ManagerData.Items.CollectionChanged -= OnModulatorManagerItemsChanged;
+            _outputWatcher.Dispose();
             ModulatorManager.Dispose();
         }
 

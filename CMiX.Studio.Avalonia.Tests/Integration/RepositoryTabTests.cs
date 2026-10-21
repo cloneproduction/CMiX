@@ -50,7 +50,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         }
 
         [AvaloniaFact]
-        public void TheDeleteButton_HasTheDeleteEverywhereCommandOfTheManager_AndTheSelectedTexture()
+        public void TheDeleteButton_HasTheRemoveEverywhereCommandOfTheManager_AndTheSelectedTexture()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             var tabControl = TestServiceProviderFactory.MainTabControl(window);
@@ -65,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var repositoryManager = Assert.Single(window.GetVisualDescendants().OfType<RepositoryManager>());
             var delete = repositoryManager.GetVisualDescendants().OfType<Button>().Single(b => Equals(b.Content, "-"));
 
-            Assert.Same(viewModel.TextureManager.DeleteEverywhereCommand, delete.Command);
+            Assert.Same(viewModel.TextureManager.RemoveEverywhereCommand, delete.Command);
             Assert.Same(texture, delete.CommandParameter);
         }
 

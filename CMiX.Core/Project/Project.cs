@@ -3,6 +3,7 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
@@ -19,6 +20,7 @@ namespace CMiX.Core.Compositing
                        UndoManager undoManager,
                        MasterBeat masterBeat,
                        OutputMappingManager outputMappingManager,
+                       RedisAddressRegistry redisAddressRegistry,
                        AssetSelector model)
         {
             compositionManager.ManagerData.ID = ManagerIDs.CompositionManager;
@@ -28,6 +30,7 @@ namespace CMiX.Core.Compositing
             PrefabService = prefabService;
             MasterBeat = masterBeat;
             OutputMappingManager = outputMappingManager;
+            RedisAddressRegistry = redisAddressRegistry;
             Model = model;
             Model.FilePath.ID = ManagerIDs.ProjectModelFilePath;
             PrefabService.ID = this.ID;
@@ -45,6 +48,7 @@ namespace CMiX.Core.Compositing
         public PrefabService PrefabService { get; set; }
         public MasterBeat MasterBeat { get; set; }
         public OutputMappingManager OutputMappingManager { get; set; }
+        public RedisAddressRegistry RedisAddressRegistry { get; set; }
 
         // The 3D model the project's output mappings render onto - one per project, not one
         // per composition or per output mapping.
@@ -57,6 +61,7 @@ namespace CMiX.Core.Compositing
             CompositionManager = (PrefabManagerModel)CompositionManager.ToModel(),
             MasterBeat = (MasterBeatModel)MasterBeat.ToModel(),
             OutputMappingManager = (OutputMappingManagerModel)OutputMappingManager.ToModel(),
+            RedisAddressManager = (PrefabManagerModel)RedisAddressRegistry.AddressManager.ToModel(),
             Model = (AssetSelectorModel)Model.ToModel()
         };
 
@@ -75,6 +80,7 @@ namespace CMiX.Core.Compositing
             Model.FromModel(m.Model);
 
             LoadManager(CompositionManager, m.CompositionManager);
+            LoadAddresses(m.RedisAddressManager);
         }
 
         // Gives the output mappings, the name and the model the values of a new project. The master
@@ -82,6 +88,7 @@ namespace CMiX.Core.Compositing
         public void Reset()
         {
             OutputMappingManager.Reset();
+            RedisAddressRegistry.AddressManager.ClearAll();
             PrefabService.Name.Value = null;
             PrefabService.IsSelected.Value = false;
             PrefabService.Visibility.Value = false;
@@ -98,8 +105,10 @@ namespace CMiX.Core.Compositing
             if (model.OutputMappingManager != null)
                 OutputMappingManager.FromModel(model.OutputMappingManager);
 
+            LoadAddresses(model.RedisAddressManager);
+
             foreach (var composition in compositions)
-                CompositionManager.AddItem(composition);
+                CompositionManager.AddItemFromModel(composition);
 
             // Adding always selects the item just added, so the loop above always leaves the
             // last composition selected. Restore whichever one was actually selected when the
@@ -124,10 +133,20 @@ namespace CMiX.Core.Compositing
                 Model.FromModel(model.Model);
         }
 
+        // A project file without addresses carries a default model, which must not replace the fixed ID.
+        private void LoadAddresses(PrefabManagerModel model)
+        {
+            if (model == null) return;
+
+            LoadManager(RedisAddressRegistry.AddressManager, model);
+            RedisAddressRegistry.AddressManager.ManagerData.ID = ManagerIDs.RedisAddressManager;
+        }
+
         // FromModel only adds items, so clear first to make this a real replacement.
         public void ApplySnapshot(ProjectModel model)
         {
             CompositionManager.ClearAll();
+            RedisAddressRegistry.AddressManager.ClearAll();
             FromModel(model);
         }
     }

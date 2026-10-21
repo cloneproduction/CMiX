@@ -103,7 +103,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
                 .GetTypes()
                 .Concat(ownerType.Assembly.GetTypes())
                 .Distinct()
-                .Where(t => !t.IsAbstract && !t.IsInterface)
+                .Where(t => !t.IsAbstract && !t.IsInterface && !IsHidden(t))
                 .Where(t => t.GetCustomAttributes<ModifierPanelAttribute>()
                     .Any(a => a.PanelOwner == ownerType))
                 .Select(t => new ModifierEntry { Type = t })
@@ -111,11 +111,14 @@ namespace CMiX.Studio.Avalonia.Views.Managers
                 .ToList();
         }
 
+        private static bool IsHidden(Type type) =>
+            type.GetCustomAttribute<HiddenInMenuAttribute>() != null;
+
         private static List<ModifierEntry> DiscoverByInterface(Type interfaceType)
         {
             return interfaceType.Assembly
                 .GetTypes()
-                .Where(t => !t.IsAbstract && !t.IsInterface)
+                .Where(t => !t.IsAbstract && !t.IsInterface && !IsHidden(t))
                 .Where(t => interfaceType.IsAssignableFrom(t))
                 .Select(t => new ModifierEntry { Type = t })
                 .OrderBy(e => e.Label)

@@ -54,7 +54,7 @@ namespace CMiX.Core.Tests
 
             transformTexture.Scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            transformTexture.ModulatorManager.DeleteItem(randomModulator);
+            transformTexture.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(transformTexture.Scale.Y.ModulatorID);
             Assert.Null(transformTexture.Scale.Y.BoundModulator);

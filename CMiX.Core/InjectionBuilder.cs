@@ -4,6 +4,7 @@
 using CMiX.Core.Animations;
 using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
+using CMiX.Core.Modulation;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -33,6 +34,7 @@ namespace CMiX.Core.DependencyInjection
 
             services.AddSingleton<Project>();
             services.AddSingleton<MasterBeat>();
+            services.AddSingleton<RedisAddressRegistry>();
 
             services.AddSingleton<ControlActivationService>();
             services.AddSingleton<ControlFactory>();

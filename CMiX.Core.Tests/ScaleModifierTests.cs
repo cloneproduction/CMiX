@@ -109,7 +109,7 @@ namespace CMiX.Core.Tests
             scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            scale.ModulatorManager.DeleteItem(randomModulator);
+            scale.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(scale.X.ModulatorID);
             Assert.Null(scale.X.BoundModulator);
@@ -151,7 +151,7 @@ namespace CMiX.Core.Tests
 
             scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            scale.ModulatorManager.DeleteItem(randomModulator);
+            scale.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(scale.ModifierModeSelector.Count.ModulatorID);
             Assert.Null(scale.ModifierModeSelector.Count.BoundModulator);
