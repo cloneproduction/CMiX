@@ -1,0 +1,51 @@
+<Window
+    x:Class="CMiX.UI.Gallery.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="CMiX states"
+    Width="1120"
+    Height="800"
+    WindowStartupLocation="CenterScreen">
+
+    <DockPanel>
+
+        <StackPanel
+            Width="240"
+            Margin="12"
+            DockPanel.Dock="Left"
+            Spacing="8">
+
+            <ToggleButton
+                x:Name="StandardToggle"
+                Height="28"
+                Content="Standard (off = today)" />
+
+            <TextBlock Margin="0,12,0,0" Text="Surface idle" />
+            <ComboBox x:Name="IdleBox" HorizontalAlignment="Stretch" />
+
+            <TextBlock Text="Surface hover" />
+            <ComboBox x:Name="HoverBox" HorizontalAlignment="Stretch" />
+
+            <TextBlock Text="Surface pressed" />
+            <ComboBox x:Name="PressedBox" HorizontalAlignment="Stretch" />
+
+            <TextBlock Text="Row hover" />
+            <ComboBox x:Name="RowBox" HorizontalAlignment="Stretch" />
+
+            <TextBlock
+                Margin="0,12,0,0"
+                Opacity="0.6"
+                Text="The columns show forced states. Every control is also live: hover and click it."
+                TextWrapping="Wrap" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel
+                x:Name="Sections"
+                Margin="12"
+                Spacing="20" />
+        </ScrollViewer>
+
+    </DockPanel>
+
+</Window>

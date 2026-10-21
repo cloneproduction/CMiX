@@ -1,0 +1,16 @@
+<Application
+    x:Class="CMiX.UI.Gallery.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    RequestedThemeVariant="Dark">
+
+    <Application.Styles>
+        <SimpleTheme />
+        <materialIcons:MaterialIconStyles />
+        <ui:CMiXTheme />
+        <StyleInclude Source="avares://CMiX.UI.Gallery/StateStandard.axaml" />
+    </Application.Styles>
+
+</Application>
