@@ -23,7 +23,7 @@
                             <Border
                                 Name="mainBorder"
                                 ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
-                                Background="{DynamicResource Grey500Brush}"
+                                Background="{DynamicResource StateIdleBrush}"
                                 BorderBrush="Transparent"
                                 Classes="BorderMask">
 
@@ -102,11 +102,11 @@
         </Setter>
 
         <Style Selector="^ /template/ Border#borderValueDisplay">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         </Style>
         <Style Selector="^ /template/ Border#borderValueDisplay:pointerover">
             <Setter Property="Cursor" Value="SizeWestEast" />
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
 
         <Style Selector="^ /template/ TextBlock#valueDisplay">
@@ -136,7 +136,7 @@
                         <Border
                             Name="mainBorder"
                             ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
-                            Background="{DynamicResource Grey500Brush}"
+                            Background="{DynamicResource StateIdleBrush}"
                             BorderBrush="Transparent"
                             Classes="BorderMask">
 

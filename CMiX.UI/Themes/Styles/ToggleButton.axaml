@@ -17,11 +17,11 @@
         </Style>
 
         <Style Selector="^:unchecked:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
 
         <Style Selector="^:unchecked:not(:pointerover) /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         </Style>
     </ControlTheme>
 
@@ -40,7 +40,7 @@
     </ControlTheme>
 
     <ControlTheme x:Key="ToggleButtonCheckBox" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -69,7 +69,7 @@
         </Setter>
 
         <Style Selector="^:pressed /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
 
         <Style Selector="^:disabled /template/ Border#border">
@@ -92,14 +92,14 @@
         </Style>
 
         <Style Selector="^:unchecked:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^:unchecked:pointerover /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />
         </Style>
 
         <Style Selector="^:unchecked:not(:pointerover) /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         </Style>
         <Style Selector="^:unchecked:not(:pointerover) /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />
@@ -221,7 +221,7 @@
             <ControlTemplate>
                 <Border
                     Name="border"
-                    Background="{DynamicResource Grey500Brush}"
+                    Background="{DynamicResource StateIdleBrush}"
                     CornerRadius="{DynamicResource CornerRadiusLeft}">
                     <Grid>
                         <TextBlock DockPanel.Dock="Left" Padding="8,4,4,4" Text="+" />
@@ -232,7 +232,7 @@
         </Setter>
 
         <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
 
         <Style Selector="^:checked /template/ Border#border">
@@ -272,7 +272,7 @@
                     Width="{DynamicResource ControlHeightXS}"
                     Height="{DynamicResource ControlHeightXS}"
                     Padding="4"
-                    Background="{DynamicResource Grey500Brush}"
+                    Background="{DynamicResource StateIdleBrush}"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
                     <ui:AppIcon
                         Name="icon"
@@ -283,7 +283,7 @@
         </Setter>
 
         <Style Selector="^:pressed /template/ Border#box">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
 
         <Style Selector="^:disabled /template/ Border#box">
@@ -301,10 +301,10 @@
         </Style>
 
         <Style Selector="^:unchecked /template/ Border#box:pointerover">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^:unchecked /template/ Border#box:not(:pointerover)">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         </Style>
         <Style Selector="^:unchecked /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />
@@ -328,7 +328,7 @@
                             Padding="4"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Background="{DynamicResource Grey500Brush}"
+                            Background="{DynamicResource StateIdleBrush}"
                             CornerRadius="{DynamicResource CornerRadiusAll}">
                             <ui:AppIcon
                                 Name="icon"
@@ -346,7 +346,7 @@
         </Setter>
 
         <Style Selector="^:pressed /template/ Border#box">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
 
         <Style Selector="^:disabled /template/ Border#box">
@@ -364,10 +364,10 @@
         </Style>
 
         <Style Selector="^:unchecked /template/ Border#box:pointerover">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^:unchecked /template/ Border#box:not(:pointerover)">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         </Style>
         <Style Selector="^:unchecked /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />

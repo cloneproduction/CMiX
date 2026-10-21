@@ -18,7 +18,7 @@
             <ControlTemplate>
                 <Border
                     Name="radioButtonBorder"
-                    Background="{DynamicResource Grey500Brush}"
+                    Background="{DynamicResource StateIdleBrush}"
                     CornerRadius="{Binding (ui:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource PositionToCornerRadius}}">
                     <ContentPresenter
                         Name="PART_ContentPresenter"
@@ -35,7 +35,7 @@
         </Style>
 
         <Style Selector="^:unchecked:pointerover /template/ Border#radioButtonBorder">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
 
         <Style Selector="^:checked:not(:pointerover) /template/ Border#radioButtonBorder">

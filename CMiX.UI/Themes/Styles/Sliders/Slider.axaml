@@ -15,7 +15,7 @@
     </ControlTheme>
 
     <ControlTheme x:Key="RepeatButtonIncrease" TargetType="RepeatButton">
-        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
@@ -118,7 +118,7 @@
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
         <Style Selector="^ /template/ Border#mainBorder:pointerover RepeatButton#PART_IncreaseButton">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
 
         <Style Selector="^ /template/ Border#mainBorder:disabled">
@@ -126,7 +126,7 @@
         </Style>
 
         <Style Selector="^:pressed /template/ RepeatButton#PART_IncreaseButton">
-            <Setter Property="Background" Value="{DynamicResource Grey100Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
 
     </ControlTheme>

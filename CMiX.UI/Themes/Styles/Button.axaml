@@ -9,7 +9,7 @@
 
     <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
-        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -38,11 +38,11 @@
         </Setter>
 
         <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
 
         <Style Selector="^:pressed /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
 
         <Style Selector="^:disabled /template/ Border#border">
@@ -185,7 +185,7 @@
 
     <ControlTheme x:Key="ButtonValidation" TargetType="Button">
         <Setter Property="IsEnabled" Value="True" />
-        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -231,7 +231,7 @@
         TargetType="Button">
         <Setter Property="Height" Value="{DynamicResource ControlHeightXL}" />
         <Setter Property="Width" Value="{DynamicResource ControlHeightXL}" />
-        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -249,14 +249,14 @@
         </Setter>
 
         <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^:pointerover /template/ ui|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
 
         <Style Selector="^:pressed /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
         <Style Selector="^:pressed /template/ ui|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />

@@ -24,10 +24,10 @@
             </ControlTemplate>
         </Setter>
         <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^:pressed /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
         <Style Selector="^:checked /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
@@ -37,7 +37,7 @@
 
     <!-- Structural skeleton from Avalonia.Themes.Simple ComboBox, CMiX visuals applied -->
     <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
-        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
