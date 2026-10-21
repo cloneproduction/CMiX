@@ -7,6 +7,7 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.String
 {
@@ -37,6 +38,7 @@ namespace CMiX.UI.Controls.String
         }
 
         private TopLevel? _parentTopLevel;
+        private readonly ContextMenuGuard _contextMenuGuard;
 
         static TextBoxEditable()
         {
@@ -54,6 +56,8 @@ namespace CMiX.UI.Controls.String
         {
             InitializeComponent();
             SetInputVisible(false);
+            // The menu of a row must not open in the edit mode. A double click starts the edit mode without IsEditing, so the input tells.
+            _contextMenuGuard = ContextMenuGuard.Install(this, () => InputValue.IsVisible);
             DoubleTapped += TextBoxEditable_DoubleTapped;
             AddHandler(PointerPressedEvent, TextBoxEditable_PointerPressed, RoutingStrategies.Tunnel);
         }
@@ -139,9 +143,14 @@ namespace CMiX.UI.Controls.String
             OnSwitchToNormalMode();
         }
 
+        // A right-click ends the edit mode, also over the input, and does not open a menu when the button is released.
         private void ParentTopLevel_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            if (!InputValue.IsPointerOver)
+            var rightButton = e.GetCurrentPoint(this).Properties.IsRightButtonPressed;
+            if (IsPointerOver)
+                _contextMenuGuard.PointerPressed(rightButton);
+
+            if (rightButton || !InputValue.IsPointerOver)
                 OnSwitchToNormalMode();
         }
 
