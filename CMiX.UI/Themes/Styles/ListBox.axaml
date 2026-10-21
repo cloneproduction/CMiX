@@ -11,6 +11,11 @@
 
     <ControlTheme x:Key="{x:Type ui:ListBoxCMiX}" TargetType="ui:ListBoxCMiX">
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemCMiX}" />
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <StackPanel Spacing="{DynamicResource ListSpacing}" />
+            </ItemsPanelTemplate>
+        </Setter>
         <!-- A pick in the list must not scroll the list, or the panels around it. -->
         <Setter Property="AutoScrollToSelectedItem" Value="False" />
         <Setter Property="Template">
@@ -45,6 +50,7 @@
                                 HorizontalScrollBarVisibility="Disabled"
                                 Margin="{DynamicResource ListScrollMargin}"
                                 ui:ScrollStep.ItemHeight="{DynamicResource ControlHeightMD}"
+                                ui:ScrollStep.ItemSpacing="{DynamicResource ListSpacing}"
                                 VerticalScrollBarVisibility="Auto">
                                 <ItemsPresenter
                                     Name="PART_ItemsPresenter"
@@ -63,6 +69,11 @@
 
     <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemCMiX}" />
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <StackPanel Spacing="{DynamicResource ListSpacing}" />
+            </ItemsPanelTemplate>
+        </Setter>
         <!-- A pick in the list must not scroll the list, or the panels around it. -->
         <Setter Property="AutoScrollToSelectedItem" Value="False" />
         <Setter Property="Template">
@@ -77,6 +88,7 @@
                         HorizontalScrollBarVisibility="Disabled"
                         Margin="{DynamicResource ListScrollMargin}"
                         ui:ScrollStep.ItemHeight="{DynamicResource ControlHeightMD}"
+                        ui:ScrollStep.ItemSpacing="{DynamicResource ListSpacing}"
                         VerticalScrollBarVisibility="Auto">
                         <ItemsPresenter
                             Name="PART_ItemsPresenter"
@@ -90,13 +102,13 @@
     <!-- The list of ListBoxEditable: dark, with no scroll viewer, as high as its items, and a space
          between the items. The dark is a black with some opacity, so the list is darker than the panel
          behind it, whatever the grey of that panel. The minimum height is computed in ListBoxEditable from the tokens ControlHeightMD, ListEditableVisibleItems,
-         ListEditableSpacing and ListEditablePadding. The spacing and the padding below are the same tokens. -->
+         ListSpacing and ListEditablePadding. The spacing and the padding below are the same tokens. -->
     <ControlTheme x:Key="ListBoxEditableList" TargetType="ListBox">
         <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemBasic}" />
         <Setter Property="AutoScrollToSelectedItem" Value="False" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
-                <StackPanel Spacing="{DynamicResource ListEditableSpacing}" />
+                <StackPanel Spacing="{DynamicResource ListSpacing}" />
             </ItemsPanelTemplate>
         </Setter>
         <Setter Property="Template">
@@ -149,7 +161,7 @@
         </Style>
     </ControlTheme>
 
-    <!-- A row of one control height, with a space of one around the highlight. -->
+    <!-- A row of one control height. The space between the rows is the token ListSpacing. -->
     <ControlTheme x:Key="ListBoxItemCMiX" BasedOn="{StaticResource ListBoxItemBasic}" TargetType="ListBoxItem">
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="Template">
@@ -158,7 +170,6 @@
                     Name="Bd"
                     Background="Transparent"
                     CornerRadius="{DynamicResource CornerRadiusAll}"
-                    Margin="1"
                     Padding="2,0,0,0"
                     TextElement.Foreground="{DynamicResource ForegroundBrush}">
                     <ContentPresenter

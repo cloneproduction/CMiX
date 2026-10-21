@@ -51,7 +51,7 @@ namespace CMiX.UI.Controls.Collection
         {
             if (!this.TryFindResource("ControlHeightMD", ActualThemeVariant, out var row) || row is not double rowHeight
                 || !this.TryFindResource("ListEditableVisibleItems", ActualThemeVariant, out var count) || count is not int tokenRows
-                || !this.TryFindResource("ListEditableSpacing", ActualThemeVariant, out var spacing) || spacing is not double space
+                || !this.TryFindResource("ListSpacing", ActualThemeVariant, out var spacing) || spacing is not double space
                 || !this.TryFindResource("ListEditablePadding", ActualThemeVariant, out var padding) || padding is not Thickness margin)
                 return;
 

@@ -18,7 +18,6 @@
         <ui:ListBoxEditable.ItemTemplate>
             <DataTemplate DataType="{x:Type Animations:RedisAddress}">
                 <ui:TextBoxEditable
-                    Height="{DynamicResource ControlHeightSM}"
                     Foreground="{DynamicResource ForegroundBrush}"
                     Text="{Binding Value, Mode=TwoWay}" />
             </DataTemplate>

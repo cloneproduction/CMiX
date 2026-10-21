@@ -12,6 +12,7 @@ namespace CMiX.UI.AttachedProperties
     // Makes the mouse wheel move a ScrollViewer by whole items. The default step is 50 pixels, which
     // is not a multiple of the height of an item, so a row is cut at the top and at the bottom.
     // ItemHeight is the height of one item. Zero, the default, leaves the wheel as it is.
+    // ItemSpacing is the space between two items. A step is an item and a space.
     // VisibleItemCount, when it is above zero, makes the ScrollViewer as high as that many items.
     public static class ScrollStep
     {
@@ -22,6 +23,14 @@ namespace CMiX.UI.AttachedProperties
 
         public static double GetItemHeight(ScrollViewer obj) => obj.GetValue(ItemHeightProperty);
         public static void SetItemHeight(ScrollViewer obj, double value) => obj.SetValue(ItemHeightProperty, value);
+
+        public static readonly AttachedProperty<double> ItemSpacingProperty =
+            AvaloniaProperty.RegisterAttached<ScrollViewer, double>(
+                "ItemSpacing",
+                typeof(ScrollStep));
+
+        public static double GetItemSpacing(ScrollViewer obj) => obj.GetValue(ItemSpacingProperty);
+        public static void SetItemSpacing(ScrollViewer obj, double value) => obj.SetValue(ItemSpacingProperty, value);
 
         public static readonly AttachedProperty<int> VisibleItemCountProperty =
             AvaloniaProperty.RegisterAttached<ScrollViewer, int>(
@@ -34,6 +43,7 @@ namespace CMiX.UI.AttachedProperties
         static ScrollStep()
         {
             ItemHeightProperty.Changed.AddClassHandler<ScrollViewer>(OnItemHeightChanged);
+            ItemSpacingProperty.Changed.AddClassHandler<ScrollViewer>((scroll, _) => UpdateMaxHeight(scroll));
             VisibleItemCountProperty.Changed.AddClassHandler<ScrollViewer>((scroll, _) => UpdateMaxHeight(scroll));
         }
 
@@ -43,7 +53,7 @@ namespace CMiX.UI.AttachedProperties
             var count = GetVisibleItemCount(scroll);
 
             if (step > 0 && count > 0)
-                scroll.MaxHeight = count * step;
+                scroll.MaxHeight = count * (step + GetItemSpacing(scroll)) - GetItemSpacing(scroll);
         }
 
         private static void OnItemHeightChanged(ScrollViewer scroll, AvaloniaPropertyChangedEventArgs e)
@@ -63,6 +73,8 @@ namespace CMiX.UI.AttachedProperties
 
             if (step <= 0 || e.Delta.Y == 0)
                 return;
+
+            step += GetItemSpacing(scroll);
 
             var maximum = Math.Max(0, scroll.Extent.Height - scroll.Viewport.Height);
             var row = Math.Round(scroll.Offset.Y / step) + (e.Delta.Y > 0 ? -1 : 1);
