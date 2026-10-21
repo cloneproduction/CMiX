@@ -80,6 +80,14 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void Settings_StartsClosedForANewTexture()
+        {
+            var (_, view) = ShowWithATexture();
+
+            Assert.False(ExpanderWithHeader(view, "Settings").IsExpanded);
+        }
+
+        [AvaloniaFact]
         public void SettingsFilterAndTransform_HaveTheSameIndentation()
         {
             var (_, view) = ShowWithATexture();
