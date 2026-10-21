@@ -27,8 +27,6 @@ namespace CMiX.UI.Gallery
 
         private sealed record Sample(string Name, Func<Control> Make, bool CanBeOn);
 
-        private readonly List<Control> sections = new();
-
         public MainWindow()
         {
             InitializeComponent();
@@ -43,32 +41,19 @@ namespace CMiX.UI.Gallery
             Sections.Children.Add(Tabs());
             Sections.Children.Add(Section("Icon only (the rule is already this one)", "icon", IconSamples()));
 
-            StandardToggle.IsCheckedChanged += (_, _) => ApplyStandard();
-            StandardToggle.IsChecked = Environment.GetCommandLineArgs().Contains("--standard");
         }
 
         private void Bind(ComboBox box, string resource, string initial)
         {
             box.ItemsSource = Greys;
             box.SelectedItem = initial;
-            Resources[resource] = Brush(initial);
-            box.SelectionChanged += (_, _) => Resources[resource] = Brush((string)box.SelectedItem!);
+            Application.Current!.Resources[resource] = Brush(initial);
+            box.SelectionChanged += (_, _) => Application.Current!.Resources[resource] = Brush((string)box.SelectedItem!);
         }
 
         private static IBrush Brush(string key) => (IBrush)Application.Current!.FindResource(key)!;
 
         private static ControlTheme Theme(string key) => (ControlTheme)Application.Current!.FindResource(key)!;
-
-        private void ApplyStandard()
-        {
-            foreach (var section in sections)
-            {
-                if (StandardToggle.IsChecked == true)
-                    section.Classes.Add("standard");
-                else
-                    section.Classes.Remove("standard");
-            }
-        }
 
         // ------------------------------------------------------------------ samples
 
@@ -132,16 +117,7 @@ namespace CMiX.UI.Gallery
 
         private Control Tabs()
         {
-            var panel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 20, Margin = new Thickness(8) };
-            panel.Children.Add(TabStrip("As rows: hover grey, selected accent", "tabrow"));
-            panel.Children.Add(TabStrip("As icon toggles: dim, lit on hover", "tabicon"));
-            panel.Children.Add(TabStrip("Today", string.Empty));
-            return Frame("Tab strip with icons", "tabs", panel);
-        }
-
-        private Control TabStrip(string title, string kind)
-        {
-            var strip = new TabControl { Theme = Theme("TabControlMain"), Width = 220, Height = 70 };
+            var strip = new TabControl { Theme = Theme("TabControlMain"), Width = 220, Height = 70, HorizontalAlignment = HorizontalAlignment.Left };
             foreach (var icon in new[] { "Settings", "Menu", "Folder" })
             {
                 strip.Items.Add(new TabItem
@@ -150,9 +126,6 @@ namespace CMiX.UI.Gallery
                     Header = new AppIcon { IconKey = icon, Size = 16 },
                 });
             }
-
-            if (kind.Length > 0)
-                strip.Classes.Add(kind);
 
             var passes = 0;
             void OnLayout(object? sender, EventArgs e)
@@ -167,12 +140,10 @@ namespace CMiX.UI.Gallery
 
             strip.LayoutUpdated += OnLayout;
 
-            var holder = new StackPanel { Spacing = 4 };
-            holder.Children.Add(Header(title));
+            var holder = new StackPanel { Spacing = 4, Margin = new Thickness(8) };
+            holder.Children.Add(Header("Selected, hovered (second), idle (third)"));
             holder.Children.Add(strip);
-            if (kind.Length > 0)
-                sections.Add(strip);
-            return holder;
+            return Frame("Tab strip with icons", "tabs", holder);
         }
 
         private Control Frame(string title, string kind, Control content)
@@ -183,9 +154,6 @@ namespace CMiX.UI.Gallery
                 CornerRadius = new CornerRadius(4),
                 Child = content,
             };
-            host.Classes.Add(kind);
-            if (kind != "tabs")
-                sections.Add(host);
 
             var frame = new StackPanel { Spacing = 6 };
             frame.Children.Add(new TextBlock { Text = title, FontWeight = FontWeight.SemiBold });

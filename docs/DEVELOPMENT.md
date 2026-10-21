@@ -289,6 +289,20 @@ styles first, then what makes it different. `ButtonRounded`, `ToggleButtonInline
 - `ResourceReferenceTests` fails when an AXAML file names a resource key that nothing
   defines.
 
+### The colors of the states
+
+A control has a color for each state, and the colors come from four brush tokens in `Themes/Tokens/Brushes.axaml`.
+No theme writes a grey for a state. To change a grey for the whole application, change the token.
+
+| Kind | Controls | Idle | Under the pointer | Pressed | On |
+|---|---|---|---|---|---|
+| Surface | button, toggle, combo box, drag value, slider, scroll bar, radio button | `StateIdleBrush` | `StateHoverBrush` | `StatePressedBrush` | accent-inactive, accent under the pointer |
+| Row | list item, combo item, menu item, composable item | transparent | `RowHoverBrush` | – | selected: accent-inactive, accent under the pointer |
+| Icon only | eye, power, update, mask, tabs of icons | opacity 0.6 | opacity 1 | – | opacity 1 |
+
+A new control takes its colors from these tokens, in the same three steps. The project `CMiX.UI.Gallery` shows every
+control in every state, and its four lists of greys change the tokens while it runs.
+
 ### Toggle buttons
 
 A toggle shows that it is on in the way that fits its look. There are two families.

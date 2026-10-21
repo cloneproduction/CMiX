@@ -15,12 +15,7 @@
             DockPanel.Dock="Left"
             Spacing="8">
 
-            <ToggleButton
-                x:Name="StandardToggle"
-                Height="28"
-                Content="Standard (off = today)" />
-
-            <TextBlock Margin="0,12,0,0" Text="Surface idle" />
+            <TextBlock Text="Surface idle" />
             <ComboBox x:Name="IdleBox" HorizontalAlignment="Stretch" />
 
             <TextBlock Text="Surface hover" />
@@ -35,7 +30,7 @@
             <TextBlock
                 Margin="0,12,0,0"
                 Opacity="0.6"
-                Text="The columns show forced states. Every control is also live: hover and click it."
+                Text="The columns show forced states. Every control is also live: hover and click it. The four greys are the state tokens of the theme."
                 TextWrapping="Wrap" />
         </StackPanel>
 
