@@ -11,14 +11,14 @@
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-  <StackPanel Spacing="{DynamicResource SpacingMD}">
-      
+  <StackPanel>
+
         <ui:ColorSelector
-            Margin="8, 8, 8, 0"
+            Margin="8"
             Caption="Color"
             DataContext="{Binding Color}" />
-    
-    <StackPanel Spacing="{DynamicResource SpacingXS}">
+
+    <StackPanel>
       
       <ui:ExpanderIndented
           Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
