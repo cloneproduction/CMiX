@@ -14,20 +14,7 @@ namespace CMiX.Studio.Avalonia.Views
         public ComposableManagerItem()
         {
             InitializeComponent();
-            // The menu is built once the row is in the window, because the theme of the menu comes from the resources of the app.
-            AttachedToVisualTree += (_, _) => ContextMenu ??= BuildContextMenu();
-        }
-
-        private ContextMenu BuildContextMenu()
-        {
-            var menu = new PrefabRowMenu(this, () => editableTextBox);
-            menu.Duplicate();
-            menu.Rename();
-            menu.Line();
-            menu.Moves();
-            menu.Line();
-            menu.Remove("Delete");
-            return menu.Build();
+            PrefabRowMenu.AttachTo(this, RowMenuKind.Composable, () => editableTextBox);
         }
 
         public static readonly StyledProperty<bool> DragHandleIsPressedProperty =

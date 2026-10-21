@@ -37,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         private readonly List<MenuItem> _towardsTheStart = new();
         private readonly List<MenuItem> _towardsTheEnd = new();
 
-        public PrefabRowMenu(Control row, Func<TextBoxEditable?> nameBox)
+        private PrefabRowMenu(Control row,Func<TextBoxEditable?> nameBox)
         {
             _row = row;
             _nameBox = nameBox;
@@ -46,45 +46,52 @@ namespace CMiX.Studio.Avalonia.Views.Managers
 
         // Gives a row of a list the menu of the kind of the list. The menu is built once the row is in the window,
         // because the theme of the menu comes from the resources of the app.
-        public static void Give(Control row, RowMenuKind kind)
+        // The name box is the box that Rename edits. By default it is the first one in the row.
+        public static void AttachTo(Control row, RowMenuKind kind, Func<TextBoxEditable?>? nameBox = null)
         {
             if (kind == RowMenuKind.None || row.ContextMenu != null) return;
 
+            nameBox ??= () => row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault();
+
             if (row.IsAttachedToVisualTree())
-                row.ContextMenu = Build(row, kind);
+                row.ContextMenu = new PrefabRowMenu(row, nameBox).BuildFor(kind);
             else
-                row.AttachedToVisualTree += (_, _) => row.ContextMenu ??= Build(row, kind);
+                row.AttachedToVisualTree += (_, _) => row.ContextMenu ??= new PrefabRowMenu(row, nameBox).BuildFor(kind);
         }
 
-        private static ContextMenu Build(Control row, RowMenuKind kind)
+        private ContextMenu BuildFor(RowMenuKind kind)
         {
-            var menu = new PrefabRowMenu(row, () => row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault());
-            menu.Duplicate();
-            menu.Rename();
-            menu.Line();
+            Duplicate();
+            Rename();
+            Line();
             switch (kind)
             {
                 case RowMenuKind.Slot:
-                    menu.Moves();
-                    menu.Line();
-                    menu.Remove("Remove");
+                    Moves();
+                    Line();
+                    Remove("Remove");
+                    break;
+                case RowMenuKind.Composable:
+                    Moves();
+                    Line();
+                    Remove("Delete");
                     break;
                 case RowMenuKind.Repository:
-                    menu.RemoveEverywhere("Delete Everywhere");
+                    RemoveEverywhere("Delete Everywhere");
                     break;
             }
-            return menu.Build();
+            return Build();
         }
 
-        public void Duplicate() => Row(DuplicateId, "Duplicate", (manager, item) => manager.DuplicateItem(item));
+        private void Duplicate() => Row(DuplicateId, "Duplicate", (manager, item) => manager.DuplicateItem(item));
 
-        public void Rename() => Row(RenameId, "Rename", (_, _) =>
+        private void Rename() => Row(RenameId, "Rename", (_, _) =>
         {
             if (_nameBox() is { } nameBox)
                 nameBox.IsEditing = true;
         });
 
-        public void Moves()
+        private void Moves()
         {
             _towardsTheStart.Add(Row(MoveUpId, "Move Up", (manager, item) => MoveBy(manager, item, -1)));
             _towardsTheEnd.Add(Row(MoveDownId, "Move Down", (manager, item) => MoveBy(manager, item, 1)));
@@ -92,13 +99,13 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             _towardsTheEnd.Add(Row(MoveToBottomId, "Move To Bottom", (manager, item) => manager.MoveItemTo(item, manager.ManagerData.Items.Count - 1)));
         }
 
-        public void Remove(string header) => Row(RemoveId, header, (manager, item) => manager.RemoveItem(item));
+        private void Remove(string header) => Row(RemoveId, header, (manager, item) => manager.RemoveItem(item));
 
-        public void RemoveEverywhere(string header) => Row(RemoveEverywhereId, header, (manager, item) => manager.RemoveEverywhere(item));
+        private void RemoveEverywhere(string header) => Row(RemoveEverywhereId, header, (manager, item) => manager.RemoveEverywhere(item));
 
-        public void Line() => _builder.Line();
+        private void Line() => _builder.Line();
 
-        public ContextMenu Build()
+        private ContextMenu Build()
         {
             var menu = _builder.Build();
             menu.Opening += (_, _) => RefreshMoveRows();
