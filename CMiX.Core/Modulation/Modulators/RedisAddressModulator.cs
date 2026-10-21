@@ -9,6 +9,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Modulation.Modulators
 {
     // One float output and one multiplier for each Redis address of the project.
+    [HiddenInMenu]
     public class RedisAddressModulator : ModulatorBase, INotifyOutputRemoved, IDisposable
     {
         public RedisAddressModulator(PrefabService prefabService, RedisAddressRegistry registry, PrefabManager gainManager)
