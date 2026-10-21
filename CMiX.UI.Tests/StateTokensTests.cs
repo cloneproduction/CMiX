@@ -158,5 +158,27 @@ namespace CMiX.UI.Tests
             Assert.Equal(Background(border), Background(buttonBorder));
             Assert.Equal(Token("StatePressedBrush"), Background(buttonBorder));
         }
+
+        [AvaloniaFact]
+        public void TheButton_TheDragValue_AndTheSlider_HaveTheSamePressedColor()
+        {
+            var (button, buttonBorder) = Show(new Button { Content = "Button", Width = 100 }, "border");
+            Force(button, ":pressed");
+
+            var (drag, dragBorder) = Show(new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Width = 160 }, "borderValueDisplay");
+            Force(drag, ":pressed");
+
+            var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.4, Width = 160 };
+            new Window { Content = slider, Width = 300, Height = 100 }.Show();
+            Dispatcher.UIThread.RunJobs();
+            ((IPseudoClasses)slider.Classes).Set(":pressed", true);
+            Dispatcher.UIThread.RunJobs();
+            var increase = slider.GetVisualDescendants().OfType<RepeatButton>().First(part => part.Name == "PART_IncreaseButton");
+
+            var pressed = Token("StatePressedBrush");
+            Assert.Equal(pressed, Background(buttonBorder));
+            Assert.Equal(pressed, Background(dragBorder));
+            Assert.Equal(pressed, ((ISolidColorBrush)increase.Background!).Color);
+        }
     }
 }
