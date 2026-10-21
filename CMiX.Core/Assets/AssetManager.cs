@@ -1,9 +1,7 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Assets
 {
@@ -16,17 +14,6 @@ namespace CMiX.Core.Assets
 
         public Guid ID { get; set; }
         public AssetRepository AssetRepository { get; set; }
-        public ObservableCollection<IAsset> SelectedItems { get; set; } = new();
-
-        [RelayCommand]
-        public void AddAsset()
-        {
-            if (SelectedItems.Take(2).Count() == 1 && SelectedItems.FirstOrDefault() is AssetDirectory assetDirectory)
-            {
-                assetDirectory.IsExpanded = true;
-                assetDirectory.AddAsset(new AssetDirectory("New Folder"));
-            }
-        }
 
         public List<string> EnumerateAssetFilePaths(DirectoryInfo directoryInfo)
         {
