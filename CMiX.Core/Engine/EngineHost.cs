@@ -4,13 +4,11 @@
 using CMiX.Core.DependencyInjection;
 using CMiX.Core.Networking;
 using Microsoft.Extensions.DependencyInjection;
-using VL.Core.Import;
 
 namespace CMiX.Core.Engine
 {
-    // The engine side of the sync as one vvvv node. It builds the services and starts the engine peer
-    // on the first frame. Dispose stops the peer and closes the queue. The patch drains the queue once per frame.
-    [ProcessNode]
+    // The engine side of the sync for a vvvv patch. Start builds the services and starts the engine peer.
+    // Dispose stops the peer and closes the queue. The patch drains the queue once per frame.
     public sealed class EngineHost : IDisposable
     {
         private readonly Action<IServiceCollection> _overrideServices;
@@ -26,12 +24,25 @@ namespace CMiX.Core.Engine
             _overrideServices = overrideServices;
         }
 
-        // The options and the read batch of the first call are used. Later calls change nothing.
-        public void Update(out IServiceProvider serviceProvider, out MainloopQueue mainloopQueue, SyncOptions options, int readBatch = 256)
+        public IServiceProvider ServiceProvider => _running?.Provider;
+
+        public MainloopQueue MainloopQueue => _running?.Queue;
+
+        public void Start(SyncOptions options, int readBatch = 256)
         {
-            _running ??= Start(options, readBatch);
-            serviceProvider = _running.Provider;
-            mainloopQueue = _running.Queue;
+            if (_running != null)
+                throw new InvalidOperationException("The engine host is already started.");
+
+            var builder = new InjectionBuilder();
+            var services = new ServiceCollection();
+            builder.ConfigureAllServices(services);
+            builder.ConfigureVvvvServices(services);
+            _overrideServices(services);
+
+            var provider = services.BuildServiceProvider();
+            var queue = new MainloopQueue();
+            builder.ConfigureEngineTransport(provider, options, queue, readBatch);
+            _running = new Running(provider, queue);
         }
 
         public void Dispose()
@@ -43,20 +54,6 @@ namespace CMiX.Core.Engine
 
             running.Provider.GetRequiredService<SyncPeer>().Stop();
             running.Queue.Close();
-        }
-
-        private Running Start(SyncOptions options, int readBatch)
-        {
-            var builder = new InjectionBuilder();
-            var services = new ServiceCollection();
-            builder.ConfigureAllServices(services);
-            builder.ConfigureVvvvServices(services);
-            _overrideServices(services);
-
-            var provider = services.BuildServiceProvider();
-            var queue = new MainloopQueue();
-            builder.ConfigureEngineTransport(provider, options, queue, readBatch);
-            return new Running(provider, queue);
         }
 
         private sealed record Running(IServiceProvider Provider, MainloopQueue Queue);

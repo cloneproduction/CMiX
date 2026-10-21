@@ -50,60 +50,74 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Update_ReturnsTheProviderAndTheQueue_AndKeepsThemOnTheNextCall()
+        public void BeforeStart_TheProviderAndTheQueueAreNull()
         {
             using var host = CreateHost(new InMemorySyncStore());
 
-            host.Update(out var provider, out var queue, EngineOptions);
-            host.Update(out var nextProvider, out var nextQueue, EngineOptions);
-
-            Assert.NotNull(provider.GetRequiredService<SyncPeer>());
-            Assert.NotNull(queue);
-            Assert.Same(provider, nextProvider);
-            Assert.Same(queue, nextQueue);
+            Assert.Null(host.ServiceProvider);
+            Assert.Null(host.MainloopQueue);
         }
 
         [Fact]
-        public void Update_StartsThePeerOnce_WithTheOptionsOfTheFirstCall()
+        public void Start_GivesTheProviderAndTheQueue()
         {
             using var host = CreateHost(new InMemorySyncStore());
 
-            host.Update(out var provider, out _, EngineOptions);
-            host.Update(out _, out _, EngineOptions with { PeerName = "Other" });
+            host.Start(EngineOptions);
 
-            Assert.Equal(EngineOptions, provider.GetRequiredService<SyncPeer>().Options);
+            Assert.NotNull(host.ServiceProvider.GetRequiredService<SyncPeer>());
+            Assert.NotNull(host.MainloopQueue);
         }
 
         [Fact]
-        public void Update_SetsTheReadBatch()
+        public void Start_StartsThePeerWithTheGivenOptions()
+        {
+            using var host = CreateHost(new InMemorySyncStore());
+
+            host.Start(EngineOptions);
+
+            Assert.Equal(EngineOptions, host.ServiceProvider.GetRequiredService<SyncPeer>().Options);
+        }
+
+        [Fact]
+        public void Start_Twice_Throws()
+        {
+            using var host = CreateHost(new InMemorySyncStore());
+            host.Start(EngineOptions);
+
+            Assert.Throws<InvalidOperationException>(() => host.Start(EngineOptions));
+        }
+
+        [Fact]
+        public void Start_SetsTheReadBatch()
         {
             using var custom = CreateHost(new InMemorySyncStore());
             using var standard = CreateHost(new InMemorySyncStore());
 
-            custom.Update(out var customProvider, out _, EngineOptions, readBatch: 64);
-            standard.Update(out var standardProvider, out _, EngineOptions);
+            custom.Start(EngineOptions, readBatch: 64);
+            standard.Start(EngineOptions);
 
-            Assert.Equal(64, customProvider.GetRequiredService<SyncPeer>().ReadBatch);
-            Assert.Equal(256, standardProvider.GetRequiredService<SyncPeer>().ReadBatch);
+            Assert.Equal(64, custom.ServiceProvider.GetRequiredService<SyncPeer>().ReadBatch);
+            Assert.Equal(256, standard.ServiceProvider.GetRequiredService<SyncPeer>().ReadBatch);
         }
 
         [Fact]
-        public async Task Update_AppliesNothingUntilTheQueueDrains()
+        public async Task Start_AppliesNothingUntilTheQueueDrains()
         {
             var store = new InMemorySyncStore();
             await WriteProjectSnapshotAsync(store);
             using var host = CreateHost(store);
 
-            host.Update(out var provider, out var queue, EngineOptions);
+            host.Start(EngineOptions);
             await Task.Delay(300);
-            var peer = provider.GetRequiredService<SyncPeer>();
+            var peer = host.ServiceProvider.GetRequiredService<SyncPeer>();
 
             Assert.False(peer.IsJoined);
-            Assert.True(queue.Count > 0);
+            Assert.True(host.MainloopQueue.Count > 0);
 
-            await JoinAsync(peer, queue);
+            await JoinAsync(peer, host.MainloopQueue);
 
-            Assert.Single(provider.GetRequiredService<Project>().CompositionManager.ManagerData.Items);
+            Assert.Single(host.ServiceProvider.GetRequiredService<Project>().CompositionManager.ManagerData.Items);
         }
 
         [Fact]
@@ -112,8 +126,9 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             await WriteProjectSnapshotAsync(store);
             var host = CreateHost(store);
-            host.Update(out var provider, out var queue, EngineOptions);
-            var peer = provider.GetRequiredService<SyncPeer>();
+            host.Start(EngineOptions);
+            var queue = host.MainloopQueue;
+            var peer = host.ServiceProvider.GetRequiredService<SyncPeer>();
             await JoinAsync(peer, queue);
 
             host.Dispose();
@@ -127,7 +142,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Dispose_BeforeAnyUpdate_DoesNothing()
+        public void Dispose_BeforeStart_DoesNothing()
         {
             var host = CreateHost(new InMemorySyncStore());
 
@@ -139,7 +154,7 @@ namespace CMiX.Core.Tests
         public void Dispose_Twice_DoesNothing()
         {
             var host = CreateHost(new InMemorySyncStore());
-            host.Update(out _, out _, EngineOptions);
+            host.Start(EngineOptions);
 
             host.Dispose();
             host.Dispose();
