@@ -85,6 +85,22 @@ namespace CMiX.Studio.Avalonia.Tests
             AssertSquare(slot);
         }
 
+        [AvaloniaFact]
+        public void TheButtonsOfTheRow_TakeTheirCornersFromTheirPlace()
+        {
+            var slot = new PrefabSlotManager { DataContext = Manager(), SelectionPanel = new Button { Content = "New Camera" } };
+            Show(slot);
+
+            ControlPosition PositionOf(string name) =>
+                PositionedControl.GetPosition(slot.GetVisualDescendants().OfType<Control>().Single(control => control.Name == name));
+
+            Assert.Equal(ControlPosition.Left, PositionOf("SwapToggle"));
+            Assert.Equal(ControlPosition.None, PositionOf("MoveDownButton"));
+            Assert.Equal(ControlPosition.None, PositionOf("MoveUpButton"));
+            Assert.Equal(ControlPosition.None, PositionOf("DuplicateButton"));
+            Assert.Equal(ControlPosition.Right, PositionOf("RemoveButton"));
+        }
+
         public enum RealSlot { Cameras, Lights, Entities, Colors, Textures }
 
         public static TheoryData<RealSlot> RealSlots => new() { RealSlot.Cameras, RealSlot.Lights, RealSlot.Entities, RealSlot.Colors, RealSlot.Textures };

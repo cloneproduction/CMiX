@@ -21,7 +21,7 @@
             </ui:ListBoxCMiX.DataTemplates>
         </ui:ListBoxCMiX>
 
-        <DockPanel Margin="0,4,0,0">
+        <ui:DockPanelPositioned Margin="0,4,0,0">
 
             <Button
                 x:Name="RemoveButton"
@@ -30,8 +30,7 @@
                 Command="{Binding RemoveItemCommand}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
-                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
-                Theme="{StaticResource ButtonRoundedRight}">
+                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}">
                 <ui:AppIcon Opacity="0.7" IconKey="Remove" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
@@ -43,8 +42,7 @@
                 Command="{Binding DuplicateItemCommand}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
-                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
-                Theme="{StaticResource ButtonStraight}">
+                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}">
                 <ui:AppIcon Opacity="0.7" IconKey="Duplicate" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
@@ -56,8 +54,7 @@
                 Command="{Binding ManagerReorderService.MoveItemUpCommand, FallbackValue={x:Null}}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
-                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
-                Theme="{StaticResource ButtonStraight}">
+                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}">
                 <ui:AppIcon Opacity="0.7" IconKey="ArrowUp" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
@@ -68,8 +65,7 @@
                 Command="{Binding ManagerReorderService.MoveItemDownCommand, FallbackValue={x:Null}}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
-                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
-                Theme="{StaticResource ButtonStraight}">
+                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}">
                 <ui:AppIcon Opacity="0.7" IconKey="ArrowDown" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
@@ -79,8 +75,7 @@
                 Height="{DynamicResource ControlHeightMD}"
                 Content="⇄"
                 DockPanel.Dock="Left"
-                IsEnabled="{Binding ItemsSource.Count, ElementName=prefabSlotManager, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
-                Theme="{StaticResource ToggleButtonRoundedLeft}" />
+                IsEnabled="{Binding ItemsSource.Count, ElementName=prefabSlotManager, Converter={StaticResource CountToVisibility}, ConverterParameter=0}" />
 
             <Popup
                 ui:TogglePopup.Toggle="{Binding ElementName=SwapToggle}"
@@ -109,7 +104,7 @@
                 Content="{Binding SelectionPanel, ElementName=prefabSlotManager}"
                 DockPanel.Dock="Left" />
 
-        </DockPanel>
+        </ui:DockPanelPositioned>
 
     </StackPanel>
 
