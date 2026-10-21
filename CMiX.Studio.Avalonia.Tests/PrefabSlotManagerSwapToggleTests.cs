@@ -1,9 +1,11 @@
 using System.Collections.ObjectModel;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
@@ -45,6 +47,24 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.IsType<DropdownFrame>(popup.Child);
             Assert.Equal(-8, popup.HorizontalOffset);
             Assert.Equal(-1 - 8, popup.VerticalOffset);
+        }
+
+        [AvaloniaFact]
+        public void ThePanelOfTheToggle_StartsAtTheLeftEdgeAndTheBottomEdgeOfTheToggle()
+        {
+            var (view, repository, provider) = Show();
+            view.Margin = new Thickness(100, 40, 0, 0);
+            repository.Add(provider.GetRequiredService<ControlFactory>().Create(typeof(Entity)));
+            Dispatcher.UIThread.RunJobs();
+            var toggle = SwapToggle(view);
+
+            toggle.IsChecked = true;
+            Dispatcher.UIThread.RunJobs();
+
+            var popup = view.GetLogicalDescendants().OfType<Popup>().Single();
+            var panel = popup.Child!.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "PART_Panel");
+            Assert.Equal(toggle.PointToScreen(new Point(0, 0)).X, panel.PointToScreen(new Point(0, 0)).X);
+            Assert.Equal(toggle.PointToScreen(new Point(0, toggle.Bounds.Height)).Y - 1, panel.PointToScreen(new Point(0, 0)).Y);
         }
 
         [AvaloniaFact]

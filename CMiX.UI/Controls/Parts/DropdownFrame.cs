@@ -30,13 +30,27 @@ namespace CMiX.UI.Controls.Parts
         // The popup is moved once. Later calls only follow a change of the padding.
         private void MoveByTheRoomOfTheShadow(Popup popup)
         {
-            var wanted = new Point(-Padding.Left, -Padding.Top);
+            var wanted = ShiftFor(popup.Placement, Padding);
             var done = moved.GetOrCreateValue(popup);
 
             popup.HorizontalOffset += wanted.X - done.Offset.X;
             popup.VerticalOffset += wanted.Y - done.Offset.Y;
             done.Offset = wanted;
         }
+
+        // The widened popup grows to both sides. A popup that is centered under its target stays centered,
+        // so it needs no sideways shift. A popup that is aligned to an edge must move by the room at that edge.
+        // Under the target (or over it), the room at the top (or the bottom) must be given back.
+        internal static Point ShiftFor(PlacementMode placement, Thickness room) => placement switch
+        {
+            PlacementMode.Bottom => new Point(0, -room.Top),
+            PlacementMode.BottomEdgeAlignedLeft => new Point(-room.Left, -room.Top),
+            PlacementMode.BottomEdgeAlignedRight => new Point(room.Right, -room.Top),
+            PlacementMode.Top => new Point(0, room.Bottom),
+            PlacementMode.TopEdgeAlignedLeft => new Point(-room.Left, room.Bottom),
+            PlacementMode.TopEdgeAlignedRight => new Point(room.Right, room.Bottom),
+            _ => default
+        };
 
         private sealed class Moved
         {
