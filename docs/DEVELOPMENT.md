@@ -478,17 +478,18 @@ equals the tail.
 
 **The UI and the engine mainloop.** No Redis call runs on the UI thread. The
 one accepted UI pause is the apply of a large snapshot, because the controls
-are bound to the UI. The engine patch gives the peer a `MainloopQueue` through
-`ConfigureEngineTransport (Provider, Options, Queue, Read Batch)`. A third
-overload takes a credential name before the queue. It reads the generic
-credential with that name and replaces the user name and the password of the
-options. The patch does not use it yet. The patch drains the queue once per
-frame with `Drain`. Every apply, every event and
-every property change of the peer then run on the mainloop. The read batch is
-the number of entries that one such action applies. The default is 256. A
-larger value gives a faster catch-up and a longer frame. A patch that stops
-draining stalls the peer. The patch calls `Close` after `SyncPeer.Stop`, so the
-peer stops at once. `CMiX.Console` has no mainloop and applies inline.
+are bound to the UI. The engine patch uses one `EngineHost` object. `Create`
+makes it. `Start (Options, Read Batch)` builds the services and starts the
+engine peer with a `MainloopQueue`. The getters `ServiceProvider` and
+`MainloopQueue` give the rest of the patch what it needs. `Start` runs once,
+and a second call throws. The patch drains the queue once per frame with
+`Drain`. Every apply, every event and every property change of the peer then
+run on the mainloop. The read batch is the number of entries that one such
+action applies. The default is 256. A larger value gives a faster catch-up and
+a longer frame. A patch that stops draining stalls the peer. `Dispose` calls
+`SyncPeer.Stop` and then `Close` on the queue, so the peer stops at once. The
+`Dispose` of the patch must call it. `CMiX.Console` has no mainloop, has no
+`EngineHost`, and applies inline.
 
 ### The Studio settings file
 
