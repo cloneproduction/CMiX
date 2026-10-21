@@ -1,11 +1,12 @@
-﻿using CMiX.Core.Prefabs.Managers;
+﻿using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Covers the guards added in commit 59a147eb: MoveItem and ResetItem used to trust their
+    // Covers the guards added in commit 59a147eb: MoveItem used to trust their
     // arguments and would throw or corrupt state on stale or absent controls.
     public class CollectionManagerTests
     {
@@ -15,99 +16,149 @@ namespace CMiX.Core.Tests
             items = new List<TouchBlob>();
             for (int i = 0; i < count; i++)
             {
-                var (prefab, _) = manager.AddItem(typeof(TouchBlob));
+                var prefab = provider.GetRequiredService<ControlFactory>().Create(typeof(TouchBlob));
+                manager.InsertItem(prefab, manager.ManagerData.Items.Count);
                 items.Add((TouchBlob)prefab);
             }
             return manager;
         }
 
         [Fact]
-        public void MoveItem_OutOfRangeOldIndex_IsNoOp()
+        public void Move_OutOfRangeOldIndex_IsNoOp()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 2, out var items);
 
-            var exception = Record.Exception(() => manager.MoveItem(5, 0));
+            var exception = Record.Exception(() => manager.ManagerData.Move(5, 0));
 
             Assert.Null(exception);
             Assert.Equal(items, manager.ManagerData.Items);
         }
 
         [Fact]
-        public void MoveItem_OutOfRangeNewIndex_IsNoOp()
+        public void Move_OutOfRangeNewIndex_IsNoOp()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 2, out var items);
 
-            var exception = Record.Exception(() => manager.MoveItem(0, 9));
+            var exception = Record.Exception(() => manager.ManagerData.Move(0, 9));
 
             Assert.Null(exception);
             Assert.Equal(items, manager.ManagerData.Items);
         }
 
         [Fact]
-        public void MoveItem_NegativeIndices_IsNoOp()
+        public void Move_NegativeIndices_IsNoOp()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 2, out var items);
 
-            var exception = Record.Exception(() => manager.MoveItem(-1, -1));
+            var exception = Record.Exception(() => manager.ManagerData.Move(-1, -1));
 
             Assert.Null(exception);
             Assert.Equal(items, manager.ManagerData.Items);
         }
 
         [Fact]
-        public void ResetItem_NullControl_IsNoOp()
+        public void Select_ByTheIDOfAControlOfTheList_SelectsIt()
         {
             var provider = TestServiceProviderFactory.Create();
-            var manager = CreateManagerWithItems(provider, 1, out var items);
+            var manager = CreateManagerWithItems(provider, 3, out var items);
 
-            var exception = Record.Exception(() => manager.ResetItem(null));
+            manager.Select(items[0].ID);
 
-            Assert.Null(exception);
-            Assert.Same(items[0], manager.ManagerData.Items[0]);
+            Assert.Same(items[0], manager.ManagerData.SelectedItem);
         }
 
         [Fact]
-        public void ResetItem_ControlNotInCollection_IsNoOp()
+        public void Select_ByTheIDOfAControlOfAnotherList_LeavesNothingSelected()
         {
             var provider = TestServiceProviderFactory.Create();
-            var manager = CreateManagerWithItems(provider, 1, out var items);
+            var manager = CreateManagerWithItems(provider, 2, out _);
             var otherManager = provider.GetRequiredService<CollectionManager>();
-            var (foreignControl, _) = otherManager.AddItem(typeof(TouchBlob));
+            var foreignControl = provider.GetRequiredService<ControlFactory>().Create(typeof(TouchBlob));
+            otherManager.InsertItem(foreignControl, 0);
 
-            var exception = Record.Exception(() => manager.ResetItem(foreignControl));
+            manager.Select(foreignControl.ID);
 
-            Assert.Null(exception);
-            Assert.Same(items[0], manager.ManagerData.Items[0]);
+            Assert.Null(manager.ManagerData.SelectedItem);
         }
 
         [Fact]
-        public void DeleteItem_AbsentControl_ReturnsNullAndNegativeOne()
+        public void Select_ByAnUnknownID_LeavesNothingSelected()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = CreateManagerWithItems(provider, 2, out _);
+
+            manager.Select(Guid.NewGuid());
+
+            Assert.Null(manager.ManagerData.SelectedItem);
+        }
+
+        [Fact]
+        public void Select_ByAnEmptyID_LeavesNothingSelected()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = CreateManagerWithItems(provider, 2, out _);
+
+            manager.Select(Guid.Empty);
+
+            Assert.Null(manager.ManagerData.SelectedItem);
+        }
+
+        [Fact]
+        public void RemoveItem_AbsentControl_ReturnsNegativeOne()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 1, out _);
             var otherManager = provider.GetRequiredService<CollectionManager>();
-            var (foreignControl, _) = otherManager.AddItem(typeof(TouchBlob));
+            var foreignControl = provider.GetRequiredService<ControlFactory>().Create(typeof(TouchBlob));
+            otherManager.InsertItem(foreignControl, 0);
 
-            var (removed, index) = manager.DeleteItem(foreignControl);
+            var index = manager.RemoveItem(foreignControl);
 
-            Assert.Null(removed);
             Assert.Equal(-1, index);
             Assert.Single(manager.ManagerData.Items);
         }
 
         [Fact]
-        public void DeleteItem_NullControl_ReturnsNullAndNegativeOne()
+        public void RemoveItem_NullControl_ReturnsNegativeOne()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 1, out _);
 
-            var (removed, index) = manager.DeleteItem(null);
+            var index = manager.RemoveItem(null);
 
-            Assert.Null(removed);
             Assert.Equal(-1, index);
+        }
+
+        [Fact]
+        public void InsertItem_FromModel_PutsTheItemAtTheIndexAndSelectsIt()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = CreateManagerWithItems(provider, 3, out var items);
+            var model = (TouchBlobModel)items[0].ToModel();
+
+            manager.InsertItem(model with { ID = Guid.NewGuid() }, 1);
+
+            Assert.Equal(4, manager.ManagerData.Items.Count);
+            Assert.Same(items[0], manager.ManagerData.Items[0]);
+            Assert.NotSame(items[1], manager.ManagerData.Items[1]);
+            Assert.Same(items[1], manager.ManagerData.Items[2]);
+            Assert.Equal(1, manager.ManagerData.SelectedIndex);
+        }
+
+        [Fact]
+        public void InsertItem_FromModel_WithIndexOutOfRange_AddsAtTheEnd()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = CreateManagerWithItems(provider, 2, out var items);
+            var model = (TouchBlobModel)items[0].ToModel();
+
+            manager.InsertItem(model with { ID = Guid.NewGuid() }, 9);
+
+            Assert.Equal(3, manager.ManagerData.Items.Count);
+            Assert.Equal(2, manager.ManagerData.SelectedIndex);
         }
     }
 }

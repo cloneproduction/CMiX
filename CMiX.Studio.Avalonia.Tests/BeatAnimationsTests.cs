@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using Avalonia.Headless.XUnit;
 using CMiX.Core.Animations;
 using CMiX.Core.Modulation.Modulators;

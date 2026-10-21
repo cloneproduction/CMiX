@@ -24,9 +24,10 @@
             <Managers:PrefabSlotManager
                 Margin="8"
                 MinItemCount="3"
+                RowMenu="Slot"
                 DataContext="{Binding ModelEntityManager}"
                 DockPanel.Dock="Top"
-                ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.EntitiesAndTexts}">
+                ItemsSource="{Binding ControlRepository.ModelEntities}">
 
                 <Managers:PrefabSlotManager.SelectionPanel>
                     <ui:PopupButton Caption="Add Entity">

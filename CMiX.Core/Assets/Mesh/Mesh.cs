@@ -4,7 +4,6 @@
 using CMiX.Core.Assets.Mesh;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 

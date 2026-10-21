@@ -1,0 +1,28 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Managers.RedisAddressesPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core">
+
+    <ui:ListBoxEditable
+        Margin="8"
+        AddCommand="{Binding AddAddressCommand}"
+        ItemsSource="{Binding AddressManager.ManagerData.Items}"
+        MoveDownCommand="{Binding AddressManager.ManagerReorderService.MoveItemDownCommand, FallbackValue={x:Null}}"
+        MoveUpCommand="{Binding AddressManager.ManagerReorderService.MoveItemUpCommand, FallbackValue={x:Null}}"
+        RemoveCommand="{Binding RemoveAddressCommand}"
+        ReorderService="{Binding AddressManager.ManagerReorderService}"
+        SelectedItem="{Binding AddressManager.SelectedItem, Mode=TwoWay}">
+
+        <ui:ListBoxEditable.ItemTemplate>
+            <DataTemplate DataType="{x:Type Animations:RedisAddress}">
+                <ui:TextBoxEditable
+                    Height="{DynamicResource ControlHeightSM}"
+                    Foreground="{DynamicResource ForegroundBrush}"
+                    Text="{Binding Value, Mode=TwoWay}" />
+            </DataTemplate>
+        </ui:ListBoxEditable.ItemTemplate>
+
+    </ui:ListBoxEditable>
+</UserControl>

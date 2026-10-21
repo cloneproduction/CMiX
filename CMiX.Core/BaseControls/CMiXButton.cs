@@ -4,7 +4,6 @@
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -39,7 +38,7 @@ namespace CMiX.Core.BaseControls
         public void Receive(IMessage message)
         {
             if (this.ID != message.ID) return;
-            ReceiveWithoutEcho(() => Click?.Invoke(this, null));
+            Click?.Invoke(this, null);
         }
 
         public IControlModel ToModel() => new ButtonModel

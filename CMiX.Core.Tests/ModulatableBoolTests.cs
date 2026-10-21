@@ -1,7 +1,5 @@
-using System.Linq;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
-using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

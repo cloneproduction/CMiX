@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
+using CMiX.Studio.Avalonia.Views.Managers;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -13,6 +14,7 @@ namespace CMiX.Studio.Avalonia.Views
         public ComposableManagerItem()
         {
             InitializeComponent();
+            PrefabRowMenu.AttachTo(this, RowMenuKind.Composable, () => editableTextBox);
         }
 
         public static readonly StyledProperty<bool> DragHandleIsPressedProperty =

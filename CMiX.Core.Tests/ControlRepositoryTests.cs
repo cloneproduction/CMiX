@@ -1,6 +1,9 @@
 ﻿using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -14,18 +17,18 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var referencer = Guid.NewGuid();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
 
             var first = factory.Create(typeof(CheckerBoard));
             var second = factory.Create(typeof(CheckerBoard));
-            repository.AddControl(first, referencer);
-            repository.AddControl(second, referencer);
+            repository.AddControl(first, collectionManager);
+            repository.AddControl(second, collectionManager);
 
             Assert.Same(first, repository.GetControl(first.ID));
             Assert.Same(second, repository.GetControl(second.ID));
             Assert.Null(repository.GetControl(Guid.NewGuid()));
 
-            repository.RemoveControl(first, referencer);
+            repository.RemoveControl(first, collectionManager);
 
             Assert.Null(repository.GetControl(first.ID));
             Assert.Same(second, repository.GetControl(second.ID));
@@ -38,14 +41,14 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var referencer = Guid.NewGuid();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
 
             var first = factory.Create(typeof(CheckerBoard));
             var second = factory.Create(typeof(CheckerBoard));
             second.ID = first.ID;
 
-            repository.AddControl(first, referencer);
-            repository.AddControl(second, referencer);
+            repository.AddControl(first, collectionManager);
+            repository.AddControl(second, collectionManager);
 
             Assert.Single(repository.Controls);
             Assert.Same(first, repository.GetControl(first.ID));
@@ -59,12 +62,12 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var referencer = Guid.NewGuid();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
 
             var first = (IPrefab)factory.Create(typeof(CheckerBoard));
-            repository.AddControl((IControl)first, referencer);
+            repository.AddControl((IControl)first, collectionManager);
             var second = (IPrefab)factory.Create(typeof(CheckerBoard));
-            repository.AddControl((IControl)second, referencer);
+            repository.AddControl((IControl)second, collectionManager);
 
             Assert.Equal("Checker Board", first.PrefabService.Name.Value);
             Assert.Equal("Checker Board.001", second.PrefabService.Name.Value);
@@ -72,22 +75,18 @@ namespace CMiX.Core.Tests
             second.PrefabService.Name.Value = "Checker Board.002";
 
             var third = (IPrefab)factory.Create(typeof(CheckerBoard));
-            repository.AddControl((IControl)third, referencer);
+            repository.AddControl((IControl)third, collectionManager);
 
             Assert.Equal("Checker Board.001", third.PrefabService.Name.Value);
         }
 
-        // EntitiesAndTexts merges two independent source collections into the single list the layer
-        // entity slot swap popup lists from, keeping entities ahead of texts. Add and remove both
-        // kinds interleaved and check the merge stays consistent rather than only checking a single
-        // snapshot.
         [Fact]
-        public void EntitiesAndTexts_KeepsEntitiesAheadOfTextsAsBothAreAddedAndRemovedInterleaved()
+        public void ModelEntities_HoldsEntitiesAndTextsInTheOrderTheyWereAdded()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var referencer = Guid.NewGuid();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
 
             var entity1 = factory.Create(typeof(Entity));
             var text1 = factory.Create(typeof(TextEntity));
@@ -95,49 +94,161 @@ namespace CMiX.Core.Tests
             var text2 = factory.Create(typeof(TextEntity));
             var entity3 = factory.Create(typeof(Entity));
 
-            repository.AddControl(entity1, referencer);
-            repository.AddControl(text1, referencer);
-            repository.AddControl(entity2, referencer);
-            repository.AddControl(text2, referencer);
+            repository.AddControl(entity1, collectionManager);
+            repository.AddControl(text1, collectionManager);
+            repository.AddControl(entity2, collectionManager);
+            repository.AddControl(text2, collectionManager);
 
-            Assert.Equal(new[] { entity1, entity2, text1, text2 }, repository.EntitiesAndTexts);
+            Assert.Equal(new[] { entity1, text1, entity2, text2 }, repository.ModelEntities);
 
-            repository.RemoveControl(entity1, referencer);
-            repository.RemoveControl(text1, referencer);
+            repository.RemoveControl(entity1, collectionManager);
+            repository.RemoveControl(text1, collectionManager);
 
-            Assert.Equal(new[] { entity2, text2 }, repository.EntitiesAndTexts);
+            Assert.Equal(new[] { entity2, text2 }, repository.ModelEntities);
 
-            repository.AddControl(entity3, referencer);
+            repository.AddControl(entity3, collectionManager);
 
-            // A newly added entity keeps inserting ahead of the texts block, not at the tail.
-            Assert.Equal(new[] { entity2, entity3, text2 }, repository.EntitiesAndTexts);
+            Assert.Equal(new[] { entity2, text2, entity3 }, repository.ModelEntities);
         }
 
-        // Nothing in production code clears Entities or Texts directly today; every removal goes
-        // through RemoveControl one item at a time. The Reset branch of the merge exists for a bulk
-        // clear anyway, so it needs its own coverage rather than riding along on the Remove branch.
         [Fact]
-        public void EntitiesAndTexts_ResyncsWhenASourceCollectionRaisesAReset()
+        public void ModelEntities_EmptiesWhenControlsIsCleared()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var referencer = Guid.NewGuid();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
 
             var entity = factory.Create(typeof(Entity));
             var text = factory.Create(typeof(TextEntity));
-            repository.AddControl(entity, referencer);
-            repository.AddControl(text, referencer);
+            repository.AddControl(entity, collectionManager);
+            repository.AddControl(text, collectionManager);
 
-            Assert.Equal(new[] { entity, text }, repository.EntitiesAndTexts);
+            Assert.Equal(new[] { entity, text }, repository.ModelEntities);
 
-            repository.Entities.Clear();
+            repository.Controls.Clear();
 
-            Assert.Equal(new[] { text }, repository.EntitiesAndTexts);
+            Assert.Empty(repository.ModelEntities);
+            Assert.Empty(repository.Entities);
+            Assert.Empty(repository.Texts);
+        }
 
-            repository.Texts.Clear();
+        [Fact]
+        public void ARemovedControl_IsNoLongerHeldByThatCollectionManager()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var manager = provider.GetRequiredService<PrefabManager>();
 
-            Assert.Empty(repository.EntitiesAndTexts);
+            manager.AddItem(typeof(CheckerBoard));
+            var texture = manager.ManagerData.Items[0];
+
+            Assert.Same(manager.Collection, Assert.Single(repository.GetCollectionManagers(texture)));
+
+            manager.RemoveItem(texture);
+
+            Assert.Empty(repository.GetCollectionManagers(texture));
+        }
+
+        [Fact]
+        public void ADisposedManager_ReleasesEveryControlItHeld()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var manager = provider.GetRequiredService<PrefabManager>();
+            manager.AddItem(typeof(CheckerBoard));
+            manager.AddItem(typeof(CheckerBoard));
+            var items = manager.ManagerData.Items.ToList();
+
+            manager.Dispose();
+
+            Assert.All(items, item => Assert.Empty(repository.GetCollectionManagers(item)));
+            Assert.Equal(0, HeldCollectionManagers.Count(repository));
+        }
+
+        [Fact]
+        public void DeletingLayersRepeatedly_DoesNotGrowTheCollectionManagersTheRepositoryHolds()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var compositionManager = provider.GetRequiredService<PrefabManager>();
+
+            compositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)compositionManager.SelectedItem;
+
+            AddAndDropALayer(composition, undoManager);
+            var baseline = HeldCollectionManagers.Count(repository);
+
+            for (int i = 0; i < 5; i++)
+                AddAndDropALayer(composition, undoManager);
+
+            Assert.Equal(baseline, HeldCollectionManagers.Count(repository));
+        }
+
+        [Fact]
+        public void DroppingTheUndoEntryOfADeletedLayer_ReleasesItsNestedManagers()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var compositionManager = provider.GetRequiredService<PrefabManager>();
+
+            compositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)compositionManager.SelectedItem;
+
+            var beforeTheLayer = HeldCollectionManagers.Count(repository);
+            composition.LayerManager.AddItem(typeof(Layer));
+            var layer = (Layer)composition.LayerManager.SelectedItem;
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+
+            Assert.True(HeldCollectionManagers.Count(repository) > beforeTheLayer);
+
+            composition.LayerManager.RemoveItem(layer);
+
+            Assert.True(HeldCollectionManagers.Count(repository) > beforeTheLayer);
+
+            undoManager.Clear();
+
+            Assert.Equal(beforeTheLayer, HeldCollectionManagers.Count(repository));
+        }
+
+        [Fact]
+        public void DroppingATexture_TakesItsFilterModifiersWithIt()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var textureManager = provider.GetRequiredService<PrefabManager>();
+
+            var beforeTheTexture = HeldCollectionManagers.Count(repository);
+
+            textureManager.AddItem(typeof(CheckerBoard));
+            var texture = (CheckerBoard)textureManager.SelectedItem;
+            texture.TextureModifierManager.AddItem(typeof(Blur));
+            var filter = (Blur)texture.TextureModifierManager.SelectedItem;
+
+            Assert.Same(filter, repository.GetControl(filter.ID));
+            Assert.True(HeldCollectionManagers.Count(repository) > beforeTheTexture);
+
+            textureManager.RemoveItem(texture);
+
+            Assert.Same(filter, repository.GetControl(filter.ID));
+
+            undoManager.Clear();
+
+            Assert.Null(repository.GetControl(texture.ID));
+            Assert.Null(repository.GetControl(filter.ID));
+            Assert.Equal(beforeTheTexture, HeldCollectionManagers.Count(repository));
+        }
+
+        private static void AddAndDropALayer(Composition composition, UndoManager undoManager)
+        {
+            composition.LayerManager.AddItem(typeof(Layer));
+            var layer = (Layer)composition.LayerManager.SelectedItem;
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+            composition.LayerManager.RemoveItem(layer);
+            undoManager.Clear();
         }
     }
 }

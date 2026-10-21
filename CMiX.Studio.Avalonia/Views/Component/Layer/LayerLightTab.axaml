@@ -16,9 +16,10 @@
             <Managers:PrefabSlotManager
                 Margin="8"
                 MinItemCount="3"
+                RowMenu="Slot"
                 DataContext="{Binding LightManager}"
                 DockPanel.Dock="Top"
-                ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Lights}">
+                ItemsSource="{Binding ControlRepository.Lights}">
 
                 <Managers:PrefabSlotManager.SelectionPanel>
                     <Button

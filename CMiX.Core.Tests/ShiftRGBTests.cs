@@ -56,7 +56,7 @@ namespace CMiX.Core.Tests
             shiftRGB.Shift.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             shiftRGB.Hue.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            shiftRGB.ModulatorManager.DeleteItem(randomModulator);
+            shiftRGB.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(shiftRGB.Direction.ModulatorID);
             Assert.Null(shiftRGB.Direction.BoundModulator);

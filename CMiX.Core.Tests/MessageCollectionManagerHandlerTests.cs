@@ -45,5 +45,22 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(2, manager.ManagerData.Items.Count);
         }
+
+        [Fact]
+        public void MessageAddItem_WithIndexInTheMiddle_InsertsAtThatIndex()
+        {
+            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            var manager = project.CompositionManager;
+            var first = CompositionModel();
+            var second = CompositionModel();
+            var inserted = CompositionModel();
+
+            manager.Receive(new MessageAddItem(manager.ManagerData.ID, first, 0));
+            manager.Receive(new MessageAddItem(manager.ManagerData.ID, second, 1));
+            manager.Receive(new MessageAddItem(manager.ManagerData.ID, inserted, 1));
+
+            Assert.Equal(new[] { first.ID, inserted.ID, second.ID }, manager.ManagerData.Items.Select(item => item.ID));
+            Assert.Equal(1, manager.ManagerData.SelectedIndex);
+        }
     }
 }

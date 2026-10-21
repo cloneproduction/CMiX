@@ -55,7 +55,7 @@ namespace CMiX.Core.Tests
             pixelate.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             pixelate.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            pixelate.ModulatorManager.DeleteItem(randomModulator);
+            pixelate.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(pixelate.X.ModulatorID);
             Assert.Null(pixelate.X.BoundModulator);

@@ -2,37 +2,11 @@
     x:Class="CMiX.Studio.Avalonia.Views.DiffuseTexture"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:TextureSources="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
-    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <StackPanel>
-        <Managers:PrefabSlotManager
-            Margin="8"
-            MinItemCount="2"
-            DataContext="{Binding TextureManager}"
-            ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Textures}">
-
-            <i:Interaction.Behaviors>
-                <Behaviors:TextureDropBehavior PrefabManager="{Binding}" />
-            </i:Interaction.Behaviors>
-
-            <Managers:PrefabSlotManager.SelectionPanel>
-                <ui:PopupButton Caption="Add Texture">
-                    <ui:PopupButton.PopupContent>
-                        <Managers:AutoSelectionPanel Interface="{x:Type TextureSources:ITextureSource}" />
-                    </ui:PopupButton.PopupContent>
-                </ui:PopupButton>
-            </Managers:PrefabSlotManager.SelectionPanel>
-
-        </Managers:PrefabSlotManager>
-
-        <Views:Texture DataContext="{Binding TextureManager.SelectedItem}"
-                        IsVisible="{Binding TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}"/>
-
+        <Views:TextureSlot />
+        <Views:SelectedTexture />
     </StackPanel>
 
 </UserControl>

@@ -1,5 +1,4 @@
-﻿using System.Collections.Specialized;
-using CMiX.Core;
+﻿using CMiX.Core;
 using CMiX.Core.Assets;
 using Xunit;
 

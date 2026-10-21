@@ -17,11 +17,10 @@ namespace CMiX.Studio.Avalonia.Tests
     {
         public static IServiceProvider Create()
         {
-            var configurationBuilder = new InjectionBuilder();
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging();
 
-            configurationBuilder.ConfigureAllServices(serviceCollection);
+            serviceCollection.AddCMiXCore();
             serviceCollection.AddSingleton<Views.MainWindow>();
             serviceCollection.AddSingleton<MainViewModel>();
             serviceCollection.AddSingleton<MainWindowController>();
@@ -30,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 new MainWindowDialogManager(new EmptyViewLocator(), new DialogFactory().AddMessageBox()),
                 viewModelFactory: type => provider.GetService(type)));
             serviceCollection.AddSingleton<ManagerReorderServiceFactory>(
-                _ => (collection, onMove) => new ManagerReorderService(collection, onMove));
+                _ => (data, move) => new ManagerReorderService(data, move));
 
             return serviceCollection.BuildServiceProvider();
         }

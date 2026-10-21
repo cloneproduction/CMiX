@@ -16,9 +16,10 @@
             <Managers:PrefabSlotManager
                 Margin="8"
                 MinItemCount="3"
+                RowMenu="Slot"
                 DataContext="{Binding CameraManager}"
                 DockPanel.Dock="Top"
-                ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Cameras}">
+                ItemsSource="{Binding ControlRepository.Cameras}">
 
                 <Managers:PrefabSlotManager.SelectionPanel>
                     <Button

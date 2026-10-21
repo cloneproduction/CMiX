@@ -47,6 +47,15 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             set => SetValue(ItemsSourceProperty, value);
         }
 
+        // The menu of the rows of the list. None, the default, gives them no menu.
+        public static readonly StyledProperty<RowMenuKind> RowMenuProperty =
+            AvaloniaProperty.Register<RepositoryTab, RowMenuKind>(nameof(RowMenu));
+        public RowMenuKind RowMenu
+        {
+            get => GetValue(RowMenuProperty);
+            set => SetValue(RowMenuProperty, value);
+        }
+
         public static readonly StyledProperty<Control> SelectionPanelProperty =
             AvaloniaProperty.Register<RepositoryTab, Control>(nameof(SelectionPanel));
         public Control SelectionPanel

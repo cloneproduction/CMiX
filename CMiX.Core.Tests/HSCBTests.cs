@@ -57,7 +57,7 @@ namespace CMiX.Core.Tests
             hscb.Contrast.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             hscb.Brightness.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            hscb.ModulatorManager.DeleteItem(randomModulator);
+            hscb.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(hscb.Hue.ModulatorID);
             Assert.Null(hscb.Hue.BoundModulator);

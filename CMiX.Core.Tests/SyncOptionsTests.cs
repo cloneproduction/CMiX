@@ -1,4 +1,3 @@
-using System;
 using CMiX.Core.Networking;
 using Xunit;
 

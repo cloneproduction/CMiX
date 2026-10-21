@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel;
-using System.Threading;
 using CMiX.Core.Compositing;
 using CMiX.Core.DependencyInjection;
 using CMiX.Core.Networking;
@@ -31,17 +29,11 @@ namespace CMiX.Console
             System.Console.WriteLine(
                 $"ip={options.Ip} port={options.Port} db={options.Database} prefix={options.KeyPrefix} name={options.PeerName}");
 
-            InjectionBuilder configurationBuilder = new InjectionBuilder();
-
-            ServiceCollection serviceCollection = new ServiceCollection();
-            configurationBuilder.ConfigureAllServices(serviceCollection);
-            configurationBuilder.ConfigureVvvvServices(serviceCollection);
-
-            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var serviceProvider = new ServiceCollection().AddCMiXCore().BuildServiceProvider();
             serviceProvider.GetRequiredService<Project>();
-            configurationBuilder.ConfigureEngineTransport(serviceProvider, options);
 
             var peer = serviceProvider.GetRequiredService<SyncPeer>();
+            peer.StartAsEngine(options);
             peer.PropertyChanged += (sender, e) => ReportChange(peer, e);
             var printer = new Timer(_ => PrintPending(), null, PrintInterval, PrintInterval);
 

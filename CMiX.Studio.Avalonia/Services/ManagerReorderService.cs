@@ -12,34 +12,34 @@ namespace CMiX.Studio.Avalonia.Services
 {
     public partial class ManagerReorderService : ObservableObject, IManagerReorderService, IReorderService
     {
-        public ManagerReorderService(CollectionManager collectionManager, Action<int, int> onMove)
+        public ManagerReorderService(ManagerData data, Action<int, int> move)
         {
-            CollectionManager = collectionManager;
-            ID = collectionManager.ManagerData.ID;
-            _onMove = onMove;
+            _data = data;
+            ID = data.ID;
+            _move = move;
         }
 
         public Guid ID { get; set; }
-        public CollectionManager CollectionManager { get; set; }
-        private readonly Action<int, int> _onMove;
+        private readonly ManagerData _data;
+        private readonly Action<int, int> _move;
 
         [ObservableProperty]
         private bool _dragHandleIsPressed = false;
 
         [RelayCommand]
-        public void ItemUp(IControl control)
+        public void MoveItemUp(IControl control)
         {
-            var index = CollectionManager.ManagerData.Items.IndexOf(control);
-            if (index > 0) Move(index, index - 1);
+            var index = _data.Items.IndexOf(control);
+            if (index > 0) _move(index, index - 1);
         }
 
         [RelayCommand]
-        public void ItemDown(IControl control)
+        public void MoveItemDown(IControl control)
         {
-            var items = CollectionManager.ManagerData.Items;
+            var items = _data.Items;
             var index = items.IndexOf(control);
             if (index >= 0 && index < items.Count - 1)
-                Move(index, index + 1);
+                _move(index, index + 1);
         }
 
         public bool CanDrop(int sourceIndex, int insertIndex)
@@ -49,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Services
 
         public void Dropped(int sourceIndex, int insertIndex)
         {
-            var itemCount = CollectionManager.ManagerData.Items.Count;
+            var itemCount = _data.Items.Count;
             var targetIndex = insertIndex;
 
             if (targetIndex == itemCount ||
@@ -57,14 +57,8 @@ namespace CMiX.Studio.Avalonia.Services
                 targetIndex >= sourceIndex)
                 targetIndex -= 1;
 
-            Move(sourceIndex, targetIndex);
+            _move(sourceIndex, targetIndex);
             DragHandleIsPressed = false;
-        }
-
-        private void Move(int sourceIndex, int targetIndex)
-        {
-            CollectionManager.MoveItem(sourceIndex, targetIndex);
-            _onMove(sourceIndex, targetIndex);
         }
     }
 }

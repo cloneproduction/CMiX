@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
@@ -12,8 +11,7 @@ namespace CMiX.Core.Transformation
         public TransformSRT(GenericValue<float> uniform,
                             Vector3 scale,
                             Vector3 translate,
-                            Vector3 rotation,
-                            PrefabService prefabService)
+                            Vector3 rotation)
         {
             Uniform = uniform;
             Scale = scale;

@@ -67,7 +67,6 @@
             VerticalAlignment="Top"
             ui:ListBoxReorder.Service="{Binding ReorderService, ElementName=listBoxEditable}"
             ItemsSource="{Binding ItemsSource, ElementName=listBoxEditable}"
-            SelectedIndex="{Binding SelectedIndex, ElementName=listBoxEditable, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, ElementName=listBoxEditable, Mode=TwoWay}"
             Theme="{StaticResource ListBoxEditableList}">
 

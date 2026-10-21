@@ -1,4 +1,3 @@
-using System.Linq;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
@@ -82,7 +81,7 @@ namespace CMiX.Core.Tests
             blur.Strength.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[0]));
             Assert.Equal(modulator.ID, blur.Strength.ModulatorID);
 
-            host.Manager.DeleteItem(modulator);
+            host.Manager.RemoveItem(modulator);
 
             Assert.Null(blur.Strength.ModulatorID);
         }

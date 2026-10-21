@@ -41,7 +41,7 @@ namespace CMiX.Core.Tests
             var targetProject = target.GetRequiredService<Project>();
             var repository = target.GetRequiredService<ControlRepository>();
 
-            targetProject.CompositionManager.AddItem(compositionModel);
+            targetProject.CompositionManager.AddItemFromModel(compositionModel);
 
             var loadedComposition = (Composition)targetProject.CompositionManager.SelectedItem;
             var loadedLayer = (Layer)loadedComposition.LayerManager.ManagerData.Items[0];
@@ -77,7 +77,7 @@ namespace CMiX.Core.Tests
 
             var target = TestServiceProviderFactory.Create();
             var targetProject = target.GetRequiredService<Project>();
-            targetProject.CompositionManager.AddItem(compositionModel);
+            targetProject.CompositionManager.AddItemFromModel(compositionModel);
 
             var loadedComposition = (Composition)targetProject.CompositionManager.SelectedItem;
             Assert.Equal("Layer", ((Layer)loadedComposition.LayerManager.ManagerData.Items[0]).PrefabService.Name.Value);
@@ -106,7 +106,7 @@ namespace CMiX.Core.Tests
 
             var target = TestServiceProviderFactory.Create();
             var targetProject = target.GetRequiredService<Project>();
-            targetProject.CompositionManager.AddItem(compositionModel);
+            targetProject.CompositionManager.AddItemFromModel(compositionModel);
 
             var loadedComposition = (Composition)targetProject.CompositionManager.SelectedItem;
             Assert.Equal(slot.ID, loadedComposition.SelectedOutputMappingID.Value);
@@ -136,7 +136,7 @@ namespace CMiX.Core.Tests
 
             var target = TestServiceProviderFactory.Create();
             var targetProject = target.GetRequiredService<Project>();
-            targetProject.CompositionManager.AddItem(replacedModel);
+            targetProject.CompositionManager.AddItemFromModel(replacedModel);
 
             var loadedComposition = (Composition)targetProject.CompositionManager.SelectedItem;
             var defaultSlot = targetProject.OutputMappingManager.Items[0];
@@ -174,7 +174,7 @@ namespace CMiX.Core.Tests
             var target = TestServiceProviderFactory.Create();
             var targetProject = target.GetRequiredService<Project>();
             foreach (var compositionModel in compositionModels)
-                targetProject.CompositionManager.AddItem(compositionModel);
+                targetProject.CompositionManager.AddItemFromModel(compositionModel);
 
             var loadedCompositions = targetProject.CompositionManager.ManagerData.Items;
             Assert.Equal(2, loadedCompositions.Count);

@@ -3,7 +3,6 @@
 
 using System.Collections.Specialized;
 using CMiX.Core.Modulation.Modulators;
-using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using static CMiX.Core.ControlExtensions;
 
@@ -19,7 +18,10 @@ namespace CMiX.Core.Modulation
         {
             Manager = manager;
             Manager.ManagerData.Items.CollectionChanged += OnItemsChanged;
+            _outputWatcher = new ModulatorOutputWatcher(manager, () => _bindables.ToList());
         }
+
+        private readonly ModulatorOutputWatcher _outputWatcher;
 
         public PrefabManager Manager { get; }
 
@@ -52,6 +54,7 @@ namespace CMiX.Core.Modulation
         public void Dispose()
         {
             Manager.ManagerData.Items.CollectionChanged -= OnItemsChanged;
+            _outputWatcher.Dispose();
             Manager.Dispose();
         }
     }

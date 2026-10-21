@@ -50,7 +50,7 @@ namespace CMiX.Core.Tests
 
             kuwahara.Radius.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            kuwahara.ModulatorManager.DeleteItem(randomModulator);
+            kuwahara.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(kuwahara.Radius.ModulatorID);
             Assert.Null(kuwahara.Radius.BoundModulator);

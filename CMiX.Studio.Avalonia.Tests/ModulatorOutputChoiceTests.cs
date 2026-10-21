@@ -1,4 +1,5 @@
 ﻿using Avalonia.Headless.XUnit;
+using CMiX.Core.Animations;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
@@ -48,6 +49,20 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Null(rows[0].Selection);
             Assert.Null(rows[1].Selection);
             Assert.Null(rows[^1].Selection);
+        }
+
+        [AvaloniaFact]
+        public void AnAddressedOutput_ShowsItsAddressInTheLabel()
+        {
+            var (blur, _, _) = CreateBlurWithModulators();
+            blur.ModulatorManager.AddItem(typeof(RedisAddressModulator));
+            var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisAddressModulator>().Single();
+            modulator.Registry.AddressManager.AddItem(typeof(RedisAddress));
+            ((RedisAddress)modulator.Registry.AddressManager.SelectedItem).Value = "cmix:speed";
+
+            var rows = ModulatorOutputChoice.Build(Selections(modulator), blur.Strength);
+
+            Assert.EndsWith(" cmix:speed", rows[2].Label);
         }
 
         [AvaloniaFact]

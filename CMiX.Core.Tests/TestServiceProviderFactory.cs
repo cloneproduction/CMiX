@@ -10,10 +10,7 @@ namespace CMiX.Core.Tests
     {
         public static IServiceProvider Create()
         {
-            var services = new ServiceCollection();
-            var builder = new InjectionBuilder();
-            builder.ConfigureAllServices(services);
-            return services.BuildServiceProvider();
+            return new ServiceCollection().AddCMiXCore().BuildServiceProvider();
         }
     }
 }

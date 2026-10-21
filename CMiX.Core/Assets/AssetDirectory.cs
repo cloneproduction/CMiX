@@ -3,7 +3,6 @@
 
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Assets
@@ -46,13 +45,6 @@ namespace CMiX.Core.Assets
             set => SetProperty(ref _ponderation, value);
         }
 
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get => _isRenaming;
-            set => SetProperty(ref _isRenaming, value);
-        }
-
         private bool _isSelected;
         public bool IsSelected
         {
@@ -87,14 +79,6 @@ namespace CMiX.Core.Assets
         {
             Assets.AddSorted(asset, c => c.Name);
         }
-
-        public void RemoveAsset(IAsset asset)
-        {
-            if (Assets.Contains(asset))
-                Assets.Remove(asset);
-        }
-
-        public void Rename() => IsRenaming = true;
 
         public void SortAssets()
         {

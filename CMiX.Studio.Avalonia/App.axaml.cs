@@ -28,8 +28,6 @@ namespace CMiX.Studio.Avalonia
 {
     public partial class App : Application
     {
-        private MasterBeatAnimationController? _animationController;
-
         // The rule for ambient statics in this app, so the four that exist do not become a
         // habit. A static is acceptable only when the consumer has no injection point at all:
         // either XAML constructs it and its code behind cannot take constructor arguments
@@ -59,12 +57,10 @@ namespace CMiX.Studio.Avalonia
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                var configurationBuilder = new InjectionBuilder();
-
                 var serviceCollection = new ServiceCollection();
                 serviceCollection.AddLogging();
 
-                configurationBuilder.ConfigureAllServices(serviceCollection);
+                serviceCollection.AddCMiXCore();
                 serviceCollection.AddSingleton<Views.MainWindow>();
                 serviceCollection.AddSingleton<MainViewModel>();
                 serviceCollection.AddSingleton<MainWindowController>();
@@ -73,17 +69,19 @@ namespace CMiX.Studio.Avalonia
                     new MainWindowDialogManager(new Services.EmptyViewLocator(), new DialogFactory().AddMessageBox()),
                     viewModelFactory: type => provider.GetService(type)));
                 serviceCollection.AddSingleton<ManagerReorderServiceFactory>(
-                    _ => (collection, onMove) => new ManagerReorderService(collection, onMove));
+                    _ => (data, move) => new ManagerReorderService(data, move));
 
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();
                 DialogService = serviceProvider.GetRequiredService<IDialogService>();
                 // Post, not Invoke, so the Redis reader thread never waits for the UI thread.
-                configurationBuilder.ConfigureStudioTransport(serviceProvider,
+                serviceProvider.GetRequiredService<SyncPeer>().StartAsStudio(
+                    serviceProvider.GetRequiredService<ControlMessenger>(),
                     a => Dispatcher.UIThread.Post(a), StudioSettings.Load().Resolve(new WindowsCredentialStore()).Options);
 
                 var masterBeat = serviceProvider.GetRequiredService<MasterBeat>();
-                _animationController = new MasterBeatAnimationController(masterBeat);
+                // The master beat holds the controller through its handlers, so no field keeps it.
+                _ = new MasterBeatAnimationController(masterBeat);
 
                 var mainWindow = serviceProvider.GetRequiredService<Views.MainWindow>();
                 mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();

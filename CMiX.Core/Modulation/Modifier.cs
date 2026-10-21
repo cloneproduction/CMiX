@@ -19,8 +19,10 @@ namespace CMiX.Core.Modulation
             ControlRepository = controlRepository;
             _nestedBindables = nestedBindables ?? Enumerable.Empty<IModulatorBindable>();
             ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
+            _outputWatcher = new ModulatorOutputWatcher(modulatorManager, () => Bindables.Cast<IModulatorBindable>().Concat(_nestedBindables));
         }
 
+        private readonly ModulatorOutputWatcher _outputWatcher;
         private readonly IEnumerable<IModulatorBindable> _nestedBindables;
 
         private void OnModulatorManagerItemsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -53,6 +55,7 @@ namespace CMiX.Core.Modulation
         public void Dispose()
         {
             ModulatorManager.ManagerData.Items.CollectionChanged -= OnModulatorManagerItemsChanged;
+            _outputWatcher.Dispose();
             ModulatorManager.Dispose();
         }
 

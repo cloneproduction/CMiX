@@ -1,0 +1,28 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.SettingsTab"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers">
+
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+
+        <i:Interaction.Behaviors>
+            <ui:ScrollViewerBehavior />
+        </i:Interaction.Behaviors>
+
+        <StackPanel>
+
+            <ui:ExpanderIndented Header="Output Mappings">
+                <Managers:OutputMappingsPanel DataContext="{Binding Project.OutputMappingManager}" />
+            </ui:ExpanderIndented>
+
+            <ui:ExpanderIndented Header="Redis Addresses" IsVisible="False">
+                <Managers:RedisAddressesPanel DataContext="{Binding Project.RedisAddressRegistry}" />
+            </ui:ExpanderIndented>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

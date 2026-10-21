@@ -2,7 +2,6 @@ using System.Text.Json;
 using CMiX.Core.Animations;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
-using CMiX.Core.BaseControls;
 using CMiX.Core.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -46,7 +45,7 @@ namespace CMiX.Core.Tests
             modulator.StepManager.AddItem(typeof(BeatStep));
             var first = modulator.StepManager.ManagerData.Items[0];
 
-            modulator.StepManager.DeleteItemCommand.Execute(first);
+            modulator.StepManager.RemoveItemCommand.Execute(first);
 
             Assert.Single(modulator.StepManager.ManagerData.Items);
             Assert.DoesNotContain(first, modulator.StepManager.ManagerData.Items);

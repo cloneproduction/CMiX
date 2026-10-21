@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.Specialized;
-using CMiX.Core.BaseControls;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
@@ -20,7 +19,10 @@ namespace CMiX.Core.Texturing.Filters
             Blend = blend;
             ModulatorManager = modulatorManager;
             ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
+            _outputWatcher = new ModulatorOutputWatcher(modulatorManager, () => Bindables.Cast<IModulatorBindable>());
         }
+
+        private readonly ModulatorOutputWatcher _outputWatcher;
 
         private void OnModulatorManagerItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -35,6 +37,7 @@ namespace CMiX.Core.Texturing.Filters
         public virtual void Dispose()
         {
             ModulatorManager.ManagerData.Items.CollectionChanged -= OnModulatorManagerItemsChanged;
+            _outputWatcher.Dispose();
             ModulatorManager.Dispose();
         }
 

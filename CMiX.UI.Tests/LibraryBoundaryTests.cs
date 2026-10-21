@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using CMiX.UI;
 using CMiX.UI.Themes;
 using Xunit;
 

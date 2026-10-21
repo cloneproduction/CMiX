@@ -17,11 +17,10 @@
             AddCommand="{Binding AddItemCommand}"
             AddCommandParameter="{x:Type Animations:BeatStep}"
             ItemsSource="{Binding ManagerData.Items}"
-            MoveDownCommand="{Binding ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
-            MoveUpCommand="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
-            RemoveCommand="{Binding DeleteItemCommand}"
+            MoveDownCommand="{Binding ManagerReorderService.MoveItemDownCommand, FallbackValue={x:Null}}"
+            MoveUpCommand="{Binding ManagerReorderService.MoveItemUpCommand, FallbackValue={x:Null}}"
+            RemoveCommand="{Binding RemoveItemCommand}"
             ReorderService="{Binding ManagerReorderService}"
-            SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
             <ui:ListBoxEditable.ItemTemplate>

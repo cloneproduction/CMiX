@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,7 +12,6 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 using CMiX.Core;
-using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
@@ -122,7 +120,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             Dispatcher.UIThread.Post(() =>
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
-                Project.CompositionManager.DeleteItem(composition);
+                Project.CompositionManager.RemoveItem(composition);
             });
         }
 
@@ -133,8 +131,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             Dispatcher.UIThread.Post(() =>
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
-                var model = (CompositionModel)composition.ToModel();
-                Project.CompositionManager.AddItem(CloneCompositionWithNewGuids(model));
+                Project.CompositionManager.DuplicateItem(composition);
             });
         }
 
@@ -146,7 +143,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
                 if (composition.LayerManager.SelectedItem is not Layer layer) return;
-                composition.LayerManager.DeleteItem(layer);
+                composition.LayerManager.RemoveItem(layer);
             });
         }
 
@@ -158,8 +155,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
                 if (composition.LayerManager.SelectedItem is not Layer layer) return;
-                var model = (LayerModel)layer.ToModel();
-                composition.LayerManager.AddItem(CloneWithNewGuids(model));
+                composition.LayerManager.DuplicateItem(layer);
             });
         }
 
@@ -208,7 +204,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                     // nothing when this list is empty.
                     var compositions = projectModel.CompositionManager.ManagerData.Items
                         .Cast<CompositionModel>()
-                        .Select(CloneCompositionWithNewGuids)
+                        .Select(m => ControlCloner.CloneWithNewGuids(m))
                         .ToList();
 
                     return (Project: projectModel, Compositions: compositions);
@@ -227,41 +223,13 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 // at all, which is also why the reset stays outside: its own clear is what disposes
                 // the instances the replaced session's commands were still holding.
                 //
-                // Suppression counts, so the master beat restore below, which suppresses and
+                // Suppression counts, so the master beat restore in Project.Open, which suppresses and
                 // resumes around each of its own writes, nests inside this without reopening
                 // recording halfway through.
                 _undoManager.SuppressUndo();
                 try
                 {
-                    // The slots are restored before the compositions, because the rebuild of VisibleItems
-                    // would drop the output mapping selection of a composition that is already bound.
-                    if (loaded.Project.OutputMappingManager != null)
-                        Project.OutputMappingManager.FromModel(loaded.Project.OutputMappingManager);
-
-                    foreach (var composition in loaded.Compositions)
-                        Project.CompositionManager.AddItem(composition);
-
-                    // Adding always selects the item just added, so the loop above always leaves the
-                    // last composition selected. Restore whichever one was actually selected when the
-                    // file was saved instead, by position in the file's own list.
-                    var savedIndex = loaded.Project.CompositionManager.ManagerData.SelectedIndex;
-                    if (savedIndex >= 0 && savedIndex < loaded.Compositions.Count)
-                        Project.CompositionManager.Collection.SelectedItemChanged(savedIndex);
-
-                    // The master beat keeps the ids it was saved with, so it is restored from the
-                    // file as loaded rather than from the guid replaced clone each composition goes
-                    // through. Project files written before the master beat was serialized carry
-                    // none. PrefabService and Model (the project's 3D backdrop) carry their own
-                    // well known ids the same way and are restored the same way. The output mappings
-                    // also keep their fixed ids and are restored above, before the compositions.
-                    if (loaded.Project.MasterBeat != null)
-                        Project.MasterBeat.FromModel(loaded.Project.MasterBeat);
-
-                    if (loaded.Project.PrefabService != null)
-                        Project.PrefabService.FromModel(loaded.Project.PrefabService);
-
-                    if (loaded.Project.Model != null)
-                        Project.Model.FromModel(loaded.Project.Model);
+                    Project.Open(loaded.Project, loaded.Compositions);
                 }
                 finally
                 {
@@ -274,42 +242,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
             {
                 await _dialogService.ShowMessageBoxAsync(this, $"{Path.GetFileName(path)}: {ex.Message}", "Open Project");
             }
-        }
-
-        // Shared by DuplicateComposition, DuplicateLayer and OpenProject, which all need a deep
-        // copy of a model with every id replaced so the clone does not collide with the original.
-        private static T CloneWithNewGuids<T>(T model) where T : IControlModel
-        {
-            var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
-            return JsonSerializer.Deserialize<T>(json, ProjectSerializer.Options)
-                ?? throw new InvalidOperationException($"Failed to clone {typeof(T).Name}: deserialization returned null.");
-        }
-
-        // CloneWithNewGuids gives every id in the model a fresh value, including
-        // SelectedOutputMappingID. That field is a pointer into the project's fixed output
-        // slots, not an identity, and those slots are never cloned. Restore the original
-        // value after the clone, so a valid selection survives Open and Duplicate Composition
-        // instead of losing its target and falling back to the default slot every time.
-        private static CompositionModel CloneCompositionWithNewGuids(CompositionModel model)
-        {
-            var cloned = CloneWithNewGuids(model);
-            return cloned with { SelectedOutputMappingID = model.SelectedOutputMappingID };
-        }
-
-        private static string ReplaceAllGuids(string json)
-        {
-            var guidPattern = @"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
-            var guidMap = new Dictionary<string, string>();
-            return Regex.Replace(json, guidPattern, match =>
-            {
-                var original = match.Value;
-                if (!guidMap.TryGetValue(original, out var newGuid))
-                {
-                    newGuid = Guid.NewGuid().ToString();
-                    guidMap[original] = newGuid;
-                }
-                return newGuid;
-            });
         }
 
         private async Task SaveProject()

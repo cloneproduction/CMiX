@@ -204,7 +204,6 @@ namespace CMiX.UI.Tests
             box.SelectedIndex = 1;
             Dispatcher.UIThread.RunJobs();
 
-            Assert.Equal(1, list.SelectedIndex);
             Assert.Equal("two", list.SelectedItem);
 
             list.SelectedItem = "three";

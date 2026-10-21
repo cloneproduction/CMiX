@@ -22,7 +22,8 @@
                     x:Name="EntitiesRepository"
                     DataContext="{Binding EntityManager}"
                     DockPanel.Dock="Top"
-                    ItemsSource="{Binding ControlRepository.Entities}">
+                    ItemsSource="{Binding ControlRepository.Entities}"
+                    RowMenu="Repository">
                     <Managers:RepositoryManager.SelectionPanel>
                         <Button
                             Command="{Binding AddItemCommand}"

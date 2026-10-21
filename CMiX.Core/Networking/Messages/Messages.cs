@@ -6,8 +6,8 @@ using CMiX.Core.Prefabs.Messages;
 
 namespace CMiX.Core.Networking.Messages
 {
-    public record MessageSelectedItemChanged(Guid ID, Guid ControlID, int Index) : IMessageManager;
-    public record MessageRemoveSelectedItem(Guid ID) : IMessageManager;
+    public record MessageSelectItem(Guid ID, Guid ControlID, int Index) : IMessageManager;
+    public record MessageClearSelection(Guid ID) : IMessageManager;
     public record MessageAddItem(Guid ID, IControlModel Model, int SelectedIndex) : IMessageManager;
     public record MessageRemoveItem(Guid ID, Guid ModelID, int SelectedIndex) : IMessageManager;
     public record MessageMoveItem(Guid ID, int OldIndex, int NewIndex) : IMessageManager;

@@ -19,6 +19,16 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         public PrefabSlotManager()
         {
             InitializeComponent();
+            prefabListBox.ContainerPrepared += (_, e) => PrefabRowMenu.AttachTo(e.Container, RowMenu);
+        }
+
+        // The menu of the rows. None, the default, gives them no menu.
+        public static readonly StyledProperty<RowMenuKind> RowMenuProperty =
+            AvaloniaProperty.Register<PrefabSlotManager, RowMenuKind>(nameof(RowMenu));
+        public RowMenuKind RowMenu
+        {
+            get => GetValue(RowMenuProperty);
+            set => SetValue(RowMenuProperty, value);
         }
 
         // The least number of rows of the list. Zero, the default, takes the token ListVisibleItems when the

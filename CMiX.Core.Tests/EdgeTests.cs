@@ -55,7 +55,7 @@ namespace CMiX.Core.Tests
             edge.Radius.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             edge.Brightness.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            edge.ModulatorManager.DeleteItem(randomModulator);
+            edge.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(edge.Radius.ModulatorID);
             Assert.Null(edge.Radius.BoundModulator);

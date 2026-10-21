@@ -87,6 +87,20 @@ namespace CMiX.Core.Prefabs
             _namesAreStale = false;
         }
 
+        // The first free name of the form "Base.001" for a name that is already used, as in Blender.
+        // A number the name already ends with is dropped first: "Layer.001" gives "Layer.002".
+        public string UniqueName(string name)
+        {
+            var baseName = System.Text.RegularExpressions.Regex.Replace(name ?? string.Empty, @"\.\d{3,}$", "");
+            if (_namesAreStale) RebuildNames();
+
+            var count = 1;
+            string candidate;
+            do candidate = $"{baseName}.{count++:000}";
+            while (_names.Contains(candidate));
+            return candidate;
+        }
+
         public IControl Create(Type viewModelType)
         {
             if (viewModelType == null) throw new ArgumentNullException(nameof(viewModelType));
@@ -159,11 +173,11 @@ namespace CMiX.Core.Prefabs
             var label = StringHelper.LabelOf(control.GetType());
             var typeName = label != null ? label + " Modifier" : StringHelper.PascalCaseToDisplay(control.GetType().Name);
 
-            prefab.PrefabService.Name.IsActive = false;
+            using var suppression = prefab.PrefabService.Name.SuppressSending();
             _applyingName = true;
 
-            // A throwing name setter must not leave the control muted or the factory permanently
-            // blind to renames, so both flags are restored even on the failure path.
+            // A throwing name setter must not leave the factory permanently blind to renames,
+            // so the flag is restored even on the failure path.
             try
             {
                 if (control is IModifier)
@@ -190,7 +204,6 @@ namespace CMiX.Core.Prefabs
             finally
             {
                 _applyingName = false;
-                prefab.PrefabService.Name.IsActive = true;
             }
         }
 

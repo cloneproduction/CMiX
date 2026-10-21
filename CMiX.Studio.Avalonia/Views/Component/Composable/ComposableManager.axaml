@@ -29,7 +29,6 @@
                 DockPanel.Dock="Top"
                 ui:ListBoxReorder.Service="{Binding ManagerReorderService}"
                 ItemsSource="{Binding ManagerData.Items}"
-                SelectedIndex="{Binding ManagerData.SelectedIndex}"
                 SelectedItem="{Binding SelectedItem}"
                 Theme="{StaticResource ListBoxComposable}">
                 <ListBox.ItemTemplate>

@@ -11,10 +11,10 @@
 
     <StackPanel IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
 
-        <Views:DiffuseTexture />
+        <Views:TextureSlot />
 
         <ui:ComboBoxCaptioned
-            Margin="8,0"
+            Margin="8, 8, 8, 0"
             Caption="MaskChannel"
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
             ResetCommand="{Binding MaskChannel.ResetCommand}"
@@ -25,11 +25,14 @@
             Caption="Invert"
             IsChecked="{Binding Invert.Value}"
             ResetCommand="{Binding Invert.ResetCommand}" />
-      
+
+        <Views:SelectedTexture />
+
       <ui:ExpanderIndented 
         Indentation="4"
-        Header="Transform" 
-        IsExpanded="{Binding IsExpanded}">
+        Header="Transform"
+        IsExpanded="{Binding TransformIsExpanded}"
+        IsVisible="{Binding TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
         
         <StackPanel Spacing="{DynamicResource SpacingMD}">
           

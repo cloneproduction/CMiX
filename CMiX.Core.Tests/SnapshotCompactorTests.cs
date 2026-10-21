@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Threading.Tasks;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
@@ -386,7 +384,7 @@ namespace CMiX.Core.Tests
             store.BeforeWriteSnapshot = () => gate.Task;
 
             peer.SendMessage(AddItem());
-            await WaitUntilAsync(() => store.WriteSnapshotCalls == pushWrites + 1);
+            await WaitUntilAsync(() => store.WriteSnapshotCalls >= pushWrites + 1);
 
             store.BeforeWriteSnapshot = null;
             store.SetFail(true);

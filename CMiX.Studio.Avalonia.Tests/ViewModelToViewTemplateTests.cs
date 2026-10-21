@@ -1,4 +1,3 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using CMiX.Core.Prefabs;

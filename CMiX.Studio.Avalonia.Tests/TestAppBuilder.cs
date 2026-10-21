@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Headless;
-using Avalonia.Headless.XUnit;
 using CMiX.Studio.Avalonia;
 
 [assembly: AvaloniaTestApplication(typeof(CMiX.Studio.Avalonia.Tests.TestAppBuilder))]

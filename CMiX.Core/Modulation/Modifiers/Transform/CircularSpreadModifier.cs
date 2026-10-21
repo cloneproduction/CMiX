@@ -3,7 +3,6 @@
 
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Lights;

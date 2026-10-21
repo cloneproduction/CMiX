@@ -55,7 +55,7 @@ namespace CMiX.Core.Tests
             triColor.Smooth.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
             triColor.Center.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
 
-            triColor.ModulatorManager.DeleteItem(randomModulator);
+            triColor.ModulatorManager.RemoveItem(randomModulator);
 
             Assert.Null(triColor.Smooth.ModulatorID);
             Assert.Null(triColor.Smooth.BoundModulator);

@@ -77,9 +77,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
         private PrefabManager SetupManager(PrefabManager manager, Guid id)
         {
             manager.ManagerData.ID = id;
-            // Re registers under the final ID; the ctor registration used the id ManagerData had
-            // before this assignment and would otherwise be looked up under the wrong key.
-            manager.RegisterDeleter();
             manager.UndoManager = _undoManager;
             manager.Activate();
             return manager;
