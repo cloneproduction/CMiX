@@ -5,7 +5,7 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // A material has no modifiers any more. A project file that was saved before still has the key, and it must load.
+    // A material has no modifiers and no explode fields any more. A project file that was saved before still has the keys, and it must load.
     public class MaterialModelCompatibilityTests
     {
         [Fact]
@@ -18,6 +18,26 @@ namespace CMiX.Core.Tests
             var loaded = JsonSerializer.Deserialize<MaterialModel>(withOldKey, ProjectSerializer.Options);
 
             Assert.NotNull(loaded);
+        }
+
+        [Fact]
+        public void AProjectFileWithTheOldExplodeFieldsOfAMaterial_StillLoads()
+        {
+            var json = JsonSerializer.Serialize(new MaterialModel(), ProjectSerializer.Options);
+            var withOldKeys = json.Insert(json.LastIndexOf('}'),
+                ",\"ExplodeTriangleTextureManager\":{\"Items\":[]},\"ExplodeStrength\":{\"Value\":0.6}");
+
+            var loaded = JsonSerializer.Deserialize<MaterialModel>(withOldKeys, ProjectSerializer.Options);
+
+            Assert.NotNull(loaded);
+        }
+
+        [Fact]
+        public void ASavedMaterial_HasNoExplodeFields()
+        {
+            var json = JsonSerializer.Serialize(new MaterialModel(), ProjectSerializer.Options);
+
+            Assert.DoesNotContain("Explode", json);
         }
 
         [Fact]
