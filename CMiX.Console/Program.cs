@@ -35,7 +35,6 @@ namespace CMiX.Console
 
             ServiceCollection serviceCollection = new ServiceCollection();
             configurationBuilder.ConfigureAllServices(serviceCollection);
-            configurationBuilder.ConfigureVvvvServices(serviceCollection);
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
             serviceProvider.GetRequiredService<Project>();

@@ -51,12 +51,6 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<SyncPeer>();
         }
 
-        public void ConfigureVvvvServices(IServiceCollection services)
-        {
-            services.AddSingleton<ManagerReorderServiceFactory>(
-                _ => (data, move) => null);
-        }
-
         public void ConfigureStudioTransport(IServiceProvider provider, Action<Action> dispatcher, SyncOptions options)
         {
             var messenger = provider.GetRequiredService<ControlMessenger>();

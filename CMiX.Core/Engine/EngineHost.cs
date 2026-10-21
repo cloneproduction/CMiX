@@ -36,7 +36,6 @@ namespace CMiX.Core.Engine
             var builder = new InjectionBuilder();
             var services = new ServiceCollection();
             builder.ConfigureAllServices(services);
-            builder.ConfigureVvvvServices(services);
             _overrideServices(services);
 
             var provider = services.BuildServiceProvider();

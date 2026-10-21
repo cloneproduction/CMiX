@@ -2,6 +2,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.DependencyInjection;
 using CMiX.Core.Engine;
 using CMiX.Core.Networking;
+using CMiX.Core.Prefabs.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using VL.Serialization.MessagePack;
 using Xunit;
@@ -67,6 +68,16 @@ namespace CMiX.Core.Tests
 
             Assert.NotNull(host.ServiceProvider.GetRequiredService<SyncPeer>());
             Assert.NotNull(host.MainloopQueue);
+        }
+
+        [Fact]
+        public void Start_ResolvesPrefabManagerWithoutAReorderService()
+        {
+            using var host = CreateHost(new InMemorySyncStore());
+
+            host.Start(EngineOptions);
+
+            Assert.Null(host.ServiceProvider.GetRequiredService<PrefabManager>().ManagerReorderService);
         }
 
         [Fact]
