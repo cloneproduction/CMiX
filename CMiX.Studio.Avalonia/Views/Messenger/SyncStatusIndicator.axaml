@@ -17,6 +17,7 @@
             Height="{DynamicResource IndicatorSize}"
             VerticalAlignment="Center"
             Classes.connected="{Binding IsConnected}"
+            Classes.unsynced="{Binding !IsInSync}"
             Classes.connecting="{Binding Status, Converter={StaticResource SyncStatusIsConnecting}}"
             Theme="{StaticResource EllipseSyncConnection}" />
         <TextBlock

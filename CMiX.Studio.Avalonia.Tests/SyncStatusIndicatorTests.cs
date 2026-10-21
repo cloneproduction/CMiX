@@ -56,5 +56,20 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.DoesNotContain("CMiX Studio", texts);
             Assert.DoesNotContain("CloneProduction", texts);
         }
+
+        [AvaloniaFact]
+        public void TheDot_FollowsTheConnectionAndTheSyncStateOfThePeer()
+        {
+            var peer = TestServiceProviderFactory.Create().GetRequiredService<SyncPeer>();
+            var indicator = new SyncStatusIndicator { DataContext = peer };
+            new Window { Content = indicator, Width = 300, Height = 100 }.Show();
+            Dispatcher.UIThread.RunJobs();
+            var dot = indicator.GetVisualDescendants().OfType<Ellipse>().Single();
+
+            Assert.Equal(peer.IsConnected, dot.Classes.Contains("connected"));
+            Assert.Equal(!peer.IsInSync, dot.Classes.Contains("unsynced"));
+
+            peer.Dispose();
+        }
     }
 }

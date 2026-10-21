@@ -5,18 +5,24 @@
     <!-- The colors of the sync dots. Change a color here, in one place. -->
     <SolidColorBrush x:Key="StatusDisconnectedBrush" Color="Red" />
     <SolidColorBrush x:Key="StatusConnectedBrush" Color="Green" />
+    <SolidColorBrush x:Key="StatusUnsyncedBrush" Color="Orange" />
     <SolidColorBrush x:Key="StatusPendingBrush" Color="Gray" />
     <SolidColorBrush x:Key="StatusSyncedBrush" Color="DodgerBlue" />
 
-    <!-- Three states: disconnected (default) means the peer has no store connection. Connected
-         (.connected) means it is connected to Redis. Pending (.connecting) means a connect or
-         reconnect attempt is in progress, so a momentary red does not read as a failure.
-         Consumers bind Classes.connected to IsConnected and Classes.connecting to the Status text
-         through SyncStatusIsConnecting; declared last, .connecting wins over .connected. -->
+    <!-- Four states: disconnected (default, red) means the peer has no store connection. Connected
+         (.connected, green) means it is connected to Redis and in sync. Connected and not in sync
+         (.connected.unsynced, orange) means it is connected but the project is different from the Redis state.
+         Pending (.connecting, gray) means a connect or reconnect attempt is in progress, so a momentary red
+         does not read as a failure.
+         Consumers bind Classes.connected to IsConnected, Classes.unsynced to !IsInSync and Classes.connecting to
+         the Status text through SyncStatusIsConnecting; .connecting wins over the others. -->
     <ControlTheme x:Key="EllipseSyncConnection" TargetType="Ellipse">
         <Setter Property="Fill" Value="{DynamicResource StatusDisconnectedBrush}" />
         <Style Selector="^.connected">
             <Setter Property="Fill" Value="{DynamicResource StatusConnectedBrush}" />
+        </Style>
+        <Style Selector="^.connected.unsynced">
+            <Setter Property="Fill" Value="{DynamicResource StatusUnsyncedBrush}" />
         </Style>
         <Style Selector="^.connecting">
             <Setter Property="Fill" Value="{DynamicResource StatusPendingBrush}" />
