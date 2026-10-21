@@ -24,31 +24,37 @@
         <DockPanel Margin="0,4,0,0">
 
             <Button
+                x:Name="RemoveButton"
                 Width="{DynamicResource ControlHeightMD}"
                 Height="{DynamicResource ControlHeightMD}"
                 Command="{Binding RemoveItemCommand}"
                 CommandParameter="{Binding SelectedItem}"
                 Content="-"
                 DockPanel.Dock="Right"
+                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
                 Theme="{StaticResource ButtonRoundedRight}" />
 
             <Button
+                x:Name="MoveUpButton"
                 Width="{DynamicResource ControlHeightMD}"
                 Height="{DynamicResource ControlHeightMD}"
                 Margin="1,0"
                 Command="{Binding ManagerReorderService.MoveItemUpCommand, FallbackValue={x:Null}}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
+                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
                 Theme="{StaticResource ButtonStraight}">
                 <ui:AppIcon Opacity="0.7" IconKey="ArrowUp" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
             <Button
+                x:Name="MoveDownButton"
                 Width="{DynamicResource ControlHeightMD}"
                 Height="{DynamicResource ControlHeightMD}"
                 Command="{Binding ManagerReorderService.MoveItemDownCommand, FallbackValue={x:Null}}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
+                IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
                 Theme="{StaticResource ButtonStraight}">
                 <ui:AppIcon Opacity="0.7" IconKey="ArrowDown" Size="{DynamicResource IconSizeXS}" />
             </Button>
