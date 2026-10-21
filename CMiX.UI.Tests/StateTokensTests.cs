@@ -21,10 +21,10 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void TheTokens_AreOneStepApart()
         {
-            Assert.Equal(Grey(500), Token("StateIdleBrush"));
-            Assert.Equal(Grey(600), Token("StateHoverBrush"));
-            Assert.Equal(Grey(700), Token("StatePressedBrush"));
-            Assert.Equal(Grey(400), Token("RowHoverBrush"));
+            Assert.Equal(Grey(600), Token("StateIdleBrush"));
+            Assert.Equal(Grey(700), Token("StateHoverBrush"));
+            Assert.Equal(Grey(800), Token("StatePressedBrush"));
+            Assert.Equal(Grey(500), Token("RowHoverBrush"));
         }
 
         private static (Control control, Border border) Show(Control control, string part)

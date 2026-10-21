@@ -75,7 +75,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
 
             Assert.Equal(Resource("AccentBrush"), ColorOf(Part<RepeatButton>(slider, "PART_DecreaseButton")));
-            Assert.Equal(Resource("Grey600Brush"), ColorOf(Part<RepeatButton>(slider, "PART_IncreaseButton")));
+            Assert.Equal(Resource("StateHoverBrush"), ColorOf(Part<RepeatButton>(slider, "PART_IncreaseButton")));
         }
 
         [AvaloniaFact]

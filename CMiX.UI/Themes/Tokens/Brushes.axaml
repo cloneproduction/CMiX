@@ -31,10 +31,10 @@
          Surface controls (buttons, toggles, combo boxes, values, sliders): idle, then one step up under the pointer,
          then two steps up while pressed. The on state is accent-inactive, and accent under the pointer.
          Rows (list items, menu items, tabs): transparent, then RowHover under the pointer. -->
-    <SolidColorBrush x:Key="StateIdleBrush" Color="{DynamicResource Grey500}" />
-    <SolidColorBrush x:Key="StateHoverBrush" Color="{DynamicResource Grey600}" />
-    <SolidColorBrush x:Key="StatePressedBrush" Color="{DynamicResource Grey700}" />
-    <SolidColorBrush x:Key="RowHoverBrush" Color="{DynamicResource Grey400}" />
+    <SolidColorBrush x:Key="StateIdleBrush" Color="{DynamicResource Grey600}" />
+    <SolidColorBrush x:Key="StateHoverBrush" Color="{DynamicResource Grey700}" />
+    <SolidColorBrush x:Key="StatePressedBrush" Color="{DynamicResource Grey800}" />
+    <SolidColorBrush x:Key="RowHoverBrush" Color="{DynamicResource Grey500}" />
 
     <SolidColorBrush x:Key="ForegroundBrush" Color="{DynamicResource Text}" />
     <SolidColorBrush x:Key="ActiveForegroundBrush" Color="{DynamicResource ActiveText}" />
