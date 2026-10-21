@@ -1,0 +1,54 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.SyncStatusIndicators"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="200">
+
+    <!-- The state of the connection and the state of the sync of a SyncPeer, as in the Network tab, without the captions. -->
+    <StackPanel
+        VerticalAlignment="Center"
+        Orientation="Horizontal"
+        Spacing="{DynamicResource SpacingMD}">
+
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource SpacingSM}">
+            <Ellipse
+                Name="connectionDot"
+                Width="{DynamicResource IndicatorSize}"
+                Height="{DynamicResource IndicatorSize}"
+                VerticalAlignment="Center"
+                Classes.connected="{Binding IsConnected}"
+                Classes.connecting="{Binding Status, Converter={StaticResource SyncStatusIsConnecting}}"
+                Theme="{StaticResource EllipseSyncConnection}" />
+            <TextBlock
+                Name="connectionText"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource ForegroundBrush}"
+                Text="{Binding Status}" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource SpacingSM}">
+            <Ellipse
+                Name="syncDot"
+                Width="{DynamicResource IndicatorSize}"
+                Height="{DynamicResource IndicatorSize}"
+                VerticalAlignment="Center"
+                Classes.insync="{Binding IsInSync}"
+                Theme="{StaticResource EllipseSyncState}" />
+            <TextBlock
+                Name="inSyncText"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource ForegroundBrush}"
+                IsVisible="{Binding IsInSync}"
+                Text="In sync" />
+            <TextBlock
+                Name="notInSyncText"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource ForegroundBrush}"
+                IsVisible="{Binding !IsInSync}"
+                Text="Not in sync" />
+        </StackPanel>
+
+    </StackPanel>
+
+</UserControl>
