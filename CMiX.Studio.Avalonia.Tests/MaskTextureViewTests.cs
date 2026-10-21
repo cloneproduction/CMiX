@@ -29,6 +29,53 @@ namespace CMiX.Studio.Avalonia.Tests
         private static CoreMaskTexture CreateMask() =>
             (CoreMaskTexture)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(CoreMaskTexture));
 
+        private static ExpanderIndented ExpanderWithHeader(Control view, string header) =>
+            view.GetVisualDescendants().OfType<ExpanderIndented>().Single(expander => Equals(expander.Header, header));
+
+        private static (CoreMaskTexture Mask, Views.MaskTexture View) ShowWithATexture()
+        {
+            var mask = CreateMask();
+            mask.TextureManager.AddItem(typeof(Gradient));
+            var view = new Views.MaskTexture { DataContext = mask };
+            new Window { Content = view, Width = 400, Height = 800 }.Show();
+            Dispatcher.UIThread.RunJobs();
+            return (mask, view);
+        }
+
+        [AvaloniaFact]
+        public void SettingsFilterAndTransform_HaveTheSameIndentation()
+        {
+            var (_, view) = ShowWithATexture();
+
+            var indentations = new[] { "Settings", "Filter", "Transform" }
+                .Select(header => ExpanderWithHeader(view, header).Indentation)
+                .Distinct()
+                .ToList();
+
+            Assert.Equal(new[] { 4 }, indentations);
+        }
+
+        [AvaloniaFact]
+        public void Transform_HasItsOwnExpandedState_ApartFromTheMaskExpander()
+        {
+            var mask = CreateMask();
+            mask.TextureManager.AddItem(typeof(Gradient));
+            mask.IsExpanded = true;
+            var view = new Views.MaskTexture { DataContext = mask };
+            new Window { Content = view, Width = 400, Height = 800 }.Show();
+            Dispatcher.UIThread.RunJobs();
+            var transform = ExpanderWithHeader(view, "Transform");
+
+            Assert.False(transform.IsExpanded);
+
+            transform.IsExpanded = true;
+            transform.IsExpanded = false;
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.True(mask.IsExpanded);
+            Assert.False(mask.TransformIsExpanded);
+        }
+
         [AvaloniaFact]
         public void EmptySlot_HidesSettingsFilterAndTransform()
         {

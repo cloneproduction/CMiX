@@ -50,6 +50,9 @@ namespace CMiX.Core.Texturing
         [ObservableProperty]
         private bool isExpanded = false;
 
+        [ObservableProperty]
+        private bool transformIsExpanded = false;
+
         public IControlModel ToModel() => new MaskTextureModel
         {
             ID = ID,
