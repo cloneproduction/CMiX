@@ -28,21 +28,68 @@ namespace CMiX.UI.Gallery
 
         private sealed record Sample(string Name, Func<Control> Make, bool CanBeOn);
 
+        // The greys 100 to 700. The greys 800 and 900 are not used by any control.
+        private static readonly Dictionary<string, string[]> Scales = new()
+        {
+            ["Now"] = new[] { "#111113", "#222224", "#2b2b2e", "#353539", "#404044", "#4c4c51", "#606065" },
+            ["Before the lift"] = new[] { "#111113", "#19191b", "#212124", "#2b2b2f", "#36363a", "#46464b", "#606065" },
+            ["Even in lightness"] = new[] { "#111113", "#1d1d1f", "#2a2a2d", "#37373a", "#444448", "#525256", "#606065" },
+            ["Wider and brighter"] = new[] { "#111113", "#222225", "#303033", "#3e3e42", "#4d4d51", "#5c5c61", "#6c6c71" },
+        };
+
+        // The brushes of the three levels of nested panels: the outer one, the next one and the innermost one.
+        private static readonly Dictionary<string, Func<IBrush[]>> Levels = new()
+        {
+            ["Today: 200, 100, 100"] = () => new[] { Brush("Grey200Brush"), Brush("Grey100Brush"), Brush("Grey100Brush") },
+            ["Three levels: 200, middle, 100"] = () => new[] { Brush("Grey200Brush"), Middle("Grey200", "Grey100"), Brush("Grey100Brush") },
+            ["Three levels: 300, 200, 100"] = () => new[] { Brush("Grey300Brush"), Brush("Grey200Brush"), Brush("Grey100Brush") },
+        };
+
+        private static IBrush Middle(string first, string second)
+        {
+            var a = (Color)Application.Current!.FindResource(first)!;
+            var b = (Color)Application.Current!.FindResource(second)!;
+            return new SolidColorBrush(Color.FromRgb((byte)((a.R + b.R) / 2), (byte)((a.G + b.G) / 2), (byte)((a.B + b.B) / 2)));
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
+            BindScale();
             Bind(IdleBox, "StateIdleBrush", "Grey600Brush");
             Bind(HoverBox, "StateHoverBrush", "Grey700Brush");
             Bind(PressedBox, "StatePressedBrush", "Grey100Brush");
             Bind(RowBox, "RowHoverBrush", "Grey500Brush");
 
             Sections.Children.Add(Chevrons());
+            Sections.Children.Add(Stacked());
             Sections.Children.Add(Section("Surface controls", "surface", SurfaceSamples()));
             Sections.Children.Add(Section("Rows", "row", RowSamples()));
             Sections.Children.Add(Tabs());
             Sections.Children.Add(Section("Icon only (the rule is already this one)", "icon", IconSamples()));
 
+        }
+
+        private void BindScale()
+        {
+            ScaleBox.ItemsSource = Scales.Keys.ToList();
+            ScaleBox.SelectedIndex = 0;
+            ScaleBox.SelectionChanged += (_, _) =>
+            {
+                var colors = Scales[(string)ScaleBox.SelectedItem!];
+                for (var i = 0; i < colors.Length; i++)
+                    Application.Current!.Resources[$"Grey{(i + 1) * 100}"] = Color.Parse(colors[i]);
+            };
+
+            LevelsBox.ItemsSource = Levels.Keys.ToList();
+            LevelsBox.SelectedIndex = 0;
+            LevelsBox.SelectionChanged += (_, _) =>
+            {
+                var brushes = Levels[(string)LevelsBox.SelectedItem!]();
+                for (var i = 0; i < brushes.Length; i++)
+                    Application.Current!.Resources[$"PanelBackgroundLevel{i + 1}Brush"] = brushes[i];
+            };
         }
 
         private void Bind(ComboBox box, string resource, string initial)
@@ -146,6 +193,35 @@ namespace CMiX.UI.Gallery
             holder.Children.Add(Header("Selected, hovered (second), idle (third)"));
             holder.Children.Add(strip);
             return Frame("Tab strip with icons", "tabs", holder);
+        }
+
+        // Expanders on top of each other, with some controls in each, to judge the contrast between the levels.
+        private Control Stacked()
+        {
+            Control Controls() => new StackPanel
+            {
+                Spacing = 4,
+                Margin = new Thickness(8),
+                Children =
+                {
+                    new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Caption = "Value" },
+                    new Button { Content = "Button", HorizontalAlignment = HorizontalAlignment.Left, Width = 120 },
+                }
+            };
+
+            Control Level(string header, params Control[] inner)
+            {
+                var content = new StackPanel();
+                content.Children.Add(Controls());
+                foreach (var control in inner)
+                    content.Children.Add(control);
+                return new ExpanderIndented { Header = header, IsExpanded = true, Content = content };
+            }
+
+            var stacked = Level("Level 1", Level("Level 2", Level("Level 3")));
+            stacked.Width = 420;
+            // The panels of the application lie on a grey 300 background.
+            return Frame("Expanders on top of each other", "stacked", new Border { Background = Brush("Grey300Brush"), Padding = new Thickness(8), Child = stacked });
         }
 
         // Every control that opens has the same chevron. Each kind is shown closed, then open.

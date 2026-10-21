@@ -15,7 +15,13 @@
             DockPanel.Dock="Left"
             Spacing="8">
 
-            <TextBlock Text="Surface idle" />
+            <TextBlock Margin="0,12,0,0" Text="Grey scale (100 to 700)" />
+            <ComboBox x:Name="ScaleBox" HorizontalAlignment="Stretch" />
+
+            <TextBlock Text="Panel levels" />
+            <ComboBox x:Name="LevelsBox" HorizontalAlignment="Stretch" />
+
+            <TextBlock Margin="0,12,0,0" Text="Surface idle" />
             <ComboBox x:Name="IdleBox" HorizontalAlignment="Stretch" />
 
             <TextBlock Text="Surface hover" />
