@@ -10,6 +10,8 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         // The list of a layer: the items are in this list only by reference, so a row can be moved and removed from it.
         Slot,
         // The list of all the items of the project: a row has no place to move to, and it is deleted from every list.
-        Repository
+        Repository,
+        // A row of the layer list or the composition list: it moves and is deleted like a slot row.
+        Composable
     }
 }

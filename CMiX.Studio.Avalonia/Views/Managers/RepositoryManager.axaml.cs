@@ -20,7 +20,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         public RepositoryManager()
         {
             InitializeComponent();
-            detailList.ContainerPrepared += (_, e) => PrefabRowMenu.Give(e.Container, RowMenu);
+            detailList.ContainerPrepared += (_, e) => PrefabRowMenu.AttachTo(e.Container, RowMenu);
         }
 
         // The menu of the rows. None, the default, gives them no menu.

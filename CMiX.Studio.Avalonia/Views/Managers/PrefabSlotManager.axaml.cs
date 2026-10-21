@@ -19,7 +19,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         public PrefabSlotManager()
         {
             InitializeComponent();
-            prefabListBox.ContainerPrepared += (_, e) => PrefabRowMenu.Give(e.Container, RowMenu);
+            prefabListBox.ContainerPrepared += (_, e) => PrefabRowMenu.AttachTo(e.Container, RowMenu);
         }
 
         // The menu of the rows. None, the default, gives them no menu.
