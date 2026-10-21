@@ -114,5 +114,49 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
             Assert.DoesNotContain(":pressed", drag.Classes);
         }
+
+        private static Button Side(Control drag, string name) =>
+            drag.GetVisualDescendants().OfType<Button>().First(button => button.Name == name);
+
+        [AvaloniaTheory]
+        [InlineData("SubButton")]
+        [InlineData("AddButton")]
+        public void TheSideButtons_AreHidden_WhenTheDragValueIsNeitherHoveredNorPressed(string name)
+        {
+            var (drag, _) = Show(new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Width = 160 }, "borderValueDisplay");
+
+            Assert.False(Side(drag, name).IsVisible);
+        }
+
+        [AvaloniaTheory]
+        [InlineData("SubButton")]
+        [InlineData("AddButton")]
+        public void TheSideButtons_Show_UnderThePointer(string name)
+        {
+            var (drag, _) = Show(new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Width = 160 }, "borderValueDisplay");
+
+            foreach (var part in drag.GetVisualDescendants().OfType<Border>().Where(border => border.Name == "mainBorder"))
+                ((IPseudoClasses)part.Classes).Set(":pointerover", true);
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.True(Side(drag, name).IsVisible);
+        }
+
+        [AvaloniaTheory]
+        [InlineData("SubButton")]
+        [InlineData("AddButton")]
+        public void WhileTheDragValueIsPressed_TheSideButtonsStayVisible_AndAreAsDarkAsTheRest(string name)
+        {
+            var (drag, border) = Show(new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Width = 160 }, "borderValueDisplay");
+
+            ((IPseudoClasses)drag.Classes).Set(":pressed", true);
+            Dispatcher.UIThread.RunJobs();
+
+            var button = Side(drag, name);
+            Assert.True(button.IsVisible);
+            var buttonBorder = button.GetVisualDescendants().OfType<Border>().First(part => part.Name == "border");
+            Assert.Equal(Background(border), Background(buttonBorder));
+            Assert.Equal(Token("StatePressedBrush"), Background(buttonBorder));
+        }
     }
 }

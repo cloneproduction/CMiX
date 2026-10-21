@@ -62,7 +62,6 @@
                                             Width="{Binding Bounds.Height, RelativeSource={RelativeSource TemplatedParent}}"
                                             HorizontalAlignment="Left"
                                             DockPanel.Dock="Left"
-                                            IsVisible="{Binding IsPointerOver, ElementName=mainBorder}"
                                             Theme="{StaticResource ButtonStraight}">
 
                                             <Button.Content>
@@ -78,7 +77,6 @@
                                             Width="{Binding Bounds.Height, RelativeSource={RelativeSource TemplatedParent}}"
                                             HorizontalAlignment="Right"
                                             DockPanel.Dock="Right"
-                                            IsVisible="{Binding IsPointerOver, ElementName=mainBorder}"
                                             Theme="{StaticResource ButtonStraight}">
 
                                             <Button.Content>
@@ -109,6 +107,29 @@
             <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^:pressed /template/ Border#borderValueDisplay">
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
+        </Style>
+
+        <!-- The two buttons show under the pointer, and stay while the value is pressed: the cursor of a drag goes where it
+             wants, and the buttons must not blink. While the value is pressed they are as dark as the rest. -->
+        <Style Selector="^ /template/ Button#SubButton">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ /template/ Button#AddButton">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ /template/ Border#mainBorder:pointerover Button#SubButton">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^ /template/ Border#mainBorder:pointerover Button#AddButton">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^:pressed /template/ Button#SubButton">
+            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Button#AddButton">
+            <Setter Property="IsVisible" Value="True" />
             <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
 
@@ -188,7 +209,6 @@
                                         Width="{Binding Bounds.Height, RelativeSource={RelativeSource TemplatedParent}}"
                                         HorizontalAlignment="Left"
                                         DockPanel.Dock="Left"
-                                        IsVisible="{Binding IsPointerOver, ElementName=mainBorder}"
                                         Theme="{StaticResource ButtonStraight}">
 
                                         <Button.Content>
@@ -204,7 +224,6 @@
                                         Width="{Binding Bounds.Height, RelativeSource={RelativeSource TemplatedParent}}"
                                         HorizontalAlignment="Right"
                                         DockPanel.Dock="Right"
-                                        IsVisible="{Binding IsPointerOver, ElementName=mainBorder}"
                                         Theme="{StaticResource ButtonStraight}">
 
                                         <Button.Content>
