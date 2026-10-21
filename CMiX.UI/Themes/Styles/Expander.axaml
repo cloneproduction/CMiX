@@ -167,6 +167,7 @@
           <ControlTemplate>
             <Border
                 Name="mainBorder"
+                Background="{TemplateBinding Background}"
                 Height="{DynamicResource ControlHeightXL}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center">
@@ -184,12 +185,6 @@
             </Border>
           </ControlTemplate>
         </Setter>
-
-        <!-- The background is a style, not a local value, so that the depth styles of ExpanderIndentedDepth can change it.
-             A TemplateBinding on the element beats every style. -->
-        <Style Selector="^ /template/ Border#mainBorder">
-          <Setter Property="Background" Value="{TemplateBinding Background}" />
-        </Style>
 
       </ControlTheme>
 
@@ -221,6 +216,7 @@
                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
               <Border
                   Name="contentBackground"
+                  Background="{TemplateBinding Background}"
                   HorizontalAlignment="Stretch">
                 <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}">
                   <ContentPresenter
@@ -238,10 +234,6 @@
         </Border>
       </ControlTemplate>
     </Setter>
-
-    <Style Selector="^ /template/ Border#contentBackground">
-      <Setter Property="Background" Value="{TemplateBinding Background}" />
-    </Style>
   </ControlTheme>
 
 </ResourceDictionary>

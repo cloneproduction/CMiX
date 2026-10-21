@@ -62,5 +62,19 @@ namespace CMiX.UI.Tests
             Assert.Equal(grey, Content(expander));
             Assert.Equal(grey, Header(expander));
         }
+
+        [AvaloniaFact]
+        public void ABackgroundSetByTheCaller_OnANestedExpander_IsKeptAtEveryDepth()
+        {
+            var orange = Colors.Orange;
+            var inner = new ExpanderIndented { Header = "2", IsExpanded = true, Background = new SolidColorBrush(orange), Content = new TextBlock { Text = "x" } };
+            var outer = new ExpanderIndented { Header = "1", IsExpanded = true, Content = inner };
+            new Window { Content = outer, Width = 400, Height = 400 }.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(orange, Content(inner));
+            Assert.Equal(orange, Header(inner));
+            Assert.Equal(Level(1), Content(outer));
+        }
     }
 }
