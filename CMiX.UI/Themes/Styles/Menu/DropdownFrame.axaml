@@ -1,0 +1,32 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
+
+    <!-- The Padding is the room of the shadow. See DropdownFrame. -->
+    <ControlTheme x:Key="{x:Type ui:DropdownFrame}" TargetType="ui:DropdownFrame">
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Background="Transparent"
+                    Effect="{DynamicResource DropShadowWindow}"
+                    Padding="{TemplateBinding Padding}">
+
+                    <Border
+                        Name="PART_Panel"
+                        Background="{DynamicResource Grey200Brush}"
+                        CornerRadius="{DynamicResource CornerRadiusBottom}"
+                        Padding="2,4,2,2">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

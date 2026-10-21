@@ -2,12 +2,14 @@ using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
+using Avalonia.LogicalTree;
 using Avalonia.Threading;
 using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Views.Managers;
+using CMiX.UI.Controls.Parts;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -28,6 +30,22 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         private static ToggleButton SwapToggle(PrefabSlotManager view) => view.FindControl<ToggleButton>("SwapToggle")!;
+
+        [AvaloniaFact]
+        public void ThePopupOfTheToggle_HasTheSharedDropdownFrame_AndKeepsItsPosition()
+        {
+            var (view, repository, provider) = Show();
+            repository.Add(provider.GetRequiredService<ControlFactory>().Create(typeof(Entity)));
+            Dispatcher.UIThread.RunJobs();
+
+            SwapToggle(view).IsChecked = true;
+            Dispatcher.UIThread.RunJobs();
+
+            var popup = view.GetLogicalDescendants().OfType<Popup>().Single();
+            Assert.IsType<DropdownFrame>(popup.Child);
+            Assert.Equal(-8, popup.HorizontalOffset);
+            Assert.Equal(-1 - 8, popup.VerticalOffset);
+        }
 
         [AvaloniaFact]
         public void RepositoryWithoutItems_DisablesTheToggle()

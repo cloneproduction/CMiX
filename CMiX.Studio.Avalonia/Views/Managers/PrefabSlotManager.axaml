@@ -80,10 +80,7 @@
                 ui:TogglePopup.Toggle="{Binding ElementName=SwapToggle}"
                 Placement="BottomEdgeAlignedLeft"
                 VerticalOffset="-1">
-                <Border
-                    Padding="2"
-                    Background="{DynamicResource Grey100Brush}"
-                    CornerRadius="{DynamicResource CornerRadiusLargeAll}">
+                <ui:DropdownFrame>
                     <ItemsControl ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -96,7 +93,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </Border>
+                </ui:DropdownFrame>
             </Popup>
 
             <!--  SELECTION PANEL (type picker)  -->

@@ -163,7 +163,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
 
             Assert.True(popup.IsOpen);
-            Assert.Same(panel, ((ContentControl)((Border)popup.Child!).Child!).Content);
+            Assert.Same(panel, ((ContentControl)((ContentControl)popup.Child!).Content!).Content);
         }
     }
 }

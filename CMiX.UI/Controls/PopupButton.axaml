@@ -18,16 +18,11 @@
             ui:TogglePopup.PointerAwayDistance="{Binding PointerAwayDistance, ElementName=popupButton}"
             ui:TogglePopup.Toggle="{Binding ElementName=PopUpToggle}"
             Placement="Bottom">
-            <Border
-                Padding="2,4,2,2"
-                Background="{DynamicResource Grey200Brush}"
-                BorderBrush="{DynamicResource Shadow}"
-                BorderThickness="1,0,1,2"
-                CornerRadius="{DynamicResource CornerRadiusBottom}">
+            <ui:DropdownFrame>
 
                 <ContentControl Content="{Binding PopupContent, ElementName=popupButton}" />
 
-            </Border>
+            </ui:DropdownFrame>
 
         </Popup>
     </Panel>

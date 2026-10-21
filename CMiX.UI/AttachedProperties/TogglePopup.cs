@@ -7,6 +7,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using CMiX.UI.Behaviors;
+using CMiX.UI.Controls.Parts;
 using AvaloniaInteraction = Avalonia.Xaml.Interactivity.Interaction;
 
 namespace CMiX.UI.AttachedProperties
@@ -142,11 +143,12 @@ namespace CMiX.UI.AttachedProperties
             }
 
             // Read when the popup opens, so the order of the properties in the AXAML does not matter.
+            // A DropdownFrame has room for its shadow on both sides, so its panel is as wide as the toggle.
             private void ApplyWidth()
             {
                 if (GetMatchesToggleWidth(popup))
                 {
-                    popup.Width = toggle.Bounds.Width;
+                    popup.Width = toggle.Bounds.Width + (popup.Child is DropdownFrame frame ? frame.Padding.Left + frame.Padding.Right : 0);
                     return;
                 }
 
