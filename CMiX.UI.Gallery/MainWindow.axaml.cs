@@ -22,7 +22,7 @@ namespace CMiX.UI.Gallery
         private enum State { Idle, Hover, Pressed, On, OnHover }
 
         private static readonly string[] Greys =
-            { "Grey300Brush", "Grey400Brush", "Grey500Brush", "Grey600Brush", "Grey700Brush", "Grey800Brush" };
+            { "Grey100Brush", "Grey200Brush", "Grey300Brush", "Grey400Brush", "Grey500Brush", "Grey600Brush", "Grey700Brush", "Grey800Brush" };
 
         private static readonly State[] States = { State.Idle, State.Hover, State.Pressed, State.On, State.OnHover };
 
@@ -34,7 +34,7 @@ namespace CMiX.UI.Gallery
 
             Bind(IdleBox, "StateIdleBrush", "Grey600Brush");
             Bind(HoverBox, "StateHoverBrush", "Grey700Brush");
-            Bind(PressedBox, "StatePressedBrush", "Grey300Brush");
+            Bind(PressedBox, "StatePressedBrush", "Grey200Brush");
             Bind(RowBox, "RowHoverBrush", "Grey500Brush");
 
             Sections.Children.Add(Chevrons());
