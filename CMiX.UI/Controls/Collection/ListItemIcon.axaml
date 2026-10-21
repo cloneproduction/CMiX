@@ -25,7 +25,7 @@
 
             <ToggleButton
                 IsChecked="{Binding IsUpdating, ElementName=listItemIcon, Mode=TwoWay}"
-                IsVisible="{Binding IsUpdating, ElementName=listItemIcon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                IsVisible="False"
                 Theme="{DynamicResource ToggleButtonUpdate}"
                 ToolTip.Tip="Update" />
 

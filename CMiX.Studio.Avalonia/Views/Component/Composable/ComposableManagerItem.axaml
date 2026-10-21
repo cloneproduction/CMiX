@@ -23,6 +23,7 @@
 
                 <ToggleButton
                     IsChecked="{Binding PrefabService.IsUpdating.Value}"
+                    IsVisible="False"
                     Theme="{DynamicResource ToggleButtonUpdate}"
                     ToolTip.Tip="Update" />
 
