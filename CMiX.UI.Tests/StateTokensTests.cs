@@ -180,5 +180,11 @@ namespace CMiX.UI.Tests
             Assert.Equal(pressed, Background(dragBorder));
             Assert.Equal(pressed, ((ISolidColorBrush)increase.Background!).Color);
         }
+
+        [AvaloniaFact]
+        public void PopupBackground_IsOneToken_ThatTheFramesRead()
+        {
+            Assert.Equal(Grey(100), Token("PopupBackgroundBrush"));
+        }
     }
 }

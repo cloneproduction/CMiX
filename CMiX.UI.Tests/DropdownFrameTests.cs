@@ -54,7 +54,7 @@ namespace CMiX.UI.Tests
 
             Open(toggle);
 
-            var expected = (ISolidColorBrush)Application.Current!.FindResource("Grey200Brush")!;
+            var expected = (ISolidColorBrush)Application.Current!.FindResource("PopupBackgroundBrush")!;
             Assert.Equal(expected.Color, ((ISolidColorBrush)PanelOf(popup).Background!).Color);
         }
 
