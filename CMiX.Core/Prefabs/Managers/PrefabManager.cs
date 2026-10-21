@@ -145,9 +145,8 @@ namespace CMiX.Core.Prefabs.Managers
                 // The rename is part of the copy: it sends no message and leaves no undo step of its own.
                 var name = prefab.PrefabService.Name;
                 var newName = factory.UniqueName(name.Value);
-                name.IsActive = false;
-                try { name.Value = newName; }
-                finally { name.IsActive = true; }
+                using (name.SuppressSending())
+                    name.Value = newName;
             }
 
             Run(new AddItemUndoCommand(_sync, copy, insertAt));
@@ -266,7 +265,8 @@ namespace CMiX.Core.Prefabs.Managers
         {
             if (message is not IMessageManager || ManagerData.ID != message.ID)
                 return;
-            ReceiveWithoutEcho(() => _messageHandler.Handle(Collection, message));
+            using (SuppressSending())
+                _messageHandler.Handle(Collection, message);
         }
 
         public override IControlModel ToModel() => new PrefabManagerModel

@@ -173,11 +173,11 @@ namespace CMiX.Core.Prefabs
             var label = StringHelper.LabelOf(control.GetType());
             var typeName = label != null ? label + " Modifier" : StringHelper.PascalCaseToDisplay(control.GetType().Name);
 
-            prefab.PrefabService.Name.IsActive = false;
+            using var suppression = prefab.PrefabService.Name.SuppressSending();
             _applyingName = true;
 
-            // A throwing name setter must not leave the control muted or the factory permanently
-            // blind to renames, so both flags are restored even on the failure path.
+            // A throwing name setter must not leave the factory permanently blind to renames,
+            // so the flag is restored even on the failure path.
             try
             {
                 if (control is IModifier)
@@ -204,7 +204,6 @@ namespace CMiX.Core.Prefabs
             finally
             {
                 _applyingName = false;
-                prefab.PrefabService.Name.IsActive = true;
             }
         }
 

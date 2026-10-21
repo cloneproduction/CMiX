@@ -39,7 +39,7 @@ namespace CMiX.Core.BaseControls
         public void Receive(IMessage message)
         {
             if (this.ID != message.ID) return;
-            ReceiveWithoutEcho(() => Click?.Invoke(this, null));
+            Click?.Invoke(this, null);
         }
 
         public IControlModel ToModel() => new ButtonModel
