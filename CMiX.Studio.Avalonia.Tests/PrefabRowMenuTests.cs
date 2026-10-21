@@ -103,7 +103,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void RepositoryMenu_StartsWithTheNameAndListsDuplicateRenameAndDeleteEverywhere()
+        public void RepositoryMenu_StartsWithTheNameAndListsDuplicateRenameAndRemoveEverywhere()
         {
             var (manager, list) = ShowRepositoryList(RowMenuKind.Repository, 2);
 

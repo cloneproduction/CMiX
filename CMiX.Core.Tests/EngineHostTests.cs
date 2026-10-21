@@ -26,7 +26,7 @@ namespace CMiX.Core.Tests
         });
 
         [Fact]
-        public void BeforeStart_TheProviderAndTheQueueAreNull()
+        public void ServiceProvider_BeforeStart_IsNull()
         {
             using var host = CreateHost(new InMemorySyncStore());
 

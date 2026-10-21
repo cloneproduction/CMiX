@@ -17,7 +17,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Write_InsideScope_SendsNothingAndLeavesNoUndoStep()
+        public void SuppressSending_Write_SendsNothingAndLeavesNoUndoStep()
         {
             var provider = TestServiceProviderFactory.Create();
             var messenger = provider.GetRequiredService<ControlMessenger>();
@@ -37,7 +37,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Write_AfterScope_SendsAgain()
+        public void SuppressSending_WriteAfterScope_SendsAgain()
         {
             var provider = TestServiceProviderFactory.Create();
             var messenger = provider.GetRequiredService<ControlMessenger>();
@@ -55,7 +55,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Write_AfterInnerScopeEnds_StaysSuppressedUntilTheOuterScopeEnds()
+        public void SuppressSending_WriteAfterInnerScopeEnds_StaysSuppressedUntilTheOuterScopeEnds()
         {
             var provider = TestServiceProviderFactory.Create();
             var messenger = provider.GetRequiredService<ControlMessenger>();
@@ -77,7 +77,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Scope_OnAControlThatIsNotActive_DoesNotActivateIt()
+        public void SuppressSending_OnAControlThatIsNotActive_DoesNotActivateIt()
         {
             var provider = TestServiceProviderFactory.Create();
             var control = provider.GetRequiredService<GenericValue<double>>();
