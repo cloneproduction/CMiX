@@ -14,12 +14,12 @@
                     Background="{TemplateBinding Background}"
                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                     VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                    <ui:AppIcon
+                    <ui:Chevron
                         HorizontalAlignment="Right"
                         Margin="8,0"
-                        Opacity="0.5"
-                        IconKey="ChevronDown"
-                        Size="{DynamicResource IconSizeXS}" />
+                        ClosedAngle="0"
+                        OpenAngle="180"
+                        IsOpen="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}" />
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -145,10 +145,10 @@
                         Theme="{DynamicResource ToggleButtonRoundedLeft}"
                         Width="22">
                         <ToggleButton.Content>
-                            <ui:AppIcon
-                                Opacity="0.5"
-                                IconKey="ChevronDown"
-                                Size="{DynamicResource IconSizeXS}" />
+                            <ui:Chevron
+                                ClosedAngle="0"
+                                OpenAngle="180"
+                                IsOpen="{TemplateBinding IsDropDownOpen}" />
                         </ToggleButton.Content>
                     </ToggleButton>
                     <Popup

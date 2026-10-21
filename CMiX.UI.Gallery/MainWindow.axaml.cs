@@ -11,6 +11,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Number;
+using CMiX.UI.Panels;
 
 namespace CMiX.UI.Gallery
 {
@@ -36,6 +37,7 @@ namespace CMiX.UI.Gallery
             Bind(PressedBox, "StatePressedBrush", "Grey300Brush");
             Bind(RowBox, "RowHoverBrush", "Grey500Brush");
 
+            Sections.Children.Add(Chevrons());
             Sections.Children.Add(Section("Surface controls", "surface", SurfaceSamples()));
             Sections.Children.Add(Section("Rows", "row", RowSamples()));
             Sections.Children.Add(Tabs());
@@ -144,6 +146,28 @@ namespace CMiX.UI.Gallery
             holder.Children.Add(Header("Selected, hovered (second), idle (third)"));
             holder.Children.Add(strip);
             return Frame("Tab strip with icons", "tabs", holder);
+        }
+
+        // Every control that opens has the same chevron. Each kind is shown closed, then open.
+        private Control Chevrons()
+        {
+            Control Content() => new TextBlock { Text = "Content", Margin = new Thickness(8) };
+
+            Control Kind(string name, Func<bool, Control> make)
+            {
+                var holder = new StackPanel { Spacing = 4, Width = 190 };
+                holder.Children.Add(Header(name));
+                holder.Children.Add(make(false));
+                holder.Children.Add(make(true));
+                return holder;
+            }
+
+            var row = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 12, Margin = new Thickness(8) };
+            row.Children.Add(Kind("Expander", open => new Expander { Header = "Header", Content = Content(), IsExpanded = open }));
+            row.Children.Add(Kind("ExpanderItem", open => new Expander { Theme = Theme("ExpanderItem"), Header = "Header", Content = Content(), IsExpanded = open }));
+            row.Children.Add(Kind("ExpanderIndented", open => new ExpanderIndented { Header = "Header", Content = Content(), IsExpanded = open }));
+            row.Children.Add(Kind("ComboBox", open => new ComboBox { ItemsSource = new[] { "Item A" }, SelectedIndex = 0, Width = 150, IsDropDownOpen = false }));
+            return Frame("Chevrons", "chevrons", row);
         }
 
         private Control Frame(string title, string kind, Control content)

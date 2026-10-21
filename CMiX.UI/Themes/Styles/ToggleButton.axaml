@@ -238,9 +238,6 @@
         <Style Selector="^:checked /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
-        <Style Selector="^:checked /template/ Path#arrow">
-            <Setter Property="Opacity" Value="1.0" />
-        </Style>
     </ControlTheme>
 
     <ControlTheme x:Key="ToggleButtonInlineLeft"
