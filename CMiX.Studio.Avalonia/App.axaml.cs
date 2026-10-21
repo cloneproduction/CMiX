@@ -65,6 +65,8 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddSingleton<MainViewModel>();
                 serviceCollection.AddSingleton<MainWindowController>();
                 serviceCollection.AddSingleton<MainMenu>();
+                serviceCollection.AddSingleton<UnsavedChanges>();
+                serviceCollection.AddSingleton<IUnsavedChangesPrompt, UnsavedChangesPrompt>();
                 serviceCollection.AddSingleton<IDialogService>(provider => new DialogService(
                     new MainWindowDialogManager(new Services.EmptyViewLocator(), new DialogFactory().AddMessageBox()),
                     viewModelFactory: type => provider.GetService(type)));
@@ -86,6 +88,8 @@ namespace CMiX.Studio.Avalonia
                 var mainWindow = serviceProvider.GetRequiredService<Views.MainWindow>();
                 mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();
                 serviceProvider.GetRequiredService<ControlActivationService>().ActivateAll();
+                // The new session is the saved state. The window asks about unsaved changes against it.
+                serviceProvider.GetRequiredService<UnsavedChanges>().MarkSaved();
                 desktop.MainWindow = mainWindow;
             }
 

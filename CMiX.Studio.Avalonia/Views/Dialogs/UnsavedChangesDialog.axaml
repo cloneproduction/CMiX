@@ -1,0 +1,53 @@
+<Window
+    x:Class="CMiX.Studio.Avalonia.Views.Dialogs.UnsavedChangesDialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    Background="Transparent"
+    CanResize="False"
+    ShowInTaskbar="False"
+    SizeToContent="WidthAndHeight"
+    SystemDecorations="None"
+    TransparencyLevelHint="Transparent"
+    WindowStartupLocation="CenterOwner">
+
+    <!-- The frame is the one of the menus and the flyouts: the same panel color and the same window shadow. -->
+    <ui:PopupFrame PanelMinWidth="380">
+
+        <StackPanel Spacing="{DynamicResource SpacingMD}">
+
+            <DockPanel>
+                <ui:AppIcon
+                    Margin="8"
+                    Opacity="0.9"
+                    IconKey="Warning"
+                    Size="{DynamicResource IconSizeLG}" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource ForegroundBrush}"
+                    Text="Save change before closing ?" />
+            </DockPanel>
+
+            <UniformGrid Columns="3">
+                <Button
+                    x:Name="SaveButton"
+                    Margin="4"
+                    Click="OnSave"
+                    Content="Save" />
+                <Button
+                    x:Name="DontSaveButton"
+                    Margin="4"
+                    Click="OnDontSave"
+                    Content="Don't Save" />
+                <Button
+                    x:Name="CancelButton"
+                    Margin="4"
+                    Click="OnCancel"
+                    Content="Cancel" />
+            </UniformGrid>
+
+        </StackPanel>
+
+    </ui:PopupFrame>
+
+</Window>

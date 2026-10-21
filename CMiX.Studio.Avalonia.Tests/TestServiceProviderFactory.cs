@@ -25,6 +25,9 @@ namespace CMiX.Studio.Avalonia.Tests
             serviceCollection.AddSingleton<MainViewModel>();
             serviceCollection.AddSingleton<MainWindowController>();
             serviceCollection.AddSingleton<MainMenu>();
+            serviceCollection.AddSingleton<UnsavedChanges>();
+            serviceCollection.AddSingleton<FakeUnsavedChangesPrompt>();
+            serviceCollection.AddSingleton<IUnsavedChangesPrompt>(provider => provider.GetRequiredService<FakeUnsavedChangesPrompt>());
             serviceCollection.AddSingleton<IDialogService>(provider => new DialogService(
                 new MainWindowDialogManager(new EmptyViewLocator(), new DialogFactory().AddMessageBox()),
                 viewModelFactory: type => provider.GetService(type)));
@@ -41,6 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var mainWindow = provider.GetRequiredService<Views.MainWindow>();
             mainWindow.DataContext = provider.GetRequiredService<MainViewModel>();
             provider.GetRequiredService<CMiX.Core.ControlActivationService>().ActivateAll();
+            provider.GetRequiredService<UnsavedChanges>().MarkSaved();
             return mainWindow;
         }
 
