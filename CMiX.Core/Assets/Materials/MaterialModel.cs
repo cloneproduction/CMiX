@@ -17,6 +17,5 @@ namespace CMiX.Core.Materials
         public PrefabServiceModel PrefabService { get; set; } = new();
         public PrefabManagerModel ExplodeTriangleTextureManager { get; set; } = new();
         public GenericValueModel<float> ExplodeStrength { get; set; } = new(0.6f);
-        public PrefabManagerModel ModifierManager { get; set; } = new();
     }
 }

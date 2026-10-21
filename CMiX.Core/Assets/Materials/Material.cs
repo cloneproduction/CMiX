@@ -1,28 +1,24 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Materials
 {
-    public partial class Material : ObservableObject, IPrefab, IModifiable, IDisposable, IHasCompositionID
+    public partial class Material : ObservableObject, IPrefab, IDisposable, IHasCompositionID
     {
         public Material(PrefabService prefabService,
                         MaterialSettings materialSettings, 
                         DiffuseTexture diffuseTexture, 
-                        MaskTexture maskTexture,
-                        PrefabManager modifierManager)
+                        MaskTexture maskTexture)
         {
             PrefabService = prefabService;
             DiffuseTexture = diffuseTexture;
             MaskTexture = maskTexture;
             MaterialSettings = materialSettings;
-            ModifierManager = modifierManager;
         }
 
         public Guid ID { get; set; } 
@@ -30,7 +26,6 @@ namespace CMiX.Core.Materials
         public MaskTexture MaskTexture { get; set; }
         public MaterialSettings MaterialSettings { get; set; }
         public PrefabService PrefabService { get; set; }
-        public PrefabManager ModifierManager { get; set; }
 
         private Guid _compositionID;
         public Guid CompositionID
@@ -39,7 +34,6 @@ namespace CMiX.Core.Materials
             set
             {
                 _compositionID = value;
-                ModifierManager.CompositionID = value;
                 DiffuseTexture.CompositionID = value;
                 MaskTexture.CompositionID = value;
             }
@@ -48,17 +42,13 @@ namespace CMiX.Core.Materials
         [ObservableProperty]
         private bool isExpanded = false;
 
-        [ObservableProperty]
-        private bool modifierManagerIsExpanded = false;
-
         public IControlModel ToModel() => new MaterialModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             DiffuseTexture = (DiffuseTextureModel)DiffuseTexture.ToModel(),
             MaskTexture = (MaskTextureModel)MaskTexture.ToModel(),
-            MaterialSettings = (MaterialSettingsModel)MaterialSettings.ToModel(),
-            ModifierManager = (PrefabManagerModel)ModifierManager.ToModel()
+            MaterialSettings = (MaterialSettingsModel)MaterialSettings.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -69,12 +59,10 @@ namespace CMiX.Core.Materials
             DiffuseTexture.FromModel(m.DiffuseTexture);
             MaskTexture.FromModel(m.MaskTexture);
             MaterialSettings.FromModel(m.MaterialSettings);
-
-            LoadManager(ModifierManager, m.ModifierManager);
         }
 
         // The two texture slots own a texture manager each, and nothing else reaches their
         // teardown, the same way the mesh owns two of its own under an entity.
-        public void Dispose() => DisposeAll(ModifierManager, DiffuseTexture.TextureManager, MaskTexture.TextureManager);
+        public void Dispose() => DisposeAll(DiffuseTexture.TextureManager, MaskTexture.TextureManager);
     }
 }
