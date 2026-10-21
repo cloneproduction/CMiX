@@ -24,6 +24,7 @@ namespace CMiX.UI.Themes
             { "Add", MaterialIconKind.Plus },
             { "Sub", MaterialIconKind.Minus },
             { "Remove", MaterialIconKind.Delete },
+            { "Duplicate", MaterialIconKind.ContentDuplicate },
             { "Rename", MaterialIconKind.RenameBox },
             { "Close", MaterialIconKind.Close },
             { "IsChecked", MaterialIconKind.Check },
