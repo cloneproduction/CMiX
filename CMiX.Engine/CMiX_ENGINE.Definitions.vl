@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2026.8.0-0188-gcb7ddbf18d" Version="0.128">
+<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2026.8.0-0213-g199efc53b3" Version="0.128">
   <NugetDependency Id="IUe3DNEcZotPCXZwjVtivO" Location="VL.CoreLib" />
   <Patch Id="T9GSBtl3PLoMotw6vgDtsk">
     <Canvas Id="OChrtsq8T1iOBNfVT1Yj0P" DefaultCategory="CMiX.Engine" CanvasType="FullCategory">
@@ -10655,13 +10655,13 @@
               <Link Id="RIWIoQegwwCQO6jXjhGnlQ" Ids="Tj5DOSKkS89OPrlMd8wUpk,OELcfpVyoRvQPFZVEEco9x" />
               <Slot Id="RtKolcQlrMhMEMzOrBOoqP" Name="ViewModel" />
               <Link Id="I6dxoZFnvU7K9gwpSJNgLU" Ids="EaEx4SL987COSxjRtrC7OR,D7Ji21epeeUNJdqlHkfzIo" />
-              <Link Id="Owbedw3jb2yOKGOGNfYlYD" Ids="F4Sm3CqpI23L0FXlluysHM,IOQXllkL63HOXSoQD3i8r0" />
               <Link Id="TtGRGDfdBKtNo0DEso1mhK" Ids="BGInVJ90ls0Mwkexc4D3wr,TdG8pXm6v0EMUs6qek16GV" />
               <Link Id="Hu29KaLypgDMiYmny0w1cW" Ids="BQ4TRCN3bqYNBG3yAGSvzG,HrOjvVN9m6UNHUvl0xrCLA" />
               <Link Id="OTH3IXEg7KLMNJt7CPHn3f" Ids="GpzN895DS8gQWf5wyGZGnB,TMHUWjvM3XqOPACnbvysvj" />
               <Link Id="CJQHs6gyfx7QRlc3qiRpHR" Ids="UxJT2VM3H0pMCvHPiLV9ci,QCWVM2un7UaOOlYu60Xgyh" />
               <Link Id="UrXVEvz66ecMUXgpht5B64" Ids="O3Rk4NpxLC6My6w3ITTxDq,Ph4XaM7wjU7LbjOd255ZRp" />
               <Link Id="AK37BjE57jDLwbipKpcTlc" Ids="PKudLVasaxlLWzPpNsGS2X,RQIx7VSwfviOXdYpxj73wU" />
+              <Link Id="EoNxfcAsKTiOdS5jPYUMaz" Ids="F4Sm3CqpI23L0FXlluysHM,IOQXllkL63HOXSoQD3i8r0" />
             </Patch>
           </Node>
           <!--
@@ -22288,7 +22288,7 @@
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="ProcessAppFlag" Name="ApplyMasks" />
                     </p:NodeReference>
-                    <Pin Id="Tc0DNrDMYj4LERZ3RDLrLR" Name="Node Context" Kind="InputPin" IsHidden="true" />
+                    <Pin Id="MsHEartWtFgNuZ7ISBKtwT" Name="Node Context" Kind="InputPin" IsHidden="true" />
                     <Pin Id="Rn7Z60krAP5NI9YaM5AdKx" Name="Composables" Kind="InputPin" />
                     <Pin Id="FG2Kzxw02WeMYPdwZEHTnU" Name="Textures" Kind="InputPin" />
                     <Pin Id="IRcrqfEYq1lLzv9BRYliGq" Name="Index" Kind="InputPin" />
@@ -22351,7 +22351,7 @@
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="ProcessAppFlag" Name="ApplyMasks" />
                     </p:NodeReference>
-                    <Pin Id="L5dFmu6wgFuNXcGwwOVAe1" Name="Node Context" Kind="InputPin" IsHidden="true" />
+                    <Pin Id="NDGj1HGBCtcLwsC5nnDwci" Name="Node Context" Kind="InputPin" IsHidden="true" />
                     <Pin Id="IaxLQ4PMEM9M4VXA4cFTbT" Name="Composables" Kind="InputPin" />
                     <Pin Id="FGMTQYuZi6UQagxs2GtIto" Name="Textures" Kind="InputPin" />
                     <Pin Id="HjpFmpc41rxQDLiycFcpUS" Name="Index" Kind="InputPin" />
@@ -51565,21 +51565,15 @@
                   <p:maxvisibleentries p:Type="Int32">17</p:maxvisibleentries>
                 </p:ValueBoxSettings>
                 <p:Value>
-                  <Item>ModulatorOutput.10174df1-904d-4d06-b4d7-1fe995ba2112.Value</Item>
-                  <Item>cmix:default:peers:2acb4748-476b-4a13-b634-5950c7c738e7</Item>
-                  <Item>ModulatorOutput.476d671c-d521-43ef-861c-91d2419928a8.Value</Item>
-                  <Item>ModulatorOutput.46e2083f-703c-4173-9ac2-25cbeeec1fd3.Value</Item>
-                  <Item>ModulatorOutput.24983923-0023-423f-996d-4244f7d6255b.Phase</Item>
-                  <Item>ModulatorOutput.24983923-0023-423f-996d-4244f7d6255b.Cycles</Item>
-                  <Item>ModulatorOutput.36f14273-5d07-4f65-b438-cf87b647fc33.Phase</Item>
-                  <Item>ModulatorOutput.36f14273-5d07-4f65-b438-cf87b647fc33.Cycles</Item>
-                  <Item>cmix:default:updates</Item>
-                  <Item>ModulatorOutput.4c4cce70-df5d-4fac-98a9-15073373a52f.Value</Item>
-                  <Item>cmix:default:tail</Item>
                   <Item>cmix:default:snapshot</Item>
-                  <Item>cmix:default:peers:24db09e0-bd59-4f3b-a716-99a7e2f4e649</Item>
-                  <Item>ModulatorOutput.b120e863-eb91-404c-8bc9-cf0e825990fa.Value</Item>
-                  <Item>cmix:default:peers:662b7b23-ff86-4359-83bd-94e7a51b21e9</Item>
+                  <Item>cmix:default:updates</Item>
+                  <Item>Galleries:GA:ga_performance_mode:tail</Item>
+                  <Item>ProutProut</Item>
+                  <Item>Galleries:GA:ga_performance_mode:peers:b99e34b1-ccc8-484f-9371-fe88554b674f</Item>
+                  <Item>cmix:default:tail</Item>
+                  <Item>Galleries:GA:ga_performance_mode:peers:f7eac11b-fd55-4146-8441-a88161c97b26</Item>
+                  <Item>Galleries:GA:ga_performance_mode:updates</Item>
+                  <Item>Galleries:GA:ga_performance_mode:snapshot</Item>
                 </p:Value>
               </Pad>
             </Canvas>
