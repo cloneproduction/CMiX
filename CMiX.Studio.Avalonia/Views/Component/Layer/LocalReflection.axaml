@@ -12,7 +12,7 @@
                 <ui:ToggleButtonCMiX
                     IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=localReflection, Mode=TwoWay}"
                     ResetCommand="{Binding DataContext.IsEnabled.ResetCommand, ElementName=localReflection}"
-                    Theme="{DynamicResource ToggleButtonPower}" />
+                    Theme="{DynamicResource ToggleButtonBox}" />
                 <TextBlock
                     Margin="8,0"
                     Foreground="{DynamicResource ForegroundBrush}"

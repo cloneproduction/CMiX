@@ -9,7 +9,7 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The switch in the header of a panel that turns the panel on is the power toggle, like the other icon toggles.
+    // The switch in the header of a panel that turns the panel on is the box of the captioned toggle, without the caption.
     public class PanelEnableToggleTests
     {
         public static TheoryData<string> Panels => new() { "AmbientOcclusion", "LocalReflection", "FilterPanel" };
@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         [AvaloniaTheory]
         [MemberData(nameof(Panels))]
-        public void TheHeaderToggle_IsAPowerIcon_OfTheSizeOfTheOtherIconToggles(string panel)
+        public void TheHeaderToggle_IsTheBoxOfTheCaptionedToggle(string panel)
         {
             var view = Create(panel);
             new Window { Content = view, Width = 400, Height = 400 }.Show();
@@ -31,7 +31,8 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var toggle = view.GetVisualDescendants().OfType<ToggleButtonCMiX>().First();
 
-            Assert.Equal("Power", toggle.GetVisualDescendants().OfType<AppIcon>().Single().IconKey);
+            Assert.Equal("IsChecked", toggle.GetVisualDescendants().OfType<AppIcon>().Single().IconKey);
+            Assert.Contains(toggle.GetVisualDescendants().OfType<Border>(), border => border.Name == "box");
             Assert.Equal((double)Application.Current!.FindResource("ControlHeightXS")!, toggle.Bounds.Height);
         }
     }
