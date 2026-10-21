@@ -57,7 +57,7 @@
             BorderThickness="2,0,2,2"
             DockPanel.Dock="Bottom">
 
-            <Views:SyncStatusIndicators
+            <Views:SyncStatusIndicator
                 Margin="8,0"
                 HorizontalAlignment="Right"
                 DataContext="{Binding Sync}" />

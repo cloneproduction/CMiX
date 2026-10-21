@@ -11,29 +11,39 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The bottom bar of the main window shows the state of the connection and the state of the sync, as the Network tab does.
-    public class SyncStatusIndicatorsTests
+    public class SyncStatusIndicatorTests
     {
         private static IEnumerable<TextBlock> VisibleTexts(Control view) =>
             view.GetVisualDescendants().OfType<TextBlock>().Where(text => text.IsEffectivelyVisible);
 
         [AvaloniaFact]
-        public void TheIndicators_ShowTheStatusAndTheSyncStateOfThePeer_LikeTheNetworkTab()
+        public void TheIndicator_ShowsTheStatusOfThePeerOnce_LikeTheNetworkTab()
         {
             var peer = TestServiceProviderFactory.Create().GetRequiredService<SyncPeer>();
-            var indicators = new SyncStatusIndicators { DataContext = peer };
+            var indicator = new SyncStatusIndicator { DataContext = peer };
             var network = new SyncSettings { DataContext = peer };
-            new Window { Content = new StackPanel { Children = { indicators, network } }, Width = 400, Height = 600 }.Show();
+            new Window { Content = new StackPanel { Children = { indicator, network } }, Width = 400, Height = 600 }.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var texts = VisibleTexts(indicators).Select(text => text.Text).ToList();
+            var texts = VisibleTexts(indicator).Select(text => text.Text).ToList();
 
-            Assert.Contains(peer.Status, texts);
-            Assert.Contains(peer.IsInSync ? "In sync" : "Not in sync", texts);
+            Assert.Equal(new[] { peer.Status }, texts);
             Assert.Contains(peer.Status, VisibleTexts(network).Select(text => text.Text));
-            Assert.Contains(peer.IsInSync ? "In sync" : "Not in sync", VisibleTexts(network).Select(text => text.Text));
-            Assert.Equal(2, indicators.GetVisualDescendants().OfType<Ellipse>().Count());
+            Assert.Single(indicator.GetVisualDescendants().OfType<Ellipse>());
 
             peer.Dispose();
+        }
+
+        // The status says "Not in sync" when the peer is connected and has not joined. The bar must not say it twice.
+        [AvaloniaFact]
+        public void TheBottomBar_ShowsOneStatusText()
+        {
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var bar = window.GetVisualDescendants().OfType<SyncStatusIndicator>().Single();
+
+            var shown = VisibleTexts(bar).Select(text => text.Text).ToList();
+
+            Assert.Equal(new[] { viewModel.Sync.Status }, shown);
         }
 
         [AvaloniaFact]
@@ -41,7 +51,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
 
-            Assert.Single(window.GetVisualDescendants().OfType<SyncStatusIndicators>());
+            Assert.Single(window.GetVisualDescendants().OfType<SyncStatusIndicator>());
             var texts = window.GetVisualDescendants().OfType<TextBlock>().Select(text => text.Text).ToList();
             Assert.DoesNotContain("CMiX Studio", texts);
             Assert.DoesNotContain("CloneProduction", texts);
