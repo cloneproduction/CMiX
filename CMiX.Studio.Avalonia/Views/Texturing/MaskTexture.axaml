@@ -14,7 +14,7 @@
         <Views:TextureSlot />
 
         <ui:ComboBoxCaptioned
-            Margin="8,0"
+            Margin="8, 8, 8, 0"
             Caption="MaskChannel"
             ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
             ResetCommand="{Binding MaskChannel.ResetCommand}"
