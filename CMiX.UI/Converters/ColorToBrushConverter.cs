@@ -14,8 +14,7 @@ namespace CMiX.UI.Converters
         SolidColorBrush _red = new SolidColorBrush(),
                         _green = new SolidColorBrush(),
                         _blue = new SolidColorBrush(),
-                        _alpha = new SolidColorBrush(),
-                        _all = new SolidColorBrush();
+                        _alpha = new SolidColorBrush();
 
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {

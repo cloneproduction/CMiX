@@ -28,8 +28,6 @@ namespace CMiX.Studio.Avalonia
 {
     public partial class App : Application
     {
-        private MasterBeatAnimationController? _animationController;
-
         // The rule for ambient statics in this app, so the four that exist do not become a
         // habit. A static is acceptable only when the consumer has no injection point at all:
         // either XAML constructs it and its code behind cannot take constructor arguments
@@ -82,7 +80,8 @@ namespace CMiX.Studio.Avalonia
                     a => Dispatcher.UIThread.Post(a), StudioSettings.Load().Resolve(new WindowsCredentialStore()).Options);
 
                 var masterBeat = serviceProvider.GetRequiredService<MasterBeat>();
-                _animationController = new MasterBeatAnimationController(masterBeat);
+                // The master beat holds the controller through its handlers, so no field keeps it.
+                _ = new MasterBeatAnimationController(masterBeat);
 
                 var mainWindow = serviceProvider.GetRequiredService<Views.MainWindow>();
                 mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();

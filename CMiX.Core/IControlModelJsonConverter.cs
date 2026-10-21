@@ -6,7 +6,6 @@ namespace CMiX.Core.Serialization
     public class IControlModelJsonConverter : JsonConverter<IControlModel>
     {
         private const string TypeKey = "$type";
-        private const string ValueKey = "$value";
 
         // Build a lookup of short name → concrete type from all assemblies
         private static readonly Dictionary<string, Type> TypeMap =
