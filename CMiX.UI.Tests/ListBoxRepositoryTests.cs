@@ -12,8 +12,8 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // ListBoxDetail is a list with a delete button, an add area and the detail of the selected item.
-    public class ListBoxDetailTests
+    // ListBoxRepository is a list with a delete button, an add area and the detail of the selected item.
+    public class ListBoxRepositoryTests
     {
         private sealed class Row
         {
@@ -21,10 +21,10 @@ namespace CMiX.UI.Tests
             public string Name { get; }
         }
 
-        private static (Window window, ListBoxDetail detail, ObservableCollection<Row> rows) Show(Action<ListBoxDetail>? configure = null)
+        private static (Window window, ListBoxRepository detail, ObservableCollection<Row> rows) Show(Action<ListBoxRepository>? configure = null)
         {
             var rows = new ObservableCollection<Row> { new("one"), new("two") };
-            var detail = new ListBoxDetail { ItemsSource = rows };
+            var detail = new ListBoxRepository { ItemsSource = rows };
             detail.DataTemplates.Add(new FuncDataTemplate<Row>((row, _) => new TextBlock { Text = "row " + row.Name }));
             configure?.Invoke(detail);
             var window = new Window { Content = detail, Width = 400, Height = 600 };
@@ -33,7 +33,7 @@ namespace CMiX.UI.Tests
             return (window, detail, rows);
         }
 
-        private static ListBoxCMiX ListOf(ListBoxDetail detail) => detail.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
+        private static ListBoxCMiX ListOf(ListBoxRepository detail) => detail.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
 
         [AvaloniaFact]
         public void ContainerPrepared_IsRaisedForEachRow_WithTheItemAsDataContext()

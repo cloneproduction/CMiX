@@ -65,9 +65,9 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AListBoxDetail_ShowsFiveWholeRows()
+        public void AListBoxRepository_ShowsFiveWholeRows()
         {
-            var detail = new ListBoxDetail
+            var detail = new ListBoxRepository
             {
                 ItemsSource = Enumerable.Range(1, 30).Select(i => "Item " + i).ToList(),
             };

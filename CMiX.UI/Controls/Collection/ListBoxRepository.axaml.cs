@@ -14,15 +14,15 @@ namespace CMiX.UI.Controls.Collection
     // A list, a delete button and an add area under it, and a detail of the selected item under that.
     // The application sets the row templates in DataTemplates, and fills AddContent and DetailContent.
     // The DataContext of DetailContent is the selected item. It shows only while an item is selected.
-    public partial class ListBoxDetail : UserControl
+    public partial class ListBoxRepository : UserControl
     {
-        static ListBoxDetail()
+        static ListBoxRepository()
         {
-            LogicalPanelContent.Track<ListBoxDetail>(AddContentProperty);
-            LogicalPanelContent.Track<ListBoxDetail>(DetailContentProperty);
+            LogicalPanelContent.Track<ListBoxRepository>(AddContentProperty);
+            LogicalPanelContent.Track<ListBoxRepository>(DetailContentProperty);
         }
 
-        public ListBoxDetail()
+        public ListBoxRepository()
         {
             InitializeComponent();
             itemsList.ContainerPrepared += (_, e) => ContainerPrepared?.Invoke(this, e);
@@ -32,7 +32,7 @@ namespace CMiX.UI.Controls.Collection
         public event EventHandler<ContainerPreparedEventArgs>? ContainerPrepared;
 
         public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty =
-            AvaloniaProperty.Register<ListBoxDetail, IEnumerable?>(nameof(ItemsSource));
+            AvaloniaProperty.Register<ListBoxRepository, IEnumerable?>(nameof(ItemsSource));
 
         public IEnumerable? ItemsSource
         {
@@ -41,7 +41,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<object?> SelectedItemProperty =
-            AvaloniaProperty.Register<ListBoxDetail, object?>(nameof(SelectedItem), defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<ListBoxRepository, object?>(nameof(SelectedItem), defaultBindingMode: BindingMode.TwoWay);
 
         public object? SelectedItem
         {
@@ -51,7 +51,7 @@ namespace CMiX.UI.Controls.Collection
 
         // Runs with the selected item as its parameter.
         public static readonly StyledProperty<ICommand?> DeleteCommandProperty =
-            AvaloniaProperty.Register<ListBoxDetail, ICommand?>(nameof(DeleteCommand));
+            AvaloniaProperty.Register<ListBoxRepository, ICommand?>(nameof(DeleteCommand));
 
         public ICommand? DeleteCommand
         {
@@ -60,7 +60,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<Control?> AddContentProperty =
-            AvaloniaProperty.Register<ListBoxDetail, Control?>(nameof(AddContent));
+            AvaloniaProperty.Register<ListBoxRepository, Control?>(nameof(AddContent));
 
         public Control? AddContent
         {
@@ -69,7 +69,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<Control?> DetailContentProperty =
-            AvaloniaProperty.Register<ListBoxDetail, Control?>(nameof(DetailContent));
+            AvaloniaProperty.Register<ListBoxRepository, Control?>(nameof(DetailContent));
 
         public Control? DetailContent
         {

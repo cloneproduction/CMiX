@@ -1,9 +1,9 @@
 <UserControl
-    x:Class="CMiX.UI.Controls.Collection.ListBoxDetail"
+    x:Class="CMiX.UI.Controls.Collection.ListBoxRepository"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="listBoxDetail">
+    x:Name="listBoxRepository">
 
     <StackPanel>
 
@@ -11,8 +11,8 @@
             x:Name="itemsList"
             MinItemCount="{DynamicResource ListVisibleItems}"
             Margin="8"
-            ItemsSource="{Binding ItemsSource, ElementName=listBoxDetail}"
-            SelectedItem="{Binding SelectedItem, ElementName=listBoxDetail, Mode=TwoWay}" />
+            ItemsSource="{Binding ItemsSource, ElementName=listBoxRepository}"
+            SelectedItem="{Binding SelectedItem, ElementName=listBoxRepository, Mode=TwoWay}" />
 
         <DockPanel Margin="8,0,8,8">
 
@@ -20,22 +20,22 @@
                 x:Name="RemoveButton"
                 Width="{DynamicResource ControlHeightMD}"
                 Height="{DynamicResource ControlHeightMD}"
-                Command="{Binding DeleteCommand, ElementName=listBoxDetail}"
-                CommandParameter="{Binding SelectedItem, ElementName=listBoxDetail}"
+                Command="{Binding DeleteCommand, ElementName=listBoxRepository}"
+                CommandParameter="{Binding SelectedItem, ElementName=listBoxRepository}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource ButtonRoundedRight}">
                 <ui:AppIcon Opacity="0.7" IconKey="Remove" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
-            <ContentControl Content="{Binding AddContent, ElementName=listBoxDetail}" />
+            <ContentControl Content="{Binding AddContent, ElementName=listBoxRepository}" />
 
         </DockPanel>
 
         <!-- The detail shows only while an item is selected. Its DataContext is that item. -->
-        <Border IsVisible="{Binding SelectedItem, ElementName=listBoxDetail, Converter={StaticResource NullToVisibility}}">
+        <Border IsVisible="{Binding SelectedItem, ElementName=listBoxRepository, Converter={StaticResource NullToVisibility}}">
             <ContentControl
-                Content="{Binding DetailContent, ElementName=listBoxDetail}"
-                DataContext="{Binding SelectedItem, ElementName=listBoxDetail}" />
+                Content="{Binding DetailContent, ElementName=listBoxRepository}"
+                DataContext="{Binding SelectedItem, ElementName=listBoxRepository}" />
         </Border>
 
     </StackPanel>

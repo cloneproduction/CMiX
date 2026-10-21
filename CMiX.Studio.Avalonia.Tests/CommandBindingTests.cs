@@ -121,7 +121,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var view = new Views.Managers.RepositoryManager { DataContext = manager, ItemsSource = manager.ManagerData.Items };
             Show(view);
 
-            var list = view.GetVisualDescendants().OfType<ListBoxDetail>().Single();
+            var list = view.GetVisualDescendants().OfType<ListBoxRepository>().Single();
 
             Assert.Same(manager.RemoveEverywhereCommand, list.DeleteCommand);
         }

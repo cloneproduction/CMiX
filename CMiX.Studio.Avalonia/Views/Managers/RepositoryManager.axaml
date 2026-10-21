@@ -8,7 +8,7 @@
 
     <!-- The list is from the library. This control tells it which properties of the manager to use
          and which icon each type of prefab gets. -->
-    <ui:ListBoxDetail
+    <ui:ListBoxRepository
         x:Name="detailList"
         AddContent="{Binding SelectionPanel, ElementName=repositoryManager}"
         DeleteCommand="{Binding RemoveEverywhereCommand}"
@@ -16,10 +16,10 @@
         ItemsSource="{Binding ItemsSource, ElementName=repositoryManager}"
         SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
-        <ui:ListBoxDetail.DataTemplates>
+        <ui:ListBoxRepository.DataTemplates>
             <Managers:PrefabListItemTemplates />
-        </ui:ListBoxDetail.DataTemplates>
+        </ui:ListBoxRepository.DataTemplates>
 
-    </ui:ListBoxDetail>
+    </ui:ListBoxRepository>
 
 </UserControl>

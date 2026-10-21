@@ -128,7 +128,7 @@ come from the value editors of vvvv:
 | `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus`, `TextBlockTrimmed` |
 | `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
-| `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxDetail`, `ListBoxEditable` |
+| `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxRepository`, `ListBoxEditable` |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ValueMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
@@ -184,7 +184,7 @@ own XAML, for example `Title="{Binding PrefabService.Name.Value}"`. The test
 
 - `PanelItem` is an item of a list: a `Title`, a body, a toggle (`IsChecked`), a close
   button and a drag handle. `PanelItemList` is a list of them with an add button.
-  `ListItemIcon` is a row with an icon, a name and a toggle. `ListBoxDetail` is a list
+  `ListItemIcon` is a row with an icon, a name and a toggle. `ListBoxRepository` is a list
   with a delete button, an add area and the detail of the selected item.
 - A variant of a panel is a theme, not a switch. The default theme of `PanelItem` has a
   body that collapses, an eye, a close button and a drag handle. An application writes
@@ -206,7 +206,7 @@ own XAML, for example `Title="{Binding PrefabService.Name.Value}"`. The test
   control and finds nothing. `EntityModifiersSectionTests` keeps this case.
 - A Studio control tells the library control which properties of the model to use.
   `ModifierManager` is a `PanelItemList` of `PanelItem` rows. `RepositoryManager` is a
-  `ListBoxDetail` with the icon templates of the prefabs. `ModulatorHoverBehavior` tells
+  `ListBoxRepository` with the icon templates of the prefabs. `ModulatorHoverBehavior` tells
   a modulator that the pointer is over its panel, because the library panel knows no
   modulator.
 
