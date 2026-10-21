@@ -14,7 +14,7 @@
             ItemsSource="{Binding ItemsSource, ElementName=listBoxRepository}"
             SelectedItem="{Binding SelectedItem, ElementName=listBoxRepository, Mode=TwoWay}" />
 
-        <DockPanel Margin="8,0,8,8">
+        <ui:DockPanelPositioned Margin="8,0,8,8">
 
             <Button
                 x:Name="RemoveButton"
@@ -22,14 +22,13 @@
                 Height="{DynamicResource ControlHeightMD}"
                 Command="{Binding DeleteCommand, ElementName=listBoxRepository}"
                 CommandParameter="{Binding SelectedItem, ElementName=listBoxRepository}"
-                DockPanel.Dock="Right"
-                Theme="{StaticResource ButtonRoundedRight}">
+                DockPanel.Dock="Right">
                 <ui:AppIcon Opacity="0.7" IconKey="Remove" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
             <ContentControl Content="{Binding AddContent, ElementName=listBoxRepository}" />
 
-        </DockPanel>
+        </ui:DockPanelPositioned>
 
         <!-- The detail shows only while an item is selected. Its DataContext is that item. -->
         <Border IsVisible="{Binding SelectedItem, ElementName=listBoxRepository, Converter={StaticResource NullToVisibility}}">

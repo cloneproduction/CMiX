@@ -5,8 +5,10 @@ using Avalonia.Data;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
+using CMiX.UI.Panels;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 
@@ -34,6 +36,16 @@ namespace CMiX.UI.Tests
         }
 
         private static ListBoxCMiX ListOf(ListBoxRepository detail) => detail.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
+
+        [AvaloniaFact]
+        public void TheRemoveButton_IsRoundedOnTheRightOnly()
+        {
+            var (_, detail, _) = Show();
+
+            var remove = detail.GetVisualDescendants().OfType<Button>().Single(button => button.Name == "RemoveButton");
+
+            Assert.Equal(ControlPosition.Right, PositionedControl.GetPosition(remove));
+        }
 
         [AvaloniaFact]
         public void ContainerPrepared_IsRaisedForEachRow_WithTheItemAsDataContext()
