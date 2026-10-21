@@ -40,6 +40,18 @@ namespace CMiX.UI.Tests
             Assert.Equal("Power", Icon(toggle).IconKey);
         }
 
+        [AvaloniaFact]
+        public void TheEye_ShowsTheOpenEyeWhileOff_AndTheClosedEyeWhileOn()
+        {
+            var (_, toggle) = Show("ToggleButtonVisibility");
+            Assert.Equal("Visible", Icon(toggle).IconKey);
+
+            toggle.IsChecked = true;
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal("NotVisible", Icon(toggle).IconKey);
+        }
+
         [AvaloniaTheory]
         [InlineData("ToggleButtonUpdate", "Update")]
         public void AThemeBasedOnPower_ShowsItsOwnIcon(string theme, string iconKey)
@@ -50,6 +62,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaTheory]
+        [InlineData("ToggleButtonIcon")]
         [InlineData("ToggleButtonPower")]
         [InlineData("ToggleButtonUpdate")]
         [InlineData("ToggleButtonVisibility")]
