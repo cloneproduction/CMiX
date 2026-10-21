@@ -59,12 +59,10 @@ namespace CMiX.Studio.Avalonia
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                var configurationBuilder = new InjectionBuilder();
-
                 var serviceCollection = new ServiceCollection();
                 serviceCollection.AddLogging();
 
-                configurationBuilder.ConfigureAllServices(serviceCollection);
+                serviceCollection.AddCMiXCore();
                 serviceCollection.AddSingleton<Views.MainWindow>();
                 serviceCollection.AddSingleton<MainViewModel>();
                 serviceCollection.AddSingleton<MainWindowController>();
@@ -79,7 +77,8 @@ namespace CMiX.Studio.Avalonia
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();
                 DialogService = serviceProvider.GetRequiredService<IDialogService>();
                 // Post, not Invoke, so the Redis reader thread never waits for the UI thread.
-                configurationBuilder.ConfigureStudioTransport(serviceProvider,
+                serviceProvider.GetRequiredService<SyncPeer>().StartAsStudio(
+                    serviceProvider.GetRequiredService<ControlMessenger>(),
                     a => Dispatcher.UIThread.Post(a), StudioSettings.Load().Resolve(new WindowsCredentialStore()).Options);
 
                 var masterBeat = serviceProvider.GetRequiredService<MasterBeat>();

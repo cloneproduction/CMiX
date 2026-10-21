@@ -33,14 +33,12 @@ namespace CMiX.Core.Engine
             if (_running != null)
                 throw new InvalidOperationException("The engine host is already started.");
 
-            var builder = new InjectionBuilder();
-            var services = new ServiceCollection();
-            builder.ConfigureAllServices(services);
+            var services = new ServiceCollection().AddCMiXCore();
             _overrideServices(services);
 
             var provider = services.BuildServiceProvider();
             var queue = new MainloopQueue();
-            builder.ConfigureEngineTransport(provider, options, queue, readBatch);
+            provider.GetRequiredService<SyncPeer>().StartAsEngine(options, queue, readBatch);
             _running = new Running(provider, queue);
         }
 
