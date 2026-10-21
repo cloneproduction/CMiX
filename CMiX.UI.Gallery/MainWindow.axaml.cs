@@ -34,7 +34,7 @@ namespace CMiX.UI.Gallery
 
             Bind(IdleBox, "StateIdleBrush", "Grey600Brush");
             Bind(HoverBox, "StateHoverBrush", "Grey700Brush");
-            Bind(PressedBox, "StatePressedBrush", "Grey200Brush");
+            Bind(PressedBox, "StatePressedBrush", "Grey100Brush");
             Bind(RowBox, "RowHoverBrush", "Grey500Brush");
 
             Sections.Children.Add(Chevrons());
