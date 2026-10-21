@@ -8,13 +8,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <UserControl.Styles>
-        <!--  The Add button sits between the swap toggle and the arrows, so it has no rounded corner.  -->
-        <Style Selector="ui|PopupButton">
-            <Setter Property="(ui:PositionedControl.Position)" Value="None" />
-        </Style>
-    </UserControl.Styles>
-
     <StackPanel>
 
         <ui:ListBoxCMiX

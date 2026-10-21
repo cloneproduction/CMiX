@@ -80,15 +80,6 @@ namespace CMiX.Studio.Avalonia.Tests
             popup.GetVisualDescendants().OfType<ToggleButton>().Single(toggle => toggle.Name == "PopUpToggle");
 
         [AvaloniaFact]
-        public void AddButtonOfTheSlot_IsNotRounded()
-        {
-            var popup = new PopupButton { Caption = "Add Entity" };
-            Show(new PrefabSlotManager { DataContext = CreateManager(), SelectionPanel = popup });
-
-            Assert.Equal(ControlPosition.None, PositionedControl.GetPosition(ToggleOf(popup)));
-        }
-
-        [AvaloniaFact]
         public void APopupButtonOutsideTheSlot_StaysRounded()
         {
             var popup = new PopupButton { Caption = "Add Filter" };
