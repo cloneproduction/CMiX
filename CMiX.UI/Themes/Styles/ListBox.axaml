@@ -92,7 +92,7 @@
          behind it, whatever the grey of that panel. The minimum height is computed in ListBoxEditable from the tokens ControlHeightMD, ListEditableVisibleItems,
          ListEditableSpacing and ListEditablePadding. The spacing and the padding below are the same tokens. -->
     <ControlTheme x:Key="ListBoxEditableList" TargetType="ListBox">
-        <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemEditable}" />
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemBasic}" />
         <Setter Property="AutoScrollToSelectedItem" Value="False" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
@@ -114,10 +114,11 @@
         </Setter>
     </ControlTheme>
 
-    <!-- A row of ListBoxEditable. It is exactly as high as its content, so the highlight has the
-         size of the content. The space between the rows comes from the items panel of the list.
-         A row is transparent, grey when the pointer is over it, and blue when it is selected. -->
-    <ControlTheme x:Key="ListBoxItemEditable" TargetType="ListBoxItem">
+    <!-- The base of every row of a list. A row is transparent, grey when the pointer is over it, and
+         blue when it is selected. It is exactly as high as its content, so the highlight has the size of
+         the content: the rows of ListBoxEditable use it as it is, and the space between them comes from
+         the items panel of the list. The other rows add only what differs: the height and the template. -->
+    <ControlTheme x:Key="ListBoxItemBasic" TargetType="ListBoxItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -148,11 +149,9 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ListBoxItemCMiX" TargetType="ListBoxItem">
-        <Setter Property="Background" Value="Transparent" />
+    <!-- A row of one control height, with a space of one around the highlight. -->
+    <ControlTheme x:Key="ListBoxItemCMiX" BasedOn="{StaticResource ListBoxItemBasic}" TargetType="ListBoxItem">
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border
@@ -171,15 +170,6 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        <Style Selector="^:selected:pointerover /template/ Border#Bd">
-            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
-        </Style>
-        <Style Selector="^:selected:not(:pointerover) /template/ Border#Bd">
-            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
-        </Style>
-        <Style Selector="^:pointerover:not(:selected) /template/ Border#Bd">
-            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
-        </Style>
     </ControlTheme>
 
 </ResourceDictionary>

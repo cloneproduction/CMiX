@@ -29,15 +29,6 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        <Style Selector="^:selected:pointerover /template/ Border#Bd">
-            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
-        </Style>
-        <Style Selector="^:selected:not(:pointerover) /template/ Border#Bd">
-            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
-        </Style>
-        <Style Selector="^:pointerover:not(:selected) /template/ Border#Bd">
-            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
-        </Style>
     </ControlTheme>
 
     <ControlTheme x:Key="ListBoxComposable" TargetType="ListBox">
