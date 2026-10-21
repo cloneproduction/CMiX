@@ -18,12 +18,6 @@ namespace CMiX.Core.Assets
         public AssetRepository AssetRepository { get; set; }
         public ObservableCollection<IAsset> SelectedItems { get; set; } = new();
 
-        public void RenameAsset()
-        {
-            if (SelectedItems.Take(2).Count() == 1 && SelectedItems.First() is AssetDirectory assetDirectory)
-                assetDirectory.Rename();
-        }
-
         [RelayCommand]
         public void AddAsset()
         {
@@ -32,51 +26,6 @@ namespace CMiX.Core.Assets
                 assetDirectory.IsExpanded = true;
                 assetDirectory.AddAsset(new AssetDirectory("New Folder"));
             }
-        }
-
-        [RelayCommand]
-        private void DeleteAssets() { }
-
-        public void RemoveItemFromDirectory(AssetDirectory directory)
-        {
-            var toBeRemoved = new List<IAsset>();
-            foreach (var asset in directory.Assets)
-            {
-                if (asset is AssetDirectory subDir)
-                    RemoveItemFromDirectory(subDir);
-                toBeRemoved.Add(asset);
-            }
-            foreach (var item in toBeRemoved)
-                directory.Assets.Remove(item);
-        }
-
-        public void DeleteSelectedAssets(ObservableCollection<IAsset> assets)
-        {
-            var toBeRemoved = new List<IAsset>();
-            foreach (var asset in assets)
-            {
-                if (asset is AssetDirectory assetDirectory)
-                {
-                    if (assetDirectory.IsSelected)
-                    {
-                        toBeRemoved.Add(asset);
-                        RemoveItemFromDirectory(assetDirectory);
-                        return;
-                    }
-                    DeleteSelectedAssets(assetDirectory.Assets);
-                }
-            }
-            foreach (var item in toBeRemoved)
-                assets.Remove(item);
-            SelectedItems.Clear();
-        }
-
-        public void CreateAssetFromDirectory(DirectoryInfo directoryInfo)
-        {
-            foreach (var directory in directoryInfo.GetDirectories())
-                CreateAssetFromDirectory(directory);
-            foreach (var file in directoryInfo.GetFiles())
-                CreateAssetFromPath(file.FullName);
         }
 
         public List<string> EnumerateAssetFilePaths(DirectoryInfo directoryInfo)
