@@ -2,6 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.BeatControls"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
@@ -14,15 +15,14 @@
             VerticalAlignment="Center"
             Text="Beat" />
 
-        <DockPanel Grid.Column="1">
+        <ui:DockPanelPositioned Grid.Column="1">
 
             <Button
                 Width="{Binding $self.Bounds.Height}"
                 Background="{StaticResource Grey600Brush}"
                 Command="{Binding MultiplyCommand}"
                 Content="+"
-                DockPanel.Dock="Right"
-                Theme="{StaticResource ButtonRoundedRight}" />
+                DockPanel.Dock="Right" />
 
             <Button
                 Width="{Binding $self.Bounds.Height}"
@@ -30,8 +30,7 @@
                 Background="{StaticResource Grey600Brush}"
                 Command="{Binding DivideCommand}"
                 Content="-"
-                DockPanel.Dock="Right"
-                Theme="{StaticResource ButtonStraight}" />
+                DockPanel.Dock="Right" />
 
             <Border
                 x:Name="MainBorder"
@@ -59,7 +58,7 @@
 
             </Border>
 
-        </DockPanel>
+        </ui:DockPanelPositioned>
 
     </Grid>
 

@@ -35,43 +35,44 @@
                     </Button.Content>
                 </Button>
 
-                <ToggleButton
-                    Width="{Binding $self.Bounds.Height}"
-                    Margin="0,0,1,0"
-                    Background="Transparent"
-                    Content="P"
-                    DockPanel.Dock="Left"
-                    IsChecked="{Binding Pause.Value}"
-                    Theme="{StaticResource ToggleButtonRoundedLeft}" />
+                <ui:DockPanelPositioned>
 
-                <Button
-                    Width="{Binding $self.Bounds.Height}"
-                    Background="{StaticResource Grey600Brush}"
-                    Command="{Binding MultiplyCommand}"
-                    Content="+"
-                    DockPanel.Dock="Right"
-                    Theme="{StaticResource ButtonRoundedRight}" />
-
-                <Button
-                    Width="{Binding $self.Bounds.Height}"
-                    Margin="1,0"
-                    Background="{StaticResource Grey600Brush}"
-                    Command="{Binding DivideCommand}"
-                    Content="-"
-                    DockPanel.Dock="Right"
-                    Theme="{StaticResource ButtonStraight}" />
-
-                <Panel>
-                    <Border
-                        Background="{DynamicResource Grey600Brush}"
-                        Opacity="{Binding AnimatedDouble.AnimationPosition}" />
-                    <Button
-                        HorizontalAlignment="Stretch"
+                    <ToggleButton
+                        Width="{Binding $self.Bounds.Height}"
+                        Margin="0,0,1,0"
                         Background="Transparent"
-                        Command="{Binding TapCommand}"
-                        Content="TAP"
-                        Theme="{StaticResource ButtonStraight}" />
-                </Panel>
+                        Content="P"
+                        DockPanel.Dock="Left"
+                        IsChecked="{Binding Pause.Value}" />
+
+                    <Button
+                        Width="{Binding $self.Bounds.Height}"
+                        Background="{StaticResource Grey600Brush}"
+                        Command="{Binding MultiplyCommand}"
+                        Content="+"
+                        DockPanel.Dock="Right" />
+
+                    <Button
+                        Width="{Binding $self.Bounds.Height}"
+                        Margin="1,0"
+                        Background="{StaticResource Grey600Brush}"
+                        Command="{Binding DivideCommand}"
+                        Content="-"
+                        DockPanel.Dock="Right" />
+
+                    <Panel>
+                        <Border
+                            Background="{DynamicResource Grey600Brush}"
+                            Opacity="{Binding AnimatedDouble.AnimationPosition}" />
+                        <Button
+                            HorizontalAlignment="Stretch"
+                            Background="Transparent"
+                            Command="{Binding TapCommand}"
+                            Content="TAP"
+                            Theme="{StaticResource ButtonStraight}" />
+                    </Panel>
+
+                </ui:DockPanelPositioned>
 
             </DockPanel>
         </Grid>
