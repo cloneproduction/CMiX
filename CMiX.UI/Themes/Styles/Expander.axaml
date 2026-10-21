@@ -55,15 +55,16 @@
                         <Border
                             Background="{DynamicResource PanelBackground}"
                             HorizontalAlignment="Stretch">
-                            <ContentPresenter
-                                Name="PART_ContentPresenter"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                Focusable="False"
-                                ui:EditCycle.IsLoop="True"
-                                HorizontalAlignment="Stretch"
-                                IsVisible="{TemplateBinding IsExpanded}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}">
+                                <ContentPresenter
+                                    Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    Focusable="False"
+                                    ui:EditCycle.IsLoop="True"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </ui:CollapsePanel>
                         </Border>
                     </DockPanel>
                 </Border>
@@ -138,16 +139,17 @@
                             IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
                             Theme="{StaticResource ExpanderItemHeader}"
                             VerticalContentAlignment="Center" />
-                        <ContentPresenter
-                            Name="PART_ContentPresenter"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Focusable="False"
-                            ui:EditCycle.IsLoop="True"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            IsVisible="{TemplateBinding IsExpanded}"
-                            Margin="{TemplateBinding Padding}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}">
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Focusable="False"
+                                ui:EditCycle.IsLoop="True"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Margin="{TemplateBinding Padding}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </ui:CollapsePanel>
                     </DockPanel>
                 </Border>
             </ControlTemplate>
@@ -216,15 +218,16 @@
                   Name="contentBackground"
                   Background="{TemplateBinding Background}"
                   HorizontalAlignment="Stretch">
-                <ContentPresenter
-                    Name="PART_ContentPresenter"
-                    Content="{TemplateBinding Content}"
-                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                    Focusable="False"
-                    ui:EditCycle.IsLoop="True"
-                    HorizontalAlignment="Stretch"
-                    IsVisible="{TemplateBinding IsExpanded}"
-                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}">
+                  <ContentPresenter
+                      Name="PART_ContentPresenter"
+                      Content="{TemplateBinding Content}"
+                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                      Focusable="False"
+                      ui:EditCycle.IsLoop="True"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </ui:CollapsePanel>
               </Border>
             </DockPanel>
           </Border>

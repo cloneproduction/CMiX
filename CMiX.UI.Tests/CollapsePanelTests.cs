@@ -132,5 +132,20 @@ namespace CMiX.UI.Tests
 
             Assert.Equal(160, panel.Bounds.Height);
         }
+
+        [AvaloniaFact]
+        public void TheContent_IsClippedOnlyWhileThePanelMoves()
+        {
+            var (panel, _) = Show(true, TimeSpan.Zero);
+            Assert.False(panel.ClipToBounds);
+
+            panel.Progress = 0.5;
+            Dispatcher.UIThread.RunJobs();
+            Assert.True(panel.ClipToBounds);
+
+            panel.Progress = 1;
+            Dispatcher.UIThread.RunJobs();
+            Assert.False(panel.ClipToBounds);
+        }
     }
 }

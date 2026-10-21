@@ -12,7 +12,7 @@ namespace CMiX.UI.Panels
     // Opens and closes its content with an animation. Bind IsExpanded and the panel does the rest:
     //     <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}"> ... </ui:CollapsePanel>
     // The panel measures its content once at full size, and its own height is that height times Progress.
-    // So the animation does not lay out the content again, also when the content is large. The content is clipped.
+    // So the animation does not lay out the content again, also when the content is large. The content is clipped while the panel moves.
     // The panel owns the IsVisible of its content: the content is hidden when the panel is closed, so it takes no focus
     // and no pointer. It is shown before an opening starts, because a hidden control has no size.
     // The first state shows at once. The animation starts after the panel is loaded.
@@ -48,11 +48,10 @@ namespace CMiX.UI.Panels
 
         static CollapsePanel()
         {
-            ClipToBoundsProperty.OverrideDefaultValue<CollapsePanel>(true);
             AffectsMeasure<CollapsePanel>(ProgressProperty);
 
             IsExpandedProperty.Changed.AddClassHandler<CollapsePanel>((panel, _) => panel.OnIsExpandedChanged());
-            ProgressProperty.Changed.AddClassHandler<CollapsePanel>((panel, _) => panel.UpdateChildVisibility());
+            ProgressProperty.Changed.AddClassHandler<CollapsePanel>((panel, _) => panel.OnProgressChanged());
             ChildProperty.Changed.AddClassHandler<CollapsePanel>((panel, _) => panel.UpdateChildVisibility());
             DurationProperty.Changed.AddClassHandler<CollapsePanel>((panel, _) => panel.UpdateTransition());
         }
@@ -66,6 +65,13 @@ namespace CMiX.UI.Panels
         {
             UpdateChildVisibility();
             Progress = IsExpanded ? 1 : 0;
+        }
+
+        // The content is clipped only while the panel moves. At rest it is open and free, as it was without the panel.
+        private void OnProgressChanged()
+        {
+            ClipToBounds = Progress < 1;
+            UpdateChildVisibility();
         }
 
         private void UpdateChildVisibility()
