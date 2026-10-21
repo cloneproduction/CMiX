@@ -61,7 +61,7 @@ namespace CMiX.UI.Tests
 
             Pointer(row, true);
 
-            Assert.Equal(Brush("Grey400Brush"), Background(row));
+            Assert.Equal(Brush("RowHoverBrush"), Background(row));
         }
 
         [AvaloniaTheory]

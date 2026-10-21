@@ -175,7 +175,7 @@
             <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         </Style>
         <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+            <Setter Property="Background" Value="{DynamicResource RowHoverBrush}" />
         </Style>
 
         <Style Selector="^:disabled /template/ Border#border">

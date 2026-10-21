@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Pointer(row, true);
 
-            Assert.Equal(Brush("Grey400Brush"), Background(row));
+            Assert.Equal(Brush("RowHoverBrush"), Background(row));
         }
 
         [AvaloniaFact]
