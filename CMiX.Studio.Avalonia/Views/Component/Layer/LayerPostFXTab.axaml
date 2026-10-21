@@ -44,7 +44,7 @@
 
             <Views:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
 
-            <Views:LocalReflection DataContext="{Binding LocalReflection}" />
+            <Views:LocalReflection DataContext="{Binding LocalReflection}" IsVisible="False" />
 
         </StackPanel>
     </ScrollViewer>
