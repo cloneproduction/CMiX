@@ -175,11 +175,11 @@ namespace CMiX.UI.Behaviors
                 global::Avalonia.Threading.Dispatcher.UIThread.Post(ClosePopup);
         }
 
-        // A press outside ends the edit of a value of the popup, and that is all it does. The editor commits the
-        // value in the bubble phase, after this tunnel handler. The next press outside closes the popup.
+        // A press outside ends the edit of a value of the popup, and that is all it does. The next press outside
+        // closes the popup.
         private void OnParentPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            if (PointerAwayCloser.IsEditing(AssociatedObject?.Child))
+            if (PointerAwayCloser.EndEdits(AssociatedObject?.Child))
             {
                 closer.Stop();
                 return;

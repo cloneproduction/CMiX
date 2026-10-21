@@ -128,7 +128,7 @@ namespace CMiX.UI.Controls.Number
             topLevel?.Focus();
         }
 
-        private void Commit()
+        public void Commit()
         {
             if (_textBox != null)
             {

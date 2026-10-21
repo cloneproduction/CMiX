@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using System.Linq;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -10,6 +11,7 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
+using Avalonia.VisualTree;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Interaction;
 using CMiX.UI.Mathematics;
@@ -105,6 +107,9 @@ namespace CMiX.UI.Controls.Number
         }
 
         bool IEditableValue.CanEdit => IsEditable && !IsReadOnly;
+
+        // The number box of the template holds the typed text.
+        void IEditableValue.EndEdit() => this.GetVisualDescendants().OfType<NumericInput>().FirstOrDefault(input => input.IsEditing)?.Commit();
 
         // A gesture that loses the pointer without a release must not leave the value interaction
         // scope open, which would keep throttling every later write in the application. Ending

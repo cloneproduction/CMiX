@@ -86,6 +86,10 @@ namespace CMiX.UI.Tests
             var (window, popup, slider, toggle) = Show();
             var box = slider.GetVisualDescendants().OfType<TextBox>().First(candidate => candidate.Name == "PART_TextBox");
             box.Text = "0.75";
+            // In the application a popup is a window of its own, and the click in the main window does not reach the
+            // editor. The pointer in the text box takes the click handler of the editor away, as the window does.
+            box.RaiseEvent(new PointerEventArgs(InputElement.PointerEnteredEvent, box, new Pointer(Pointer.GetNextFreeId(), PointerType.Mouse, true),
+                window, new Point(), 0, new PointerPointProperties(RawInputModifiers.None, PointerUpdateKind.Other), KeyModifiers.None));
 
             PressAt(window, Away(window, toggle, 400));
 
@@ -129,6 +133,45 @@ namespace CMiX.UI.Tests
             MoveTo(window, Away(window, toggle, 400));
 
             Assert.False(popup.IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void ASlider_EndEdit_KeepsTheTypedValue()
+        {
+            var (_, _, slider, _) = Show();
+            slider.GetVisualDescendants().OfType<TextBox>().First(candidate => candidate.Name == "PART_TextBox").Text = "0.5";
+
+            ((IEditableValue)slider).EndEdit();
+
+            Assert.False(slider.IsEditing);
+            Assert.Equal(0.5, slider.Value, 3);
+        }
+
+        [AvaloniaFact]
+        public void ADragValue_EndEdit_KeepsTheTypedValue()
+        {
+            var drag = new DragValue { Minimum = 0, Maximum = 10, Value = 1, Width = 200, Height = 25 };
+            new Window { Content = drag, Width = 400, Height = 200 }.Show();
+            drag.IsEditing = true;
+            Dispatcher.UIThread.RunJobs();
+            drag.GetVisualDescendants().OfType<TextBox>().First(candidate => candidate.Name == "PART_TextBox").Text = "7";
+
+            ((IEditableValue)drag).EndEdit();
+
+            Assert.False(drag.IsEditing);
+            Assert.Equal(7, drag.Value, 3);
+        }
+
+        [AvaloniaFact]
+        public void EndEdit_WithoutAnEdit_DoesNothing()
+        {
+            var (_, _, slider, _) = Show();
+            slider.IsEditing = false;
+            Dispatcher.UIThread.RunJobs();
+
+            ((IEditableValue)slider).EndEdit();
+
+            Assert.Equal(0.25, slider.Value, 3);
         }
     }
 }

@@ -101,6 +101,15 @@ namespace CMiX.UI.Behaviors
         public static bool IsEditing(Control? content) =>
             content != null && content.GetVisualDescendants().OfType<IEditableValue>().Any(editor => editor.IsEditing);
 
+        // Ends every edit of the content and says whether there was one. The editors of a popup cannot do it
+        // themselves: a popup is a window of its own, and a press in the main window does not reach it.
+        public static bool EndEdits(Control? content)
+        {
+            var editing = content?.GetVisualDescendants().OfType<IEditableValue>().Where(editor => editor.IsEditing).ToList();
+            editing?.ForEach(editor => editor.EndEdit());
+            return editing?.Count > 0;
+        }
+
         // Some popups focus a text box when they open, so the focus alone does not mean typing.
         private bool IsTyping(Control popupContent) =>
             keyPressed && popupContent.GetVisualDescendants().OfType<TextBox>().Any(box => box.IsFocused);

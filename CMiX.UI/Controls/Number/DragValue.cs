@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using System.Linq;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -9,6 +10,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Interaction;
 
@@ -73,6 +75,9 @@ namespace CMiX.UI.Controls.Number
         }
 
         bool IEditableValue.CanEdit => !IsReadOnly;
+
+        // The number box of the template holds the typed text.
+        void IEditableValue.EndEdit() => this.GetVisualDescendants().OfType<NumericInput>().FirstOrDefault(input => input.IsEditing)?.Commit();
 
         private static double Distance(Point a, Point b)
         {
