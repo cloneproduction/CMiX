@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.BaseControls
 {
-    public partial class Integer2 : ObservableRecipient, IControl
+    public partial class Integer2 : ObservableObject, IControl
     {
         public Integer2(GenericValue<int> x,
                         GenericValue<int> y)

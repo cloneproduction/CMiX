@@ -7,7 +7,6 @@ namespace CMiX.Core.BaseControls
     {
         public FloatRangeModel()
         {
-            ID = Guid.NewGuid();
             Minimum = new GenericValueModel<float>(0f);
             Maximum = new GenericValueModel<float>(0f);
         }

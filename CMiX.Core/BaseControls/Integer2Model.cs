@@ -7,7 +7,6 @@ namespace CMiX.Core.BaseControls
     {
         public Integer2Model()
         {
-            ID = Guid.NewGuid();
             X = new GenericValueModel<int>(0);
             Y = new GenericValueModel<int>(0);
         }

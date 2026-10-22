@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.BaseControls
 {
-    public partial class FloatRange : ObservableRecipient, IControl
+    public partial class FloatRange : ObservableObject, IControl
     {
         public FloatRange(GenericValue<float> minimum,
                           GenericValue<float> maximum)

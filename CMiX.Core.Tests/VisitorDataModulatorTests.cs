@@ -14,7 +14,17 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void RoundTrip_KeepsEveryValue()
+        public void Outputs_OfAFreshModulator_NameTheSevenValuesInOrder()
+        {
+            var modulator = Create();
+
+            Assert.Equal(
+                new[] { "Count", "HeartRate", "Temperature", "Conductivity", "ETemp", "BlueIOTPosX", "BlueIOTPosY" },
+                modulator.Outputs.Select(o => o.Name));
+        }
+
+        [Fact]
+        public void FromModel_OfToModel_KeepsEveryValue()
         {
             var modulator = Create();
             modulator.Count.Value = 7;

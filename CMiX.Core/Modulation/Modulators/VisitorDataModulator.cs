@@ -45,6 +45,9 @@ namespace CMiX.Core.Modulation.Modulators
             new ModulatorOutput<float>("HeartRate"),
             new ModulatorOutput<float>("Temperature"),
             new ModulatorOutput<float>("Conductivity"),
+            new ModulatorOutput<float>("ETemp"),
+            new ModulatorOutput<float>("BlueIOTPosX"),
+            new ModulatorOutput<float>("BlueIOTPosY"),
         };
 
         public GenericValue<int> Count { get; set; }

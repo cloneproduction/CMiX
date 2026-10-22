@@ -6,6 +6,7 @@ using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.UI.Controls.Number;
+using CMiX.UI.Controls.Parts;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using ViewVisitorDataModulator = CMiX.Studio.Avalonia.Views.VisitorDataModulator;
@@ -36,15 +37,16 @@ namespace CMiX.Studio.Avalonia.Tests
             view.GetVisualDescendants().OfType<RangeValue>().ToList();
 
         [AvaloniaFact]
-        public void ShowsOneRangeValuePerFloatValue()
+        public void Show_AModulator_HasOneRangeValuePerFloatValue()
         {
             var view = Show(NewModulator());
 
             Assert.Equal(6, RangeValues(view).Count);
+            Assert.Equal(7, view.GetVisualDescendants().OfType<ContentCaptioned>().Count());
         }
 
         [AvaloniaFact]
-        public void OpeningTheView_ShowsTheDefaults()
+        public void Show_AFreshModulator_ShowsTheDefaults()
         {
             var view = Show(NewModulator());
 
@@ -56,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheRangeValue_ChangesTheRange()
+        public void SetValue_OnARangeValue_ChangesTheRange()
         {
             var modulator = NewModulator();
             var view = Show(modulator);
