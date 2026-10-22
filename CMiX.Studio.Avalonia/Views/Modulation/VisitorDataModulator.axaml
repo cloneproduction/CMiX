@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.WatchesModulator"
+    x:Class="CMiX.Studio.Avalonia.Views.VisitorDataModulator"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
@@ -7,9 +7,12 @@
     d:DesignWidth="400">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="HeartRate ->"/>
+        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="Heart Rate ->"/>
         <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Temperature ->"/>
         <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Conductivity ->"/>
+        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="ETemp ->"/>
+        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="BlueIOT Pos X ->"/>
+        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="BlueIOT Pos Y ->"/>
         <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Count ->"/>
     </StackPanel>
 

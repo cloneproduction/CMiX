@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class WatchesModulator : UserControl
+    public partial class VisitorDataModulator : UserControl
     {
-        public WatchesModulator()
+        public VisitorDataModulator()
         {
             InitializeComponent();
         }
