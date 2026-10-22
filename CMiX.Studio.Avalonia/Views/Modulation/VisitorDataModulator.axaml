@@ -2,18 +2,81 @@
     x:Class="CMiX.Studio.Avalonia.Views.VisitorDataModulator"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="Heart Rate ->"/>
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Temperature ->"/>
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Conductivity ->"/>
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="ETemp ->"/>
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="BlueIOT Pos X ->"/>
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="BlueIOT Pos Y ->"/>
+
+        <ui:ContentCaptioned Caption="Heart Rate">
+            <ui:RangeValue
+                DataContext="{Binding HeartRateRange}"
+                LeftValue="{Binding Minimum.Value}"
+                LeftCaption="Min"
+                LeftResetCommand="{Binding Minimum.ResetCommand}"
+                RightCaption="Max"
+                RightResetCommand="{Binding Maximum.ResetCommand}"
+                RightValue="{Binding Maximum.Value}"/>
+        </ui:ContentCaptioned>
+
+        <ui:ContentCaptioned Caption="Temperature">
+            <ui:RangeValue
+                DataContext="{Binding TemperatureRange}"
+                LeftValue="{Binding Minimum.Value}"
+                LeftCaption="Min"
+                LeftResetCommand="{Binding Minimum.ResetCommand}"
+                RightCaption="Max"
+                RightResetCommand="{Binding Maximum.ResetCommand}"
+                RightValue="{Binding Maximum.Value}"/>
+        </ui:ContentCaptioned>
+
+        <ui:ContentCaptioned Caption="Conductivity">
+            <ui:RangeValue
+                DataContext="{Binding ConductivityRange}"
+                LeftValue="{Binding Minimum.Value}"
+                LeftCaption="Min"
+                LeftResetCommand="{Binding Minimum.ResetCommand}"
+                RightCaption="Max"
+                RightResetCommand="{Binding Maximum.ResetCommand}"
+                RightValue="{Binding Maximum.Value}"/>
+        </ui:ContentCaptioned>
+
+        <ui:ContentCaptioned Caption="ETemp">
+            <ui:RangeValue
+                DataContext="{Binding ETempRange}"
+                LeftValue="{Binding Minimum.Value}"
+                LeftCaption="Min"
+                LeftResetCommand="{Binding Minimum.ResetCommand}"
+                RightCaption="Max"
+                RightResetCommand="{Binding Maximum.ResetCommand}"
+                RightValue="{Binding Maximum.Value}"/>
+        </ui:ContentCaptioned>
+
+        <ui:ContentCaptioned Caption="BlueIOT Pos X">
+            <ui:RangeValue
+                DataContext="{Binding BlueIOTPosXRange}"
+                LeftValue="{Binding Minimum.Value}"
+                LeftCaption="Min"
+                LeftResetCommand="{Binding Minimum.ResetCommand}"
+                RightCaption="Max"
+                RightResetCommand="{Binding Maximum.ResetCommand}"
+                RightValue="{Binding Maximum.Value}"/>
+        </ui:ContentCaptioned>
+
+        <ui:ContentCaptioned Caption="BlueIOT Pos Y">
+            <ui:RangeValue
+                DataContext="{Binding BlueIOTPosYRange}"
+                LeftValue="{Binding Minimum.Value}"
+                LeftCaption="Min"
+                LeftResetCommand="{Binding Minimum.ResetCommand}"
+                RightCaption="Max"
+                RightResetCommand="{Binding Maximum.ResetCommand}"
+                RightValue="{Binding Maximum.Value}"/>
+        </ui:ContentCaptioned>
+
         <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Count ->"/>
+
     </StackPanel>
 
 </UserControl>
