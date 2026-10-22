@@ -65,6 +65,24 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void FloatRange_ResetAllCommand_ResetsBothValuesToTheirDefault()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var minimum = provider.GetRequiredService<GenericValue<float>>();
+            var maximum = provider.GetRequiredService<GenericValue<float>>();
+            minimum.Value = 1f; minimum.SetDefaults();
+            maximum.Value = 2f; maximum.SetDefaults();
+            var floatRange = new FloatRange(minimum, maximum);
+
+            minimum.Value = 9f;
+            maximum.Value = 9f;
+            floatRange.ResetAllCommand.Execute(null);
+
+            Assert.Equal(1f, minimum.Value);
+            Assert.Equal(2f, maximum.Value);
+        }
+
+        [Fact]
         public void Vector3_ResetAllCommand_ResetsAllThreeAxesToTheirDefault()
         {
             var provider = TestServiceProviderFactory.Create();
