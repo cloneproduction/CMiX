@@ -12,8 +12,7 @@ namespace CMiX.Core.Modulation.Modulators
     {
         public LFOModulator(PrefabService prefabService,
                             GenericValue<float> period,
-                            GenericValue<float> minimum,
-                            GenericValue<float> maximum,
+                            FloatRange range,
                             GenericValue<WaveTypeEnum> waveType,
                             Quantize quantize,
                             UndoManager undoManager,
@@ -21,8 +20,7 @@ namespace CMiX.Core.Modulation.Modulators
             : base(prefabService)
         {
             Period = period;
-            Minimum = minimum;
-            Maximum = maximum;
+            Range = range;
             WaveType = waveType;
             Quantize = quantize;
 
@@ -38,8 +36,7 @@ namespace CMiX.Core.Modulation.Modulators
         };
 
         public GenericValue<float> Period { get; set; }
-        public GenericValue<float> Minimum { get; set; }
-        public GenericValue<float> Maximum { get; set; }
+        public FloatRange Range { get; set; }
         public GenericValue<WaveTypeEnum> WaveType { get; set; }
         public Quantize Quantize { get; set; }
 
@@ -48,8 +45,7 @@ namespace CMiX.Core.Modulation.Modulators
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Period = (GenericValueModel<float>)Period.ToModel(),
-            Minimum = (GenericValueModel<float>)Minimum.ToModel(),
-            Maximum = (GenericValueModel<float>)Maximum.ToModel(),
+            Range = (FloatRangeModel)Range.ToModel(),
             WaveType = (GenericValueModel<WaveTypeEnum>)WaveType.ToModel(),
             Quantize = (QuantizeModel)Quantize.ToModel()
         };
@@ -58,8 +54,7 @@ namespace CMiX.Core.Modulation.Modulators
             var m = (LFOModulatorModel)model;
             ID = m.ID;
             Period.FromModel(m.Period);
-            Minimum.FromModel(m.Minimum);
-            Maximum.FromModel(m.Maximum);
+            Range.FromModel(m.Range);
             WaveType.FromModel(m.WaveType);
             Quantize.FromModel(m.Quantize);
         }

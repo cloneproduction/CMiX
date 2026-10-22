@@ -14,20 +14,19 @@ namespace CMiX.Core.Tests
             var lfo = (LFOModulator)provider.GetRequiredService<ControlFactory>().Create(typeof(LFOModulator));
 
             Assert.Equal(10.0f, lfo.Period.Value);
-            Assert.Equal(-1.0f, lfo.Minimum.Value);
-            Assert.Equal(1.0f, lfo.Maximum.Value);
+            Assert.Equal(-1.0f, lfo.Range.Minimum.Value);
+            Assert.Equal(1.0f, lfo.Range.Maximum.Value);
 
             lfo.Period.Value = 3.0f;
-            lfo.Minimum.Value = -5.0f;
-            lfo.Maximum.Value = 5.0f;
+            lfo.Range.Minimum.Value = -5.0f;
+            lfo.Range.Maximum.Value = 5.0f;
 
             lfo.Period.Reset();
-            lfo.Minimum.Reset();
-            lfo.Maximum.Reset();
+            lfo.Range.ResetAllCommand.Execute(null);
 
             Assert.Equal(10.0f, lfo.Period.Value);
-            Assert.Equal(-1.0f, lfo.Minimum.Value);
-            Assert.Equal(1.0f, lfo.Maximum.Value);
+            Assert.Equal(-1.0f, lfo.Range.Minimum.Value);
+            Assert.Equal(1.0f, lfo.Range.Maximum.Value);
 
             Assert.False(lfo.Quantize.IsEnabled.Value);
             Assert.Equal(4, lfo.Quantize.Steps.Value);

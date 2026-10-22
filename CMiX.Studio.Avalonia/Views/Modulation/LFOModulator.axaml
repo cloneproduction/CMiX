@@ -17,6 +17,7 @@
             Value="{Binding Period.Value}" />
 
         <ui:RangeValue
+            DataContext="{Binding Range}"
             LeftValue="{Binding Minimum.Value}"
             LeftCaption="Min"
             LeftResetCommand="{Binding Minimum.ResetCommand}"
