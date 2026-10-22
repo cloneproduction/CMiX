@@ -22342,7 +22342,7 @@
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="ProcessAppFlag" Name="ApplyMasks" />
                     </p:NodeReference>
-                    <Pin Id="AA5YUcoJM7SMwQnBLP0Mmj" Name="Node Context" Kind="InputPin" IsHidden="true" />
+                    <Pin Id="D3dadPQ8EwZPivJrS9Bugj" Name="Node Context" Kind="InputPin" IsHidden="true" />
                     <Pin Id="Rn7Z60krAP5NI9YaM5AdKx" Name="Composables" Kind="InputPin" />
                     <Pin Id="FG2Kzxw02WeMYPdwZEHTnU" Name="Textures" Kind="InputPin" />
                     <Pin Id="IRcrqfEYq1lLzv9BRYliGq" Name="Index" Kind="InputPin" />
@@ -22405,7 +22405,7 @@
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="ProcessAppFlag" Name="ApplyMasks" />
                     </p:NodeReference>
-                    <Pin Id="McXgPWCrmHzOwJg2P1MDU5" Name="Node Context" Kind="InputPin" IsHidden="true" />
+                    <Pin Id="SiwEpD8RiCwMfkmnDegHFq" Name="Node Context" Kind="InputPin" IsHidden="true" />
                     <Pin Id="IaxLQ4PMEM9M4VXA4cFTbT" Name="Composables" Kind="InputPin" />
                     <Pin Id="FGMTQYuZi6UQagxs2GtIto" Name="Textures" Kind="InputPin" />
                     <Pin Id="HjpFmpc41rxQDLiycFcpUS" Name="Index" Kind="InputPin" />
@@ -54192,7 +54192,7 @@
               <Pin Id="SxvocAI4P68O1xSMIPkXlv" Name="Input" Kind="InputPin" />
               <Pin Id="RDYEFeMF4NwMAU4yB4cAsl" Name="Result" Kind="OutputPin" />
             </Node>
-            <Node Bounds="50,1380,300,123" Id="JNLYCHUqwpHMxeCmL61MtR">
+            <Node Bounds="50,1380,315,123" Id="JNLYCHUqwpHMxeCmL61MtR">
               <p:NodeReference LastCategoryFullName="Primitive" LastDependency="Builtin">
                 <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
                 <CategoryReference Kind="Category" Name="Primitive" />
@@ -54227,9 +54227,9 @@
                   <Pin Id="GzemqRP3fZiOXqsGQyPjsm" Name="Prefix" Kind="InputPin" />
                   <Pin Id="GA2gbRQxWP5LMjozCFVeCP" Name="Update" Kind="InputPin" />
                 </Node>
-                <Pad Id="PfFYgAjdNLcNBrt1gM2QtM" Comment="Delay In Frames" Bounds="224,1440,20,15" ShowValueBox="true" isIOBox="true" Value="2">
+                <Pad Id="KASzNaToi26QQJ1UfVIQK4" Comment="Delay In Frames" Bounds="224,1430,35,15" ShowValueBox="true" isIOBox="true" Value="2.5">
                   <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
-                    <Choice Kind="TypeFlag" Name="Integer32" />
+                    <Choice Kind="TypeFlag" Name="Float32" />
                   </p:TypeAnnotation>
                 </Pad>
               </Patch>
@@ -54381,7 +54381,7 @@
             <Pad Id="C6wJlyK8TXnOf6o48fhwbX" SlotId="GgZzD0afYSnQDmR70KMFRJ" Bounds="1014,330" />
             <Pad Id="NDQGkrWFBvLN2P70umJDdX" SlotId="GgZzD0afYSnQDmR70KMFRJ" Bounds="401,480" />
             <Pad Id="NtH62DoRjr0PhGlyATj8Fz" SlotId="GgZzD0afYSnQDmR70KMFRJ" Bounds="266,1153" />
-            <Node Bounds="47,591,479,507" Id="KWrRqrOgxpZLVCn2zOt7w3">
+            <Node Bounds="47,591,489,507" Id="KWrRqrOgxpZLVCn2zOt7w3">
               <p:NodeReference LastCategoryFullName="Control" LastDependency="VL.CoreLib.vl">
                 <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
                 <CategoryReference Kind="Category" Name="Control" />
@@ -54391,7 +54391,7 @@
                 <Patch Id="RoqsO7zv0CkOI7cgnCOGo1" Name="Create" ManuallySortedPins="true" />
                 <Patch Id="Kv05jXSqzFVM6kfDc71sZx" Name="Update" ManuallySortedPins="true" />
                 <Patch Id="Rt2emFu8ogINhw0i5oLqcB" Name="Dispose" ManuallySortedPins="true" />
-                <Node Bounds="99,693,415,385" Id="TUe9ixUFyfGP4Z3JL4ZC27">
+                <Node Bounds="99,693,425,385" Id="TUe9ixUFyfGP4Z3JL4ZC27">
                   <p:NodeReference LastCategoryFullName="Primitive" LastDependency="Builtin">
                     <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
                     <CategoryReference Kind="Category" Name="Primitive" />
@@ -54412,7 +54412,7 @@
                       <Pin Id="UGRxCzGOYJrNlPzBoTw1yA" Name="Output" Kind="StateOutputPin" />
                       <Pin Id="D3T16p0BYPwNIESqOYGJC7" Name="Outputs" Kind="OutputPin" />
                     </Node>
-                    <Node Bounds="162,896,340,162" Id="KzJuhYrhBFjOcLczrFJGpM">
+                    <Node Bounds="162,892,350,166" Id="KzJuhYrhBFjOcLczrFJGpM">
                       <p:NodeReference LastCategoryFullName="Primitive" LastDependency="Builtin">
                         <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
                         <CategoryReference Kind="Category" Name="Primitive" />
@@ -54423,7 +54423,7 @@
                         <Patch Id="KnxV8SCkl3jLhdrMLIXCH3" Name="Create" ManuallySortedPins="true" />
                         <Patch Id="J6KlKa0kZ5vP3t0ATaSjPG" Name="Update" ManuallySortedPins="true" />
                         <Patch Id="HEuqW0V8IoCQKkP1NbDbZ0" Name="Dispose" ManuallySortedPins="true" />
-                        <Node Bounds="185,916,305,122" Id="FRHvQLgu2wcP8DzjKQx5Ri">
+                        <Node Bounds="185,916,315,122" Id="FRHvQLgu2wcP8DzjKQx5Ri">
                           <p:NodeReference LastCategoryFullName="Primitive" LastDependency="Builtin">
                             <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
                             <CategoryReference Kind="Category" Name="Primitive" />
@@ -54457,15 +54457,15 @@
                               <Pin Id="I8EIOXyWqfVMXBIy0ifjCB" Name="State Output" Kind="StateOutputPin" />
                               <Pin Id="OAFQmcOa0m3NeyYh7glB9c" Name="Output" Kind="OutputPin" />
                             </Node>
-                            <Pad Id="PboGLRwZN2oQSlqUuLguHZ" Comment="Delay In Frames" Bounds="359,970,25,19" ShowValueBox="true" isIOBox="true" Value="2">
+                            <Pad Id="OgDhdMLeA24NsrUwlE4t6l" Comment="Delay In Frames" Bounds="359,960,35,15" ShowValueBox="true" isIOBox="true" Value="2.5">
                               <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
-                                <Choice Kind="TypeFlag" Name="Integer32" />
+                                <Choice Kind="TypeFlag" Name="Float32" />
                               </p:TypeAnnotation>
                             </Pad>
                           </Patch>
                         </Node>
                       </Patch>
-                      <ControlPoint Id="C1QUADXSbJvPkER8dcE1xi" Bounds="199,902" Alignment="Top" />
+                      <ControlPoint Id="C1QUADXSbJvPkER8dcE1xi" Bounds="199,898" Alignment="Top" />
                     </Node>
                     <Node Bounds="111,729,79,26" Id="OZ1tch6eNALLioI8kNMBIn">
                       <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.IEngineModulator" LastDependency="CMiX_ENGINE.Definitions.vl">
@@ -54626,8 +54626,8 @@
           <Link Id="V6Y1qGERUlQQMLkJPoWwqE" Ids="FXNOPb5gRIrMblqBjpyO8R,SxvocAI4P68O1xSMIPkXlv" />
           <Link Id="Go3q5HYxN8vQQShck6rbt7" Ids="F5aUuWhHqUpMHR5eXjBhue,BfTOHBF5BAcLdO02vqVC9I" />
           <Link Id="Po3AWzvNLeoNhYOYFREyVZ" Ids="F5aUuWhHqUpMHR5eXjBhue,IRAdd1WT3rYMYOF3G1bILD" />
-          <Link Id="KmPYQFSMaPjNCY6Omc3tJk" Ids="PfFYgAjdNLcNBrt1gM2QtM,V6ifW6fJeSEN2ROBXz4gVA" />
-          <Link Id="QDfrjpe6QcMNvPYGE2KNFX" Ids="PboGLRwZN2oQSlqUuLguHZ,U7hMveKanLvPOs9nGA1vWS" />
+          <Link Id="ECgtv2MmqGcQUIXKuMwZ8i" Ids="KASzNaToi26QQJ1UfVIQK4,V6ifW6fJeSEN2ROBXz4gVA" />
+          <Link Id="B4DpKYrcH3PPz7cbzbkASW" Ids="OgDhdMLeA24NsrUwlE4t6l,U7hMveKanLvPOs9nGA1vWS" />
         </Patch>
       </Node>
       <!--
@@ -59330,7 +59330,7 @@
           <Link Id="GIhLFA313o7PJSSWGjfhWQ" Ids="Tw9OdSaq9Y6MtdnqDy4MN8,JvapXUE2SbfLhFniy3kmHb" />
           <Link Id="EJkxETmIx6yM2iXJQn240k" Ids="EKKiK9gRFYTNZhiD0LAjDN,Tw9OdSaq9Y6MtdnqDy4MN8" IsHidden="true" />
           <Patch Id="VyJctsNyx3yM8b0vDKun1M" Name="SetDelay" ParticipatingElements="TBIYthCWSzcPB64QeiGtAo,EU77OOEhOroMQce3XP5EmG">
-            <Pin Id="EKKiK9gRFYTNZhiD0LAjDN" Name="Delay In Frames" Kind="InputPin" DefaultValue="2" />
+            <Pin Id="EKKiK9gRFYTNZhiD0LAjDN" Name="Delay In Frames" Kind="InputPin" DefaultValue="2.5" />
           </Patch>
           <ProcessDefinition Id="PS7eKjn7ykLQIYeoBE40qp">
             <Fragment Id="ViuXg1AlTukNmOM3QJX8SC" Patch="TGQ8UTyDr1YO9rqNg7Ri3F" Enabled="true" />
@@ -59346,7 +59346,7 @@
           <Link Id="V2epehyuFnwNytXJSoJ7l5" Ids="S4MPOXHuXDXONumIxhlmKf,G6bwJgsweiXOTElAIYdGpL" />
           <Slot Id="DFl5VpnACl3MMpXbulkE9w" Name="Delay in Frames">
             <p:TypeAnnotation p:Type="TypeReference">
-              <Choice Kind="TypeFlag" Name="Integer32" />
+              <Choice Kind="TypeFlag" Name="Float32" />
             </p:TypeAnnotation>
           </Slot>
           <Link Id="TBIYthCWSzcPB64QeiGtAo" Ids="CxABQczb3U0Nbzsw1OzreU,K6WaMN7OZJSOTD6PW6wCdH" />
@@ -59587,7 +59587,7 @@
           <Link Id="GKudjAggvR1QIXNlcFSiSw" Ids="JPypJIVyLO9PRteCWkEe16,GAxmLdIPK5kLyOhiGFI9L2" />
           <Link Id="Fgkci5Uw1aGQYzeVucl6xy" Ids="DSUsfLvcHXnOKJNycqWD5C,JPypJIVyLO9PRteCWkEe16" IsHidden="true" />
           <Patch Id="M4yd3tMz1n6PuJuajkBNFp" Name="SetDelay" ParticipatingElements="U5VIVUDPIXfM5cm5kR3Qoq,HSOFxaFlzsvQU37nFGvzjM">
-            <Pin Id="DSUsfLvcHXnOKJNycqWD5C" Name="Delay In Frames" Kind="InputPin" DefaultValue="2" />
+            <Pin Id="DSUsfLvcHXnOKJNycqWD5C" Name="Delay In Frames" Kind="InputPin" DefaultValue="2.5" />
           </Patch>
           <ProcessDefinition Id="GMqUWv8B0AeLmutvY46dqX">
             <Fragment Id="VIzyz70yDl2PE6zU2V1JGE" Patch="LzmUgVtdlWVMVesRbeIgwW" Enabled="true" />
@@ -59603,7 +59603,7 @@
           <Link Id="TLNdPT13a3XPTJY3c8OFvw" Ids="LrfWU2p2vKGNPQ0bu9Mmim,FXh4OLNG0G8PysO0S9xkeh" />
           <Slot Id="GNSiZCP6uerM3EYwTBJa8h" Name="Delay in Frames">
             <p:TypeAnnotation p:Type="TypeReference">
-              <Choice Kind="TypeFlag" Name="Integer32" />
+              <Choice Kind="TypeFlag" Name="Float32" />
             </p:TypeAnnotation>
           </Slot>
           <Link Id="U5VIVUDPIXfM5cm5kR3Qoq" Ids="JvmPI27RkPtPVoCqYJAZ9I,VTpN2olmwOBOoWCsXWcRFY" />
