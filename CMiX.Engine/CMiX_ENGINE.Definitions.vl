@@ -3315,25 +3315,15 @@
                   <ControlPoint Id="NcVjVUO5BUNP6UcNVKgFGU" Bounds="265,1230" />
                   <Patch Id="NtjqC0tR1dlPdMvnYTsdMU" Name="Create" />
                   <ControlPoint Id="DfT756F98nBMyY9SfgfWrw" Bounds="388,800" />
-                  <Node Bounds="343,911,100,26" Id="UZiO3BU7h86MCHjqWMmLT3">
+                  <Node Bounds="343,890,100,26" Id="UZiO3BU7h86MCHjqWMmLT3">
                     <p:NodeReference LastCategoryFullName="CMiX.Core.Modulation.Modulators.LFOModulator" LastDependency="CMiX.Core.csproj">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <CategoryReference Kind="AssemblyCategory" Name="LFOModulator" />
-                      <Choice Kind="OperationCallFlag" Name="Maximum" />
+                      <Choice Kind="OperationCallFlag" Name="Range" />
                     </p:NodeReference>
                     <Pin Id="JpXIPx9bVqwLm8mbBjZPR6" Name="Input" Kind="StateInputPin" />
                     <Pin Id="Nz230ROH1enLburAaw7B1X" Name="Output" Kind="StateOutputPin" />
-                    <Pin Id="HQGLKHwBOUmOKQhqiCDwV7" Name="Maximum" Kind="OutputPin" />
-                  </Node>
-                  <Node Bounds="343,961,66,26" Id="PvZu2MiFMltNzgeLTNT4xz">
-                    <p:NodeReference LastCategoryFullName="CMiX.Core.Modulation.Modulators.LFOModulator" LastDependency="CMiX.Core.csproj">
-                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="AssemblyCategory" Name="LFOModulator" />
-                      <Choice Kind="OperationCallFlag" Name="Minimum" />
-                    </p:NodeReference>
-                    <Pin Id="K9Tdesb0c61PcPzXrzXj76" Name="Input" Kind="StateInputPin" />
-                    <Pin Id="AJVXHUxWvzOQZQbfQBvsUm" Name="Output" Kind="StateOutputPin" />
-                    <Pin Id="TAyESHvEfedNSHUsmNzmk6" Name="Minimum" Kind="OutputPin" />
+                    <Pin Id="JYk03dvDzSgLq3cAwfMwNP" Name="Range" Kind="OutputPin" />
                   </Node>
                   <Node Bounds="343,1011,72,26" Id="VAz0zLnhErEPOMeZpkiVE9">
                     <p:NodeReference LastCategoryFullName="CMiX.Core.BaseControls.GenericValue`1" LastDependency="CMiX.Core.csproj">
@@ -3458,6 +3448,26 @@
                       <Choice Kind="TypeFlag" Name="Float32" />
                     </p:TypeAnnotation>
                   </Pad>
+                  <Node Bounds="343,970,59,26" Id="DRzDNIznzf7MNaOcw2Kb09">
+                    <p:NodeReference LastCategoryFullName="CMiX.Core.BaseControls.FloatRange" LastDependency="CMiX.Core.csproj">
+                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                      <CategoryReference Kind="AssemblyCategory" Name="FloatRange" />
+                      <Choice Kind="OperationCallFlag" Name="Minimum" />
+                    </p:NodeReference>
+                    <Pin Id="VPsmqN53k54MuX9mAdtbiG" Name="Input" Kind="StateInputPin" />
+                    <Pin Id="VS58ZEaoEpuLr86en3jCD6" Name="Output" Kind="StateOutputPin" />
+                    <Pin Id="L1b8zB2FJNpLc7Www84BKn" Name="Minimum" Kind="OutputPin" />
+                  </Node>
+                  <Node Bounds="343,930,108,26" Id="FynCdMUT85mNZs9TOQrDz6">
+                    <p:NodeReference LastCategoryFullName="CMiX.Core.BaseControls.FloatRange" LastDependency="CMiX.Core.csproj">
+                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                      <CategoryReference Kind="AssemblyCategory" Name="FloatRange" />
+                      <Choice Kind="OperationCallFlag" Name="Maximum" />
+                    </p:NodeReference>
+                    <Pin Id="SUnsZfAeeqvQX9wRYUnofO" Name="Input" Kind="StateInputPin" />
+                    <Pin Id="NZB1aBlEpKjLcQnUybXRDt" Name="Output" Kind="StateOutputPin" />
+                    <Pin Id="EraEJwYsNj8MMPvx8C9gYc" Name="Maximum" Kind="OutputPin" />
+                  </Node>
                 </Patch>
                 <Pin Id="Clo7loePDdIL6Wg3nKKl7k" Name="Node Context" Kind="InputPin" IsHidden="true" />
                 <Pin Id="U4jok6AkYBMPbraHBbLOj9" Name="Output" Kind="OutputPin" />
@@ -3710,14 +3720,11 @@
             <Link Id="B3US6RQqQpIM1XJKG3V1Dv" Ids="U4jok6AkYBMPbraHBbLOj9,FbcnOoF4oMrLWs2B65VNUL" />
             <Link Id="A8BBIlrzOMzK9dzztNjB9G" Ids="Pva5iuKbAZ3LFY5mf0Q44V,JU5nZ797tBBL7KxqkDTLrD" />
             <Link Id="GzYtZAGcHUZQc7NzyP8bYy" Ids="ObZ83KbiuOOPgGYQjdirvV,JpXIPx9bVqwLm8mbBjZPR6" />
-            <Link Id="JTyBTNOeKz8PgpgOtCpsG4" Ids="TAyESHvEfedNSHUsmNzmk6,RLBhbdTjGnEPGMMeyBpbnE" />
-            <Link Id="Vm6t4WHSwkyM4A5Wk1A6dz" Ids="HQGLKHwBOUmOKQhqiCDwV7,CbPgM0PnQHeLzpGMwvhvzr" />
             <Link Id="J1OCYPVJrWbPhL0LpKBmUW" Ids="ARfJLinahAmMBYSiBrgsbi,Hw972Gecs3NPmwwQ4gYzb1" />
             <Link Id="Ezr0drrkPr4MJ76dzrzWEc" Ids="SKbUl9gQXcAMYBuFdw0Hrf,GTnjyL8vgs6McDfjhT61Cz" />
             <Link Id="NTCDvHSaUFYL4QmZe2rO0G" Ids="CKgH47rWhTKM0s4Du9UHku,D8Y2lDbbHrNNl37ZPftk8F" />
             <Link Id="TfJBT9pRxs7QOs4Tr2eyjX" Ids="HYMIUIkMpLVNs5R5rRKSzO,PEa695Q561rNg40wpXLQIu" />
             <Link Id="KYCTzDRl5jiNeJ32P9DQhN" Ids="LAcjCoqngN2LJYrI5vj5WC,QaCw7RQSYYCLaiMe7Uphql" />
-            <Link Id="SCtBkMhUvVHO4R8TOsjR6N" Ids="Nz230ROH1enLburAaw7B1X,K9Tdesb0c61PcPzXrzXj76" />
             <Slot Id="D78MKK6BNFHLH2EqgrQRS4" Name="Phase" />
             <Link Id="BPOb0MiqQNWL74ZhnYr9xx" Ids="RKkCj94ORw4Lvii6h1FSRL,BrIRSX6TJ91QBuRQoQogy7" />
             <Link Id="CVFxhZNijefPupjVz0mRnU" Ids="IUFKE3YikM9L2XIT19Mt17,QTPZBuZWexXN2ltxp9X4xK" />
@@ -3781,6 +3788,10 @@
             <Link Id="M7piGBfWOvLL5Dq9ekHQqu" Ids="VwBBzAMWxRYQC1B9vhNv2v,MwlV1ItkZKKP26jh2yyeWY" />
             <Link Id="HocEZURXnW5LiEdmAZ5rmL" Ids="MwlV1ItkZKKP26jh2yyeWY,RfeTBlEPblEO7RfSotIJeB" />
             <Link Id="GEiLCRQaLMeLrPKOaAnkPd" Ids="JMzWrutjJBnNo5mjCOKnMA,JT8Bi6iweFyLd5nGh4P1B7" />
+            <Link Id="LF4KpCmAerMNgoKBFf9TKy" Ids="L1b8zB2FJNpLc7Www84BKn,RLBhbdTjGnEPGMMeyBpbnE" />
+            <Link Id="D7j8KQGfpgBMoW7tNPjRtY" Ids="EraEJwYsNj8MMPvx8C9gYc,CbPgM0PnQHeLzpGMwvhvzr" />
+            <Link Id="VQoPYYAnKcKLhgY7x71VjH" Ids="JYk03dvDzSgLq3cAwfMwNP,SUnsZfAeeqvQX9wRYUnofO" />
+            <Link Id="LQ2IO8HdJjpQRKym57Yz2b" Ids="NZB1aBlEpKjLcQnUybXRDt,VPsmqN53k54MuX9mAdtbiG" />
           </Patch>
         </Node>
         <!--
@@ -22288,7 +22299,7 @@
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="ProcessAppFlag" Name="ApplyMasks" />
                     </p:NodeReference>
-                    <Pin Id="QFFHxEmdLq0MuplQcdNxPp" Name="Node Context" Kind="InputPin" IsHidden="true" />
+                    <Pin Id="AA5YUcoJM7SMwQnBLP0Mmj" Name="Node Context" Kind="InputPin" IsHidden="true" />
                     <Pin Id="Rn7Z60krAP5NI9YaM5AdKx" Name="Composables" Kind="InputPin" />
                     <Pin Id="FG2Kzxw02WeMYPdwZEHTnU" Name="Textures" Kind="InputPin" />
                     <Pin Id="IRcrqfEYq1lLzv9BRYliGq" Name="Index" Kind="InputPin" />
@@ -22351,7 +22362,7 @@
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="ProcessAppFlag" Name="ApplyMasks" />
                     </p:NodeReference>
-                    <Pin Id="HNnMcRgMsx7QVN0FC0cyGv" Name="Node Context" Kind="InputPin" IsHidden="true" />
+                    <Pin Id="McXgPWCrmHzOwJg2P1MDU5" Name="Node Context" Kind="InputPin" IsHidden="true" />
                     <Pin Id="IaxLQ4PMEM9M4VXA4cFTbT" Name="Composables" Kind="InputPin" />
                     <Pin Id="FGMTQYuZi6UQagxs2GtIto" Name="Textures" Kind="InputPin" />
                     <Pin Id="HjpFmpc41rxQDLiycFcpUS" Name="Index" Kind="InputPin" />
