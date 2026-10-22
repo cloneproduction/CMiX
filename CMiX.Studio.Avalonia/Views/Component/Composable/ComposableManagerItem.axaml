@@ -23,6 +23,7 @@
 
                 <ToggleButton
                     IsChecked="{Binding PrefabService.IsUpdating.Value}"
+                    IsVisible="False"
                     Theme="{DynamicResource ToggleButtonUpdate}"
                     ToolTip.Tip="Update" />
 
@@ -36,7 +37,6 @@
             <!-- The name starts 8 from the left: 1 of the item padding, 3 of the margin and 4 of the text padding. -->
             <ui:TextBoxEditable
                 x:Name="editableTextBox"
-                Height="{DynamicResource ControlHeightSM}"
                 Margin="3,0,0,0"
                 Foreground="{DynamicResource ForegroundBrush}"
                 Text="{Binding PrefabService.Name.Value, Mode=TwoWay}" />

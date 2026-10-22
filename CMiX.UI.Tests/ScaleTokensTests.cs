@@ -16,7 +16,6 @@ namespace CMiX.UI.Tests
             var md = Size("ControlHeightMD");
 
             Assert.Equal(md - 8, Size("ControlHeightXS"));
-            Assert.Equal(md - 4, Size("ControlHeightSM"));
             Assert.Equal(md + 6, Size("ControlHeightXL"));
             Assert.Equal(md + 10, Size("ControlHeightXXL"));
         }

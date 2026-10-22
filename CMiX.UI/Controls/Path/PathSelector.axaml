@@ -7,18 +7,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
     <ui:ContentCaptioned Caption="{Binding Caption, ElementName=pathSelector}">
-        <DockPanel>
+        <ui:DockPanelPositioned>
             <Button
                 Margin="1,0,0,0"
                 Width="{DynamicResource ControlHeightMD}"
                 DockPanel.Dock="Right"
-                Click="BrowseButton_Click"
-                Theme="{StaticResource ButtonRoundedRight}">
+                Click="BrowseButton_Click">
                 <ui:AppIcon IconKey="Folder" Size="{DynamicResource IconSizeXS}" />
             </Button>
             <Border
                 x:Name="mainBorder"
-                ui:PositionedControl.Position="Left"
                 Background="{DynamicResource Grey500Brush}"
                 BorderBrush="Transparent"
                 Classes="BorderMask">
@@ -39,6 +37,6 @@
                     </ComboBox.ItemsPanel>
                 </ComboBox>
             </Border>
-        </DockPanel>
+        </ui:DockPanelPositioned>
     </ui:ContentCaptioned>
 </ui:UserControlCaptioned>

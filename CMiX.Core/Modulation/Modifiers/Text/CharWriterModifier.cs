@@ -9,8 +9,8 @@ namespace CMiX.Core.Modulation.Modifiers
 {
     // Discoverable on TextEntity, matching the old CharWriter's own scope exactly - both stay
     // addable side by side until CharWriter is confirmed superseded by a live VL check, per this
-    // session's migration approach. CharWriter is not touched by this change. Like FlipModifier
-    // and SelectTextureModifier, CharWriter had no extra fields at all beyond the shared
+    // session's migration approach. CharWriter is not touched by this change. Like FlipModifier,
+    // CharWriter had no extra fields at all beyond the shared
     // BeatModifiableModifierBase scaffolding, so this Modifier has zero Bindables and no
     // additional properties - ported for VL naming consistency, not new capability.
     [ModifierPanel(typeof(TextEntity))]

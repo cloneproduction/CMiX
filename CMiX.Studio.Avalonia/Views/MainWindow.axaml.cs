@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.ViewModels;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -20,6 +21,23 @@ namespace CMiX.Studio.Avalonia.Views
         {
             InitializeComponent();
             titleBar.PointerPressed += TitleBar_PointerPressed;
+            Closing += OnClosing;
+        }
+
+        // The cross button, Alt+F4 and the close command all end here. With unsaved changes the close is
+        // put off until the user has answered. The window then closes for good, without asking again.
+        private async void OnClosing(object? sender, WindowClosingEventArgs e)
+        {
+            if (DataContext is not MainViewModel { MainMenu.HasUnsavedChanges: true } viewModel)
+                return;
+
+            e.Cancel = true;
+
+            if (!await viewModel.MainMenu.ConfirmCloseAsync())
+                return;
+
+            Closing -= OnClosing;
+            Close();
         }
 
         private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)

@@ -30,7 +30,7 @@ namespace CMiX.Core.Tests
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
             var before = ProjectStateHash.Compute(project);
 
-            project.OutputMappingManager.Items[0].Visibility.Value = false;
+            project.OutputMappingManager.Items[0].Resolution.X.Value = 640;
 
             var after = ProjectStateHash.Compute(project);
             Assert.NotEqual(before, after);

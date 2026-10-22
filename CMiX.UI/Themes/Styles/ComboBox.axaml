@@ -14,20 +14,20 @@
                     Background="{TemplateBinding Background}"
                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                     VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                    <ui:AppIcon
+                    <ui:Chevron
                         HorizontalAlignment="Right"
                         Margin="8,0"
-                        Opacity="0.5"
-                        IconKey="ChevronDown"
-                        Size="{DynamicResource IconSizeXS}" />
+                        ClosedAngle="0"
+                        OpenAngle="180"
+                        IsOpen="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}" />
                 </Border>
             </ControlTemplate>
         </Setter>
         <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^:pressed /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
         <Style Selector="^:checked /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
@@ -37,7 +37,7 @@
 
     <!-- Structural skeleton from Avalonia.Themes.Simple ComboBox, CMiX visuals applied -->
     <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
-        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -68,17 +68,13 @@
                         InheritsTransform="True"
                         IsLightDismissEnabled="True"
                         IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
-                        MaxWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
-                        MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                        MaxWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleAdd}, ConverterParameter=16}"
+                        MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleAdd}, ConverterParameter=16}"
                         Placement="Bottom"
                         PlacementTarget="{TemplateBinding}"
                         VerticalOffset="2">
-                        <Border
-                            Name="DropDownBorder"
-                            Background="{DynamicResource Grey100Brush}"
-                            CornerRadius="{DynamicResource CornerRadiusLargeAll}"
-                            HorizontalAlignment="Stretch">
-                            <Grid HorizontalAlignment="Stretch" Margin="2">
+                        <ui:DropdownFrame Name="DropDownBorder" HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch">
                                 <ScrollViewer
                                     Name="DropDownScrollViewer"
                                     HorizontalScrollBarVisibility="Hidden"
@@ -90,14 +86,14 @@
                                         ItemsPanel="{TemplateBinding ItemsPanel}" />
                                 </ScrollViewer>
                             </Grid>
-                        </Border>
+                        </ui:DropdownFrame>
                     </Popup>
 
                 </Panel>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:empty /template/ Border#DropDownBorder">
+        <Style Selector="^:empty /template/ ui|DropdownFrame#DropDownBorder">
             <Setter Property="IsVisible" Value="False" />
         </Style>
     </ControlTheme>
@@ -133,7 +129,7 @@
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
         <Style Selector="^:pointerover:not(:selected) /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
+            <Setter Property="Background" Value="{DynamicResource RowHoverBrush}" />
         </Style>
     </ControlTheme>
 
@@ -149,10 +145,10 @@
                         Theme="{DynamicResource ToggleButtonRoundedLeft}"
                         Width="22">
                         <ToggleButton.Content>
-                            <ui:AppIcon
-                                Opacity="0.5"
-                                IconKey="ChevronDown"
-                                Size="{DynamicResource IconSizeXS}" />
+                            <ui:Chevron
+                                ClosedAngle="0"
+                                OpenAngle="180"
+                                IsOpen="{TemplateBinding IsDropDownOpen}" />
                         </ToggleButton.Content>
                     </ToggleButton>
                     <Popup
@@ -163,13 +159,9 @@
                         Placement="BottomEdgeAlignedLeft"
                         PlacementTarget="{TemplateBinding}"
                         VerticalOffset="2"
-                        Width="250">
-                        <Border
-                            Name="DropDownBorder"
-                            Background="{DynamicResource Grey100Brush}"
-                            CornerRadius="{DynamicResource CornerRadiusLargeAll}"
-                            HorizontalAlignment="Stretch">
-                            <Grid HorizontalAlignment="Stretch" Margin="2">
+                        Width="266">
+                        <ui:DropdownFrame Name="DropDownBorder" HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch">
                                 <ScrollViewer
                                     Name="DropDownScrollViewer"
                                     HorizontalScrollBarVisibility="Hidden"
@@ -181,13 +173,13 @@
                                         ItemsPanel="{TemplateBinding ItemsPanel}" />
                                 </ScrollViewer>
                             </Grid>
-                        </Border>
+                        </ui:DropdownFrame>
                     </Popup>
                 </DockPanel>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:empty /template/ Border#DropDownBorder">
+        <Style Selector="^:empty /template/ ui|DropdownFrame#DropDownBorder">
             <Setter Property="IsVisible" Value="False" />
         </Style>
     </ControlTheme>

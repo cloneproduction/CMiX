@@ -34,14 +34,12 @@ namespace CMiX.Core.Tests
 
             entity.Material.DiffuseTexture.TextureManager.AddItem(typeof(CheckerBoard));
             entity.Material.MaskTexture.TextureManager.AddItem(typeof(BubbleNoise));
-            entity.Material.ModifierManager.AddItem(typeof(SelectTextureModifier));
 
             Assert.Equal(composition.ID, entity.Material.CompositionID);
             Assert.Equal(composition.ID, entity.Material.DiffuseTexture.CompositionID);
             Assert.Equal(composition.ID, entity.Material.MaskTexture.CompositionID);
             Assert.Equal(composition.ID, ((IHasCompositionID)entity.Material.DiffuseTexture.TextureManager.SelectedItem).CompositionID);
             Assert.Equal(composition.ID, ((IHasCompositionID)entity.Material.MaskTexture.TextureManager.SelectedItem).CompositionID);
-            Assert.Equal(composition.ID, ((IHasCompositionID)entity.Material.ModifierManager.SelectedItem).CompositionID);
         }
 
         // Sees only the controls a manager registered, so the material subtree needs the test above.
@@ -51,7 +49,7 @@ namespace CMiX.Core.Tests
             var (composition, entity, repository) = CreateEntity();
             entity.Texture.DiffuseTexture.TextureManager.AddItem(typeof(CheckerBoard));
             entity.Texture.MaskTexture.TextureManager.AddItem(typeof(BubbleNoise));
-            entity.ModifierManager.AddItem(typeof(SelectTextureModifier));
+            entity.ModifierManager.AddItem(typeof(ColorModifier));
 
             var owned = repository.Controls.OfType<IHasCompositionID>().ToList();
 

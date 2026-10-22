@@ -14,11 +14,7 @@
                     Margin="8,0"
                     VerticalAlignment="Center">
                     <DockPanel>
-                        <ui:AppIcon
-                            Name="image"
-                            Opacity="0.5"
-                            IconKey="ChevronDown"
-                            Size="{DynamicResource IconSizeXS}" />
+                        <ui:Chevron Name="image" IsOpen="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}" />
                         <ContentPresenter
                             Name="PART_ContentPresenter"
                             Content="{TemplateBinding Content}"
@@ -32,9 +28,6 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ ui|AppIcon#image">
-            <Setter Property="IconKey" Value="ChevronUp" />
-        </Style>
     </ControlTheme>
 
     <ControlTheme x:Key="{x:Type Expander}" TargetType="Expander">
@@ -62,15 +55,16 @@
                         <Border
                             Background="{DynamicResource PanelBackground}"
                             HorizontalAlignment="Stretch">
-                            <ContentPresenter
-                                Name="PART_ContentPresenter"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                Focusable="False"
-                                ui:EditCycle.IsLoop="True"
-                                HorizontalAlignment="Stretch"
-                                IsVisible="{TemplateBinding IsExpanded}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}">
+                                <ContentPresenter
+                                    Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    Focusable="False"
+                                    ui:EditCycle.IsLoop="True"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </ui:CollapsePanel>
                         </Border>
                     </DockPanel>
                 </Border>
@@ -94,13 +88,11 @@
                     <Grid
                         ColumnDefinitions="19,*"
                         Margin="4,0,0,0">
-                        <Path
+                        <ui:Chevron
                             Name="arrow"
-                            Data="M 1,1.5 L 4.5,5 L 8,1.5"
                             HorizontalAlignment="Center"
-                            Stroke="{DynamicResource ForegroundBrush}"
-                            StrokeThickness="2"
-                            VerticalAlignment="Center" />
+                            VerticalAlignment="Center"
+                            IsOpen="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}" />
                         <ContentPresenter
                             Name="PART_ContentPresenter"
                             Content="{TemplateBinding Content}"
@@ -115,9 +107,6 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ Path#arrow">
-            <Setter Property="Data" Value="M 1,4.5 L 4.5,1 L 8,4.5" />
-        </Style>
         <Style Selector="^:checked /template/ Border#mainBorder">
             <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
         </Style>
@@ -150,16 +139,17 @@
                             IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
                             Theme="{StaticResource ExpanderItemHeader}"
                             VerticalContentAlignment="Center" />
-                        <ContentPresenter
-                            Name="PART_ContentPresenter"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Focusable="False"
-                            ui:EditCycle.IsLoop="True"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            IsVisible="{TemplateBinding IsExpanded}"
-                            Margin="{TemplateBinding Padding}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}">
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Focusable="False"
+                                ui:EditCycle.IsLoop="True"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Margin="{TemplateBinding Padding}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </ui:CollapsePanel>
                     </DockPanel>
                 </Border>
             </ControlTemplate>
@@ -182,11 +172,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center">
               <DockPanel >
-                <ui:AppIcon
-                    Name="image"
-                    Margin="4, 0"
-                    IconKey="ChevronRight"
-                    Size="{DynamicResource IconSizeXS}" />
+                <ui:Chevron Name="image" Margin="4,0" IsOpen="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}" />
                 <ContentPresenter
                     Name="PART_ContentPresenter"
                     Content="{TemplateBinding Content}"
@@ -200,9 +186,6 @@
           </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ ui|AppIcon#image">
-          <Setter Property="IconKey" Value="ChevronDown" />
-        </Style>
       </ControlTheme>
 
   <ControlTheme x:Key="{x:Type ui:ExpanderIndented}" TargetType="ui:ExpanderIndented">
@@ -235,15 +218,16 @@
                   Name="contentBackground"
                   Background="{TemplateBinding Background}"
                   HorizontalAlignment="Stretch">
-                <ContentPresenter
-                    Name="PART_ContentPresenter"
-                    Content="{TemplateBinding Content}"
-                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                    Focusable="False"
-                    ui:EditCycle.IsLoop="True"
-                    HorizontalAlignment="Stretch"
-                    IsVisible="{TemplateBinding IsExpanded}"
-                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}">
+                  <ContentPresenter
+                      Name="PART_ContentPresenter"
+                      Content="{TemplateBinding Content}"
+                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                      Focusable="False"
+                      ui:EditCycle.IsLoop="True"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </ui:CollapsePanel>
               </Border>
             </DockPanel>
           </Border>

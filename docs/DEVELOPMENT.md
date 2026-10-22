@@ -128,7 +128,7 @@ come from the value editors of vvvv:
 | `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus`, `TextBlockTrimmed` |
 | `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
-| `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxDetail`, `ListBoxEditable` |
+| `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxRepository`, `ListBoxEditable` |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ValueMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
@@ -139,14 +139,14 @@ A list or a drop down shows a whole number of rows, so no row is cut at the bott
 by one row. The height of a row is the token `ControlHeightMD`. No file holds a height as a number. The
 sizes come from the tokens in `Themes/Tokens/Geometry.axaml`:
 
-- `ListBoxCMiX`: `MinItemCount` rows (the token `ListVisibleItems`) plus the top and the bottom of
+- `ListBoxCMiX`: `MinItemCount` rows (the token `ListVisibleItems`), the spaces of `ListSpacing` between them, plus the top and the bottom of
   `ListScrollMargin`. The user can drag the strip under the list to make it taller. The height then goes by
   whole rows, and it never goes below `MinItemCount` rows. There is no largest height.
-- `ListBoxEditable`: `MinItemCount` rows, or `ListEditableVisibleItems` rows when it is 0, the spaces of `ListEditableSpacing` between them, and
+- `ListBoxEditable`: `MinItemCount` rows, or `ListEditableVisibleItems` rows when it is 0, the spaces of `ListSpacing` between them, and
   `ListEditablePadding` around them. The list has no scroll viewer, so it grows with its items.
 - `ComboBox`: `ComboBoxVisibleItems` rows.
 
-The attached property `ScrollStep` does the work for a `ScrollViewer`: `ItemHeight` is the height of a row and
+The attached property `ScrollStep` does the work for a `ScrollViewer`: `ItemHeight` is the height of a row, `ItemSpacing` is the space between two rows and
 `VisibleItemCount` is the number of rows. The wheel goes on to the panel around the list when the list is at
 its start or end. To change how many rows a list shows, change its token. A new list takes its numbers from
 the tokens too.
@@ -184,7 +184,7 @@ own XAML, for example `Title="{Binding PrefabService.Name.Value}"`. The test
 
 - `PanelItem` is an item of a list: a `Title`, a body, a toggle (`IsChecked`), a close
   button and a drag handle. `PanelItemList` is a list of them with an add button.
-  `ListItemIcon` is a row with an icon, a name and a toggle. `ListBoxDetail` is a list
+  `ListItemIcon` is a row with an icon, a name and a toggle. `ListBoxRepository` is a list
   with a delete button, an add area and the detail of the selected item.
 - A variant of a panel is a theme, not a switch. The default theme of `PanelItem` has a
   body that collapses, an eye, a close button and a drag handle. An application writes
@@ -206,7 +206,7 @@ own XAML, for example `Title="{Binding PrefabService.Name.Value}"`. The test
   control and finds nothing. `EntityModifiersSectionTests` keeps this case.
 - A Studio control tells the library control which properties of the model to use.
   `ModifierManager` is a `PanelItemList` of `PanelItem` rows. `RepositoryManager` is a
-  `ListBoxDetail` with the icon templates of the prefabs. `ModulatorHoverBehavior` tells
+  `ListBoxRepository` with the icon templates of the prefabs. `ModulatorHoverBehavior` tells
   a modulator that the pointer is over its panel, because the library panel knows no
   modulator.
 
@@ -289,6 +289,20 @@ styles first, then what makes it different. `ButtonRounded`, `ToggleButtonInline
 - `ResourceReferenceTests` fails when an AXAML file names a resource key that nothing
   defines.
 
+### The colors of the states
+
+A control has a color for each state, and the colors come from four brush tokens in `Themes/Tokens/Brushes.axaml`.
+No theme writes a grey for a state. To change a grey for the whole application, change the token.
+
+| Kind | Controls | Idle | Under the pointer | Pressed | On |
+|---|---|---|---|---|---|
+| Surface | button, toggle, combo box, drag value, slider, scroll bar, radio button | `StateIdleBrush` | `StateHoverBrush` | `StatePressedBrush` | accent-inactive, accent under the pointer |
+| Row | list item, combo item, menu item, composable item | transparent | `RowHoverBrush` | – | selected: accent-inactive, accent under the pointer |
+| Icon only | eye, power, update, mask, tabs of icons | opacity 0.6 | opacity 1 | – | opacity 1 |
+
+A new control takes its colors from these tokens, in the same three steps. The project `CMiX.UI.Gallery` shows every
+control in every state, and its four lists of greys change the tokens while it runs.
+
 ### Toggle buttons
 
 A toggle shows that it is on in the way that fits its look. There are two families.
@@ -296,11 +310,12 @@ A toggle shows that it is on in the way that fits its look. There are two famili
 - A toggle with a surface (a box or a pill) turns its background to the accent color when it is on.
   These are `ToggleButtonRounded`, `ToggleButtonInlineLeft`, `ToggleButtonBox`, `ToggleButtonPopup` and
   the others. They build on the base `ToggleButton` theme.
-- A toggle that is only an icon has no surface. The icon is dim at rest (opacity 0.6) and lit when the
-  toggle is on or under the pointer (1.0). `ToggleButtonVisibility` and `ToggleButtonPower` are of this
-  family. `ToggleButtonPlayPause` is dim at rest, and its icon changes when it is on.
-- A theme for one more icon toggle builds on `ToggleButtonPower` and only sets the icon with `IconKey` in
-  a style. `ToggleButtonUpdate` does this. The Studio does it for its mask toggle.
+- A toggle that is only an icon has no surface. `ToggleButtonIcon` is the base of this family: the icon is dim
+  at rest (opacity 0.6) and lit under the pointer (1.0). `ToggleButtonPower` is also lit while it is on.
+  `ToggleButtonPlayPause` is dim at rest, and its icon changes when it is on.
+- A theme for one more icon toggle builds on `ToggleButtonIcon` (or on `ToggleButtonPower` when it is lit while
+  on) and only sets the icon with `IconKey` in a style. A second icon for the on state is the same style under
+  `:checked`. `ToggleButtonVisibility` (eye) and the mask toggle of the Studio do this. `ToggleButtonUpdate` sets one icon.
 - The opacity is always a style, never a value on the template. A value there beats every style, so the
   on and hover states would not show. `ToggleButtonPowerTests` checks this.
 

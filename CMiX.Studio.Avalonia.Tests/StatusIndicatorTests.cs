@@ -58,6 +58,36 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void ConnectionDot_IsOrangeWhenConnectedButNotInSync()
+        {
+            var dot = Dot("EllipseSyncConnection");
+            dot.Classes.Add("connected");
+            dot.Classes.Add("unsynced");
+
+            Assert.Equal(Colors.Orange, ColorOf(dot));
+        }
+
+        [AvaloniaFact]
+        public void ConnectionDot_IsRed_WhenNotInSyncAndNotConnected()
+        {
+            var dot = Dot("EllipseSyncConnection");
+            dot.Classes.Add("unsynced");
+
+            Assert.Equal(Colors.Red, ColorOf(dot));
+        }
+
+        [AvaloniaFact]
+        public void ConnectionDot_IsGrayWhileConnecting_EvenWhenNotInSync()
+        {
+            var dot = Dot("EllipseSyncConnection");
+            dot.Classes.Add("connected");
+            dot.Classes.Add("unsynced");
+            dot.Classes.Add("connecting");
+
+            Assert.Equal(Colors.Gray, ColorOf(dot));
+        }
+
+        [AvaloniaFact]
         public void StateDot_IsGrayUntilInSync_ThenBlue()
         {
             var dot = Dot("EllipseSyncState");

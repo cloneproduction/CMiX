@@ -12,11 +12,9 @@
             <DockPanel>
 
                 <ui:ToggleButtonCMiX
-                    Width="{DynamicResource ControlHeightXS}"
-                    Height="{DynamicResource ControlHeightXS}"
                     IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=ambientOcclusion, Mode=TwoWay}"
                     ResetCommand="{Binding DataContext.IsEnabled.ResetCommand, ElementName=ambientOcclusion}"
-                    Theme="{DynamicResource ToggleButtonRounded}" />
+                    Theme="{DynamicResource ToggleButtonBox}" />
 
                 <TextBlock
                     Margin="8,0"

@@ -95,7 +95,7 @@ namespace CMiX.UI.Tests
             var box = Box(toggle);
             var icon = toggle.GetVisualDescendants().OfType<CMiX.UI.Controls.AppIcon>().Single();
 
-            Assert.Equal(Brush("Grey500Brush"), BackgroundOf(box));
+            Assert.Equal(Brush("StateIdleBrush"), BackgroundOf(box));
             Assert.Equal(0, icon.Opacity);
 
             toggle.IsChecked = true;

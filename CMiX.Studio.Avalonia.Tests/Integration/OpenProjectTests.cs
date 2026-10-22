@@ -301,7 +301,6 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 Assert.Equal("Output 4", slots[3].Name.Value);
                 Assert.Equal(1920, slots[3].Resolution.X.Value);
                 Assert.Equal(1080, slots[3].Resolution.Y.Value);
-                Assert.True(slots[5].Visibility.Value);
                 Assert.Null(project.PrefabService.Name.Value);
                 Assert.Equal(string.Empty, project.Model.FilePath.Value);
                 Assert.Null(project.Model.Asset);
@@ -485,7 +484,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         }
 
         // The output mappings are project data, not composition data. An open restores their
-        // names, resolutions and visibility from the file into the same nine slot instances.
+        // names and resolutions from the file into the same nine slot instances.
         // The slots keep their fixed ids, and a composition keeps its saved slot.
         [AvaloniaFact]
         public async Task OpenProject_RestoresTheOutputMappingNamesAndResolutions()
@@ -506,8 +505,6 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 Assert.Equal("LeftWall", slots[3].Name.Value);
                 Assert.Equal(3840, slots[3].Resolution.X.Value);
                 Assert.Equal(1200, slots[3].Resolution.Y.Value);
-                Assert.False(slots[5].Visibility.Value);
-                Assert.DoesNotContain(slots[5], outputMappingManager.VisibleItems);
 
                 var composition = (Composition)Assert.Single(viewModel.Project.CompositionManager.ManagerData.Items);
                 Assert.Same(slots[3], composition.SelectedOutputMapping);

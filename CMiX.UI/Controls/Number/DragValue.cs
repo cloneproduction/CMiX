@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using System.Linq;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -9,6 +10,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Interaction;
 
@@ -45,7 +47,11 @@ namespace CMiX.UI.Controls.Number
                 _borderValueDisplay.AddHandler(PointerPressedEvent, Border_PointerPressed, RoutingStrategies.Tunnel);
                 _borderValueDisplay.AddHandler(PointerReleasedEvent, Border_PointerReleased, RoutingStrategies.Tunnel);
                 _borderValueDisplay.AddHandler(PointerMovedEvent, Border_PointerMoved, RoutingStrategies.Tunnel);
-                _borderValueDisplay.PointerCaptureLost += (s, ev) => _interaction?.Dispose();
+                _borderValueDisplay.PointerCaptureLost += (s, ev) =>
+                {
+                    _interaction?.Dispose();
+                    PseudoClasses.Set(":pressed", false);
+                };
             }
 
             if (addButton != null)
@@ -74,6 +80,9 @@ namespace CMiX.UI.Controls.Number
 
         bool IEditableValue.CanEdit => !IsReadOnly;
 
+        // The number box of the template holds the typed text.
+        void IEditableValue.EndEdit() => this.GetVisualDescendants().OfType<NumericInput>().FirstOrDefault(input => input.IsEditing)?.Commit();
+
         private static double Distance(Point a, Point b)
         {
             double dx = a.X - b.X;
@@ -95,6 +104,7 @@ namespace CMiX.UI.Controls.Number
             _dragging = false;
 
             e.Pointer.Capture(_borderValueDisplay);
+            PseudoClasses.Set(":pressed", true);
             _interaction = InteractionHost.BeginScope();
             e.Handled = true;
         }
@@ -127,6 +137,7 @@ namespace CMiX.UI.Controls.Number
 
         private void Border_PointerReleased(object? sender, PointerReleasedEventArgs e)
         {
+            PseudoClasses.Set(":pressed", false);
             e.Pointer.Capture(null);
             _interaction?.Dispose();
 

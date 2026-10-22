@@ -33,11 +33,9 @@
               <DockPanel>
 
                 <ui:ToggleButtonCMiX
-                    Width="{DynamicResource ControlHeightXS}"
-                    Height="{DynamicResource ControlHeightXS}"
                     IsChecked="{Binding Blend.IsEnabled.Value}"
                     ResetCommand="{Binding Blend.IsEnabled.ResetCommand}"
-                    Theme="{DynamicResource ToggleButtonRounded}" />
+                    Theme="{DynamicResource ToggleButtonBox}" />
 
                 <TextBlock
                     Margin="8,0"

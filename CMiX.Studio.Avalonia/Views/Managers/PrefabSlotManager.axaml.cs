@@ -5,6 +5,7 @@ using System.Collections;
 using Avalonia;
 using Avalonia.Controls;
 using CMiX.UI.AttachedProperties;
+using CMiX.UI.Panels;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
@@ -14,6 +15,13 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         static PrefabSlotManager()
         {
             LogicalPanelContent.Track<PrefabSlotManager>(SelectionPanelProperty);
+
+            // The selection panel is the middle of the row: the swap toggle is on its left, the arrows on its right.
+            SelectionPanelProperty.Changed.AddClassHandler<PrefabSlotManager>((_, e) =>
+            {
+                if (e.NewValue is Control panel)
+                    PositionedControl.SetPosition(panel, ControlPosition.None);
+            });
         }
 
         public PrefabSlotManager()

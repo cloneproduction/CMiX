@@ -1,8 +1,6 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -13,7 +11,7 @@ namespace CMiX.Core.Rendering
     // In theory Texcoord9 should also work but does not for some reason, selecting it resulted in a SharpDX exception.
     // Unlike PrefabManager/CollectionManager the slot count never changes: nothing adds or removes
     // an item, so this class carries none of their add/remove messaging or undo plumbing. Each
-    // slot's own fields (Resolution, TexcoordSemantic, Visibility) are GenericValue<T> and already
+    // slot's own fields (Name, Resolution, TexcoordSemantic) are GenericValue<T> and already
     // sync themselves over the network and through undo individually.
     public partial class OutputMappingManager : ObservableObject, IControl
     {
@@ -31,10 +29,6 @@ namespace CMiX.Core.Rendering
             for (int i = 0; i < SlotCount; i++)
                 ResetSlot(i);
 
-            foreach (var mapping in Items)
-                mapping.Visibility.PropertyChanged += OnMappingVisibilityChanged;
-
-            RebuildVisibleItems();
             SelectedItem = Items[0];
         }
 
@@ -43,7 +37,6 @@ namespace CMiX.Core.Rendering
         {
             for (int i = 0; i < SlotCount; i++)
                 ResetSlot(i);
-            RebuildVisibleItems();
             SelectedItem = Items[0];
         }
 
@@ -58,7 +51,6 @@ namespace CMiX.Core.Rendering
             mapping.Resolution.X.Value = defaults.Resolution.X.Value;
             mapping.Resolution.Y.Value = defaults.Resolution.Y.Value;
             mapping.TexcoordSemantic.Value = (TexcoordSemantic)i;
-            mapping.Visibility.Value = defaults.Visibility.Value;
         }
 
         // Fixed, like ManagerIDs.Project/CompositionManager/etc.: this manager and its 10 slots
@@ -67,10 +59,6 @@ namespace CMiX.Core.Rendering
         // loaded (possibly older) project file says.
         public Guid ID { get; set; } = ManagerIDs.OutputMappingManager;
         public IReadOnlyList<OutputMapping> Items { get; }
-
-        // Live view of the slots currently visible, kept in sync as Visibility toggles. This is what
-        // a Composition's output mapping ComboBox should bind its ItemsSource to.
-        public ObservableCollection<OutputMapping> VisibleItems { get; } = new();
 
         public OutputMapping GetByID(Guid id) => Items.FirstOrDefault(m => m.ID == id);
 
@@ -92,43 +80,6 @@ namespace CMiX.Core.Rendering
             mapping.Resolution.X.ID = fieldIds.ResolutionX;
             mapping.Resolution.Y.ID = fieldIds.ResolutionY;
             mapping.TexcoordSemantic.ID = fieldIds.TexcoordSemantic;
-            mapping.Visibility.ID = fieldIds.Visibility;
-        }
-
-        private void OnMappingVisibilityChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != nameof(GenericValue<bool>.Value)) return;
-            var mapping = Items.First(m => ReferenceEquals(m.Visibility, sender));
-            UpdateVisibleItem(mapping);
-        }
-
-        // Toggling a single slot must never touch VisibleItems wholesale: ObservableCollection.Clear
-        // raises a Reset notification, and every standard ItemsControl/ComboBox treats Reset as "I
-        // don't know what changed" and defensively drops its current selection - even when the
-        // selected item was never one of the ones removed. Add/Remove on the one slot that actually
-        // changed lets the bound ComboBox tell the difference and leaves an unrelated selection alone.
-        private void UpdateVisibleItem(OutputMapping mapping)
-        {
-            if (mapping.Visibility.Value)
-            {
-                if (VisibleItems.Contains(mapping)) return;
-                int insertIndex = Items.TakeWhile(m => m != mapping).Count(VisibleItems.Contains);
-                VisibleItems.Insert(insertIndex, mapping);
-            }
-            else
-            {
-                VisibleItems.Remove(mapping);
-            }
-        }
-
-        // Full rebuild, only used where there is no meaningful existing selection to protect:
-        // initial construction and loading a project file.
-        private void RebuildVisibleItems()
-        {
-            VisibleItems.Clear();
-            foreach (var mapping in Items)
-                if (mapping.Visibility.Value)
-                    VisibleItems.Add(mapping);
         }
 
         public IControlModel ToModel() => new OutputMappingManagerModel
@@ -147,7 +98,6 @@ namespace CMiX.Core.Rendering
                 Items[i].FromModel(m.Items[i]);
                 AssignFixedIds(Items[i], i);
             }
-            RebuildVisibleItems();
         }
     }
 }

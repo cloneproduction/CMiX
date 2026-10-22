@@ -85,5 +85,25 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(Brightness(strip.Background) > Brightness(window.Background), "The tab strip is not lighter than the window.");
             Assert.Equal(layerTabs.Bounds.Height, strip.Bounds.Height);
         }
+
+        // Every tab sits on the surface of the main window. The assets tab and the network tab had a lighter surface of their own.
+        [AvaloniaTheory]
+        [InlineData("Resources", "AssetManager")]
+        [InlineData("Network", "SyncPanel")]
+        public void TheAssetsTabAndTheNetworkTab_SitOnTheSurfaceOfTheWindow(string icon, string viewName)
+        {
+            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var tabs = TestServiceProviderFactory.MainTabControl(window);
+            tabs.SelectedItem = tabs.Items.OfType<TabItem>().First(tab => tab.Header is CMiX.UI.Controls.AppIcon appIcon && appIcon.IconKey == icon);
+            TestServiceProviderFactory.Pump();
+
+            var view = window.GetVisualDescendants().OfType<UserControl>().First(control => control.GetType().Name == viewName);
+            var surfaces = new List<IBrush?> { view.Background };
+            surfaces.AddRange(view.GetVisualDescendants().OfType<Border>().Where(border => border.Name == "dropBorder").Select(border => border.Background));
+            var windowBrightness = Brightness(window.Background);
+
+            foreach (var brush in surfaces.OfType<ISolidColorBrush>().Where(brush => brush.Color.A > 0))
+                Assert.True(Brightness(brush) <= windowBrightness, $"{viewName} paints a color lighter than the window.");
+        }
     }
 }

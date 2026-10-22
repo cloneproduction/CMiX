@@ -19,8 +19,13 @@ namespace CMiX.UI.Tests
         // The space above and below the rows of a ListBoxCMiX.
         public static double ListMargin => Get<Thickness>("ListScrollMargin").Top + Get<Thickness>("ListScrollMargin").Bottom;
 
+        public static double ListSpacing => Get<double>("ListSpacing");
+
+        // The distance from the top of a row to the top of the next one.
+        public static double RowPitch => RowHeight + ListSpacing;
+
         // The height of a ListBoxCMiX that shows the given number of rows.
-        public static double ListHeight(int rows) => rows * RowHeight + ListMargin;
+        public static double ListHeight(int rows) => rows * RowPitch - ListSpacing + ListMargin;
 
         public static int ListVisibleItems => Get<int>("ListVisibleItems");
     }

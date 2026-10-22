@@ -11,7 +11,7 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The mask toggle is the power toggle of the library with the icon of the Studio.
+    // The mask toggle is the power toggle of the library with two icons of the Studio.
     // It looks like the other icon toggles: a dim icon while off, a lit icon while on, in the same color.
     public class MaskToggleTests
     {
@@ -30,9 +30,15 @@ namespace CMiX.Studio.Avalonia.Tests
         private static Color BrushColor(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
 
         [AvaloniaFact]
-        public void ShowsTheMaskIcon()
+        public void WhileOff_ShowsTheOutlinedIcon_AndWhileOn_TheFilledOne()
         {
-            Assert.Equal("Mask", Icon(Show()).IconKey);
+            var toggle = Show();
+            Assert.Equal("MaskOff", Icon(toggle).IconKey);
+
+            toggle.IsChecked = true;
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal("Mask", Icon(toggle).IconKey);
         }
 
         [AvaloniaFact]

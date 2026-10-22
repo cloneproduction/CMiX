@@ -5,15 +5,17 @@ using Avalonia.Data;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
+using CMiX.UI.Panels;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // ListBoxDetail is a list with a delete button, an add area and the detail of the selected item.
-    public class ListBoxDetailTests
+    // ListBoxRepository is a list with a delete button, an add area and the detail of the selected item.
+    public class ListBoxRepositoryTests
     {
         private sealed class Row
         {
@@ -21,10 +23,10 @@ namespace CMiX.UI.Tests
             public string Name { get; }
         }
 
-        private static (Window window, ListBoxDetail detail, ObservableCollection<Row> rows) Show(Action<ListBoxDetail>? configure = null)
+        private static (Window window, ListBoxRepository detail, ObservableCollection<Row> rows) Show(Action<ListBoxRepository>? configure = null)
         {
             var rows = new ObservableCollection<Row> { new("one"), new("two") };
-            var detail = new ListBoxDetail { ItemsSource = rows };
+            var detail = new ListBoxRepository { ItemsSource = rows };
             detail.DataTemplates.Add(new FuncDataTemplate<Row>((row, _) => new TextBlock { Text = "row " + row.Name }));
             configure?.Invoke(detail);
             var window = new Window { Content = detail, Width = 400, Height = 600 };
@@ -33,7 +35,17 @@ namespace CMiX.UI.Tests
             return (window, detail, rows);
         }
 
-        private static ListBoxCMiX ListOf(ListBoxDetail detail) => detail.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
+        private static ListBoxCMiX ListOf(ListBoxRepository detail) => detail.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
+
+        [AvaloniaFact]
+        public void TheRemoveButton_IsRoundedOnTheRightOnly()
+        {
+            var (_, detail, _) = Show();
+
+            var remove = detail.GetVisualDescendants().OfType<Button>().Single(button => button.Name == "RemoveButton");
+
+            Assert.Equal(ControlPosition.Right, PositionedControl.GetPosition(remove));
+        }
 
         [AvaloniaFact]
         public void ContainerPrepared_IsRaisedForEachRow_WithTheItemAsDataContext()
@@ -78,7 +90,7 @@ namespace CMiX.UI.Tests
             var (_, detail, rows) = Show(d => d.DeleteCommand = command);
             detail.SelectedItem = rows[1];
             Dispatcher.UIThread.RunJobs();
-            var delete = detail.GetVisualDescendants().OfType<Button>().Single(b => Equals(b.Content, "-"));
+            var delete = detail.GetVisualDescendants().OfType<Button>().Single(b => b.Name == "RemoveButton");
 
             Assert.Same(command, delete.Command);
             Assert.Same(rows[1], delete.CommandParameter);

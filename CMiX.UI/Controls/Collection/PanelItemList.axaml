@@ -30,14 +30,11 @@
             ui:TogglePopup.Toggle="{Binding ElementName=AddToggle}"
             Placement="Bottom">
 
-            <Border
-                Padding="2"
-                Background="{DynamicResource Grey100Brush}"
-                CornerRadius="{DynamicResource CornerRadiusLargeBottom}">
+            <ui:DropdownFrame>
 
                 <ContentControl Content="{Binding AddContent, ElementName=panelItemList}" />
 
-            </Border>
+            </ui:DropdownFrame>
 
         </Popup>
 

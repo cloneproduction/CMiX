@@ -1,0 +1,42 @@
+<UserControl
+    x:Class="CMiX.UI.Controls.Collection.ListBoxRepository"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    x:Name="listBoxRepository">
+
+    <StackPanel>
+
+        <ui:ListBoxCMiX
+            x:Name="itemsList"
+            MinItemCount="{DynamicResource ListVisibleItems}"
+            Margin="8"
+            ItemsSource="{Binding ItemsSource, ElementName=listBoxRepository}"
+            SelectedItem="{Binding SelectedItem, ElementName=listBoxRepository, Mode=TwoWay}" />
+
+        <ui:DockPanelPositioned Margin="8,0,8,8">
+
+            <Button
+                x:Name="RemoveButton"
+                Width="{DynamicResource ControlHeightMD}"
+                Height="{DynamicResource ControlHeightMD}"
+                Command="{Binding DeleteCommand, ElementName=listBoxRepository}"
+                CommandParameter="{Binding SelectedItem, ElementName=listBoxRepository}"
+                DockPanel.Dock="Right">
+                <ui:AppIcon Opacity="0.7" IconKey="Remove" Size="{DynamicResource IconSizeXS}" />
+            </Button>
+
+            <ContentControl Content="{Binding AddContent, ElementName=listBoxRepository}" />
+
+        </ui:DockPanelPositioned>
+
+        <!-- The detail shows only while an item is selected. Its DataContext is that item. -->
+        <Border IsVisible="{Binding SelectedItem, ElementName=listBoxRepository, Converter={StaticResource NullToVisibility}}">
+            <ContentControl
+                Content="{Binding DetailContent, ElementName=listBoxRepository}"
+                DataContext="{Binding SelectedItem, ElementName=listBoxRepository}" />
+        </Border>
+
+    </StackPanel>
+
+</UserControl>

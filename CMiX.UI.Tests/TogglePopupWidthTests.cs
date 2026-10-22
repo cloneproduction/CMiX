@@ -4,6 +4,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Layout;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
@@ -79,8 +80,12 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
 
             var popup = (Popup)list.GetLogicalChildren().OfType<StackPanel>().Single().Children.OfType<Popup>().Single();
-            Assert.Equal(400, popup.Width);
+            Assert.Equal(400, PanelWidth(popup));
         }
+
+        // The panel that the user sees, without the room of the shadow around it.
+        private static double PanelWidth(Popup popup) =>
+            popup.Child!.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "PART_Panel").Bounds.Width;
 
         [AvaloniaFact]
         public void ThePopupButton_IsAsWideAsItsToggle()
@@ -95,7 +100,7 @@ namespace CMiX.UI.Tests
 
             var popup = TogglePopup.GetToggle(button.GetLogicalDescendants().OfType<Popup>().Single());
             Assert.Same(toggle, popup);
-            Assert.Equal(320, button.GetLogicalDescendants().OfType<Popup>().Single().Width);
+            Assert.Equal(320, PanelWidth(button.GetLogicalDescendants().OfType<Popup>().Single()));
         }
     }
 }

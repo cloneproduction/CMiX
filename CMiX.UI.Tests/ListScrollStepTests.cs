@@ -16,7 +16,7 @@ namespace CMiX.UI.Tests
     // The lists of CMiX show a whole number of rows, and the wheel moves them by one row.
     public class ListScrollStepTests
     {
-        private static double RowHeight => Tokens.RowHeight;
+        private static double RowPitch => Tokens.RowPitch;
 
         private static T Show<T>(T list, int itemCount = 30) where T : ListBox
         {
@@ -49,7 +49,7 @@ namespace CMiX.UI.Tests
             var list = Show(new ListBoxCMiX { MinItemCount = Tokens.ListVisibleItems });
             var scroll = ScrollOf(list);
 
-            Assert.Equal(Tokens.ListVisibleItems * RowHeight, scroll.Viewport.Height);
+            Assert.Equal(Tokens.ListHeight(Tokens.ListVisibleItems) - Tokens.ListMargin, scroll.Viewport.Height);
             Assert.Equal(Tokens.ListHeight(Tokens.ListVisibleItems), list.MinHeight);
         }
 
@@ -65,16 +65,16 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AListBoxDetail_ShowsFiveWholeRows()
+        public void AListBoxRepository_ShowsFiveWholeRows()
         {
-            var detail = new ListBoxDetail
+            var detail = new ListBoxRepository
             {
                 ItemsSource = Enumerable.Range(1, 30).Select(i => "Item " + i).ToList(),
             };
             new Window { Content = detail, Width = 400, Height = 800 }.Show();
             Dispatcher.UIThread.RunJobs();
 
-            Assert.Equal(Tokens.ListVisibleItems * RowHeight, ScrollOf(detail).Viewport.Height);
+            Assert.Equal(Tokens.ListHeight(Tokens.ListVisibleItems) - Tokens.ListMargin, ScrollOf(detail).Viewport.Height);
         }
 
         [AvaloniaFact]
@@ -83,11 +83,11 @@ namespace CMiX.UI.Tests
             var scroll = ScrollOf(Show(new ListBoxCMiX { MinItemCount = Tokens.ListVisibleItems }));
 
             Wheel(scroll, -1);
-            Assert.Equal(RowHeight, scroll.Offset.Y);
+            Assert.Equal(RowPitch, scroll.Offset.Y);
 
             Wheel(scroll, -1);
             Wheel(scroll, -1);
-            Assert.Equal(3 * RowHeight, scroll.Offset.Y);
+            Assert.Equal(3 * RowPitch, scroll.Offset.Y);
         }
 
         [AvaloniaFact]
@@ -98,7 +98,7 @@ namespace CMiX.UI.Tests
 
             Wheel(scroll, -1);
 
-            Assert.Equal(RowHeight, scroll.Offset.Y);
+            Assert.Equal(RowPitch, scroll.Offset.Y);
         }
 
         [AvaloniaFact]
@@ -198,11 +198,11 @@ namespace CMiX.UI.Tests
         {
             var height = Resize(distance);
 
-            Assert.Equal(0, (height - Tokens.ListMargin) % RowHeight, 6);
+            Assert.Equal(0, (height - Tokens.ListMargin + Tokens.ListSpacing) % RowPitch, 6);
             Assert.True(height >= Tokens.ListHeight(Tokens.ListVisibleItems));
             // The height is the nearest whole number of rows to where the pointer is.
             var wanted = Tokens.ListHeight(Tokens.ListVisibleItems) + distance;
-            Assert.True(Math.Abs(height - wanted) <= RowHeight / 2 + 0.5);
+            Assert.True(Math.Abs(height - wanted) <= RowPitch / 2 + 0.5);
         }
 
         [AvaloniaFact]

@@ -39,7 +39,7 @@
 
             </Managers:PrefabSlotManager>
 
-            <Border Margin="8, 0" IsVisible="{Binding ModelEntityManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+            <Border Margin="0, 0" IsVisible="{Binding ModelEntityManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
                 <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.SelectedItem}">
                     <ContentControl.DataTemplates>
 

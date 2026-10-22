@@ -3,7 +3,6 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Materials
@@ -15,8 +14,5 @@ namespace CMiX.Core.Materials
         public MaskTextureModel MaskTexture { get; set; } = new();
         public MaterialSettingsModel MaterialSettings { get; set; } = new();
         public PrefabServiceModel PrefabService { get; set; } = new();
-        public PrefabManagerModel ExplodeTriangleTextureManager { get; set; } = new();
-        public GenericValueModel<float> ExplodeStrength { get; set; } = new(0.6f);
-        public PrefabManagerModel ModifierManager { get; set; } = new();
     }
 }

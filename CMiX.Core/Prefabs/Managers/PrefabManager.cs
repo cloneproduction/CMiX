@@ -38,6 +38,7 @@ namespace CMiX.Core.Prefabs.Managers
             AddItemCommand = new RelayCommand<Type>(AddItem);
             AddExistingItemCommand = new RelayCommand<IControl>(AddExistingItem);
             RemoveItemCommand = new RelayCommand<IControl>(RemoveItem);
+            DuplicateItemCommand = new RelayCommand<IControl>(item => DuplicateItem(item));
             ClearSelectionCommand = new RelayCommand(ClearSelection);
             ResetItemCommand = new RelayCommand<IControl>(ResetItem);
             ManagerReorderService = reorderServiceFactory?.Invoke(ManagerData, MoveItem);
@@ -82,6 +83,7 @@ namespace CMiX.Core.Prefabs.Managers
         public override ICommand AddItemCommand { get; }
         public ICommand AddExistingItemCommand { get; }
         public ICommand RemoveItemCommand { get; }
+        public ICommand DuplicateItemCommand { get; }
         public override ICommand ClearSelectionCommand { get; }
         public ICommand ResetItemCommand { get; }
         public ICommand RemoveEverywhereCommand { get; }

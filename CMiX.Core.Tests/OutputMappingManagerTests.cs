@@ -22,7 +22,6 @@ namespace CMiX.Core.Tests
             Assert.Equal(fieldIds.ResolutionX, mapping.Resolution.X.ID);
             Assert.Equal(fieldIds.ResolutionY, mapping.Resolution.Y.ID);
             Assert.Equal(fieldIds.TexcoordSemantic, mapping.TexcoordSemantic.ID);
-            Assert.Equal(fieldIds.Visibility, mapping.Visibility.ID);
         }
 
         [Fact]
@@ -49,7 +48,6 @@ namespace CMiX.Core.Tests
                 Assert.Equal(slot1.Resolution.X.ID, slot2.Resolution.X.ID);
                 Assert.Equal(slot1.Resolution.Y.ID, slot2.Resolution.Y.ID);
                 Assert.Equal(slot1.TexcoordSemantic.ID, slot2.TexcoordSemantic.ID);
-                Assert.Equal(slot1.Visibility.ID, slot2.Visibility.ID);
             }
         }
 
@@ -78,7 +76,7 @@ namespace CMiX.Core.Tests
         }
 
         // A reset gives every slot the values of a new project. The slot instances, their fixed ids
-        // and the visible list stay correct.
+        // stay correct.
         [Fact]
         public void Reset_RestoresTheDefaultsAndKeepsTheInstances()
         {
@@ -87,7 +85,6 @@ namespace CMiX.Core.Tests
             var slot3 = manager.Items[3];
             slot3.Name.Value = "LeftWall";
             slot3.Resolution.X.Value = 3840;
-            manager.Items[5].Visibility.Value = false;
 
             manager.Reset();
 
@@ -95,9 +92,6 @@ namespace CMiX.Core.Tests
             Assert.Equal("Output 4", slot3.Name.Value);
             Assert.Equal(1920, slot3.Resolution.X.Value);
             Assert.Equal(1080, slot3.Resolution.Y.Value);
-            Assert.True(manager.Items[5].Visibility.Value);
-            Assert.Contains(manager.Items[5], manager.VisibleItems);
-            Assert.Equal(OutputMappingManager.SlotCount, manager.VisibleItems.Count);
             Assert.Same(manager.Items[0], manager.SelectedItem);
 
             for (int i = 0; i < OutputMappingManager.SlotCount; i++)

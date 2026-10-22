@@ -25,7 +25,8 @@ namespace CMiX.Studio.Avalonia.Tests
         private static double HeightOfRows(int rows)
         {
             var margin = Token<Thickness>("ListScrollMargin");
-            return rows * Token<double>("ControlHeightMD") + margin.Top + margin.Bottom;
+            var spacing = Token<double>("ListSpacing");
+            return rows * (Token<double>("ControlHeightMD") + spacing) - spacing + margin.Top + margin.Bottom;
         }
 
         private static ListBoxCMiX Show(PrefabSlotManager manager)

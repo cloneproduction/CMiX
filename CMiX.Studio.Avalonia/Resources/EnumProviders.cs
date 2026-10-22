@@ -25,9 +25,6 @@ namespace CMiX.Studio.Avalonia.Resources
         public static CMiX.Core.Texturing.Filters.KuwaharaType[] KuwaharaType { get; } =
             Enum.GetValues<CMiX.Core.Texturing.Filters.KuwaharaType>();
 
-        public static CMiX.Core.Materials.Modifiers.TextureFrom[] TextureFrom { get; } =
-            Enum.GetValues<CMiX.Core.Materials.Modifiers.TextureFrom>();
-
         public static CMiX.Core.Compositing.ResamplingMethod[] ResamplingMethod { get; } =
             Enum.GetValues<CMiX.Core.Compositing.ResamplingMethod>();
 

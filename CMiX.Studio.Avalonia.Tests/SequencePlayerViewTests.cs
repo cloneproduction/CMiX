@@ -103,11 +103,11 @@ namespace CMiX.Studio.Avalonia.Tests
             Color Brush(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
             var states = (IPseudoClasses)doSeek.Classes;
 
-            Assert.Equal(Brush("Grey600Brush"), Current());
+            Assert.Equal(Brush("StateIdleBrush"), Current());
 
             states.Set(":pointerover", true);
             TestServiceProviderFactory.Pump();
-            Assert.Equal(Brush("Grey700Brush"), Current());
+            Assert.Equal(Brush("StateHoverBrush"), Current());
 
             states.Set(":pressed", true);
             TestServiceProviderFactory.Pump();

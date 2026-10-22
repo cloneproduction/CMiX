@@ -274,7 +274,7 @@ namespace CMiX.UI.Tests
             var rows = box.GetVisualDescendants().OfType<ListBoxItem>().OrderBy(r => r.Bounds.Y).ToList();
             var text = rows[0].GetVisualDescendants().OfType<TextBlock>().Single();
 
-            Assert.Equal(Tokens.Get<double>("ListEditableSpacing"), rows[1].Bounds.Y - rows[0].Bounds.Bottom, 0.5);
+            Assert.Equal(Tokens.Get<double>("ListSpacing"), rows[1].Bounds.Y - rows[0].Bounds.Bottom, 0.5);
             Assert.Equal(text.Bounds.Height, rows[0].Bounds.Height, 0.5);
         }
 
@@ -287,7 +287,7 @@ namespace CMiX.UI.Tests
             var row = box.GetVisualDescendants().OfType<ListBoxItem>().Single();
             var padding = Tokens.Get<Thickness>("ListEditablePadding");
             var rows = Tokens.Get<int>("ListEditableVisibleItems");
-            var room = rows * Tokens.RowHeight + (rows - 1) * Tokens.Get<double>("ListEditableSpacing") + padding.Top + padding.Bottom;
+            var room = rows * Tokens.RowHeight + (rows - 1) * Tokens.Get<double>("ListSpacing") + padding.Top + padding.Bottom;
 
             Assert.Equal(padding.Left, Position(row, box).X, 0.5);
             Assert.Equal(padding.Top, Position(row, box).Y, 0.5);
@@ -302,7 +302,7 @@ namespace CMiX.UI.Tests
         private static double RoomForRows(int rows)
         {
             var padding = Tokens.Get<Thickness>("ListEditablePadding");
-            return rows * Tokens.RowHeight + (rows - 1) * Tokens.Get<double>("ListEditableSpacing") + padding.Top + padding.Bottom;
+            return rows * Tokens.RowHeight + (rows - 1) * Tokens.Get<double>("ListSpacing") + padding.Top + padding.Bottom;
         }
 
         [AvaloniaFact]

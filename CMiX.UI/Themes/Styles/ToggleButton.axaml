@@ -17,11 +17,11 @@
         </Style>
 
         <Style Selector="^:unchecked:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
 
         <Style Selector="^:unchecked:not(:pointerover) /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         </Style>
     </ControlTheme>
 
@@ -40,7 +40,7 @@
     </ControlTheme>
 
     <ControlTheme x:Key="ToggleButtonCheckBox" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -69,7 +69,7 @@
         </Setter>
 
         <Style Selector="^:pressed /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
 
         <Style Selector="^:disabled /template/ Border#border">
@@ -92,14 +92,14 @@
         </Style>
 
         <Style Selector="^:unchecked:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^:unchecked:pointerover /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />
         </Style>
 
         <Style Selector="^:unchecked:not(:pointerover) /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         </Style>
         <Style Selector="^:unchecked:not(:pointerover) /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />
@@ -107,7 +107,7 @@
     </ControlTheme>
 
     <ControlTheme
-        x:Key="ToggleButtonIcon"
+        x:Key="ToggleButtonCheck"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="ToggleButton">
         <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
@@ -125,44 +125,10 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ToggleButtonVisibility" TargetType="ToggleButton">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Height" Value="{DynamicResource ControlHeightXS}" />
-        <Setter Property="Width" Value="{DynamicResource ControlHeightXS}" />
-        <Setter Property="Padding" Value="4" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border
-                    Name="border"
-                    Margin="0"
-                    Padding="1"
-                    Background="Transparent">
-                    <ui:AppIcon Name="image" IconKey="Visible" Size="{DynamicResource IconSizeXS}" />
-                </Border>
-            </ControlTemplate>
-        </Setter>
-
-        <!-- Icon toggles share these opacities: 0.6 at rest, 1 under the pointer and while on.
-             They are styles, not local values. A local value would block the states. -->
-        <Style Selector="^ /template/ Border#border">
-            <Setter Property="Opacity" Value="0.6" />
-        </Style>
-
-        <Style Selector="^:checked /template/ ui|AppIcon#image">
-            <Setter Property="IconKey" Value="NotVisible" />
-        </Style>
-
-        <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Opacity" Value="1.0" />
-        </Style>
-    </ControlTheme>
-
-    <!-- An on and off switch for a panel or a part. The icon is dim while off and lit while on,
-         with the same opacities and colors as ToggleButtonVisibility. The icon is a style, so that
-         a theme based on this one can change it. -->
-    <ControlTheme x:Key="ToggleButtonPower" TargetType="ToggleButton">
+    <!-- A toggle that is only an icon. The icon is dim at rest and lit under the pointer. A theme based on
+         this one sets the icon with IconKey in a style, and a second icon for the on state with the same style
+         under :checked. The opacities are styles, not local values. A local value would block the states. -->
+    <ControlTheme x:Key="ToggleButtonIcon" TargetType="ToggleButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -180,16 +146,29 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^ /template/ ui|AppIcon#icon">
-            <Setter Property="IconKey" Value="Power" />
-        </Style>
-
         <Style Selector="^ /template/ Border#border">
             <Setter Property="Opacity" Value="0.6" />
         </Style>
 
         <Style Selector="^:pointerover /template/ Border#border">
             <Setter Property="Opacity" Value="1.0" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ToggleButtonVisibility" BasedOn="{StaticResource ToggleButtonIcon}" TargetType="ToggleButton">
+        <Style Selector="^ /template/ ui|AppIcon#icon">
+            <Setter Property="IconKey" Value="Visible" />
+        </Style>
+
+        <Style Selector="^:checked /template/ ui|AppIcon#icon">
+            <Setter Property="IconKey" Value="NotVisible" />
+        </Style>
+    </ControlTheme>
+
+    <!-- An on and off switch for a panel or a part. The icon is dim while off and lit while on. -->
+    <ControlTheme x:Key="ToggleButtonPower" BasedOn="{StaticResource ToggleButtonIcon}" TargetType="ToggleButton">
+        <Style Selector="^ /template/ ui|AppIcon#icon">
+            <Setter Property="IconKey" Value="Power" />
         </Style>
 
         <Style Selector="^:checked /template/ Border#border">
@@ -242,7 +221,7 @@
             <ControlTemplate>
                 <Border
                     Name="border"
-                    Background="{DynamicResource Grey500Brush}"
+                    Background="{DynamicResource StateIdleBrush}"
                     CornerRadius="{DynamicResource CornerRadiusLeft}">
                     <Grid>
                         <TextBlock DockPanel.Dock="Left" Padding="8,4,4,4" Text="+" />
@@ -253,14 +232,11 @@
         </Setter>
 
         <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
 
         <Style Selector="^:checked /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
-        </Style>
-        <Style Selector="^:checked /template/ Path#arrow">
-            <Setter Property="Opacity" Value="1.0" />
         </Style>
     </ControlTheme>
 
@@ -293,7 +269,7 @@
                     Width="{DynamicResource ControlHeightXS}"
                     Height="{DynamicResource ControlHeightXS}"
                     Padding="4"
-                    Background="{DynamicResource Grey500Brush}"
+                    Background="{DynamicResource StateIdleBrush}"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
                     <ui:AppIcon
                         Name="icon"
@@ -304,7 +280,7 @@
         </Setter>
 
         <Style Selector="^:pressed /template/ Border#box">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
 
         <Style Selector="^:disabled /template/ Border#box">
@@ -322,10 +298,10 @@
         </Style>
 
         <Style Selector="^:unchecked /template/ Border#box:pointerover">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^:unchecked /template/ Border#box:not(:pointerover)">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         </Style>
         <Style Selector="^:unchecked /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />
@@ -349,7 +325,7 @@
                             Padding="4"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Background="{DynamicResource Grey500Brush}"
+                            Background="{DynamicResource StateIdleBrush}"
                             CornerRadius="{DynamicResource CornerRadiusAll}">
                             <ui:AppIcon
                                 Name="icon"
@@ -367,7 +343,7 @@
         </Setter>
 
         <Style Selector="^:pressed /template/ Border#box">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
 
         <Style Selector="^:disabled /template/ Border#box">
@@ -385,10 +361,10 @@
         </Style>
 
         <Style Selector="^:unchecked /template/ Border#box:pointerover">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^:unchecked /template/ Border#box:not(:pointerover)">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
         </Style>
         <Style Selector="^:unchecked /template/ ui|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />

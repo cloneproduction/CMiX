@@ -128,7 +128,7 @@ namespace CMiX.UI.Controls.Number
             topLevel?.Focus();
         }
 
-        private void Commit()
+        public void Commit()
         {
             if (_textBox != null)
             {
@@ -189,7 +189,8 @@ namespace CMiX.UI.Controls.Number
             if (topLevel != null)
             {
                 RemoveParentWindowHandlers();
-                topLevel.AddHandler(InputElement.PointerPressedEvent, ParentWindow_OnPointerPressed, RoutingStrategies.Tunnel);
+                // The bubble phase comes after the tunnel handler of a popup, which looks at the edit before it ends.
+                topLevel.AddHandler(InputElement.PointerPressedEvent, ParentWindow_OnPointerPressed, RoutingStrategies.Bubble, handledEventsToo: true);
             }
         }
 

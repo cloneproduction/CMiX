@@ -8,6 +8,9 @@ namespace CMiX.UI.Controls.Number
     {
         bool IsEditing { get; set; }
 
+        // Ends the edit mode and keeps the typed value. Nothing happens when the value is not in edit mode.
+        void EndEdit();
+
         // False for a value that the user cannot change, for example a modulated one.
         bool CanEdit { get; }
     }

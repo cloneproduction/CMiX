@@ -1,0 +1,18 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
+
+    <!-- The icon, the size and the opacity of every chevron of the application. A control that has a
+         chevron uses ui:Chevron and does not draw its own. -->
+    <ControlTheme x:Key="{x:Type ui:Chevron}" TargetType="ui:Chevron">
+        <Setter Property="Opacity" Value="0.5" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ui:AppIcon Name="PART_Icon" IconKey="ChevronDown" Size="{DynamicResource IconSizeXS}" />
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

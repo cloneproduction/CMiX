@@ -23,6 +23,8 @@ namespace CMiX.UI.Themes
             { "Folder_Opened", MaterialIconKind.FolderOpen },
             { "Add", MaterialIconKind.Plus },
             { "Sub", MaterialIconKind.Minus },
+            { "Remove", MaterialIconKind.Delete },
+            { "Duplicate", MaterialIconKind.ContentCopy },
             { "Rename", MaterialIconKind.RenameBox },
             { "Close", MaterialIconKind.Close },
             { "IsChecked", MaterialIconKind.Check },

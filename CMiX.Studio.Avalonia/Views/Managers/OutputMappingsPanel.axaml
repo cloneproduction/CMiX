@@ -12,27 +12,16 @@
             ItemsSource="{Binding AssetRepository.Geometries}"
             SelectedItem="{Binding Asset}" />
 
-        <ui:ListBoxCMiX
-            MinItemCount="{DynamicResource ListVisibleItems}"
+        <ListBox
             ItemsSource="{Binding Items}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
-            <ui:ListBoxCMiX.ItemTemplate>
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel>
-
-                        <ToggleButton
-                            Margin="0, 0, 8, 0"
-                            DockPanel.Dock="Right"
-                            IsChecked="{Binding !Visibility.Value}"
-                            Theme="{DynamicResource ToggleButtonVisibility}" />
-
-                        <ui:TextBoxEditable Text="{Binding Name.Value}" />
-
-                    </DockPanel>
+                    <ui:TextBoxEditable Text="{Binding Name.Value}" />
                 </DataTemplate>
-            </ui:ListBoxCMiX.ItemTemplate>
-        </ui:ListBoxCMiX>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <StackPanel
             DataContext="{Binding SelectedItem}">

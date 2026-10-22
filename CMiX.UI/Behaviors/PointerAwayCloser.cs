@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using CMiX.UI.Controls.Number;
 
 namespace CMiX.UI.Behaviors
 {
@@ -15,7 +16,8 @@ namespace CMiX.UI.Behaviors
     // The owner calls Start when the content opens and Stop when it closes.
     // Start does nothing while isEnabled gives false, so the closer is the one place that decides whether the pointer is watched.
     // The pointer is away when it is farther than the distance from the content and from the control that opened it.
-    // It is not away after the user typed in a text box of the content, because a close would lose the text.
+    // It is not away after the user typed in a text box of the content, or while a value of the content is
+    // in edit mode, because a close would lose the text.
     // It does not close while a control of the content holds the pointer, for example a slider that is dragged,
     // because the drag goes on far from the content. It does nothing on the release itself: the control that held
     // the pointer ends its drag first, for example a slider that puts the cursor back on its thumb. The next move
@@ -75,7 +77,7 @@ namespace CMiX.UI.Behaviors
             if (IsHeldByContent(e, popupContent))
                 return;
 
-            if (IsNear(popupContent, e) || IsNear(target(), e) || IsTyping(popupContent))
+            if (IsNear(popupContent, e) || IsNear(target(), e) || IsTyping(popupContent) || IsEditing(popupContent))
                 return;
 
             close();
@@ -94,6 +96,18 @@ namespace CMiX.UI.Behaviors
             var far = distance();
 
             return pos.X >= -far && pos.Y >= -far && pos.X <= size.Width + far && pos.Y <= size.Height + far;
+        }
+
+        public static bool IsEditing(Control? content) =>
+            content != null && content.GetVisualDescendants().OfType<IEditableValue>().Any(editor => editor.IsEditing);
+
+        // Ends every edit of the content and says whether there was one. The editors of a popup cannot do it
+        // themselves: a popup is a window of its own, and a press in the main window does not reach it.
+        public static bool EndEdits(Control? content)
+        {
+            var editing = content?.GetVisualDescendants().OfType<IEditableValue>().Where(editor => editor.IsEditing).ToList();
+            editing?.ForEach(editor => editor.EndEdit());
+            return editing?.Count > 0;
         }
 
         // Some popups focus a text box when they open, so the focus alone does not mean typing.

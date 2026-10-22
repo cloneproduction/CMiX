@@ -75,7 +75,7 @@
 
         <!--  ScrollBar Thumb, the part that can be dragged up/down or left/right  -->
         <Style Selector="^ /template/ Thumb#thumb">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateIdleBrush}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border
@@ -85,10 +85,10 @@
             </Setter>
         </Style>
         <Style Selector="^ /template/ Thumb#thumb:pointerover">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StateHoverBrush}" />
         </Style>
         <Style Selector="^ /template/ Thumb#thumb:pressed">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="Background" Value="{DynamicResource StatePressedBrush}" />
         </Style>
 
         <!--  ScrollBar page repeat buttons, the long area between the buttons, not the thumb  -->

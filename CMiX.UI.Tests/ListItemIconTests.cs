@@ -56,26 +56,24 @@ namespace CMiX.UI.Tests
             Assert.False(item.IsChecked);
         }
 
+        // The engine does not use the update switch yet, so it is hidden. It stays in the item and stays bound.
         [AvaloniaFact]
-        public void ThePowerToggle_IsHiddenUntilIsUpdatingHasAValue()
+        public void TheUpdateToggle_IsHidden_EvenWhenIsUpdatingHasAValue()
         {
-            var item = Show(new ListItemIcon());
-            var power = item.GetVisualDescendants().OfType<ToggleButton>().Last();
-            Assert.False(power.IsVisible);
+            var item = Show(new ListItemIcon { IsUpdating = true });
+            var update = item.GetVisualDescendants().OfType<ToggleButton>().Last();
 
-            item.IsUpdating = true;
-            Dispatcher.UIThread.RunJobs();
-            Assert.True(power.IsVisible);
+            Assert.False(update.IsVisible);
         }
 
         [AvaloniaFact]
-        public void ThePowerToggle_FollowsIsUpdating_AndWritesIt()
+        public void TheUpdateToggle_StillFollowsIsUpdating_AndWritesIt()
         {
             var item = Show(new ListItemIcon { IsUpdating = true });
-            var power = item.GetVisualDescendants().OfType<ToggleButton>().Last();
-            Assert.True(power.IsChecked);
+            var update = item.GetVisualDescendants().OfType<ToggleButton>().Last();
+            Assert.True(update.IsChecked);
 
-            power.IsChecked = false;
+            update.IsChecked = false;
             Dispatcher.UIThread.RunJobs();
             Assert.False(item.IsUpdating);
         }

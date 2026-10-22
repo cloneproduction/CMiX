@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class SelectTextureModifier : UserControl
+    public partial class SyncStatusIndicator : UserControl
     {
-        public SelectTextureModifier()
+        public SyncStatusIndicator()
         {
             InitializeComponent();
         }

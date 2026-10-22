@@ -12,7 +12,6 @@ namespace CMiX.Studio.Avalonia.Themes
         public static void Register()
         {
             Icons.Register("NewLayer", MaterialIconKind.LayersPlus);
-            Icons.Register("DeleteLayer", MaterialIconKind.Delete);
             Icons.Register("Coloration", MaterialIconKind.PaletteSwatch);
             Icons.Register("Geometry", MaterialIconKind.CubeOutline);
             Icons.Register("PostFX", MaterialIconKind.AutoFix);
@@ -24,6 +23,7 @@ namespace CMiX.Studio.Avalonia.Themes
             Icons.Register("Network", MaterialIconKind.LanPending);
             Icons.Register("Resources", MaterialIconKind.Database);
             Icons.Register("Mask", MaterialIconKind.CircleBox);
+            Icons.Register("MaskOff", MaterialIconKind.CheckboxBlank);
             Icons.Register("Cube", MaterialIconKind.Cube);
             Icons.Register("CubeCol", MaterialIconKind.CubeScan);
             Icons.Register("LayerScene", MaterialIconKind.Layers);

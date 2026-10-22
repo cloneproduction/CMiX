@@ -29,11 +29,13 @@ namespace CMiX.UI.Controls
             set => SetValue(MinItemCountProperty, value);
         }
 
-        // The height of a row and the space above and below the rows, from the tokens ControlHeightMD and
-        // ListScrollMargin. Before the list is in a window the tokens are not found.
-        private bool TryGetMetrics(out double rowHeight, out double verticalMargin)
+        // The height of a row, the space between two rows and the space above and below the rows, from the
+        // tokens ControlHeightMD, ListSpacing and ListScrollMargin. Before the list is in a window the tokens
+        // are not found.
+        private bool TryGetMetrics(out double rowHeight, out double spacing, out double verticalMargin)
         {
             rowHeight = 0;
+            spacing = 0;
             verticalMargin = 0;
 
             if (!this.TryFindResource("ControlHeightMD", ActualThemeVariant, out var row) || row is not double height)
@@ -42,17 +44,21 @@ namespace CMiX.UI.Controls
             if (!this.TryFindResource("ListScrollMargin", ActualThemeVariant, out var margin) || margin is not Thickness thickness)
                 return false;
 
+            if (!this.TryFindResource("ListSpacing", ActualThemeVariant, out var space) || space is not double gap)
+                return false;
+
             rowHeight = height;
+            spacing = gap;
             verticalMargin = thickness.Top + thickness.Bottom;
             return true;
         }
 
         private void UpdateHeight()
         {
-            if (MinItemCount <= 0 || !TryGetMetrics(out var rowHeight, out var verticalMargin))
+            if (MinItemCount <= 0 || !TryGetMetrics(out var rowHeight, out var spacing, out var verticalMargin))
                 return;
 
-            MinHeight = MinItemCount * rowHeight + verticalMargin;
+            MinHeight = MinItemCount * (rowHeight + spacing) - spacing + verticalMargin;
 
             if (Bd != null)
                 Bd.Height = MinHeight;
@@ -61,10 +67,10 @@ namespace CMiX.UI.Controls
         // The nearest height that shows a whole number of rows, and not less than the minimum.
         private double SnapHeight(double height, double minimum)
         {
-            if (TryGetMetrics(out var rowHeight, out var verticalMargin) && rowHeight > 0)
+            if (TryGetMetrics(out var rowHeight, out var spacing, out var verticalMargin) && rowHeight > 0)
             {
-                var rows = Math.Max(0, Math.Round((height - verticalMargin) / rowHeight));
-                height = rows * rowHeight + verticalMargin;
+                var rows = Math.Max(0, Math.Round((height - verticalMargin + spacing) / (rowHeight + spacing)));
+                height = rows * (rowHeight + spacing) - spacing + verticalMargin;
             }
 
             return Math.Max(height, minimum);

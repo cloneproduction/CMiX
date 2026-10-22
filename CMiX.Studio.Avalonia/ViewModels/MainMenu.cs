@@ -17,6 +17,7 @@ using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HanumanInstitute.MvvmDialogs;
@@ -26,9 +27,12 @@ namespace CMiX.Studio.Avalonia.ViewModels
 {
     public partial class MainMenu : ObservableRecipient, IControl
     {
-        public MainMenu(Project project, ControlFactory controlFactory, UndoManager undoManager, IDialogService dialogService)
+        public MainMenu(Project project, ControlFactory controlFactory, UndoManager undoManager, IDialogService dialogService,
+                        UnsavedChanges unsavedChanges, IUnsavedChangesPrompt unsavedChangesPrompt)
         {
             _dialogService = dialogService;
+            _unsavedChanges = unsavedChanges;
+            _unsavedChangesPrompt = unsavedChangesPrompt;
             Project = project;
             _undoManager = undoManager;
 
@@ -51,6 +55,29 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         private readonly UndoManager _undoManager;
         private readonly IDialogService _dialogService;
+        private readonly UnsavedChanges _unsavedChanges;
+        private readonly IUnsavedChangesPrompt _unsavedChangesPrompt;
+
+        public bool HasUnsavedChanges => _unsavedChanges.HasChanges;
+
+        // Asks what to do with the unsaved changes before the window closes. True: the window may close.
+        // Save counts only when the project was saved, so a Save As that is cancelled keeps the window open.
+        public async Task<bool> ConfirmCloseAsync()
+        {
+            if (!_unsavedChanges.HasChanges)
+                return true;
+
+            switch (await _unsavedChangesPrompt.AskAsync())
+            {
+                case UnsavedChangesChoice.Save:
+                    await SaveProject();
+                    return !_unsavedChanges.HasChanges;
+                case UnsavedChangesChoice.DontSave:
+                    return true;
+                default:
+                    return false;
+            }
+        }
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(TitleBarText))]
@@ -159,7 +186,11 @@ namespace CMiX.Studio.Avalonia.ViewModels
             });
         }
 
-        private void NewProject() => ResetSession();
+        private void NewProject()
+        {
+            ResetSession();
+            _unsavedChanges.MarkSaved();
+        }
 
         // Empties the running session. The six repository managers and the composition manager
         // between them reference every control the repository holds, so letting all eight go
@@ -237,6 +268,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 }
 
                 FolderPath = path;
+                _unsavedChanges.MarkSaved();
             }
             catch (Exception ex)
             {
@@ -274,6 +306,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             try
             {
                 await WriteProject(path);
+                _unsavedChanges.MarkSaved();
             }
             catch (Exception ex)
             {
