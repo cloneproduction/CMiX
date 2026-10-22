@@ -17,5 +17,11 @@ namespace CMiX.Core.Modulation.Modulators
         public GenericValueModel<float> ETemp { get; set; } = new(0f);
         public GenericValueModel<float> BlueIOTPosX { get; set; } = new(0f);
         public GenericValueModel<float> BlueIOTPosY { get; set; } = new(0f);
+        public FloatRangeModel HeartRateRange { get; set; } = new(0f, 1f);
+        public FloatRangeModel TemperatureRange { get; set; } = new(0f, 1f);
+        public FloatRangeModel ConductivityRange { get; set; } = new(0f, 1f);
+        public FloatRangeModel ETempRange { get; set; } = new(0f, 1f);
+        public FloatRangeModel BlueIOTPosXRange { get; set; } = new(-1f, 1f);
+        public FloatRangeModel BlueIOTPosYRange { get; set; } = new(1f, -1f);
     }
 }

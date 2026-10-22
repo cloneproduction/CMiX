@@ -34,6 +34,39 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void VisitorDataModulator_ConstructsAtItsIntendedDefaults()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var visitorData = (VisitorDataModulator)provider.GetRequiredService<ControlFactory>().Create(typeof(VisitorDataModulator));
+
+            Assert.Equal(0.0f, visitorData.HeartRateRange.Minimum.Value);
+            Assert.Equal(1.0f, visitorData.HeartRateRange.Maximum.Value);
+            Assert.Equal(0.0f, visitorData.TemperatureRange.Minimum.Value);
+            Assert.Equal(1.0f, visitorData.TemperatureRange.Maximum.Value);
+            Assert.Equal(0.0f, visitorData.ConductivityRange.Minimum.Value);
+            Assert.Equal(1.0f, visitorData.ConductivityRange.Maximum.Value);
+            Assert.Equal(0.0f, visitorData.ETempRange.Minimum.Value);
+            Assert.Equal(1.0f, visitorData.ETempRange.Maximum.Value);
+            Assert.Equal(-1.0f, visitorData.BlueIOTPosXRange.Minimum.Value);
+            Assert.Equal(1.0f, visitorData.BlueIOTPosXRange.Maximum.Value);
+            Assert.Equal(1.0f, visitorData.BlueIOTPosYRange.Minimum.Value);
+            Assert.Equal(-1.0f, visitorData.BlueIOTPosYRange.Maximum.Value);
+
+            visitorData.HeartRateRange.Minimum.Value = 40.0f;
+            visitorData.HeartRateRange.Maximum.Value = 200.0f;
+            visitorData.BlueIOTPosYRange.Minimum.Value = 5.0f;
+            visitorData.BlueIOTPosYRange.Maximum.Value = 6.0f;
+
+            visitorData.HeartRateRange.ResetAllCommand.Execute(null);
+            visitorData.BlueIOTPosYRange.ResetAllCommand.Execute(null);
+
+            Assert.Equal(0.0f, visitorData.HeartRateRange.Minimum.Value);
+            Assert.Equal(1.0f, visitorData.HeartRateRange.Maximum.Value);
+            Assert.Equal(1.0f, visitorData.BlueIOTPosYRange.Minimum.Value);
+            Assert.Equal(-1.0f, visitorData.BlueIOTPosYRange.Maximum.Value);
+        }
+
+        [Fact]
         public void BeatRandomModulator_ConstructsAtItsIntendedDefaults()
         {
             var provider = TestServiceProviderFactory.Create();
