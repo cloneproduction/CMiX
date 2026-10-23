@@ -72,16 +72,16 @@ namespace CMiX.Core.Tests
             var fftModulator = provider.GetRequiredService<FFTModulator>();
 
             Assert.IsAssignableFrom<IModulator>(fftModulator);
-            Assert.Equal(new[] { "FFT", "Bass", "LowerMid", "HigherMid", "High" }, fftModulator.Outputs.Select(o => o.Name));
+            Assert.Equal(new[] { "Bass", "LowerMid", "HigherMid", "High" }, fftModulator.Outputs.Select(o => o.Name));
             Assert.All(fftModulator.Outputs, o => Assert.IsType<ModulatorOutput<float>>(o));
         }
 
         [Fact]
-        public void FFTModulator_ToModel_FromModel_RoundTripsFFTAndBass()
+        public void FFTModulator_ToModel_FromModel_RoundTripsTrackIndexAndBass()
         {
             var provider = TestServiceProviderFactory.Create();
             var fftModulator = provider.GetRequiredService<FFTModulator>();
-            fftModulator.FFT.Value = 0.75f;
+            fftModulator.TrackIndex.Value = 3;
             fftModulator.Bass.Value = 0.25f;
 
             var model = fftModulator.ToModel();
@@ -90,7 +90,7 @@ namespace CMiX.Core.Tests
             var reloaded = provider2.GetRequiredService<FFTModulator>();
             reloaded.FromModel(model);
 
-            Assert.Equal(0.75f, reloaded.FFT.Value);
+            Assert.Equal(3, reloaded.TrackIndex.Value);
             Assert.Equal(0.25f, reloaded.Bass.Value);
         }
     }
