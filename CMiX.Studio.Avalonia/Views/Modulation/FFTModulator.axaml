@@ -8,11 +8,11 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
       
-      <ui:DragValue
-        Caption="FFT"
-        Minimum="0.0"
-        Value="{Binding FFT.Value}"
-        ResetCommand="{Binding FFT.ResetCommand}" />
+      <ui:IntegerValue
+        Caption="Track Index"
+        Minimum="0"
+        Value="{Binding TrackIndex.Value}"
+        ResetCommand="{Binding TrackIndex.ResetCommand}" />
 
       <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 

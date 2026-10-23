@@ -10,10 +10,10 @@ namespace CMiX.Core.Modulation.Modulators
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
-        public GenericValueModel<float> FFT { get; set; } = new(0.0f);
-        public GenericValueModel<float> Bass { get; set; } = new(0.0f);
-        public GenericValueModel<float> LowerMid { get; set; } = new(0.0f);
-        public GenericValueModel<float> HigherMid { get; set; } = new(0.0f);
-        public GenericValueModel<float> High { get; set; } = new(0.0f);
+        public GenericValueModel<int> TrackIndex { get; set; } = new(0);
+        public GenericValueModel<float> Bass { get; set; } = new(1.0f);
+        public GenericValueModel<float> LowerMid { get; set; } = new(1.0f);
+        public GenericValueModel<float> HigherMid { get; set; } = new(1.0f);
+        public GenericValueModel<float> High { get; set; } = new(1.0f);
     }
 }
