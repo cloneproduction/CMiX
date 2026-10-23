@@ -11,12 +11,16 @@ namespace CMiX.Core.Modulation.Modulators
         public TrackingModulator(PrefabService prefabService, 
                                  GenericValue<int> count, 
                                  GenericValue<float> x,
-                                 GenericValue<float> y)
+                                 GenericValue<float> y,
+                                 FloatRange xRange,
+                                 FloatRange yRange)
             : base(prefabService)
         {
             Count = count;
             X = x;
             Y = y;
+            XRange = xRange;
+            YRange = yRange;
         }
 
         public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[]
@@ -29,6 +33,8 @@ namespace CMiX.Core.Modulation.Modulators
         public GenericValue<int> Count { get; set; }
         public GenericValue<float> X { get; set; }
         public GenericValue<float> Y { get; set; }
+        public FloatRange XRange { get; set; }
+        public FloatRange YRange { get; set; }
 
         public override IControlModel ToModel() => new TrackingModulatorModel
         {
@@ -36,7 +42,9 @@ namespace CMiX.Core.Modulation.Modulators
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Count = (GenericValueModel<int>)Count.ToModel(),
             X = (GenericValueModel<float>)X.ToModel(),
-            Y = (GenericValueModel<float>)Y.ToModel()
+            Y = (GenericValueModel<float>)Y.ToModel(),
+            XRange = (FloatRangeModel)XRange.ToModel(),
+            YRange = (FloatRangeModel)YRange.ToModel()
         };
 
         public override void FromModel(IControlModel model)
@@ -47,6 +55,8 @@ namespace CMiX.Core.Modulation.Modulators
             Count.FromModel(m.Count);
             X.FromModel(m.X);
             Y.FromModel(m.Y);
+            XRange.FromModel(m.XRange);
+            YRange.FromModel(m.YRange);
         }
     }
 }

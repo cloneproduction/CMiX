@@ -66,6 +66,31 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void TrackingModulator_ConstructsAtItsIntendedDefaults()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var tracking = (TrackingModulator)provider.GetRequiredService<ControlFactory>().Create(typeof(TrackingModulator));
+
+            Assert.Equal(-1.0f, tracking.XRange.Minimum.Value);
+            Assert.Equal(1.0f, tracking.XRange.Maximum.Value);
+            Assert.Equal(1.0f, tracking.YRange.Minimum.Value);
+            Assert.Equal(-1.0f, tracking.YRange.Maximum.Value);
+
+            tracking.XRange.Minimum.Value = -2.0f;
+            tracking.XRange.Maximum.Value = 2.0f;
+            tracking.YRange.Minimum.Value = 5.0f;
+            tracking.YRange.Maximum.Value = 6.0f;
+
+            tracking.XRange.ResetAllCommand.Execute(null);
+            tracking.YRange.ResetAllCommand.Execute(null);
+
+            Assert.Equal(-1.0f, tracking.XRange.Minimum.Value);
+            Assert.Equal(1.0f, tracking.XRange.Maximum.Value);
+            Assert.Equal(1.0f, tracking.YRange.Minimum.Value);
+            Assert.Equal(-1.0f, tracking.YRange.Maximum.Value);
+        }
+
+        [Fact]
         public void BeatRandomModulator_ConstructsAtItsIntendedDefaults()
         {
             var provider = TestServiceProviderFactory.Create();

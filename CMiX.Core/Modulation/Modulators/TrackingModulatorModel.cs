@@ -13,5 +13,7 @@ namespace CMiX.Core.Modulation.Modulators
         public GenericValueModel<int> Count { get; set; } = new(0);
         public GenericValueModel<float> X { get; set; } = new(0f);
         public GenericValueModel<float> Y { get; set; } = new(0f);
+        public FloatRangeModel XRange { get; set; } = new(-1f, 1f);
+        public FloatRangeModel YRange { get; set; } = new(1f, -1f);
     }
 }
