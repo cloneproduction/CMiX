@@ -2,14 +2,36 @@
     x:Class="CMiX.Studio.Avalonia.Views.TrackingModulator"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0" Text="X ->"/>
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Y ->"/>
-        <TextBlock HorizontalAlignment="Right" Padding="8, 0"  Text="Count ->"/>
+
+        <ui:ContentCaptioned Caption="X">
+            <ui:RangeValue
+                DataContext="{Binding XRange}"
+                LeftValue="{Binding Minimum.Value}"
+                LeftCaption="Min"
+                LeftResetCommand="{Binding Minimum.ResetCommand}"
+                RightCaption="Max"
+                RightResetCommand="{Binding Maximum.ResetCommand}"
+                RightValue="{Binding Maximum.Value}"/>
+        </ui:ContentCaptioned>
+
+        <ui:ContentCaptioned Caption="Y">
+            <ui:RangeValue
+                DataContext="{Binding YRange}"
+                LeftValue="{Binding Minimum.Value}"
+                LeftCaption="Min"
+                LeftResetCommand="{Binding Minimum.ResetCommand}"
+                RightCaption="Max"
+                RightResetCommand="{Binding Maximum.ResetCommand}"
+                RightValue="{Binding Maximum.Value}"/>
+        </ui:ContentCaptioned>
+
+        <ui:ContentCaptioned Caption="Count" />
+
     </StackPanel>
 
 </UserControl>
