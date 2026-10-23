@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var rows = Open(window, button);
 
             Assert.Equal(
-                new object?[] { "Assign Modulator", "-", "Random Value", "FFT FFT", "FFT Bass", "FFT LowerMid", "FFT HigherMid", "FFT High", "Unassign" },
+                new object?[] { "Assign Modulator", "-", "Random Value", "FFT Bass", "FFT LowerMid", "FFT HigherMid", "FFT High", "Unassign" },
                 rows.Select(r => r.Header).ToArray());
             Assert.All(rows, row => Assert.NotNull(row.FindAncestorOfType<PopupFrame>()));
         }

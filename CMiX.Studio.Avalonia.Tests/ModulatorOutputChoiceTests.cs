@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var rows = ModulatorOutputChoice.Build(selections, blur.Strength);
 
             Assert.Equal(
-                new[] { "Assign Modulator", "-", "Random Value", "FFT FFT", "FFT Bass", "FFT LowerMid", "FFT HigherMid", "FFT High", "Unassign" },
+                new[] { "Assign Modulator", "-", "Random Value", "FFT Bass", "FFT LowerMid", "FFT HigherMid", "FFT High", "Unassign" },
                 rows.Select(r => r.Label).ToArray());
             Assert.Equal<ModulatorOutputSelection?>(selections, rows.Skip(2).Take(selections.Count).Select(r => r.Selection));
             Assert.Null(rows[0].Selection);
