@@ -10,9 +10,9 @@ namespace CMiX.Core.Processors
     // Keeps the ids of the layers to render: the visible layers of the composition that is selected in the project, in the order of its layer list.
     // The list is empty when no composition is selected or when the selected composition is hidden.
     // CompositionIds holds the selected composition in the same cases, so it is empty or has one id.
-    // Ids is a new array after each change, so another thread can read it without a lock.
+    // LayerIds is a new array after each change, so another thread can read it without a lock.
     // GetItemIds gives what one layer draws: its visible entities, then its cameras, then its lights.
-    public class RenderLayersProcessor
+    public class RenderListProcessor
     {
         private readonly ManagerData compositions;
         private readonly VisibilityProcessor visibility;
@@ -21,7 +21,7 @@ namespace CMiX.Core.Processors
         private Composition selected;
         private ManagerData layers;
 
-        public RenderLayersProcessor(Project project, VisibilityProcessor visibility, VisibleItemsProcessor items)
+        public RenderListProcessor(Project project, VisibilityProcessor visibility, VisibleItemsProcessor items)
         {
             this.visibility = visibility;
             this.items = items;
@@ -37,7 +37,7 @@ namespace CMiX.Core.Processors
             Select();
         }
 
-        public IReadOnlyList<Guid> Ids { get; private set; } = Array.Empty<Guid>();
+        public IReadOnlyList<Guid> LayerIds { get; private set; } = Array.Empty<Guid>();
 
         public IReadOnlyList<Guid> CompositionIds { get; private set; } = Array.Empty<Guid>();
 
@@ -72,7 +72,7 @@ namespace CMiX.Core.Processors
             var shown = selected != null && layers != null && !visibility.IsHidden(selected.ID);
 
             CompositionIds = shown ? new[] { selected.ID } : Array.Empty<Guid>();
-            Ids = shown
+            LayerIds = shown
                 ? layers.Items
                     .Where(layer => !visibility.IsHidden(layer.ID))
                     .Select(layer => layer.ID)

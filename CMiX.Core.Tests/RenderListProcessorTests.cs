@@ -8,12 +8,12 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    public class RenderLayersProcessorTests
+    public class RenderListProcessorTests
     {
-        private static (RenderLayersProcessor Processor, Project Project) Create()
+        private static (RenderListProcessor Processor, Project Project) Create()
         {
             var provider = TestServiceProviderFactory.Create();
-            return (provider.GetRequiredService<RenderLayersProcessor>(), provider.GetRequiredService<Project>());
+            return (provider.GetRequiredService<RenderListProcessor>(), provider.GetRequiredService<Project>());
         }
 
         private static Composition AddComposition(Project project, int layerCount)
@@ -29,38 +29,38 @@ namespace CMiX.Core.Tests
         private static List<IControl> Layers(Composition composition) => composition.LayerManager.ManagerData.Items.ToList();
 
         [Fact]
-        public void Ids_NoComposition_IsEmpty()
+        public void LayerIds_NoComposition_IsEmpty()
         {
             var (processor, _) = Create();
 
-            Assert.Empty(processor.Ids);
+            Assert.Empty(processor.LayerIds);
         }
 
         [Fact]
-        public void Ids_TheSelectedComposition_ListsItsLayersInTheOrderOfTheList()
+        public void LayerIds_TheSelectedComposition_ListsItsLayersInTheOrderOfTheList()
         {
             var (processor, project) = Create();
             var composition = AddComposition(project, 3);
 
-            Assert.Equal(Layers(composition).Select(layer => layer.ID), processor.Ids);
+            Assert.Equal(Layers(composition).Select(layer => layer.ID), processor.LayerIds);
         }
 
         [Fact]
-        public void Ids_AnotherCompositionSelected_ListsTheLayersOfThatOne()
+        public void LayerIds_AnotherCompositionSelected_ListsTheLayersOfThatOne()
         {
             var (processor, project) = Create();
             var first = AddComposition(project, 2);
             var second = AddComposition(project, 1);
 
-            Assert.Equal(Layers(second).Select(layer => layer.ID), processor.Ids);
+            Assert.Equal(Layers(second).Select(layer => layer.ID), processor.LayerIds);
 
             project.CompositionManager.SelectedItem = first;
 
-            Assert.Equal(Layers(first).Select(layer => layer.ID), processor.Ids);
+            Assert.Equal(Layers(first).Select(layer => layer.ID), processor.LayerIds);
         }
 
         [Fact]
-        public void Ids_AHiddenLayer_LeavesTheListAndComesBack()
+        public void LayerIds_AHiddenLayer_LeavesTheListAndComesBack()
         {
             var (processor, project) = Create();
             var composition = AddComposition(project, 3);
@@ -68,35 +68,35 @@ namespace CMiX.Core.Tests
             var hidden = (IPrefab)layers[1];
 
             hidden.PrefabService.Visibility.Value = true;
-            Assert.Equal(new[] { layers[0].ID, layers[2].ID }, processor.Ids);
+            Assert.Equal(new[] { layers[0].ID, layers[2].ID }, processor.LayerIds);
 
             hidden.PrefabService.Visibility.Value = false;
-            Assert.Equal(layers.Select(layer => layer.ID), processor.Ids);
+            Assert.Equal(layers.Select(layer => layer.ID), processor.LayerIds);
         }
 
         [Fact]
-        public void Ids_AHiddenComposition_IsEmpty()
+        public void LayerIds_AHiddenComposition_IsEmpty()
         {
             var (processor, project) = Create();
             var composition = AddComposition(project, 2);
 
             composition.PrefabService.Visibility.Value = true;
 
-            Assert.Empty(processor.Ids);
+            Assert.Empty(processor.LayerIds);
         }
 
         [Fact]
-        public void Ids_ALayerAddedOrRemoved_FollowsTheList()
+        public void LayerIds_ALayerAddedOrRemoved_FollowsTheList()
         {
             var (processor, project) = Create();
             var composition = AddComposition(project, 2);
             var first = Layers(composition)[0];
 
             composition.LayerManager.AddItem(typeof(Layer));
-            Assert.Equal(3, processor.Ids.Count);
+            Assert.Equal(3, processor.LayerIds.Count);
 
             composition.LayerManager.RemoveItem(first);
-            Assert.DoesNotContain(first.ID, processor.Ids);
+            Assert.DoesNotContain(first.ID, processor.LayerIds);
         }
 
         [Fact]
