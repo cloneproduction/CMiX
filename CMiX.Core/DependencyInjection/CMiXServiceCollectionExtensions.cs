@@ -41,6 +41,7 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<VisibilityProcessor>();
             services.AddSingleton<UpdateOrderProcessor>();
             services.AddSingleton<VisibleItemsProcessor>();
+            services.AddSingleton<RenderLayersProcessor>();
             services.AddSingleton<AssetRepository>();
             services.AddSingleton<MessageCollectionManagerHandler>();
             services.AddTransient<ManagerData>();
