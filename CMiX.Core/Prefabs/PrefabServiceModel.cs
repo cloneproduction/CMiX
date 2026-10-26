@@ -10,6 +10,5 @@ namespace CMiX.Core.Prefabs
         public Guid ID { get; init; } = Guid.NewGuid();
         public GenericValueModel<string> Name { get; init; } = new(String.Empty);
         public GenericValueModel<bool> Visibility { get; init; } = new(false);
-        public GenericValueModel<bool> IsUpdating { get; init; } = new(true);
     }
 }

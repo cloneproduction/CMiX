@@ -10,11 +10,11 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The engine does not use the update switch yet, so the row of a layer or a composition does not show it.
-    public class ComposableItemUpdateToggleTests
+    // The row of a layer or a composition has two toggles: the visibility and the mask.
+    public class ComposableItemTogglesTests
     {
         [AvaloniaFact]
-        public void TheRowOfALayer_ShowsTheVisibilityAndTheMaskToggles_ButNotTheUpdateToggle()
+        public void TheRowOfALayer_ShowsTheVisibilityAndTheMaskToggles()
         {
             var layer = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Layer));
             var row = new Views.ComposableManagerItem { DataContext = layer };

@@ -15,23 +15,23 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">
-        <ui:ListItemIcon Icon="TextIcon" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" IsUpdating="{Binding PrefabService.IsUpdating.Value, Mode=TwoWay}" />
+        <ui:ListItemIcon Icon="TextIcon" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:Entity}">
-        <ui:ListItemIcon Icon="Geometry" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" IsUpdating="{Binding PrefabService.IsUpdating.Value, Mode=TwoWay}" />
+        <ui:ListItemIcon Icon="Geometry" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
   <DataTemplate DataType="{x:Type Compositing:FullscreenQuad}">
-    <ui:ListItemIcon Icon="FullscreenQuad" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" IsUpdating="{Binding PrefabService.IsUpdating.Value, Mode=TwoWay}" />
+    <ui:ListItemIcon Icon="FullscreenQuad" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
   </DataTemplate>
   
     <DataTemplate DataType="{x:Type Lights:LightEntity}">
-        <ui:ListItemIcon Icon="MeshLight" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" IsUpdating="{Binding PrefabService.IsUpdating.Value, Mode=TwoWay}" />
+        <ui:ListItemIcon Icon="MeshLight" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Cameras:Camera}">
-        <ui:ListItemIcon Icon="Camera" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" IsUpdating="{Binding PrefabService.IsUpdating.Value, Mode=TwoWay}" />
+        <ui:ListItemIcon Icon="Camera" Title="{Binding PrefabService.Name.Value, Mode=TwoWay}" IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSources:TextureSourceBase}">

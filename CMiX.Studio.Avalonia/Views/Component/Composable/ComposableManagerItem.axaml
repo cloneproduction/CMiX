@@ -22,12 +22,6 @@
                     Theme="{DynamicResource ToggleButtonVisibility}" />
 
                 <ToggleButton
-                    IsChecked="{Binding PrefabService.IsUpdating.Value}"
-                    IsVisible="False"
-                    Theme="{DynamicResource ToggleButtonUpdate}"
-                    ToolTip.Tip="Update" />
-
-                <ToggleButton
                     IsChecked="{Binding Mask.IsMask.Value}"
                     Theme="{DynamicResource ToggleButtonMask}"
                     ToolTip.Tip="Mask" />
