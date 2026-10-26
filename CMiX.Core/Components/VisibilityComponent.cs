@@ -6,6 +6,7 @@ using CMiX.Core.BaseControls;
 namespace CMiX.Core.Components
 {
     // Says if a control takes part in the update and the render. It holds data only.
+    // The value of Visible is true when the control is hidden: the eye of the UI is crossed when it is checked.
     public class VisibilityComponent
     {
         public VisibilityComponent(Guid controlId, GenericValue<bool> visible)
@@ -16,6 +17,6 @@ namespace CMiX.Core.Components
 
         public Guid ControlId { get; }
         public GenericValue<bool> Visible { get; }
-        public bool IsVisible => Visible.Value;
+        public bool IsVisible => !Visible.Value;
     }
 }

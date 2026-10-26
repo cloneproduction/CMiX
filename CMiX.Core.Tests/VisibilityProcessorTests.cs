@@ -23,7 +23,7 @@ namespace CMiX.Core.Tests
         {
             var (processor, repository, collectionManager, factory) = Create();
             var layer = (Layer)factory.Create(typeof(Layer));
-            layer.PrefabService.Visibility.Value = true;
+            layer.PrefabService.Visibility.Value = false;
 
             repository.AddControl(layer, collectionManager);
 
@@ -35,10 +35,10 @@ namespace CMiX.Core.Tests
         {
             var (processor, repository, collectionManager, factory) = Create();
             var layer = (Layer)factory.Create(typeof(Layer));
-            layer.PrefabService.Visibility.Value = true;
+            layer.PrefabService.Visibility.Value = false;
             repository.AddControl(layer, collectionManager);
 
-            layer.PrefabService.Visibility.Value = false;
+            layer.PrefabService.Visibility.Value = true;
 
             Assert.DoesNotContain(layer.ID, processor.VisibleIds);
             Assert.False(processor.IsVisible(layer.ID));
@@ -49,12 +49,12 @@ namespace CMiX.Core.Tests
         {
             var (processor, repository, collectionManager, factory) = Create();
             var layer = (Layer)factory.Create(typeof(Layer));
-            layer.PrefabService.Visibility.Value = true;
+            layer.PrefabService.Visibility.Value = false;
             repository.AddControl(layer, collectionManager);
 
             repository.RemoveControl(layer, collectionManager);
-            layer.PrefabService.Visibility.Value = false;
             layer.PrefabService.Visibility.Value = true;
+            layer.PrefabService.Visibility.Value = false;
 
             Assert.DoesNotContain(layer.ID, processor.VisibleIds);
         }
@@ -66,7 +66,7 @@ namespace CMiX.Core.Tests
             var repository = provider.GetRequiredService<ControlRepository>();
             var collectionManager = provider.GetRequiredService<CollectionManager>();
             var layer = (Layer)provider.GetRequiredService<ControlFactory>().Create(typeof(Layer));
-            layer.PrefabService.Visibility.Value = true;
+            layer.PrefabService.Visibility.Value = false;
             repository.AddControl(layer, collectionManager);
 
             var processor = new VisibilityProcessor(repository);
@@ -80,12 +80,28 @@ namespace CMiX.Core.Tests
             var (processor, repository, collectionManager, factory) = Create();
             var shown = (Layer)factory.Create(typeof(Layer));
             var hidden = (Layer)factory.Create(typeof(Layer));
-            shown.PrefabService.Visibility.Value = true;
-            hidden.PrefabService.Visibility.Value = false;
+            shown.PrefabService.Visibility.Value = false;
+            hidden.PrefabService.Visibility.Value = true;
             repository.AddControl(shown, collectionManager);
             repository.AddControl(hidden, collectionManager);
 
             Assert.Equal(new[] { shown.ID }, processor.VisibleIds);
+        }
+
+        [Fact]
+        public void Service_IsRegisteredOnce_AndListsControlsAddedLater()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var processor = provider.GetRequiredService<VisibilityProcessor>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
+            var layer = (Layer)provider.GetRequiredService<ControlFactory>().Create(typeof(Layer));
+            layer.PrefabService.Visibility.Value = false;
+
+            repository.AddControl(layer, collectionManager);
+
+            Assert.Same(processor, provider.GetRequiredService<VisibilityProcessor>());
+            Assert.Contains(layer.ID, processor.VisibleIds);
         }
     }
 }
