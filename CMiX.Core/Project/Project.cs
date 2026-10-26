@@ -21,7 +21,8 @@ namespace CMiX.Core.Compositing
                        MasterBeat masterBeat,
                        OutputMappingManager outputMappingManager,
                        RedisAddressRegistry redisAddressRegistry,
-                       AssetSelector model)
+                       AssetSelector model,
+                       ControlRepository controlRepository)
         {
             compositionManager.ManagerData.ID = ManagerIDs.CompositionManager;
             compositionManager.UndoManager = undoManager;  // ← set here
@@ -37,6 +38,7 @@ namespace CMiX.Core.Compositing
             PrefabService.Name.ID = ManagerIDs.ProjectPrefabServiceName;
             PrefabService.Visibility.ID = ManagerIDs.ProjectPrefabServiceVisibility;
             compositionManager.Activate();
+            controlRepository.AddRoot(this);
         }
 
         public Guid ID { get; set; }

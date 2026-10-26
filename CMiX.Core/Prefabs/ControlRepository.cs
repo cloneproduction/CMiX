@@ -61,6 +61,17 @@ namespace CMiX.Core.Prefabs
             }
         }
 
+        // Adds a control that sits in no list, like the project.
+        public void AddRoot(IControl control)
+        {
+            if (control == null || _controlsById.ContainsKey(control.ID))
+                return;
+
+            _collectionManagers[control.ID] = new HashSet<CollectionManager>();
+            _controlsById[control.ID] = control;
+            Controls.Add(control);
+        }
+
         public void RemoveControl(IControl control, CollectionManager collectionManager)
         {
             if (control == null || !_collectionManagers.ContainsKey(control.ID))
