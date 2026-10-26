@@ -4,7 +4,6 @@
 using System.Collections.ObjectModel;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
-using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
@@ -103,20 +102,5 @@ namespace CMiX.Core.Prefabs
             control != null && _collectionManagers.TryGetValue(control.ID, out var collectionManagers)
                 ? collectionManagers.ToList()
                 : new List<CollectionManager>();
-
-        public static int GetRenderPriority(IControl c) => c switch
-        {
-            Project => 0,
-            Composition => 1,
-            Layer => 2,
-            Entity or TextEntity or LightEntity or Camera => 3,
-            Material => 4,
-            ITextureSource => 5,
-            IModifier => 6,
-            _ => 99
-        };
-
-        public IEnumerable<IControl> GetOrderedControls() =>
-            Controls.OrderBy(GetRenderPriority);
     }
 }

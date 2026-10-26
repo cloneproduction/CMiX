@@ -84,9 +84,8 @@ The compiler does not check these names. Ask the owner before you change one.
 
 - Names that the VL patches use: `ManagerData` with `Items`, `ID` and `SelectedIndex`;
   `PrefabManager` with `SelectedItem` and `ManagerData`; `ControlRepository` with
-  `Controls`, `GetControl`, `GetRenderPriority` and `GetOrderedControls`.
-  The test `ControlRepositoryVlMembersTests` pins `Controls`, `GetRenderPriority` and
-  `GetOrderedControls`. The patches are `CMiX.Engine/*.vl` in this repository, and
+  `Controls` and `GetControl`.
+  The test `ControlRepositoryVlMembersTests` pins `Controls`. The patches are `CMiX.Engine/*.vl` in this repository, and
   `dependencies/extensions/CMiX.Extensions.vl` and `dl_pm.vl` in the parent repository.
   A renamed name turns a node red.
 - Names in a project file: `$type` is the full name of the `...Model` class. When you
