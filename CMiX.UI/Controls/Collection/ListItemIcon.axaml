@@ -23,12 +23,6 @@
                 IsChecked="{Binding IsChecked, ElementName=listItemIcon, Mode=TwoWay}"
                 Theme="{DynamicResource ToggleButtonVisibility}" />
 
-            <ToggleButton
-                IsChecked="{Binding IsUpdating, ElementName=listItemIcon, Mode=TwoWay}"
-                IsVisible="False"
-                Theme="{DynamicResource ToggleButtonUpdate}"
-                ToolTip.Tip="Update" />
-
         </StackPanel>
 
         <ui:TextBoxEditable Text="{Binding Title, ElementName=listItemIcon, Mode=TwoWay}" />
