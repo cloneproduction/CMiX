@@ -7,12 +7,12 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    public class ActiveItemsProcessorTests
+    public class VisibleItemsProcessorTests
     {
-        private static (ActiveItemsProcessor Processor, Layer Layer) Create(int entityCount)
+        private static (VisibleItemsProcessor Processor, Layer Layer) Create(int entityCount)
         {
             var provider = TestServiceProviderFactory.Create();
-            var processor = provider.GetRequiredService<ActiveItemsProcessor>();
+            var processor = provider.GetRequiredService<VisibleItemsProcessor>();
             var repository = provider.GetRequiredService<ControlRepository>();
             var collectionManager = provider.GetRequiredService<CollectionManager>();
             var layer = (Layer)provider.GetRequiredService<ControlFactory>().Create(typeof(Layer));
@@ -30,7 +30,7 @@ namespace CMiX.Core.Tests
         {
             var (processor, layer) = Create(3);
 
-            Assert.Equal(Items(layer.ModelEntityManager).Select(item => item.ID), processor.GetActiveIds(layer.ModelEntityManager));
+            Assert.Equal(Items(layer.ModelEntityManager).Select(item => item.ID), processor.GetVisibleIds(layer.ModelEntityManager));
         }
 
         [Fact]
@@ -41,10 +41,10 @@ namespace CMiX.Core.Tests
             var hidden = (IPrefab)items[1];
 
             hidden.PrefabService.Visibility.Value = true;
-            Assert.Equal(new[] { items[0].ID, items[2].ID }, processor.GetActiveIds(layer.ModelEntityManager));
+            Assert.Equal(new[] { items[0].ID, items[2].ID }, processor.GetVisibleIds(layer.ModelEntityManager));
 
             hidden.PrefabService.Visibility.Value = false;
-            Assert.Equal(items.Select(item => item.ID), processor.GetActiveIds(layer.ModelEntityManager));
+            Assert.Equal(items.Select(item => item.ID), processor.GetVisibleIds(layer.ModelEntityManager));
         }
 
         [Fact]
@@ -52,13 +52,13 @@ namespace CMiX.Core.Tests
         {
             var (processor, layer) = Create(2);
             var first = Items(layer.ModelEntityManager)[0];
-            Assert.Equal(2, processor.GetActiveIds(layer.ModelEntityManager).Count);
+            Assert.Equal(2, processor.GetVisibleIds(layer.ModelEntityManager).Count);
 
             layer.ModelEntityManager.AddItem(typeof(Entity));
-            Assert.Equal(3, processor.GetActiveIds(layer.ModelEntityManager).Count);
+            Assert.Equal(3, processor.GetVisibleIds(layer.ModelEntityManager).Count);
 
             layer.ModelEntityManager.RemoveItem(first);
-            Assert.DoesNotContain(first.ID, processor.GetActiveIds(layer.ModelEntityManager));
+            Assert.DoesNotContain(first.ID, processor.GetVisibleIds(layer.ModelEntityManager));
         }
 
         [Fact]
@@ -66,8 +66,8 @@ namespace CMiX.Core.Tests
         {
             var (processor, layer) = Create(2);
 
-            Assert.Equal(2, processor.GetActiveIds(layer.ModelEntityManager).Count);
-            Assert.Empty(processor.GetActiveIds(layer.CameraManager));
+            Assert.Equal(2, processor.GetVisibleIds(layer.ModelEntityManager).Count);
+            Assert.Empty(processor.GetVisibleIds(layer.CameraManager));
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace CMiX.Core.Tests
         {
             var (processor, _) = Create(0);
 
-            Assert.Empty(processor.GetActiveIds(null));
+            Assert.Empty(processor.GetVisibleIds(null));
         }
     }
 }

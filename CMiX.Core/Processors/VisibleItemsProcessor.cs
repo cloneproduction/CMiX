@@ -6,22 +6,22 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Processors
 {
-    // Gives the ids of the items of a list, in the order of the list. A hidden item is not in the result.
+    // Gives the ids of the visible items of a list, in the order of the list. A hidden item is not in the result.
     // The result of a list is built again only after the list or a visibility changed.
     // Call it from the thread that changes the controls.
-    public class ActiveItemsProcessor
+    public class VisibleItemsProcessor
     {
         private readonly VisibilityProcessor visibility;
         private readonly ConditionalWeakTable<ManagerData, Entry> entries = new();
         private int visibilityVersion;
 
-        public ActiveItemsProcessor(VisibilityProcessor visibility)
+        public VisibleItemsProcessor(VisibilityProcessor visibility)
         {
             this.visibility = visibility;
             visibility.Changed += () => visibilityVersion++;
         }
 
-        public IReadOnlyList<Guid> GetActiveIds(PrefabManager manager) =>
+        public IReadOnlyList<Guid> GetVisibleIds(PrefabManager manager) =>
             manager == null
                 ? Array.Empty<Guid>()
                 : entries.GetValue(manager.ManagerData, data => new Entry(data)).GetIds(visibility, visibilityVersion);
