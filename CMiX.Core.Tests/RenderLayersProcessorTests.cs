@@ -1,6 +1,8 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Processors;
+using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Lights;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -95,6 +97,60 @@ namespace CMiX.Core.Tests
 
             composition.LayerManager.RemoveItem(first);
             Assert.DoesNotContain(first.ID, processor.Ids);
+        }
+
+        [Fact]
+        public void GetItemIds_ALayer_ListsEntitiesThenCamerasThenLights()
+        {
+            var (processor, project) = Create();
+            var composition = AddComposition(project, 1);
+            var layer = (Layer)Layers(composition)[0];
+            layer.LightManager.AddItem(typeof(LightEntity));
+            layer.CameraManager.AddItem(typeof(Camera));
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+            var expected = layer.ModelEntityManager.ManagerData.Items
+                .Concat(layer.CameraManager.ManagerData.Items)
+                .Concat(layer.LightManager.ManagerData.Items)
+                .Select(item => item.ID);
+
+            Assert.Equal(expected, processor.GetItemIds(layer));
+        }
+
+        [Fact]
+        public void GetItemIds_AHiddenEntity_LeavesTheListAndComesBack()
+        {
+            var (processor, project) = Create();
+            var composition = AddComposition(project, 1);
+            var layer = (Layer)Layers(composition)[0];
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+            var entities = layer.ModelEntityManager.ManagerData.Items.ToList();
+            var hidden = (IPrefab)entities[0];
+
+            hidden.PrefabService.Visibility.Value = true;
+            Assert.Equal(new[] { entities[1].ID }, processor.GetItemIds(layer));
+
+            hidden.PrefabService.Visibility.Value = false;
+            Assert.Equal(entities.Select(entity => entity.ID), processor.GetItemIds(layer));
+        }
+
+        [Fact]
+        public void GetItemIds_NothingChanged_GivesTheSameArray()
+        {
+            var (processor, project) = Create();
+            var composition = AddComposition(project, 1);
+            var layer = (Layer)Layers(composition)[0];
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+
+            Assert.Same(processor.GetItemIds(layer), processor.GetItemIds(layer));
+        }
+
+        [Fact]
+        public void GetItemIds_ANullLayer_IsEmpty()
+        {
+            var (processor, _) = Create();
+
+            Assert.Empty(processor.GetItemIds(null));
         }
     }
 }
