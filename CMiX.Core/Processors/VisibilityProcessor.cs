@@ -32,6 +32,11 @@ namespace CMiX.Core.Processors
         public bool IsVisible(Guid controlId) =>
             components.TryGetValue(controlId, out var component) && component.IsVisible;
 
+        // True only for a control that has a visibility and is hidden. A control without a visibility,
+        // like a modifier or the project, is not hidden.
+        public bool IsHidden(Guid controlId) =>
+            components.TryGetValue(controlId, out var component) && !component.IsVisible;
+
         private void OnControlsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Reset)

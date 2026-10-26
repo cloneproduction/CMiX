@@ -103,5 +103,28 @@ namespace CMiX.Core.Tests
             Assert.Same(processor, provider.GetRequiredService<VisibilityProcessor>());
             Assert.Contains(layer.ID, processor.VisibleIds);
         }
+
+        [Fact]
+        public void IsHidden_ACrossedEye_IsTrueOnlyForTheHiddenControl()
+        {
+            var (processor, repository, collectionManager, factory) = Create();
+            var shown = (Layer)factory.Create(typeof(Layer));
+            var hidden = (Layer)factory.Create(typeof(Layer));
+            shown.PrefabService.Visibility.Value = false;
+            hidden.PrefabService.Visibility.Value = true;
+            repository.AddControl(shown, collectionManager);
+            repository.AddControl(hidden, collectionManager);
+
+            Assert.True(processor.IsHidden(hidden.ID));
+            Assert.False(processor.IsHidden(shown.ID));
+        }
+
+        [Fact]
+        public void IsHidden_ANeverSeenId_IsFalse()
+        {
+            var (processor, _, _, _) = Create();
+
+            Assert.False(processor.IsHidden(Guid.NewGuid()));
+        }
     }
 }
