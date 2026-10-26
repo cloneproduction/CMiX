@@ -39,6 +39,7 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<MessageFactory>();
             services.AddSingleton<ControlRepository>();
             services.AddSingleton<VisibilityProcessor>();
+            services.AddSingleton<UpdateOrderProcessor>();
             services.AddSingleton<AssetRepository>();
             services.AddSingleton<MessageCollectionManagerHandler>();
             services.AddTransient<ManagerData>();

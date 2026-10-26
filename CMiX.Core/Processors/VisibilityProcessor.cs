@@ -29,6 +29,9 @@ namespace CMiX.Core.Processors
 
         public IReadOnlyList<Guid> VisibleIds { get; private set; } = Array.Empty<Guid>();
 
+        // Raised after VisibleIds changed.
+        public event Action Changed;
+
         public bool IsVisible(Guid controlId) =>
             components.TryGetValue(controlId, out var component) && component.IsVisible;
 
@@ -80,7 +83,10 @@ namespace CMiX.Core.Processors
 
         private void OnVisibleChanged(object sender, PropertyChangedEventArgs e) => Refresh();
 
-        private void Refresh() =>
+        private void Refresh()
+        {
             VisibleIds = components.Values.Where(component => component.IsVisible).Select(component => component.ControlId).ToArray();
+            Changed?.Invoke();
+        }
     }
 }
