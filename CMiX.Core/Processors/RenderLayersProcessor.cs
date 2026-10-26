@@ -9,6 +9,7 @@ namespace CMiX.Core.Processors
 {
     // Keeps the ids of the layers to render: the visible layers of the composition that is selected in the project, in the order of its layer list.
     // The list is empty when no composition is selected or when the selected composition is hidden.
+    // CompositionIds holds the selected composition in the same cases, so it is empty or has one id.
     // Ids is a new array after each change, so another thread can read it without a lock.
     // GetItemIds gives what one layer draws: its visible entities, then its cameras, then its lights.
     public class RenderLayersProcessor
@@ -38,6 +39,8 @@ namespace CMiX.Core.Processors
 
         public IReadOnlyList<Guid> Ids { get; private set; } = Array.Empty<Guid>();
 
+        public IReadOnlyList<Guid> CompositionIds { get; private set; } = Array.Empty<Guid>();
+
         public IReadOnlyList<Guid> GetItemIds(Layer layer)
         {
             if (layer == null)
@@ -64,13 +67,18 @@ namespace CMiX.Core.Processors
 
         private void OnLayersChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) => Refresh();
 
-        private void Refresh() =>
-            Ids = selected == null || layers == null || visibility.IsHidden(selected.ID)
-                ? Array.Empty<Guid>()
-                : layers.Items
+        private void Refresh()
+        {
+            var shown = selected != null && layers != null && !visibility.IsHidden(selected.ID);
+
+            CompositionIds = shown ? new[] { selected.ID } : Array.Empty<Guid>();
+            Ids = shown
+                ? layers.Items
                     .Where(layer => !visibility.IsHidden(layer.ID))
                     .Select(layer => layer.ID)
-                    .ToArray();
+                    .ToArray()
+                : Array.Empty<Guid>();
+        }
 
         private sealed class LayerItems
         {

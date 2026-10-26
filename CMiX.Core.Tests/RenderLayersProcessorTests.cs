@@ -152,5 +152,40 @@ namespace CMiX.Core.Tests
 
             Assert.Empty(processor.GetItemIds(null));
         }
+
+        [Fact]
+        public void CompositionIds_NoComposition_IsEmpty()
+        {
+            var (processor, _) = Create();
+
+            Assert.Empty(processor.CompositionIds);
+        }
+
+        [Fact]
+        public void CompositionIds_TheSelectedComposition_IsTheOnlyId()
+        {
+            var (processor, project) = Create();
+            var first = AddComposition(project, 1);
+            var second = AddComposition(project, 1);
+
+            Assert.Equal(new[] { second.ID }, processor.CompositionIds);
+
+            project.CompositionManager.SelectedItem = first;
+
+            Assert.Equal(new[] { first.ID }, processor.CompositionIds);
+        }
+
+        [Fact]
+        public void CompositionIds_AHiddenComposition_IsEmptyAndComesBack()
+        {
+            var (processor, project) = Create();
+            var composition = AddComposition(project, 1);
+
+            composition.PrefabService.Visibility.Value = true;
+            Assert.Empty(processor.CompositionIds);
+
+            composition.PrefabService.Visibility.Value = false;
+            Assert.Equal(new[] { composition.ID }, processor.CompositionIds);
+        }
     }
 }
