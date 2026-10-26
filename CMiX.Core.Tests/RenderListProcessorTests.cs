@@ -29,38 +29,27 @@ namespace CMiX.Core.Tests
         private static List<IControl> Layers(Composition composition) => composition.LayerManager.ManagerData.Items.ToList();
 
         [Fact]
-        public void LayerIds_NoComposition_IsEmpty()
-        {
-            var (processor, _) = Create();
-
-            Assert.Empty(processor.LayerIds);
-        }
-
-        [Fact]
-        public void LayerIds_TheSelectedComposition_ListsItsLayersInTheOrderOfTheList()
+        public void GetLayerIds_ACompositionWithLayers_ListsThemInTheOrderOfTheList()
         {
             var (processor, project) = Create();
             var composition = AddComposition(project, 3);
 
-            Assert.Equal(Layers(composition).Select(layer => layer.ID), processor.LayerIds);
+            Assert.Equal(Layers(composition).Select(layer => layer.ID), processor.GetLayerIds(composition));
         }
 
         [Fact]
-        public void LayerIds_AnotherCompositionSelected_ListsTheLayersOfThatOne()
+        public void GetLayerIds_TwoCompositions_ListsTheLayersOfEachOne()
         {
             var (processor, project) = Create();
             var first = AddComposition(project, 2);
             var second = AddComposition(project, 1);
 
-            Assert.Equal(Layers(second).Select(layer => layer.ID), processor.LayerIds);
-
-            project.CompositionManager.SelectedItem = first;
-
-            Assert.Equal(Layers(first).Select(layer => layer.ID), processor.LayerIds);
+            Assert.Equal(Layers(first).Select(layer => layer.ID), processor.GetLayerIds(first));
+            Assert.Equal(Layers(second).Select(layer => layer.ID), processor.GetLayerIds(second));
         }
 
         [Fact]
-        public void LayerIds_AHiddenLayer_LeavesTheListAndComesBack()
+        public void GetLayerIds_AHiddenLayer_LeavesTheListAndComesBack()
         {
             var (processor, project) = Create();
             var composition = AddComposition(project, 3);
@@ -68,35 +57,32 @@ namespace CMiX.Core.Tests
             var hidden = (IPrefab)layers[1];
 
             hidden.PrefabService.Visibility.Value = true;
-            Assert.Equal(new[] { layers[0].ID, layers[2].ID }, processor.LayerIds);
+            Assert.Equal(new[] { layers[0].ID, layers[2].ID }, processor.GetLayerIds(composition));
 
             hidden.PrefabService.Visibility.Value = false;
-            Assert.Equal(layers.Select(layer => layer.ID), processor.LayerIds);
+            Assert.Equal(layers.Select(layer => layer.ID), processor.GetLayerIds(composition));
         }
 
         [Fact]
-        public void LayerIds_AHiddenComposition_IsEmpty()
-        {
-            var (processor, project) = Create();
-            var composition = AddComposition(project, 2);
-
-            composition.PrefabService.Visibility.Value = true;
-
-            Assert.Empty(processor.LayerIds);
-        }
-
-        [Fact]
-        public void LayerIds_ALayerAddedOrRemoved_FollowsTheList()
+        public void GetLayerIds_ALayerAddedOrRemoved_FollowsTheList()
         {
             var (processor, project) = Create();
             var composition = AddComposition(project, 2);
             var first = Layers(composition)[0];
 
             composition.LayerManager.AddItem(typeof(Layer));
-            Assert.Equal(3, processor.LayerIds.Count);
+            Assert.Equal(3, processor.GetLayerIds(composition).Count);
 
             composition.LayerManager.RemoveItem(first);
-            Assert.DoesNotContain(first.ID, processor.LayerIds);
+            Assert.DoesNotContain(first.ID, processor.GetLayerIds(composition));
+        }
+
+        [Fact]
+        public void GetLayerIds_ANullComposition_IsEmpty()
+        {
+            var (processor, _) = Create();
+
+            Assert.Empty(processor.GetLayerIds(null));
         }
 
         [Fact]
@@ -162,21 +148,21 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void CompositionIds_TheSelectedComposition_IsTheOnlyId()
+        public void CompositionIds_TwoCompositions_ListsBothInTheOrderOfTheList()
         {
             var (processor, project) = Create();
             var first = AddComposition(project, 1);
             var second = AddComposition(project, 1);
 
-            Assert.Equal(new[] { second.ID }, processor.CompositionIds);
+            Assert.Equal(new[] { first.ID, second.ID }, processor.CompositionIds);
 
             project.CompositionManager.SelectedItem = first;
 
-            Assert.Equal(new[] { first.ID }, processor.CompositionIds);
+            Assert.Equal(new[] { first.ID, second.ID }, processor.CompositionIds);
         }
 
         [Fact]
-        public void CompositionIds_AHiddenComposition_IsEmptyAndComesBack()
+        public void CompositionIds_AHiddenComposition_LeavesTheListAndComesBack()
         {
             var (processor, project) = Create();
             var composition = AddComposition(project, 1);

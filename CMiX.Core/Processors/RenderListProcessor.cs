@@ -3,43 +3,30 @@
 
 using System.Runtime.CompilerServices;
 using CMiX.Core.Compositing;
-using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Processors
 {
-    // Keeps the ids of the layers to render: the visible layers of the composition that is selected in the project, in the order of its layer list.
-    // The list is empty when no composition is selected or when the selected composition is hidden.
-    // CompositionIds holds the selected composition in the same cases, so it is empty or has one id.
-    // LayerIds is a new array after each change, so another thread can read it without a lock.
+    // Gives the lists that the render stage draws.
+    // CompositionIds holds the visible compositions of the project, in the order of the list.
+    // GetLayerIds gives the visible layers of one composition, in the order of its layer list.
     // GetItemIds gives what one layer draws: its visible entities, then its cameras, then its lights.
+    // A list is built again only after the list or a visibility changed.
     public class RenderListProcessor
     {
-        private readonly ManagerData compositions;
-        private readonly VisibilityProcessor visibility;
+        private readonly Project project;
         private readonly VisibleItemsProcessor items;
         private readonly ConditionalWeakTable<Layer, LayerItems> layerItems = new();
-        private Composition selected;
-        private ManagerData layers;
 
-        public RenderListProcessor(Project project, VisibilityProcessor visibility, VisibleItemsProcessor items)
+        public RenderListProcessor(Project project, VisibleItemsProcessor items)
         {
-            this.visibility = visibility;
+            this.project = project;
             this.items = items;
-
-            compositions = project.CompositionManager.ManagerData;
-            compositions.PropertyChanged += (_, e) =>
-            {
-                if (e.PropertyName == nameof(ManagerData.SelectedItem))
-                    Select();
-            };
-            visibility.Changed += Refresh;
-
-            Select();
         }
 
-        public IReadOnlyList<Guid> LayerIds { get; private set; } = Array.Empty<Guid>();
+        public IReadOnlyList<Guid> CompositionIds => items.GetVisibleIds(project.CompositionManager);
 
-        public IReadOnlyList<Guid> CompositionIds { get; private set; } = Array.Empty<Guid>();
+        public IReadOnlyList<Guid> GetLayerIds(Composition composition) =>
+            composition == null ? Array.Empty<Guid>() : items.GetVisibleIds(composition.LayerManager);
 
         public IReadOnlyList<Guid> GetItemIds(Layer layer)
         {
@@ -49,35 +36,6 @@ namespace CMiX.Core.Processors
             return layerItems
                 .GetValue(layer, _ => new LayerItems())
                 .Get(items.GetVisibleIds(layer.ModelEntityManager), items.GetVisibleIds(layer.CameraManager), items.GetVisibleIds(layer.LightManager));
-        }
-
-        private void Select()
-        {
-            if (layers != null)
-                layers.Items.CollectionChanged -= OnLayersChanged;
-
-            selected = compositions.SelectedItem as Composition;
-            layers = selected?.LayerManager.ManagerData;
-
-            if (layers != null)
-                layers.Items.CollectionChanged += OnLayersChanged;
-
-            Refresh();
-        }
-
-        private void OnLayersChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) => Refresh();
-
-        private void Refresh()
-        {
-            var shown = selected != null && layers != null && !visibility.IsHidden(selected.ID);
-
-            CompositionIds = shown ? new[] { selected.ID } : Array.Empty<Guid>();
-            LayerIds = shown
-                ? layers.Items
-                    .Where(layer => !visibility.IsHidden(layer.ID))
-                    .Select(layer => layer.ID)
-                    .ToArray()
-                : Array.Empty<Guid>();
         }
 
         private sealed class LayerItems
