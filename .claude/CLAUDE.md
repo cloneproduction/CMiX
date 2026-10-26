@@ -84,9 +84,8 @@ The compiler does not check these names. Ask the owner before you change one.
 
 - Names that the VL patches use: `ManagerData` with `Items`, `ID` and `SelectedIndex`;
   `PrefabManager` with `SelectedItem` and `ManagerData`; `ControlRepository` with
-  `Controls`, `GetControl`, `GetRenderPriority` and `GetOrderedControls`.
-  The test `ControlRepositoryVlMembersTests` pins `Controls`, `GetRenderPriority` and
-  `GetOrderedControls`. The patches are `CMiX.Engine/*.vl` in this repository, and
+  `Controls` and `GetControl`.
+  The test `ControlRepositoryVlMembersTests` pins `Controls`. The patches are `CMiX.Engine/*.vl` in this repository, and
   `dependencies/extensions/CMiX.Extensions.vl` and `dl_pm.vl` in the parent repository.
   A renamed name turns a node red.
 - Names in a project file: `$type` is the full name of the `...Model` class. When you
@@ -126,3 +125,6 @@ The compiler does not check these names. Ask the owner before you change one.
   does not answer. The outage tests start their own Memurai on port 6380 and
   skip when the port is busy. Never touch the cmix:default keys from a test.
 - Leave no memurai.exe or CMiX.Console.exe of a test run behind.
+- Saved projects of users must keep opening. Before a change of a model, a JSON key or a fixed id, set
+  `CMIX_SAMPLE_PROJECTS` to a folder with `.cmix` files and run `ProjectFileCompatibilityTests`.
+  The test is skipped when the variable is not set. No user file is stored in the repository.

@@ -58,7 +58,7 @@ namespace CMiX.Core.Tests
         {
             var (repository, _, controls) = Add(type, 3);
 
-            Assert.Equal(controls, repository.Controls);
+            Assert.Equal(controls, repository.Controls.Where(control => control is not Project));
             Assert.Equal(controls, ListOf(repository, listName));
         }
 
@@ -80,7 +80,7 @@ namespace CMiX.Core.Tests
 
             repository.RemoveControl(controls[1], collectionManager);
 
-            Assert.Equal(new[] { controls[0], controls[2] }, repository.Controls);
+            Assert.Equal(new[] { controls[0], controls[2] }, repository.Controls.Where(control => control is not Project));
             Assert.Equal(new[] { controls[0], controls[2] }, ListOf(repository, listName));
         }
     }

@@ -250,5 +250,17 @@ namespace CMiX.Core.Tests
             composition.LayerManager.RemoveItem(layer);
             undoManager.Clear();
         }
+
+        [Fact]
+        public void Project_WhenCreated_IsInTheRepository()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+
+            var project = provider.GetRequiredService<Project>();
+
+            Assert.Same(project, repository.GetControl(project.ID));
+            Assert.Contains(project, repository.Controls);
+        }
     }
 }

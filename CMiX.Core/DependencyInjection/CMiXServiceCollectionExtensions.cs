@@ -9,6 +9,7 @@ using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Processors;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,6 +38,10 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<ControlMessenger>();
             services.AddSingleton<MessageFactory>();
             services.AddSingleton<ControlRepository>();
+            services.AddSingleton<VisibilityProcessor>();
+            services.AddSingleton<UpdateOrderProcessor>();
+            services.AddSingleton<VisibleItemsProcessor>();
+            services.AddSingleton<RenderListProcessor>();
             services.AddSingleton<AssetRepository>();
             services.AddSingleton<MessageCollectionManagerHandler>();
             services.AddTransient<ManagerData>();
