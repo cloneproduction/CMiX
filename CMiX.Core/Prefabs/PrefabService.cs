@@ -8,20 +8,17 @@ namespace CMiX.Core.Prefabs
     public class PrefabService : IControl
     {
         public PrefabService(GenericValue<string> name,
-                             GenericValue<bool> isSelected,
                              GenericValue<bool> visibility,
                              GenericValue<bool> isUpdating)
         {
             ID = Guid.NewGuid();
             Name = name;
-            IsSelected = isSelected;
             Visibility = visibility;
             IsUpdating = isUpdating;
         }
 
         public Guid ID { get; set; }
         public GenericValue<string> Name { get; set; }
-        public GenericValue<bool> IsSelected { get; set; }
         public GenericValue<bool> Visibility { get; set; }
 
         // False stops the engine from updating the object in the main loop.
@@ -31,7 +28,6 @@ namespace CMiX.Core.Prefabs
         {
             ID = ID,
             Name = (GenericValueModel<string>)Name.ToModel(),
-            IsSelected = (GenericValueModel<bool>)IsSelected.ToModel(),
             Visibility = (GenericValueModel<bool>)Visibility.ToModel(),
             IsUpdating = (GenericValueModel<bool>)IsUpdating.ToModel()
         };
@@ -41,7 +37,6 @@ namespace CMiX.Core.Prefabs
             var m = (PrefabServiceModel)model;
             ID = m.ID;
             Name.FromModel(m.Name);
-            IsSelected.FromModel(m.IsSelected);
             Visibility.FromModel(m.Visibility);
             IsUpdating.FromModel(m.IsUpdating);
         }

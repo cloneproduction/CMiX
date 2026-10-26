@@ -22,9 +22,8 @@ namespace CMiX.Core
 
         public static readonly Guid MasterBeat = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5B");
 
-        // Project.PrefabService.Name/IsSelected/Visibility/IsUpdating, fixed the same way PrefabService.ID is.
+        // Project.PrefabService.Name/Visibility/IsUpdating, fixed the same way PrefabService.ID is.
         public static readonly Guid ProjectPrefabServiceName = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5C");
-        public static readonly Guid ProjectPrefabServiceIsSelected = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5D");
         public static readonly Guid ProjectPrefabServiceVisibility = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5E");
         public static readonly Guid ProjectPrefabServiceIsUpdating = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF60");
 
