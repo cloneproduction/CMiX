@@ -35258,6 +35258,16 @@
               <ControlPoint Id="V242wyyAowpNvo1A61oAAg" Bounds="427,111" />
               <Pad Id="KayRVGLRjXANwtNzJyagqG" SlotId="VpbbPbeDACkLcEF3jMBLFg" Bounds="427,160" Value="" />
               <Pad Id="IwLTUO7OMt5MIRHVV1f2oN" SlotId="VpbbPbeDACkLcEF3jMBLFg" Bounds="159,291" Value="" />
+              <Pad Id="LHAoARVDXcNQUja77gB1pz" SlotId="Dft1hbpurAdP6PxqURrXar" Bounds="356,450" />
+              <Node Bounds="354,480,67,19" Id="QJNwUme5nqgOKpwbe5acNK">
+                <p:NodeReference LastCategoryFullName="Primitive.IDisposable" LastDependency="VL.CoreLib.vl">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="MutableInterfaceType" Name="IDisposable" NeedsToBeDirectParent="true" />
+                  <Choice Kind="OperationCallFlag" Name="TryDispose" />
+                </p:NodeReference>
+                <Pin Id="BiiLkAz1qv2NfmFTTpogE4" Name="Input" Kind="StateInputPin" />
+                <Pin Id="HdenN0tPmpsQJ0cLuB52RM" Name="Success" Kind="OutputPin" />
+              </Node>
             </Canvas>
             <Patch Id="LJAiViVvukGMTBv7sGz9p4" Name="Create">
               <Pin Id="GjxanaG7VIDN72BN702gBh" Name="ViewModel" Kind="InputPin" />
@@ -35317,6 +35327,10 @@
             <Slot Id="VpbbPbeDACkLcEF3jMBLFg" Name="Path" />
             <Link Id="FOjlGK52lIjPWLTlykRNEi" Ids="V242wyyAowpNvo1A61oAAg,KayRVGLRjXANwtNzJyagqG" />
             <Link Id="F8ibxuoxYDxP5hQcbOFHla" Ids="IwLTUO7OMt5MIRHVV1f2oN,HNFjeAIztbkL8wGGm99vlV" />
+            <Slot Id="Dft1hbpurAdP6PxqURrXar" Name="Texture" />
+            <Link Id="KQbgPJ6CeCfK9XR0LvDttL" Ids="BmWOcoztArRQQQEMhGv0UO,LHAoARVDXcNQUja77gB1pz" />
+            <Link Id="Ab4OKFLZCWfQH9rW0bfUqf" Ids="LHAoARVDXcNQUja77gB1pz,BiiLkAz1qv2NfmFTTpogE4" />
+            <Patch Id="PVPHZaRGiJzMtirOAIJliz" Name="Dispose" ParticipatingElements="Ab4OKFLZCWfQH9rW0bfUqf" />
           </Patch>
         </Node>
         <!--
