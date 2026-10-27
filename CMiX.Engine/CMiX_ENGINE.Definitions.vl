@@ -35166,7 +35166,7 @@
               <ControlPoint Id="NRzt28rjgwJNAOKgIhHWe5" Bounds="221,191" />
               <Pad Id="LKiBjdIx9wjNZeUHmlMuJR" SlotId="KRxN7LPv85rOcUzXqd2Z61" Bounds="221,151" Value="False" />
               <ControlPoint Id="KQiwnU6uLboQW102WdYg9C" Bounds="82,191" />
-              <Pad Id="F4AORJ0XNetMjXBu2ALuIW" SlotId="SP4UqcvsXeYQWAq0Tc2NQR" Bounds="159,400" />
+              <Pad Id="F4AORJ0XNetMjXBu2ALuIW" SlotId="SP4UqcvsXeYQWAq0Tc2NQR" Bounds="111,391" />
               <!--
 
     ************************ TextureFromPath (Internal) ************************
@@ -35234,7 +35234,7 @@
                   <Link Id="KTWZ4UJ4wbqMizhMOkZIEf" Ids="PY3k9dhBbVeLWaTdg4Zhr8,EO7WYfOGJR4QLbQL61PSaY" />
                 </Patch>
               </Node>
-              <Node Bounds="109,330,94,19" Id="BlVt35xFi0aPKqCEhhEa4F">
+              <Node Bounds="157,330,94,19" Id="BlVt35xFi0aPKqCEhhEa4F">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.Assets.Image" LastDependency="CMiX_ENGINE.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <Choice Kind="ProcessAppFlag" Name="TextureFromPath" />
@@ -35257,7 +35257,7 @@
               <ControlPoint Id="RzQjvefRVhKL2ddqeMiuUN" Bounds="207,400" />
               <ControlPoint Id="V242wyyAowpNvo1A61oAAg" Bounds="427,111" />
               <Pad Id="KayRVGLRjXANwtNzJyagqG" SlotId="VpbbPbeDACkLcEF3jMBLFg" Bounds="427,160" Value="" />
-              <Pad Id="IwLTUO7OMt5MIRHVV1f2oN" SlotId="VpbbPbeDACkLcEF3jMBLFg" Bounds="111,300" Value="" />
+              <Pad Id="IwLTUO7OMt5MIRHVV1f2oN" SlotId="VpbbPbeDACkLcEF3jMBLFg" Bounds="159,291" Value="" />
             </Canvas>
             <Patch Id="LJAiViVvukGMTBv7sGz9p4" Name="Create">
               <Pin Id="GjxanaG7VIDN72BN702gBh" Name="ViewModel" Kind="InputPin" />
@@ -38658,6 +38658,11 @@
           <p:NodeReference>
             <Choice Kind="InterfaceDefinition" />
           </p:NodeReference>
+          <p:Interfaces>
+            <TypeReference LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
+              <Choice Kind="MutableInterfaceType" Name="IDisposable" />
+            </TypeReference>
+          </p:Interfaces>
           <Patch Id="GzPoct1z43EOqWPHRl6h1v">
             <Canvas Id="PFI6riFuFoiOyOILkJ1ueZ" CanvasType="Group">
               <ControlPoint Id="U85gdSK3XY1LMaKsvNRSDT" Bounds="103,81" />
