@@ -25,11 +25,12 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     public class OpenProjectTests
     {
         // The counts the reported symptom is visible in, plus the layers and the total, which
-        // catch anything the per type collections would miss.
+        // catch anything the per type collections would miss. The project is not counted:
+        // it stays in the repository for the whole session.
         private static (int Compositions, int Layers, int Entities, int Textures, int Controls)
             Counts(ControlRepository repository) =>
             (repository.Compositions.Count, repository.Layers.Count, repository.Entities.Count,
-             repository.Textures.Count, repository.Controls.Count);
+             repository.Textures.Count, repository.Controls.Count(control => control is not Project));
 
         [AvaloniaFact]
         public async Task OpenProject_OpenedTwice_ReplacesTheFirstLoadInsteadOfAccumulating()
@@ -49,7 +50,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 Assert.Equal((1, 1, 1, 2, 5), afterFirstLoad);
                 // Held by reference rather than by count, so the second load has to be shown to
                 // have released these very instances and not merely to hold the same number.
-                var firstLoadControls = repository.Controls.ToList();
+                var firstLoadControls = repository.Controls.Where(control => control is not Project).ToList();
 
                 await viewModel.MainMenu.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();

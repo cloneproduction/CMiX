@@ -91,7 +91,8 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
                 Assert.Empty(viewModel.ControlRepository.Compositions);
                 Assert.Empty(viewModel.ControlRepository.Textures);
-                Assert.Empty(viewModel.ControlRepository.Controls);
+                // Only the project is left, and it is the same object as before.
+                Assert.Same(viewModel.Project, Assert.Single(viewModel.ControlRepository.Controls));
             }
             finally
             {
