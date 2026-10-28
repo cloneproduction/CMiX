@@ -3,6 +3,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Processors;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Texturing.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -137,6 +138,54 @@ namespace CMiX.Core.Tests
             var (processor, _) = Create();
 
             Assert.Empty(processor.GetItemIds(null));
+        }
+
+        [Fact]
+        public void GetTextureModifierIds_ALayerWithFilters_ListsThemInTheOrderOfTheList()
+        {
+            var (processor, project) = Create();
+            var composition = AddComposition(project, 1);
+            var layer = (Layer)Layers(composition)[0];
+            layer.TextureModifierManager.AddItem(typeof(Blur));
+            layer.TextureModifierManager.AddItem(typeof(Invert));
+
+            Assert.Equal(layer.TextureModifierManager.ManagerData.Items.Select(filter => filter.ID), processor.GetTextureModifierIds(layer));
+        }
+
+        [Fact]
+        public void GetTextureModifierIds_ACompositionWithFilters_ListsThem()
+        {
+            var (processor, project) = Create();
+            var composition = AddComposition(project, 1);
+            composition.TextureModifierManager.AddItem(typeof(Blur));
+
+            Assert.Equal(composition.TextureModifierManager.ManagerData.Items.Select(filter => filter.ID), processor.GetTextureModifierIds(composition));
+        }
+
+        [Fact]
+        public void GetTextureModifierIds_AHiddenFilter_LeavesTheListAndComesBack()
+        {
+            var (processor, project) = Create();
+            var composition = AddComposition(project, 1);
+            var layer = (Layer)Layers(composition)[0];
+            layer.TextureModifierManager.AddItem(typeof(Blur));
+            layer.TextureModifierManager.AddItem(typeof(Invert));
+            var filters = layer.TextureModifierManager.ManagerData.Items.ToList();
+            var hidden = (IPrefab)filters[0];
+
+            hidden.PrefabService.Visibility.Value = true;
+            Assert.Equal(new[] { filters[1].ID }, processor.GetTextureModifierIds(layer));
+
+            hidden.PrefabService.Visibility.Value = false;
+            Assert.Equal(filters.Select(filter => filter.ID), processor.GetTextureModifierIds(layer));
+        }
+
+        [Fact]
+        public void GetTextureModifierIds_ANullOwner_IsEmpty()
+        {
+            var (processor, _) = Create();
+
+            Assert.Empty(processor.GetTextureModifierIds(null));
         }
 
         [Fact]

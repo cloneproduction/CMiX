@@ -3,6 +3,7 @@
 
 using System.Runtime.CompilerServices;
 using CMiX.Core.Compositing;
+using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Processors
 {
@@ -12,6 +13,7 @@ namespace CMiX.Core.Processors
     // SelectedCompositionId is the ID of the selected composition, or an empty ID when none is selected.
     // GetLayerIds gives the visible layers of one composition, in the order of its layer list.
     // GetItemIds gives what one layer draws: its visible entities, then its cameras, then its lights.
+    // GetTextureModifierIds gives the visible texture filters of a layer or a composition, in the order of its list.
     // A list is built again only after the list or a visibility changed.
     public class RenderListProcessor
     {
@@ -43,6 +45,9 @@ namespace CMiX.Core.Processors
                 .GetValue(layer, _ => new LayerItems())
                 .Get(items.GetVisibleIds(layer.ModelEntityManager), items.GetVisibleIds(layer.CameraManager), items.GetVisibleIds(layer.LightManager));
         }
+
+        public IReadOnlyList<Guid> GetTextureModifierIds(ITextureModifiable owner) =>
+            owner == null ? Array.Empty<Guid>() : items.GetVisibleIds(owner.TextureModifierManager);
 
         private sealed class LayerItems
         {
