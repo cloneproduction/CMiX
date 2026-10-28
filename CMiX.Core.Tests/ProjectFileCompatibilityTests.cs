@@ -1,4 +1,4 @@
-using CMiX.Core.Compositing;
+﻿using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Undo;
@@ -25,7 +25,9 @@ namespace CMiX.Core.Tests
                 : Directory.GetFiles(folder, "*.cmix");
         }
 
-        private static int Open(ProjectModel model)
+        private static int Open(ProjectModel model) => OpenProject(model).CompositionManager.ManagerData.Items.Count;
+
+        private static Project OpenProject(ProjectModel model)
         {
             var provider = TestServiceProviderFactory.Create();
             var project = provider.GetRequiredService<Project>();
@@ -51,7 +53,24 @@ namespace CMiX.Core.Tests
             foreach (var composition in project.CompositionManager.ManagerData.Items)
                 Assert.Same(composition, repository.GetControl(composition.ID));
 
-            return compositions.Count;
+            return project;
+        }
+
+        [SkippableFact]
+        public void EverySampleProject_HashesTheSameTwiceAfterOpening()
+        {
+            var files = SampleFiles();
+            Skip.If(files.Length == 0, $"{FolderVariable} is not set or the folder has no .cmix file.");
+
+            var unstable = files
+                .Where(file =>
+                {
+                    var project = OpenProject(ProjectSerializer.Load(file));
+                    return ProjectStateHash.Compute(project) != ProjectStateHash.Compute(project);
+                })
+                .Select(Path.GetFileName);
+
+            Assert.Empty(unstable);
         }
 
         [SkippableFact]
