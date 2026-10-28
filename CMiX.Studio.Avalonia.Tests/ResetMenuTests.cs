@@ -23,7 +23,6 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             ("MasterBeatControl", "BPM"),
             ("Composition", "Output Mapping"),      // picks an item, not a value
-            ("RedisAddressModulator", "Address"),   // picks an item, not a value
         };
 
         // Views that show a part of another control and are not named after a Core type.

@@ -11,6 +11,7 @@
         <ui:ComboBoxCaptioned
             Caption="Address"
             ItemsSource="{Binding Registry.AddressManager.ManagerData.Items}"
+            ResetCommand="{Binding SelectedAddressID.ResetCommand}"
             SelectedItem="{Binding SelectedAddress}">
             <ui:ComboBoxCaptioned.ItemTemplate>
                 <DataTemplate>

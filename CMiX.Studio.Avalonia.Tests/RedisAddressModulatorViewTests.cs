@@ -92,6 +92,22 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void ResetCommand_OfTheAddressBox_ClearsTheSelection()
+        {
+            var modulator = NewModulator();
+            AddAddress("cmix:kick");
+            modulator.SelectedAddress = AddAddress("cmix:snare");
+            var view = Show(modulator);
+            var box = AddressBox(view);
+
+            box.ResetCommand!.Execute(null);
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Null(modulator.SelectedAddressID.Value);
+            Assert.Null(box.SelectedItem);
+        }
+
+        [AvaloniaFact]
         public void Value_TheGainDragValue_ChangesTheGain()
         {
             var modulator = NewModulator();
