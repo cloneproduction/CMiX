@@ -53,7 +53,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void MovingAnAddressDown_ChangesTheOrderOfTheOutputs()
+        public void MovingAnAddressDown_ChangesTheOrderOfTheAddresses()
         {
             var (registry, panel, provider) = Show(0);
             foreach (var text in new[] { "cmix:a", "cmix:b" })
@@ -76,6 +76,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var blur = (Core.Texturing.Filters.Blur)factory.Create(typeof(Core.Texturing.Filters.Blur));
             blur.ModulatorManager.AddItem(typeof(RedisAddressModulator));
             var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisAddressModulator>().Single();
+            modulator.SelectedAddress = registry.Addresses.Single();
             blur.Strength.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[0]));
             var list = panel.GetVisualDescendants().OfType<ListBoxEditable>().Single();
 

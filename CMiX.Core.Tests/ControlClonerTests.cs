@@ -99,32 +99,27 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TheGainsOfARedisAddressModulator_KeepTheirAddressesAndValues_InTheCopy()
+        public void Clone_ARedisAddressModulator_KeepsTheSelectionAndTheGain()
         {
             var (provider, compositions, composition) = NewComposition();
             var registry = provider.GetRequiredService<RedisAddressRegistry>();
             registry.AddressManager.AddItem(typeof(RedisAddress));
-            var first = (RedisAddress)registry.AddressManager.SelectedItem;
-            first.Value = "cmix:a";
-            registry.AddressManager.AddItem(typeof(RedisAddress));
-            var second = (RedisAddress)registry.AddressManager.SelectedItem;
-            second.Value = "cmix:b";
+            var address = (RedisAddress)registry.AddressManager.SelectedItem;
+            address.Value = "cmix:a";
             composition.ModifierManager.AddItem(typeof(AlphaModifier));
             var modifier = (Modifier)composition.ModifierManager.SelectedItem;
             modifier.ModulatorManager.AddItem(typeof(RedisAddressModulator));
             var modulator = (RedisAddressModulator)modifier.ModulatorManager.SelectedItem;
-            modulator.EnsureGains();
-            var gains = modulator.Gains.ToList();
-            gains[0].Value = 0.5f;
-            gains[1].Value = 0.25f;
+            modulator.SelectedAddress = address;
+            modulator.Gain.Value = 0.5f;
 
             var copy = (Composition)compositions.DuplicateItem(composition);
             var copyModulator = (RedisAddressModulator)((Modifier)copy.ModifierManager.ManagerData.Items.First()).ModulatorManager.ManagerData.Items.First();
-            copyModulator.EnsureGains();
 
-            Assert.Equal(new Guid?[] { first.ID, second.ID }, copyModulator.Gains.Select(gain => gain.AddressID.Value));
-            Assert.Equal(new[] { 0.5f, 0.25f }, copyModulator.Gains.Select(gain => gain.Value));
-            Assert.NotEqual(gains[0].ID, copyModulator.Gains.First().ID);
+            Assert.Same(address, copyModulator.SelectedAddress);
+            Assert.Equal(0.5f, copyModulator.Gain.Value);
+            Assert.NotEqual(modulator.ID, copyModulator.ID);
+            Assert.NotEqual(modulator.Gain.ID, copyModulator.Gain.ID);
         }
     }
 }

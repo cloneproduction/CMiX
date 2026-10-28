@@ -4,26 +4,26 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     d:DesignWidth="400">
 
-    <ItemsControl ItemsSource="{Binding GainManager.ManagerData.Items}">
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <StackPanel Spacing="{DynamicResource SpacingXXS}" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
+        <ui:ComboBoxCaptioned
+            Caption="Address"
+            ItemsSource="{Binding Registry.AddressManager.ManagerData.Items}"
+            SelectedItem="{Binding SelectedAddress}">
+            <ui:ComboBoxCaptioned.ItemTemplate>
+                <DataTemplate>
+                    <ui:TextBlockTrimmed Text="{Binding Value}" />
+                </DataTemplate>
+            </ui:ComboBoxCaptioned.ItemTemplate>
+        </ui:ComboBoxCaptioned>
 
-        <ItemsControl.ItemTemplate>
-            <DataTemplate DataType="{x:Type Animations:RedisAddressGain}">
-                <ui:DragValue
-                    Caption="{Binding Address.Value, FallbackValue=''}"
-                    Minimum="0.0"
-                    ResetCommand="{Binding ResetCommand}"
-                    Value="{Binding Value}" />
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
+        <ui:DragValue
+            Caption="Gain"
+            Minimum="0.0"
+            ResetCommand="{Binding Gain.ResetCommand}"
+            Value="{Binding Gain.Value}" />
 
-    </ItemsControl>
+    </StackPanel>
 </UserControl>

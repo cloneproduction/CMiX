@@ -8,7 +8,7 @@ using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Undo;
-using CMiX.Studio.Avalonia.Views.Managers;
+using CMiX.UI.Controls.Enum;
 using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -16,7 +16,7 @@ using ViewRedisAddressModulator = CMiX.Studio.Avalonia.Views.RedisAddressModulat
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The multipliers of a RedisAddressModulator in the window.
+    // The address combo box and the gain of a RedisAddressModulator in the window.
     public class RedisAddressModulatorViewTests
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
@@ -30,6 +30,14 @@ namespace CMiX.Studio.Avalonia.Tests
             return (RedisAddressModulator)blur.ModulatorManager.SelectedItem;
         }
 
+        private RedisAddress AddAddress(string text)
+        {
+            Registry.AddAddress();
+            var address = (RedisAddress)Registry.AddressManager.SelectedItem;
+            address.Value = text;
+            return address;
+        }
+
         private static ViewRedisAddressModulator Show(RedisAddressModulator modulator)
         {
             var view = new ViewRedisAddressModulator { DataContext = modulator };
@@ -38,74 +46,73 @@ namespace CMiX.Studio.Avalonia.Tests
             return view;
         }
 
-        private static List<DragValue> DragValues(Control view) =>
-            view.GetVisualDescendants().OfType<DragValue>().ToList();
+        private static ComboBoxCaptioned AddressBox(Control view) =>
+            view.GetVisualDescendants().OfType<ComboBoxCaptioned>().Single(combo => combo.Caption == "Address");
+
+        private static DragValue GainValue(Control view) =>
+            view.GetVisualDescendants().OfType<DragValue>().Single(drag => drag.Caption == "Gain");
 
         [AvaloniaFact]
-        public void EachAddress_HasADragValueCaptionedWithTheAddress()
+        public void Show_TheAddressBox_ListsTheAddressesOfTheProject()
         {
             var modulator = NewModulator();
-            Registry.AddAddress();
-            ((RedisAddress)Registry.AddressManager.SelectedItem).Value = "cmix:kick";
-            Registry.AddAddress();
-            ((RedisAddress)Registry.AddressManager.SelectedItem).Value = "cmix:snare";
+            var first = AddAddress("cmix:kick");
+            var second = AddAddress("cmix:snare");
 
             var view = Show(modulator);
 
-            Assert.Equal(new object?[] { "cmix:kick", "cmix:snare" }, DragValues(view).Select(drag => drag.Caption));
+            Assert.Equal(new object[] { first, second }, AddressBox(view).ItemsSource!.Cast<object>());
         }
 
         [AvaloniaFact]
-        public void TheCaption_FollowsAnEditOfTheAddress()
+        public void SelectedItem_PickingAnAddress_SetsTheSelectedAddressID()
         {
             var modulator = NewModulator();
-            Registry.AddAddress();
+            AddAddress("cmix:kick");
+            var second = AddAddress("cmix:snare");
             var view = Show(modulator);
 
-            ((RedisAddress)Registry.AddressManager.SelectedItem).Value = "cmix:changed";
+            AddressBox(view).SelectedItem = second;
             Dispatcher.UIThread.RunJobs();
 
-            Assert.Equal("cmix:changed", DragValues(view).Single().Caption);
+            Assert.Equal(second.ID, modulator.SelectedAddressID.Value);
         }
 
         [AvaloniaFact]
-        public void OpeningTheView_GivesTheGainsOfTheAddressesWithoutAnUndoStep()
+        public void Show_AModulatorWithASelection_ShowsItAsTheSelectedItem()
         {
-            Registry.AddressManager.AddItem(typeof(RedisAddress));
+            var modulator = NewModulator();
+            AddAddress("cmix:kick");
+            var second = AddAddress("cmix:snare");
+            modulator.SelectedAddress = second;
+
+            var view = Show(modulator);
+
+            Assert.Same(second, AddressBox(view).SelectedItem);
+        }
+
+        [AvaloniaFact]
+        public void Value_TheGainDragValue_ChangesTheGain()
+        {
+            var modulator = NewModulator();
+            var view = Show(modulator);
+
+            GainValue(view).Value = 3.0;
+
+            Assert.Equal(3.0f, modulator.Gain.Value);
+        }
+
+        [AvaloniaFact]
+        public void Show_TheView_LeavesNothingOnTheUndoStack()
+        {
+            AddAddress("cmix:kick");
             var modulator = NewModulator();
             var undo = _provider.GetRequiredService<UndoManager>();
             undo.Clear();
 
             Show(modulator);
 
-            Assert.Single(modulator.Gains);
             Assert.False(undo.CanUndo);
-        }
-
-        [AvaloniaFact]
-        public void TheDragValue_ChangesTheGain()
-        {
-            var modulator = NewModulator();
-            Registry.AddAddress();
-            var view = Show(modulator);
-
-            DragValues(view).Single().Value = 3.0;
-
-            Assert.Equal(3.0f, modulator.Gains.Single().Value);
-        }
-
-        [AvaloniaFact]
-        public void TheAddButtonOfTheSettingsTab_GivesTheGainsToTheModulators()
-        {
-            var modulator = NewModulator();
-            var panel = new RedisAddressesPanel { DataContext = Registry };
-            new Window { Content = panel, Width = 400, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
-
-            Registry.AddAddressCommand.Execute(null);
-
-            Assert.Single(Registry.Addresses);
-            Assert.Single(modulator.Gains);
         }
     }
 }
