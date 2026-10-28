@@ -42,7 +42,7 @@ namespace CMiX.Core.Tests
             var modulator = NewModulator();
 
             var output = Assert.Single(modulator.Outputs);
-            var addressed = Assert.IsType<AddressedOutput>(output);
+            var addressed = Assert.IsType<AddressedOutput<float>>(output);
             Assert.IsAssignableFrom<ModulatorOutput<float>>(output);
             Assert.Equal("Value", addressed.Name);
             Assert.Equal("Value", addressed.Address);
@@ -56,7 +56,7 @@ namespace CMiX.Core.Tests
 
             modulator.SelectedAddress = address;
 
-            var output = (AddressedOutput)Assert.Single(modulator.Outputs);
+            var output = (AddressedOutput<float>)Assert.Single(modulator.Outputs);
             Assert.Equal("Value", output.Name);
             Assert.Equal("cmix:a", output.Address);
             Assert.Same(address, modulator.SelectedAddress);
@@ -121,8 +121,8 @@ namespace CMiX.Core.Tests
 
             Assert.Same(a, first.SelectedAddress);
             Assert.Same(b, second.SelectedAddress);
-            Assert.Equal("cmix:a", ((AddressedOutput)first.Outputs[0]).Address);
-            Assert.Equal("cmix:b", ((AddressedOutput)second.Outputs[0]).Address);
+            Assert.Equal("cmix:a", ((AddressedOutput<float>)first.Outputs[0]).Address);
+            Assert.Equal("cmix:b", ((AddressedOutput<float>)second.Outputs[0]).Address);
         }
     }
 }

@@ -4,6 +4,7 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -65,6 +66,25 @@ namespace CMiX.Studio.Avalonia.Tests
             var rows = ModulatorOutputChoice.Build(Selections(modulator), blur.Strength);
 
             Assert.EndsWith(" cmix:speed", rows[2].Label);
+        }
+
+        [AvaloniaFact]
+        public void ABoolAddressedOutput_BoundToPlaying_ShowsItsAddressAndIsAssigned()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var player = (SequencePlayer)provider.GetRequiredService<ControlFactory>().Create(typeof(SequencePlayer));
+            player.ModulatorManager.AddItem(typeof(RedisBoolModulator));
+            var modulator = player.ModulatorManager.ManagerData.Items.OfType<RedisBoolModulator>().Single();
+            modulator.Registry.AddressManager.AddItem(typeof(RedisAddress));
+            var address = (RedisAddress)modulator.Registry.AddressManager.SelectedItem;
+            address.Value = "cmix:play";
+            modulator.SelectedAddress = address;
+            Bind(player.Playing, modulator, "Value");
+
+            var rows = ModulatorOutputChoice.Build(Selections(modulator), player.Playing);
+
+            Assert.EndsWith(" cmix:play", rows[2].Label);
+            Assert.True(rows[2].IsAssigned);
         }
 
         [AvaloniaFact]

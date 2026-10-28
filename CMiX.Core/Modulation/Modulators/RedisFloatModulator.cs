@@ -8,47 +8,19 @@ using CMiX.Core.Prefabs;
 namespace CMiX.Core.Modulation.Modulators
 {
     // One Redis address of the project as a float output, times a gain.
-    public class RedisFloatModulator : ModulatorBase, INotifyOutputRemoved
+    public class RedisFloatModulator : RedisModulatorBase
     {
         public RedisFloatModulator(PrefabService prefabService, RedisAddressRegistry registry,
-                                     GenericValue<Guid?> selectedAddressID, GenericValue<float> gain)
-            : base(prefabService)
+                                   GenericValue<Guid?> selectedAddressID, GenericValue<float> gain)
+            : base(prefabService, registry, selectedAddressID)
         {
-            Registry = registry;
-            SelectedAddressID = selectedAddressID;
             Gain = gain;
-
-            SelectedAddressID.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(GenericValue<Guid?>.Value))
-                    OnPropertyChanged(nameof(SelectedAddress));
-            };
         }
 
-        public RedisAddressRegistry Registry { get; }
-        public GenericValue<Guid?> SelectedAddressID { get; set; }
         public GenericValue<float> Gain { get; set; }
 
-        public RedisAddress SelectedAddress
-        {
-            get => Registry.Addresses.FirstOrDefault(address => address.ID == SelectedAddressID.Value);
-            set => SelectedAddressID.Value = value?.ID;
-        }
-
-        public event Action<string> OutputRemoved;
-
-        // The output name stays the same for every selection, so a change of the selection keeps the assignments.
-        public override IReadOnlyList<IModulatorOutput> Outputs =>
-            new[] { new AddressedOutput("Value", SelectedAddress?.Value ?? "Value") };
-
-        public void OnAddressRemoved(Guid id)
-        {
-            if (SelectedAddressID.Value != id) return;
-
-            // The bound values go back to normal before the selection clears.
-            OutputRemoved?.Invoke("Value");
-            SelectedAddressID.Value = null;
-        }
+        protected override IModulatorOutput Output =>
+            new AddressedOutput<float>(OutputName, SelectedAddress?.Value ?? OutputName);
 
         public override IControlModel ToModel() => new RedisFloatModulatorModel
         {

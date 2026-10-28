@@ -67,6 +67,8 @@ The Redis Float modulator selects one address of the list in its combo box. It h
 
 Each Redis Float modulator has one gain with a start value of 1. The vvvv side multiplies the Redis value of the selected address by the gain. The gain stays when you select another address.
 
+The Redis Bool modulator selects an address in the same way. It has one bool output, `Value`, for a toggle such as the Play of a player. It has no gain. The vvvv side decides how the Redis value becomes a bool.
+
 The list has a fixed manager ID, `ManagerIDs.RedisAddressManager`. The vvvv side creates the list at startup with this ID.
 
 ## Hidden types

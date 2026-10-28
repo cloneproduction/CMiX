@@ -65,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Views.Modulation
             if (modulatorName != null && modulatorName.EndsWith(ModulatorSuffix, StringComparison.Ordinal))
                 modulatorName = modulatorName[..^ModulatorSuffix.Length];
 
-            var outputName = selection.Output is AddressedOutput addressed ? addressed.Address : selection.Output?.Name;
+            var outputName = selection.Output is IAddressedOutput addressed ? addressed.Address : selection.Output?.Name;
             return $"{modulatorName} {outputName}";
         }
     }

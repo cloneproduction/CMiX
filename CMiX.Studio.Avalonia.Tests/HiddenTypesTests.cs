@@ -41,11 +41,12 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheModulatorMenu_OffersTheRedisFloatModulator()
+        public void TheModulatorMenu_OffersTheRedisModulators()
         {
             var offered = Offered(new AutoSelectionPanel { Interface = typeof(IModulator) });
 
             Assert.Contains(typeof(RedisFloatModulator), offered);
+            Assert.Contains(typeof(RedisBoolModulator), offered);
             Assert.Contains(typeof(RandomModulator), offered);
         }
 
