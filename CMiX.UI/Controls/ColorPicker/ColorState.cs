@@ -33,15 +33,6 @@ namespace CMiX.UI.Controls.ColorPicker
             _HSL_L = hSL_l;
         }
 
-        public void SetARGB(double a, double r, double g, double b)
-        {
-            _A = a;
-            _RGB_R = r;
-            _RGB_G = g;
-            _RGB_B = b;
-            RecalculateHSVFromRGB();
-            RecalculateHSLFromRGB();
-        }
         public double A
         {
             get => _A;

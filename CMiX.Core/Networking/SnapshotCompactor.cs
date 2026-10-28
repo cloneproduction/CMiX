@@ -45,16 +45,6 @@ namespace CMiX.Core.Networking
             _peer.PropertyChanged += OnPeerPropertyChanged;
         }
 
-        // True while a compaction runs and a newer message asks for one more.
-        public bool IsDirty
-        {
-            get
-            {
-                lock (_gate)
-                    return _dirty;
-            }
-        }
-
         // The compaction that runs now, or a completed task. The stop work of the peer waits for it,
         // so no write reaches a store that closes.
         public Task Running

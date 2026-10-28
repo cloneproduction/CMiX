@@ -1,7 +1,6 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.UI.Controls.ColorPicker
@@ -17,11 +16,6 @@ namespace CMiX.UI.Controls.ColorPicker
         private readonly IColorStateStorage storage;
         private bool isUpdating = false;
 
-
-        public Color GetColor()
-        {
-            return Color.FromArgb((byte)A, (byte)RGB_R, (byte)RGB_G, (byte)RGB_B);
-        }
 
 
         public void UpdateEverything()

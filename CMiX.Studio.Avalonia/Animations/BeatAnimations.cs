@@ -58,11 +58,6 @@ namespace CMiX.Studio.Avalonia.Animations
             return true;
         }
 
-        public void ResetAnimation()
-        {
-            _stopwatch.Restart();
-        }
-
         public bool IsRunning => _timer.IsEnabled;
 
         private void OnObservationStarted(object? sender, EventArgs e)

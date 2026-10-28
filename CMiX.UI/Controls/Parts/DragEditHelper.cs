@@ -39,18 +39,6 @@ namespace CMiX.UI.Controls.Parts
         internal static Func<Visual, PixelPoint, PixelRect?> ScreenBoundsAt { get; set; } = (visual, point) =>
             (TopLevel.GetTopLevel(visual) as WindowBase)?.Screens.ScreenFromPoint(point)?.Bounds;
 
-        public static PixelRect GetScreenBounds(Visual visual)
-        {
-            var topLevel = TopLevel.GetTopLevel(visual);
-            if (topLevel is WindowBase window)
-            {
-                var screen = window.Screens.ScreenFromWindow(window) ?? window.Screens.Primary;
-                if (screen != null)
-                    return screen.Bounds;
-            }
-            return new PixelRect(0, 0, 1920, 1080);
-        }
-
         public const double ClickThreshold = 3.0;
 
         // How much of the mouse movement counts while Shift is held, for the fine adjustment of a slider or a color wheel.

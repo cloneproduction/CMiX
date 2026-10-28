@@ -38,12 +38,6 @@ namespace CMiX.Core.Assets
             set => SetProperty(ref _name, value);
         }
 
-        private string _ponderation = "a";
-        public string Ponderation
-        {
-            get => _ponderation;
-            set => SetProperty(ref _ponderation, value);
-        }
 
         private bool _isSelected;
         public bool IsSelected
@@ -59,12 +53,6 @@ namespace CMiX.Core.Assets
             set => SetProperty(ref _filePath, value);
         }
 
-        private bool _isRoot = false;
-        public bool IsRoot
-        {
-            get => _isRoot;
-            set => SetProperty(ref _isRoot, value);
-        }
 
 
         private bool _isExpanded = false;
