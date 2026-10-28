@@ -73,7 +73,7 @@ The list has a fixed manager ID, `ManagerIDs.RedisAddressManager`. The vvvv side
 
 A class with the attribute `[HiddenInMenu]` is not in the add menus. A saved project can still hold it, and it still works. To show the class again, remove the attribute.
 
-These classes are hidden now: `RenderRandomEntityModifier`, `RenderSequenceEntityModifier`, `BillboardModifier` and `RedisAddressModulator`. The section Redis Addresses of the Settings tab is hidden too. Its `IsVisible` is `False` in `SettingsTab.axaml`.
+These classes are hidden now: `RenderRandomEntityModifier`, `RenderSequenceEntityModifier` and `BillboardModifier`.
 
 ## License
 

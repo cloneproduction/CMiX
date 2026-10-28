@@ -41,11 +41,11 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheModulatorMenu_DoesNotOfferTheRedisAddressModulator()
+        public void TheModulatorMenu_OffersTheRedisAddressModulator()
         {
             var offered = Offered(new AutoSelectionPanel { Interface = typeof(IModulator) });
 
-            Assert.DoesNotContain(typeof(RedisAddressModulator), offered);
+            Assert.Contains(typeof(RedisAddressModulator), offered);
             Assert.Contains(typeof(RandomModulator), offered);
         }
 
@@ -53,7 +53,6 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData(typeof(RenderRandomEntityModifier))]
         [InlineData(typeof(RenderSequenceEntityModifier))]
         [InlineData(typeof(BillboardModifier))]
-        [InlineData(typeof(RedisAddressModulator))]
         public void AHiddenType_CanStillBeCreated(Type type)
         {
             var provider = TestServiceProviderFactory.Create();
