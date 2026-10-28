@@ -63,9 +63,9 @@ The start check reports "Not in sync" when you open a project on a machine other
 
 The Settings tab holds the list of Redis addresses of the project. Click an address to edit it. The buttons at the side add, remove and move addresses. The project file stores the list.
 
-The Redis Address modulator has one float output for each address of the list. Assign a value to an output in the same way as to any other modulator output. The name of an output is the ID of the address. An edit of the address text keeps the assignments. When you delete an address, the values bound to it go back to normal in the same undo step.
+The Redis Address modulator selects one address of the list in its combo box. It has one float output, `Value`. Assign a value to it in the same way as to any other modulator output. The row of the assign menu shows the address text, or `Value` when the modulator selects nothing. A change of the selection keeps the assignments. When you delete the selected address, the selection clears and the values bound to the modulator go back to normal in the same undo step.
 
-Each Redis Address modulator also has one gain for each address, with a start value of 1. The modulator shows each gain as a DragValue with the address as its caption. The vvvv side multiplies the Redis value by the gain that has the same `AddressID`, and uses 1 when the modulator has no gain for the address. The Studio adds and removes the gains when you add or delete an address, in the same undo step. It also adds the missing gains when you open the view of a modulator.
+Each Redis Address modulator has one gain with a start value of 1. The vvvv side multiplies the Redis value of the selected address by the gain. The gain stays when you select another address.
 
 The list has a fixed manager ID, `ManagerIDs.RedisAddressManager`. The vvvv side creates the list at startup with this ID.
 
