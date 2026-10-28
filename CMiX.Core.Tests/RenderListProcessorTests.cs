@@ -173,5 +173,37 @@ namespace CMiX.Core.Tests
             composition.PrefabService.Visibility.Value = false;
             Assert.Equal(new[] { composition.ID }, processor.CompositionIds);
         }
+
+        [Fact]
+        public void ProjectId_TheProject_IsFoundInTheRepository()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var processor = provider.GetRequiredService<RenderListProcessor>();
+            var project = provider.GetRequiredService<Project>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+
+            Assert.Same(project, repository.GetControl(processor.ProjectId));
+        }
+
+        [Fact]
+        public void SelectedCompositionId_NoComposition_IsEmpty()
+        {
+            var (processor, _) = Create();
+
+            Assert.Equal(Guid.Empty, processor.SelectedCompositionId);
+        }
+
+        [Fact]
+        public void SelectedCompositionId_TwoCompositions_FollowsTheSelection()
+        {
+            var (processor, project) = Create();
+            var first = AddComposition(project, 1);
+            var second = AddComposition(project, 1);
+            Assert.Equal(second.ID, processor.SelectedCompositionId);
+
+            project.CompositionManager.SelectedItem = first;
+
+            Assert.Equal(first.ID, processor.SelectedCompositionId);
+        }
     }
 }

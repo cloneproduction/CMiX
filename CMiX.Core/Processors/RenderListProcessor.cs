@@ -8,6 +8,8 @@ namespace CMiX.Core.Processors
 {
     // Gives the lists that the render stage draws.
     // CompositionIds holds the visible compositions of the project, in the order of the list.
+    // ProjectId is the ID of the project in the repository.
+    // SelectedCompositionId is the ID of the selected composition, or an empty ID when none is selected.
     // GetLayerIds gives the visible layers of one composition, in the order of its layer list.
     // GetItemIds gives what one layer draws: its visible entities, then its cameras, then its lights.
     // A list is built again only after the list or a visibility changed.
@@ -24,6 +26,10 @@ namespace CMiX.Core.Processors
         }
 
         public IReadOnlyList<Guid> CompositionIds => items.GetVisibleIds(project.CompositionManager);
+
+        public Guid ProjectId => project.ID;
+
+        public Guid SelectedCompositionId => project.CompositionManager.SelectedItem?.ID ?? Guid.Empty;
 
         public IReadOnlyList<Guid> GetLayerIds(Composition composition) =>
             composition == null ? Array.Empty<Guid>() : items.GetVisibleIds(composition.LayerManager);
