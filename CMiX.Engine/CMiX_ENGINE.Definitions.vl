@@ -6577,7 +6577,7 @@
                       <Choice Kind="OperationCallFlag" Name="CastAs" />
                     </p:NodeReference>
                     <Pin Id="VUKJJgJqcw6Mr4ZDFbquth" Name="Input" Kind="StateInputPin" />
-                    <Pin Id="FGXer2wnhITMhdWnDOit9h" Name="Default" Kind="InputPin" />
+                    <Pin Id="FGXer2wnhITMhdWnDOit9h" Name="Default" Kind="InputPin" DefaultValue="0" />
                     <Pin Id="QFpu4UdTNmnP6VOlaGpNQe" Name="Result" Kind="OutputPin" />
                     <Pin Id="Gibq3IO4JuhP40gpAKLlGx" Name="Success" Kind="OutputPin" />
                   </Node>
@@ -44769,6 +44769,11 @@
                     <Pin Id="IwGHTaVQSE7QO1JUh65KgK" Name="Author" Kind="InputPin" IsHidden="true" />
                   </Node>
                   <ControlPoint Id="Hb2Eo2UgNGhO4Vrs9fLSXX" Bounds="408,329" />
+                  <Pad Id="H7YXxX5N5mqOjtlR1xgCfa" Comment="" Bounds="343,440,35,15" ShowValueBox="true" isIOBox="true" Value="0">
+                    <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
+                      <Choice Kind="ImmutableTypeFlag" Name="Float32" />
+                    </p:TypeAnnotation>
+                  </Pad>
                 </Patch>
                 <ControlPoint Id="Of6VEu9lHb2NzyMKw7djqC" Bounds="174,301" Alignment="Top" />
                 <ControlPoint Id="RZ3rxJC23N3ORq28wZgdwm" Bounds="343,681" Alignment="Bottom" />
@@ -44912,6 +44917,7 @@
             <Link Id="VuoNKmywDR3LxpVrtnpxiv" Ids="QWC953e1OIJN4PffAKHrfA,RZ3rxJC23N3ORq28wZgdwm" />
             <Link Id="HgKoGQeSnkiOG7RoE0x6QU" Ids="Of6VEu9lHb2NzyMKw7djqC,Hb2Eo2UgNGhO4Vrs9fLSXX,LFh5fP2e6CYPIFESqk0F7B" />
             <Link Id="LAkJB1aaYQRNjr6YUrbq5W" Ids="Emgl3krYNFoNkt0BmnuWRu,BAX7AZ9oMAmQRnlY3AYkkO" />
+            <Link Id="H3QNtQbL3mfQc8yC01Q9s2" Ids="H7YXxX5N5mqOjtlR1xgCfa,QSbUS8TV4oqMTiaMzIwg6E" />
           </Patch>
         </Node>
         <!--
