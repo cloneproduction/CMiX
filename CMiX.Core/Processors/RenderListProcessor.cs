@@ -3,6 +3,7 @@
 
 using System.Runtime.CompilerServices;
 using CMiX.Core.Compositing;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Processors
@@ -14,17 +15,22 @@ namespace CMiX.Core.Processors
     // GetLayerIds gives the visible layers of one composition, in the order of its layer list.
     // GetItemIds gives what one layer draws: its visible entities, then its cameras, then its lights.
     // GetTextureModifierIds gives the visible texture filters of a layer or a composition, in the order of its list.
+    // GetTextureSourceIds gives the visible texture sources of one composition, in the order of the repository.
     // A list is built again only after the list or a visibility changed.
     public class RenderListProcessor
     {
         private readonly Project project;
         private readonly VisibleItemsProcessor items;
+        private readonly ControlRepository repository;
+        private readonly VisibilityProcessor visibility;
         private readonly ConditionalWeakTable<Layer, LayerItems> layerItems = new();
 
-        public RenderListProcessor(Project project, VisibleItemsProcessor items)
+        public RenderListProcessor(Project project, VisibleItemsProcessor items, ControlRepository repository, VisibilityProcessor visibility)
         {
             this.project = project;
             this.items = items;
+            this.repository = repository;
+            this.visibility = visibility;
         }
 
         public IReadOnlyList<Guid> CompositionIds => items.GetVisibleIds(project.CompositionManager);
@@ -48,6 +54,13 @@ namespace CMiX.Core.Processors
 
         public IReadOnlyList<Guid> GetTextureModifierIds(ITextureModifiable owner) =>
             owner == null ? Array.Empty<Guid>() : items.GetVisibleIds(owner.TextureModifierManager);
+
+        public IReadOnlyList<Guid> GetTextureSourceIds(Guid compositionId) =>
+            repository.Textures
+                .OfType<IHasCompositionID>()
+                .Where(source => source.CompositionID == compositionId && !visibility.IsHidden(((IControl)source).ID))
+                .Select(source => ((IControl)source).ID)
+                .ToArray();
 
         private sealed class LayerItems
         {

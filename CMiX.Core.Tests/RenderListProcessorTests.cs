@@ -1,9 +1,11 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Processors;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Texturing.Sources;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -186,6 +188,55 @@ namespace CMiX.Core.Tests
             var (processor, _) = Create();
 
             Assert.Empty(processor.GetTextureModifierIds(null));
+        }
+
+        private static CheckerBoard AddSource(IServiceProvider provider, Guid compositionId)
+        {
+            var textureManager = provider.GetRequiredService<PrefabManager>();
+            textureManager.AddItem(typeof(CheckerBoard));
+            var source = (CheckerBoard)textureManager.SelectedItem;
+            source.CompositionID = compositionId;
+            return source;
+        }
+
+        [Fact]
+        public void GetTextureSourceIds_ASourceOfTheComposition_IsListed()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var processor = provider.GetRequiredService<RenderListProcessor>();
+            var composition = AddComposition(provider.GetRequiredService<Project>(), 1);
+            var source = AddSource(provider, composition.ID);
+
+            Assert.Equal(new[] { source.ID }, processor.GetTextureSourceIds(composition.ID));
+        }
+
+        [Fact]
+        public void GetTextureSourceIds_ASourceOfAnotherComposition_IsNotListed()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var processor = provider.GetRequiredService<RenderListProcessor>();
+            var project = provider.GetRequiredService<Project>();
+            var first = AddComposition(project, 1);
+            var second = AddComposition(project, 1);
+            var source = AddSource(provider, first.ID);
+
+            Assert.Empty(processor.GetTextureSourceIds(second.ID));
+            Assert.Equal(new[] { source.ID }, processor.GetTextureSourceIds(first.ID));
+        }
+
+        [Fact]
+        public void GetTextureSourceIds_AHiddenSource_LeavesTheListAndComesBack()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var processor = provider.GetRequiredService<RenderListProcessor>();
+            var composition = AddComposition(provider.GetRequiredService<Project>(), 1);
+            var source = AddSource(provider, composition.ID);
+
+            source.PrefabService.Visibility.Value = true;
+            Assert.Empty(processor.GetTextureSourceIds(composition.ID));
+
+            source.PrefabService.Visibility.Value = false;
+            Assert.Equal(new[] { source.ID }, processor.GetTextureSourceIds(composition.ID));
         }
 
         [Fact]
