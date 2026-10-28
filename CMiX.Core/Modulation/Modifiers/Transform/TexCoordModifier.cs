@@ -5,6 +5,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Texturing;
 using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation.Modifiers
@@ -45,10 +46,25 @@ namespace CMiX.Core.Modulation.Modifiers
                 Location = (ModulatableVector2Model)Location.ToModel(),
                 Scale = (ModulatableVector2Model)Scale.ToModel(),
                 Rotation = (ModulatableValueModel<float>)Rotation.ToModel(),
-                Uniform = (ModulatableValueModel<float>)Uniform.ToModel()
+                Uniform = (ModulatableValueModel<float>)Uniform.ToModel(),
+                SamplerState = UnusedSamplerState()
             };
             PopulateBaseModel(model);
             return model;
+        }
+
+        // The model has a sampler state that this modifier does not use. It gets ids that stay the same.
+        private SamplerStateModel UnusedSamplerState()
+        {
+            Guid IdOf(string name) => DerivedId.Of(ID, nameof(TexCoordModifierModel.SamplerState) + "." + name);
+
+            return new SamplerStateModel
+            {
+                ID = IdOf(nameof(SamplerStateModel.ID)),
+                BorderColor = new("#FFFF00FF") { ID = IdOf(nameof(SamplerStateModel.BorderColor)) },
+                AddressU = new(TextureAddressMode.Mirror) { ID = IdOf(nameof(SamplerStateModel.AddressU)) },
+                AddressV = new(TextureAddressMode.Mirror) { ID = IdOf(nameof(SamplerStateModel.AddressV)) }
+            };
         }
 
         public override void FromModel(IControlModel model)
