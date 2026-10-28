@@ -38,12 +38,14 @@ namespace CMiX.Core.Animations
 
         public IControlModel ToModel() => new BeatStepsModel
         {
+            ID = ID,
             Steps = Steps.Select(s => (GenericValueModel<bool>)s.ToModel()).ToList()
         };
 
         public void FromModel(IControlModel model)
         {
             var m = (BeatStepsModel)model;
+            ID = m.ID;
             for (int i = 0; i < Steps.Count && i < m.Steps.Count; i++)
                 Steps[i].FromModel(m.Steps[i]);
         }
