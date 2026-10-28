@@ -58627,7 +58627,7 @@
                 <Link Id="KAmWLg1aja1M2LnTthXeiD" Ids="Olbqg5hvdeWNsNhPDZ56EU,EDsoMXxvyPmOUU3ftHHypp" IsHidden="true" />
               </Patch>
             </Node>
-            <Node Bounds="334,620,41,19" Id="DnEIr9sf2SwO18gBHa1HEy">
+            <Node Bounds="334,620,97,19" Id="DnEIr9sf2SwO18gBHa1HEy">
               <p:NodeReference LastCategoryFullName="CMiX.Engine.ComposableProcessor" LastDependency="CMiX_ENGINE.Definitions.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="Category" Name="CMiX" />
@@ -58969,7 +58969,7 @@
                   </Node>
                   <ControlPoint Id="Tcrc2jSXsQ3QAOyMreL4AX" Bounds="42,33" />
                   <ControlPoint Id="DdsqoK5q3vLO7v6Bi6aAkx" Bounds="123,40" />
-                  <Node Bounds="434,300,88,26" Id="BolNHkr1OiQOhR1fZQrKMt">
+                  <Node Bounds="310,330,88,26" Id="BolNHkr1OiQOhR1fZQrKMt">
                     <p:NodeReference LastCategoryFullName="CMiX.Core.Processors.RenderListProcessor" LastDependency="CMiX.Core.csproj">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="OperationCallFlag" Name="GetLayerIds" />
@@ -58979,7 +58979,7 @@
                     <Pin Id="Hk3JicWnjhPLIdwC9vM1uD" Name="Output" Kind="StateOutputPin" />
                     <Pin Id="Gv9p9Ueqg94Nn8xop3CR8r" Name="Result" Kind="OutputPin" />
                   </Node>
-                  <Node Bounds="444,384,149,75" Id="JBwVAXMLk0cLDVQwkDQ7bb">
+                  <Node Bounds="320,414,149,75" Id="JBwVAXMLk0cLDVQwkDQ7bb">
                     <p:NodeReference LastCategoryFullName="Primitive" LastDependency="Builtin">
                       <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
                       <CategoryReference Kind="Category" Name="Primitive" />
@@ -58990,7 +58990,7 @@
                       <Patch Id="McZxNJquW2HP72ZgFkBVg0" Name="Create" ManuallySortedPins="true" />
                       <Patch Id="EIPmIdleGvGQXLifPWYu1h" Name="Update" ManuallySortedPins="true" />
                       <Patch Id="SSvqBD5nT0uOJSTy1kVbeX" Name="Dispose" ManuallySortedPins="true" />
-                      <Node Bounds="477,420,85,19" Id="ClJSg0MP1G9N0HTjTy9y8a">
+                      <Node Bounds="353,450,85,19" Id="ClJSg0MP1G9N0HTjTy9y8a">
                         <p:NodeReference LastCategoryFullName="CMiX.Engine.ComposableProcessor" LastDependency="CMiX_ENGINE.Definitions.vl">
                           <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                           <Choice Kind="ProcessAppFlag" Name="DrawLayer" />
@@ -59003,11 +59003,11 @@
                         <Pin Id="VrlVczDAM0uLG3w9re8CLb" Name="Update" Kind="ApplyPin" />
                       </Node>
                     </Patch>
-                    <ControlPoint Id="EMcMLi6aQb0NViy13fq7Rk" Bounds="519,390" Alignment="Top" />
-                    <ControlPoint Id="QpCAUN7jHl4La01vOJ4VIf" Bounds="576,390" Alignment="Top" />
-                    <ControlPoint Id="Rgq9oceESmILhmvBHgXZz0" Bounds="576,453" Alignment="Bottom" />
+                    <ControlPoint Id="EMcMLi6aQb0NViy13fq7Rk" Bounds="395,420" Alignment="Top" />
+                    <ControlPoint Id="QpCAUN7jHl4La01vOJ4VIf" Bounds="452,420" Alignment="Top" />
+                    <ControlPoint Id="Rgq9oceESmILhmvBHgXZz0" Bounds="452,483" Alignment="Bottom" />
                   </Node>
-                  <Node Bounds="574,310,113,19" Id="EsSVn3XbtGkPGZUvz0Mieg">
+                  <Node Bounds="450,330,113,19" Id="EsSVn3XbtGkPGZUvz0Mieg">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.Compositing.Composition" LastDependency="CMiX_ENGINE.Definitions.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="ProcessAppFlag" Name="CreateRenderContext" />
@@ -59017,9 +59017,9 @@
                     <Pin Id="RGtNgyZcNAdMy4Vt7MKf09" Name="Output" Kind="OutputPin" />
                     <Pin Id="UklZb8PZDJePMyv3y6VQFE" Name="ICMiXServiceTilingInfo" Kind="InputPin" />
                   </Node>
-                  <ControlPoint Id="DMmWiOL7ISwM2A0Drp0VTk" Bounds="433,120" />
-                  <ControlPoint Id="HCcGnD5N25UOZKlkA4OwBc" Bounds="684,170" />
-                  <ControlPoint Id="EGWnpUlpNHZMDYlWyyYGfD" Bounds="643,570" />
+                  <ControlPoint Id="DMmWiOL7ISwM2A0Drp0VTk" Bounds="312,280" />
+                  <ControlPoint Id="HCcGnD5N25UOZKlkA4OwBc" Bounds="560,280" />
+                  <ControlPoint Id="EGWnpUlpNHZMDYlWyyYGfD" Bounds="680,610" />
                   <Node Bounds="788,286,67,19" Id="RX1YxVdL2qpMZLvAGOvHXJ">
                     <p:NodeReference LastCategoryFullName="Stride.Rendering.ShaderFX.Variables" LastDependency="VL.Stride.Runtime.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
