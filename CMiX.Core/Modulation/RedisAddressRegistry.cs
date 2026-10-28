@@ -12,7 +12,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Modulation
 {
-    // The Redis addresses of the project. A RedisAddressModulator selects one of them.
+    // The Redis addresses of the project. A RedisFloatModulator selects one of them.
     public class RedisAddressRegistry
     {
         private readonly UndoManager _undoManager;
@@ -63,7 +63,7 @@ namespace CMiX.Core.Modulation
             if (e.Action != NotifyCollectionChangedAction.Remove || e.OldItems == null) return;
 
             foreach (var address in e.OldItems.OfType<RedisAddress>())
-                foreach (var modulator in _controlRepository.Controls.OfType<RedisAddressModulator>().ToList())
+                foreach (var modulator in _controlRepository.Controls.OfType<RedisFloatModulator>().ToList())
                     modulator.OnAddressRemoved(address.ID);
         }
     }

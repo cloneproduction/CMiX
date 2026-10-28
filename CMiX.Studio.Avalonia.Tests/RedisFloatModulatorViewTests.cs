@@ -12,22 +12,22 @@ using CMiX.UI.Controls.Enum;
 using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using ViewRedisAddressModulator = CMiX.Studio.Avalonia.Views.RedisAddressModulator;
+using ViewRedisFloatModulator = CMiX.Studio.Avalonia.Views.RedisFloatModulator;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The address combo box and the gain of a RedisAddressModulator in the window.
-    public class RedisAddressModulatorViewTests
+    // The address combo box and the gain of a RedisFloatModulator in the window.
+    public class RedisFloatModulatorViewTests
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
 
         private RedisAddressRegistry Registry => _provider.GetRequiredService<RedisAddressRegistry>();
 
-        private RedisAddressModulator NewModulator()
+        private RedisFloatModulator NewModulator()
         {
             var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
-            blur.ModulatorManager.AddItem(typeof(RedisAddressModulator));
-            return (RedisAddressModulator)blur.ModulatorManager.SelectedItem;
+            blur.ModulatorManager.AddItem(typeof(RedisFloatModulator));
+            return (RedisFloatModulator)blur.ModulatorManager.SelectedItem;
         }
 
         private RedisAddress AddAddress(string text)
@@ -38,9 +38,9 @@ namespace CMiX.Studio.Avalonia.Tests
             return address;
         }
 
-        private static ViewRedisAddressModulator Show(RedisAddressModulator modulator)
+        private static ViewRedisFloatModulator Show(RedisFloatModulator modulator)
         {
-            var view = new ViewRedisAddressModulator { DataContext = modulator };
+            var view = new ViewRedisFloatModulator { DataContext = modulator };
             new Window { Content = view, Width = 400, Height = 400 }.Show();
             Dispatcher.UIThread.RunJobs();
             return view;

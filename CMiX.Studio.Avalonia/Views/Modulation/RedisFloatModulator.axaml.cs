@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class RedisAddressModulator : UserControl
+    public partial class RedisFloatModulator : UserControl
     {
-        public RedisAddressModulator()
+        public RedisFloatModulator()
         {
             InitializeComponent();
         }

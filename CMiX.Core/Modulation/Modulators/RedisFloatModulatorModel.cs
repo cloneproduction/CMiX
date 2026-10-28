@@ -6,7 +6,7 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public record RedisAddressModulatorModel : IPrefabModel
+    public record RedisFloatModulatorModel : IPrefabModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();

@@ -8,7 +8,7 @@ using CMiX.Core.Undo;
 
 namespace CMiX.Core.Animations
 {
-    // One Redis address of the list of a RedisAddressModulator.
+    // One Redis address of the list of a RedisFloatModulator.
     public class RedisAddress : GenericValue<string>, IControl
     {
         public RedisAddress(ControlMessenger controlMessenger,

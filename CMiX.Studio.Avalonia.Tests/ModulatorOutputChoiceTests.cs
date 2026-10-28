@@ -55,8 +55,8 @@ namespace CMiX.Studio.Avalonia.Tests
         public void AnAddressedOutput_ShowsItsAddressInTheLabel()
         {
             var (blur, _, _) = CreateBlurWithModulators();
-            blur.ModulatorManager.AddItem(typeof(RedisAddressModulator));
-            var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisAddressModulator>().Single();
+            blur.ModulatorManager.AddItem(typeof(RedisFloatModulator));
+            var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisFloatModulator>().Single();
             modulator.Registry.AddressManager.AddItem(typeof(RedisAddress));
             var address = (RedisAddress)modulator.Registry.AddressManager.SelectedItem;
             address.Value = "cmix:speed";
@@ -71,8 +71,8 @@ namespace CMiX.Studio.Avalonia.Tests
         public void AnAddressedOutput_WithoutASelection_ShowsValueInTheLabel()
         {
             var (blur, _, _) = CreateBlurWithModulators();
-            blur.ModulatorManager.AddItem(typeof(RedisAddressModulator));
-            var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisAddressModulator>().Single();
+            blur.ModulatorManager.AddItem(typeof(RedisFloatModulator));
+            var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisFloatModulator>().Single();
 
             var rows = ModulatorOutputChoice.Build(Selections(modulator), blur.Strength);
 

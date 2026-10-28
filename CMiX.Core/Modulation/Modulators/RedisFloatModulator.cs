@@ -8,9 +8,9 @@ using CMiX.Core.Prefabs;
 namespace CMiX.Core.Modulation.Modulators
 {
     // One Redis address of the project as a float output, times a gain.
-    public class RedisAddressModulator : ModulatorBase, INotifyOutputRemoved
+    public class RedisFloatModulator : ModulatorBase, INotifyOutputRemoved
     {
-        public RedisAddressModulator(PrefabService prefabService, RedisAddressRegistry registry,
+        public RedisFloatModulator(PrefabService prefabService, RedisAddressRegistry registry,
                                      GenericValue<Guid?> selectedAddressID, GenericValue<float> gain)
             : base(prefabService)
         {
@@ -50,7 +50,7 @@ namespace CMiX.Core.Modulation.Modulators
             SelectedAddressID.Value = null;
         }
 
-        public override IControlModel ToModel() => new RedisAddressModulatorModel
+        public override IControlModel ToModel() => new RedisFloatModulatorModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -60,7 +60,7 @@ namespace CMiX.Core.Modulation.Modulators
 
         public override void FromModel(IControlModel model)
         {
-            var m = (RedisAddressModulatorModel)model;
+            var m = (RedisFloatModulatorModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             SelectedAddressID.FromModel(m.SelectedAddressID);

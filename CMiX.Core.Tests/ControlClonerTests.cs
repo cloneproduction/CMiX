@@ -99,7 +99,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Clone_ARedisAddressModulator_KeepsTheSelectionAndTheGain()
+        public void Clone_ARedisFloatModulator_KeepsTheSelectionAndTheGain()
         {
             var (provider, compositions, composition) = NewComposition();
             var registry = provider.GetRequiredService<RedisAddressRegistry>();
@@ -108,13 +108,13 @@ namespace CMiX.Core.Tests
             address.Value = "cmix:a";
             composition.ModifierManager.AddItem(typeof(AlphaModifier));
             var modifier = (Modifier)composition.ModifierManager.SelectedItem;
-            modifier.ModulatorManager.AddItem(typeof(RedisAddressModulator));
-            var modulator = (RedisAddressModulator)modifier.ModulatorManager.SelectedItem;
+            modifier.ModulatorManager.AddItem(typeof(RedisFloatModulator));
+            var modulator = (RedisFloatModulator)modifier.ModulatorManager.SelectedItem;
             modulator.SelectedAddress = address;
             modulator.Gain.Value = 0.5f;
 
             var copy = (Composition)compositions.DuplicateItem(composition);
-            var copyModulator = (RedisAddressModulator)((Modifier)copy.ModifierManager.ManagerData.Items.First()).ModulatorManager.ManagerData.Items.First();
+            var copyModulator = (RedisFloatModulator)((Modifier)copy.ModifierManager.ManagerData.Items.First()).ModulatorManager.ManagerData.Items.First();
 
             Assert.Same(address, copyModulator.SelectedAddress);
             Assert.Equal(0.5f, copyModulator.Gain.Value);

@@ -27,14 +27,14 @@ namespace CMiX.Core.Tests
             return address;
         }
 
-        private static RedisAddressModulator AddModulator(PrefabManager manager)
+        private static RedisFloatModulator AddModulator(PrefabManager manager)
         {
-            manager.AddItem(typeof(RedisAddressModulator));
-            return manager.ManagerData.Items.OfType<RedisAddressModulator>().Single();
+            manager.AddItem(typeof(RedisFloatModulator));
+            return manager.ManagerData.Items.OfType<RedisFloatModulator>().Single();
         }
 
         // Selects the address on the modulator and binds the value to its output.
-        private static void Bind(IModulatorBindable bindable, RedisAddressModulator modulator, RedisAddress address)
+        private static void Bind(IModulatorBindable bindable, RedisFloatModulator modulator, RedisAddress address)
         {
             modulator.SelectedAddress = address;
             bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs.Single()));

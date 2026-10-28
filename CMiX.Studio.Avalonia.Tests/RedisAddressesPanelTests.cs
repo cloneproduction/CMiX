@@ -74,8 +74,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var (registry, panel, provider) = Show(1);
             var factory = provider.GetRequiredService<ControlFactory>();
             var blur = (Core.Texturing.Filters.Blur)factory.Create(typeof(Core.Texturing.Filters.Blur));
-            blur.ModulatorManager.AddItem(typeof(RedisAddressModulator));
-            var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisAddressModulator>().Single();
+            blur.ModulatorManager.AddItem(typeof(RedisFloatModulator));
+            var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisFloatModulator>().Single();
             modulator.SelectedAddress = registry.Addresses.Single();
             blur.Strength.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[0]));
             var list = panel.GetVisualDescendants().OfType<ListBoxEditable>().Single();

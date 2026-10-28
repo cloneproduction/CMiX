@@ -7,15 +7,15 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // A RedisAddressModulator: one selected address of the project, one output named Value, one gain.
-    public class RedisAddressModulatorTests
+    // A RedisFloatModulator: one selected address of the project, one output named Value, one gain.
+    public class RedisFloatModulatorTests
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
 
         private RedisAddressRegistry Registry => _provider.GetRequiredService<RedisAddressRegistry>();
 
-        private RedisAddressModulator NewModulator() =>
-            (RedisAddressModulator)_provider.GetRequiredService<ControlFactory>().Create(typeof(RedisAddressModulator));
+        private RedisFloatModulator NewModulator() =>
+            (RedisFloatModulator)_provider.GetRequiredService<ControlFactory>().Create(typeof(RedisFloatModulator));
 
         private RedisAddress AddAddress(string text)
         {
@@ -99,7 +99,7 @@ namespace CMiX.Core.Tests
         public void FromModel_AnUnknownAddressID_GivesNoSelectedAddress()
         {
             var modulator = NewModulator();
-            var model = (RedisAddressModulatorModel)modulator.ToModel();
+            var model = (RedisFloatModulatorModel)modulator.ToModel();
             model.SelectedAddressID = new(Guid.NewGuid());
 
             modulator.FromModel(model);

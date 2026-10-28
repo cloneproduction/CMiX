@@ -2,8 +2,10 @@
 using System.Text.Json.Nodes;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
+using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Persistence;
 using CMiX.Core.Rendering;
+using CMiX.Core.Texturing.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -38,6 +40,33 @@ namespace CMiX.Core.Tests
             var loaded = ProjectSerializer.Load(path);
 
             Assert.Equal(OutputMappingManager.SlotCount, loaded.OutputMappingManager.Items.Count);
+        }
+
+        // A file saved with the old $type RedisAddressModulatorModel still loads and gives a RedisFloatModulator.
+        [Fact]
+        public void Load_AProjectWithTheOldRedisAddressModulatorType_GivesARedisFloatModulator()
+        {
+            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            project.CompositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)project.CompositionManager.SelectedItem;
+            composition.TextureModifierManager.AddItem(typeof(Blur));
+            var blur = (Blur)composition.TextureModifierManager.SelectedItem;
+            blur.ModulatorManager.AddItem(typeof(RedisFloatModulator));
+            var path = Path.Combine(_directory, "old-modulator.cmix");
+            ProjectSerializer.Save((ProjectModel)project.ToModel(), path);
+            var json = File.ReadAllText(path);
+            Assert.Contains("CMiX.Core.Modulation.Modulators.RedisFloatModulatorModel", json);
+            File.WriteAllText(path, json.Replace(
+                "CMiX.Core.Modulation.Modulators.RedisFloatModulatorModel",
+                "CMiX.Core.Modulation.Modulators.RedisAddressModulatorModel"));
+
+            var loaded = ProjectSerializer.Load(path);
+            var target = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            target.CompositionManager.AddItemFromModel(loaded.CompositionManager.ManagerData.Items[0]);
+
+            var loadedComposition = (Composition)target.CompositionManager.SelectedItem;
+            var loadedBlur = (Blur)loadedComposition.TextureModifierManager.ManagerData.Items[0];
+            Assert.IsType<RedisFloatModulator>(Assert.Single(loadedBlur.ModulatorManager.ManagerData.Items));
         }
 
         [Fact]

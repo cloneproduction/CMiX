@@ -27,6 +27,7 @@ namespace CMiX.Core.Serialization
             ["CMiX.Core.Colors.Modifiers.ColorPaletteModel"] = "CMiX.Core.Colors.Modifiers.ColorPaletteModifierModel",
             ["CMiX.Core.Transformation.BillboardModel"] = "CMiX.Core.Transformation.BillboardModifierModel",
             ["CMiX.Core.Text.Modifiers.SplitModel"] = "CMiX.Core.Text.Modifiers.SplitModifierModel",
+            ["CMiX.Core.Modulation.Modulators.RedisAddressModulatorModel"] = "CMiX.Core.Modulation.Modulators.RedisFloatModulatorModel",
         };
 
         public override IControlModel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
