@@ -11,8 +11,8 @@ using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Core.Processors
 {
-    // Keeps the ids of the controls that must update, in the order of the update.
-    // A hidden control is not in the list. OrderedIds is a new array after each change, so another thread can read it without a lock.
+    // Keeps the ids of the prefabs that must update, in the order of the update.
+    // A control that is no prefab is not in the list. A hidden prefab is not in the list. OrderedIds is a new array after each change, so another thread can read it without a lock.
     public class UpdateOrderProcessor
     {
         // The first row updates first. The kinds in one row have no order between them.
@@ -54,9 +54,10 @@ namespace CMiX.Core.Processors
 
         private void Refresh() =>
             OrderedIds = repository.Controls
-                .Where(control => !visibility.IsHidden(control.ID))
+                .OfType<IPrefab>()
+                .Where(prefab => !visibility.IsHidden(prefab.ID))
                 .OrderBy(Position)
-                .Select(control => control.ID)
+                .Select(prefab => prefab.ID)
                 .ToArray();
     }
 }
