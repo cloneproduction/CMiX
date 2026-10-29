@@ -30,6 +30,16 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public PrefabManager TextureSelector { get; set; }
+
+        public override Guid CompositionID
+        {
+            get => base.CompositionID;
+            set
+            {
+                base.CompositionID = value;
+                TextureSelector.CompositionID = value;
+            }
+        }
         public ModulatableVector2 Offset { get; }
         public ModulatableVector2 OffsetScale { get; }
 

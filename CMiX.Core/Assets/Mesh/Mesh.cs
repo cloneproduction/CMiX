@@ -3,13 +3,14 @@
 
 using CMiX.Core.Assets.Mesh;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core
 {
-    public partial class Mesh : ObservableRecipient, IControl, IDisposable
+    public partial class Mesh : ObservableRecipient, IControl, IHasCompositionID, IDisposable
     {
         public Mesh(GenericValue<MeshType> meshTypeSelector,
                     Vector3 scale,
@@ -52,6 +53,19 @@ namespace CMiX.Core
         private bool isExpanded = false;
 
         public Guid ID { get; set; } = Guid.NewGuid();
+
+        private Guid _compositionID;
+        public Guid CompositionID
+        {
+            get => _compositionID;
+            set
+            {
+                _compositionID = value;
+                ExplodeTriangleTextureManager.CompositionID = value;
+                DisplacementTextureManager.CompositionID = value;
+            }
+        }
+
         public GenericValue<MeshType> MeshTypeSelector { get; set; }
         public Text3DSettings Text3DSettings { get; set; }
         public AssetSelector Geometry { get; set; }
