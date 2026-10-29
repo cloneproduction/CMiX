@@ -305,5 +305,56 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(first.ID, processor.SelectedCompositionId);
         }
+
+        private static Entity AddEntity(Composition composition)
+        {
+            var layer = (Layer)Layers(composition)[0];
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+            return (Entity)layer.ModelEntityManager.SelectedItem;
+        }
+
+        private static CheckerBoard AddSourceTo(PrefabManager manager)
+        {
+            manager.AddItem(typeof(CheckerBoard));
+            return (CheckerBoard)manager.SelectedItem;
+        }
+
+        [Fact]
+        public void GetTextureSourceIds_ASourceInTheMeshDisplacementSlot_IsListed()
+        {
+            var (processor, project) = Create();
+            var composition = AddComposition(project, 1);
+            var entity = AddEntity(composition);
+
+            var source = AddSourceTo(entity.Mesh.DisplacementTextureManager);
+
+            Assert.Contains(source.ID, processor.GetTextureSourceIds(composition.ID));
+        }
+
+        [Fact]
+        public void GetTextureSourceIds_ASourceInTheMeshExplodeSlot_IsListed()
+        {
+            var (processor, project) = Create();
+            var composition = AddComposition(project, 1);
+            var entity = AddEntity(composition);
+
+            var source = AddSourceTo(entity.Mesh.ExplodeTriangleTextureManager);
+
+            Assert.Contains(source.ID, processor.GetTextureSourceIds(composition.ID));
+        }
+
+        [Fact]
+        public void GetTextureSourceIds_ASourceInADisplaceFilter_IsListed()
+        {
+            var (processor, project) = Create();
+            var composition = AddComposition(project, 1);
+            var layer = (Layer)Layers(composition)[0];
+            layer.TextureModifierManager.AddItem(typeof(Displace));
+            var displace = (Displace)layer.TextureModifierManager.SelectedItem;
+
+            var source = AddSourceTo(displace.TextureSelector);
+
+            Assert.Contains(source.ID, processor.GetTextureSourceIds(composition.ID));
+        }
     }
 }

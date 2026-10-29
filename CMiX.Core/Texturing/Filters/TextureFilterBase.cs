@@ -44,7 +44,7 @@ namespace CMiX.Core.Texturing.Filters
         public Guid ID { get; set; } = Guid.NewGuid();
 
         private Guid _compositionID;
-        public Guid CompositionID
+        public virtual Guid CompositionID
         {
             get => _compositionID;
             set
