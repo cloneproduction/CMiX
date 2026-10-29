@@ -320,6 +320,40 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void GetVisibleIds_VisibleItems_AreListedInTheOrderOfTheList()
+        {
+            var (processor, project) = Create();
+            var diffuse = AddEntity(AddComposition(project, 1)).Texture.DiffuseTexture;
+            var first = AddSourceTo(diffuse.TextureManager);
+            var second = AddSourceTo(diffuse.TextureManager);
+
+            Assert.Equal(new[] { first.ID, second.ID }, processor.GetVisibleIds(diffuse.TextureManager));
+        }
+
+        [Fact]
+        public void GetVisibleIds_AHiddenItem_LeavesTheListAndComesBack()
+        {
+            var (processor, project) = Create();
+            var diffuse = AddEntity(AddComposition(project, 1)).Texture.DiffuseTexture;
+            var first = AddSourceTo(diffuse.TextureManager);
+            var second = AddSourceTo(diffuse.TextureManager);
+
+            first.PrefabService.Visibility.Value = true;
+            Assert.Equal(new[] { second.ID }, processor.GetVisibleIds(diffuse.TextureManager));
+
+            first.PrefabService.Visibility.Value = false;
+            Assert.Equal(new[] { first.ID, second.ID }, processor.GetVisibleIds(diffuse.TextureManager));
+        }
+
+        [Fact]
+        public void GetVisibleIds_ANullList_IsEmpty()
+        {
+            var (processor, _) = Create();
+
+            Assert.Empty(processor.GetVisibleIds(null));
+        }
+
+        [Fact]
         public void GetTextureSourceIds_ASourceInTheMeshDisplacementSlot_IsListed()
         {
             var (processor, project) = Create();
