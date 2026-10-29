@@ -75,8 +75,9 @@ namespace CMiX.Core.Compositing
             OutputMappingManager.FromModel(m.OutputMappingManager);
             Model.FromModel(m.Model);
 
-            LoadManager(CompositionManager, m.CompositionManager);
+            // A Redis modulator selects an address, so the addresses come before the compositions.
             LoadAddresses(m.RedisAddressManager);
+            LoadManager(CompositionManager, m.CompositionManager);
         }
 
         // Gives the output mappings, the name and the model the values of a new project. The master

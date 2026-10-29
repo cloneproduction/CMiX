@@ -1,3 +1,4 @@
+using System.Collections.Specialized;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
@@ -63,6 +64,25 @@ namespace CMiX.Core.Tests
             project.Reset();
 
             Assert.Empty(Addresses(project));
+        }
+
+        [Fact]
+        public void ApplyingASnapshot_RestoresTheAddressesBeforeTheCompositions()
+        {
+            var source = NewProjectWith("cmix:a");
+            source.CompositionManager.AddItem(typeof(Composition));
+            var snapshot = (ProjectModel)source.ToModel();
+            var target = NewProject();
+            var addressesWhenACompositionIsAdded = -1;
+            target.CompositionManager.ManagerData.Items.CollectionChanged += (s, e) =>
+            {
+                if (e.Action == NotifyCollectionChangedAction.Add && addressesWhenACompositionIsAdded < 0)
+                    addressesWhenACompositionIsAdded = target.RedisAddressRegistry.Addresses.Count();
+            };
+
+            target.ApplySnapshot(snapshot);
+
+            Assert.Equal(1, addressesWhenACompositionIsAdded);
         }
 
         [Fact]
