@@ -1,0 +1,30 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.RedisFloatModulator"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    d:DesignWidth="400">
+
+    <StackPanel Spacing="{DynamicResource SpacingMD}">
+
+        <ui:ComboBoxCaptioned
+            Caption="Address"
+            ItemsSource="{Binding Registry.AddressManager.ManagerData.Items}"
+            ResetCommand="{Binding SelectedAddressID.ResetCommand}"
+            SelectedItem="{Binding SelectedAddress}">
+            <ui:ComboBoxCaptioned.ItemTemplate>
+                <DataTemplate>
+                    <ui:TextBlockTrimmed Text="{Binding Value}" />
+                </DataTemplate>
+            </ui:ComboBoxCaptioned.ItemTemplate>
+        </ui:ComboBoxCaptioned>
+
+        <ui:DragValue
+            Caption="Gain"
+            Minimum="0.0"
+            ResetCommand="{Binding Gain.ResetCommand}"
+            Value="{Binding Gain.Value}" />
+
+    </StackPanel>
+</UserControl>

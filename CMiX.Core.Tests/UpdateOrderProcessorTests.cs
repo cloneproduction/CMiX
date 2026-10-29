@@ -1,5 +1,6 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Materials;
+using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -14,9 +15,11 @@ namespace CMiX.Core.Tests
 {
     public class UpdateOrderProcessorTests
     {
-        private sealed class ControlOfNoKnownKind : IControl
+        // A prefab of no known kind. ControlFactory reads the PrefabService of every prefab in the repository, so a test sets one.
+        private sealed class ControlOfNoKnownKind : IPrefab
         {
             public Guid ID { get; set; } = Guid.NewGuid();
+            public PrefabService PrefabService { get; set; }
             public IControlModel ToModel() => throw new NotSupportedException();
             public void FromModel(IControlModel model) => throw new NotSupportedException();
         }
@@ -37,7 +40,7 @@ namespace CMiX.Core.Tests
             var material = factory.Create(typeof(Material));
             var texture = factory.Create(typeof(CheckerBoard));
             var modifier = factory.Create(typeof(AlphaModifier));
-            var unknown = new ControlOfNoKnownKind();
+            var unknown = new ControlOfNoKnownKind { PrefabService = provider.GetRequiredService<PrefabService>() };
             repository.AddRoot(unknown);
             foreach (var control in new IControl[] { composition, layer, entity, camera, material, texture, modifier })
                 repository.AddControl(control, collectionManager);
@@ -105,6 +108,21 @@ namespace CMiX.Core.Tests
             repository.RemoveControl(layer, collectionManager);
 
             Assert.DoesNotContain(layer.ID, processor.OrderedIds);
+        }
+
+        [Fact]
+        public void OrderedIds_AControlThatIsNoPrefab_IsNotInTheList()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var processor = provider.GetRequiredService<UpdateOrderProcessor>();
+            var project = provider.GetRequiredService<Project>();
+            var registry = provider.GetRequiredService<RedisAddressRegistry>();
+
+            registry.AddAddress();
+            var address = registry.Addresses.Single();
+
+            Assert.DoesNotContain(address.ID, processor.OrderedIds);
+            Assert.Contains(project.ID, processor.OrderedIds);
         }
     }
 }

@@ -12,7 +12,7 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Removing a global address takes the values bound to it back to normal.
+    // Removing a global address takes the values bound to the modulators that select it back to normal.
     public class RedisAddressRemoveTests
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
@@ -27,18 +27,27 @@ namespace CMiX.Core.Tests
             return address;
         }
 
-        private static RedisAddressModulator AddModulator(PrefabManager manager)
+        private static RedisFloatModulator AddModulator(PrefabManager manager)
         {
-            manager.AddItem(typeof(RedisAddressModulator));
-            return manager.ManagerData.Items.OfType<RedisAddressModulator>().Single();
+            manager.AddItem(typeof(RedisFloatModulator));
+            return manager.ManagerData.Items.OfType<RedisFloatModulator>().Single();
         }
 
-        private static void Bind(IModulatorBindable bindable, RedisAddressModulator modulator, RedisAddress address) =>
-            bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(
-                modulator, modulator.Outputs.Single(output => output.Name == address.ID.ToString())));
+        private static RedisBoolModulator AddBoolModulator(PrefabManager manager)
+        {
+            manager.AddItem(typeof(RedisBoolModulator));
+            return manager.ManagerData.Items.OfType<RedisBoolModulator>().Single();
+        }
+
+        // Selects the address on the modulator and binds the value to its output.
+        private static void Bind(IModulatorBindable bindable, RedisModulatorBase modulator, RedisAddress address)
+        {
+            modulator.SelectedAddress = address;
+            bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs.Single()));
+        }
 
         [Fact]
-        public void ForAFilter_TheValueGoesBackToNormal()
+        public void RemoveAddress_TheSelectedAddressOfAFilter_TakesTheValueBackToNormal()
         {
             var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var modulator = AddModulator(blur.ModulatorManager);
@@ -49,10 +58,11 @@ namespace CMiX.Core.Tests
 
             Assert.Null(blur.Strength.ModulatorID);
             Assert.False(blur.Strength.IsModulated);
+            Assert.Null(modulator.SelectedAddress);
         }
 
         [Fact]
-        public void ForAModifier_TheValueGoesBackToNormal()
+        public void RemoveAddress_TheSelectedAddressOfAModifier_TakesTheValueBackToNormal()
         {
             var scale = (ScaleModifier)_provider.GetRequiredService<ControlFactory>().Create(typeof(ScaleModifier));
             var modulator = AddModulator(scale.ModulatorManager);
@@ -65,7 +75,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ForATextureSource_TheValueGoesBackToNormal()
+        public void RemoveAddress_TheSelectedAddressOfATextureSource_TakesTheValueBackToNormal()
         {
             var source = (VideoPlayer)_provider.GetRequiredService<ControlFactory>().Create(typeof(VideoPlayer));
             var modulator = AddModulator(source.ModulatorManager);
@@ -78,22 +88,39 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TheValuesBoundToOtherAddresses_KeepTheirAssignment()
+        public void RemoveAddress_TheSelectedAddressOfABoolModulator_TakesPlayingBackToNormal()
         {
-            var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
-            var modulator = AddModulator(blur.ModulatorManager);
-            var deleted = AddAddress("cmix:a");
-            var kept = AddAddress("cmix:b");
-            Bind(blur.Strength, modulator, kept);
+            var player = (SequencePlayer)_provider.GetRequiredService<ControlFactory>().Create(typeof(SequencePlayer));
+            var modulator = AddBoolModulator(player.ModulatorManager);
+            var address = AddAddress("cmix:a");
+            Bind(player.Playing, modulator, address);
+            Assert.True(player.Playing.IsModulated);
 
-            Registry.RemoveAddress(deleted);
+            Registry.RemoveAddress(address);
 
-            Assert.Equal(modulator.ID, blur.Strength.ModulatorID);
-            Assert.Equal(kept.ID.ToString(), blur.Strength.BoundOutputName);
+            Assert.Null(player.Playing.ModulatorID);
+            Assert.False(player.Playing.IsModulated);
+            Assert.Null(modulator.SelectedAddress);
         }
 
         [Fact]
-        public void EditingOrMovingAnAddress_KeepsTheAssignment()
+        public void RemoveAddress_AnotherAddress_KeepsTheBinding()
+        {
+            var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
+            var modulator = AddModulator(blur.ModulatorManager);
+            var removed = AddAddress("cmix:a");
+            var kept = AddAddress("cmix:b");
+            Bind(blur.Strength, modulator, kept);
+
+            Registry.RemoveAddress(removed);
+
+            Assert.Equal(modulator.ID, blur.Strength.ModulatorID);
+            Assert.Equal("Value", blur.Strength.BoundOutputName);
+            Assert.Same(kept, modulator.SelectedAddress);
+        }
+
+        [Fact]
+        public void EditingOrMovingTheAddress_KeepsTheBinding()
         {
             var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var modulator = AddModulator(blur.ModulatorManager);
@@ -104,12 +131,29 @@ namespace CMiX.Core.Tests
             first.Value = "cmix:changed";
             Registry.AddressManager.MoveItemTo(first, 1);
 
-            Assert.Equal(first.ID.ToString(), blur.Strength.BoundOutputName);
+            Assert.Equal("Value", blur.Strength.BoundOutputName);
+            Assert.True(blur.Strength.IsModulated);
+            Assert.Same(first, modulator.SelectedAddress);
+        }
+
+        [Fact]
+        public void ChangingTheSelection_KeepsTheBinding()
+        {
+            var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
+            var modulator = AddModulator(blur.ModulatorManager);
+            var first = AddAddress("cmix:a");
+            var second = AddAddress("cmix:b");
+            Bind(blur.Strength, modulator, first);
+
+            modulator.SelectedAddress = second;
+
+            Assert.Equal(modulator.ID, blur.Strength.ModulatorID);
+            Assert.Equal("Value", blur.Strength.BoundOutputName);
             Assert.True(blur.Strength.IsModulated);
         }
 
         [Fact]
-        public void AfterTheModulatorIsRemoved_TheRemoveStillWorks()
+        public void RemoveAddress_AfterTheModulatorIsRemoved_StillWorks()
         {
             var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var modulator = AddModulator(blur.ModulatorManager);
@@ -124,7 +168,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void OneUndo_BringsBackTheAddressAndTheAssignment()
+        public void Undo_OfRemoveAddress_BringsBackTheAddressTheSelectionAndTheBinding()
         {
             var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var modulator = AddModulator(blur.ModulatorManager);
@@ -136,8 +180,10 @@ namespace CMiX.Core.Tests
             _provider.GetRequiredService<UndoManager>().Undo();
 
             Assert.Single(Registry.Addresses);
+            Assert.Equal(address.ID, modulator.SelectedAddressID.Value);
+            Assert.NotNull(modulator.SelectedAddress);
             Assert.Equal(modulator.ID, blur.Strength.ModulatorID);
-            Assert.Equal(address.ID.ToString(), blur.Strength.BoundOutputName);
+            Assert.Equal("Value", blur.Strength.BoundOutputName);
         }
     }
 }

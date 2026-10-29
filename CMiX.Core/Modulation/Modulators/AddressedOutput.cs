@@ -3,6 +3,11 @@
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    // A float output with the address it reads from.
-    public record AddressedOutput(string Name, string Address) : ModulatorOutput<float>(Name);
+    // An output with the address it reads from.
+    public interface IAddressedOutput
+    {
+        string Address { get; }
+    }
+
+    public record AddressedOutput<T>(string Name, string Address) : ModulatorOutput<T>(Name), IAddressedOutput;
 }

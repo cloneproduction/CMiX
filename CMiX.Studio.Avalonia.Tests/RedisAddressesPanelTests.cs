@@ -53,7 +53,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void MovingAnAddressDown_ChangesTheOrderOfTheOutputs()
+        public void MovingAnAddressDown_ChangesTheOrderOfTheAddresses()
         {
             var (registry, panel, provider) = Show(0);
             foreach (var text in new[] { "cmix:a", "cmix:b" })
@@ -74,8 +74,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var (registry, panel, provider) = Show(1);
             var factory = provider.GetRequiredService<ControlFactory>();
             var blur = (Core.Texturing.Filters.Blur)factory.Create(typeof(Core.Texturing.Filters.Blur));
-            blur.ModulatorManager.AddItem(typeof(RedisAddressModulator));
-            var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisAddressModulator>().Single();
+            blur.ModulatorManager.AddItem(typeof(RedisFloatModulator));
+            var modulator = blur.ModulatorManager.ManagerData.Items.OfType<RedisFloatModulator>().Single();
+            modulator.SelectedAddress = registry.Addresses.Single();
             blur.Strength.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs[0]));
             var list = panel.GetVisualDescendants().OfType<ListBoxEditable>().Single();
 
@@ -85,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheSettingsTab_ShowsOnlyTheOutputMappings()
+        public void TheSettingsTab_ShowsTheOutputMappingsAndTheRedisAddresses()
         {
             var tab = new Views.SettingsTab();
             new Window { Content = tab, Width = 400, Height = 400 }.Show();
@@ -95,7 +96,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 .Where(expander => expander.IsEffectivelyVisible)
                 .Select(expander => expander.Header);
 
-            Assert.Equal(new object[] { "Output Mappings" }, headers);
+            Assert.Equal(new object[] { "Output Mappings", "Redis Addresses" }, headers);
         }
     }
 }
