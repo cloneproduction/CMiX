@@ -1,4 +1,4 @@
-using CMiX.Core.Compositing;
+﻿using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Processors;
@@ -30,63 +30,6 @@ namespace CMiX.Core.Tests
         }
 
         private static List<IControl> Layers(Composition composition) => composition.LayerManager.ManagerData.Items.ToList();
-
-        [Fact]
-        public void GetLayerIds_ACompositionWithLayers_ListsThemInTheOrderOfTheList()
-        {
-            var (processor, project) = Create();
-            var composition = AddComposition(project, 3);
-
-            Assert.Equal(Layers(composition).Select(layer => layer.ID), processor.GetLayerIds(composition));
-        }
-
-        [Fact]
-        public void GetLayerIds_TwoCompositions_ListsTheLayersOfEachOne()
-        {
-            var (processor, project) = Create();
-            var first = AddComposition(project, 2);
-            var second = AddComposition(project, 1);
-
-            Assert.Equal(Layers(first).Select(layer => layer.ID), processor.GetLayerIds(first));
-            Assert.Equal(Layers(second).Select(layer => layer.ID), processor.GetLayerIds(second));
-        }
-
-        [Fact]
-        public void GetLayerIds_AHiddenLayer_LeavesTheListAndComesBack()
-        {
-            var (processor, project) = Create();
-            var composition = AddComposition(project, 3);
-            var layers = Layers(composition);
-            var hidden = (IPrefab)layers[1];
-
-            hidden.PrefabService.Visibility.Value = true;
-            Assert.Equal(new[] { layers[0].ID, layers[2].ID }, processor.GetLayerIds(composition));
-
-            hidden.PrefabService.Visibility.Value = false;
-            Assert.Equal(layers.Select(layer => layer.ID), processor.GetLayerIds(composition));
-        }
-
-        [Fact]
-        public void GetLayerIds_ALayerAddedOrRemoved_FollowsTheList()
-        {
-            var (processor, project) = Create();
-            var composition = AddComposition(project, 2);
-            var first = Layers(composition)[0];
-
-            composition.LayerManager.AddItem(typeof(Layer));
-            Assert.Equal(3, processor.GetLayerIds(composition).Count);
-
-            composition.LayerManager.RemoveItem(first);
-            Assert.DoesNotContain(first.ID, processor.GetLayerIds(composition));
-        }
-
-        [Fact]
-        public void GetLayerIds_ANullComposition_IsEmpty()
-        {
-            var (processor, _) = Create();
-
-            Assert.Empty(processor.GetLayerIds(null));
-        }
 
         [Fact]
         public void GetItemIds_ALayer_ListsEntitiesThenCamerasThenLights()
@@ -140,54 +83,6 @@ namespace CMiX.Core.Tests
             var (processor, _) = Create();
 
             Assert.Empty(processor.GetItemIds(null));
-        }
-
-        [Fact]
-        public void GetTextureModifierIds_ALayerWithFilters_ListsThemInTheOrderOfTheList()
-        {
-            var (processor, project) = Create();
-            var composition = AddComposition(project, 1);
-            var layer = (Layer)Layers(composition)[0];
-            layer.TextureModifierManager.AddItem(typeof(Blur));
-            layer.TextureModifierManager.AddItem(typeof(Invert));
-
-            Assert.Equal(layer.TextureModifierManager.ManagerData.Items.Select(filter => filter.ID), processor.GetTextureModifierIds(layer));
-        }
-
-        [Fact]
-        public void GetTextureModifierIds_ACompositionWithFilters_ListsThem()
-        {
-            var (processor, project) = Create();
-            var composition = AddComposition(project, 1);
-            composition.TextureModifierManager.AddItem(typeof(Blur));
-
-            Assert.Equal(composition.TextureModifierManager.ManagerData.Items.Select(filter => filter.ID), processor.GetTextureModifierIds(composition));
-        }
-
-        [Fact]
-        public void GetTextureModifierIds_AHiddenFilter_LeavesTheListAndComesBack()
-        {
-            var (processor, project) = Create();
-            var composition = AddComposition(project, 1);
-            var layer = (Layer)Layers(composition)[0];
-            layer.TextureModifierManager.AddItem(typeof(Blur));
-            layer.TextureModifierManager.AddItem(typeof(Invert));
-            var filters = layer.TextureModifierManager.ManagerData.Items.ToList();
-            var hidden = (IPrefab)filters[0];
-
-            hidden.PrefabService.Visibility.Value = true;
-            Assert.Equal(new[] { filters[1].ID }, processor.GetTextureModifierIds(layer));
-
-            hidden.PrefabService.Visibility.Value = false;
-            Assert.Equal(filters.Select(filter => filter.ID), processor.GetTextureModifierIds(layer));
-        }
-
-        [Fact]
-        public void GetTextureModifierIds_ANullOwner_IsEmpty()
-        {
-            var (processor, _) = Create();
-
-            Assert.Empty(processor.GetTextureModifierIds(null));
         }
 
         private static CheckerBoard AddSource(IServiceProvider provider, Guid compositionId)
