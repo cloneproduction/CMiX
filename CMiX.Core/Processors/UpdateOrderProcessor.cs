@@ -4,6 +4,7 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
@@ -16,8 +17,10 @@ namespace CMiX.Core.Processors
     public class UpdateOrderProcessor
     {
         // The first row updates first. The kinds in one row have no order between them.
+        // The modulators update before the modifiers, so a modifier reads the value of the same frame.
         private static readonly Type[][] UpdateOrder =
         {
+            new[] { typeof(IModulator) },
             new[] { typeof(IModifier) },
             new[] { typeof(ITextureSource) },
             new[] { typeof(Material) },

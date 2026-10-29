@@ -2,6 +2,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Materials;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
+using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Processors;
@@ -56,6 +57,24 @@ namespace CMiX.Core.Tests
             Assert.True(order.IndexOf(camera.ID) < order.IndexOf(layer.ID));
             Assert.True(order.IndexOf(layer.ID) < order.IndexOf(composition.ID));
             Assert.True(order.IndexOf(composition.ID) < order.IndexOf(project.ID));
+        }
+
+        [Fact]
+        public void OrderedIds_AModulator_UpdatesBeforeEveryModifier()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var processor = provider.GetRequiredService<UpdateOrderProcessor>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
+            var factory = provider.GetRequiredService<ControlFactory>();
+            var modifier = factory.Create(typeof(AlphaModifier));
+            var modulator = factory.Create(typeof(LFOModulator));
+            repository.AddControl(modifier, collectionManager);
+            repository.AddControl(modulator, collectionManager);
+
+            var order = processor.OrderedIds.ToList();
+
+            Assert.True(order.IndexOf(modulator.ID) < order.IndexOf(modifier.ID));
         }
 
         [Fact]
