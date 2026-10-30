@@ -10,12 +10,10 @@
 
     <StackPanel>
 
-        <Modulation:SliderModulatable
-            Caption="Control"
-            DataContext="{Binding Value}"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=visibilityModifier}"
-            Minimum="0"
-            Maximum="1" />
+        <Modulation:ToggleButtonModulatable
+            Caption="Visible"
+            DataContext="{Binding Visible}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=visibilityModifier}" />
 
     </StackPanel>
 

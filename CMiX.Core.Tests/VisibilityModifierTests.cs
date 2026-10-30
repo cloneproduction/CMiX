@@ -1,7 +1,10 @@
+using System.Text.Json;
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
+using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Lights;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,14 +14,13 @@ namespace CMiX.Core.Tests
 {
     public class VisibilityModifierTests
     {
-        [Fact]
-        public void VisibilityModifier_HasOneBindable()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var visibility = provider.GetRequiredService<VisibilityModifier>();
+        private static VisibilityModifier Create() =>
+            (VisibilityModifier)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(VisibilityModifier));
 
-            Assert.Single(visibility.Bindables);
-            Assert.Same(visibility.Bindables[0], visibility.Value);
+        [Fact]
+        public void Fresh_IsVisibleByDefault()
+        {
+            Assert.True(Create().Visible.Value);
         }
 
         [Fact]
@@ -53,23 +55,36 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void VisibilityModifier_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
+        public void KeepsItsValueAndBindingThroughTheModel()
         {
-            var provider = TestServiceProviderFactory.Create();
-            var visibility = provider.GetRequiredService<VisibilityModifier>();
+            var modifier = Create();
+            modifier.ModulatorManager.AddItem(typeof(LFOModulator));
+            var lfo = (LFOModulator)modifier.ModulatorManager.ManagerData.Items[0];
+            var gate = lfo.Outputs.Single(o => o is ModulatorOutput<bool>);
+            modifier.Visible.Value = false;
+            modifier.Visible.SetModulatorCommand.Execute(new ModulatorOutputSelection(lfo, gate));
 
-            visibility.Value.Value = 0.5f;
-            var modulatorId = Guid.NewGuid();
-            visibility.Value.ModulatorID = modulatorId;
+            var copy = Create();
+            copy.FromModel(modifier.ToModel());
 
-            var model = visibility.ToModel();
+            Assert.False(copy.Visible.Value);
+            Assert.Equal(lfo.ID, copy.Visible.ModulatorID);
+            Assert.Equal("Gate", copy.Visible.BoundOutputName);
+            Assert.NotNull(copy.Visible.BoundModulator);
+        }
 
-            var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<VisibilityModifier>();
-            reloaded.FromModel(model);
+        // Before the toggle, the modifier saved a float named Value. A project file with that key must open.
+        [Fact]
+        public void AFileSavedWithTheOldFloatValue_Opens_AndTheModifierIsVisible()
+        {
+            const string json = "{\"$type\":\"CMiX.Core.Modulation.Modifiers.VisibilityModifierModel\",\"Value\":{\"Value\":{\"Value\":0.25}}}";
+            var model = JsonSerializer.Deserialize<IControlModel>(json, ProjectSerializer.Options)!;
 
-            Assert.Equal(0.5f, reloaded.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Value.ModulatorID);
+            var modifier = Create();
+            modifier.FromModel(model);
+
+            Assert.True(modifier.Visible.Value);
+            Assert.Null(modifier.Visible.ModulatorID);
         }
     }
 }
