@@ -25,6 +25,11 @@ namespace CMiX.Studio.Avalonia.Tests
             ("Composition", "Output Mapping"),      // picks an item, not a value
         };
 
+        // Models that share the name of a view without being what the view shows. The Texture view shows one
+        // texture source. The Texture model holds a diffuse and a mask texture. The view would show itself
+        // again and again for it.
+        private static readonly HashSet<string> NotShownByTheViewOfTheSameName = new() { "Texture" };
+
         // Views that show a part of another control and are not named after a Core type.
         private static readonly Dictionary<string, string> PartViews = new()
         {
@@ -73,6 +78,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var pairs = coreAssembly.GetTypes()
                 .Where(t => t.IsClass && !t.IsAbstract && typeof(IControl).IsAssignableFrom(t))
                 .Where(t => t.Assembly.GetType(t.FullName + "Model") != null)
+                .Where(t => !NotShownByTheViewOfTheSameName.Contains(t.Name))
                 .Select(t => (View: t.Name, Type: t))
                 .ToList();
             foreach (var (view, core) in PartViews)

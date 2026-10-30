@@ -24,17 +24,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FreshVisibilityModifier_BindableMatchesOldRandomVisibilityDefault()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var factory = provider.GetRequiredService<ControlFactory>();
-
-            var visibility = (VisibilityModifier)factory.Create(typeof(VisibilityModifier));
-
-            Assert.Equal(0.5f, visibility.Value.Value);
-        }
-
-        [Fact]
         public void FreshRenderRandomEntityModifier_BindableMatchesOldDefault()
         {
             var provider = TestServiceProviderFactory.Create();

@@ -15,19 +15,19 @@ namespace CMiX.Core.Modulation.Modifiers
         public VisibilityModifier(PrefabService prefabService,
                                   PrefabManager modulatorManager,
                                   ControlRepository controlRepository,
-                                  ModulatableValue<float> bindableValue)
-            : base(prefabService, modulatorManager, controlRepository)
+                                  ModulatableValue<bool> visible)
+            : base(prefabService, modulatorManager, controlRepository, new IModulatorBindable[] { visible })
         {
-            Bindables = new List<ModulatableValue<float>> { bindableValue };
+            Visible = visible;
         }
 
-        public ModulatableValue<float> Value => Bindables[0];
+        public ModulatableValue<bool> Visible { get; }
 
         public override IControlModel ToModel()
         {
             var model = new VisibilityModifierModel
             {
-                Value = (ModulatableValueModel<float>)Value.ToModel()
+                Visible = (ModulatableValueModel<bool>)Visible.ToModel()
             };
             PopulateBaseModel(model);
             return model;
@@ -37,7 +37,8 @@ namespace CMiX.Core.Modulation.Modifiers
         {
             var m = (VisibilityModifierModel)model;
             LoadBaseModel(m);
-            Value.FromModel(m.Value);
+            Visible.FromModel(m.Visible);
+            ResolveNestedBindables();
         }
     }
 }
