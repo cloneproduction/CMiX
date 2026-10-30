@@ -15,7 +15,7 @@ using CoreMaskTexture = CMiX.Core.Texturing.MaskTexture;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The mask panel. Settings, Filter and Transform only make sense once the slot holds a texture.
+    // The mask panel. Filter and Transform only make sense once the slot holds a texture.
     public class MaskTextureViewTests
     {
         private static List<object?> VisibleHeaders(CoreMaskTexture mask)
@@ -54,11 +54,11 @@ namespace CMiX.Studio.Avalonia.Tests
              view.GetVisualDescendants().OfType<PrefabSlotManager>().Single());
 
         [AvaloniaFact]
-        public void MaskChannelAndInvert_SitUnderTheSlot_AndAboveSettingsFilterAndTransform()
+        public void MaskChannelAndInvert_SitUnderTheSlot_AndAboveFilterAndTransform()
         {
             var (_, view) = ShowWithATexture();
             var (maskChannel, invert, slot) = SlotAndMaskControls(view);
-            var below = new Control[] { ExpanderWithHeader(view, "Settings"), ExpanderWithHeader(view, "Filter"), ExpanderWithHeader(view, "Transform") };
+            var below = new Control[] { ExpanderWithHeader(view, "Filter"), ExpanderWithHeader(view, "Transform") };
 
             Assert.True(TopOf(slot, view) < TopOf(maskChannel, view));
             Assert.True(TopOf(maskChannel, view) < TopOf(invert, view));
@@ -80,19 +80,19 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Settings_StartsClosedForANewTexture()
+        public void TextureSettings_AreNotInAnExpander()
         {
             var (_, view) = ShowWithATexture();
 
-            Assert.False(ExpanderWithHeader(view, "Settings").IsExpanded);
+            Assert.DoesNotContain(view.GetVisualDescendants().OfType<ExpanderIndented>(), expander => Equals(expander.Header, "Settings"));
         }
 
         [AvaloniaFact]
-        public void SettingsFilterAndTransform_HaveTheSameIndentation()
+        public void FilterAndTransform_HaveTheSameIndentation()
         {
             var (_, view) = ShowWithATexture();
 
-            var indentations = new[] { "Settings", "Filter", "Transform" }
+            var indentations = new[] { "Filter", "Transform" }
                 .Select(header => ExpanderWithHeader(view, header).Indentation)
                 .Distinct()
                 .ToList();
@@ -122,24 +122,22 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void EmptySlot_HidesSettingsFilterAndTransform()
+        public void EmptySlot_HidesFilterAndTransform()
         {
             var headers = VisibleHeaders(CreateMask());
 
-            Assert.DoesNotContain("Settings", headers);
             Assert.DoesNotContain("Filter", headers);
             Assert.DoesNotContain("Transform", headers);
         }
 
         [AvaloniaFact]
-        public void SlotWithATexture_ShowsSettingsFilterAndTransform()
+        public void SlotWithATexture_ShowsFilterAndTransform()
         {
             var mask = CreateMask();
             mask.TextureManager.AddItem(typeof(Gradient));
 
             var headers = VisibleHeaders(mask);
 
-            Assert.Contains("Settings", headers);
             Assert.Contains("Filter", headers);
             Assert.Contains("Transform", headers);
         }
