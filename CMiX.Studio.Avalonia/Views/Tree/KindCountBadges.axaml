@@ -21,14 +21,16 @@
         </Style>
         <!-- The number is white on the square at rest. On the full color of a row that is under the pointer or selected, the number is dark
              (the background of the tree): white on the full color is hard to read, most of all on the yellow of a light.
-             The color is in a style and not on the TextBlock: a local value is stronger than a style. -->
-        <Style Selector="Border.kindcount TextBlock">
+             The color is in a style and not on the TextBlock: a local value is stronger than a style. The selectors name the number
+             (TextBlock.count, child of the square): the tooltip of a square is a logical child of the square too, and a wider selector
+             made its text dark on the dark card, so the tooltip looked empty. -->
+        <Style Selector="Border.kindcount > TextBlock.count">
             <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
         </Style>
-        <Style Selector="Views|KindCountBadges:hovered Border.kindcount TextBlock">
+        <Style Selector="Views|KindCountBadges:hovered Border.kindcount > TextBlock.count">
             <Setter Property="Foreground" Value="{DynamicResource TreeBackgroundBrush}" />
         </Style>
-        <Style Selector="Views|KindCountBadges:selected Border.kindcount TextBlock">
+        <Style Selector="Views|KindCountBadges:selected Border.kindcount > TextBlock.count">
             <Setter Property="Foreground" Value="{DynamicResource TreeBackgroundBrush}" />
         </Style>
     </UserControl.Styles>
@@ -49,6 +51,7 @@
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         ToolTip.Tip="{Binding Description}">
                         <TextBlock
+                            Classes="count"
                             Margin="4,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"

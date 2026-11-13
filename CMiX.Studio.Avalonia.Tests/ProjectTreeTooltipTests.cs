@@ -111,6 +111,32 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(new[] { "2 Entities", "1 Filter", "3 Modifiers" }, texts);
         }
 
+        // A row under the pointer makes the number of a square dark. That style must not reach the text of the tooltip of the square,
+        // which would then be dark on the dark card and look empty.
+        [AvaloniaFact]
+        public void Show_ACountSquareOfAHoveredRow_KeepsTheTextOfItsTooltipBright()
+        {
+            var (view, tree) = Show();
+            var layer = tree.CompositionNodes()[0].Children[0].Children[0];
+            layer.IsExpanded = false;
+            Settle();
+            var badges = ItemOf(view, layer).GetVisualDescendants().OfType<KindCountBadges>().First();
+            badges.IsHovered = true;
+            Settle();
+            var square = SquaresOf(view, layer).First();
+
+            ToolTip.SetIsOpen(square, true);
+            Settle();
+            var property = (AvaloniaProperty)typeof(ToolTip).GetField("ToolTipProperty", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)!.GetValue(null)!;
+            var text = ((ToolTip)square.GetValue(property)!).GetVisualDescendants().OfType<TextBlock>().Single();
+            var source = global::Avalonia.Diagnostics.AvaloniaObjectExtensions.GetDiagnostic(text, TextBlock.ForegroundProperty).Priority;
+            ToolTip.SetIsOpen(square, false);
+
+            Assert.Equal("2 Entities", text.Text);
+            // The color of the text comes from the template of the tooltip (ActiveForegroundBrush), not from a style of the squares.
+            Assert.Equal(global::Avalonia.Data.BindingPriority.Template, source);
+        }
+
         [AvaloniaFact]
         public void Show_TheCountOfAGroup_NamesItsKindInItsTooltip()
         {
