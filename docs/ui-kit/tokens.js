@@ -9,71 +9,71 @@ window.CMIX_TOKENS = {
                                       {
                                           "name":  "Grey100",
                                           "type":  "Color",
-                                          "raw":  "#FF111113",
-                                          "css":  "#111113",
+                                          "raw":  "#FF0F0F12",
+                                          "css":  "#0F0F12",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "Grey200",
                                           "type":  "Color",
-                                          "raw":  "#FF222224",
-                                          "css":  "#222224",
+                                          "raw":  "#FF212124",
+                                          "css":  "#212124",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "Grey300",
                                           "type":  "Color",
-                                          "raw":  "#FF2b2b2e",
+                                          "raw":  "#FF2B2B2E",
                                           "css":  "#2B2B2E",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "Grey400",
                                           "type":  "Color",
-                                          "raw":  "#FF353539",
-                                          "css":  "#353539",
+                                          "raw":  "#FF363639",
+                                          "css":  "#363639",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "Grey500",
                                           "type":  "Color",
-                                          "raw":  "#FF404044",
-                                          "css":  "#404044",
+                                          "raw":  "#FF414144",
+                                          "css":  "#414144",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "Grey600",
                                           "type":  "Color",
-                                          "raw":  "#FF4c4c51",
-                                          "css":  "#4C4C51",
+                                          "raw":  "#FF4C4C4F",
+                                          "css":  "#4C4C4F",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "Grey700",
                                           "type":  "Color",
-                                          "raw":  "#FF606065",
-                                          "css":  "#606065",
+                                          "raw":  "#FF606063",
+                                          "css":  "#606063",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "Grey800",
                                           "type":  "Color",
-                                          "raw":  "#FF808087",
-                                          "css":  "#808087",
+                                          "raw":  "#FF808083",
+                                          "css":  "#808083",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "Grey900",
                                           "type":  "Color",
-                                          "raw":  "#FFb0b0b8",
-                                          "css":  "#B0B0B8",
+                                          "raw":  "#FFB0B1B4",
+                                          "css":  "#B0B1B4",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "TreeBackground",
                                           "type":  "Color",
-                                          "raw":  "#FF111113",
-                                          "css":  "#111113",
+                                          "raw":  "#FF0F0F12",
+                                          "css":  "#0F0F12",
                                           "note":  "The color under the rows of the project tree: the window surface (Grey100). The palette of the rows mixes against it."
                                       },
                                       {
@@ -114,141 +114,162 @@ window.CMIX_TOKENS = {
                                       {
                                           "name":  "ModulatorUnassigned",
                                           "type":  "Color",
-                                          "raw":  "#FF606065",
-                                          "css":  "#606065",
+                                          "raw":  "#FF606063",
+                                          "css":  "#606063",
                                           "note":  "The colors of the modulator assign button, one pair for each ModulatorCategory. The name is Modulator + category + (Highlight when the modulator is hovered). A new category needs two colors here and two brushes in Brushes.axaml. An internal modulator has the color of the modulator rows of the tree (CategoryModulator), not the accent: the accent means on or selected."
                                       },
                                       {
                                           "name":  "ModulatorInternal",
                                           "type":  "Color",
-                                          "raw":  "#FF9A8BE4",
-                                          "css":  "#9A8BE4",
+                                          "raw":  "#FFAD8DFD",
+                                          "css":  "#AD8DFD",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "ModulatorInternalHighlight",
                                           "type":  "Color",
-                                          "raw":  "#FFBDB4ED",
-                                          "css":  "#BDB4ED",
+                                          "raw":  "#FFCEC0FF",
+                                          "css":  "#CEC0FF",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "ModulatorExternal",
                                           "type":  "Color",
-                                          "raw":  "#FFC28A56",
-                                          "css":  "#C28A56",
+                                          "raw":  "#FFDF8605",
+                                          "css":  "#DF8605",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "ModulatorExternalHighlight",
                                           "type":  "Color",
-                                          "raw":  "#FFD7B091",
-                                          "css":  "#D7B091",
+                                          "raw":  "#FFF1B77E",
+                                          "css":  "#F1B77E",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "CategoryComposable",
                                           "type":  "Color",
-                                          "raw":  "#FFDC74D7",
-                                          "css":  "#DC74D7",
-                                          "note":  "The colors of the kinds of row in the project tree, one for each TreeCategory. A composable inside a composable keeps the hue of a composable and is one step darker for each level of nesting (Level1 to Level3). The hue does not move, so a deep composable does not get the color of another kind. The tree reads them by the name Category + kind, and shows them as tones over the panel background."
+                                          "raw":  "#FFDC89D5",
+                                          "css":  "#DC89D5",
+                                          "note":  "The colors of the kinds of row in the project tree, one for each TreeCategory. A composable takes a hue by its depth of nesting from a wheel of six (CategoryComposable0 to 5, 60 degrees apart), so a container and the containers in it never share a hue. The other kinds keep their own colour inside any container. CategoryComposable is the first hue of the wheel, for the places that ask for the kind by name. The tree reads them by the name Category + kind, and shows them as tones over the panel background."
                                       },
                                       {
-                                          "name":  "CategoryComposableLevel1",
+                                          "name":  "CategoryComposable0",
                                           "type":  "Color",
-                                          "raw":  "#FFBE58B9",
-                                          "css":  "#BE58B9",
+                                          "raw":  "#FFDC89D5",
+                                          "css":  "#DC89D5",
                                           "note":  ""
                                       },
                                       {
-                                          "name":  "CategoryComposableLevel2",
+                                          "name":  "CategoryComposable1",
                                           "type":  "Color",
-                                          "raw":  "#FF9E3E9B",
-                                          "css":  "#9E3E9B",
+                                          "raw":  "#FFF68675",
+                                          "css":  "#F68675",
                                           "note":  ""
                                       },
                                       {
-                                          "name":  "CategoryComposableLevel3",
+                                          "name":  "CategoryComposable2",
                                           "type":  "Color",
-                                          "raw":  "#FF7D2B7A",
-                                          "css":  "#7D2B7A",
+                                          "raw":  "#FFCDA629",
+                                          "css":  "#CDA629",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "CategoryComposable3",
+                                          "type":  "Color",
+                                          "raw":  "#FF62C37A",
+                                          "css":  "#62C37A",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "CategoryComposable4",
+                                          "type":  "Color",
+                                          "raw":  "#FF00C0D7",
+                                          "css":  "#00C0D7",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "CategoryComposable5",
+                                          "type":  "Color",
+                                          "raw":  "#FF8AA6FE",
+                                          "css":  "#8AA6FE",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "CategoryEntity",
                                           "type":  "Color",
-                                          "raw":  "#FFE56C9E",
-                                          "css":  "#E56C9E",
+                                          "raw":  "#FFF275A0",
+                                          "css":  "#F275A0",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "CategoryCamera",
                                           "type":  "Color",
-                                          "raw":  "#FFE66756",
-                                          "css":  "#E66756",
+                                          "raw":  "#FFF87B5C",
+                                          "css":  "#F87B5C",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "CategoryLight",
                                           "type":  "Color",
-                                          "raw":  "#FFE9D349",
-                                          "css":  "#E9D349",
+                                          "raw":  "#FFE3CC36",
+                                          "css":  "#E3CC36",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "CategoryTexture",
                                           "type":  "Color",
-                                          "raw":  "#FF9DCE64",
-                                          "css":  "#9DCE64",
+                                          "raw":  "#FF73BB43",
+                                          "css":  "#73BB43",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "CategoryFilter",
                                           "type":  "Color",
-                                          "raw":  "#FF60C7A2",
-                                          "css":  "#60C7A2",
+                                          "raw":  "#FF2DC5A6",
+                                          "css":  "#2DC5A6",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "CategoryModifier",
                                           "type":  "Color",
-                                          "raw":  "#FF68B6D4",
-                                          "css":  "#68B6D4",
+                                          "raw":  "#FF22B5E1",
+                                          "css":  "#22B5E1",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "CategoryModulator",
                                           "type":  "Color",
-                                          "raw":  "#FF9A8BE4",
-                                          "css":  "#9A8BE4",
+                                          "raw":  "#FFAD8DFD",
+                                          "css":  "#AD8DFD",
                                           "note":  ""
                                       },
                                       {
                                           "name":  "WarningMuted",
                                           "type":  "Color",
-                                          "raw":  "#FFB0675C",
-                                          "css":  "#B0675C",
+                                          "raw":  "#FFB4685C",
+                                          "css":  "#B4685C",
                                           "note":  "A muted warning tone, not a full red: the frame of a target that refuses a drop, the mark of a conflict. It is not PopupCardWarning, the line of a tooltip."
                                       },
                                       {
                                           "name":  "PopupCardBackground",
                                           "type":  "Color",
-                                          "raw":  "#FF1A1A1C",
-                                          "css":  "#1A1A1C",
+                                          "raw":  "#FF18181B",
+                                          "css":  "#18181B",
                                           "note":  "The background of every popup: the card of a tooltip, the Add panel, a menu, a flyout and a drop down. It has no outline."
                                       },
                                       {
                                           "name":  "PopupCardWarning",
                                           "type":  "Color",
-                                          "raw":  "#FFD9A066",
-                                          "css":  "#D9A066",
+                                          "raw":  "#FFE2A355",
+                                          "css":  "#E2A355",
                                           "note":  "The line of a tooltip that says why a control is disabled."
                                       },
                                       {
                                           "name":  "PopupCardDanger",
                                           "type":  "Color",
-                                          "raw":  "#FFE57373",
-                                          "css":  "#E57373",
+                                          "raw":  "#FFE97871",
+                                          "css":  "#E97871",
                                           "note":  "The text of a row of a menu that takes something away, such as Delete."
                                       },
                                       {
@@ -257,6 +278,13 @@ window.CMIX_TOKENS = {
                                           "raw":  "#FF6FC082",
                                           "css":  "#6FC082",
                                           "note":  "A good status, such as a connection that is up. With PopupCardDanger (a bad status) and PopupCardWarning (a status that needs attention), it is one of the three status colors. It has a contrast of 3:1 or more on every panel."
+                                      },
+                                      {
+                                          "name":  "TreeTextRest",
+                                          "type":  "Color",
+                                          "raw":  "#FFC9C9CE",
+                                          "css":  "#C9C9CE",
+                                          "note":  "The text of a row of the tree at rest: a step under Text, so the white of the cursor row and of the selected row stands out."
                                       },
                                       {
                                           "name":  "Text",
@@ -420,25 +448,11 @@ window.CMIX_TOKENS = {
                                           "note":  "The background of the project tree and the layer that dims a row."
                                       },
                                       {
-                                          "name":  "IndentGuideBrush",
-                                          "type":  "SolidColorBrush",
-                                          "raw":  "{DynamicResource Grey400}",
-                                          "css":  "var(--Grey400)",
-                                          "note":  "The indent guides of the project tree: a quiet line at each level, and a stronger line on the branch of the cursor row."
-                                      },
-                                      {
-                                          "name":  "IndentGuideActiveBrush",
-                                          "type":  "SolidColorBrush",
-                                          "raw":  "{DynamicResource Grey700}",
-                                          "css":  "var(--Grey700)",
-                                          "note":  ""
-                                      },
-                                      {
                                           "name":  "Grey100Brush",
                                           "type":  "SolidColorBrush",
                                           "raw":  "{DynamicResource Grey100}",
                                           "css":  "var(--Grey100)",
-                                          "note":  ""
+                                          "note":  "The indent guides of the project tree: a quiet line at each level, and a stronger line on the branch of the cursor row."
                                       },
                                       {
                                           "name":  "Grey200Brush",
@@ -494,6 +508,13 @@ window.CMIX_TOKENS = {
                                           "type":  "SolidColorBrush",
                                           "raw":  "{DynamicResource Grey900}",
                                           "css":  "var(--Grey900)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "TreeTextRestBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource TreeTextRest}",
+                                          "css":  "var(--TreeTextRest)",
                                           "note":  ""
                                       },
                                       {
@@ -627,7 +648,7 @@ window.CMIX_TOKENS = {
                                           "type":  "CornerRadius",
                                           "raw":  "2",
                                           "css":  "2px",
-                                          "note":  "Base radius: 2"
+                                          "note":  "The one radius: 2. Every corner that is round has it."
                                       },
                                       {
                                           "name":  "CornerRadiusTop",
@@ -655,20 +676,6 @@ window.CMIX_TOKENS = {
                                           "type":  "CornerRadius",
                                           "raw":  "0,2,2,0",
                                           "css":  "0 2px 2px 0",
-                                          "note":  ""
-                                      },
-                                      {
-                                          "name":  "CornerRadiusLargeAll",
-                                          "type":  "CornerRadius",
-                                          "raw":  "4",
-                                          "css":  "4px",
-                                          "note":  "Large radius: 4"
-                                      },
-                                      {
-                                          "name":  "CornerRadiusLargeBottom",
-                                          "type":  "CornerRadius",
-                                          "raw":  "0,0,4,4",
-                                          "css":  "0 0 4px 4px",
                                           "note":  ""
                                       },
                                       {
@@ -973,6 +980,13 @@ window.CMIX_TOKENS = {
                                           "note":  "The space before the content of a row: SpacingXS."
                                       },
                                       {
+                                          "name":  "TreeKindSquareSize",
+                                          "type":  "Double",
+                                          "raw":  "16",
+                                          "css":  "16px",
+                                          "note":  "The square of a kind after the name of a collapsed row, and the sign of a missing asset: the icon (IconSizeXS) sits in it with the same margin on every side, so every kind shows the same way."
+                                      },
+                                      {
                                           "name":  "TreeHeaderMargin",
                                           "type":  "Thickness",
                                           "raw":  "4,0",
@@ -1054,7 +1068,14 @@ window.CMIX_TOKENS = {
                                           "type":  "Double",
                                           "raw":  "0.6",
                                           "css":  "0.6",
-                                          "note":  "An icon only control that is not under the pointer and not on."
+                                          "note":  "An icon has one of two opacities. OpacityIconIdle: a quiet icon. An icon only control that is not under the pointer and not on, a chevron, the arrow of a menu row, the icon before a name. OpacityIconAction: the icon of a button that does an action, in a filled button or in a toolbar."
+                                      },
+                                      {
+                                          "name":  "OpacityIconAction",
+                                          "type":  "Double",
+                                          "raw":  "0.9",
+                                          "css":  "0.9",
+                                          "note":  ""
                                       },
                                       {
                                           "name":  "KeyCapBorderThickness",

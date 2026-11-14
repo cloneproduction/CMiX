@@ -337,22 +337,26 @@
             + (hasItem ? '<button class="ToggleButtonVisibility' + (element.hasAttribute('data-hidden') ? ' checked' : '') + '"></button>' : '') + '</span>';
     }
 
-    /* data-counts is a list such as "Entity:3,Camera:1". data-more is the number of the other kinds. data-hidden-count is the number of hidden rows. */
+    /* data-counts is a list such as "Entity:3,Camera:1": a square with the icon of the kind for each; the count is the tooltip.
+       data-more is the number of the other kinds. data-missing is the number of missing assets: the amber sign. */
+    var KIND_ICONS = { Composable: 'Composition', Light: 'MeshLight' };
     function kindCountBadges(element) {
         var html = (element.getAttribute('data-counts') || '').split(',').filter(Boolean).map(function (pair) {
             var parts = pair.split(':');
-            return '<span class="kindcount" data-kind="' + escapeHtml(parts[0].trim()) + '">' + escapeHtml((parts[1] || '').trim()) + '</span>';
+            var kind = parts[0].trim();
+            var base = kind.replace(/\d+$/, '');
+            return '<span class="kindcount" data-kind="' + escapeHtml(kind) + '" data-tooltip="' + escapeHtml((parts[1] || '').trim()) + ' ' + escapeHtml(kind) + '">' + icon(KIND_ICONS[base] || base) + '</span>';
         }).join('');
         if (element.hasAttribute('data-more')) html += '<span class="MoreKinds">+' + attribute(element, 'data-more') + '</span>';
-        if (element.hasAttribute('data-hidden-count')) html += '<span class="HiddenCount">' + attribute(element, 'data-hidden-count') + ' hidden</span>';
+        if (element.hasAttribute('data-missing')) html += '<span class="MissingSign" data-tooltip="' + attribute(element, 'data-missing') + ' missing asset(s)"><span>!</span></span>';
         return html;
     }
 
     /* A row of the project tree. The children with the class TreeViewItem are the rows under it.
        data-kind is the kind (Composable, Entity, Camera, Light, Texture, Filter, Modifier, Modulator), data-kind-depth its depth.
        data-icon-key is the icon. data-name is the name of an item. The class group and data-header make a group row.
-       data-counts, data-more and data-hidden-count are the squares of a collapsed row. data-mask and data-hidden are the toggles.
-       The classes: expanded, selected, cursor, dimmed, candidate, dragsource, dropblocked, droptarget, dropgap, droptop. */
+       data-counts, data-more and data-missing are the squares of a collapsed row. data-mask and data-hidden are the toggles.
+       The classes: expanded, selected, cursor, dimmed, drophint, droptarget, dropgap, droptop. */
     function treeViewItem(element) {
         var level = 0;
         for (var p = element.parentElement; p; p = p.parentElement) { if (p.classList && p.classList.contains('TreeViewItem')) level++; }
@@ -361,10 +365,10 @@
         if (!element.querySelector(':scope > .TreeViewItem')) element.classList.add('empty');
 
         var group = element.classList.contains('group');
-        var badges = element.hasAttribute('data-counts') || element.hasAttribute('data-hidden-count')
+        var badges = element.hasAttribute('data-counts') || element.hasAttribute('data-missing')
             ? '<span class="KindCountBadges" data-counts="' + attribute(element, 'data-counts') + '"'
                 + (element.hasAttribute('data-more') ? ' data-more="' + attribute(element, 'data-more') + '"' : '')
-                + (element.hasAttribute('data-hidden-count') ? ' data-hidden-count="' + attribute(element, 'data-hidden-count') + '"' : '') + '></span>'
+                + (element.hasAttribute('data-missing') ? ' data-missing="' + attribute(element, 'data-missing') + '"' : '') + '></span>'
             : '';
         var hidden = element.hasAttribute('data-hidden');
         var header = group

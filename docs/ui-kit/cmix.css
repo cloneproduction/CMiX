@@ -1159,21 +1159,25 @@
     /* ---------------------------------------------------------------- Themes/CategoryPalette.cs */
     /* The tones of a kind of row: the color of the kind over the background of the tree.
        --Kind is the color of the kind. --KindDepth is the number of changes of kind above the row.
-       A fill is 24%, 30% under the pointer and 40% when selected, times 0.8 for each depth, down to 12%, 16% and 30%.
-       A count square is 60%, 85% under the pointer and 100% when selected. */
+       A fill at rest is 18%, times 0.8 for each depth, down to 9%. Under the pointer it is 32% and when selected 55%, at every depth.
+       A kind square is 60%, 85% under the pointer and 100% when selected.
+       A composable takes its hue from a wheel of six by its depth of nesting (Composable0 to Composable5); Composable is Composable0. */
     [data-kind] {
         --Level: pow(0.8, var(--KindDepth, 0));
-        --Fill: color-mix(in srgb, var(--Kind) calc(max(12, 24 * var(--Level)) * 1%), var(--TreeBackground));
-        --FillHover: color-mix(in srgb, var(--Kind) calc(max(16, 30 * var(--Level)) * 1%), var(--TreeBackground));
-        --FillSelected: color-mix(in srgb, var(--Kind) calc(max(30, 40 * var(--Level)) * 1%), var(--TreeBackground));
+        --Fill: color-mix(in srgb, var(--Kind) calc(max(9, 18 * var(--Level)) * 1%), var(--TreeBackground));
+        --FillHover: color-mix(in srgb, var(--Kind) 32%, var(--TreeBackground));
+        --FillSelected: color-mix(in srgb, var(--Kind) 55%, var(--TreeBackground));
         --KindTone: color-mix(in srgb, var(--Kind) 60%, var(--TreeBackground));
         --KindHover: color-mix(in srgb, var(--Kind) 85%, var(--TreeBackground));
         --KindSelected: var(--Kind);
     }
     [data-kind="Composable"] { --Kind: var(--CategoryComposable); }
-    [data-kind="ComposableLevel1"] { --Kind: var(--CategoryComposableLevel1); }
-    [data-kind="ComposableLevel2"] { --Kind: var(--CategoryComposableLevel2); }
-    [data-kind="ComposableLevel3"] { --Kind: var(--CategoryComposableLevel3); }
+    [data-kind="Composable0"] { --Kind: var(--CategoryComposable0); }
+    [data-kind="Composable1"] { --Kind: var(--CategoryComposable1); }
+    [data-kind="Composable2"] { --Kind: var(--CategoryComposable2); }
+    [data-kind="Composable3"] { --Kind: var(--CategoryComposable3); }
+    [data-kind="Composable4"] { --Kind: var(--CategoryComposable4); }
+    [data-kind="Composable5"] { --Kind: var(--CategoryComposable5); }
     [data-kind="Entity"] { --Kind: var(--CategoryEntity); }
     [data-kind="Camera"] { --Kind: var(--CategoryCamera); }
     [data-kind="Light"] { --Kind: var(--CategoryLight); }
@@ -1212,23 +1216,32 @@
     }
 
     /* ---------------------------------------------------------------- Views/Tree/KindCountBadges.axaml */
-    /* What a collapsed row holds: a square for each kind with the number of items, then "+n" for the other kinds, then "n hidden". */
+    /* What a collapsed row holds: a square of TreeKindSquareSize for each kind, in the colour of the kind with the icon of the kind in white,
+       then "+n" for the other kinds. The count is in the tooltip. Then the sign of a missing asset: an amber triangle with a white mark
+       (PopupCardWarningBrush), on the row of the asset and on every collapsed row above it. */
     .KindCountBadges {
         display: flex;
         align-items: center;
         gap: var(--SpacingXS);
         white-space: nowrap;
-        > .kindcount, > .MoreKinds { display: flex; align-items: center; justify-content: center; height: var(--ControlHeightXS); min-width: var(--ControlHeightXS); padding: 0 4px; border-radius: var(--CornerRadiusAll); color: var(--ActiveForegroundBrush); }
+        > .kindcount, > .MoreKinds { display: flex; align-items: center; justify-content: center; height: var(--TreeKindSquareSize); min-width: var(--TreeKindSquareSize); border-radius: var(--CornerRadiusAll); color: var(--ActiveForegroundBrush); font: 600 10px/1 var(--FontFamily, sans-serif); }
         > .kindcount { background: var(--KindTone); }
-        /* The number is dark on the full color of a row that is under the pointer or selected. */
-        &.hovered > .kindcount, &.selected > .kindcount { background: var(--KindSelected); color: var(--TreeBackgroundBrush); }
-        > .MoreKinds { background: var(--Grey600Brush); }
-        > .HiddenCount { opacity: var(--OpacityDisabled); }
+        > .kindcount > .AppIcon { width: var(--TreeKindSquareSize); height: var(--TreeKindSquareSize); color: var(--ActiveForegroundBrush); opacity: 1; }
+        /* A square does not change under the pointer. On a selected row it has the full colour of the kind. */
+        &.selected > .kindcount { background: var(--KindSelected); }
+        > .MoreKinds { background: var(--Grey600Brush); padding: 0 3px; }
+        > .MissingSign { position: relative; display: flex; align-items: flex-end; justify-content: center; width: var(--TreeKindSquareSize); height: var(--TreeKindSquareSize); color: var(--ActiveForegroundBrush); font: 700 9px/1 var(--FontFamily, sans-serif); padding-bottom: 2px; }
+        > .MissingSign::before { content: ""; position: absolute; inset: 0; background: var(--PopupCardWarningBrush); clip-path: polygon(50% 4%, 98% 96%, 2% 96%); }
+        > .MissingSign > span { position: relative; }
     }
 
     /* ---------------------------------------------------------------- Themes/Styles/ProjectTree.axaml */
-    /* A row of the project tree. The fill shows the kind and the selection, a frame shows the cursor, the accent shows a drop.
-       The chevron is at the left of the colored row, after the indent of the level. Under the row is the space TreeRowGap. */
+    /* A row of the project tree. The fill shows the kind: 18% at rest, 32% under the pointer, 55% when selected with white text and icon
+       and a shadow (TreeRowShadow). A frame of one pixel in the colour of the kind shows the cursor, white when the row is also selected.
+       The text at rest is TreeTextRest, the chevron Grey800. A drop inside a row is a white frame, a drop between rows a white line of one pixel
+       over the full width. A row out of play (search, drag) is under a cover of TreeDimOpacity 0.6; a collapsed row with a target deeper is
+       under a half cover of TreeHintCoverOpacity 0.3 (drophint). The chevron is at the left of the colored row, after the indent of the level.
+       Under the row is the space TreeRowGap. */
     .TreeViewItem {
         display: block;
         --Indent: calc(var(--TreeIndent) * var(--TreeLevel, 0));
@@ -1240,8 +1253,10 @@
             width: var(--TreeIndent);
             margin-left: var(--Indent);
             background: transparent;
-            > svg { width: 6px; height: 10px; overflow: visible; fill: none; stroke: var(--ForegroundBrush); stroke-width: 1.5; transform-origin: 40% 50%; transition: transform var(--MotionDuration) var(--MotionEasing); }
+            > svg { width: 6px; height: 10px; overflow: visible; fill: none; stroke: var(--Grey800Brush); stroke-width: 1.5; transform-origin: 40% 50%; transition: transform var(--MotionDuration) var(--MotionEasing); }
         }
+        &.cursor > .RowGrid > .TreeChevronToggle > svg { stroke: var(--ForegroundBrush); }
+        &.selected > .RowGrid > .TreeChevronToggle > svg { stroke: var(--ActiveForegroundBrush); }
         &.expanded > .RowGrid > .TreeChevronToggle > svg { transform: rotate(90deg); }
         &.empty > .RowGrid > .TreeChevronToggle { opacity: 0; pointer-events: none; }
 
@@ -1254,8 +1269,9 @@
             padding-left: 2px;
             background: var(--Fill);
             border-radius: var(--CornerRadiusAll);
-            color: var(--ForegroundBrush);
-            > .AppIcon { margin: 0 4px; color: inherit; }
+            color: var(--TreeTextRestBrush);
+            /* The icon of the row has the colour of the kind; it is white on the cursor row and on the selected row (KindIconBrushConverter). */
+            > .AppIcon { margin: 0 4px; color: var(--KindSelected); }
             > .header { flex: 1; min-width: 0; display: flex; align-items: center; }
             > .header > .TextBlock { margin: 0 4px; color: inherit; white-space: nowrap; }
             > .header .TextDisplay { color: inherit; }
@@ -1264,28 +1280,33 @@
             /* The marks lie over the row and take no room. */
             &::after { content: ""; position: absolute; inset: 0; border-radius: var(--CornerRadiusAll); pointer-events: none; }
         }
-        &.pointerover > .RowGrid > .RowBorder, &.candidate > .RowGrid > .RowBorder { background: var(--FillHover); }
-        &.selected > .RowGrid > .RowBorder { background: var(--FillSelected); color: var(--ActiveForegroundBrush); }
-        &.dragsource > .RowGrid > .RowBorder { opacity: var(--OpacityDragSource); }
+        &.pointerover > .RowGrid > .RowBorder { background: var(--FillHover); }
+        &.cursor > .RowGrid > .RowBorder { color: var(--ActiveForegroundBrush); }
+        &.cursor > .RowGrid > .RowBorder > .AppIcon, &.selected > .RowGrid > .RowBorder > .AppIcon { color: var(--ActiveForegroundBrush); }
+        &.selected > .RowGrid > .RowBorder { background: var(--FillSelected); color: var(--ActiveForegroundBrush); box-shadow: 0 0 32px #000000E6; z-index: 1; }
 
-        /* A group row with no children is grey. */
-        &.group.empty > .RowGrid > .RowBorder { background: var(--Grey300Brush); }
-        &.group.empty > .RowGrid > .RowBorder:hover, &.group.empty.pointerover > .RowGrid > .RowBorder, &.group.empty.candidate > .RowGrid > .RowBorder { background: var(--Grey400Brush); }
+        /* A group row with no children is grey, with its icon and its name in Grey700. */
+        &.group.empty > .RowGrid > .RowBorder { background: var(--Grey300Brush); color: var(--Grey700Brush); }
+        &.group.empty > .RowGrid > .RowBorder > .AppIcon { color: var(--Grey700Brush); }
+        &.group.empty > .RowGrid > .RowBorder:hover, &.group.empty.pointerover > .RowGrid > .RowBorder { background: var(--Grey400Brush); }
         &.group.empty.selected > .RowGrid > .RowBorder { background: var(--Grey500Brush); }
 
+        /* The covers (DimLayer): out of play, and the half cover of a collapsed row that hides a target. */
         &.dimmed > .RowGrid > .RowBorder::after { background: color-mix(in srgb, var(--TreeBackground) 60%, transparent); }
-        &.cursor > .RowGrid > .RowBorder::after { border: var(--CursorFrameInactiveThickness) solid var(--CursorFrameInactiveBrush); }
-        &.cursor.focus-within > .RowGrid > .RowBorder::after, .TreeView:focus-within &.cursor > .RowGrid > .RowBorder::after { border: var(--CursorFrameThickness) solid var(--CursorFrameBrush); }
-        &.dropblocked > .RowGrid > .RowBorder::after { border: 1px solid var(--WarningMutedBrush); }
-        &.droptarget > .RowGrid > .RowBorder::after { border: var(--CursorFrameThickness) solid var(--AccentBrush); }
+        &.drophint > .RowGrid > .RowBorder::after { background: color-mix(in srgb, var(--TreeBackground) 30%, transparent); }
+        /* The cursor frame (CursorFrame): one pixel in the colour of the kind, with or without the focus; white on the selected row. */
+        &.cursor > .RowGrid > .RowBorder::after { border: 1px solid var(--KindSelected); }
+        &.cursor.selected > .RowGrid > .RowBorder::after { border: 1px solid var(--CursorFrameBrush); }
+        /* The row that takes the drop inside it (DropInsideFrame): the white cursor frame. */
+        &.droptarget > .RowGrid > .RowBorder::after { border: 1px solid var(--CursorFrameBrush); }
 
         > .GapUnderTheRow { height: var(--TreeRowGap); }
         &:not(.expanded) > .items, &.empty > .items { display: none; }
 
         /* The line of a drop between two rows: in the space under the row (dropgap), or at the top of the first row (droptop). */
-        > .DropLine { display: none; position: absolute; left: calc(var(--Indent) + var(--TreeIndent)); right: 0; background: var(--AccentBrush); pointer-events: none; }
-        &.dropgap > .DropLine { display: block; top: var(--ControlHeightMD); height: var(--TreeRowGap); }
-        &.droptop > .DropLine { display: block; top: 0; height: var(--SplitterIndicatorSize); }
+        > .DropLine { display: none; position: absolute; left: 0; right: 0; height: 1px; background: var(--CursorFrameBrush); pointer-events: none; }
+        &.dropgap > .DropLine { display: block; top: calc(var(--ControlHeightMD) + (var(--TreeRowGap) - 1px) / 2); }
+        &.droptop > .DropLine { display: block; top: 0; }
     }
 
     /* ---------------------------------------------------------------- Views/Tree/ProjectTreeView.axaml */
@@ -1558,7 +1579,7 @@
 .cmix {
     /* The square of the eye of a group row, and the count squares of a row under the pointer or selected. */
     .RowToggles > .slot { display: flex; align-items: center; justify-content: center; width: var(--ControlHeightMD); height: var(--ControlHeightMD); }
-    .RowBorder:hover .kindcount, .TreeViewItem.pointerover > .RowGrid .kindcount, .TreeViewItem.selected > .RowGrid .kindcount { background: var(--KindSelected); color: var(--TreeBackgroundBrush); }
+    .TreeViewItem.selected > .RowGrid .kindcount { background: var(--KindSelected); }
     .RowBorder .TextBoxEditable { flex: none; }
     .RowBorder > .header > .KindCountBadges { margin-left: 4px; }
 

@@ -208,6 +208,84 @@
         return tbl;
     }
 
+    /* ------------------------------------------------------------------ the colour system (board 0.0, colour-chart.js) */
+
+    /* A chip of one token: its colour, then its name. A brush alias shows the colour of its colour. */
+    function tokenChip(name) {
+        var chip = el('span', 'g-cchip');
+        var fill = el('i');
+        fill.style.background = 'var(--' + name + ')';
+        chip.appendChild(fill);
+        chip.appendChild(el('small', '', name));
+        chip.addEventListener('click', function (e) { e.stopPropagation(); go(name, true, true); });
+        return chip;
+    }
+
+    /* The chart of the colour system: the groups by meaning, the ladder of the tones, then the legend that a user reads. */
+    function colourChart(parent, chart, partLabel) {
+        var b = board(parent, '0.0', 'Colour system', 'docs/ui-kit/colour-chart.js', 'g-tokens', partLabel);
+        if (chart.intro) b.appendChild(el('p', 'g-cintro', chart.intro));
+        var path = [partLabel, '0.0 Colour system'];
+
+        (chart.groups || []).forEach(function (group) {
+            var sec = el('div', 'g-cgroup' + (group.id === 'retire' ? ' g-cretire' : ''));
+            var head = el('h3', 'g-cgrouptitle', group.title);
+            sec.appendChild(head);
+            if (group.meaning) sec.appendChild(el('p', 'g-cmeaning', group.meaning));
+            var grid = el('div', 'g-cgrid');
+            ['Role', 'Tokens', 'What it tells the user', 'Rule'].forEach(function (h) { grid.appendChild(el('span', 'g-statehead', h)); });
+            (group.rows || []).forEach(function (r) {
+                var role = el('span', 'g-crole', r.role);
+                var chips = el('span', 'g-cchips');
+                (r.tokens || []).forEach(function (t) { chips.appendChild(tokenChip(t)); });
+                var meaning = el('span', 'g-cnote', r.meaning || '');
+                var rule = el('span', 'g-cnote');
+                rule.appendChild(document.createTextNode(r.rule || ''));
+                (r.flags || []).forEach(function (f) { rule.appendChild(el('em', 'g-cflag', f)); });
+                [role, chips, meaning, rule].forEach(function (c) { grid.appendChild(c); });
+                register('0.0/' + r.role, role, { kind: 'sample', zoom: 1.5, path: path.concat([group.title, r.role]), board: '0.0', search: r.role + ' ' + (r.tokens || []).join(' ') });
+            });
+            sec.appendChild(grid);
+            b.appendChild(sec);
+        });
+
+        if (chart.tones && chart.tones.length) {
+            var sec = el('div', 'g-cgroup');
+            sec.appendChild(el('h3', 'g-cgrouptitle', 'Tones of a kind'));
+            sec.appendChild(el('p', 'g-cmeaning', 'One hue, mixed over TreeBackground at a strength that tells the state. The same ladder for every kind (CategoryPalette).'));
+            ['Entity', 'Composable2'].forEach(function (kind) {
+                var ladder = el('div', 'g-cladder');
+                ladder.setAttribute('data-kind', kind);
+                ladder.appendChild(el('span', 'g-crole', kind));
+                chart.tones.forEach(function (t) {
+                    var step = el('span', 'g-cstep');
+                    var fill = el('i');
+                    fill.style.background = 'color-mix(in srgb, var(--Kind) ' + Math.round(t.strength * 100) + '%, var(--TreeBackground))';
+                    step.appendChild(fill);
+                    step.appendChild(el('small', '', t.id + ' ' + Math.round(t.strength * 100) + '%'));
+                    step.title = t.meaning || '';
+                    ladder.appendChild(step);
+                });
+                sec.appendChild(ladder);
+            });
+            var notes = el('ul', 'g-clist');
+            chart.tones.forEach(function (t) { var li = el('li'); li.appendChild(el('b', '', t.id + ': ')); li.appendChild(document.createTextNode(t.meaning || '')); notes.appendChild(li); });
+            sec.appendChild(notes);
+            b.appendChild(sec);
+        }
+
+        if (chart.legend && chart.legend.length) {
+            var leg = el('div', 'g-cgroup');
+            leg.appendChild(el('h3', 'g-cgrouptitle', 'Legend'));
+            leg.appendChild(el('p', 'g-cmeaning', 'The sentences a user can keep in mind.'));
+            var list = el('ul', 'g-clist');
+            chart.legend.forEach(function (l) { var li = el('li'); li.appendChild(el('b', '', l.cue + ': ')); li.appendChild(document.createTextNode(l.meaning)); list.appendChild(li); });
+            leg.appendChild(list);
+            b.appendChild(leg);
+        }
+        return b;
+    }
+
     /* ------------------------------------------------------------------ the demo of an entry */
 
     /* The states of a demo: the key in data-states, the heading, the state classes of cmix.css, and a line that explains the heading.
@@ -229,10 +307,8 @@
         ['editing', 'Editing', ['editing'], 'The user types a value.'],
         ['recording', 'Recording', ['recording'], 'The box waits for a key combination.'],
         ['open', 'Open', ['open'], 'The control is open.'],
-        ['dimmed', 'Dimmed', ['dimmed'], 'A row that can not take the dragged item, or that does not match the search.'],
-        ['candidate', 'Candidate', ['candidate'], 'A row that can take the dragged item.'],
-        ['dragsource', 'Drag source', ['dragsource'], 'The row that is dragged, at its old place.'],
-        ['dropblocked', 'Drop blocked', ['dropblocked'], 'A row that refuses the dragged item by a rule.'],
+        ['dimmed', 'Dimmed', ['dimmed'], 'A row out of play: it can not take the dragged item (the dragged row too), or it does not match the search.'],
+        ['drophint', 'Drop hint', ['drophint'], 'A collapsed row with a possible target deeper: half covered, the chevron left clear.'],
         ['droptarget', 'Drop target', ['droptarget'], 'The row that takes the drop inside it.'],
         ['dropgap', 'Drop gap', ['dropgap'], 'The drop goes after this row: the line is under it.'],
         ['droptop', 'Drop top', ['droptop'], 'The drop goes before the first row: the line is at its top.'],
@@ -477,6 +553,8 @@
             if (cat.id !== '0') return;
             tokenRow = row(partLabel + ' · 0 Tokens', 'the colors, the sizes, the fonts and the timing that all controls use');
             readMe(tokenRow);
+            colourChart(tokenRow, window.CMIX_COLOUR_CHART || {}, partLabel);
+            navLink('0.0', 'Colour system', '', 'the tokens by meaning', true);
             navLink(cat.id, cat.name, '', '', false).addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); go('0.1', true, true); });
             tokens.groups.forEach(function (group) {
                 var colors = group.tokens.every(function (t) { return t.type === 'Color' || t.type === 'SolidColorBrush'; });
@@ -514,12 +592,12 @@
         });
     });
 
-    /* The demo of CategoryPalette shows the six tones of every kind, at the depth 0 and at the depth 1. */
+    /* The demo of CategoryPalette shows the six tones of every kind, at the depth 0 and at the depth 1 (only the fill at rest gets weaker). */
     Array.prototype.forEach.call(world.querySelectorAll('[data-palette]'), function (holder) {
         var roles = ['Fill', 'FillHover', 'FillSelected', 'KindTone', 'KindHover', 'KindSelected'];
         holder.appendChild(el('b'));
         ['Fill', 'FillHover', 'FillSelected', 'Kind', 'KindHover', 'KindSelected'].forEach(function (r) { holder.appendChild(el('b', '', r)); });
-        ['Composable', 'ComposableLevel1', 'ComposableLevel2', 'ComposableLevel3', 'Entity', 'Camera', 'Light', 'Texture', 'Filter', 'Modifier', 'Modulator'].forEach(function (kind) {
+        ['Composable0', 'Composable1', 'Composable2', 'Composable3', 'Composable4', 'Composable5', 'Entity', 'Camera', 'Light', 'Texture', 'Filter', 'Modifier', 'Modulator'].forEach(function (kind) {
             [0, 1].forEach(function (depth) {
                 holder.appendChild(el('span', '', depth ? 'one level deeper' : kind));
                 roles.forEach(function (role) {
