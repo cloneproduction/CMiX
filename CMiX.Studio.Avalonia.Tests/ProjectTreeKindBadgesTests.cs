@@ -166,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_ASquare_IsTwentyHighInTheMiddleOfTheRow()
+        public void Show_ASquare_IsEighteenHighInTheMiddleOfTheRow()
         {
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
@@ -177,7 +177,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var top = square.TranslatePoint(new Point(0, 0), row)!.Value.Y;
             var bottom = row.Bounds.Height - (top + square.Bounds.Height);
 
-            Assert.Equal(20, square.Bounds.Height);
+            Assert.Equal(18, square.Bounds.Height);
             Assert.Equal(top, bottom, 1);
             Assert.True(top > 0);
         }
