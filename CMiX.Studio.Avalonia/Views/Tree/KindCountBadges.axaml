@@ -69,7 +69,7 @@
         </Border>
         </StackPanel>
 
-        <!-- The sign of a missing asset on this row or under it (TreeNode.MissingCount), after the kinds: an amber disc with a white mark. Like the
+        <!-- The sign of a missing asset on this row or under it (TreeNode.MissingCount), after the kinds: an amber triangle with a white mark. Like the
              kind squares it shows on a collapsed row, for what is under it; an open row leaves it to the rows below. The missing row
              itself always shows it. -->
         <Border
@@ -78,16 +78,25 @@
             Width="{DynamicResource TreeKindSquareSize}"
             Height="{DynamicResource TreeKindSquareSize}"
             VerticalAlignment="Center"
-            Background="{DynamicResource PopupCardWarningBrush}"
-            CornerRadius="99"
+            Background="Transparent"
             IsVisible="{Binding ShowsMissingSign}"
             ToolTip.Tip="{Binding MissingCount, StringFormat='{}{0} missing asset(s)'}">
-            <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontWeight="Bold"
-                Foreground="{DynamicResource ActiveForegroundBrush}"
-                Text="!" />
+            <!-- A warning triangle in amber, with a white mark. The triangle fills the square; the mark sits in its lower, wider part. -->
+            <Panel>
+                <Path
+                    Data="M 8,0.5 L 15.5,15 L 0.5,15 Z"
+                    Fill="{DynamicResource PopupCardWarningBrush}"
+                    Stretch="Uniform"
+                    Margin="1" />
+                <TextBlock
+                    Margin="0,3,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="10"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource ActiveForegroundBrush}"
+                    Text="!" />
+            </Panel>
         </Border>
 
     </StackPanel>
