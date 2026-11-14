@@ -464,25 +464,6 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Drag_OfARow_FadesTheRowThatIsDraggedAndRestoresItAtTheEnd()
-        {
-            var screen = Show();
-            var layer = screen.Tree.CompositionNodes()[0].Children[0].Children[0];
-            var other = screen.Tree.CompositionNodes()[0].Children[0].Children[1];
-            var target = screen.Tree.CompositionNodes()[1];
-            Assert.Equal(1, screen.HeaderOf(layer).Opacity);
-
-            TreeDrag.Over(screen.Window, screen.PointIn(layer, 0.5), screen.PointIn(target, 0.5));
-
-            Assert.Equal(0.4, screen.HeaderOf(layer).Opacity);
-            Assert.Equal(1, screen.HeaderOf(other).Opacity);
-
-            TreeDrag.Cancel(screen.Window, screen.PointIn(target, 0.5));
-
-            Assert.Equal(1, screen.HeaderOf(layer).Opacity);
-        }
-
-        [AvaloniaFact]
         public void Cursor_DuringADrag_IsTheMoveCursor()
         {
             var screen = Show();

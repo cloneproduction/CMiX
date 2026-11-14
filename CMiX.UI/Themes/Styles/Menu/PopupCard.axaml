@@ -5,10 +5,12 @@
 
     <!-- The surface is a PopupSurface. The tip lies on it, inside the room of the shadow. -->
     <ControlTheme x:Key="{x:Type ui:PopupCard}" TargetType="ui:PopupCard">
+        <!-- The fill of the card and of its tip. A tooltip of a row of the tree takes the colour of the row (see ProjectTreeView). -->
+        <Setter Property="Background" Value="{DynamicResource PopupBackgroundBrush}" />
         <Setter Property="Padding" Value="{DynamicResource PopupCardPadding}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <ui:PopupSurface Padding="{TemplateBinding Padding}">
+                <ui:PopupSurface Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
                     <ContentPresenter
                         Name="PART_ContentPresenter"
                         Content="{TemplateBinding Content}"
@@ -16,7 +18,7 @@
                     <ui:PopupSurface.Overlay>
                         <ui:PopupTip
                             Name="PART_Tip"
-                            Fill="{DynamicResource PopupBackgroundBrush}"
+                            Fill="{TemplateBinding Background}"
                             IsVisible="{Binding ShowsTip, RelativeSource={RelativeSource AncestorType=ui:PopupCard}}" />
                     </ui:PopupSurface.Overlay>
                 </ui:PopupSurface>

@@ -37,6 +37,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private readonly TreeRowMetrics rowMetrics;
         private readonly TreeRowIndex rowIndex;
+        private readonly TreeRowShadow rowShadow;
         private readonly TreeDropMarker marker;
         private readonly TreeScrollAnchor scrollAnchor;
         private readonly TreeDragSession dragSession;
@@ -86,6 +87,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             rowMetrics = new TreeRowMetrics(treeView, Resources, () => ScrollerOfTree);
             rowIndex = new TreeRowIndex(treeView);
+            rowShadow = new TreeRowShadow(treeView, rowShadowLayer, rowShadowBox);
             marker = new TreeDropMarker(rowIndex);
             scrollAnchor = new TreeScrollAnchor(treeView, rowIndex, () => ScrollerOfTree);
             dragSession = new TreeDragSession(treeView, () => DataContext as ProjectTree, marker, () => AutoScroller, scrollAnchor, () => ScrollerOfTree);
@@ -132,7 +134,18 @@ namespace CMiX.Studio.Avalonia.Views
             // tree. The layout that follows shows that no control has the focus.
             treeView.LayoutUpdated += (_, _) => CheckTheLostFocus();
             tooltips = new TreeTooltips(treeView);
-            menuAddPanel.Closed += (_, _) => UpdateHints();
+            menuAddPanel.Closed += (_, _) =>
+            {
+                UpdateHints();
+                // A panel opened beside the cursor row (Right, Ctrl+Right) is a leaf of the tree: when it closes, Left or Escape or a pick,
+                // the cursor row takes the focus back, so the keys go on in the tree.
+                if (addOpenedBesideTheCursor)
+                {
+                    addOpenedBesideTheCursor = false;
+                    if (watched?.CursorNode is { } cursor)
+                        Dispatcher.UIThread.Post(() => FocusRow(cursor), DispatcherPriority.Input);
+                }
+            };
         }
 
         // The hint strip under the rows. A test reads it.
@@ -275,9 +288,29 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
+            // Tree.Inspect (Space by default) is handled here, before the tree view takes Space for its own selection.
+            if (tree.Shortcuts["Tree.Inspect"] is { } inspectGesture && inspectGesture.Matches(e))
+            {
+                if (tree.InspectCursorCommand.CanExecute(null))
+                    tree.InspectCursorCommand.Execute(null);
+                e.Handled = true;
+                return;
+            }
+
             // The tree view opens and closes rows on these keys by itself. The design does not use them.
             if (IsTreeViewKey(e.Key))
             {
+                e.Handled = true;
+                return;
+            }
+
+            // The Add panel is the leaf after the last row of a branch: Right on a row with nothing under it opens it, at the right of the row,
+            // its search field level with the row and a tip at the middle of the row. Ctrl+Right opens it on any row. The arrows then pick
+            // an entry and Enter adds it, so a row deep in the tree is reached and filled with Right alone. Left in the panel comes back.
+            if (e.Key == Key.Right && (e.KeyModifiers == KeyModifiers.Control
+                                       || (e.KeyModifiers == KeyModifiers.None && tree.CursorNode is { Children.Count: 0 })))
+            {
+                OpenAddBesideTheCursor(tree);
                 e.Handled = true;
                 return;
             }
@@ -292,6 +325,21 @@ namespace CMiX.Studio.Avalonia.Views
             MoveCursor(tree, e.Key);
             if (tree.CursorNode is { } node)
                 Dispatcher.UIThread.Post(() => FocusRow(node), DispatcherPriority.Loaded);
+        }
+
+        // True while the Add panel that opened beside the cursor row is open (see OpenAddBesideTheCursor).
+        private bool addOpenedBesideTheCursor;
+
+        private void OpenAddBesideTheCursor(ProjectTree tree)
+        {
+            if (tree.CursorNode is not { } node || ShownItemOf(node) is not { } item || TopLevel.GetTopLevel(this) is not { } window)
+                return;
+
+            var row = TreeRows.RowBorderOf(item);
+            var anchor = row?.TranslatePoint(default, window) is { } topLeft ? new Rect(topLeft, row.Bounds.Size) : (Rect?)null;
+            menuAddPanel.Open(item, PopupSide.Right, tree.GetAddGroups(node), AddTitle, anchor, showsTip: true);
+            addOpenedBesideTheCursor = menuAddPanel.IsOpen;
+            UpdateHints();
         }
 
         private static bool IsNavigationKey(Key key) =>
@@ -769,6 +817,14 @@ namespace CMiX.Studio.Avalonia.Views
         // selection do not move.
         private void OnPointerPressedDone(object? sender, PointerPressedEventArgs e)
         {
+            if (focusBesideRows)
+            {
+                focusBesideRows = false;
+                if (watched?.CursorNode is { } cursor)
+                    Dispatcher.UIThread.Post(() => FocusRow(cursor), DispatcherPriority.Input);
+                return;
+            }
+
             if (focusBeforeRowButton is not { } before)
                 return;
 
@@ -814,11 +870,27 @@ namespace CMiX.Studio.Avalonia.Views
         // The node of the row that the left button pressed. A drag clears it.
         private TreeNode? chosenNode;
 
+        // Set by a press beside the rows: the cursor row takes the focus once the press is done.
+        private bool focusBesideRows;
+
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             pressedNode = null;
             chosenNode = null;
             focusBeforeRowButton = null;
+            // A middle click on a row selects it and sends it to the inspector, and starts no drag. The chevron, the toggles
+            // and the name box take no middle click.
+            if (e.GetCurrentPoint(treeView).Properties.IsMiddleButtonPressed)
+            {
+                if (!rowDrag.IsDragging && !IsEditor(e.Source) && TreeRows.ItemOf(e.Source)?.DataContext is TreeNode middle && DataContext is ProjectTree inspecting)
+                {
+                    inspecting.SelectByClick(middle);
+                    inspecting.Inspect(middle);
+                    e.Handled = true;
+                }
+                return;
+            }
+
             if (rowDrag.IsDragging || !e.GetCurrentPoint(treeView).Properties.IsLeftButtonPressed)
                 return;
 
@@ -830,6 +902,15 @@ namespace CMiX.Studio.Avalonia.Views
             }
 
             var node = TreeRows.ItemOf(e.Source)?.DataContext as TreeNode;
+            // A click beside the rows gives the tree the focus on its cursor row, so the keys work right away. A tree without a cursor
+            // gets one first: the selected row, else the first row. The focus moves after the press is done (OnPointerPressedDone): the
+            // default handling of the press would take it back.
+            if (node is null && DataContext is ProjectTree beside)
+            {
+                beside.CursorNode ??= beside.SelectedNode ?? beside.Roots.FirstOrDefault();
+                focusBesideRows = beside.CursorNode != null;
+            }
+
             // The tree view toggles the selection on a Ctrl click. The tree has one selection, so a Ctrl click on a row does nothing.
             if (node != null && e.KeyModifiers.HasFlag(KeyModifiers.Control))
             {

@@ -77,8 +77,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var strip = screen.View.HintStrip;
 
             Assert.Equal(TreeHintMode.Idle, screen.View.HintMode);
-            Assert.Equal(new[] { "move", "select", "open", "menu", "add", "undo" }, Words(screen));
-            Assert.Equal(new[] { TreeKeyHints.Arrows, TreeKeyHints.Enter, "E", "W", "Shift+A", "Ctrl+Z" }, Keys(screen));
+            Assert.Equal(new[] { "move", "select", "open", "menu", "add", "inspect", "undo" }, Words(screen));
+            Assert.Equal(new[] { TreeKeyHints.Arrows, TreeKeyHints.Enter, "E", "W", "Shift+A", "Space", "Ctrl+Z" }, Keys(screen));
             Assert.True(strip.IsEffectivelyVisible);
 
             // The strip is at the bottom of the view, under the rows.
@@ -136,7 +136,7 @@ namespace CMiX.Studio.Avalonia.Tests
             menu.Close();
             Pump(screen);
 
-            Assert.Equal(new[] { "move", "select", "open", "menu", "add", "undo" }, Words(screen));
+            Assert.Equal(new[] { "move", "select", "open", "menu", "add", "inspect", "undo" }, Words(screen));
         }
 
         [AvaloniaFact]
@@ -166,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.Shortcuts.Set("Tree.Menu", null);
             Pump(screen);
 
-            Assert.Equal(new[] { "move", "select", "open", "add", "undo" }, Words(screen));
+            Assert.Equal(new[] { "move", "select", "open", "add", "inspect", "undo" }, Words(screen));
             Assert.Equal("Ctrl+U", screen.View.HintStrip.Hints!.Single(hint => hint.Words == "undo").Keys.Single());
             var caps = screen.View.HintStrip.GetVisualDescendants().OfType<TextBlock>().Where(text => text.Name == "PART_KeyText");
             Assert.Contains(caps, cap => cap.Text == "Ctrl+U");

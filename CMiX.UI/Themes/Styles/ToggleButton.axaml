@@ -31,6 +31,8 @@
          under :checked. The opacities are styles, not local values. A local value would block the states. -->
     <ControlTheme x:Key="ToggleButtonIcon" TargetType="ToggleButton">
         <Setter Property="Background" Value="Transparent" />
+        <!-- The colour of the icon (it follows the Foreground of the toggle). A row of the tree gives its toggles the colour of its text. -->
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Height" Value="{DynamicResource ControlHeightXS}" />
@@ -42,7 +44,8 @@
                     Margin="0"
                     Padding="1"
                     Background="Transparent">
-                    <ui:AppIcon Name="icon" Size="{DynamicResource IconSizeXS}" />
+                    <!-- The icon takes the Foreground of the toggle: a template value beats the style of AppIcon, a style of a parent would not. -->
+                    <ui:AppIcon Name="icon" Foreground="{TemplateBinding Foreground}" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>

@@ -2,6 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.RowToggles"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <!-- The toggles of a row of the tree, inside the colored row, at its right end. The DataContext is the tree node.
@@ -9,6 +10,23 @@
          see ProjectTreeView), so the icons of all rows line up. A new toggle is a new slot and a wider column. -->
     <!-- A row under a hidden parent, a list or an item (see TreeNode.IsUnderHiddenParent): its visibility toggles look as if they were disabled. They still work. -->
     <UserControl.Styles>
+        <!-- The toggles of a row (mask, visibility) have the colour of the text of the row (KindIconBrush with Text: white on the cursor
+             row and on the selected row, TreeTextRest at rest, grey on an empty group) and one strength, so colour alone tells the
+             state of the row, as for its icon and its name. The node is the DataContext of the item: a toggle inside ComposableToggles
+             has the item of the node as its own. -->
+        <Style Selector="ToggleButton">
+            <Setter Property="Foreground">
+                <MultiBinding Converter="{StaticResource KindIconBrush}" ConverterParameter="Text">
+                    <Binding Path="$parent[TreeViewItem].DataContext" />
+                    <Binding Path="$parent[TreeViewItem].DataContext.IsCursor" />
+                    <Binding Path="$parent[TreeViewItem].IsSelected" />
+                    <Binding Path="$parent[TreeViewItem].ItemCount" />
+                </MultiBinding>
+            </Setter>
+        </Style>
+        <Style Selector="ToggleButton /template/ Border#border, ToggleButton:pointerover /template/ Border#border">
+            <Setter Property="Opacity" Value="{DynamicResource OpacityIconAction}" />
+        </Style>
         <Style Selector="StackPanel.hiddenabove ToggleButton#visibilityToggle, StackPanel.hiddenabove ToggleButton#groupHideToggle">
             <Setter Property="Opacity" Value="{DynamicResource OpacityDisabled}" />
         </Style>

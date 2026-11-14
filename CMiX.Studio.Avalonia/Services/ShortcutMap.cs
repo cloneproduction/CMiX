@@ -44,6 +44,7 @@ namespace CMiX.Studio.Avalonia.Services
             ("Window.FocusPanel4", "Ctrl+D4"),
             ("Tree.Focus", ""),
             ("Tree.Add", "Shift+A"),
+            ("Tree.Inspect", "Space"),
             ("Tree.Menu", "W"),
             ("Tree.Expand", "E"),
             ("Tree.CollapseOthers", "Alt+E"),

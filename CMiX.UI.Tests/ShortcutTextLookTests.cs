@@ -39,9 +39,9 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaTheory]
-        [InlineData("ShortcutText", 4.742)]
-        [InlineData("Grey800", 4.432)]
-        [InlineData("Grey700", 2.779)]
+        [InlineData("ShortcutText", 4.835)]
+        [InlineData("Grey800", 4.499)]
+        [InlineData("Grey700", 2.827)]
         public void ContrastRatio_TextOnThePopupCard_HasItsValue(string key, double expected)
         {
             var ratio = ContrastRatio(Tokens.Get<Color>(key), Tokens.Get<Color>("PopupCardBackground"));

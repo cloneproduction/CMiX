@@ -186,7 +186,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void BeginDrag_ANode_DimsEveryOtherRow()
+        public void BeginDrag_ANode_CoversEveryRowThatIsNotATargetOrAHint()
         {
             var scene = CreateScene();
 
@@ -194,7 +194,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             foreach (var node in scene.All())
             {
-                if (node.IsDropCandidate || node.IsDropNeighbor || node.IsDragSource || node.IsDropHint)
+                if (node.IsDropCandidate || node.IsDropNeighbor || node.IsDropHint)
                     Assert.False(node.IsDimmed);
                 else
                     Assert.True(node.IsDimmed, $"{node.Header} is not dimmed.");
@@ -233,7 +233,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void BeginDrag_ASharedEntity_MarksTheOtherLayerBlocked()
+        public void BeginDrag_ASharedEntity_MarksTheOtherLayerBlockedAndCovered()
         {
             var scene = CreateScene();
             var layer2 = (Layer)scene.Layer2.Item!;
@@ -245,7 +245,7 @@ namespace CMiX.Studio.Avalonia.Tests
             {
                 Assert.True(node.IsDropBlocked, $"{node.Header} is not blocked.");
                 Assert.False(node.IsDropCandidate);
-                Assert.False(node.IsDimmed);
+                Assert.True(node.IsDimmed);
                 Assert.Equal($"Layer \"{scene.Layer2.Header}\" also holds it", node.DropBlockReason);
                 Assert.False(scene.Tree.CanDrop(scene.Entity1, node, DropPosition.Inside));
             }
@@ -260,7 +260,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void BeginDrag_AModifierThatALayerCannotHold_MarksTheLayersBlocked()
+        public void BeginDrag_AModifierThatALayerCannotHold_MarksTheLayersBlockedAndCovered()
         {
             var scene = CreateScene();
             var modifier = Scene.Group<ModifiersGroup>(scene.Entity1).Children[0];
@@ -270,7 +270,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(scene.Layer2.IsDropBlocked);
             Assert.True(Scene.Group<ModifiersGroup>(scene.Layer2).IsDropBlocked);
             Assert.Equal("A Translate cannot go to a layer", scene.Layer2.DropBlockReason);
-            Assert.False(scene.Layer2.IsDimmed);
+            Assert.True(scene.Layer2.IsDimmed);
         }
 
         [Fact]

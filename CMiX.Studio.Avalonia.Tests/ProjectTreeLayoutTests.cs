@@ -169,7 +169,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void DragOver_ARow_PutsTheDropLineAtTheIndentOfTheRow()
+        public void DragOver_ARow_PutsTheDropLineInTheSpaceAroundTheRowAtFullWidth()
         {
             var (view, tree) = Show();
             var layer = tree.CompositionNodes()[0].Children[0].Children[0];
@@ -181,8 +181,13 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle();
 
             Assert.True(line.IsEffectivelyVisible, "line.IsEffectivelyVisible");
-            Assert.Equal(BoundsIn(row).Left, BoundsIn(line).Left, 3);
-            Assert.Equal(BoundsIn(row).Top, BoundsIn(line).Top, 3);
+            var thin = Convert.ToDouble(view.Resources["TreeDropLineThickness"]);
+            var topMargin = (Thickness)view.Resources["TreeDropLineTopMargin"]!;
+            var gapMargin = (Thickness)view.Resources["TreeDropLineGapMargin"]!;
+            Assert.Equal(BoundsIn(item).Left, BoundsIn(line).Left, 3);
+            Assert.Equal(BoundsIn(item).Width, BoundsIn(line).Width, 3);
+            Assert.Equal(thin, BoundsIn(line).Height, 3);
+            Assert.Equal(BoundsIn(item).Top + topMargin.Top, BoundsIn(line).Top, 3);
 
             ((IPseudoClasses)item.Classes).Set(":droptop", false);
             ((IPseudoClasses)item.Classes).Set(":dropgap", true);
@@ -190,9 +195,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var inGap = BoundsIn(line);
             var gap = Convert.ToDouble(view.Resources["TreeRowGap"]);
 
-            Assert.Equal(BoundsIn(row).Left, inGap.Left, 3);
-            Assert.Equal(BoundsIn(row).Bottom, inGap.Top, 3);
-            Assert.Equal(gap, inGap.Height, 3);
+            Assert.Equal(BoundsIn(item).Left, inGap.Left, 3);
+            Assert.Equal(BoundsIn(item).Width, inGap.Width, 3);
+            Assert.Equal(BoundsIn(item).Top + gapMargin.Top, inGap.Top, 3);
+            Assert.Equal(thin, inGap.Height, 3);
+            Assert.Equal(BoundsIn(row).Bottom + (gap - thin) / 2, inGap.Top, 3);
         }
 
         [AvaloniaFact]
@@ -209,7 +216,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 ((ISolidColorBrush)ItemOf(view, node).GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "TextDisplay").Foreground!).Color;
 
             var white = ((ISolidColorBrush)Application.Current!.FindResource("ActiveForegroundBrush")!).Color;
-            var light = ((ISolidColorBrush)Application.Current!.FindResource("ForegroundBrush")!).Color;
+            var light = ((ISolidColorBrush)Application.Current!.FindResource("TreeTextRestBrush")!).Color;
             Assert.Equal(white, NameColor(view, layer));
             Assert.Equal(light, NameColor(view, other));
         }

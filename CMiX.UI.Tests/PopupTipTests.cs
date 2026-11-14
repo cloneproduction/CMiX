@@ -103,7 +103,7 @@ namespace CMiX.UI.Tests
             var fill = (ISolidColorBrush)Application.Current!.FindResource("PopupBackgroundBrush")!;
             var border = Application.Current!.FindResource("PopupCardBorderBrush");
 
-            Assert.Equal(Color.Parse("#1A1A1C"), fill.Color);
+            Assert.Equal(Color.Parse("#18181B"), fill.Color);
             Assert.Same(AvaloniaProperty.UnsetValue, border);
         }
 

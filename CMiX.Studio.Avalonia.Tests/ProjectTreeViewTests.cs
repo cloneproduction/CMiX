@@ -268,10 +268,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var line = DropLineOf(screen.RowOf(lastRow));
             var lastRowHeader = HeaderOf(screen.RowOf(lastRow));
             var gap = Convert.ToDouble(screen.View.Resources["TreeRowGap"]);
+            var thin = Convert.ToDouble(screen.View.Resources["TreeDropLineThickness"]);
             Assert.True(line.IsVisible);
-            // The bar fills the space under the last row of the block.
-            Assert.Equal(Top(screen, lastRowHeader) + lastRowHeader.Bounds.Height, Top(screen, line), 3);
-            Assert.Equal(gap, line.Bounds.Height, 3);
+            // The bar is one pixel in the middle of the space under the last row of the block.
+            Assert.Equal(Top(screen, lastRowHeader) + lastRowHeader.Bounds.Height + (gap - thin) / 2, Top(screen, line), 3);
+            Assert.Equal(thin, line.Bounds.Height, 3);
         }
 
         [AvaloniaFact]
@@ -286,9 +287,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var below = HeaderOf(screen.RowOf(last));
             var line = DropLineOf(screen.RowOf(LastVisibleOf(screen.Tree.CompositionNodes()[1])));
             Assert.True(line.IsVisible);
-            // The bar fills the space between the two rows: the same space above it and under it.
-            Assert.Equal(Top(screen, above) + above.Bounds.Height, Top(screen, line), 3);
-            Assert.Equal(Top(screen, below), Top(screen, line) + line.Bounds.Height, 3);
+            // The bar is in the middle of the space between the two rows: the same space above it and under it.
+            Assert.Equal(Top(screen, line) - (Top(screen, above) + above.Bounds.Height), Top(screen, below) - (Top(screen, line) + line.Bounds.Height), 3);
+            Assert.True(Top(screen, line) > Top(screen, above) + above.Bounds.Height - 0.001);
         }
 
         [AvaloniaFact]

@@ -11,6 +11,7 @@ using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
+using CMiX.UI.Controls;
 using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -23,7 +24,7 @@ using Project = CMiX.Core.Compositing.Project;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // A collapsed row shows what it holds: a square for each kind, in the color of the kind, with the number.
+    // A collapsed row shows what it holds: a square for each kind, in the color of the kind, with the icon of the kind. The count is in the tooltip.
     public class ProjectTreeKindBadgesTests : IDisposable
     {
         private Window? window;
@@ -52,10 +53,14 @@ namespace CMiX.Studio.Avalonia.Tests
             badges.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).ToList();
 
 
-        private static string NumberIn(Border square) => square.GetVisualDescendants().OfType<TextBlock>().Single().Text!;
+        private static string IconOf(Border square) => square.GetVisualDescendants().OfType<AppIcon>().Single().IconKey;
+
+        private static string TextIn(Border square) => square.GetVisualDescendants().OfType<TextBlock>().Single().Text!;
+
+        private static string IconKeyOf(TreeCategory category) => new KindCount(category, 1).IconKey;
 
         [AvaloniaFact]
-        public void Show_ACollapsedRow_ShowsASquareWithTheCountForEachKind()
+        public void Show_ACollapsedRow_ShowsASquareWithTheIconForEachKind()
         {
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
@@ -65,7 +70,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var squares = SquaresOf(badges);
 
             Assert.True(badges.IsEffectivelyVisible);
-            Assert.Equal(new[] { "2", "1", "3" }, squares.Select(NumberIn));
+            Assert.Equal(new[] { TreeCategory.Entity, TreeCategory.Filter, TreeCategory.Modifier }.Select(IconKeyOf), squares.Select(IconOf));
+            Assert.Equal(new[] { "2 Entities", "1 Filter", "3 Modifiers" }, squares.Select(square => (string)ToolTip.GetTip(square)!));
             Assert.Equal(
                 new[] { TreeCategory.Entity, TreeCategory.Filter, TreeCategory.Modifier }.Select(category => palette.For(category).Kind),
                 squares.Select(FillOf));
@@ -99,7 +105,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_ACollapsedGroup_ShowsItsCountInTheColorOfItsKind()
+        public void Show_ACollapsedGroup_ShowsItsIconInTheColorOfItsKind()
         {
             var (view, _, layer, _) = Show();
             var entities = layer.Children.Single(child => child.Group is EntitiesGroup);
@@ -108,12 +114,13 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var square = Assert.Single(SquaresOf(BadgesOf(view, entities)));
 
-            Assert.Equal("2", NumberIn(square));
+            Assert.Equal(IconKeyOf(TreeCategory.Entity), IconOf(square));
+            Assert.Equal("2 Entities", ToolTip.GetTip(square));
             Assert.Equal(palette.For(TreeCategory.Entity).Kind, FillOf(square));
         }
 
         [AvaloniaFact]
-        public void Select_ARow_MakesTheSquaresBrighter()
+        public void Select_ARow_KeepsTheSquaresTheSame()
         {
             var (view, tree, layer, _) = Show();
             layer.IsExpanded = false;
@@ -123,56 +130,39 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(tone.Kind, FillOf(SquaresOf(badges).First()));
 
+            // The pointer over the row does not change the squares: only the selection does.
             badges.IsHovered = true;
-            Assert.Equal(tone.KindSelected, FillOf(SquaresOf(badges).First()));
+            Assert.Equal(tone.Kind, FillOf(SquaresOf(badges).First()));
 
             tree.SelectedNode = layer;
             Settle();
-            Assert.Equal(tone.KindSelected, FillOf(SquaresOf(badges).First()));
+            Assert.Equal(tone.Kind, FillOf(SquaresOf(badges).First()));
         }
 
-        private static AvaloniaColor NumberColorOf(Border square) =>
-            ((ISolidColorBrush)square.GetVisualDescendants().OfType<TextBlock>().Single().Foreground!).Color;
+        private static AvaloniaColor IconColorOf(Border square) =>
+            ((ISolidColorBrush)square.GetVisualDescendants().OfType<AppIcon>().Single().Foreground!).Color;
 
         private static AvaloniaColor ColorOf(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
 
-        // The number is white on the square at rest, and dark on the full color of a row that is under the pointer or selected.
+        // The icon is always white: on the square at rest, under the pointer and on the full color of a selected row.
         [AvaloniaFact]
-        public void Select_ARow_MakesTheNumbersDark()
+        public void Select_ARow_KeepsTheIconsWhite()
         {
             var (view, tree, layer, _) = Show();
             layer.IsExpanded = false;
             Settle();
             var badges = BadgesOf(view, layer);
 
-            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), NumberColorOf(square)));
+            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), IconColorOf(square)));
 
             badges.IsHovered = true;
             Settle();
-            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("TreeBackgroundBrush"), NumberColorOf(square)));
+            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), IconColorOf(square)));
 
             badges.IsHovered = false;
             tree.SelectedNode = layer;
             Settle();
-            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("TreeBackgroundBrush"), NumberColorOf(square)));
-        }
-
-        // The dark number can be read on the full color of every kind: a contrast of 4.5:1 or more.
-        [AvaloniaTheory]
-        [InlineData(TreeCategory.Composable)]
-        [InlineData(TreeCategory.Entity)]
-        [InlineData(TreeCategory.Camera)]
-        [InlineData(TreeCategory.Light)]
-        [InlineData(TreeCategory.Texture)]
-        [InlineData(TreeCategory.Filter)]
-        [InlineData(TreeCategory.Modifier)]
-        [InlineData(TreeCategory.Modulator)]
-        public void TheDarkNumber_OnTheFullColorOfAKind_CanBeRead(TreeCategory category)
-        {
-            var dark = ColorOf("TreeBackgroundBrush");
-
-            // A count square has the color of its kind at the level 0 (see TreeToneConverter).
-            Assert.True(CMiX.UI.Mathematics.ColorMix.Contrast(dark, palette.For(category).KindSelected) >= 4.5);
+            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), IconColorOf(square)));
         }
 
         [AvaloniaFact]
@@ -195,11 +185,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private static Border MoreKindsOf(KindCountBadges badges) =>
             badges.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "MoreKinds");
 
-        private static TextBlock HiddenCountOf(KindCountBadges badges) =>
-            badges.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Name == "HiddenCount");
-
-        private static void Hide(TreeNode node) => ((CMiX.Core.Prefabs.IPrefab)node.Item!).PrefabService.Visibility.Value = true;
-
         [AvaloniaFact]
         public void Show_ARowWithFiveKinds_ShowsThreeSquaresAndPlusTwo()
         {
@@ -218,9 +203,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var badges = BadgesOf(screen.View, layer);
             var more = MoreKindsOf(badges);
 
-            Assert.Equal(new[] { "2", "1", "3" }, SquaresOf(badges).Select(NumberIn));
+            Assert.Equal(new[] { TreeCategory.Entity, TreeCategory.Filter, TreeCategory.Modifier }.Select(IconKeyOf), SquaresOf(badges).Select(IconOf));
             Assert.True(more.IsEffectivelyVisible);
-            Assert.Equal("+2", NumberIn(more));
+            Assert.Equal("+2", TextIn(more));
             Assert.Equal("1 Camera" + Environment.NewLine + "1 Light", ToolTip.GetTip(more));
         }
 
@@ -232,52 +217,19 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle();
 
             Assert.False(MoreKindsOf(BadgesOf(view, layer)).IsEffectivelyVisible);
-            Assert.False(HiddenCountOf(BadgesOf(view, layer)).IsEffectivelyVisible);
         }
 
         [AvaloniaFact]
-        public void Hide_RowsUnderACollapsedRow_ShowsTheHiddenCountInTheDisabledLook()
+        public void Show_ARowWithoutMissingAssets_ShowsNoMissingSign()
         {
-            var (view, tree, layer, _) = Show();
-            var composition = tree.CompositionNodes()[0];
-            var entities = layer.Children.Single(child => child.Group is EntitiesGroup);
-
-            Hide(entities.Children[0]);
-            Hide(entities.Children[1]);
+            var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
             Settle();
 
-            var text = HiddenCountOf(BadgesOf(view, layer));
-            Assert.True(text.IsEffectivelyVisible);
-            Assert.Equal("2 hidden", text.Text);
-            Assert.Equal((double)Application.Current!.FindResource("OpacityDisabled")!, text.Opacity);
+            var sign = BadgesOf(view, layer).GetVisualDescendants().OfType<Border>().Single(border => border.Name == "MissingSign");
 
-            // A row higher up counts every hidden row under it: the layer and its two entities.
-            Hide(layer);
-            composition.IsExpanded = false;
-            Settle();
-            Assert.Equal(3, composition.HiddenCount);
-            Assert.Equal("3 hidden", HiddenCountOf(BadgesOf(view, composition)).Text);
-
-            ((CMiX.Core.Prefabs.IPrefab)layer.Item!).PrefabService.Visibility.Value = false;
-            Settle();
-            Assert.Equal("2 hidden", HiddenCountOf(BadgesOf(view, composition)).Text);
-        }
-
-        [AvaloniaFact]
-        public void Hide_AnEmptyHiddenGroup_ShowsTheCountOnTheCollapsedRow()
-        {
-            var (view, _, _, empty) = Show();
-            var cameras = empty.Children.Single(child => child.Group is CamerasGroup);
-
-            cameras.Group!.Manager.Hidden.Value = true;
-            empty.IsExpanded = false;
-            Settle();
-
-            var badges = BadgesOf(view, empty);
-            Assert.True(badges.IsEffectivelyVisible);
-            Assert.Empty(SquaresOf(badges));
-            Assert.Equal("1 hidden", HiddenCountOf(badges).Text);
+            Assert.False(layer.HasMissingAssets);
+            Assert.False(sign.IsEffectivelyVisible);
         }
 
         [AvaloniaFact]

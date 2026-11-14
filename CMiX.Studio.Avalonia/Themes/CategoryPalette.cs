@@ -49,23 +49,21 @@ namespace CMiX.Studio.Avalonia.Themes
     {
         // The strength of the fill behind a row over the background, from 0 (the background) to 1 (the color of the kind). A row deeper in
         // the tree by a change of kind has the strength of the level above times LevelFactor, down to a floor for each state, so a deep
-        // row is still a color. A hovered row and a selected row are stronger than a row at rest. The selected strength keeps a white
-        // text above a contrast of 4.5 on every kind.
-        public const double FillStrength = 0.24;
-        public const double FillHoverStrength = 0.30;
-        public const double FillSelectedStrength = 0.40;
+        // row is still a color. A hovered row is a step stronger than a row at rest. A selected row is the color of its kind at 0.55 (at
+        // every depth), with white text and a white icon: the coloured row is the chosen one.
+        public const double FillStrength = 0.18;
+        public const double FillHoverStrength = 0.32;
+        public const double FillSelectedStrength = 0.55;
         public const double LevelFactor = 0.8;
-        public const double FillFloor = 0.12;
-        public const double FillHoverFloor = 0.16;
-        public const double FillSelectedFloor = 0.30;
+        public const double FillFloor = 0.09;
+        public const double FillHoverFloor = 0.32;
+        public const double FillSelectedFloor = 0.55;
 
         // The strength of the color of a count square over the background, from 0 (the background) to 1 (the color of the kind).
         public const double KindStrength = 0.60;
         public const double KindHoverStrength = 0.85;
         public const double KindSelectedStrength = 1.0;
 
-        // A composable inside a composable has one more color for each level, up to this level.
-        public const int LastComposableLevel = 3;
 
         private readonly Func<string, Color> colorOf;
         private readonly Color background;
@@ -87,14 +85,14 @@ namespace CMiX.Studio.Avalonia.Themes
             return new CategoryPalette(Find, Find("TreeBackground"));
         }
 
-        // The name of the color of a kind in the theme. The depth is the number of composables around a composable.
-        public static string ColorKey(TreeCategory category, int depth = 0)
-        {
-            if (category != TreeCategory.Composable || depth <= 0)
-                return "Category" + category;
+        // The name of the color of a kind in the theme. The depth is the number of composables around a composable: the composables
+        // alternate between two hues by depth, so a parent and its child never share one.
+        // A composable takes its hue from a wheel of this many, by its depth of nesting: a container and the containers in it never share one.
+        public const int WheelSize = 6;
 
-            return "CategoryComposableLevel" + Math.Min(depth, LastComposableLevel);
-        }
+        public static string ColorKey(TreeCategory category, int depth = 0) =>
+            category == TreeCategory.Composable ? "CategoryComposable" + depth % WheelSize : "Category" + category;
+
 
         // The tone of a row. The composable depth is the number of composables around it (the hue of a composable). The kind depth is the
         // number of changes of kind above it (the brightness): a group and its items have the same kind depth.

@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
             CategoryPalette.FromApplication().For(node.Category!.Value, node.ComposableDepth, node.KindDepth);
 
         [AvaloniaFact]
-        public void BeginDrag_ANode_BrightensTheTargetsAndCoversTheOtherRows()
+        public void BeginDrag_ANode_KeepsEveryFillAndCoversTheRowsThatTakeNothing()
         {
             var (view, tree) = Show();
             var source = FirstEntity(tree);
@@ -65,13 +65,13 @@ namespace CMiX.Studio.Avalonia.Tests
 
             foreach (var node in All(tree.Roots))
             {
-                Assert.Equal(ExpectedFill(node, node.IsDropCandidate ? ToneRole.FillHover : ToneRole.Fill), FillOf(view, node));
+                Assert.Equal(ExpectedFill(node, ToneRole.Fill), FillOf(view, node));
                 Assert.Equal(node.IsDimmed, Part(view, node, "DimLayer").Classes.Contains("dimmed"));
             }
 
             Assert.True(All(tree.Roots).Any(node => node.IsDropCandidate));
             Assert.True(All(tree.Roots).Any(node => node.IsDimmed));
-            Assert.False(Part(view, source, "DimLayer").Classes.Contains("dimmed"));
+            Assert.True(Part(view, source, "DimLayer").Classes.Contains("dimmed"));
         }
 
         [AvaloniaFact]
@@ -120,36 +120,34 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.True(composition.IsDropHint);
             Assert.False(Part(view, composition, "DimLayer").Classes.Contains("dimmed"));
+            Assert.Contains("drophint", Part(view, composition, "DimLayer").Classes);
+            Assert.Equal(0.3, (double)view.FindResource("TreeHintCoverOpacity")!);
             Assert.Equal(ToneOf(composition).Fill, FillOf(view, composition));
         }
 
-        // A modifier of an entity: a layer cannot hold it, so the layer rows are blocked.
+        // A modifier of an entity: a layer cannot hold it, so the layer rows are blocked. They are covered like any row that takes nothing.
         [AvaloniaFact]
-        public void BlockedRow_DuringADrag_HasTheBlockedBorder()
+        public void BlockedRow_DuringADrag_IsCoveredAndKeepsItsReasonForTheTooltip()
         {
             var (view, tree) = Show();
             ((Entity)FirstEntity(tree).Item!).ModifierManager.AddItem(typeof(CMiX.Core.Modulation.Modifiers.TranslateModifier));
             Settle();
             var modifier = FirstEntity(tree).Children.Single(child => child.Group is ModifiersGroup).Children[0];
             var layer = tree.CompositionNodes()[0].Children[0].Children[1];
-            Assert.False(Part(view, layer, "BlockedFrame").IsEffectivelyVisible);
+            Assert.False(Part(view, layer, "DimLayer").Classes.Contains("dimmed"));
 
             tree.BeginDrag(modifier);
             Settle();
-            var frame = Part(view, layer, "BlockedFrame");
 
             Assert.True(layer.IsDropBlocked);
-            Assert.True(frame.IsEffectivelyVisible);
-            Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("WarningMutedBrush")!).Color, ((ISolidColorBrush)frame.BorderBrush!).Color);
-            Assert.Equal((Thickness)view.FindResource("TreeSelectionThickness")!, frame.BorderThickness);
-            Assert.True(frame.BorderThickness.Top > 0);
-            Assert.False(frame.IsHitTestVisible);
+            Assert.NotNull(layer.DropBlockReason);
             Assert.Equal(ToneOf(layer).Fill, FillOf(view, layer));
-            Assert.False(Part(view, layer, "DimLayer").Classes.Contains("dimmed"));
+            Assert.True(Part(view, layer, "DimLayer").Classes.Contains("dimmed"));
+            Assert.DoesNotContain(ItemOf(view, layer).GetVisualDescendants().OfType<Border>(), border => border.Name == "BlockedFrame");
 
             tree.EndDrag();
             Settle();
-            Assert.False(Part(view, layer, "BlockedFrame").IsEffectivelyVisible);
+            Assert.False(Part(view, layer, "DimLayer").Classes.Contains("dimmed"));
         }
 
         [AvaloniaFact]
@@ -203,9 +201,9 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Single(lists.Item2.TextureModifierManager.ManagerData.Items);
         }
 
-        // A drop inside a row shows an accent frame of CursorFrameThickness inside the row. The fill stays the fill of a row that takes the node.
+        // A drop inside a row shows the cursor frame of TreeSelectionThickness inside the row. The fill stays the fill at rest.
         [AvaloniaFact]
-        public void DragOver_InsideARow_GivesItTheAccentFrameAndKeepsTheFill()
+        public void DragOver_InsideARow_GivesItTheCursorFrameAndKeepsTheFill()
         {
             var (view, tree) = Show();
             var firstLayer = tree.CompositionNodes()[0].Children[0].Children[0];
@@ -222,17 +220,17 @@ namespace CMiX.Studio.Avalonia.Tests
             var frame = Part(view, target, "DropInsideFrame");
             var row = Part(view, target, "RowBorder");
             Assert.True(frame.IsEffectivelyVisible);
-            Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("AccentBrush")!).Color, ((ISolidColorBrush)frame.BorderBrush!).Color);
-            Assert.Equal((Thickness)Application.Current!.FindResource("CursorFrameThickness")!, frame.BorderThickness);
+            Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("CursorFrameBrush")!).Color, ((ISolidColorBrush)frame.BorderBrush!).Color);
+            Assert.Equal((Thickness)view.FindResource("TreeSelectionThickness")!, frame.BorderThickness);
             Assert.Equal(row.Bounds.Size, frame.Bounds.Size);
             Assert.False(frame.IsHitTestVisible);
-            Assert.Equal(ExpectedFill(target, ToneRole.FillHover), FillOf(view, target));
+            Assert.Equal(ExpectedFill(target, ToneRole.Fill), FillOf(view, target));
             TreeDrag.Cancel(window!, point);
         }
 
         // The cursor frame never hides the drop frame: the drop frame is drawn after it and is not thinner.
         [AvaloniaFact]
-        public void DragOver_InsideTheCursorRow_DrawsTheAccentFrameOverTheCursorFrame()
+        public void DragOver_InsideTheCursorRow_DrawsTheAccentFrameAboveTheHiddenCursorFrame()
         {
             var (view, tree) = Show();
             var firstLayer = tree.CompositionNodes()[0].Children[0].Children[0];
@@ -246,7 +244,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle();
 
             Assert.Contains(":droptarget", ItemOf(view, target).Classes);
-            Assert.True(Part(view, target, "CursorFrame").IsVisible);
             var drop = Part(view, target, "DropInsideFrame");
             var cursor = Part(view, target, "CursorFrame");
             var layers = ((Panel)drop.GetVisualParent()!).Children;

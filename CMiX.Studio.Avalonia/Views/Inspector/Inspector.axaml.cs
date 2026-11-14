@@ -6,7 +6,7 @@ using Avalonia.Controls.Presenters;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The editor of the item that is selected in the project tree. The DataContext is the ProjectTree.
+    // The editor of the node the project tree sends to the inspector (ProjectTree.InspectedNode). The DataContext is the ProjectTree.
     public partial class Inspector : UserControl
     {
         public Inspector()

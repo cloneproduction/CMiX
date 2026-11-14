@@ -56,9 +56,13 @@ namespace CMiX.Studio.Avalonia.Views
             var (_, snappedGap) = SnapToPixels(height, RowGap, scale);
             resources["TreeRowGap"] = snappedGap;
 
-            // The drop line in the space under a row starts at the end of the row and at the start of the colored row (TreeIndent).
-            var indent = Convert.ToDouble(Application.Current!.FindResource("TreeIndent"));
-            resources["TreeDropLineGapMargin"] = new Thickness(indent, snappedHeight, 0, 0);
+            // The drop line is one pixel of the screen, from the left edge of the tree to its right edge, in the middle of the space under a
+            // row (dropgap), or in the middle of the space above the first row (droptop): the same room above and below it.
+            var line = 1 / scale;
+            var free = (snappedGap - line) / 2;
+            resources["TreeDropLineThickness"] = line;
+            resources["TreeDropLineGapMargin"] = new Thickness(0, snappedHeight + free, 0, 0);
+            resources["TreeDropLineTopMargin"] = new Thickness(0, -(free + line), 0, 0);
 
             // The frame of a blocked row (BlockedFrame) is one pixel of the screen, so it is as thin on a screen of 150% as on a screen of 100%.
             resources["TreeSelectionThickness"] = new Thickness(1 / scale);

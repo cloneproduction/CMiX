@@ -229,7 +229,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var texts = setup.Panel.List.VisibleTexts;
             var row = setup.Panel.List.RowVisuals.Where((visual, index) => !visual.Classes.Contains("header") && texts[index] == "Entity").First();
             var square = ((StackPanel)row.Child!).Children.OfType<Border>().Single();
-            var entity = (Color)Application.Current!.FindResource("CategoryEntity")!;
+            var entity = CMiX.Studio.Avalonia.Themes.CategoryPalette.FromApplication().For(CMiX.Studio.Avalonia.ViewModels.Tree.TreeCategory.Entity).Kind;
             Assert.Empty(((StackPanel)row.Child!).Children.OfType<CMiX.UI.Controls.AppIcon>());
             Assert.Equal(entity, ((ISolidColorBrush)square.Background!).Color);
         }

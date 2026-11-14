@@ -11,16 +11,17 @@
          whole pixels of the screen (see ProjectTreeView), so the rows are always one same pitch apart.
          It has a fill in the color of its kind (see CategoryPalette), one step brighter when the pointer is over the row itself
          (not over its children), and one more step when it is selected. A child is indented by its level.
-         Each look has one meaning: the fill shows the selection, a frame shows the cursor, the accent shows a drop.
-         TreeDropMark sets the classes droptarget, dropgap and droptop.
-         The classes dropgap and droptop show the place of a drag between rows. The class droptarget shows the row
-         that takes a drop inside it: an accent frame, with no change of the fill. The class dropblocked shows a row that takes the
-         kind of the dragged node but refuses it by a rule: a thin frame, and the reason in the tooltip. The marks are drawn
-         over the row and take no room, so the rows never move during a drag. -->
+         Each look has one meaning: the fill shows the selection, a frame shows the cursor, white marks show a drop.
+         During a drag a row has one of three looks: lit (it can take the node), covered (it can not: the source and a row that refuses
+         it by a rule too, with the reason in the tooltip), or half covered (a collapsed row with a row deeper that can take it, so the
+         user goes in). TreeDropMark sets the classes droptarget, dropgap and droptop: the white frame of the row that takes the drop
+         inside it, and the white line between rows. The marks are drawn over the row and take no room, so the rows never move. -->
     <converters:MarginMultiplierConverter x:Key="TreeLevelIndent" Indent="{StaticResource TreeIndent}" Left="True" />
 
     <!-- The tones of a row: the fill behind it and the colors of its count squares, by the kind of the row (see CategoryPalette). -->
     <StudioConverters:TreeToneConverter x:Key="TreeTone" />
+    <!-- The brush of the icon of a row: white when selected, the colour of the kind on the cursor row, the text colour otherwise. -->
+    <StudioConverters:KindIconBrushConverter x:Key="KindIconBrush" />
 
     <!-- The cover of a row: the dim of a drag, or the dim of the search while no drag runs (see TreeCoverConverter). -->
     <StudioConverters:TreeCoverConverter x:Key="TreeCover" />
@@ -30,6 +31,8 @@
 
     <!-- How much of the cover stays over a row that can not take a dragged node. -->
     <x:Double x:Key="TreeDimOpacity">0.6</x:Double>
+    <!-- The cover of a collapsed row with a possible target deeper: half, so the row reads as "not here, but look inside". -->
+    <x:Double x:Key="TreeHintCoverOpacity">0.3</x:Double>
 
     <ControlTheme x:Key="TreeChevronToggle" TargetType="ToggleButton">
         <Setter Property="Width" Value="{DynamicResource TreeIndent}" />
@@ -44,7 +47,7 @@
                         VerticalAlignment="Center"
                         Data="M 0 0 L 4 4 L 0 8"
                         RenderTransformOrigin="40%,50%"
-                        Stroke="{DynamicResource ForegroundBrush}"
+                        Stroke="{TemplateBinding Foreground}"
                         StrokeThickness="1.5" />
                 </Border>
             </ControlTemplate>
@@ -59,6 +62,8 @@
         <Setter Property="FocusAdorner" Value="{x:Null}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="0" />
+        <!-- The tooltips of a row (badges, toggles, the sign of a missing asset) take the colour of the row at the strength of a hover. -->
+        <Setter Property="ui:ToolTipCard.Fill" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=FillHover}" />
         <!-- The cursor row of the model gets the class cursor, which shows CursorFrame and the shadow of the row. -->
         <Setter Property="ui:CursorRow.IsCursor" Value="{Binding IsCursor}" />
         <Setter Property="ZIndex">
@@ -93,12 +98,9 @@
                         Name="RowBorder"
                         Grid.Column="1"
                         Height="{DynamicResource TreeRowHeight}"
-                        Classes.candidate="{Binding IsDropCandidate}"
                         Classes.group="{Binding Item, Converter={x:Static ObjectConverters.IsNull}}"
-                        Classes.dragsource="{Binding IsDragSource}"
-                        Classes.dropblocked="{Binding IsDropBlocked}"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
-                        TextElement.Foreground="{DynamicResource ForegroundBrush}"
+                        TextElement.Foreground="{DynamicResource TreeTextRestBrush}"
                         ToolTip.Tip="{Binding DropBlockReason}">
                         <Panel>
                             <!-- The header has no part names that TreeViewItem knows (PART_Header, PART_HeaderPresenter):
@@ -119,10 +121,11 @@
                             </Grid>
                             <!-- The marks of a drag over the rows, drawn over the row: they take no room and no click. A row that can not take
                                  the node is covered with the background of the tree, so it recedes. A row that can take it has a
-                                 brighter fill (the class candidate, see the styles below), and no border. While no drag runs, a row that
+                                 fill with no cover, and no border. While no drag runs, a row that
                                  does not match the search is covered in the same way, so only the matches keep their color. -->
                             <Border
                                 Name="DimLayer"
+                                Classes.drophint="{Binding IsDropHint}"
                                 Background="{DynamicResource TreeBackgroundBrush}"
                                 CornerRadius="{DynamicResource CornerRadiusAll}"
                                 IsHitTestVisible="False"
@@ -144,18 +147,11 @@
                             <!-- The frame of the cursor row (the class cursor, see CursorRow), the same as in the lists. The arrow keys move it.
                                  Enter or a click selects the row. The selected row has no frame: its fill shows the selection. -->
                             <Border Name="CursorFrame" Theme="{DynamicResource CursorFrame}" />
-                            <!-- The frame of a row that refuses the dragged node (the class dropblocked). It is drawn over the row, inside it. -->
-                            <Border
-                                Name="BlockedFrame"
-                                BorderBrush="{DynamicResource WarningMutedBrush}"
-                                CornerRadius="{DynamicResource CornerRadiusAll}"
-                                IsHitTestVisible="False"
-                                IsVisible="False" />
-                            <!-- The frame of the row that takes a drop inside it (:droptarget). It is drawn over CursorFrame, so the cursor never hides it.
+                            <!-- The frame of the row that takes a drop inside it (:droptarget). It has the look of the white frame of the cursor on the selected row (CursorFrameBrush, one pixel of the screen). It is drawn over CursorFrame, so the cursor never hides it.
                                  The style sets the thickness, so the hidden frame has none. -->
                             <Border
                                 Name="DropInsideFrame"
-                                BorderBrush="{DynamicResource AccentBrush}"
+                                BorderBrush="{DynamicResource CursorFrameBrush}"
                                 CornerRadius="{DynamicResource CornerRadiusAll}"
                                 IsHitTestVisible="False"
                                 IsVisible="False" />
@@ -167,14 +163,6 @@
                          part of the item too, and it fills this space. -->
                     <Border Name="GapUnderTheRow" Height="{DynamicResource TreeRowGap}" />
                     </StackPanel>
-                    <!-- A line in the middle of each indent step, through the row and the space under it, so the lines of the rows join.
-                         The lines take no room and no click (see TreeIndentGuides). -->
-                    <Views:TreeIndentGuides
-                        Name="IndentGuides"
-                        Level="{TemplateBinding Level}"
-                        Indent="{DynamicResource TreeIndent}"
-                        Brush="{DynamicResource IndentGuideBrush}"
-                        ActiveBrush="{DynamicResource IndentGuideActiveBrush}" />
                     </Panel>
                     <!-- The same animation as the expanders. The panel owns the IsVisible of the presenter. -->
                     <ui:CollapsePanel Name="PART_Collapse" IsExpanded="{TemplateBinding IsExpanded}">
@@ -188,15 +176,13 @@
                 <!-- The line starts where the colored row starts: after the indent of the row and its chevron (TreeIndent). It is inside the item:
                      at its top for a drop before the row, and at its bottom for a drop after it. An item cuts what is drawn outside it,
                      so a line in the space between two rows would not be seen. -->
-                <Panel
-                    Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource TreeLevelIndent}}"
-                    IsHitTestVisible="False">
+                <Panel IsHitTestVisible="False">
                     <Border
                         Name="DropLine"
-                        Height="{DynamicResource SplitterIndicatorSize}"
-                        Margin="{DynamicResource TreeIndentMargin}"
+                        Height="{DynamicResource TreeDropLineThickness}"
+                        Margin="{DynamicResource TreeDropLineTopMargin}"
                         VerticalAlignment="Top"
-                        Background="{DynamicResource AccentBrush}"
+                        Background="{DynamicResource CursorFrameBrush}"
                         IsHitTestVisible="False"
                         IsVisible="False" />
                 </Panel>
@@ -208,14 +194,6 @@
              A row with no fill would not take the pointer, so a row of an unknown kind has a clear fill. -->
         <Style Selector="^ /template/ Border#RowBorder">
             <Setter Property="Background" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=Fill}" />
-        </Style>
-        <!-- The row that is dragged stays in its place, faded: the copy of it follows the pointer (see TreeDragGhost). -->
-        <Style Selector="^ /template/ Border#RowBorder.dragsource">
-            <Setter Property="Opacity" Value="{DynamicResource OpacityDragSource}" />
-        </Style>
-        <!-- A row that can take the node that is dragged has the fill of a row under the pointer, so it stands out from the rows that can not. -->
-        <Style Selector="^ /template/ Border#RowBorder.candidate">
-            <Setter Property="Background" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=FillHover}" />
         </Style>
         <!-- The pointer is tested on the row, not on the item: the item also contains its children. A row under the pointer has the hover
              fill. Its text does not change. A selected row keeps the selected fill under the pointer: its style comes after this one. -->
@@ -245,6 +223,10 @@
         <Style Selector="^.cursor /template/ Panel#RowLift">
             <Setter Property="ZIndex" Value="1" />
         </Style>
+        <!-- The text of a row: a step dimmer at rest (TreeTextRest), full white on the cursor row and on the selected row. -->
+        <Style Selector="^.cursor /template/ Border#RowBorder">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
+        </Style>
         <Style Selector="^:selected /template/ Border#RowBorder">
             <Setter Property="Background" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=FillSelected}" />
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
@@ -252,7 +234,7 @@
         <!-- The row that takes the node or the files that are dragged over it, inside it: an accent frame inside the row. The fill does not change. -->
         <Style Selector="^:droptarget /template/ Border#DropInsideFrame">
             <Setter Property="IsVisible" Value="True" />
-            <Setter Property="BorderThickness" Value="{DynamicResource CursorFrameThickness}" />
+            <Setter Property="BorderThickness" Value="{DynamicResource TreeSelectionThickness}" />
         </Style>
         <!-- A group row (a row with no item, such as Entities) with no children has a grey fill, not the tone of its kind. An item row,
              such as a modulator, keeps the tone of its kind, also with no children. The styles come after the tone styles, so they
@@ -260,9 +242,6 @@
              loses its last one. -->
         <Style Selector="^:empty /template/ Border#RowBorder.group">
             <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
-        </Style>
-        <Style Selector="^:empty /template/ Border#RowBorder.group.candidate">
-            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
         </Style>
         <Style Selector="^:empty /template/ Border#RowBorder.group:pointerover">
             <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
@@ -273,10 +252,20 @@
         <Style Selector="^ /template/ Border#DimLayer.dimmed">
             <Setter Property="Opacity" Value="{DynamicResource TreeDimOpacity}" />
         </Style>
-        <!-- A row that refuses the dragged node keeps its fill and shows a thin frame in a muted warning tone. -->
-        <Style Selector="^ /template/ Border#RowBorder.dropblocked Border#BlockedFrame">
-            <Setter Property="IsVisible" Value="True" />
-            <Setter Property="BorderThickness" Value="{DynamicResource TreeSelectionThickness}" />
+        <!-- The half cover of a collapsed row with a possible target deeper (the class drophint, see TreeNode.IsDropHint). -->
+        <Style Selector="^ /template/ Border#DimLayer.drophint">
+            <Setter Property="Opacity" Value="{DynamicResource TreeHintCoverOpacity}" />
+        </Style>
+        <!-- The chevron is grey (the Foreground of the toggle, see TreeChevronToggle). On the cursor row it takes the colour of the text,
+             on a selected row the active text colour. -->
+        <Style Selector="^ /template/ ToggleButton#PART_ExpandCollapseChevron">
+            <Setter Property="Foreground" Value="{DynamicResource Grey800Brush}" />
+        </Style>
+        <Style Selector="^.cursor /template/ ToggleButton#PART_ExpandCollapseChevron">
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        </Style>
+        <Style Selector="^:selected /template/ ToggleButton#PART_ExpandCollapseChevron">
+            <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
         </Style>
         <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
             <!-- The chevron keeps its room: it holds the indent of the row, so an empty row stays aligned with the rows around it. -->
@@ -292,7 +281,6 @@
              exactly in the middle between the two rows. The first row of the tree has no row above it: the line is at its top. -->
         <Style Selector="^:dropgap /template/ Border#DropLine">
             <Setter Property="IsVisible" Value="True" />
-            <Setter Property="Height" Value="{DynamicResource TreeRowGap}" />
             <Setter Property="Margin" Value="{DynamicResource TreeDropLineGapMargin}" />
         </Style>
         <Style Selector="^:droptop /template/ Border#DropLine">

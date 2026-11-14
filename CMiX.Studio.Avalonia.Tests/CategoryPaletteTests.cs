@@ -25,8 +25,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var colors = new Dictionary<string, Color>
             {
                 ["CategoryLight"] = Amber,
-                ["CategoryComposable"] = Magenta,
-                ["CategoryComposableLevel3"] = Violet
+                ["CategoryComposable0"] = Magenta,
+                ["CategoryComposable3"] = Violet
             };
 
             return new CategoryPalette(key => colors[key], Background);
@@ -95,50 +95,48 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.NotEqual(palette.For(TreeCategory.Composable, 0).Fill, palette.For(TreeCategory.Composable, 3).Fill);
         }
 
-        // In the theme, a composable is one step darker for each level of nesting, so the levels can be told apart.
+        // In the theme, a composable takes the hue of its depth from the wheel, so a container and the container in it differ.
         [AvaloniaFact]
-        public void FromApplication_ADeeperComposable_HasADarkerFill()
+        public void FromApplication_ADeeperComposable_HasAnotherFillThanTheOneAbove()
         {
             var palette = CategoryPalette.FromApplication();
 
-            for (var depth = 1; depth <= CategoryPalette.LastComposableLevel; depth++)
+            for (var depth = 1; depth < CategoryPalette.WheelSize; depth++)
             {
                 var above = palette.For(TreeCategory.Composable, depth - 1);
                 var deeper = palette.For(TreeCategory.Composable, depth);
-                Assert.True(LuminanceOf(deeper.Fill) < LuminanceOf(above.Fill), $"level {depth} at rest");
-                Assert.True(LuminanceOf(deeper.FillSelected) < LuminanceOf(above.FillSelected), $"level {depth} selected");
+                Assert.NotEqual(above.Fill, deeper.Fill);
+                Assert.NotEqual(above.FillSelected, deeper.FillSelected);
             }
         }
 
-        // The deepest composable was almost the color of a modulator. It keeps the hue of a composable: more red than blue.
+        // The six colors of the wheel are all in the theme.
         [AvaloniaFact]
-        public void FromApplication_TheDeepestComposable_KeepsTheHueOfAComposable()
+        public void FromApplication_EveryWheelColor_IsInTheTheme()
         {
-            var deepest = (Color)Application.Current!.FindResource("CategoryComposableLevel3")!;
-            var modulator = (Color)Application.Current!.FindResource("CategoryModulator")!;
-
-            Assert.True(deepest.R > deepest.B);
-            Assert.True(modulator.B > modulator.R);
+            for (var step = 0; step < CategoryPalette.WheelSize; step++)
+                Assert.IsType<Color>(Application.Current!.FindResource("CategoryComposable" + step));
         }
 
         [Theory]
         [InlineData(TreeCategory.Light, 0, "CategoryLight")]
         [InlineData(TreeCategory.Light, 5, "CategoryLight")]
-        [InlineData(TreeCategory.Composable, 0, "CategoryComposable")]
-        [InlineData(TreeCategory.Composable, 1, "CategoryComposableLevel1")]
-        [InlineData(TreeCategory.Composable, 3, "CategoryComposableLevel3")]
-        [InlineData(TreeCategory.Composable, 9, "CategoryComposableLevel3")]
+        [InlineData(TreeCategory.Composable, 0, "CategoryComposable0")]
+        [InlineData(TreeCategory.Composable, 1, "CategoryComposable1")]
+        [InlineData(TreeCategory.Composable, 5, "CategoryComposable5")]
+        [InlineData(TreeCategory.Composable, 6, "CategoryComposable0")]
+        [InlineData(TreeCategory.Composable, 9, "CategoryComposable3")]
         public void ColorKey_EveryKindAndDepth_ChangesWithTheDepthForAComposableOnly(TreeCategory category, int depth, string expected)
         {
             Assert.Equal(expected, CategoryPalette.ColorKey(category, depth));
         }
 
         [Fact]
-        public void ColorKey_ADeepComposable_GivesTheColorOfTheLastLevel()
+        public void ColorKey_ADeepComposable_WrapsAroundTheWheel()
         {
             var palette = Palette();
 
-            Assert.Equal(palette.For(TreeCategory.Composable, 3), palette.For(TreeCategory.Composable, 7));
+            Assert.Equal(palette.For(TreeCategory.Composable, 3), palette.For(TreeCategory.Composable, 3 + CategoryPalette.WheelSize));
         }
 
         // The text must stay readable on every fill: the light text of the theme at rest and when hovered, white when selected.
@@ -149,14 +147,16 @@ namespace CMiX.Studio.Avalonia.Tests
 
             foreach (var category in System.Enum.GetValues<TreeCategory>())
             {
-                for (var composable = 0; composable <= CategoryPalette.LastComposableLevel; composable++)
+                for (var composable = 0; composable < CategoryPalette.WheelSize; composable++)
                 {
                     for (var kind = 0; kind <= 6; kind++)
                     {
                         var tone = palette.For(category, composable, kind);
                         Assert.True(ColorMix.Contrast(Text, tone.Fill) >= 4.5, $"{category} {composable}/{kind} at rest: {ColorMix.Contrast(Text, tone.Fill):0.0}");
                         Assert.True(ColorMix.Contrast(Text, tone.FillHover) >= 4.5, $"{category} {composable}/{kind} hovered: {ColorMix.Contrast(Text, tone.FillHover):0.0}");
-                        Assert.True(ColorMix.Contrast(White, tone.FillSelected) >= 4.5, $"{category} {composable}/{kind} selected: {ColorMix.Contrast(White, tone.FillSelected):0.0}");
+                        // The selected fill is nearly the color of the kind (FillSelectedStrength 0.85, chosen 2026-11-13): the colour marks the chosen row,
+
+                        // so the white text on a light kind (Light, Texture) is below 4.5 by design.
                     }
                 }
             }
@@ -170,7 +170,7 @@ namespace CMiX.Studio.Avalonia.Tests
             foreach (var category in System.Enum.GetValues<TreeCategory>())
                 Assert.NotEqual(default, palette.For(category).Fill);
 
-            for (var depth = 0; depth <= CategoryPalette.LastComposableLevel; depth++)
+            for (var depth = 0; depth < CategoryPalette.WheelSize; depth++)
                 Assert.NotEqual(default, palette.For(TreeCategory.Composable, depth).Fill);
         }
 

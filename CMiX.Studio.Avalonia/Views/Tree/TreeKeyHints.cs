@@ -80,6 +80,7 @@ namespace CMiX.Studio.Avalonia.Views
                     KeyHint.Of("open", shortcuts["Tree.Expand"]),
                     KeyHint.Of("menu", shortcuts["Tree.Menu"]),
                     KeyHint.Of("add", shortcuts["Tree.Add"]),
+                    KeyHint.Of("inspect", shortcuts["Tree.Inspect"]),
                     KeyHint.Of("undo", shortcuts["Edit.Undo"])
                 }
             };

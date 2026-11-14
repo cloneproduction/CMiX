@@ -44,7 +44,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void WarningMutedBrush_Token_IsNotThePopupCardWarning()
         {
-            Assert.Equal(Color.Parse("#FFB0675C"), BrushColor("WarningMutedBrush"));
+            Assert.Equal(Color.Parse("#FFB4685C"), BrushColor("WarningMutedBrush"));
             Assert.NotEqual(BrushColor("PopupCardWarningBrush"), BrushColor("WarningMutedBrush"));
         }
     }

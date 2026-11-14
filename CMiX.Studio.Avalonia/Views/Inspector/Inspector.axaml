@@ -36,34 +36,34 @@
             Name="header"
             Height="{DynamicResource ControlHeightXL}"
             Padding="8,0"
-            Background="{Binding SelectedNode, Converter={StaticResource TreeTone}, ConverterParameter=FillSelected}"
+            Background="{Binding InspectedNode, Converter={StaticResource TreeTone}, ConverterParameter=FillSelected}"
             DockPanel.Dock="Top"
-            IsVisible="{Binding SelectedNode, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}">
+            IsVisible="{Binding InspectedNode, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}">
             <!-- The badge, the name, and at the right end the toggles of the item (see ComposableToggles).
                  The name of an item can be edited here, as in the tree. A group has a name that can not be changed, and no toggle. -->
             <Grid VerticalAlignment="Center" ColumnDefinitions="Auto,*,Auto">
                 <Views:CategoryBadge
                     Grid.Column="0"
                     Margin="0,0,8,0"
-                    DataContext="{Binding SelectedNode}" />
+                    DataContext="{Binding InspectedNode}" />
 
                 <Panel Grid.Column="1" VerticalAlignment="Center">
                     <ui:TextBoxEditable
                         Name="nameEditor"
-                        Text="{Binding SelectedNode.Item.PrefabService.Name.Value, Mode=TwoWay}"
-                        IsVisible="{Binding SelectedNode.Item, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        Text="{Binding InspectedNode.Item.PrefabService.Name.Value, Mode=TwoWay}"
+                        IsVisible="{Binding InspectedNode.Item, Converter={x:Static ObjectConverters.IsNotNull}}" />
                     <TextBlock
                         Name="title"
                         VerticalAlignment="Center"
-                        Text="{Binding SelectedNode.Header}"
-                        IsVisible="{Binding SelectedNode.Item, Converter={x:Static ObjectConverters.IsNull}}" />
+                        Text="{Binding InspectedNode.Header}"
+                        IsVisible="{Binding InspectedNode.Item, Converter={x:Static ObjectConverters.IsNull}}" />
                 </Panel>
 
                 <Views:ComposableToggles
                     Name="headerToggles"
                     Grid.Column="2"
                     VerticalAlignment="Center"
-                    DataContext="{Binding SelectedNode.Item}"
+                    DataContext="{Binding InspectedNode.Item}"
                     IsVisible="{Binding $self.DataContext, Converter={x:Static ObjectConverters.IsNotNull}}" />
             </Grid>
         </Border>
@@ -75,18 +75,18 @@
             VerticalAlignment="Top"
             Opacity="0.5"
             Text="Select an item in the tree"
-            IsVisible="{Binding SelectedNode.InspectorContent, Converter={x:Static ObjectConverters.IsNull}, FallbackValue=True}" />
+            IsVisible="{Binding InspectedNode.InspectorContent, Converter={x:Static ObjectConverters.IsNull}, FallbackValue=True}" />
 
         <ScrollViewer
             Name="scroller"
             Theme="{DynamicResource ScrollViewerOverlay}"
-            IsVisible="{Binding SelectedNode.InspectorContent, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}">
+            IsVisible="{Binding InspectedNode.InspectorContent, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}">
 
             <i:Interaction.Behaviors>
                 <ui:ScrollViewerBehavior />
             </i:Interaction.Behaviors>
 
-            <ContentControl Name="editor" Content="{Binding SelectedNode.InspectorContent}">
+            <ContentControl Name="editor" Content="{Binding InspectedNode.InspectorContent}">
                 <ContentControl.DataTemplates>
 
                     <DataTemplate DataType="{x:Type Compositing:Composition}">

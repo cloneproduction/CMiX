@@ -43,21 +43,22 @@ namespace CMiX.Studio.Avalonia.Tests
         private static Color ColorOf(IBrush? brush) => ((ISolidColorBrush)brush!).Color;
 
         [AvaloniaFact]
-        public void Show_TheIconOfEveryRow_IsOpaqueInTheColorOfTheNames()
+        public void Show_TheIconOfEveryRow_IsOpaqueInTheColorOfItsKindAndTheNameIsTheRestText()
         {
             var (view, tree) = Show();
-            var foreground = ColorOf((IBrush)Application.Current!.FindResource("ForegroundBrush")!);
+            var foreground = ColorOf((IBrush)Application.Current!.FindResource("TreeTextRestBrush")!);
             var group = tree.CompositionNodes()[0].Children[0].Children[0].Children[0];
             var name = ItemOf(view, group).GetVisualDescendants().OfType<TextBlock>().First(text => text.Text == group.Header);
 
-            foreach (var node in new[] { tree.CompositionNodes()[0], tree.CompositionNodes()[0].Children[0].Children[0], group })
+            foreach (var node in new[] { tree.CompositionNodes()[0], tree.CompositionNodes()[0].Children[0].Children[0] })
             {
                 var icon = ItemOf(view, node).GetVisualDescendants().OfType<AppIcon>().First();
                 Assert.Equal(1.0, icon.Opacity);
-                Assert.Equal(foreground, ColorOf(icon.Foreground));
+                Assert.Equal((Color)Application.Current!.FindResource(CMiX.Studio.Avalonia.Themes.CategoryPalette.ColorKey(node.Category!.Value, node.ComposableDepth))!, ColorOf(icon.Foreground));
             }
 
-            Assert.Equal(foreground, ColorOf(name.Foreground));
+            var emptyGroup = ColorOf((IBrush)Application.Current!.FindResource("Grey700Brush")!);
+            Assert.Equal(group.Children.Count == 0 ? emptyGroup : foreground, ColorOf(name.Foreground));
         }
     }
 }

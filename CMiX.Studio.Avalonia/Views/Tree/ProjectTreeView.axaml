@@ -11,7 +11,9 @@
     <UserControl.Resources>
         <x:Double x:Key="TreeRowHeight">24</x:Double>
         <x:Double x:Key="TreeRowSpacing">1</x:Double>
-        <Thickness x:Key="TreeDropLineGapMargin">16,24,0,0</Thickness>
+        <x:Double x:Key="TreeDropLineThickness">1</x:Double>
+        <Thickness x:Key="TreeDropLineGapMargin">0,25,0,0</Thickness>
+        <Thickness x:Key="TreeDropLineTopMargin">0,-2,0,0</Thickness>
         <Thickness x:Key="TreeSelectionThickness">1</Thickness>
         <x:Double x:Key="TreeToggleWidth">50</x:Double>
     </UserControl.Resources>
@@ -59,6 +61,7 @@
         RowHeight="{DynamicResource TreeRowHeight}"
         RowSpacing="{DynamicResource TreeRowGap}" />
 
+
     <TreeView
         x:Name="treeView"
         AutoScrollToSelectedItem="False"
@@ -86,33 +89,45 @@
                 <Setter Property="Theme" Value="{StaticResource TreeViewItemCMiX}" />
                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
             </Style>
-            <!-- The frame of the cursor row of the tree is one pixel of the screen, with the focus and without it (TreeSelectionThickness,
-                 see TreeRowMetrics): half a unit on a screen of 200%. The color tells the two states apart. A list keeps the frame of
-                 CursorRow.axaml. The style of the focused tree is named too, so it comes after the one of CursorRow.axaml. -->
+            <!-- The cursor row of the tree is framed in the colour of its kind; the selected row is lifted (TreeRowShadow) (TreeTone KindSelected), with the
+                 focus and without it. The selected row is the coloured row (FillSelected), a greyed row is out of play (DimLayer).
+                 The frame is one pixel of the screen (TreeSelectionThickness, see TreeRowMetrics). A list keeps the frame of CursorRow.axaml;
+                 the focused style is named here too, so it comes after the one of CursorRow.axaml. -->
             <Style Selector="TreeViewItem.cursor /template/ Border#CursorFrame">
                 <Setter Property="BorderThickness" Value="{DynamicResource TreeSelectionThickness}" />
+                <Setter Property="BorderBrush" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=KindSelected}" />
             </Style>
             <Style Selector="TreeView:focus-within TreeViewItem.cursor /template/ Border#CursorFrame">
                 <Setter Property="BorderThickness" Value="{DynamicResource TreeSelectionThickness}" />
+                <Setter Property="BorderBrush" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=KindSelected}" />
             </Style>
-            <!-- The cursor row of the tree looks raised: it has a shadow (DropShadowRow), with the focus and without it.
-                 The item is drawn over the rows around it (see TreeLiftConverter). -->
-            <Style Selector="TreeViewItem.cursor /template/ Border#RowBorder">
-                <Setter Property="Effect" Value="{DynamicResource DropShadowRow}" />
+            <!-- The cursor on the selected row: the frame is white, since the fill is the colour of the kind. -->
+            <Style Selector="TreeViewItem:selected.cursor /template/ Border#CursorFrame">
+                <Setter Property="BorderBrush" Value="{DynamicResource CursorFrameBrush}" />
             </Style>
         </TreeView.Styles>
 
         <TreeView.DataTemplates>
             <TreeDataTemplate DataType="{x:Type Tree:TreeNode}" ItemsSource="{Binding Children}">
 
-                <!-- The row of a list: an icon in the color of the name (the kind shows in the fill of the row) and the name.
+                <!-- The row of a list: an icon (KindIconBrush: white on the selected row and on the cursor row, the colour of the kind otherwise) and the name.
                      The toggles are not here: they are at the right of the colored row (see RowToggles and the theme of the item). -->
                 <DockPanel>
 
                     <ui:AppIcon
+                        Name="KindIcon"
                         Margin="{DynamicResource TreeHeaderMargin}"
                         IconKey="{Binding IconKey}"
-                        Size="{DynamicResource IconSizeXS}" />
+                        Size="{DynamicResource IconSizeXS}">
+                        <ui:AppIcon.Foreground>
+                            <MultiBinding Converter="{StaticResource KindIconBrush}">
+                                <Binding />
+                                <Binding Path="IsCursor" />
+                                <Binding Path="$parent[TreeViewItem].IsSelected" />
+                            <Binding Path="$parent[TreeViewItem].ItemCount" />
+                            </MultiBinding>
+                        </ui:AppIcon.Foreground>
+                    </ui:AppIcon>
 
                     <!-- The last child of the dock panel: the name takes all the room after the icon. A group has a text, an item has
                          a name that can be edited. A collapsed row shows what it holds (KindCountBadges) right after its name. -->
@@ -120,9 +135,17 @@
                         <ui:TextBoxEditable
                             Text="{Binding Item.PrefabService.Name.Value, Mode=TwoWay}"
                             IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNotNull}}">
+                            <ui:TextBoxEditable.Foreground>
+                                <MultiBinding Converter="{StaticResource KindIconBrush}" ConverterParameter="Text">
+                                    <Binding />
+                                    <Binding Path="IsCursor" />
+                                    <Binding Path="$parent[TreeViewItem].IsSelected" />
+                                <Binding Path="$parent[TreeViewItem].ItemCount" />
+                                </MultiBinding>
+                            </ui:TextBoxEditable.Foreground>
                             <ui:TextBoxEditable.Suffix>
                                 <Views:KindCountBadges
-                                    IsVisible="{Binding ShowsKindCounts}"
+                                    IsVisible="{Binding ShowsBadges}"
                                     IsHovered="{Binding $parent[TreeViewItem].IsPointerOver}"
                                     IsSelected="{Binding $parent[TreeViewItem].IsSelected}" />
                             </ui:TextBoxEditable.Suffix>
@@ -135,9 +158,18 @@
                             <TextBlock
                                 Margin="{DynamicResource TreeHeaderMargin}"
                                 VerticalAlignment="Center"
-                                Text="{Binding Header}" />
+                                Text="{Binding Header}">
+                                <TextBlock.Foreground>
+                                    <MultiBinding Converter="{StaticResource KindIconBrush}" ConverterParameter="Text">
+                                        <Binding />
+                                        <Binding Path="IsCursor" />
+                                        <Binding Path="$parent[TreeViewItem].IsSelected" />
+                                    <Binding Path="$parent[TreeViewItem].ItemCount" />
+                                    </MultiBinding>
+                                </TextBlock.Foreground>
+                            </TextBlock>
                             <Views:KindCountBadges
-                                IsVisible="{Binding ShowsKindCounts}"
+                                IsVisible="{Binding ShowsBadges}"
                                 IsHovered="{Binding $parent[TreeViewItem].IsPointerOver}"
                                 IsSelected="{Binding $parent[TreeViewItem].IsSelected}" />
                         </StackPanel>
@@ -149,6 +181,20 @@
         </TreeView.DataTemplates>
 
     </TreeView>
+
+    <!-- The shadow of the selected row (TreeRowShadow): a box shadow in a layer over the rows, so it falls on every row around it,
+         not only on the rows inside its item. It takes no click. -->
+    <Canvas
+        x:Name="rowShadowLayer"
+        ClipToBounds="True"
+        IsHitTestVisible="False">
+        <Border
+            x:Name="rowShadowBox"
+            Background="Transparent"
+            BoxShadow="0 0 32 0 #E6000000"
+            CornerRadius="{DynamicResource CornerRadiusAll}"
+            Opacity="0" />
+    </Canvas>
 
     <!-- The frame of a grab (Tree.Grab): an accent frame around the rows while the grab runs, so the mode shows at the edge of the eye.
          It takes no click. -->

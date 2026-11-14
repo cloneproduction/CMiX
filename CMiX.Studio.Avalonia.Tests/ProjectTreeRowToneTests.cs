@@ -150,7 +150,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (window, view, tree) = Show();
             var first = tree.CompositionNodes()[0].Children[0].Children[0];
             var second = tree.CompositionNodes()[0].Children[0].Children[1];
-            var text = ((ISolidColorBrush)Application.Current!.FindResource("ForegroundBrush")!).Color;
+            var text = ((ISolidColorBrush)Application.Current!.FindResource("TreeTextRestBrush")!).Color;
 
             window.MouseMove(CenterOf(window, RowOf(view, second)));
             Settle(window);

@@ -77,10 +77,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             // The counts are computed once here, and again only when the children change.
             kindCounts = ComputeKindCounts();
             hiddenCount = ComputeHiddenCount();
+            missingCount = ComputeMissingCount();
+            WatchTheAsset();
             Children.CollectionChanged += (_, _) =>
             {
                 RaiseKindCountsChanged();
                 RecountHidden();
+                RecountMissing();
             };
         }
 
@@ -159,6 +162,53 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // A collapsed row shows what it holds, and how many hidden rows it holds. An open row shows it in the rows under it.
         public bool ShowsKindCounts => (HasKindCounts || HasHiddenRows) && !IsExpanded;
 
+        // The sign of a missing asset follows the rule of the kind squares: a collapsed row shows it for the rows under it, an open row
+        // leaves it to them. The missing row itself always shows it, so the sign is seen at every level down to the file.
+        public bool ShowsMissingSign => HasMissingAssets && (IsMissingAsset || !IsExpanded);
+
+        // The badges of a row: the kind squares of a collapsed row, or the sign of a missing asset (see KindCountBadges).
+        public bool ShowsBadges => ShowsKindCounts || ShowsMissingSign;
+
+        // A missing asset: the item is a texture source with a file that is not on disk. A path with no asset counts as missing too.
+        public bool IsMissingAsset =>
+            Item is IAssetTextureSource { AssetSelector: { } selector }
+            && (selector.Asset is { FileExist: false } || (selector.Asset == null && !string.IsNullOrEmpty(selector.FilePath?.Value)));
+
+        // The missing assets on this row and under it. The row above counts them too, so the count bubbles up to the composition.
+        public int MissingCount => missingCount;
+
+        public bool HasMissingAssets => missingCount > 0;
+
+        private int missingCount;
+
+        private int ComputeMissingCount() => (IsMissingAsset ? 1 : 0) + Children.Sum(child => child.MissingCount);
+
+        // Computes the count again. When it changes, the row above computes its count again too.
+        private void RecountMissing()
+        {
+            var count = ComputeMissingCount();
+            if (count == missingCount)
+                return;
+
+            missingCount = count;
+            OnPropertyChanged(nameof(MissingCount));
+            OnPropertyChanged(nameof(HasMissingAssets));
+            OnPropertyChanged(nameof(ShowsMissingSign));
+            OnPropertyChanged(nameof(ShowsBadges));
+            Parent?.RecountMissing();
+        }
+
+        // The asset of a texture source can change or come back: the count follows the selector.
+        private void WatchTheAsset()
+        {
+            if (Item is IAssetTextureSource { AssetSelector: { } selector })
+                selector.PropertyChanged += (_, e) =>
+                {
+                    if (e.PropertyName == nameof(AssetSelector.Asset))
+                        RecountMissing();
+                };
+        }
+
         // The rows under a group change what its parent holds, so the parent tells its own change too.
         private void RaiseKindCountsChanged()
         {
@@ -170,6 +220,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             OnPropertyChanged(nameof(HasMoreKinds));
             OnPropertyChanged(nameof(MoreKindsDescription));
             OnPropertyChanged(nameof(ShowsKindCounts));
+            OnPropertyChanged(nameof(ShowsBadges));
             if (Item == null)
                 Parent?.RaiseKindCountsChanged();
         }
@@ -179,6 +230,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowsKindCounts))]
+        [NotifyPropertyChangedFor(nameof(ShowsMissingSign))]
+        [NotifyPropertyChangedFor(nameof(ShowsBadges))]
         [NotifyPropertyChangedFor(nameof(IsDropHint))]
         [NotifyPropertyChangedFor(nameof(IsDimmed))]
         private bool isExpanded = true;
@@ -190,7 +243,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         [ObservableProperty]
         private bool isCursor;
 
-        // True when the row is above the cursor row. Its indent guide is darker then (see TreeIndentGuides).
+        // True when the row is above the cursor row: it is drawn over the rows around it, with the cursor row (see TreeLiftConverter).
         [ObservableProperty]
         private bool isOnCursorBranch;
 
@@ -215,7 +268,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public string? DropBlockReason { get; private set; }
         public bool IsDropBlocked => DropBlockReason != null;
         public bool IsDropHint => IsDragActive && HasDropTargetBelow && !IsDropCandidate && !IsDropNeighbor && !IsDropBlocked && !IsExpanded;
-        public bool IsDimmed => IsDragActive && !IsDragSource && !IsDropCandidate && !IsDropNeighbor && !IsDropBlocked && !IsDropHint;
+        // Covered during a drag: every row that can not take the node, the source and a row that refuses it by a rule too (the reason
+        // stays in the tooltip). A row that can take it is lit; a collapsed row with a target deeper is half covered (IsDropHint).
+        public bool IsDimmed => IsDragActive && !IsDropCandidate && !IsDropNeighbor && !IsDropHint;
 
         // Tells only the properties whose value changes.
         internal void SetDragState(bool active, bool isSource, bool isCandidate, bool isNeighbor, bool hasTargetBelow, string? blockReason = null)
@@ -464,7 +519,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             {
                 OnPropertyChanged(nameof(HasHiddenRows));
                 OnPropertyChanged(nameof(ShowsKindCounts));
-            }
+                OnPropertyChanged(nameof(ShowsBadges));
+                }
 
             Parent?.RecountHidden();
         }

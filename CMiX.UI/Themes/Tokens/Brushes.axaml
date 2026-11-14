@@ -34,8 +34,6 @@
     <SolidColorBrush x:Key="TreeBackgroundBrush" Color="{DynamicResource TreeBackground}" />
 
     <!-- The indent guides of the project tree: a quiet line at each level, and a stronger line on the branch of the cursor row. -->
-    <SolidColorBrush x:Key="IndentGuideBrush" Color="{DynamicResource Grey400}" />
-    <SolidColorBrush x:Key="IndentGuideActiveBrush" Color="{DynamicResource Grey700}" />
 
 
     <SolidColorBrush x:Key="Grey100Brush" Color="{DynamicResource Grey100}" />
@@ -47,6 +45,7 @@
     <SolidColorBrush x:Key="Grey700Brush" Color="{DynamicResource Grey700}" />
     <SolidColorBrush x:Key="Grey800Brush" Color="{DynamicResource Grey800}" />
     <SolidColorBrush x:Key="Grey900Brush" Color="{DynamicResource Grey900}" />
+    <SolidColorBrush x:Key="TreeTextRestBrush" Color="{DynamicResource TreeTextRest}" />
 
     <!-- The states of the controls. Every theme reads these brushes, so a grey changes in one place.
          Surface controls (buttons, toggles, combo boxes, values, sliders): idle, then one step up under the pointer,

@@ -41,7 +41,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 _ => throw new ArgumentOutOfRangeException(nameof(name)),
             };
             if (panel is Inspector)
-                viewModel.ProjectTree.SelectedNode = viewModel.ProjectTree.CompositionNodes()[0].Children[0].Children[0];
+                viewModel.ProjectTree.Inspect(viewModel.ProjectTree.CompositionNodes()[0].Children[0].Children[0]);
 
             var window = new Window { Content = panel, Width = 300, Height = 60 };
             window.Show();

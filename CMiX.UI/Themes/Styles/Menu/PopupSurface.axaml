@@ -5,6 +5,7 @@
 
     <!-- The one surface of a popup. The outer padding is the room of the shadow. -->
     <ControlTheme x:Key="{x:Type ui:PopupSurface}" TargetType="ui:PopupSurface">
+        <Setter Property="Background" Value="{DynamicResource PopupBackgroundBrush}" />
         <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -16,7 +17,7 @@
                         <Border
                             Name="PART_Surface"
                             MinWidth="{TemplateBinding SurfaceMinWidth}"
-                            Background="{DynamicResource PopupBackgroundBrush}"
+                            Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             Padding="{TemplateBinding Padding}">
                             <ContentPresenter

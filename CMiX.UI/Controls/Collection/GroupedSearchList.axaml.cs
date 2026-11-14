@@ -330,6 +330,13 @@ namespace CMiX.UI.Controls.Collection
                     e.Handled = true;
                     break;
 
+                // Left with no search text leaves the list, as Escape does: a panel that opened at the right of a row of a tree is a leaf of
+                // that tree, and Left goes back to the row (the owner of the panel gives the focus back).
+                case Key.Left when !Searching:
+                    Cancelled?.Invoke(this, EventArgs.Empty);
+                    e.Handled = true;
+                    break;
+
                 case Key.Escape when Searching:
                     SearchText = string.Empty;
                     e.Handled = true;

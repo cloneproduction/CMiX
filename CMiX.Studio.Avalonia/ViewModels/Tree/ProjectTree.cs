@@ -94,6 +94,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             AddAtTargetCommand = new RelayCommand(
                 () => AddRequested?.Invoke(this, EventArgs.Empty),
                 CanRunTreeKey);
+            // Tree.Inspect sends the cursor row to the inspector. A selection (a click, Enter) never does: the inspector keeps what was sent.
+            InspectCursorCommand = new RelayCommand(
+                () => Inspect(cursorNode),
+                () => cursorNode != null && !IsDragging && CanRunTreeKey());
             ToggleExpandTargetCommand = new RelayCommand(
                 () =>
                 {
@@ -454,6 +458,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // Opens the Add panel of the target row on that row (Tree.Add). With no target, the panel offers a composition. The panel
         // adds nothing at once. The command has the condition of every tree key (see CanRunTreeKey).
         public IRelayCommand AddAtTargetCommand { get; }
+
+        public IRelayCommand InspectCursorCommand { get; }
 
         // True when the pointer is over a view of the tree.
         public Func<bool> IsPointerOverTree { get; set; }
@@ -1149,6 +1155,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             undoManager.BeginCapture();
             try
             {
+                // Read before the drop: the drop removes the source node, which passes the inspector to the parent (NodeRemoved).
+                var inspected = ReferenceEquals(inspectedNode, source);
                 outcome = dropService.Drop(source, target, position);
                 if (outcome.Moved)
                 {
@@ -1160,7 +1168,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
                     // Search under the holder only. A shared item is also under other layers.
                     if (FindNode(owner ?? root, source.Item!) is { } moved)
+                    {
                         Select(moved, SelectionOrigin.Program);
+                        if (inspected)
+                            Inspect(moved);
+                    }
                 }
             }
             finally
@@ -1244,6 +1256,19 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             set => Select(value, SelectionOrigin.Pointer);
         }
 
+        // The node the inspector shows. Only Tree.Inspect (Space) and a middle click on a row set it: a selection (a click, Enter) is the row
+        // the lists and the engine act on, and never moves the inspector. A moved item keeps the inspector (its new node), a removed one passes it up.
+        public TreeNode? InspectedNode
+        {
+            get => inspectedNode;
+            private set => SetProperty(ref inspectedNode, value);
+        }
+
+        private TreeNode? inspectedNode;
+
+        // Sends a node to the inspector.
+        public void Inspect(TreeNode? node) => InspectedNode = node;
+
         // What made the last selection. The view brings a row into view only for some origins.
         public SelectionOrigin Origin { get; private set; } = SelectionOrigin.Program;
 
@@ -1319,6 +1344,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // A node leaves the tree. A selection inside it moves to the parent.
         internal void NodeRemoved(TreeNode node)
         {
+            if (inspectedNode != null && inspectedNode.IsOrIsUnder(node))
+                Inspect(IsTop(node.Parent) ? null : node.Parent);
             if (cursorNode != null && cursorNode.IsOrIsUnder(node))
                 CursorNode = selectedNode != null && !selectedNode.IsOrIsUnder(node) ? selectedNode : null;
 

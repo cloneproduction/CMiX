@@ -49,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(ExpectedFill(layer, ToneRole.FillSelected), FillOf(row));
             Assert.Equal(Brush("ActiveForegroundBrush"), ((ISolidColorBrush)row.GetValue(global::Avalonia.Controls.Documents.TextElement.ForegroundProperty)!).Color);
             Assert.Equal(ExpectedFill(other, ToneRole.Fill), FillOf(view, other));
-            Assert.Equal(Brush("ForegroundBrush"), ((ISolidColorBrush)RowOf(view, other).GetValue(global::Avalonia.Controls.Documents.TextElement.ForegroundProperty)!).Color);
+            Assert.Equal(Brush("TreeTextRestBrush"), ((ISolidColorBrush)RowOf(view, other).GetValue(global::Avalonia.Controls.Documents.TextElement.ForegroundProperty)!).Color);
         }
 
         // The cursor follows the selection, so CursorFrame is not counted here: it is the frame of the cursor.

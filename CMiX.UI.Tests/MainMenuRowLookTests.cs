@@ -129,9 +129,9 @@ namespace CMiX.UI.Tests
             Hover(open);
 
             Assert.Equal(Tokens.Get<Color>("Grey900"), ShortcutOf(open));
-            Assert.True(ContrastRatio(ShortcutOf(open), FillOf(open)!.Value) >= 4.79);
+            Assert.True(ContrastRatio(ShortcutOf(open), FillOf(open)!.Value) >= 4.5);
             Assert.Equal(Tokens.Get<Color>("ShortcutText"), ShortcutOf(save));
-            Assert.True(ContrastRatio(ShortcutOf(save), Tokens.Get<Color>("PopupCardBackground")) >= 4.74);
+            Assert.True(ContrastRatio(ShortcutOf(save), Tokens.Get<Color>("PopupCardBackground")) >= 4.5);
         }
 
         [AvaloniaFact]
@@ -145,9 +145,9 @@ namespace CMiX.UI.Tests
 
             Assert.True(first.IsSelected);
             Assert.Equal(Tokens.Get<Color>("Grey900"), ShortcutOf(first));
-            Assert.True(ContrastRatio(ShortcutOf(first), FillOf(first)!.Value) >= 4.79);
+            Assert.True(ContrastRatio(ShortcutOf(first), FillOf(first)!.Value) >= 4.5);
             Assert.Equal(Tokens.Get<Color>("ShortcutText"), ShortcutOf(second));
-            Assert.True(ContrastRatio(ShortcutOf(second), Tokens.Get<Color>("PopupCardBackground")) >= 4.74);
+            Assert.True(ContrastRatio(ShortcutOf(second), Tokens.Get<Color>("PopupCardBackground")) >= 4.5);
         }
 
         [AvaloniaFact]

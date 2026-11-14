@@ -89,6 +89,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static void Select(Screen screen, TreeNode node)
         {
             screen.Tree.SelectedNode = node;
+            screen.Tree.Inspect(node);
             TestServiceProviderFactory.Pump();
         }
 
@@ -538,10 +539,10 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Select_AnItemInAList_ShowsItInTheInspector()
+        public void Select_AnItemInAList_SelectsItsRowAndLeavesTheInspector()
         {
             var screen = Show();
-            // A second camera is now the selected one in its list. Selecting the first one in the list moves the selection of the tree.
+            // Selecting the first camera in its list moves the selection of the tree and not the inspector.
             screen.Layer.CameraManager.AddItem(typeof(CameraModel));
             TestServiceProviderFactory.Pump();
             var camera = screen.Group<CamerasGroup>().Children[0];
@@ -549,8 +550,8 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Layer.CameraManager.SelectAt(0);
             TestServiceProviderFactory.Pump();
 
-            Assert.Same(camera.Item, screen.Editor.Content);
-            Assert.NotNull(screen.Find<CameraView>());
+            Assert.Same(camera, screen.Tree.SelectedNode);
+            Assert.Null(screen.Tree.InspectedNode);
         }
 
         // Every panel of an editor is open when the item is new.
@@ -683,16 +684,39 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
         }
 
+        private static void MiddleClick(Screen screen, Point point)
+        {
+            screen.Window.MouseDown(point, MouseButton.Middle);
+            screen.Window.MouseUp(point, MouseButton.Middle);
+            TestServiceProviderFactory.Pump();
+        }
+
         private static string SelectedTab(Screen screen) =>
             (TestServiceProviderFactory.MainTabControl(screen.Window).SelectedItem as TabItem is { Header: AppIcon icon }) ? icon.IconKey : "";
 
+        // A click beside the rows (under the last row) gives the tree the focus on its cursor row, so the arrow keys work at once.
         [AvaloniaFact]
-        public void Click_ARow_KeepsTheTabAndTheInspectorHoldsThatItem()
+        public void Click_BesideTheRows_FocusesTheCursorRow()
+        {
+            var screen = Show();
+            var tree = screen.Window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var treeView = tree.GetVisualDescendants().OfType<TreeView>().First();
+            screen.Window.UpdateLayout();
+            var point = treeView.TranslatePoint(new Point(treeView.Bounds.Width / 2, treeView.Bounds.Height - 4), screen.Window)!.Value;
+
+            Click(screen, point);
+
+            var focused = screen.Window.FocusManager?.GetFocusedElement() as Visual;
+            Assert.True(focused is TreeViewItem, $"focused: {focused?.GetType().Name ?? "nothing"}");
+        }
+
+        [AvaloniaFact]
+        public void MiddleClick_ARow_KeepsTheTabAndTheInspectorHoldsThatItem()
         {
             var screen = Show();
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
 
-            Click(screen, CenterOfRow(screen, screen.Group<CamerasGroup>().Children[0]));
+            MiddleClick(screen, CenterOfRow(screen, screen.Group<CamerasGroup>().Children[0]));
 
             Assert.Equal("Settings", SelectedTab(screen));
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Inspector");
@@ -700,12 +724,12 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Click_AGroup_KeepsTheTabAndTheInspectorHoldsTheGroup()
+        public void MiddleClick_AGroup_KeepsTheTabAndTheInspectorHoldsTheGroup()
         {
             var screen = Show();
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
 
-            Click(screen, CenterOfRow(screen, screen.Group<LightsGroup>()));
+            MiddleClick(screen, CenterOfRow(screen, screen.Group<LightsGroup>()));
 
             Assert.Equal("Settings", SelectedTab(screen));
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Inspector");

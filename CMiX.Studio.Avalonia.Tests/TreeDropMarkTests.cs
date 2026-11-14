@@ -141,9 +141,9 @@ namespace CMiX.Studio.Avalonia.Tests
             window!.UpdateLayout();
 
             var line = DropLineOf(ItemOf(view, above));
-            var accent = ((ISolidColorBrush)Application.Current!.FindResource("AccentBrush")!).Color;
+            var lineColor = ((ISolidColorBrush)Application.Current!.FindResource("CursorFrameBrush")!).Color;
             Assert.True(line.IsVisible);
-            Assert.Equal(accent, ((ISolidColorBrush)line.Background!).Color);
+            Assert.Equal(lineColor, ((ISolidColorBrush)line.Background!).Color);
             Assert.False(DropLineOf(ItemOf(view, node)).IsVisible);
         }
     }

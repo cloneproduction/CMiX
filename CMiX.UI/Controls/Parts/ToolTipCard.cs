@@ -6,6 +6,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.LogicalTree;
+using Avalonia.Media;
 using CMiX.UI.Popups;
 
 namespace CMiX.UI.Controls.Parts
@@ -21,6 +22,27 @@ namespace CMiX.UI.Controls.Parts
 
         public static void SetResult(Control control, PlacementResult? value) => control.SetValue(ResultProperty, value);
         public static PlacementResult? GetResult(Control control) => control.GetValue(ResultProperty);
+
+        // The fill of the tooltips of a control and of everything under it: a row of a tree gives its tooltips its own colour. The value
+        // is inherited, so it crosses the popup of the tooltip, which a style of the control would not (a popup takes the styles of the
+        // application only). Null keeps the fill of the theme (PopupBackgroundBrush).
+        public static readonly AttachedProperty<IBrush?> FillProperty =
+            AvaloniaProperty.RegisterAttached<ToolTipCard, Control, IBrush?>("Fill", inherits: true);
+
+        public static void SetFill(Control control, IBrush? value) => control.SetValue(FillProperty, value);
+
+        public static IBrush? GetFill(Control control) => control.GetValue(FillProperty);
+
+        static ToolTipCard()
+        {
+            FillProperty.Changed.AddClassHandler<ToolTipCard>((card, e) =>
+            {
+                if (e.NewValue is IBrush fill)
+                    card.Background = fill;
+                else
+                    card.ClearValue(BackgroundProperty);
+            });
+        }
 
         private IDisposable? following;
 

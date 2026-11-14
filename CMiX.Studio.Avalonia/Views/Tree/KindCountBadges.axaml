@@ -2,40 +2,24 @@
     x:Class="CMiX.Studio.Avalonia.Views.KindCountBadges"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Tree="clr-namespace:CMiX.Studio.Avalonia.ViewModels.Tree"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <!-- What a collapsed row holds: a small square for each kind, in the color of the kind, with how many items of that kind.
-         At most TreeNode.MaxShownKindCounts squares show. A grey square "+n" counts the other kinds. After the squares, the text "n hidden"
-         in the disabled look counts the hidden rows under the row, so a hidden row is never out of sight.
-         The DataContext is the tree node. The squares are at the full color when the pointer is over the row, as when the row is selected (the pseudo classes hovered and selected, set from IsHovered and IsSelected). -->
+    <!-- What a collapsed row holds: a small square for each kind, in the colour of the kind, with the icon of the kind in white; the tooltip, in the colour
+         of the kind, gives how many.
+         At most TreeNode.MaxShownKindCounts squares show. A grey square "+n" counts the other kinds.
+         The DataContext is the tree node. The squares keep their colour under the pointer and when the row is selected: a white icon on the
+         full colour of a light kind would not be read. -->
     <UserControl.Styles>
         <Style Selector="Border.kindcount">
             <Setter Property="Background" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=Kind}" />
-        </Style>
-        <Style Selector="Views|KindCountBadges:hovered Border.kindcount">
-            <Setter Property="Background" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=KindSelected}" />
-        </Style>
-        <Style Selector="Views|KindCountBadges:selected Border.kindcount">
-            <Setter Property="Background" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=KindSelected}" />
-        </Style>
-        <!-- The number is white on the square at rest. On the full color of a row that is under the pointer or selected, the number is dark
-             (the background of the tree): white on the full color is hard to read, most of all on the yellow of a light.
-             The color is in a style and not on the TextBlock: a local value is stronger than a style. The selectors name the number
-             (TextBlock.count, child of the square): the tooltip of a square is a logical child of the square too, and a wider selector
-             made its text dark on the dark card, so the tooltip looked empty. -->
-        <Style Selector="Border.kindcount > TextBlock.count">
-            <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
-        </Style>
-        <Style Selector="Views|KindCountBadges:hovered Border.kindcount > TextBlock.count">
-            <Setter Property="Foreground" Value="{DynamicResource TreeBackgroundBrush}" />
-        </Style>
-        <Style Selector="Views|KindCountBadges:selected Border.kindcount > TextBlock.count">
-            <Setter Property="Foreground" Value="{DynamicResource TreeBackgroundBrush}" />
+            <Setter Property="ui:ToolTipCard.Fill" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=Kind}" />
         </Style>
     </UserControl.Styles>
 
     <StackPanel Orientation="Horizontal" Spacing="{DynamicResource SpacingXS}">
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource SpacingXS}" IsVisible="{Binding ShowsKindCounts}">
         <ItemsControl ItemsSource="{Binding ShownKindCounts}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -50,12 +34,18 @@
                         MinWidth="{DynamicResource ControlHeightXS}"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         ToolTip.Tip="{Binding Description}">
-                        <TextBlock
+                        <!-- The icon of the kind, white on the square. The count is in the tooltip (Description). The colour is
+                             a local value: AppIcon has a style of its own for its Foreground. -->
+                        <ui:AppIcon
                             Classes="count"
-                            Margin="4,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Count}" />
+                            IconKey="{Binding IconKey}"
+                            Size="{DynamicResource IconSizeXS}">
+                            <ui:AppIcon.Foreground>
+                                <DynamicResourceExtension ResourceKey="ActiveForegroundBrush" />
+                            </ui:AppIcon.Foreground>
+                        </ui:AppIcon>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -77,14 +67,28 @@
                 Foreground="{DynamicResource ActiveForegroundBrush}"
                 Text="{Binding MoreKindsCount, StringFormat='+{0}'}" />
         </Border>
+        </StackPanel>
 
-        <TextBlock
-            Name="HiddenCount"
+        <!-- The sign of a missing asset on this row or under it (TreeNode.MissingCount), after the kinds: an amber disc with a white mark. Like the
+             kind squares it shows on a collapsed row, for what is under it; an open row leaves it to the rows below. The missing row
+             itself always shows it. -->
+        <Border
+            Name="MissingSign"
+            Width="{DynamicResource ControlHeightXS}"
+            Height="{DynamicResource ControlHeightXS}"
             VerticalAlignment="Center"
-            Foreground="{DynamicResource ForegroundBrush}"
-            IsVisible="{Binding HasHiddenRows}"
-            Opacity="{DynamicResource OpacityDisabled}"
-            Text="{Binding HiddenCount, StringFormat='{}{0} hidden'}" />
+            Background="{DynamicResource PopupCardWarningBrush}"
+            CornerRadius="99"
+            IsVisible="{Binding ShowsMissingSign}"
+            ToolTip.Tip="{Binding MissingCount, StringFormat='{}{0} missing asset(s)'}">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Foreground="{DynamicResource ActiveForegroundBrush}"
+                Text="!" />
+        </Border>
+
     </StackPanel>
 
 </UserControl>

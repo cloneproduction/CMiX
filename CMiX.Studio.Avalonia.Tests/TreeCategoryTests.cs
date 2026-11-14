@@ -63,8 +63,8 @@ namespace CMiX.Studio.Avalonia.Tests
             foreach (var category in System.Enum.GetValues<TreeCategory>())
                 Assert.IsType<AvaloniaColor>(Application.Current!.FindResource("Category" + category));
 
-            for (var level = 1; level <= 3; level++)
-                Assert.IsType<AvaloniaColor>(Application.Current!.FindResource("CategoryComposableLevel" + level));
+            for (var level = 0; level < 6; level++)
+                Assert.IsType<AvaloniaColor>(Application.Current!.FindResource("CategoryComposable" + level));
         }
     }
 }

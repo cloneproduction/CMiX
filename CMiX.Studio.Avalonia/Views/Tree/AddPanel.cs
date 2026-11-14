@@ -11,6 +11,7 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
+using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.UI.Controls.Collection;
 using CMiX.UI.Controls.Parts;
@@ -39,6 +40,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TextBlock title = new() { VerticalAlignment = VerticalAlignment.Center };
         private readonly GroupedSearchList list = new() { Collapsible = false };
         private readonly Dictionary<TreeCategory, IBrush?> brushes = new();
+        private readonly Converters.TreeToneConverter tone = new();
         private bool closedByCode;
 
         public AddPanel()
@@ -50,6 +52,12 @@ namespace CMiX.Studio.Avalonia.Views
             flyout.Content = card;
 
             anchoring = PopupAnchoring.Use(flyout);
+            // A panel beside a row shows a tip at the row (see Open): the card takes the edge and the offset of the tip from the placement.
+            anchoring.Placed += result =>
+            {
+                if (card.ShowsTip)
+                    card.Place(result);
+            };
             anchoring.Placed += result => card.Place(result);
 
             flyout.Closed += OnFlyoutClosed;
@@ -83,10 +91,12 @@ namespace CMiX.Studio.Avalonia.Views
         // The pass through element keeps receiving the pointer while the panel is open, when the popups share the window with the content (the
         // overlay mode): the menu that opened the panel stays usable. The panel shows only what the node can take. Nothing opens when there is nothing to add.
         public void Open(Control anchor, PopupSide side, IReadOnlyList<TreeAddGroup> groups, string? header = null, Rect? anchorRect = null,
-                         IInputElement? passThrough = null)
+                         IInputElement? passThrough = null, bool showsTip = false)
         {
             if (!Prepare(anchor, groups, header))
                 return;
+
+            this.showsTip = showsTip;
 
             var rowHeight = Number(anchor, "ControlHeightMD", 24);
             anchoring.Gap = DefaultGap;
@@ -104,6 +114,7 @@ namespace CMiX.Studio.Avalonia.Views
         // the pointer has not moved. The point is in the coordinates of the control.
         public void OpenAtPoint(Control reference, Point point, IReadOnlyList<TreeAddGroup> groups, string? header = null)
         {
+            showsTip = false;
             if (!Prepare(reference, groups, header) || TopLevel.GetTopLevel(reference) is not { } top || reference.TranslatePoint(point, top) is not { } inWindow)
                 return;
 
@@ -141,9 +152,12 @@ namespace CMiX.Studio.Avalonia.Views
             return true;
         }
 
+        // Whether the card points at its anchor with a tip: a panel beside a row does, a panel at the pointer does not.
+        private bool showsTip;
+
         private void Show(Control anchor, IInputElement? passThrough)
         {
-            card.ShowsTip = false;
+            card.ShowsTip = showsTip;
             if (anchor.TryFindResource("FlyoutPresenterCard", out var theme) && theme is ControlTheme presenterTheme)
                 flyout.FlyoutPresenterTheme = presenterTheme;
 
@@ -199,7 +213,8 @@ namespace CMiX.Studio.Avalonia.Views
                   .Where(group => group.Items.Count > 0)
                   .ToList();
 
-        // The bright color of a kind, the same one as the tree row of that kind.
+        // The square of a kind in the list: the same tone as the kind squares of a collapsed row of the tree (TreeTone Kind, see
+        // KindCountBadges), from the one palette (CategoryPalette), so the two never drift apart.
         private IBrush? BrushOf(Control scope, object? kind)
         {
             if (kind is not TreeCategory category)
@@ -207,7 +222,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             if (!brushes.TryGetValue(category, out var brush))
             {
-                brush = scope.TryFindResource("Category" + category, out var color) && color is Color value ? new SolidColorBrush(value) : null;
+                brush = tone.Convert(new KindCount(category, 0), typeof(IBrush), nameof(ToneRole.Kind), System.Globalization.CultureInfo.InvariantCulture) as IBrush;
                 brushes[category] = brush;
             }
 

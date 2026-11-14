@@ -146,7 +146,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ArrowDown_TreeFocused_GivesOnlyTheCursorRowTheCursorFrame()
+        public void ArrowDown_TreeFocused_MovesTheCursorAndItsFrameToTheNextRow()
         {
             var screen = Show();
             var first = screen.Tree.CompositionNodes()[0].Children[0].Children[0];
@@ -154,10 +154,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Press(PhysicalKey.ArrowDown);
 
-            var frame = Part(screen.View, second, "CursorFrame");
-            Assert.True(frame.IsVisible);
-            Assert.Equal((Thickness)screen.View.FindResource("TreeSelectionThickness")!, frame.BorderThickness);
-            Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("CursorFrameBrush")!).Color, ((ISolidColorBrush)frame.BorderBrush!).Color);
+            // The cursor row is lifted (TreeRowShadow) and framed in the colour of its kind.
+            Assert.Contains("cursor", ItemOf(screen.View, second).Classes);
+            Assert.True(Part(screen.View, second, "CursorFrame").IsVisible);
 
             // The first row stays selected: it keeps the selected fill and has no frame.
             Assert.False(Part(screen.View, first, "CursorFrame").IsVisible);
