@@ -30,8 +30,8 @@
                 <DataTemplate DataType="{x:Type Tree:KindCount}">
                     <Border
                         Classes="kindcount"
-                        Height="{DynamicResource ControlHeightXS}"
-                        MinWidth="{DynamicResource ControlHeightXS}"
+                        Height="{DynamicResource TreeKindSquareSize}"
+                        MinWidth="{DynamicResource TreeKindSquareSize}"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         ToolTip.Tip="{Binding Description}">
                         <!-- The icon of the kind, white on the square. The count is in the tooltip (Description). The colour is
@@ -53,8 +53,8 @@
 
         <Border
             Name="MoreKinds"
-            Height="{DynamicResource ControlHeightXS}"
-            MinWidth="{DynamicResource ControlHeightXS}"
+            Height="{DynamicResource TreeKindSquareSize}"
+            MinWidth="{DynamicResource TreeKindSquareSize}"
             VerticalAlignment="Center"
             Background="{DynamicResource Grey600Brush}"
             CornerRadius="{DynamicResource CornerRadiusAll}"
@@ -74,8 +74,8 @@
              itself always shows it. -->
         <Border
             Name="MissingSign"
-            Width="{DynamicResource ControlHeightXS}"
-            Height="{DynamicResource ControlHeightXS}"
+            Width="{DynamicResource TreeKindSquareSize}"
+            Height="{DynamicResource TreeKindSquareSize}"
             VerticalAlignment="Center"
             Background="{DynamicResource PopupCardWarningBrush}"
             CornerRadius="99"
