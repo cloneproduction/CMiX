@@ -26,6 +26,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal void Attach(TreeView treeView)
         {
+            DragDrop.SetAllowDrop(treeView, true);
             treeView.AddHandler(DragDrop.DragEnterEvent, OnDragEnter);
             treeView.AddHandler(DragDrop.DragOverEvent, OnDragOver);
             treeView.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave);

@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -47,6 +46,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeTooltips tooltips;
         private readonly TreeHints hints;
         private readonly TreeFileDropInput fileDrop;
+        private readonly TreeRowReveal reveal;
 
         // What this view tells the tree and does for it (see ProjectTree.AttachView).
         private readonly TreeViewHooks hooks;
@@ -96,7 +96,8 @@ namespace CMiX.Studio.Avalonia.Views
             scrollAnchor = new TreeScrollAnchor(treeView, rowIndex, context);
             dragSession = new TreeDragSession(treeView, context, marker, scrollAnchor);
             rowDrag = new TreeRowDrag(treeView, dragSession);
-            grab = new TreeGrab(this, treeView, dragSession, context, node => RevealRow(node), OnGrabChanged);
+            reveal = new TreeRowReveal(context, () => IsKeyboardFocusWithin);
+            grab = new TreeGrab(this, treeView, dragSession, context, reveal.RevealRow, OnGrabChanged);
             hints = new TreeHints(context, hintStrip,
                 new TreeHintInputs(() => grab.IsGrabbing, IsMenuOpen, IsSearchFocused, () => IsKeyboardFocusWithin), PostWhileAttached);
             fileDrop = new TreeFileDropInput(context, marker);
@@ -116,7 +117,6 @@ namespace CMiX.Studio.Avalonia.Views
                 CloseRowsInView = OnCloseRowsInView
             };
 
-            DragDrop.SetAllowDrop(treeView, true);
             treeView.AddHandler(PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
             treeView.AddHandler(PointerPressedEvent, OnPointerPressedDone, RoutingStrategies.Bubble, handledEventsToo: true);
             treeView.AddHandler(PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel);
@@ -127,8 +127,7 @@ namespace CMiX.Studio.Avalonia.Views
             treeView.AddHandler(ContextRequestedEvent, OnContextRequested, RoutingStrategies.Bubble);
             treeView.AddHandler(DoubleTappedEvent, OnDoubleTapped, RoutingStrategies.Bubble);
             treeView.AddHandler(ScrollViewer.ScrollChangedEvent, (_, _) => rowMetrics.SetEndRoom());
-            treeView.TemplateApplied += (_, e) =>
-                e.NameScope.Find<ItemsPresenter>("PART_ItemsPresenter")?.AddHandler(RequestBringIntoViewEvent, OnRequestBringIntoView);
+            reveal.Attach(treeView);
             treeView.AddHandler(KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
             AddHandler(PointerMovedEvent, OnPointerTracked, RoutingStrategies.Tunnel, handledEventsToo: true);
             KeyBindingTextGuard.Install(this);
@@ -215,9 +214,6 @@ namespace CMiX.Studio.Avalonia.Views
             item.Focus(NavigationMethod.Tab);
         }
 
-        // The tree does not scroll by itself when the user clicks a row: a click on a row that is at the edge of the view would scroll to
-        // show the whole block of the row, and the second click of a double click would land on another row. A row that a program or a
-        // key selects is brought into view here (RevealRow), and only its own row, not the rows under it.
         private ProjectTree? watched;
 
         private bool IsAttached { get; set; }
@@ -228,17 +224,6 @@ namespace CMiX.Studio.Avalonia.Views
                 if (IsAttached)
                     action();
             }, priority);
-
-        // The row border that RevealRow brings into view.
-        private Visual? revealTarget;
-
-        // A row asks to be brought into view when it gets the focus or the selection. That request scrolls to the whole block of the
-        // row, so it stops here, under the scroller of the tree. Only the request of RevealRow goes through.
-        private void OnRequestBringIntoView(object? sender, RequestBringIntoViewEventArgs e)
-        {
-            if (!ReferenceEquals(e.TargetObject, revealTarget))
-                e.Handled = true;
-        }
 
         // Escape ends a drag of a row without a drop. Else, while a search is active, Escape clears it (see ProjectTree.ClearSearch): the
         // focus and the cursor row stay. A grab, a menu and a name box take their Escape first. With no search, Escape does nothing here.
@@ -308,7 +293,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void OpenAddBesideTheCursor(ProjectTree tree)
         {
-            if (tree.CursorNode is not { } node || ShownItemOf(node) is not { } item || TopLevel.GetTopLevel(this) is not { } window)
+            if (tree.CursorNode is not { } node || reveal.ShownItemOf(node) is not { } item || TopLevel.GetTopLevel(this) is not { } window)
                 return;
 
             var row = TreeRows.RowBorderOf(item);
@@ -351,7 +336,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             item.Focus(NavigationMethod.Tab);
-            RevealRow(node);
+            reveal.RevealRow(node);
         }
 
         // The last place of the pointer over the tree, in the coordinates of the tree view. Tree.Add opens there when no target row is shown.
@@ -367,7 +352,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (!IsActiveView || DataContext is not ProjectTree tree)
                 return;
 
-            var point = tree.TargetNode is { } node && ShownItemOf(node) is { } item ? TreeRowAnchor.CenterOf(item, treeView) : null;
+            var point = tree.TargetNode is { } node && reveal.ShownItemOf(node) is { } item ? TreeRowAnchor.CenterOf(item, treeView) : null;
             menuAddPanel.OpenAtPoint(treeView, point ?? lastPointer, tree.GetAddGroups(tree.TargetNode), AddTitle);
             hints.Update();
         }
@@ -381,7 +366,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             if (tree.TargetNode is not { } node)
                 OpenMenuAtPointer(null);
-            else if (ShownItemOf(node) is { } item)
+            else if (reveal.ShownItemOf(node) is { } item)
                 OpenMenuUnderRow(item);
         }
 
@@ -389,7 +374,7 @@ namespace CMiX.Studio.Avalonia.Views
         // not shown (its parent is collapsed) is not grabbed.
         private void OnGrabRequested(object? sender, TreeNode node)
         {
-            if (IsActiveView && ShownItemOf(node) != null)
+            if (IsActiveView && reveal.ShownItemOf(node) != null)
                 grab.Start(node, lastPointer);
         }
 
@@ -398,17 +383,6 @@ namespace CMiX.Studio.Avalonia.Views
         {
             Classes.Set(GrabbingClass, grab.IsGrabbing);
             hints.Update();
-        }
-
-        // The item of the row of the node, brought into view, so that a popup can open on it. Null when the row is not shown.
-        private TreeViewItem? ShownItemOf(TreeNode node)
-        {
-            if (rowIndex.FindItem(node) is not { } item)
-                return null;
-
-            RevealRow(node);
-            treeView.UpdateLayout();
-            return item;
         }
 
         // Tree.CollapseOthers: every row closes but the path to the target row. A target row in view stays at its place on the screen,
@@ -428,55 +402,14 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
-            PostWhileAttached(() => RevealRow(target), DispatcherPriority.Loaded);
+            PostWhileAttached(() => reveal.RevealRow(target), DispatcherPriority.Loaded);
         }
-
-        // Tree.Reveal: the selected row goes to the middle of the view (see ProjectTree.RevealSelected). The parents of the row open over a
-        // few frames (CollapsePanel), so the tree is not yet high enough at the first frame. The row is put back in the middle once in each
-        // frame until every parent is fully open. A new reveal ends the one before. While the tree has the focus, the row takes it, as
-        // with the arrow keys.
-        private int revealId;
 
         private void OnRevealRequested(object? sender, TreeNode node)
         {
-            if (!IsActiveView)
-                return;
-
-            var id = ++revealId;
-            Dispatcher.UIThread.Post(() =>
-            {
-                if (id != revealId || rowIndex.FindItem(node) is not { } item)
-                    return;
-
-                if (IsKeyboardFocusWithin)
-                    item.Focus(NavigationMethod.Tab);
-
-                RevealRowToMiddle(node);
-                if (TopLevel.GetTopLevel(this) is not { } top)
-                    return;
-
-                var frames = 0;
-                void Keep(TimeSpan _)
-                {
-                    if (id != revealId)
-                        return;
-
-                    RevealRowToMiddle(node);
-                    if (IsOpening(item) && ++frames < MaxRevealFrames)
-                        top.RequestAnimationFrame(Keep);
-                }
-
-                if (IsOpening(item))
-                    top.RequestAnimationFrame(Keep);
-            }, DispatcherPriority.Loaded);
+            if (IsActiveView)
+                reveal.RevealRowToMiddle(node);
         }
-
-        // True while a parent of the row still opens.
-        private static bool IsOpening(TreeViewItem item) =>
-            item.GetVisualAncestors().OfType<CollapsePanel>().Any(panel => panel.IsExpanded && panel.Progress < 1);
-
-        // A safe end, in case a panel never reaches its end.
-        private const int MaxRevealFrames = 120;
 
         // Rows of the search close (see ProjectTree.CloseRowsInView). The row of the node stays at its place on the screen when it is in
         // view, else the first row in view does, also while the rows close.
@@ -599,41 +532,7 @@ namespace CMiX.Studio.Avalonia.Views
                 || watched.Origin is not (SelectionOrigin.Program or SelectionOrigin.Peer))
                 return;
 
-            PostWhileAttached(() => RevealRow(node), DispatcherPriority.Loaded);
-        }
-
-        private void RevealRow(TreeNode node) => BringRowIntoView(node, border => border.BringIntoView());
-
-        private void RevealRowToMiddle(TreeNode node) => BringRowIntoView(node, BringToMiddle);
-
-        // The request asks for a block as high as the view, with the row at its middle. The scroller stops at the ends of the tree.
-        private void BringToMiddle(Border border)
-        {
-            if (context.Scroller is { Viewport.Height: > 0 } scroller)
-            {
-                var height = scroller.Viewport.Height;
-                border.BringIntoView(new Rect(0, (border.Bounds.Height - height) / 2, border.Bounds.Width, height));
-            }
-            else
-            {
-                border.BringIntoView();
-            }
-        }
-
-        private void BringRowIntoView(TreeNode node, Action<Border> bring)
-        {
-            if (rowIndex.FindItem(node) is not { } item || TreeRows.RowBorderOf(item) is not { } border)
-                return;
-
-            revealTarget = border;
-            try
-            {
-                bring(border);
-            }
-            finally
-            {
-                revealTarget = null;
-            }
+            PostWhileAttached(() => reveal.RevealRow(node), DispatcherPriority.Loaded);
         }
 
         // See TreeRowMetrics.SnapToPixels.
@@ -676,7 +575,7 @@ namespace CMiX.Studio.Avalonia.Views
             context.DisposeAutoScroller();
 
             // Ends the reveal and the scroll hold. Their next step and their next frame then do nothing, so no frame request outlives the view.
-            revealId++;
+            reveal.EndReveal();
             scrollAnchor.EndHold();
             base.OnDetachedFromVisualTree(e);
         }
@@ -724,7 +623,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
-            var item = TreeRows.ItemOf(e.Source) ?? (watched?.TargetNode is { } target ? ShownItemOf(target) : null);
+            var item = TreeRows.ItemOf(e.Source) ?? (watched?.TargetNode is { } target ? reveal.ShownItemOf(target) : null);
             if (OpenMenuUnderRow(item))
                 e.Handled = true;
         }
