@@ -3,7 +3,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Avalonia;
@@ -17,7 +16,6 @@ using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Parts;
-using CMiX.UI.Controls.String;
 using CMiX.UI.Panels;
 using CMiX.UI.Behaviors;
 
@@ -44,6 +42,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeFileDropInput fileDrop;
         private readonly TreeRowReveal reveal;
         private readonly TreeMenus menus;
+        private readonly TreeScreenRequests requests;
 
         // What this view tells the tree and does for it (see ProjectTree.AttachView).
         private readonly TreeViewHooks hooks;
@@ -97,6 +96,8 @@ namespace CMiX.Studio.Avalonia.Views
             fileDrop = new TreeFileDropInput(context, marker);
             menus = new TreeMenus(context, new TreeMenuInputs(reveal.ShownItemOf, () => lastPointer, grab.TakeMenuBlock, FocusRow),
                 hints.Update, PostWhileAttached);
+            requests = new TreeScreenRequests(context, new TreeRequestParts(menus, reveal, grab, scrollAnchor),
+                new TreeRequestInputs(() => IsActiveView, () => lastPointer), PostWhileAttached);
             hooks = new TreeViewHooks
             {
                 IsPointerOverTree = () => IsPointerOver,
@@ -110,7 +111,7 @@ namespace CMiX.Studio.Avalonia.Views
                     rowDrag.Cancel();
                     grab.Cancel();
                 },
-                CloseRowsInView = OnCloseRowsInView
+                CloseRowsInView = requests.CloseRowsInView
             };
 
             treeView.AddHandler(PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
@@ -313,77 +314,11 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void OnPointerTracked(object? sender, PointerEventArgs e) => lastPointer = e.GetPosition(treeView);
 
-        private void OnAddRequested(object? sender, EventArgs e)
-        {
-            if (IsActiveView && DataContext is ProjectTree tree)
-                menus.OpenAddAtTarget(tree);
-        }
-
-        private void OnMenuRequested(object? sender, EventArgs e)
-        {
-            if (IsActiveView && DataContext is ProjectTree tree)
-                menus.OpenMenuAtTarget(tree);
-        }
-
-        // Tree.Grab: the grab of the target row starts at the last place of the pointer over the tree (see TreeGrab). A row that is
-        // not shown (its parent is collapsed) is not grabbed.
-        private void OnGrabRequested(object? sender, TreeNode node)
-        {
-            if (IsActiveView && reveal.ShownItemOf(node) != null)
-                grab.Start(node, lastPointer);
-        }
-
         // The grab starts or ends: the frame of the grab and the hint strip follow it.
         private void OnGrabChanged()
         {
             Classes.Set(GrabbingClass, grab.IsGrabbing);
             hints.Update();
-        }
-
-        // Tree.CollapseOthers: every row closes but the path to the target row. A target row in view stays at its place on the screen,
-        // also while the rows close (CollapsePanel closes over a few frames). The first row in view can not be the anchor: it can close
-        // away under a parent. A target row out of view is brought into view after the close.
-        private void OnCollapseOthersRequested(object? sender, EventArgs e)
-        {
-            if (!IsActiveView || DataContext is not ProjectTree tree || tree.TargetNode is not { } target)
-                return;
-
-            var anchor = scrollAnchor.CaptureRow(target);
-            var closed = tree.CloseOtherRows();
-            if (anchor != null)
-            {
-                scrollAnchor.RestoreAnchor(anchor);
-                scrollAnchor.HoldWhileClosing(anchor, closed);
-                return;
-            }
-
-            PostWhileAttached(() => reveal.RevealRow(target), DispatcherPriority.Loaded);
-        }
-
-        private void OnRevealRequested(object? sender, TreeNode node)
-        {
-            if (IsActiveView)
-                reveal.RevealRowToMiddle(node);
-        }
-
-        // Rows of the search close (see ProjectTree.CloseRowsInView). The row of the node stays at its place on the screen when it is in
-        // view, else the first row in view does, also while the rows close.
-        private void OnCloseRowsInView(TreeNode? node, Func<IReadOnlyList<TreeNode>> close)
-        {
-            var anchor = (node != null ? scrollAnchor.CaptureRow(node) : null) ?? scrollAnchor.CaptureAnchor(null);
-            var closed = close();
-            scrollAnchor.RestoreAnchor(anchor);
-            scrollAnchor.HoldWhileClosing(anchor, closed);
-        }
-
-        // Starts the rename of the row of the node: the name box of the row goes to edit mode.
-        private void OnRenameRequested(object? sender, TreeNode node)
-        {
-            if (!IsActiveView || rowIndex.FindItem(node) is not { } item || TreeRows.RowBorderOf(item) is not { } row)
-                return;
-
-            if (row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault() is { } box)
-                box.IsEditing = true;
         }
 
         private static bool IsInTextBox(object? source)
@@ -434,13 +369,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             watched.PropertyChanged += OnWatchedPropertyChanged;
-            watched.RenameRequested += OnRenameRequested;
-            watched.AddRequested += OnAddRequested;
-            watched.MenuRequested += OnMenuRequested;
-            watched.CollapseOthersRequested += OnCollapseOthersRequested;
-            watched.RevealRequested += OnRevealRequested;
-            watched.GrabRequested += OnGrabRequested;
-            watched.TreeFocusRequested += OnTreeFocusRequested;
+            requests.Watch(watched);
             watched.AttachView(hooks);
             hints.Watch(watched);
         }
@@ -451,28 +380,9 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             watched.PropertyChanged -= OnWatchedPropertyChanged;
-            watched.RenameRequested -= OnRenameRequested;
-            watched.AddRequested -= OnAddRequested;
-            watched.MenuRequested -= OnMenuRequested;
-            watched.CollapseOthersRequested -= OnCollapseOthersRequested;
-            watched.RevealRequested -= OnRevealRequested;
-            watched.GrabRequested -= OnGrabRequested;
-            watched.TreeFocusRequested -= OnTreeFocusRequested;
+            requests.Unwatch(watched);
             hints.Unwatch(watched);
             watched.DetachView(hooks);
-        }
-
-        // The focus goes to a row: the target row, else the first row (see ProjectTree.FocusTree).
-        private void OnTreeFocusRequested(object? sender, EventArgs e)
-        {
-            if (!IsActiveView || watched is not { } tree)
-                return;
-
-            var node = tree.TargetNode ?? tree.VisibleNodes().FirstOrDefault();
-            if (node != null && rowIndex.FindItem(node) is { } item && item.Focus(NavigationMethod.Tab))
-                return;
-
-            treeView.Focus();
         }
 
         private void OnWatchedPropertyChanged(object? sender, PropertyChangedEventArgs e)
