@@ -52,12 +52,6 @@ namespace CMiX.Studio.Avalonia.Views
             flyout.Content = card;
 
             anchoring = PopupAnchoring.Use(flyout);
-            // A panel beside a row shows a tip at the row (see Open): the card takes the edge and the offset of the tip from the placement.
-            anchoring.Placed += result =>
-            {
-                if (card.ShowsTip)
-                    card.Place(result);
-            };
             anchoring.Placed += result => card.Place(result);
 
             flyout.Closed += OnFlyoutClosed;
