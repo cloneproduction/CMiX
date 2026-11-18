@@ -45,6 +45,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeRowDrag rowDrag;
         private readonly TreeGrab grab;
         private readonly TreeTooltips tooltips;
+        private readonly TreeHints hints;
 
         // What this view tells the tree and does for it (see ProjectTree.AttachView).
         private readonly TreeViewHooks hooks;
@@ -95,6 +96,8 @@ namespace CMiX.Studio.Avalonia.Views
             dragSession = new TreeDragSession(treeView, context, marker, scrollAnchor);
             rowDrag = new TreeRowDrag(treeView, dragSession);
             grab = new TreeGrab(this, treeView, dragSession, context, node => RevealRow(node), OnGrabChanged);
+            hints = new TreeHints(context, hintStrip,
+                new TreeHintInputs(() => grab.IsGrabbing, IsMenuOpen, IsSearchFocused, () => IsKeyboardFocusWithin), PostWhileAttached);
             hooks = new TreeViewHooks
             {
                 IsPointerOverTree = () => IsPointerOver,
@@ -138,7 +141,7 @@ namespace CMiX.Studio.Avalonia.Views
             tooltips = new TreeTooltips(treeView);
             menuAddPanel.Closed += (_, _) =>
             {
-                UpdateHints();
+                hints.Update();
                 // A panel opened beside the cursor row (Right, Ctrl+Right) is a leaf of the tree: when it closes, Left or Escape or a pick,
                 // the cursor row takes the focus back, so the keys go on in the tree.
                 if (addOpenedBesideTheCursor)
@@ -153,56 +156,10 @@ namespace CMiX.Studio.Avalonia.Views
         // The hint strip under the rows. A test reads it.
         internal KeyHintStrip HintStrip => hintStrip;
 
-        // The mode that the hint strip shows. Null before the first hints.
-        private TreeHintMode? shownHintMode;
+        // The mode that the hint strip shows. A test reads it.
+        internal TreeHintMode HintMode => hints.Mode;
 
-        // The mode of the tree now: a menu or the Add panel of this view is open, else the focus is in the search field of the panel, else
-        // a search filters the rows while the focus is in this view.
-        internal TreeHintMode HintMode
-        {
-            get
-            {
-                if (grab.IsGrabbing)
-                    return TreeHintMode.Grab;
-
-                if (treeView.ContextMenu?.IsOpen == true || menuAddPanel.IsOpen)
-                    return TreeHintMode.Menu;
-
-                if (IsSearchFocused())
-                    return TreeHintMode.Search;
-
-                return watched?.IsSearchActive == true && IsKeyboardFocusWithin ? TreeHintMode.Filter : TreeHintMode.Idle;
-            }
-        }
-
-        // The strip gets new hints only when the mode or a gesture changes, so the text never changes for nothing.
-        private void UpdateHints()
-        {
-            if (watched is not { } tree)
-                return;
-
-            var mode = HintMode;
-            if (mode != shownHintMode)
-                ShowHints(tree, mode);
-        }
-
-        private void RefreshHintGestures()
-        {
-            if (watched is { } tree)
-                ShowHints(tree, HintMode);
-        }
-
-        private void ShowHints(ProjectTree tree, TreeHintMode mode)
-        {
-            shownHintMode = mode;
-            hintStrip.Hints = TreeKeyHints.For(mode, tree.Shortcuts);
-        }
-
-        // The focus moves before the next control is known, so the check runs after the event.
-        private void OnWindowFocusChanged(object? sender, RoutedEventArgs e) =>
-            PostWhileAttached(UpdateHints, DispatcherPriority.Input);
-
-        private void OnShortcutsChanged(object? sender, PropertyChangedEventArgs e) => RefreshHintGestures();
+        private bool IsMenuOpen() => treeView.ContextMenu?.IsOpen == true || menuAddPanel.IsOpen;
 
         // True when the focus is in the search field of the tree of this view, in the panel of this view.
         private bool IsSearchFocused()
@@ -359,7 +316,7 @@ namespace CMiX.Studio.Avalonia.Views
             var anchor = row?.TranslatePoint(default, window) is { } topLeft ? new Rect(topLeft, row.Bounds.Size) : (Rect?)null;
             menuAddPanel.OpenWithTip(item, PopupSide.Right, tree.GetAddGroups(node), AddTitle, anchor);
             addOpenedBesideTheCursor = menuAddPanel.IsOpen;
-            UpdateHints();
+            hints.Update();
         }
 
         private static bool IsNavigationKey(Key key) =>
@@ -413,7 +370,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             var point = tree.TargetNode is { } node && ShownItemOf(node) is { } item ? TreeRowAnchor.CenterOf(item, treeView) : null;
             menuAddPanel.OpenAtPoint(treeView, point ?? lastPointer, tree.GetAddGroups(tree.TargetNode), AddTitle);
-            UpdateHints();
+            hints.Update();
         }
 
         // Tree.Menu, a key: the menu of the target row opens under that row (see OpenMenuUnderRow). With no target, it is the menu of the project,
@@ -441,7 +398,7 @@ namespace CMiX.Studio.Avalonia.Views
         private void OnGrabChanged()
         {
             Classes.Set(GrabbingClass, grab.IsGrabbing);
-            UpdateHints();
+            hints.Update();
         }
 
         // The item of the row of the node, brought into view, so that a popup can open on it. Null when the row is not shown.
@@ -600,9 +557,8 @@ namespace CMiX.Studio.Avalonia.Views
             watched.RevealRequested += OnRevealRequested;
             watched.GrabRequested += OnGrabRequested;
             watched.TreeFocusRequested += OnTreeFocusRequested;
-            watched.Shortcuts.PropertyChanged += OnShortcutsChanged;
             watched.AttachView(hooks);
-            RefreshHintGestures();
+            hints.Watch(watched);
         }
 
         private void Unwatch()
@@ -618,7 +574,7 @@ namespace CMiX.Studio.Avalonia.Views
             watched.RevealRequested -= OnRevealRequested;
             watched.GrabRequested -= OnGrabRequested;
             watched.TreeFocusRequested -= OnTreeFocusRequested;
-            watched.Shortcuts.PropertyChanged -= OnShortcutsChanged;
+            hints.Unwatch(watched);
             watched.DetachView(hooks);
         }
 
@@ -638,7 +594,7 @@ namespace CMiX.Studio.Avalonia.Views
         private void OnWatchedPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ProjectTree.IsSearchActive))
-                UpdateHints();
+                hints.Update();
 
             if (e.PropertyName != nameof(ProjectTree.SelectedNode) || dragSession.IsDropping || watched?.SelectedNode is not { } node
                 || watched.Origin is not (SelectionOrigin.Program or SelectionOrigin.Peer))
@@ -699,8 +655,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (scaledTopLevel == null)
                 return;
 
-            scaledTopLevel.AddHandler(GotFocusEvent, OnWindowFocusChanged, RoutingStrategies.Bubble, handledEventsToo: true);
-            scaledTopLevel.AddHandler(LostFocusEvent, OnWindowFocusChanged, RoutingStrategies.Bubble, handledEventsToo: true);
+            hints.AttachWindow(scaledTopLevel);
             rowMetrics.SetRowMetrics(scaledTopLevel.RenderScaling);
             scaledTopLevel.ScalingChanged += OnScalingChanged;
         }
@@ -713,8 +668,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (scaledTopLevel != null)
             {
                 scaledTopLevel.ScalingChanged -= OnScalingChanged;
-                scaledTopLevel.RemoveHandler(GotFocusEvent, OnWindowFocusChanged);
-                scaledTopLevel.RemoveHandler(LostFocusEvent, OnWindowFocusChanged);
+                hints.DetachWindow(scaledTopLevel);
             }
 
             scaledTopLevel = null;
@@ -820,8 +774,8 @@ namespace CMiX.Studio.Avalonia.Views
             if (menu == null)
                 return null;
 
-            menu.Opened += (_, _) => UpdateHints();
-            menu.Closed += (_, _) => UpdateHints();
+            menu.Opened += (_, _) => hints.Update();
+            menu.Closed += (_, _) => hints.Update();
             return menu;
         }
 
