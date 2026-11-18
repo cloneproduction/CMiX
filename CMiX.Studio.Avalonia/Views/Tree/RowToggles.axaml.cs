@@ -5,10 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The toggles of a row of the tree, as icons inside the colored row: the visibility toggle first, then the mask toggle.
+    // The visibility toggle first, then the mask toggle.
     public partial class RowToggles : UserControl
     {
-        // The number of slots in the column. A new toggle adds one.
         public const int Slots = 2;
 
         public RowToggles()
@@ -16,7 +15,6 @@ namespace CMiX.Studio.Avalonia.Views
             InitializeComponent();
         }
 
-        // The width of the column for a row height and a space: the space before the first slot, then the slots.
         public static double WidthFor(double rowHeight, double spacing) => Slots * (rowHeight + spacing);
     }
 }

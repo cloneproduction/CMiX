@@ -8,14 +8,12 @@ using CMiX.UI.Behaviors;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The files and folders from the file manager come as a drag of the system. The tree is their drop target.
-    // Any other drag of the system does nothing here: a row of the tree is dragged with the pointer (see TreeRowDrag).
+    // A row is dragged with the pointer (see TreeRowDrag), so a system drag here is a file drag.
     internal sealed class TreeFileDropInput
     {
         private readonly TreeViewContext context;
         private readonly TreeDropMarker marker;
 
-        // The paths of the current file drag, classified once. Null when no file drag is over the tree.
         private DropFiles? dropFiles;
 
         internal TreeFileDropInput(TreeViewContext context, TreeDropMarker marker)
@@ -35,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private static bool IsFileDrag(DragEventArgs e) => e.Data.Contains(DataFormats.Files);
 
-        // The record of the drag. A drag with other data is classified again. DragOver reads no disk.
+        // DragOver reads no disk.
         private DropFiles? FilesOf(DragEventArgs e)
         {
             if (context.Tree is not { } tree)
@@ -49,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Views
         private void TrackFilesPointer(DragEventArgs e) =>
             context.AutoScroller.Track(context.Scroller is { } scroller ? e.GetPosition(scroller).Y : null);
 
-        // A leave of one row comes with the enter of the next row. The next enter or over starts the timer again.
+        // A leave of one row comes with the enter of the next row.
         private void OnDragEnter(object? sender, DragEventArgs e)
         {
             if (!IsFileDrag(e))
@@ -59,8 +57,7 @@ namespace CMiX.Studio.Avalonia.Views
             TrackFilesPointer(e);
         }
 
-        // Files over the tree: the row under the pointer looks hovered when that row takes the files itself (see
-        // ProjectTree.IsPathTarget). Over a child of a layer, or over the space under the rows, nothing is marked.
+        // Over a child of a layer, or under the rows, nothing is marked.
         private void OnDragOver(object? sender, DragEventArgs e)
         {
             if (!IsFileDrag(e))

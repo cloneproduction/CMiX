@@ -10,9 +10,7 @@ using Avalonia.VisualTree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Keeps the shadow of the selected row in the layer over the rows (rowShadowLayer of ProjectTreeView). The layer lies over
-    // every row, so the shadow falls on the rows around the cursor whatever their order of drawing. An effect on the row itself
-    // only reached the rows inside its item. The box of the shadow is the RowBorder of the selected item, measured after each layout.
+    // The shadow lies in a layer over every row, so it falls on the rows around it whatever their drawing order.
     internal sealed class TreeRowShadow
     {
         private const string RowBorderName = "RowBorder";
@@ -27,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Views
             this.layer = layer;
             this.shadow = shadow;
             tree.LayoutUpdated += (_, _) => Follow();
-            // The selected item is noted when a row is selected, so a layout does not search the rows (a large composition has many).
+            // A layout does not search the rows: a large composition has many.
             TreeViewItem.IsSelectedProperty.Changed.AddClassHandler<TreeViewItem>((item, e) =>
             {
                 if (e.GetNewValue<bool>() && item.FindAncestorOfType<TreeView>() == tree)
@@ -49,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
-            // Only a change is written: a write in LayoutUpdated starts another layout, and a write during a slide would restart it.
+            // A write in LayoutUpdated starts another layout, and a write during a slide restarts it.
             Set(Canvas.LeftProperty, origin.Value.X);
             Set(Canvas.TopProperty, origin.Value.Y);
             Set(Layoutable.WidthProperty, row.Bounds.Width);
@@ -67,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Views
             shadow.SetValue(property, value);
         }
 
-        // The box shows and hides at once: a slide between rows read as a wobble.
+        // A slide between rows read as a wobble.
         private void Fade(double opacity) => Set(Visual.OpacityProperty, opacity);
 
         private Border? SelectedRowBorder() =>

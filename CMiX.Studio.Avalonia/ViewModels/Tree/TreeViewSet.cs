@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // The hooks of the views that show the tree. The two side panels can show the same tree.
     public sealed class TreeViewSet
     {
         private readonly List<TreeViewHooks> views = new();

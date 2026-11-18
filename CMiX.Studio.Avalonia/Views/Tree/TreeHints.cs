@@ -12,10 +12,8 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The questions about the view that give the mode of the hint strip.
     internal sealed record TreeHintInputs(Func<bool> IsGrabbing, Func<bool> IsMenuOpen, Func<bool> IsSearchFocused, Func<bool> IsTreeFocused);
 
-    // Keeps the hint strip under the rows on the keys of the mode of the tree (see TreeKeyHints).
     internal sealed class TreeHints
     {
         private readonly TreeViewContext context;
@@ -23,7 +21,6 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeHintInputs inputs;
         private readonly Action<Action, DispatcherPriority> postWhileAttached;
 
-        // The mode that the hint strip shows. Null before the first hints.
         private TreeHintMode? shownMode;
 
         internal TreeHints(TreeViewContext context, KeyHintStrip strip, TreeHintInputs inputs, Action<Action, DispatcherPriority> postWhileAttached)
@@ -34,8 +31,6 @@ namespace CMiX.Studio.Avalonia.Views
             this.postWhileAttached = postWhileAttached;
         }
 
-        // The mode of the tree now: a menu or the Add panel of this view is open, else the focus is in the search field of the panel, else
-        // a search filters the rows while the focus is in this view.
         internal TreeHintMode Mode
         {
             get
@@ -53,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Views
             }
         }
 
-        // The strip gets new hints only when the mode or a gesture changes, so the text never changes for nothing.
+        // Only a new mode or a new gesture changes the text, so the text never changes for nothing.
         internal void Update()
         {
             if (context.Tree is not { } tree)

@@ -3,6 +3,5 @@
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // What a refresh of the search changed: the list of the matches, and its count.
     public sealed record SearchChange(bool MatchesChanged, bool CountChanged);
 }

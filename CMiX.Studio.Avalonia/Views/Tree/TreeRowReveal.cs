@@ -15,18 +15,15 @@ using CMiX.UI.Panels;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The tree does not scroll by itself when the user clicks a row: a click on a row that is at the edge of the view would scroll to
-    // show the whole block of the row, and the second click of a double click would land on another row. A row that a program or a
-    // key selects is brought into view here, and only its own row, not the rows under it.
+    // A click does not scroll: the second click of a double click would land on another row.
     internal sealed class TreeRowReveal
     {
         private readonly TreeViewContext context;
         private readonly Func<bool> isTreeFocused;
 
-        // The row border that BringRowIntoView brings into view.
         private Visual? revealTarget;
 
-        // The reveal that runs now. A new reveal ends the one before.
+        // A new reveal ends the one before.
         private int revealId;
 
         internal TreeRowReveal(TreeViewContext context, Func<bool> isTreeFocused)
@@ -40,8 +37,7 @@ namespace CMiX.Studio.Avalonia.Views
         private void OnTemplateApplied(object? sender, TemplateAppliedEventArgs e) =>
             e.NameScope.Find<ItemsPresenter>("PART_ItemsPresenter")?.AddHandler(Control.RequestBringIntoViewEvent, OnRequestBringIntoView);
 
-        // A row asks to be brought into view when it gets the focus or the selection. That request scrolls to the whole block of the
-        // row, so it stops here, under the scroller of the tree. Only the request of BringRowIntoView goes through.
+        // The request of a row scrolls to its whole block, so it stops here.
         private void OnRequestBringIntoView(object? sender, RequestBringIntoViewEventArgs e)
         {
             if (!ReferenceEquals(e.TargetObject, revealTarget))
@@ -50,7 +46,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal void RevealRow(TreeNode node) => BringRowIntoView(node, border => border.BringIntoView());
 
-        // The item of the row of the node, brought into view, so that a popup can open on it. Null when the row is not shown.
         internal TreeViewItem? ShownItemOf(TreeNode node)
         {
             if (context.RowIndex.FindItem(node) is not { } item)
@@ -61,9 +56,7 @@ namespace CMiX.Studio.Avalonia.Views
             return item;
         }
 
-        // Tree.Reveal: the row goes to the middle of the view (see ProjectTree.RevealSelected). The parents of the row open over a
-        // few frames (CollapsePanel), so the tree is not yet high enough at the first frame. The row is put back in the middle once in each
-        // frame until every parent is fully open. While the tree has the focus, the row takes it, as with the arrow keys.
+        // The parents open over a few frames, so the row is put back in the middle in each frame.
         internal void RevealRowToMiddle(TreeNode node)
         {
             var id = ++revealId;
@@ -95,10 +88,8 @@ namespace CMiX.Studio.Avalonia.Views
             }, DispatcherPriority.Loaded);
         }
 
-        // Ends the reveal that runs. Its next step and its next frame then do nothing. The view calls it when it leaves the window.
         internal void EndReveal() => revealId++;
 
-        // True while a parent of the row still opens.
         private static bool IsOpening(TreeViewItem item) =>
             item.GetVisualAncestors().OfType<CollapsePanel>().Any(panel => panel.IsExpanded && panel.Progress < 1);
 
@@ -107,7 +98,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void BringRowToMiddle(TreeNode node) => BringRowIntoView(node, BringToMiddle);
 
-        // The request asks for a block as high as the view, with the row at its middle. The scroller stops at the ends of the tree.
         private void BringToMiddle(Border border)
         {
             if (context.Scroller is { Viewport.Height: > 0 } scroller)

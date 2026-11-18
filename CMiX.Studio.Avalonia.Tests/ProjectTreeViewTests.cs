@@ -768,7 +768,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             var layerNode = screen.Tree.CompositionNodes()[0].Children[0].Children[0];
             var pointerInput = typeof(ProjectTreeView).GetField("pointerInput", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(screen.View)!;
-            var field = typeof(TreePointerInput).GetField("pressedNode", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
+            var field = typeof(TreePointerInput).GetField("pressedDraggableNode", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
             screen.Window.UpdateLayout();
             AvaloniaHeadlessPlatform.ForceRenderTimerTick();
             Dispatcher.UIThread.RunJobs();

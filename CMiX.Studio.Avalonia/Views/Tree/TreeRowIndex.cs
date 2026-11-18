@@ -10,8 +10,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Finds the item of a node in the project tree without a walk of all the rows.
-    // The tree and each item tell when they prepare or clear an item. The index keeps the item of each node.
+    // The tree and each item tell when they prepare or clear an item, so no walk of all the rows is needed.
     internal sealed class TreeRowIndex
     {
         private readonly TreeView treeView;
@@ -25,12 +24,11 @@ namespace CMiX.Studio.Avalonia.Views
             treeView.ContainerClearing += OnContainerClearing;
         }
 
-        // The number of walks of all the rows. A test reads it.
         internal int FallbackWalks { get; private set; }
 
         internal int Count => items.Count;
 
-        // The item of the node, or null. A missing entry or an item that is no longer in the tree causes a walk. The walk keeps what it finds.
+        // A missing entry or an item that left the tree causes a walk.
         public TreeViewItem? FindItem(TreeNode node)
         {
             if (items.TryGetValue(node, out var known))
@@ -49,8 +47,7 @@ namespace CMiX.Studio.Avalonia.Views
             return found;
         }
 
-        // The realized items in the order of the rows. The dictionary has no row order, so this reads the containers of each level.
-        // When skip is true for an item, the item and the rows under it are not given.
+        // The dictionary has no row order, so this reads the containers of each level.
         public IEnumerable<TreeViewItem> InRowOrder(Func<TreeViewItem, bool> skip) => InRowOrder(treeView, skip);
 
         private static IEnumerable<TreeViewItem> InRowOrder(ItemsControl parent, Func<TreeViewItem, bool> skip)
@@ -66,7 +63,6 @@ namespace CMiX.Studio.Avalonia.Views
             }
         }
 
-        // Removes the item and the items under it. The tree calls this when it clears an item.
         internal void Forget(TreeViewItem item)
         {
             item.ContainerPrepared -= OnContainerPrepared;
@@ -76,7 +72,7 @@ namespace CMiX.Studio.Avalonia.Views
                 Forget(child);
         }
 
-        // A nested item does not tell the tree. So the index listens to each item too.
+        // A nested item does not tell the tree, so the index listens to each item too.
         private void OnContainerPrepared(object? sender, ContainerPreparedEventArgs e)
         {
             if (e.Container is not TreeViewItem item)

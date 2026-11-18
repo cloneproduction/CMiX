@@ -15,7 +15,6 @@ using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // What can be added under a node of the tree: the groups of the Add panel and the flat choices of the toolbar.
     public sealed class TreeAddCatalogue
     {
         private static readonly Type[] ContentTypes = { typeof(Entity), typeof(FullscreenQuad), typeof(TextEntity), typeof(Camera), typeof(LightEntity) };
@@ -27,7 +26,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             this.compositions = compositions;
         }
 
-        // Every node gets the same groups in the same order. An entry that the node cannot take is there, not enabled.
         public IReadOnlyList<TreeAddGroup> GroupsFor(TreeNode? target)
         {
             var available = AvailableFor(target);

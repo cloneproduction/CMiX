@@ -12,8 +12,7 @@ using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // The kind of a row of the project tree. A kind has one color, and an item and its group have the same kind.
-    // A composition and a layer are both composable, so they have the same kind.
+    // An item and its group have the same kind. A composition and a layer are both composable.
     public enum TreeCategory
     {
         Composable,
@@ -28,7 +27,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
     public static class TreeCategories
     {
-        // The kind of an item, or null for an item that the tree does not know.
         public static TreeCategory? Of(IControl item) => item switch
         {
             Composition or Layer => TreeCategory.Composable,
@@ -42,8 +40,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             _ => null
         };
 
-        // The name of a kind for a number of items, such as Entity for one and Entities for two. The name for several is the header
-        // of the group of the kind.
         public static string Label(TreeCategory category, int count) => (category, count == 1) switch
         {
             (TreeCategory.Composable, true) => "Composable",

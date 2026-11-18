@@ -8,12 +8,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
     public static class TreeRowOrder
     {
-        // The last row that is shown in the block of a node: itself when it is collapsed or has no children.
         public static TreeNode LastVisible(TreeNode node) =>
             node.IsExpanded && node.Children.Count > 0 ? LastVisible(node.Children[^1]) : node;
 
-        // The row whose space below it is the place of a drop before the node: the last visible row of the sibling above,
-        // or the parent when the node is the first child. Null when the node is the first row of the tree.
+        // Its space below is the place of a drop before the node. Null for the first row of the tree.
         public static TreeNode? RowAbove(TreeNode node)
         {
             if (node.Parent == null)

@@ -7,10 +7,8 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Sets the sizes of the rows of the project tree in its resources, and the room under the last row.
     public sealed class TreeRowMetrics
     {
-        // The space between two rows, one above the other, at a screen of 100%. The drop line (SplitterIndicatorSize) sits in it.
         // It is the token TreeRowGap. A test pins the two.
         public const double RowGap = 3;
 
@@ -18,7 +16,6 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly IResourceDictionary resources;
         private readonly TreeViewContext context;
 
-        // resources is the dictionary that the rows read.
         public TreeRowMetrics(TreeView treeView, IResourceDictionary resources, TreeViewContext context)
         {
             this.treeView = treeView;
@@ -26,7 +23,6 @@ namespace CMiX.Studio.Avalonia.Views
             this.context = context;
         }
 
-        // The height of a row plus the space under it.
         public double RowPitch => context.RowPitch;
 
         public static double ReadRowPitch(Control view) =>
@@ -36,11 +32,8 @@ namespace CMiX.Studio.Avalonia.Views
         private static double ReadSize(Control view, string key) =>
             Convert.ToDouble(view.TryFindResource(key, out var value) ? value : Application.Current!.FindResource(key));
 
-        // The height of a row and the space between two rows, in whole pixels of the screen.
-        // On a screen with a scaling like 125%, a size of 24 or of 1 is not a whole number of pixels, and every panel rounds its
-        // size up. The rows of a long tree are then slightly more than one pitch apart, and the error adds up. With whole pixels
-        // there is nothing to round, and every row is exactly one pitch from the next, whatever is open.
-        // The height goes up to the next pixel, and the space is one pixel or more.
+        // With a scale like 125%, sizes are not whole pixels and the rounding error adds up over a long tree.
+        // Whole pixels leave nothing to round, so every row is one pitch from the next.
         public static RowSizes SnapToPixels(double height, double spacing, double scale)
         {
             var heightPixels = Math.Ceiling(height * scale - 1e-6);
@@ -59,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Views
             // The space between rows is a space of its own, not the space between a row and its toggles.
             var gap = SnapToPixels(height, RowGap, scale).Spacing;
 
-            // The drop line is one pixel of the screen, in the middle of the space under a row (dropgap) or above the first row (droptop).
+            // The drop line is one pixel of the screen, in the middle of the space.
             var line = 1 / scale;
             var free = (gap - line) / 2;
 
@@ -74,8 +67,7 @@ namespace CMiX.Studio.Avalonia.Views
                 new Thickness(1 / scale));
         }
 
-        // A tree that is higher than its view can scroll until its last row is near the top of the view. When a drop takes rows away,
-        // the view can then stay where it was, since there is always room under the rows. A tree that fits in its view has no room.
+        // Room under the rows lets the view stay where it was when a drop takes rows away.
         public void SetEndRoom()
         {
             if (context.Scroller is not { } view)

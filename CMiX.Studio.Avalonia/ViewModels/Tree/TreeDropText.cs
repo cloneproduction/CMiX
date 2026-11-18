@@ -27,7 +27,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public static string SharesWithOtherLayers(IReadOnlyList<IPrefab> blocking) =>
             $"It shares {string.Join(", ", blocking.Select(item => $"\"{item.PrefabService.Name.Value}\""))} with other layers";
 
-        // The text for a move that shared items block. For an entity, a camera or a light, blocking gives the layers that share it.
         public static string DescribeBlock(TreeNode source, TreeNode target, IReadOnlyList<IPrefab> blocking)
         {
             if (source.Item is not Layer)
@@ -53,14 +52,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 + "Remove the item from the other layers first, or duplicate it, then move the layer.";
         }
 
-        // The name of the item that holds the list of the drop.
         private static string NameOfList(TreeNode inside)
         {
             var holder = inside.Item == null ? inside : inside.Parent;
             return (holder?.Item == null ? holder?.Parent : holder)?.Header ?? string.Empty;
         }
 
-        // The name of a type of item, without the word of its kind at the end: TranslateModifier is Translate.
+        // TranslateModifier is Translate.
         private static string ItemName(IControl item)
         {
             var name = item.GetType().Name;
@@ -71,7 +69,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             return name;
         }
 
-        // The name of a type of owner in small letters, with a space between its words: LightEntity is light entity.
+        // LightEntity is light entity.
         private static string OwnerName(Type type) =>
             string.Concat(type.Name.Select((letter, index) => index > 0 && char.IsUpper(letter) ? " " + char.ToLowerInvariant(letter) : char.ToLowerInvariant(letter).ToString()));
 

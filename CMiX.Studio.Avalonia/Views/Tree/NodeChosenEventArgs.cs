@@ -6,7 +6,6 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The node that the user chose with a click on its row.
     public sealed class NodeChosenEventArgs : RoutedEventArgs
     {
         public NodeChosenEventArgs(RoutedEvent routedEvent, object source, TreeNode node)

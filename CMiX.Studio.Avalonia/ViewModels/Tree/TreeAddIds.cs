@@ -5,7 +5,6 @@ using System;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // The ids of the add rows of the tree. The menus, the toolbar and the Add panel find an entry by its id.
     public static class TreeAddIds
     {
         private const string Prefix = "row.add-";

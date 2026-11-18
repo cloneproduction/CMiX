@@ -23,13 +23,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             this.undoManager = undoManager;
         }
 
-        // The node that takes dropped files: the first composition or layer from the node up. No node, or a node
-        // that is under no composition, gives null, and then the drop makes a new composition.
+        // No node, or a node under no composition, gives null: the drop then makes a new composition.
         public TreeNode? FindTarget(TreeNode? hovered) =>
             hovered == null ? null : TreeWalk.ParentsOf(hovered).Prepend(hovered).FirstOrDefault(row => row.Item is Composition or Layer);
 
-        // True when the node itself takes the dropped files: a composition, a layer, or the group of entities of a layer.
-        // The other nodes of a layer pass the drop to the entities of their layer, but they are not the target themselves.
+        // The other nodes of a layer pass the drop to its entities but are not the target.
         public bool IsTarget(TreeNode node) =>
             node.Item is Composition or Layer
             || node.Group is EntitiesGroup;
@@ -38,9 +36,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public bool CanDrop(IEnumerable<string> paths) => paths.Any(pathDrop.AcceptsItem);
 
-        // Makes what the dropped paths need, and adds an item for each path, as one undo step.
-        // A composition takes a new layer, and a layer takes the items. With no target, a new composition with a new
-        // layer takes them. A drop of nothing that is accepted changes nothing.
         public void Drop(TreeNode? hovered, IReadOnlyList<string> paths)
         {
             var accepted = paths.Where(pathDrop.AcceptsItem).ToList();

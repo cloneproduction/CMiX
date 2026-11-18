@@ -6,7 +6,6 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Shows the place of a drop on the rows of the project tree with TreeDropMark. It keeps the marked row and its place.
     public sealed class TreeDropMarker
     {
         private readonly TreeRowIndex rows;
@@ -21,11 +20,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         public DropPosition? MarkedPosition { get; private set; }
 
-        // The item that shows the line of a drop between rows, and true when the line is in the space under its row (false: at its top).
-        // Null when no line shows. The label of the drag keeps clear of the line (see TreeRowDrag).
         internal DropLine? Line => barItem == null ? null : new DropLine(barItem, TreeDropMark.GetMark(barItem) == DropMark.GapBelow);
 
-        // Marks the item for a drop at the position. A null item or position removes the mark.
         public void Mark(TreeViewItem? item, DropPosition? position)
         {
             if (Marked != null)
@@ -51,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (item.DataContext is not TreeNode node)
                 return;
 
-            // The bar is in the space under the row above the place: the last visible row of the block for a drop after the node.
+            // For a drop after the node, the bar is under the last visible row of its block.
             var above = position == DropPosition.After ? TreeRowOrder.LastVisible(node) : TreeRowOrder.RowAbove(node);
             var aboveItem = above == null ? null : TreeRows.ItemOfNode(item, above) ?? rows.FindItem(above);
             barItem = aboveItem ?? item;

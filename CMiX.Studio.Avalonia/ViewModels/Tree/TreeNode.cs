@@ -18,9 +18,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // A node of the project tree: a composition, a layer, an item of a layer, or a group of items.
-    // Item is null for a group. Owner is the list that holds the Item.
-    // ChildManager is the list whose items are the children. The children follow that list.
+    // A row of the project tree. Item is null for a group row.
     public sealed partial class TreeNode : ObservableObject, IDisposable
     {
         private readonly TreeNodeHost host;
@@ -31,7 +29,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             this.host = host;
             counts = new RowCounts(this, parent?.counts);
 
-            // A row made while the project loads starts collapsed. Any other new row starts expanded.
+            // A row made while the project loads starts collapsed.
             isExpanded = !host.IsLoading;
             Parent = parent;
             Owner = owner;
@@ -49,11 +47,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             Category = item != null ? TreeCategories.Of(item) : group?.Category;
             kindLabel = item != null ? AddableTypes.LabelOf(item.GetType()) : null;
 
-            // A row tells its rows below when it is hidden or shown, so they look greyed (see IsUnderHiddenParent).
             hiddenSource = HiddenSourceOf(group, item);
             if (hiddenSource != null)
                 hiddenSource.PropertyChanged += OnHiddenChanged;
-            // A group of composables (Compositions, Layers) takes no level of its own: the compositions and the layers have the same colors as before.
+            // A group of composables takes no level of its own, so the colors do not change.
             ComposableDepth = parent == null ? 0 : parent.ComposableDepth + (parent.Category == TreeCategory.Composable && parent.Item != null ? 1 : 0);
             KindDepth = parent == null ? 0 : parent.KindDepth + (parent.Category != null && Category != null && parent.Category != Category ? 1 : 0);
 
@@ -67,8 +64,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 ChildManager.ManagerData.PropertyChanged += OnManagerDataChanged;
             }
 
-            // The groups come after the items of the node (the layers of a composition), so the place of an item in its list is its
-            // place in the children.
+            // The groups come after the items, so the index of an item in its list is its index in the children.
             if (item != null)
                 AddGroups(item);
 
@@ -79,7 +75,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         private void OnChildrenChanged(object? sender, NotifyCollectionChangedEventArgs e) => counts.RecountAll();
 
-        // The lists that an item holds, as groups (see TreeGroup.GroupsOf). A group row has no item. The inspector shows the panel of the group.
         internal void AddGroups(IControl item)
         {
             foreach (var group in TreeGroup.GroupsOf(item))
@@ -91,31 +86,24 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public IControl? Item { get; }
         public TreeGroup? Group { get; }
 
-        // The kind of the row: its color in the tree. Null for a row that the tree does not know.
         public TreeCategory? Category { get; }
 
-        // The number of composables around the row. A composable has one more color for each level.
         public int ComposableDepth { get; }
 
-        // The number of changes of kind from the top of the tree to the row. A group and its items have the same one, and what a row holds
-        // of another kind has one more. A row is darker for each one (see CategoryPalette).
+        // A row is one step darker for each change of kind above it.
         public int KindDepth { get; }
 
-        // What the inspector shows for this row: the item, or the group of items of a layer.
         public object? InspectorContent => (object?)Item ?? Group;
         public PrefabManager? Owner { get; }
         public PrefabManager? ChildManager { get; }
         public ObservableCollection<TreeNode> Children { get; } = new();
 
-        // The kinds of what the row holds, in the order of the rows under it, each with its number: an item under the row counts for
-        // its own kind, and a group under the row counts for the items in it. A collapsed row shows these.
         public IReadOnlyList<KindCount> KindCounts => counts.KindCounts;
 
         internal int KindCountsComputations => counts.KindCountsComputations;
 
         public bool HasKindCounts => counts.HasKindCounts;
 
-        // A collapsed row shows at most this number of kind squares. One more square shows the number of the other kinds.
         public const int MaxShownKindCounts = 3;
 
         public IReadOnlyList<KindCount> ShownKindCounts => counts.ShownKindCounts;
@@ -124,26 +112,19 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public bool HasMoreKinds => MoreKindsCount > 0;
 
-        // The tooltip of the square of the other kinds: one kind on each line.
         public string MoreKindsDescription => counts.MoreKindsDescription;
 
-        // The item that has a mask: a composition or a layer. The other rows have none.
         public IControl? MaskOwner => Item is Composition or Layer ? Item : null;
 
-        // A collapsed row shows what it holds, and how many hidden rows it holds. An open row shows it in the rows under it.
         public bool ShowsKindCounts => (HasKindCounts || HasHiddenRows) && !IsExpanded;
 
-        // The sign of a missing asset follows the rule of the kind squares: a collapsed row shows it for the rows under it, an open row
-        // leaves it to them. The missing row itself always shows it, so the sign is seen at every level down to the file.
+        // The missing row always shows the sign, so the sign shows at every level down to the file.
         public bool ShowsMissingSign => HasMissingAssets && (IsMissingAsset || !IsExpanded);
 
-        // The badges of a row: the kind squares of a collapsed row, or the sign of a missing asset (see KindCountBadges).
         public bool ShowsBadges => ShowsKindCounts || ShowsMissingSign;
 
-        // A missing asset: the item is a texture source with a file that is not on disk.
         public bool IsMissingAsset => counts.IsMissingAsset;
 
-        // The missing assets on this row and under it. The row above counts them too, so the count bubbles up to the composition.
         public int MissingCount => counts.MissingCount;
 
         public bool HasMissingAssets => counts.HasMissingAssets;
@@ -179,14 +160,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         [NotifyPropertyChangedFor(nameof(IsDimmed))]
         private bool isExpanded = true;
 
-        // True for a row of an item that was added after the tree was made, and not by the load of a project. The row fades in.
+        // A row that the user added after the load. It fades in.
         public bool IsFresh { get; private set; }
 
-        // True when the row is the cursor row (ProjectTree.CursorNode). The row theme binds CursorRow.IsCursor to it.
         [ObservableProperty]
         private bool isCursor;
 
-        // True when the row is above the cursor row: it is drawn over the rows around it, with the cursor row (see TreeLiftConverter).
         [ObservableProperty]
         private bool isOnCursorBranch;
 
@@ -202,10 +181,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 parent.IsOnCursorBranch = false;
         }
 
-        // The state of the row during a drag of a node (see ProjectTree.BeginDrag). The rows that take the node inside are candidates: they
-        // are lit. The rows that the node can go next to are neighbors: they stay as they are, and the bar shows the place. A collapsed row
-        // that has such a row under it gives a hint, so the user knows to open it. A row that takes the node by its kind but refuses
-        // it by a rule is blocked: it keeps its fill, shows a frame and gives the reason. The other rows are dimmed.
+        // A candidate takes the node inside. A neighbor takes it before or after.
+        // A blocked row takes the kind but refuses the node by a rule.
         private bool isDragActive;
         private bool isDragSource;
         private bool isDropCandidate;
@@ -219,12 +196,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public bool IsDropNeighbor { get => isDropNeighbor; private set => SetProperty(ref isDropNeighbor, value); }
         public bool HasDropTargetBelow { get => hasDropTargetBelow; private set => SetProperty(ref hasDropTargetBelow, value); }
 
-        // The reason why the row refuses the dragged node (see TreeDropService.BlockReason), or null.
         public string? DropBlockReason { get => dropBlockReason; private set => SetProperty(ref dropBlockReason, value); }
         public bool IsDropBlocked => DropBlockReason != null;
         public bool IsDropHint => IsDragActive && HasDropTargetBelow && !IsDropCandidate && !IsDropNeighbor && !IsDropBlocked && !IsExpanded;
-        // Covered during a drag: every row that can not take the node, the source and a row that refuses it by a rule too (the reason
-        // stays in the tooltip). A row that can take it is lit; a collapsed row with a target deeper is half covered (IsDropHint).
+        // A blocked row is dimmed too. Its tooltip gives the reason.
         public bool IsDimmed => IsDragActive && !IsDropCandidate && !IsDropNeighbor && !IsDropHint;
 
         internal void ShowDragLook(DragLook look)
@@ -268,19 +243,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 OnPropertyChanged(nameof(IsDimmed));
         }
 
-        // The name of the type of the item, as the Add panel shows it (see AddableTypes.LabelOf), so a renamed item is found by its type.
-        // Null for a group row.
+        // The type name as the Add panel shows it, so a renamed item is found by its type.
         private readonly string? kindLabel;
 
-        // The state of the row in the search of the tree (see ProjectTree.SearchText). A row that matches keeps its color. While a search
-        // runs, every other row is dimmed, the parents of the matches too.
         private bool isSearchMatch;
         private bool isSearchDimmed;
 
         public bool IsSearchMatch { get => isSearchMatch; private set => SetProperty(ref isSearchMatch, value); }
         public bool IsSearchDimmed { get => isSearchDimmed; private set => SetProperty(ref isSearchDimmed, value); }
 
-        // True when the name of the row or the kind of its item holds the text, with no regard to case. A group row has only its name.
         internal bool MatchesSearch(string text) =>
             Header.Contains(text, StringComparison.OrdinalIgnoreCase)
             || (kindLabel != null && kindLabel.Contains(text, StringComparison.OrdinalIgnoreCase));
@@ -297,11 +268,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             IsSearchDimmed = false;
         }
 
-        // A new name can make the row match the search, or stop it.
         partial void OnHeaderChanged(string value) => host.RefreshSearch();
 
-        // The search does not close again a row that the user opened or closed. A row that closes over the cursor takes the cursor
-        // (see ProjectTree.RowExpandedChanged).
         partial void OnIsExpandedChanged(bool value) => host.RowExpandedChanged(this);
 
         public bool IsOrIsUnder(TreeNode node)
@@ -331,7 +299,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 case NotifyCollectionChangedAction.Add:
                     InsertFreshChildren(e.NewStartingIndex, e.NewItems!.Cast<IControl>());
 
-                    // A new item shows at once: the rows above it open. A loaded item opens nothing.
+                    // A new item shows at once. A loaded item opens nothing.
                     for (var holder = this; holder != null; holder = holder.Parent)
                         holder.IsExpanded = true;
                     break;
@@ -393,8 +361,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 host.SelectFromModel(node);
         }
 
-        // The hide state of a row: the whole list of a group (its Hidden value), or the visibility of an item. A row that has none is never hidden.
-        // The engine draws nothing of what is under a hidden row, but the rows under it keep their own state.
+        // The engine draws nothing under a hidden row, but the rows under it keep their own state.
         private readonly INotifyPropertyChanged? hiddenSource;
 
         private static INotifyPropertyChanged? HiddenSourceOf(TreeGroup? group, IControl? item) =>
@@ -406,11 +373,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             _ => false
         };
 
-        // The value that the eye toggle of the row writes: true hides the row. Null for a row that has no visibility.
         public GenericValue<bool>? HiddenValue => hiddenSource as GenericValue<bool>;
 
-        // True when any row above this one is hidden: a hidden list, or a hidden item such as a layer or a composition. The visibility toggles of the
-        // row look greyed then, as if they were disabled, but they work: the row keeps its own visibility, and it shows again with its parents.
+        // The toggles look greyed but work: the row keeps its own visibility.
         public bool IsUnderHiddenParent => TreeWalk.ParentsOf(this).Any(parent => parent.IsHidden);
 
         private void OnHiddenChanged(object? sender, PropertyChangedEventArgs e)
@@ -423,7 +388,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             counts.RecountHiddenAbove();
         }
 
-        // The number of hidden rows under the row, at all levels. A collapsed row shows it, so a hidden row is never out of sight.
         public int HiddenCount => counts.HiddenCount;
 
         public bool HasHiddenRows => counts.HasHiddenRows;

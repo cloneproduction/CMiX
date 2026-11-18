@@ -11,16 +11,11 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The grab of a row (Tree.Grab, G), as in Blender: the drag starts at once, with no pressed button. The pointer moves the mark of
-    // the drop, and the arrow keys move it to the next valid place (see TreeDropSlots). The last input wins: after a key, the pointer
-    // takes the mark back only when it moves further than MouseTakeOver.
-    // A left click or Enter puts the row at the mark. A click where no drop is offered does nothing. A right click, Escape, a focus
-    // that goes out of the tree, a window that is not active any more and the end of the view end the grab with no move.
-    // While the grab runs it takes every click and every key of the window, so nothing reaches the rows or the other panels.
-    // The grab uses the same drag as a drag with the button (see TreeDragSession). The drop is one undo step.
+    // The grab of a row (Tree.Grab), as in Blender: the drag starts with no pressed button.
+    // While it runs, it takes every click and every key of the window.
     public sealed class TreeGrab
     {
-        // The pointer takes the mark back from the keys when it moves this far, in pixels (owner decision D13).
+        // The value is owner decision D13.
         public const double MouseTakeOver = 14;
 
         private readonly Control owner;
@@ -30,24 +25,19 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly Action<TreeNode> reveal;
         private readonly Action changed;
 
-        // The window of the grab while it runs. Null when no grab runs.
         private TopLevel? top;
 
-        // The place of the mark that the keys move, as an index in the valid places of the drop.
         private int slotIndex = -1;
 
-        // True after a key moved the mark: the pointer takes it back only after a move past MouseTakeOver from keyPoint.
-        private bool keyMode;
-        private Point keyPoint;
+        private bool isMarkFromKey;
+        private Point keyMovePoint;
 
-        // True from a click of the grab to the release of its button, so the release reaches no row.
+        // The release of a grab click must not reach a row.
         private bool releasePending;
 
-        // True after a click of the grab: the next request for a menu does not open it (a right click asks on the release).
+        // A right click asks for a menu on the release.
         private bool menuBlocked;
 
-        // owner is the view of the tree: a focus that goes out of it ends the grab. reveal brings the row of a node into view. changed runs
-        // when the grab starts and when it ends.
         internal TreeGrab(Control owner, TreeView treeView, TreeDragSession session, TreeViewContext context, Action<TreeNode> reveal,
             Action changed)
         {
@@ -59,10 +49,8 @@ namespace CMiX.Studio.Avalonia.Views
             this.reveal = reveal;
         }
 
-        // True from the start of the grab to its end.
         public bool IsGrabbing => top != null && session.IsRunning;
 
-        // True when the view must not open a menu now: a click of the grab asked for it. It is true one time only.
         internal bool TakeMenuBlock()
         {
             var blocked = menuBlocked || IsGrabbing;
@@ -70,8 +58,6 @@ namespace CMiX.Studio.Avalonia.Views
             return blocked;
         }
 
-        // Starts the grab of the node. The position is the last place of the pointer, in the tree view. The label of the row shows
-        // there. Returns false when the node cannot move or a drag already runs.
         public bool Start(TreeNode node, Point position)
         {
             if (top != null || session.IsRunning || context.Tree is not { } project || !project.CanDrag(node) || TopLevel.GetTopLevel(treeView) is not { } window)
@@ -79,10 +65,10 @@ namespace CMiX.Studio.Avalonia.Views
 
             top = window;
             session.Start(node, position);
-            // The list of places needs the drag: BeginDrag tells the rows which of them block the node.
+            // TreeDropSlots needs the started drag: BeginDrag marks the blocked rows.
             slotIndex = new TreeDropSlots(project, node).StartIndex;
-            keyMode = true;
-            keyPoint = position;
+            isMarkFromKey = true;
+            keyMovePoint = position;
             lastPointer = position;
             menuBlocked = false;
 
@@ -100,21 +86,18 @@ namespace CMiX.Studio.Avalonia.Views
             return true;
         }
 
-        // Ends the grab with no move. The view calls it when it goes, so no handler stays on the window.
         public void Cancel() => End(TreeDragEnd.Cancel);
 
-        // Puts the row at the mark. With no valid place at the mark nothing happens and the grab goes on, except at the start place:
-        // there the grab ends with no move, as a confirm in Blender.
+        // At the start place a confirm ends the grab with no move, as in Blender.
         private void Confirm()
         {
             if (session.Slot != null)
                 End(TreeDragEnd.Drop);
-            else if (keyMode && context.Tree is { } project && session.Source is { } source && slotIndex == new TreeDropSlots(project, source).StartIndex)
+            else if (isMarkFromKey && context.Tree is { } project && session.Source is { } source && slotIndex == new TreeDropSlots(project, source).StartIndex)
                 End(TreeDragEnd.Cancel);
         }
 
-        // Moves the mark to the next or the previous valid place. The list is made again each time, because Tree.Expand can open or
-        // close a row during the grab.
+        // Make the list again each time, because Tree.Expand can open or close a row.
         private void Step(int direction)
         {
             if (context.Tree is not { } project || session.Source is not { } source)
@@ -131,13 +114,12 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             var slot = slots.Slots[slotIndex];
-            keyMode = true;
-            keyPoint = lastPointer;
+            isMarkFromKey = true;
+            keyMovePoint = lastPointer;
             reveal(slot.Target);
             session.AimAt(slot.Target, slot.Position);
         }
 
-        // The last place of the pointer during the grab, in the tree view.
         private Point lastPointer;
 
         private void OnKeyDown(object? sender, KeyEventArgs e)
@@ -164,10 +146,10 @@ namespace CMiX.Studio.Avalonia.Views
                     e.Handled = true;
                     break;
                 case Key.E:
-                    // Tree.Expand opens or closes the row at the mark (see TreeDragSession.ToggleHovered). It goes on to the key binding.
+                    // Tree.Expand goes on to the key binding.
                     break;
                 default:
-                    // No other key acts during the grab: a key of the tree or of the window would change the rows under the grab.
+                    // Another key would change the rows under the grab.
                     e.Handled = true;
                     break;
             }
@@ -180,11 +162,11 @@ namespace CMiX.Studio.Avalonia.Views
 
             var position = e.GetPosition(treeView);
             lastPointer = position;
-            if (keyMode && Distance(position, keyPoint) < MouseTakeOver)
+            if (isMarkFromKey && Distance(position, keyMovePoint) < MouseTakeOver)
                 return;
 
-            keyMode = false;
-            // Out of the tree the mark stays where it was, so a short move out and back does not lose the place.
+            isMarkFromKey = false;
+            // Out of the tree the mark stays, so a short move out and back keeps the place.
             if (new Rect(treeView.Bounds.Size).Contains(position))
                 session.Track(position);
         }
@@ -207,7 +189,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (!properties.IsLeftButtonPressed)
                 return;
 
-            // The drop reads the mark, not the pointer: the last move set the mark, and the rows can move between that move and the click.
+            // The rows can move between the last move and the click, so the drop reads the mark.
             if (session.Slot != null)
                 End(TreeDragEnd.Drop);
         }
@@ -233,14 +215,12 @@ namespace CMiX.Studio.Avalonia.Views
             e.Handled = true;
         }
 
-        // A focus that goes out of the view of the tree ends the grab.
         private void OnGotFocus(object? sender, GotFocusEventArgs e)
         {
             if (IsGrabbing && e.Source is Visual focused && !ReferenceEquals(focused, owner) && !owner.IsVisualAncestorOf(focused))
                 Cancel();
         }
 
-        // The window is not active any more, or it closes: the grab ends with no move, and no handler stays on the window.
         private void OnDeactivated(object? sender, EventArgs e) => Detach();
 
         private void End(TreeDragEnd end)
@@ -252,9 +232,8 @@ namespace CMiX.Studio.Avalonia.Views
                 session.End(end);
 
             slotIndex = -1;
-            keyMode = false;
+            isMarkFromKey = false;
             changed();
-            // A click ended the grab: its release must not reach a row. The handlers go when the release comes.
             if (!releasePending)
                 RemoveHandlers();
         }
@@ -278,7 +257,7 @@ namespace CMiX.Studio.Avalonia.Views
             releasePending = false;
         }
 
-        // The view goes: every handler goes with it, also when a release is still awaited.
+        // Every handler goes, also when a release is still awaited.
         internal void Detach()
         {
             Cancel();

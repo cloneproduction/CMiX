@@ -10,7 +10,6 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The keys of one view of the tree that the key bindings of the view do not take.
     internal sealed class TreeKeyInput
     {
         private readonly TreeViewContext context;
@@ -31,11 +30,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal void Attach(TreeView treeView) => treeView.AddHandler(InputElement.KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
 
-        // Escape ends a drag of a row without a drop. Else, while a search is active, Escape clears it (see ProjectTree.ClearSearch): the
-        // focus and the cursor row stay. A grab, a menu and a name box take their Escape first. With no search, Escape does nothing here.
-        // Avalonia runs the key bindings of the view (the gestures of the map) before this handler. The navigation keys move the cursor
-        // only (see ProjectTree.CursorNode). The tree view does not see them, so they select nothing. A navigation key
-        // with a modifier does nothing. A key in a name box stays in the name box. The keys of IsTreeViewKey do nothing.
+        // Avalonia runs the key bindings of the view before this handler.
+        // The tree view does not see the navigation keys, so they move the cursor and select nothing.
         private void OnKeyDownTunnel(object? sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape && rowDrag.IsDragging)
@@ -55,7 +51,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
-            // Tree.Inspect (Space by default) is handled here, before the tree view takes Space for its own selection.
+            // Handled here, before the tree view takes Space for its own selection.
             if (tree.Shortcuts["Tree.Inspect"] is { } inspectGesture && inspectGesture.Matches(e))
             {
                 if (tree.InspectCursorCommand.CanExecute(null))
@@ -64,16 +60,14 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
-            // The tree view opens and closes rows on these keys by itself. The design does not use them.
+            // The design does not use the keys that open and close rows in the tree view.
             if (IsTreeViewKey(e.Key))
             {
                 e.Handled = true;
                 return;
             }
 
-            // The Add panel is the leaf after the last row of a branch: Right on a row with nothing under it opens it, at the right of the row,
-            // its search field level with the row and a tip at the middle of the row. Ctrl+Right opens it on any row. The arrows then pick
-            // an entry and Enter adds it, so a row deep in the tree is reached and filled with Right alone. Left in the panel comes back.
+            // The Add panel is the leaf after the last row of a branch, so Right on a row with nothing under it opens it.
             if (e.Key == Key.Right && (e.KeyModifiers == KeyModifiers.Control
                                        || (e.KeyModifiers == KeyModifiers.None && tree.CursorNode is { Children.Count: 0 })))
             {
@@ -97,7 +91,6 @@ namespace CMiX.Studio.Avalonia.Views
         private static bool IsNavigationKey(Key key) =>
             key is Key.Up or Key.Down or Key.PageUp or Key.PageDown or Key.Home or Key.End or Key.Left or Key.Right;
 
-        // The numpad keys that TreeViewItem uses to open and close rows. Enter and the navigation keys are not in this list.
         internal static bool IsTreeViewKey(Key key) =>
             key is Key.Add or Key.Subtract or Key.Multiply or Key.Divide;
 

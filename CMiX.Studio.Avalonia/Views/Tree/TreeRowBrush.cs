@@ -9,14 +9,12 @@ using CMiX.Studio.Avalonia.Converters;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // What a control of a tree row shows: the icon of the row, or its text.
     public enum TreeRowBrushRole
     {
         Icon,
         Text,
     }
 
-    // The Foreground of a control of a tree row, from the node, the cursor, the selection and the children of its row (KindIconBrushConverter).
     public static class TreeRowBrush
     {
         private static readonly KindIconBrushConverter Converter = new();

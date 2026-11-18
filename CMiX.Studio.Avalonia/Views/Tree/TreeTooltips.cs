@@ -11,14 +11,10 @@ using Avalonia.VisualTree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Shows the tooltips of the rows of the tree. The tooltip service of Avalonia does not open them in the running app, while it opens
-    // the tooltips of the toolbar (the log of the pointer shows that the right control is found and that nothing then opens). So the tree
-    // switches the service off for its rows and does the same work: the tooltip of the control under the pointer opens after its show delay,
-    // and it closes when the pointer goes to another control, leaves the tree, or presses a button.
-    // A key press in the window closes the tooltip. No tooltip opens again until the pointer moves more than WakeDistance.
+    // The tooltip service of Avalonia does not open the tooltips of the rows in the running app,
+    // so the tree switches it off for its rows and does the same work here.
     internal sealed class TreeTooltips
     {
-        // The distance in pixels that the pointer must move after a key press before a tooltip can open again.
         internal const double WakeDistance = 4;
 
         private readonly DispatcherTimer timer = new();
@@ -27,13 +23,10 @@ namespace CMiX.Studio.Avalonia.Views
         private Control? open;
         private TopLevel? keySource;
 
-        // The last place of the pointer over the rows.
         private Point? lastPoint;
 
-        // The place of the pointer at the last key press. Null when no key press holds the tooltips back.
         private Point? keyPoint;
 
-        // True from a key press until the pointer moves more than WakeDistance.
         private bool isMuted;
 
         public TreeTooltips(Control rows)
@@ -49,16 +42,14 @@ namespace CMiX.Studio.Avalonia.Views
             timer.Tick += (_, _) => Show();
         }
 
-        // The control whose tooltip waits to open or is open. A test reads it.
+        // For the tests.
         internal Control? Hovered => hovered;
 
-        // The control of the open tooltip.
         internal Control? Open => open;
 
-        // True while a key press holds the tooltips back. A test reads it.
         internal bool IsMuted => isMuted;
 
-        // The keys of the whole window close the tooltip, also the keys that a key binding or the tree handles.
+        // Also the keys that a key binding or the tree handles close the tooltip.
         private void ListenToKeys(TopLevel? topLevel)
         {
             if (ReferenceEquals(topLevel, keySource))
@@ -71,7 +62,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void OnKeyDown(object? sender, KeyEventArgs e) => Mute();
 
-        // A key press: the tooltip closes, and a tooltip that waits does not open.
         internal void Mute()
         {
             Hover(null);
@@ -102,7 +92,6 @@ namespace CMiX.Studio.Avalonia.Views
             Hover(HostOf(e.Source as Visual));
         }
 
-        // The nearest control from the one under the pointer up that has a tooltip and can show it.
         internal static Control? HostOf(Visual? visual)
         {
             for (var current = visual; current != null; current = current.GetVisualParent())
@@ -112,7 +101,6 @@ namespace CMiX.Studio.Avalonia.Views
             return null;
         }
 
-        // The pointer is on a control, or on none. A new control closes the open tooltip and starts the wait of its own.
         internal void Hover(Control? host)
         {
             if (ReferenceEquals(host, hovered))
@@ -135,7 +123,6 @@ namespace CMiX.Studio.Avalonia.Views
             timer.Start();
         }
 
-        // The wait is over: the tooltip of the control under the pointer opens.
         internal void Show()
         {
             timer.Stop();

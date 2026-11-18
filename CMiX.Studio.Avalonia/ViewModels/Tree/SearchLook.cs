@@ -3,6 +3,5 @@
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // How one row looks while a search runs (see TreeNode.ShowSearchLook). A row that does not match is dimmed.
     public sealed record SearchLook(bool IsMatch);
 }

@@ -9,7 +9,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     {
         private bool isDragging;
 
-        // The search is off while a drag runs (see FocusSearch): the view binds the search box to it.
         public bool IsDragging
         {
             get => isDragging;
@@ -48,14 +47,14 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public DropPlace? Locate(TreeNode source, TreeNode hovered, double fraction) =>
             dropService.Locate(source, hovered, fraction);
 
-        // The move and the selection of the moved item are one undo step. The moved node keeps the inspector.
+        // The move and the selection of the moved item are one undo step.
         public async Task DropAsync(TreeNode source, TreeNode target, DropPosition position)
         {
             DropMove move;
             undoManager.BeginCapture();
             try
             {
-                // Read before the drop: the drop removes the source node, which passes the inspector to the parent (NodeRemoved).
+                // Read before the drop: the drop removes the source node, and NodeRemoved passes the inspector up.
                 var inspected = ReferenceEquals(inspectedNode, source);
                 move = drop.Move(root, source, target, position);
                 if (move.MovedNode is { } moved)

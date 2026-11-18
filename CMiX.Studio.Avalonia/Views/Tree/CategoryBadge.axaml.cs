@@ -5,7 +5,6 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The icon of a tree node on a square in the color of its kind. The DataContext is the node.
     public partial class CategoryBadge : UserControl
     {
         public CategoryBadge()

@@ -6,23 +6,17 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The mark of a drop that a row shows.
     public enum DropMark
     {
-        // The row shows no mark.
         None,
 
         // The row takes the drop inside it.
         Target,
 
-        // The bar is in the space under the row.
         GapBelow,
-
-        // The bar is at the top of the row.
         GapTop,
     }
 
-    // The drop mark of a row. The mark sets the pseudo classes :droptarget, :dropgap and :droptop that the styles of the tree read.
     public static class TreeDropMark
     {
         private const string DropTarget = ":droptarget";

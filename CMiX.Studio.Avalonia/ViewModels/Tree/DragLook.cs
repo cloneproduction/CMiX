@@ -3,7 +3,6 @@
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // How one row looks while a node is dragged (see TreeNode.ShowDragLook).
     public sealed record DragLook(bool IsSource, bool IsCandidate, bool IsNeighbor, bool HasTargetBelow, string? BlockReason)
     {
         public static readonly DragLook None = new(false, false, false, false, null);

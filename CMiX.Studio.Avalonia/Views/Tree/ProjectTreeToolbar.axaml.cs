@@ -10,14 +10,11 @@ using CMiX.UI.Popups;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The toolbar over the tree of the project. The buttons are commands of the tree.
-    // A click on the Add button opens the Add panel with its search field under the pointer, as the shortcut Tree.Add does. A button
-    // that the keyboard clicks opens the panel under the button. With nothing selected, the panel offers a composition.
+    // A click opens the Add panel under the pointer, as Tree.Add does. A keyboard click opens it under the button.
     public partial class ProjectTreeToolbar : UserControl
     {
         private readonly AddPanel panel = new();
 
-        // The last place of the pointer over the toolbar, in the coordinates of the toolbar.
         private Point lastPointer;
 
         public ProjectTreeToolbar()
@@ -27,18 +24,16 @@ namespace CMiX.Studio.Avalonia.Views
             AddHandler(PointerPressedEvent, (_, e) => lastPointer = e.GetPosition(this), RoutingStrategies.Tunnel, handledEventsToo: true);
         }
 
-        // For the tests: the panel of the Add button.
+        // For the tests.
         internal AddPanel Panel => panel;
 
-        // The panel shows what the target node takes (ProjectTree.TargetNode, GetAddGroups), then the Project group, as a composition can be
-        // added whatever the target is. Its header names the node, because the button is not on a row.
+        // The header names the node, because the button is not on a row.
         private void OnAddClick(object? sender, RoutedEventArgs e)
         {
             if (DataContext is not ProjectTree tree)
                 return;
 
-            // The button always opens the panel, also with no target, when the panel has only the composition to offer:
-            // a click on the button must not add a composition by surprise.
+            // A click on the button must not add a composition by surprise.
             if (tree.TargetAdds.Count == 0)
                 return;
 

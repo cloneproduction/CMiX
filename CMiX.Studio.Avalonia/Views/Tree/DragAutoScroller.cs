@@ -6,9 +6,6 @@ using Avalonia.Threading;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Scrolls a view during a drag. A timer scrolls while the pointer is near the top or bottom edge.
-    // The wheel of a row drag comes as a pointer event (see TreeRowDrag). A wheel step is three rows.
-    // This class is the only owner of the timer.
     public sealed class DragAutoScroller : IDisposable
     {
         // The tokens DragScrollEdge and DragScrollStep. A test pins them.
@@ -26,11 +23,8 @@ namespace CMiX.Studio.Avalonia.Views
             timer.Tick += (_, _) => AutoScrollStep();
         }
 
-        // True while the timer runs.
         public bool IsRunning => timer.IsEnabled;
 
-        // The pointer of a drag, in the coordinates of the scroll viewer. Null when the pointer is not known.
-        // The timer starts if it does not run.
         public void Track(double? y)
         {
             if (disposed)
@@ -41,7 +35,6 @@ namespace CMiX.Studio.Avalonia.Views
                 timer.Start();
         }
 
-        // Stops the timer at once. The next Track starts it again.
         public void StopNow()
         {
             timer.Stop();
@@ -58,8 +51,6 @@ namespace CMiX.Studio.Avalonia.Views
             view.Offset = view.Offset.WithY(Math.Clamp(view.Offset.Y - rows, 0, maxOffset));
         }
 
-        // One step of the scroll of a drag. The step is larger when the pointer is closer to the edge, or beyond it.
-        // Returns the distance that the view moved.
         public double AutoScrollStep()
         {
             if (dragY is not { } y || context.Scroller is not { } view)

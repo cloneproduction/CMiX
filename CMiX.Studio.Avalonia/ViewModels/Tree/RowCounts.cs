@@ -10,7 +10,7 @@ using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // The counts of what a row holds: the kinds, the missing assets and the hidden rows. A recount that changes a count recounts the row above too.
+    // A recount that changes a count recounts the row above too.
     internal sealed class RowCounts
     {
         private readonly TreeNode row;

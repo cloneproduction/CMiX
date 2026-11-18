@@ -8,8 +8,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The parts of one view of the project tree that its helpers read. Each getter reads the view at the moment of the call:
-    // the scroll viewer exists only after the template applies, and the tree follows the data context.
+    // Each getter reads the view at the call: the scroll viewer exists only after the template applies.
     public sealed class TreeViewContext
     {
         private readonly Control owner;
@@ -32,7 +31,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         public double RowPitch => TreeRowMetrics.ReadRowPitch(owner);
 
-        // The scroller is made at the first drag and goes away when the view leaves the window (see DisposeAutoScroller).
         public DragAutoScroller AutoScroller => autoScroller ??= new DragAutoScroller(this);
 
         public DragAutoScroller? ExistingAutoScroller => autoScroller;

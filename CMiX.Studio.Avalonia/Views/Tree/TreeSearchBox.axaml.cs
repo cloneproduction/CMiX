@@ -14,17 +14,11 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The search field of the project tree (see TreeSearchBox.axaml). Tree.Search gives it the focus (ProjectTree.FocusSearch).
-    // Escape clears the text, and Escape in an empty field gives the focus back to the rows. Enter moves the cursor of the tree to the
-    // next match, and Shift+Enter to the match before. The selection does not change, and the field keeps the focus. Down gives the focus
-    // to the cursor row. During a drag, Escape ends the drag without a drop, as it does in the tree, and the other keys do nothing.
-    // The clear button of the field empties the text, as Escape does, and the field keeps the focus. The text stays when the focus goes
-    // out of the field: the rows stay dimmed until the text is cleared, by Escape in the tree or by Tree.ClearSearch (Alt+F).
+    // The text stays when the focus goes out of the field, so the rows stay dimmed until the text is cleared.
     public partial class TreeSearchBox : UserControl
     {
         private ProjectTree? watched;
 
-        // The class of the field while a search filters the rows and the focus is not in the field (see TreeSearchBox.axaml).
         internal const string FilteringClass = "filtering";
 
         public TreeSearchBox()
@@ -47,7 +41,7 @@ namespace CMiX.Studio.Avalonia.Views
                 UpdateFiltering();
         }
 
-        // For the tests: the field, and its clear button.
+        // For the tests.
         internal SearchBox Field => searchField;
         internal Button Clear => searchField.GetVisualDescendants().OfType<Button>().First(button => button.Name == SearchBox.ClearPartName);
 
@@ -71,9 +65,8 @@ namespace CMiX.Studio.Avalonia.Views
             UpdateFiltering();
         }
 
-        // The focus waits for the layout, in case the panel shows the tree only now. With two panels that show the tree, only the box of
-        // the panel of the active view answers (see ProjectTreeView.IsActiveView). The focus in this box makes its panel the active
-        // panel, also with the pointer over the other tree. A box with no tree view in its panel answers.
+        // The focus waits for the layout, in case the panel shows the tree only now.
+        // With two panels, only the box of the panel of the active view answers.
         private void OnSearchFocusRequested(object? sender, EventArgs e)
         {
             if (TreeViewOfPanel() is { IsActiveView: false })
@@ -86,7 +79,6 @@ namespace CMiX.Studio.Avalonia.Views
             }, DispatcherPriority.Loaded);
         }
 
-        // The tree view in the same side panel as this box.
         private ProjectTreeView? TreeViewOfPanel() =>
             this.FindAncestorOfType<SidePanelHost>()?.GetVisualDescendants().OfType<ProjectTreeView>().FirstOrDefault();
 

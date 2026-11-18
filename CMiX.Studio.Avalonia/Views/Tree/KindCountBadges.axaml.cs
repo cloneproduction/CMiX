@@ -6,7 +6,6 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The counts of what a row of the tree holds, by kind (see TreeNode.KindCounts). The row tells the control its state.
     public partial class KindCountBadges : UserControl
     {
         public static readonly StyledProperty<bool> IsSelectedProperty =

@@ -8,15 +8,11 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // A place in the list of drop slots. IsStart marks the place where the source is now: a drop there moves nothing.
+    // A drop at the start slot moves nothing.
     public sealed record DropSlot(TreeNode Target, DropPosition Position, bool IsStart = false);
 
-    // The places where a source node can drop, in the order of the rows that show, from top to bottom.
-    // A slot is a place that ProjectTree.CanDrop accepts, plus one start slot: Before the source itself.
-    // Two slots that put the item at the same index of the same list are one place. The list keeps one of them:
-    // Before a row over After a row (After A and Before B draw the same bar), a bar over Inside, and Inside the group
-    // over Inside a row that passes the item to that group (a layer or a composition).
-    // The list is a snapshot. Make a new one when a row opens or closes, or when the tree changes.
+    // The drop places in row order. Two places that give the same index in the same list are one slot (see Rank).
+    // The list is a snapshot: make a new one when a row opens or closes, or when the tree changes.
     public sealed class TreeDropSlots
     {
         private readonly List<DropSlot> slots = new();
@@ -31,7 +27,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             foreach (var row in TreeWalk.VisibleRows(tree.Roots))
                 AddCandidates(tree, source, row, candidates);
 
-            // For each place, the slot with the lowest rank stays.
             var kept = candidates
                 .GroupBy(slot => KeyOf(slot))
                 .Select(group => group.MinBy(Rank)!)
@@ -44,11 +39,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public IReadOnlyList<DropSlot> Slots => slots;
 
-        // The index of the start slot, or -1 when the source row does not show or cannot be dragged.
         public int StartIndex { get; } = -1;
 
-        // The index of the slot for this place, or -1 when no slot has it. A place that the list keeps in another form
-        // (After A for Before B) gives the slot of that form. A place that moves nothing gives the start slot.
+        // A place that the list keeps in another form gives the slot of that form.
         public int IndexOf(TreeNode target, DropPosition position)
         {
             var exact = slots.FindIndex(slot => !slot.IsStart && ReferenceEquals(slot.Target, target) && slot.Position == position);
@@ -65,14 +58,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             return slots.FindIndex(slot => !slot.IsStart && KeyOf(slot) == key);
         }
 
-        // The slot under the index. It stops at the last slot. An index of -1 gives the first slot. -1 when the list is empty.
         public int Next(int index) => slots.Count == 0 ? -1 : Math.Clamp(index + 1, 0, slots.Count - 1);
 
-        // The slot over the index. It stops at the first slot. An index of -1 gives the last slot. -1 when the list is empty.
         public int Previous(int index) => slots.Count == 0 ? -1 : index < 0 ? slots.Count - 1 : Math.Max(index - 1, 0);
 
-        // The places at a row, in the order of the rows: Before the row, Inside it, then After each block that ends at this row,
-        // the inner block first. The source and the rows under it are no target. The start slot is at the source row.
+        // The inner block ends first. The source and the rows under it are no target.
         private void AddCandidates(ProjectTree tree, TreeNode source, TreeNode row, List<DropSlot> candidates)
         {
             if (ReferenceEquals(row, source))
@@ -102,8 +92,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             _ => ReferenceEquals(TreeDropService.InsideOf(Source, slot.Target), slot.Target) ? 2 : 3
         };
 
-        // The list that takes the item and the index in it, counted before the move, as TreeDropService.Resolve finds them.
-        // Null when the place has no list. The start slot has a key of its own.
+        // The index is counted before the move, as TreeDropService.Resolve finds it.
         private SlotKey? KeyOf(DropSlot slot)
         {
             if (slot.IsStart)
@@ -120,7 +109,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             return new SlotKey(owner, owner.ManagerData.Items.IndexOf(slot.Target.Item) + (slot.Position == DropPosition.After ? 1 : 0));
         }
 
-        // The two places in the own list of the source that leave it where it is: just before it and just after it.
         private bool IsStartKey(SlotKey key)
         {
             if (!ReferenceEquals(key.List, Source.Owner) || Source.Item == null)

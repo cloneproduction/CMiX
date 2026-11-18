@@ -6,7 +6,6 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The sizes of the tree rows that one view writes over the tokens of Geometry.axaml.
     public sealed record TreeRowResources(
         double RowHeight,
         double RowSpacing,

@@ -12,30 +12,22 @@ using CMiX.UI.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // A label of the dragged row that follows the pointer, so the user sees what the drag holds, as in Blender. Avalonia has no drag image
-    // for a drag with the pointer, so the label is a control on the overlay layer of the window, above all the other content.
-    // The label has the icon and the name of the node, on the fill of the row, and it is only as wide as its content. It is above the
-    // pointer, with the middle of the icon right over the pointer, so the row under the pointer and the line of the drop stay in sight.
-    // Near the top of the window there is no room above the pointer, so the label goes under it. The label takes no pointer events.
+    // Avalonia has no drag image for a pointer drag, so the label is a control on the overlay layer.
+    // The label is above the pointer, so the row under the pointer and the drop line stay in sight.
     internal sealed class TreeDragGhost
     {
         private readonly Border ghost = new() { IsHitTestVisible = false, ClipToBounds = true };
         private OverlayLayer? layer;
 
-        // The distance from the left edge of the label to the middle of its icon.
         private double iconMiddle;
 
-        // The space between the pointer and the label: the token SpacingSM.
+        // The token SpacingSM.
         private double gap = 4;
 
-        // True while the label is on the overlay layer.
         public bool IsShown => layer != null;
 
-        // The label that is shown. A test reads it.
         internal Border Ghost => ghost;
 
-        // Shows the label of the row, with the icon and the name of its node, at the pointer. The position is the pointer, in the
-        // coordinates of the reference control.
         public void Show(Border row, string iconKey, string name, Control reference, Point position)
         {
             Hide();
@@ -43,7 +35,6 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             gap = Resource(row, "SpacingSM", 4.0);
-            // The label is a little transparent (the token OpacityDragGhost), so the rows under it stay readable.
             ghost.Opacity = Resource(row, "OpacityDragGhost", 1.0);
             Build(row, iconKey, name);
             ghost.Height = row.Bounds.Height;
@@ -54,9 +45,7 @@ namespace CMiX.Studio.Avalonia.Views
             Move(reference, position, null);
         }
 
-        // Moves the label with the pointer. The line top is the top of the line of a drop between rows, in the coordinates of the
-        // reference control, or null. A line just above the pointer, for a drop before the row under it, would be under the label: the
-        // label then goes above the line.
+        // A drop line just above the pointer would be under the label, so the label goes above the line.
         public void Move(Control reference, Point position, double? lineTop = null)
         {
             if (layer == null || reference.TranslatePoint(position, layer) is not { } point)
@@ -78,7 +67,6 @@ namespace CMiX.Studio.Avalonia.Views
             Canvas.SetTop(ghost, top);
         }
 
-        // Takes the label away.
         public void Hide()
         {
             layer?.Children.Remove(ghost);
@@ -87,8 +75,7 @@ namespace CMiX.Studio.Avalonia.Views
             ghost.Child = null;
         }
 
-        // The label has the fill and the corners of the row as it is now, then the icon and the name of the node, with the margins of
-        // the row (see ProjectTreeView.axaml). The space after the name is the space before the icon, so the label is even at both ends.
+        // The space after the name is the space before the icon, so the label is even at both ends.
         private void Build(Border row, string iconKey, string name)
         {
             ghost.Background = row.Background;

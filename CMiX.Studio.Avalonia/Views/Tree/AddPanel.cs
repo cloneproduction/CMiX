@@ -19,20 +19,13 @@ using CMiX.UI.Popups;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The panel that adds something under a node of the tree: a card with a search field and the groups of what the node can take
-    // (see ProjectTree.GetAddGroups). The row menu, the toolbar and the shortcut all open this one panel.
-    // The panel does not know where it was opened from. The caller gives an anchor and a side. The panel puts itself on that side,
-    // and its tip points at the anchor.
-    // On the right or the left of the anchor, the search field lines up with the middle of the anchor, so the pointer moves only
-    // a little to reach the search field and the first rows. Above or below the anchor, the tip is on the middle of the anchor.
-    // A pick closes the panel and then runs the add, so the lists change after the popup is gone.
+    // Beside the anchor, the search field lines up with the middle of the anchor, so the pointer moves only a little.
     public sealed class AddPanel
     {
         // Under the anchor, the card starts this far before the anchor.
         private const double BelowOverhang = 8;
 
-        // The space between the header and the list inside the card (see the StackPanel).
-        private const double Spacing = 4;
+        private const double HeaderToListSpacing = 4;
 
         private readonly Flyout flyout = new() { ShowMode = FlyoutShowMode.Standard };
         private readonly PopupAnchoring anchoring;
@@ -45,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         public AddPanel()
         {
-            var content = new StackPanel { Spacing = Spacing };
+            var content = new StackPanel { Spacing = HeaderToListSpacing };
             content.Children.Add(title);
             content.Children.Add(list);
             card.Content = content;
@@ -61,29 +54,24 @@ namespace CMiX.Studio.Avalonia.Views
 
         public bool IsOpen => flyout.IsOpen;
 
-        // Raised when the panel has closed, after a pick, a click away or Escape.
         public event EventHandler? Closed
         {
             add => flyout.Closed += value;
             remove => flyout.Closed -= value;
         }
 
-        // Raised when the user picks a row, before the panel closes and the add runs.
         public event EventHandler? Picked;
 
-        // Raised when the panel closes by itself: a click away, the loss of the focus. It is not raised when the code closes the panel
-        // (Close), when Escape closes it, or when a pick closes it.
+        // Not raised when the code, Escape or a pick closes the panel.
         public event EventHandler? Dismissed;
 
-        // For the tests: the rule of the place, the list and the card.
+        // For the tests.
         internal PopupAnchoring Anchoring => anchoring;
         internal GroupedSearchList List => list;
         internal PopupCard Card => card;
         internal TextBlock Title => title;
 
-        // Opens the panel on one side of the anchor. The header is a line of text above the search field, such as "Add to Layer 02".
-        // The pass through element keeps receiving the pointer while the panel is open, when the popups share the window with the content (the
-        // overlay mode): the menu that opened the panel stays usable. The panel shows only what the node can take. Nothing opens when there is nothing to add.
+        // passThrough keeps the pointer on the menu that opened the panel, in the overlay mode of the popups.
         public void Open(Control anchor, PopupSide side, IReadOnlyList<TreeAddGroup> groups, string? header = null, Rect? anchorRect = null,
                          IInputElement? passThrough = null)
         {
@@ -94,7 +82,6 @@ namespace CMiX.Studio.Avalonia.Views
             ShowBeside(anchor, side, anchorRect, passThrough);
         }
 
-        // As Open, with a tip on the card that points at the anchor.
         public void OpenWithTip(Control anchor, PopupSide side, IReadOnlyList<TreeAddGroup> groups, string? header, Rect? anchorRect)
         {
             if (!Prepare(anchor, groups, header))
@@ -118,8 +105,7 @@ namespace CMiX.Studio.Avalonia.Views
             Show(anchor, passThrough);
         }
 
-        // Opens the panel over a point of a control, with the middle of the search field under the point, so the user can type at once and
-        // the pointer has not moved. The point is in the coordinates of the control.
+        // The middle of the search field goes under the point, so the user can type at once.
         public void OpenAtPoint(Control reference, Point point, IReadOnlyList<TreeAddGroup> groups, string? header = null)
         {
             showsTip = false;
@@ -129,7 +115,7 @@ namespace CMiX.Studio.Avalonia.Views
             var rowHeight = Number(reference, "ControlHeightMD", 24);
             var padding = PaddingOf(reference);
 
-            // The card hangs below the point by a negative gap: its top is above the point by the distance to the middle of the field.
+            // A negative gap lifts the card, so the middle of the field is at the point.
             anchoring.Side = PopupSide.Bottom;
             anchoring.Gap = -SearchCenter(reference, rowHeight);
             anchoring.Anchor = new Rect(inWindow, new Size(0, 0));
@@ -141,7 +127,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         private const double DefaultGap = 8;
 
-        // Fills the card. False when there is nothing to show.
         private bool Prepare(Control scope, IReadOnlyList<TreeAddGroup> groups, string? header)
         {
             groups = Available(groups);
@@ -160,7 +145,6 @@ namespace CMiX.Studio.Avalonia.Views
             return true;
         }
 
-        // Whether the card points at its anchor with a tip: a panel beside a row does, a panel at the pointer does not.
         private bool showsTip;
 
         private void Show(Control anchor, IInputElement? passThrough)
@@ -173,7 +157,6 @@ namespace CMiX.Studio.Avalonia.Views
             flyout.ShowAt(anchor);
         }
 
-        // Closes the panel from the code. The panel raises Closed but not Dismissed.
         public void Close()
         {
             if (!flyout.IsOpen)
@@ -191,14 +174,13 @@ namespace CMiX.Studio.Avalonia.Views
                 Dismissed?.Invoke(this, EventArgs.Empty);
         }
 
-        // The distance from the top of the card to the middle of the search field: the padding, the header and its space.
         private static Thickness PaddingOf(Control scope) =>
             scope.TryFindResource("PopupCardPadding", out var value) && value is Thickness thickness ? thickness : new Thickness(10, 8);
 
         private double SearchCenter(Control scope, double rowHeight)
         {
             var padding = PaddingOf(scope);
-            var header = title.IsVisible ? rowHeight + Spacing : 0;
+            var header = title.IsVisible ? rowHeight + HeaderToListSpacing : 0;
             return padding.Top + header + rowHeight / 2;
         }
 
@@ -215,14 +197,12 @@ namespace CMiX.Studio.Avalonia.Views
         private static PickerGroup ToPicker(TreeAddGroup group) =>
             new(group.Header, group.Items.Select(item => new PickerItem(item.Header, item, item.Category)).ToList(), group.Category);
 
-        // The entries that the node cannot take are not in the panel, and a group with no entry left is not in it either.
         private static IReadOnlyList<TreeAddGroup> Available(IReadOnlyList<TreeAddGroup> groups) =>
             groups.Select(group => group with { Items = group.Items.Where(item => item.Enabled).ToList() })
                   .Where(group => group.Items.Count > 0)
                   .ToList();
 
-        // The square of a kind in the list: the same tone as the kind squares of a collapsed row of the tree (TreeTone Kind, see
-        // KindCountBadges), from the one palette (CategoryPalette), so the two never drift apart.
+        // The same palette as the kind squares of a collapsed row, so the two never drift apart.
         private IBrush? BrushOf(Control scope, object? kind)
         {
             if (kind is not TreeCategory category)

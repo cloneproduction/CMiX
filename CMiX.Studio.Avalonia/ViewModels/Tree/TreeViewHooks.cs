@@ -6,8 +6,7 @@ using System.Collections.Generic;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // What one tree view tells the tree and does for it (see ProjectTree.AttachView). Each view has its own hooks, so two views can
-    // show the same tree. The names are the names of the hooks of ProjectTree.
+    // Each view has its own hooks, so two views can show the same tree.
     public sealed class TreeViewHooks
     {
         public Func<bool> IsPointerOverTree { get; init; } = () => false;
@@ -18,7 +17,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public Func<bool> IsFocusInOtherPanel { get; init; } = () => false;
 
-        // True when the focused control is in the side panel of the view: the rows, the search box or the bar.
         public Func<bool> IsPanelFocused { get; init; } = () => false;
 
         public Action ToggleDragRow { get; init; } = () => { };

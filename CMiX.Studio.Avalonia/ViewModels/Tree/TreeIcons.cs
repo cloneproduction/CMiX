@@ -13,7 +13,6 @@ using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // The icons of the tree (see StudioIcons): the rows, the groups, the kind counts and the entries of the Add panel.
     public static class TreeIcons
     {
         public const string CompositionKey = "Composition";
@@ -28,8 +27,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public const string ModifierKey = "Modifier";
         public const string ModulatorKey = "Modulator";
 
-        // The key of the icon of a type, or null when the type has none of its own. A filter, a modifier or a texture has the icon
-        // of its kind only, so the Add panel shows no icon for it.
+        // A filter, a modifier or a texture has only the icon of its kind, so the Add panel shows no icon for it.
         public static string? OfType(Type type)
         {
             if (type == typeof(Composition)) return CompositionKey;
@@ -42,7 +40,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             return null;
         }
 
-        // The icon of an item row: the icon of its type when it has one, else the icon of its kind.
         public static string OfItem(IControl? item) =>
             (item == null ? null : OfType(item.GetType())) ?? item switch
             {
@@ -53,7 +50,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 _ => EntityKey
             };
 
-        // The icon of a kind in the square of a collapsed row.
         public static string OfCategory(TreeCategory category) => category switch
         {
             TreeCategory.Composable => CompositionKey,

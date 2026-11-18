@@ -3,7 +3,6 @@
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // What made a selection of the tree.
     public enum SelectionOrigin
     {
         Program,

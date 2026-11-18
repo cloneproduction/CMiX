@@ -10,29 +10,17 @@ using CMiX.UI.Converters;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // What the tree does with the keys at this time. The hint strip under the tree shows the keys of the mode.
     public enum TreeHintMode
     {
-        // The rows or the panel: no search, no menu.
         Idle,
-
-        // The keyboard focus is in the search field of the panel.
         Search,
-
-        // A search filters the rows, and the keyboard focus is in the tree.
         Filter,
-
-        // A menu or the Add panel of the tree is open.
         Menu,
-
-        // A row follows the pointer until the user places it.
         Grab
     }
 
-    // The hints of the tree for each mode. A gesture of the shortcut map comes from the map, so a changed key shows correctly, and a key
-    // with no gesture shows no hint. The other keys are fixed in the code of the tree, the search field and the menus. Their text has the
-    // same form as the text of a gesture (KeyGestureTextConverter.TextOf), as in the tooltips and the Settings tab.
-    // Idle shows only what fits one line of a panel of the usual width: move, select, open, menu, add and undo.
+    // A gesture comes from the shortcut map, so a changed key shows correctly.
+    // Idle shows only what fits one line of a panel of the usual width.
     public static class TreeKeyHints
     {
         public const string Arrows = "Arrows";

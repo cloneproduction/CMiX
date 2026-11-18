@@ -12,7 +12,6 @@ using CMiX.UI.Panels;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Keeps the first row in view at its place when a drop changes the rows above it.
     public sealed class TreeScrollAnchor
     {
         private readonly TreeView treeView;
@@ -26,8 +25,6 @@ namespace CMiX.Studio.Avalonia.Views
             this.context = context;
         }
 
-        // The first row that is fully in view and is not the dragged node or under it, and its place in the view. With no dragged node,
-        // the first row that is fully in view.
         public AnchoredRow? CaptureAnchor(TreeNode? dragged)
         {
             if (context.Scroller is not { } view)
@@ -51,7 +48,6 @@ namespace CMiX.Studio.Avalonia.Views
             return null;
         }
 
-        // The row of the node and its place in the view, when the row is fully in view. Null otherwise.
         public AnchoredRow? CaptureRow(TreeNode node)
         {
             if (context.Scroller is not { } view || rows.FindItem(node) is not { } item || TreeRows.RowTopIn(item, view) is not { } top)
@@ -62,7 +58,6 @@ namespace CMiX.Studio.Avalonia.Views
             return top >= 0 && top + height <= view.Viewport.Height ? new AnchoredRow(node, top) : null;
         }
 
-        // Scrolls so that the anchor row is where it was.
         public void RestoreAnchor(AnchoredRow? anchor)
         {
             if (anchor is not { } kept || context.Scroller is not { } view)
@@ -78,8 +73,8 @@ namespace CMiX.Studio.Avalonia.Views
             if (item == null || TreeRows.RowTopIn(item, view) is not { } top)
                 return;
 
-            // A change of less than half a pixel is not done: at a screen scale of 125% or 150% the scroll is rounded to pixels of the
-            // screen, and a row that never lands exactly would make the scroll change again at each frame.
+            // At a scale of 125% or 150% the scroll rounds to pixels, so a change under half a pixel
+            // would change the scroll again at each frame.
             var maxOffset = Math.Max(0, view.Extent.Height - view.Viewport.Height);
             var offset = Math.Clamp(view.Offset.Y + top - kept.Top, 0, maxOffset);
             if (Math.Abs(offset - view.Offset.Y) >= MinMove)
@@ -88,13 +83,11 @@ namespace CMiX.Studio.Avalonia.Views
 
         private const double MinMove = 0.5;
 
-        // The hold that runs now. A new hold ends it, so two holds never set the scroll to two different places.
+        // A new hold ends the old one, so two holds never set two places.
         private int holdId;
 
-        // A row closes over a few frames (CollapsePanel), so the rows above the view get shorter after the close. The anchor row is
-        // put back once in each frame, until the list of children of every closed row is shut. The hold runs from the frames of the
-        // window, not from the layouts: a change of the scroll in a layout asks for one more layout in the same frame, and a chain of
-        // them stops the window (Avalonia: "Infinite layout loop detected").
+        // A row closes over a few frames, so the anchor row is put back in each frame.
+        // A scroll change in a layout asks for another layout and can stop the window (infinite layout loop).
         public void HoldWhileClosing(AnchoredRow? anchor, IReadOnlyList<TreeNode> closed)
         {
             var id = ++holdId;
@@ -123,7 +116,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         private const int MaxHoldFrames = 120;
 
-        // Ends the hold that runs. Its next frame then does nothing and asks for no frame. The view calls it when it leaves the window.
         public void EndHold() => holdId++;
     }
 }

@@ -6,10 +6,8 @@ using CMiX.Studio.Avalonia.Services;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // What a drop did: the outcome of the move and the node of the moved item at its new place.
     public sealed record DropMove(DropOutcome Outcome, TreeNode? MovedNode);
 
-    // The drop of a dragged node: the move in the lists, the rows that open to show the result, and the notice of a blocked move.
     public sealed class TreeDrop
     {
         private readonly TreeDropService dropService;
@@ -38,7 +36,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             return new DropMove(outcome, moved);
         }
 
-        // A move that shared items block leaves everything as it is and tells the user why.
         public Task NoticeBlockAsync(TreeNode source, TreeNode target, DropOutcome outcome)
         {
             if (outcome.Moved || outcome.Blocking.Count == 0)

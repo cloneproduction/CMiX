@@ -7,8 +7,6 @@ using System.Linq;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // The open state of the rows: open and close by branch, by level, all, and all but the path to the target.
-    // The hub (ProjectTree) owns the drag, the target and the cursor, and passes them in.
     public sealed class TreeOpenState
     {
         private readonly Action<TreeNode?, Func<IReadOnlyList<TreeNode>>> closeRowsInView;
@@ -22,7 +20,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public void ExpandBranch(TreeNode target)
         {
-            // A row that the search opened is already open. It leaves the search, so the end of the search does not close it.
+            // It leaves the search, so the end of the search does not close it.
             foreach (var node in TreeWalk.AllRows(new[] { target }).Where(node => node.Children.Count > 0))
             {
                 node.IsExpanded = true;
@@ -30,7 +28,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             }
         }
 
-        // Every open row with children at the greatest depth among the rows that show closes.
         public void CloseLevel(IEnumerable<TreeNode> roots, TreeNode? target)
         {
             var open = TreeWalk.VisibleRows(roots).Where(node => node.IsExpanded && node.Children.Count > 0).ToList();
@@ -41,7 +38,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             CloseRows(open.Where(node => TreeWalk.DepthOf(node) == depth).ToList(), target);
         }
 
-        // Every closed row with children at the smallest depth among the rows that show opens.
         public void OpenLevel(IEnumerable<TreeNode> roots)
         {
             var closed = TreeWalk.VisibleRows(roots).Where(node => !node.IsExpanded && node.Children.Count > 0).ToList();
@@ -53,7 +49,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 node.IsExpanded = true;
         }
 
-        // Every open row with children closes, also a row under a closed row, so a row opens later with its children closed.
+        // Also a row under a closed row, so a row opens later with its children closed.
         public void CollapseAll(IEnumerable<TreeNode> roots, TreeNode? target)
         {
             var open = TreeWalk.AllRows(roots).Where(node => node.IsExpanded && node.Children.Count > 0).ToList();
@@ -61,15 +57,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 CloseRows(open, target);
         }
 
-        // Opens the parents of the target row and closes every other row. The target keeps its state. Returns the rows that it closed.
         public IReadOnlyList<TreeNode> CollapseOthers(IEnumerable<TreeNode> roots, TreeNode target)
         {
             var closed = new List<TreeNode>();
             var path = new HashSet<TreeNode>(TreeWalk.ParentsOf(target));
             foreach (var node in TreeWalk.AllRows(roots))
             {
-                // A parent that the search opened is already open, so no change tells the search. It leaves the search here, so
-                // the end of the search does not close it.
+                // A parent that the search opened leaves the search, so the end of the search does not close it.
                 if (path.Contains(node))
                 {
                     node.IsExpanded = true;
@@ -95,8 +89,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             }
         }
 
-        // Closes the rows in tree order through the active view. The view keeps still the row that shows the target after the
-        // close: the highest of its parents that closes, else the target itself.
+        // The view keeps still the highest parent of the target that closes, else the target.
         private void CloseRows(IReadOnlyList<TreeNode> rows, TreeNode? target)
         {
             var closing = new HashSet<TreeNode>(rows);
