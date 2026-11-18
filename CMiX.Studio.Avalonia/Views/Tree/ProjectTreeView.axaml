@@ -6,16 +6,13 @@
     xmlns:Tree="clr-namespace:CMiX.Studio.Avalonia.ViewModels.Tree"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <!-- The gesture comes from the shortcut map. The binding pauses while a name box is edited (KeyBindingTextGuard). Tree.Open needs the
-         focus in the tree, as the arrow keys that move the cursor (see TreeKeyInput). The keys of the selected row (Tree.Rename,
-         Tree.Remove, Tree.Duplicate, Tree.MoveUp, Tree.MoveDown) are in the main window. -->
+    <!-- Tree.Open. The keys of the selected row are in the main window. -->
     <UserControl.KeyBindings>
         <KeyBinding Command="{Binding OpenSelectedCommand}" Gesture="{Binding Shortcuts[Tree.Open]}" />
     </UserControl.KeyBindings>
 
     <UserControl.Styles>
-        <!-- The class grabbing is on the view while a grab runs (see ProjectTreeView.OnGrabChanged). The frame is hidden by a style, not by
-             a local value, so the style of the class can show it. -->
+        <!-- The frame of a grab shows while the view has the class grabbing. -->
         <Style Selector="Border#GrabFrame">
             <Setter Property="IsVisible" Value="False" />
         </Style>
@@ -24,7 +21,6 @@
         </Style>
     </UserControl.Styles>
 
-    <!-- The toolbar is over the tree. Its Add button opens the Add panel under it. -->
     <DockPanel Background="{DynamicResource TreeBackgroundBrush}">
 
     <Views:ProjectTreeToolbar
@@ -32,14 +28,13 @@
         DockPanel.Dock="Top"
         Padding="{DynamicResource TreeToolbarPadding}" />
 
-    <!-- The keys of the mode of the tree, under the rows (see TreeKeyHints). The Settings tab hides it. It takes no click and no focus. -->
+    <!-- The keys of the mode of the tree, under the rows. -->
     <ui:KeyHintStrip
         x:Name="hintStrip"
         DockPanel.Dock="Bottom"
         IsVisible="{Binding Interface.ShowKeyHints}" />
 
-    <!-- The stripes are behind the tree, in the same cell, and follow its rows. A row is one pitch (row height plus space) from the next, so
-         the bands stay under the rows whatever is open. The rows have their own fill, so the stripes show between them and beside them. -->
+    <!-- The stripes behind the rows, one band for each row pitch. -->
     <Grid>
 
     <ui:RowStripes
@@ -69,7 +64,7 @@
         </TreeView.ItemsPanel>
 
         <TreeView.Styles>
-            <!-- The bar lies over the rows, so the rows do not move when it appears. -->
+            <!-- The scroll bar lies over the rows. -->
             <Style Selector="TreeView /template/ ScrollViewer">
                 <Setter Property="Theme" Value="{DynamicResource ScrollViewerOverlay}" />
             </Style>
@@ -77,19 +72,12 @@
                 <Setter Property="Theme" Value="{StaticResource TreeViewItemCMiX}" />
                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
             </Style>
-            <!-- The cursor row of the tree is framed in the colour of its kind; the selected row is lifted (TreeRowShadow) (TreeTone KindSelected), with the
-                 focus and without it. The selected row is the coloured row (FillSelected), a greyed row is out of play (DimLayer).
-                 The frame is one pixel of the screen (TreeSelectionThickness, see TreeRowMetrics). A list keeps the frame of CursorRow.axaml;
-                 the focused style is named here too, so it comes after the one of CursorRow.axaml. -->
+            <!-- The cursor frame: one pixel of the screen in the colour of the kind, with the focus and without it. -->
             <Style Selector="TreeViewItem.cursor /template/ Border#CursorFrame">
                 <Setter Property="BorderThickness" Value="{DynamicResource TreeSelectionThickness}" />
                 <Setter Property="BorderBrush" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=KindSelected}" />
             </Style>
-            <Style Selector="TreeView:focus-within TreeViewItem.cursor /template/ Border#CursorFrame">
-                <Setter Property="BorderThickness" Value="{DynamicResource TreeSelectionThickness}" />
-                <Setter Property="BorderBrush" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=KindSelected}" />
-            </Style>
-            <!-- The cursor on the selected row: the frame is white, since the fill is the colour of the kind. -->
+            <!-- The cursor frame on the selected row: white on the fill of the kind. -->
             <Style Selector="TreeViewItem:selected.cursor /template/ Border#CursorFrame">
                 <Setter Property="BorderBrush" Value="{DynamicResource CursorFrameBrush}" />
             </Style>
@@ -98,39 +86,22 @@
         <TreeView.DataTemplates>
             <TreeDataTemplate DataType="{x:Type Tree:TreeNode}" ItemsSource="{Binding Children}">
 
-                <!-- The row of a list: an icon (KindIconBrush: white on the selected row and on the cursor row, the colour of the kind otherwise) and the name.
-                     The toggles are not here: they are at the right of the colored row (see RowToggles and the theme of the item). -->
+                <!-- The header of a row: the icon of the kind and the name. -->
                 <DockPanel>
 
                     <ui:AppIcon
                         Name="KindIcon"
                         Margin="{DynamicResource TreeHeaderMargin}"
                         IconKey="{Binding IconKey}"
-                        Size="{DynamicResource IconSizeXS}">
-                        <ui:AppIcon.Foreground>
-                            <MultiBinding Converter="{StaticResource KindIconBrush}">
-                                <Binding />
-                                <Binding Path="IsCursor" />
-                                <Binding Path="$parent[TreeViewItem].IsSelected" />
-                            <Binding Path="$parent[TreeViewItem].ItemCount" />
-                            </MultiBinding>
-                        </ui:AppIcon.Foreground>
-                    </ui:AppIcon>
+                        Size="{DynamicResource IconSizeXS}"
+                        Views:TreeRowBrush.Role="Icon" />
 
-                    <!-- The last child of the dock panel: the name takes all the room after the icon. A group has a text, an item has
-                         a name that can be edited. A collapsed row shows what it holds (KindCountBadges) right after its name. -->
+                    <!-- The name: a box for an item, a text for a group, each with the badges of a collapsed row. -->
                     <Panel>
                         <ui:TextBoxEditable
                             Text="{Binding Item.PrefabService.Name.Value, Mode=TwoWay}"
-                            IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNotNull}}">
-                            <ui:TextBoxEditable.Foreground>
-                                <MultiBinding Converter="{StaticResource KindIconBrush}" ConverterParameter="Text">
-                                    <Binding />
-                                    <Binding Path="IsCursor" />
-                                    <Binding Path="$parent[TreeViewItem].IsSelected" />
-                                <Binding Path="$parent[TreeViewItem].ItemCount" />
-                                </MultiBinding>
-                            </ui:TextBoxEditable.Foreground>
+                            IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNotNull}}"
+                            Views:TreeRowBrush.Role="Text">
                             <ui:TextBoxEditable.Suffix>
                                 <Views:KindCountBadges
                                     IsVisible="{Binding ShowsBadges}"
@@ -146,16 +117,8 @@
                             <TextBlock
                                 Margin="{DynamicResource TreeHeaderMargin}"
                                 VerticalAlignment="Center"
-                                Text="{Binding Header}">
-                                <TextBlock.Foreground>
-                                    <MultiBinding Converter="{StaticResource KindIconBrush}" ConverterParameter="Text">
-                                        <Binding />
-                                        <Binding Path="IsCursor" />
-                                        <Binding Path="$parent[TreeViewItem].IsSelected" />
-                                    <Binding Path="$parent[TreeViewItem].ItemCount" />
-                                    </MultiBinding>
-                                </TextBlock.Foreground>
-                            </TextBlock>
+                                Text="{Binding Header}"
+                                Views:TreeRowBrush.Role="Text" />
                             <Views:KindCountBadges
                                 IsVisible="{Binding ShowsBadges}"
                                 IsHovered="{Binding $parent[TreeViewItem].IsPointerOver}"
@@ -170,8 +133,7 @@
 
     </TreeView>
 
-    <!-- The shadow of the selected row (TreeRowShadow): a box shadow in a layer over the rows, so it falls on every row around it,
-         not only on the rows inside its item. It takes no click. -->
+    <!-- The shadow of the selected row, in a layer over the rows. -->
     <Canvas
         x:Name="rowShadowLayer"
         ClipToBounds="True"
@@ -184,8 +146,7 @@
             Opacity="0" />
     </Canvas>
 
-    <!-- The frame of a grab (Tree.Grab): an accent frame around the rows while the grab runs, so the mode shows at the edge of the eye.
-         It takes no click. -->
+    <!-- The accent frame around the rows during a grab. -->
     <Border
         x:Name="GrabFrame"
         BorderBrush="{DynamicResource AccentBrush}"

@@ -1270,7 +1270,7 @@
             background: var(--Fill);
             border-radius: var(--CornerRadiusAll);
             color: var(--TreeTextRestBrush);
-            /* The icon of the row has the colour of the kind; it is white on the cursor row and on the selected row (KindIconBrushConverter). */
+            /* The icon of the row has the colour of the kind; it is white on the cursor row and on the selected row (TreeRowBrush, KindIconBrushConverter). */
             > .AppIcon { margin: 0 4px; color: var(--KindSelected); }
             > .header { flex: 1; min-width: 0; display: flex; align-items: center; }
             > .header > .TextBlock { margin: 0 4px; color: inherit; white-space: nowrap; }
