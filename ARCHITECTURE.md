@@ -95,7 +95,7 @@ Several at once, or none:
 | `ManagerReorderService` | Named a service. It is a small ViewModel (observable, 2 commands), one for each list. |
 | `MainViewModel`, `MainMenu`, `MainWindowController` | ViewModels that also implement `IControl`. `ToModel` and `FromModel` throw. |
 | `ViewModelToViewTemplate` | The view locator. It finds the view by the type name of the control. |
-| `TreeViewHooks` | A set of callbacks. A tree view gives it to `ProjectTree` so that the ViewModel can ask the view questions. |
+| `TreeViewHooks` | A set of callbacks, one per tree view. `TreeViewSet` in `ProjectTree` holds them and picks the active view. See `ViewModels/Tree/README.md`. |
 | `AnimatedDouble`, `BeatAnimations`, `MasterBeatAnimationController` | Animation helpers. I did not read them in detail. |
 
 ### CMiX.UI
@@ -208,7 +208,7 @@ Names that collide:
 | `ShortcutSettings`, `ShortcutMap` | Avalonia input types. |
 | `PanelFocusCycle` | Uses `CMiX.Studio.Avalonia.Views` and Avalonia. |
 | `MessageNotice`, `MoveBlockedNotice`, `UnsavedChangesPrompt` | Open windows from `Views.Dialogs`. They sit behind interfaces, so their users stay clean. |
-| `ProjectTree`, `TreeNode` | No Avalonia type. They reach the view through `TreeViewHooks` (8 callbacks) and 8 events. This obeys the rule in the letter, and the coupling is still there. |
+| `ProjectTree`, `TreeNode` | No Avalonia type. The tree reaches the view through `TreeViewHooks` (one set per view) and 8 request events. Since 2026-11-19 the tree is a hub with parts, see `ViewModels/Tree/README.md`. |
 
 Core has no Avalonia reference.
 
@@ -224,7 +224,7 @@ Core has no Avalonia reference.
 
 ### Optional and hidden dependencies
 
-- `ProjectTree`: 5 of its 7 constructor parameters are optional and fall back to `new PathDropService()`, `new ShortcutMap()`, `new InterfaceOptions()`.
+- `ProjectTree`: fixed on 2026-11-19, all seven constructor parameters are required.
 - `UndoManager` is optional in practice. `ReceivableControl.UndoManager` is a settable property, the owner sets it after construction (`Project`, `MainViewModel`, `RedisAddressRegistry`), and 24 call sites use `UndoManager?.`.
 - `PrefabManager(..., reorderServiceFactory = null)` and `Modifier(..., nestedBindables = null)`.
 - `GenericValue<T>` has an empty public constructor that leaves the messenger and the factory null.
@@ -250,14 +250,14 @@ Core has no Avalonia reference.
 
 | # | Class | Lines | Ctor params | Commands | Why |
 |---|---|---|---|---|---|
-| 1 | `ProjectTree` (Studio) | 1343 | 7, 5 optional | 26 | Tree state, selection, cursor, search, the Add catalogue, key conditions, drag state and focus in one class. 8 events and 8 hooks to the view. |
+| 1 | `ProjectTree` (Studio) | 169, six partial files, 873 in all | 7 | 27 | Done on 2026-11-19: the state and the commands stay on the hub, the logic is in parts (`TreeSearch`, `TreeEdit`, `TreeOpenState`, `TreeAddCatalogue`, `TreeDragState`, `TreeDrop`, `TreeFileDropRules`, `TreeViewSet`). See `ViewModels/Tree/README.md`. |
 | 2 | `SyncPeer` (Core) | 1137 | 3 | 2 | Connect, join, push, pull, gap check, send, apply, and the state for the sync panel. Service and ViewModel at once. |
-| 3 | `ProjectTreeView` code-behind (Studio) | 1019 | 0 | 0 | Focus, keys, scroll anchor, drag, menus and hints. Logic that no test can reach without a window. |
+| 3 | `ProjectTreeView` code-behind (Studio) | 233 | 0 | 0 | Done on 2026-11-19: the hub builds the parts (`TreeKeyInput`, `TreePointerInput`, `TreeFocusKeeper`, `TreeScreenRequests`, `TreeMenus`, `TreeRowReveal`, `TreeFileDropInput`, `TreeHints`). |
 | 4 | `PrefabManager` (Core) | 350 | 9, 1 optional | 7 | List ViewModel, undo, send, receive, model converter. Every domain object has several. VL uses its names. |
 | 5 | `GenericValue<T>` (Core) | 190 | 4 or 0 | 1 | Value, undo, throttle, send and receive in one setter. It reads a static. |
 | 6 | `MainViewModel` (Studio) | 160 | 18 | 2 | A bag of everything for the bindings. It also sets ids and activates lists. A false `IControl`. |
 | 7 | `MainMenu` (Studio) | 319 | 9 | 13 | File open and save, dialogs, add and remove of compositions and layers, undo, window close, the UI dispatcher. |
-| 8 | `TreeNode` (Studio) | 547 | 7 | 0 | Row state for drag, search, cursor, icon and hidden. It knows many Core types by name. |
+| 8 | `TreeNode` (Studio) | 430 | 7 | 0 | Done in part on 2026-11-19: the counts are in `RowCounts`, the drag look in `DragLook`, the search look in `SearchLook`, and the row reports to the tree through `TreeNodeHost`. It still knows many Core types by name. |
 | 9 | `ControlFactory` (Core) | 222 | 3 | 0 | Creation by name convention, defaults, activation, and the naming of prefabs with its own cache. |
 | 10 | `Layer` (Core) | 137 | 10 | 0 | Stands for the pattern of all controls: five lists, view state, and `ToModel` and `FromModel` written by hand. |
 
@@ -337,9 +337,9 @@ The order goes from low risk to high risk. First the classes that only the Studi
 |---|---|---|---|---|
 | 1 | `MainViewModel` | Remove `IControl`. Move the setup of the six lists into one service. | Small, Studio only, and it shows the true dependencies of the window. | 2 |
 | 2 | `MainMenu` | Split into a project file service and a small menu ViewModel. Remove the dispatcher and `Application.Current`. Rename `Delete...`. | Studio only. Needs step 1 for the six lists. | 3 |
-| 3 | `ProjectTree` | Make all dependencies required. Then move the search and the Add catalogue into their own classes. | The largest gain for reading. The tests are dense (the Studio suite is 32,900 lines). | 4 |
-| 4 | `TreeNode` | Move the drag and search state into the classes of step 3. | It follows the split of step 3. | 3 |
-| 5 | `ProjectTreeView` | Move the focus rules and the key rules out of the code-behind. Replace `TreeViewHooks` with properties of the ViewModel that the view sets. | Possible only after steps 3 and 4. | 4 |
+| 3 | `ProjectTree` | Done on 2026-11-19 on the branch `refactor/tree-structure`. | The bound state stayed on the hub in partial files, the logic went into parts. | 4 |
+| 4 | `TreeNode` | Done on 2026-11-19: `DragLook`, `SearchLook`, `RowCounts`, `TreeNodeHost`. | The row keeps its identity and its list mirroring. | 3 |
+| 5 | `ProjectTreeView` | Done on 2026-11-19, with one deviation: `TreeViewHooks` stays, one set per view, because two views can show one tree and the tree must know which view answers. The next step is a per-view state object that `TreeViewSet` reads. | After steps 3 and 4. | 4 |
 | 6 | `ControlFactory` | Move the naming of prefabs into its own service. | Core, and no name on the wire or in a patch changes. | 2 |
 | 7 | `GenericValue<T>` | Make `ValueInteraction` an injected object. Remove the empty constructor. | Every value depends on it, so do it before the lists. | 4 |
 | 8 | `SyncPeer` | Split the state for the panel from the peer. | Well tested and isolated. The Redis tests need a server. | 4 |
