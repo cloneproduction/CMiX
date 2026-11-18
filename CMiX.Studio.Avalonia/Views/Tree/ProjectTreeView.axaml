@@ -19,7 +19,7 @@
     </UserControl.Resources>
 
     <!-- The gesture comes from the shortcut map. The binding pauses while a name box is edited (KeyBindingTextGuard). Tree.Open needs the
-         focus in the tree, as the arrow keys that move the cursor (see OnKeyDownTunnel). The keys of the selected row (Tree.Rename,
+         focus in the tree, as the arrow keys that move the cursor (see TreeKeyInput). The keys of the selected row (Tree.Rename,
          Tree.Remove, Tree.Duplicate, Tree.MoveUp, Tree.MoveDown) are in the main window. -->
     <UserControl.KeyBindings>
         <KeyBinding Command="{Binding OpenSelectedCommand}" Gesture="{Binding Shortcuts[Tree.Open]}" />
