@@ -16,19 +16,21 @@ namespace CMiX.Studio.Avalonia.Views
 
         private readonly TreeView treeView;
         private readonly IResourceDictionary resources;
-        private readonly Func<ScrollViewer?> scroller;
+        private readonly TreeViewContext context;
 
-        // resources is the dictionary that the rows read. scroller gives the scroll viewer of the tree.
-        public TreeRowMetrics(TreeView treeView, IResourceDictionary resources, Func<ScrollViewer?> scroller)
+        // resources is the dictionary that the rows read.
+        public TreeRowMetrics(TreeView treeView, IResourceDictionary resources, TreeViewContext context)
         {
             this.treeView = treeView;
             this.resources = resources;
-            this.scroller = scroller;
+            this.context = context;
         }
 
         // The height of a row plus the space under it.
         // Before SetRowMetrics, the view has no TreeRowGap of its own, and the gap is RowGap.
-        public double RowPitch =>
+        public double RowPitch => ReadRowPitch(resources);
+
+        public static double ReadRowPitch(IResourceDictionary resources) =>
             Convert.ToDouble(resources["TreeRowHeight"]) + (resources.TryGetValue("TreeRowGap", out var gap) ? Convert.ToDouble(gap) : RowGap);
 
         // The height of a row and the space between two rows, in whole pixels of the screen.
@@ -72,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Views
         // the view can then stay where it was, since there is always room under the rows. A tree that fits in its view has no room.
         public void SetEndRoom()
         {
-            if (scroller() is not { } view)
+            if (context.Scroller is not { } view)
                 return;
 
             var content = view.Extent.Height - treeView.Padding.Bottom;

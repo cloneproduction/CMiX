@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
-using Avalonia.Controls;
 using Avalonia.Threading;
 
 namespace CMiX.Studio.Avalonia.Views
@@ -16,17 +15,14 @@ namespace CMiX.Studio.Avalonia.Views
         internal const double EdgeZone = 28.0;
         internal const double MaxScrollStep = 18.0;
 
-        private readonly Func<ScrollViewer?> scroller;
-        private readonly Func<double> rowPitch;
+        private readonly TreeViewContext context;
         private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(30) };
         private double? dragY;
         private bool disposed;
 
-        // scroller gives the scroll viewer of the view. rowPitch gives the height of a row plus the space under it.
-        public DragAutoScroller(Func<ScrollViewer?> scroller, Func<double> rowPitch)
+        public DragAutoScroller(TreeViewContext context)
         {
-            this.scroller = scroller;
-            this.rowPitch = rowPitch;
+            this.context = context;
             timer.Tick += (_, _) => AutoScrollStep();
         }
 
@@ -54,11 +50,11 @@ namespace CMiX.Studio.Avalonia.Views
 
         public void ScrollByWheel(int steps)
         {
-            if (dragY == null || scroller() is not { } view)
+            if (dragY == null || context.Scroller is not { } view)
                 return;
 
             var maxOffset = Math.Max(0, view.Extent.Height - view.Viewport.Height);
-            var rows = steps * 3 * rowPitch();
+            var rows = steps * 3 * context.RowPitch;
             view.Offset = view.Offset.WithY(Math.Clamp(view.Offset.Y - rows, 0, maxOffset));
         }
 
@@ -66,7 +62,7 @@ namespace CMiX.Studio.Avalonia.Views
         // Returns the distance that the view moved.
         public double AutoScrollStep()
         {
-            if (dragY is not { } y || scroller() is not { } view)
+            if (dragY is not { } y || context.Scroller is not { } view)
                 return 0;
 
             var step = 0.0;

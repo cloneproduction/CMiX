@@ -9,7 +9,11 @@ namespace CMiX.Studio.Avalonia.Tests
     // The scroll of a drag runs while the drag is tracked. It stops at once.
     public class DragAutoScrollerTests
     {
-        private static DragAutoScroller Create() => new(() => null, () => 27);
+        private static DragAutoScroller Create()
+        {
+            var treeView = new TreeView();
+            return new DragAutoScroller(new TreeViewContext(new UserControl(), treeView, new TreeRowIndex(treeView)));
+        }
 
         [AvaloniaFact]
         public void Track_WhenStopped_StartsTheTimer()

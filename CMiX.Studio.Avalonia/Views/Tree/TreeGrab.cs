@@ -26,7 +26,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly Control owner;
         private readonly TreeView treeView;
         private readonly TreeDragSession session;
-        private readonly Func<ProjectTree?> tree;
+        private readonly TreeViewContext context;
         private readonly Action<TreeNode> reveal;
         private readonly Action changed;
 
@@ -48,14 +48,14 @@ namespace CMiX.Studio.Avalonia.Views
 
         // owner is the view of the tree: a focus that goes out of it ends the grab. reveal brings the row of a node into view. changed runs
         // when the grab starts and when it ends.
-        internal TreeGrab(Control owner, TreeView treeView, TreeDragSession session, Func<ProjectTree?> tree, Action<TreeNode> reveal,
+        internal TreeGrab(Control owner, TreeView treeView, TreeDragSession session, TreeViewContext context, Action<TreeNode> reveal,
             Action changed)
         {
             this.changed = changed;
             this.owner = owner;
             this.treeView = treeView;
             this.session = session;
-            this.tree = tree;
+            this.context = context;
             this.reveal = reveal;
         }
 
@@ -74,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Views
         // there. Returns false when the node cannot move or a drag already runs.
         public bool Start(TreeNode node, Point position)
         {
-            if (top != null || session.IsRunning || tree() is not { } project || !project.CanDrag(node) || TopLevel.GetTopLevel(treeView) is not { } window)
+            if (top != null || session.IsRunning || context.Tree is not { } project || !project.CanDrag(node) || TopLevel.GetTopLevel(treeView) is not { } window)
                 return false;
 
             top = window;
@@ -109,7 +109,7 @@ namespace CMiX.Studio.Avalonia.Views
         {
             if (session.Slot != null)
                 End(TreeDragEnd.Drop);
-            else if (keyMode && tree() is { } project && session.Source is { } source && slotIndex == new TreeDropSlots(project, source).StartIndex)
+            else if (keyMode && context.Tree is { } project && session.Source is { } source && slotIndex == new TreeDropSlots(project, source).StartIndex)
                 End(TreeDragEnd.Cancel);
         }
 
@@ -117,7 +117,7 @@ namespace CMiX.Studio.Avalonia.Views
         // close a row during the grab.
         private void Step(int direction)
         {
-            if (tree() is not { } project || session.Source is not { } source)
+            if (context.Tree is not { } project || session.Source is not { } source)
                 return;
 
             var slots = new TreeDropSlots(project, source);

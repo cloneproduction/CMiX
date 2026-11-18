@@ -37,6 +37,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private readonly TreeRowMetrics rowMetrics;
         private readonly TreeRowIndex rowIndex;
+        private readonly TreeViewContext context;
         private readonly TreeRowShadow rowShadow;
         private readonly TreeDropMarker marker;
         private readonly TreeScrollAnchor scrollAnchor;
@@ -85,14 +86,15 @@ namespace CMiX.Studio.Avalonia.Views
             // The bands start at the top of the rows, which is the panel of the items of the tree.
             treeView.Loaded += (_, _) => stripes.Rows = treeView.ItemsPanelRoot;
 
-            rowMetrics = new TreeRowMetrics(treeView, Resources, () => ScrollerOfTree);
             rowIndex = new TreeRowIndex(treeView);
+            context = new TreeViewContext(this, treeView, rowIndex);
+            rowMetrics = new TreeRowMetrics(treeView, Resources, context);
             rowShadow = new TreeRowShadow(treeView, rowShadowLayer, rowShadowBox);
             marker = new TreeDropMarker(rowIndex);
-            scrollAnchor = new TreeScrollAnchor(treeView, rowIndex, () => ScrollerOfTree);
-            dragSession = new TreeDragSession(treeView, () => DataContext as ProjectTree, marker, () => AutoScroller, scrollAnchor, () => ScrollerOfTree);
+            scrollAnchor = new TreeScrollAnchor(treeView, rowIndex, context);
+            dragSession = new TreeDragSession(treeView, context, marker, scrollAnchor);
             rowDrag = new TreeRowDrag(treeView, dragSession);
-            grab = new TreeGrab(this, treeView, dragSession, () => DataContext as ProjectTree, node => RevealRow(node), OnGrabChanged);
+            grab = new TreeGrab(this, treeView, dragSession, context, node => RevealRow(node), OnGrabChanged);
             hooks = new TreeViewHooks
             {
                 IsPointerOverTree = () => IsPointerOver,
@@ -143,7 +145,7 @@ namespace CMiX.Studio.Avalonia.Views
                 {
                     addOpenedBesideTheCursor = false;
                     if (watched?.CursorNode is { } cursor)
-                        Dispatcher.UIThread.Post(() => FocusRow(cursor), DispatcherPriority.Input);
+                        PostWhileAttached(() => FocusRow(cursor), DispatcherPriority.Input);
                 }
             };
         }
@@ -198,7 +200,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         // The focus moves before the next control is known, so the check runs after the event.
         private void OnWindowFocusChanged(object? sender, RoutedEventArgs e) =>
-            Dispatcher.UIThread.Post(() => UpdateHints(), DispatcherPriority.Input);
+            PostWhileAttached(UpdateHints, DispatcherPriority.Input);
 
         private void OnShortcutsChanged(object? sender, PropertyChangedEventArgs e) => RefreshHintGestures();
 
@@ -224,7 +226,8 @@ namespace CMiX.Studio.Avalonia.Views
             Dispatcher.UIThread.Post(() =>
             {
                 focusCheckPosted = false;
-                GiveTheFocusBack(null);
+                if (IsAttached)
+                    GiveTheFocusBack(null);
             }, DispatcherPriority.Input);
         }
 
@@ -236,7 +239,7 @@ namespace CMiX.Studio.Avalonia.Views
         private void OnLostFocusInTree(object? sender, RoutedEventArgs e)
         {
             var node = TreeRows.ItemOf(e.Source)?.DataContext as TreeNode;
-            Dispatcher.UIThread.Post(() => GiveTheFocusBack(node), DispatcherPriority.Input);
+            PostWhileAttached(() => GiveTheFocusBack(node), DispatcherPriority.Input);
         }
 
         // When no control has the focus and the focus was in the tree, the row of the node gets it, else the selected row. A control
@@ -260,7 +263,15 @@ namespace CMiX.Studio.Avalonia.Views
         // show the whole block of the row, and the second click of a double click would land on another row. A row that a program or a
         // key selects is brought into view here (RevealRow), and only its own row, not the rows under it.
         private ProjectTree? watched;
-        private bool attached;
+
+        private bool IsAttached { get; set; }
+
+        private void PostWhileAttached(Action action, DispatcherPriority priority) =>
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (IsAttached)
+                    action();
+            }, priority);
 
         // The row border that RevealRow brings into view.
         private Visual? revealTarget;
@@ -333,7 +344,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             MoveCursor(tree, e.Key);
             if (tree.CursorNode is { } node)
-                Dispatcher.UIThread.Post(() => FocusRow(node), DispatcherPriority.Loaded);
+                PostWhileAttached(() => FocusRow(node), DispatcherPriority.Loaded);
         }
 
         // True while the Add panel that opened beside the cursor row is open (see OpenAddBesideTheCursor).
@@ -374,7 +385,7 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         private int RowsInView() =>
-            ScrollerOfTree is { } scroller && rowMetrics.RowPitch > 0 ? Math.Max(1, (int)(scroller.Viewport.Height / rowMetrics.RowPitch)) : 1;
+            context.Scroller is { } scroller && rowMetrics.RowPitch > 0 ? Math.Max(1, (int)(scroller.Viewport.Height / rowMetrics.RowPitch)) : 1;
 
         // Moves the keyboard focus to the row of the node and brings the row into view. The focus shows the focus look of the row
         // (:focus-visible, see ProjectTree.axaml). It does not select the row.
@@ -461,7 +472,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
-            Dispatcher.UIThread.Post(() => RevealRow(target), DispatcherPriority.Loaded);
+            PostWhileAttached(() => RevealRow(target), DispatcherPriority.Loaded);
         }
 
         // Tree.Reveal: the selected row goes to the middle of the view (see ProjectTree.RevealSelected). The parents of the row open over a
@@ -564,11 +575,11 @@ namespace CMiX.Studio.Avalonia.Views
         {
             base.OnDataContextChanged(e);
 
-            if (attached)
+            if (IsAttached)
                 Unwatch();
 
             watched = DataContext as ProjectTree;
-            if (attached)
+            if (IsAttached)
                 Watch();
         }
 
@@ -633,7 +644,7 @@ namespace CMiX.Studio.Avalonia.Views
                 || watched.Origin is not (SelectionOrigin.Program or SelectionOrigin.Peer))
                 return;
 
-            Dispatcher.UIThread.Post(() => RevealRow(node), DispatcherPriority.Loaded);
+            PostWhileAttached(() => RevealRow(node), DispatcherPriority.Loaded);
         }
 
         private void RevealRow(TreeNode node) => BringRowIntoView(node, border => border.BringIntoView());
@@ -643,7 +654,7 @@ namespace CMiX.Studio.Avalonia.Views
         // The request asks for a block as high as the view, with the row at its middle. The scroller stops at the ends of the tree.
         private void BringToMiddle(Border border)
         {
-            if (ScrollerOfTree is { Viewport.Height: > 0 } scroller)
+            if (context.Scroller is { Viewport.Height: > 0 } scroller)
             {
                 var height = scroller.Viewport.Height;
                 border.BringIntoView(new Rect(0, (border.Bounds.Height - height) / 2, border.Bounds.Width, height));
@@ -681,7 +692,7 @@ namespace CMiX.Studio.Avalonia.Views
             base.OnAttachedToVisualTree(e);
 
             // The tree view model listens only while the view is attached.
-            attached = true;
+            IsAttached = true;
             Watch();
 
             scaledTopLevel = TopLevel.GetTopLevel(this);
@@ -698,7 +709,7 @@ namespace CMiX.Studio.Avalonia.Views
         {
             Unwatch();
 
-            attached = false;
+            IsAttached = false;
             if (scaledTopLevel != null)
             {
                 scaledTopLevel.ScalingChanged -= OnScalingChanged;
@@ -709,8 +720,7 @@ namespace CMiX.Studio.Avalonia.Views
             scaledTopLevel = null;
             rowDrag.Cancel();
             grab.Detach();
-            autoScroller?.Dispose();
-            autoScroller = null;
+            context.DisposeAutoScroller();
 
             // Ends the reveal and the scroll hold. Their next step and their next frame then do nothing, so no frame request outlives the view.
             revealId++;
@@ -854,7 +864,7 @@ namespace CMiX.Studio.Avalonia.Views
             {
                 focusBesideRows = false;
                 if (watched?.CursorNode is { } cursor)
-                    Dispatcher.UIThread.Post(() => FocusRow(cursor), DispatcherPriority.Input);
+                    PostWhileAttached(() => FocusRow(cursor), DispatcherPriority.Input);
                 return;
             }
 
@@ -1006,23 +1016,12 @@ namespace CMiX.Studio.Avalonia.Views
             && TreeRows.RowBorderOf(item) is { } border
             && new Rect(border.Bounds.Size).Contains(e.GetPosition(border));
 
-        // The tree scrolls while a drag is near its top or bottom edge (see DragAutoScroller).
-        // The scroller is made at the first drag and goes away when the view leaves the window.
-        private DragAutoScroller? autoScroller;
-
-        private DragAutoScroller AutoScroller =>
-            autoScroller ??= new DragAutoScroller(
-                () => ScrollerOfTree, () => rowMetrics.RowPitch);
-
-        private ScrollViewer? ScrollerOfTree =>
-            treeView.GetVisualDescendants().OfType<ScrollViewer>().FirstOrDefault();
-
         // True while the scroll of a drag runs.
-        public bool IsAutoScrolling => autoScroller?.IsRunning ?? false;
+        public bool IsAutoScrolling => context.ExistingAutoScroller?.IsRunning ?? false;
 
-        public void ScrollByWheel(int steps) => autoScroller?.ScrollByWheel(steps);
+        public void ScrollByWheel(int steps) => context.ExistingAutoScroller?.ScrollByWheel(steps);
 
-        public double AutoScrollStep() => autoScroller?.AutoScrollStep() ?? 0;
+        public double AutoScrollStep() => context.ExistingAutoScroller?.AutoScrollStep() ?? 0;
 
         // The files and folders from the file manager come as a drag of the system. The tree is their drop target.
         // Any other drag of the system does nothing here: a row of the tree is dragged with the pointer (see TreeRowDrag).
@@ -1043,7 +1042,7 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         private void TrackFilesPointer(DragEventArgs e) =>
-            AutoScroller.Track(ScrollerOfTree is { } scroller ? e.GetPosition(scroller).Y : null);
+            context.AutoScroller.Track(context.Scroller is { } scroller ? e.GetPosition(scroller).Y : null);
 
         // A leave of one row comes with the enter of the next row. The next enter or over starts the timer again.
         private void OnDragEnter(object? sender, DragEventArgs e)
@@ -1078,7 +1077,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void OnDragLeave(object? sender, DragEventArgs e)
         {
-            autoScroller?.StopNow();
+            context.ExistingAutoScroller?.StopNow();
             marker.Mark(null, null);
             // A leave of a row inside the tree keeps the record.
             if (DropFiles.LeavesControl(treeView, e))
@@ -1090,7 +1089,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (!IsFileDrag(e))
                 return;
 
-            autoScroller?.StopNow();
+            context.ExistingAutoScroller?.StopNow();
             e.Handled = true;
             marker.Mark(null, null);
             var files = FilesOf(e);

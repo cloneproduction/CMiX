@@ -30,11 +30,9 @@ namespace CMiX.Studio.Avalonia.Views
         public static readonly TimeSpan DefaultRestDelay = TimeSpan.FromSeconds(0.6);
 
         private readonly TreeView treeView;
-        private readonly Func<ProjectTree?> tree;
+        private readonly TreeViewContext context;
         private readonly TreeDropMarker marker;
-        private readonly Func<DragAutoScroller> autoScroller;
         private readonly TreeScrollAnchor scrollAnchor;
-        private readonly Func<ScrollViewer?> scroller;
         private readonly TreeDragGhost ghost = new();
 
         private TreeNode? source;
@@ -55,16 +53,12 @@ namespace CMiX.Studio.Avalonia.Views
         // The rows that this drag opened, in the order that they opened. A new drag starts a new list.
         private readonly List<TreeNode> openedRows = new();
 
-        // tree gives the view model of the tree. autoScroller gives the scroller of the drag. scroller gives the scroll viewer of the tree.
-        internal TreeDragSession(TreeView treeView, Func<ProjectTree?> tree, TreeDropMarker marker, Func<DragAutoScroller> autoScroller,
-            TreeScrollAnchor scrollAnchor, Func<ScrollViewer?> scroller)
+        internal TreeDragSession(TreeView treeView, TreeViewContext context, TreeDropMarker marker, TreeScrollAnchor scrollAnchor)
         {
             this.treeView = treeView;
-            this.tree = tree;
+            this.context = context;
             this.marker = marker;
-            this.autoScroller = autoScroller;
             this.scrollAnchor = scrollAnchor;
-            this.scroller = scroller;
         }
 
         // True from the start of the drag to its end.
@@ -108,7 +102,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             // The picture is taken before the rows change their look for the drag, so it is the row as the user saw it.
             ShowGhost(node, position);
-            tree()?.BeginDrag(node);
+            context.Tree?.BeginDrag(node);
             cursorBefore = treeView.Cursor;
             treeView.Cursor = MoveCursor;
         }
@@ -132,7 +126,7 @@ namespace CMiX.Studio.Avalonia.Views
             TrackRest(hoveredItem);
             ghost.Ghost.IsVisible = true;
             ghost.Move(treeView, position, DropLineTop());
-            autoScroller().Track(scroller() is { } view ? treeView.TranslatePoint(position, view)?.Y : null);
+            context.AutoScroller.Track(context.Scroller is { } view ? treeView.TranslatePoint(position, view)?.Y : null);
         }
 
         // Sets the slot from the position and nothing more. A starter calls it when the drop comes at a point that Track did not see.
@@ -177,7 +171,7 @@ namespace CMiX.Studio.Avalonia.Views
         internal void ScrollByWheel(int steps)
         {
             if (source != null)
-                autoScroller().ScrollByWheel(steps);
+                context.AutoScroller.ScrollByWheel(steps);
         }
 
         // Ends the drag. A drop puts the node in the slot first. The drop is one undo step, and it tells the user why a move is
@@ -219,7 +213,7 @@ namespace CMiX.Studio.Avalonia.Views
         // is, and the tree does not scroll to the moved row. The move is done before the first await of ProjectTree.DropAsync.
         private Task? StartDrop(TreeNode node)
         {
-            if (tree() is not { } project || Slot is not { } slot || !CanDrop(slot.Target, slot.Position))
+            if (context.Tree is not { } project || Slot is not { } slot || !CanDrop(slot.Target, slot.Position))
                 return null;
 
             var anchor = scrollAnchor.CaptureAnchor(node);
@@ -262,8 +256,8 @@ namespace CMiX.Studio.Avalonia.Views
             hoveredNode = null;
             closedByKey = null;
             ShowBlockReason(null);
-            tree()?.EndDrag();
-            autoScroller().StopNow();
+            context.Tree?.EndDrag();
+            context.AutoScroller.StopNow();
             marker.Mark(null, null);
             ghost.Hide();
             ghost.Ghost.IsVisible = true;
@@ -285,7 +279,7 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         private bool CanDrop(TreeNode target, DropPosition position) =>
-            source != null && tree() is { } project && project.CanDrop(source, target, position);
+            source != null && context.Tree is { } project && project.CanDrop(source, target, position);
 
         // The row under the point, the item that takes the drop, its node, and the place of the drop. The item that takes the drop
         // is the row under the point or one of its parents (see ProjectTree.Locate). It has no place when no drop is offered here.
@@ -293,7 +287,7 @@ namespace CMiX.Studio.Avalonia.Views
         private DragAim Read(Point position)
         {
             var hoveredItem = TreeRows.ItemOf(treeView.InputHitTest(position));
-            if (source == null || tree() is not { } project)
+            if (source == null || context.Tree is not { } project)
                 return DragAim.NoDropOver(hoveredItem);
 
             if (hoveredItem?.DataContext is not TreeNode hovered)
