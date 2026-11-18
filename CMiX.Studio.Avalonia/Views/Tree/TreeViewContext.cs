@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         public ScrollViewer? Scroller => TreeView.GetVisualDescendants().OfType<ScrollViewer>().FirstOrDefault();
 
-        public double RowPitch => TreeRowMetrics.ReadRowPitch(owner.Resources);
+        public double RowPitch => TreeRowMetrics.ReadRowPitch(owner);
 
         // The scroller is made at the first drag and goes away when the view leaves the window (see DisposeAutoScroller).
         public DragAutoScroller AutoScroller => autoScroller ??= new DragAutoScroller(this);

@@ -1008,6 +1008,69 @@ window.CMIX_TOKENS = {
                                           "note":  "The width of the search field of the tree, in the bar of the panel, at the right."
                                       },
                                       {
+                                          "name":  "TreeRowHeight",
+                                          "type":  "Double",
+                                          "raw":  "24",
+                                          "css":  "24px",
+                                          "note":  "The row of the tree at a screen of 100%. TreeRowMetrics sets these again per view, in whole pixels of the screen."
+                                      },
+                                      {
+                                          "name":  "TreeRowSpacing",
+                                          "type":  "Double",
+                                          "raw":  "1",
+                                          "css":  "1px",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "TreeDropLineThickness",
+                                          "type":  "Double",
+                                          "raw":  "1",
+                                          "css":  "1px",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "TreeDropLineGapMargin",
+                                          "type":  "Thickness",
+                                          "raw":  "0,25,0,0",
+                                          "css":  "25px 0 0 0",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "TreeDropLineTopMargin",
+                                          "type":  "Thickness",
+                                          "raw":  "0,-2,0,0",
+                                          "css":  "-2px 0 0 0",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "TreeSelectionThickness",
+                                          "type":  "Thickness",
+                                          "raw":  "1",
+                                          "css":  "1px",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "TreeToggleWidth",
+                                          "type":  "Double",
+                                          "raw":  "50",
+                                          "css":  "50px",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "TreeDimOpacity",
+                                          "type":  "Double",
+                                          "raw":  "0.6",
+                                          "css":  "0.6",
+                                          "note":  "The cover of a row that can not take a drag, and the half cover of a collapsed row with a target deeper."
+                                      },
+                                      {
+                                          "name":  "TreeHintCoverOpacity",
+                                          "type":  "Double",
+                                          "raw":  "0.3",
+                                          "css":  "0.3",
+                                          "note":  ""
+                                      },
+                                      {
                                           "name":  "DragScrollEdge",
                                           "type":  "Double",
                                           "raw":  "28",

@@ -29,11 +29,6 @@
     <!-- The cursor row and the rows above it are drawn over the other rows (see TreeLiftConverter). -->
     <StudioConverters:TreeLiftConverter x:Key="TreeLift" />
 
-    <!-- How much of the cover stays over a row that can not take a dragged node. -->
-    <x:Double x:Key="TreeDimOpacity">0.6</x:Double>
-    <!-- The cover of a collapsed row with a possible target deeper: half, so the row reads as "not here, but look inside". -->
-    <x:Double x:Key="TreeHintCoverOpacity">0.3</x:Double>
-
     <ControlTheme x:Key="TreeChevronToggle" TargetType="ToggleButton">
         <Setter Property="Width" Value="{DynamicResource TreeIndent}" />
         <Setter Property="Background" Value="Transparent" />

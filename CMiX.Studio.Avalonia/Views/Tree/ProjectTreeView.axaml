@@ -6,18 +6,6 @@
     xmlns:Tree="clr-namespace:CMiX.Studio.Avalonia.ViewModels.Tree"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <!-- The sizes of a row for a screen of 100%: ControlHeightMD and SpacingXXS. The code sets them again in whole pixels of the screen
-         (ProjectTreeView.SnapToPixels), from those two tokens. The width of the toggle column comes from them too. -->
-    <UserControl.Resources>
-        <x:Double x:Key="TreeRowHeight">24</x:Double>
-        <x:Double x:Key="TreeRowSpacing">1</x:Double>
-        <x:Double x:Key="TreeDropLineThickness">1</x:Double>
-        <Thickness x:Key="TreeDropLineGapMargin">0,25,0,0</Thickness>
-        <Thickness x:Key="TreeDropLineTopMargin">0,-2,0,0</Thickness>
-        <Thickness x:Key="TreeSelectionThickness">1</Thickness>
-        <x:Double x:Key="TreeToggleWidth">50</x:Double>
-    </UserControl.Resources>
-
     <!-- The gesture comes from the shortcut map. The binding pauses while a name box is edited (KeyBindingTextGuard). Tree.Open needs the
          focus in the tree, as the arrow keys that move the cursor (see TreeKeyInput). The keys of the selected row (Tree.Rename,
          Tree.Remove, Tree.Duplicate, Tree.MoveUp, Tree.MoveDown) are in the main window. -->

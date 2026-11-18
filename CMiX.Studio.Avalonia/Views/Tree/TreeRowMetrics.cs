@@ -27,11 +27,14 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         // The height of a row plus the space under it.
-        // Before SetRowMetrics, the view has no TreeRowGap of its own, and the gap is RowGap.
-        public double RowPitch => ReadRowPitch(resources);
+        public double RowPitch => context.RowPitch;
 
-        public static double ReadRowPitch(IResourceDictionary resources) =>
-            Convert.ToDouble(resources["TreeRowHeight"]) + (resources.TryGetValue("TreeRowGap", out var gap) ? Convert.ToDouble(gap) : RowGap);
+        public static double ReadRowPitch(Control view) =>
+            ReadSize(view, TreeRowResources.RowHeightKey) + ReadSize(view, TreeRowResources.RowGapKey);
+
+        // A view out of a window has no parent, so its search stops before the tokens of the application.
+        private static double ReadSize(Control view, string key) =>
+            Convert.ToDouble(view.TryFindResource(key, out var value) ? value : Application.Current!.FindResource(key));
 
         // The height of a row and the space between two rows, in whole pixels of the screen.
         // On a screen with a scaling like 125%, a size of 24 or of 1 is not a whole number of pixels, and every panel rounds its
@@ -45,29 +48,30 @@ namespace CMiX.Studio.Avalonia.Views
             return new RowSizes(heightPixels / scale, spacingPixels / scale);
         }
 
-        public void SetRowMetrics(double scale)
+        public void SetRowMetrics(double scale) => ComputeRowResources(scale).Write(resources);
+
+        private static TreeRowResources ComputeRowResources(double scale)
         {
             var height = Convert.ToDouble(Application.Current!.FindResource("ControlHeightMD"));
             var spacing = Convert.ToDouble(Application.Current!.FindResource("SpacingXXS"));
-            var (snappedHeight, snappedSpacing) = SnapToPixels(height, spacing, scale);
-            resources["TreeRowHeight"] = snappedHeight;
-            resources["TreeRowSpacing"] = snappedSpacing;
-            resources["TreeToggleWidth"] = RowToggles.WidthFor(snappedHeight, snappedSpacing);
+            var row = SnapToPixels(height, spacing, scale);
 
             // The space between rows is a space of its own, not the space between a row and its toggles.
-            var (_, snappedGap) = SnapToPixels(height, RowGap, scale);
-            resources["TreeRowGap"] = snappedGap;
+            var gap = SnapToPixels(height, RowGap, scale).Spacing;
 
-            // The drop line is one pixel of the screen, from the left edge of the tree to its right edge, in the middle of the space under a
-            // row (dropgap), or in the middle of the space above the first row (droptop): the same room above and below it.
+            // The drop line is one pixel of the screen, in the middle of the space under a row (dropgap) or above the first row (droptop).
             var line = 1 / scale;
-            var free = (snappedGap - line) / 2;
-            resources["TreeDropLineThickness"] = line;
-            resources["TreeDropLineGapMargin"] = new Thickness(0, snappedHeight + free, 0, 0);
-            resources["TreeDropLineTopMargin"] = new Thickness(0, -(free + line), 0, 0);
+            var free = (gap - line) / 2;
 
-            // The frame of a blocked row (BlockedFrame) is one pixel of the screen, so it is as thin on a screen of 150% as on a screen of 100%.
-            resources["TreeSelectionThickness"] = new Thickness(1 / scale);
+            return new TreeRowResources(
+                row.Height,
+                row.Spacing,
+                RowToggles.WidthFor(row.Height, row.Spacing),
+                gap,
+                line,
+                new Thickness(0, row.Height + free, 0, 0),
+                new Thickness(0, -(free + line), 0, 0),
+                new Thickness(1 / scale));
         }
 
         // A tree that is higher than its view can scroll until its last row is near the top of the view. When a drop takes rows away,

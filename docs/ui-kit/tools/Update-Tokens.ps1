@@ -87,7 +87,7 @@ function Read-Dictionary([string]$file) {
             }
             'CornerRadius' { $css = ConvertTo-CssRadius $raw }
             'Thickness' { $css = ConvertTo-CssThickness $raw }
-            'Double' { if ($key -like 'Opacity*') { $css = $raw } else { $css = ConvertTo-Px $raw } }
+            'Double' { if ($key -like '*Opacity*') { $css = $raw } else { $css = ConvertTo-Px $raw } }
             'Int32' { $css = $raw }
             'FontFamily' { $css = $raw }
         }
