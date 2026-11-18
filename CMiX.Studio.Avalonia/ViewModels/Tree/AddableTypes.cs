@@ -5,10 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Lights;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
@@ -64,6 +67,14 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
             return ControlFactory.StringHelper.PascalCaseToDisplay(name);
         }
+
+        // The id and the label of a type that a layer takes as content. The label is shorter than LabelOf: TextEntity is "Text".
+        public static AddEntry ContentEntryOf(Type type) =>
+            type == typeof(FullscreenQuad) ? new AddEntry(TreeAddIds.FullscreenQuad, "Fullscreen Quad")
+                : type == typeof(TextEntity) ? new AddEntry(TreeAddIds.TextEntity, "Text")
+                : type == typeof(Camera) ? new AddEntry(TreeAddIds.Camera, "Camera")
+                : type == typeof(LightEntity) ? new AddEntry(TreeAddIds.Light, "Light")
+                : new AddEntry(TreeAddIds.Entity, "Entity");
 
         private static bool IsModifierOrModulator(Type type) =>
             typeof(IModifier).IsAssignableFrom(type)

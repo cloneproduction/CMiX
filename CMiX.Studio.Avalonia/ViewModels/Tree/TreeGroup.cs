@@ -105,7 +105,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public CompositionsGroup(Project project, PrefabManager manager) : base(project, manager) { }
 
         public override string Header => Title;
-        public override string IconKey => "Composition";
+        public override string IconKey => TreeIcons.CompositionKey;
         public override TreeCategory Category => TreeCategory.Composable;
         public override IReadOnlyList<Type> AddableTypes => addable;
     }
@@ -119,7 +119,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public LayersGroup(Composition composition, PrefabManager manager) : base(composition, manager) { }
 
         public override string Header => Title;
-        public override string IconKey => "LayerScene";
+        public override string IconKey => TreeIcons.LayerKey;
         public override TreeCategory Category => TreeCategory.Composable;
         public override IReadOnlyList<Type> AddableTypes => addable;
     }
@@ -143,7 +143,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public EntitiesGroup(Layer layer, PrefabManager manager) : base(layer, manager) { }
 
         public override string Header => Title;
-        public override string IconKey => "Geometry";
+        public override string IconKey => TreeIcons.EntityKey;
         public override TreeCategory Category => TreeCategory.Entity;
         public override IReadOnlyList<Type> AddableTypes => addable;
     }
@@ -156,7 +156,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public CamerasGroup(Layer layer, PrefabManager manager) : base(layer, manager) { }
 
         public override string Header => Title;
-        public override string IconKey => "Camera";
+        public override string IconKey => TreeIcons.CameraKey;
         public override TreeCategory Category => TreeCategory.Camera;
         public override IReadOnlyList<Type> AddableTypes => addable;
     }
@@ -169,7 +169,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public LightsGroup(Layer layer, PrefabManager manager) : base(layer, manager) { }
 
         public override string Header => Title;
-        public override string IconKey => "MeshLight";
+        public override string IconKey => TreeIcons.LightKey;
         public override TreeCategory Category => TreeCategory.Light;
         public override IReadOnlyList<Type> AddableTypes => addable;
     }
@@ -182,7 +182,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public TexturesGroup(IControl owner, PrefabManager manager) : base(owner, manager) { }
 
         public override string Header => Title;
-        public override string IconKey => "Texture";
+        public override string IconKey => TreeIcons.TextureKey;
         public override TreeCategory Category => TreeCategory.Texture;
         public override IReadOnlyList<Type> AddableTypes => Tree.AddableTypes.ForInterface(typeof(ITextureSource));
     }
@@ -195,7 +195,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public FiltersGroup(IControl owner, PrefabManager manager) : base(owner, manager) { }
 
         public override string Header => Title;
-        public override string IconKey => "Filter";
+        public override string IconKey => TreeIcons.FilterKey;
         public override TreeCategory Category => TreeCategory.Filter;
         public override IReadOnlyList<Type> AddableTypes => Tree.AddableTypes.ForInterface(typeof(ITextureFilter));
     }
@@ -208,7 +208,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public ModifiersGroup(IControl owner, PrefabManager manager) : base(owner, manager) { }
 
         public override string Header => Title;
-        public override string IconKey => "Modifier";
+        public override string IconKey => TreeIcons.ModifierKey;
         public override TreeCategory Category => TreeCategory.Modifier;
         public override IReadOnlyList<Type> AddableTypes => Tree.AddableTypes.ForOwner(OwnerType);
     }
@@ -221,7 +221,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public ModulatorsGroup(IControl owner, PrefabManager manager) : base(owner, manager) { }
 
         public override string Header => Title;
-        public override string IconKey => "Modulator";
+        public override string IconKey => TreeIcons.ModulatorKey;
         public override TreeCategory Category => TreeCategory.Modulator;
         public override IReadOnlyList<Type> AddableTypes => Tree.AddableTypes.ForInterface(typeof(IModulator));
     }

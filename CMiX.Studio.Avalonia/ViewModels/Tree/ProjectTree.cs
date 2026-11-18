@@ -766,16 +766,16 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public IReadOnlyList<TreeAdd> GetAdds(TreeNode? node)
         {
             if (node == null)
-                return new[] { AddOf("row.add-composition", "Add Composition", compositions, typeof(Composition)) };
+                return new[] { AddOf(TreeAddIds.Composition, "Add Composition", compositions, typeof(Composition)) };
 
             if (node.Item is Composition composition)
-                return new[] { AddOf("row.add-layer", "Add Layer", composition.LayerManager, typeof(Layer)) }.Concat(HeldAdds(node.Item)).ToList();
+                return new[] { AddOf(TreeAddIds.Layer, "Add Layer", composition.LayerManager, typeof(Layer)) }.Concat(HeldAdds(node.Item)).ToList();
 
             // A layer takes an item of any kind: the entities, then the camera and the light.
             if (node.Item is Layer own)
                 return new[]
                 {
-                    new TreeAdd("row.add", "Add", Children: TreeGroup.GroupsOf(own).OfType<LayerGroup>()
+                    new TreeAdd(TreeAddIds.AddMenu, "Add", Children: TreeGroup.GroupsOf(own).OfType<LayerGroup>()
                         .SelectMany(group => group.AddableTypes.Select(type => LayerAddOf(group, type, string.Empty)))
                         .ToList())
                 }.Concat(HeldAdds(own)).ToList();
@@ -790,7 +790,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
             // The group of the layers of a composition takes a layer, and the group of the compositions takes a composition.
             if (node.Group is LayersGroup layersGroup)
-                return new[] { AddOf("row.add-layer", "Add Layer", layersGroup.Manager, typeof(Layer)) };
+                return new[] { AddOf(TreeAddIds.Layer, "Add Layer", layersGroup.Manager, typeof(Layer)) };
 
             if (node.Group is CompositionsGroup)
                 return GetAdds(null);
@@ -808,7 +808,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public IReadOnlyList<TreeAdd> GetAddChoices(TreeNode? node)
         {
             // The submenu of the layer is flat. The submenus of textures, filters and modifiers stay submenus: they are long.
-            var choices = GetAdds(node).SelectMany(add => add.Id == "row.add" ? add.Children! : new[] { add }).ToList();
+            var choices = GetAdds(node).SelectMany(add => add.Id == TreeAddIds.AddMenu ? add.Children! : new[] { add }).ToList();
             if (node != null)
                 choices.AddRange(GetAdds(null));
 
@@ -835,27 +835,27 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             TreeAddGroup Held(TreeCategory category, IReadOnlyList<Type> types)
             {
                 var name = TreeCategories.Label(category, 1);
-                var entries = types.Select(type => Entry("row.add-" + type.Name, AddableTypes.LabelOf(type), type, category)).ToList();
+                var entries = types.Select(type => Entry(TreeAddIds.ForType(type), AddableTypes.LabelOf(type), type, category)).ToList();
                 return new TreeAddGroup("group.add-" + name.ToLowerInvariant(), name, category, entries);
             }
 
             var content = ContentTypes.Select(type =>
             {
-                var (id, label) = LayerEntryOf(type);
-                return Entry(id, label, type, ContentCategoryOf(type));
+                var entry = AddableTypes.ContentEntryOf(type);
+                return Entry(entry.Id, entry.Label, type, ContentCategoryOf(type));
             }).ToList();
 
             return new[]
             {
                 new TreeAddGroup("group.layer", "Layer", TreeCategory.Composable,
-                    new[] { Entry("row.add-layer", "Layer", typeof(Layer), TreeCategory.Composable) }),
+                    new[] { Entry(TreeAddIds.Layer, "Layer", typeof(Layer), TreeCategory.Composable) }),
                 new TreeAddGroup("group.content", "Content", null, content),
                 Held(TreeCategory.Texture, AddableTypes.ForInterface(typeof(ITextureSource))),
                 Held(TreeCategory.Filter, AddableTypes.ForInterface(typeof(ITextureFilter))),
                 Held(TreeCategory.Modifier, AddableTypes.AllModifiers()),
                 Held(TreeCategory.Modulator, AddableTypes.ForInterface(typeof(IModulator))),
                 new TreeAddGroup("group.project", "Project", TreeCategory.Composable,
-                    new[] { Entry("row.add-composition", "Composition", typeof(Composition), TreeCategory.Composable) }),
+                    new[] { Entry(TreeAddIds.Composition, "Composition", typeof(Composition), TreeCategory.Composable) }),
             };
         }
 
@@ -869,12 +869,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             void TakeHeld(TreeGroup group)
             {
                 foreach (var type in group.AddableTypes)
-                    Take(AddOf("row.add-" + type.Name, AddableTypes.LabelOf(type), group.Manager, type));
+                    Take(AddOf(TreeAddIds.ForType(type), AddableTypes.LabelOf(type), group.Manager, type));
             }
 
             if (node?.Item is Composition composition)
             {
-                Take(AddOf("row.add-layer", "Layer", composition.LayerManager, typeof(Layer)));
+                Take(AddOf(TreeAddIds.Layer, "Layer", composition.LayerManager, typeof(Layer)));
                 foreach (var group in TreeGroup.GroupsOf(node.Item).Where(group => group is not (LayerGroup or StructureGroup)))
                     TakeHeld(group);
             }
@@ -895,7 +895,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             }
             else if (node?.Group is LayersGroup layersGroup)
             {
-                Take(AddOf("row.add-layer", "Layer", layersGroup.Manager, typeof(Layer)));
+                Take(AddOf(TreeAddIds.Layer, "Layer", layersGroup.Manager, typeof(Layer)));
             }
             else if (node?.Group is CompositionsGroup)
             {
@@ -910,7 +910,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 TakeHeld(held);
             }
 
-            Take(AddOf("row.add-composition", "Composition", compositions, typeof(Composition)));
+            Take(AddOf(TreeAddIds.Composition, "Composition", compositions, typeof(Composition)));
             return available;
         }
 
@@ -923,14 +923,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // The category of a type that a layer takes as content.
         private static TreeCategory ContentCategoryOf(Type type) =>
             type == typeof(Camera) ? TreeCategory.Camera : type == typeof(LightEntity) ? TreeCategory.Light : TreeCategory.Entity;
-
-        // The id and the label of a type that a layer takes as content.
-        private static (string Id, string Label) LayerEntryOf(Type type) =>
-            type == typeof(FullscreenQuad) ? ("row.add-fullscreen-quad", "Fullscreen Quad")
-                : type == typeof(TextEntity) ? ("row.add-text-entity", "Text")
-                : type == typeof(Camera) ? ("row.add-camera", "Camera")
-                : type == typeof(LightEntity) ? ("row.add-light", "Light")
-                : ("row.add-entity", "Entity");
 
         // The add choices of the target node. The tree makes them again when the target changes.
         public IReadOnlyList<TreeAdd> TargetAdds => targetAdds;
@@ -946,20 +938,20 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 .Select(group =>
                 {
                     var name = TreeCategories.Label(group.Category, 1);
-                    return new TreeAdd("row.add-" + name.ToLowerInvariant(), "Add " + name, Children: AddsOfTypes(group), Secondary: true);
+                    return new TreeAdd(TreeAddIds.ForKindMenu(name), "Add " + name, Children: AddsOfTypes(group), Secondary: true);
                 })
                 .ToList();
 
         private static IReadOnlyList<TreeAdd> AddsOfTypes(TreeGroup group) =>
             group.AddableTypes
-                .Select(type => AddOf("row.add-" + type.Name, AddableTypes.LabelOf(type), group.Manager, type))
+                .Select(type => AddOf(TreeAddIds.ForType(type), AddableTypes.LabelOf(type), group.Manager, type))
                 .ToList();
 
         // An add row for an item of a layer. The prefix is "Add " in the menu of a group, and empty in the submenu of the layer.
         private static TreeAdd LayerAddOf(LayerGroup group, Type type, string prefix)
         {
-            var (id, label) = LayerEntryOf(type);
-            return AddOf(id, prefix + label, group.Manager, type);
+            var entry = AddableTypes.ContentEntryOf(type);
+            return AddOf(entry.Id, prefix + entry.Label, group.Manager, type);
         }
 
         private static TreeAdd AddOf(string id, string header, PrefabManager list, Type type) =>

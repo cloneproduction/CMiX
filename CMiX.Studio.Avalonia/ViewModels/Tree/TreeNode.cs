@@ -10,12 +10,9 @@ using System.Linq;
 using CMiX.Core;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
-using CMiX.Core.Modifiers;
-using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
-using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Rendering.Lights;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -40,7 +37,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             Item = item;
             Group = group;
             this.header = group?.Header ?? header;
-            IconKey = group?.IconKey ?? IconFor(item);
+            IconKey = group?.IconKey ?? TreeIcons.OfItem(item);
 
             if (item is IPrefab prefab)
             {
@@ -370,18 +367,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                     return true;
             return false;
         }
-
-        // The icon of an item row, or of a row that is neither an item nor a group.
-        // The icon of an item: the icon of its type when it has one (see TreeIcons), else the icon of its kind.
-        private static string IconFor(IControl? item) =>
-            (item == null ? null : TreeIcons.OfType(item.GetType())) ?? item switch
-            {
-                IModifier => "Modifier",
-                IModulator => "Modulator",
-                ITextureFilter => "Filter",
-                ITextureSource => "Texture",
-                _ => "Geometry"
-            };
 
         private TreeNode CreateItemNode(IControl item) =>
             new(tree, this, ChildManager, item, string.Empty, null);
