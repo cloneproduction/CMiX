@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         // The first row that is fully in view and is not the dragged node or under it, and its place in the view. With no dragged node,
         // the first row that is fully in view.
-        public (TreeNode Node, double Top)? CaptureAnchor(TreeNode? dragged)
+        public AnchoredRow? CaptureAnchor(TreeNode? dragged)
         {
             if (scroller() is not { } view)
                 return null;
@@ -46,25 +46,25 @@ namespace CMiX.Studio.Avalonia.Views
 
                 var top = TreeRows.RowTopIn(item, view);
                 if (top is >= 0)
-                    return (node, top.Value);
+                    return new AnchoredRow(node, top.Value);
             }
 
             return null;
         }
 
         // The row of the node and its place in the view, when the row is fully in view. Null otherwise.
-        public (TreeNode Node, double Top)? CaptureRow(TreeNode node)
+        public AnchoredRow? CaptureRow(TreeNode node)
         {
             if (scroller() is not { } view || rows.FindItem(node) is not { } item || TreeRows.RowTopIn(item, view) is not { } top)
                 return null;
 
             // The item holds the rows of its children too, so the height is the one of the row itself.
             var height = TreeRows.RowBorderOf(item)?.Bounds.Height ?? 0;
-            return top >= 0 && top + height <= view.Viewport.Height ? (node, top) : null;
+            return top >= 0 && top + height <= view.Viewport.Height ? new AnchoredRow(node, top) : null;
         }
 
         // Scrolls so that the anchor row is where it was.
-        public void RestoreAnchor((TreeNode Node, double Top)? anchor)
+        public void RestoreAnchor(AnchoredRow? anchor)
         {
             if (anchor is not { } kept || scroller() is not { } view)
                 return;
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Views
             Place(kept, view);
         }
 
-        private void Place((TreeNode Node, double Top) kept, ScrollViewer view)
+        private void Place(AnchoredRow kept, ScrollViewer view)
         {
             var item = rows.FindItem(kept.Node);
             if (item == null || TreeRows.RowTopIn(item, view) is not { } top)
@@ -96,7 +96,7 @@ namespace CMiX.Studio.Avalonia.Views
         // put back once in each frame, until the list of children of every closed row is shut. The hold runs from the frames of the
         // window, not from the layouts: a change of the scroll in a layout asks for one more layout in the same frame, and a chain of
         // them stops the window (Avalonia: "Infinite layout loop detected").
-        public void HoldWhileClosing((TreeNode Node, double Top)? anchor, IReadOnlyList<TreeNode> closed)
+        public void HoldWhileClosing(AnchoredRow? anchor, IReadOnlyList<TreeNode> closed)
         {
             var id = ++holdId;
             if (anchor is not { } kept || closed.Count == 0 || scroller() is not { } view || TopLevel.GetTopLevel(treeView) is not { } top)

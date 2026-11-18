@@ -671,7 +671,7 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         // See TreeRowMetrics.SnapToPixels.
-        public static (double Height, double Spacing) SnapToPixels(double height, double spacing, double scale) =>
+        public static RowSizes SnapToPixels(double height, double spacing, double scale) =>
             TreeRowMetrics.SnapToPixels(height, spacing, scale);
 
         private TopLevel? scaledTopLevel;

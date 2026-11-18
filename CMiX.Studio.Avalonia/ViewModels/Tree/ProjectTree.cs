@@ -71,23 +71,23 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             };
             AddItemCommand = new RelayCommand<TreeAdd?>(add => add?.Execute?.Invoke(), add => add == null ? HasAdds : add.Execute != null);
             DuplicateItemCommand = new RelayCommand(
-                () => { if (TargetPlace() is var (list, item, _)) list.DuplicateItem(item); },
+                () => { if (TargetPlace() is { } place) place.List.DuplicateItem(place.Item); },
                 () => TargetPlace() != null);
             MoveItemUpCommand = new RelayCommand(
-                () => { if (TargetPlace() is var (list, item, index)) list.MoveItemTo(item, index - 1); },
-                () => TargetPlace() is var (_, _, index) && index > 0);
+                () => { if (TargetPlace() is { } place) place.List.MoveItemTo(place.Item, place.Index - 1); },
+                () => TargetPlace() is { Index: > 0 });
             MoveItemDownCommand = new RelayCommand(
-                () => { if (TargetPlace() is var (list, item, index)) list.MoveItemTo(item, index + 1); },
-                () => TargetPlace() is var (list, _, index) && index < list.ManagerData.Items.Count - 1);
+                () => { if (TargetPlace() is { } place) place.List.MoveItemTo(place.Item, place.Index + 1); },
+                () => TargetPlace() is { } place && place.Index < place.List.ManagerData.Items.Count - 1);
             RemoveItemCommand = new RelayCommand(
                 () =>
                 {
-                    if (TargetPlace() is not var (list, item, _))
+                    if (TargetPlace() is not { } place)
                         return;
 
                     // The name before the remove, for the toast.
                     var name = TargetNode!.Header;
-                    list.RemoveItem(item);
+                    place.List.RemoveItem(place.Item);
                     toasts?.ShowWithUndo($"Removed {name}");
                 },
                 () => TargetPlace() != null);
@@ -967,13 +967,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // The target node as an item of a list: the list, the item and its place in the list.
         // A group, or no node, is not an item.
-        private (PrefabManager List, IControl Item, int Index)? TargetPlace()
+        private TargetPlace? TargetPlace()
         {
             if (TargetNode is not { Owner: { } list, Item: { } item })
                 return null;
 
             var index = list.ManagerData.Items.IndexOf(item);
-            return index < 0 ? null : (list, item, index);
+            return index < 0 ? null : new TargetPlace(list, item, index);
         }
 
         private void RefreshCommands()

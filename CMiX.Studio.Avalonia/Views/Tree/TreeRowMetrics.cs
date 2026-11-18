@@ -36,11 +36,11 @@ namespace CMiX.Studio.Avalonia.Views
         // size up. The rows of a long tree are then slightly more than one pitch apart, and the error adds up. With whole pixels
         // there is nothing to round, and every row is exactly one pitch from the next, whatever is open.
         // The height goes up to the next pixel, and the space is one pixel or more.
-        public static (double Height, double Spacing) SnapToPixels(double height, double spacing, double scale)
+        public static RowSizes SnapToPixels(double height, double spacing, double scale)
         {
             var heightPixels = Math.Ceiling(height * scale - 1e-6);
             var spacingPixels = Math.Max(1, Math.Round(spacing * scale, MidpointRounding.AwayFromZero));
-            return (heightPixels / scale, spacingPixels / scale);
+            return new RowSizes(heightPixels / scale, spacingPixels / scale);
         }
 
         public void SetRowMetrics(double scale)

@@ -81,8 +81,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         // The place where a drop puts the node now: the marked row and the position at it. Null when no drop is offered.
         // The drop reads this place only, not the pointer.
-        public (TreeNode Target, DropPosition Position)? Slot =>
-            marker.Marked is { DataContext: TreeNode target } && marker.MarkedPosition is { } position ? (target, position) : null;
+        public DropPlace? Slot =>
+            marker.Marked is { DataContext: TreeNode target } && marker.MarkedPosition is { } position ? new DropPlace(target, position) : null;
 
         // The label of the dragged row that follows the pointer. A test reads it.
         internal TreeDragGhost Ghost => ghost;
@@ -141,10 +141,10 @@ namespace CMiX.Studio.Avalonia.Views
             if (source == null)
                 return;
 
-            var (hovered, item, target, place) = Read(position);
-            hoveredItem = hovered;
-            if (item != null && target != null && place != null && CanDrop(target, place.Value))
-                marker.Mark(item, place);
+            var aim = Read(position);
+            hoveredItem = aim.Hovered;
+            if (aim.Item != null && aim.Target != null && aim.Position != null && CanDrop(aim.Target, aim.Position.Value))
+                marker.Mark(aim.Item, aim.Position);
             else
                 marker.Mark(null, null);
         }
@@ -290,14 +290,14 @@ namespace CMiX.Studio.Avalonia.Views
         // The row under the point, the item that takes the drop, its node, and the place of the drop. The item that takes the drop
         // is the row under the point or one of its parents (see ProjectTree.Locate). It has no place when no drop is offered here.
         // The point among the rows but on no row (between two rows, or left of a row): the drop stays where it was.
-        private (TreeViewItem? Hovered, TreeViewItem? Item, TreeNode? Target, DropPosition? Position) Read(Point position)
+        private DragAim Read(Point position)
         {
             var hoveredItem = TreeRows.ItemOf(treeView.InputHitTest(position));
             if (source == null || tree() is not { } project)
-                return (hoveredItem, null, null, null);
+                return DragAim.NoDropOver(hoveredItem);
 
             if (hoveredItem?.DataContext is not TreeNode hovered)
-                return IsAmongTheRows(position) ? Marked(hoveredItem) : (hoveredItem, null, null, null);
+                return IsAmongTheRows(position) ? Marked(hoveredItem) : DragAim.NoDropOver(hoveredItem);
 
             var header = TreeRows.RowBorderOf(hoveredItem);
             var fraction = header == null || header.Bounds.Height <= 0
@@ -308,16 +308,16 @@ namespace CMiX.Studio.Avalonia.Views
                 return Marked(hoveredItem);
 
             if (project.Locate(source, hovered, fraction) is not { } place)
-                return (hoveredItem, null, null, null);
+                return DragAim.NoDropOver(hoveredItem);
 
-            return (hoveredItem, TreeRows.ItemOfNode(hoveredItem, place.Target), place.Target, place.Position);
+            return new DragAim(hoveredItem, TreeRows.ItemOfNode(hoveredItem, place.Target), place.Target, place.Position);
         }
 
         // The place that the marker keeps.
-        private (TreeViewItem? Hovered, TreeViewItem? Item, TreeNode? Target, DropPosition? Position) Marked(TreeViewItem? hovered) =>
+        private DragAim Marked(TreeViewItem? hovered) =>
             marker.Marked is { DataContext: TreeNode node } marked && marker.MarkedPosition is { } position
-                ? (hovered, marked, node, position)
-                : (hovered, null, null, null);
+                ? new DragAim(hovered, marked, node, position)
+                : DragAim.NoDropOver(hovered);
 
         // True when the point is in the panel of the rows: on a row, between two rows, or left of a row. The room under the last row is not in it.
         private bool IsAmongTheRows(Point position) =>

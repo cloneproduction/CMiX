@@ -232,13 +232,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // The list that takes an item dropped on the row, and its group: inside a group, a layer row or a composition, else next to the row.
-        private static (PrefabManager List, TreeGroup? Group)? ListOf(TreeNode source, TreeNode target)
+        private static ListAndGroup? ListOf(TreeNode source, TreeNode target)
         {
             var inside = InsideOf(source, target);
             if (inside.Item == null)
-                return inside.ChildManager == null ? null : (inside.ChildManager, inside.Group);
+                return inside.ChildManager == null ? null : new ListAndGroup(inside.ChildManager, inside.Group);
 
-            return inside.Owner == null ? null : (inside.Owner, inside.Parent?.Group);
+            return inside.Owner == null ? null : new ListAndGroup(inside.Owner, inside.Parent?.Group);
         }
 
         // The name of the item that holds the list of the drop.
@@ -282,7 +282,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (resolved == null)
                 return DropOutcome.None;
 
-            var (list, index) = resolved.Value;
+            var (list, index) = resolved;
             var item = source.Item!;
             var owner = source.Owner!;
             if (ReferenceEquals(list, owner))
@@ -326,7 +326,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // The list that takes the item, and the index in it. Null when the drop is not possible.
-        private static (PrefabManager List, int Index)? Resolve(TreeNode source, TreeNode target, DropPosition position)
+        private static ListPlace? Resolve(TreeNode source, TreeNode target, DropPosition position)
         {
             // A group and the top of the tree cannot be dragged.
             if (source.Item == null || source.Owner == null)
@@ -335,7 +335,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (target.IsOrIsUnder(source))
                 return null;
 
-            (PrefabManager List, int Index)? place;
+            ListPlace place;
             if (position == DropPosition.Inside)
             {
                 // A composition takes a layer inside it, and a group takes an item of its kind, at the end. A layer row passes the item to its group.
@@ -346,7 +346,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 if (!TakesDropOf(source, inside))
                     return null;
 
-                place = (inside.ChildManager, inside.ChildManager.ManagerData.Items.Count);
+                place = new ListPlace(inside.ChildManager, inside.ChildManager.ManagerData.Items.Count);
             }
             else
             {
@@ -359,11 +359,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                     return null;
 
                 var index = target.Owner.ManagerData.Items.IndexOf(target.Item) + (position == DropPosition.After ? 1 : 0);
-                place = (target.Owner, index);
+                place = new ListPlace(target.Owner, index);
             }
 
             // A drop that leaves the item where it is changes nothing, so it is not a drop.
-            if (ReferenceEquals(place.Value.List, source.Owner) && NewIndex(source, place.Value.List, place.Value.Index) == place.Value.List.ManagerData.Items.IndexOf(source.Item))
+            if (ReferenceEquals(place.List, source.Owner) && NewIndex(source, place.List, place.Index) == place.List.ManagerData.Items.IndexOf(source.Item))
                 return null;
 
             return place;

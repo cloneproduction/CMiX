@@ -151,7 +151,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Press(screen, PhysicalKey.ArrowDown);
 
-            Assert.Equal((next.Target, next.Position), screen.View.DragSession.Slot);
+            Assert.Equal(new DropPlace(next.Target, next.Position), screen.View.DragSession.Slot);
             Assert.False(screen.View.DragSession.Ghost.Ghost.IsVisible);
         }
 
@@ -204,7 +204,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var target = On(screen, screen.LayerNode(2), 0.15);
             screen.Window.MouseMove(target);
             Settle(screen.Window);
-            Assert.Equal((screen.LayerNode(2), DropPosition.Before), screen.View.DragSession.Slot);
+            Assert.Equal(new DropPlace(screen.LayerNode(2), DropPosition.Before), screen.View.DragSession.Slot);
 
             screen.Window.MouseDown(target, MouseButton.Left);
             screen.Window.MouseUp(target, MouseButton.Left);
@@ -288,7 +288,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Window.MouseMove(target);
             Settle(screen.Window);
             Assert.NotEqual(keySlot, screen.View.DragSession.Slot);
-            Assert.Equal((screen.LayerNode(2), DropPosition.Before), screen.View.DragSession.Slot);
+            Assert.Equal(new DropPlace(screen.LayerNode(2), DropPosition.Before), screen.View.DragSession.Slot);
             Assert.True(screen.View.DragSession.Ghost.Ghost.IsVisible);
         }
 

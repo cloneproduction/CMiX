@@ -71,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             screen.Session.Track(screen.PointIn(screen.LayerA1));
 
-            Assert.Equal((screen.LayerA1, DropPosition.Inside), screen.Session.Slot);
+            Assert.Equal(new DropPlace(screen.LayerA1, DropPosition.Inside), screen.Session.Slot);
             Assert.Same(screen.LayerA1, screen.View.Marker.Marked?.DataContext);
 
             // The session is the drag: the row drag with the button does not run.

@@ -59,7 +59,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (key == null)
                 return -1;
 
-            if (StartIndex >= 0 && IsStartKey(key.Value))
+            if (StartIndex >= 0 && IsStartKey(key))
                 return StartIndex;
 
             return slots.FindIndex(slot => !slot.IsStart && KeyOf(slot) == key);
@@ -104,24 +104,24 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // The list that takes the item and the index in it, counted before the move, as TreeDropService.Resolve finds them.
         // Null when the place has no list. The start slot has a key of its own.
-        private (object List, int Index)? KeyOf(DropSlot slot)
+        private SlotKey? KeyOf(DropSlot slot)
         {
             if (slot.IsStart)
-                return (slot, 0);
+                return new SlotKey(slot, 0);
 
             if (slot.Position == DropPosition.Inside)
                 return TreeDropService.InsideOf(Source, slot.Target).ChildManager is PrefabManager inside
-                    ? (inside, inside.ManagerData.Items.Count)
+                    ? new SlotKey(inside, inside.ManagerData.Items.Count)
                     : null;
 
             if (slot.Target.Owner is not { } owner || slot.Target.Item == null)
                 return null;
 
-            return (owner, owner.ManagerData.Items.IndexOf(slot.Target.Item) + (slot.Position == DropPosition.After ? 1 : 0));
+            return new SlotKey(owner, owner.ManagerData.Items.IndexOf(slot.Target.Item) + (slot.Position == DropPosition.After ? 1 : 0));
         }
 
         // The two places in the own list of the source that leave it where it is: just before it and just after it.
-        private bool IsStartKey((object List, int Index) key)
+        private bool IsStartKey(SlotKey key)
         {
             if (!ReferenceEquals(key.List, Source.Owner) || Source.Item == null)
                 return false;

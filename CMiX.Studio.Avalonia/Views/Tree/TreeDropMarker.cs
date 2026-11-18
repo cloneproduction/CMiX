@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         // The item that shows the line of a drop between rows, and true when the line is in the space under its row (false: at its top).
         // Null when no line shows. The label of the drag keeps clear of the line (see TreeRowDrag).
-        internal (TreeViewItem Item, bool Below)? Line => barItem == null ? null : (barItem, TreeDropMark.GetMark(barItem) == DropMark.GapBelow);
+        internal DropLine? Line => barItem == null ? null : new DropLine(barItem, TreeDropMark.GetMark(barItem) == DropMark.GapBelow);
 
         // Marks the item for a drop at the position. A null item or position removes the mark.
         public void Mark(TreeViewItem? item, DropPosition? position)
