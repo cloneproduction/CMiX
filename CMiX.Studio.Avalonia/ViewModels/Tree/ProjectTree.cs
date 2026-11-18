@@ -33,6 +33,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private readonly TreeEdit edit;
         private readonly TreeDragState dragState;
         private readonly TreeDrop drop;
+        private readonly TreeSearch search;
         private TreeNode? selectedNode;
         private IReadOnlyList<TreeAdd> targetAdds;
         private bool selecting;
@@ -58,6 +59,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             edit = new TreeEdit(undoManager, toasts);
             dragState = new TreeDragState(dropService);
             drop = new TreeDrop(dropService, notice);
+            search = new TreeSearch(CloseRowsInView);
             AddItemCommand = new RelayCommand<TreeAdd?>(add => add?.Execute?.Invoke(), add => add == null ? HasAdds : add.Execute != null);
             DuplicateItemCommand = new RelayCommand(
                 () => { if (PlaceOfTarget() is { } place) edit.Duplicate(place); },
@@ -182,7 +184,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             foreach (var node in TreeWalk.AllRows(new[] { target }).Where(node => node.Children.Count > 0))
             {
                 node.IsExpanded = true;
-                searchOpened.Remove(node);
+                search.Release(node);
             }
         }
 
@@ -268,7 +270,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 if (path.Contains(node))
                 {
                     node.IsExpanded = true;
-                    searchOpened.Remove(node);
+                    search.Release(node);
                 }
                 else if (!ReferenceEquals(node, target) && node.IsExpanded && node.Children.Count > 0)
                 {
@@ -304,7 +306,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             foreach (var parent in TreeWalk.ParentsOf(node))
             {
                 parent.IsExpanded = true;
-                searchOpened.Remove(parent);
+                search.Release(parent);
             }
 
             CursorNode = node;
@@ -400,37 +402,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // The active view handles this request (see IsActiveView): it opens the menu.
         public event EventHandler? MenuRequested;
 
-        // Gives the search box of the tree the focus (Tree.Search). The box is always shown, in the bar of the panel (see TreeSearchBox).
-        // The command has the condition of every tree key (see CanRunTreeKey). There is no search during a drag: the command
-        // cannot run, FocusSearch and MoveCursorToMatch do nothing, and the box takes no text.
-        public IRelayCommand FocusSearchCommand { get; }
-
-        public void FocusSearch()
-        {
-            if (!IsDragging)
-                SearchFocusRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        // Clears the search from anywhere, also from the search box, and gives the focus to the cursor row (Tree.ClearSearch). The
-        // command runs only while a search is active and no drag or grab runs.
-        public IRelayCommand ClearSearchCommand { get; }
-
-        // Clears the text of the search. The cursor row stays, and its parents stay open (see SyncSearchRows). The focus does not move.
-        // Nothing changes during a drag or with no active search.
-        public void ClearSearch()
-        {
-            if (!IsSearchActive || IsDragging)
-                return;
-
-            searchCursor = cursorNode;
-            SearchText = string.Empty;
-        }
-
         // True when a view of the tree or one of its controls has the focus.
         public bool IsTreeFocused() => views.IsTreeFocused();
-
-        // The search box of the panel of the active view handles this request: it takes the focus and selects its text.
-        public event EventHandler? SearchFocusRequested;
 
         // Gives the focus back to the rows of the tree, for example after Escape in an empty search box. The active view handles it.
         public void FocusTree() => TreeFocusRequested?.Invoke(this, EventArgs.Empty);
@@ -439,30 +412,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // The view of the drag ends a drag of a row without a drop, for example on Escape in the search box (see TreeRowDrag.Cancel).
         public void CancelDrag() => views.CancelDrag();
-
-        // Moves the cursor to the next match of the search in the order of the tree, or to the match before it with a negative step.
-        // The cursor goes round at the ends. No cursor, or a cursor on a row that does not match: the first match, or the last one going
-        // back. The parents of the match open, so its row shows, and the view brings the row into view (RevealRequested). The selection
-        // does not change: no undo step and no wire message.
-        public void MoveCursorToMatch(int step)
-        {
-            var count = searchMatches.Count;
-            if (count == 0 || step == 0 || IsDragging)
-                return;
-
-            var index = cursorNode == null ? -1 : TreeWalk.IndexOf(searchMatches, cursorNode);
-            var next = index < 0 ? (step > 0 ? 0 : count - 1) : ((index + step) % count + count) % count;
-            var node = searchMatches[next];
-            foreach (var parent in TreeWalk.ParentsOf(node))
-                OpenForSearch(parent);
-
-            CursorNode = node;
-            searchCursor = node;
-            RevealRequested?.Invoke(this, node);
-        }
-
-        // The match that MoveCursorToMatch last moved the cursor to. See SyncSearchRows.
-        private TreeNode? searchCursor;
 
         // Starts the rename of the target row. The view sets the name box of the row to edit mode (see RenameRequested).
         public IRelayCommand RenameSelectedCommand { get; }
@@ -553,158 +502,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         public ObservableCollection<TreeNode> Roots => root.Children;
-
-        private string searchText = string.Empty;
-        private IReadOnlyList<TreeNode> searchMatches = Array.Empty<TreeNode>();
-
-        // The text of the search of the tree. A row matches when its name or its kind holds the text (see TreeNode.MatchesSearch).
-        // An empty text matches no row and dims no row.
-        public string SearchText
-        {
-            get => searchText;
-            set
-            {
-                if (SetProperty(ref searchText, value ?? string.Empty))
-                    RefreshSearch();
-            }
-        }
-
-        // True while the text of the search is not empty, as at the last refresh of the search.
-        private bool searchActive;
-
-        // True while the search filters the rows: the text holds more than spaces, and the rows that do not match are dimmed.
-        public bool IsSearchActive => searchActive;
-
-        // The rows that match the search, in the order of the tree from the top.
-        public IReadOnlyList<TreeNode> SearchMatches => searchMatches;
-
-        public int SearchMatchCount => searchMatches.Count;
-
-        // Sets the search state of every row and finds the matches again. It runs when the text changes, when a row gets a new
-        // name, and when a list of the tree changes. With an empty text before and now, there is nothing to change. A search that found
-        // nothing still dimmed every row, so its end must run to take the dim away.
-        internal void RefreshSearch()
-        {
-            var text = searchText.Trim();
-            var wasActive = searchActive;
-            searchActive = text.Length > 0;
-            if (searchActive != wasActive)
-            {
-                OnPropertyChanged(nameof(IsSearchActive));
-                ClearSearchCommand?.NotifyCanExecuteChanged();
-            }
-
-            if (!searchActive && !wasActive && searchMatches.Count == 0 && searchOpened.Count == 0)
-                return;
-
-            var matches = new List<TreeNode>();
-            foreach (var node in TreeWalk.AllRows(Roots))
-            {
-                var match = text.Length > 0 && node.MatchesSearch(text);
-                node.SetSearchState(text.Length > 0, match);
-                if (match)
-                    matches.Add(node);
-            }
-
-            var changed = !matches.SequenceEqual(searchMatches);
-            if (changed)
-            {
-                var countChanged = matches.Count != searchMatches.Count;
-                searchMatches = matches;
-                OnPropertyChanged(nameof(SearchMatches));
-                if (countChanged)
-                    OnPropertyChanged(nameof(SearchMatchCount));
-            }
-
-            // The rows change only when the matches change, or when the search ends: a row that the user closes during the search
-            // stays closed until the matches change.
-            if (changed || text.Length == 0)
-                SyncSearchRows();
-        }
-
-        // The rows that the search opened from closed, and that the user did not open or close since. The search closes them again
-        // when they lead to no match any more, and at its end. A row that the user opens or closes leaves the list and keeps the
-        // state of the user. A row that the search never touched, a row added during the search too, keeps its state.
-        private readonly HashSet<TreeNode> searchOpened = new();
-
-        // True while the search opens or closes a row, so the change does not count as a change of the user.
-        private bool searchSetsRows;
-
-        // Opens the parents of every match, so every match is in sight, and closes the rows that the search opened and that lead to no
-        // match any more. There is no search during a drag: EndDrag does it once the drag is over.
-        // At the end of the search, the parents of the selected row stay open, so the user can go on with it: they leave the list.
-        // The same applies to the cursor row while MoveCursorToMatch or ClearSearch put it in searchCursor. These rows keep their state. The other rows
-        // that the search opened close, and the view keeps the rows still.
-        private void SyncSearchRows()
-        {
-            if (IsDragging)
-                return;
-
-            if (searchText.Trim().Length == 0)
-            {
-                var matchCursor = ReferenceEquals(cursorNode, searchCursor) ? cursorNode : null;
-                searchCursor = null;
-                foreach (var kept in new[] { selectedNode, matchCursor })
-                    if (kept != null)
-                        foreach (var row in TreeWalk.ParentsOf(kept).Append(kept))
-                            searchOpened.Remove(row);
-            }
-
-            var needed = new HashSet<TreeNode>(searchMatches.SelectMany(TreeWalk.ParentsOf));
-
-            var closing = searchOpened.Where(node => !needed.Contains(node)).ToList();
-            if (closing.Count > 0)
-                CloseRowsInView(selectedNode, () =>
-                {
-                    foreach (var node in closing)
-                        CloseForSearch(node);
-                    return closing;
-                });
-
-            foreach (var node in needed)
-                OpenForSearch(node);
-        }
-
-        private void OpenForSearch(TreeNode node)
-        {
-            if (node.IsExpanded)
-                return;
-
-            ChangeRowAsSearch(() => node.IsExpanded = true);
-            searchOpened.Add(node);
-        }
-
-        private void CloseForSearch(TreeNode node)
-        {
-            ChangeRowAsSearch(() => node.IsExpanded = false);
-            searchOpened.Remove(node);
-        }
-
-        private void ChangeRowAsSearch(Action change)
-        {
-            searchSetsRows = true;
-            try
-            {
-                change();
-            }
-            finally
-            {
-                searchSetsRows = false;
-            }
-        }
-
-        // A row opens or closes. A change that the search did not make is a change of the user (or of the drag), so the search does
-        // not change that row back.
-        // A row that closes over the cursor takes the cursor, so the cursor is never on a hidden row. The cursor goes to the highest
-        // closed parent, the one row of its parents that shows. The selection does not change.
-        internal void OnRowExpandedChanged(TreeNode node)
-        {
-            if (!searchSetsRows)
-                searchOpened.Remove(node);
-
-            if (!node.IsExpanded && cursorNode is { } cursor && !ReferenceEquals(cursor, node) && cursor.IsOrIsUnder(node))
-                CursorNode = TreeWalk.ParentsOf(cursor).LastOrDefault(parent => !parent.IsExpanded) ?? node;
-        }
 
         // The commands of the toolbar. They act on the target node, and they are disabled when it has nothing to do.
         // AddItemCommand runs the add that it gets. The toolbar picks the add (see TargetAdds). With no add, it tells only

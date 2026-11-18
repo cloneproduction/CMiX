@@ -1,0 +1,133 @@
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using CommunityToolkit.Mvvm.Input;
+
+namespace CMiX.Studio.Avalonia.ViewModels.Tree
+{
+    public sealed partial class ProjectTree
+    {
+        private string searchText = string.Empty;
+
+        // True while the text of the search is not empty, as at the last refresh of the search.
+        private bool searchActive;
+
+        // The text of the search of the tree. A row matches when its name or its kind holds the text (see TreeNode.MatchesSearch).
+        // An empty text matches no row and dims no row.
+        public string SearchText
+        {
+            get => searchText;
+            set
+            {
+                if (SetProperty(ref searchText, value ?? string.Empty))
+                    RefreshSearch();
+            }
+        }
+
+        // True while the search filters the rows: the text holds more than spaces, and the rows that do not match are dimmed.
+        public bool IsSearchActive => searchActive;
+
+        // The rows that match the search, in the order of the tree from the top.
+        public IReadOnlyList<TreeNode> SearchMatches => search.Matches;
+
+        public int SearchMatchCount => search.Matches.Count;
+
+        // Gives the search box of the tree the focus (Tree.Search). The box is always shown, in the bar of the panel (see TreeSearchBox).
+        // The command has the condition of every tree key (see CanRunTreeKey). There is no search during a drag: the command
+        // cannot run, FocusSearch and MoveCursorToMatch do nothing, and the box takes no text.
+        public IRelayCommand FocusSearchCommand { get; }
+
+        public void FocusSearch()
+        {
+            if (!IsDragging)
+                SearchFocusRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        // The search box of the panel of the active view handles this request: it takes the focus and selects its text.
+        public event EventHandler? SearchFocusRequested;
+
+        // Clears the search from anywhere, also from the search box, and gives the focus to the cursor row (Tree.ClearSearch). The
+        // command runs only while a search is active and no drag or grab runs.
+        public IRelayCommand ClearSearchCommand { get; }
+
+        // Clears the text of the search. The cursor row stays, and its parents stay open (see SyncSearchRows). The focus does not move.
+        // Nothing changes during a drag or with no active search.
+        public void ClearSearch()
+        {
+            if (!IsSearchActive || IsDragging)
+                return;
+
+            search.KeepCursorRow(cursorNode);
+            SearchText = string.Empty;
+        }
+
+        // Moves the cursor to the next match of the search in the order of the tree, or to the match before it with a negative step.
+        // The cursor goes round at the ends (see TreeSearch.MoveToMatch). The view brings the row into view (RevealRequested). The
+        // selection does not change: no undo step and no wire message. Nothing changes during a drag.
+        public void MoveCursorToMatch(int step)
+        {
+            if (IsDragging)
+                return;
+
+            if (search.MoveToMatch(cursorNode, step) is not { } node)
+                return;
+
+            CursorNode = node;
+            RevealRequested?.Invoke(this, node);
+        }
+
+        // Sets the search state of every row and finds the matches again. It runs when the text changes, when a row gets a new
+        // name, and when a list of the tree changes. With an empty text before and now, there is nothing to change. A search that found
+        // nothing still dimmed every row, so its end must run to take the dim away.
+        internal void RefreshSearch()
+        {
+            var text = searchText.Trim();
+            var wasActive = searchActive;
+            searchActive = text.Length > 0;
+            if (searchActive != wasActive)
+            {
+                OnPropertyChanged(nameof(IsSearchActive));
+                ClearSearchCommand?.NotifyCanExecuteChanged();
+            }
+
+            if (!searchActive && !wasActive && search.IsEmpty)
+                return;
+
+            var change = search.Refresh(text, Roots);
+            if (change.MatchesChanged)
+            {
+                OnPropertyChanged(nameof(SearchMatches));
+                if (change.CountChanged)
+                    OnPropertyChanged(nameof(SearchMatchCount));
+            }
+
+            // The rows change only when the matches change, or when the search ends: a row that the user closes during the search
+            // stays closed until the matches change.
+            if (change.MatchesChanged || text.Length == 0)
+                SyncSearchRows();
+        }
+
+        // There is no search during a drag: EndDrag does it once the drag is over.
+        private void SyncSearchRows()
+        {
+            if (IsDragging)
+                return;
+
+            search.SyncRows(cursorNode, selectedNode);
+        }
+
+        // A row opens or closes. A change that the search did not make leaves the search (see TreeSearch.ReleaseChangedRow).
+        // A row that closes over the cursor takes the cursor, so the cursor is never on a hidden row. The cursor goes to the highest
+        // closed parent, the one row of its parents that shows. The selection does not change.
+        internal void OnRowExpandedChanged(TreeNode node)
+        {
+            search.ReleaseChangedRow(node);
+
+            if (!node.IsExpanded && cursorNode is { } cursor && !ReferenceEquals(cursor, node) && cursor.IsOrIsUnder(node))
+                CursorNode = TreeWalk.ParentsOf(cursor).LastOrDefault(parent => !parent.IsExpanded) ?? node;
+        }
+    }
+}
