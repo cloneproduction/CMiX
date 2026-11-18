@@ -18,7 +18,7 @@ using Project = CMiX.Core.Compositing.Project;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // ProjectTree.GetAdds is the one source of the add rows of the menu of a row and of the menu of the space. The panel of the toolbar shows the same things in groups.
+    // ProjectTree.GetAddGroups feeds the Add panel of the menu of a row, of the menu of the space and of the toolbar. GetAddChoices feeds the toolbar enablement.
     public class ProjectTreeAddsTests : IDisposable
     {
         private readonly List<Window> windows = new();
@@ -87,10 +87,6 @@ namespace CMiX.Studio.Avalonia.Tests
             return new Screen { Window = window, View = view, Tree = tree, Project = project, A = a };
         }
 
-        // The headers of the rows that add one thing. A submenu "Add" gives its children.
-        private static List<string> Flat(IEnumerable<TreeAdd> adds) =>
-            adds.SelectMany(add => add.Id == "row.add" ? add.Children! : new[] { add }).Select(add => add.Header).ToList();
-
         private static List<string> Flat(IEnumerable<MenuItem> rows) =>
             rows.SelectMany(row => Equals(row.Header, "Add") ? row.Items.OfType<MenuItem>() : new[] { row })
                 .Select(row => row.Header?.ToString() ?? string.Empty)
@@ -101,7 +97,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             var node = screen.LayerNode;
-            var model = Flat(screen.Tree.GetAdds(node));
+            var model = screen.Tree.GetAddChoices(node).Select(add => add.Header).ToList();
 
             // The Add row of the menu of the row opens a panel with the groups of the row.
             var row = screen.RowOf(node);
@@ -125,11 +121,11 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void GetAdds_NoNode_OffersAddComposition()
+        public void GetAddChoices_NoNode_OffersAddComposition()
         {
             var screen = Show();
 
-            Assert.Equal(new[] { "Add Composition" }, screen.Tree.GetAdds(null).Select(add => add.Header));
+            Assert.Equal(new[] { "Add Composition" }, screen.Tree.GetAddChoices(null).Select(add => add.Header));
 
             screen.TreeView.RaiseEvent(new ContextRequestedEventArgs { Source = screen.TreeView });
             Dispatcher.UIThread.RunJobs();
@@ -141,15 +137,16 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void GetAdds_AnEntityRow_OffersNoAddComposition()
+        public void GetAddChoices_AnEntityRow_OffersAddCompositionOnlyLast()
         {
             var screen = Show();
             var entity = screen.Tree.CompositionNodes()[0].Children[0].Children[0].Children.Single(group => group.Group is EntitiesGroup).Children[0];
 
-            var adds = screen.Tree.GetAdds(entity);
+            var adds = screen.Tree.GetAddChoices(entity);
 
-            Assert.NotEmpty(adds);
-            Assert.DoesNotContain(adds, add => add.Header == "Add Composition");
+            Assert.NotEmpty(adds.SkipLast(1));
+            Assert.DoesNotContain(adds.SkipLast(1), add => add.Header == "Add Composition");
+            Assert.Equal("Add Composition", adds[^1].Header);
         }
 
         [AvaloniaFact]

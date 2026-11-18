@@ -213,26 +213,23 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void GetAddGroups_ForEveryNode_EnablesTheSameAddsAsGetAdds()
+        public void GetAddGroups_ForEveryNode_EnablesTheSameAddsAsGetAddChoices()
         {
             var scene = SceneWithContent();
 
             foreach (var node in scene.All())
             {
-                var expected = scene.Tree.GetAdds(node)
-                    .SelectMany(add => add.Children ?? new[] { add })
-                    .Select(add => add.Id)
-                    .Where(id => id != "row.add-composition")
-                    .OrderBy(id => id, StringComparer.Ordinal)
+                var choices = scene.Tree.GetAddChoices(node).Where(add => add.Id != "row.add-composition").ToList();
+                var expectedIds = choices.Where(add => add.Execute != null).Select(add => add.Id).OrderBy(id => id, StringComparer.Ordinal).ToList();
+                var expectedKinds = choices.Where(add => add.Execute == null).Select(add => add.Header["Add ".Length..]).OrderBy(kind => kind, StringComparer.Ordinal).ToList();
+                var enabled = scene.Tree.GetAddGroups(node)
+                    .SelectMany(group => group.Items.Where(item => item.Enabled && item.Id != "row.add-composition").Select(item => new { group.Header, item.Id }))
                     .ToList();
-                var actual = scene.Tree.GetAddGroups(node)
-                    .SelectMany(group => group.Items)
-                    .Where(item => item.Enabled && item.Id != "row.add-composition")
-                    .Select(item => item.Id)
-                    .OrderBy(id => id, StringComparer.Ordinal)
-                    .ToList();
+                var enabledIds = enabled.Where(entry => !expectedKinds.Contains(entry.Header)).Select(entry => entry.Id).OrderBy(id => id, StringComparer.Ordinal).ToList();
+                var enabledKinds = enabled.Where(entry => expectedKinds.Contains(entry.Header)).Select(entry => entry.Header).Distinct().OrderBy(kind => kind, StringComparer.Ordinal).ToList();
 
-                Assert.Equal(expected, actual);
+                Assert.Equal(expectedIds, enabledIds);
+                Assert.Equal(expectedKinds, enabledKinds);
             }
         }
 

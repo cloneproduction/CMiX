@@ -186,15 +186,19 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Same(node.Item, entity.ModifierManager.SelectedItem);
         }
 
+        // The choices of a node without the composition that every node offers last.
+        private static List<TreeAdd> OwnChoicesOf(ProjectTree tree, TreeNode node) =>
+            tree.GetAddChoices(node).Where(add => add.Id != TreeAddIds.Composition).ToList();
+
         [Fact]
-        public void GetAdds_TheGroupOfModifiers_OffersAndAddsTheModifiersOfItsOwner()
+        public void GetAddChoices_TheGroupOfModifiers_OffersAndAddsTheModifiersOfItsOwner()
         {
             var scene = CreateScene();
             scene.Layer.ModelEntityManager.AddItem(typeof(Entity));
             var entity = (Entity)scene.Layer.ModelEntityManager.ManagerData.Items[0];
             var group = Scene.Group<ModifiersGroup>(Scene.Group<EntitiesGroup>(scene.LayerNode).Children[0]);
 
-            var adds = scene.Tree.GetAdds(group);
+            var adds = OwnChoicesOf(scene.Tree, group);
 
             Assert.Equal(AddableTypes.ForOwner(typeof(Entity)).Select(AddableTypes.LabelOf), adds.Select(add => add.Header));
             Assert.Contains(adds, add => add.Header == AddableTypes.LabelOf(typeof(TranslateModifier)));
@@ -204,12 +208,12 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void GetAdds_TheGroupOfFilters_OffersAndAddsTheFilters()
+        public void GetAddChoices_TheGroupOfFilters_OffersAndAddsTheFilters()
         {
             var scene = CreateScene();
             var group = Scene.Group<FiltersGroup>(scene.LayerNode);
 
-            var adds = scene.Tree.GetAdds(group);
+            var adds = OwnChoicesOf(scene.Tree, group);
 
             Assert.Equal(AddableTypes.ForInterface(typeof(ITextureFilter)).Select(AddableTypes.LabelOf), adds.Select(add => add.Header));
             adds.Single(add => add.Header == AddableTypes.LabelOf(typeof(Blur))).Execute!();
@@ -217,14 +221,14 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void GetAdds_TheGroupOfTextures_OffersAndAddsTheTextureSources()
+        public void GetAddChoices_TheGroupOfTextures_OffersAndAddsTheTextureSources()
         {
             var scene = CreateScene();
             scene.Layer.ModelEntityManager.AddItem(typeof(Entity));
             var entity = (Entity)scene.Layer.ModelEntityManager.ManagerData.Items[0];
             var group = Scene.Group<TexturesGroup>(Scene.Group<EntitiesGroup>(scene.LayerNode).Children[0]);
 
-            var adds = scene.Tree.GetAdds(group);
+            var adds = OwnChoicesOf(scene.Tree, group);
 
             Assert.Contains(adds, add => add.Header == AddableTypes.LabelOf(typeof(CMiX.Core.Texturing.Sources.Image)));
             adds.Single(add => add.Header == AddableTypes.LabelOf(typeof(CMiX.Core.Texturing.Sources.Image))).Execute!();
@@ -264,37 +268,35 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void GetAdds_TheGroupOfModulators_OffersAndAddsTheModulators()
+        public void GetAddChoices_TheGroupOfModulators_OffersAndAddsTheModulators()
         {
             var scene = CreateScene();
             scene.Layer.TextureModifierManager.AddItem(typeof(Blur));
             var filter = (Blur)scene.Layer.TextureModifierManager.ManagerData.Items[0];
             var filterNode = Scene.Group<FiltersGroup>(scene.LayerNode).Children[0];
 
-            var adds = scene.Tree.GetAdds(Scene.Group<ModulatorsGroup>(filterNode));
+            var adds = OwnChoicesOf(scene.Tree, Scene.Group<ModulatorsGroup>(filterNode));
 
             Assert.Equal(AddableTypes.ForInterface(typeof(IModulator)).Select(AddableTypes.LabelOf), adds.Select(add => add.Header));
             adds.Single(add => add.Header == AddableTypes.LabelOf(typeof(LFOModulator))).Execute!();
             Assert.IsType<LFOModulator>(Assert.Single(filter.ModulatorManager.ManagerData.Items));
-            Assert.Contains(scene.Tree.GetAdds(filterNode), add => add.Header == "Add Modulator" && add.Secondary);
+            Assert.Contains(scene.Tree.GetAddChoices(filterNode), add => add.Header == "Add Modulator");
         }
 
         [Fact]
-        public void GetAdds_AnItem_GivesSubmenusThatAreNotTheDefaultRow()
+        public void GetAddChoices_AnItem_OffersTheKindsThatItHolds()
         {
             var scene = CreateScene();
             scene.Layer.ModelEntityManager.AddItem(typeof(Entity));
             var entityNode = Scene.Group<EntitiesGroup>(scene.LayerNode).Children[0];
 
-            var adds = scene.Tree.GetAdds(entityNode);
+            var adds = OwnChoicesOf(scene.Tree, entityNode);
             Assert.Equal(new[] { "Add Texture", "Add Modifier" }, adds.Select(add => add.Header));
-            Assert.All(adds, add => Assert.True(add.Secondary));
-            Assert.All(adds, add => Assert.NotEmpty(add.Children!));
 
-            Assert.Equal(new[] { "Add Layer", "Add Filter", "Add Modifier" }, scene.Tree.GetAdds(scene.CompositionNode).Select(add => add.Header));
-            Assert.False(scene.Tree.GetAdds(scene.CompositionNode)[0].Secondary);
+            Assert.Equal(new[] { "Add Layer", "Add Filter", "Add Modifier" }, OwnChoicesOf(scene.Tree, scene.CompositionNode).Select(add => add.Header));
 
-            var modifier = adds.Single(add => add.Header == "Add Modifier").Children!.Single(add => add.Header == AddableTypes.LabelOf(typeof(ScaleModifier)));
+            var modifier = scene.Tree.GetAddGroups(entityNode).Single(group => group.Header == "Modifier").Items
+                .Single(add => add.Enabled && add.Header == AddableTypes.LabelOf(typeof(ScaleModifier)));
             modifier.Execute!();
             Assert.IsType<ScaleModifier>(Assert.Single(((Entity)entityNode.Item!).ModifierManager.ManagerData.Items));
         }
@@ -410,12 +412,12 @@ namespace CMiX.Studio.Avalonia.Tests
 
 
         [Fact]
-        public void GetAdds_TheLayersRow_OffersALayerAndAddsItToItsComposition()
+        public void GetAddChoices_TheLayersRow_OffersALayerAndAddsItToItsComposition()
         {
             var scene = CreateScene();
             var layers = Scene.LayersOf(scene.CompositionNode);
 
-            var add = Assert.Single(scene.Tree.GetAdds(layers));
+            var add = Assert.Single(OwnChoicesOf(scene.Tree, layers));
             add.Execute!.Invoke();
 
             Assert.Equal("row.add-layer", add.Id);
@@ -423,11 +425,11 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void GetAdds_TheCompositionsRow_OffersAComposition()
+        public void GetAddGroups_TheCompositionsRow_EnablesOnlyAComposition()
         {
             var scene = CreateScene();
 
-            var add = Assert.Single(scene.Tree.GetAdds(scene.Tree.CompositionsNode()));
+            var add = Assert.Single(scene.Tree.GetAddGroups(scene.Tree.CompositionsNode()).SelectMany(group => group.Items), item => item.Enabled);
             add.Execute!.Invoke();
 
             Assert.Equal("row.add-composition", add.Id);

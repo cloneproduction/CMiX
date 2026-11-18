@@ -10,8 +10,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     {
         private const string Prefix = "row.add-";
 
-        // The "Add" submenu of a layer.
-        public const string AddMenu = "row.add";
         public const string Composition = "row.add-composition";
         public const string Layer = "row.add-layer";
         public const string Entity = "row.add-entity";

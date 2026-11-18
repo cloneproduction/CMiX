@@ -9,12 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CMiX.Core;
 using CMiX.Core.Compositing;
-using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Rendering.Cameras;
-using CMiX.Core.Rendering.Lights;
-using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -36,6 +31,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private readonly Project project;
         private readonly TreeNode root;
         private readonly TreeViewSet views;
+        private readonly TreeAddCatalogue adds;
         private TreeNode? selectedNode;
         private IReadOnlyList<TreeAdd> targetAdds;
         private bool selecting;
@@ -56,7 +52,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             root = new TreeNode(this, null, null, null, "Project", null);
             root.AddGroups(project);
 
-            targetAdds = GetAddChoices(null);
+            adds = new TreeAddCatalogue(compositions);
+            targetAdds = adds.ChoicesFor(null);
             views = new TreeViewSet();
             AddItemCommand = new RelayCommand<TreeAdd?>(add => add?.Execute?.Invoke(), add => add == null ? HasAdds : add.Execute != null);
             DuplicateItemCommand = new RelayCommand(
@@ -736,201 +733,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public IRelayCommand MoveItemDownCommand { get; }
         public IRelayCommand RemoveItemCommand { get; }
 
-        // What can be added under a node. With no node, a composition is added to the project.
-        // A row with children is a submenu. The same list feeds the menu of a row and the toolbar.
-        public IReadOnlyList<TreeAdd> GetAdds(TreeNode? node)
-        {
-            if (node == null)
-                return new[] { AddOf(TreeAddIds.Composition, "Add Composition", compositions, typeof(Composition)) };
+        public IReadOnlyList<TreeAddGroup> GetAddGroups(TreeNode? node) => adds.GroupsFor(node);
 
-            if (node.Item is Composition composition)
-                return new[] { AddOf(TreeAddIds.Layer, "Add Layer", composition.LayerManager, typeof(Layer)) }.Concat(HeldAdds(node.Item)).ToList();
-
-            // A layer takes an item of any kind: the entities, then the camera and the light.
-            if (node.Item is Layer own)
-                return new[]
-                {
-                    new TreeAdd(TreeAddIds.AddMenu, "Add", Children: TreeGroup.GroupsOf(own).OfType<LayerGroup>()
-                        .SelectMany(group => group.AddableTypes.Select(type => LayerAddOf(group, type, string.Empty)))
-                        .ToList())
-                }.Concat(HeldAdds(own)).ToList();
-
-            // Any other item takes the modifiers, the filters and the textures that it can hold.
-            if (node.Item != null)
-                return HeldAdds(node.Item);
-
-            // A group of a layer takes the kind of item of its list.
-            if (node.Group is LayerGroup layerGroup)
-                return layerGroup.AddableTypes.Select(type => LayerAddOf(layerGroup, type, "Add ")).ToList();
-
-            // The group of the layers of a composition takes a layer, and the group of the compositions takes a composition.
-            if (node.Group is LayersGroup layersGroup)
-                return new[] { AddOf(TreeAddIds.Layer, "Add Layer", layersGroup.Manager, typeof(Layer)) };
-
-            if (node.Group is CompositionsGroup)
-                return GetAdds(null);
-
-            // A group of modifiers, filters or textures takes one of the types that its owner can hold.
-            if (node.Group is { } held)
-                return AddsOfTypes(held);
-
-            return Array.Empty<TreeAdd>();
-        }
-
-        // The rows that add one thing, for the Add button: the children of a submenu, or the row itself.
-        // The composition is under no row, so it can be added whatever is selected. It comes last, after what the row takes.
-        // The menu of a row does not offer it. The space menu and the toolbar do.
-        public IReadOnlyList<TreeAdd> GetAddChoices(TreeNode? node)
-        {
-            // The submenu of the layer is flat. The submenus of textures, filters and modifiers stay submenus: they are long.
-            var choices = GetAdds(node).SelectMany(add => add.Id == TreeAddIds.AddMenu ? add.Children! : new[] { add }).ToList();
-            if (node != null)
-                choices.AddRange(GetAdds(null));
-
-            return choices;
-        }
-
-        // The types that a layer takes as content, in the order of the Add panel.
-        private static readonly Type[] ContentTypes = { typeof(Entity), typeof(FullscreenQuad), typeof(TextEntity), typeof(Camera), typeof(LightEntity) };
-
-        // What the Add panel shows for a node. Every node gets the same groups in the same order: Layer, Content, Texture, Filter, Modifier,
-        // Modulator and Project. An entry that the node cannot take is not left out. It is there, not enabled, and the panel greys it.
-        // So the panel looks the same whatever is selected, and the user finds an entry where it was. The headers of the entries have no
-        // "Add". An entry has the icon of its type when the type has one (see TreeIcons).
-        // What a node can take comes from what it holds (see AvailableAdds). The composition can be added under any node.
-        public IReadOnlyList<TreeAddGroup> GetAddGroups(TreeNode? node)
-        {
-            var available = AvailableAdds(node);
-
-            TreeAdd Entry(string id, string header, Type type, TreeCategory category) =>
-                available.TryGetValue(id, out var add)
-                    ? add with { Header = header, Category = category }
-                    : new TreeAdd(id, header, Category: category, Enabled: false);
-
-            TreeAddGroup Held(TreeCategory category, IReadOnlyList<Type> types)
-            {
-                var name = TreeCategories.Label(category, 1);
-                var entries = types.Select(type => Entry(TreeAddIds.ForType(type), AddableTypes.LabelOf(type), type, category)).ToList();
-                return new TreeAddGroup("group.add-" + name.ToLowerInvariant(), name, category, entries);
-            }
-
-            var content = ContentTypes.Select(type =>
-            {
-                var entry = AddableTypes.ContentEntryOf(type);
-                return Entry(entry.Id, entry.Label, type, ContentCategoryOf(type));
-            }).ToList();
-
-            return new[]
-            {
-                new TreeAddGroup("group.layer", "Layer", TreeCategory.Composable,
-                    new[] { Entry(TreeAddIds.Layer, "Layer", typeof(Layer), TreeCategory.Composable) }),
-                new TreeAddGroup("group.content", "Content", null, content),
-                Held(TreeCategory.Texture, AddableTypes.ForInterface(typeof(ITextureSource))),
-                Held(TreeCategory.Filter, AddableTypes.ForInterface(typeof(ITextureFilter))),
-                Held(TreeCategory.Modifier, AddableTypes.AllModifiers()),
-                Held(TreeCategory.Modulator, AddableTypes.ForInterface(typeof(IModulator))),
-                new TreeAddGroup("group.project", "Project", TreeCategory.Composable,
-                    new[] { Entry(TreeAddIds.Composition, "Composition", typeof(Composition), TreeCategory.Composable) }),
-            };
-        }
-
-        // The entries that a node can take, by id, with the action that adds each one. They come from the lists that the node holds: the
-        // layers of a composition, the entities, cameras and lights of a layer, and the textures, filters, modifiers and modulators of
-        // any item. A row that is a group of a layer or of an item takes the kind of its own list. The composition goes under any node.
-        private Dictionary<string, TreeAdd> AvailableAdds(TreeNode? node)
-        {
-            var available = new Dictionary<string, TreeAdd>();
-            void Take(TreeAdd add) => available.TryAdd(add.Id, add);
-            void TakeHeld(TreeGroup group)
-            {
-                foreach (var type in group.AddableTypes)
-                    Take(AddOf(TreeAddIds.ForType(type), AddableTypes.LabelOf(type), group.Manager, type));
-            }
-
-            if (node?.Item is Composition composition)
-            {
-                Take(AddOf(TreeAddIds.Layer, "Layer", composition.LayerManager, typeof(Layer)));
-                foreach (var group in TreeGroup.GroupsOf(node.Item).Where(group => group is not (LayerGroup or StructureGroup)))
-                    TakeHeld(group);
-            }
-            else if (node?.Item is Layer own)
-            {
-                foreach (var group in TreeGroup.GroupsOf(own))
-                {
-                    if (group is LayerGroup layerGroup)
-                        TakeLayerItems(layerGroup, Take);
-                    else
-                        TakeHeld(group);
-                }
-            }
-            else if (node?.Item != null)
-            {
-                foreach (var group in TreeGroup.GroupsOf(node.Item).Where(group => group is not (LayerGroup or StructureGroup)))
-                    TakeHeld(group);
-            }
-            else if (node?.Group is LayersGroup layersGroup)
-            {
-                Take(AddOf(TreeAddIds.Layer, "Layer", layersGroup.Manager, typeof(Layer)));
-            }
-            else if (node?.Group is CompositionsGroup)
-            {
-                // The composition is taken for every node, below.
-            }
-            else if (node?.Group is LayerGroup layerGroup)
-            {
-                TakeLayerItems(layerGroup, Take);
-            }
-            else if (node?.Group is { } held)
-            {
-                TakeHeld(held);
-            }
-
-            Take(AddOf(TreeAddIds.Composition, "Composition", compositions, typeof(Composition)));
-            return available;
-        }
-
-        private static void TakeLayerItems(LayerGroup group, Action<TreeAdd> take)
-        {
-            foreach (var type in group.AddableTypes)
-                take(LayerAddOf(group, type, string.Empty));
-        }
-
-        // The category of a type that a layer takes as content.
-        private static TreeCategory ContentCategoryOf(Type type) =>
-            type == typeof(Camera) ? TreeCategory.Camera : type == typeof(LightEntity) ? TreeCategory.Light : TreeCategory.Entity;
+        public IReadOnlyList<TreeAdd> GetAddChoices(TreeNode? node) => adds.ChoicesFor(node);
 
         // The add choices of the target node. The tree makes them again when the target changes.
         public IReadOnlyList<TreeAdd> TargetAdds => targetAdds;
 
         // True when the target node has something to add. It enables the Add button.
         public bool HasAdds => targetAdds.Count > 0;
-
-        // The submenus of an item for what it can hold: textures, filters, modifiers and modulators. A submenu is there only when the item
-        // can hold the kind.
-        private static IReadOnlyList<TreeAdd> HeldAdds(IControl item) =>
-            TreeGroup.GroupsOf(item)
-                .Where(group => group is not (LayerGroup or StructureGroup))
-                .Select(group =>
-                {
-                    var name = TreeCategories.Label(group.Category, 1);
-                    return new TreeAdd(TreeAddIds.ForKindMenu(name), "Add " + name, Children: AddsOfTypes(group), Secondary: true);
-                })
-                .ToList();
-
-        private static IReadOnlyList<TreeAdd> AddsOfTypes(TreeGroup group) =>
-            group.AddableTypes
-                .Select(type => AddOf(TreeAddIds.ForType(type), AddableTypes.LabelOf(type), group.Manager, type))
-                .ToList();
-
-        // An add row for an item of a layer. The prefix is "Add " in the menu of a group, and empty in the submenu of the layer.
-        private static TreeAdd LayerAddOf(LayerGroup group, Type type, string prefix)
-        {
-            var entry = AddableTypes.ContentEntryOf(type);
-            return AddOf(entry.Id, prefix + entry.Label, group.Manager, type);
-        }
-
-        private static TreeAdd AddOf(string id, string header, PrefabManager list, Type type) =>
-            new(id, header, () => list.AddItem(type));
 
         // The target node as an item of a list: the list, the item and its place in the list.
         // A group, or no node, is not an item.
@@ -979,7 +790,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private void OnTargetChanged()
         {
             var hadAdds = HasAdds;
-            targetAdds = GetAddChoices(TargetNode);
+            targetAdds = adds.ChoicesFor(TargetNode);
             OnPropertyChanged(nameof(TargetAdds));
             if (hadAdds != HasAdds)
                 OnPropertyChanged(nameof(HasAdds));
