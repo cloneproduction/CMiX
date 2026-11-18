@@ -16,7 +16,6 @@ using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Parts;
-using CMiX.UI.Panels;
 using CMiX.UI.Behaviors;
 
 namespace CMiX.Studio.Avalonia.Views
@@ -43,6 +42,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeRowReveal reveal;
         private readonly TreeMenus menus;
         private readonly TreeScreenRequests requests;
+        private readonly TreeFocusKeeper focusKeeper;
 
         // What this view tells the tree and does for it (see ProjectTree.AttachView).
         private readonly TreeViewHooks hooks;
@@ -91,28 +91,15 @@ namespace CMiX.Studio.Avalonia.Views
             rowDrag = new TreeRowDrag(treeView, dragSession);
             reveal = new TreeRowReveal(context, () => IsKeyboardFocusWithin);
             grab = new TreeGrab(this, treeView, dragSession, context, reveal.RevealRow, OnGrabChanged);
+            focusKeeper = new TreeFocusKeeper(this, context, reveal, PostWhileAttached, () => IsAttached);
             hints = new TreeHints(context, hintStrip,
-                new TreeHintInputs(() => grab.IsGrabbing, IsMenuOpen, IsSearchFocused, () => IsKeyboardFocusWithin), PostWhileAttached);
+                new TreeHintInputs(() => grab.IsGrabbing, IsMenuOpen, focusKeeper.IsSearchFocused, () => IsKeyboardFocusWithin), PostWhileAttached);
             fileDrop = new TreeFileDropInput(context, marker);
-            menus = new TreeMenus(context, new TreeMenuInputs(reveal.ShownItemOf, () => lastPointer, grab.TakeMenuBlock, FocusRow),
+            menus = new TreeMenus(context, new TreeMenuInputs(reveal.ShownItemOf, () => lastPointer, grab.TakeMenuBlock, focusKeeper.FocusRow),
                 hints.Update, PostWhileAttached);
             requests = new TreeScreenRequests(context, new TreeRequestParts(menus, reveal, grab, scrollAnchor),
                 new TreeRequestInputs(() => IsActiveView, () => lastPointer), PostWhileAttached);
-            hooks = new TreeViewHooks
-            {
-                IsPointerOverTree = () => IsPointerOver,
-                IsTreeFocused = () => IsKeyboardFocusWithin,
-                IsTextBoxFocused = () => IsInTextBox(TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement()),
-                IsFocusInOtherPanel = IsFocusInOtherPanel,
-                IsPanelFocused = IsPanelFocused,
-                ToggleDragRow = dragSession.ToggleHovered,
-                CancelDrag = () =>
-                {
-                    rowDrag.Cancel();
-                    grab.Cancel();
-                },
-                CloseRowsInView = requests.CloseRowsInView
-            };
+            hooks = focusKeeper.BuildHooks(dragSession, rowDrag, grab, requests.CloseRowsInView);
 
             treeView.AddHandler(PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
             treeView.AddHandler(PointerPressedEvent, OnPointerPressedDone, RoutingStrategies.Bubble, handledEventsToo: true);
@@ -128,11 +115,6 @@ namespace CMiX.Studio.Avalonia.Views
             treeView.AddHandler(KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
             AddHandler(PointerMovedEvent, OnPointerTracked, RoutingStrategies.Tunnel, handledEventsToo: true);
             KeyBindingTextGuard.Install(this);
-            AddHandler(GotFocusEvent, (_, _) => focusIsInTree = true, RoutingStrategies.Bubble, handledEventsToo: true);
-            AddHandler(LostFocusEvent, OnLostFocusInTree, RoutingStrategies.Bubble, handledEventsToo: true);
-            // A move makes the item of the row again, and the old item takes the focus away with it, with no event that reaches the
-            // tree. The layout that follows shows that no control has the focus.
-            treeView.LayoutUpdated += (_, _) => CheckTheLostFocus();
             tooltips = new TreeTooltips(treeView);
         }
 
@@ -143,61 +125,6 @@ namespace CMiX.Studio.Avalonia.Views
         internal TreeHintMode HintMode => hints.Mode;
 
         private bool IsMenuOpen() => menus.IsMenuOpen();
-
-        // True when the focus is in the search field of the tree of this view, in the panel of this view.
-        private bool IsSearchFocused()
-        {
-            if (FocusedControl() is not Visual focused || focused.FindAncestorOfType<TreeSearchBox>(true) is not { } box
-                || !ReferenceEquals(box.DataContext, watched))
-                return false;
-
-            return this.FindAncestorOfType<SidePanelHost>() is not { } host || host.IsVisualAncestorOf(box);
-        }
-
-        // True while a check of the focus waits to run.
-        private bool focusCheckPosted;
-
-        private void CheckTheLostFocus()
-        {
-            if (!focusIsInTree || focusCheckPosted || TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement() != null)
-                return;
-
-            focusCheckPosted = true;
-            Dispatcher.UIThread.Post(() =>
-            {
-                focusCheckPosted = false;
-                if (IsAttached)
-                    GiveTheFocusBack(null);
-            }, DispatcherPriority.Input);
-        }
-
-        // True while the keyboard focus is in the tree, and also when it went from the tree to no control: a name box that hides at the
-        // end of a rename, or a row that a move makes again. The focus then goes back to the row (see GiveTheFocusBack).
-        private bool focusIsInTree;
-
-        // A name box loses the focus when a rename ends. The next focus is known only after the event.
-        private void OnLostFocusInTree(object? sender, RoutedEventArgs e)
-        {
-            var node = TreeRows.ItemOf(e.Source)?.DataContext as TreeNode;
-            PostWhileAttached(() => GiveTheFocusBack(node), DispatcherPriority.Input);
-        }
-
-        // When no control has the focus and the focus was in the tree, the row of the node gets it, else the selected row. A control
-        // that the user clicked keeps the focus.
-        private void GiveTheFocusBack(TreeNode? node)
-        {
-            var focused = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement();
-            if (focused != null)
-            {
-                focusIsInTree = focused is Visual visual && (ReferenceEquals(visual, this) || this.IsVisualAncestorOf(visual));
-                return;
-            }
-
-            if (!focusIsInTree || (node ?? watched?.SelectedNode) is not { } target || rowIndex.FindItem(target) is not { } item)
-                return;
-
-            item.Focus(NavigationMethod.Tab);
-        }
 
         private ProjectTree? watched;
 
@@ -224,7 +151,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
-            if (watched is not { } tree || IsInTextBox(e.Source))
+            if (watched is not { } tree || TreeFocusKeeper.IsInTextBox(e.Source))
                 return;
 
             if (e.Key == Key.Escape && e.KeyModifiers == KeyModifiers.None && tree.IsSearchActive && !tree.IsDragging)
@@ -270,7 +197,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             MoveCursor(tree, e.Key);
             if (tree.CursorNode is { } node)
-                PostWhileAttached(() => FocusRow(node), DispatcherPriority.Loaded);
+                PostWhileAttached(() => focusKeeper.FocusRow(node), DispatcherPriority.Loaded);
         }
 
         private static bool IsNavigationKey(Key key) =>
@@ -298,17 +225,6 @@ namespace CMiX.Studio.Avalonia.Views
         private int RowsInView() =>
             context.Scroller is { } scroller && rowMetrics.RowPitch > 0 ? Math.Max(1, (int)(scroller.Viewport.Height / rowMetrics.RowPitch)) : 1;
 
-        // Moves the keyboard focus to the row of the node and brings the row into view. The focus shows the focus look of the row
-        // (:focus-visible, see ProjectTree.axaml). It does not select the row.
-        private void FocusRow(TreeNode node)
-        {
-            if (rowIndex.FindItem(node) is not { } item)
-                return;
-
-            item.Focus(NavigationMethod.Tab);
-            reveal.RevealRow(node);
-        }
-
         // The last place of the pointer over the tree, in the coordinates of the tree view. Tree.Add opens there when no target row is shown.
         private Point lastPointer;
 
@@ -319,32 +235,6 @@ namespace CMiX.Studio.Avalonia.Views
         {
             Classes.Set(GrabbingClass, grab.IsGrabbing);
             hints.Update();
-        }
-
-        private static bool IsInTextBox(object? source)
-        {
-            for (var visual = source as Visual; visual != null; visual = visual.GetVisualParent())
-                if (visual is TextBox)
-                    return true;
-
-            return false;
-        }
-
-        // True when a control outside the panel of this view has the focus (see ProjectTree.IsFocusInOtherPanel). The panel is the
-        // side panel that shows the view, with its bar. The focus on the window itself, or on no control, is in no panel.
-        private bool IsFocusInOtherPanel() => FocusedControl() is { } focused && !IsInPanel(focused);
-
-        // True when the focused control is in the panel of this view (see TreeViewHooks.IsPanelFocused).
-        private bool IsPanelFocused() => FocusedControl() is { } focused && IsInPanel(focused);
-
-        // The focused control. Null when the window itself or no control has the focus.
-        private IInputElement? FocusedControl() =>
-            TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement() is { } focused and not TopLevel ? focused : null;
-
-        private bool IsInPanel(IInputElement focused)
-        {
-            Visual panel = this.FindAncestorOfType<SidePanelHost>() is { } host ? host : this;
-            return focused is Visual visual && (ReferenceEquals(visual, panel) || panel.IsVisualAncestorOf(visual));
         }
 
         protected override void OnDataContextChanged(EventArgs e)
@@ -410,6 +300,7 @@ namespace CMiX.Studio.Avalonia.Views
             // The tree view model listens only while the view is attached.
             IsAttached = true;
             Watch();
+            focusKeeper.Attach();
 
             scaledTopLevel = TopLevel.GetTopLevel(this);
             if (scaledTopLevel == null)
@@ -423,6 +314,7 @@ namespace CMiX.Studio.Avalonia.Views
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
             Unwatch();
+            focusKeeper.Detach();
 
             IsAttached = false;
             if (scaledTopLevel != null)
@@ -457,36 +349,7 @@ namespace CMiX.Studio.Avalonia.Views
             e.Handled = true;
         }
 
-        // The focused control before a press on a button of a row. Null when the press was not on such a button.
-        private sealed record FocusBefore(IInputElement? Control);
-
-        private FocusBefore? focusBeforeRowButton;
-
-        // A toggle or the chevron of a row cannot take the focus, so a click on it focuses its row. The click acts on that row only:
-        // a focused control of the panel of the tree keeps the focus. Else the focus goes to the cursor row. The cursor and the
-        // selection do not move.
-        private void OnPointerPressedDone(object? sender, PointerPressedEventArgs e)
-        {
-            if (focusBesideRows)
-            {
-                focusBesideRows = false;
-                if (watched?.CursorNode is { } cursor)
-                    PostWhileAttached(() => FocusRow(cursor), DispatcherPriority.Input);
-                return;
-            }
-
-            if (focusBeforeRowButton is not { } before)
-                return;
-
-            focusBeforeRowButton = null;
-            if (ReferenceEquals(FocusedControl(), before.Control))
-                return;
-
-            if (before.Control is InputElement { IsEffectivelyVisible: true } control && IsInPanel(control) && control.GetVisualRoot() != null)
-                control.Focus(control is TreeViewItem ? NavigationMethod.Tab : NavigationMethod.Unspecified);
-            else if (watched?.CursorNode is { } cursor && rowIndex.FindItem(cursor) is { } item)
-                item.Focus(NavigationMethod.Tab);
-        }
+        private void OnPointerPressedDone(object? sender, PointerPressedEventArgs e) => focusKeeper.EndPress();
 
         // A ToggleButton of a row that cannot take the focus: a toggle or the chevron.
         private static bool IsRowButton(object? source) =>
@@ -520,14 +383,11 @@ namespace CMiX.Studio.Avalonia.Views
         // The node of the row that the left button pressed. A drag clears it.
         private TreeNode? chosenNode;
 
-        // Set by a press beside the rows: the cursor row takes the focus once the press is done.
-        private bool focusBesideRows;
-
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             pressedNode = null;
             chosenNode = null;
-            focusBeforeRowButton = null;
+            focusKeeper.BeginPress();
             // A middle click on a row selects it and sends it to the inspector, and starts no drag. The chevron, the toggles
             // and the name box take no middle click.
             if (e.GetCurrentPoint(treeView).Properties.IsMiddleButtonPressed)
@@ -547,7 +407,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (IsEditor(e.Source))
             {
                 if (IsRowButton(e.Source))
-                    focusBeforeRowButton = new FocusBefore(FocusedControl());
+                    focusKeeper.RememberFocusBeforeRowButton();
                 return;
             }
 
@@ -558,7 +418,8 @@ namespace CMiX.Studio.Avalonia.Views
             if (node is null && DataContext is ProjectTree beside)
             {
                 beside.CursorNode ??= beside.SelectedNode ?? beside.Roots.FirstOrDefault();
-                focusBesideRows = beside.CursorNode != null;
+                if (beside.CursorNode != null)
+                    focusKeeper.FocusCursorRowAfterPress();
             }
 
             // The tree view toggles the selection on a Ctrl click. The tree has one selection, so a Ctrl click on a row does nothing.
