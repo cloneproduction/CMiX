@@ -35,6 +35,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private readonly PrefabManager compositions;
         private readonly Project project;
         private readonly TreeNode root;
+        private readonly TreeViewSet views;
         private TreeNode? selectedNode;
         private IReadOnlyList<TreeAdd> targetAdds;
         private bool selecting;
@@ -56,19 +57,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             root.AddGroups(project);
 
             targetAdds = GetAddChoices(null);
-            IsPointerOverTree = () => views.Exists(view => view.IsPointerOverTree());
-            IsTreeFocused = () => views.Exists(view => view.IsTreeFocused());
-            IsTextBoxFocused = () => views.Exists(view => view.IsTextBoxFocused());
-            IsFocusInOtherPanel = () => views.Count > 0 && views.TrueForAll(view => view.IsFocusInOtherPanel());
-            ToggleDragRow = () => { foreach (var view in views.ToArray()) view.ToggleDragRow(); };
-            CancelDrag = () => { foreach (var view in views.ToArray()) view.CancelDrag(); };
-            CloseRowsInView = (node, close) =>
-            {
-                if (ActiveView() is { } view)
-                    view.CloseRowsInView(node, close);
-                else
-                    close();
-            };
+            views = new TreeViewSet();
             AddItemCommand = new RelayCommand<TreeAdd?>(add => add?.Execute?.Invoke(), add => add == null ? HasAdds : add.Execute != null);
             DuplicateItemCommand = new RelayCommand(
                 () => { if (TargetPlace() is { } place) place.List.DuplicateItem(place.Item); },
@@ -355,33 +344,20 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // The active view handles this request (see IsActiveView): it starts the grab of the node.
         public event EventHandler<TreeNode>? GrabRequested;
 
-        // The hooks of the views that show the tree. The two side panels can show the same tree.
-        private readonly List<TreeViewHooks> views = new();
-
         // A view gives its hooks when it shows the tree, and takes them back when it goes. A view that goes takes back only its own
         // hooks, so the other view keeps working. The hooks of the tree (IsPointerOverTree, IsTreeFocused and the others) ask every view.
-        public void AttachView(TreeViewHooks view)
-        {
-            if (!views.Contains(view))
-                views.Add(view);
-        }
+        public void AttachView(TreeViewHooks view) => views.Attach(view);
 
-        public void DetachView(TreeViewHooks view) => views.Remove(view);
+        public void DetachView(TreeViewHooks view) => views.Detach(view);
 
-        // The view that does a job for one view only: the view with the focus in its rows, else the view with the focus in its side
-        // panel (its search box, its bar), else the view under the pointer, else the first view.
-        private TreeViewHooks? ActiveView() =>
-            views.Find(view => view.IsTreeFocused()) ?? views.Find(view => view.IsPanelFocused())
-            ?? views.Find(view => view.IsPointerOverTree()) ?? (views.Count > 0 ? views[0] : null);
-
-        // True when the view of these hooks is the active view (see ActiveView). A view answers a request (RenameRequested,
+        // True when the view of these hooks is the active view (see TreeViewSet.ActiveView). A view answers a request (RenameRequested,
         // AddRequested, MenuRequested, CollapseOthersRequested, RevealRequested, TreeFocusRequested, SearchFocusRequested) only when this is true,
         // so with two views one request opens one menu.
-        public bool IsActiveView(TreeViewHooks view) => ReferenceEquals(ActiveView(), view);
+        public bool IsActiveView(TreeViewHooks view) => views.IsActiveView(view);
 
         // The active view keeps the rows still on the screen while rows close: the row of the node when it is in view, else the first
         // row in view. The view runs the close and returns the rows that it closed. Without a view, the close only runs.
-        public Action<TreeNode?, Func<IReadOnlyList<TreeNode>>> CloseRowsInView { get; set; }
+        public void CloseRowsInView(TreeNode? node, Func<IReadOnlyList<TreeNode>> close) => views.CloseRowsInView(node, close);
 
         // The keys of the main window for the target row (Tree.Rename, Tree.Remove, Tree.Duplicate, Tree.MoveUp, Tree.MoveDown). A key
         // runs its command on the condition of every tree key (see CanRunTreeKey). The buttons of the toolbar use the commands without
@@ -397,12 +373,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // a text box has the focus: Ctrl+R and the key down of Shift+D do not change the text, so the text box does not take them. It
         // does not run during a drag of a row. A key binding checks the command when the key is pressed, so the condition needs no
         // change event.
-        private bool CanRunTreeKey() =>
-            !IsDragging && !IsTextBoxFocused() && (IsTreeFocused() || IsPointerOverTree() && !IsFocusInOtherPanel());
+        private bool CanRunTreeKey() => !IsDragging && views.AllowsTreeKey();
 
         // True when a control outside the panel of the tree has the focus. The focus on the window itself, or on no control, is not
         // the focus in another panel. With two views of the tree, the focus in the panel of one view is not in another panel.
-        public Func<bool> IsFocusInOtherPanel { get; set; }
+        public bool IsFocusInOtherPanel() => views.IsFocusInOtherPanel();
 
         private IRelayCommand ByKey(IRelayCommand command) =>
             new RelayCommand(() => command.Execute(null), () => CanRunTreeKey() && command.CanExecute(null));
@@ -423,7 +398,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public IRelayCommand InspectCursorCommand { get; }
 
         // True when the pointer is over a view of the tree.
-        public Func<bool> IsPointerOverTree { get; set; }
+        public bool IsPointerOverTree() => views.IsPointerOverTree();
 
         // The active view handles this request (see IsActiveView): it opens the Add panel.
         public event EventHandler? AddRequested;
@@ -438,10 +413,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public IRelayCommand ToggleExpandTargetCommand { get; }
 
         // The view of the drag opens or closes the row under the pointer (see TreeRowDrag.ToggleHovered).
-        public Action ToggleDragRow { get; set; }
+        public void ToggleDragRow() => views.ToggleDragRow();
 
         // True when a text box has the focus.
-        public Func<bool> IsTextBoxFocused { get; set; }
+        public bool IsTextBoxFocused() => views.IsTextBoxFocused();
 
         // The active view handles this request (see IsActiveView): it opens the menu.
         public event EventHandler? MenuRequested;
@@ -473,7 +448,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // True when a view of the tree or one of its controls has the focus.
-        public Func<bool> IsTreeFocused { get; set; }
+        public bool IsTreeFocused() => views.IsTreeFocused();
 
         // The search box of the panel of the active view handles this request: it takes the focus and selects its text.
         public event EventHandler? SearchFocusRequested;
@@ -484,7 +459,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public event EventHandler? TreeFocusRequested;
 
         // The view of the drag ends a drag of a row without a drop, for example on Escape in the search box (see TreeRowDrag.Cancel).
-        public Action CancelDrag { get; set; }
+        public void CancelDrag() => views.CancelDrag();
 
         // Moves the cursor to the next match of the search in the order of the tree, or to the match before it with a negative step.
         // The cursor goes round at the ends. No cursor, or a cursor on a row that does not match: the first match, or the last one going

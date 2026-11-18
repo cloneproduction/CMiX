@@ -75,7 +75,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void AddAtTargetCommand_PointerOverTheTree_AsksTheViewForTheMenu()
         {
             var scene = CreateScene();
-            scene.Tree.IsPointerOverTree = () => true;
+            scene.Tree.AttachView(new TreeViewHooks { IsPointerOverTree = () => true });
             var asked = 0;
             scene.Tree.AddRequested += (_, _) => asked++;
 
@@ -91,7 +91,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var scene = CreateScene();
             scene.Tree.SelectedNode = null;
-            scene.Tree.IsPointerOverTree = () => true;
+            scene.Tree.AttachView(new TreeViewHooks { IsPointerOverTree = () => true });
 
             scene.Tree.AddAtTargetCommand.Execute(null);
 
