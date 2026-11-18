@@ -94,8 +94,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var item = ItemOf(view, group.Children[2]);
             Assert.Same(item, view.Marker.Marked);
             Assert.Equal(DropPosition.Before, view.Marker.MarkedPosition);
-            Assert.Equal(DropMark.GapBelow, TreeDropMark.GetMark(ItemOf(view, TreeDropService.LastVisible(group.Children[1]))));
-            Assert.True(SeenArea(LineOf(ItemOf(view, TreeDropService.LastVisible(group.Children[1])))) > 0, "The bar before the row is cut.");
+            Assert.Equal(DropMark.GapBelow, TreeDropMark.GetMark(ItemOf(view, TreeRowOrder.LastVisible(group.Children[1]))));
+            Assert.True(SeenArea(LineOf(ItemOf(view, TreeRowOrder.LastVisible(group.Children[1])))) > 0, "The bar before the row is cut.");
 
             Cancel(view, group.Children[2]);
             DragOver(view, group.Children[2], group.Children[0], 0.2);
@@ -118,8 +118,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var item = ItemOf(view, last);
             Assert.Same(item, view.Marker.Marked);
             Assert.Equal(DropPosition.After, view.Marker.MarkedPosition);
-            Assert.Equal(DropMark.GapBelow, TreeDropMark.GetMark(ItemOf(view, TreeDropService.LastVisible(last))));
-            Assert.True(SeenArea(LineOf(ItemOf(view, TreeDropService.LastVisible(last)))) > 0, "The bar after the last row is cut.");
+            Assert.Equal(DropMark.GapBelow, TreeDropMark.GetMark(ItemOf(view, TreeRowOrder.LastVisible(last))));
+            Assert.True(SeenArea(LineOf(ItemOf(view, TreeRowOrder.LastVisible(last)))) > 0, "The bar after the last row is cut.");
         }
 
         [AvaloniaFact]

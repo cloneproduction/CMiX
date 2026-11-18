@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 Add(tree, source, row, DropPosition.Inside, candidates);
             }
 
-            for (var block = row; block != null && ReferenceEquals(TreeDropService.LastVisible(block), row); block = block.Parent)
+            for (var block = row; block != null && ReferenceEquals(TreeRowOrder.LastVisible(block), row); block = block.Parent)
                 if (!block.IsOrIsUnder(source))
                     Add(tree, source, block, DropPosition.After, candidates);
         }

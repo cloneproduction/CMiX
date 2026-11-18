@@ -58,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             DropPosition.Before => 3 * rows.IndexOf(slot.Target),
             DropPosition.Inside => 3 * rows.IndexOf(slot.Target) + 1,
-            _ => 3 * rows.IndexOf(TreeDropService.LastVisible(slot.Target)) + 2
+            _ => 3 * rows.IndexOf(TreeRowOrder.LastVisible(slot.Target)) + 2
         };
 
         // The checks that every list must pass: one start slot at the source, every other slot accepted by CanDrop, no slot in the

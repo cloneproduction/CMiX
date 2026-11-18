@@ -92,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, tree) = Show();
             var node = tree.CompositionNodes()[1];
-            var above = TreeDropService.RowAbove(node)!;
+            var above = TreeRowOrder.RowAbove(node)!;
             Assert.NotSame(tree.CompositionNodes()[0], above);
 
             view.Marker.Mark(ItemOf(view, node), DropPosition.Before);
@@ -119,7 +119,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, tree) = Show();
             var node = tree.CompositionNodes()[1];
-            var above = TreeDropService.RowAbove(node)!;
+            var above = TreeRowOrder.RowAbove(node)!;
             view.Marker.Mark(ItemOf(view, node), DropPosition.Before);
 
             view.Marker.Mark(null, null);
@@ -135,7 +135,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, tree) = Show();
             var node = tree.CompositionNodes()[1];
-            var above = TreeDropService.RowAbove(node)!;
+            var above = TreeRowOrder.RowAbove(node)!;
 
             view.Marker.Mark(ItemOf(view, node), DropPosition.Before);
             window!.UpdateLayout();

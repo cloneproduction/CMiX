@@ -70,10 +70,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 if (fraction < 0.5)
                     return new DropPlace(target, DropPosition.Before);
 
-                return ReferenceEquals(LastVisible(target), target) ? new DropPlace(target, DropPosition.After) : null;
+                return ReferenceEquals(TreeRowOrder.LastVisible(target), target) ? new DropPlace(target, DropPosition.After) : null;
             }
 
-            return ReferenceEquals(LastVisible(target), hovered) && fraction >= 0.5 ? new DropPlace(target, DropPosition.After) : null;
+            return ReferenceEquals(TreeRowOrder.LastVisible(target), hovered) && fraction >= 0.5 ? new DropPlace(target, DropPosition.After) : null;
         }
 
         // True when the node is a row that the dragged node can go before, after, or (a layer on a composition) inside.
@@ -146,38 +146,16 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             && !ReferenceEquals(source.Owner, target.Owner)
             && !target.Owner.ManagerData.Items.Contains(source.Item!);
 
-        private static TreeNode? CompositionOf(TreeNode node) =>
-            TreeWalk.ParentsOf(node).Prepend(node).FirstOrDefault(row => row.Item is Composition);
-
         // The other layers of the composition that hold the item of the source. Empty when the source is not in an entity, camera or light list.
         private static IReadOnlyList<Layer> LayersSharing(TreeNode source)
         {
-            if (CompositionOf(source) is not { Item: Composition composition } || source.Parent?.Parent?.Item is not Layer ownLayer)
+            if (TreeRowOrder.CompositionOf(source) is not { Item: Composition composition } || source.Parent?.Parent?.Item is not Layer ownLayer)
                 return Array.Empty<Layer>();
 
             if (source.Item == null || source.Parent?.Group is not LayerGroup)
                 return Array.Empty<Layer>();
 
             return ownLayer.GetLayersHolding(source.Item, composition.LayerManager.ManagerData.Items.OfType<Layer>());
-        }
-
-        // The last row that is shown in the block of a node: itself when it is collapsed or has no children.
-        public static TreeNode LastVisible(TreeNode node) =>
-            node.IsExpanded && node.Children.Count > 0 ? LastVisible(node.Children[^1]) : node;
-
-        // The row whose space below it is the place of a drop before the node: the last visible row of the sibling above,
-        // or the parent when the node is the first child. Null when the node is the first row of the tree.
-        public static TreeNode? RowAbove(TreeNode node)
-        {
-            if (node.Parent == null)
-                return null;
-
-            var siblings = node.Parent.Children;
-            var index = siblings.IndexOf(node);
-            if (index > 0)
-                return LastVisible(siblings[index - 1]);
-
-            return node.Parent;
         }
 
         // True when the drop is possible by type and place. A move that shared items block is still possible here,
@@ -211,22 +189,19 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 return null;
 
             if (group != null && !ListRules.CanHold(group.OwnerType, source.Item.GetType()))
-                return $"{Capitalized(WithArticle(ItemName(source.Item)))} cannot go to {WithArticle(OwnerName(group.OwnerType))}";
+                return TreeDropText.CannotHold(source.Item, group.OwnerType);
 
             if (list.CanAddExistingItem?.Invoke(source.Item) == false)
-                return $"\"{NameOfList(source, target)}\" cannot take \"{source.Header}\"";
+                return TreeDropText.CannotTake(InsideOf(source, target), source);
 
-            if (ReferenceEquals(CompositionOf(source), CompositionOf(target)))
+            if (ReferenceEquals(TreeRowOrder.CompositionOf(source), TreeRowOrder.CompositionOf(target)))
                 return null;
 
             if (source.Item is not Layer && LayersSharing(source) is { Count: > 0 } sharing)
-            {
-                var names = string.Join(" and ", sharing.Select(layer => $"\"{layer.PrefabService.Name.Value}\""));
-                return sharing.Count == 1 ? $"Layer {names} also holds it" : $"Layers {names} also hold it";
-            }
+                return TreeDropText.AlsoHeldBy(sharing);
 
             if (source.Item is IMoveRestricted restricted && restricted.GetItemsBlockingMove(source.Owner.ManagerData.Items) is { Count: > 0 } blocking)
-                return $"It shares {string.Join(", ", blocking.Select(item => $"\"{item.PrefabService.Name.Value}\""))} with other layers";
+                return TreeDropText.SharesWithOtherLayers(blocking);
 
             return null;
         }
@@ -240,35 +215,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
             return inside.Owner == null ? null : new ListAndGroup(inside.Owner, inside.Parent?.Group);
         }
-
-        // The name of the item that holds the list of the drop.
-        private static string NameOfList(TreeNode source, TreeNode target)
-        {
-            var inside = InsideOf(source, target);
-            var holder = inside.Item == null ? inside : inside.Parent;
-            return (holder?.Item == null ? holder?.Parent : holder)?.Header ?? string.Empty;
-        }
-
-        // The name of a type of item, without the word of its kind at the end: TranslateModifier is Translate.
-        private static string ItemName(IControl item)
-        {
-            var name = item.GetType().Name;
-            foreach (var suffix in new[] { "Modifier", "Modulator", "Filter" })
-                if (name.Length > suffix.Length && name.EndsWith(suffix, StringComparison.Ordinal))
-                    return name[..^suffix.Length];
-
-            return name;
-        }
-
-        // The name of a type of owner in small letters, with a space between its words: LightEntity is light entity.
-        private static string OwnerName(System.Type type) =>
-            string.Concat(type.Name.Select((letter, index) => index > 0 && char.IsUpper(letter) ? " " + char.ToLowerInvariant(letter) : char.ToLowerInvariant(letter).ToString()));
-
-        private static string WithArticle(string name) =>
-            (name.Length > 0 && "aeiouAEIOU".Contains(name[0]) ? "an " : "a ") + name;
-
-        private static string Capitalized(string text) =>
-            text.Length > 0 ? char.ToUpperInvariant(text[0]) + text[1..] : text;
 
         // True when the dragged node can go before or after the row, in the list of the row. The place is shown by a bar between two rows.
         public bool IsNeighbor(TreeNode source, TreeNode target) =>
@@ -292,7 +238,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             }
 
             // An item of a layer can go to a layer of another composition only if no other layer of its composition uses it.
-            if (source.Item is not Layer && !ReferenceEquals(CompositionOf(source), CompositionOf(target))
+            if (source.Item is not Layer && !ReferenceEquals(TreeRowOrder.CompositionOf(source), TreeRowOrder.CompositionOf(target))
                 && LayersSharing(source) is { Count: > 0 } sharing)
                 return new DropOutcome(false, sharing.Cast<IPrefab>().ToList());
 
@@ -300,30 +246,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // The text for a move that shared items block. For an entity, a camera or a light, blocking gives the layers that share it.
-        public string DescribeBlock(TreeNode source, TreeNode target, IReadOnlyList<IPrefab> blocking)
-        {
-            if (source.Item is not Layer)
-            {
-                var toLayer = (target.Item is Layer ? target : target.Item == null ? target.Parent : target.Parent?.Parent)?.Header ?? string.Empty;
-                var fromComposition = CompositionOf(source)?.Header ?? string.Empty;
-                var layers = string.Join(", ", blocking.Select(layer => $"\"{layer.PrefabService.Name.Value}\""));
-
-                return $"Cannot move \"{source.Header}\" to \"{toLayer}\".\n"
-                    + $"This item is also used by other layers of \"{fromComposition}\": {layers}.\n"
-                    + "An item can belong to one composition only. "
-                    + "Remove the item from the other layers first, or duplicate it, then move it.";
-            }
-
-            var layer = source.Header;
-            var from = CompositionOf(source)?.Header ?? string.Empty;
-            var to = CompositionOf(target)?.Header ?? string.Empty;
-            var names = string.Join(", ", blocking.Select(item => item.PrefabService.Name.Value));
-
-            return $"Cannot move \"{layer}\" to \"{to}\".\n"
-                + $"This layer shares items with other layers of \"{from}\": {names}.\n"
-                + "An item can belong to one composition only. "
-                + "Remove the item from the other layers first, or duplicate it, then move the layer.";
-        }
+        public string DescribeBlock(TreeNode source, TreeNode target, IReadOnlyList<IPrefab> blocking) =>
+            TreeDropText.DescribeBlock(source, target, blocking);
 
         // The list that takes the item, and the index in it. Null when the drop is not possible.
         private static ListPlace? Resolve(TreeNode source, TreeNode target, DropPosition position)

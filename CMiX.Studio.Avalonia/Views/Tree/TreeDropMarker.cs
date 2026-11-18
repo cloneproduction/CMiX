@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             // The bar is in the space under the row above the place: the last visible row of the block for a drop after the node.
-            var above = position == DropPosition.After ? TreeDropService.LastVisible(node) : TreeDropService.RowAbove(node);
+            var above = position == DropPosition.After ? TreeRowOrder.LastVisible(node) : TreeRowOrder.RowAbove(node);
             var aboveItem = above == null ? null : TreeRows.ItemOfNode(item, above) ?? rows.FindItem(above);
             barItem = aboveItem ?? item;
             TreeDropMark.SetMark(barItem, aboveItem != null ? DropMark.GapBelow : DropMark.GapTop);
