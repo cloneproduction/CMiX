@@ -258,70 +258,65 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // are lit. The rows that the node can go next to are neighbors: they stay as they are, and the bar shows the place. A collapsed row
         // that has such a row under it gives a hint, so the user knows to open it. A row that takes the node by its kind but refuses
         // it by a rule is blocked: it keeps its fill, shows a frame and gives the reason. The other rows are dimmed.
-        public bool IsDragActive { get; private set; }
-        public bool IsDragSource { get; private set; }
-        public bool IsDropCandidate { get; private set; }
-        public bool IsDropNeighbor { get; private set; }
-        public bool HasDropTargetBelow { get; private set; }
+        private bool isDragActive;
+        private bool isDragSource;
+        private bool isDropCandidate;
+        private bool isDropNeighbor;
+        private bool hasDropTargetBelow;
+        private string? dropBlockReason;
+
+        public bool IsDragActive { get => isDragActive; private set => SetProperty(ref isDragActive, value); }
+        public bool IsDragSource { get => isDragSource; private set => SetProperty(ref isDragSource, value); }
+        public bool IsDropCandidate { get => isDropCandidate; private set => SetProperty(ref isDropCandidate, value); }
+        public bool IsDropNeighbor { get => isDropNeighbor; private set => SetProperty(ref isDropNeighbor, value); }
+        public bool HasDropTargetBelow { get => hasDropTargetBelow; private set => SetProperty(ref hasDropTargetBelow, value); }
 
         // The reason why the row refuses the dragged node (see TreeDropService.BlockReason), or null.
-        public string? DropBlockReason { get; private set; }
+        public string? DropBlockReason { get => dropBlockReason; private set => SetProperty(ref dropBlockReason, value); }
         public bool IsDropBlocked => DropBlockReason != null;
         public bool IsDropHint => IsDragActive && HasDropTargetBelow && !IsDropCandidate && !IsDropNeighbor && !IsDropBlocked && !IsExpanded;
         // Covered during a drag: every row that can not take the node, the source and a row that refuses it by a rule too (the reason
         // stays in the tooltip). A row that can take it is lit; a collapsed row with a target deeper is half covered (IsDropHint).
         public bool IsDimmed => IsDragActive && !IsDropCandidate && !IsDropNeighbor && !IsDropHint;
 
-        // Tells only the properties whose value changes.
-        internal void SetDragState(bool active, bool isSource, bool isCandidate, bool isNeighbor, bool hasTargetBelow, string? blockReason = null)
+        internal void ShowDragLook(DragLook look)
         {
-            var wasBlocked = IsDropBlocked;
-            var wasHint = IsDropHint;
-            var wasDimmed = IsDimmed;
+            var before = CaptureDragCover();
+            IsDragActive = true;
+            ApplyDragLook(look);
+            RaiseDragCoverChanges(before);
+        }
 
-            if (IsDragActive != active)
-            {
-                IsDragActive = active;
-                OnPropertyChanged(nameof(IsDragActive));
-            }
+        internal void ClearDragLook()
+        {
+            var before = CaptureDragCover();
+            IsDragActive = false;
+            ApplyDragLook(DragLook.None);
+            RaiseDragCoverChanges(before);
+        }
 
-            if (IsDragSource != isSource)
-            {
-                IsDragSource = isSource;
-                OnPropertyChanged(nameof(IsDragSource));
-            }
+        private void ApplyDragLook(DragLook look)
+        {
+            IsDragSource = look.IsSource;
+            IsDropCandidate = look.IsCandidate;
+            IsDropNeighbor = look.IsNeighbor;
+            HasDropTargetBelow = look.HasTargetBelow;
+            DropBlockReason = look.BlockReason;
+        }
 
-            if (IsDropCandidate != isCandidate)
-            {
-                IsDropCandidate = isCandidate;
-                OnPropertyChanged(nameof(IsDropCandidate));
-            }
+        private sealed record DragCover(bool IsDropBlocked, bool IsDropHint, bool IsDimmed);
 
-            if (IsDropNeighbor != isNeighbor)
-            {
-                IsDropNeighbor = isNeighbor;
-                OnPropertyChanged(nameof(IsDropNeighbor));
-            }
+        private DragCover CaptureDragCover() => new(IsDropBlocked, IsDropHint, IsDimmed);
 
-            if (HasDropTargetBelow != hasTargetBelow)
-            {
-                HasDropTargetBelow = hasTargetBelow;
-                OnPropertyChanged(nameof(HasDropTargetBelow));
-            }
-
-            if (DropBlockReason != blockReason)
-            {
-                DropBlockReason = blockReason;
-                OnPropertyChanged(nameof(DropBlockReason));
-            }
-
-            if (wasBlocked != IsDropBlocked)
+        private void RaiseDragCoverChanges(DragCover before)
+        {
+            if (before.IsDropBlocked != IsDropBlocked)
                 OnPropertyChanged(nameof(IsDropBlocked));
 
-            if (wasHint != IsDropHint)
+            if (before.IsDropHint != IsDropHint)
                 OnPropertyChanged(nameof(IsDropHint));
 
-            if (wasDimmed != IsDimmed)
+            if (before.IsDimmed != IsDimmed)
                 OnPropertyChanged(nameof(IsDimmed));
         }
 

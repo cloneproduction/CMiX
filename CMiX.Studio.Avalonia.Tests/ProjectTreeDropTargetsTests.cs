@@ -344,28 +344,28 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void SetDragState_WithTheSameValues_RaisesNothing()
+        public void ShowDragLook_WithTheSameLook_RaisesNothing()
         {
             var scene = CreateScene();
             var node = scene.Entity2;
-            node.SetDragState(true, false, false, true, false);
+            node.ShowDragLook(new DragLook(false, false, true, false, null));
             var changes = new List<string?>();
             node.PropertyChanged += (_, e) => changes.Add(e.PropertyName);
 
-            node.SetDragState(true, false, false, true, false);
+            node.ShowDragLook(new DragLook(false, false, true, false, null));
 
             Assert.Empty(changes);
         }
 
         [Fact]
-        public void SetDragState_WithANewValue_RaisesOnlyTheChangedProperties()
+        public void ShowDragLook_WithANewValue_RaisesOnlyTheChangedProperties()
         {
             var scene = CreateScene();
             var node = scene.Entity2;
             var changes = new List<string?>();
             node.PropertyChanged += (_, e) => changes.Add(e.PropertyName);
 
-            node.SetDragState(true, false, false, false, false);
+            node.ShowDragLook(DragLook.None);
 
             Assert.Equal(new[] { nameof(TreeNode.IsDragActive), nameof(TreeNode.IsDimmed) }, changes);
         }

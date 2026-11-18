@@ -1037,7 +1037,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         {
             SetDragging(false);
             foreach (var node in dragMarked)
-                node.SetDragState(false, false, false, false, false);
+                node.ClearDragLook();
 
             dragMarked.Clear();
 
@@ -1070,7 +1070,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (reason != null)
                 candidate = neighbor = false;
 
-            node.SetDragState(true, ReferenceEquals(node, source), candidate, neighbor, below, reason);
+            node.ShowDragLook(new DragLook(ReferenceEquals(node, source), candidate, neighbor, below, reason));
             dragMarked.Add(node);
             return below || candidate || neighbor;
         }
