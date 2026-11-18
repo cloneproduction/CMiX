@@ -767,17 +767,18 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             var layerNode = screen.Tree.CompositionNodes()[0].Children[0].Children[0];
-            var field = typeof(ProjectTreeView).GetField("pressedNode", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
+            var pointerInput = typeof(ProjectTreeView).GetField("pointerInput", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(screen.View)!;
+            var field = typeof(TreePointerInput).GetField("pressedNode", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
             screen.Window.UpdateLayout();
             AvaloniaHeadlessPlatform.ForceRenderTimerTick();
             Dispatcher.UIThread.RunJobs();
 
             screen.Window.MouseDown(screen.PointIn(layerNode.Children[0], 0.5), MouseButton.Left);
-            Assert.Null(field.GetValue(screen.View));
+            Assert.Null(field.GetValue(pointerInput));
             screen.Window.MouseUp(screen.PointIn(layerNode.Children[0], 0.5), MouseButton.Left);
 
             screen.Window.MouseDown(screen.PointIn(layerNode, 0.5), MouseButton.Left);
-            Assert.Same(layerNode, field.GetValue(screen.View));
+            Assert.Same(layerNode, field.GetValue(pointerInput));
             screen.Window.MouseUp(screen.PointIn(layerNode, 0.5), MouseButton.Left);
         }
 

@@ -3,18 +3,12 @@
 
 using System;
 using System.ComponentModel;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
-using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
-using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Parts;
-using CMiX.UI.Behaviors;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -42,15 +36,13 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeScreenRequests requests;
         private readonly TreeFocusKeeper focusKeeper;
         private readonly TreeKeyInput keyInput;
+        private readonly TreePointerInput pointerInput;
 
         // What this view tells the tree and does for it (see ProjectTree.AttachView).
         private readonly TreeViewHooks hooks;
 
         // The tooltips of the rows. A test reads it.
         internal TreeTooltips Tooltips => tooltips;
-
-        // The node of the row that the left button pressed and that can be dragged. A drag clears it.
-        private TreeNode? pressedNode;
 
         // The panel of the Add row of the menus. A test reads it.
         internal AddPanel MenuAddPanel => menus.AddPanel;
@@ -91,29 +83,23 @@ namespace CMiX.Studio.Avalonia.Views
             reveal = new TreeRowReveal(context, () => IsKeyboardFocusWithin);
             grab = new TreeGrab(this, treeView, dragSession, context, reveal.RevealRow, OnGrabChanged);
             focusKeeper = new TreeFocusKeeper(this, context, reveal, PostWhileAttached, () => IsAttached);
+            pointerInput = new TreePointerInput(this, context, rowDrag, focusKeeper);
             hints = new TreeHints(context, hintStrip,
                 new TreeHintInputs(() => grab.IsGrabbing, IsMenuOpen, focusKeeper.IsSearchFocused, () => IsKeyboardFocusWithin), PostWhileAttached);
             fileDrop = new TreeFileDropInput(context, marker);
-            menus = new TreeMenus(context, new TreeMenuInputs(reveal.ShownItemOf, () => lastPointer, grab.TakeMenuBlock, focusKeeper.FocusRow),
+            menus = new TreeMenus(context, new TreeMenuInputs(reveal.ShownItemOf, () => pointerInput.LastPointer, grab.TakeMenuBlock, focusKeeper.FocusRow),
                 hints.Update, PostWhileAttached);
             requests = new TreeScreenRequests(context, new TreeRequestParts(menus, reveal, grab, scrollAnchor),
-                new TreeRequestInputs(() => IsActiveView, () => lastPointer), PostWhileAttached);
+                new TreeRequestInputs(() => IsActiveView, () => pointerInput.LastPointer), PostWhileAttached);
             keyInput = new TreeKeyInput(context, rowDrag, menus, focusKeeper, PostWhileAttached);
             hooks = focusKeeper.BuildHooks(dragSession, rowDrag, grab, requests.CloseRowsInView);
 
-            treeView.AddHandler(PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
-            treeView.AddHandler(PointerPressedEvent, OnPointerPressedDone, RoutingStrategies.Bubble, handledEventsToo: true);
-            treeView.AddHandler(PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel);
-            treeView.AddHandler(PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Tunnel);
-            treeView.AddHandler(PointerCaptureLostEvent, OnPointerCaptureLost);
-            treeView.AddHandler(PointerWheelChangedEvent, OnPointerWheelChanged, RoutingStrategies.Tunnel);
+            pointerInput.Attach();
             fileDrop.Attach(treeView);
             menus.Attach(treeView);
-            treeView.AddHandler(DoubleTappedEvent, OnDoubleTapped, RoutingStrategies.Bubble);
             treeView.AddHandler(ScrollViewer.ScrollChangedEvent, (_, _) => rowMetrics.SetEndRoom());
             reveal.Attach(treeView);
             keyInput.Attach(treeView);
-            AddHandler(PointerMovedEvent, OnPointerTracked, RoutingStrategies.Tunnel, handledEventsToo: true);
             KeyBindingTextGuard.Install(this);
             tooltips = new TreeTooltips(treeView);
         }
@@ -136,11 +122,6 @@ namespace CMiX.Studio.Avalonia.Views
                 if (IsAttached)
                     action();
             }, priority);
-
-        // The last place of the pointer over the tree, in the coordinates of the tree view. Tree.Add opens there when no target row is shown.
-        private Point lastPointer;
-
-        private void OnPointerTracked(object? sender, PointerEventArgs e) => lastPointer = e.GetPosition(treeView);
 
         // The grab starts or ends: the frame of the grab and the hint strip follow it.
         private void OnGrabChanged()
@@ -248,37 +229,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void OnScalingChanged(object? sender, EventArgs e) => rowMetrics.SetRowMetrics(scaledTopLevel?.RenderScaling ?? 1);
 
-        // A double tap on a row, away from its name, expands or collapses the row. The name takes its own double tap (it starts
-        // the rename and handles the tap), so that tap never comes here. A toggle or an input keeps its double tap too.
-        // TreeViewItem does this by itself for the part PART_HeaderPresenter. The template has no such part (see ProjectTree.axaml),
-        // so the tree does it here, and only where it is wanted.
-        private void OnDoubleTapped(object? sender, TappedEventArgs e)
-        {
-            if (IsEditor(e.Source) || TreeRows.ItemOf(e.Source)?.DataContext is not TreeNode { Children.Count: > 0 } node)
-                return;
-
-            node.IsExpanded = !node.IsExpanded;
-            e.Handled = true;
-        }
-
-        private void OnPointerPressedDone(object? sender, PointerPressedEventArgs e) => focusKeeper.EndPress();
-
-        // A ToggleButton of a row that cannot take the focus: a toggle or the chevron.
-        private static bool IsRowButton(object? source) =>
-            (source as Visual)?.FindAncestorOfType<ToggleButton>(true) is { Focusable: false } button && TreeRows.ItemOf(button) != null;
-
-        private static bool IsInToggles(object? source) =>
-            (source as Visual)?.FindAncestorOfType<RowToggles>(true) != null;
-
-        private static bool IsEditor(object? source)
-        {
-            for (var visual = source as Visual; visual != null; visual = visual.GetVisualParent())
-                if (visual is ToggleButton or TextBox)
-                    return true;
-
-            return false;
-        }
-
         // A left click on a row, away from its buttons and its name box: the user chooses the node. It comes on the release, when no drag
         // started and the pointer is still on the row. It does not come when a node is selected by a program, a list or a peer.
         // The main window uses it to show the inspector.
@@ -291,110 +241,6 @@ namespace CMiX.Studio.Avalonia.Views
             add => AddHandler(NodeChosenEvent, value);
             remove => RemoveHandler(NodeChosenEvent, value);
         }
-
-        // The node of the row that the left button pressed. A drag clears it.
-        private TreeNode? chosenNode;
-
-        private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
-        {
-            pressedNode = null;
-            chosenNode = null;
-            focusKeeper.BeginPress();
-            // A middle click on a row selects it and sends it to the inspector, and starts no drag. The chevron, the toggles
-            // and the name box take no middle click.
-            if (e.GetCurrentPoint(treeView).Properties.IsMiddleButtonPressed)
-            {
-                if (!rowDrag.IsDragging && !IsEditor(e.Source) && TreeRows.ItemOf(e.Source)?.DataContext is TreeNode middle && DataContext is ProjectTree inspecting)
-                {
-                    inspecting.SelectByClick(middle);
-                    inspecting.Inspect(middle);
-                    e.Handled = true;
-                }
-                return;
-            }
-
-            if (rowDrag.IsDragging || !e.GetCurrentPoint(treeView).Properties.IsLeftButtonPressed)
-                return;
-
-            if (IsEditor(e.Source))
-            {
-                if (IsRowButton(e.Source))
-                    focusKeeper.RememberFocusBeforeRowButton();
-                return;
-            }
-
-            var node = TreeRows.ItemOf(e.Source)?.DataContext as TreeNode;
-            // A click beside the rows gives the tree the focus on its cursor row, so the keys work right away. A tree without a cursor
-            // gets one first: the selected row, else the first row. The focus moves after the press is done (OnPointerPressedDone): the
-            // default handling of the press would take it back.
-            if (node is null && DataContext is ProjectTree beside)
-            {
-                beside.CursorNode ??= beside.SelectedNode ?? beside.Roots.FirstOrDefault();
-                if (beside.CursorNode != null)
-                    focusKeeper.FocusCursorRowAfterPress();
-            }
-
-            // The tree view toggles the selection on a Ctrl click. The tree has one selection, so a Ctrl click on a row does nothing.
-            if (node != null && e.KeyModifiers.HasFlag(KeyModifiers.Control))
-            {
-                e.Handled = true;
-                return;
-            }
-
-            // The chevron and the toggles are ToggleButtons. IsEditor stops a click on them above, so it does not move the cursor.
-            if (node != null && DataContext is ProjectTree clicked)
-                clicked.SelectByClick(node);
-
-            // The toggles at the right of a row never start a drag, not even the space around them.
-            pressedNode = node != null && !IsInToggles(e.Source) && DataContext is ProjectTree tree && tree.CanDrag(node) ? node : null;
-            chosenNode = node;
-            rowDrag.Press(pressedNode, e.GetPosition(treeView));
-        }
-
-        private void OnPointerMoved(object? sender, PointerEventArgs e)
-        {
-            if (!e.GetCurrentPoint(treeView).Properties.IsLeftButtonPressed)
-                return;
-
-            rowDrag.Move(e.GetPosition(treeView), e);
-            if (rowDrag.IsDragging)
-            {
-                pressedNode = null;
-                chosenNode = null;
-            }
-        }
-
-        private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
-        {
-            var node = chosenNode;
-            pressedNode = null;
-            chosenNode = null;
-            rowDrag.Release(e.GetPosition(treeView));
-            if (node == null || e.InitialPressMouseButton != MouseButton.Left || !IsOverRow(node, e))
-                return;
-
-            RaiseEvent(new NodeChosenEventArgs(NodeChosenEvent, this, node));
-        }
-
-        // The capture goes when the window loses the pointer or the tree leaves the window: the drag ends without a drop.
-        private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e) => rowDrag.Cancel();
-
-        // The wheel during a drag of a row scrolls the tree by rows (see DragAutoScroller). The scroll viewer does not see it.
-        private void OnPointerWheelChanged(object? sender, PointerWheelEventArgs e)
-        {
-            if (!rowDrag.IsDragging)
-                return;
-
-            var steps = (int)Math.Round(e.Delta.Y);
-            rowDrag.Wheel(steps != 0 ? steps : Math.Sign(e.Delta.Y));
-            e.Handled = true;
-        }
-
-        // True when the pointer is on the row border of the node.
-        private bool IsOverRow(TreeNode node, PointerEventArgs e) =>
-            rowIndex.FindItem(node) is { } item
-            && TreeRows.RowBorderOf(item) is { } border
-            && new Rect(border.Bounds.Size).Contains(e.GetPosition(border));
 
         // True while the scroll of a drag runs.
         public bool IsAutoScrolling => context.ExistingAutoScroller?.IsRunning ?? false;
