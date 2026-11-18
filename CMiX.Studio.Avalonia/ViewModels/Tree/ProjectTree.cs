@@ -32,6 +32,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private readonly TreeViewSet views;
         private readonly TreeAddCatalogue adds;
         private readonly TreeFileDropRules fileDrop;
+        private readonly TreeEdit edit;
         private TreeNode? selectedNode;
         private IReadOnlyList<TreeAdd> targetAdds;
         private bool selecting;
@@ -55,28 +56,20 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             fileDrop = new TreeFileDropRules(pathDrop ?? new PathDropService(), compositions, undoManager);
             targetAdds = adds.ChoicesFor(null);
             views = new TreeViewSet();
+            edit = new TreeEdit(undoManager, toasts);
             AddItemCommand = new RelayCommand<TreeAdd?>(add => add?.Execute?.Invoke(), add => add == null ? HasAdds : add.Execute != null);
             DuplicateItemCommand = new RelayCommand(
-                () => { if (TargetPlace() is { } place) place.List.DuplicateItem(place.Item); },
-                () => TargetPlace() != null);
+                () => { if (PlaceOfTarget() is { } place) edit.Duplicate(place); },
+                () => PlaceOfTarget() != null);
             MoveItemUpCommand = new RelayCommand(
-                () => { if (TargetPlace() is { } place) place.List.MoveItemTo(place.Item, place.Index - 1); },
-                () => TargetPlace() is { Index: > 0 });
+                () => { if (PlaceOfTarget() is { } place) edit.MoveUp(place); },
+                () => PlaceOfTarget() is { } place && edit.CanMoveUp(place));
             MoveItemDownCommand = new RelayCommand(
-                () => { if (TargetPlace() is { } place) place.List.MoveItemTo(place.Item, place.Index + 1); },
-                () => TargetPlace() is { } place && place.Index < place.List.ManagerData.Items.Count - 1);
+                () => { if (PlaceOfTarget() is { } place) edit.MoveDown(place); },
+                () => PlaceOfTarget() is { } place && edit.CanMoveDown(place));
             RemoveItemCommand = new RelayCommand(
-                () =>
-                {
-                    if (TargetPlace() is not { } place)
-                        return;
-
-                    // The name before the remove, for the toast.
-                    var name = TargetNode!.Header;
-                    place.List.RemoveItem(place.Item);
-                    toasts?.ShowWithUndo($"Removed {name}");
-                },
-                () => TargetPlace() != null);
+                () => { if (PlaceOfTarget() is { } place) edit.Remove(place, TargetNode!.Header); },
+                () => PlaceOfTarget() != null);
             AddAtTargetCommand = new RelayCommand(
                 () => AddRequested?.Invoke(this, EventArgs.Empty),
                 CanRunTreeKey);
@@ -140,41 +133,27 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public IRelayCommand ShowAllCommand { get; }
 
         // Toggles the hide value of the target row and shows a toast with the undo key. Nothing changes during a drag, with no
-        // target, or on a row that has no visibility. Returns false then.
-        public bool ToggleHideTarget()
+        // target, or on a row that has no visibility.
+        public void ToggleHideTarget() => TryToggleHideTarget();
+
+        public bool TryToggleHideTarget()
         {
-            if (IsDragging || TargetNode is not { HiddenValue: { } value } node)
+            if (IsDragging || TargetNode is not { } node)
                 return false;
 
-            value.Value = !value.Value;
-            toasts?.ShowWithUndo(value.Value ? $"Hidden: {node.Header}" : $"Shown: {node.Header}");
-            return true;
+            return edit.TryToggleHide(node);
         }
 
         // Shows every hidden row of the tree, also the rows under a closed row, as one undo step, and shows a toast with the undo
-        // key. With no hidden row, or during a drag, nothing changes: no undo step and no toast. Returns false then.
-        public bool ShowAll()
+        // key. With no hidden row, or during a drag, nothing changes: no undo step and no toast.
+        public void ShowAll() => TryShowAll();
+
+        public bool TryShowAll()
         {
             if (IsDragging)
                 return false;
 
-            var hidden = TreeWalk.AllRows(Roots).Select(node => node.HiddenValue).Where(value => value is { Value: true }).Distinct().ToList();
-            if (hidden.Count == 0)
-                return false;
-
-            undoManager.BeginCapture();
-            try
-            {
-                foreach (var value in hidden)
-                    value!.Value = false;
-            }
-            finally
-            {
-                undoManager.EndCapture();
-            }
-
-            toasts?.ShowWithUndo("All rows shown");
-            return true;
+            return edit.TryShowAll(Roots);
         }
 
         // ---------------------------------------------------------------- open and close by branch and by level
@@ -313,8 +292,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // Opens every closed parent of the selected row and moves the cursor to it. The view then scrolls the row to the middle. The
         // selection does not change: no undo step and no wire message. The opened parents leave the search, so the end of the search
-        // does not close them. Nothing changes with no selection or during a drag. Returns false then.
-        public bool RevealSelected()
+        // does not close them. Nothing changes with no selection or during a drag.
+        public void RevealSelected() => TryRevealSelected();
+
+        public bool TryRevealSelected()
         {
             if (IsDragging || selectedNode is not { } node)
                 return false;
@@ -745,7 +726,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // The target node as an item of a list: the list, the item and its place in the list.
         // A group, or no node, is not an item.
-        private TargetPlace? TargetPlace()
+        private TargetPlace? PlaceOfTarget()
         {
             if (TargetNode is not { Owner: { } list, Item: { } item })
                 return null;
