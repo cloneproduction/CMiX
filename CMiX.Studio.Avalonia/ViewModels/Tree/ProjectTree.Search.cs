@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.Input;
@@ -39,15 +38,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // The command has the condition of every tree key (see CanRunTreeKey). There is no search during a drag: the command
         // cannot run, FocusSearch and MoveCursorToMatch do nothing, and the box takes no text.
         public IRelayCommand FocusSearchCommand { get; }
-
-        public void FocusSearch()
-        {
-            if (!IsDragging)
-                SearchFocusRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        // The search box of the panel of the active view handles this request: it takes the focus and selects its text.
-        public event EventHandler? SearchFocusRequested;
 
         // Clears the search from anywhere, also from the search box, and gives the focus to the cursor row (Tree.ClearSearch). The
         // command runs only while a search is active and no drag or grab runs.

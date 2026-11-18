@@ -211,9 +211,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // runs CollapseOthers itself (see CollapseOthersRequested), so it can keep the row still on the screen while the rows close.
         public IRelayCommand CollapseOthersCommand { get; }
 
-        // The active view handles this request (see IsActiveView): it runs CollapseOthers and keeps the target row in view.
-        public event EventHandler? CollapseOthersRequested;
-
         // Opens the parents of the target row and closes every other row. The target keeps its state. Nothing changes with no target
         // or during a drag. Returns the rows that it closed.
         public IReadOnlyList<TreeNode> CollapseOthers()
@@ -231,9 +228,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public IRelayCommand RevealSelectedCommand => revealSelectedCommand ??= new RelayCommand(
             () => RevealSelected(),
             () => CanRunTreeKey() && selectedNode != null);
-
-        // The active view handles this request (see IsActiveView): it scrolls the row of the node to the middle of the view.
-        public event EventHandler<TreeNode>? RevealRequested;
 
         // Opens every closed parent of the selected row and moves the cursor to it. The view then scrolls the row to the middle. The
         // selection does not change: no undo step and no wire message. The opened parents leave the search, so the end of the search
@@ -258,9 +252,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public IRelayCommand GrabTargetCommand => grabTargetCommand ??= new RelayCommand(
             () => { if (TargetNode is { } node && CanDrag(node)) GrabRequested?.Invoke(this, node); },
             () => CanRunTreeKey() && TargetNode is { } node && CanDrag(node));
-
-        // The active view handles this request (see IsActiveView): it starts the grab of the node.
-        public event EventHandler<TreeNode>? GrabRequested;
 
         // A view gives its hooks when it shows the tree, and takes them back when it goes. A view that goes takes back only its own
         // hooks, so the other view keeps working. The hooks of the tree (IsPointerOverTree, IsTreeFocused and the others) ask every view.
@@ -318,9 +309,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // True when the pointer is over a view of the tree.
         public bool IsPointerOverTree() => views.IsPointerOverTree();
 
-        // The active view handles this request (see IsActiveView): it opens the Add panel.
-        public event EventHandler? AddRequested;
-
         // Opens the menu of the target row under that row (Tree.Menu), or the menu of the project with no target. The command
         // has the condition of every tree key (see CanRunTreeKey).
         public IRelayCommand OpenMenuAtTargetCommand { get; }
@@ -336,16 +324,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // True when a text box has the focus.
         public bool IsTextBoxFocused() => views.IsTextBoxFocused();
 
-        // The active view handles this request (see IsActiveView): it opens the menu.
-        public event EventHandler? MenuRequested;
-
         // True when a view of the tree or one of its controls has the focus.
         public bool IsTreeFocused() => views.IsTreeFocused();
-
-        // Gives the focus back to the rows of the tree, for example after Escape in an empty search box. The active view handles it.
-        public void FocusTree() => TreeFocusRequested?.Invoke(this, EventArgs.Empty);
-
-        public event EventHandler? TreeFocusRequested;
 
         // The view of the drag ends a drag of a row without a drop, for example on Escape in the search box (see TreeRowDrag.Cancel).
         public void CancelDrag() => views.CancelDrag();
@@ -355,9 +335,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // Selects the cursor node and its chain in the lists.
         public IRelayCommand OpenSelectedCommand { get; }
-
-        // The active view handles this request (see IsActiveView): it starts the rename of the row of the node.
-        public event EventHandler<TreeNode>? RenameRequested;
 
         public ObservableCollection<TreeNode> Roots => root.Children;
 
