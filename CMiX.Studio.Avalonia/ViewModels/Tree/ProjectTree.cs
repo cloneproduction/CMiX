@@ -19,7 +19,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     public sealed partial class ProjectTree : ObservableObject, IDisposable
     {
         private readonly UndoManager undoManager;
-        private readonly IToastService? toasts;
         private readonly TreeDropService dropService = new();
         private readonly PrefabManager compositions;
         private readonly Project project;
@@ -34,14 +33,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private readonly TreeOpenState openState;
         private IReadOnlyList<TreeAdd> targetAdds;
 
-        public ProjectTree(Project project, UndoManager undoManager, IMoveBlockedNotice? notice = null,
-            ShortcutMap? shortcuts = null, PathDropService? pathDrop = null, IToastService? toasts = null,
-            InterfaceOptions? interfaceOptions = null)
+        public ProjectTree(Project project, UndoManager undoManager, IMoveBlockedNotice notice,
+            ShortcutMap shortcuts, PathDropService pathDrop, IToastService toasts, InterfaceOptions interfaceOptions)
         {
             this.undoManager = undoManager;
-            this.toasts = toasts;
-            Shortcuts = shortcuts ?? new ShortcutMap();
-            Interface = interfaceOptions ?? new InterfaceOptions();
+            Shortcuts = shortcuts;
+            Interface = interfaceOptions;
             this.project = project;
             compositions = project.CompositionManager;
             // The one row under the root is the group of the compositions. The compositions are under it.
@@ -49,7 +46,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             root.AddGroups(project);
 
             adds = new TreeAddCatalogue(compositions);
-            fileDrop = new TreeFileDropRules(pathDrop ?? new PathDropService(), compositions, undoManager);
+            fileDrop = new TreeFileDropRules(pathDrop, compositions, undoManager);
             targetAdds = adds.ChoicesFor(null);
             views = new TreeViewSet();
             edit = new TreeEdit(undoManager, toasts);

@@ -74,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 var provider = TestServiceProviderFactory.Create();
                 var project = provider.GetRequiredService<CMiX.Core.Compositing.Project>();
                 var undo = provider.GetRequiredService<CMiX.Core.Undo.UndoManager>();
-                var tree = new ProjectTree(project, undo);
+                var tree = TreeFixtures.CreateTree(provider);
                 screen?.Dispose();
                 screen = TreeTestScreen.Show(tree, 400, 600, scale: scale, instant: false);
 

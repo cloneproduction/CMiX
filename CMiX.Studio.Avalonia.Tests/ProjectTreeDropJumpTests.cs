@@ -4,7 +4,6 @@ using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -43,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 for (var i = 0; i < 6; i++)
                     item.LayerManager.AddItem(typeof(Layer));
 
-            var tree = new ProjectTree(project, provider.GetRequiredService<UndoManager>());
+            var tree = TreeFixtures.CreateTree(provider);
             TestServiceProviderFactory.ExpandAll(tree);
             var view = new ProjectTreeView { DataContext = tree };
             window = new Window { Content = view, Width = 500, Height = 500 };

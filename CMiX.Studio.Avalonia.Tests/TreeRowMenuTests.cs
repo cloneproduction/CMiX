@@ -11,7 +11,6 @@ using CMiX.Core;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
-using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.String;
@@ -25,6 +24,7 @@ using Layer = CMiX.Core.Compositing.Layer;
 using LightEntity = CMiX.Core.Rendering.Lights.LightEntity;
 using Project = CMiX.Core.Compositing.Project;
 using TextEntity = CMiX.Core.Compositing.TextEntity;
+using CMiX.Studio.Avalonia.Tests.Support;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -135,7 +135,7 @@ namespace CMiX.Studio.Avalonia.Tests
             a.LayerManager.AddItem(typeof(Layer));
             b.LayerManager.AddItem(typeof(Layer));
 
-            var tree = new ProjectTree(project, provider.GetRequiredService<UndoManager>());
+            var tree = TreeFixtures.CreateTree(provider);
             var view = new ProjectTreeView { DataContext = tree, Width = 400, HorizontalAlignment = HorizontalAlignment.Left };
             var window = new Window { Content = view, Width = 1200, Height = 900 };
             window.Show();

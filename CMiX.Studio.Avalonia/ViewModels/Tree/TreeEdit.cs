@@ -11,9 +11,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     public sealed class TreeEdit
     {
         private readonly UndoManager undoManager;
-        private readonly IToastService? toasts;
+        private readonly IToastService toasts;
 
-        public TreeEdit(UndoManager undoManager, IToastService? toasts)
+        public TreeEdit(UndoManager undoManager, IToastService toasts)
         {
             this.undoManager = undoManager;
             this.toasts = toasts;
@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public void Remove(TargetPlace place, string name)
         {
             place.List.RemoveItem(place.Item);
-            toasts?.ShowWithUndo($"Removed {name}");
+            toasts.ShowWithUndo($"Removed {name}");
         }
 
         public bool TryToggleHide(TreeNode target)
@@ -41,7 +41,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 return false;
 
             value.Value = !value.Value;
-            toasts?.ShowWithUndo(value.Value ? $"Hidden: {target.Header}" : $"Shown: {target.Header}");
+            toasts.ShowWithUndo(value.Value ? $"Hidden: {target.Header}" : $"Shown: {target.Header}");
             return true;
         }
 
@@ -62,7 +62,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 undoManager.EndCapture();
             }
 
-            toasts?.ShowWithUndo("All rows shown");
+            toasts.ShowWithUndo("All rows shown");
             return true;
         }
     }

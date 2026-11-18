@@ -1,8 +1,8 @@
 using CMiX.Core.Compositing;
-using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using CMiX.Studio.Avalonia.Tests.Support;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -21,7 +21,7 @@ namespace CMiX.Studio.Avalonia.Tests
             a.LayerManager.AddItem(typeof(Layer));
             a.LayerManager.AddItem(typeof(Layer));
             b.LayerManager.AddItem(typeof(Layer));
-            return new ProjectTree(project, provider.GetRequiredService<UndoManager>());
+            return TreeFixtures.CreateTree(provider);
         }
 
         [Fact]

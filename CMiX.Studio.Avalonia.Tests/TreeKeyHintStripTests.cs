@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // The search field over the tree, as in the bar of the panel. The width is the width of one side panel of the main window.
         private (Screen Screen, Scene Scene) Show()
         {
-            var scene = CreateScene([3], withShortcuts: true);
+            var scene = CreateScene([3]);
             var box = new TreeSearchBox { DataContext = scene.Tree };
             var view = new ProjectTreeView { DataContext = scene.Tree };
             DockPanel.SetDock(box, Dock.Top);

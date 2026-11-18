@@ -2,13 +2,13 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Composition = CMiX.Core.Compositing.Composition;
 using Layer = CMiX.Core.Compositing.Layer;
 using Project = CMiX.Core.Compositing.Project;
+using CMiX.Studio.Avalonia.Tests.Support;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var entity = (Entity)layer.ModelEntityManager.ManagerData.Items[0];
             entity.ModifierManager.AddItem(typeof(TranslateModifier));
             ((CMiX.Core.Modulation.IModulatable)entity.ModifierManager.ManagerData.Items[0]).ModulatorManager.AddItem(typeof(LFOModulator));
-            return new ProjectTree(project, provider.GetRequiredService<UndoManager>());
+            return TreeFixtures.CreateTree(provider);
         }
 
         private static TreeNode Child<T>(TreeNode node) where T : TreeGroup => node.Children.Single(child => child.Group is T);

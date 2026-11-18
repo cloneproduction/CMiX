@@ -25,13 +25,13 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // A with three layers and B with one layer. Each layer of A holds an Echo filter. Every row is open.
-        private static Scene Nested(bool clearUndo = false)
+        private static Scene Nested()
         {
             var scene = CreateScene([3, 1], s =>
             {
                 for (var i = 0; i < 3; i++)
                     s.LayerOfA(i).TextureModifierManager.AddItem(typeof(Echo));
-            }, clearUndo);
+            });
             foreach (var node in scene.All())
                 node.IsExpanded = true;
             return scene;
@@ -158,7 +158,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void CollapseAll_ACursorDeepInTheTree_ClosesEveryRowAndMovesTheCursorToTheTopRow()
         {
-            var scene = Nested(clearUndo: true);
+            var scene = Nested();
             scene.Undo.Clear();
             scene.Tree.CursorNode = EchoOf(scene, 2);
 

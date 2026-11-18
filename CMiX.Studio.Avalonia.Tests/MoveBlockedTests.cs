@@ -20,9 +20,9 @@ namespace CMiX.Studio.Avalonia.Tests
     // A move that shared items block is explained to the user in a dialog of the style of the other dialogs.
     public class MoveBlockedTests
     {
-        private static (ProjectTree Tree, FakeMoveBlockedNotice Notice, Composition A, Composition B) CreateScene(bool withNotice = true)
+        private static (ProjectTree Tree, FakeMoveBlockedNotice Notice, Composition A, Composition B) CreateScene()
         {
-            var scene = TreeFixtures.CreateScene(withNotice: withNotice);
+            var scene = TreeFixtures.CreateScene();
             return (scene.Tree, scene.Provider.GetRequiredService<FakeMoveBlockedNotice>(), scene.A, scene.B);
         }
 
@@ -60,9 +60,9 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public async Task DropAsync_ABlockedMoveWithoutANotice_ChangesNothingAndDoesNotThrow()
+        public async Task DropAsync_ABlockedMove_ChangesNothingAndDoesNotThrow()
         {
-            var (tree, _, a, _) = CreateScene(withNotice: false);
+            var (tree, _, a, _) = CreateScene();
             ShareAnEntity(a);
 
             await tree.DropAsync(tree.CompositionNodes()[0].Children[0].Children[0], tree.CompositionNodes()[1], DropPosition.Inside);

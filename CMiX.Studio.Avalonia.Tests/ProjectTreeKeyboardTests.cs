@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with three layers. The first layer is selected, the undo history is empty.
         private Screen Show()
         {
-            var scene = CreateScene([3], withShortcuts: true);
+            var scene = CreateScene([3]);
             var (tree, undo, composition) = (scene.Tree, scene.Undo, scene.A);
             var shortcuts = scene.Provider.GetRequiredService<ShortcutMap>();
             var screen = TreeTestScreen.Show(tree, 500, 700, settle: false);

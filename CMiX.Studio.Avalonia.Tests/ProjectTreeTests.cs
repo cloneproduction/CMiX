@@ -16,7 +16,12 @@ namespace CMiX.Studio.Avalonia.Tests
     public class ProjectTreeTests
     {
         // Composition A holds two layers, composition B holds one. B is the selected composition.
-        private static Scene CreateScene() => TreeFixtures.CreateScene(clearUndo: true);
+        private static Scene CreateScene()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.ClearUndo();
+            return scene;
+        }
 
         private static string NameOf(IControl item) => ((IPrefab)item).PrefabService.Name.Value;
 

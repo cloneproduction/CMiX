@@ -13,9 +13,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     public sealed class TreeDrop
     {
         private readonly TreeDropService dropService;
-        private readonly IMoveBlockedNotice? notice;
+        private readonly IMoveBlockedNotice notice;
 
-        public TreeDrop(TreeDropService dropService, IMoveBlockedNotice? notice)
+        public TreeDrop(TreeDropService dropService, IMoveBlockedNotice notice)
         {
             this.dropService = dropService;
             this.notice = notice;
@@ -41,7 +41,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // A move that shared items block leaves everything as it is and tells the user why.
         public Task NoticeBlockAsync(TreeNode source, TreeNode target, DropOutcome outcome)
         {
-            if (outcome.Moved || outcome.Blocking.Count == 0 || notice == null)
+            if (outcome.Moved || outcome.Blocking.Count == 0)
                 return Task.CompletedTask;
 
             return notice.ShowAsync(dropService.DescribeBlock(source, target, outcome.Blocking));

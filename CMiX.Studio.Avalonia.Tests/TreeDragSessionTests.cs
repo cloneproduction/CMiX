@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.VisualTree;
-using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -48,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
             composition.LayerManager.AddItem(typeof(Layer));
             ((Layer)composition.LayerManager.ManagerData.Items[0]).ModelEntityManager.AddItem(typeof(Entity));
 
-            var tree = new ProjectTree(project, provider.GetRequiredService<UndoManager>());
+            var tree = TreeFixtures.CreateTree(provider);
             shown = TreeTestScreen.Show(tree, 400, 900);
 
             var layerA0 = tree.CompositionNodes()[0].Children[0].Children[0];

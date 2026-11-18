@@ -79,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
             b.LayerManager.AddItem(typeof(Layer));
 
             var undo = provider.GetRequiredService<UndoManager>();
-            var tree = new ProjectTree(project, undo);
+            var tree = TreeFixtures.CreateTree(provider);
             var view = new ProjectTreeView { DataContext = tree };
             window = new Window { Content = view, Width = 400, Height = height };
             window.Show();

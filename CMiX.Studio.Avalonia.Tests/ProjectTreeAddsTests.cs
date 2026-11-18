@@ -6,7 +6,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +14,7 @@ using Composition = CMiX.Core.Compositing.Composition;
 using Entity = CMiX.Core.Compositing.Entity;
 using Layer = CMiX.Core.Compositing.Layer;
 using Project = CMiX.Core.Compositing.Project;
+using CMiX.Studio.Avalonia.Tests.Support;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -78,7 +78,7 @@ namespace CMiX.Studio.Avalonia.Tests
             a.LayerManager.AddItem(typeof(Layer));
             ((Layer)a.LayerManager.ManagerData.Items[0]).ModelEntityManager.AddItem(typeof(Entity));
 
-            var tree = new ProjectTree(project, provider.GetRequiredService<UndoManager>());
+            var tree = TreeFixtures.CreateTree(provider);
             var view = new ProjectTreeView { DataContext = tree };
             var window = new Window { Content = view, Width = 400, Height = 900 };
             windows.Add(window);
@@ -167,7 +167,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var provider = TestServiceProviderFactory.Create();
             var project = provider.GetRequiredService<Project>();
             project.CompositionManager.AddItem(typeof(Composition));
-            var tree = new ProjectTree(project, provider.GetRequiredService<UndoManager>());
+            var tree = TreeFixtures.CreateTree(provider);
 
             Assert.Equal(new[] { "Add Composition" }, tree.TargetAdds.Select(add => add.Header));
             Assert.True(tree.HasAdds);

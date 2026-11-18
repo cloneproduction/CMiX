@@ -35,9 +35,9 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // A composition with three layers, the search field over the tree, as in the bar of the panel.
-        private (Screen Screen, Scene Scene) Show(bool clearUndo = false)
+        private (Screen Screen, Scene Scene) Show()
         {
-            var scene = CreateScene([3], clearUndo: clearUndo);
+            var scene = CreateScene([3]);
             var box = new TreeSearchBox { DataContext = scene.Tree };
             var view = new ProjectTreeView { DataContext = scene.Tree };
             DockPanel.SetDock(box, Dock.Top);
@@ -188,7 +188,8 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData(RawInputModifiers.Shift)]
         public void Enter_InTheField_DoesNotChangeTheSelectionAndKeepsTheFocusInTheField(RawInputModifiers modifiers)
         {
-            var (screen, scene) = Show(clearUndo: true);
+            var (screen, scene) = Show();
+            scene.ClearUndo();
             scene.Tree.SelectedNode = scene.NodeA;
             Search(screen, "Layer");
             var before = scene.Undo.CanUndo;
