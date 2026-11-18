@@ -26,12 +26,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private readonly IMoveBlockedNotice? notice;
         private readonly IToastService? toasts;
         private readonly TreeDropService dropService = new();
-        private readonly PathDropService pathDrop;
         private readonly PrefabManager compositions;
         private readonly Project project;
         private readonly TreeNode root;
         private readonly TreeViewSet views;
         private readonly TreeAddCatalogue adds;
+        private readonly TreeFileDropRules fileDrop;
         private TreeNode? selectedNode;
         private IReadOnlyList<TreeAdd> targetAdds;
         private bool selecting;
@@ -43,7 +43,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             this.undoManager = undoManager;
             this.notice = notice;
             this.toasts = toasts;
-            this.pathDrop = pathDrop ?? new PathDropService();
             Shortcuts = shortcuts ?? new ShortcutMap();
             Interface = interfaceOptions ?? new InterfaceOptions();
             this.project = project;
@@ -53,6 +52,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             root.AddGroups(project);
 
             adds = new TreeAddCatalogue(compositions);
+            fileDrop = new TreeFileDropRules(pathDrop ?? new PathDropService(), compositions, undoManager);
             targetAdds = adds.ChoicesFor(null);
             views = new TreeViewSet();
             AddItemCommand = new RelayCommand<TreeAdd?>(add => add?.Execute?.Invoke(), add => add == null ? HasAdds : add.Execute != null);
@@ -912,62 +912,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             await notice.ShowAsync(dropService.DescribeBlock(source, target, outcome.Blocking));
         }
 
-        // The node that takes dropped files: the first composition or layer from the node up. No node, or a node
-        // that is under no composition, gives null, and then the drop makes a new composition.
-        public TreeNode? FindPathTarget(TreeNode? node) =>
-            node == null ? null : TreeWalk.ParentsOf(node).Prepend(node).FirstOrDefault(row => row.Item is Composition or Layer);
+        public bool IsPathTarget(TreeNode node) => fileDrop.IsTarget(node);
 
-        // True when the node itself takes the dropped files: a composition, a layer, or the group of entities of a layer.
-        // The other nodes of a layer pass the drop to the entities of their layer, but they are not the target themselves.
-        public bool IsPathTarget(TreeNode node) =>
-            node.Item is Composition or Layer
-            || node.Group is EntitiesGroup;
+        public bool AcceptsPath(string path) => fileDrop.Accepts(path);
 
-        // True when DropPaths makes an item from this path.
-        public bool AcceptsPath(string path) => pathDrop.AcceptsItem(path);
+        public bool CanDropPaths(IEnumerable<string> paths) => fileDrop.CanDrop(paths);
 
-        public bool CanDropPaths(IEnumerable<string> paths) => paths.Any(pathDrop.AcceptsItem);
-
-        // Makes what the dropped paths need, and adds an item for each path, as one undo step.
-        // A composition takes a new layer, and a layer takes the items. With no target, a new composition with a new
-        // layer takes them. A drop of nothing that is accepted changes nothing.
-        public void DropPaths(TreeNode? hovered, IReadOnlyList<string> paths)
-        {
-            var accepted = paths.Where(pathDrop.AcceptsItem).ToList();
-            if (accepted.Count == 0)
-                return;
-
-            var target = FindPathTarget(hovered);
-            undoManager.BeginCapture();
-            try
-            {
-                switch (target?.Item)
-                {
-                    case Layer layer:
-                        AddPaths(layer, accepted);
-                        break;
-                    case Composition composition:
-                        AddLayerWithPaths(composition, accepted);
-                        break;
-                    default:
-                        compositions.AddItem(typeof(Composition), item => AddLayerWithPaths((Composition)item, accepted));
-                        break;
-                }
-            }
-            finally
-            {
-                undoManager.EndCapture();
-            }
-        }
-
-        private void AddLayerWithPaths(Composition composition, IReadOnlyList<string> paths) =>
-            composition.LayerManager.AddItem(typeof(Layer), item => AddPaths((Layer)item, paths));
-
-        private void AddPaths(Layer layer, IEnumerable<string> paths)
-        {
-            foreach (var path in paths)
-                pathDrop.AddItem(layer.ModelEntityManager, path);
-        }
+        public void DropPaths(TreeNode? hovered, IReadOnlyList<string> paths) => fileDrop.Drop(hovered, paths);
 
         // The binding of the tree view sets this. The origin is Pointer.
         public TreeNode? SelectedNode
