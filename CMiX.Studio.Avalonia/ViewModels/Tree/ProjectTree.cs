@@ -537,8 +537,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                     old.IsCursor = false;
                 if (value != null)
                     value.IsCursor = true;
-                TreeNode.SetCursorBranch(old, false);
-                TreeNode.SetCursorBranch(value, true);
+                TreeNode.ClearCursorBranch(old);
+                TreeNode.MarkCursorBranch(value);
 
                 OpenSelectedCommand?.NotifyCanExecuteChanged();
                 OnTargetChanged();
@@ -560,11 +560,18 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             CursorNode = nodes[next];
         }
 
-        public void MoveCursorToEnd(bool last)
+        public void MoveCursorToFirst()
         {
             var nodes = VisibleNodes();
             if (nodes.Count > 0)
-                CursorNode = last ? nodes[^1] : nodes[0];
+                CursorNode = nodes[0];
+        }
+
+        public void MoveCursorToLast()
+        {
+            var nodes = VisibleNodes();
+            if (nodes.Count > 0)
+                CursorNode = nodes[^1];
         }
 
         // Left: an expanded row collapses, else the cursor goes to the parent row.
@@ -696,7 +703,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 CloseRowsInView(selectedNode, () =>
                 {
                     foreach (var node in closing)
-                        SetExpandedForSearch(node, false);
+                        CloseForSearch(node);
                     return closing;
                 });
 
@@ -706,26 +713,30 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         private void OpenForSearch(TreeNode node)
         {
-            if (!node.IsExpanded)
-                SetExpandedForSearch(node, true);
+            if (node.IsExpanded)
+                return;
+
+            ChangeRowAsSearch(() => node.IsExpanded = true);
+            searchOpened.Add(node);
         }
 
-        private void SetExpandedForSearch(TreeNode node, bool expanded)
+        private void CloseForSearch(TreeNode node)
+        {
+            ChangeRowAsSearch(() => node.IsExpanded = false);
+            searchOpened.Remove(node);
+        }
+
+        private void ChangeRowAsSearch(Action change)
         {
             searchSetsRows = true;
             try
             {
-                node.IsExpanded = expanded;
+                change();
             }
             finally
             {
                 searchSetsRows = false;
             }
-
-            if (expanded)
-                searchOpened.Add(node);
-            else
-                searchOpened.Remove(node);
         }
 
         // A row opens or closes. A change that the search did not make is a change of the user (or of the drag), so the search does
@@ -1021,21 +1032,36 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // with such a row under it gives a hint, a row that refuses the node by a rule is blocked, and the other rows are dimmed
         // (see TreeNode.IsDropCandidate). The rules are the ones of the drop itself.
         // The search is off while a drag runs (see FocusSearch): the view binds the search box to it.
-        public bool IsDragging { get; private set; }
+        public bool IsDragging
+        {
+            get => isDragging;
+            private set
+            {
+                if (isDragging == value)
+                    return;
+
+                isDragging = value;
+                OnPropertyChanged();
+                FocusSearchCommand.NotifyCanExecuteChanged();
+                ClearSearchCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        private bool isDragging;
 
         // The rows that BeginDrag marked. EndDrag clears only these.
         private readonly List<TreeNode> dragMarked = new();
 
         public void BeginDrag(TreeNode source)
         {
-            SetDragging(true);
+            IsDragging = true;
             dragMarked.Clear();
             MarkDrag(root, source);
         }
 
         public void EndDrag()
         {
-            SetDragging(false);
+            IsDragging = false;
             foreach (var node in dragMarked)
                 node.ClearDragLook();
 
@@ -1044,17 +1070,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             // A drop can bring a match to a new place: its parents open now that the drag is over.
             if (searchMatches.Count > 0)
                 SyncSearchRows();
-        }
-
-        private void SetDragging(bool dragging)
-        {
-            if (IsDragging == dragging)
-                return;
-
-            IsDragging = dragging;
-            OnPropertyChanged(nameof(IsDragging));
-            FocusSearchCommand.NotifyCanExecuteChanged();
-            ClearSearchCommand.NotifyCanExecuteChanged();
         }
 
         // Sets the drag state of a row and of the rows under it. It tells whether a row that takes the node is at or under the row.

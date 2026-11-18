@@ -77,8 +77,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // True when the node is a row that the dragged node can go before, after, or (a layer on a composition) inside.
-        // With rules false, only the kind counts: ListRules.CanHold does not.
-        private static bool TakesDropOf(TreeNode source, TreeNode target, bool rules = true)
+        private static bool TakesDropOf(TreeNode source, TreeNode target) =>
+            TakesDropOfByKind(source, target) && ListOfTargetAccepts(source, target);
+
+        // As TakesDropOf, but only the kind counts: ListRules.CanHold does not.
+        private static bool TakesDropOfByKind(TreeNode source, TreeNode target)
         {
             if (target.IsOrIsUnder(source))
                 return false;
@@ -89,15 +92,20 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 return target.ChildManager != null
                     && KindOfItem(source) is { } kind
                     && KindOfGroup(target) == kind
-                    && (ReferenceEquals(target.ChildManager, source.Owner) || !target.ChildManager.ManagerData.Items.Contains(source.Item!))
-                    && (!rules || Accepts(source.Item!, target.Group));
+                    && (ReferenceEquals(target.ChildManager, source.Owner) || !target.ChildManager.ManagerData.Items.Contains(source.Item!));
 
             if (target.Owner == null)
                 return false;
 
             return ReferenceEquals(source.Owner, target.Owner)
-                || CanMoveBetweenLists(source, target, rules);
+                || CanMoveBetweenListsByKind(source, target);
         }
+
+        // The list that takes the drop holds the kind of the item. A move in its own list needs no check.
+        private static bool ListOfTargetAccepts(TreeNode source, TreeNode target) =>
+            target.Item == null
+                ? Accepts(source.Item!, target.Group)
+                : ReferenceEquals(source.Owner, target.Owner) || Accepts(source.Item!, target.Parent?.Group);
 
         // The group of the kind of the dragged item under a layer row, or under a composition row for a layer. Null for another row, or when the
         // row has no such group.
@@ -128,13 +136,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             group == null || ListRules.CanHold(group.OwnerType, item.GetType());
 
         // The item is in a list of the same kind as the row of another owner, and that list does not have it yet.
-        private static bool CanMoveBetweenLists(TreeNode source, TreeNode target, bool rules = true) =>
+        private static bool CanMoveBetweenLists(TreeNode source, TreeNode target) =>
+            CanMoveBetweenListsByKind(source, target) && Accepts(source.Item!, target.Parent?.Group);
+
+        private static bool CanMoveBetweenListsByKind(TreeNode source, TreeNode target) =>
             KindOfItem(source) is { } kind
             && kind == KindOfItem(target)
             && target.Owner != null
             && !ReferenceEquals(source.Owner, target.Owner)
-            && !target.Owner.ManagerData.Items.Contains(source.Item!)
-            && (!rules || Accepts(source.Item!, target.Parent?.Group));
+            && !target.Owner.ManagerData.Items.Contains(source.Item!);
 
         private static TreeNode? CompositionOf(TreeNode node) =>
             TreeWalk.ParentsOf(node).Prepend(node).FirstOrDefault(row => row.Item is Composition);
@@ -185,7 +195,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // True when the row is a target by the kind of the dragged node alone, before the rules of the list (see BlockReason).
         public bool IsTargetByKind(TreeNode source, TreeNode target) =>
             source.Item != null && source.Owner != null
-            && TakesDropOf(source, InsideOf(source, target), rules: false);
+            && TakesDropOfByKind(source, InsideOf(source, target));
 
         // The reason why a drop on the row does not go through, in one line, or null when it goes through.
         // The list of the row (inside it, or next to it) must hold the kind of the item (ListRules.CanHold) and take it

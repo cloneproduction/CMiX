@@ -247,11 +247,16 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         [ObservableProperty]
         private bool isOnCursorBranch;
 
-        // Sets IsOnCursorBranch on each row above the cursor row.
-        internal static void SetCursorBranch(TreeNode? cursor, bool value)
+        internal static void MarkCursorBranch(TreeNode? cursor)
         {
             for (var parent = cursor?.Parent; parent != null; parent = parent.Parent)
-                parent.IsOnCursorBranch = value;
+                parent.IsOnCursorBranch = true;
+        }
+
+        internal static void ClearCursorBranch(TreeNode? cursor)
+        {
+            for (var parent = cursor?.Parent; parent != null; parent = parent.Parent)
+                parent.IsOnCursorBranch = false;
         }
 
         // The state of the row during a drag of a node (see ProjectTree.BeginDrag). The rows that take the node inside are candidates: they
@@ -391,13 +396,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         {
             switch (e.Action)
             {
+                case NotifyCollectionChangedAction.Add when tree.IsLoading:
+                    InsertChildren(e.NewStartingIndex, e.NewItems!.Cast<IControl>());
+                    break;
                 case NotifyCollectionChangedAction.Add:
-                    InsertChildren(e.NewStartingIndex, e.NewItems!.Cast<IControl>(), fresh: !tree.IsLoading);
+                    InsertFreshChildren(e.NewStartingIndex, e.NewItems!.Cast<IControl>());
 
                     // A new item shows at once: the rows above it open. A loaded item opens nothing.
-                    if (!tree.IsLoading)
-                        for (var holder = this; holder != null; holder = holder.Parent)
-                            holder.IsExpanded = true;
+                    for (var holder = this; holder != null; holder = holder.Parent)
+                        holder.IsExpanded = true;
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     RemoveChildren(e.OldStartingIndex, e.OldItems!.Count);
@@ -419,12 +426,18 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             tree.ListChanged();
         }
 
-        private void InsertChildren(int index, IEnumerable<IControl> items, bool fresh = false)
+        private void InsertChildren(int index, IEnumerable<IControl> items)
+        {
+            foreach (var item in items)
+                Children.Insert(index++, CreateItemNode(item));
+        }
+
+        private void InsertFreshChildren(int index, IEnumerable<IControl> items)
         {
             foreach (var item in items)
             {
                 var node = CreateItemNode(item);
-                node.IsFresh = fresh;
+                node.IsFresh = true;
                 Children.Insert(index++, node);
             }
         }

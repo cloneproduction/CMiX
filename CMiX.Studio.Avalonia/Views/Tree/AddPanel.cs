@@ -85,13 +85,27 @@ namespace CMiX.Studio.Avalonia.Views
         // The pass through element keeps receiving the pointer while the panel is open, when the popups share the window with the content (the
         // overlay mode): the menu that opened the panel stays usable. The panel shows only what the node can take. Nothing opens when there is nothing to add.
         public void Open(Control anchor, PopupSide side, IReadOnlyList<TreeAddGroup> groups, string? header = null, Rect? anchorRect = null,
-                         IInputElement? passThrough = null, bool showsTip = false)
+                         IInputElement? passThrough = null)
         {
             if (!Prepare(anchor, groups, header))
                 return;
 
-            this.showsTip = showsTip;
+            showsTip = false;
+            ShowBeside(anchor, side, anchorRect, passThrough);
+        }
 
+        // As Open, with a tip on the card that points at the anchor.
+        public void OpenWithTip(Control anchor, PopupSide side, IReadOnlyList<TreeAddGroup> groups, string? header, Rect? anchorRect)
+        {
+            if (!Prepare(anchor, groups, header))
+                return;
+
+            showsTip = true;
+            ShowBeside(anchor, side, anchorRect, null);
+        }
+
+        private void ShowBeside(Control anchor, PopupSide side, Rect? anchorRect, IInputElement? passThrough)
+        {
             var rowHeight = Number(anchor, "ControlHeightMD", 24);
             anchoring.Gap = DefaultGap;
             anchoring.Side = side;
