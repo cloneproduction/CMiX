@@ -34,6 +34,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private readonly TreeDragState dragState;
         private readonly TreeDrop drop;
         private readonly TreeSearch search;
+        private readonly TreeOpenState openState;
         private TreeNode? selectedNode;
         private IReadOnlyList<TreeAdd> targetAdds;
         private bool selecting;
@@ -60,6 +61,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             dragState = new TreeDragState(dropService);
             drop = new TreeDrop(dropService, notice);
             search = new TreeSearch(CloseRowsInView);
+            openState = new TreeOpenState(CloseRowsInView, search);
             AddItemCommand = new RelayCommand<TreeAdd?>(add => add?.Execute?.Invoke(), add => add == null ? HasAdds : add.Execute != null);
             DuplicateItemCommand = new RelayCommand(
                 () => { if (PlaceOfTarget() is { } place) edit.Duplicate(place); },
@@ -180,66 +182,31 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (IsDragging || TargetNode is not { Children.Count: > 0 } target)
                 return;
 
-            // A row that the search opened is already open. It leaves the search, so the end of the search does not close it.
-            foreach (var node in TreeWalk.AllRows(new[] { target }).Where(node => node.Children.Count > 0))
-            {
-                node.IsExpanded = true;
-                search.Release(node);
-            }
+            openState.ExpandBranch(target);
         }
 
-        // Every open row with children at the greatest depth among the rows that show closes.
         public void CloseLevel()
         {
             if (IsDragging)
                 return;
 
-            var open = VisibleNodes().Where(node => node.IsExpanded && node.Children.Count > 0).ToList();
-            if (open.Count == 0)
-                return;
-
-            var depth = open.Max(TreeWalk.DepthOf);
-            CloseRows(open.Where(node => TreeWalk.DepthOf(node) == depth).ToList());
+            openState.CloseLevel(Roots, TargetNode);
         }
 
-        // Every closed row with children at the smallest depth among the rows that show opens.
         public void OpenLevel()
         {
             if (IsDragging)
                 return;
 
-            var closed = VisibleNodes().Where(node => !node.IsExpanded && node.Children.Count > 0).ToList();
-            if (closed.Count == 0)
-                return;
-
-            var depth = closed.Min(TreeWalk.DepthOf);
-            foreach (var node in closed.Where(node => TreeWalk.DepthOf(node) == depth))
-                node.IsExpanded = true;
+            openState.OpenLevel(Roots);
         }
 
-        // Every open row with children closes, also a row under a closed row, so a row opens later with its children closed.
         public void CollapseAll()
         {
             if (IsDragging)
                 return;
 
-            var open = TreeWalk.AllRows(Roots).Where(node => node.IsExpanded && node.Children.Count > 0).ToList();
-            if (open.Count > 0)
-                CloseRows(open);
-        }
-
-        // Closes the rows in tree order through the active view (see CloseRowsInView). The view keeps still the row that shows the
-        // target after the close: the highest of its parents that closes, else the target itself.
-        private void CloseRows(IReadOnlyList<TreeNode> rows)
-        {
-            var closing = new HashSet<TreeNode>(rows);
-            var anchor = TargetNode is { } target ? TreeWalk.ParentsOf(target).LastOrDefault(closing.Contains) ?? target : null;
-            CloseRowsInView(anchor, () =>
-            {
-                foreach (var node in rows)
-                    node.IsExpanded = false;
-                return rows;
-            });
+            openState.CollapseAll(Roots, TargetNode);
         }
 
         // Closes every row of the tree but the path to the target row (Tree.CollapseOthers, see TargetNode).
@@ -258,28 +225,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // or during a drag. Returns the rows that it closed.
         public IReadOnlyList<TreeNode> CollapseOthers()
         {
-            var closed = new List<TreeNode>();
             if (IsDragging || TargetNode is not { } target)
-                return closed;
+                return new List<TreeNode>();
 
-            var path = new HashSet<TreeNode>(TreeWalk.ParentsOf(target));
-            foreach (var node in TreeWalk.AllRows(Roots))
-            {
-                // A parent that the search opened is already open, so no change tells the search. It leaves the search here, so
-                // the end of the search does not close it.
-                if (path.Contains(node))
-                {
-                    node.IsExpanded = true;
-                    search.Release(node);
-                }
-                else if (!ReferenceEquals(node, target) && node.IsExpanded && node.Children.Count > 0)
-                {
-                    node.IsExpanded = false;
-                    closed.Add(node);
-                }
-            }
-
-            return closed;
+            return openState.CollapseOthers(Roots, target);
         }
 
         private IRelayCommand? revealSelectedCommand;
@@ -303,12 +252,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (IsDragging || selectedNode is not { } node)
                 return false;
 
-            foreach (var parent in TreeWalk.ParentsOf(node))
-            {
-                parent.IsExpanded = true;
-                search.Release(parent);
-            }
-
+            openState.OpenParents(node);
             CursorNode = node;
             RevealRequested?.Invoke(this, node);
             return true;
