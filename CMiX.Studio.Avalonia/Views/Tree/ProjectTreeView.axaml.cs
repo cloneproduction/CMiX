@@ -292,7 +292,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             if (e.Key == Key.Escape && e.KeyModifiers == KeyModifiers.None && tree.IsSearchActive && !tree.IsDragging)
             {
-                tree.ClearSearch();
+                tree.ClearSearchText();
                 e.Handled = true;
                 return;
             }
@@ -453,7 +453,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             var anchor = scrollAnchor.CaptureRow(target);
-            var closed = tree.CollapseOthers();
+            var closed = tree.CloseOtherRows();
             if (anchor != null)
             {
                 scrollAnchor.RestoreAnchor(anchor);

@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // True while the search opens or closes a row, so the change does not count as a change of the user.
         private bool setsRows;
 
-        // The row that MoveToMatch last moved the cursor to, or the cursor row at ClearSearch. See SyncRows.
+        // The row that MoveToMatch last moved the cursor to, or the cursor row at ClearSearchText. See SyncRows.
         private TreeNode? keptCursor;
 
         private string text = string.Empty;

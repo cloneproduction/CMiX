@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
@@ -14,32 +15,24 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // The row that the commands of the tree act on: the row of the arrow keys, else the selected row. Null when there is none.
         // Rename, Remove, Duplicate, Move, Expand, CollapseOthers, the menu, the Add panel and the toolbar use it.
-        public TreeNode? TargetNode => cursorNode ?? selectedNode;
-
-        private TreeNode? cursorNode;
+        public TreeNode? TargetNode => CursorNode ?? selectedNode;
 
         // The row that the arrow keys move to. It does not select the chain: no undo step and no wire message.
         // Enter (OpenSelectedCommand) or a click selects the chain. A change of SelectedNode moves it to the selected node.
         // A click on a row always moves it to that row (see SelectByClick).
-        public TreeNode? CursorNode
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(OpenSelectedCommand))]
+        private TreeNode? cursorNode;
+
+        partial void OnCursorNodeChanged(TreeNode? oldValue, TreeNode? newValue)
         {
-            get => cursorNode;
-            set
-            {
-                var old = cursorNode;
-                if (!SetProperty(ref cursorNode, value))
-                    return;
-
-                if (old != null)
-                    old.IsCursor = false;
-                if (value != null)
-                    value.IsCursor = true;
-                TreeNode.ClearCursorBranch(old);
-                TreeNode.MarkCursorBranch(value);
-
-                OpenSelectedCommand?.NotifyCanExecuteChanged();
-                OnTargetChanged();
-            }
+            if (oldValue != null)
+                oldValue.IsCursor = false;
+            if (newValue != null)
+                newValue.IsCursor = true;
+            TreeNode.ClearCursorBranch(oldValue);
+            TreeNode.MarkCursorBranch(newValue);
+            OnTargetChanged();
         }
 
         // The nodes that show a row, from the top: a child shows when all its parents are expanded.
@@ -52,7 +45,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (nodes.Count == 0)
                 return;
 
-            var index = cursorNode == null ? -1 : TreeWalk.IndexOf(nodes, cursorNode);
+            var index = CursorNode == null ? -1 : TreeWalk.IndexOf(nodes, CursorNode);
             var next = index < 0 ? (rows >= 0 ? 0 : nodes.Count - 1) : Math.Clamp(index + rows, 0, nodes.Count - 1);
             CursorNode = nodes[next];
         }
@@ -74,7 +67,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // Left: an expanded row collapses, else the cursor goes to the parent row.
         public void MoveCursorOut()
         {
-            if (cursorNode is not { } node)
+            if (CursorNode is not { } node)
                 return;
 
             if (node.IsExpanded && node.Children.Count > 0)
@@ -86,7 +79,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // Right: a collapsed row expands, else the cursor goes to the first child row.
         public void MoveCursorIn()
         {
-            if (cursorNode is not { Children.Count: > 0 } node)
+            if (CursorNode is not { Children.Count: > 0 } node)
                 return;
 
             if (!node.IsExpanded)
@@ -103,9 +96,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             {
                 // The row of the arrow keys goes to the selected row. When it does not change, the target can still change: the
                 // selection goes away while no row of the arrow keys is set.
-                var before = cursorNode;
+                var before = CursorNode;
                 CursorNode = selectedNode;
-                if (ReferenceEquals(before, cursorNode))
+                if (ReferenceEquals(before, CursorNode))
                     OnTargetChanged();
             }
         }
@@ -205,7 +198,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         {
             if (inspectedNode != null && inspectedNode.IsOrIsUnder(node))
                 Inspect(IsTop(node.Parent) ? null : node.Parent);
-            if (cursorNode != null && cursorNode.IsOrIsUnder(node))
+            if (CursorNode != null && CursorNode.IsOrIsUnder(node))
                 CursorNode = selectedNode != null && !selectedNode.IsOrIsUnder(node) ? selectedNode : null;
 
             if (selectedNode == null || !selectedNode.IsOrIsUnder(node))

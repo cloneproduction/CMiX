@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
@@ -34,23 +33,14 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public int SearchMatchCount => search.Matches.Count;
 
-        // Gives the search box of the tree the focus (Tree.Search). The box is always shown, in the bar of the panel (see TreeSearchBox).
-        // The command has the condition of every tree key (see CanRunTreeKey). There is no search during a drag: the command
-        // cannot run, FocusSearch and MoveCursorToMatch do nothing, and the box takes no text.
-        public IRelayCommand FocusSearchCommand { get; }
-
-        // Clears the search from anywhere, also from the search box, and gives the focus to the cursor row (Tree.ClearSearch). The
-        // command runs only while a search is active and no drag or grab runs.
-        public IRelayCommand ClearSearchCommand { get; }
-
         // Clears the text of the search. The cursor row stays, and its parents stay open (see SyncSearchRows). The focus does not move.
         // Nothing changes during a drag or with no active search.
-        public void ClearSearch()
+        public void ClearSearchText()
         {
             if (!IsSearchActive || IsDragging)
                 return;
 
-            search.KeepCursorRow(cursorNode);
+            search.KeepCursorRow(CursorNode);
             SearchText = string.Empty;
         }
 
@@ -62,7 +52,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (IsDragging)
                 return;
 
-            if (search.MoveToMatch(cursorNode, step) is not { } node)
+            if (search.MoveToMatch(CursorNode, step) is not { } node)
                 return;
 
             CursorNode = node;
@@ -80,7 +70,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (searchActive != wasActive)
             {
                 OnPropertyChanged(nameof(IsSearchActive));
-                ClearSearchCommand?.NotifyCanExecuteChanged();
+                ClearSearchCommand.NotifyCanExecuteChanged();
             }
 
             if (!searchActive && !wasActive && search.IsEmpty)
@@ -106,7 +96,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (IsDragging)
                 return;
 
-            search.SyncRows(cursorNode, selectedNode);
+            search.SyncRows(CursorNode, selectedNode);
         }
 
         // A row opens or closes. A change that the search did not make leaves the search (see TreeSearch.ReleaseChangedRow).
@@ -116,7 +106,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         {
             search.ReleaseChangedRow(node);
 
-            if (!node.IsExpanded && cursorNode is { } cursor && !ReferenceEquals(cursor, node) && cursor.IsOrIsUnder(node))
+            if (!node.IsExpanded && CursorNode is { } cursor && !ReferenceEquals(cursor, node) && cursor.IsOrIsUnder(node))
                 CursorNode = TreeWalk.ParentsOf(cursor).LastOrDefault(parent => !parent.IsExpanded) ?? node;
         }
     }

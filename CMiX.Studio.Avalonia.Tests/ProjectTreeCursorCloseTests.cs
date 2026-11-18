@@ -117,7 +117,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var cursor = EchoOf(scene, 1);
             scene.Tree.CursorNode = cursor;
 
-            var closed = scene.Tree.CollapseOthers();
+            var closed = scene.Tree.CloseOtherRows();
 
             Assert.NotEmpty(closed);
             Assert.Same(cursor, scene.Tree.CursorNode);

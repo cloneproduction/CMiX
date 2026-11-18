@@ -49,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 parent.IsExpanded = false;
             scene.Tree.SelectedNode = target;
 
-            scene.Tree.CollapseOthers();
+            scene.Tree.CloseOtherRows();
 
             var path = ParentsOf(scene, target).ToList();
             Assert.All(path, parent => Assert.True(parent.IsExpanded));
@@ -67,7 +67,7 @@ namespace CMiX.Studio.Avalonia.Tests
             target.IsExpanded = open;
             scene.Tree.SelectedNode = target;
 
-            scene.Tree.CollapseOthers();
+            scene.Tree.CloseOtherRows();
 
             Assert.Equal(open, target.IsExpanded);
             Assert.False(scene.LayerNodeOfA(0).IsExpanded);
@@ -80,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.SelectedNode = scene.LayerNodeOfA(0);
             scene.Tree.CursorNode = EchoOf(scene, 2);
 
-            scene.Tree.CollapseOthers();
+            scene.Tree.CloseOtherRows();
 
             Assert.True(scene.LayerNodeOfA(2).IsExpanded);
             Assert.False(scene.LayerNodeOfA(0).IsExpanded);
@@ -93,7 +93,7 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.SelectedNode = null;
             scene.Tree.CursorNode = null;
 
-            var closed = scene.Tree.CollapseOthers();
+            var closed = scene.Tree.CloseOtherRows();
 
             Assert.Empty(closed);
             Assert.All(scene.All().Where(node => node.Children.Count > 0), node => Assert.True(node.IsExpanded));
@@ -107,7 +107,7 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.SelectedNode = EchoOf(scene, 1);
             scene.Tree.BeginDrag(scene.LayerNodeOfA(0));
 
-            var closed = scene.Tree.CollapseOthers();
+            var closed = scene.Tree.CloseOtherRows();
 
             Assert.Empty(closed);
             Assert.All(scene.All().Where(node => node.Children.Count > 0), node => Assert.True(node.IsExpanded));
@@ -129,7 +129,7 @@ namespace CMiX.Studio.Avalonia.Tests
             // The scene selects the last Echo, so the close above took the cursor to a top row. Put it back on the target.
             scene.Tree.CursorNode = target;
 
-            scene.Tree.CollapseOthers();
+            scene.Tree.CloseOtherRows();
             scene.Tree.SearchText = string.Empty;
 
             Assert.False(scene.LayerNodeOfA(0).IsExpanded);
