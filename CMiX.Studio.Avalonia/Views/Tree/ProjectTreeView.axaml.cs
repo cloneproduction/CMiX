@@ -15,15 +15,11 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
-using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Controls.String;
 using CMiX.UI.Panels;
-using CMiX.UI.Popups;
 using CMiX.UI.Behaviors;
-using CompositionModel = CMiX.Core.Compositing.Composition;
-using LayerModel = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -47,6 +43,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeHints hints;
         private readonly TreeFileDropInput fileDrop;
         private readonly TreeRowReveal reveal;
+        private readonly TreeMenus menus;
 
         // What this view tells the tree and does for it (see ProjectTree.AttachView).
         private readonly TreeViewHooks hooks;
@@ -54,14 +51,11 @@ namespace CMiX.Studio.Avalonia.Views
         // The tooltips of the rows. A test reads it.
         internal TreeTooltips Tooltips => tooltips;
 
-        // The panel of the Add row of the menus of the rows. One panel serves every menu.
-        private readonly AddPanel menuAddPanel = new();
-
         // The node of the row that the left button pressed and that can be dragged. A drag clears it.
         private TreeNode? pressedNode;
 
         // The panel of the Add row of the menus. A test reads it.
-        internal AddPanel MenuAddPanel => menuAddPanel;
+        internal AddPanel MenuAddPanel => menus.AddPanel;
 
         // The item of each node. A test reads it.
         internal TreeRowIndex RowIndex => rowIndex;
@@ -101,6 +95,8 @@ namespace CMiX.Studio.Avalonia.Views
             hints = new TreeHints(context, hintStrip,
                 new TreeHintInputs(() => grab.IsGrabbing, IsMenuOpen, IsSearchFocused, () => IsKeyboardFocusWithin), PostWhileAttached);
             fileDrop = new TreeFileDropInput(context, marker);
+            menus = new TreeMenus(context, new TreeMenuInputs(reveal.ShownItemOf, () => lastPointer, grab.TakeMenuBlock, FocusRow),
+                hints.Update, PostWhileAttached);
             hooks = new TreeViewHooks
             {
                 IsPointerOverTree = () => IsPointerOver,
@@ -124,7 +120,7 @@ namespace CMiX.Studio.Avalonia.Views
             treeView.AddHandler(PointerCaptureLostEvent, OnPointerCaptureLost);
             treeView.AddHandler(PointerWheelChangedEvent, OnPointerWheelChanged, RoutingStrategies.Tunnel);
             fileDrop.Attach(treeView);
-            treeView.AddHandler(ContextRequestedEvent, OnContextRequested, RoutingStrategies.Bubble);
+            menus.Attach(treeView);
             treeView.AddHandler(DoubleTappedEvent, OnDoubleTapped, RoutingStrategies.Bubble);
             treeView.AddHandler(ScrollViewer.ScrollChangedEvent, (_, _) => rowMetrics.SetEndRoom());
             reveal.Attach(treeView);
@@ -137,18 +133,6 @@ namespace CMiX.Studio.Avalonia.Views
             // tree. The layout that follows shows that no control has the focus.
             treeView.LayoutUpdated += (_, _) => CheckTheLostFocus();
             tooltips = new TreeTooltips(treeView);
-            menuAddPanel.Closed += (_, _) =>
-            {
-                hints.Update();
-                // A panel opened beside the cursor row (Right, Ctrl+Right) is a leaf of the tree: when it closes, Left or Escape or a pick,
-                // the cursor row takes the focus back, so the keys go on in the tree.
-                if (addOpenedBesideTheCursor)
-                {
-                    addOpenedBesideTheCursor = false;
-                    if (watched?.CursorNode is { } cursor)
-                        PostWhileAttached(() => FocusRow(cursor), DispatcherPriority.Input);
-                }
-            };
         }
 
         // The hint strip under the rows. A test reads it.
@@ -157,7 +141,7 @@ namespace CMiX.Studio.Avalonia.Views
         // The mode that the hint strip shows. A test reads it.
         internal TreeHintMode HintMode => hints.Mode;
 
-        private bool IsMenuOpen() => treeView.ContextMenu?.IsOpen == true || menuAddPanel.IsOpen;
+        private bool IsMenuOpen() => menus.IsMenuOpen();
 
         // True when the focus is in the search field of the tree of this view, in the panel of this view.
         private bool IsSearchFocused()
@@ -271,7 +255,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (e.Key == Key.Right && (e.KeyModifiers == KeyModifiers.Control
                                        || (e.KeyModifiers == KeyModifiers.None && tree.CursorNode is { Children.Count: 0 })))
             {
-                OpenAddBesideTheCursor(tree);
+                menus.OpenAddBesideTheCursor(tree);
                 e.Handled = true;
                 return;
             }
@@ -286,21 +270,6 @@ namespace CMiX.Studio.Avalonia.Views
             MoveCursor(tree, e.Key);
             if (tree.CursorNode is { } node)
                 PostWhileAttached(() => FocusRow(node), DispatcherPriority.Loaded);
-        }
-
-        // True while the Add panel that opened beside the cursor row is open (see OpenAddBesideTheCursor).
-        private bool addOpenedBesideTheCursor;
-
-        private void OpenAddBesideTheCursor(ProjectTree tree)
-        {
-            if (tree.CursorNode is not { } node || reveal.ShownItemOf(node) is not { } item || TopLevel.GetTopLevel(this) is not { } window)
-                return;
-
-            var row = TreeRows.RowBorderOf(item);
-            var anchor = row?.TranslatePoint(default, window) is { } topLeft ? new Rect(topLeft, row.Bounds.Size) : (Rect?)null;
-            menuAddPanel.OpenWithTip(item, PopupSide.Right, tree.GetAddGroups(node), AddTitle, anchor);
-            addOpenedBesideTheCursor = menuAddPanel.IsOpen;
-            hints.Update();
         }
 
         private static bool IsNavigationKey(Key key) =>
@@ -344,30 +313,16 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void OnPointerTracked(object? sender, PointerEventArgs e) => lastPointer = e.GetPosition(treeView);
 
-        // Tree.Add, a key: the Add panel of the target row (ProjectTree.TargetNode) opens with the middle of its search field on the middle
-        // of that row, and the title Add. With no target, or a target row that is not shown, it opens under the pointer. With no target it
-        // holds what the project takes, a composition. Nothing is added until the user picks an entry of the panel.
         private void OnAddRequested(object? sender, EventArgs e)
         {
-            if (!IsActiveView || DataContext is not ProjectTree tree)
-                return;
-
-            var point = tree.TargetNode is { } node && reveal.ShownItemOf(node) is { } item ? TreeRowAnchor.CenterOf(item, treeView) : null;
-            menuAddPanel.OpenAtPoint(treeView, point ?? lastPointer, tree.GetAddGroups(tree.TargetNode), AddTitle);
-            hints.Update();
+            if (IsActiveView && DataContext is ProjectTree tree)
+                menus.OpenAddAtTarget(tree);
         }
 
-        // Tree.Menu, a key: the menu of the target row opens under that row (see OpenMenuUnderRow). With no target, it is the menu of the project,
-        // at the pointer. A target row that is not shown (its parent is collapsed) opens no menu.
         private void OnMenuRequested(object? sender, EventArgs e)
         {
-            if (!IsActiveView || DataContext is not ProjectTree tree)
-                return;
-
-            if (tree.TargetNode is not { } node)
-                OpenMenuAtPointer(null);
-            else if (reveal.ShownItemOf(node) is { } item)
-                OpenMenuUnderRow(item);
+            if (IsActiveView && DataContext is ProjectTree tree)
+                menus.OpenMenuAtTarget(tree);
         }
 
         // Tree.Grab: the grab of the target row starts at the last place of the pointer over the tree (see TreeGrab). A row that is
@@ -420,9 +375,6 @@ namespace CMiX.Studio.Avalonia.Views
             scrollAnchor.RestoreAnchor(anchor);
             scrollAnchor.HoldWhileClosing(anchor, closed);
         }
-
-        // The title of the Add panel when no row opens it.
-        private const string AddTitle = "Add";
 
         // Starts the rename of the row of the node: the name box of the row goes to edit mode.
         private void OnRenameRequested(object? sender, TreeNode node)
@@ -593,113 +545,6 @@ namespace CMiX.Studio.Avalonia.Views
 
             node.IsExpanded = !node.IsExpanded;
             e.Handled = true;
-        }
-
-        // The menu of the row under the pointer, built and opened when it is asked for. A menu that is set during the event
-        // does not open on that event, so it is opened here.
-        // The tree listens in the bubble phase, as the menu of a row of a list does. A name that is being edited
-        // blocks the request in the tunnel phase (ContextMenuGuard), so a right click during a rename opens no menu.
-        // The menu belongs to the tree and no row holds one. A row with a menu would open it for the right clicks on its
-        // children too, because a request goes up through every parent row.
-        // A right click has a place of the pointer: the menu opens at the pointer, and the cursor goes to the clicked row, also when the
-        // row is already selected. The Menu key has no place: the menu of the focused row, else of the target row, opens
-        // under that row.
-        private void OnContextRequested(object? sender, ContextRequestedEventArgs e)
-        {
-            // A click of the grab asks for no menu: the grab takes it (see TreeGrab).
-            if (grab.TakeMenuBlock())
-            {
-                e.Handled = true;
-                return;
-            }
-
-            if (e.TryGetPosition(treeView, out _))
-            {
-                if (TreeRows.ItemOf(e.Source)?.DataContext is TreeNode node && DataContext is ProjectTree tree)
-                    tree.CursorNode = node;
-
-                if (OpenMenuAtPointer(e.Source))
-                    e.Handled = true;
-                return;
-            }
-
-            var item = TreeRows.ItemOf(e.Source) ?? (watched?.TargetNode is { } target ? reveal.ShownItemOf(target) : null);
-            if (OpenMenuUnderRow(item))
-                e.Handled = true;
-        }
-
-        // On the space under the rows, the menu is the menu of the project, which has the one entry that the project takes, a composition.
-        // Both menus add through the Add panel. Returns false when there is no menu.
-        private bool OpenMenuAtPointer(object? source)
-        {
-            if (PrepareMenu(TreeRows.ItemOf(source)) is not { } menu)
-                return false;
-
-            menu.Open(treeView);
-            return true;
-        }
-
-        // A source that is not a row opens the menu of the project at the pointer.
-        private bool OpenMenuUnderRow(object? source)
-        {
-            var item = TreeRows.ItemOf(source);
-            if (PrepareMenu(item) is not { } menu)
-                return false;
-
-            if (item != null && TreeRowAnchor.FromNameOf(item, treeView) is { } name)
-            {
-                // The panel goes under the row, with its left edge on the left edge of the name. The popup is larger than the panel by
-                // the margin of the shadow.
-                menu.PlacementTarget = treeView;
-                menu.Placement = PlacementMode.BottomEdgeAlignedLeft;
-                menu.PlacementRect = name;
-                menu.HorizontalOffset = -PopupFrame.ShadowMargin.Left;
-                menu.VerticalOffset = -PopupFrame.ShadowMargin.Top;
-            }
-
-            menu.Open(treeView);
-            return true;
-        }
-
-        private ContextMenu? PrepareMenu(TreeViewItem? item)
-        {
-            treeView.ContextMenu?.Close();
-
-            var menu = item?.DataContext is TreeNode node && DataContext is ProjectTree tree ? CreateMenu(item, node, tree)
-                : item == null && DataContext is ProjectTree project ? CreateSpaceMenu(project)
-                : null;
-            treeView.ContextMenu = menu;
-            if (menu == null)
-                return null;
-
-            menu.Opened += (_, _) => hints.Update();
-            menu.Closed += (_, _) => hints.Update();
-            return menu;
-        }
-
-        // The menu of the empty space of the tree: its Add row opens the panel of the project.
-        private ContextMenu CreateSpaceMenu(ProjectTree tree) =>
-            PrefabRowMenu.Create(treeView, RowMenuKind.Group, () => null, Array.Empty<RowMenuAdd>(), () => "Project",
-                addRow: new AddMenuRow(menuAddPanel, () => tree.GetAddGroups(null)),
-                gestureOf: command => tree.Shortcuts[command]);
-
-        // The menu of a row. Its Add row opens the Add panel beside the menu, with what the row takes. The menu opens with the Add row
-        // under the pointer, on every row, until the user picks another row of a menu: then that row is under the pointer (see MenuAnchor).
-        private ContextMenu? CreateMenu(TreeViewItem row, TreeNode node, ProjectTree tree)
-        {
-            var kind = node.Item == null ? RowMenuKind.Group
-                : node.Item is CompositionModel or LayerModel ? RowMenuKind.Composable
-                : RowMenuKind.Slot;
-
-
-            return PrefabRowMenu.Create(
-                row,
-                kind,
-                () => node.Owner != null && node.Item != null ? (node.Owner, node.Item) : null,
-                Array.Empty<RowMenuAdd>(),
-                () => node.Header,
-                addRow: new AddMenuRow(menuAddPanel, () => tree.GetAddGroups(node)),
-                gestureOf: command => tree.Shortcuts[command]);
         }
 
         // The focused control before a press on a button of a row. Null when the press was not on such a button.
