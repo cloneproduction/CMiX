@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs.Managers;
@@ -20,10 +19,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     // The compositions of the project with their layers, and the entities, cameras and lights of each layer.
     // The tree follows the lists, also when a peer changes them.
     // A selected node selects its whole chain in the lists, as one undo step.
-    public sealed class ProjectTree : ObservableObject, IDisposable
+    public sealed partial class ProjectTree : ObservableObject, IDisposable
     {
         private readonly UndoManager undoManager;
-        private readonly IMoveBlockedNotice? notice;
         private readonly IToastService? toasts;
         private readonly TreeDropService dropService = new();
         private readonly PrefabManager compositions;
@@ -33,6 +31,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private readonly TreeAddCatalogue adds;
         private readonly TreeFileDropRules fileDrop;
         private readonly TreeEdit edit;
+        private readonly TreeDragState dragState;
+        private readonly TreeDrop drop;
         private TreeNode? selectedNode;
         private IReadOnlyList<TreeAdd> targetAdds;
         private bool selecting;
@@ -42,7 +42,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             InterfaceOptions? interfaceOptions = null)
         {
             this.undoManager = undoManager;
-            this.notice = notice;
             this.toasts = toasts;
             Shortcuts = shortcuts ?? new ShortcutMap();
             Interface = interfaceOptions ?? new InterfaceOptions();
@@ -57,6 +56,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             targetAdds = adds.ChoicesFor(null);
             views = new TreeViewSet();
             edit = new TreeEdit(undoManager, toasts);
+            dragState = new TreeDragState(dropService);
+            drop = new TreeDrop(dropService, notice);
             AddItemCommand = new RelayCommand<TreeAdd?>(add => add?.Execute?.Invoke(), add => add == null ? HasAdds : add.Execute != null);
             DuplicateItemCommand = new RelayCommand(
                 () => { if (PlaceOfTarget() is { } place) edit.Duplicate(place); },
@@ -778,119 +779,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
             OnPropertyChanged(nameof(TargetNode));
             RefreshCommands();
-        }
-
-        // A group (Entities, Cameras, Lights) has a fixed place in its layer. Only an item can be dragged.
-        public bool CanDrag(TreeNode node) => node.Item != null && node.Owner != null;
-
-        // A row that the drag marks as blocked takes no drop: the marker shows nothing over it.
-        public bool CanDrop(TreeNode source, TreeNode target, DropPosition position) =>
-            !target.IsDropBlocked && dropService.CanDrop(source, target, position);
-
-        // A node is being dragged: the rows that take it inside are candidates, the rows next to which it can go are neighbors, a collapsed row
-        // with such a row under it gives a hint, a row that refuses the node by a rule is blocked, and the other rows are dimmed
-        // (see TreeNode.IsDropCandidate). The rules are the ones of the drop itself.
-        // The search is off while a drag runs (see FocusSearch): the view binds the search box to it.
-        public bool IsDragging
-        {
-            get => isDragging;
-            private set
-            {
-                if (isDragging == value)
-                    return;
-
-                isDragging = value;
-                OnPropertyChanged();
-                FocusSearchCommand.NotifyCanExecuteChanged();
-                ClearSearchCommand.NotifyCanExecuteChanged();
-            }
-        }
-
-        private bool isDragging;
-
-        // The rows that BeginDrag marked. EndDrag clears only these.
-        private readonly List<TreeNode> dragMarked = new();
-
-        public void BeginDrag(TreeNode source)
-        {
-            IsDragging = true;
-            dragMarked.Clear();
-            MarkDrag(root, source);
-        }
-
-        public void EndDrag()
-        {
-            IsDragging = false;
-            foreach (var node in dragMarked)
-                node.ClearDragLook();
-
-            dragMarked.Clear();
-
-            // A drop can bring a match to a new place: its parents open now that the drag is over.
-            if (searchMatches.Count > 0)
-                SyncSearchRows();
-        }
-
-        // Sets the drag state of a row and of the rows under it. It tells whether a row that takes the node is at or under the row.
-        private bool MarkDrag(TreeNode node, TreeNode source)
-        {
-            var below = false;
-            foreach (var child in node.Children)
-                below |= MarkDrag(child, source);
-
-            var candidate = node != root && dropService.IsInsideTarget(source, node);
-            var neighbor = node != root && dropService.IsNeighbor(source, node);
-            var reason = node != root && (candidate || neighbor || dropService.IsTargetByKind(source, node)) ? dropService.BlockReason(source, node) : null;
-            if (reason != null)
-                candidate = neighbor = false;
-
-            node.ShowDragLook(new DragLook(ReferenceEquals(node, source), candidate, neighbor, below, reason));
-            dragMarked.Add(node);
-            return below || candidate || neighbor;
-        }
-
-        public DropPlace? Locate(TreeNode source, TreeNode hovered, double fraction) =>
-            dropService.Locate(source, hovered, fraction);
-
-        // Drops the node. A move that shared items block leaves everything as it is and tells the user why.
-        public async Task DropAsync(TreeNode source, TreeNode target, DropPosition position)
-        {
-            // The move and the selection of the moved item are one undo step.
-            DropOutcome outcome;
-            var inside = TreeDropService.InsideOf(source, target);
-            undoManager.BeginCapture();
-            try
-            {
-                // Read before the drop: the drop removes the source node, which passes the inspector to the parent (NodeRemoved).
-                var inspected = ReferenceEquals(inspectedNode, source);
-                var movedItem = source.Item;
-                outcome = dropService.Drop(source, target, position);
-                if (outcome.Moved)
-                {
-                    // The rows that hold the item open, so the user sees the result.
-                    // A layer row passes the item to its group, so the group opens too.
-                    var owner = position == DropPosition.Inside ? inside : target.Parent;
-                    for (var holder = owner; holder != null; holder = holder.Parent)
-                        holder.IsExpanded = true;
-
-                    // Search under the holder only. A shared item is also under other layers.
-                    if (TreeWalk.FindNode((owner ?? root).Children, node => ReferenceEquals(node.Item, movedItem)) is { } moved)
-                    {
-                        Select(moved, SelectionOrigin.Program);
-                        if (inspected)
-                            Inspect(moved);
-                    }
-                }
-            }
-            finally
-            {
-                undoManager.EndCapture();
-            }
-
-            if (outcome.Moved || outcome.Blocking.Count == 0 || notice == null)
-                return;
-
-            await notice.ShowAsync(dropService.DescribeBlock(source, target, outcome.Blocking));
         }
 
         public bool IsPathTarget(TreeNode node) => fileDrop.IsTarget(node);
