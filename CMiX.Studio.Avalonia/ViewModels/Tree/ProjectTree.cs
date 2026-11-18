@@ -16,7 +16,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     // The compositions of the project with their layers, and the entities, cameras and lights of each layer.
     // The tree follows the lists, also when a peer changes them.
     // A selected node selects its whole chain in the lists, as one undo step.
-    public sealed partial class ProjectTree : ObservableObject, IDisposable
+    public sealed partial class ProjectTree : ObservableObject, IDisposable, TreeNodeHost
     {
         private readonly UndoManager undoManager;
         private readonly TreeDropService dropService = new();
@@ -82,7 +82,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // ---------------------------------------------------------------- open and close by branch and by level
         // These keys change only the open state of the rows: no undo step and no wire message, as Tree.Expand. A row that closes over
-        // the cursor takes the cursor (see OnRowExpandedChanged). Nothing changes during a drag.
+        // the cursor takes the cursor (see RowExpandedChanged). Nothing changes during a drag.
 
         // Opens the parents of the target row and closes every other row. The target keeps its state. Nothing changes with no target
         // or during a drag. Returns the rows that it closed.
@@ -180,6 +180,18 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             RefreshCommands();
             RefreshSearch();
         }
+
+        bool TreeNodeHost.IsLoading => IsLoading;
+
+        void TreeNodeHost.RefreshSearch() => RefreshSearch();
+
+        void TreeNodeHost.RowExpandedChanged(TreeNode row) => RowExpandedChanged(row);
+
+        void TreeNodeHost.ListChanged() => ListChanged();
+
+        void TreeNodeHost.NodeRemoved(TreeNode row) => NodeRemoved(row);
+
+        void TreeNodeHost.SelectFromModel(TreeNode row) => SelectFromModel(row);
 
         public bool IsPathTarget(TreeNode node) => fileDrop.IsTarget(node);
 

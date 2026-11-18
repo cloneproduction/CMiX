@@ -23,16 +23,16 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     // ChildManager is the list whose items are the children. The children follow that list.
     public sealed partial class TreeNode : ObservableObject, IDisposable
     {
-        private readonly ProjectTree tree;
+        private readonly TreeNodeHost host;
         private readonly RowCounts counts;
 
-        internal TreeNode(ProjectTree tree, TreeNode? parent, PrefabManager? owner, IControl? item, string header, PrefabManager? childManager, TreeGroup? group = null)
+        internal TreeNode(TreeNodeHost host, TreeNode? parent, PrefabManager? owner, IControl? item, string header, PrefabManager? childManager, TreeGroup? group = null)
         {
-            this.tree = tree;
+            this.host = host;
             counts = new RowCounts(this, parent?.counts);
 
             // A row made while the project loads starts collapsed. Any other new row starts expanded.
-            isExpanded = !tree.IsLoading;
+            isExpanded = !host.IsLoading;
             Parent = parent;
             Owner = owner;
             Item = item;
@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         internal void AddGroups(IControl item)
         {
             foreach (var group in TreeGroup.GroupsOf(item))
-                Children.Add(new TreeNode(tree, this, null, null, group.Header, group.Manager, group));
+                Children.Add(new TreeNode(host, this, null, null, group.Header, group.Manager, group));
         }
 
         public TreeNode? Parent { get; }
@@ -298,11 +298,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // A new name can make the row match the search, or stop it.
-        partial void OnHeaderChanged(string value) => tree.RefreshSearch();
+        partial void OnHeaderChanged(string value) => host.RefreshSearch();
 
         // The search does not close again a row that the user opened or closed. A row that closes over the cursor takes the cursor
-        // (see ProjectTree.OnRowExpandedChanged).
-        partial void OnIsExpandedChanged(bool value) => tree.OnRowExpandedChanged(this);
+        // (see ProjectTree.RowExpandedChanged).
+        partial void OnIsExpandedChanged(bool value) => host.RowExpandedChanged(this);
 
         public bool IsOrIsUnder(TreeNode node)
         {
@@ -313,7 +313,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         private TreeNode CreateItemNode(IControl item) =>
-            new(tree, this, ChildManager, item, string.Empty, null);
+            new(host, this, ChildManager, item, string.Empty, null);
 
         private void OnNameChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -325,7 +325,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         {
             switch (e.Action)
             {
-                case NotifyCollectionChangedAction.Add when tree.IsLoading:
+                case NotifyCollectionChangedAction.Add when host.IsLoading:
                     InsertChildren(e.NewStartingIndex, e.NewItems!.Cast<IControl>());
                     break;
                 case NotifyCollectionChangedAction.Add:
@@ -352,7 +352,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                     break;
             }
 
-            tree.ListChanged();
+            host.ListChanged();
         }
 
         private void InsertChildren(int index, IEnumerable<IControl> items)
@@ -376,7 +376,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             for (var i = 0; i < count; i++)
             {
                 var node = Children[index];
-                tree.NodeRemoved(node);
+                host.NodeRemoved(node);
                 Children.RemoveAt(index);
                 node.Dispose();
             }
@@ -390,7 +390,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             var selected = ChildManager!.ManagerData.SelectedItem;
             var node = Children.FirstOrDefault(child => ReferenceEquals(child.Item, selected));
             if (node != null)
-                tree.SelectFromModel(node);
+                host.SelectFromModel(node);
         }
 
         // The hide state of a row: the whole list of a group (its Hidden value), or the visibility of an item. A row that has none is never hidden.

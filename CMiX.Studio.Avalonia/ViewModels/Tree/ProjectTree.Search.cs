@@ -102,7 +102,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // A row opens or closes. A change that the search did not make leaves the search (see TreeSearch.ReleaseChangedRow).
         // A row that closes over the cursor takes the cursor, so the cursor is never on a hidden row. The cursor goes to the highest
         // closed parent, the one row of its parents that shows. The selection does not change.
-        internal void OnRowExpandedChanged(TreeNode node)
+        internal void RowExpandedChanged(TreeNode node)
         {
             search.ReleaseChangedRow(node);
 
