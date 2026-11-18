@@ -13,7 +13,6 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
-using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Rendering.Lights;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -25,10 +24,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     public sealed partial class TreeNode : ObservableObject, IDisposable
     {
         private readonly ProjectTree tree;
+        private readonly RowCounts counts;
 
         internal TreeNode(ProjectTree tree, TreeNode? parent, PrefabManager? owner, IControl? item, string header, PrefabManager? childManager, TreeGroup? group = null)
         {
             this.tree = tree;
+            counts = new RowCounts(this, parent?.counts);
 
             // A row made while the project loads starts collapsed. Any other new row starts expanded.
             isExpanded = !tree.IsLoading;
@@ -71,18 +72,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (item != null)
                 AddGroups(item);
 
-            // The counts are computed once here, and again only when the children change.
-            kindCounts = ComputeKindCounts();
-            hiddenCount = ComputeHiddenCount();
-            missingCount = ComputeMissingCount();
-            WatchTheAsset();
-            Children.CollectionChanged += (_, _) =>
-            {
-                RaiseKindCountsChanged();
-                RecountHidden();
-                RecountMissing();
-            };
+            counts.Count();
+            counts.WatchAsset();
+            Children.CollectionChanged += OnChildrenChanged;
         }
+
+        private void OnChildrenChanged(object? sender, NotifyCollectionChangedEventArgs e) => counts.RecountAll();
 
         // The lists that an item holds, as groups (see TreeGroup.GroupsOf). A group row has no item. The inspector shows the panel of the group.
         internal void AddGroups(IControl item)
@@ -114,44 +109,23 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // The kinds of what the row holds, in the order of the rows under it, each with its number: an item under the row counts for
         // its own kind, and a group under the row counts for the items in it. A collapsed row shows these.
-        public IReadOnlyList<KindCount> KindCounts => kindCounts;
+        public IReadOnlyList<KindCount> KindCounts => counts.KindCounts;
 
-        private IReadOnlyList<KindCount> kindCounts;
+        internal int KindCountsComputations => counts.KindCountsComputations;
 
-        // The number of computations of the counts. A test reads it.
-        internal int KindCountsComputations { get; private set; }
-
-        private List<KindCount> ComputeKindCounts()
-        {
-            KindCountsComputations++;
-            var counts = new Dictionary<TreeCategory, int>();
-            foreach (var child in Children)
-            {
-                if (child.Category is not { } category)
-                    continue;
-
-                var number = child.Item != null ? 1 : child.Children.Count;
-                if (number > 0)
-                    counts[category] = counts.GetValueOrDefault(category) + number;
-            }
-
-            return counts.Select(count => new KindCount(count.Key, count.Value)).ToList();
-        }
-
-        public bool HasKindCounts => kindCounts.Count > 0;
+        public bool HasKindCounts => counts.HasKindCounts;
 
         // A collapsed row shows at most this number of kind squares. One more square shows the number of the other kinds.
         public const int MaxShownKindCounts = 3;
 
-        public IReadOnlyList<KindCount> ShownKindCounts => kindCounts.Count <= MaxShownKindCounts ? kindCounts : kindCounts.Take(MaxShownKindCounts).ToList();
+        public IReadOnlyList<KindCount> ShownKindCounts => counts.ShownKindCounts;
 
-        // The number of kinds that the row does not show as squares.
-        public int MoreKindsCount => Math.Max(0, kindCounts.Count - MaxShownKindCounts);
+        public int MoreKindsCount => counts.MoreKindsCount;
 
         public bool HasMoreKinds => MoreKindsCount > 0;
 
         // The tooltip of the square of the other kinds: one kind on each line.
-        public string MoreKindsDescription => string.Join(Environment.NewLine, kindCounts.Skip(MaxShownKindCounts).Select(count => count.Description));
+        public string MoreKindsDescription => counts.MoreKindsDescription;
 
         // The item that has a mask: a composition or a layer. The other rows have none.
         public IControl? MaskOwner => Item is Composition or Layer ? Item : null;
@@ -166,50 +140,16 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // The badges of a row: the kind squares of a collapsed row, or the sign of a missing asset (see KindCountBadges).
         public bool ShowsBadges => ShowsKindCounts || ShowsMissingSign;
 
-        // A missing asset: the item is a texture source with a file that is not on disk. A path with no asset counts as missing too.
-        public bool IsMissingAsset =>
-            Item is IAssetTextureSource { AssetSelector: { } selector }
-            && (selector.Asset is { FileExist: false } || (selector.Asset == null && !string.IsNullOrEmpty(selector.FilePath?.Value)));
+        // A missing asset: the item is a texture source with a file that is not on disk.
+        public bool IsMissingAsset => counts.IsMissingAsset;
 
         // The missing assets on this row and under it. The row above counts them too, so the count bubbles up to the composition.
-        public int MissingCount => missingCount;
+        public int MissingCount => counts.MissingCount;
 
-        public bool HasMissingAssets => missingCount > 0;
+        public bool HasMissingAssets => counts.HasMissingAssets;
 
-        private int missingCount;
-
-        private int ComputeMissingCount() => (IsMissingAsset ? 1 : 0) + Children.Sum(child => child.MissingCount);
-
-        // Computes the count again. When it changes, the row above computes its count again too.
-        private void RecountMissing()
+        internal void RaiseKindCountsChanged()
         {
-            var count = ComputeMissingCount();
-            if (count == missingCount)
-                return;
-
-            missingCount = count;
-            OnPropertyChanged(nameof(MissingCount));
-            OnPropertyChanged(nameof(HasMissingAssets));
-            OnPropertyChanged(nameof(ShowsMissingSign));
-            OnPropertyChanged(nameof(ShowsBadges));
-            Parent?.RecountMissing();
-        }
-
-        // The asset of a texture source can change or come back: the count follows the selector.
-        private void WatchTheAsset()
-        {
-            if (Item is IAssetTextureSource { AssetSelector: { } selector })
-                selector.PropertyChanged += (_, e) =>
-                {
-                    if (e.PropertyName == nameof(AssetSelector.Asset))
-                        RecountMissing();
-                };
-        }
-
-        // The rows under a group change what its parent holds, so the parent tells its own change too.
-        private void RaiseKindCountsChanged()
-        {
-            kindCounts = ComputeKindCounts();
             OnPropertyChanged(nameof(KindCounts));
             OnPropertyChanged(nameof(HasKindCounts));
             OnPropertyChanged(nameof(ShownKindCounts));
@@ -218,8 +158,14 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             OnPropertyChanged(nameof(MoreKindsDescription));
             OnPropertyChanged(nameof(ShowsKindCounts));
             OnPropertyChanged(nameof(ShowsBadges));
-            if (Item == null)
-                Parent?.RaiseKindCountsChanged();
+        }
+
+        internal void RaiseMissingCountChanged()
+        {
+            OnPropertyChanged(nameof(MissingCount));
+            OnPropertyChanged(nameof(HasMissingAssets));
+            OnPropertyChanged(nameof(ShowsMissingSign));
+            OnPropertyChanged(nameof(ShowsBadges));
         }
 
         [ObservableProperty]
@@ -328,29 +274,27 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // The state of the row in the search of the tree (see ProjectTree.SearchText). A row that matches keeps its color. While a search
         // runs, every other row is dimmed, the parents of the matches too.
-        public bool IsSearchMatch { get; private set; }
-        public bool IsSearchDimmed { get; private set; }
+        private bool isSearchMatch;
+        private bool isSearchDimmed;
+
+        public bool IsSearchMatch { get => isSearchMatch; private set => SetProperty(ref isSearchMatch, value); }
+        public bool IsSearchDimmed { get => isSearchDimmed; private set => SetProperty(ref isSearchDimmed, value); }
 
         // True when the name of the row or the kind of its item holds the text, with no regard to case. A group row has only its name.
         internal bool MatchesSearch(string text) =>
             Header.Contains(text, StringComparison.OrdinalIgnoreCase)
             || (kindLabel != null && kindLabel.Contains(text, StringComparison.OrdinalIgnoreCase));
 
-        // Tells only the properties whose value changes.
-        internal void SetSearchState(bool active, bool match)
+        internal void ShowSearchLook(SearchLook look)
         {
-            if (IsSearchMatch != match)
-            {
-                IsSearchMatch = match;
-                OnPropertyChanged(nameof(IsSearchMatch));
-            }
+            IsSearchMatch = look.IsMatch;
+            IsSearchDimmed = !look.IsMatch;
+        }
 
-            var dimmed = active && !match;
-            if (IsSearchDimmed != dimmed)
-            {
-                IsSearchDimmed = dimmed;
-                OnPropertyChanged(nameof(IsSearchDimmed));
-            }
+        internal void ClearSearchLook()
+        {
+            IsSearchMatch = false;
+            IsSearchDimmed = false;
         }
 
         // A new name can make the row match the search, or stop it.
@@ -476,36 +420,21 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
             OnPropertyChanged(nameof(IsHidden));
             RaiseUnderHiddenParentChanged();
-            Parent?.RecountHidden();
+            counts.RecountHiddenAbove();
         }
 
         // The number of hidden rows under the row, at all levels. A collapsed row shows it, so a hidden row is never out of sight.
-        public int HiddenCount => hiddenCount;
+        public int HiddenCount => counts.HiddenCount;
 
-        public bool HasHiddenRows => hiddenCount > 0;
+        public bool HasHiddenRows => counts.HasHiddenRows;
 
-        private int hiddenCount;
+        internal void RaiseHiddenCountChanged() => OnPropertyChanged(nameof(HiddenCount));
 
-        private int ComputeHiddenCount() => Children.Sum(child => (child.IsHidden ? 1 : 0) + child.HiddenCount);
-
-        // Computes the count again. When it changes, the row above computes its count again too.
-        private void RecountHidden()
+        internal void RaiseHasHiddenRowsChanged()
         {
-            var count = ComputeHiddenCount();
-            if (count == hiddenCount)
-                return;
-
-            var had = HasHiddenRows;
-            hiddenCount = count;
-            OnPropertyChanged(nameof(HiddenCount));
-            if (had != HasHiddenRows)
-            {
-                OnPropertyChanged(nameof(HasHiddenRows));
-                OnPropertyChanged(nameof(ShowsKindCounts));
-                OnPropertyChanged(nameof(ShowsBadges));
-                }
-
-            Parent?.RecountHidden();
+            OnPropertyChanged(nameof(HasHiddenRows));
+            OnPropertyChanged(nameof(ShowsKindCounts));
+            OnPropertyChanged(nameof(ShowsBadges));
         }
 
         private void RaiseUnderHiddenParentChanged()

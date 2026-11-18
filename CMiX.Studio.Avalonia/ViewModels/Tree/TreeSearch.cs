@@ -46,9 +46,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             var found = new List<TreeNode>();
             foreach (var node in TreeWalk.AllRows(roots))
             {
-                var match = text.Length > 0 && node.MatchesSearch(text);
-                node.SetSearchState(text.Length > 0, match);
-                if (match)
+                if (text.Length == 0)
+                {
+                    node.ClearSearchLook();
+                    continue;
+                }
+
+                var look = new SearchLook(node.MatchesSearch(text));
+                node.ShowSearchLook(look);
+                if (look.IsMatch)
                     found.Add(node);
             }
 
