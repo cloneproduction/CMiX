@@ -46,6 +46,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeGrab grab;
         private readonly TreeTooltips tooltips;
         private readonly TreeHints hints;
+        private readonly TreeFileDropInput fileDrop;
 
         // What this view tells the tree and does for it (see ProjectTree.AttachView).
         private readonly TreeViewHooks hooks;
@@ -98,6 +99,7 @@ namespace CMiX.Studio.Avalonia.Views
             grab = new TreeGrab(this, treeView, dragSession, context, node => RevealRow(node), OnGrabChanged);
             hints = new TreeHints(context, hintStrip,
                 new TreeHintInputs(() => grab.IsGrabbing, IsMenuOpen, IsSearchFocused, () => IsKeyboardFocusWithin), PostWhileAttached);
+            fileDrop = new TreeFileDropInput(context, marker);
             hooks = new TreeViewHooks
             {
                 IsPointerOverTree = () => IsPointerOver,
@@ -121,10 +123,7 @@ namespace CMiX.Studio.Avalonia.Views
             treeView.AddHandler(PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Tunnel);
             treeView.AddHandler(PointerCaptureLostEvent, OnPointerCaptureLost);
             treeView.AddHandler(PointerWheelChangedEvent, OnPointerWheelChanged, RoutingStrategies.Tunnel);
-            treeView.AddHandler(DragDrop.DragEnterEvent, OnDragEnter);
-            treeView.AddHandler(DragDrop.DragOverEvent, OnDragOver);
-            treeView.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave);
-            treeView.AddHandler(DragDrop.DropEvent, OnDrop);
+            fileDrop.Attach(treeView);
             treeView.AddHandler(ContextRequestedEvent, OnContextRequested, RoutingStrategies.Bubble);
             treeView.AddHandler(DoubleTappedEvent, OnDoubleTapped, RoutingStrategies.Bubble);
             treeView.AddHandler(ScrollViewer.ScrollChangedEvent, (_, _) => rowMetrics.SetEndRoom());
@@ -976,80 +975,5 @@ namespace CMiX.Studio.Avalonia.Views
         public void ScrollByWheel(int steps) => context.ExistingAutoScroller?.ScrollByWheel(steps);
 
         public double AutoScrollStep() => context.ExistingAutoScroller?.AutoScrollStep() ?? 0;
-
-        // The files and folders from the file manager come as a drag of the system. The tree is their drop target.
-        // Any other drag of the system does nothing here: a row of the tree is dragged with the pointer (see TreeRowDrag).
-        private static bool IsFileDrag(DragEventArgs e) => e.Data.Contains(DataFormats.Files);
-
-        // The paths of the current file drag, classified once. Null when no file drag is over the tree.
-        private DropFiles? dropFiles;
-
-        // The record of the drag. A drag with other data is classified again. DragOver reads no disk.
-        private DropFiles? FilesOf(DragEventArgs e)
-        {
-            if (DataContext is not ProjectTree tree)
-                return null;
-
-            if (dropFiles == null || !ReferenceEquals(dropFiles.Data, e.Data))
-                dropFiles = DropFiles.Classify(e.Data, FileDropMode.FilesAndFolders, tree.AcceptsPath);
-            return dropFiles;
-        }
-
-        private void TrackFilesPointer(DragEventArgs e) =>
-            context.AutoScroller.Track(context.Scroller is { } scroller ? e.GetPosition(scroller).Y : null);
-
-        // A leave of one row comes with the enter of the next row. The next enter or over starts the timer again.
-        private void OnDragEnter(object? sender, DragEventArgs e)
-        {
-            if (!IsFileDrag(e))
-                return;
-
-            FilesOf(e);
-            TrackFilesPointer(e);
-        }
-
-        // Files over the tree: the row under the pointer looks hovered when that row takes the files itself (see
-        // ProjectTree.IsPathTarget). Over a child of a layer, or over the space under the rows, nothing is marked.
-        private void OnDragOver(object? sender, DragEventArgs e)
-        {
-            if (!IsFileDrag(e))
-                return;
-
-            TrackFilesPointer(e);
-            e.Handled = true;
-            e.DragEffects = DragDropEffects.None;
-            marker.Mark(null, null);
-
-            if (DataContext is not ProjectTree tree || FilesOf(e) is not { IsAccepted: true })
-                return;
-
-            e.DragEffects = DragDropEffects.Copy;
-            var hoveredItem = TreeRows.ItemOf(e.Source);
-            if (hoveredItem?.DataContext is TreeNode hovered && tree.IsPathTarget(hovered))
-                marker.Mark(hoveredItem, DropPosition.Inside);
-        }
-
-        private void OnDragLeave(object? sender, DragEventArgs e)
-        {
-            context.ExistingAutoScroller?.StopNow();
-            marker.Mark(null, null);
-            // A leave of a row inside the tree keeps the record.
-            if (DropFiles.LeavesControl(treeView, e))
-                dropFiles = null;
-        }
-
-        private void OnDrop(object? sender, DragEventArgs e)
-        {
-            if (!IsFileDrag(e))
-                return;
-
-            context.ExistingAutoScroller?.StopNow();
-            e.Handled = true;
-            marker.Mark(null, null);
-            var files = FilesOf(e);
-            dropFiles = null;
-            if (DataContext is ProjectTree tree && files != null)
-                tree.DropPaths(TreeRows.ItemOf(e.Source)?.DataContext as TreeNode, files.Accepted);
-        }
     }
 }
