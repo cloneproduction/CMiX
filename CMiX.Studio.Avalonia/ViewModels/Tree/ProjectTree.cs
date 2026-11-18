@@ -172,7 +172,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (IsDragging)
                 return false;
 
-            var hidden = AllRows(Roots).Select(node => node.HiddenValue).Where(value => value is { Value: true }).Distinct().ToList();
+            var hidden = TreeWalk.AllRows(Roots).Select(node => node.HiddenValue).Where(value => value is { Value: true }).Distinct().ToList();
             if (hidden.Count == 0)
                 return false;
 
@@ -190,10 +190,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             toasts?.ShowWithUndo("All rows shown");
             return true;
         }
-
-        // Every row under these rows, at every depth, in tree order.
-        private static IEnumerable<TreeNode> AllRows(IEnumerable<TreeNode> nodes) =>
-            nodes.SelectMany(node => new[] { node }.Concat(AllRows(node.Children)));
 
         // ---------------------------------------------------------------- open and close by branch and by level
         // These keys change only the open state of the rows: no undo step and no wire message, as Tree.Expand. A row that closes over
@@ -216,19 +212,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (IsDragging || TargetNode is not { Children.Count: > 0 } target)
                 return;
 
-            void Open(TreeNode node)
+            // A row that the search opened is already open. It leaves the search, so the end of the search does not close it.
+            foreach (var node in TreeWalk.AllRows(new[] { target }).Where(node => node.Children.Count > 0))
             {
-                if (node.Children.Count == 0)
-                    return;
-
-                // A row that the search opened is already open. It leaves the search, so the end of the search does not close it.
                 node.IsExpanded = true;
                 searchOpened.Remove(node);
-                foreach (var child in node.Children)
-                    Open(child);
             }
-
-            Open(target);
         }
 
         // Every open row with children at the greatest depth among the rows that show closes.
@@ -241,8 +230,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (open.Count == 0)
                 return;
 
-            var depth = open.Max(DepthOf);
-            CloseRows(open.Where(node => DepthOf(node) == depth).ToList());
+            var depth = open.Max(TreeWalk.DepthOf);
+            CloseRows(open.Where(node => TreeWalk.DepthOf(node) == depth).ToList());
         }
 
         // Every closed row with children at the smallest depth among the rows that show opens.
@@ -255,8 +244,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (closed.Count == 0)
                 return;
 
-            var depth = closed.Min(DepthOf);
-            foreach (var node in closed.Where(node => DepthOf(node) == depth))
+            var depth = closed.Min(TreeWalk.DepthOf);
+            foreach (var node in closed.Where(node => TreeWalk.DepthOf(node) == depth))
                 node.IsExpanded = true;
         }
 
@@ -266,31 +255,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (IsDragging)
                 return;
 
-            var open = new List<TreeNode>();
-            void Visit(IEnumerable<TreeNode> nodes)
-            {
-                foreach (var node in nodes)
-                {
-                    if (node.IsExpanded && node.Children.Count > 0)
-                        open.Add(node);
-                    Visit(node.Children);
-                }
-            }
-
-            Visit(Roots);
+            var open = TreeWalk.AllRows(Roots).Where(node => node.IsExpanded && node.Children.Count > 0).ToList();
             if (open.Count > 0)
                 CloseRows(open);
         }
-
-        // The number of parents of a row. A root row has the depth 0.
-        private int DepthOf(TreeNode node) => ParentsOf(node).Count();
 
         // Closes the rows in tree order through the active view (see CloseRowsInView). The view keeps still the row that shows the
         // target after the close: the highest of its parents that closes, else the target itself.
         private void CloseRows(IReadOnlyList<TreeNode> rows)
         {
             var closing = new HashSet<TreeNode>(rows);
-            var anchor = TargetNode is { } target ? ParentsOf(target).LastOrDefault(closing.Contains) ?? target : null;
+            var anchor = TargetNode is { } target ? TreeWalk.ParentsOf(target).LastOrDefault(closing.Contains) ?? target : null;
             CloseRowsInView(anchor, () =>
             {
                 foreach (var node in rows)
@@ -319,38 +294,24 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (IsDragging || TargetNode is not { } target)
                 return closed;
 
-            var path = new HashSet<TreeNode>(ParentsOf(target));
-
-            void Visit(IEnumerable<TreeNode> nodes)
+            var path = new HashSet<TreeNode>(TreeWalk.ParentsOf(target));
+            foreach (var node in TreeWalk.AllRows(Roots))
             {
-                foreach (var node in nodes)
+                // A parent that the search opened is already open, so no change tells the search. It leaves the search here, so
+                // the end of the search does not close it.
+                if (path.Contains(node))
                 {
-                    // A parent that the search opened is already open, so no change tells the search. It leaves the search here, so
-                    // the end of the search does not close it.
-                    if (path.Contains(node))
-                    {
-                        node.IsExpanded = true;
-                        searchOpened.Remove(node);
-                    }
-                    else if (!ReferenceEquals(node, target) && node.IsExpanded && node.Children.Count > 0)
-                    {
-                        node.IsExpanded = false;
-                        closed.Add(node);
-                    }
-
-                    Visit(node.Children);
+                    node.IsExpanded = true;
+                    searchOpened.Remove(node);
+                }
+                else if (!ReferenceEquals(node, target) && node.IsExpanded && node.Children.Count > 0)
+                {
+                    node.IsExpanded = false;
+                    closed.Add(node);
                 }
             }
 
-            Visit(Roots);
             return closed;
-        }
-
-        // The parents of a row, from the row up to a root of the tree. The hidden root is not one of them.
-        private IEnumerable<TreeNode> ParentsOf(TreeNode node)
-        {
-            for (var parent = node.Parent; parent != null && !ReferenceEquals(parent, root); parent = parent.Parent)
-                yield return parent;
         }
 
         private IRelayCommand? revealSelectedCommand;
@@ -372,7 +333,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (IsDragging || selectedNode is not { } node)
                 return false;
 
-            foreach (var parent in ParentsOf(node))
+            foreach (var parent in TreeWalk.ParentsOf(node))
             {
                 parent.IsExpanded = true;
                 searchOpened.Remove(parent);
@@ -535,10 +496,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (count == 0 || step == 0 || IsDragging)
                 return;
 
-            var index = cursorNode == null ? -1 : IndexOf(searchMatches, cursorNode);
+            var index = cursorNode == null ? -1 : TreeWalk.IndexOf(searchMatches, cursorNode);
             var next = index < 0 ? (step > 0 ? 0 : count - 1) : ((index + step) % count + count) % count;
             var node = searchMatches[next];
-            for (var parent = node.Parent; parent != null && !ReferenceEquals(parent, root); parent = parent.Parent)
+            foreach (var parent in TreeWalk.ParentsOf(node))
                 OpenForSearch(parent);
 
             CursorNode = node;
@@ -585,22 +546,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // The nodes that show a row, from the top: a child shows when all its parents are expanded.
-        public IReadOnlyList<TreeNode> VisibleNodes()
-        {
-            var nodes = new List<TreeNode>();
-            void Add(IEnumerable<TreeNode> children)
-            {
-                foreach (var child in children)
-                {
-                    nodes.Add(child);
-                    if (child.IsExpanded)
-                        Add(child.Children);
-                }
-            }
-
-            Add(Roots);
-            return nodes;
-        }
+        public IReadOnlyList<TreeNode> VisibleNodes() => TreeWalk.VisibleRows(Roots);
 
         // Moves the cursor by a number of visible rows. It stops at the first and the last row.
         public void MoveCursor(int rows)
@@ -609,7 +555,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (nodes.Count == 0)
                 return;
 
-            var index = cursorNode == null ? -1 : IndexOf(nodes, cursorNode);
+            var index = cursorNode == null ? -1 : TreeWalk.IndexOf(nodes, cursorNode);
             var next = index < 0 ? (rows >= 0 ? 0 : nodes.Count - 1) : Math.Clamp(index + rows, 0, nodes.Count - 1);
             CursorNode = nodes[next];
         }
@@ -643,15 +589,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 node.IsExpanded = true;
             else
                 CursorNode = node.Children[0];
-        }
-
-        private static int IndexOf(IReadOnlyList<TreeNode> nodes, TreeNode node)
-        {
-            for (var i = 0; i < nodes.Count; i++)
-                if (ReferenceEquals(nodes[i], node))
-                    return i;
-
-            return -1;
         }
 
         public ObservableCollection<TreeNode> Roots => root.Children;
@@ -700,19 +637,14 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 return;
 
             var matches = new List<TreeNode>();
-            void Visit(IEnumerable<TreeNode> nodes)
+            foreach (var node in TreeWalk.AllRows(Roots))
             {
-                foreach (var node in nodes)
-                {
-                    var match = text.Length > 0 && node.MatchesSearch(text);
-                    node.SetSearchState(text.Length > 0, match);
-                    if (match)
-                        matches.Add(node);
-                    Visit(node.Children);
-                }
+                var match = text.Length > 0 && node.MatchesSearch(text);
+                node.SetSearchState(text.Length > 0, match);
+                if (match)
+                    matches.Add(node);
             }
 
-            Visit(Roots);
             var changed = !matches.SequenceEqual(searchMatches);
             if (changed)
             {
@@ -753,11 +685,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 searchCursor = null;
                 foreach (var kept in new[] { selectedNode, matchCursor })
                     if (kept != null)
-                        foreach (var row in ParentsOf(kept).Append(kept))
+                        foreach (var row in TreeWalk.ParentsOf(kept).Append(kept))
                             searchOpened.Remove(row);
             }
 
-            var needed = new HashSet<TreeNode>(searchMatches.SelectMany(ParentsOf));
+            var needed = new HashSet<TreeNode>(searchMatches.SelectMany(TreeWalk.ParentsOf));
 
             var closing = searchOpened.Where(node => !needed.Contains(node)).ToList();
             if (closing.Count > 0)
@@ -806,7 +738,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 searchOpened.Remove(node);
 
             if (!node.IsExpanded && cursorNode is { } cursor && !ReferenceEquals(cursor, node) && cursor.IsOrIsUnder(node))
-                CursorNode = ParentsOf(cursor).LastOrDefault(parent => !parent.IsExpanded) ?? node;
+                CursorNode = TreeWalk.ParentsOf(cursor).LastOrDefault(parent => !parent.IsExpanded) ?? node;
         }
 
         // The commands of the toolbar. They act on the target node, and they are disabled when it has nothing to do.
@@ -1157,6 +1089,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             {
                 // Read before the drop: the drop removes the source node, which passes the inspector to the parent (NodeRemoved).
                 var inspected = ReferenceEquals(inspectedNode, source);
+                var movedItem = source.Item;
                 outcome = dropService.Drop(source, target, position);
                 if (outcome.Moved)
                 {
@@ -1167,7 +1100,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                         holder.IsExpanded = true;
 
                     // Search under the holder only. A shared item is also under other layers.
-                    if (FindNode(owner ?? root, source.Item!) is { } moved)
+                    if (TreeWalk.FindNode((owner ?? root).Children, node => ReferenceEquals(node.Item, movedItem)) is { } moved)
                     {
                         Select(moved, SelectionOrigin.Program);
                         if (inspected)
@@ -1188,14 +1121,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // The node that takes dropped files: the first composition or layer from the node up. No node, or a node
         // that is under no composition, gives null, and then the drop makes a new composition.
-        public TreeNode? FindPathTarget(TreeNode? node)
-        {
-            for (var current = node; current != null; current = current.Parent)
-                if (current.Item is Composition or Layer)
-                    return current;
-
-            return null;
-        }
+        public TreeNode? FindPathTarget(TreeNode? node) =>
+            node == null ? null : TreeWalk.ParentsOf(node).Prepend(node).FirstOrDefault(row => row.Item is Composition or Layer);
 
         // True when the node itself takes the dropped files: a composition, a layer, or the group of entities of a layer.
         // The other nodes of a layer pass the drop to the entities of their layer, but they are not the target themselves.
@@ -1288,21 +1215,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         {
             Select(node, SelectionOrigin.Pointer);
             CursorNode = node;
-        }
-
-        // The node of an item, wherever it is in the tree. A moved item has a new node in its new list.
-        private static TreeNode? FindNode(TreeNode from, IControl item)
-        {
-            foreach (var child in from.Children)
-            {
-                if (ReferenceEquals(child.Item, item))
-                    return child;
-
-                if (FindNode(child, item) is { } found)
-                    return found;
-            }
-
-            return null;
         }
 
         // Selects the item of every node from the composition down to the node.

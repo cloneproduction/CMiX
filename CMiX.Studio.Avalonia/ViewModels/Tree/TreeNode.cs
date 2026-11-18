@@ -474,17 +474,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // True when any row above this one is hidden: a hidden list, or a hidden item such as a layer or a composition. The visibility toggles of the
         // row look greyed then, as if they were disabled, but they work: the row keeps its own visibility, and it shows again with its parents.
-        public bool IsUnderHiddenParent
-        {
-            get
-            {
-                for (var parent = Parent; parent != null; parent = parent.Parent)
-                    if (parent.IsHidden)
-                        return true;
-
-                return false;
-            }
-        }
+        public bool IsUnderHiddenParent => TreeWalk.ParentsOf(this).Any(parent => parent.IsHidden);
 
         private void OnHiddenChanged(object? sender, PropertyChangedEventArgs e)
         {

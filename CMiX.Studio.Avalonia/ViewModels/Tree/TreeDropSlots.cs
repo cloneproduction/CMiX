@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 return;
 
             var candidates = new List<DropSlot>();
-            foreach (var row in ShownRows(tree.Roots))
+            foreach (var row in TreeWalk.VisibleRows(tree.Roots))
                 AddCandidates(tree, source, row, candidates);
 
             // For each place, the slot with the lowest rank stays.
@@ -70,18 +70,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // The slot over the index. It stops at the first slot. An index of -1 gives the last slot. -1 when the list is empty.
         public int Previous(int index) => slots.Count == 0 ? -1 : index < 0 ? slots.Count - 1 : Math.Max(index - 1, 0);
-
-        // The rows that show: the roots, and the children of each open row.
-        private static IEnumerable<TreeNode> ShownRows(IEnumerable<TreeNode> nodes)
-        {
-            foreach (var node in nodes)
-            {
-                yield return node;
-                if (node.IsExpanded)
-                    foreach (var child in ShownRows(node.Children))
-                        yield return child;
-            }
-        }
 
         // The places at a row, in the order of the rows: Before the row, Inside it, then After each block that ends at this row,
         // the inner block first. The source and the rows under it are no target. The start slot is at the source row.

@@ -136,14 +136,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             && !target.Owner.ManagerData.Items.Contains(source.Item!)
             && (!rules || Accepts(source.Item!, target.Parent?.Group));
 
-        private static TreeNode? CompositionOf(TreeNode node)
-        {
-            for (var current = node; current != null; current = current.Parent)
-                if (current.Item is Composition)
-                    return current;
-
-            return null;
-        }
+        private static TreeNode? CompositionOf(TreeNode node) =>
+            TreeWalk.ParentsOf(node).Prepend(node).FirstOrDefault(row => row.Item is Composition);
 
         // The other layers of the composition that hold the item of the source. Empty when the source is not in an entity, camera or light list.
         private static IReadOnlyList<Layer> LayersSharing(TreeNode source)
