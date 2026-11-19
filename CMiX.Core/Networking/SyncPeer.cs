@@ -540,7 +540,10 @@ namespace CMiX.Core.Networking
             {
                 if (connected) _wasConnected = true;
                 IsConnected = connected;
-                ShowStoreError(connected, reason);
+                if (connected)
+                    ClearStoreError();
+                else
+                    ShowStoreError(reason);
                 OnPropertyChanged(nameof(Status));
 
                 // A compaction that threw while the store was down is not retried by itself.
@@ -565,17 +568,16 @@ namespace CMiX.Core.Networking
         }
 
         // Runs on the dispatcher thread.
-        private void ShowStoreError(bool connected, string reason)
+        private void ClearStoreError()
         {
-            if (connected)
-            {
-                if (ErrorMessage == _storeError)
-                    ErrorMessage = string.Empty;
+            if (ErrorMessage == _storeError)
+                ErrorMessage = string.Empty;
 
-                _storeError = string.Empty;
-                return;
-            }
+            _storeError = string.Empty;
+        }
 
+        private void ShowStoreError(string reason)
+        {
             if (reason.Length == 0)
                 return;
 
