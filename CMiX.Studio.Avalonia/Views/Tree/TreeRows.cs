@@ -11,28 +11,16 @@ namespace CMiX.Studio.Avalonia.Views
 {
     internal static class TreeRows
     {
-        public static TreeViewItem? ItemOf(object? source)
-        {
-            for (var visual = source as Visual; visual != null; visual = visual.GetVisualParent())
-                if (visual is TreeViewItem item)
-                    return item;
-
-            return null;
-        }
+        public static TreeViewItem? ItemOf(object? source) =>
+            (source as Visual)?.FindAncestorOfType<TreeViewItem>(includeSelf: true);
 
         // The source itself counts.
-        public static bool HasAncestor<T>(object? source) where T : Visual
-        {
-            for (var visual = source as Visual; visual != null; visual = visual.GetVisualParent())
-                if (visual is T)
-                    return true;
-
-            return false;
-        }
+        public static bool HasAncestor<T>(object? source) where T : Visual =>
+            (source as Visual)?.FindAncestorOfType<T>(includeSelf: true) != null;
 
         public static TreeViewItem? ItemOfNode(TreeViewItem from, TreeNode node)
         {
-            for (var item = from; item != null; item = item.GetVisualAncestors().OfType<TreeViewItem>().FirstOrDefault())
+            for (var item = from; item != null; item = item.FindAncestorOfType<TreeViewItem>())
                 if (ReferenceEquals(item.DataContext, node))
                     return item;
 
