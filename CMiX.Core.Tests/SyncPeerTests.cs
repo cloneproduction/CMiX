@@ -1027,6 +1027,53 @@ namespace CMiX.Core.Tests
             Assert.Equal(string.Empty, peer.ErrorMessage);
         }
 
+        [Fact]
+        public async Task Start_TwiceBeforeTheFirstJoinLands_KeepsTheStateOfTheSecondRun()
+        {
+            var innerA = new InMemorySyncStore();
+            await innerA.ConnectAsync(default);
+            var tailA = await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await innerA.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(ModelWithOneComposition()), tailA, "other", DateTime.UtcNow));
+            var storeA = new WrappingSyncStore(innerA);
+
+            var storeB = new InMemorySyncStore();
+            await storeB.ConnectAsync(default);
+            var snapshotB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await storeB.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(ModelWithOneComposition()), snapshotB, "other", DateTime.UtcNow));
+            var tailB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+
+            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            storeA.BeforeReadSnapshot = async () =>
+            {
+                reached.TrySetResult(true);
+                await release.Task;
+            };
+
+            var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
+            var target = new RecordingSyncTarget();
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false, Timings = Fast };
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
+
+            peer.Start(Options("Studio"), autoJoin: false);
+            await WaitUntilAsync(() => peer.Status == "Not in sync" && peer.TailId == tailB, 15000,
+                () => $"status={peer.Status} tail={peer.TailId} error={peer.ErrorMessage}");
+
+            await WaitUntilAsync(() => !innerA.IsConnected, 3000);
+            await innerA.ConnectAsync(default);
+            release.SetResult(true);
+            await Task.Delay(300);
+
+            Assert.Equal(0, target.SnapshotsApplied);
+            Assert.False(peer.IsJoined);
+            Assert.Equal(StreamPosition.Zero, peer.LastAppliedId);
+            Assert.Equal(tailB, peer.TailId);
+            Assert.Equal("Not in sync", peer.Status);
+            Assert.Equal(string.Empty, peer.ErrorMessage);
+        }
+
         // The same for the push of the Studio. The entry that is on its way stays in the old store,
         // but the snapshot and the trim go to the new one only.
         [Fact]
@@ -1388,6 +1435,72 @@ namespace CMiX.Core.Tests
             Assert.Contains("fresh", PeerIds(peer));
         }
 
+        [Fact(Skip = "Fails until step B1 passes the run to the presence tick")]
+        public async Task PresenceTick_OfAStoppedRun_StartsNoJoinOnTheNewRun()
+        {
+            using var dispatcher = new SingleThreadDispatcher();
+            var innerA = new InMemorySyncStore();
+            var storeA = new WrappingSyncStore(innerA);
+
+            var storeB = new InMemorySyncStore();
+            await storeB.ConnectAsync(default);
+            var snapshotB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await storeB.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(ModelWithOneComposition()), snapshotB, "other", DateTime.UtcNow));
+            await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+
+            var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
+            var target = new RecordingSyncTarget();
+            using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false, Timings = Fast };
+            peer.SetDispatcher(dispatcher.Post);
+
+            peer.Start(Options("Engine"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
+
+            var followerReached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var followerRelease = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            storeA.BeforeReadBlocking = async () =>
+            {
+                followerReached.TrySetResult(true);
+                await followerRelease.Task;
+            };
+            await WaitUntilAsync(() => followerReached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+
+            var tickReached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var tickRelease = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            storeA.BeforeReadTail = async () =>
+            {
+                tickReached.TrySetResult(true);
+                await tickRelease.Task;
+            };
+            await WaitUntilAsync(() => tickReached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            storeA.BeforeReadTail = null;
+
+            var tailA = await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
+            await innerA.WriteSnapshotAsync(new Snapshot(VL.Serialization.MessagePack.MessagePackSerialization.Serialize(ModelWithOneComposition()), tailA, "other", DateTime.UtcNow));
+            await innerA.TrimAsync(tailA);
+
+            var restarted = 0;
+            peer.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName != nameof(SyncPeer.TailId) || peer.TailId != tailA) return;
+                if (Interlocked.Exchange(ref restarted, 1) == 1) return;
+
+                peer.Stop();
+                peer.Start(Options("Studio"), autoJoin: false);
+            };
+            tickRelease.SetResult(true);
+
+            await WaitUntilAsync(() => Volatile.Read(ref restarted) == 1, 15000, () => $"status={peer.Status} tail={peer.TailId}");
+            await WaitUntilAsync(() => peer.Status == "Not in sync" || peer.IsJoined, 15000,
+                () => $"status={peer.Status} error={peer.ErrorMessage}");
+            await Task.Delay(300);
+            followerRelease.SetResult(true);
+
+            Assert.False(peer.IsJoined);
+            Assert.Equal(0, target.SnapshotsApplied);
+            Assert.Equal("Not in sync", peer.Status);
+        }
+
         // The presence tick replaces Peers on its own thread. Copy it again when the copy fails.
         private static string[] PeerIds(SyncPeer peer)
         {
@@ -1439,6 +1552,32 @@ namespace CMiX.Core.Tests
 
             inner.SimulateReconnect();
             await WaitUntilAsync(() => peer.ErrorMessage.Length == 0, detail: () => $"error={peer.ErrorMessage}");
+        }
+
+        [Fact]
+        public async Task OnConnectionChanged_AfterAJoinError_KeepsTheJoinError()
+        {
+            var inner = new InMemorySyncStore();
+            var store = new WrappingSyncStore(inner);
+            var target = new RecordingSyncTarget();
+            using var peer = CreatePeer(target, store);
+            peer.Start(Options("A"), autoJoin: true);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            inner.SimulateDisconnect("test reason");
+            await WaitUntilAsync(() => peer.ErrorMessage == "test reason", detail: () => $"error={peer.ErrorMessage}");
+
+            store.Fail = true;
+            await peer.JoinAsync();
+            var joinError = peer.ErrorMessage;
+            Assert.NotEmpty(joinError);
+            Assert.NotEqual("test reason", joinError);
+
+            store.Fail = false;
+            inner.SimulateReconnect();
+            await WaitUntilAsync(() => peer.IsConnected, detail: () => $"status={peer.Status}");
+
+            Assert.Equal(joinError, peer.ErrorMessage);
         }
 
         // A run that subscribes after its own Stop leaves a handler on the store it left. An event
