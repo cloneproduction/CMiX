@@ -29,13 +29,13 @@ namespace CMiX.UI.Behaviors
             ClosesOnPointerAwayProperty.Changed.AddClassHandler<CloseFlyoutOnPointerAwayBehavior>((behavior, _) => behavior.UpdateCloser());
         }
 
-        public static readonly StyledProperty<double> DistanceProperty =
-            AvaloniaProperty.Register<CloseFlyoutOnPointerAwayBehavior, double>(nameof(Distance), PointerAwayCloser.DefaultDistance);
+        public static readonly StyledProperty<double> PointerAwayDistanceProperty =
+            AvaloniaProperty.Register<CloseFlyoutOnPointerAwayBehavior, double>(nameof(PointerAwayDistance), PointerAwayCloser.DefaultDistance);
 
-        public double Distance
+        public double PointerAwayDistance
         {
-            get => GetValue(DistanceProperty);
-            set => SetValue(DistanceProperty, value);
+            get => GetValue(PointerAwayDistanceProperty);
+            set => SetValue(PointerAwayDistanceProperty, value);
         }
 
         private readonly PointerAwayCloser closer;
@@ -43,7 +43,7 @@ namespace CMiX.UI.Behaviors
         public CloseFlyoutOnPointerAwayBehavior()
         {
             closer = new PointerAwayCloser(
-                () => Distance,
+                () => PointerAwayDistance,
                 () => ClosesOnPointerAway,
                 // The popup host gives the presenter, the control that holds the flyout content.
                 () => (AssociatedObject as IPopupHostProvider)?.PopupHost?.Presenter?.Child,

@@ -76,7 +76,7 @@ namespace CMiX.UI.Tests
         public void ABiggerDistance_KeepsTheFlyoutOpenFartherAway(string kind)
         {
             var (window, _, flyout) = ShowWithOpenFlyout(kind);
-            AvaloniaInteraction.GetBehaviors(flyout).OfType<CloseFlyoutOnPointerAwayBehavior>().Single().Distance = 2000;
+            AvaloniaInteraction.GetBehaviors(flyout).OfType<CloseFlyoutOnPointerAwayBehavior>().Single().PointerAwayDistance = 2000;
 
             Move(window, new Point(790, 490));
 
@@ -117,7 +117,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void TheDistance_IsSixtyFourByDefault()
         {
-            Assert.Equal(64, new CloseFlyoutOnPointerAwayBehavior().Distance);
+            Assert.Equal(64, new CloseFlyoutOnPointerAwayBehavior().PointerAwayDistance);
         }
 
         [AvaloniaFact]
