@@ -169,14 +169,7 @@ namespace CMiX.Studio.Avalonia.Views
             return owner.FindAncestorOfType<SidePanelHost>() is not { } host || host.IsVisualAncestorOf(box);
         }
 
-        internal static bool IsInTextBox(object? source)
-        {
-            for (var visual = source as Visual; visual != null; visual = visual.GetVisualParent())
-                if (visual is TextBox)
-                    return true;
-
-            return false;
-        }
+        internal static bool IsInTextBox(object? source) => TreeRows.HasAncestor<TextBox>(source);
 
         // The focus on the window itself, or on no control, is in no panel.
         private bool IsFocusInOtherPanel() => FocusedControl() is { } focused && !IsInPanel(focused);

@@ -20,6 +20,16 @@ namespace CMiX.Studio.Avalonia.Views
             return null;
         }
 
+        // The source itself counts.
+        public static bool HasAncestor<T>(object? source) where T : Visual
+        {
+            for (var visual = source as Visual; visual != null; visual = visual.GetVisualParent())
+                if (visual is T)
+                    return true;
+
+            return false;
+        }
+
         public static TreeViewItem? ItemOfNode(TreeViewItem from, TreeNode node)
         {
             for (var item = from; item != null; item = item.GetVisualAncestors().OfType<TreeViewItem>().FirstOrDefault())
