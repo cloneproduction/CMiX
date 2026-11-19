@@ -22,14 +22,6 @@ namespace CMiX.Studio.Avalonia.Tests
     // A row of the main menu holds the command of its source. The title bar shows the open project.
     public class MainMenuBindingTests
     {
-        private static MenuItem OpenRow(Window window, string top, string row)
-        {
-            var item = window.GetVisualDescendants().OfType<Menu>().First().Items.OfType<MenuItem>().Single(menuItem => (string?)menuItem.Header == top);
-            item.Open();
-            TestServiceProviderFactory.Pump();
-            return item.Items.OfType<MenuItem>().Single(menuItem => (string?)menuItem.Header == row);
-        }
-
         private static ICommand ExpectedCommand(MainViewModel viewModel, string top, string row) => (top, row) switch
         {
             ("File", "New") => viewModel.ProjectFile.NewProjectCommand,
@@ -71,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-            var rowItem = OpenRow(window, top, row);
+            var rowItem = MainMenuRows.OpenRow(window, top, row);
 
             Assert.Same(ExpectedCommand(viewModel, top, row), rowItem.Command);
         }
@@ -87,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
 
-            var rowItem = OpenRow(window, top, row);
+            var rowItem = MainMenuRows.OpenRow(window, top, row);
 
             Assert.True(RunCommandAfterClose.GetIsEnabled(rowItem));
         }

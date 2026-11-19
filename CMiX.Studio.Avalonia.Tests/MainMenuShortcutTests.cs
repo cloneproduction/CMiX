@@ -13,11 +13,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             TestServiceProviderFactory.Pump();
-            var item = window.GetVisualDescendants().OfType<Menu>().First().Items.OfType<MenuItem>().Single(menuItem => (string?)menuItem.Header == top);
-            item.Open();
-            TestServiceProviderFactory.Pump();
-
-            var rowItem = item.Items.OfType<MenuItem>().Single(menuItem => (string?)menuItem.Header == row);
+            var rowItem = MainMenuRows.OpenRow(window, top, row);
             return (rowItem.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Name == "PART_InputGestureText"), viewModel);
         }
 

@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static (Window Window, MenuItem File) Show()
         {
             var (window, _) = ShowWithViewModel();
-            return (window, TopItem(window, "File"));
+            return (window, MainMenuRows.TopItem(window, "File"));
         }
 
         private static (Window Window, ViewModels.MainViewModel ViewModel) ShowWithViewModel()
@@ -32,9 +32,6 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             return (window, viewModel);
         }
-
-        private static MenuItem TopItem(Window window, string header) =>
-            window.GetVisualDescendants().OfType<Menu>().First().Items.OfType<MenuItem>().Single(item => (string?)item.Header == header);
 
         // A row of an open menu is in the popup, its own top level.
         private static void ClickRow(MenuItem row)
@@ -93,7 +90,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (window, viewModel) = ShowWithViewModel();
             var compositions = viewModel.Project.CompositionManager.ManagerData.Items;
             var before = compositions.Count;
-            var compo = TopItem(window, "Compo");
+            var compo = MainMenuRows.TopItem(window, "Compo");
             Click(window, compo);
             var row = compo.Items.OfType<MenuItem>().Single(item => (string?)item.Header == "New Composition");
             bool? popupOpenOnAdd = null;
@@ -112,7 +109,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (window, viewModel) = ShowWithViewModel();
             var compositions = viewModel.Project.CompositionManager.ManagerData.Items;
             var before = compositions.Count;
-            var compo = TopItem(window, "Compo");
+            var compo = MainMenuRows.TopItem(window, "Compo");
             Click(window, compo);
             var row = compo.Items.OfType<MenuItem>().Single(item => (string?)item.Header == "New Composition");
             row.Focus();
