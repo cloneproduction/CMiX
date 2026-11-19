@@ -734,14 +734,7 @@ namespace CMiX.Core.Networking
                     {
                         var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
                         position = snapshot.StreamId;
-                        await DispatchCurrentAsync(store, generation, () =>
-                        {
-                            _target.ApplySnapshot(model);
-                            _applied.Forget();
-                            SnapshotApplied?.Invoke(this, EventArgs.Empty);
-                            LastAppliedId = position;
-                            if (position > TailId) TailId = position;
-                        }).ConfigureAwait(false);
+                        await DispatchCurrentAsync(store, generation, () => ApplySnapshotOnDispatcher(model, position)).ConfigureAwait(false);
                     }
                     else
                     {
@@ -1017,18 +1010,23 @@ namespace CMiX.Core.Networking
                 var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
                 await DispatchCurrentAsync(store, generation, () =>
                 {
-                    _target.ApplySnapshot(model);
-                    _applied.Forget();
-                    SnapshotApplied?.Invoke(this, EventArgs.Empty);
+                    ApplySnapshotOnDispatcher(model, snapshot.StreamId);
                     AppliedMessages++;
-                    LastAppliedId = snapshot.StreamId;
-                    if (snapshot.StreamId > TailId) TailId = snapshot.StreamId;
                 }).ConfigureAwait(false);
             }
             finally
             {
                 Volatile.Write(ref _recovering, false);
             }
+        }
+
+        private void ApplySnapshotOnDispatcher(ProjectModel model, StreamPosition position)
+        {
+            _target.ApplySnapshot(model);
+            _applied.Forget();
+            SnapshotApplied?.Invoke(this, EventArgs.Empty);
+            LastAppliedId = position;
+            if (position > TailId) TailId = position;
         }
 
         // False after a Stop, or after a Start that made a new store. Then the caller belongs to an
