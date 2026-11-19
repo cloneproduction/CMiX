@@ -124,12 +124,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private void ToggleExpandTarget()
         {
             if (IsDragging)
-                ToggleDragRow();
+                Views.ToggleDragRow();
             else if (TargetNode is { Children.Count: > 0 } node)
                 node.IsExpanded = !node.IsExpanded;
         }
 
-        private bool CanToggleExpandTarget() => IsDragging ? !IsTextBoxFocused() : CanRunTreeKey() && TargetNode is { Children.Count: > 0 };
+        private bool CanToggleExpandTarget() => IsDragging ? !Views.IsTextBoxFocused() : CanRunTreeKey() && TargetNode is { Children.Count: > 0 };
 
         [RelayCommand(CanExecute = nameof(CanExpandBranch))]
         public void ExpandBranch()
@@ -195,7 +195,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         // A key binding checks the command when the key is pressed, so this needs no change event.
         // A text box does not take Ctrl+R or the key down of Shift+D, so a focused text box blocks the keys.
-        private bool CanRunTreeKey() => !IsDragging && views.AllowsTreeKey();
+        private bool CanRunTreeKey() => !IsDragging && Views.AllowsTreeKey();
 
         private void RefreshCommands()
         {

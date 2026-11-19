@@ -68,11 +68,11 @@ namespace CMiX.Studio.Avalonia.Tests
 
             tree.DetachView(second);
 
-            Assert.True(tree.IsPointerOverTree());
-            Assert.True(tree.IsTreeFocused());
-            Assert.True(tree.IsTextBoxFocused());
-            tree.ToggleDragRow();
-            tree.CancelDrag();
+            Assert.True(tree.Views.IsPointerOverTree());
+            Assert.True(tree.Views.IsTreeFocused());
+            Assert.True(tree.Views.IsTextBoxFocused());
+            tree.Views.ToggleDragRow();
+            tree.Views.CancelDrag();
             Assert.Equal(1, toggled);
             Assert.Equal(1, cancelled);
         }
@@ -85,7 +85,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             tree.AttachView(new TreeViewHooks());
 
-            Assert.True(tree.IsPointerOverTree());
+            Assert.True(tree.Views.IsPointerOverTree());
         }
 
         // The focus in the panel of one view is not in another panel, so every view must say that the focus is elsewhere.
@@ -94,14 +94,14 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var tree = CreateScene().Tree;
             var focusInSecond = true;
-            Assert.False(tree.IsFocusInOtherPanel());
+            Assert.False(tree.Views.IsFocusInOtherPanel());
             tree.AttachView(new TreeViewHooks { IsFocusInOtherPanel = () => true });
             tree.AttachView(new TreeViewHooks { IsFocusInOtherPanel = () => !focusInSecond });
 
-            Assert.False(tree.IsFocusInOtherPanel());
+            Assert.False(tree.Views.IsFocusInOtherPanel());
 
             focusInSecond = false;
-            Assert.True(tree.IsFocusInOtherPanel());
+            Assert.True(tree.Views.IsFocusInOtherPanel());
         }
 
         [Fact]
@@ -113,8 +113,8 @@ namespace CMiX.Studio.Avalonia.Tests
 
             tree.DetachView(view);
 
-            Assert.False(tree.IsPointerOverTree());
-            Assert.False(tree.IsTreeFocused());
+            Assert.False(tree.Views.IsPointerOverTree());
+            Assert.False(tree.Views.IsTreeFocused());
         }
 
         [Fact]
@@ -126,7 +126,7 @@ namespace CMiX.Studio.Avalonia.Tests
             tree.AttachView(new TreeViewHooks { CloseRowsInView = (_, close) => { asked.Add("first"); close(); } });
             tree.AttachView(new TreeViewHooks { IsTreeFocused = () => true, CloseRowsInView = (_, close) => { asked.Add("second"); close(); } });
 
-            tree.CloseRowsInView(null, () => { closes++; return Array.Empty<TreeNode>(); });
+            tree.Views.CloseRowsInView(null, () => { closes++; return Array.Empty<TreeNode>(); });
 
             Assert.Equal(new[] { "second" }, asked);
             Assert.Equal(1, closes);
@@ -146,12 +146,12 @@ namespace CMiX.Studio.Avalonia.Tests
             {
                 Assert.True(TreeTestScreen.ItemOf(first, scene.Tree.Roots[0]).Focus(NavigationMethod.Tab));
                 Dispatcher.UIThread.RunJobs();
-                Assert.True(scene.Tree.IsTreeFocused());
+                Assert.True(scene.Tree.Views.IsTreeFocused());
 
                 panel.Children.Remove(second);
                 Dispatcher.UIThread.RunJobs();
 
-                Assert.True(scene.Tree.IsTreeFocused());
+                Assert.True(scene.Tree.Views.IsTreeFocused());
             }
             finally
             {

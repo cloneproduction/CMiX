@@ -373,7 +373,7 @@ namespace CMiX.Studio.Avalonia.Tests
             button.Focus();
             Settle(screen.Window);
             Assert.True(button.IsFocused);
-            Assert.True(screen.Tree.IsFocusInOtherPanel());
+            Assert.True(screen.Tree.Views.IsFocusInOtherPanel());
         }
 
         // Counts the runs of each tree key. The target row is the first layer. It has children, so Tree.Expand changes it.
@@ -441,7 +441,7 @@ namespace CMiX.Studio.Avalonia.Tests
                     break;
                 case Place.PointerOverWithFocusNowhere:
                     PointOnTree(screen);
-                    Assert.False(screen.Tree.IsFocusInOtherPanel());
+                    Assert.False(screen.Tree.Views.IsFocusInOtherPanel());
                     break;
                 case Place.PointerOverWithFocusInOtherPanel:
                     PointOnTree(screen);

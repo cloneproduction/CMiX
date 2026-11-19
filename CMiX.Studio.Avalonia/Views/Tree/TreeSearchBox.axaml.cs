@@ -91,7 +91,7 @@ namespace CMiX.Studio.Avalonia.Views
             {
                 if (e.Key == Key.Escape)
                 {
-                    tree.CancelDrag();
+                    tree.Views.CancelDrag();
                     e.Handled = true;
                 }
 

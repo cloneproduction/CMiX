@@ -20,7 +20,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private readonly PrefabManager compositions;
         private readonly Project project;
         private readonly TreeNode root;
-        private readonly TreeViewSet views;
         private readonly TreeAddCatalogue adds;
         private readonly TreeFileDropRules fileDrop;
         private readonly TreeEdit edit;
@@ -38,14 +37,14 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             Interface = interfaceOptions;
             this.project = project;
             compositions = project.CompositionManager;
-            views = new TreeViewSet();
+            Views = new TreeViewSet();
             adds = new TreeAddCatalogue(compositions);
             fileDrop = new TreeFileDropRules(pathDrop, compositions, undoManager);
             edit = new TreeEdit(undoManager, toasts);
             dragState = new TreeDragState(dropService);
             drop = new TreeDrop(dropService, notice);
-            search = new TreeSearch(CloseRowsInView);
-            openState = new TreeOpenState(CloseRowsInView, search);
+            search = new TreeSearch(Views.CloseRowsInView);
+            openState = new TreeOpenState(Views.CloseRowsInView, search);
             // The one row under the root is the group of the compositions.
             root = new TreeNode(this, null, null, null, "Project", null);
             root.AddGroups(project);
@@ -92,31 +91,19 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // A view that goes takes back only its own hooks, so the other view keeps working.
-        public void AttachView(TreeViewHooks view) => views.Attach(view);
+        public void AttachView(TreeViewHooks view) => Views.Attach(view);
 
-        public void DetachView(TreeViewHooks view) => views.Detach(view);
+        public void DetachView(TreeViewHooks view) => Views.Detach(view);
 
-        public bool IsActiveView(TreeViewHooks view) => views.IsActiveView(view);
+        public bool IsActiveView(TreeViewHooks view) => Views.IsActiveView(view);
 
-        public void CloseRowsInView(TreeNode? node, Func<IReadOnlyList<TreeNode>> close) => views.CloseRowsInView(node, close);
-
-        public bool IsFocusInOtherPanel() => views.IsFocusInOtherPanel();
+        public TreeViewSet Views { get; }
 
         internal bool IsLoading => project.IsLoading;
 
         public ShortcutMap Shortcuts { get; }
 
         public InterfaceOptions Interface { get; }
-
-        public bool IsPointerOverTree() => views.IsPointerOverTree();
-
-        public void ToggleDragRow() => views.ToggleDragRow();
-
-        public bool IsTextBoxFocused() => views.IsTextBoxFocused();
-
-        public bool IsTreeFocused() => views.IsTreeFocused();
-
-        public void CancelDrag() => views.CancelDrag();
 
         public ObservableCollection<TreeNode> Roots => root.Children;
 
