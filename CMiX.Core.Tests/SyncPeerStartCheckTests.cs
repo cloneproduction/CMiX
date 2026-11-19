@@ -33,7 +33,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = CreatePeer(target, store);
 
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
 
             var snapshot = await store.ReadSnapshotAsync();
@@ -55,7 +55,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = model };
             using var peer = CreatePeer(target, store);
 
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
 
             Assert.Equal(tail, peer.LastAppliedId);
@@ -77,7 +77,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = CreatePeer(target, store, messenger);
 
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.IsConnected && peer.Status == "Not in sync", detail: () => $"status={peer.Status}");
 
             Assert.False(peer.IsJoined);
@@ -99,7 +99,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = model };
             using var peer = CreatePeer(target, store);
 
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.IsConnected && peer.Status == "Not in sync", detail: () => $"status={peer.Status}");
 
             Assert.False(peer.IsJoined);
@@ -116,7 +116,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = CreatePeer(target, store);
 
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.IsConnected && peer.Status == "Not in sync", detail: () => $"status={peer.Status}");
 
             Assert.False(peer.IsJoined);
@@ -136,7 +136,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = CreatePeer(target, store, messenger);
 
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.IsConnected && peer.Status == "Not in sync", detail: () => $"status={peer.Status}");
 
             await peer.JoinAsync();
@@ -160,7 +160,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = localModel };
             using var peer = CreatePeer(target, store, messenger);
 
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.IsConnected && peer.Status == "Not in sync", detail: () => $"status={peer.Status}");
 
             await peer.PushAsync();
@@ -185,7 +185,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = model };
             using var peer = CreatePeer(target, store);
 
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.IsConnected && peer.Status == "Not in sync", detail: () => $"status={peer.Status}");
             Assert.Equal(StartCheck.NotInSync, await peer.CheckStartAsync());
 
@@ -209,7 +209,7 @@ namespace CMiX.Core.Tests
                 var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
                 using var peer = CreatePeer(target, store);
 
-                peer.Start(Options("Studio"), autoJoin: false);
+                peer.Start(Options("Studio"));
                 await WaitUntilAsync(() => peer.IsJoined, 5000, () => $"iteration {i} status={peer.Status}");
                 // The store keeps sending its connection events. A second push must not come.
                 await Task.Delay(300);

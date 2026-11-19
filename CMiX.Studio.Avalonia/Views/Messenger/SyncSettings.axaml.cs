@@ -132,7 +132,7 @@ namespace CMiX.Studio.Avalonia.Views
             // Both calls return at once. The peer connects on a background task.
             var peer = Peer;
             peer.Stop();
-            peer.Start(settings.Resolve(_store).Options, autoJoin: false);
+            peer.Start(settings.Resolve(_store).Options);
             ShowEndpoint(peer);
             EditConnectionButton.Flyout!.Hide();
         }

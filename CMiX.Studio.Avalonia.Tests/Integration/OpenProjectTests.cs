@@ -535,7 +535,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
                 // Port 1 has no server. The peer has a store, and the dispatcher then fails the push.
                 peer.IsWriter = true;
-                peer.Start(SyncOptions.Defaults with { Port = 1, KeyPrefix = "cmix:test-open-push" }, false);
+                peer.Start(SyncOptions.Defaults with { Port = 1, KeyPrefix = "cmix:test-open-push" });
                 peer.IsJoined = true;
                 peer.SetDispatcher(_ => throw new InvalidOperationException("The push failed."));
 

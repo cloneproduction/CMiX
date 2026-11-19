@@ -30,7 +30,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = CreatePeer(target, store);
 
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             var snapshot = await store.ReadSnapshotAsync();
@@ -49,7 +49,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = CreatePeer(target, store, isWriter: false);
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             Assert.Null(await store.ReadSnapshotAsync());
@@ -64,7 +64,7 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             peer.SendMessage(new MessageOnClick(Guid.NewGuid()));
@@ -79,7 +79,7 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             await peer.PushAsync();
@@ -99,7 +99,7 @@ namespace CMiX.Core.Tests
 
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             Assert.Equal(1, target.SnapshotsApplied);
@@ -121,7 +121,7 @@ namespace CMiX.Core.Tests
 
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("B"), autoJoin: true);
+            peer.StartAndJoin(Options("B"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             Assert.Equal(1, target.SnapshotsApplied);
@@ -138,7 +138,7 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
             var pushId = peer.LastAppliedId;
 
@@ -161,7 +161,7 @@ namespace CMiX.Core.Tests
             var target = new ProjectSyncTarget(project, messenger, provider.GetRequiredService<UndoManager>());
             using var peer = CreatePeer(target, store, messenger);
             messenger.Register(peer);
-            peer.Start(Options("B"), autoJoin: true);
+            peer.StartAndJoin(Options("B"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             project.CompositionManager.AddItem(typeof(Composition));
@@ -181,7 +181,7 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             var targetA = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var a = CreatePeer(targetA, store);
-            a.Start(Options("A"), autoJoin: true);
+            a.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => a.IsJoined);
 
             var providerB = TestServiceProviderFactory.Create();
@@ -190,7 +190,7 @@ namespace CMiX.Core.Tests
             var targetB = new ProjectSyncTarget(projectB, messengerB, providerB.GetRequiredService<UndoManager>());
             using var b = CreatePeer(targetB, store, messengerB, isWriter: false);
             messengerB.Register(b);
-            b.Start(Options("B"), autoJoin: true);
+            b.StartAndJoin(Options("B"));
             await WaitUntilAsync(() => b.IsJoined);
 
             var expected = ProjectStateHash.Compute(targetA.Model);
@@ -210,9 +210,9 @@ namespace CMiX.Core.Tests
             var targetB = new RecordingSyncTarget();
             using var a = CreatePeer(targetA, store);
             using var b = CreatePeer(targetB, store);
-            a.Start(Options("A"), autoJoin: true);
+            a.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => a.IsJoined);
-            b.Start(Options("B"), autoJoin: true);
+            b.StartAndJoin(Options("B"));
             await WaitUntilAsync(() => b.IsJoined);
 
             var fromA = new MessageOnClick(Guid.NewGuid());
@@ -225,7 +225,7 @@ namespace CMiX.Core.Tests
 
             var targetC = new RecordingSyncTarget();
             using var c = CreatePeer(targetC, store);
-            c.Start(Options("C"), autoJoin: true);
+            c.StartAndJoin(Options("C"));
             await WaitUntilAsync(() => c.IsJoined);
 
             Assert.Equal(1, targetC.SnapshotsApplied);
@@ -242,9 +242,9 @@ namespace CMiX.Core.Tests
             var targetB = new RecordingSyncTarget();
             using var a = CreatePeer(targetA, store);
             using var b = CreatePeer(targetB, store);
-            a.Start(Options("A"), autoJoin: true);
+            a.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => a.IsJoined);
-            b.Start(Options("B"), autoJoin: true);
+            b.StartAndJoin(Options("B"));
             await WaitUntilAsync(() => b.IsJoined);
 
             for (var i = 0; i < 3; i++)
@@ -269,7 +269,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
@@ -305,12 +305,12 @@ namespace CMiX.Core.Tests
 
             // The peer blocks sending until it joins, so this composition stays local.
             project.CompositionManager.AddItem(typeof(Composition));
-            b.Start(Options("B"), autoJoin: false);
+            b.Start(Options("B"));
             await WaitUntilAsync(() => b.IsJoined);
 
             var targetA = new RecordingSyncTarget();
             using var a = CreatePeer(targetA, inner, isWriter: false);
-            a.Start(Options("A"), autoJoin: true);
+            a.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => a.IsJoined);
 
             storeB.SetFail(true);
@@ -339,7 +339,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
@@ -364,7 +364,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
@@ -406,7 +406,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
@@ -450,7 +450,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             // Holds the entry that the follower found. The peer stays behind the snapshot, so the
@@ -495,7 +495,7 @@ namespace CMiX.Core.Tests
                 await release.Task;
             };
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
             await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
 
@@ -524,7 +524,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
             // A few heartbeat intervals. An idle tick has the time to read the oldest entry.
@@ -561,7 +561,7 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             // MessagePack never uses 0xC1, so the read of this entry fails.
@@ -597,7 +597,7 @@ namespace CMiX.Core.Tests
                 Interlocked.Increment(ref events);
             };
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined);
             await Task.Delay(300);
 
@@ -614,7 +614,7 @@ namespace CMiX.Core.Tests
             var events = 0;
             peer.SnapshotApplied += (_, _) => Interlocked.Increment(ref events);
 
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
             Assert.Equal(0, Volatile.Read(ref events));
 
@@ -635,7 +635,7 @@ namespace CMiX.Core.Tests
             var events = 0;
             peer.SnapshotApplied += (_, _) => Interlocked.Increment(ref events);
 
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
@@ -662,7 +662,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
             Assert.True(peer.LastAppliedId > StreamPosition.Zero);
 
@@ -692,7 +692,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
             var snapshotsBefore = target.SnapshotsApplied;
 
@@ -726,9 +726,9 @@ namespace CMiX.Core.Tests
             var targetB = new RecordingSyncTarget();
             using var a = CreatePeer(targetA, store);
             using var b = CreatePeer(targetB, store);
-            a.Start(Options("A"), autoJoin: true);
+            a.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => a.IsJoined);
-            b.Start(Options("B"), autoJoin: true);
+            b.StartAndJoin(Options("B"));
             await WaitUntilAsync(() => b.IsJoined);
 
             var ids = Enumerable.Range(0, 100).Select(_ => Guid.NewGuid()).ToArray();
@@ -747,9 +747,9 @@ namespace CMiX.Core.Tests
             var targetB = new RecordingSyncTarget();
             using var a = CreatePeer(targetA, store);
             using var b = CreatePeer(targetB, store);
-            a.Start(Options("A"), autoJoin: true);
+            a.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => a.IsJoined);
-            b.Start(Options("B"), autoJoin: true);
+            b.StartAndJoin(Options("B"));
             await WaitUntilAsync(() => b.IsJoined);
 
             var managerId = Guid.NewGuid();
@@ -768,7 +768,7 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             var envelope = Envelope("other", new MessageOnClick(Guid.NewGuid()));
@@ -791,7 +791,7 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             var id = Guid.NewGuid();
@@ -809,7 +809,7 @@ namespace CMiX.Core.Tests
             using var peer = CreatePeer(new RecordingSyncTarget(), new HangingSyncStore(), messenger);
 
             var watch = Stopwatch.StartNew();
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             Assert.True(watch.ElapsedMilliseconds < 50);
             Assert.Equal("Connecting", peer.Status);
             Assert.True(messenger.IsSendingBlocked);
@@ -838,7 +838,7 @@ namespace CMiX.Core.Tests
             using var peer = CreatePeer(new RecordingSyncTarget(), store);
             peer.SetDispatcher(dispatcher.Post);
 
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             var watch = Stopwatch.StartNew();
@@ -864,7 +864,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(new InMemorySyncStore());
             using var peer = CreatePeer(new RecordingSyncTarget(), store);
 
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
             var stopped = peer.Stopped;
             peer.Stop();
@@ -886,7 +886,7 @@ namespace CMiX.Core.Tests
             using var peer = CreatePeer(target, store);
             peer.SetDispatcher(dispatcher.Post);
 
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
             peer.SendMessage(new MessageOnClick(Guid.NewGuid()));
             await WaitUntilAsync(() => peer.SentMessages == 2);
@@ -905,7 +905,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => store.FailedCalls > 0 && peer.ErrorMessage.Length > 0,
                 detail: () => $"status={peer.Status} failed={store.FailedCalls}");
             Assert.False(peer.IsJoined);
@@ -929,7 +929,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.ErrorMessage.Length > 0, detail: () => $"status={peer.Status}");
 
             store.Fail = false;
@@ -951,7 +951,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.ErrorMessage.Length > 0, detail: () => $"status={peer.Status}");
 
             store.SetConnected(false);
@@ -1001,11 +1001,11 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false, Timings = Fast };
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
 
             peer.Stop();
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
 
             // Stop disposed the old store. Connect it again, so the read that waits can return a
             // snapshot and the test sees what the peer does with it.
@@ -1054,10 +1054,10 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false, Timings = Fast };
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
 
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.Status == "Not in sync" && peer.TailId == tailB, 15000,
                 () => $"status={peer.Status} tail={peer.TailId} error={peer.ErrorMessage}");
 
@@ -1096,11 +1096,11 @@ namespace CMiX.Core.Tests
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true, Timings = Fast };
 
             // Both stores are empty, so the start check pushes the local state.
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
 
             peer.Stop();
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
 
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
@@ -1136,7 +1136,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true, Timings = Fast };
 
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
             var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -1154,7 +1154,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
 
             peer.Stop();
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
 
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
             // The push of the second start waits for that append, so the release comes first.
@@ -1194,7 +1194,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = true, Timings = Fast };
 
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
             var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -1211,7 +1211,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
 
             peer.Stop();
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.Status == "Not in sync", 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
 
             // Not joined, so the queue stays closed and the new store gets nothing.
@@ -1239,7 +1239,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -1297,7 +1297,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { Timings = Fast };
 
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
             // The stream of the old store is trimmed past the own position, so the recovery reads
@@ -1322,7 +1322,7 @@ namespace CMiX.Core.Tests
                 () => $"status={peer.Status} last={peer.LastAppliedId} tailA={tailA} failed=[{storeA.FailedSummary}] snapshotsApplied={target.SnapshotsApplied}");
 
             peer.Stop();
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
 
             // Stop disposed the old store. Connect it again, so the read that waits can return the
@@ -1365,7 +1365,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false, Timings = Fast };
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
             var click = Guid.NewGuid();
@@ -1373,7 +1373,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
 
             peer.Stop();
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
 
             // Stop disposed the old store. Connect it again, so the read that waits can return the
@@ -1404,7 +1404,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { ListPeersEnabled = true, Timings = Fast };
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
             // The join read the tail already. From here only a presence tick reads it.
@@ -1418,7 +1418,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
 
             peer.Stop();
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
             await WaitUntilAsync(() => PeerIds(peer).Contains("fresh"), 15000, () => $"status={peer.Status}");
 
@@ -1453,7 +1453,7 @@ namespace CMiX.Core.Tests
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false, Timings = Fast };
             peer.SetDispatcher(dispatcher.Post);
 
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
             var followerReached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -1486,7 +1486,7 @@ namespace CMiX.Core.Tests
                 if (Interlocked.Exchange(ref restarted, 1) == 1) return;
 
                 peer.Stop();
-                peer.Start(Options("Studio"), autoJoin: false);
+                peer.Start(Options("Studio"));
             };
             tickRelease.SetResult(true);
 
@@ -1528,7 +1528,7 @@ namespace CMiX.Core.Tests
                 var store = new InMemorySyncStore();
                 var target = new RecordingSyncTarget();
                 using var peer = CreatePeer(target, store);
-                peer.Start(Options("A"), autoJoin: true);
+                peer.StartAndJoin(Options("A"));
                 await WaitUntilAsync(() => peer.IsJoined, detail: () => $"iteration {i}");
 
                 var join = Task.Run(() => peer.JoinAsync());
@@ -1544,7 +1544,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             inner.SimulateDisconnect("test reason");
@@ -1561,7 +1561,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             inner.SimulateDisconnect("test reason");
@@ -1591,11 +1591,11 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { Timings = Fast };
 
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
             peer.Stop();
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
 
             storeA.SimulateDisconnect("old reason");
@@ -1621,7 +1621,7 @@ namespace CMiX.Core.Tests
             // A backoff that is longer than the wait of the assertion. With the short one the
             // follower would read again by itself, and the test would say nothing about the wake.
             peer.Timings = Fast with { MinBackoff = TimeSpan.FromSeconds(2), MaxBackoff = TimeSpan.FromSeconds(2) };
-            peer.Start(Options("A"), autoJoin: true);
+            peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             store.SetFail(true);
@@ -1658,7 +1658,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
             peer.SetDispatcher(queue.Post);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
 
             var applyingDrains = await DrainUntilAsync(queue, () => peer.LastAppliedId == tail, () => target.Applied.Count);
 
@@ -1685,7 +1685,7 @@ namespace CMiX.Core.Tests
             using var peer = CreatePeer(target, store, isWriter: false);
             peer.ReadBatch = 100;
             peer.SetDispatcher(queue.Post);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
 
             var applyingDrains = await DrainUntilAsync(queue, () => peer.LastAppliedId == tail, () => target.Applied.Count);
 
@@ -1701,7 +1701,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
             peer.SetDispatcher(queue.Post);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await DrainUntilAsync(queue, () => peer.IsJoined, () => 0);
 
             var ids = new List<Guid>();
@@ -1730,7 +1730,7 @@ namespace CMiX.Core.Tests
 
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.LastAppliedId == second);
 
             Assert.Single(target.Applied);
@@ -1751,7 +1751,7 @@ namespace CMiX.Core.Tests
 
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
-            peer.Start(Options("Engine"), autoJoin: true);
+            peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.LastAppliedId == lastId);
 
             Assert.Equal(new[] { first.ID, last.ID }, target.Applied.Select(m => m.ID));

@@ -87,7 +87,7 @@ namespace CMiX.Core.Tests
         private async Task<SyncPeer> StartStudioAsync(ISyncTarget target, TimeSpan? compactionDelay = null)
         {
             var peer = NewStudio(target, compactionDelay);
-            peer.Start(Options("Studio", "studio"), autoJoin: false);
+            peer.Start(Options("Studio", "studio"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
             return peer;
         }
@@ -95,7 +95,7 @@ namespace CMiX.Core.Tests
         private async Task<SyncPeer> StartEngineAsync(string name, ISyncTarget target)
         {
             var peer = NewPeer(target, isWriter: false);
-            peer.Start(Options(name, "engine"), autoJoin: true);
+            peer.StartAndJoin(Options(name, "engine"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
             return peer;
         }
@@ -105,7 +105,7 @@ namespace CMiX.Core.Tests
         private async Task<SyncPeer> StartWriterAsync(string name, ISyncTarget target)
         {
             var peer = NewPeer(target);
-            peer.Start(Options(name, "studio"), autoJoin: true);
+            peer.StartAndJoin(Options(name, "studio"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
             return peer;
         }
@@ -263,7 +263,7 @@ namespace CMiX.Core.Tests
 
             var restartedTarget = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             var restarted = NewStudio(restartedTarget);
-            restarted.Start(Options("Studio", "studio"), autoJoin: false);
+            restarted.Start(Options("Studio", "studio"));
             await WaitUntilAsync(() => restarted.Status == "Not in sync", detail: () => $"status={restarted.Status} error={restarted.ErrorMessage}");
 
             Assert.Equal(StartCheck.NotInSync, await restarted.CheckStartAsync());

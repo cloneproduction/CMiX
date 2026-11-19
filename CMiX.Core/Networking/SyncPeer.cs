@@ -184,13 +184,24 @@ namespace CMiX.Core.Networking
         public void SetDispatcher(Action<Action> dispatcher) => _dispatcher = dispatcher;
 
         // Returns at once. A background task connects, joins when asked, and starts the loops.
-        public void Start(SyncOptions options, bool autoJoin)
+        public void Start(SyncOptions options)
         {
             Stop();
+            _autoJoin = false;
+            StartWith(options);
+        }
 
+        public void StartAndJoin(SyncOptions options)
+        {
+            Stop();
+            _autoJoin = true;
+            StartWith(options);
+        }
+
+        private void StartWith(SyncOptions options)
+        {
             Interlocked.Increment(ref _generation);
             Options = options.WithFallbacks();
-            _autoJoin = autoJoin;
             _runTimings = Timings;
             _store = _storeFactory(Options);
             CreateCompactor();

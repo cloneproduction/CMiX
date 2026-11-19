@@ -191,7 +191,7 @@ namespace CMiX.Core.Tests
             peer.ListPeersEnabled = true;
             peer.CompactionEnabled = true;
             peer.CompactionDelay = TimeSpan.FromMilliseconds(500);
-            peer.Start(Options("Studio", "studio"), autoJoin: false);
+            peer.Start(Options("Studio", "studio"));
             await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
             return peer;
         }
@@ -199,7 +199,7 @@ namespace CMiX.Core.Tests
         private async Task<SyncPeer> StartEngineAsync(string name, ISyncTarget target)
         {
             var peer = NewPeer(target, isWriter: false);
-            peer.Start(Options(name, "engine"), autoJoin: true);
+            peer.StartAndJoin(Options(name, "engine"));
             await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
             return peer;
         }
@@ -209,7 +209,7 @@ namespace CMiX.Core.Tests
         private async Task<SyncPeer> StartWriterAsync(string name, ISyncTarget target)
         {
             var peer = NewPeer(target);
-            peer.Start(Options(name, "studio"), autoJoin: true);
+            peer.StartAndJoin(Options(name, "studio"));
             await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
             return peer;
         }
@@ -425,7 +425,7 @@ namespace CMiX.Core.Tests
             {
                 var target = new RecordingSyncTarget();
                 var peer = NewPeer(target, isWriter: false);
-                peer.Start(Options("Engine1", "engine"), autoJoin: true);
+                peer.StartAndJoin(Options("Engine1", "engine"));
 
                 await Task.Delay(3000);
                 Assert.Equal("Connecting", peer.Status);

@@ -27,7 +27,7 @@ namespace CMiX.Core.Tests
                 Target = new ProjectSyncTarget(Project, messenger, UndoManager);
                 Peer = CreatePeer(Target, store, messenger, isWriter);
                 messenger.Register(Peer);
-                Peer.Start(Options(name), autoJoin: true);
+                Peer.StartAndJoin(Options(name));
             }
 
             public void Dispose() => Peer.Dispose();

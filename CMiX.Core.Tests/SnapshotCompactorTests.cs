@@ -51,7 +51,7 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, Delay);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             Snapshot Current() => store.ReadSnapshotAsync().GetAwaiter().GetResult();
@@ -73,7 +73,7 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, NoTimer);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             Snapshot Current() => store.ReadSnapshotAsync().GetAwaiter().GetResult();
@@ -91,7 +91,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(new InMemorySyncStore());
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, Delay);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
             var pushWrites = store.WriteSnapshotCalls;
 
@@ -110,7 +110,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(new InMemorySyncStore());
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, Delay);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
             store.TrimCalls.Clear();
 
@@ -126,7 +126,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(new InMemorySyncStore(1_000_000));
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, Delay);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
             store.TrimCalls.Clear();
 
@@ -160,7 +160,7 @@ namespace CMiX.Core.Tests
             var store = new InMemorySyncStore();
             var targetA = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var a = Studio(targetA, store, Delay);
-            a.Start(Options("Studio"), autoJoin: true);
+            a.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => a.IsJoined);
 
             Snapshot Current() => store.ReadSnapshotAsync().GetAwaiter().GetResult();
@@ -174,7 +174,7 @@ namespace CMiX.Core.Tests
 
             var targetC = new RecordingSyncTarget();
             using var c = CreatePeer(targetC, store);
-            c.Start(Options("Engine"), autoJoin: true);
+            c.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => c.IsJoined);
 
             Assert.Equal(1, targetC.SnapshotsApplied);
@@ -195,7 +195,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, Delay);
-            peer.Start(Options("Studio"), autoJoin: false);
+            peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.IsConnected && peer.Status == "Not in sync", detail: () => $"status={peer.Status}");
 
             peer.SendMessage(ValueChange(0.25f));
@@ -214,7 +214,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, Delay);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             Snapshot Current() => inner.ReadSnapshotAsync().GetAwaiter().GetResult();
@@ -245,7 +245,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, Delay);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             Snapshot Current() => inner.ReadSnapshotAsync().GetAwaiter().GetResult();
@@ -262,7 +262,7 @@ namespace CMiX.Core.Tests
 
             var lateTarget = new RecordingSyncTarget();
             using var late = CreatePeer(lateTarget, store, isWriter: false);
-            late.Start(Options("Engine"), autoJoin: true);
+            late.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => late.IsJoined);
             await WaitUntilAsync(() => late.LastAppliedId == peer.LastAppliedId, 5000,
                 () => $"late={late.LastAppliedId} studio={peer.LastAppliedId}");
@@ -278,7 +278,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, Delay);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             Snapshot Current() => inner.ReadSnapshotAsync().GetAwaiter().GetResult();
@@ -309,7 +309,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, Delay);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             Snapshot Current() => inner.ReadSnapshotAsync().GetAwaiter().GetResult();
@@ -342,7 +342,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, NoTimer);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
             var pushWrites = store.WriteSnapshotCalls;
 
@@ -374,7 +374,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, NoTimer);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
             var pushWrites = store.WriteSnapshotCalls;
             var failed = store.FailedCalls;
@@ -408,7 +408,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, NoTimer);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
             var pushWrites = store.WriteSnapshotCalls;
 
@@ -438,7 +438,7 @@ namespace CMiX.Core.Tests
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, Delay);
             peer.SetDispatcher(dispatcher.Post);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
 
             var counts = new ConcurrentQueue<int>();
@@ -472,7 +472,7 @@ namespace CMiX.Core.Tests
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
             using var peer = Studio(target, store, NoTimer);
-            peer.Start(Options("Studio"), autoJoin: true);
+            peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
             var pushWrites = store.WriteSnapshotCalls;
 

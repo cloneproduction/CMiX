@@ -14,7 +14,7 @@ namespace CMiX.Core.Networking
             peer.CompactionEnabled = true;
             peer.IsWriter = true;
             peer.ListPeersEnabled = true;
-            peer.Start(options with { Role = "studio" }, autoJoin: false);
+            peer.Start(options with { Role = "studio" });
         }
 
         // Engines read and apply. Only the Studio writes, so the engine peer is not a sender.
@@ -29,7 +29,7 @@ namespace CMiX.Core.Networking
                 peer.SetDispatcher(queue.Post);
             }
 
-            peer.Start(options, autoJoin: true);
+            peer.StartAndJoin(options);
         }
     }
 }
