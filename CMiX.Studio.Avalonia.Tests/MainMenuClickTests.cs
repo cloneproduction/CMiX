@@ -105,5 +105,26 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(popupOpenOnAdd, "the popup was open when the composition was added");
             Assert.IsType<Composition>(viewModel.Project.CompositionManager.SelectedItem);
         }
+
+        [AvaloniaFact]
+        public void Enter_OnNewCompositionInTheCompoMenu_AddsTheCompositionAfterThePopupHasClosed()
+        {
+            var (window, viewModel) = ShowWithViewModel();
+            var compositions = viewModel.Project.CompositionManager.ManagerData.Items;
+            var before = compositions.Count;
+            var compo = TopItem(window, "Compo");
+            Click(window, compo);
+            var row = compo.Items.OfType<MenuItem>().Single(item => (string?)item.Header == "New Composition");
+            row.Focus();
+            TestServiceProviderFactory.Pump();
+            bool? popupOpenOnAdd = null;
+            compositions.CollectionChanged += (_, _) => popupOpenOnAdd ??= PopupOf(compo).IsOpen;
+
+            TopLevel.GetTopLevel(row)!.KeyPressQwerty(PhysicalKey.Enter, RawInputModifiers.None);
+            TestServiceProviderFactory.Pump();
+
+            Assert.Equal(before + 1, compositions.Count);
+            Assert.False(popupOpenOnAdd, "the popup was open when the composition was added");
+        }
     }
 }
