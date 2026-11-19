@@ -16,9 +16,6 @@ namespace CMiX.Core.Networking
     // the store, applies the edits of the other peers, and joins from the snapshot.
     public partial class SyncPeer : ObservableObject, IMessageSender, IDisposable
     {
-        // How many applied message IDs the peer remembers, to find an entry that arrives twice.
-        private const int AppliedMemory = 1000;
-
         private sealed record DecodedEntry(StreamEntry Entry, MessageEnvelope Envelope, bool IsOwn);
 
         private readonly ISyncTarget _target;
@@ -27,10 +24,8 @@ namespace CMiX.Core.Networking
         private readonly OutgoingQueue _outgoing = new();
         private readonly SemaphoreSlim _joinLock = new(1, 1);
         private readonly string _peerId;
-        // The message IDs of the last applied foreign entries, in the order they arrived. Only the
-        // dispatcher touches them.
-        private readonly Queue<Guid> _appliedOrder = new();
-        private readonly HashSet<Guid> _appliedIds = new();
+        // Only the dispatcher touches it.
+        private readonly AppliedMemory _applied = new();
 
         private ISyncStore _store;
         // The timings of the run. Start takes them from Timings, so a change during a run is only
@@ -742,7 +737,7 @@ namespace CMiX.Core.Networking
                         await DispatchCurrentAsync(store, generation, () =>
                         {
                             _target.ApplySnapshot(model);
-                            ForgetApplied();
+                            _applied.Forget();
                             SnapshotApplied?.Invoke(this, EventArgs.Empty);
                             LastAppliedId = position;
                             if (position > TailId) TailId = position;
@@ -924,7 +919,7 @@ namespace CMiX.Core.Networking
                     var payload = envelope?.Payload;
                     // An append that timed out on the client but reached the store is sent again.
                     // The entry then arrives twice, and a move applied twice gives a wrong order.
-                    var apply = !own && !IsDuplicate(envelope.MessageID);
+                    var apply = !own && !_applied.IsDuplicate(envelope.MessageID);
 
                     if (apply)
                     {
@@ -933,7 +928,7 @@ namespace CMiX.Core.Networking
                             _target.Apply(payload);
                             if (payload is MessageProjectSnapshot)
                             {
-                                ForgetApplied();
+                                _applied.Forget();
                                 SnapshotApplied?.Invoke(this, EventArgs.Empty);
                             }
 
@@ -952,26 +947,6 @@ namespace CMiX.Core.Networking
                     if (apply) MessageApplied?.Invoke(this, new MessageAppliedEventArgs(entry, payload));
                 }
             }).ConfigureAwait(false);
-        }
-
-        // Runs on the dispatcher thread.
-        private bool IsDuplicate(Guid messageId)
-        {
-            if (!_appliedIds.Add(messageId)) return true;
-
-            _appliedOrder.Enqueue(messageId);
-            if (_appliedOrder.Count > AppliedMemory)
-                _appliedIds.Remove(_appliedOrder.Dequeue());
-
-            return false;
-        }
-
-        // A snapshot replaces the state, so the entries before it can arrive again and must be
-        // applied again. Runs on the dispatcher thread.
-        private void ForgetApplied()
-        {
-            _appliedIds.Clear();
-            _appliedOrder.Clear();
         }
 
         private void StartFollower(ISyncStore store, int generation)
@@ -1043,7 +1018,7 @@ namespace CMiX.Core.Networking
                 await DispatchCurrentAsync(store, generation, () =>
                 {
                     _target.ApplySnapshot(model);
-                    ForgetApplied();
+                    _applied.Forget();
                     SnapshotApplied?.Invoke(this, EventArgs.Empty);
                     AppliedMessages++;
                     LastAppliedId = snapshot.StreamId;
