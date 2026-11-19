@@ -43,9 +43,9 @@ namespace CMiX.Studio.Avalonia.ViewModels
             SaveAsProjectCommand = new AsyncRelayCommand(SaveAsProject);
             AddCompositionCommand = new RelayCommand(AddComposition);
             AddLayerCommand = new RelayCommand(AddLayer);
-            DeleteCompositionCommand = new RelayCommand(DeleteComposition);
+            RemoveCompositionCommand = new RelayCommand(RemoveComposition);
             DuplicateCompositionCommand = new RelayCommand(DuplicateComposition);
-            DeleteLayerCommand = new RelayCommand(DeleteLayer);
+            RemoveLayerCommand = new RelayCommand(RemoveLayer);
             DuplicateLayerCommand = new RelayCommand(DuplicateLayer);
         }
 
@@ -95,9 +95,9 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ICommand OpenProjectCommand { get; }
         public ICommand AddCompositionCommand { get; }
         public ICommand AddLayerCommand { get; }
-        public ICommand DeleteCompositionCommand { get; }
+        public ICommand RemoveCompositionCommand { get; }
         public ICommand DuplicateCompositionCommand { get; }
-        public ICommand DeleteLayerCommand { get; }
+        public ICommand RemoveLayerCommand { get; }
         public ICommand DuplicateLayerCommand { get; }
 
         // Handed over by MainViewModel, which owns the six top level repository managers. They
@@ -128,7 +128,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             Dispatcher.UIThread.Post(() => Project.CompositionManager.AddItemCommand.Execute(typeof(Composition)));
         }
 
-        private void DeleteComposition()
+        private void RemoveComposition()
         {
             // Posted for the same reason as AddComposition, so the popup teardown finishes before
             // the bound composition list is touched.
@@ -150,7 +150,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             });
         }
 
-        private void DeleteLayer()
+        private void RemoveLayer()
         {
             // Posted for the same reason as AddComposition, so the popup teardown finishes before
             // the bound layer list is touched.

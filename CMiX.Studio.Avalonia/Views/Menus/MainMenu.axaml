@@ -73,7 +73,7 @@
                     Header="New Composition" />
 
                 <MenuItem
-                    Command="{Binding DeleteCompositionCommand}"
+                    Command="{Binding RemoveCompositionCommand}"
                     Header="Delete" />
                 <MenuItem
                     Command="{Binding DuplicateCompositionCommand}"
@@ -92,7 +92,7 @@
                     Command="{Binding AddLayerCommand}"
                     Header="New Layer" />
                 <MenuItem
-                    Command="{Binding DeleteLayerCommand}"
+                    Command="{Binding RemoveLayerCommand}"
                     Header="Delete" />
                 <MenuItem
                     Command="{Binding DuplicateLayerCommand}"

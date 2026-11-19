@@ -39,10 +39,10 @@ namespace CMiX.Studio.Avalonia.Tests
             ("Edit", "Undo") => viewModel.UndoCommand,
             ("Edit", "Redo") => viewModel.RedoCommand,
             ("Compo", "New Composition") => viewModel.MainMenu.AddCompositionCommand,
-            ("Compo", "Delete") => viewModel.MainMenu.DeleteCompositionCommand,
+            ("Compo", "Delete") => viewModel.MainMenu.RemoveCompositionCommand,
             ("Compo", "Duplicate") => viewModel.MainMenu.DuplicateCompositionCommand,
             ("Layer", "New Layer") => viewModel.MainMenu.AddLayerCommand,
-            ("Layer", "Delete") => viewModel.MainMenu.DeleteLayerCommand,
+            ("Layer", "Delete") => viewModel.MainMenu.RemoveLayerCommand,
             ("Layer", "Duplicate") => viewModel.MainMenu.DuplicateLayerCommand,
             _ => throw new ArgumentOutOfRangeException(nameof(row), $"{top} > {row}")
         };
