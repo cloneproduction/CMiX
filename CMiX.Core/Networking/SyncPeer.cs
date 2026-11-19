@@ -19,6 +19,8 @@ namespace CMiX.Core.Networking
         // How many applied message IDs the peer remembers, to find an entry that arrives twice.
         private const int AppliedMemory = 1000;
 
+        private sealed record DecodedEntry(StreamEntry Entry, MessageEnvelope Envelope, bool IsOwn);
+
         private readonly ISyncTarget _target;
         private readonly ControlMessenger _messenger;
         private readonly Func<SyncOptions, ISyncStore> _storeFactory;
@@ -464,22 +466,22 @@ namespace CMiX.Core.Networking
         }
 
         // Position is the stream position the peer keeps when it is already in sync.
-        private async Task<(StartCheck Check, StreamPosition Position)> EvaluateStartAsync(ISyncStore store)
+        private async Task<StartEvaluation> EvaluateStartAsync(ISyncStore store)
         {
             var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
             var tail = await store.ReadTailAsync().ConfigureAwait(false);
 
             if (snapshot == null)
-                return (tail == StreamPosition.Zero ? StartCheck.PushSilently : StartCheck.NotInSync, tail);
+                return new StartEvaluation(tail == StreamPosition.Zero ? StartCheck.PushSilently : StartCheck.NotInSync, tail);
 
             // Entries after the snapshot are edits the local state does not have.
             if (tail > snapshot.StreamId)
-                return (StartCheck.NotInSync, tail);
+                return new StartEvaluation(StartCheck.NotInSync, tail);
 
             var local = await DispatchAsync(() => _target.Capture()).ConfigureAwait(false);
             var stored = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
             var same = ProjectStateHash.Compute(local) == ProjectStateHash.Compute(stored);
-            return (same ? StartCheck.AlreadyInSync : StartCheck.NotInSync, snapshot.StreamId);
+            return new StartEvaluation(same ? StartCheck.AlreadyInSync : StartCheck.NotInSync, snapshot.StreamId);
         }
 
         // Acts on the start check. NotInSync leaves the peer blocked until the user pushes or pulls.
@@ -895,7 +897,7 @@ namespace CMiX.Core.Networking
         {
             if (entries.Count == 0) return;
 
-            var batch = new List<(StreamEntry Entry, MessageEnvelope Envelope, bool Own)>(entries.Count);
+            var batch = new List<DecodedEntry>(entries.Count);
             foreach (var entry in entries)
             {
                 MessageEnvelope envelope = null;
@@ -909,13 +911,16 @@ namespace CMiX.Core.Networking
                 }
 
                 var own = envelope == null || envelope.SenderID == _peerId || envelope.Payload == null;
-                batch.Add((entry, envelope, own));
+                batch.Add(new DecodedEntry(entry, envelope, own));
             }
 
             await DispatchCurrentAsync(store, generation, () =>
             {
-                foreach (var (entry, envelope, own) in batch)
+                foreach (var decoded in batch)
                 {
+                    var entry = decoded.Entry;
+                    var envelope = decoded.Envelope;
+                    var own = decoded.IsOwn;
                     var payload = envelope?.Payload;
                     // An append that timed out on the client but reached the store is sent again.
                     // The entry then arrives twice, and a move applied twice gives a wrong order.

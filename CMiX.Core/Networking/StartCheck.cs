@@ -15,4 +15,6 @@ namespace CMiX.Core.Networking
         // The states differ. The user must push or pull.
         NotInSync
     }
+
+    public readonly record struct StartEvaluation(StartCheck Check, StreamPosition Position);
 }
