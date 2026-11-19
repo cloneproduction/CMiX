@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (key == null)
                 return -1;
 
-            if (StartIndex >= 0 && IsStartKey(key))
+            if (StartIndex >= 0 && IsStartKey(key.Value))
                 return StartIndex;
 
             return slots.FindIndex(slot => !slot.IsStart && KeyOf(slot) == key);

@@ -196,7 +196,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (resolved == null)
                 return DropOutcome.None;
 
-            var (list, index) = resolved;
+            var (list, index) = resolved.Value;
             var item = source.Item!;
             var owner = source.Owner!;
             if (ReferenceEquals(list, owner))

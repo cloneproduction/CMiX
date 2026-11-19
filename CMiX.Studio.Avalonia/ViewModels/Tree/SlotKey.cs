@@ -3,5 +3,5 @@
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    public sealed record SlotKey(object List, int Index);
+    public readonly record struct SlotKey(object List, int Index);
 }

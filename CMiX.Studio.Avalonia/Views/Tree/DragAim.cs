@@ -6,7 +6,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public sealed record DragAim(TreeViewItem? Hovered, TreeViewItem? Item, TreeNode? Target, DropPosition? Position)
+    public readonly record struct DragAim(TreeViewItem? Hovered, TreeViewItem? Item, TreeNode? Target, DropPosition? Position)
     {
         public static DragAim NoDropOver(TreeViewItem? hovered) => new(hovered, null, null, null);
     }

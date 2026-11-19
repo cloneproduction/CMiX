@@ -227,7 +227,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             DropBlockReason = look.BlockReason;
         }
 
-        private sealed record DragCover(bool IsDropBlocked, bool IsDropHint, bool IsDimmed);
+        private readonly record struct DragCover(bool IsDropBlocked, bool IsDropHint, bool IsDimmed);
 
         private DragCover CaptureDragCover() => new(IsDropBlocked, IsDropHint, IsDimmed);
 

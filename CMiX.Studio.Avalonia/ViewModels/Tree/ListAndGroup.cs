@@ -5,5 +5,5 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    public sealed record ListAndGroup(PrefabManager List, TreeGroup? Group);
+    public readonly record struct ListAndGroup(PrefabManager List, TreeGroup? Group);
 }
