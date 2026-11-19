@@ -34,13 +34,6 @@ namespace CMiX.UI.Controls.Collection
 
             // A click on a row is a pick of the whole control.
             PART_List.Picked += (_, _) => RaisePicked();
-
-            // The mouse moves the highlight inside the list. Enter then picks the row under it.
-            PART_List.PropertyChanged += (_, e) =>
-            {
-                if (e.Property == ItemPickerList.HighlightedItemProperty)
-                    HighlightedIndex = e.NewValue == null ? -1 : Matches.IndexOf(e.NewValue);
-            };
         }
 
         public static readonly StyledProperty<string> SearchTextProperty =
@@ -138,15 +131,16 @@ namespace CMiX.UI.Controls.Collection
         }
 
         // The index of the row that Enter picks, in the rows that match. It is -1 when no row matches.
-        public int HighlightedIndex { get; private set; } = -1;
+        public int HighlightedIndex => HighlightedItem == null ? -1 : Matches.IndexOf(HighlightedItem);
+
+        // The inner list holds the highlight, so the mouse and the keys move the same row.
+        private object? HighlightedItem => PART_List?.HighlightedItem;
 
         // The index is kept inside the rows. The list scrolls to the row.
         private void Highlight(int index)
         {
-            HighlightedIndex = Matches.Count == 0 ? -1 : Math.Clamp(index, 0, Matches.Count - 1);
-
             if (PART_List != null)
-                PART_List.HighlightedItem = HighlightedIndex < 0 ? null : Matches[HighlightedIndex];
+                PART_List.HighlightedItem = Matches.Count == 0 ? null : Matches[Math.Clamp(index, 0, Matches.Count - 1)];
         }
 
         private void OnSearchKeyDown(object? sender, KeyEventArgs e)
@@ -164,7 +158,7 @@ namespace CMiX.UI.Controls.Collection
                     break;
 
                 case Key.Enter:
-                    var picked = HighlightedIndex < 0 ? null : Matches[HighlightedIndex];
+                    var picked = HighlightedItem;
                     if (picked != null && ItemCommand?.CanExecute(picked) == true)
                     {
                         ItemCommand.Execute(picked);
