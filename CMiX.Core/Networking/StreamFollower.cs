@@ -107,7 +107,7 @@ namespace CMiX.Core.Networking
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
-                    backoff = TimeSpan.FromTicks(Math.Min(backoff.Ticks * 2, _timings.MaxBackoff.Ticks));
+                    backoff = _timings.NextBackoff(backoff);
                 }
             }
         }

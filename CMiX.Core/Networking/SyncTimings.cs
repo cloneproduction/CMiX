@@ -37,5 +37,8 @@ namespace CMiX.Core.Networking
             MaxBackoff: TimeSpan.FromSeconds(10),
             StopTimeout: TimeSpan.FromSeconds(5),
             ReadBatch: 256);
+
+        // The backoff doubles up to MaxBackoff.
+        public TimeSpan NextBackoff(TimeSpan backoff) => TimeSpan.FromTicks(Math.Min(backoff.Ticks * 2, MaxBackoff.Ticks));
     }
 }

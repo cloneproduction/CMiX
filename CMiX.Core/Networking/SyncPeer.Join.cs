@@ -53,8 +53,8 @@ namespace CMiX.Core.Networking
                     await WaitForConnectionEventAsync(store, backoff, ct).ConfigureAwait(false);
                 }
 
-                // Double the backoff up to MaxBackoff. The loop checks the run after every wait.
-                backoff = TimeSpan.FromTicks(Math.Min(backoff.Ticks * 2, timings.MaxBackoff.Ticks));
+                // The loop checks the run after every wait.
+                backoff = timings.NextBackoff(backoff);
             }
         }
 
