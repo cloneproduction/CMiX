@@ -27,23 +27,14 @@ namespace CMiX.Core.Networking
         // Only the dispatcher touches it.
         private readonly AppliedMemory _applied = new();
 
-        private ISyncStore _store;
-        // The timings of the run. Start takes them from Timings, so a change during a run is only
-        // seen by the next one.
-        private SyncTimings _runTimings = SyncTimings.Default;
+        // The run of the last Start. Null after a Stop. A caller of an earlier run must change nothing.
+        private SyncRun _run;
         private SnapshotCompactor _compactor;
         private bool _compactionEnabled;
-        private CancellationTokenSource _cts;
-        private CancellationTokenSource _followerCts;
-        private StreamFollower _follower;
-        private Task _followerTask;
         private Task _runTask;
         private TaskCompletionSource<bool> _stopped;
         private Action<Action> _dispatcher;
-        private bool _autoJoin;
         private bool _started;
-        // Counts the starts. A join, push or check of an earlier start must change nothing.
-        private int _generation;
         private bool _wasConnected;
         private bool _afterFirstConnect;
         // True while the follower recovery runs. The recovery and the heartbeat run on different
@@ -184,25 +175,21 @@ namespace CMiX.Core.Networking
         public void Start(SyncOptions options)
         {
             Stop();
-            _autoJoin = false;
-            StartWith(options);
+            Options = options.WithFallbacks();
+            StartWith(new SyncRun(_storeFactory(Options), Timings, new CancellationTokenSource(), false));
         }
 
         public void StartAndJoin(SyncOptions options)
         {
             Stop();
-            _autoJoin = true;
-            StartWith(options);
+            Options = options.WithFallbacks();
+            StartWith(new SyncRun(_storeFactory(Options), Timings, new CancellationTokenSource(), true));
         }
 
-        private void StartWith(SyncOptions options)
+        private void StartWith(SyncRun run)
         {
-            Interlocked.Increment(ref _generation);
-            Options = options.WithFallbacks();
-            _runTimings = Timings;
-            _store = _storeFactory(Options);
+            Volatile.Write(ref _run, run);
             CreateCompactor();
-            _cts = new CancellationTokenSource();
             _stopped = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             _started = true;
             _wasConnected = false;
@@ -213,11 +200,7 @@ namespace CMiX.Core.Networking
             OnPropertyChanged(nameof(Role));
             OnPropertyChanged(nameof(Status));
 
-            var store = _store;
-            var generation = Volatile.Read(ref _generation);
-            var timings = _runTimings;
-            var ct = _cts.Token;
-            _runTask = Task.Run(() => RunAsync(store, generation, timings, ct), ct);
+            _runTask = Task.Run(() => RunAsync(run), run.Cts.Token);
         }
 
         // Returns at once. The loops end and the store is disposed on a background task. Stopped
@@ -231,25 +214,19 @@ namespace CMiX.Core.Networking
             DisposeCompactor();
             // The dispose blocks a new compaction, so this is the last one.
             var compacting = compactor?.Running ?? Task.CompletedTask;
-            var cts = _cts;
-            var followerCts = _followerCts;
-            var followerTask = _followerTask;
+            var run = _run;
+            var followerTask = run.FollowerTask;
             var runTask = _runTask;
             var stopped = _stopped;
-            var store = _store;
-            var stopTimeout = _runTimings.StopTimeout;
-            _cts = null;
-            _followerCts = null;
-            _follower = null;
-            _followerTask = null;
+            var store = run.Store;
+            var stopTimeout = run.Timings.StopTimeout;
+            Volatile.Write(ref _run, null);
             _runTask = null;
-            _store = null;
 
-            Cancel(followerCts);
-            Cancel(cts);
+            Cancel(run.FollowerCts);
+            Cancel(run.Cts);
 
-            if (store != null)
-                store.ConnectionChanged -= OnConnectionChanged;
+            store.ConnectionChanged -= OnConnectionChanged;
 
             _ = Task.Run(async () =>
             {
@@ -259,8 +236,7 @@ namespace CMiX.Core.Networking
                     // last heartbeat, append or snapshot lands after the stop.
                     await Task.WhenAny(WaitForAsync(runTask, followerTask, compacting), Task.Delay(stopTimeout)).ConfigureAwait(false);
 
-                    if (store != null)
-                        await store.DisposeAsync().ConfigureAwait(false);
+                    await store.DisposeAsync().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -312,24 +288,33 @@ namespace CMiX.Core.Networking
         }
 
         // Pull: adopt the store state, then follow the stream.
-        public Task JoinAsync() => JoinAsync(_cts?.Token ?? CancellationToken.None, false, false);
+        public Task JoinAsync()
+        {
+            var run = Volatile.Read(ref _run);
+            if (run == null) return Task.CompletedTask;
+
+            return JoinAsync(run, false, false);
+        }
 
         // Push: publish the local state as the new store state, then follow the stream.
-        public Task PushAsync() => PushAsync(_cts?.Token ?? CancellationToken.None);
+        public Task PushAsync() => PushAsync(Volatile.Read(ref _run));
 
         // Compares the local state with the store state. It reads only, and changes nothing.
         public async Task<StartCheck> CheckStartAsync()
         {
-            var store = _store;
-            if (store == null) return StartCheck.NotInSync;
+            var run = Volatile.Read(ref _run);
+            if (run == null) return StartCheck.NotInSync;
 
-            var result = await EvaluateStartAsync(store).ConfigureAwait(false);
+            var result = await EvaluateStartAsync(run.Store).ConfigureAwait(false);
             return result.Check;
         }
 
         // Returns when the run has ended, so the stop work can wait for the loops it started.
-        private async Task RunAsync(ISyncStore store, int generation, SyncTimings timings, CancellationToken ct)
+        private async Task RunAsync(SyncRun run)
         {
+            var store = run.Store;
+            var timings = run.Timings;
+            var ct = run.Cts.Token;
             Task outgoing = null;
             Task presence = null;
 
@@ -337,22 +322,22 @@ namespace CMiX.Core.Networking
             {
                 store.ConnectionChanged += OnConnectionChanged;
                 await WaitForConnectionAsync(store, timings, ct).ConfigureAwait(false);
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
 
                 _afterFirstConnect = true;
-                await DispatchCurrentAsync(store, generation, () =>
+                await DispatchCurrentAsync(run, () =>
                 {
                     _wasConnected = true;
                     IsConnected = true;
                 }).ConfigureAwait(false);
 
-                outgoing = Task.Run(() => _outgoing.RunAsync(store, timings, id => OnSentAsync(store, generation, id),
-                    () => OnDrainedAsync(store, generation), ct), ct);
+                outgoing = Task.Run(() => _outgoing.RunAsync(store, timings, id => OnSentAsync(run, id),
+                    () => OnDrainedAsync(run), ct), ct);
                 var presenceLoop = new Presence(store, _peerId, HeartbeatFields, () => ListPeersEnabled,
-                    () => LastAppliedId, tick => OnPresenceTickAsync(store, generation, tick), timings);
+                    () => LastAppliedId, tick => OnPresenceTickAsync(run, tick), timings);
                 presence = Task.Run(() => presenceLoop.RunAsync(ct), ct);
 
-                await OnConnectedAsync(ct).ConfigureAwait(false);
+                await OnConnectedAsync(run).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -360,7 +345,7 @@ namespace CMiX.Core.Networking
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await DispatchCurrentAsync(store, generation, () => ErrorMessage = ex.Message).ConfigureAwait(false);
+                await DispatchCurrentAsync(run, () => ErrorMessage = ex.Message).ConfigureAwait(false);
             }
             finally
             {
@@ -423,30 +408,29 @@ namespace CMiX.Core.Networking
             }
         }
 
-        protected virtual async Task OnConnectedAsync(CancellationToken ct)
+        private async Task OnConnectedAsync(SyncRun run)
         {
-            if (!_autoJoin)
+            if (!run.AutoJoin)
             {
-                await RunStartCheckAsync(ct).ConfigureAwait(false);
+                await RunStartCheckAsync(run).ConfigureAwait(false);
                 return;
             }
 
-            var store = _store;
-            var generation = Volatile.Read(ref _generation);
-            if (store == null) return;
+            var store = run.Store;
+            var ct = run.Cts.Token;
 
             // A store error makes the join fail. An engine has no user who repeats it, so it tries
             // again until it is in the sync.
-            var timings = _runTimings;
+            var timings = run.Timings;
             var backoff = timings.MinBackoff;
             while (!ct.IsCancellationRequested && !IsJoined)
             {
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
 
                 if (store.IsConnected)
                 {
-                    await JoinAsync(ct, true, false).ConfigureAwait(false);
-                    if (!IsCurrent(store, generation)) return;
+                    await JoinAsync(run, true, false).ConfigureAwait(false);
+                    if (!IsCurrent(run)) return;
                     if (IsJoined) return;
 
                     await Task.Delay(backoff, ct).ConfigureAwait(false);
@@ -482,42 +466,37 @@ namespace CMiX.Core.Networking
         // Acts on the start check. NotInSync leaves the peer blocked until the user pushes or pulls.
         // Runs under the join lock, so a connection event during the check cannot start a second
         // check, and a queued check after a join does nothing.
-        private async Task RunStartCheckAsync(CancellationToken ct)
+        private async Task RunStartCheckAsync(SyncRun run)
         {
-            var store = _store;
-            var generation = Volatile.Read(ref _generation);
-            if (store == null) return;
-
-            if (!await WaitJoinLockAsync(ct).ConfigureAwait(false)) return;
+            if (!await WaitJoinLockAsync(run.Cts.Token).ConfigureAwait(false)) return;
             try
             {
-                if (!IsCurrent(store, generation) || IsJoined) return;
+                if (!IsCurrent(run) || IsJoined) return;
 
                 await SetActivityAsync("Checking").ConfigureAwait(false);
-                var result = await EvaluateStartAsync(store).ConfigureAwait(false);
-                if (!IsCurrent(store, generation)) return;
+                var result = await EvaluateStartAsync(run.Store).ConfigureAwait(false);
+                if (!IsCurrent(run)) return;
 
                 await SetActivityAsync(null).ConfigureAwait(false);
 
                 switch (result.Check)
                 {
                     case StartCheck.PushSilently:
-                        await PushLockedAsync(store, generation).ConfigureAwait(false);
+                        await PushLockedAsync(run).ConfigureAwait(false);
                         break;
                     case StartCheck.NotInSync:
-                        await DispatchCurrentAsync(store, generation, () => IsJoined = false).ConfigureAwait(false);
+                        await DispatchCurrentAsync(run, () => IsJoined = false).ConfigureAwait(false);
                         break;
                     default:
-                        await StopFollowerAsync().ConfigureAwait(false);
-                        var joined = await DispatchCurrentAsync(store, generation, () =>
+                        await StopFollowerAsync(run).ConfigureAwait(false);
+                        await DispatchCurrentAsync(run, () =>
                         {
                             LastAppliedId = result.Position;
                             TailId = result.Position;
                             ErrorMessage = string.Empty;
                             IsJoined = true;
+                            StartFollower(run);
                         }).ConfigureAwait(false);
-                        if (joined)
-                            StartFollower(store, generation);
                         break;
                 }
             }
@@ -527,7 +506,7 @@ namespace CMiX.Core.Networking
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await DispatchCurrentAsync(store, generation, () => ErrorMessage = ex.Message).ConfigureAwait(false);
+                await DispatchCurrentAsync(run, () => ErrorMessage = ex.Message).ConfigureAwait(false);
             }
             finally
             {
@@ -540,7 +519,8 @@ namespace CMiX.Core.Networking
         // tells those events from the events of the current store.
         private void OnConnectionChanged(ISyncStore sender, bool connected)
         {
-            if (!ReferenceEquals(sender, _store)) return;
+            var run = Volatile.Read(ref _run);
+            if (run == null || !ReferenceEquals(sender, run.Store)) return;
 
             var reason = sender.LastError ?? string.Empty;
 
@@ -562,16 +542,16 @@ namespace CMiX.Core.Networking
             // The follower can wait out a long backoff. Only the follower of the current run gets
             // the signal, because Stop and a new join clear the field.
             if (connected)
-                _follower?.Wake();
+                run.Follower?.Wake();
 
             // A reconnect while the peer is not in sync. The store state can have changed.
             if (connected && _started && _afterFirstConnect && !IsJoined)
             {
-                var ct = _cts?.Token ?? CancellationToken.None;
-                if (_autoJoin)
-                    _ = Task.Run(() => JoinAsync(ct, true, false), ct);
+                var ct = run.Cts.Token;
+                if (run.AutoJoin)
+                    _ = Task.Run(() => JoinAsync(run, true, false), ct);
                 else
-                    _ = Task.Run(() => RunStartCheckAsync(ct), ct);
+                    _ = Task.Run(() => RunStartCheckAsync(run), ct);
             }
         }
 
@@ -596,15 +576,15 @@ namespace CMiX.Core.Networking
         // The position comes first. The count comes after the entry left the queue, so a reader of
         // both never sees a caught-up peer while the entry is still on its way. Returns false when
         // the run is over. The entry then belongs to the store of that run only.
-        private Task<bool> OnSentAsync(ISyncStore store, int generation, StreamPosition id)
-            => DispatchCurrentAsync(store, generation, () =>
+        private Task<bool> OnSentAsync(SyncRun run, StreamPosition id)
+            => DispatchCurrentAsync(run, () =>
             {
                 SentMessages++;
                 LastSentId = id;
             });
 
-        private Task OnDrainedAsync(ISyncStore store, int generation)
-            => DispatchCurrentAsync(store, generation, () => OnPropertyChanged(nameof(PendingMessages)));
+        private Task OnDrainedAsync(SyncRun run)
+            => DispatchCurrentAsync(run, () => OnPropertyChanged(nameof(PendingMessages)));
 
         private IReadOnlyDictionary<string, string> HeartbeatFields() => new Dictionary<string, string>
         {
@@ -614,11 +594,11 @@ namespace CMiX.Core.Networking
             ["lastAppliedId"] = LastAppliedId.ToString()
         };
 
-        private async Task OnPresenceTickAsync(ISyncStore store, int generation, PresenceTick tick)
+        private async Task OnPresenceTickAsync(SyncRun run, PresenceTick tick)
         {
             var gap = false;
             var behindTail = false;
-            await DispatchCurrentAsync(store, generation, () =>
+            await DispatchCurrentAsync(run, () =>
             {
                 behindTail = IsJoined && IsBehindTail(tick.Tail, tick.Position);
                 // The tail of another store is the true one. Every other tick only moves it up.
@@ -636,7 +616,7 @@ namespace CMiX.Core.Networking
             // A peer behind the tail of a replacement store must adopt the state of that store, also
             // when its snapshot is below the own position. Only the re-join after a trim can skip.
             if (gap)
-                await JoinAsync(_cts?.Token ?? CancellationToken.None, false, !behindTail).ConfigureAwait(false);
+                await JoinAsync(run, false, !behindTail).ConfigureAwait(false);
         }
 
         // The stream was trimmed past the own position when its oldest entry is newer than that
@@ -666,25 +646,24 @@ namespace CMiX.Core.Networking
         // skipWhenJoined is for the auto-join. A try that waited for the lock does nothing when
         // another try joined already. A Pull and the gap re-join always run. afterGap marks the
         // re-join of the heartbeat after a trim, the only join that can meet a follower recovery.
-        private async Task JoinAsync(CancellationToken ct, bool skipWhenJoined, bool afterGap)
+        private async Task JoinAsync(SyncRun run, bool skipWhenJoined, bool afterGap)
         {
-            var store = _store;
-            var generation = Volatile.Read(ref _generation);
-            if (store == null) return;
+            var store = run.Store;
+            var ct = run.Cts.Token;
 
             if (!await WaitJoinLockAsync(ct).ConfigureAwait(false)) return;
             try
             {
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
                 if (skipWhenJoined && IsJoined) return;
 
-                await StopFollowerAsync().ConfigureAwait(false);
+                await StopFollowerAsync(run).ConfigureAwait(false);
                 await SetActivityAsync("Joining").ConfigureAwait(false);
 
                 if (afterGap)
                 {
                     var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
-                    if (!IsCurrent(store, generation)) return;
+                    if (!IsCurrent(run)) return;
 
                     // The follower closed the gap while this join waited for it: its recovery
                     // applied the snapshot. A second apply would rebuild the state again, so this
@@ -692,10 +671,10 @@ namespace CMiX.Core.Networking
                     // says nothing, so it takes the full join.
                     if (snapshotId != StreamPosition.Zero && snapshotId <= LastAppliedId)
                     {
-                        await ReplayAsync(store, generation, LastAppliedId, ct).ConfigureAwait(false);
-                        if (!IsCurrent(store, generation)) return;
+                        await ReplayAsync(run, LastAppliedId).ConfigureAwait(false);
+                        if (!IsCurrent(run)) return;
 
-                        await FinishJoinAsync(store, generation).ConfigureAwait(false);
+                        await FinishJoinAsync(run).ConfigureAwait(false);
                         return;
                     }
                 }
@@ -704,28 +683,28 @@ namespace CMiX.Core.Networking
                 // An append in flight lands before the read, so it is part of what is adopted.
                 _outgoing.Discard();
                 await _outgoing.IdleAsync(ct).ConfigureAwait(false);
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
 
                 var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
 
                 var tail = await store.ReadTailAsync().ConfigureAwait(false);
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
 
                 // Nothing to adopt: the local state becomes the store state. A non-writer keeps
                 // its local state and follows the stream from the start instead.
                 if (snapshot == null && tail == StreamPosition.Zero)
                 {
                     if (IsWriter)
-                        await PushCoreAsync(store, generation).ConfigureAwait(false);
+                        await PushCoreAsync(run).ConfigureAwait(false);
                     else
-                        await DispatchCurrentAsync(store, generation, () =>
+                        await DispatchCurrentAsync(run, () =>
                         {
                             LastAppliedId = StreamPosition.Zero;
                             TailId = StreamPosition.Zero;
                         }).ConfigureAwait(false);
 
-                    if (!IsCurrent(store, generation)) return;
+                    if (!IsCurrent(run)) return;
                 }
                 else
                 {
@@ -734,20 +713,20 @@ namespace CMiX.Core.Networking
                     {
                         var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
                         position = snapshot.StreamId;
-                        await DispatchCurrentAsync(store, generation, () => ApplySnapshotOnDispatcher(model, position)).ConfigureAwait(false);
+                        await DispatchCurrentAsync(run, () => ApplySnapshotOnDispatcher(model, position)).ConfigureAwait(false);
                     }
                     else
                     {
-                        await DispatchCurrentAsync(store, generation, () => LastAppliedId = StreamPosition.Zero).ConfigureAwait(false);
+                        await DispatchCurrentAsync(run, () => LastAppliedId = StreamPosition.Zero).ConfigureAwait(false);
                     }
 
-                    if (!IsCurrent(store, generation)) return;
+                    if (!IsCurrent(run)) return;
 
-                    await ReplayAsync(store, generation, position, ct).ConfigureAwait(false);
-                    if (!IsCurrent(store, generation)) return;
+                    await ReplayAsync(run, position).ConfigureAwait(false);
+                    if (!IsCurrent(run)) return;
                 }
 
-                await FinishJoinAsync(store, generation).ConfigureAwait(false);
+                await FinishJoinAsync(run).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -755,7 +734,7 @@ namespace CMiX.Core.Networking
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await DispatchCurrentAsync(store, generation, () => ErrorMessage = ex.Message).ConfigureAwait(false);
+                await DispatchCurrentAsync(run, () => ErrorMessage = ex.Message).ConfigureAwait(false);
             }
             finally
             {
@@ -764,7 +743,7 @@ namespace CMiX.Core.Networking
             }
         }
 
-        private async Task PushAsync(CancellationToken ct)
+        private async Task PushAsync(SyncRun run)
         {
             if (!IsWriter)
             {
@@ -772,16 +751,14 @@ namespace CMiX.Core.Networking
                 return;
             }
 
-            var store = _store;
-            var generation = Volatile.Read(ref _generation);
-            if (store == null) return;
+            if (run == null) return;
 
-            if (!await WaitJoinLockAsync(ct).ConfigureAwait(false)) return;
+            if (!await WaitJoinLockAsync(run.Cts.Token).ConfigureAwait(false)) return;
             try
             {
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
 
-                await PushLockedAsync(store, generation).ConfigureAwait(false);
+                await PushLockedAsync(run).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -789,7 +766,7 @@ namespace CMiX.Core.Networking
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await DispatchCurrentAsync(store, generation, () => ErrorMessage = ex.Message).ConfigureAwait(false);
+                await DispatchCurrentAsync(run, () => ErrorMessage = ex.Message).ConfigureAwait(false);
             }
             finally
             {
@@ -799,40 +776,39 @@ namespace CMiX.Core.Networking
         }
 
         // The caller holds the join lock.
-        private async Task PushLockedAsync(ISyncStore store, int generation)
+        private async Task PushLockedAsync(SyncRun run)
         {
-            await StopFollowerAsync().ConfigureAwait(false);
+            await StopFollowerAsync(run).ConfigureAwait(false);
             await SetActivityAsync("Pushing").ConfigureAwait(false);
-            await PushCoreAsync(store, generation).ConfigureAwait(false);
-            if (!IsCurrent(store, generation)) return;
+            await PushCoreAsync(run).ConfigureAwait(false);
+            if (!IsCurrent(run)) return;
 
-            await FinishJoinAsync(store, generation).ConfigureAwait(false);
+            await FinishJoinAsync(run).ConfigureAwait(false);
         }
 
         // Ends a join or a push: the peer is in sync, and the follower reads from the position.
-        private async Task FinishJoinAsync(ISyncStore store, int generation)
-        {
-            var joined = await DispatchCurrentAsync(store, generation, () =>
+        private Task FinishJoinAsync(SyncRun run)
+            => DispatchCurrentAsync(run, () =>
             {
                 ErrorMessage = string.Empty;
                 IsJoined = true;
-            }).ConfigureAwait(false);
-            if (joined)
-                StartFollower(store, generation);
-        }
+                StartFollower(run);
+            });
 
         // Appends the full model as one entry for the running peers, then writes the snapshot for
         // the late ones, then trims everything older.
-        private async Task PushCoreAsync(ISyncStore store, int generation)
+        private async Task PushCoreAsync(SyncRun run)
         {
+            var store = run.Store;
+
             // The model holds every queued edit, so the queue is emptied. An append in flight must
             // land before the snapshot entry, or a peer applies it on top of the pushed state.
             _outgoing.Discard();
-            await _outgoing.IdleAsync(_cts?.Token ?? CancellationToken.None).ConfigureAwait(false);
-            if (!IsCurrent(store, generation)) return;
+            await _outgoing.IdleAsync(run.Cts.Token).ConfigureAwait(false);
+            if (!IsCurrent(run)) return;
 
             var model = await DispatchAsync(() => _target.Capture()).ConfigureAwait(false);
-            if (!IsCurrent(store, generation)) return;
+            if (!IsCurrent(run)) return;
 
             var envelope = new MessageEnvelope
             {
@@ -842,16 +818,16 @@ namespace CMiX.Core.Networking
             };
 
             var id = await store.AppendAsync(MessagePackSerialization.Serialize(envelope)).ConfigureAwait(false);
-            if (!IsCurrent(store, generation)) return;
+            if (!IsCurrent(run)) return;
 
             var snapshot = new Snapshot(MessagePackSerialization.Serialize(model), id, _peerId, DateTime.UtcNow);
             await store.WriteSnapshotAsync(snapshot).ConfigureAwait(false);
-            if (!IsCurrent(store, generation)) return;
+            if (!IsCurrent(run)) return;
 
             await store.TrimAsync(id).ConfigureAwait(false);
-            if (!IsCurrent(store, generation)) return;
+            if (!IsCurrent(run)) return;
 
-            await DispatchCurrentAsync(store, generation, () =>
+            await DispatchCurrentAsync(run, () =>
             {
                 LastSentId = id;
                 LastAppliedId = id;
@@ -860,28 +836,29 @@ namespace CMiX.Core.Networking
             }).ConfigureAwait(false);
         }
 
-        private async Task ReplayAsync(ISyncStore store, int generation, StreamPosition position, CancellationToken ct)
+        private async Task ReplayAsync(SyncRun run, StreamPosition position)
         {
+            var ct = run.Cts.Token;
             while (true)
             {
                 ct.ThrowIfCancellationRequested();
-                var entries = await store.ReadRangeAsync(position, _runTimings.ReadBatch).ConfigureAwait(false);
+                var entries = await run.Store.ReadRangeAsync(position, run.Timings.ReadBatch).ConfigureAwait(false);
                 if (entries.Count == 0) return;
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
 
-                await ApplyEntriesAsync(store, generation, entries).ConfigureAwait(false);
-                if (!IsCurrent(store, generation)) return;
+                await ApplyEntriesAsync(run, entries).ConfigureAwait(false);
+                if (!IsCurrent(run)) return;
 
                 position = entries[entries.Count - 1].Id;
             }
         }
 
-        // The store and the generation are those of the reader that found the entries. Entries that
-        // were read before a restart must change nothing after it. The batch runs as one action on
-        // the dispatcher thread, and Start and Stop run on that thread too, so one generation check
-        // at the start of the action covers the whole batch. One action per batch keeps a frame
-        // based dispatcher from applying one entry per frame.
-        private async Task ApplyEntriesAsync(ISyncStore store, int generation, IReadOnlyList<StreamEntry> entries)
+        // The run is that of the reader that found the entries. Entries that were read before a
+        // restart must change nothing after it. The batch runs as one action on the dispatcher
+        // thread, and Start and Stop run on that thread too, so one run check at the start of the
+        // action covers the whole batch. One action per batch keeps a frame based dispatcher from
+        // applying one entry per frame.
+        private async Task ApplyEntriesAsync(SyncRun run, IReadOnlyList<StreamEntry> entries)
         {
             if (entries.Count == 0) return;
 
@@ -902,7 +879,7 @@ namespace CMiX.Core.Networking
                 batch.Add(new DecodedEntry(entry, envelope, own));
             }
 
-            await DispatchCurrentAsync(store, generation, () =>
+            await DispatchCurrentAsync(run, () =>
             {
                 foreach (var decoded in batch)
                 {
@@ -942,26 +919,25 @@ namespace CMiX.Core.Networking
             }).ConfigureAwait(false);
         }
 
-        private void StartFollower(ISyncStore store, int generation)
+        private void StartFollower(SyncRun run)
         {
-            var cts = _cts;
-            if (cts == null || cts.IsCancellationRequested) return;
+            if (run.Cts.IsCancellationRequested) return;
 
-            var followerCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token);
-            var follower = new StreamFollower(store, () => LastAppliedId, entries => ApplyEntriesAsync(store, generation, entries),
-                () => OnFollowerErrorAsync(store, generation), _runTimings);
-            _followerCts = followerCts;
-            _follower = follower;
-            _followerTask = Task.Run(() => follower.RunAsync(followerCts.Token), followerCts.Token);
+            var followerCts = CancellationTokenSource.CreateLinkedTokenSource(run.Cts.Token);
+            var follower = new StreamFollower(run.Store, () => LastAppliedId, entries => ApplyEntriesAsync(run, entries),
+                () => OnFollowerErrorAsync(run), run.Timings);
+            run.FollowerCts = followerCts;
+            run.Follower = follower;
+            run.FollowerTask = Task.Run(() => follower.RunAsync(followerCts.Token), followerCts.Token);
         }
 
-        private async Task StopFollowerAsync()
+        private async Task StopFollowerAsync(SyncRun run)
         {
-            var cts = _followerCts;
-            var task = _followerTask;
-            _followerCts = null;
-            _follower = null;
-            _followerTask = null;
+            var cts = run.FollowerCts;
+            var task = run.FollowerTask;
+            run.FollowerCts = null;
+            run.Follower = null;
+            run.FollowerTask = null;
             if (cts == null) return;
 
             // The source is not disposed. Stop can still hold a reference to it, and a cancelled
@@ -983,32 +959,33 @@ namespace CMiX.Core.Networking
         // After a store error or a long pause: show the state, and re-apply the snapshot only when
         // the stream was trimmed past the own position while the peer was away. Otherwise the
         // reader replays.
-        private async Task OnFollowerErrorAsync(ISyncStore store, int generation)
+        private async Task OnFollowerErrorAsync(SyncRun run)
         {
+            var store = run.Store;
             Volatile.Write(ref _recovering, true);
             try
             {
-                await DispatchCurrentAsync(store, generation, () =>
+                await DispatchCurrentAsync(run, () =>
                 {
                     IsConnected = store.IsConnected;
                     OnPropertyChanged(nameof(Status));
                 }).ConfigureAwait(false);
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
 
                 var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
                 if (snapshotId <= LastAppliedId) return;
 
                 var first = await store.ReadRangeAsync(StreamPosition.Zero, 1).ConfigureAwait(false);
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
                 if (!HasGap(snapshotId, first.Count > 0 ? first[0].Id : null)) return;
 
                 var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
-                if (!IsCurrent(store, generation)) return;
+                if (!IsCurrent(run)) return;
                 if (snapshot == null || snapshot.StreamId <= LastAppliedId) return;
 
                 var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
-                await DispatchCurrentAsync(store, generation, () =>
+                await DispatchCurrentAsync(run, () =>
                 {
                     ApplySnapshotOnDispatcher(model, snapshot.StreamId);
                     AppliedMessages++;
@@ -1029,17 +1006,16 @@ namespace CMiX.Core.Networking
             if (position > TailId) TailId = position;
         }
 
-        // False after a Stop, or after a Start that made a new store. Then the caller belongs to an
+        // False after a Stop, or after a Start that made a new run. Then the caller belongs to an
         // earlier run and must change nothing.
-        private bool IsCurrent(ISyncStore store, int generation)
-            => ReferenceEquals(_store, store) && Volatile.Read(ref _generation) == generation;
+        private bool IsCurrent(SyncRun run) => ReferenceEquals(Volatile.Read(ref _run), run);
 
         // Makes the state change only when the run is still the current one. Returns false when it
         // did nothing. The dispatcher and Start and Stop use the same thread, so the check and the
         // change cannot be separated.
-        private Task<bool> DispatchCurrentAsync(ISyncStore store, int generation, Action action) => DispatchAsync(() =>
+        private Task<bool> DispatchCurrentAsync(SyncRun run, Action action) => DispatchAsync(() =>
         {
-            if (!IsCurrent(store, generation)) return false;
+            if (!IsCurrent(run)) return false;
 
             action();
             return true;
@@ -1079,9 +1055,10 @@ namespace CMiX.Core.Networking
 
         private void CreateCompactor()
         {
-            if (_compactor != null || !_compactionEnabled || _store == null) return;
+            var run = _run;
+            if (_compactor != null || !_compactionEnabled || run == null) return;
 
-            _compactor = new SnapshotCompactor(this, _target, _store, action => DispatchAsync(action), _runTimings);
+            _compactor = new SnapshotCompactor(this, _target, run.Store, action => DispatchAsync(action), run.Timings);
         }
 
         private void DisposeCompactor()

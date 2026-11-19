@@ -1435,7 +1435,7 @@ namespace CMiX.Core.Tests
             Assert.Contains("fresh", PeerIds(peer));
         }
 
-        [Fact(Skip = "Fails until step B1 passes the run to the presence tick")]
+        [Fact]
         public async Task PresenceTick_OfAStoppedRun_StartsNoJoinOnTheNewRun()
         {
             using var dispatcher = new SingleThreadDispatcher();
