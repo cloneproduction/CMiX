@@ -39,65 +39,74 @@ namespace CMiX.Core.Networking
 
             var batch = new List<DecodedEntry>(entries.Count);
             foreach (var entry in entries)
-            {
-                MessageEnvelope envelope = null;
-                try
-                {
-                    envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(entry.Envelope));
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
-
-                var own = envelope == null || envelope.SenderID == _peerId || envelope.Payload == null;
-                batch.Add(new DecodedEntry(entry, envelope, own));
-            }
+                batch.Add(Decode(entry));
 
             await DispatchCurrentAsync(run, () =>
             {
                 foreach (var decoded in batch)
-                {
-                    var (entry, envelope, own) = decoded;
-                    var payload = envelope?.Payload;
-                    // A timed out append that reached the store is sent again, so an entry can arrive twice.
-                    var apply = !own && !_applied.IsDuplicate(envelope.MessageID);
-
-                    if (apply)
-                    {
-                        try
-                        {
-                            _target.Apply(payload);
-                            // A snapshot entry forgets the applied IDs and raises SnapshotApplied.
-                            if (payload is MessageProjectSnapshot)
-                            {
-                                _applied.Forget();
-                                SnapshotApplied?.Invoke(this, EventArgs.Empty);
-                            }
-
-                            AppliedMessages++;
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine(ex);
-                            ErrorMessage = ex.Message;
-                        }
-                    }
-
-                    // Own entries and duplicates also move the position.
-                    AdvanceTo(entry.Id);
-
-                    // MessageApplied comes after the position.
-                    if (apply) MessageApplied?.Invoke(this, new MessageAppliedEventArgs(entry, payload));
-                }
+                    ApplyDecoded(decoded);
             }).ConfigureAwait(false);
+        }
+
+        private DecodedEntry Decode(StreamEntry entry)
+        {
+            MessageEnvelope envelope = null;
+            try
+            {
+                envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(entry.Envelope));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+            var own = envelope == null || envelope.SenderID == _peerId || envelope.Payload == null;
+            return new DecodedEntry(entry, envelope, own);
+        }
+
+        // Runs on the dispatcher thread.
+        private void ApplyDecoded(DecodedEntry decoded)
+        {
+            var (entry, envelope, own) = decoded;
+            var payload = envelope?.Payload;
+            // A timed out append that reached the store is sent again, so an entry can arrive twice.
+            var apply = !own && !_applied.IsDuplicate(envelope.MessageID);
+
+            if (apply)
+            {
+                try
+                {
+                    _target.Apply(payload);
+                    // A snapshot entry forgets the applied IDs and raises SnapshotApplied.
+                    if (payload is MessageProjectSnapshot)
+                        ForgetAppliedAndRaise();
+
+                    AppliedMessages++;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                    ErrorMessage = ex.Message;
+                }
+            }
+
+            // Own entries and duplicates also move the position.
+            AdvanceTo(entry.Id);
+
+            // MessageApplied comes after the position.
+            if (apply) MessageApplied?.Invoke(this, new MessageAppliedEventArgs(entry, payload));
+        }
+
+        private void ForgetAppliedAndRaise()
+        {
+            _applied.Forget();
+            SnapshotApplied?.Invoke(this, EventArgs.Empty);
         }
 
         private void ApplySnapshotOnDispatcher(ProjectModel model, StreamPosition position)
         {
             _target.ApplySnapshot(model);
-            _applied.Forget();
-            SnapshotApplied?.Invoke(this, EventArgs.Empty);
+            ForgetAppliedAndRaise();
             // The positions come after the snapshot, Forget and SnapshotApplied.
             AdvanceTo(position);
         }
