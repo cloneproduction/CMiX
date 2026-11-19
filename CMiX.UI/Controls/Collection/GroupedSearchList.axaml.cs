@@ -156,9 +156,8 @@ namespace CMiX.UI.Controls.Collection
                     continue;
 
                 shown++;
-                var open = IsOpen(group);
                 Add(new RowRef(group, null, HeaderRow(group)));
-                if (open)
+                if (IsOpen(group))
                 {
                     foreach (var item in matches)
                         Add(new RowRef(group, item, ItemRow(item)));
