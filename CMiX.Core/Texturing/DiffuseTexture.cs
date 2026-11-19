@@ -46,7 +46,8 @@ namespace CMiX.Core.Texturing
             TextureFilterManager = new()
             {
                 ID = DerivedId.Of(ID, nameof(DiffuseTextureModel.TextureFilterManager)),
-                ManagerData = new() { ID = DerivedId.Of(ID, nameof(DiffuseTextureModel.TextureFilterManager) + "." + nameof(PrefabManagerModel.ManagerData)) }
+                ManagerData = new() { ID = DerivedId.Of(ID, nameof(DiffuseTextureModel.TextureFilterManager) + "." + nameof(PrefabManagerModel.ManagerData)) },
+                Hidden = new(false) { ID = DerivedId.Of(ID, nameof(DiffuseTextureModel.TextureFilterManager) + "." + nameof(PrefabManagerModel.Hidden)) }
             },
             Transform2D = (Transform2DModel)Transform2D.ToModel(),
             SamplerState = (SamplerStateModel)SamplerState.ToModel()

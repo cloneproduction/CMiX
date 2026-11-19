@@ -37,6 +37,19 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void AProjectWithAnEntity_HashesConsistently()
+        {
+            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            project.CompositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)project.CompositionManager.SelectedItem;
+            composition.LayerManager.AddItem(typeof(Layer));
+            var layer = (Layer)composition.LayerManager.SelectedItem;
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+
+            Assert.Equal(ProjectStateHash.Compute(project), ProjectStateHash.Compute(project));
+        }
+
+        [Fact]
         public void SameProject_HashesConsistently()
         {
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
