@@ -39,7 +39,12 @@ namespace CMiX.Studio.Avalonia.Views
             return new RowSizes(heightPixels / scale, spacingPixels / scale);
         }
 
-        public void SetRowMetrics(double scale) => ComputeRowResources(scale).Write(resources);
+        public void SetRowMetrics(double scale)
+        {
+            var rows = ComputeRowResources(scale);
+            rows.Write(resources);
+            context.RowPitch = rows.RowHeight + rows.RowGap;
+        }
 
         private static TreeRowResources ComputeRowResources(double scale)
         {

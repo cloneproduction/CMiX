@@ -14,6 +14,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly Control owner;
         private DragAutoScroller? autoScroller;
         private ScrollViewer? scroller;
+        private double? rowPitch;
 
         internal TreeViewContext(Control owner, TreeView treeView, TreeRowIndex rowIndex)
         {
@@ -33,7 +34,11 @@ namespace CMiX.Studio.Avalonia.Views
 
         public ScrollViewer? Scroller => scroller ??= TreeView.GetVisualDescendants().OfType<ScrollViewer>().FirstOrDefault();
 
-        public double RowPitch => TreeRowMetrics.ReadRowPitch(owner);
+        public double RowPitch
+        {
+            get => rowPitch ?? TreeRowMetrics.ReadRowPitch(owner);
+            internal set => rowPitch = value;
+        }
 
         public DragAutoScroller AutoScroller => autoScroller ??= new DragAutoScroller(this);
 
