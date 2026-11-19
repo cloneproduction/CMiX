@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.Generic;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
@@ -13,8 +12,6 @@ namespace CMiX.Studio.Avalonia.Views
     // The shadow lies in a layer over every row, so it falls on the rows around it whatever their drawing order.
     internal sealed class TreeRowShadow
     {
-        private const string RowBorderName = "RowBorder";
-
         private readonly TreeView tree;
         private readonly Canvas layer;
         private readonly Border shadow;
@@ -68,7 +65,6 @@ namespace CMiX.Studio.Avalonia.Views
         // A slide between rows read as a wobble.
         private void Fade(double opacity) => Set(Visual.OpacityProperty, opacity);
 
-        private Border? SelectedRowBorder() =>
-            selectedItem?.GetVisualDescendants().OfType<Border>().FirstOrDefault(border => border.Name == RowBorderName && border.TemplatedParent == selectedItem);
+        private Border? SelectedRowBorder() => selectedItem is { } item ? TreeRows.RowBorderOf(item) : null;
     }
 }

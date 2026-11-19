@@ -13,6 +13,8 @@ namespace CMiX.Studio.Avalonia.Views
 {
     internal static class TreeRows
     {
+        public const string RowBorderName = "RowBorder";
+
         public static TreeViewItem? ItemOf(object? source) =>
             (source as Visual)?.FindAncestorOfType<TreeViewItem>(includeSelf: true);
 
@@ -31,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         // Without the rows under it.
         public static Border? RowBorderOf(TreeViewItem item) =>
-            item.GetVisualDescendants().OfType<Border>().FirstOrDefault(border => border.Name == "RowBorder");
+            item.GetVisualDescendants().OfType<Border>().FirstOrDefault(border => border.Name == RowBorderName);
 
         public static int WheelSteps(PointerWheelEventArgs e)
         {
