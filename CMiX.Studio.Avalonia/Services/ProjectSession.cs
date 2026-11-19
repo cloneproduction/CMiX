@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.Services
         // A snapshot carries the project only. The undo manager stays untouched here, because ProjectSyncTarget clears it.
         private void OnSnapshotApplied(object? sender, EventArgs e) => ClearLists();
 
-        public void ClearLists()
+        private void ClearLists()
         {
             foreach (var list in _lists)
                 list.ClearAll();

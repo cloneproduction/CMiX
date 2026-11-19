@@ -6,13 +6,12 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // A snapshot from another peer replaces the project, but not the six repository lists.
-    // ProjectSession empties them on the SnapshotApplied event of its peer, the way File > New and
-    // File > Open empty them through ProjectSession.ClearAll.
+    // The six repository lists are not part of a project. ProjectSession empties them on a peer snapshot,
+    // on File > New and on File > Open, and the repository lets the items go.
     public class ProjectSessionTests
     {
         [AvaloniaFact]
-        public void ClearLists_EmptiesTheListsAndTheRepository()
+        public void ClearAll_EmptiesTheListsAndTheRepository()
         {
             var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
@@ -21,7 +20,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Single(viewModel.TextureManager.ManagerData.Items);
 
-            provider.GetRequiredService<ProjectSession>().ClearLists();
+            provider.GetRequiredService<ProjectSession>().ClearAll();
             TestServiceProviderFactory.Pump();
 
             Assert.Empty(viewModel.TextureManager.ManagerData.Items);
