@@ -293,7 +293,7 @@ namespace CMiX.Core.Networking
             var run = Volatile.Read(ref _run);
             if (run == null) return Task.CompletedTask;
 
-            return JoinAsync(run, false, false);
+            return JoinAsync(run);
         }
 
         // Push: publish the local state as the new store state, then follow the stream.
@@ -429,7 +429,7 @@ namespace CMiX.Core.Networking
 
                 if (store.IsConnected)
                 {
-                    await JoinAsync(run, true, false).ConfigureAwait(false);
+                    await AutoJoinAsync(run).ConfigureAwait(false);
                     if (!IsCurrent(run)) return;
                     if (IsJoined) return;
 
@@ -537,7 +537,7 @@ namespace CMiX.Core.Networking
             {
                 var ct = run.Cts.Token;
                 if (run.AutoJoin)
-                    _ = Task.Run(() => JoinAsync(run, true, false), ct);
+                    _ = Task.Run(() => AutoJoinAsync(run), ct);
                 else
                     _ = Task.Run(() => RunStartCheckAsync(run), ct);
             }
@@ -603,8 +603,12 @@ namespace CMiX.Core.Networking
 
             // A peer behind the tail of a replacement store must adopt the state of that store, also
             // when its snapshot is below the own position. Only the re-join after a trim can skip.
-            if (gap)
-                await JoinAsync(run, false, !behindTail).ConfigureAwait(false);
+            if (!gap) return;
+
+            if (behindTail)
+                await JoinAsync(run).ConfigureAwait(false);
+            else
+                await RejoinAfterGapAsync(run).ConfigureAwait(false);
         }
 
         // The stream was trimmed past the own position when its oldest entry is newer than that
@@ -631,91 +635,107 @@ namespace CMiX.Core.Networking
                 Peers.Add(peer);
         }
 
-        // skipWhenJoined is for the auto-join. A try that waited for the lock does nothing when
-        // another try joined already. A Pull and the gap re-join always run. afterGap marks the
-        // re-join of the heartbeat after a trim, the only join that can meet a follower recovery.
-        private Task JoinAsync(SyncRun run, bool skipWhenJoined, bool afterGap)
+        private Task JoinAsync(SyncRun run)
+            => RunUnderJoinLockAsync(run, () => AdoptStoreAsync(run));
+
+        // The engine joins by itself. A try that waited for the lock does nothing when another try joined already.
+        private Task AutoJoinAsync(SyncRun run)
+            => RunUnderJoinLockAsync(run, () => IsJoined ? Task.CompletedTask : AdoptStoreAsync(run));
+
+        // The re-join of the heartbeat after a trim. The follower stop and the activity come before the shortcut.
+        private Task RejoinAfterGapAsync(SyncRun run)
+        {
+            var store = run.Store;
+
+            return RunUnderJoinLockAsync(run, RejoinLockedAsync);
+
+            async Task RejoinLockedAsync()
+            {
+                await StopFollowerAsync(run).ConfigureAwait(false);
+                await SetActivityAsync("Joining").ConfigureAwait(false);
+
+                var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
+                if (!IsCurrent(run)) return;
+
+                // The follower closed the gap while this join waited for it: its recovery
+                // applied the snapshot. A second apply would rebuild the state again, so this
+                // join only replays what comes after the position. A store without a snapshot
+                // says nothing, so it takes the full join.
+                if (snapshotId != StreamPosition.Zero && snapshotId <= LastAppliedId)
+                {
+                    await ReplayAsync(run, LastAppliedId).ConfigureAwait(false);
+                    if (!IsCurrent(run)) return;
+
+                    await FinishJoinAsync(run).ConfigureAwait(false);
+                    return;
+                }
+
+                await ApplyStoreStateAsync(run).ConfigureAwait(false);
+            }
+        }
+
+        // The caller holds the join lock.
+        private async Task AdoptStoreAsync(SyncRun run)
+        {
+            await StopFollowerAsync(run).ConfigureAwait(false);
+            await SetActivityAsync("Joining").ConfigureAwait(false);
+            await ApplyStoreStateAsync(run).ConfigureAwait(false);
+        }
+
+        // The caller holds the join lock and has stopped the follower.
+        private async Task ApplyStoreStateAsync(SyncRun run)
         {
             var store = run.Store;
             var ct = run.Cts.Token;
 
-            return RunUnderJoinLockAsync(run, JoinLockedAsync);
+            // The store state replaces the local one, so the local edits in the queue go away.
+            // An append in flight lands before the read, so it is part of what is adopted.
+            _outgoing.Discard();
+            await _outgoing.IdleAsync(ct).ConfigureAwait(false);
+            if (!IsCurrent(run)) return;
 
-            async Task JoinLockedAsync()
+            var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
+            if (!IsCurrent(run)) return;
+
+            var tail = await store.ReadTailAsync().ConfigureAwait(false);
+            if (!IsCurrent(run)) return;
+
+            // Nothing to adopt: the local state becomes the store state. A non-writer keeps
+            // its local state and follows the stream from the start instead.
+            if (snapshot == null && tail == StreamPosition.Zero)
             {
-                if (skipWhenJoined && IsJoined) return;
-
-                await StopFollowerAsync(run).ConfigureAwait(false);
-                await SetActivityAsync("Joining").ConfigureAwait(false);
-
-                if (afterGap)
-                {
-                    var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
-                    if (!IsCurrent(run)) return;
-
-                    // The follower closed the gap while this join waited for it: its recovery
-                    // applied the snapshot. A second apply would rebuild the state again, so this
-                    // join only replays what comes after the position. A store without a snapshot
-                    // says nothing, so it takes the full join.
-                    if (snapshotId != StreamPosition.Zero && snapshotId <= LastAppliedId)
+                if (IsWriter)
+                    await PushCoreAsync(run).ConfigureAwait(false);
+                else
+                    await DispatchCurrentAsync(run, () =>
                     {
-                        await ReplayAsync(run, LastAppliedId).ConfigureAwait(false);
-                        if (!IsCurrent(run)) return;
+                        LastAppliedId = StreamPosition.Zero;
+                        TailId = StreamPosition.Zero;
+                    }).ConfigureAwait(false);
 
-                        await FinishJoinAsync(run).ConfigureAwait(false);
-                        return;
-                    }
-                }
-
-                // The store state replaces the local one, so the local edits in the queue go away.
-                // An append in flight lands before the read, so it is part of what is adopted.
-                _outgoing.Discard();
-                await _outgoing.IdleAsync(ct).ConfigureAwait(false);
                 if (!IsCurrent(run)) return;
-
-                var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
-                if (!IsCurrent(run)) return;
-
-                var tail = await store.ReadTailAsync().ConfigureAwait(false);
-                if (!IsCurrent(run)) return;
-
-                // Nothing to adopt: the local state becomes the store state. A non-writer keeps
-                // its local state and follows the stream from the start instead.
-                if (snapshot == null && tail == StreamPosition.Zero)
+            }
+            else
+            {
+                var position = StreamPosition.Zero;
+                if (snapshot != null)
                 {
-                    if (IsWriter)
-                        await PushCoreAsync(run).ConfigureAwait(false);
-                    else
-                        await DispatchCurrentAsync(run, () =>
-                        {
-                            LastAppliedId = StreamPosition.Zero;
-                            TailId = StreamPosition.Zero;
-                        }).ConfigureAwait(false);
-
-                    if (!IsCurrent(run)) return;
+                    var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
+                    position = snapshot.StreamId;
+                    await DispatchCurrentAsync(run, () => ApplySnapshotOnDispatcher(model, position)).ConfigureAwait(false);
                 }
                 else
                 {
-                    var position = StreamPosition.Zero;
-                    if (snapshot != null)
-                    {
-                        var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
-                        position = snapshot.StreamId;
-                        await DispatchCurrentAsync(run, () => ApplySnapshotOnDispatcher(model, position)).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        await DispatchCurrentAsync(run, () => LastAppliedId = StreamPosition.Zero).ConfigureAwait(false);
-                    }
-
-                    if (!IsCurrent(run)) return;
-
-                    await ReplayAsync(run, position).ConfigureAwait(false);
-                    if (!IsCurrent(run)) return;
+                    await DispatchCurrentAsync(run, () => LastAppliedId = StreamPosition.Zero).ConfigureAwait(false);
                 }
 
-                await FinishJoinAsync(run).ConfigureAwait(false);
+                if (!IsCurrent(run)) return;
+
+                await ReplayAsync(run, position).ConfigureAwait(false);
+                if (!IsCurrent(run)) return;
             }
+
+            await FinishJoinAsync(run).ConfigureAwait(false);
         }
 
         private async Task PushAsync(SyncRun run)
