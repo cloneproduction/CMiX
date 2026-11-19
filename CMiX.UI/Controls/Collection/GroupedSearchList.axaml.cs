@@ -225,7 +225,7 @@ namespace CMiX.UI.Controls.Collection
                 panel.Children.Add(new Border
                 {
                     Width = size, Height = size, Background = brush,
-                    CornerRadius = Radius("CornerRadiusAll", new CornerRadius(2)), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+                    CornerRadius = ThemeResource.Get(this, "CornerRadiusAll", new CornerRadius(2)), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
                 });
             }
 
@@ -243,15 +243,9 @@ namespace CMiX.UI.Controls.Collection
         private bool IsUsable(int index) =>
             index >= 0 && index < rows.Count && (rows[index].Item == null ? Collapsible : rows[index].Item!.IsEnabled);
 
-        private double Spacing => Number("SpacingMD", 8);
+        private double Spacing => ThemeResource.Get(this, "SpacingMD", 8.0);
 
-        private double IconSize => Number("IconSizeXS", 16);
-
-        private double Number(string key, double fallback) =>
-            this.TryFindResource(key, out var value) && value is double number ? number : fallback;
-
-        private CornerRadius Radius(string key, CornerRadius fallback) =>
-            this.TryFindResource(key, out var value) && value is CornerRadius radius ? radius : fallback;
+        private double IconSize => ThemeResource.Get(this, "IconSizeXS", 16.0);
 
         private void ScrollToHighlight()
         {

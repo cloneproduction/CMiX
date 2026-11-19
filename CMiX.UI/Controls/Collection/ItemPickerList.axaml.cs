@@ -10,6 +10,7 @@ using Avalonia.Data;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.Themes;
 
 namespace CMiX.UI.Controls.Collection
 {
@@ -40,8 +41,8 @@ namespace CMiX.UI.Controls.Collection
         {
             var row = new Button { CommandParameter = item };
 
-            if (this.TryFindResource("ButtonItem", ActualThemeVariant, out var theme) && theme is ControlTheme controlTheme)
-                row.Theme = controlTheme;
+            if (ThemeResource.Find<ControlTheme>(this, "ButtonItem") is { } theme)
+                row.Theme = theme;
 
             row.Bind(Button.CommandProperty, new Binding(nameof(ItemCommand)) { Source = this });
             row.Classes.Set("highlighted", ReferenceEquals(item, HighlightedItem));
@@ -65,8 +66,7 @@ namespace CMiX.UI.Controls.Collection
             // The icon, then the text. The icon has the size of the icons of the buttons.
             var icon = new AppIcon { VerticalAlignment = VerticalAlignment.Center };
             icon.Bind(AppIcon.IconKeyProperty, new Binding(IconPath) { Source = item });
-            if (this.TryFindResource("IconSizeXS", ActualThemeVariant, out var size) && size is double iconSize)
-                icon.Size = iconSize;
+            icon.Size = ThemeResource.Get(this, "IconSizeXS", icon.Size);
 
             var text = new TextBlock { VerticalAlignment = VerticalAlignment.Center };
             if (string.IsNullOrEmpty(TextPath))
@@ -74,8 +74,7 @@ namespace CMiX.UI.Controls.Collection
             else
                 text.Bind(TextBlock.TextProperty, new Binding(TextPath) { Source = item });
 
-            var spacing = this.TryFindResource("SpacingMD", ActualThemeVariant, out var gap) && gap is double gapSize ? gapSize : 8;
-            row.Content = new StackPanel { Orientation = Orientation.Horizontal, Spacing = spacing, Children = { icon, text } };
+            row.Content = new StackPanel { Orientation = Orientation.Horizontal, Spacing = ThemeResource.Get(this, "SpacingMD", 8.0), Children = { icon, text } };
             return row;
         }
 
