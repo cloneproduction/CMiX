@@ -111,7 +111,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         [RelayCommand(CanExecute = nameof(CanInspectCursor))]
         private void InspectCursor() => Inspect(CursorNode);
 
-        private bool CanInspectCursor() => CursorNode != null && !IsDragging && CanRunTreeKey();
+        private bool CanInspectCursor() => CursorNode != null && CanRunTreeKey();
 
         // Enter during a drag or a grab places the row, so it selects nothing then.
         [RelayCommand(CanExecute = nameof(CanOpenSelected))]
