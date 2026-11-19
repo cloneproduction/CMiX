@@ -34,8 +34,8 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         public bool HasUnsavedChanges => _unsavedChanges.HasChanges;
 
-        // True: the window may close. Save counts only when the save cleared the changes, so a cancelled Save As keeps the window open.
-        public async Task<bool> ConfirmCloseAsync()
+        // True: the project may be discarded. Save counts only when the save cleared the changes, so a cancelled Save As keeps the project.
+        public async Task<bool> ConfirmDiscardAsync()
         {
             if (!_unsavedChanges.HasChanges)
                 return true;
@@ -60,8 +60,9 @@ namespace CMiX.Studio.Avalonia.ViewModels
             $"CMiX - {(string.IsNullOrWhiteSpace(ProjectPath) ? "(Unsaved)" : Path.GetFileName(ProjectPath))}";
 
         [RelayCommand]
-        private void NewProject()
+        private async Task NewProject()
         {
+            if (!await ConfirmDiscardAsync()) return;
             _session.NewProject();
             ProjectPath = null;
             _unsavedChanges.MarkSaved();
@@ -70,6 +71,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         [RelayCommand]
         private async Task OpenProject()
         {
+            if (!await ConfirmDiscardAsync()) return;
             var file = await _dialogService.ShowOpenFileDialogAsync(this, new OpenFileDialogSettings
             {
                 Filters = new List<FileFilter> { new FileFilter("CMiX Project", "cmix") }

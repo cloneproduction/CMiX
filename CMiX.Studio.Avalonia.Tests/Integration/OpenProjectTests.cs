@@ -10,6 +10,7 @@ using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Persistence;
+using CMiX.Studio.Avalonia.Services;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering;
 using CMiX.Core.Texturing.Sources;
@@ -289,6 +290,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 Assert.Equal("LeftWall", slots[3].Name.Value);
                 Assert.Equal("Saved Project", project.PrefabService.Name.Value);
                 var period = project.MasterBeat.Period.Value;
+                provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.DontSave;
 
                 viewModel.ProjectFile.NewProjectCommand.Execute(null);
                 TestServiceProviderFactory.Pump();

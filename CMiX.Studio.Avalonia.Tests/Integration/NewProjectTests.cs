@@ -8,7 +8,9 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Views.Managers;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests.Integration
@@ -50,13 +52,14 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public void NewProject_ClearsATextureCreatedThroughTheTexturesTab()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             SelectTab(window, "Textures");
 
             CreateThroughPopup(window, viewModel.TextureManager, "New Texture", typeof(CheckerBoard));
 
             var texture = Assert.Single(viewModel.TextureManager.ManagerData.Items);
             Assert.Contains(viewModel.ControlRepository.Textures, item => ReferenceEquals(item, texture));
+            provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.DontSave;
 
             viewModel.ProjectFile.NewProjectCommand.Execute(null);
             TestServiceProviderFactory.Pump();
@@ -76,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             {
                 ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
                 // A composition of the file, loaded the way ProjectSession.LoadProject loads it.
                 var projectModel = ProjectSerializer.Load(path);
@@ -85,6 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal(2, viewModel.ControlRepository.Textures.Count);
+                provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.DontSave;
 
                 viewModel.ProjectFile.NewProjectCommand.Execute(null);
                 TestServiceProviderFactory.Pump();

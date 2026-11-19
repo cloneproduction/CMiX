@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             e.Cancel = true;
 
-            if (!await viewModel.ProjectFile.ConfirmCloseAsync())
+            if (!await viewModel.ProjectFile.ConfirmDiscardAsync())
                 return;
 
             Closing -= OnClosing;

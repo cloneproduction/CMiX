@@ -3,6 +3,9 @@ using Avalonia.Threading;
 using CMiX.Core.Compositing;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Tests.Integration;
+using CommunityToolkit.Mvvm.Input;
+using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Composition = CMiX.Core.Compositing.Composition;
@@ -99,11 +102,53 @@ namespace CMiX.Studio.Avalonia.Tests
             var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             Assert.True(provider.GetRequiredService<UnsavedChanges>().HasChanges);
+            provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.DontSave;
 
             viewModel.ProjectFile.NewProjectCommand.Execute(null);
             TestServiceProviderFactory.Pump();
 
             Assert.False(provider.GetRequiredService<UnsavedChanges>().HasChanges);
+        }
+
+        [AvaloniaFact]
+        public void NewProjectCommand_WithUnsavedChangesAndCancel_KeepsTheProject()
+        {
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
+            var prompt = provider.GetRequiredService<FakeUnsavedChangesPrompt>();
+
+            viewModel.ProjectFile.NewProjectCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
+
+            Assert.Equal(1, prompt.TimesAsked);
+            Assert.Single(viewModel.Project.CompositionManager.ManagerData.Items);
+            Assert.True(provider.GetRequiredService<UnsavedChanges>().HasChanges);
+        }
+
+        [AvaloniaFact]
+        public void NewProjectCommand_WithoutChanges_DoesNotAsk()
+        {
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+
+            viewModel.ProjectFile.NewProjectCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
+
+            Assert.Equal(0, provider.GetRequiredService<FakeUnsavedChangesPrompt>().TimesAsked);
+        }
+
+        [AvaloniaFact]
+        public async Task OpenProjectCommand_WithUnsavedChangesAndCancel_DoesNotShowTheFileDialog()
+        {
+            var dialogs = new FakeOpenFileDialogManager("never.cmix");
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
+                services.AddSingleton<IDialogService>(provider => new DialogService(dialogs, viewModelFactory: type => provider.GetService(type))));
+            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
+
+            await ((IAsyncRelayCommand)viewModel.ProjectFile.OpenProjectCommand).ExecuteAsync(null);
+
+            Assert.Equal(1, provider.GetRequiredService<FakeUnsavedChangesPrompt>().TimesAsked);
+            Assert.Equal(0, dialogs.TimesShown);
+            Assert.Single(viewModel.Project.CompositionManager.ManagerData.Items);
         }
     }
 }
