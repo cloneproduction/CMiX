@@ -156,6 +156,35 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public async Task SaveAsProjectCommand_AWriteFailure_KeepsTheOldPathAndShowsTheNotice()
+        {
+            var path = TempProjectPath();
+            var badPath = Path.Combine(Path.GetTempPath(), $"cmix-missing-{Guid.NewGuid():N}", "project.cmix");
+            try
+            {
+                ProjectFixtures.WriteProjectWithMaterialTextures(path);
+                var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
+                    services.AddSingleton<IDialogService>(provider => new DialogService(
+                        new FakeSaveFileDialogManager(badPath),
+                        viewModelFactory: type => provider.GetService(type))));
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
+                TestServiceProviderFactory.Pump();
+
+                await ((IAsyncRelayCommand)viewModel.ProjectFile.SaveAsProjectCommand).ExecuteAsync(null);
+                TestServiceProviderFactory.Pump();
+
+                var (_, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
+                Assert.Equal("Save Project", title);
+                Assert.Equal(path, viewModel.ProjectFile.ProjectPath);
+                Assert.Equal($"CMiX - {Path.GetFileName(path)}", TitleBarText(window).Text);
+            }
+            finally
+            {
+                if (File.Exists(path)) File.Delete(path);
+            }
+        }
+
+        [AvaloniaFact]
         public async Task OpenProjectFromPath_AnApplyFailureAfterAGoodParse_LeavesThePathNullAndShowsTheNotice()
         {
             var path = TempProjectPath();

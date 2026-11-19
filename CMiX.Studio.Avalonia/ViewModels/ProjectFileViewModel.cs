@@ -128,20 +128,23 @@ namespace CMiX.Studio.Avalonia.ViewModels
             var path = file?.LocalPath;
             if (string.IsNullOrWhiteSpace(path)) return;
 
-            ProjectPath = path;
-            await WriteProjectGuarded(ProjectPath);
+            if (await WriteProjectGuarded(path))
+                ProjectPath = path;
         }
 
-        private async Task WriteProjectGuarded(string path)
+        // True when the file was written. A failure shows the notice and returns false.
+        private async Task<bool> WriteProjectGuarded(string path)
         {
             try
             {
                 await WriteProject(path);
                 _unsavedChanges.MarkSaved();
+                return true;
             }
             catch (Exception ex)
             {
                 await _messageNotice.ShowErrorAsync($"{Path.GetFileName(path)}: {ex.Message}", "Save Project");
+                return false;
             }
         }
 
