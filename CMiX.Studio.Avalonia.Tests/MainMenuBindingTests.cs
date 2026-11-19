@@ -7,6 +7,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.VisualTree;
 using CMiX.Core.Networking;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Tests.Integration;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.UI.Behaviors;
@@ -202,7 +203,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 Assert.Equal($"{Path.GetFileName(path)}: The apply failed.", text);
                 Assert.Null(viewModel.ProjectFile.ProjectPath);
                 Assert.Empty(viewModel.Project.CompositionManager.ManagerData.Items);
-                Assert.False(viewModel.ProjectFile.HasUnsavedChanges);
+                Assert.False(provider.GetRequiredService<UnsavedChanges>().HasChanges);
             }
             finally
             {

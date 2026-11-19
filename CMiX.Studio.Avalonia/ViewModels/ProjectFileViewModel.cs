@@ -34,24 +34,18 @@ namespace CMiX.Studio.Avalonia.ViewModels
         private readonly IMessageNotice _messageNotice;
         private static readonly List<FileFilter> ProjectFilters = new() { new FileFilter("CMiX Project", "cmix") };
 
-        public bool HasUnsavedChanges => _unsavedChanges.HasChanges;
-
-        // True: the project may be discarded. Save counts only when the save cleared the changes, so a cancelled Save As keeps the project.
+        // True: the project may be discarded. The fingerprint is computed once. Save counts only when the file was written, so a cancelled Save As keeps the project.
         public async Task<bool> ConfirmDiscardAsync()
         {
             if (!_unsavedChanges.HasChanges)
                 return true;
 
-            switch (await _unsavedChangesPrompt.AskAsync())
+            return await _unsavedChangesPrompt.AskAsync() switch
             {
-                case UnsavedChangesChoice.Save:
-                    await SaveProject();
-                    return !_unsavedChanges.HasChanges;
-                case UnsavedChangesChoice.DontSave:
-                    return true;
-                default:
-                    return false;
-            }
+                UnsavedChangesChoice.Save => await WriteOrAskForPath(),
+                UnsavedChangesChoice.DontSave => true,
+                _ => false
+            };
         }
 
         [ObservableProperty]
@@ -119,18 +113,16 @@ namespace CMiX.Studio.Avalonia.ViewModels
             _messageNotice.ShowErrorAsync($"{Path.GetFileName(path)}: {ex.Message}", "Open Project");
 
         [RelayCommand]
-        private async Task SaveProject()
-        {
-            if (!string.IsNullOrWhiteSpace(ProjectPath))
-            {
-                await WriteProjectGuarded(ProjectPath);
-                return;
-            }
-            await SaveAsProject();
-        }
+        private Task SaveProject() => WriteOrAskForPath();
 
         [RelayCommand]
-        private async Task SaveAsProject()
+        private Task SaveAsProject() => AskForPathAndWrite();
+
+        private Task<bool> WriteOrAskForPath() =>
+            string.IsNullOrWhiteSpace(ProjectPath) ? AskForPathAndWrite() : WriteProjectGuarded(ProjectPath);
+
+        // True when the file was written. A cancelled dialog or a failed write returns false and keeps the path.
+        private async Task<bool> AskForPathAndWrite()
         {
             var file = await _dialogService.ShowSaveFileDialogAsync(this, new SaveFileDialogSettings
             {
@@ -139,10 +131,11 @@ namespace CMiX.Studio.Avalonia.ViewModels
             });
 
             var path = file?.LocalPath;
-            if (string.IsNullOrWhiteSpace(path)) return;
+            if (string.IsNullOrWhiteSpace(path)) return false;
 
-            if (await WriteProjectGuarded(path))
-                ProjectPath = path;
+            if (!await WriteProjectGuarded(path)) return false;
+            ProjectPath = path;
+            return true;
         }
 
         // True when the file was written. A failure shows the notice and returns false.
