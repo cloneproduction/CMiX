@@ -82,7 +82,7 @@ namespace CMiX.Studio.Avalonia.Views
             menus = new TreeMenus(context, reveal, pointerInput, grab, focusKeeper, hints.Update, lifetime);
             requests = new TreeScreenRequests(context, menus, reveal, grab, scrollAnchor, pointerInput, () => IsActiveView, lifetime);
             keyInput = new TreeKeyInput(context, rowDrag, menus, focusKeeper, lifetime);
-            hooks = focusKeeper.BuildHooks(dragSession, rowDrag, grab, requests.CloseRowsInView);
+            hooks = BuildHooks();
 
             pointerInput.Attach();
             fileDrop.Attach();
@@ -93,6 +93,23 @@ namespace CMiX.Studio.Avalonia.Views
             KeyBindingTextGuard.Install(this);
             tooltips = new TreeTooltips(treeView);
         }
+
+        private TreeViewHooks BuildHooks() =>
+            new()
+            {
+                IsPointerOverTree = () => IsPointerOver,
+                IsTreeFocused = () => IsKeyboardFocusWithin,
+                IsTextBoxFocused = focusKeeper.IsTextBoxFocused,
+                IsFocusInOtherPanel = focusKeeper.IsFocusInOtherPanel,
+                IsPanelFocused = focusKeeper.IsPanelFocused,
+                ToggleDragRow = dragSession.ToggleHovered,
+                CancelDrag = () =>
+                {
+                    rowDrag.Cancel();
+                    grab.Cancel();
+                },
+                CloseRowsInView = requests.CloseRowsInView
+            };
 
         internal KeyHintStrip HintStrip => hintStrip;
 

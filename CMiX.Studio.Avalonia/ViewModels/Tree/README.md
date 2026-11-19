@@ -76,7 +76,7 @@ The hub, `ProjectTreeView.axaml.cs`: builds the parts, attaches and detaches the
 |---|---|---|
 | Input | `TreeKeyInput` | Keys while the tree has the focus: Escape, the navigation keys, Right opens Add. |
 | Input | `TreePointerInput` | Press, move, release, wheel, double tap, middle click, Ctrl click, the chosen row. |
-| Input | `TreeFocusKeeper` | Keeps the focus in the tree and gives it back after a layout or a row button. Builds the `TreeViewHooks`. |
+| Input | `TreeFocusKeeper` | Keeps the focus in the tree and gives it back after a layout or a row button. |
 | Input | `TreeFileDropInput` | Files dragged from disk over the rows. |
 | Input | `TreeScreenRequests` | Answers the eight requests of the model, in the active view only. |
 | Menus | `TreeMenus` | The context menu and the Add panel (`AddPanel`). |

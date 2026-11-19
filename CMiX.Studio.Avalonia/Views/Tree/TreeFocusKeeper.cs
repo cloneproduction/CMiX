@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
-using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -41,24 +40,6 @@ namespace CMiX.Studio.Avalonia.Views
             this.reveal = reveal;
             this.lifetime = lifetime;
         }
-
-        internal TreeViewHooks BuildHooks(TreeDragSession dragSession, TreeRowDrag rowDrag, TreeGrab grab,
-            Action<TreeNode?, Func<IReadOnlyList<TreeNode>>> closeRowsInView) =>
-            new()
-            {
-                IsPointerOverTree = () => owner.IsPointerOver,
-                IsTreeFocused = () => owner.IsKeyboardFocusWithin,
-                IsTextBoxFocused = () => IsInTextBox(TopLevel.GetTopLevel(owner)?.FocusManager?.GetFocusedElement()),
-                IsFocusInOtherPanel = IsFocusInOtherPanel,
-                IsPanelFocused = IsPanelFocused,
-                ToggleDragRow = dragSession.ToggleHovered,
-                CancelDrag = () =>
-                {
-                    rowDrag.Cancel();
-                    grab.Cancel();
-                },
-                CloseRowsInView = closeRowsInView
-            };
 
         internal void Attach()
         {
@@ -169,10 +150,12 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal static bool IsInTextBox(object? source) => TreeRows.HasAncestor<TextBox>(source);
 
-        // The focus on the window itself, or on no control, is in no panel.
-        private bool IsFocusInOtherPanel() => FocusedControl() is { } focused && !IsInPanel(focused);
+        internal bool IsTextBoxFocused() => IsInTextBox(TopLevel.GetTopLevel(owner)?.FocusManager?.GetFocusedElement());
 
-        private bool IsPanelFocused() => FocusedControl() is { } focused && IsInPanel(focused);
+        // The focus on the window itself, or on no control, is in no panel.
+        internal bool IsFocusInOtherPanel() => FocusedControl() is { } focused && !IsInPanel(focused);
+
+        internal bool IsPanelFocused() => FocusedControl() is { } focused && IsInPanel(focused);
 
         private IInputElement? FocusedControl() =>
             TopLevel.GetTopLevel(owner)?.FocusManager?.GetFocusedElement() is { } focused and not TopLevel ? focused : null;
