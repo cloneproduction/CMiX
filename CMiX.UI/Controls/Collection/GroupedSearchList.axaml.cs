@@ -353,12 +353,7 @@ namespace CMiX.UI.Controls.Collection
                     break;
 
                 // Left with no text leaves the list as Escape does: the panel is a leaf of a tree, and Left goes back to the row.
-                case Key.Left when !Searching:
-                    Cancelled?.Invoke(this, EventArgs.Empty);
-                    e.Handled = true;
-                    break;
-
-                case Key.Escape when !Searching:
+                case Key.Left or Key.Escape when !Searching:
                     Cancelled?.Invoke(this, EventArgs.Empty);
                     e.Handled = true;
                     break;
