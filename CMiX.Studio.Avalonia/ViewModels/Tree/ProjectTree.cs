@@ -43,8 +43,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             edit = new TreeEdit(undoManager, toasts);
             dragState = new TreeDragState(dropService);
             drop = new TreeDrop(dropService, notice);
-            search = new TreeSearch(Views.CloseRowsInView);
-            openState = new TreeOpenState(Views.CloseRowsInView, search);
+            search = new TreeSearch(Views);
+            openState = new TreeOpenState(Views, search);
             // The one row under the root is the group of the compositions.
             root = new TreeNode(this, null, null, null, "Project", null);
             root.AddGroups(project);

@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,12 +8,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
     public sealed class TreeOpenState
     {
-        private readonly Action<TreeNode?, Func<IReadOnlyList<TreeNode>>> closeRowsInView;
+        private readonly IRowCloser rowCloser;
         private readonly TreeSearch search;
 
-        public TreeOpenState(Action<TreeNode?, Func<IReadOnlyList<TreeNode>>> closeRowsInView, TreeSearch search)
+        internal TreeOpenState(IRowCloser rowCloser, TreeSearch search)
         {
-            this.closeRowsInView = closeRowsInView;
+            this.rowCloser = rowCloser;
             this.search = search;
         }
 
@@ -94,7 +93,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         {
             var closing = new HashSet<TreeNode>(rows);
             var anchor = target != null ? TreeWalk.ParentsOf(target).LastOrDefault(closing.Contains) ?? target : null;
-            closeRowsInView(anchor, () =>
+            rowCloser.CloseRowsInView(anchor, () =>
             {
                 foreach (var node in rows)
                     node.IsExpanded = false;

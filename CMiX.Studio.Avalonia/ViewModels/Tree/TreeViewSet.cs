@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    public sealed class TreeViewSet
+    public sealed class TreeViewSet : IRowCloser
     {
         private readonly List<TreeViewHooks> views = new();
 
@@ -48,10 +48,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 view.CancelDrag();
         }
 
-        public void CloseRowsInView(TreeNode? node, Func<IReadOnlyList<TreeNode>> close)
+        public void CloseRowsInView(TreeNode? anchor, Func<IReadOnlyList<TreeNode>> close)
         {
             if (ActiveView() is { } view)
-                view.CloseRowsInView(node, close);
+                view.CloseRowsInView(anchor, close);
             else
                 close();
         }

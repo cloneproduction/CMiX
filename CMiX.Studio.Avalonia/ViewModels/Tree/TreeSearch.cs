@@ -10,7 +10,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     // The search closes rows through the active view, so the view keeps the rows still.
     public sealed class TreeSearch
     {
-        private readonly Action<TreeNode?, Func<IReadOnlyList<TreeNode>>> closeRowsInView;
+        private readonly IRowCloser rowCloser;
 
         // A row that the user opens or closes leaves the set and keeps its state.
         private readonly HashSet<TreeNode> openedBySearch = new();
@@ -22,9 +22,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private string text = string.Empty;
         private IReadOnlyList<TreeNode> matches = Array.Empty<TreeNode>();
 
-        public TreeSearch(Action<TreeNode?, Func<IReadOnlyList<TreeNode>>> closeRowsInView)
+        internal TreeSearch(IRowCloser rowCloser)
         {
-            this.closeRowsInView = closeRowsInView;
+            this.rowCloser = rowCloser;
         }
 
         public IReadOnlyList<TreeNode> Matches => matches;
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
             var closing = openedBySearch.Where(node => !needed.Contains(node)).ToList();
             if (closing.Count > 0)
-                closeRowsInView(selected, () =>
+                rowCloser.CloseRowsInView(selected, () =>
                 {
                     foreach (var node in closing)
                         CloseForSearch(node);
