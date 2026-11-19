@@ -10,7 +10,7 @@ namespace CMiX.Core.Networking
 {
     public partial class SyncPeer
     {
-        private sealed record DecodedEntry(StreamEntry Entry, MessageEnvelope Envelope, bool IsOwn);
+        private readonly record struct DecodedEntry(StreamEntry Entry, MessageEnvelope Envelope, bool IsOwn);
 
         private async Task ReplayAsync(SyncRun run, StreamPosition position)
         {
