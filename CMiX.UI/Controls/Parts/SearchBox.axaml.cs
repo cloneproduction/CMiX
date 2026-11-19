@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
+using Avalonia.Threading;
 
 namespace CMiX.UI.Controls.Parts
 {
@@ -124,6 +125,8 @@ namespace CMiX.UI.Controls.Parts
 
         // Gives the keyboard focus to the field itself.
         public void FocusInput() => PART_Search.Focus();
+
+        public void FocusWhenShown() => Dispatcher.UIThread.Post(FocusInput, DispatcherPriority.Input);
 
         // Selects the whole text of the field, so the next typing replaces it.
         public void SelectAll() => PART_Search.SelectAll();

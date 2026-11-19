@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Input;
-using Avalonia.Threading;
 
 namespace CMiX.UI.Controls.Collection
 {
@@ -62,7 +61,7 @@ namespace CMiX.UI.Controls.Collection
                 _watched.CollectionChanged += OnItemsChanged;
 
             Filter();
-            Dispatcher.UIThread.Post(() => PART_Search.FocusInput(), DispatcherPriority.Input);
+            PART_Search.FocusWhenShown();
         }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)

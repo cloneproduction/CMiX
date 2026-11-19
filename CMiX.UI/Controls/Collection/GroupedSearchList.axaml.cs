@@ -8,7 +8,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
-using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Themes;
 
@@ -126,7 +125,7 @@ namespace CMiX.UI.Controls.Collection
             SearchText = string.Empty;
             flipped.Clear();
             Rebuild();
-            Dispatcher.UIThread.Post(() => PART_Search.FocusInput(), DispatcherPriority.Input);
+            PART_Search.FocusWhenShown();
         }
 
         private void RebuildIfAttached()
