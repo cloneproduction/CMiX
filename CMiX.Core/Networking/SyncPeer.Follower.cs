@@ -36,17 +36,7 @@ namespace CMiX.Core.Networking
 
             // The source is not disposed: Stop can still hold it, and a cancelled source costs nearly nothing.
             Cancel(cts);
-            if (task != null)
-            {
-                try
-                {
-                    await task.ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
-            }
+            await WaitForAsync(task).ConfigureAwait(false);
         }
 
         // Recovery: apply the snapshot again only when the stream was trimmed past the own position.
