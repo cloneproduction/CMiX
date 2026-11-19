@@ -3,6 +3,7 @@
 
 using System;
 using CMiX.Core.Compositing;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -22,47 +23,42 @@ namespace CMiX.Studio.Avalonia.ViewModels
         [RelayCommand]
         private void Quit() => QuitRequested?.Invoke(this, EventArgs.Empty);
 
-        [RelayCommand]
-        private void AddLayer()
-        {
-            var layerManager = (_project.CompositionManager.SelectedItem as Composition)?.LayerManager;
-            layerManager?.AddItemCommand.Execute(typeof(Layer));
-        }
+        private Composition? SelectedComposition => _project.CompositionManager.SelectedItem as Composition;
+
+        private PrefabManager? SelectedLayerManager => SelectedComposition?.LayerManager;
 
         [RelayCommand]
-        private void AddComposition()
-        {
-            _project.CompositionManager.AddItemCommand.Execute(typeof(Composition));
-        }
+        private void AddLayer() => SelectedLayerManager?.AddItemCommand.Execute(typeof(Layer));
+
+        [RelayCommand]
+        private void AddComposition() => _project.CompositionManager.AddItemCommand.Execute(typeof(Composition));
 
         [RelayCommand]
         private void RemoveComposition()
         {
-            if (_project.CompositionManager.SelectedItem is not Composition composition) return;
-            _project.CompositionManager.RemoveItem(composition);
+            if (SelectedComposition is { } composition)
+                _project.CompositionManager.RemoveItem(composition);
         }
 
         [RelayCommand]
         private void DuplicateComposition()
         {
-            if (_project.CompositionManager.SelectedItem is not Composition composition) return;
-            _project.CompositionManager.DuplicateItem(composition);
+            if (SelectedComposition is { } composition)
+                _project.CompositionManager.DuplicateItem(composition);
         }
 
         [RelayCommand]
         private void RemoveLayer()
         {
-            if (_project.CompositionManager.SelectedItem is not Composition composition) return;
-            if (composition.LayerManager.SelectedItem is not Layer layer) return;
-            composition.LayerManager.RemoveItem(layer);
+            if (SelectedLayerManager is { SelectedItem: Layer layer } layers)
+                layers.RemoveItem(layer);
         }
 
         [RelayCommand]
         private void DuplicateLayer()
         {
-            if (_project.CompositionManager.SelectedItem is not Composition composition) return;
-            if (composition.LayerManager.SelectedItem is not Layer layer) return;
-            composition.LayerManager.DuplicateItem(layer);
+            if (SelectedLayerManager is { SelectedItem: Layer layer } layers)
+                layers.DuplicateItem(layer);
         }
     }
 }
