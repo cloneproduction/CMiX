@@ -25,14 +25,14 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeGrab grab;
         private readonly TreeFocusKeeper focusKeeper;
         private readonly Action updateHints;
-        private readonly Action<Action, DispatcherPriority> postWhileAttached;
+        private readonly TreeViewLifetime lifetime;
 
         private readonly AddPanel addPanel = new();
 
         private bool addOpenedBesideTheCursor;
 
         internal TreeMenus(TreeViewContext context, TreeRowReveal reveal, TreePointerInput pointerInput, TreeGrab grab, TreeFocusKeeper focusKeeper,
-            Action updateHints, Action<Action, DispatcherPriority> postWhileAttached)
+            Action updateHints, TreeViewLifetime lifetime)
         {
             this.context = context;
             this.reveal = reveal;
@@ -40,7 +40,7 @@ namespace CMiX.Studio.Avalonia.Views
             this.grab = grab;
             this.focusKeeper = focusKeeper;
             this.updateHints = updateHints;
-            this.postWhileAttached = postWhileAttached;
+            this.lifetime = lifetime;
         }
 
         internal AddPanel AddPanel => addPanel;
@@ -61,7 +61,7 @@ namespace CMiX.Studio.Avalonia.Views
             {
                 addOpenedBesideTheCursor = false;
                 if (context.Tree?.CursorNode is { } cursor)
-                    postWhileAttached(() => focusKeeper.FocusRow(cursor), DispatcherPriority.Input);
+                    lifetime.Post(() => focusKeeper.FocusRow(cursor), DispatcherPriority.Input);
             }
         }
 

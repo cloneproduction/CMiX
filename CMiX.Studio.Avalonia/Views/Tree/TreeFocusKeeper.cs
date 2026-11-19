@@ -22,8 +22,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly Control owner;
         private readonly TreeViewContext context;
         private readonly TreeRowReveal reveal;
-        private readonly Action<Action, DispatcherPriority> postWhileAttached;
-        private readonly Func<bool> isAttached;
+        private readonly TreeViewLifetime lifetime;
 
         // Also true when the focus went from the tree to no control, so it can come back (see GiveTheFocusBack).
         private bool focusIsInTree;
@@ -35,13 +34,12 @@ namespace CMiX.Studio.Avalonia.Views
         private FocusBefore? focusBeforeRowButton;
 
         internal TreeFocusKeeper(Control owner, TreeViewContext context, TreeRowReveal reveal,
-            Action<Action, DispatcherPriority> postWhileAttached, Func<bool> isAttached)
+            TreeViewLifetime lifetime)
         {
             this.owner = owner;
             this.context = context;
             this.reveal = reveal;
-            this.postWhileAttached = postWhileAttached;
-            this.isAttached = isAttached;
+            this.lifetime = lifetime;
         }
 
         internal TreeViewHooks BuildHooks(TreeDragSession dragSession, TreeRowDrag rowDrag, TreeGrab grab,
@@ -85,7 +83,7 @@ namespace CMiX.Studio.Avalonia.Views
         private void OnLostFocusInTree(object? sender, RoutedEventArgs e)
         {
             var node = TreeRows.ItemOf(e.Source)?.DataContext as TreeNode;
-            postWhileAttached(() => GiveTheFocusBack(node), DispatcherPriority.Input);
+            lifetime.Post(() => GiveTheFocusBack(node), DispatcherPriority.Input);
         }
 
         // A move makes the item of the row again with no focus event, so the layout shows the lost focus.
@@ -100,7 +98,7 @@ namespace CMiX.Studio.Avalonia.Views
             Dispatcher.UIThread.Post(() =>
             {
                 focusCheckPosted = false;
-                if (isAttached())
+                if (lifetime.IsAttached)
                     GiveTheFocusBack(null);
             }, DispatcherPriority.Input);
         }
@@ -143,7 +141,7 @@ namespace CMiX.Studio.Avalonia.Views
             {
                 pressWasBesideRows = false;
                 if (context.Tree?.CursorNode is { } cursor)
-                    postWhileAttached(() => FocusRow(cursor), DispatcherPriority.Input);
+                    lifetime.Post(() => FocusRow(cursor), DispatcherPriority.Input);
                 return;
             }
 

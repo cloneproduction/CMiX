@@ -37,6 +37,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         private readonly TreeViewHooks hooks;
 
+        private readonly TreeViewLifetime lifetime = new();
+
         // For the tests.
         internal TreeTooltips Tooltips => tooltips;
 
@@ -72,14 +74,14 @@ namespace CMiX.Studio.Avalonia.Views
             rowDrag = new TreeRowDrag(treeView, dragSession);
             reveal = new TreeRowReveal(context);
             grab = new TreeGrab(this, dragSession, context, reveal.RevealRow, OnGrabChanged);
-            focusKeeper = new TreeFocusKeeper(this, context, reveal, PostWhileAttached, () => IsAttached);
+            focusKeeper = new TreeFocusKeeper(this, context, reveal, lifetime);
             pointerInput = new TreePointerInput(this, context, rowDrag, focusKeeper);
             // The menus come later, so the lambda reads the field at the call.
-            hints = new TreeHints(context, hintStrip, grab, focusKeeper, () => menus.IsMenuOpen(), PostWhileAttached);
+            hints = new TreeHints(context, hintStrip, grab, focusKeeper, () => menus.IsMenuOpen(), lifetime);
             fileDrop = new TreeFileDropInput(context, marker);
-            menus = new TreeMenus(context, reveal, pointerInput, grab, focusKeeper, hints.Update, PostWhileAttached);
-            requests = new TreeScreenRequests(context, menus, reveal, grab, scrollAnchor, pointerInput, () => IsActiveView, PostWhileAttached);
-            keyInput = new TreeKeyInput(context, rowDrag, menus, focusKeeper, PostWhileAttached);
+            menus = new TreeMenus(context, reveal, pointerInput, grab, focusKeeper, hints.Update, lifetime);
+            requests = new TreeScreenRequests(context, menus, reveal, grab, scrollAnchor, pointerInput, () => IsActiveView, lifetime);
+            keyInput = new TreeKeyInput(context, rowDrag, menus, focusKeeper, lifetime);
             hooks = focusKeeper.BuildHooks(dragSession, rowDrag, grab, requests.CloseRowsInView);
 
             pointerInput.Attach();
@@ -98,15 +100,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         private ProjectTree? watched;
 
-        private bool IsAttached { get; set; }
-
-        private void PostWhileAttached(Action action, DispatcherPriority priority) =>
-            Dispatcher.UIThread.Post(() =>
-            {
-                if (IsAttached)
-                    action();
-            }, priority);
-
         private void OnGrabChanged()
         {
             Classes.Set(GrabbingClass, grab.IsGrabbing);
@@ -117,11 +110,11 @@ namespace CMiX.Studio.Avalonia.Views
         {
             base.OnDataContextChanged(e);
 
-            if (IsAttached)
+            if (lifetime.IsAttached)
                 Unwatch();
 
             watched = DataContext as ProjectTree;
-            if (IsAttached)
+            if (lifetime.IsAttached)
                 Watch();
         }
 
@@ -158,7 +151,7 @@ namespace CMiX.Studio.Avalonia.Views
                 || watched.Origin is not (SelectionOrigin.Program or SelectionOrigin.Peer))
                 return;
 
-            PostWhileAttached(() => reveal.RevealRow(node), DispatcherPriority.Loaded);
+            lifetime.Post(() => reveal.RevealRow(node), DispatcherPriority.Loaded);
         }
 
         public static RowSizes SnapToPixels(double height, double spacing, double scale) =>
@@ -171,7 +164,7 @@ namespace CMiX.Studio.Avalonia.Views
             base.OnAttachedToVisualTree(e);
 
             // The tree view model listens only while the view is attached.
-            IsAttached = true;
+            lifetime.Attach();
             Watch();
             focusKeeper.Attach();
 
@@ -189,7 +182,7 @@ namespace CMiX.Studio.Avalonia.Views
             Unwatch();
             focusKeeper.Detach();
 
-            IsAttached = false;
+            lifetime.Detach();
             if (scaledTopLevel != null)
             {
                 scaledTopLevel.ScalingChanged -= OnScalingChanged;

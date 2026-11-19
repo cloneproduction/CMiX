@@ -19,19 +19,19 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeGrab grab;
         private readonly TreeFocusKeeper focusKeeper;
         private readonly Func<bool> isMenuOpen;
-        private readonly Action<Action, DispatcherPriority> postWhileAttached;
+        private readonly TreeViewLifetime lifetime;
 
         private TreeHintMode? shownMode;
 
         internal TreeHints(TreeViewContext context, KeyHintStrip strip, TreeGrab grab, TreeFocusKeeper focusKeeper, Func<bool> isMenuOpen,
-            Action<Action, DispatcherPriority> postWhileAttached)
+            TreeViewLifetime lifetime)
         {
             this.context = context;
             this.strip = strip;
             this.grab = grab;
             this.focusKeeper = focusKeeper;
             this.isMenuOpen = isMenuOpen;
-            this.postWhileAttached = postWhileAttached;
+            this.lifetime = lifetime;
         }
 
         internal TreeHintMode Mode
@@ -95,7 +95,7 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         // The focus moves before the next control is known, so the check runs after the event.
-        private void OnWindowFocusChanged(object? sender, RoutedEventArgs e) => postWhileAttached(Update, DispatcherPriority.Input);
+        private void OnWindowFocusChanged(object? sender, RoutedEventArgs e) => lifetime.Post(Update, DispatcherPriority.Input);
 
         private void OnShortcutsChanged(object? sender, PropertyChangedEventArgs e) => RefreshGestures();
     }

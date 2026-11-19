@@ -16,16 +16,16 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeRowDrag rowDrag;
         private readonly TreeMenus menus;
         private readonly TreeFocusKeeper focusKeeper;
-        private readonly Action<Action, DispatcherPriority> postWhileAttached;
+        private readonly TreeViewLifetime lifetime;
 
         internal TreeKeyInput(TreeViewContext context, TreeRowDrag rowDrag, TreeMenus menus, TreeFocusKeeper focusKeeper,
-            Action<Action, DispatcherPriority> postWhileAttached)
+            TreeViewLifetime lifetime)
         {
             this.context = context;
             this.rowDrag = rowDrag;
             this.menus = menus;
             this.focusKeeper = focusKeeper;
-            this.postWhileAttached = postWhileAttached;
+            this.lifetime = lifetime;
         }
 
         internal void Attach() => context.TreeView.AddHandler(InputElement.KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
@@ -85,7 +85,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             MoveCursor(tree, e.Key);
             if (tree.CursorNode is { } node)
-                postWhileAttached(() => focusKeeper.FocusRow(node), DispatcherPriority.Loaded);
+                lifetime.Post(() => focusKeeper.FocusRow(node), DispatcherPriority.Loaded);
         }
 
         private static bool IsNavigationKey(Key key) =>

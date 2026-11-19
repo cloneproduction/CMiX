@@ -20,10 +20,10 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly TreeScrollAnchor scrollAnchor;
         private readonly TreePointerInput pointerInput;
         private readonly Func<bool> isActiveView;
-        private readonly Action<Action, DispatcherPriority> postWhileAttached;
+        private readonly TreeViewLifetime lifetime;
 
         internal TreeScreenRequests(TreeViewContext context, TreeMenus menus, TreeRowReveal reveal, TreeGrab grab, TreeScrollAnchor scrollAnchor,
-            TreePointerInput pointerInput, Func<bool> isActiveView, Action<Action, DispatcherPriority> postWhileAttached)
+            TreePointerInput pointerInput, Func<bool> isActiveView, TreeViewLifetime lifetime)
         {
             this.context = context;
             this.menus = menus;
@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Views
             this.scrollAnchor = scrollAnchor;
             this.pointerInput = pointerInput;
             this.isActiveView = isActiveView;
-            this.postWhileAttached = postWhileAttached;
+            this.lifetime = lifetime;
         }
 
         internal void Watch(ProjectTree tree)
@@ -92,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
-            postWhileAttached(() => reveal.RevealRow(target), DispatcherPriority.Loaded);
+            lifetime.Post(() => reveal.RevealRow(target), DispatcherPriority.Loaded);
         }
 
         private void OnRevealRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => reveal.RevealRowToMiddle(node));
