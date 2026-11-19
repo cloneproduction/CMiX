@@ -210,8 +210,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (!IsGrabbing)
                 return;
 
-            var steps = (int)Math.Round(e.Delta.Y);
-            session.ScrollByWheel(steps != 0 ? steps : Math.Sign(e.Delta.Y));
+            session.ScrollByWheel(TreeRows.WheelSteps(e));
             e.Handled = true;
         }
 

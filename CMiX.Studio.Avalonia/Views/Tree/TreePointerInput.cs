@@ -160,8 +160,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (!rowDrag.IsDragging)
                 return;
 
-            var steps = (int)Math.Round(e.Delta.Y);
-            rowDrag.Wheel(steps != 0 ? steps : Math.Sign(e.Delta.Y));
+            rowDrag.Wheel(TreeRows.WheelSteps(e));
             e.Handled = true;
         }
 
