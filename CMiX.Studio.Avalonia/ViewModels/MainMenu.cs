@@ -4,16 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Threading;
 using CMiX.Core.Compositing;
-using CMiX.Core.Networking;
-using CMiX.Core.Persistence;
-using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -24,18 +18,15 @@ namespace CMiX.Studio.Avalonia.ViewModels
 {
     public partial class MainMenu : ObservableObject
     {
-        public MainMenu(Project project, UndoManager undoManager, IDialogService dialogService,
-                        UnsavedChanges unsavedChanges, IUnsavedChangesPrompt unsavedChangesPrompt, IMessageNotice messageNotice,
-                        ISyncTarget syncTarget, SyncPeer sync)
+        public MainMenu(Project project, ProjectSession session, IDialogService dialogService,
+                        UnsavedChanges unsavedChanges, IUnsavedChangesPrompt unsavedChangesPrompt, IMessageNotice messageNotice)
         {
-            _syncTarget = syncTarget;
-            _sync = sync;
+            _session = session;
             _dialogService = dialogService;
             _unsavedChanges = unsavedChanges;
             _unsavedChangesPrompt = unsavedChangesPrompt;
             _messageNotice = messageNotice;
             Project = project;
-            _undoManager = undoManager;
 
             NewProjectCommand = new RelayCommand(NewProject);
             OpenProjectCommand = new AsyncRelayCommand(OpenProject);
@@ -49,9 +40,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             DuplicateLayerCommand = new RelayCommand(DuplicateLayer);
         }
 
-        private readonly UndoManager _undoManager;
-        private readonly ISyncTarget _syncTarget;
-        private readonly SyncPeer _sync;
+        private readonly ProjectSession _session;
         private readonly IDialogService _dialogService;
         private readonly UnsavedChanges _unsavedChanges;
         private readonly IUnsavedChangesPrompt _unsavedChangesPrompt;
@@ -99,11 +88,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ICommand DuplicateCompositionCommand { get; }
         public ICommand RemoveLayerCommand { get; }
         public ICommand DuplicateLayerCommand { get; }
-
-        // Handed over by MainViewModel, which owns the six top level repository managers. They
-        // are transient in the container, so resolving them here would build fresh instances
-        // instead of the live ones a new project has to empty.
-        public IReadOnlyList<PrefabManager> RepositoryManagers { get; set; } = Array.Empty<PrefabManager>();
 
         public void AddLayer()
         {
@@ -176,23 +160,9 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         private void NewProject()
         {
-            ResetSession();
-            _unsavedChanges.MarkSaved();
-        }
-
-        // Empties the running session. The six repository managers and the composition manager
-        // between them reference every control the repository holds, so letting all eight go
-        // releases the whole graph, and clearing the undo stack afterwards disposes the removed
-        // instances its commands were still holding on to. The project reset runs before the undo
-        // clear, so its value writes leave nothing on the stack.
-        private void ResetSession()
-        {
-            Project.CompositionManager.ClearAll();
-            foreach (var manager in RepositoryManagers)
-                manager.ClearAll();
-            Project.Reset();
-            _undoManager.Clear();
+            _session.NewProject();
             ProjectPath = null;
+            _unsavedChanges.MarkSaved();
         }
 
         private async Task OpenProject()
@@ -214,19 +184,10 @@ namespace CMiX.Studio.Avalonia.ViewModels
         {
             try
             {
-                var model = await Task.Run(() => ProjectSerializer.Load(path));
-
-                // Opening replaces the session rather than merging the file into it, so what was
-                // open is emptied here the way File > New empties it. The sweep only runs once the
-                // file has been parsed, so a parse failure above leaves the open session untouched
-                // and reports over a window the user has not had emptied behind the dialog.
-                ResetSession();
-
-                // The file is applied as one project, the way a peer applies a snapshot: no
-                // message goes out and no undo step is recorded. Every part of the project loads
-                // this way, so a new part needs no code here.
-                _syncTarget.ApplySnapshot(model);
-
+                // The parse comes first, so a parse failure leaves the open session untouched.
+                var model = await _session.ReadAsync(path);
+                ProjectPath = null;
+                _session.LoadProject(model);
                 ProjectPath = path;
                 _unsavedChanges.MarkSaved();
             }
@@ -236,18 +197,8 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 return;
             }
 
-            // The peers get the whole project in one message. A peer that is not joined has
-            // nobody to tell, and it adopts the store state when it joins. The file is open, so
-            // a push failure is a sync failure and shows in the sync status.
-            try
-            {
-                if (_sync.IsJoined && _sync.IsWriter)
-                    await _sync.PushAsync();
-            }
-            catch (Exception ex)
-            {
-                _sync.ErrorMessage = ex.Message;
-            }
+            // The push is outside the catch: the file is open, and a push failure shows in the sync status.
+            await _session.PushToPeersAsync();
         }
 
         private async Task SaveProject()
@@ -288,10 +239,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
             }
         }
 
-        private async Task WriteProject(string path)
-        {
-            var projectModel = ProjectModelBuilder.Build(Project);
-            await Task.Run(() => ProjectSerializer.Save(projectModel, path));
-        }
+        private Task WriteProject(string path) => _session.WriteAsync(_session.CaptureProject(), path);
     }
 }

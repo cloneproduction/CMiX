@@ -21,12 +21,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
     public class MainViewModel : ObservableObject, IControl
     {
         public MainViewModel(Project project,
-                             PrefabManager textureManager,
-                             PrefabManager entityManager,
-                             PrefabManager cameraManager,
-                             PrefabManager lightManager,
-                             PrefabManager beatManager,
-                             PrefabManager colorPaletteManager,
+                             ProjectSession session,
                              SyncPeer sync,
                              ControlRepository controlRepository,
                              AssetManager assetManager,
@@ -41,14 +36,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              PanelFocusCycle panelFocus)
         {
             PanelFocus = panelFocus;
-            _undoManager = undoManager;
-            TextureManager = SetupManager(textureManager, ManagerIDs.TextureManager);
-            EntityManager = SetupManager(entityManager, ManagerIDs.EntityManager);
-            CameraManager = SetupManager(cameraManager, ManagerIDs.CameraManager);
-            LightManager = SetupManager(lightManager, ManagerIDs.LightManager);
-            BeatManager = SetupManager(beatManager, ManagerIDs.BeatManager);
-            ColorPaletteManager = SetupManager(colorPaletteManager, ManagerIDs.ColorPaletteManager);
-
+            _session = session;
             Project = project;
             Shortcuts = shortcuts;
             Interface = interfaceOptions;
@@ -61,40 +49,12 @@ namespace CMiX.Studio.Avalonia.ViewModels
             MainWindowController = mainWindowController;
             AssetManager = assetManager;
             MainMenu = mainMenu;
-            _repositoryManagers = new[]
-            {
-                TextureManager, EntityManager, CameraManager,
-                LightManager, BeatManager, ColorPaletteManager
-            };
-            MainMenu.RepositoryManagers = _repositoryManagers;
-            Sync.SnapshotApplied += OnSnapshotApplied;
             ControlRepository = controlRepository;
-            // SetupManager activates the top level managers by hand, so ActivateAll never runs for them.
-            // Remove their registrations, so ControlFactory.Create does not activate them again in a nested control.
+            // The session activates the six lists by hand. Their registrations go, so a nested control does not activate them again.
             activationService.Clear();
         }
 
-        private readonly UndoManager _undoManager;
-        private readonly PrefabManager[] _repositoryManagers;
-
-        // A snapshot carries the project only. The six repository managers keep their items, so
-        // a Pull or a gap re-join empties them the way File > New and File > Open do. The undo
-        // manager stays untouched here, because ProjectSyncTarget already clears it.
-        public void ClearRepositoryManagers()
-        {
-            foreach (var manager in _repositoryManagers)
-                manager.ClearAll();
-        }
-
-        private void OnSnapshotApplied(object? sender, EventArgs e) => ClearRepositoryManagers();
-
-        private PrefabManager SetupManager(PrefabManager manager, Guid id)
-        {
-            manager.ManagerData.ID = id;
-            manager.UndoManager = _undoManager;
-            manager.Activate();
-            return manager;
-        }
+        private readonly ProjectSession _session;
 
         public IControlModel ToModel()
         {
@@ -107,12 +67,12 @@ namespace CMiX.Studio.Avalonia.ViewModels
         }
 
         public SyncPeer Sync { get; set; }
-        public PrefabManager ColorPaletteManager { get; set; }
-        public PrefabManager BeatManager { get; set; }
-        public PrefabManager LightManager { get; set; }
-        public PrefabManager EntityManager { get; set; }
-        public PrefabManager TextureManager { get; set; }
-        public PrefabManager CameraManager { get; set; }
+        public PrefabManager ColorPaletteManager => _session.ColorPalettes;
+        public PrefabManager BeatManager => _session.Beats;
+        public PrefabManager LightManager => _session.Lights;
+        public PrefabManager EntityManager => _session.Entities;
+        public PrefabManager TextureManager => _session.Textures;
+        public PrefabManager CameraManager => _session.Cameras;
         // Named after its type so the window relative binding paths in the views read the
         // same as the manager relative ControlRepository paths the tabs use.
         public ControlRepository ControlRepository { get; set; }

@@ -68,6 +68,7 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddSingleton<MainViewModel>();
                 serviceCollection.AddSingleton<MainWindowController>();
                 serviceCollection.AddSingleton<MainMenu>();
+                serviceCollection.AddSingleton(ProjectSession.Create);
                 serviceCollection.AddSingleton<UnsavedChanges>();
                 serviceCollection.AddSingleton<IUnsavedChangesPrompt, UnsavedChangesPrompt>();
                 serviceCollection.AddSingleton<IMoveBlockedNotice, MoveBlockedNotice>();

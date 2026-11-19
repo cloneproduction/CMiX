@@ -26,7 +26,7 @@ namespace CMiX.Core.Networking
 
         // The clear and the load send messages and record undo steps. A snapshot apply must do
         // neither: the messages would go back into the stream, and the steps would undo into the
-        // state the snapshot replaced. The clear of the stack comes last, as in MainMenu.
+        // state the snapshot replaced. The clear of the stack comes last, as in ProjectSession.
         public void ApplySnapshot(ProjectModel model)
         {
             var wasBlocked = _messenger.IsSendingBlocked;
