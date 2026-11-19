@@ -80,12 +80,12 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(TitleBarText))]
-        private string? _folderPath;
+        private string? _projectPath;
 
         // Text of the title bar: the file name of the open project, or "(Unsaved)" when there is none.
         // The full path is the tooltip of the title bar.
         public string TitleBarText =>
-            $"CMiX - {(string.IsNullOrWhiteSpace(FolderPath) ? "(Unsaved)" : Path.GetFileName(FolderPath))}";
+            $"CMiX - {(string.IsNullOrWhiteSpace(ProjectPath) ? "(Unsaved)" : Path.GetFileName(ProjectPath))}";
 
         public Project Project { get; set; }
 
@@ -192,7 +192,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 manager.ClearAll();
             Project.Reset();
             _undoManager.Clear();
-            FolderPath = null;
+            ProjectPath = null;
         }
 
         private async Task OpenProject()
@@ -227,7 +227,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 // this way, so a new part needs no code here.
                 _syncTarget.ApplySnapshot(model);
 
-                FolderPath = path;
+                ProjectPath = path;
                 _unsavedChanges.MarkSaved();
             }
             catch (Exception ex)
@@ -252,9 +252,9 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         private async Task SaveProject()
         {
-            if (!string.IsNullOrWhiteSpace(FolderPath))
+            if (!string.IsNullOrWhiteSpace(ProjectPath))
             {
-                await WriteProjectGuarded(FolderPath);
+                await WriteProjectGuarded(ProjectPath);
                 return;
             }
             await SaveAsProject();
@@ -271,8 +271,8 @@ namespace CMiX.Studio.Avalonia.ViewModels
             var path = file?.LocalPath;
             if (string.IsNullOrWhiteSpace(path)) return;
 
-            FolderPath = path;
-            await WriteProjectGuarded(FolderPath);
+            ProjectPath = path;
+            await WriteProjectGuarded(ProjectPath);
         }
 
         private async Task WriteProjectGuarded(string path)

@@ -135,14 +135,14 @@ namespace CMiX.Studio.Avalonia.Tests
                 ProjectFixtures.WriteProjectWithMaterialTextures(path);
                 var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
                     services.AddSingleton<ISyncTarget, ThrowingSyncTarget>());
-                viewModel.MainMenu.FolderPath = "earlier.cmix";
+                viewModel.MainMenu.ProjectPath = "earlier.cmix";
 
                 await viewModel.MainMenu.OpenProjectFromPath(path);
 
                 var (text, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
                 Assert.Equal("Open Project", title);
                 Assert.Equal($"{Path.GetFileName(path)}: The apply failed.", text);
-                Assert.Null(viewModel.MainMenu.FolderPath);
+                Assert.Null(viewModel.MainMenu.ProjectPath);
             }
             finally
             {

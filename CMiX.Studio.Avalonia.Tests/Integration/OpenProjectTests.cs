@@ -60,7 +60,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 foreach (var control in firstLoadControls)
                     Assert.DoesNotContain(repository.Controls, item => ReferenceEquals(item, control));
 
-                Assert.Equal(path, viewModel.MainMenu.FolderPath);
+                Assert.Equal(path, viewModel.MainMenu.ProjectPath);
             }
             finally
             {
@@ -100,7 +100,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 foreach (var control in loadedControls)
                     Assert.Contains(repository.Controls, item => ReferenceEquals(item, control));
 
-                Assert.Equal(path, viewModel.MainMenu.FolderPath);
+                Assert.Equal(path, viewModel.MainMenu.ProjectPath);
             }
             finally
             {
@@ -257,7 +257,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal((0, 0, 0, 0, 0), Counts(viewModel.ControlRepository));
-                Assert.Null(viewModel.MainMenu.FolderPath);
+                Assert.Null(viewModel.MainMenu.ProjectPath);
             }
             finally
             {
@@ -539,7 +539,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
                 await viewModel.MainMenu.OpenProjectFromPath(path);
 
-                Assert.Equal(path, viewModel.MainMenu.FolderPath);
+                Assert.Equal(path, viewModel.MainMenu.ProjectPath);
                 Assert.Equal("The push failed.", peer.ErrorMessage);
                 Assert.Empty(provider.GetRequiredService<FakeMessageNotice>().Messages);
             }
@@ -565,7 +565,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var (text, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
                 Assert.Equal("Open Project", title);
                 Assert.StartsWith($"{Path.GetFileName(path)}: ", text);
-                Assert.Null(viewModel.MainMenu.FolderPath);
+                Assert.Null(viewModel.MainMenu.ProjectPath);
             }
             finally
             {
