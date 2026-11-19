@@ -116,7 +116,6 @@ namespace CMiX.Core.Networking
             var compacting = compactor?.Running ?? Task.CompletedTask;
             // Read the run once and null the field. Cancel the follower, then the run, then unsubscribe the store.
             var run = _run;
-            var followerTask = run.FollowerTask;
             var runTask = _runTask;
             var stopped = _stopped;
             var store = run.Store;
@@ -124,6 +123,8 @@ namespace CMiX.Core.Networking
             Volatile.Write(ref _run, null);
             _runTask = null;
 
+            // The follower trio is read after the null write, so a follower started on the dispatcher is seen.
+            var followerTask = run.FollowerTask;
             Cancel(run.FollowerCts);
             Cancel(run.Cts);
 
