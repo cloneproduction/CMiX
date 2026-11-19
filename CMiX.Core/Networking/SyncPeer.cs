@@ -184,16 +184,6 @@ namespace CMiX.Core.Networking
         // Push: publish the local state as the new store state, then follow the stream.
         public Task PushAsync() => PushAsync(Volatile.Read(ref _run));
 
-        // Compares the local state with the store state. It reads only, and changes nothing.
-        public async Task<StartCheck> CheckStartAsync()
-        {
-            var run = Volatile.Read(ref _run);
-            if (run == null) return StartCheck.NotInSync;
-
-            var result = await EvaluateStartAsync(run.Store).ConfigureAwait(false);
-            return result.Check;
-        }
-
         // Returns when the run has ended, so the stop work can wait for the loops it started.
         private async Task RunAsync(SyncRun run)
         {
@@ -292,65 +282,6 @@ namespace CMiX.Core.Networking
                 }
 
                 backoff = TimeSpan.FromTicks(Math.Min(backoff.Ticks * 2, timings.MaxBackoff.Ticks));
-            }
-        }
-
-        // Position is the stream position the peer keeps when it is already in sync.
-        private async Task<StartEvaluation> EvaluateStartAsync(ISyncStore store)
-        {
-            var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
-            var tail = await store.ReadTailAsync().ConfigureAwait(false);
-
-            if (snapshot == null)
-                return new StartEvaluation(tail == StreamPosition.Zero ? StartCheck.PushSilently : StartCheck.NotInSync, tail);
-
-            // Entries after the snapshot are edits the local state does not have.
-            if (tail > snapshot.StreamId)
-                return new StartEvaluation(StartCheck.NotInSync, tail);
-
-            var local = await DispatchAsync(() => _target.Capture()).ConfigureAwait(false);
-            var stored = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
-            var same = ProjectStateHash.Compute(local) == ProjectStateHash.Compute(stored);
-            return new StartEvaluation(same ? StartCheck.AlreadyInSync : StartCheck.NotInSync, snapshot.StreamId);
-        }
-
-        // Acts on the start check. NotInSync leaves the peer blocked until the user pushes or pulls.
-        // Runs under the join lock, so a connection event during the check cannot start a second
-        // check, and a queued check after a join does nothing.
-        private Task RunStartCheckAsync(SyncRun run)
-        {
-            return RunUnderJoinLockAsync(run, CheckAsync);
-
-            async Task CheckAsync()
-            {
-                if (IsJoined) return;
-
-                await SetActivityAsync("Checking").ConfigureAwait(false);
-                var result = await EvaluateStartAsync(run.Store).ConfigureAwait(false);
-                if (!IsCurrent(run)) return;
-
-                await SetActivityAsync(null).ConfigureAwait(false);
-
-                switch (result.Check)
-                {
-                    case StartCheck.PushSilently:
-                        await PushLockedAsync(run).ConfigureAwait(false);
-                        break;
-                    case StartCheck.NotInSync:
-                        await DispatchCurrentAsync(run, () => IsJoined = false).ConfigureAwait(false);
-                        break;
-                    default:
-                        await StopFollowerAsync(run).ConfigureAwait(false);
-                        await DispatchCurrentAsync(run, () =>
-                        {
-                            LastAppliedId = result.Position;
-                            TailId = result.Position;
-                            ErrorMessage = string.Empty;
-                            IsJoined = true;
-                            StartFollower(run);
-                        }).ConfigureAwait(false);
-                        break;
-                }
             }
         }
 
