@@ -7,9 +7,7 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.Threading;
-using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
-using CMiX.UI.Controls.String;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -110,7 +108,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (context.RowIndex.FindItem(node) is not { } item || TreeRows.RowBorderOf(item) is not { } row)
                 return;
 
-            if (row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault() is { } box)
+            if (TreeRows.NameBoxOf(row) is { } box)
                 box.IsEditing = true;
         }
 

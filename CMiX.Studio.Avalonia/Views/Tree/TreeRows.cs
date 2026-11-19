@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.UI.Controls.String;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -40,6 +41,9 @@ namespace CMiX.Studio.Avalonia.Views
             var steps = (int)Math.Round(e.Delta.Y);
             return steps != 0 ? steps : Math.Sign(e.Delta.Y);
         }
+
+        public static TextBoxEditable? NameBoxOf(Border row) =>
+            row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault();
 
         public static double? RowTopIn(TreeViewItem item, ScrollViewer scroller) =>
             RowBorderOf(item) is { } row ? row.TranslatePoint(new Point(0, 0), scroller)?.Y : null;
