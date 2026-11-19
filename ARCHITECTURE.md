@@ -257,7 +257,7 @@ Core has no Avalonia reference.
 | 5 | `GenericValue<T>` (Core) | 190 | 4 or 0 | 1 | Value, undo, throttle, send and receive in one setter. It reads a static. |
 | 6 | `MainViewModel` (Studio) | 160 | 18 | 2 | A bag of everything for the bindings. It also sets ids and activates lists. A false `IControl`. |
 | 7 | `MainMenu` (Studio) | 319 | 9 | 13 | File open and save, dialogs, add and remove of compositions and layers, undo, window close, the UI dispatcher. |
-| 8 | `TreeNode` (Studio) | 430 | 7 | 0 | Done in part on 2026-11-19: the counts are in `RowCounts`, the drag look in `DragLook`, the search look in `SearchLook`, and the row reports to the tree through `TreeNodeHost`. It still knows many Core types by name. |
+| 8 | `TreeNode` (Studio) | 430 | 7 | 0 | Done in part on 2026-11-19: the counts are in `RowCounts`, the drag look in `DragLook`, the search look computed by the row itself, and the row reports to the tree through `TreeNodeHost`. It still knows many Core types by name. |
 | 9 | `ControlFactory` (Core) | 222 | 3 | 0 | Creation by name convention, defaults, activation, and the naming of prefabs with its own cache. |
 | 10 | `Layer` (Core) | 137 | 10 | 0 | Stands for the pattern of all controls: five lists, view state, and `ToModel` and `FromModel` written by hand. |
 
@@ -338,7 +338,7 @@ The order goes from low risk to high risk. First the classes that only the Studi
 | 1 | `MainViewModel` | Remove `IControl`. Move the setup of the six lists into one service. | Small, Studio only, and it shows the true dependencies of the window. | 2 |
 | 2 | `MainMenu` | Split into a project file service and a small menu ViewModel. Remove the dispatcher and `Application.Current`. Rename `Delete...`. | Studio only. Needs step 1 for the six lists. | 3 |
 | 3 | `ProjectTree` | Done on 2026-11-19 on the branch `refactor/tree-structure`. | The bound state stayed on the hub in partial files, the logic went into parts. | 4 |
-| 4 | `TreeNode` | Done on 2026-11-19: `DragLook`, `SearchLook`, `RowCounts`, `TreeNodeHost`. | The row keeps its identity and its list mirroring. | 3 |
+| 4 | `TreeNode` | Done on 2026-11-19: `DragLook`, `RowCounts`, `TreeNodeHost`, and the row computes its own search look. | The row keeps its identity and its list mirroring. | 3 |
 | 5 | `ProjectTreeView` | Done on 2026-11-19, with one deviation: `TreeViewHooks` stays, one set per view, because two views can show one tree and the tree must know which view answers. The next step is a per-view state object that `TreeViewSet` reads. | After steps 3 and 4. | 4 |
 | 6 | `ControlFactory` | Move the naming of prefabs into its own service. | Core, and no name on the wire or in a patch changes. | 2 |
 | 7 | `GenericValue<T>` | Make `ValueInteraction` an injected object. Remove the empty constructor. | Every value depends on it, so do it before the lists. | 4 |
