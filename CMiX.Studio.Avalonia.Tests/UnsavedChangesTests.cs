@@ -139,7 +139,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public async Task OpenProjectCommand_WithUnsavedChangesAndCancel_DoesNotShowTheFileDialog()
         {
-            var dialogs = new FakeOpenFileDialogManager("never.cmix");
+            var dialogs = new FakeFileDialogManager("never.cmix");
             var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
                 services.AddSingleton<IDialogService>(provider => new DialogService(dialogs, viewModelFactory: type => provider.GetService(type))));
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));

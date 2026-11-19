@@ -136,7 +136,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 ProjectFixtures.WriteProjectWithMaterialTextures(path);
                 var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
                     services.AddSingleton<IDialogService>(provider => new DialogService(
-                        new FakeSaveFileDialogManager(newPath),
+                        new FakeFileDialogManager(newPath),
                         viewModelFactory: type => provider.GetService(type))));
                 await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
@@ -165,7 +165,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 ProjectFixtures.WriteProjectWithMaterialTextures(path);
                 var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
                     services.AddSingleton<IDialogService>(provider => new DialogService(
-                        new FakeSaveFileDialogManager(badPath),
+                        new FakeFileDialogManager(badPath),
                         viewModelFactory: type => provider.GetService(type))));
                 await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
