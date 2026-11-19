@@ -3,12 +3,8 @@
 
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Windows.Input;
-using CMiX.Core.Compositing;
-using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VL.Serialization.MessagePack;
 
 namespace CMiX.Core.Networking
 {
