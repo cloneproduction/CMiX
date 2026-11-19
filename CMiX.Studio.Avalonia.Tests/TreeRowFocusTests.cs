@@ -176,5 +176,23 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Same(first, screen.Layers[2]);
         }
+
+        // ---------------------------------------------------------------- after a detach
+
+        [AvaloniaFact]
+        public void GiveTheFocusBack_AfterADetachAndAttach_FocusesTheSelectedRow()
+        {
+            var screen = Show();
+            var holder = screen.View.GetVisualParent()!.FindAncestorOfType<ContentControl>(true)!;
+            var tree = screen.View.DataContext;
+
+            holder.Content = null;
+            Settle(screen.Window);
+            holder.Content = screen.View;
+            screen.View.DataContext = tree;
+            Settle(screen.Window);
+
+            AssertTheRowHasTheFocus(screen, screen.LayerNode(0));
+        }
     }
 }

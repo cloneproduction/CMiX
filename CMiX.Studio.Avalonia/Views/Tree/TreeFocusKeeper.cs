@@ -74,7 +74,6 @@ namespace CMiX.Studio.Avalonia.Views
             owner.RemoveHandler(InputElement.GotFocusEvent, OnGotFocusInTree);
             owner.RemoveHandler(InputElement.LostFocusEvent, OnLostFocusInTree);
             context.TreeView.LayoutUpdated -= OnLayoutUpdated;
-            focusIsInTree = false;
             focusCheckPosted = false;
             pressWasBesideRows = false;
             focusBeforeRowButton = null;
