@@ -9,8 +9,21 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
     public static class TreeWalk
     {
-        public static IEnumerable<TreeNode> AllRows(IEnumerable<TreeNode> roots) =>
-            roots.SelectMany(node => new[] { node }.Concat(AllRows(node.Children)));
+        public static IReadOnlyList<TreeNode> AllRows(IEnumerable<TreeNode> roots)
+        {
+            var rows = new List<TreeNode>();
+            AddAllRows(roots, rows);
+            return rows;
+        }
+
+        private static void AddAllRows(IEnumerable<TreeNode> nodes, List<TreeNode> rows)
+        {
+            foreach (var node in nodes)
+            {
+                rows.Add(node);
+                AddAllRows(node.Children, rows);
+            }
+        }
 
         public static IReadOnlyList<TreeNode> VisibleRows(IEnumerable<TreeNode> roots)
         {
