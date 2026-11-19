@@ -92,7 +92,7 @@ namespace CMiX.UI.Tests
             var drag = NewDragValue(200);
             var window = Host(drag);
             OpenMenu(drag);
-            ContextMenuPointerAway.SetDistance(drag.ContextMenu!, 2000);
+            ContextMenuPointerAway.SetPointerAwayDistance(drag.ContextMenu!, 2000);
 
             Move(window, new Point(790, 490));
 
@@ -116,7 +116,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void TheDistance_IsSixtyFourByDefault()
         {
-            Assert.Equal(64, ContextMenuPointerAway.GetDistance(new ContextMenu()));
+            Assert.Equal(64, ContextMenuPointerAway.GetPointerAwayDistance(new ContextMenu()));
         }
 
         [AvaloniaFact]

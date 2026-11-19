@@ -17,8 +17,8 @@ namespace CMiX.UI.AttachedProperties
         public static readonly AttachedProperty<bool> IsEnabledProperty =
             AvaloniaProperty.RegisterAttached<ContextMenu, ContextMenu, bool>("IsEnabled");
 
-        public static readonly AttachedProperty<double> DistanceProperty =
-            AvaloniaProperty.RegisterAttached<ContextMenu, ContextMenu, double>("Distance", PointerAwayCloser.DefaultDistance);
+        public static readonly AttachedProperty<double> PointerAwayDistanceProperty =
+            AvaloniaProperty.RegisterAttached<ContextMenu, ContextMenu, double>("PointerAwayDistance", PointerAwayCloser.DefaultDistance);
 
         // A second control that counts as a part of the menu, such as the panel that opens beside a row. The pointer over it, or near it,
         // is not away from the menu.
@@ -31,8 +31,8 @@ namespace CMiX.UI.AttachedProperties
         public static void SetIsEnabled(ContextMenu menu, bool value) => menu.SetValue(IsEnabledProperty, value);
         public static bool GetIsEnabled(ContextMenu menu) => menu.GetValue(IsEnabledProperty);
 
-        public static void SetDistance(ContextMenu menu, double value) => menu.SetValue(DistanceProperty, value);
-        public static double GetDistance(ContextMenu menu) => menu.GetValue(DistanceProperty);
+        public static void SetPointerAwayDistance(ContextMenu menu, double value) => menu.SetValue(PointerAwayDistanceProperty, value);
+        public static double GetPointerAwayDistance(ContextMenu menu) => menu.GetValue(PointerAwayDistanceProperty);
 
         private static readonly ConditionalWeakTable<ContextMenu, Hook> hooks = new();
 
@@ -62,7 +62,7 @@ namespace CMiX.UI.AttachedProperties
             public Hook(ContextMenu menu)
             {
                 this.menu = menu;
-                closer = new PointerAwayCloser(() => GetDistance(menu), () => true, () => menu, () => Owner, menu.Close, () => GetCompanion(menu));
+                closer = new PointerAwayCloser(() => GetPointerAwayDistance(menu), () => true, () => menu, () => Owner, menu.Close, () => GetCompanion(menu));
                 menu.Opened += OnOpened;
                 menu.Closed += OnClosed;
             }

@@ -417,7 +417,7 @@ A popup, a flyout or a context menu can close when the pointer moves away from i
 
 All three use the class `PointerAwayCloser`. A new kind of popup needs only a small wrapper around it. A context menu can have a companion, a second control that counts as a part of the menu (`ContextMenuPointerAway.Companion`).
 
-The pointer is away when it is farther than `Distance` from the content and from the control that opened it. The default is 64. The pointer on the control that opened the popup is never away, also when the control is much wider than the popup. After the user types in a text box of the popup, the popup stays open, because a close would lose the text. The behaviors only check the distance when the pointer moves.
+The pointer is away when it is farther than `PointerAwayDistance` from the content and from the control that opened it. The default is 64. The pointer on the control that opened the popup is never away, also when the control is much wider than the popup. After the user types in a text box of the popup, the popup stays open, because a close would lose the text. The behaviors only check the distance when the pointer moves.
 
 ### The card, the tip and the place of a popup
 
