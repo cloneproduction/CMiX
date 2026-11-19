@@ -22,5 +22,21 @@ namespace CMiX.UI.Panels
             get => GetValue(IndentationProperty);
             set => SetValue(IndentationProperty, value);
         }
+
+        public static readonly DirectProperty<ExpanderIndented, Thickness> IndentationMarginProperty =
+            AvaloniaProperty.RegisterDirect<ExpanderIndented, Thickness>(nameof(IndentationMargin), o => o.IndentationMargin);
+        private Thickness _indentationMargin;
+        public Thickness IndentationMargin
+        {
+            get => _indentationMargin;
+            private set => SetAndRaise(IndentationMarginProperty, ref _indentationMargin, value);
+        }
+
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+        {
+            base.OnPropertyChanged(change);
+            if (change.Property == IndentationProperty)
+                IndentationMargin = new Thickness(Indentation, 0, 0, 0);
+        }
     }
 }

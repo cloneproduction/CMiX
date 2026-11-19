@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
@@ -93,6 +94,18 @@ namespace CMiX.UI.Tests
             var level1 = ((Avalonia.Media.ISolidColorBrush)Application.Current!.FindResource("PanelBackgroundLevel1Brush")!).Color;
 
             Assert.Equal(level1, color);
+        }
+
+        [AvaloniaFact]
+        public void Indentation_SetToFour_GivesTheToggleAMarginOfFour()
+        {
+            var expander = new ExpanderIndented { Header = "x", Indentation = 4 };
+            new Window { Content = expander, Width = 300, Height = 200 }.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            var toggle = expander.GetVisualDescendants().OfType<ToggleButton>().First(t => t.Name == "PART_toggle");
+
+            Assert.Equal(new Thickness(4, 0, 0, 0), toggle.Margin);
         }
 
         [AvaloniaFact]

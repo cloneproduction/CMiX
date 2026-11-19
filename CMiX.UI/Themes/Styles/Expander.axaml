@@ -210,7 +210,7 @@
             <DockPanel>
               <ToggleButton
                   Name="PART_toggle"
-                  ui:ExpanderIndentation.Indentation="{TemplateBinding Indentation}"
+                  Margin="{TemplateBinding IndentationMargin}"
                   Background="{TemplateBinding Background}"                       
                   Content="{TemplateBinding Header}"
                   DockPanel.Dock="Top"
