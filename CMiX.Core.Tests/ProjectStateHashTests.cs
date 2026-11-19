@@ -37,7 +37,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AProjectWithAnEntity_HashesConsistently()
+        public void Compute_AProjectWithAnEntity_HashesTheSameTwice()
         {
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
             project.CompositionManager.AddItem(typeof(Composition));
