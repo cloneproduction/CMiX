@@ -38,19 +38,18 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             Interface = interfaceOptions;
             this.project = project;
             compositions = project.CompositionManager;
-            // The one row under the root is the group of the compositions.
-            root = new TreeNode(this, null, null, null, "Project", null);
-            root.AddGroups(project);
-
+            views = new TreeViewSet();
             adds = new TreeAddCatalogue(compositions);
             fileDrop = new TreeFileDropRules(pathDrop, compositions, undoManager);
-            targetAdds = adds.ChoicesFor(null);
-            views = new TreeViewSet();
             edit = new TreeEdit(undoManager, toasts);
             dragState = new TreeDragState(dropService);
             drop = new TreeDrop(dropService, notice);
             search = new TreeSearch(CloseRowsInView);
             openState = new TreeOpenState(CloseRowsInView, search);
+            // The one row under the root is the group of the compositions.
+            root = new TreeNode(this, null, null, null, "Project", null);
+            root.AddGroups(project);
+            targetAdds = adds.ChoicesFor(null);
         }
 
         // These keys write TreeNode.HiddenValue as the eye does, so they make the same undo step and wire message.
