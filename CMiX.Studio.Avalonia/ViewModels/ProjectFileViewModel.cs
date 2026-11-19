@@ -32,6 +32,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IUnsavedChangesPrompt _unsavedChangesPrompt;
         private readonly IMessageNotice _messageNotice;
+        private static readonly List<FileFilter> ProjectFilters = new() { new FileFilter("CMiX Project", "cmix") };
 
         public bool HasUnsavedChanges => _unsavedChanges.HasChanges;
 
@@ -73,10 +74,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         private async Task OpenProject()
         {
             if (!await ConfirmDiscardAsync()) return;
-            var file = await _dialogService.ShowOpenFileDialogAsync(this, new OpenFileDialogSettings
-            {
-                Filters = new List<FileFilter> { new FileFilter("CMiX Project", "cmix") }
-            });
+            var file = await _dialogService.ShowOpenFileDialogAsync(this, new OpenFileDialogSettings { Filters = ProjectFilters });
 
             var path = file?.LocalPath;
             if (string.IsNullOrWhiteSpace(path)) return;
@@ -136,7 +134,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         {
             var file = await _dialogService.ShowSaveFileDialogAsync(this, new SaveFileDialogSettings
             {
-                Filters = new List<FileFilter> { new FileFilter("CMiX Project", "cmix") },
+                Filters = ProjectFilters,
                 DefaultExtension = "cmix"
             });
 
