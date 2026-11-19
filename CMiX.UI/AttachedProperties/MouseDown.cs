@@ -18,15 +18,6 @@ namespace CMiX.UI.AttachedProperties
         public static void SetIsEnabled(Control element, bool value) => element.SetValue(IsEnabledProperty, value);
         public static bool GetIsEnabled(Control element) => element.GetValue(IsEnabledProperty);
 
-        // Avalonia has no read only attached properties; the setters stay internal by convention.
-        public static readonly AttachedProperty<bool> IsMouseDownProperty =
-            AvaloniaProperty.RegisterAttached<Control, bool>(
-                "IsMouseDown",
-                typeof(MouseDown));
-
-        internal static void SetIsMouseDown(Control element, bool value) => element.SetValue(IsMouseDownProperty, value);
-        public static bool GetIsMouseDown(Control element) => element.GetValue(IsMouseDownProperty);
-
         public static readonly AttachedProperty<bool> IsMouseLeftButtonDownProperty =
             AvaloniaProperty.RegisterAttached<Control, bool>(
                 "IsMouseLeftButtonDown",
@@ -65,7 +56,6 @@ namespace CMiX.UI.AttachedProperties
         private static void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             var element = (Control)sender!;
-            SetIsMouseDown(element, true);
             if (e.GetCurrentPoint(element).Properties.IsLeftButtonPressed)
                 SetIsMouseLeftButtonDown(element, true);
         }
@@ -73,14 +63,12 @@ namespace CMiX.UI.AttachedProperties
         private static void OnPointerExited(object? sender, PointerEventArgs e)
         {
             var element = (Control)sender!;
-            SetIsMouseDown(element, false);
             SetIsMouseLeftButtonDown(element, false);
         }
 
         private static void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             var element = (Control)sender!;
-            SetIsMouseDown(element, false);
             SetIsMouseLeftButtonDown(element, false);
         }
     }
