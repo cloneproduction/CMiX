@@ -51,8 +51,19 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public static int DepthOf(TreeNode node) => ParentsOf(node).Count();
 
-        public static TreeNode? FindNode(IEnumerable<TreeNode> roots, Func<TreeNode, bool> match) =>
-            AllRows(roots).FirstOrDefault(match);
+        public static TreeNode? FindNode(IEnumerable<TreeNode> roots, Func<TreeNode, bool> match)
+        {
+            foreach (var node in roots)
+            {
+                if (match(node))
+                    return node;
+
+                if (FindNode(node.Children, match) is { } found)
+                    return found;
+            }
+
+            return null;
+        }
 
         public static int IndexOf(IReadOnlyList<TreeNode> rows, TreeNode node)
         {
