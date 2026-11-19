@@ -14,14 +14,10 @@ namespace CMiX.Studio.Avalonia.Views
 {
     public sealed class TreeScrollAnchor
     {
-        private readonly TreeView treeView;
-        private readonly TreeRowIndex rows;
         private readonly TreeViewContext context;
 
-        internal TreeScrollAnchor(TreeView treeView, TreeRowIndex rows, TreeViewContext context)
+        internal TreeScrollAnchor(TreeViewContext context)
         {
-            this.treeView = treeView;
-            this.rows = rows;
             this.context = context;
         }
 
@@ -35,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Views
                 (dragged != null && item.DataContext is TreeNode node && ReferenceEquals(node, dragged))
                 || (item.TranslatePoint(new Point(0, item.Bounds.Height), view) is { } bottom && bottom.Y < 0);
 
-            foreach (var item in rows.InRowOrder(Skip))
+            foreach (var item in context.RowIndex.InRowOrder(Skip))
             {
                 if (item.DataContext is not TreeNode node || (dragged != null && node.IsOrIsUnder(dragged)))
                     continue;
@@ -50,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         public AnchoredRow? CaptureRow(TreeNode node)
         {
-            if (context.Scroller is not { } view || rows.FindItem(node) is not { } item || TreeRows.RowTopIn(item, view) is not { } top)
+            if (context.Scroller is not { } view || context.RowIndex.FindItem(node) is not { } item || TreeRows.RowTopIn(item, view) is not { } top)
                 return null;
 
             // The item holds the rows of its children too, so the height is the one of the row itself.
@@ -63,13 +59,13 @@ namespace CMiX.Studio.Avalonia.Views
             if (anchor is not { } kept || context.Scroller is not { } view)
                 return;
 
-            treeView.UpdateLayout();
+            context.TreeView.UpdateLayout();
             Place(kept, view);
         }
 
         private void Place(AnchoredRow kept, ScrollViewer view)
         {
-            var item = rows.FindItem(kept.Node);
+            var item = context.RowIndex.FindItem(kept.Node);
             if (item == null || TreeRows.RowTopIn(item, view) is not { } top)
                 return;
 
@@ -91,10 +87,10 @@ namespace CMiX.Studio.Avalonia.Views
         public void HoldWhileClosing(AnchoredRow? anchor, IReadOnlyList<TreeNode> closed)
         {
             hold.Stop();
-            if (anchor is not { } kept || closed.Count == 0 || context.Scroller is not { } view || TopLevel.GetTopLevel(treeView) is not { } top)
+            if (anchor is not { } kept || closed.Count == 0 || context.Scroller is not { } view || TopLevel.GetTopLevel(context.TreeView) is not { } top)
                 return;
 
-            var panels = closed.Select(node => rows.FindItem(node)?.GetVisualDescendants().OfType<CollapsePanel>().FirstOrDefault(panel => panel.Name == "PART_Collapse"))
+            var panels = closed.Select(node => context.RowIndex.FindItem(node)?.GetVisualDescendants().OfType<CollapsePanel>().FirstOrDefault(panel => panel.Name == "PART_Collapse"))
                                .OfType<CollapsePanel>().ToList();
             if (panels.Count == 0)
                 return;

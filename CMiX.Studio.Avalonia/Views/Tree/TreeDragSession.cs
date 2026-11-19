@@ -22,7 +22,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         public static readonly TimeSpan DefaultRestDelay = TimeSpan.FromSeconds(0.6);
 
-        private readonly TreeView treeView;
         private readonly TreeViewContext context;
         private readonly TreeDropMarker marker;
         private readonly TreeScrollAnchor scrollAnchor;
@@ -42,9 +41,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         private readonly List<TreeNode> openedRows = new();
 
-        internal TreeDragSession(TreeView treeView, TreeViewContext context, TreeDropMarker marker, TreeScrollAnchor scrollAnchor)
+        internal TreeDragSession(TreeViewContext context, TreeDropMarker marker, TreeScrollAnchor scrollAnchor)
         {
-            this.treeView = treeView;
             this.context = context;
             this.marker = marker;
             this.scrollAnchor = scrollAnchor;
@@ -81,15 +79,15 @@ namespace CMiX.Studio.Avalonia.Views
             // Take the picture before the rows change their look for the drag.
             ShowGhost(node, position);
             context.Tree?.BeginDrag(node);
-            cursorBefore = treeView.Cursor;
-            treeView.Cursor = MoveCursor;
+            cursorBefore = context.TreeView.Cursor;
+            context.TreeView.Cursor = MoveCursor;
         }
 
         private void ShowGhost(TreeNode node, Point position)
         {
             var item = context.RowIndex.FindItem(node);
             if (item != null && TreeRows.RowBorderOf(item) is Border row)
-                ghost.Show(row, node.IconKey, node.Header, treeView, position);
+                ghost.Show(row, node.IconKey, node.Header, context.TreeView, position);
         }
 
         // The label moves after the mark, so it can keep clear of the drop line.
@@ -102,8 +100,8 @@ namespace CMiX.Studio.Avalonia.Views
             ShowBlockReason(hoveredItem);
             TrackRest(hoveredItem);
             ghost.Ghost.IsVisible = true;
-            ghost.Move(treeView, position, DropLineTop());
-            context.AutoScroller.Track(context.Scroller is { } view ? treeView.TranslatePoint(position, view)?.Y : null);
+            ghost.Move(context.TreeView, position, DropLineTop());
+            context.AutoScroller.Track(context.Scroller is { } view ? context.TreeView.TranslatePoint(position, view)?.Y : null);
         }
 
         // A starter calls this when the drop comes at a point that Track did not see.
@@ -227,7 +225,7 @@ namespace CMiX.Studio.Avalonia.Views
             marker.Mark(null, null);
             ghost.Hide();
             ghost.Ghost.IsVisible = true;
-            treeView.Cursor = cursorBefore;
+            context.TreeView.Cursor = cursorBefore;
             cursorBefore = null;
         }
 
@@ -238,9 +236,9 @@ namespace CMiX.Studio.Avalonia.Views
                 return null;
 
             if (!line.Below)
-                return line.Item.TranslatePoint(default, treeView)?.Y;
+                return line.Item.TranslatePoint(default, context.TreeView)?.Y;
 
-            return TreeRows.RowBorderOf(line.Item) is { } row ? row.TranslatePoint(new Point(0, row.Bounds.Height), treeView)?.Y : null;
+            return TreeRows.RowBorderOf(line.Item) is { } row ? row.TranslatePoint(new Point(0, row.Bounds.Height), context.TreeView)?.Y : null;
         }
 
         private bool CanDrop(TreeNode target, DropPosition position) =>
@@ -249,7 +247,7 @@ namespace CMiX.Studio.Avalonia.Views
         // A point between two rows or left of a row keeps the last drop place.
         private DragAim ReadAim(Point position)
         {
-            var hoveredItem = TreeRows.ItemOf(treeView.InputHitTest(position));
+            var hoveredItem = TreeRows.ItemOf(context.TreeView.InputHitTest(position));
             if (source == null || context.Tree is not { } project)
                 return DragAim.NoDropOver(hoveredItem);
 
@@ -259,7 +257,7 @@ namespace CMiX.Studio.Avalonia.Views
             var header = TreeRows.RowBorderOf(hoveredItem);
             var fraction = header == null || header.Bounds.Height <= 0
                 ? 0.5
-                : (treeView.TranslatePoint(position, header)?.Y ?? 0) / header.Bounds.Height;
+                : (context.TreeView.TranslatePoint(position, header)?.Y ?? 0) / header.Bounds.Height;
 
             if (fraction < 0 || fraction > 1)
                 return MarkedAim(hoveredItem);
@@ -277,8 +275,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         // The room under the last row is not among the rows.
         private bool IsAmongTheRows(Point position) =>
-            treeView.ItemsPanelRoot is { } panel
-            && treeView.TranslatePoint(position, panel) is { } point
+            context.TreeView.ItemsPanelRoot is { } panel
+            && context.TreeView.TranslatePoint(position, panel) is { } point
             && new Rect(panel.Bounds.Size).Contains(point);
 
         // A row that the key closed does not open on a rest until the pointer leaves it.

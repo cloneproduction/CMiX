@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.Views
             this.postWhileAttached = postWhileAttached;
         }
 
-        internal void Attach(TreeView treeView) => treeView.AddHandler(InputElement.KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
+        internal void Attach() => context.TreeView.AddHandler(InputElement.KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
 
         // Avalonia runs the key bindings of the view before this handler.
         // The tree view does not see the navigation keys, so they move the cursor and select nothing.

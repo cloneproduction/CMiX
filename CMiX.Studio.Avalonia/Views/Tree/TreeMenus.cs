@@ -47,9 +47,9 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal bool IsMenuOpen() => context.TreeView.ContextMenu?.IsOpen == true || addPanel.IsOpen;
 
-        internal void Attach(TreeView treeView)
+        internal void Attach()
         {
-            treeView.AddHandler(Control.ContextRequestedEvent, OnContextRequested, RoutingStrategies.Bubble);
+            context.TreeView.AddHandler(Control.ContextRequestedEvent, OnContextRequested, RoutingStrategies.Bubble);
             addPanel.Closed += OnAddPanelClosed;
         }
 

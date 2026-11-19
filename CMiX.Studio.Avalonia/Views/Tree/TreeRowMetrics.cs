@@ -12,13 +12,11 @@ namespace CMiX.Studio.Avalonia.Views
         // It is the token TreeRowGap. A test pins the two.
         public const double RowGap = 3;
 
-        private readonly TreeView treeView;
         private readonly IResourceDictionary resources;
         private readonly TreeViewContext context;
 
-        public TreeRowMetrics(TreeView treeView, IResourceDictionary resources, TreeViewContext context)
+        public TreeRowMetrics(IResourceDictionary resources, TreeViewContext context)
         {
-            this.treeView = treeView;
             this.resources = resources;
             this.context = context;
         }
@@ -73,6 +71,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (context.Scroller is not { } view)
                 return;
 
+            var treeView = context.TreeView;
             var content = view.Extent.Height - treeView.Padding.Bottom;
             var room = content > view.Viewport.Height + 0.5 ? Math.Max(0, view.Viewport.Height - 3 * RowPitch) : 0;
             if (Math.Abs(treeView.Padding.Bottom - room) > 0.5)

@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Views
             this.context = context;
         }
 
-        internal void Attach(TreeView treeView) => treeView.TemplateApplied += OnTemplateApplied;
+        internal void Attach() => context.TreeView.TemplateApplied += OnTemplateApplied;
 
         private void OnTemplateApplied(object? sender, TemplateAppliedEventArgs e) =>
             e.NameScope.Find<ItemsPresenter>("PART_ItemsPresenter")?.AddHandler(Control.RequestBringIntoViewEvent, OnRequestBringIntoView);

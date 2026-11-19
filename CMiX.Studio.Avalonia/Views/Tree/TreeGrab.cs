@@ -19,7 +19,6 @@ namespace CMiX.Studio.Avalonia.Views
         public const double MouseTakeOver = 14;
 
         private readonly Control owner;
-        private readonly TreeView treeView;
         private readonly TreeDragSession session;
         private readonly TreeViewContext context;
         private readonly Action<TreeNode> reveal;
@@ -38,12 +37,11 @@ namespace CMiX.Studio.Avalonia.Views
         // A right click asks for a menu on the release.
         private bool menuBlocked;
 
-        internal TreeGrab(Control owner, TreeView treeView, TreeDragSession session, TreeViewContext context, Action<TreeNode> reveal,
+        internal TreeGrab(Control owner, TreeDragSession session, TreeViewContext context, Action<TreeNode> reveal,
             Action changed)
         {
             this.changed = changed;
             this.owner = owner;
-            this.treeView = treeView;
             this.session = session;
             this.context = context;
             this.reveal = reveal;
@@ -60,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         public bool Start(TreeNode node, Point position)
         {
-            if (top != null || session.IsRunning || context.Tree is not { } project || !project.CanDrag(node) || TopLevel.GetTopLevel(treeView) is not { } window)
+            if (top != null || session.IsRunning || context.Tree is not { } project || !project.CanDrag(node) || TopLevel.GetTopLevel(context.TreeView) is not { } window)
                 return false;
 
             top = window;
@@ -160,14 +158,14 @@ namespace CMiX.Studio.Avalonia.Views
             if (!IsGrabbing)
                 return;
 
-            var position = e.GetPosition(treeView);
+            var position = e.GetPosition(context.TreeView);
             lastPointer = position;
             if (isMarkFromKey && ((Vector)(position - keyMovePoint)).Length < MouseTakeOver)
                 return;
 
             isMarkFromKey = false;
             // Out of the tree the mark stays, so a short move out and back keeps the place.
-            if (new Rect(treeView.Bounds.Size).Contains(position))
+            if (new Rect(context.TreeView.Bounds.Size).Contains(position))
                 session.Track(position);
         }
 
@@ -179,7 +177,7 @@ namespace CMiX.Studio.Avalonia.Views
             e.Handled = true;
             releasePending = true;
             menuBlocked = true;
-            var properties = e.GetCurrentPoint(treeView).Properties;
+            var properties = e.GetCurrentPoint(context.TreeView).Properties;
             if (properties.IsRightButtonPressed)
             {
                 Cancel();

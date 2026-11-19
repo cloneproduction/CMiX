@@ -64,14 +64,14 @@ namespace CMiX.Studio.Avalonia.Views
 
             rowIndex = new TreeRowIndex(treeView);
             context = new TreeViewContext(this, treeView, rowIndex);
-            rowMetrics = new TreeRowMetrics(treeView, Resources, context);
+            rowMetrics = new TreeRowMetrics(Resources, context);
             rowShadow = new TreeRowShadow(treeView, rowShadowLayer, rowShadowBox);
             marker = new TreeDropMarker(rowIndex);
-            scrollAnchor = new TreeScrollAnchor(treeView, rowIndex, context);
-            dragSession = new TreeDragSession(treeView, context, marker, scrollAnchor);
+            scrollAnchor = new TreeScrollAnchor(context);
+            dragSession = new TreeDragSession(context, marker, scrollAnchor);
             rowDrag = new TreeRowDrag(treeView, dragSession);
             reveal = new TreeRowReveal(context);
-            grab = new TreeGrab(this, treeView, dragSession, context, reveal.RevealRow, OnGrabChanged);
+            grab = new TreeGrab(this, dragSession, context, reveal.RevealRow, OnGrabChanged);
             focusKeeper = new TreeFocusKeeper(this, context, reveal, PostWhileAttached, () => IsAttached);
             pointerInput = new TreePointerInput(this, context, rowDrag, focusKeeper);
             // The menus come later, so the lambda reads the field at the call.
@@ -83,11 +83,11 @@ namespace CMiX.Studio.Avalonia.Views
             hooks = focusKeeper.BuildHooks(dragSession, rowDrag, grab, requests.CloseRowsInView);
 
             pointerInput.Attach();
-            fileDrop.Attach(treeView);
-            menus.Attach(treeView);
+            fileDrop.Attach();
+            menus.Attach();
             treeView.AddHandler(ScrollViewer.ScrollChangedEvent, (_, _) => rowMetrics.SetEndRoom());
-            reveal.Attach(treeView);
-            keyInput.Attach(treeView);
+            reveal.Attach();
+            keyInput.Attach();
             KeyBindingTextGuard.Install(this);
             tooltips = new TreeTooltips(treeView);
         }
