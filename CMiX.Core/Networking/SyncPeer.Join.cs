@@ -67,30 +67,27 @@ namespace CMiX.Core.Networking
 
         // The re-join after a trim. The follower stop and the activity come before the shortcut.
         private Task RejoinAfterGapAsync(SyncRun run)
+            => RunUnderJoinLockAsync(run, () => RejoinLockedAsync(run));
+
+        private async Task RejoinLockedAsync(SyncRun run)
         {
-            return RunUnderJoinLockAsync(run, RejoinLockedAsync);
+            await StopFollowerAsync(run).ConfigureAwait(false);
+            await SetActivityAsync("Joining").ConfigureAwait(false);
 
-            async Task RejoinLockedAsync()
+            var snapshotId = await run.Store.ReadSnapshotIdAsync().ConfigureAwait(false);
+            if (!IsCurrent(run)) return;
+
+            // The follower recovery applied the snapshot already, so only replay from the position.
+            if (snapshotId != StreamPosition.Zero && snapshotId <= LastAppliedId)
             {
-                var store = run.Store;
-                await StopFollowerAsync(run).ConfigureAwait(false);
-                await SetActivityAsync("Joining").ConfigureAwait(false);
-
-                var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
+                await ReplayAsync(run, LastAppliedId).ConfigureAwait(false);
                 if (!IsCurrent(run)) return;
 
-                // The follower recovery applied the snapshot already, so only replay from the position.
-                if (snapshotId != StreamPosition.Zero && snapshotId <= LastAppliedId)
-                {
-                    await ReplayAsync(run, LastAppliedId).ConfigureAwait(false);
-                    if (!IsCurrent(run)) return;
-
-                    await FinishJoinAsync(run).ConfigureAwait(false);
-                    return;
-                }
-
-                await ApplyStoreStateAsync(run).ConfigureAwait(false);
+                await FinishJoinAsync(run).ConfigureAwait(false);
+                return;
             }
+
+            await ApplyStoreStateAsync(run).ConfigureAwait(false);
         }
 
         // The caller holds the join lock.

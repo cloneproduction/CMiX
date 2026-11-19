@@ -39,41 +39,39 @@ namespace CMiX.Core.Networking
 
         // Runs under the join lock. NotInSync leaves the peer blocked until the user pushes or pulls.
         private Task RunStartCheckAsync(SyncRun run)
+            => RunUnderJoinLockAsync(run, () => CheckStartLockedAsync(run));
+
+        private async Task CheckStartLockedAsync(SyncRun run)
         {
-            return RunUnderJoinLockAsync(run, CheckAsync);
+            // A check queued after a join does nothing.
+            if (IsJoined) return;
 
-            async Task CheckAsync()
+            await SetActivityAsync("Checking").ConfigureAwait(false);
+            var result = await EvaluateStartAsync(run.Store).ConfigureAwait(false);
+            if (!IsCurrent(run)) return;
+
+            // The activity clears before the check acts, and again in the finally of the lock.
+            await SetActivityAsync(null).ConfigureAwait(false);
+
+            switch (result.Check)
             {
-                // A check queued after a join does nothing.
-                if (IsJoined) return;
-
-                await SetActivityAsync("Checking").ConfigureAwait(false);
-                var result = await EvaluateStartAsync(run.Store).ConfigureAwait(false);
-                if (!IsCurrent(run)) return;
-
-                // The activity clears before the check acts, and again in the finally of the lock.
-                await SetActivityAsync(null).ConfigureAwait(false);
-
-                switch (result.Check)
-                {
-                    case StartCheck.PushSilently:
-                        await PushLockedAsync(run).ConfigureAwait(false);
-                        break;
-                    case StartCheck.NotInSync:
-                        await DispatchCurrentAsync(run, () => IsJoined = false).ConfigureAwait(false);
-                        break;
-                    default:
-                        await StopFollowerAsync(run).ConfigureAwait(false);
-                        await DispatchCurrentAsync(run, () =>
-                        {
-                            LastAppliedId = result.Position;
-                            TailId = result.Position;
-                            ErrorMessage = string.Empty;
-                            IsJoined = true;
-                            StartFollower(run);
-                        }).ConfigureAwait(false);
-                        break;
-                }
+                case StartCheck.PushSilently:
+                    await PushLockedAsync(run).ConfigureAwait(false);
+                    break;
+                case StartCheck.NotInSync:
+                    await DispatchCurrentAsync(run, () => IsJoined = false).ConfigureAwait(false);
+                    break;
+                default:
+                    await StopFollowerAsync(run).ConfigureAwait(false);
+                    await DispatchCurrentAsync(run, () =>
+                    {
+                        LastAppliedId = result.Position;
+                        TailId = result.Position;
+                        ErrorMessage = string.Empty;
+                        IsJoined = true;
+                        StartFollower(run);
+                    }).ConfigureAwait(false);
+                    break;
             }
         }
     }
