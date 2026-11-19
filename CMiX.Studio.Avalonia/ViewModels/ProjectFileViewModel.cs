@@ -145,8 +145,9 @@ namespace CMiX.Studio.Avalonia.ViewModels
         {
             try
             {
-                await WriteProject(path);
-                _unsavedChanges.MarkSaved();
+                var model = _session.CaptureProject();
+                await _session.WriteAsync(model, path);
+                _unsavedChanges.MarkSaved(model);
                 return true;
             }
             catch (Exception ex)
@@ -155,7 +156,5 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 return false;
             }
         }
-
-        private Task WriteProject(string path) => _session.WriteAsync(_session.CaptureProject(), path);
     }
 }

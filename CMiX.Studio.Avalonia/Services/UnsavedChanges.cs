@@ -22,5 +22,8 @@ namespace CMiX.Studio.Avalonia.Services
         public bool HasChanges => _savedFingerprint != ProjectStateHash.Compute(_project);
 
         public void MarkSaved() => _savedFingerprint = ProjectStateHash.Compute(_project);
+
+        // The model that was just written is the saved state, so the project is not traversed again.
+        public void MarkSaved(ProjectModel written) => _savedFingerprint = ProjectStateHash.Compute(written);
     }
 }
