@@ -34,8 +34,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         public bool HasUnsavedChanges => _unsavedChanges.HasChanges;
 
-        // Asks what to do with the unsaved changes before the window closes. True: the window may close.
-        // Save counts only when the project was saved, so a Save As that is cancelled keeps the window open.
+        // True: the window may close. Save counts only when the save cleared the changes, so a cancelled Save As keeps the window open.
         public async Task<bool> ConfirmCloseAsync()
         {
             if (!_unsavedChanges.HasChanges)
@@ -57,8 +56,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
         [NotifyPropertyChangedFor(nameof(TitleBarText))]
         private string? projectPath;
 
-        // Text of the title bar: the file name of the open project, or "(Unsaved)" when there is none.
-        // The full path is the tooltip of the title bar.
         public string TitleBarText =>
             $"CMiX - {(string.IsNullOrWhiteSpace(ProjectPath) ? "(Unsaved)" : Path.GetFileName(ProjectPath))}";
 
@@ -84,8 +81,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
             await OpenProjectFromPath(path);
         }
 
-        // The open sequence minus the file dialog, so a caller that already has a path, the tests
-        // among them, drives the same steps the menu command does.
         public async Task OpenProjectFromPath(string path)
         {
             try
@@ -94,6 +89,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 var model = await _session.ReadAsync(path);
                 ProjectPath = null;
                 _session.LoadProject(model);
+                // The path is set after the apply, so a failed apply leaves it null.
                 ProjectPath = path;
                 _unsavedChanges.MarkSaved();
             }

@@ -25,7 +25,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
         [RelayCommand]
         private void AddLayer()
         {
-            // Mirrors the layer manager view's AddItemCommand, CommandParameter typeof(Layer) button.
             var layerManager = (Project.CompositionManager.SelectedItem as Composition)?.LayerManager;
             layerManager?.AddItemCommand.Execute(typeof(Layer));
         }
@@ -33,7 +32,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
         [RelayCommand]
         private void AddComposition()
         {
-            // Mirrors the Composition tab's New Composition button, CommandParameter typeof(Composition).
             Project.CompositionManager.AddItemCommand.Execute(typeof(Composition));
         }
 

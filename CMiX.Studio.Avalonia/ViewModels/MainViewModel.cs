@@ -16,8 +16,6 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Studio.Avalonia.ViewModels
 {
-    // ObservableObject satisfies the INotifyPropertyChanged requirement of the
-    // dialog service owner lookup, which casts the main window DataContext.
     public class MainViewModel : ObservableObject, IControl
     {
         public MainViewModel(Project project,
@@ -52,7 +50,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             MainMenu = mainMenu;
             ProjectFile = projectFile;
             ControlRepository = controlRepository;
-            // The session activates the six lists by hand. Their registrations go, so a nested control does not activate them again.
+            // This clear runs last. The session activates the six lists by hand, so a nested control must not activate them again.
             activationService.Clear();
         }
 
@@ -75,8 +73,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public PrefabManager EntityManager => _session.Entities;
         public PrefabManager TextureManager => _session.Textures;
         public PrefabManager CameraManager => _session.Cameras;
-        // Named after its type so the window relative binding paths in the views read the
-        // same as the manager relative ControlRepository paths the tabs use.
+        // The views bind ControlRepository from the window and from a manager with the same path.
         public ControlRepository ControlRepository { get; set; }
         public Project Project { get; set; }
         public ProjectTree ProjectTree { get; }
@@ -99,8 +96,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public IRelayCommand UndoCommand { get; }
         public IRelayCommand RedoCommand { get; }
 
-        // What the left and the right panel of the window show. The user picks them with the icon button at the top of each panel.
-        // The tree can be on the left, on the right or on both sides.
+        // What the left and the right panel of the window show. The tree can be on both sides.
         public System.Collections.Generic.IReadOnlyList<PanelChoice> PanelChoices => PanelChoice.All;
 
         private PanelChoice _leftPanel = PanelChoice.Tree;
