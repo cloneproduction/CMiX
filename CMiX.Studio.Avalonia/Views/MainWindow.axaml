@@ -32,7 +32,7 @@
         <KeyBinding Command="{Binding UndoCommand}" Gesture="{Binding Shortcuts[Edit.Undo]}" />
         <KeyBinding Command="{Binding RedoCommand}" Gesture="{Binding Shortcuts[Edit.Redo]}" />
         <KeyBinding Command="{Binding RedoCommand}" Gesture="{Binding Shortcuts[Edit.RedoAlt]}" />
-        <KeyBinding Command="{Binding MainMenu.OpenProjectCommand}" Gesture="{Binding Shortcuts[File.Open]}" />
+        <KeyBinding Command="{Binding ProjectFile.OpenProjectCommand}" Gesture="{Binding Shortcuts[File.Open]}" />
         <!-- The panel keys move the focus between the side panels (see PanelFocusCycle). They also run with the focus in a text box. -->
         <KeyBinding Command="{Binding PanelFocus.NextPanelCommand}" Gesture="{Binding Shortcuts[Window.NextPanel]}" />
         <KeyBinding Command="{Binding PanelFocus.PreviousPanelCommand}" Gesture="{Binding Shortcuts[Window.PreviousPanel]}" />
@@ -79,7 +79,7 @@
                     Margin="8,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    DataContext="{Binding MainMenu}"
+                    DataContext="{Binding ProjectFile}"
                     Text="{Binding TitleBarText}"
                     ToolTipText="{Binding ProjectPath}" />
 

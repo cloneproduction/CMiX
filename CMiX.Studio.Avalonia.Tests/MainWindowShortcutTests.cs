@@ -362,7 +362,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 .Items.OfType<MenuItem>().Single(item => Equals(item.Header, "Open"));
 
             Assert.Equal(new KeyGesture(Key.O, KeyModifiers.Control), viewModel.Shortcuts["File.Open"]);
-            Assert.Same(viewModel.MainMenu.OpenProjectCommand, open.Command);
+            Assert.Same(viewModel.ProjectFile.OpenProjectCommand, open.Command);
             Assert.Equal(new KeyGesture(Key.O, KeyModifiers.Control), row.InputGesture);
         }
 

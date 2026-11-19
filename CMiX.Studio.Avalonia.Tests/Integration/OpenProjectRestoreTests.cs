@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 Assert.Equal(-1, ProjectSerializer.Load(path).CompositionManager.ManagerData.SelectedIndex);
 
                 var (_, _, opening) = TestServiceProviderFactory.ShowMainWindow();
-                await opening.MainMenu.OpenProjectFromPath(path);
+                await opening.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 var compositions = opening.Project.CompositionManager;
@@ -50,7 +50,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var (_, _, opening) = TestServiceProviderFactory.ShowMainWindow();
                 Assert.NotEqual(437.5f, opening.Project.MasterBeat.Period.Value);
 
-                await opening.MainMenu.OpenProjectFromPath(path);
+                await opening.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal(437.5f, opening.Project.MasterBeat.Period.Value);

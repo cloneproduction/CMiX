@@ -77,14 +77,14 @@ namespace CMiX.Studio.Avalonia.Tests
                 var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 var unsaved = provider.GetRequiredService<UnsavedChanges>();
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
                 Assert.False(unsaved.HasChanges);
 
                 viewModel.Project.OutputMappingManager.Items[0].Name.Value = "Changed";
                 Assert.True(unsaved.HasChanges);
 
-                await ((CommunityToolkit.Mvvm.Input.IAsyncRelayCommand)viewModel.MainMenu.SaveProjectCommand).ExecuteAsync(null);
+                await ((CommunityToolkit.Mvvm.Input.IAsyncRelayCommand)viewModel.ProjectFile.SaveProjectCommand).ExecuteAsync(null);
                 Assert.False(unsaved.HasChanges);
             }
             finally
@@ -100,7 +100,7 @@ namespace CMiX.Studio.Avalonia.Tests
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             Assert.True(provider.GetRequiredService<UnsavedChanges>().HasChanges);
 
-            viewModel.MainMenu.NewProjectCommand.Execute(null);
+            viewModel.ProjectFile.NewProjectCommand.Execute(null);
             TestServiceProviderFactory.Pump();
 
             Assert.False(provider.GetRequiredService<UnsavedChanges>().HasChanges);

@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 var repository = viewModel.ControlRepository;
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 var afterFirstLoad = Counts(repository);
@@ -53,14 +53,14 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 // have released these very instances and not merely to hold the same number.
                 var firstLoadControls = repository.Controls.Where(control => control is not Project).ToList();
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal(afterFirstLoad, Counts(repository));
                 foreach (var control in firstLoadControls)
                     Assert.DoesNotContain(repository.Controls, item => ReferenceEquals(item, control));
 
-                Assert.Equal(path, viewModel.MainMenu.ProjectPath);
+                Assert.Equal(path, viewModel.ProjectFile.ProjectPath);
             }
             finally
             {
@@ -84,14 +84,14 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 var repository = viewModel.ControlRepository;
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 var afterFirstLoad = Counts(repository);
                 var loadedControls = repository.Controls.ToList();
 
                 // The failure goes to the message notice. The fake keeps it without a window.
-                await viewModel.MainMenu.OpenProjectFromPath(corruptPath);
+                await viewModel.ProjectFile.OpenProjectFromPath(corruptPath);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
@@ -100,7 +100,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 foreach (var control in loadedControls)
                     Assert.Contains(repository.Controls, item => ReferenceEquals(item, control));
 
-                Assert.Equal(path, viewModel.MainMenu.ProjectPath);
+                Assert.Equal(path, viewModel.ProjectFile.ProjectPath);
             }
             finally
             {
@@ -151,7 +151,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 Assert.True(undoManager.CanUndo);
             }
 
-            await viewModel.MainMenu.OpenProjectFromPath(path);
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
             TestServiceProviderFactory.Pump();
 
             if (discarded != null)
@@ -183,7 +183,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 var undoManager = provider.GetRequiredService<UndoManager>();
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 Assert.False(undoManager.CanUndo);
@@ -209,7 +209,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var undoManager = provider.GetRequiredService<UndoManager>();
                 var repository = viewModel.ControlRepository;
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 var loaded = repository.Controls.ToList();
@@ -248,16 +248,16 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
                 var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
-                viewModel.MainMenu.NewProjectCommand.Execute(null);
+                viewModel.ProjectFile.NewProjectCommand.Execute(null);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal((0, 0, 0, 0, 0), Counts(viewModel.ControlRepository));
-                Assert.Null(viewModel.MainMenu.ProjectPath);
+                Assert.Null(viewModel.ProjectFile.ProjectPath);
             }
             finally
             {
@@ -280,7 +280,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var project = viewModel.Project;
                 var slots = project.OutputMappingManager.Items;
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
                 project.PrefabService.Name.Value = "Saved Project";
                 project.MasterBeat.Period.Value = 437.5f;
@@ -290,7 +290,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 Assert.Equal("Saved Project", project.PrefabService.Name.Value);
                 var period = project.MasterBeat.Period.Value;
 
-                viewModel.MainMenu.NewProjectCommand.Execute(null);
+                viewModel.ProjectFile.NewProjectCommand.Execute(null);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal("Output 4", slots[3].Name.Value);
@@ -326,7 +326,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 var compositionManager = viewModel.Project.CompositionManager;
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 var compositions = compositionManager.ManagerData.Items.Cast<Composition>().ToList();
@@ -369,7 +369,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var project = viewModel.Project;
                 Assert.NotEqual(projectName, project.PrefabService.Name.Value);
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal(projectName, project.PrefabService.Name.Value);
@@ -410,7 +410,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 }
 
                 var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                await viewModel.MainMenu.OpenProjectFromPath(Path.Combine(rootB, "VJ", "compositions", "bar.cmix"));
+                await viewModel.ProjectFile.OpenProjectFromPath(Path.Combine(rootB, "VJ", "compositions", "bar.cmix"));
                 TestServiceProviderFactory.Pump();
 
                 var project = viewModel.Project;
@@ -444,7 +444,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 var slots = viewModel.Project.OutputMappingManager.Items;
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 var compositions = viewModel.Project.CompositionManager.ManagerData.Items
@@ -475,7 +475,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 var slots = outputMappingManager.Items;
                 Assert.Equal("Output 4", slots[3].Name.Value);
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal("LeftWall", slots[3].Name.Value);
@@ -537,9 +537,9 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 peer.IsJoined = true;
                 peer.SetDispatcher(_ => throw new InvalidOperationException("The push failed."));
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
 
-                Assert.Equal(path, viewModel.MainMenu.ProjectPath);
+                Assert.Equal(path, viewModel.ProjectFile.ProjectPath);
                 Assert.Equal("The push failed.", peer.ErrorMessage);
                 Assert.Empty(provider.GetRequiredService<FakeMessageNotice>().Messages);
             }
@@ -560,12 +560,12 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 File.WriteAllText(path, "{ this is not a project");
                 var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
 
                 var (text, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
                 Assert.Equal("Open Project", title);
                 Assert.StartsWith($"{Path.GetFileName(path)}: ", text);
-                Assert.Null(viewModel.MainMenu.ProjectPath);
+                Assert.Null(viewModel.ProjectFile.ProjectPath);
             }
             finally
             {

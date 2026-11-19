@@ -31,10 +31,10 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static ICommand ExpectedCommand(MainViewModel viewModel, string top, string row) => (top, row) switch
         {
-            ("File", "New") => viewModel.MainMenu.NewProjectCommand,
-            ("File", "Open") => viewModel.MainMenu.OpenProjectCommand,
-            ("File", "Save") => viewModel.MainMenu.SaveProjectCommand,
-            ("File", "Save As") => viewModel.MainMenu.SaveAsProjectCommand,
+            ("File", "New") => viewModel.ProjectFile.NewProjectCommand,
+            ("File", "Open") => viewModel.ProjectFile.OpenProjectCommand,
+            ("File", "Save") => viewModel.ProjectFile.SaveProjectCommand,
+            ("File", "Save As") => viewModel.ProjectFile.SaveAsProjectCommand,
             ("File", "Quit") => viewModel.MainWindowController.CloseWindowCommand,
             ("Edit", "Undo") => viewModel.UndoCommand,
             ("Edit", "Redo") => viewModel.RedoCommand,
@@ -85,7 +85,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 Assert.Equal("CMiX - (Unsaved)", TitleBarText(window).Text);
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal($"CMiX - {Path.GetFileName(path)}", TitleBarText(window).Text);
@@ -109,10 +109,10 @@ namespace CMiX.Studio.Avalonia.Tests
                     services.AddSingleton<IDialogService>(provider => new DialogService(
                         new FakeSaveFileDialogManager(newPath),
                         viewModelFactory: type => provider.GetService(type))));
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
-                await ((IAsyncRelayCommand)viewModel.MainMenu.SaveAsProjectCommand).ExecuteAsync(null);
+                await ((IAsyncRelayCommand)viewModel.ProjectFile.SaveAsProjectCommand).ExecuteAsync(null);
                 TestServiceProviderFactory.Pump();
 
                 Assert.True(File.Exists(newPath));
@@ -135,14 +135,14 @@ namespace CMiX.Studio.Avalonia.Tests
                 ProjectFixtures.WriteProjectWithMaterialTextures(path);
                 var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
                     services.AddSingleton<ISyncTarget, ThrowingSyncTarget>());
-                viewModel.MainMenu.ProjectPath = "earlier.cmix";
+                viewModel.ProjectFile.ProjectPath = "earlier.cmix";
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
 
                 var (text, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
                 Assert.Equal("Open Project", title);
                 Assert.Equal($"{Path.GetFileName(path)}: The apply failed.", text);
-                Assert.Null(viewModel.MainMenu.ProjectPath);
+                Assert.Null(viewModel.ProjectFile.ProjectPath);
             }
             finally
             {
@@ -163,7 +163,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 TestServiceProviderFactory.Pump();
                 Assert.Contains(viewModel.ControlRepository.Textures, item => ReferenceEquals(item, texture));
 
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Empty(viewModel.TextureManager.ManagerData.Items);

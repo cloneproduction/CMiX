@@ -27,6 +27,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              AssetManager assetManager,
                              MainWindowController mainWindowController,
                              MainMenu mainMenu,
+                             ProjectFileViewModel projectFile,
                              ControlActivationService activationService,
                              UndoManager undoManager,
                              ShortcutMap shortcuts,
@@ -49,6 +50,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             MainWindowController = mainWindowController;
             AssetManager = assetManager;
             MainMenu = mainMenu;
+            ProjectFile = projectFile;
             ControlRepository = controlRepository;
             // The session activates the six lists by hand. Their registrations go, so a nested control does not activate them again.
             activationService.Clear();
@@ -116,6 +118,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         }
         public AssetManager AssetManager { get; set; }
         public MainMenu MainMenu { get; set; }
+        public ProjectFileViewModel ProjectFile { get; }
         public MainWindowController MainWindowController { get; set; }
         public Guid ID { get; set; }
     }

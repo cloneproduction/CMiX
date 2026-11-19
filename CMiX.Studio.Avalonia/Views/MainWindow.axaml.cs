@@ -77,12 +77,12 @@ namespace CMiX.Studio.Avalonia.Views
         // put off until the user has answered. The window then closes for good, without asking again.
         private async void OnClosing(object? sender, WindowClosingEventArgs e)
         {
-            if (DataContext is not MainViewModel { MainMenu.HasUnsavedChanges: true } viewModel)
+            if (DataContext is not MainViewModel { ProjectFile.HasUnsavedChanges: true } viewModel)
                 return;
 
             e.Cancel = true;
 
-            if (!await viewModel.MainMenu.ConfirmCloseAsync())
+            if (!await viewModel.ProjectFile.ConfirmCloseAsync())
                 return;
 
             Closing -= OnClosing;

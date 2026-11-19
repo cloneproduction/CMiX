@@ -58,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var texture = Assert.Single(viewModel.TextureManager.ManagerData.Items);
             Assert.Contains(viewModel.ControlRepository.Textures, item => ReferenceEquals(item, texture));
 
-            viewModel.MainMenu.NewProjectCommand.Execute(null);
+            viewModel.ProjectFile.NewProjectCommand.Execute(null);
             TestServiceProviderFactory.Pump();
 
             Assert.Empty(viewModel.TextureManager.ManagerData.Items);
@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
                 Assert.Equal(2, viewModel.ControlRepository.Textures.Count);
 
-                viewModel.MainMenu.NewProjectCommand.Execute(null);
+                viewModel.ProjectFile.NewProjectCommand.Execute(null);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Empty(viewModel.ControlRepository.Compositions);

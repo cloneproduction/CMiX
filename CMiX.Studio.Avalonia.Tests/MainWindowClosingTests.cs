@@ -79,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
             {
                 ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
                 var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                await viewModel.MainMenu.OpenProjectFromPath(path);
+                await viewModel.ProjectFile.OpenProjectFromPath(path);
                 TestServiceProviderFactory.Pump();
                 provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.Save;
                 viewModel.Project.OutputMappingManager.Items[0].Name.Value = "Saved on close";

@@ -22,21 +22,21 @@
 
                 <MenuItem
                     Padding="0,0,64,0"
-                    Command="{Binding NewProjectCommand}"
+                    Command="{Binding $parent[Window].DataContext.ProjectFile.NewProjectCommand}"
                     Header="New" />
 
                 <!-- The gesture comes from the shortcut map of the window (File.Open), as the key binding of the window. -->
                 <MenuItem
-                    Command="{Binding OpenProjectCommand}"
+                    Command="{Binding $parent[Window].DataContext.ProjectFile.OpenProjectCommand}"
                     Header="Open"
                     InputGesture="{Binding $parent[Window].DataContext.Shortcuts[File.Open]}" />
 
                 <MenuItem
-                    Command="{Binding SaveProjectCommand}"
+                    Command="{Binding $parent[Window].DataContext.ProjectFile.SaveProjectCommand}"
                     Header="Save" />
 
                 <MenuItem
-                    Command="{Binding SaveAsProjectCommand}"
+                    Command="{Binding $parent[Window].DataContext.ProjectFile.SaveAsProjectCommand}"
                     Header="Save As" />
 
                 <MenuItem
