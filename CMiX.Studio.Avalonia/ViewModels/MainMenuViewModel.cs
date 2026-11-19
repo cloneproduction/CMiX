@@ -12,10 +12,10 @@ namespace CMiX.Studio.Avalonia.ViewModels
     {
         public MainMenuViewModel(Project project)
         {
-            Project = project;
+            _project = project;
         }
 
-        public Project Project { get; }
+        private readonly Project _project;
 
         public event EventHandler? QuitRequested;
 
@@ -25,34 +25,34 @@ namespace CMiX.Studio.Avalonia.ViewModels
         [RelayCommand]
         private void AddLayer()
         {
-            var layerManager = (Project.CompositionManager.SelectedItem as Composition)?.LayerManager;
+            var layerManager = (_project.CompositionManager.SelectedItem as Composition)?.LayerManager;
             layerManager?.AddItemCommand.Execute(typeof(Layer));
         }
 
         [RelayCommand]
         private void AddComposition()
         {
-            Project.CompositionManager.AddItemCommand.Execute(typeof(Composition));
+            _project.CompositionManager.AddItemCommand.Execute(typeof(Composition));
         }
 
         [RelayCommand]
         private void RemoveComposition()
         {
-            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
-            Project.CompositionManager.RemoveItem(composition);
+            if (_project.CompositionManager.SelectedItem is not Composition composition) return;
+            _project.CompositionManager.RemoveItem(composition);
         }
 
         [RelayCommand]
         private void DuplicateComposition()
         {
-            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
-            Project.CompositionManager.DuplicateItem(composition);
+            if (_project.CompositionManager.SelectedItem is not Composition composition) return;
+            _project.CompositionManager.DuplicateItem(composition);
         }
 
         [RelayCommand]
         private void RemoveLayer()
         {
-            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
+            if (_project.CompositionManager.SelectedItem is not Composition composition) return;
             if (composition.LayerManager.SelectedItem is not Layer layer) return;
             composition.LayerManager.RemoveItem(layer);
         }
@@ -60,7 +60,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         [RelayCommand]
         private void DuplicateLayer()
         {
-            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
+            if (_project.CompositionManager.SelectedItem is not Composition composition) return;
             if (composition.LayerManager.SelectedItem is not Layer layer) return;
             composition.LayerManager.DuplicateItem(layer);
         }
