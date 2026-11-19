@@ -16,7 +16,10 @@ namespace CMiX.Studio.Avalonia.Tests
     // the same object graph the running app builds, minus the desktop lifetime plumbing.
     public static class TestServiceProviderFactory
     {
-        public static IServiceProvider Create()
+        public static IServiceProvider Create() => Create(_ => { });
+
+        // The registrations of the app, then the replacements of one test.
+        public static IServiceProvider Create(Action<IServiceCollection> replace)
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging();
@@ -48,6 +51,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 viewModelFactory: type => provider.GetService(type)));
             serviceCollection.AddSingleton<ManagerReorderServiceFactory>(
                 _ => (data, move) => new ManagerReorderService(data, move));
+            replace(serviceCollection);
 
             return serviceCollection.BuildServiceProvider();
         }
@@ -69,9 +73,12 @@ namespace CMiX.Studio.Avalonia.Tests
         // The common starting point for a test that exercises the app through its real window:
         // build a provider, resolve and show MainWindow, and pump once so the initial layout and
         // binding pass settles before the test starts driving it.
-        public static (IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel) ShowMainWindow()
+        public static (IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel) ShowMainWindow() =>
+            ShowMainWindow(_ => { });
+
+        public static (IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel) ShowMainWindow(Action<IServiceCollection> replace)
         {
-            var provider = Create();
+            var provider = Create(replace);
             var window = CreateMainWindow(provider);
             window.Show();
             Dispatcher.UIThread.RunJobs();
