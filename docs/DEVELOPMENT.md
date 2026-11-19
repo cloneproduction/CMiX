@@ -133,6 +133,22 @@ come from the value editors of vvvv:
 
 `AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
 
+### Attached properties and behaviors
+
+- An attached property carries a value or a switch. It is a static class with a `Changed` handler.
+- An attached property holds no object of its own. When it needs one, it installs a behavior, as `TogglePopup` installs `ClosePopupBehavior`.
+- A `Behavior<T>` is an object with a lifetime (`OnAttached`, `OnDetached`). It has state for each instance and its own events.
+- A view declares a behavior in `Interaction.Behaviors`. A style or a control theme sets it with a `BehaviorCollectionTemplate`.
+- Attached properties are in `CMiX.UI/AttachedProperties`. Behaviors are in `CMiX.UI/Behaviors`.
+- Behaviors of the Studio are in `CMiX.Studio.Avalonia/Behaviors`.
+- Popup logic with no XAML face is in `CMiX.UI/Popups`.
+- An attached property that serves one control family stays with that family, as `NumbersOnly` in `Controls/Number`.
+- A state that a control is in reaches a style through a pseudo class. The owner that knows the state sets it.
+- When the owner is outside the control, it sets the pseudo class through `IPseudoClasses`.
+- A variant that XAML chooses is a class.
+- A class with no user is removed. A state property with no reader is not registered.
+- `OutsideClick` is the one static class with state, because an Avalonia class handler is static.
+
 ### Heights of lists and drop downs
 
 A list or a drop down shows a whole number of rows, so no row is cut at the bottom, and the wheel moves it
