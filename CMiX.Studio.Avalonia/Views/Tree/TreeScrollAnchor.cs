@@ -79,6 +79,13 @@ namespace CMiX.Studio.Avalonia.Views
 
         private const double MinMove = 0.5;
 
+        public void KeepStill(AnchoredRow? anchor, Func<IReadOnlyList<TreeNode>> close)
+        {
+            var closed = close();
+            RestoreAnchor(anchor);
+            HoldWhileClosing(anchor, closed);
+        }
+
         // A new hold ends the old one, so two holds never set two places.
         private readonly FrameHold hold = new();
 

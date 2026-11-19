@@ -193,9 +193,7 @@ namespace CMiX.Studio.Avalonia.Views
             {
                 IsDropping = false;
                 // The target and its parents stay open to show where the node went.
-                var closed = CloseOpenedRows(slot.Target);
-                scrollAnchor.RestoreAnchor(anchor);
-                scrollAnchor.HoldWhileClosing(anchor, closed);
+                scrollAnchor.KeepStill(anchor, () => CloseOpenedRows(slot.Target));
                 Dispatcher.UIThread.Post(() => scrollAnchor.RestoreAnchor(anchor), DispatcherPriority.Loaded);
             }
         }
@@ -208,10 +206,7 @@ namespace CMiX.Studio.Avalonia.Views
             // A cancel or a blocked drop did not close the opened rows.
             if (openedRows.Count > 0)
             {
-                var anchor = scrollAnchor.CaptureAnchor(source);
-                var closed = CloseOpenedRows(null);
-                scrollAnchor.RestoreAnchor(anchor);
-                scrollAnchor.HoldWhileClosing(anchor, closed);
+                scrollAnchor.KeepStill(scrollAnchor.CaptureAnchor(source), () => CloseOpenedRows(null));
             }
 
             source = null;

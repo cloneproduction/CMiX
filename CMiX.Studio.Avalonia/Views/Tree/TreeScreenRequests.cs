@@ -84,14 +84,13 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             var anchor = scrollAnchor.CaptureRow(target);
-            var closed = tree.CloseOtherRows();
             if (anchor != null)
             {
-                scrollAnchor.RestoreAnchor(anchor);
-                scrollAnchor.HoldWhileClosing(anchor, closed);
+                scrollAnchor.KeepStill(anchor, tree.CloseOtherRows);
                 return;
             }
 
+            tree.CloseOtherRows();
             lifetime.Post(() => reveal.RevealRow(target), DispatcherPriority.Loaded);
         }
 
@@ -100,9 +99,7 @@ namespace CMiX.Studio.Avalonia.Views
         internal void CloseRowsInView(TreeNode? node, Func<IReadOnlyList<TreeNode>> close)
         {
             var anchor = (node != null ? scrollAnchor.CaptureRow(node) : null) ?? scrollAnchor.CaptureAnchor(null);
-            var closed = close();
-            scrollAnchor.RestoreAnchor(anchor);
-            scrollAnchor.HoldWhileClosing(anchor, closed);
+            scrollAnchor.KeepStill(anchor, close);
         }
 
         private void OnRenameRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => RenameRow(node));
