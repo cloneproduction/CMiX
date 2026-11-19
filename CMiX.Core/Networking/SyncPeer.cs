@@ -466,12 +466,13 @@ namespace CMiX.Core.Networking
         // Acts on the start check. NotInSync leaves the peer blocked until the user pushes or pulls.
         // Runs under the join lock, so a connection event during the check cannot start a second
         // check, and a queued check after a join does nothing.
-        private async Task RunStartCheckAsync(SyncRun run)
+        private Task RunStartCheckAsync(SyncRun run)
         {
-            if (!await WaitJoinLockAsync(run.Cts.Token).ConfigureAwait(false)) return;
-            try
+            return RunUnderJoinLockAsync(run, CheckAsync);
+
+            async Task CheckAsync()
             {
-                if (!IsCurrent(run) || IsJoined) return;
+                if (IsJoined) return;
 
                 await SetActivityAsync("Checking").ConfigureAwait(false);
                 var result = await EvaluateStartAsync(run.Store).ConfigureAwait(false);
@@ -499,19 +500,6 @@ namespace CMiX.Core.Networking
                         }).ConfigureAwait(false);
                         break;
                 }
-            }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                await DispatchCurrentAsync(run, () => ErrorMessage = ex.Message).ConfigureAwait(false);
-            }
-            finally
-            {
-                await SetActivityAsync(null).ConfigureAwait(false);
-                _joinLock.Release();
             }
         }
 
@@ -646,15 +634,15 @@ namespace CMiX.Core.Networking
         // skipWhenJoined is for the auto-join. A try that waited for the lock does nothing when
         // another try joined already. A Pull and the gap re-join always run. afterGap marks the
         // re-join of the heartbeat after a trim, the only join that can meet a follower recovery.
-        private async Task JoinAsync(SyncRun run, bool skipWhenJoined, bool afterGap)
+        private Task JoinAsync(SyncRun run, bool skipWhenJoined, bool afterGap)
         {
             var store = run.Store;
             var ct = run.Cts.Token;
 
-            if (!await WaitJoinLockAsync(ct).ConfigureAwait(false)) return;
-            try
+            return RunUnderJoinLockAsync(run, JoinLockedAsync);
+
+            async Task JoinLockedAsync()
             {
-                if (!IsCurrent(run)) return;
                 if (skipWhenJoined && IsJoined) return;
 
                 await StopFollowerAsync(run).ConfigureAwait(false);
@@ -728,19 +716,6 @@ namespace CMiX.Core.Networking
 
                 await FinishJoinAsync(run).ConfigureAwait(false);
             }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                await DispatchCurrentAsync(run, () => ErrorMessage = ex.Message).ConfigureAwait(false);
-            }
-            finally
-            {
-                await SetActivityAsync(null).ConfigureAwait(false);
-                _joinLock.Release();
-            }
         }
 
         private async Task PushAsync(SyncRun run)
@@ -753,12 +728,17 @@ namespace CMiX.Core.Networking
 
             if (run == null) return;
 
+            await RunUnderJoinLockAsync(run, () => PushLockedAsync(run)).ConfigureAwait(false);
+        }
+
+        private async Task RunUnderJoinLockAsync(SyncRun run, Func<Task> body)
+        {
             if (!await WaitJoinLockAsync(run.Cts.Token).ConfigureAwait(false)) return;
             try
             {
                 if (!IsCurrent(run)) return;
 
-                await PushLockedAsync(run).ConfigureAwait(false);
+                await body().ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
