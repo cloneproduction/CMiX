@@ -68,12 +68,11 @@ namespace CMiX.Core.Networking
         // The re-join after a trim. The follower stop and the activity come before the shortcut.
         private Task RejoinAfterGapAsync(SyncRun run)
         {
-            var store = run.Store;
-
             return RunUnderJoinLockAsync(run, RejoinLockedAsync);
 
             async Task RejoinLockedAsync()
             {
+                var store = run.Store;
                 await StopFollowerAsync(run).ConfigureAwait(false);
                 await SetActivityAsync("Joining").ConfigureAwait(false);
 
