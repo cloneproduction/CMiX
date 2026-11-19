@@ -70,7 +70,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TreeNode? requested = null;
             scene.Tree.RevealRequested += (_, node) => requested = node;
 
-            Assert.True(scene.Tree.TryRevealSelected());
+            scene.Tree.RevealSelected();
 
             Assert.All(ParentsOf(scene, target), parent => Assert.True(parent.IsExpanded));
             Assert.Same(target, scene.Tree.CursorNode);
@@ -113,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var requested = false;
             scene.Tree.RevealRequested += (_, _) => requested = true;
 
-            Assert.False(scene.Tree.TryRevealSelected());
+            scene.Tree.RevealSelected();
 
             Assert.False(scene.Tree.RevealSelectedCommand.CanExecute(null));
             Assert.False(scene.LayerNodeOfA(1).IsExpanded);

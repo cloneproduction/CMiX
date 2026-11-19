@@ -51,24 +51,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             targetAdds = adds.ChoicesFor(null);
         }
 
-        // These keys write TreeNode.HiddenValue as the eye does, so they make the same undo step and wire message.
-
-        public bool TryToggleHideTarget()
-        {
-            if (IsDragging || TargetNode is not { } node)
-                return false;
-
-            return edit.TryToggleHide(node);
-        }
-
-        public bool TryShowAll()
-        {
-            if (IsDragging)
-                return false;
-
-            return edit.TryShowAll(Roots);
-        }
-
         // These keys change only the open state: no undo step and no wire message.
 
         public IReadOnlyList<TreeNode> CloseOtherRows()
@@ -77,17 +59,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 return new List<TreeNode>();
 
             return openState.CollapseOthers(Roots, target);
-        }
-
-        public bool TryRevealSelected()
-        {
-            if (IsDragging || selectedNode is not { } node)
-                return false;
-
-            openState.OpenParents(node);
-            CursorNode = node;
-            RevealRequested?.Invoke(this, node);
-            return true;
         }
 
         // A view that goes takes back only its own hooks, so the other view keeps working.

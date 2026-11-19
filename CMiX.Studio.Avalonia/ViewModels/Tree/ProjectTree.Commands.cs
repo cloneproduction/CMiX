@@ -104,7 +104,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private bool CanGrabTarget() => CanRunTreeKey() && TargetNode is { } node && CanDrag(node);
 
         [RelayCommand(CanExecute = nameof(CanRevealSelected))]
-        public void RevealSelected() => TryRevealSelected();
+        public void RevealSelected()
+        {
+            if (IsDragging || selectedNode is not { } node)
+                return;
+
+            openState.OpenParents(node);
+            CursorNode = node;
+            RevealRequested?.Invoke(this, node);
+        }
 
         private bool CanRevealSelected() => CanRunTreeKey() && selectedNode != null;
 
@@ -168,13 +176,26 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             openState.CollapseAll(Roots, TargetNode);
         }
 
+        // These keys write TreeNode.HiddenValue as the eye does, so they make the same undo step and wire message.
         [RelayCommand(CanExecute = nameof(CanToggleHideTarget))]
-        public void ToggleHideTarget() => TryToggleHideTarget();
+        public void ToggleHideTarget()
+        {
+            if (IsDragging || TargetNode is not { } node)
+                return;
+
+            edit.ToggleHide(node);
+        }
 
         private bool CanToggleHideTarget() => CanRunTreeKey() && TargetNode?.HiddenValue != null;
 
         [RelayCommand(CanExecute = nameof(CanRunTreeKey))]
-        public void ShowAll() => TryShowAll();
+        public void ShowAll()
+        {
+            if (IsDragging)
+                return;
+
+            edit.ShowAll(Roots);
+        }
 
         [RelayCommand(CanExecute = nameof(CanRunTreeKey))]
         public void FocusSearch()

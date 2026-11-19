@@ -35,21 +35,20 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             toasts.ShowWithUndo($"Removed {name}");
         }
 
-        public bool TryToggleHide(TreeNode target)
+        public void ToggleHide(TreeNode target)
         {
             if (target.HiddenValue is not { } value)
-                return false;
+                return;
 
             value.Value = !value.Value;
             toasts.ShowWithUndo(value.Value ? $"Hidden: {target.Header}" : $"Shown: {target.Header}");
-            return true;
         }
 
-        public bool TryShowAll(IEnumerable<TreeNode> roots)
+        public void ShowAll(IEnumerable<TreeNode> roots)
         {
             var hidden = TreeWalk.AllRows(roots).Select(node => node.HiddenValue).Where(value => value is { Value: true }).Distinct().ToList();
             if (hidden.Count == 0)
-                return false;
+                return;
 
             undoManager.BeginCapture();
             try
@@ -63,7 +62,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             }
 
             toasts.ShowWithUndo("All rows shown");
-            return true;
         }
     }
 }

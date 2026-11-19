@@ -239,7 +239,11 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(0, screen.UndoSteps);
             Assert.False(screen.Host.IsShowing);
-            Assert.False(screen.Tree.TryShowAll());
+
+            screen.Tree.ShowAll();
+
+            Assert.Equal(0, screen.UndoSteps);
+            Assert.False(screen.Host.IsShowing);
         }
 
         // ---------------------------------------------------------------- gate and bindings
