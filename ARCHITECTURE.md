@@ -84,7 +84,7 @@ Classes that are several shapes at once, or none:
 | Shape | Main classes |
 |---|---|
 | View | Everything in `Views/`: one view for each Core control with the same name (`Blur`, `Layer`, `ModelEntity`, ...), `MainWindow`, `ProjectTreeView`, `Inspector`, `SyncPanel`, `AssetManager`, `MainMenu` (the view), the tree helpers (`TreeDragSession`, `TreeGrab`, `AddPanel`, `PrefabRowMenu`, ...), the converters and the behaviors. |
-| ViewModel | `MainViewModel`, `MainMenu`, `MainWindowController`, `ShortcutSettings`, `PanelChoice`, and the tree: `ProjectTree`, `TreeNode`, `TreeGroup`, `TreeAdd`, `TreeDropSlots`. |
+| ViewModel | `MainViewModel`, `MainMenuViewModel`, `ProjectFileViewModel`, `MainWindowController`, `ShortcutSettings`, `PanelChoice`, and the tree: `ProjectTree`, `TreeNode`, `TreeGroup`, `TreeAdd`, `TreeViewHooks`. |
 | Service | `ShortcutMap`, `InterfaceOptions`, `StudioSettings`, `JsonSettingsFile`, `PathDropService`, `PanelFocusCycle`, `ToastService`, `UnsavedChanges`, `UnsavedChangesPrompt`, `MessageNotice`, `MoveBlockedNotice`, `MainWindowDialogManager`, `TreeDropService`. |
 | Model, Message | None. |
 
@@ -93,7 +93,7 @@ Several at once, or none:
 | Class | What it is |
 |---|---|
 | `ManagerReorderService` | Named a service. It is a small ViewModel (observable, 2 commands), one for each list. |
-| `MainViewModel`, `MainMenu`, `MainWindowController` | ViewModels that also implement `IControl`. `ToModel` and `FromModel` throw. |
+| `MainViewModel`, `MainWindowController` | ViewModels that also implement `IControl`. `ToModel` and `FromModel` throw. `MainMenuViewModel` dropped it on 2026-11-19. |
 | `ViewModelToViewTemplate` | The view locator. It finds the view by the type name of the control. |
 | `TreeViewHooks` | A set of callbacks, one per tree view. `TreeViewSet` in `ProjectTree` holds them and picks the active view. See `ViewModels/Tree/README.md`. |
 | `AnimatedDouble`, `BeatAnimations`, `MasterBeatAnimationController` | Animation helpers. I did not read them in detail. |
@@ -131,7 +131,7 @@ The engine does not write to the stream. Three things come back to the Studio:
 
 ### Undo and redo
 
-`UndoManager` is one singleton with two stacks and a limit of 128 steps. `MainViewModel.UndoCommand` and `MainMenu.UndoCommand` call it.
+`UndoManager` is one singleton with two stacks and a limit of 128 steps. `MainViewModel.UndoCommand` calls it; the menu binds that command through the window since 2026-11-19.
 A step undoes itself through the same code as a normal edit, so the undo also sends messages to the engine. `UndoManager.IsApplying` stops the edit from recording a new step.
 Two value steps on the same control within 500 ms merge. `BeginCapture` and `EndCapture` group several steps into one `CompositeCommand`.
 A removed control stays alive inside its step. It is disposed when the step leaves the stack.
@@ -194,7 +194,7 @@ Names that collide:
 | **Visible, Visibility, Hidden** | `PrefabService.Visibility`, `PrefabManager.Hidden`, and `VisibilityComponent.IsVisible => !Visible.Value`, where true means hidden. |
 | **Repository** | `ControlRepository` is the index. `RepositoryManager` and `RepositoryTab` are views of the six lists that `MainViewModel` owns. |
 | **Tree, Outliner** | `ProjectTree` is the tree. `Views/Controls/Outliner` is another control, used in the `Mesh` view. |
-| **Delete** | The rule says no `Delete` in code. `MainMenu` has `DeleteCompositionCommand` and `DeleteLayerCommand`. |
+| **Delete** | The rule says no `Delete` in code. Fixed on 2026-11-19: the menu has `RemoveCompositionCommand` and `RemoveLayerCommand`, and only the menu headers say Delete. |
 | Two enums with one name | `HorizontalAlignment` in `Assets.Mesh` and in `Text`. `WaveType` and `WaveTypeEnum`. |
 
 ## 5. Rule violations
@@ -203,7 +203,7 @@ Names that collide:
 
 | Class | What it uses |
 |---|---|
-| `MainMenu` | `Application.Current`, the window lifetime, `Dispatcher.UIThread.Post` in 6 places. |
+| `MainMenuViewModel` | Clean since 2026-11-19: no Avalonia type. The six composition and layer commands run after the menu popup closes through the view behaviour `RunCommandAfterClose` in CMiX.UI. |
 | `MainWindowController` | Takes an Avalonia `Window` as the command parameter and changes its state. |
 | `ShortcutSettings`, `ShortcutMap` | Avalonia input types. |
 | `PanelFocusCycle` | Uses `CMiX.Studio.Avalonia.Views` and Avalonia. |
@@ -220,7 +220,7 @@ Core has no Avalonia reference.
 | `WeakReferenceMessenger.Default` | Core, `ProjectSyncTarget.Apply` | Every `ReceivableControl` listens on this global messenger. `ControlMessenger` (injected) is only the way out. |
 | `App.MessageNotice`, `App._crashSaveProject` | Studio | A comment in `App.axaml.cs` gives the reason for each. |
 | `InteractionHost.BeginScopeHandler`, `Icons.Register`, `OutsideClick.Install` | CMiX.UI | The library has no container. |
-| `Application.Current` | 2 converters, `CategoryPalette`, 3 notice services, `MainMenu`, `MainWindowController` | To find a resource or the main window. |
+| `Application.Current` | 2 converters, `CategoryPalette`, 3 notice services, `MainWindowController` | To find a resource or the main window. |
 
 ### Optional and hidden dependencies
 
@@ -229,7 +229,7 @@ Core has no Avalonia reference.
 - `PrefabManager(..., reorderServiceFactory = null)` and `Modifier(..., nestedBindables = null)`.
 - `GenericValue<T>` has an empty public constructor that leaves the messenger and the factory null.
 - `ControlFactory` takes `IServiceProvider` and resolves types by name. A control from the container and a control from the factory are not the same.
-- `MainMenu.RepositoryManagers` is set by `MainViewModel` after construction.
+- `ProjectSession` owns the six repository lists since 2026-11-19; `MainViewModel` and `ProjectFileViewModel` take it. The settable `MainMenu.RepositoryManagers` is gone.
 - `MainViewModel` sets the fixed ids of six lists and activates them by hand, then clears `ControlActivationService`.
 
 ### Models and Core that hold editor concerns
@@ -256,7 +256,7 @@ Core has no Avalonia reference.
 | 4 | `PrefabManager` (Core) | 350 | 9, 1 optional | 7 | List ViewModel, undo, send, receive, model converter. Every domain object has several. VL uses its names. |
 | 5 | `GenericValue<T>` (Core) | 190 | 4 or 0 | 1 | Value, undo, throttle, send and receive in one setter. It reads a static. |
 | 6 | `MainViewModel` (Studio) | 160 | 18 | 2 | A bag of everything for the bindings. It also sets ids and activates lists. A false `IControl`. |
-| 7 | `MainMenu` (Studio) | 319 | 9 | 13 | File open and save, dialogs, add and remove of compositions and layers, undo, window close, the UI dispatcher. |
+| 7 | `MainMenu` (Studio) | 68, as `MainMenuViewModel`, plus `ProjectFileViewModel` 148 and `ProjectSession` 130 | 1 | 7 | Done on 2026-11-19: the project file is a ViewModel of its own, the session and the six lists are one service, the dispatcher and `Application.Current` are gone, Quit is a request event. |
 | 8 | `TreeNode` (Studio) | 430 | 7 | 0 | Done in part on 2026-11-19: the counts are in `RowCounts`, the drag look in `DragLook`, the search look computed by the row itself, and the row reports to the tree through `TreeNodeHost`. It still knows many Core types by name. |
 | 9 | `ControlFactory` (Core) | 222 | 3 | 0 | Creation by name convention, defaults, activation, and the naming of prefabs with its own cache. |
 | 10 | `Layer` (Core) | 137 | 10 | 0 | Stands for the pattern of all controls: five lists, view state, and `ToModel` and `FromModel` written by hand. |
@@ -335,8 +335,8 @@ The order goes from low risk to high risk. First the classes that only the Studi
 
 | Step | Class | First action | Why here | Complexity |
 |---|---|---|---|---|
-| 1 | `MainViewModel` | Remove `IControl`. Move the setup of the six lists into one service. | Small, Studio only, and it shows the true dependencies of the window. | 2 |
-| 2 | `MainMenu` | Split into a project file service and a small menu ViewModel. Remove the dispatcher and `Application.Current`. Rename `Delete...`. | Studio only. Needs step 1 for the six lists. | 3 |
+| 1 | `MainViewModel` | Half done on 2026-11-19: the six lists are in `ProjectSession`. Left: remove `IControl`. | Small, Studio only, and it shows the true dependencies of the window. | 2 |
+| 2 | `MainMenu` | Done on 2026-11-19 on the branch `refactor/tree-structure`: `ProjectSession` (Service), `ProjectFileViewModel`, `MainMenuViewModel`, the behaviour `RunCommandAfterClose`. | Studio only. | 3 |
 | 3 | `ProjectTree` | Done on 2026-11-19 on the branch `refactor/tree-structure`. | The bound state stayed on the hub in partial files, the logic went into parts. | 4 |
 | 4 | `TreeNode` | Done on 2026-11-19: `DragLook`, `RowCounts`, `TreeNodeHost`, and the row computes its own search look. | The row keeps its identity and its list mirroring. | 3 |
 | 5 | `ProjectTreeView` | Done on 2026-11-19, with one deviation: `TreeViewHooks` stays, one set per view, because two views can show one tree and the tree must know which view answers. The next step is a per-view state object that `TreeViewSet` reads. | After steps 3 and 4. | 4 |
