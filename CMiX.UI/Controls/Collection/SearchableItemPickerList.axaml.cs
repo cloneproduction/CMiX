@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Input;
+using Avalonia.VisualTree;
 
 namespace CMiX.UI.Controls.Collection
 {
@@ -15,7 +16,6 @@ namespace CMiX.UI.Controls.Collection
     {
         private readonly PickerKeys _keys;
         private INotifyCollectionChanged? _watched;
-        private bool _attached;
 
         static SearchableItemPickerList()
         {
@@ -52,7 +52,6 @@ namespace CMiX.UI.Controls.Collection
 
             // Each time the list appears it starts without a filter, with the cursor in the field.
             SearchText = string.Empty;
-            _attached = true;
             if (_watched != null)
                 _watched.CollectionChanged += OnItemsChanged;
 
@@ -66,19 +65,18 @@ namespace CMiX.UI.Controls.Collection
             if (_watched != null)
                 _watched.CollectionChanged -= OnItemsChanged;
 
-            _attached = false;
             base.OnDetachedFromVisualTree(e);
         }
 
         // The control listens to the source only while it is attached.
         private void WatchItems(INotifyCollectionChanged? items)
         {
-            if (_attached && _watched != null)
+            if (_watched != null)
                 _watched.CollectionChanged -= OnItemsChanged;
 
             _watched = items;
 
-            if (_attached && _watched != null)
+            if (this.IsAttachedToVisualTree() && _watched != null)
                 _watched.CollectionChanged += OnItemsChanged;
 
             Filter();
