@@ -4,6 +4,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using CMiX.UI.AttachedProperties;
+using CMiX.UI.Behaviors;
 using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls
@@ -49,7 +50,7 @@ namespace CMiX.UI.Controls
 
         // The distance of the pointer from the popup and the toggle, in pixels, that closes the popup.
         public static readonly StyledProperty<double> PointerAwayDistanceProperty =
-            AvaloniaProperty.Register<PopupButton, double>(nameof(PointerAwayDistance), 64);
+            AvaloniaProperty.Register<PopupButton, double>(nameof(PointerAwayDistance), PointerAwayCloser.DefaultDistance);
 
         public double PointerAwayDistance
         {

@@ -83,7 +83,7 @@ namespace CMiX.UI.Controls.Collection
 
         // The distance of the pointer from the popup and the toggle, in pixels, that closes the add popup.
         public static readonly StyledProperty<double> AddPointerAwayDistanceProperty =
-            AvaloniaProperty.Register<PanelItemList, double>(nameof(AddPointerAwayDistance), 64);
+            AvaloniaProperty.Register<PanelItemList, double>(nameof(AddPointerAwayDistance), PointerAwayCloser.DefaultDistance);
 
         public double AddPointerAwayDistance
         {
