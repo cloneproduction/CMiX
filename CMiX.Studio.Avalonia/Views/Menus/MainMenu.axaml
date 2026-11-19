@@ -4,6 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
+    <!-- The rows of these menus change a list the window shows behind the popup, so they run after the popup has closed. -->
+    <UserControl.Styles>
+        <Style Selector="MenuItem.afterClose MenuItem">
+            <Setter Property="(ui:RunCommandAfterClose.IsEnabled)" Value="True" />
+        </Style>
+    </UserControl.Styles>
+
     <Border
         Margin="0,0,0,2"
         Padding="2"
@@ -66,21 +73,19 @@
 
             <MenuItem
                 Padding="8,0"
+                Classes="afterClose"
                 Header="Compo"
                 Theme="{DynamicResource MenuItemTop}">
 
                 <MenuItem
                     Command="{Binding AddCompositionCommand}"
-                    ui:RunCommandAfterClose.IsEnabled="True"
                     Header="New Composition" />
 
                 <MenuItem
                     Command="{Binding RemoveCompositionCommand}"
-                    ui:RunCommandAfterClose.IsEnabled="True"
                     Header="Delete" />
                 <MenuItem
                     Command="{Binding DuplicateCompositionCommand}"
-                    ui:RunCommandAfterClose.IsEnabled="True"
                     Header="Duplicate" />
                 <MenuItem Header="-" />
                 <MenuItem Header="Import" />
@@ -90,19 +95,17 @@
 
             <MenuItem
                 Padding="8,0"
+                Classes="afterClose"
                 Header="Layer"
                 Theme="{DynamicResource MenuItemTop}">
                 <MenuItem
                     Command="{Binding AddLayerCommand}"
-                    ui:RunCommandAfterClose.IsEnabled="True"
                     Header="New Layer" />
                 <MenuItem
                     Command="{Binding RemoveLayerCommand}"
-                    ui:RunCommandAfterClose.IsEnabled="True"
                     Header="Delete" />
                 <MenuItem
                     Command="{Binding DuplicateLayerCommand}"
-                    ui:RunCommandAfterClose.IsEnabled="True"
                     Header="Duplicate" />
             </MenuItem>
 
