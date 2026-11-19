@@ -161,7 +161,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             // Bounded by more than the stack's own cap, so a command that fails to pop cannot spin.
             var steps = 0;
             for (; steps < 256 && undoManager.CanUndo; steps++)
-                viewModel.MainMenu.UndoCommand.Execute(null);
+                viewModel.UndoCommand.Execute(null);
             TestServiceProviderFactory.Pump();
 
             Assert.False(undoManager.CanUndo);
@@ -222,7 +222,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
                 var steps = 0;
                 for (; steps < 256 && undoManager.CanUndo; steps++)
-                    viewModel.MainMenu.UndoCommand.Execute(null);
+                    viewModel.UndoCommand.Execute(null);
                 TestServiceProviderFactory.Pump();
 
                 Assert.Equal(1, steps);

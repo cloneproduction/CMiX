@@ -7,8 +7,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
@@ -49,9 +47,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
             DuplicateCompositionCommand = new RelayCommand(DuplicateComposition);
             DeleteLayerCommand = new RelayCommand(DeleteLayer);
             DuplicateLayerCommand = new RelayCommand(DuplicateLayer);
-            UndoCommand = new RelayCommand(() => undoManager.Undo());
-            RedoCommand = new RelayCommand(() => undoManager.Redo());
-            CloseWindowCommand = new RelayCommand(CloseMainWindow);
         }
 
         private readonly UndoManager _undoManager;
@@ -104,20 +99,11 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ICommand DuplicateCompositionCommand { get; }
         public ICommand DeleteLayerCommand { get; }
         public ICommand DuplicateLayerCommand { get; }
-        public ICommand UndoCommand { get; }
-        public ICommand RedoCommand { get; }
-        public ICommand CloseWindowCommand { get; }
 
         // Handed over by MainViewModel, which owns the six top level repository managers. They
         // are transient in the container, so resolving them here would build fresh instances
         // instead of the live ones a new project has to empty.
         public IReadOnlyList<PrefabManager> RepositoryManagers { get; set; } = Array.Empty<PrefabManager>();
-
-        private static void CloseMainWindow()
-        {
-            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                desktop.MainWindow?.Close();
-        }
 
         public void AddLayer()
         {

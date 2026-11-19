@@ -40,7 +40,7 @@
                     Header="Save As" />
 
                 <MenuItem
-                    Command="{Binding CloseWindowCommand}"
+                    Command="{Binding $parent[Window].DataContext.MainWindowController.CloseWindowCommand}"
                     Header="Quit" />
 
             </MenuItem>
@@ -52,12 +52,12 @@
 
                 <!-- The gestures come from the shortcut map of the window (Edit.Undo, Edit.Redo), as the key bindings of the window. -->
                 <MenuItem
-                    Command="{Binding UndoCommand}"
+                    Command="{Binding $parent[Window].DataContext.UndoCommand}"
                     Header="Undo"
                     InputGesture="{Binding $parent[Window].DataContext.Shortcuts[Edit.Undo]}" />
 
                 <MenuItem
-                    Command="{Binding RedoCommand}"
+                    Command="{Binding $parent[Window].DataContext.RedoCommand}"
                     Header="Redo"
                     InputGesture="{Binding $parent[Window].DataContext.Shortcuts[Edit.Redo]}" />
 
