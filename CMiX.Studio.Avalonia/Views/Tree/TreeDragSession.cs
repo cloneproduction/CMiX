@@ -10,7 +10,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Threading;
-using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
@@ -88,7 +87,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void ShowGhost(TreeNode node, Point position)
         {
-            var item = ItemOf(node);
+            var item = context.RowIndex.FindItem(node);
             if (item != null && TreeRows.RowBorderOf(item) is Border row)
                 ghost.Show(row, node.IconKey, node.Header, treeView, position);
         }
@@ -128,7 +127,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             StopRest();
-            var item = ItemOf(target);
+            var item = context.RowIndex.FindItem(target);
             hoveredItem = item;
             hoveredNode = item != null ? target : null;
             closedByKey = null;
@@ -140,9 +139,6 @@ namespace CMiX.Studio.Avalonia.Views
             ShowBlockReason(null);
             ghost.Ghost.IsVisible = false;
         }
-
-        private TreeViewItem? ItemOf(TreeNode node) =>
-            treeView.GetVisualDescendants().OfType<TreeViewItem>().FirstOrDefault(row => ReferenceEquals(row.DataContext, node));
 
         internal void ScrollByWheel(int steps)
         {
