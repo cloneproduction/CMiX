@@ -32,30 +32,34 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // An empty text before and now has nothing to change.
         public bool IsEmpty => matches.Count == 0 && openedBySearch.Count == 0;
 
-        public SearchChange Refresh(string text, IEnumerable<TreeNode> roots)
+        public bool Refresh(string text, IEnumerable<TreeNode> roots)
         {
             this.text = text;
+            var found = text.Length == 0 ? ClearLooks(roots) : ShowLooks(text, roots);
+            if (found.SequenceEqual(matches))
+                return false;
+
+            matches = found;
+            return true;
+        }
+
+        private static List<TreeNode> ClearLooks(IEnumerable<TreeNode> roots)
+        {
+            foreach (var node in TreeWalk.AllRows(roots))
+                node.ClearSearchLook();
+            return new List<TreeNode>();
+        }
+
+        private static List<TreeNode> ShowLooks(string text, IEnumerable<TreeNode> roots)
+        {
             var found = new List<TreeNode>();
             foreach (var node in TreeWalk.AllRows(roots))
             {
-                if (text.Length == 0)
-                {
-                    node.ClearSearchLook();
-                    continue;
-                }
-
-                var look = new SearchLook(node.MatchesSearch(text));
-                node.ShowSearchLook(look);
-                if (look.IsMatch)
+                node.ShowSearchLook(text);
+                if (node.IsSearchMatch)
                     found.Add(node);
             }
-
-            var changed = !found.SequenceEqual(matches);
-            var countChanged = changed && found.Count != matches.Count;
-            if (changed)
-                matches = found;
-
-            return new SearchChange(changed, countChanged);
+            return found;
         }
 
         // At the end of the search, the parents of the selected row and of the kept cursor stay open.

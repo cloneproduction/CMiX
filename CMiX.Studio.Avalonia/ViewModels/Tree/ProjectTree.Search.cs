@@ -64,16 +64,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (!searchActive && !wasActive && search.IsEmpty)
                 return;
 
-            var change = search.Refresh(text, Roots);
-            if (change.MatchesChanged)
+            var countBefore = search.Matches.Count;
+            var matchesChanged = search.Refresh(text, Roots);
+            if (matchesChanged)
             {
                 OnPropertyChanged(nameof(SearchMatches));
-                if (change.CountChanged)
+                if (search.Matches.Count != countBefore)
                     OnPropertyChanged(nameof(SearchMatchCount));
             }
 
             // A row that the user closes during the search stays closed until the matches change.
-            if (change.MatchesChanged || text.Length == 0)
+            if (matchesChanged || text.Length == 0)
                 SyncSearchRows();
         }
 

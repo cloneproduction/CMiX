@@ -252,14 +252,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public bool IsSearchMatch { get => isSearchMatch; private set => SetProperty(ref isSearchMatch, value); }
         public bool IsSearchDimmed { get => isSearchDimmed; private set => SetProperty(ref isSearchDimmed, value); }
 
-        internal bool MatchesSearch(string text) =>
+        private bool MatchesSearch(string text) =>
             Header.Contains(text, StringComparison.OrdinalIgnoreCase)
             || (kindLabel != null && kindLabel.Contains(text, StringComparison.OrdinalIgnoreCase));
 
-        internal void ShowSearchLook(SearchLook look)
+        internal void ShowSearchLook(string text)
         {
-            IsSearchMatch = look.IsMatch;
-            IsSearchDimmed = !look.IsMatch;
+            var isMatch = MatchesSearch(text);
+            IsSearchMatch = isMatch;
+            IsSearchDimmed = !isMatch;
         }
 
         internal void ClearSearchLook()

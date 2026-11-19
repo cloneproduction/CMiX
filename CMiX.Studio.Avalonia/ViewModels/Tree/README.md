@@ -66,7 +66,7 @@ The parts, grouped by what the user does:
 | Drag | `TreeRowOrder` | The last visible row, the row above, the composition of a row. |
 | Drag | `TreeFileDropRules` | Files from disk: which row takes them and what they add. |
 
-A row, `TreeNode`, with its small types: `RowCounts` (the kind counts, the hidden count, the missing count, each bubbling to the parent), `DragLook` (how a row looks during a drag), `SearchLook` (match or miss). The row reports to the hub through the six methods of `TreeNodeHost`, so the row never holds the whole tree.
+A row, `TreeNode`, with its small types: `RowCounts` (the kind counts, the hidden count, the missing count, each bubbling to the parent) and `DragLook` (how a row looks during a drag). The row computes its own search look. The row reports to the hub through the six methods of `TreeNodeHost`, so the row never holds the whole tree.
 
 ## The screen half, folder `Views/Tree`
 
