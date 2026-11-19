@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // A row that closes over the cursor gives the cursor to the highest closed parent, so the cursor never hides.
-        internal void RowExpandedChanged(TreeNode node)
+        void TreeNodeHost.RowExpandedChanged(TreeNode node)
         {
             search.ReleaseChangedRow(node);
 

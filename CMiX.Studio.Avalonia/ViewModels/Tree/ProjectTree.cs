@@ -99,8 +99,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public TreeViewSet Views { get; }
 
-        internal bool IsLoading => project.IsLoading;
-
         public ShortcutMap Shortcuts { get; }
 
         public InterfaceOptions Interface { get; }
@@ -122,23 +120,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             return index < 0 ? null : new TargetPlace(list, item, index);
         }
 
-        internal void ListChanged()
+        void TreeNodeHost.ListChanged()
         {
             RefreshCommands();
             RefreshSearch();
         }
 
-        bool TreeNodeHost.IsLoading => IsLoading;
+        bool TreeNodeHost.IsLoading => project.IsLoading;
 
         void TreeNodeHost.RefreshSearch() => RefreshSearch();
-
-        void TreeNodeHost.RowExpandedChanged(TreeNode row) => RowExpandedChanged(row);
-
-        void TreeNodeHost.ListChanged() => ListChanged();
-
-        void TreeNodeHost.NodeRemoved(TreeNode row) => NodeRemoved(row);
-
-        void TreeNodeHost.SelectFromModel(TreeNode row) => SelectFromModel(row);
 
         public bool IsPathTarget(TreeNode node) => fileDrop.IsTarget(node);
 

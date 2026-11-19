@@ -159,7 +159,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             }
         }
 
-        internal void SelectFromModel(TreeNode node)
+        void TreeNodeHost.SelectFromModel(TreeNode node)
         {
             if (selecting || ReferenceEquals(selectedNode, node))
                 return;
@@ -171,7 +171,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         private bool IsTop(TreeNode? node) => node == null || ReferenceEquals(node, root) || ReferenceEquals(node.Parent, root);
 
-        internal void NodeRemoved(TreeNode node)
+        void TreeNodeHost.NodeRemoved(TreeNode node)
         {
             if (inspectedNode != null && inspectedNode.IsOrIsUnder(node))
                 Inspect(IsTop(node.Parent) ? null : node.Parent);
