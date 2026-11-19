@@ -11,11 +11,11 @@ using CMiX.UI.Behaviors;
 namespace CMiX.UI.AttachedProperties
 {
     // Closes a context menu when the pointer goes away from it. The theme ContextMenuDefault switches it on,
-    // so every context menu with the default theme has it. Set IsEnabled to false on a menu to switch it off.
+    // so every context menu with the default theme has it. Set ClosesOnPointerAway to false on a menu to switch it off.
     public static class ContextMenuPointerAway
     {
-        public static readonly AttachedProperty<bool> IsEnabledProperty =
-            AvaloniaProperty.RegisterAttached<ContextMenu, ContextMenu, bool>("IsEnabled");
+        public static readonly AttachedProperty<bool> ClosesOnPointerAwayProperty =
+            AvaloniaProperty.RegisterAttached<ContextMenu, ContextMenu, bool>("ClosesOnPointerAway");
 
         public static readonly AttachedProperty<double> PointerAwayDistanceProperty =
             AvaloniaProperty.RegisterAttached<ContextMenu, ContextMenu, double>("PointerAwayDistance", PointerAwayCloser.DefaultDistance);
@@ -28,8 +28,8 @@ namespace CMiX.UI.AttachedProperties
         public static void SetCompanion(ContextMenu menu, Control? value) => menu.SetValue(CompanionProperty, value);
         public static Control? GetCompanion(ContextMenu menu) => menu.GetValue(CompanionProperty);
 
-        public static void SetIsEnabled(ContextMenu menu, bool value) => menu.SetValue(IsEnabledProperty, value);
-        public static bool GetIsEnabled(ContextMenu menu) => menu.GetValue(IsEnabledProperty);
+        public static void SetClosesOnPointerAway(ContextMenu menu, bool value) => menu.SetValue(ClosesOnPointerAwayProperty, value);
+        public static bool GetClosesOnPointerAway(ContextMenu menu) => menu.GetValue(ClosesOnPointerAwayProperty);
 
         public static void SetPointerAwayDistance(ContextMenu menu, double value) => menu.SetValue(PointerAwayDistanceProperty, value);
         public static double GetPointerAwayDistance(ContextMenu menu) => menu.GetValue(PointerAwayDistanceProperty);
@@ -38,10 +38,10 @@ namespace CMiX.UI.AttachedProperties
 
         static ContextMenuPointerAway()
         {
-            IsEnabledProperty.Changed.AddClassHandler<ContextMenu>(OnIsEnabledChanged);
+            ClosesOnPointerAwayProperty.Changed.AddClassHandler<ContextMenu>(OnClosesOnPointerAwayChanged);
         }
 
-        private static void OnIsEnabledChanged(ContextMenu menu, AvaloniaPropertyChangedEventArgs e)
+        private static void OnClosesOnPointerAwayChanged(ContextMenu menu, AvaloniaPropertyChangedEventArgs e)
         {
             if (hooks.TryGetValue(menu, out var oldHook))
             {

@@ -104,7 +104,7 @@ namespace CMiX.UI.Tests
         {
             var drag = NewDragValue(200);
             var window = Host(drag);
-            ContextMenuPointerAway.SetIsEnabled(drag.ContextMenu!, false);
+            ContextMenuPointerAway.SetClosesOnPointerAway(drag.ContextMenu!, false);
             OpenMenu(drag);
             Assert.True(drag.ContextMenu.IsOpen);
 

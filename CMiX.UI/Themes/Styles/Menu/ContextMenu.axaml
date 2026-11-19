@@ -159,7 +159,7 @@
     </ControlTheme>
 
     <ControlTheme x:Key="ContextMenuDefault" TargetType="ContextMenu" BasedOn="{StaticResource MenuPanel}">
-        <Setter Property="ui:ContextMenuPointerAway.IsEnabled" Value="True" />
+        <Setter Property="ui:ContextMenuPointerAway.ClosesOnPointerAway" Value="True" />
     </ControlTheme>
 
     <ControlTheme x:Key="MenuFlyoutPresenterDefault" TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource MenuPanel}" />
