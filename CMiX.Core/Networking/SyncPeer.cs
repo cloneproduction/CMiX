@@ -172,22 +172,6 @@ namespace CMiX.Core.Networking
 
         public void Dispose() => Stop();
 
-        public void SendMessage(IMessage message)
-        {
-            if (message == null || !IsWriter) return;
-
-            var envelope = new MessageEnvelope
-            {
-                SenderID = _peerId,
-                MessageID = Guid.NewGuid(),
-                Payload = message
-            };
-            _outgoing.Enqueue(MessagePackSerialization.Serialize(envelope));
-            // Through the dispatcher, so this notification and the one after the append keep their order.
-            Dispatch(() => OnPropertyChanged(nameof(PendingMessages)));
-            MessageSent?.Invoke(this, new MessageSentEventArgs(message));
-        }
-
         // Pull: adopt the store state, then follow the stream.
         public Task JoinAsync()
         {
@@ -461,19 +445,6 @@ namespace CMiX.Core.Networking
             ErrorMessage = reason;
             _storeError = reason;
         }
-
-        // The position comes first. The count comes after the entry left the queue, so a reader of
-        // both never sees a caught-up peer while the entry is still on its way. Returns false when
-        // the run is over. The entry then belongs to the store of that run only.
-        private Task<bool> OnSentAsync(SyncRun run, StreamPosition id)
-            => DispatchCurrentAsync(run, () =>
-            {
-                SentMessages++;
-                LastSentId = id;
-            });
-
-        private Task OnDrainedAsync(SyncRun run)
-            => DispatchCurrentAsync(run, () => OnPropertyChanged(nameof(PendingMessages)));
 
         private IReadOnlyDictionary<string, string> HeartbeatFields() => new Dictionary<string, string>
         {
