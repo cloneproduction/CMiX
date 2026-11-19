@@ -98,11 +98,19 @@ namespace CMiX.Studio.Avalonia.Services
             _undoManager.Clear();
         }
 
-        // The file replaces the session. The apply sends no message and records no undo step.
+        // The file replaces the session. The apply sends no message and records no undo step. A failed apply leaves an empty session.
         public void LoadProject(ProjectModel model)
         {
             ClearAll();
-            _syncTarget.ApplySnapshot(model);
+            try
+            {
+                _syncTarget.ApplySnapshot(model);
+            }
+            catch
+            {
+                ClearAll();
+                throw;
+            }
         }
 
         // A peer that is not joined adopts the store state when it joins. A push failure is a sync failure.

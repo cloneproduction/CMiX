@@ -90,7 +90,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 return;
             }
 
-            // The session is emptied before the apply, so a failed apply leaves an empty saved session with no path.
+            // A failed apply leaves an empty session, which is the saved state with no path.
             ProjectPath = null;
             try
             {
@@ -99,12 +99,13 @@ namespace CMiX.Studio.Avalonia.ViewModels
             }
             catch (Exception ex)
             {
-                _session.ClearAll();
-                _unsavedChanges.MarkSaved();
                 await ShowOpenFailure(path, ex);
                 return;
             }
-            _unsavedChanges.MarkSaved();
+            finally
+            {
+                _unsavedChanges.MarkSaved();
+            }
 
             // The push is outside the catch: the file is open, and a push failure shows in the sync status.
             await _session.PushToPeersAsync();
