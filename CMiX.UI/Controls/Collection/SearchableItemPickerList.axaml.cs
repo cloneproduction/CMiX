@@ -139,7 +139,7 @@ namespace CMiX.UI.Controls.Collection
         private void Highlight(int index)
         {
             if (PART_List != null)
-                PART_List.HighlightedItem = index < 0 ? null : Matches[index];
+                PART_List.HighlightedItem = index < 0 || index >= Matches.Count ? null : Matches[index];
         }
 
         private bool TryPick(int index)
