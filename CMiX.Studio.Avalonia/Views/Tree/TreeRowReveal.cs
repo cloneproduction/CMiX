@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Views
         private Visual? revealTarget;
 
         // A new reveal ends the one before.
-        private int revealId;
+        private readonly FrameHold hold = new();
 
         internal TreeRowReveal(TreeViewContext context, Func<bool> isTreeFocused)
         {
@@ -59,42 +59,25 @@ namespace CMiX.Studio.Avalonia.Views
         // The parents open over a few frames, so the row is put back in the middle in each frame.
         internal void RevealRowToMiddle(TreeNode node)
         {
-            var id = ++revealId;
+            var isCurrent = hold.Claim();
             Dispatcher.UIThread.Post(() =>
             {
-                if (id != revealId || context.RowIndex.FindItem(node) is not { } item)
+                if (!isCurrent() || context.RowIndex.FindItem(node) is not { } item)
                     return;
 
                 if (isTreeFocused())
                     item.Focus(NavigationMethod.Tab);
 
                 BringRowToMiddle(node);
-                if (TopLevel.GetTopLevel(context.TreeView) is not { } top)
-                    return;
-
-                var frames = 0;
-                void Keep(TimeSpan _)
-                {
-                    if (id != revealId)
-                        return;
-
-                    BringRowToMiddle(node);
-                    if (IsOpening(item) && ++frames < MaxRevealFrames)
-                        top.RequestAnimationFrame(Keep);
-                }
-
-                if (IsOpening(item))
-                    top.RequestAnimationFrame(Keep);
+                if (IsOpening(item) && TopLevel.GetTopLevel(context.TreeView) is { } top)
+                    hold.Run(top, () => BringRowToMiddle(node), () => IsOpening(item));
             }, DispatcherPriority.Loaded);
         }
 
-        internal void EndReveal() => revealId++;
+        internal void EndReveal() => hold.Stop();
 
         private static bool IsOpening(TreeViewItem item) =>
             item.GetVisualAncestors().OfType<CollapsePanel>().Any(panel => panel.IsExpanded && panel.Progress < 1);
-
-        // A safe end, in case a panel never reaches its end.
-        private const int MaxRevealFrames = 120;
 
         private void BringRowToMiddle(TreeNode node) => BringRowIntoView(node, BringToMiddle);
 

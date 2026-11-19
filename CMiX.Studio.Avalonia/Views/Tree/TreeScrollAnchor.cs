@@ -84,13 +84,13 @@ namespace CMiX.Studio.Avalonia.Views
         private const double MinMove = 0.5;
 
         // A new hold ends the old one, so two holds never set two places.
-        private int holdId;
+        private readonly FrameHold hold = new();
 
         // A row closes over a few frames, so the anchor row is put back in each frame.
         // A scroll change in a layout asks for another layout and can stop the window (infinite layout loop).
         public void HoldWhileClosing(AnchoredRow? anchor, IReadOnlyList<TreeNode> closed)
         {
-            var id = ++holdId;
+            hold.Stop();
             if (anchor is not { } kept || closed.Count == 0 || context.Scroller is not { } view || TopLevel.GetTopLevel(treeView) is not { } top)
                 return;
 
@@ -99,23 +99,9 @@ namespace CMiX.Studio.Avalonia.Views
             if (panels.Count == 0)
                 return;
 
-            // A safe end, in case a panel never reaches its end.
-            var frames = 0;
-            void Keep(TimeSpan _)
-            {
-                if (id != holdId)
-                    return;
-
-                Place(kept, view);
-                if (panels.Any(panel => panel.Progress > 0) && ++frames < MaxHoldFrames)
-                    top.RequestAnimationFrame(Keep);
-            }
-
-            top.RequestAnimationFrame(Keep);
+            hold.Run(top, () => Place(kept, view), () => panels.Any(panel => panel.Progress > 0));
         }
 
-        private const int MaxHoldFrames = 120;
-
-        public void EndHold() => holdId++;
+        public void EndHold() => hold.Stop();
     }
 }
