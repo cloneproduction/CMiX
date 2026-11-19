@@ -40,7 +40,7 @@ namespace CMiX.Studio.Avalonia.Views
         // A role set in XAML changes before the element is in the logical tree, where no resource is found.
         private static void BindWhenConverterIsFound(Control element, TreeRowBrushRole role, BindingPriority priority)
         {
-            if (TryBindBrush(element, role, priority))
+            if (element.Parent != null && TryBindBrush(element, role, priority))
                 return;
 
             void OnAttached(object? sender, LogicalTreeAttachmentEventArgs args)
