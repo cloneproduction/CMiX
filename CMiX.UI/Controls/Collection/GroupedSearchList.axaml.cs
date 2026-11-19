@@ -132,7 +132,20 @@ namespace CMiX.UI.Controls.Collection
                 Rebuild();
         }
 
-        private void Rebuild(PickerGroup? keepOn = null)
+        private void Rebuild()
+        {
+            RebuildRows();
+            Highlight(FirstStart());
+        }
+
+        private void RebuildKeepingHeader(PickerGroup group)
+        {
+            RebuildRows();
+            var start = rows.FindIndex(row => row.Item == null && row.Group == group);
+            Highlight(start < 0 ? FirstStart() : start);
+        }
+
+        private void RebuildRows()
         {
             PART_Rows.Children.Clear();
             rows.Clear();
@@ -148,7 +161,7 @@ namespace CMiX.UI.Controls.Collection
 
                 shown++;
                 var open = IsOpen(group);
-                Add(new RowRef(group, null, HeaderRow(group, open)));
+                Add(new RowRef(group, null, HeaderRow(group)));
                 if (open)
                 {
                     foreach (var item in matches)
@@ -157,12 +170,13 @@ namespace CMiX.UI.Controls.Collection
             }
 
             PART_NoMatch.IsVisible = Searching && shown == 0;
+        }
 
-            // The highlight stays on the header that was opened or closed. Else it starts on the first row, or on the first header.
-            var start = keepOn == null ? -1 : rows.FindIndex(row => row.Item == null && row.Group == keepOn);
-            if (start < 0)
-                start = rows.FindIndex(row => row.Item is { IsEnabled: true });
-            Highlight(start < 0 && rows.Count > 0 ? 0 : start);
+        // The first row that can be picked, else the first header.
+        private int FirstStart()
+        {
+            var start = rows.FindIndex(row => row.Item is { IsEnabled: true });
+            return start < 0 && rows.Count > 0 ? 0 : start;
         }
 
         private void Add(RowRef row)
@@ -173,7 +187,7 @@ namespace CMiX.UI.Controls.Collection
             row.Visual.PointerEntered += (_, _) =>
             {
                 if (IsUsable(index))
-                    Highlight(index, scroll: false);
+                    HighlightUnderPointer(index);
             };
             row.Visual.PointerReleased += (_, e) =>
             {
@@ -185,13 +199,13 @@ namespace CMiX.UI.Controls.Collection
             };
         }
 
-        private Border HeaderRow(PickerGroup group, bool open)
+        private Border HeaderRow(PickerGroup group)
         {
             var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("Auto,*") };
 
             // A list that is not collapsible shows the name of the category only.
             if (Collapsible)
-                grid.Children.Add(new AppIcon { IconKey = open ? "ChevronDown" : "ChevronRight", Size = Number("IconSizeXS", 12), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center });
+                grid.Children.Add(new AppIcon { IconKey = IsOpen(group) ? "ChevronDown" : "ChevronRight", Size = Number("IconSizeXS", 12), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center });
 
             var text = new TextBlock { Text = group.Header, Margin = new Thickness(Collapsible ? 6 : 0, 0, 0, 0), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center };
             Grid.SetColumn(text, 1);
@@ -249,7 +263,14 @@ namespace CMiX.UI.Controls.Collection
         private double Number(string key, double fallback) =>
             this.TryFindResource(key, out var value) && value is double number ? number : fallback;
 
-        private void Highlight(int index, bool scroll = true)
+        private void Highlight(int index)
+        {
+            HighlightUnderPointer(index);
+            if (highlighted >= 0)
+                rows[highlighted].Visual.BringIntoView();
+        }
+
+        private void HighlightUnderPointer(int index)
         {
             if (highlighted >= 0 && highlighted < rows.Count)
                 rows[highlighted].Visual.Classes.Set("highlighted", false);
@@ -259,8 +280,6 @@ namespace CMiX.UI.Controls.Collection
                 return;
 
             rows[highlighted].Visual.Classes.Set("highlighted", true);
-            if (scroll)
-                rows[highlighted].Visual.BringIntoView();
         }
 
         // A header opens or closes its group. A row is picked.
@@ -291,12 +310,18 @@ namespace CMiX.UI.Controls.Collection
             if (!flipped.Remove(group))
                 flipped.Add(group);
 
-            Rebuild(keepOn: group);
+            RebuildKeepingHeader(group);
         }
 
-        private void SetOpen(PickerGroup group, bool open)
+        private void Open(PickerGroup group)
         {
-            if (!Searching && IsOpen(group) != open)
+            if (!Searching && !IsOpen(group))
+                Toggle(group);
+        }
+
+        private void Close(PickerGroup group)
+        {
+            if (!Searching && IsOpen(group))
                 Toggle(group);
         }
 
@@ -321,12 +346,12 @@ namespace CMiX.UI.Controls.Collection
                     break;
 
                 case Key.Right when onHeader && !Searching:
-                    SetOpen(rows[highlighted].Group, true);
+                    Open(rows[highlighted].Group);
                     e.Handled = true;
                     break;
 
                 case Key.Left when onHeader && !Searching:
-                    SetOpen(rows[highlighted].Group, false);
+                    Close(rows[highlighted].Group);
                     e.Handled = true;
                     break;
 
