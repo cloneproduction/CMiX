@@ -13,12 +13,8 @@ using CMiX.UI.Themes;
 
 namespace CMiX.UI.Controls.Collection
 {
-    // A list of groups with a search field above it. Each group has a header with the number of its rows, and its rows under it.
-    // A group with more rows than CollapseFrom starts closed. A click on a header opens or closes the group (see Collapsible).
-    // With text in the field, the list shows the rows whose text holds it, in any case, in every group that has one, and the groups are open.
-    // Down and Up move the highlight over the headers and the rows. Enter picks the highlighted row, or opens and closes the highlighted
-    // header. Right and Left open and close the highlighted header while the field is empty. Escape clears the text, then raises Cancelled.
-    // The list knows no type of the app: the owner gives groups and rows (see PickerGroup) and gets back the row that was picked.
+    // A list of groups under a search field. A header shows its row count. A group over CollapseFrom rows starts closed.
+    // Right and Left open and close a header, Escape raises Cancelled. PickerKeys holds Down, Up, Enter and Escape.
     public partial class GroupedSearchList : UserControl
     {
         private sealed record RowRef(PickerGroup Group, PickerItem? Item, Border Visual);
@@ -72,8 +68,7 @@ namespace CMiX.UI.Controls.Collection
             set => SetValue(CollapseFromProperty, value);
         }
 
-        // True when a click on a header opens and closes its group. A list that is not collapsible shows every group open, and a header is only
-        // the name of its category: it has no chevron and it takes no highlight and no click.
+        // True when a click on a header opens and closes its group. Otherwise a header only names its category.
         public static readonly StyledProperty<bool> CollapsibleProperty =
             AvaloniaProperty.Register<GroupedSearchList, bool>(nameof(Collapsible), true);
 
@@ -232,7 +227,7 @@ namespace CMiX.UI.Controls.Collection
                 panel.Children.Add(new Border
                 {
                     Width = size, Height = size, Background = brush,
-                    CornerRadius = Radius("CornerRadiusAll", new CornerRadius(2)),VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+                    CornerRadius = Radius("CornerRadiusAll", new CornerRadius(2)), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
                 });
             }
 
@@ -340,8 +335,7 @@ namespace CMiX.UI.Controls.Collection
                     e.Handled = true;
                     break;
 
-                // Left with no search text leaves the list, as Escape does: a panel that opened at the right of a row of a tree is a leaf of
-                // that tree, and Left goes back to the row (the owner of the panel gives the focus back).
+                // Left with no text leaves the list as Escape does: the panel is a leaf of a tree, and Left goes back to the row.
                 case Key.Left when !Searching:
                     Cancelled?.Invoke(this, EventArgs.Empty);
                     e.Handled = true;

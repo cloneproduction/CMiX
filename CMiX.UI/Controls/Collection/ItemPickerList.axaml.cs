@@ -13,8 +13,7 @@ using Avalonia.VisualTree;
 
 namespace CMiX.UI.Controls.Collection
 {
-    // A list of rows to pick from. It shows at most ComboBoxVisibleItems rows and scrolls beyond them.
-    // The row of HighlightedItem looks like a hovered row and is scrolled into view. The owner of the list moves it.
+    // Rows to pick from, at most ComboBoxVisibleItems at once. The owner moves HighlightedItem.
     public partial class ItemPickerList : ItemPickerBase
     {
         static ItemPickerList()

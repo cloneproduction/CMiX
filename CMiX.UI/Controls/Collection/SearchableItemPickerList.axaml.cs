@@ -9,11 +9,8 @@ using Avalonia.Input;
 
 namespace CMiX.UI.Controls.Collection
 {
-    // An ItemPickerList with a search field above it. The field takes the focus when the list appears, and the
-    // rows are the items whose text holds the search text, in any case. The first row is highlighted. Down and Up move the
-    // highlight, Enter picks the highlighted row, and Escape clears the text.
-    // The list shows the text of the items as they were when it was filtered. A name that changes while the list is open
-    // shows in the filter at the next key.
+    // An ItemPickerList under a search field. The rows are the items whose text holds the search text, in any case.
+    // The filter reads item names when the text changes. PickerKeys holds Down, Up, Enter and Escape.
     public partial class SearchableItemPickerList : ItemPickerBase
     {
         private readonly PickerKeys _keys;
