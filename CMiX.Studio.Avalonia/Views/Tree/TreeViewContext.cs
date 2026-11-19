@@ -27,6 +27,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         public ProjectTree? Tree => owner.DataContext as ProjectTree;
 
+        internal bool IsTreeFocused => owner.IsKeyboardFocusWithin;
+
         public ScrollViewer? Scroller => TreeView.GetVisualDescendants().OfType<ScrollViewer>().FirstOrDefault();
 
         public double RowPitch => TreeRowMetrics.ReadRowPitch(owner);

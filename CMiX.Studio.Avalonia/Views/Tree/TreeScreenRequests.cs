@@ -11,23 +11,27 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    internal sealed record TreeRequestParts(TreeMenus Menus, TreeRowReveal Reveal, TreeGrab Grab, TreeScrollAnchor ScrollAnchor);
-
-    internal sealed record TreeRequestInputs(Func<bool> IsActiveView, Func<Point> LastPointer);
-
     internal sealed class TreeScreenRequests
     {
         private readonly TreeViewContext context;
-        private readonly TreeRequestParts parts;
-        private readonly TreeRequestInputs inputs;
+        private readonly TreeMenus menus;
+        private readonly TreeRowReveal reveal;
+        private readonly TreeGrab grab;
+        private readonly TreeScrollAnchor scrollAnchor;
+        private readonly TreePointerInput pointerInput;
+        private readonly Func<bool> isActiveView;
         private readonly Action<Action, DispatcherPriority> postWhileAttached;
 
-        internal TreeScreenRequests(TreeViewContext context, TreeRequestParts parts, TreeRequestInputs inputs,
-            Action<Action, DispatcherPriority> postWhileAttached)
+        internal TreeScreenRequests(TreeViewContext context, TreeMenus menus, TreeRowReveal reveal, TreeGrab grab, TreeScrollAnchor scrollAnchor,
+            TreePointerInput pointerInput, Func<bool> isActiveView, Action<Action, DispatcherPriority> postWhileAttached)
         {
             this.context = context;
-            this.parts = parts;
-            this.inputs = inputs;
+            this.menus = menus;
+            this.reveal = reveal;
+            this.grab = grab;
+            this.scrollAnchor = scrollAnchor;
+            this.pointerInput = pointerInput;
+            this.isActiveView = isActiveView;
             this.postWhileAttached = postWhileAttached;
         }
 
@@ -55,20 +59,20 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void AnswerWhenActive(Action<ProjectTree> answer)
         {
-            if (inputs.IsActiveView() && context.Tree is { } tree)
+            if (isActiveView() && context.Tree is { } tree)
                 answer(tree);
         }
 
-        private void OnAddRequested(object? sender, EventArgs e) => AnswerWhenActive(parts.Menus.OpenAddAtTarget);
+        private void OnAddRequested(object? sender, EventArgs e) => AnswerWhenActive(menus.OpenAddAtTarget);
 
-        private void OnMenuRequested(object? sender, EventArgs e) => AnswerWhenActive(parts.Menus.OpenMenuAtTarget);
+        private void OnMenuRequested(object? sender, EventArgs e) => AnswerWhenActive(menus.OpenMenuAtTarget);
 
         private void OnGrabRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => GrabRow(node));
 
         private void GrabRow(TreeNode node)
         {
-            if (parts.Reveal.ShownItemOf(node) != null)
-                parts.Grab.Start(node, inputs.LastPointer());
+            if (reveal.ShownItemOf(node) != null)
+                grab.Start(node, pointerInput.LastPointer);
         }
 
         // The first row in view cannot be the anchor, because it can close away under a parent.
@@ -79,26 +83,26 @@ namespace CMiX.Studio.Avalonia.Views
             if (tree.TargetNode is not { } target)
                 return;
 
-            var anchor = parts.ScrollAnchor.CaptureRow(target);
+            var anchor = scrollAnchor.CaptureRow(target);
             var closed = tree.CloseOtherRows();
             if (anchor != null)
             {
-                parts.ScrollAnchor.RestoreAnchor(anchor);
-                parts.ScrollAnchor.HoldWhileClosing(anchor, closed);
+                scrollAnchor.RestoreAnchor(anchor);
+                scrollAnchor.HoldWhileClosing(anchor, closed);
                 return;
             }
 
-            postWhileAttached(() => parts.Reveal.RevealRow(target), DispatcherPriority.Loaded);
+            postWhileAttached(() => reveal.RevealRow(target), DispatcherPriority.Loaded);
         }
 
-        private void OnRevealRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => parts.Reveal.RevealRowToMiddle(node));
+        private void OnRevealRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => reveal.RevealRowToMiddle(node));
 
         internal void CloseRowsInView(TreeNode? node, Func<IReadOnlyList<TreeNode>> close)
         {
-            var anchor = (node != null ? parts.ScrollAnchor.CaptureRow(node) : null) ?? parts.ScrollAnchor.CaptureAnchor(null);
+            var anchor = (node != null ? scrollAnchor.CaptureRow(node) : null) ?? scrollAnchor.CaptureAnchor(null);
             var closed = close();
-            parts.ScrollAnchor.RestoreAnchor(anchor);
-            parts.ScrollAnchor.HoldWhileClosing(anchor, closed);
+            scrollAnchor.RestoreAnchor(anchor);
+            scrollAnchor.HoldWhileClosing(anchor, closed);
         }
 
         private void OnRenameRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => RenameRow(node));

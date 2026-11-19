@@ -19,17 +19,15 @@ namespace CMiX.Studio.Avalonia.Views
     internal sealed class TreeRowReveal
     {
         private readonly TreeViewContext context;
-        private readonly Func<bool> isTreeFocused;
 
         private Visual? revealTarget;
 
         // A new reveal ends the one before.
         private readonly FrameHold hold = new();
 
-        internal TreeRowReveal(TreeViewContext context, Func<bool> isTreeFocused)
+        internal TreeRowReveal(TreeViewContext context)
         {
             this.context = context;
-            this.isTreeFocused = isTreeFocused;
         }
 
         internal void Attach(TreeView treeView) => treeView.TemplateApplied += OnTemplateApplied;
@@ -65,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Views
                 if (!isCurrent() || context.RowIndex.FindItem(node) is not { } item)
                     return;
 
-                if (isTreeFocused())
+                if (context.IsTreeFocused)
                     item.Focus(NavigationMethod.Tab);
 
                 BringRowToMiddle(node);

@@ -70,17 +70,15 @@ namespace CMiX.Studio.Avalonia.Views
             scrollAnchor = new TreeScrollAnchor(treeView, rowIndex, context);
             dragSession = new TreeDragSession(treeView, context, marker, scrollAnchor);
             rowDrag = new TreeRowDrag(treeView, dragSession);
-            reveal = new TreeRowReveal(context, () => IsKeyboardFocusWithin);
+            reveal = new TreeRowReveal(context);
             grab = new TreeGrab(this, treeView, dragSession, context, reveal.RevealRow, OnGrabChanged);
             focusKeeper = new TreeFocusKeeper(this, context, reveal, PostWhileAttached, () => IsAttached);
             pointerInput = new TreePointerInput(this, context, rowDrag, focusKeeper);
-            hints = new TreeHints(context, hintStrip,
-                new TreeHintInputs(() => grab.IsGrabbing, IsMenuOpen, focusKeeper.IsSearchFocused, () => IsKeyboardFocusWithin), PostWhileAttached);
+            // The menus come later, so the lambda reads the field at the call.
+            hints = new TreeHints(context, hintStrip, grab, focusKeeper, () => menus.IsMenuOpen(), PostWhileAttached);
             fileDrop = new TreeFileDropInput(context, marker);
-            menus = new TreeMenus(context, new TreeMenuInputs(reveal.ShownItemOf, () => pointerInput.LastPointer, grab.TakeMenuBlock, focusKeeper.FocusRow),
-                hints.Update, PostWhileAttached);
-            requests = new TreeScreenRequests(context, new TreeRequestParts(menus, reveal, grab, scrollAnchor),
-                new TreeRequestInputs(() => IsActiveView, () => pointerInput.LastPointer), PostWhileAttached);
+            menus = new TreeMenus(context, reveal, pointerInput, grab, focusKeeper, hints.Update, PostWhileAttached);
+            requests = new TreeScreenRequests(context, menus, reveal, grab, scrollAnchor, pointerInput, () => IsActiveView, PostWhileAttached);
             keyInput = new TreeKeyInput(context, rowDrag, menus, focusKeeper, PostWhileAttached);
             hooks = focusKeeper.BuildHooks(dragSession, rowDrag, grab, requests.CloseRowsInView);
 
@@ -97,8 +95,6 @@ namespace CMiX.Studio.Avalonia.Views
         internal KeyHintStrip HintStrip => hintStrip;
 
         internal TreeHintMode HintMode => hints.Mode;
-
-        private bool IsMenuOpen() => menus.IsMenuOpen();
 
         private ProjectTree? watched;
 

@@ -12,22 +12,25 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    internal sealed record TreeHintInputs(Func<bool> IsGrabbing, Func<bool> IsMenuOpen, Func<bool> IsSearchFocused, Func<bool> IsTreeFocused);
-
     internal sealed class TreeHints
     {
         private readonly TreeViewContext context;
         private readonly KeyHintStrip strip;
-        private readonly TreeHintInputs inputs;
+        private readonly TreeGrab grab;
+        private readonly TreeFocusKeeper focusKeeper;
+        private readonly Func<bool> isMenuOpen;
         private readonly Action<Action, DispatcherPriority> postWhileAttached;
 
         private TreeHintMode? shownMode;
 
-        internal TreeHints(TreeViewContext context, KeyHintStrip strip, TreeHintInputs inputs, Action<Action, DispatcherPriority> postWhileAttached)
+        internal TreeHints(TreeViewContext context, KeyHintStrip strip, TreeGrab grab, TreeFocusKeeper focusKeeper, Func<bool> isMenuOpen,
+            Action<Action, DispatcherPriority> postWhileAttached)
         {
             this.context = context;
             this.strip = strip;
-            this.inputs = inputs;
+            this.grab = grab;
+            this.focusKeeper = focusKeeper;
+            this.isMenuOpen = isMenuOpen;
             this.postWhileAttached = postWhileAttached;
         }
 
@@ -35,16 +38,16 @@ namespace CMiX.Studio.Avalonia.Views
         {
             get
             {
-                if (inputs.IsGrabbing())
+                if (grab.IsGrabbing)
                     return TreeHintMode.Grab;
 
-                if (inputs.IsMenuOpen())
+                if (isMenuOpen())
                     return TreeHintMode.Menu;
 
-                if (inputs.IsSearchFocused())
+                if (focusKeeper.IsSearchFocused())
                     return TreeHintMode.Search;
 
-                return context.Tree?.IsSearchActive == true && inputs.IsTreeFocused() ? TreeHintMode.Filter : TreeHintMode.Idle;
+                return context.Tree?.IsSearchActive == true && context.IsTreeFocused ? TreeHintMode.Filter : TreeHintMode.Idle;
             }
         }
 

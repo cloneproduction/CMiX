@@ -15,15 +15,15 @@ using LayerModel = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    internal sealed record TreeMenuInputs(Func<TreeNode, TreeViewItem?> ShownItemOf, Func<Point> LastPointer, Func<bool> TakeMenuBlock,
-        Action<TreeNode> FocusRow);
-
     internal sealed class TreeMenus
     {
         private const string AddTitle = "Add";
 
         private readonly TreeViewContext context;
-        private readonly TreeMenuInputs inputs;
+        private readonly TreeRowReveal reveal;
+        private readonly TreePointerInput pointerInput;
+        private readonly TreeGrab grab;
+        private readonly TreeFocusKeeper focusKeeper;
         private readonly Action updateHints;
         private readonly Action<Action, DispatcherPriority> postWhileAttached;
 
@@ -31,10 +31,14 @@ namespace CMiX.Studio.Avalonia.Views
 
         private bool addOpenedBesideTheCursor;
 
-        internal TreeMenus(TreeViewContext context, TreeMenuInputs inputs, Action updateHints, Action<Action, DispatcherPriority> postWhileAttached)
+        internal TreeMenus(TreeViewContext context, TreeRowReveal reveal, TreePointerInput pointerInput, TreeGrab grab, TreeFocusKeeper focusKeeper,
+            Action updateHints, Action<Action, DispatcherPriority> postWhileAttached)
         {
             this.context = context;
-            this.inputs = inputs;
+            this.reveal = reveal;
+            this.pointerInput = pointerInput;
+            this.grab = grab;
+            this.focusKeeper = focusKeeper;
             this.updateHints = updateHints;
             this.postWhileAttached = postWhileAttached;
         }
@@ -57,13 +61,13 @@ namespace CMiX.Studio.Avalonia.Views
             {
                 addOpenedBesideTheCursor = false;
                 if (context.Tree?.CursorNode is { } cursor)
-                    postWhileAttached(() => inputs.FocusRow(cursor), DispatcherPriority.Input);
+                    postWhileAttached(() => focusKeeper.FocusRow(cursor), DispatcherPriority.Input);
             }
         }
 
         internal void OpenAddBesideTheCursor(ProjectTree tree)
         {
-            if (tree.CursorNode is not { } node || inputs.ShownItemOf(node) is not { } item || TopLevel.GetTopLevel(context.TreeView) is not { } window)
+            if (tree.CursorNode is not { } node || reveal.ShownItemOf(node) is not { } item || TopLevel.GetTopLevel(context.TreeView) is not { } window)
                 return;
 
             var row = TreeRows.RowBorderOf(item);
@@ -77,8 +81,8 @@ namespace CMiX.Studio.Avalonia.Views
         internal void OpenAddAtTarget(ProjectTree tree)
         {
             var treeView = context.TreeView;
-            var point = tree.TargetNode is { } node && inputs.ShownItemOf(node) is { } item ? TreeRowAnchor.CenterOf(item, treeView) : null;
-            addPanel.OpenAtPoint(treeView, point ?? inputs.LastPointer(), tree.GetAddGroups(tree.TargetNode), AddTitle);
+            var point = tree.TargetNode is { } node && reveal.ShownItemOf(node) is { } item ? TreeRowAnchor.CenterOf(item, treeView) : null;
+            addPanel.OpenAtPoint(treeView, point ?? pointerInput.LastPointer, tree.GetAddGroups(tree.TargetNode), AddTitle);
             updateHints();
         }
 
@@ -87,7 +91,7 @@ namespace CMiX.Studio.Avalonia.Views
         {
             if (tree.TargetNode is not { } node)
                 OpenMenuAtPointer(null);
-            else if (inputs.ShownItemOf(node) is { } item)
+            else if (reveal.ShownItemOf(node) is { } item)
                 OpenMenuUnderRow(item);
         }
 
@@ -95,7 +99,7 @@ namespace CMiX.Studio.Avalonia.Views
         // No row holds a menu, because a request goes up through every parent row.
         private void OnContextRequested(object? sender, ContextRequestedEventArgs e)
         {
-            if (inputs.TakeMenuBlock())
+            if (grab.TakeMenuBlock())
             {
                 e.Handled = true;
                 return;
@@ -111,7 +115,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
-            var item = TreeRows.ItemOf(e.Source) ?? (context.Tree?.TargetNode is { } target ? inputs.ShownItemOf(target) : null);
+            var item = TreeRows.ItemOf(e.Source) ?? (context.Tree?.TargetNode is { } target ? reveal.ShownItemOf(target) : null);
             if (OpenMenuUnderRow(item))
                 e.Handled = true;
         }
