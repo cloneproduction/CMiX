@@ -26,7 +26,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              ControlRepository controlRepository,
                              AssetManager assetManager,
                              MainWindowController mainWindowController,
-                             MainMenu mainMenu,
+                             MainMenuViewModel mainMenu,
                              ProjectFileViewModel projectFile,
                              ControlActivationService activationService,
                              UndoManager undoManager,
@@ -117,7 +117,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             set => SetProperty(ref _rightPanel, value);
         }
         public AssetManager AssetManager { get; set; }
-        public MainMenu MainMenu { get; set; }
+        public MainMenuViewModel MainMenu { get; }
         public ProjectFileViewModel ProjectFile { get; }
         public MainWindowController MainWindowController { get; set; }
         public Guid ID { get; set; }

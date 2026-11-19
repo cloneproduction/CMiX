@@ -41,7 +41,7 @@
                     Header="Save As" />
 
                 <MenuItem
-                    Command="{Binding $parent[Window].DataContext.MainWindowController.CloseWindowCommand}"
+                    Command="{Binding QuitCommand}"
                     Header="Quit" />
 
             </MenuItem>

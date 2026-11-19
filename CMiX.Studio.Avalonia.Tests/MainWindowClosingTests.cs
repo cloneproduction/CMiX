@@ -12,11 +12,13 @@ namespace CMiX.Studio.Avalonia.Tests
     // The cross button, Alt+F4 and the close command all close the window. With unsaved changes the user is asked first.
     public class MainWindowClosingTests
     {
-        private static async Task<bool> ClosesWithin(Views.MainWindow window, TimeSpan time)
+        private static Task<bool> ClosesWithin(Views.MainWindow window, TimeSpan time) => ClosesWithin(window, window.Close, time);
+
+        private static async Task<bool> ClosesWithin(Views.MainWindow window, Action close, TimeSpan time)
         {
             var closed = false;
             window.Closed += (_, _) => closed = true;
-            window.Close();
+            close();
 
             var until = DateTime.UtcNow + time;
             while (!closed && DateTime.UtcNow < until)
@@ -93,6 +95,17 @@ namespace CMiX.Studio.Avalonia.Tests
             {
                 if (File.Exists(path)) File.Delete(path);
             }
+        }
+
+        [AvaloniaFact]
+        public async Task QuitCommand_WithChanges_AsksThenClosesTheWindow()
+        {
+            var (window, prompt, viewModel) = ShowWithChanges(UnsavedChangesChoice.DontSave);
+
+            var closed = await ClosesWithin(window, () => viewModel.MainMenu.QuitCommand.Execute(null), TimeSpan.FromSeconds(2));
+
+            Assert.True(closed);
+            Assert.Equal(1, prompt.TimesAsked);
         }
     }
 }

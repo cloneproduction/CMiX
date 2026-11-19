@@ -67,7 +67,7 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddSingleton<Views.MainWindow>();
                 serviceCollection.AddSingleton<MainViewModel>();
                 serviceCollection.AddSingleton<MainWindowController>();
-                serviceCollection.AddSingleton<MainMenu>();
+                serviceCollection.AddSingleton<MainMenuViewModel>();
                 serviceCollection.AddSingleton<ProjectFileViewModel>();
                 serviceCollection.AddSingleton(ProjectSession.Create);
                 serviceCollection.AddSingleton<UnsavedChanges>();

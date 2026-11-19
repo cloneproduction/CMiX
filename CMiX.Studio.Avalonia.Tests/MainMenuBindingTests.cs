@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
             ("File", "Open") => viewModel.ProjectFile.OpenProjectCommand,
             ("File", "Save") => viewModel.ProjectFile.SaveProjectCommand,
             ("File", "Save As") => viewModel.ProjectFile.SaveAsProjectCommand,
-            ("File", "Quit") => viewModel.MainWindowController.CloseWindowCommand,
+            ("File", "Quit") => viewModel.MainMenu.QuitCommand,
             ("Edit", "Undo") => viewModel.UndoCommand,
             ("Edit", "Redo") => viewModel.RedoCommand,
             ("Compo", "New Composition") => viewModel.MainMenu.AddCompositionCommand,
@@ -90,6 +90,18 @@ namespace CMiX.Studio.Avalonia.Tests
             var rowItem = OpenRow(window, top, row);
 
             Assert.True(RunCommandAfterClose.GetIsEnabled(rowItem));
+        }
+
+        [AvaloniaFact]
+        public void QuitCommand_Execute_RaisesQuitRequested()
+        {
+            var menu = TestServiceProviderFactory.Create().GetRequiredService<MainMenuViewModel>();
+            var raised = 0;
+            menu.QuitRequested += (_, _) => raised++;
+
+            menu.QuitCommand.Execute(null);
+
+            Assert.Equal(1, raised);
         }
 
         [AvaloniaFact]

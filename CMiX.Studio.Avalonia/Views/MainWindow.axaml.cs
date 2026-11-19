@@ -1,6 +1,7 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using System.Linq;
@@ -88,6 +89,21 @@ namespace CMiX.Studio.Avalonia.Views
             Closing -= OnClosing;
             Close();
         }
+
+        private MainMenuViewModel? _menu;
+
+        // The Quit row of the menu closes the window through OnClosing, so unsaved changes are asked about first.
+        protected override void OnDataContextChanged(EventArgs e)
+        {
+            base.OnDataContextChanged(e);
+            if (_menu != null)
+                _menu.QuitRequested -= OnQuitRequested;
+            _menu = (DataContext as MainViewModel)?.MainMenu;
+            if (_menu != null)
+                _menu.QuitRequested += OnQuitRequested;
+        }
+
+        private void OnQuitRequested(object? sender, EventArgs e) => Close();
 
         private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
