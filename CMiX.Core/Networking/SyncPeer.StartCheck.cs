@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.Compositing;
-using VL.Serialization.MessagePack;
 
 namespace CMiX.Core.Networking
 {
@@ -33,7 +32,7 @@ namespace CMiX.Core.Networking
                 return new StartEvaluation(StartCheck.NotInSync, tail);
 
             var local = await DispatchAsync(() => _target.Capture()).ConfigureAwait(false);
-            var stored = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
+            var stored = DecodeModel(snapshot);
             var same = ProjectStateHash.Compute(local) == ProjectStateHash.Compute(stored);
             return new StartEvaluation(same ? StartCheck.AlreadyInSync : StartCheck.NotInSync, snapshot.StreamId);
         }

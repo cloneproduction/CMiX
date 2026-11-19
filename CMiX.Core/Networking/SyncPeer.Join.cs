@@ -138,7 +138,7 @@ namespace CMiX.Core.Networking
                 var position = StreamPosition.Zero;
                 if (snapshot != null)
                 {
-                    var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
+                    var model = DecodeModel(snapshot);
                     position = snapshot.StreamId;
                     await DispatchCurrentAsync(run, () => ApplySnapshotOnDispatcher(model, position)).ConfigureAwait(false);
                 }

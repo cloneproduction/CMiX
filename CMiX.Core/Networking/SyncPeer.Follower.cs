@@ -3,7 +3,6 @@
 
 using System.Diagnostics;
 using CMiX.Core.Compositing;
-using VL.Serialization.MessagePack;
 
 namespace CMiX.Core.Networking
 {
@@ -66,7 +65,7 @@ namespace CMiX.Core.Networking
                 if (!IsCurrent(run)) return;
                 if (snapshot == null || snapshot.StreamId <= LastAppliedId) return;
 
-                var model = MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
+                var model = DecodeModel(snapshot);
                 await DispatchCurrentAsync(run, () =>
                 {
                     ApplySnapshotOnDispatcher(model, snapshot.StreamId);

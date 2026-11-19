@@ -12,6 +12,9 @@ namespace CMiX.Core.Networking
     {
         private readonly record struct DecodedEntry(StreamEntry Entry, MessageEnvelope Envelope, bool IsOwn);
 
+        private static ProjectModel DecodeModel(Snapshot snapshot)
+            => MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
+
         private async Task ReplayAsync(SyncRun run, StreamPosition position)
         {
             var ct = run.Cts.Token;
