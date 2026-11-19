@@ -17,6 +17,7 @@ namespace CMiX.UI.Controls.Collection
     // shows in the filter at the next key.
     public partial class SearchableItemPickerList : ItemPickerBase
     {
+        private readonly PickerKeys _keys;
         private INotifyCollectionChanged? _watched;
         private bool _attached;
 
@@ -29,8 +30,10 @@ namespace CMiX.UI.Controls.Collection
 
         public SearchableItemPickerList()
         {
+            _keys = new PickerKeys(() => Matches.Count, _ => true, () => HighlightedIndex, Highlight, TryPick,
+                () => SearchText.Length > 0, () => SearchText = string.Empty);
             InitializeComponent();
-            PART_Search.KeyDown += OnSearchKeyDown;
+            PART_Search.KeyDown += _keys.OnKeyDown;
 
             // A click on a row is a pick of the whole control.
             PART_List.Picked += (_, _) => RaisePicked();
@@ -108,7 +111,7 @@ namespace CMiX.UI.Controls.Collection
                 PART_NoMatch.IsVisible = any && Matches.Count == 0;
 
             // A new filter starts on the first row.
-            Highlight(0);
+            _keys.Reset(0);
         }
 
         private bool IsMatch(object item) =>
@@ -136,42 +139,21 @@ namespace CMiX.UI.Controls.Collection
         // The inner list holds the highlight, so the mouse and the keys move the same row.
         private object? HighlightedItem => PART_List?.HighlightedItem;
 
-        // The index is kept inside the rows. The list scrolls to the row.
+        // The list scrolls to the row.
         private void Highlight(int index)
         {
             if (PART_List != null)
-                PART_List.HighlightedItem = Matches.Count == 0 ? null : Matches[Math.Clamp(index, 0, Matches.Count - 1)];
+                PART_List.HighlightedItem = index < 0 ? null : Matches[index];
         }
 
-        private void OnSearchKeyDown(object? sender, KeyEventArgs e)
+        private bool TryPick(int index)
         {
-            switch (e.Key)
-            {
-                case Key.Down:
-                    Highlight(HighlightedIndex + 1);
-                    e.Handled = true;
-                    break;
+            if (index < 0 || ItemCommand is not { } command || !command.CanExecute(Matches[index]))
+                return false;
 
-                case Key.Up:
-                    Highlight(HighlightedIndex - 1);
-                    e.Handled = true;
-                    break;
-
-                case Key.Enter:
-                    var picked = HighlightedItem;
-                    if (picked != null && ItemCommand?.CanExecute(picked) == true)
-                    {
-                        ItemCommand.Execute(picked);
-                        RaisePicked();
-                        e.Handled = true;
-                    }
-                    break;
-
-                case Key.Escape when SearchText.Length > 0:
-                    SearchText = string.Empty;
-                    e.Handled = true;
-                    break;
-            }
+            command.Execute(Matches[index]);
+            RaisePicked();
+            return true;
         }
     }
 }

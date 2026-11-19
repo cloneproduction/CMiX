@@ -26,6 +26,7 @@ namespace CMiX.UI.Controls.Collection
 
         private readonly List<RowRef> rows = new();
         private readonly HashSet<PickerGroup> flipped = new();
+        private readonly PickerKeys keys;
         private int highlighted = -1;
 
         static GroupedSearchList()
@@ -38,6 +39,8 @@ namespace CMiX.UI.Controls.Collection
 
         public GroupedSearchList()
         {
+            keys = new PickerKeys(() => rows.Count, IsUsable, () => highlighted, Highlight, TryActivate,
+                () => Searching, () => SearchText = string.Empty);
             InitializeComponent();
             PART_Search.KeyDown += OnSearchKeyDown;
         }
@@ -135,14 +138,14 @@ namespace CMiX.UI.Controls.Collection
         private void Rebuild()
         {
             RebuildRows();
-            Highlight(FirstStart());
+            keys.Reset(FirstStart());
         }
 
         private void RebuildKeepingHeader(PickerGroup group)
         {
             RebuildRows();
             var start = rows.FindIndex(row => row.Item == null && row.Group == group);
-            Highlight(start < 0 ? FirstStart() : start);
+            keys.Reset(start < 0 ? FirstStart() : start);
         }
 
         private void RebuildRows()
@@ -248,18 +251,6 @@ namespace CMiX.UI.Controls.Collection
         private bool IsUsable(int index) =>
             index >= 0 && index < rows.Count && (rows[index].Item == null ? Collapsible : rows[index].Item!.IsEnabled);
 
-        // The row after the highlighted one in a direction that can be used, or the highlighted row when there is none.
-        private int Step(int direction)
-        {
-            for (var index = highlighted + direction; index >= 0 && index < rows.Count; index += direction)
-            {
-                if (IsUsable(index))
-                    return index;
-            }
-
-            return highlighted;
-        }
-
         private double Number(string key, double fallback) =>
             this.TryFindResource(key, out var value) && value is double number ? number : fallback;
 
@@ -275,7 +266,7 @@ namespace CMiX.UI.Controls.Collection
             if (highlighted >= 0 && highlighted < rows.Count)
                 rows[highlighted].Visual.Classes.Set("highlighted", false);
 
-            highlighted = rows.Count == 0 ? -1 : Math.Clamp(index, 0, rows.Count - 1);
+            highlighted = index;
             if (highlighted < 0)
                 return;
 
@@ -299,6 +290,13 @@ namespace CMiX.UI.Controls.Collection
             }
 
             Picked?.Invoke(this, new PickerPickedEventArgs(row.Group, row.Item));
+        }
+
+        // Enter is used even on a row that does nothing.
+        private bool TryActivate(int index)
+        {
+            Activate(index);
+            return true;
         }
 
         private void Toggle(PickerGroup group)
@@ -330,21 +328,6 @@ namespace CMiX.UI.Controls.Collection
             var onHeader = highlighted >= 0 && highlighted < rows.Count && rows[highlighted].Item == null;
             switch (e.Key)
             {
-                case Key.Down:
-                    Highlight(Step(1));
-                    e.Handled = true;
-                    break;
-
-                case Key.Up:
-                    Highlight(Step(-1));
-                    e.Handled = true;
-                    break;
-
-                case Key.Enter:
-                    Activate(highlighted);
-                    e.Handled = true;
-                    break;
-
                 case Key.Right when onHeader && !Searching:
                     Open(rows[highlighted].Group);
                     e.Handled = true;
@@ -362,14 +345,13 @@ namespace CMiX.UI.Controls.Collection
                     e.Handled = true;
                     break;
 
-                case Key.Escape when Searching:
-                    SearchText = string.Empty;
+                case Key.Escape when !Searching:
+                    Cancelled?.Invoke(this, EventArgs.Empty);
                     e.Handled = true;
                     break;
 
-                case Key.Escape:
-                    Cancelled?.Invoke(this, EventArgs.Empty);
-                    e.Handled = true;
+                default:
+                    keys.OnKeyDown(sender, e);
                     break;
             }
         }
