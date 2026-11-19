@@ -8,17 +8,19 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Each getter reads the view at the call: the scroll viewer exists only after the template applies.
+    // The scroll viewer exists only after the template applies, so the first call after that finds it.
     public sealed class TreeViewContext
     {
         private readonly Control owner;
         private DragAutoScroller? autoScroller;
+        private ScrollViewer? scroller;
 
         internal TreeViewContext(Control owner, TreeView treeView, TreeRowIndex rowIndex)
         {
             this.owner = owner;
             TreeView = treeView;
             RowIndex = rowIndex;
+            treeView.TemplateApplied += (_, _) => scroller = null;
         }
 
         public TreeView TreeView { get; }
@@ -29,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal bool IsTreeFocused => owner.IsKeyboardFocusWithin;
 
-        public ScrollViewer? Scroller => TreeView.GetVisualDescendants().OfType<ScrollViewer>().FirstOrDefault();
+        public ScrollViewer? Scroller => scroller ??= TreeView.GetVisualDescendants().OfType<ScrollViewer>().FirstOrDefault();
 
         public double RowPitch => TreeRowMetrics.ReadRowPitch(owner);
 
