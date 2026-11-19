@@ -60,6 +60,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 selector.PropertyChanged += OnAssetSelectorChanged;
         }
 
+        public void UnwatchAsset()
+        {
+            if (row.Item is IAssetTextureSource { AssetSelector: { } selector })
+                selector.PropertyChanged -= OnAssetSelectorChanged;
+        }
+
         public void RecountAll()
         {
             RecountKinds();

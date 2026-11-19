@@ -417,6 +417,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (hiddenSource != null)
                 hiddenSource.PropertyChanged -= OnHiddenChanged;
 
+            counts.UnwatchAsset();
+
             if (ChildManager != null)
             {
                 ChildManager.ManagerData.Items.CollectionChanged -= OnItemsChanged;
