@@ -183,7 +183,7 @@ namespace CMiX.UI.Controls.Collection
             row.Visual.PointerEntered += (_, _) =>
             {
                 if (IsUsable(index))
-                    HighlightUnderPointer(index);
+                    Highlight(index);
             };
             row.Visual.PointerReleased += (_, e) =>
             {
@@ -254,14 +254,13 @@ namespace CMiX.UI.Controls.Collection
         private CornerRadius Radius(string key, CornerRadius fallback) =>
             this.TryFindResource(key, out var value) && value is CornerRadius radius ? radius : fallback;
 
-        private void Highlight(int index)
+        private void ScrollToHighlight()
         {
-            HighlightUnderPointer(index);
             if (highlighted >= 0)
                 rows[highlighted].Visual.BringIntoView();
         }
 
-        private void HighlightUnderPointer(int index)
+        private void Highlight(int index)
         {
             if (highlighted >= 0 && highlighted < rows.Count)
                 rows[highlighted].Visual.Classes.Set("highlighted", false);
@@ -300,7 +299,11 @@ namespace CMiX.UI.Controls.Collection
 
         bool IPickerRows.IsUsable(int index) => IsUsable(index);
 
-        void IPickerRows.Highlight(int index) => Highlight(index);
+        void IPickerRows.Highlight(int index)
+        {
+            Highlight(index);
+            ScrollToHighlight();
+        }
 
         void IPickerRows.ClearSearch() => SearchText = string.Empty;
 
