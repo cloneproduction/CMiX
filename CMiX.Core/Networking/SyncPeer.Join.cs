@@ -229,13 +229,7 @@ namespace CMiX.Core.Networking
             var model = await DispatchAsync(() => _target.Capture()).ConfigureAwait(false);
             if (!IsCurrent(run)) return;
 
-            var envelope = new MessageEnvelope
-            {
-                SenderID = _peerId,
-                MessageID = Guid.NewGuid(),
-                Payload = new MessageProjectSnapshot(Guid.NewGuid(), model)
-            };
-
+            var envelope = NewEnvelope(new MessageProjectSnapshot(Guid.NewGuid(), model));
             var id = await store.AppendAsync(MessagePackSerialization.Serialize(envelope)).ConfigureAwait(false);
             if (!IsCurrent(run)) return;
 

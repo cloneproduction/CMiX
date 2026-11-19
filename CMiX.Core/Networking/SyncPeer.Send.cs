@@ -13,13 +13,7 @@ namespace CMiX.Core.Networking
             // A peer that is not the writer drops the message.
             if (message == null || !IsWriter) return;
 
-            var envelope = new MessageEnvelope
-            {
-                SenderID = _peerId,
-                MessageID = Guid.NewGuid(),
-                Payload = message
-            };
-            _outgoing.Enqueue(MessagePackSerialization.Serialize(envelope));
+            _outgoing.Enqueue(MessagePackSerialization.Serialize(NewEnvelope(message)));
             // Through the dispatcher, so this notification and the one after the append keep their order.
             Dispatch(() => OnPropertyChanged(nameof(PendingMessages)));
             MessageSent?.Invoke(this, new MessageSentEventArgs(message));
@@ -35,5 +29,12 @@ namespace CMiX.Core.Networking
 
         private Task OnDrainedAsync(SyncRun run)
             => DispatchCurrentAsync(run, () => OnPropertyChanged(nameof(PendingMessages)));
+
+        private MessageEnvelope NewEnvelope(IMessage payload) => new()
+        {
+            SenderID = _peerId,
+            MessageID = Guid.NewGuid(),
+            Payload = payload
+        };
     }
 }
