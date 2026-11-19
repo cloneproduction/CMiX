@@ -207,13 +207,13 @@ namespace CMiX.UI.Controls.Collection
 
             // A list that is not collapsible shows the name of the category only.
             if (Collapsible)
-                grid.Children.Add(new AppIcon { IconKey = IsOpen(group) ? "ChevronDown" : "ChevronRight", Size = Number("IconSizeXS", 12), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center });
+                grid.Children.Add(new AppIcon { IconKey = IsOpen(group) ? "ChevronDown" : "ChevronRight", Size = Number("IconSizeXS", 16), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center });
 
             var text = new TextBlock { Text = group.Header, Margin = new Thickness(Collapsible ? 6 : 0, 0, 0, 0), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center };
             Grid.SetColumn(text, 1);
             grid.Children.Add(text);
 
-            var row = new Border { Padding = new Thickness(8, 0), Child = grid };
+            var row = new Border { Padding = new Thickness(Number("SpacingMD", 8), 0), Child = grid };
             row.Classes.Add("row");
             row.Classes.Add("header");
             if (!group.HasEnabledItems)
@@ -225,20 +225,20 @@ namespace CMiX.UI.Controls.Collection
         // A row shows a small square in the color of its kind, when the list has a color for the kind.
         private Border ItemRow(PickerItem item)
         {
-            var panel = new StackPanel { Orientation = Avalonia.Layout.Orientation.Horizontal, Spacing = 8 };
+            var panel = new StackPanel { Orientation = Avalonia.Layout.Orientation.Horizontal, Spacing = Number("SpacingMD", 8) };
             if (KindBrush?.Invoke(item.Kind) is { } brush)
             {
-                var size = Number("IconSizeXS", 12) * 0.8;
+                var size = Number("IconSizeXS", 16) * 0.8;
                 panel.Children.Add(new Border
                 {
                     Width = size, Height = size, Background = brush,
-                    CornerRadius = new CornerRadius(2), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+                    CornerRadius = Radius("CornerRadiusAll", new CornerRadius(2)),VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
                 });
             }
 
             panel.Children.Add(new TextBlock { Text = item.Text, VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center });
 
-            var row = new Border { Padding = new Thickness(Collapsible ? 24 : 12, 0, 8, 0), Child = panel };
+            var row = new Border { Padding = new Thickness(Collapsible ? 24 : 12, 0, Number("SpacingMD", 8), 0), Child = panel };
             row.Classes.Add("row");
             if (!item.IsEnabled)
                 row.Classes.Add("disabled");
@@ -252,6 +252,9 @@ namespace CMiX.UI.Controls.Collection
 
         private double Number(string key, double fallback) =>
             this.TryFindResource(key, out var value) && value is double number ? number : fallback;
+
+        private CornerRadius Radius(string key, CornerRadius fallback) =>
+            this.TryFindResource(key, out var value) && value is CornerRadius radius ? radius : fallback;
 
         private void Highlight(int index)
         {
