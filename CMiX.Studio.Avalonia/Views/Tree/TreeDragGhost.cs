@@ -34,8 +34,8 @@ namespace CMiX.Studio.Avalonia.Views
             if (OverlayLayer.GetOverlayLayer(reference) is not { } overlay || row.Bounds.Width <= 0 || row.Bounds.Height <= 0)
                 return;
 
-            gap = Resource(row, "SpacingSM", 4.0);
-            ghost.Opacity = Resource(row, "OpacityDragGhost", 1.0);
+            gap = TreeResources.Read(row, "SpacingSM", 4.0);
+            ghost.Opacity = TreeResources.Read(row, "OpacityDragGhost", 1.0);
             Build(row, iconKey, name);
             ghost.Height = row.Bounds.Height;
             ghost.Measure(Size.Infinity);
@@ -81,9 +81,9 @@ namespace CMiX.Studio.Avalonia.Views
             ghost.Background = row.Background;
             ghost.CornerRadius = row.CornerRadius;
 
-            var headerMargin = Resource(row, "TreeHeaderMargin", new Thickness(4, 0));
-            var contentMargin = Resource(row, "TreeRowContentMargin", default(Thickness));
-            var iconSize = Resource(row, "IconSizeXS", 12.0);
+            var headerMargin = TreeResources.Read(row, "TreeHeaderMargin", new Thickness(4, 0));
+            var contentMargin = TreeResources.Read(row, "TreeRowContentMargin", default(Thickness));
+            var iconSize = TreeResources.Read(row, "IconSizeXS", 12.0);
             var foreground = TextElement.GetForeground(row);
             ghost.Padding = new Thickness(contentMargin.Left, 0, contentMargin.Left, 0);
             iconMiddle = ghost.Padding.Left + headerMargin.Left + iconSize / 2;
@@ -108,8 +108,5 @@ namespace CMiX.Studio.Avalonia.Views
 
             ghost.Child = content;
         }
-
-        private static T Resource<T>(Control control, string key, T fallback) =>
-            control.TryFindResource(key, out var value) && value is T typed ? typed : fallback;
     }
 }

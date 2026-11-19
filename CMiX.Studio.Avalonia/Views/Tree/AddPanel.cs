@@ -93,7 +93,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void ShowBeside(Control anchor, PopupSide side, Rect? anchorRect, IInputElement? passThrough)
         {
-            var rowHeight = Number(anchor, "ControlHeightMD", 24);
+            var rowHeight = TreeResources.Read<double>(anchor, "ControlHeightMD", 24);
             anchoring.Gap = DefaultGap;
             anchoring.Side = side;
             anchoring.Along = null;
@@ -112,7 +112,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (!Prepare(reference, groups, header) || TopLevel.GetTopLevel(reference) is not { } top || reference.TranslatePoint(point, top) is not { } inWindow)
                 return;
 
-            var rowHeight = Number(reference, "ControlHeightMD", 24);
+            var rowHeight = TreeResources.Read<double>(reference, "ControlHeightMD", 24);
             var padding = PaddingOf(reference);
 
             // A negative gap lifts the card, so the middle of the field is at the point.
@@ -135,11 +135,11 @@ namespace CMiX.Studio.Avalonia.Views
 
             Close();
 
-            var rowHeight = Number(scope, "ControlHeightMD", 24);
+            var rowHeight = TreeResources.Read<double>(scope, "ControlHeightMD", 24);
             title.Text = header;
             title.IsVisible = !string.IsNullOrEmpty(header);
             title.Height = rowHeight;
-            list.Width = Number(scope, "AddPanelWidth", 200);
+            list.Width = TreeResources.Read<double>(scope, "AddPanelWidth", 200);
             list.KindBrush = kind => BrushOf(scope, kind);
             list.Groups = groups.Select(ToPicker).ToList();
             return true;
@@ -175,7 +175,7 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         private static Thickness PaddingOf(Control scope) =>
-            scope.TryFindResource("PopupCardPadding", out var value) && value is Thickness thickness ? thickness : new Thickness(10, 8);
+            TreeResources.Read(scope, "PopupCardPadding", new Thickness(10, 8));
 
         private double SearchCenter(Control scope, double rowHeight)
         {
@@ -216,8 +216,5 @@ namespace CMiX.Studio.Avalonia.Views
 
             return brush;
         }
-
-        private static double Number(Control scope, string key, double fallback) =>
-            scope.TryFindResource(key, out var value) && value is double number ? number : fallback;
     }
 }
