@@ -9,6 +9,7 @@ using CMiX.Core.Networking;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Tests.Integration;
 using CMiX.Studio.Avalonia.ViewModels;
+using CMiX.UI.Behaviors;
 using CMiX.UI.Controls.String;
 using CommunityToolkit.Mvvm.Input;
 using HanumanInstitute.MvvmDialogs;
@@ -73,6 +74,22 @@ namespace CMiX.Studio.Avalonia.Tests
             var rowItem = OpenRow(window, top, row);
 
             Assert.Same(ExpectedCommand(viewModel, top, row), rowItem.Command);
+        }
+
+        [AvaloniaTheory]
+        [InlineData("Compo", "New Composition")]
+        [InlineData("Compo", "Delete")]
+        [InlineData("Compo", "Duplicate")]
+        [InlineData("Layer", "New Layer")]
+        [InlineData("Layer", "Delete")]
+        [InlineData("Layer", "Duplicate")]
+        public void Open_ACompositionOrLayerRow_RunsItsCommandAfterTheMenuCloses(string top, string row)
+        {
+            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+
+            var rowItem = OpenRow(window, top, row);
+
+            Assert.True(RunCommandAfterClose.GetIsEnabled(rowItem));
         }
 
         [AvaloniaFact]
