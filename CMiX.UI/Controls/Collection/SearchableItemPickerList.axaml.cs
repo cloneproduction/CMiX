@@ -27,7 +27,7 @@ namespace CMiX.UI.Controls.Collection
         public SearchableItemPickerList()
         {
             _keys = new PickerKeys(() => Matches.Count, _ => true, () => HighlightedIndex, Highlight, TryPick,
-                () => SearchText.Length > 0, () => SearchText = string.Empty);
+                () => !string.IsNullOrEmpty(SearchText), () => SearchText = string.Empty);
             InitializeComponent();
             PART_Search.KeyDown += _keys.OnKeyDown;
 
