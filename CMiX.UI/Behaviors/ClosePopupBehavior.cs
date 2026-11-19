@@ -16,13 +16,13 @@ namespace CMiX.UI.Behaviors
     public class ClosePopupBehavior : Behavior<Popup>
     {
         // The popup closes when the pointer is farther than this from the popup and from the control that opened it.
-        public static readonly StyledProperty<double> DistanceProperty =
-            AvaloniaProperty.Register<ClosePopupBehavior, double>(nameof(Distance), PointerAwayCloser.DefaultDistance);
+        public static readonly StyledProperty<double> PointerAwayDistanceProperty =
+            AvaloniaProperty.Register<ClosePopupBehavior, double>(nameof(PointerAwayDistance), PointerAwayCloser.DefaultDistance);
 
-        public double Distance
+        public double PointerAwayDistance
         {
-            get => GetValue(DistanceProperty);
-            set => SetValue(DistanceProperty, value);
+            get => GetValue(PointerAwayDistanceProperty);
+            set => SetValue(PointerAwayDistanceProperty, value);
         }
 
         // False: the pointer going away does not close the popup. A press outside the popup and a click on a button of it still do.
@@ -47,7 +47,7 @@ namespace CMiX.UI.Behaviors
         public ClosePopupBehavior()
         {
             closer = new PointerAwayCloser(
-                () => Distance,
+                () => PointerAwayDistance,
                 () => ClosesOnPointerAway,
                 () => AssociatedObject?.Child,
                 // The control that opened the popup can be much wider than the popup.

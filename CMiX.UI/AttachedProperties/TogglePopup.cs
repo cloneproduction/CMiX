@@ -114,7 +114,7 @@ namespace CMiX.UI.AttachedProperties
                     return;
 
                 ownBehavior.ClosesOnPointerAway = GetClosesOnPointerAway(popup);
-                ownBehavior.Distance = GetPointerAwayDistance(popup);
+                ownBehavior.PointerAwayDistance = GetPointerAwayDistance(popup);
             }
 
             public void Detach()

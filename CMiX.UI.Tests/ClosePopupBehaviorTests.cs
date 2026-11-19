@@ -92,7 +92,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void TheDistance_IsSixtyFourByDefault()
         {
-            Assert.Equal(64, new ClosePopupBehavior().Distance);
+            Assert.Equal(64, new ClosePopupBehavior().PointerAwayDistance);
         }
 
         [AvaloniaFact]
@@ -101,7 +101,7 @@ namespace CMiX.UI.Tests
             var (window, _, popup) = ShowWideSelectorWithOpenPopup();
             var behavior = AvaloniaInteraction.GetBehaviors(popup).OfType<ClosePopupBehavior>().Single();
 
-            behavior.Distance = 2000;
+            behavior.PointerAwayDistance = 2000;
             Move(window, new Point(5, 5));
 
             Assert.True(popup.IsOpen);
