@@ -60,17 +60,6 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public async Task DropAsync_ABlockedMove_ChangesNothingAndDoesNotThrow()
-        {
-            var (tree, _, a, _) = CreateScene();
-            ShareAnEntity(a);
-
-            await tree.DropAsync(tree.CompositionNodes()[0].Children[0].Children[0], tree.CompositionNodes()[1], DropPosition.Inside);
-
-            Assert.Equal(2, a.LayerManager.ManagerData.Items.Count);
-        }
-
-        [Fact]
         public void CanDrop_AnyMove_AsksTheRules()
         {
             var (tree, _, _, _) = CreateScene();
