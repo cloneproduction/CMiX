@@ -162,7 +162,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void HasAdds_SelectionChanges_FollowsTheAddsOfTheSelectedNode()
+        public void TargetAdds_SelectionChanges_FollowsTheAddsOfTheSelectedNode()
         {
             var provider = TestServiceProviderFactory.Create();
             var project = provider.GetRequiredService<Project>();
@@ -170,7 +170,6 @@ namespace CMiX.Studio.Avalonia.Tests
             var tree = TreeFixtures.CreateTree(provider);
 
             Assert.Equal(new[] { "Add Composition" }, tree.TargetAdds.Select(add => add.Header));
-            Assert.True(tree.HasAdds);
 
             tree.SelectedNode = tree.CompositionNodes()[0];
 

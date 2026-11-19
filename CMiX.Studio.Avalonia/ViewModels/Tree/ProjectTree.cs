@@ -113,8 +113,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public IReadOnlyList<TreeAdd> TargetAdds => targetAdds;
 
-        public bool HasAdds => targetAdds.Count > 0;
-
         private TargetPlace? PlaceOfTarget()
         {
             if (TargetNode is not { Owner: { } list, Item: { } item })

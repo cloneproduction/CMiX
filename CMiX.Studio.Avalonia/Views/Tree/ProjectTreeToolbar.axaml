@@ -11,7 +11,6 @@
         <ui:ButtonIcon
             x:Name="AddButton"
             Click="OnAddClick"
-            IsEnabled="{Binding HasAdds}"
             IconKey="Add"
             Tip="Add"
             TipShortcut="{Binding Shortcuts[Tree.Add], Converter={StaticResource KeyGestureText}}" />

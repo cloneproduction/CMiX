@@ -33,10 +33,6 @@ namespace CMiX.Studio.Avalonia.Views
             if (DataContext is not ProjectTree tree)
                 return;
 
-            // A click on the button must not add a composition by surprise.
-            if (tree.TargetAdds.Count == 0)
-                return;
-
             var node = tree.TargetNode;
             var header = node == null ? null : "Add to " + node.Header;
             if (AddButton.IsPointerOver)

@@ -9,11 +9,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     // The commands of the tree. The keys of the main window have the condition of every tree key (CanRunTreeKey); the toolbar does not.
     public sealed partial class ProjectTree
     {
-        // With no add, the command tells only whether the target node has something to add.
         [RelayCommand(CanExecute = nameof(CanAddItem))]
         private void AddItem(TreeAdd? add) => add?.Execute?.Invoke();
 
-        private bool CanAddItem(TreeAdd? add) => add == null ? HasAdds : add.Execute != null;
+        private bool CanAddItem(TreeAdd? add) => add == null || add.Execute != null;
 
         [RelayCommand(CanExecute = nameof(HasTargetPlace))]
         private void DuplicateItem()

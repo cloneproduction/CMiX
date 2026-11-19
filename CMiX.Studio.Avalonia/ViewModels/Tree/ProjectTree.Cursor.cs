@@ -96,12 +96,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         private void OnTargetChanged()
         {
-            var hadAdds = HasAdds;
             targetAdds = adds.ChoicesFor(TargetNode);
             OnPropertyChanged(nameof(TargetAdds));
-            if (hadAdds != HasAdds)
-                OnPropertyChanged(nameof(HasAdds));
-
             OnPropertyChanged(nameof(TargetNode));
             RefreshCommands();
         }
