@@ -55,9 +55,7 @@ namespace CMiX.Core.Networking
             {
                 foreach (var decoded in batch)
                 {
-                    var entry = decoded.Entry;
-                    var envelope = decoded.Envelope;
-                    var own = decoded.IsOwn;
+                    var (entry, envelope, own) = decoded;
                     var payload = envelope?.Payload;
                     // A timed out append that reached the store is sent again, so an entry can arrive twice.
                     var apply = !own && !_applied.IsDuplicate(envelope.MessageID);
