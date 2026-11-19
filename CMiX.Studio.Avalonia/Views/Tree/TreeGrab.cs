@@ -162,7 +162,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             var position = e.GetPosition(treeView);
             lastPointer = position;
-            if (isMarkFromKey && Distance(position, keyMovePoint) < MouseTakeOver)
+            if (isMarkFromKey && ((Vector)(position - keyMovePoint)).Length < MouseTakeOver)
                 return;
 
             isMarkFromKey = false;
@@ -262,7 +262,5 @@ namespace CMiX.Studio.Avalonia.Views
             Cancel();
             RemoveHandlers();
         }
-
-        private static double Distance(Point a, Point b) => Math.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y));
     }
 }
