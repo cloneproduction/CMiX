@@ -85,8 +85,7 @@ namespace CMiX.Core.Networking
                     }
 
                     // Own entries and duplicates also move the position.
-                    LastAppliedId = entry.Id;
-                    if (entry.Id > TailId) TailId = entry.Id;
+                    AdvanceTo(entry.Id);
 
                     // MessageApplied comes after the position.
                     if (apply) MessageApplied?.Invoke(this, new MessageAppliedEventArgs(entry, payload));
@@ -100,6 +99,12 @@ namespace CMiX.Core.Networking
             _applied.Forget();
             SnapshotApplied?.Invoke(this, EventArgs.Empty);
             // The positions come after the snapshot, Forget and SnapshotApplied.
+            AdvanceTo(position);
+        }
+
+        // The tail only moves up.
+        private void AdvanceTo(StreamPosition position)
+        {
             LastAppliedId = position;
             if (position > TailId) TailId = position;
         }
