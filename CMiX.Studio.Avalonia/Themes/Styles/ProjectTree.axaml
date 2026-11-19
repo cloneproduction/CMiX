@@ -13,6 +13,9 @@
     <!-- The tones of a row by its kind (see CategoryPalette). -->
     <StudioConverters:TreeToneConverter x:Key="TreeTone" />
 
+    <!-- The brush of the icon and the text of a row (see TreeRowBrush). -->
+    <StudioConverters:KindIconBrushConverter x:Key="KindIconBrush" />
+
     <!-- The cover of a row during a drag or a search. -->
     <StudioConverters:TreeCoverConverter x:Key="TreeCover" />
 

@@ -5,7 +5,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
 using Avalonia.Data;
-using CMiX.Studio.Avalonia.Converters;
+using Avalonia.Data.Converters;
+using Avalonia.LogicalTree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -17,7 +18,7 @@ namespace CMiX.Studio.Avalonia.Views
 
     public static class TreeRowBrush
     {
-        private static readonly KindIconBrushConverter Converter = new();
+        private const string ConverterKey = "KindIconBrush";
 
         public static readonly AttachedProperty<TreeRowBrushRole?> RoleProperty =
             AvaloniaProperty.RegisterAttached<Control, TreeRowBrushRole?>("Role", typeof(TreeRowBrush));
@@ -33,13 +34,37 @@ namespace CMiX.Studio.Avalonia.Views
         private static void OnRoleChanged(Control element, AvaloniaPropertyChangedEventArgs e)
         {
             if (e.NewValue is TreeRowBrushRole role)
-                element.Bind(TextElement.ForegroundProperty, CreateBrushBinding(role, e.Priority));
+                BindWhenConverterIsFound(element, role, e.Priority);
+        }
+
+        // A role set in XAML changes before the element is in the logical tree, where no resource is found.
+        private static void BindWhenConverterIsFound(Control element, TreeRowBrushRole role, BindingPriority priority)
+        {
+            if (TryBindBrush(element, role, priority))
+                return;
+
+            void OnAttached(object? sender, LogicalTreeAttachmentEventArgs args)
+            {
+                element.AttachedToLogicalTree -= OnAttached;
+                TryBindBrush(element, role, priority);
+            }
+
+            element.AttachedToLogicalTree += OnAttached;
+        }
+
+        private static bool TryBindBrush(Control element, TreeRowBrushRole role, BindingPriority priority)
+        {
+            if (!element.TryFindResource(ConverterKey, out var resource) || resource is not IMultiValueConverter converter)
+                return false;
+
+            element.Bind(TextElement.ForegroundProperty, CreateBrushBinding(converter, role, priority));
+            return true;
         }
 
         // The brush has the priority of the role, so a role that a style sets gives a style value.
-        private static MultiBinding CreateBrushBinding(TreeRowBrushRole role, BindingPriority priority) => new()
+        private static MultiBinding CreateBrushBinding(IMultiValueConverter converter, TreeRowBrushRole role, BindingPriority priority) => new()
         {
-            Converter = Converter,
+            Converter = converter,
             ConverterParameter = role.ToString(),
             Priority = priority,
             Bindings =
