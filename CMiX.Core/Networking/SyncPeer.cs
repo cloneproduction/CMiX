@@ -28,7 +28,6 @@ namespace CMiX.Core.Networking
         // Stop completes it and does not null it.
         private TaskCompletionSource<bool> _stopped;
         private Action<Action> _dispatcher;
-        private bool _started;
         private bool _wasConnected;
         private bool _afterFirstConnect;
         // True while the follower recovery runs. Read and written with Volatile.
@@ -88,7 +87,6 @@ namespace CMiX.Core.Networking
             Volatile.Write(ref _run, run);
             CreateCompactor();
             _stopped = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            _started = true;
             _wasConnected = false;
             _afterFirstConnect = false;
             _storeError = string.Empty;
@@ -103,15 +101,14 @@ namespace CMiX.Core.Networking
         // Returns at once. Stopped completes when the loops have ended and the store is disposed.
         public void Stop()
         {
-            if (!_started) return;
+            // Read the run once and null the field. Cancel the follower, then the run, then unsubscribe the store.
+            var run = _run;
+            if (run == null) return;
 
-            _started = false;
             var compactor = _compactor;
             DisposeCompactor();
             // The dispose blocks a new compaction, so this is the last one.
             var compacting = compactor?.Running ?? Task.CompletedTask;
-            // Read the run once and null the field. Cancel the follower, then the run, then unsubscribe the store.
-            var run = _run;
             var runTask = _runTask;
             var stopped = _stopped;
             var store = run.Store;

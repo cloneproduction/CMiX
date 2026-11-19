@@ -96,7 +96,7 @@ namespace CMiX.Core.Networking
         public bool IsInSync => IsConnected && IsJoined && LastAppliedId == TailId;
 
         public string Status =>
-            !_started ? "Not started" :
+            _run == null ? "Not started" :
             !IsConnected ? (_wasConnected ? "Reconnecting" : "Connecting") :
             _activity != null ? _activity :
             !IsJoined ? "Not in sync" : "Connected";

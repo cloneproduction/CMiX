@@ -66,7 +66,7 @@ namespace CMiX.Core.Networking
                 run.Follower?.Wake();
 
             // A reconnect while not joined: the engine joins again, the Studio checks the start.
-            if (connected && _started && _afterFirstConnect && !IsJoined)
+            if (connected && _afterFirstConnect && !IsJoined)
             {
                 var ct = run.Cts.Token;
                 if (run.AutoJoin)
