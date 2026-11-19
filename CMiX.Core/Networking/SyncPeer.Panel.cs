@@ -38,8 +38,7 @@ namespace CMiX.Core.Networking
             set => Timings = Timings with { CompactionDelay = value };
         }
 
-        // How many entries one read returns, and so how many one dispatched action applies. The
-        // patch sets it before Start.
+        // How many entries one read returns, and one dispatched action applies. Set before Start.
         public int ReadBatch
         {
             get => Timings.ReadBatch;
@@ -55,17 +54,13 @@ namespace CMiX.Core.Networking
 
         public int PendingMessages => _outgoing.PendingCount;
 
-        // Completes when the run of the last Start has ended: the loops have returned and the store
-        // is disposed. Before the first Start it is a completed task. A test waits for it before it
-        // deletes the keys of the run.
+        // Completes when the loops have returned and the store is disposed. Completed before the first Start.
         public Task Stopped => _stopped?.Task ?? Task.CompletedTask;
 
         public event EventHandler<MessageAppliedEventArgs> MessageApplied;
         public event EventHandler<MessageSentEventArgs> MessageSent;
 
-        // Comes after the target applied a snapshot, on the dispatcher thread. A listener empties
-        // what the snapshot does not carry. The events follow the .NET event pattern, so vvvv
-        // shows them as observable nodes.
+        // Raised on the dispatcher thread after the target applied a snapshot.
         public event EventHandler SnapshotApplied;
 
         [ObservableProperty]
@@ -84,7 +79,6 @@ namespace CMiX.Core.Networking
         [NotifyPropertyChangedFor(nameof(IsInSync))]
         private StreamPosition _tailId;
 
-        // The ID of the last own entry the store confirmed.
         [ObservableProperty]
         private StreamPosition _lastSentId;
 
@@ -97,8 +91,7 @@ namespace CMiX.Core.Networking
         [ObservableProperty]
         private long _appliedMessages;
 
-        // The queue appends only while the peer is joined, so entries from before a restart never
-        // land on a store the user has not chosen yet.
+        // The queue appends only while joined, so old edits never land on a store the user has not chosen.
         partial void OnIsJoinedChanged(bool value)
         {
             _messenger.IsSendingBlocked = !value;

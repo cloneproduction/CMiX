@@ -32,17 +32,15 @@ namespace CMiX.Core.Networking
                 // The tail of another store is the true one. Every other tick only moves it up.
                 if (tick.Tail > TailId || behindTail) TailId = tick.Tail;
                 if (tick.Peers != null) ReplacePeers(tick.Peers);
-                // The recovery can see the same gap. Then the snapshot is applied twice.
+                // The recovery sees the same gap, so the check skips while it runs.
                 gap = IsJoined && !Volatile.Read(ref _recovering) && (behindTail || HasGap(tick.SnapshotId, tick.Oldest));
 
-                // The store lost the snapshot, for example after a restart without the data. The
-                // writer makes it again, or a late peer finds nothing to join from.
+                // The store lost the snapshot, for example after a restart. The writer makes a new one.
                 if (IsJoined && _compactor != null && tick.SnapshotId == StreamPosition.Zero)
                     _compactor.Request();
             }).ConfigureAwait(false);
 
-            // A peer behind the tail of a replacement store must adopt the state of that store, also
-            // when its snapshot is below the own position. Only the re-join after a trim can skip.
+            // After the tick: a gap starts the re-join, the full join when the peer is behind the tail.
             if (!gap) return;
 
             if (behindTail)
@@ -51,11 +49,7 @@ namespace CMiX.Core.Networking
                 await RejoinAfterGapAsync(run).ConfigureAwait(false);
         }
 
-        // A replacement store with an earlier clock gives IDs below the own position. The reader
-        // then waits for entries that never come, so the peer joins the new store from its snapshot.
-        // The tail is compared with the position from before the tail was read: own appends after
-        // the read, for example during a drag, move the position past that tail in the same store.
-        // A join after the read can lower the position, so the lower of the two positions counts.
+        // The tail is below the lower of the own position and the position at the read: a replacement store.
         private bool IsBehindTail(StreamPosition tail, StreamPosition positionAtRead)
         {
             var position = positionAtRead < LastAppliedId ? positionAtRead : LastAppliedId;

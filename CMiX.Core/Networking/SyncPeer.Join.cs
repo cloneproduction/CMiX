@@ -37,8 +37,7 @@ namespace CMiX.Core.Networking
             var store = run.Store;
             var ct = run.Cts.Token;
 
-            // A store error makes the join fail. An engine has no user who repeats it, so it tries
-            // again until it is in the sync.
+            // An engine has no user who repeats a failed join, so it tries again with a growing backoff.
             var timings = run.Timings;
             var backoff = timings.MinBackoff;
             while (!ct.IsCancellationRequested && !IsJoined)
@@ -58,6 +57,7 @@ namespace CMiX.Core.Networking
                     await WaitForConnectionEventAsync(store, backoff, ct).ConfigureAwait(false);
                 }
 
+                // Double the backoff up to MaxBackoff. The loop checks the run after every wait.
                 backoff = TimeSpan.FromTicks(Math.Min(backoff.Ticks * 2, timings.MaxBackoff.Ticks));
             }
         }
@@ -65,11 +65,11 @@ namespace CMiX.Core.Networking
         private Task JoinAsync(SyncRun run)
             => RunUnderJoinLockAsync(run, () => AdoptStoreAsync(run));
 
-        // The engine joins by itself. A try that waited for the lock does nothing when another try joined already.
+        // The engine joins by itself. Under the lock, a peer that is joined already does nothing.
         private Task AutoJoinAsync(SyncRun run)
             => RunUnderJoinLockAsync(run, () => IsJoined ? Task.CompletedTask : AdoptStoreAsync(run));
 
-        // The re-join of the heartbeat after a trim. The follower stop and the activity come before the shortcut.
+        // The re-join after a trim. The follower stop and the activity come before the shortcut.
         private Task RejoinAfterGapAsync(SyncRun run)
         {
             var store = run.Store;
@@ -84,10 +84,7 @@ namespace CMiX.Core.Networking
                 var snapshotId = await store.ReadSnapshotIdAsync().ConfigureAwait(false);
                 if (!IsCurrent(run)) return;
 
-                // The follower closed the gap while this join waited for it: its recovery
-                // applied the snapshot. A second apply would rebuild the state again, so this
-                // join only replays what comes after the position. A store without a snapshot
-                // says nothing, so it takes the full join.
+                // The follower recovery applied the snapshot already, so only replay from the position.
                 if (snapshotId != StreamPosition.Zero && snapshotId <= LastAppliedId)
                 {
                     await ReplayAsync(run, LastAppliedId).ConfigureAwait(false);
@@ -115,20 +112,19 @@ namespace CMiX.Core.Networking
             var store = run.Store;
             var ct = run.Cts.Token;
 
-            // The store state replaces the local one, so the local edits in the queue go away.
-            // An append in flight lands before the read, so it is part of what is adopted.
+            // The store state replaces the local one: discard the queue and wait for an append in flight.
             _outgoing.Discard();
             await _outgoing.IdleAsync(ct).ConfigureAwait(false);
             if (!IsCurrent(run)) return;
 
+            // Read the snapshot, then the tail.
             var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
             if (!IsCurrent(run)) return;
 
             var tail = await store.ReadTailAsync().ConfigureAwait(false);
             if (!IsCurrent(run)) return;
 
-            // Nothing to adopt: the local state becomes the store state. A non-writer keeps
-            // its local state and follows the stream from the start instead.
+            // Nothing to adopt: a writer pushes its state, a non-writer follows the stream from the start.
             if (snapshot == null && tail == StreamPosition.Zero)
             {
                 if (IsWriter)
@@ -180,6 +176,7 @@ namespace CMiX.Core.Networking
 
         private async Task RunUnderJoinLockAsync(SyncRun run, Func<Task> body)
         {
+            // Take the lock, check the run, then run the body.
             if (!await WaitJoinLockAsync(run.Cts.Token).ConfigureAwait(false)) return;
             try
             {
@@ -187,6 +184,7 @@ namespace CMiX.Core.Networking
 
                 await body().ConfigureAwait(false);
             }
+            // A cancel ends in silence. Any other error goes to ErrorMessage.
             catch (OperationCanceledException)
             {
             }
@@ -197,6 +195,7 @@ namespace CMiX.Core.Networking
             }
             finally
             {
+                // The activity clears first, then the lock releases.
                 await SetActivityAsync(null).ConfigureAwait(false);
                 _joinLock.Release();
             }
@@ -213,7 +212,7 @@ namespace CMiX.Core.Networking
             await FinishJoinAsync(run).ConfigureAwait(false);
         }
 
-        // Ends a join or a push: the peer is in sync, and the follower reads from the position.
+        // Ends a join or a push: ErrorMessage clears, IsJoined is true, then the follower starts.
         private Task FinishJoinAsync(SyncRun run)
             => DispatchCurrentAsync(run, () =>
             {
@@ -222,14 +221,12 @@ namespace CMiX.Core.Networking
                 StartFollower(run);
             });
 
-        // Appends the full model as one entry for the running peers, then writes the snapshot for
-        // the late ones, then trims everything older.
+        // Push order: discard and idle the queue, the full model as one entry, the snapshot, the trim.
         private async Task PushCoreAsync(SyncRun run)
         {
             var store = run.Store;
 
-            // The model holds every queued edit, so the queue is emptied. An append in flight must
-            // land before the snapshot entry, or a peer applies it on top of the pushed state.
+            // The model holds every queued edit. An append in flight must land before the snapshot entry.
             _outgoing.Discard();
             await _outgoing.IdleAsync(run.Cts.Token).ConfigureAwait(false);
             if (!IsCurrent(run)) return;
@@ -251,9 +248,11 @@ namespace CMiX.Core.Networking
             await store.WriteSnapshotAsync(snapshot).ConfigureAwait(false);
             if (!IsCurrent(run)) return;
 
+            // The trim comes after the snapshot, so a late engine finds it.
             await store.TrimAsync(id).ConfigureAwait(false);
             if (!IsCurrent(run)) return;
 
+            // The four state values change in one dispatched write.
             await DispatchCurrentAsync(run, () =>
             {
                 LastSentId = id;

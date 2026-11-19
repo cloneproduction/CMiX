@@ -16,6 +16,7 @@ namespace CMiX.Core.Networking
     {
         public void SendMessage(IMessage message)
         {
+            // A peer that is not the writer drops the message.
             if (message == null || !IsWriter) return;
 
             var envelope = new MessageEnvelope
@@ -30,9 +31,7 @@ namespace CMiX.Core.Networking
             MessageSent?.Invoke(this, new MessageSentEventArgs(message));
         }
 
-        // The position comes first. The count comes after the entry left the queue, so a reader of
-        // both never sees a caught-up peer while the entry is still on its way. Returns false when
-        // the run is over. The entry then belongs to the store of that run only.
+        // The position first, the count after the entry left the queue. False when the run is over.
         private Task<bool> OnSentAsync(SyncRun run, StreamPosition id)
             => DispatchCurrentAsync(run, () =>
             {

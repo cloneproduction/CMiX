@@ -22,8 +22,7 @@ namespace CMiX.Core.Networking
                 await store.ConnectAsync(ct).ConfigureAwait(false);
                 if (store.IsConnected) return;
 
-                // A store that misses the event of the server keeps the peer waiting. The connect
-                // of a store that already has its client is cheap, so the poll is short.
+                // A store can miss the connect event, so the wait is a short poll.
                 await WaitForConnectionEventAsync(store, timings.HeartbeatInterval, ct).ConfigureAwait(false);
                 if (store.IsConnected) return;
             }
@@ -48,8 +47,7 @@ namespace CMiX.Core.Networking
             }
         }
 
-        // A run that subscribes after its Stop leaves a handler on the store it left. The sender
-        // tells those events from the events of the current store.
+        // A stale run can leave a handler on its store. The handler ignores a store that is not the current one.
         private void OnConnectionChanged(ISyncStore sender, bool connected)
         {
             var run = Volatile.Read(ref _run);
@@ -72,12 +70,11 @@ namespace CMiX.Core.Networking
                     _compactor.Request();
             });
 
-            // The follower can wait out a long backoff. Only the follower of the current run gets
-            // the signal, because Stop and a new join clear the field.
+            // Wake the follower of the current run out of a long backoff.
             if (connected)
                 run.Follower?.Wake();
 
-            // A reconnect while the peer is not in sync. The store state can have changed.
+            // A reconnect while not joined: the engine joins again, the Studio checks the start.
             if (connected && _started && _afterFirstConnect && !IsJoined)
             {
                 var ct = run.Cts.Token;
@@ -88,7 +85,7 @@ namespace CMiX.Core.Networking
             }
         }
 
-        // Runs on the dispatcher thread.
+        // Clears ErrorMessage only when it still shows the store error. Runs on the dispatcher thread.
         private void ClearStoreError()
         {
             if (ErrorMessage == _storeError)
@@ -97,6 +94,7 @@ namespace CMiX.Core.Networking
             _storeError = string.Empty;
         }
 
+        // Shows a reason only when it is not empty.
         private void ShowStoreError(string reason)
         {
             if (reason.Length == 0)

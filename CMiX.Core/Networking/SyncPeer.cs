@@ -12,8 +12,7 @@ using VL.Serialization.MessagePack;
 
 namespace CMiX.Core.Networking
 {
-    // One process in the sync: the Studio, an Engine, or a console. It appends its own edits to
-    // the store, applies the edits of the other peers, and joins from the snapshot.
+    // A process in the sync. It sends its own edits, applies the edits of the others, and joins from the snapshot.
     public partial class SyncPeer : ObservableObject, IMessageSender, IDisposable
     {
         private readonly ISyncTarget _target;
@@ -30,13 +29,13 @@ namespace CMiX.Core.Networking
         private SnapshotCompactor _compactor;
         private bool _compactionEnabled;
         private Task _runTask;
+        // Stop completes it and does not null it.
         private TaskCompletionSource<bool> _stopped;
         private Action<Action> _dispatcher;
         private bool _started;
         private bool _wasConnected;
         private bool _afterFirstConnect;
-        // True while the follower recovery runs. The recovery and the heartbeat run on different
-        // threads, so both use Volatile for this field.
+        // True while the follower recovery runs. Read and written with Volatile.
         private bool _recovering;
         private string _activity;
         // The last store reason the peer showed. A clear must not wipe another message.
@@ -73,6 +72,7 @@ namespace CMiX.Core.Networking
         // Returns at once. A background task connects, joins when asked, and starts the loops.
         public void Start(SyncOptions options)
         {
+            // Stop first, then make the new run.
             Stop();
             Options = options.WithFallbacks();
             StartWith(new SyncRun(_storeFactory(Options), Timings, new CancellationTokenSource(), false));
@@ -80,6 +80,7 @@ namespace CMiX.Core.Networking
 
         public void StartAndJoin(SyncOptions options)
         {
+            // Stop first, then make the new run.
             Stop();
             Options = options.WithFallbacks();
             StartWith(new SyncRun(_storeFactory(Options), Timings, new CancellationTokenSource(), true));
@@ -87,6 +88,7 @@ namespace CMiX.Core.Networking
 
         private void StartWith(SyncRun run)
         {
+            // The run is set before the compactor. The run task starts with the run.
             Volatile.Write(ref _run, run);
             CreateCompactor();
             _stopped = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -102,8 +104,7 @@ namespace CMiX.Core.Networking
             _runTask = Task.Run(() => RunAsync(run), run.Cts.Token);
         }
 
-        // Returns at once. The loops end and the store is disposed on a background task. Stopped
-        // completes when that work is done. Queued messages stay queued.
+        // Returns at once. Stopped completes when the loops have ended and the store is disposed.
         public void Stop()
         {
             if (!_started) return;
@@ -113,6 +114,7 @@ namespace CMiX.Core.Networking
             DisposeCompactor();
             // The dispose blocks a new compaction, so this is the last one.
             var compacting = compactor?.Running ?? Task.CompletedTask;
+            // Read the run once and null the field. Cancel the follower, then the run, then unsubscribe the store.
             var run = _run;
             var followerTask = run.FollowerTask;
             var runTask = _runTask;
@@ -131,8 +133,7 @@ namespace CMiX.Core.Networking
             {
                 try
                 {
-                    // The loops and the compaction must end before the store closes. Otherwise a
-                    // last heartbeat, append or snapshot lands after the stop.
+                    // Wait for the loops and the last compaction before the store closes, bounded by StopTimeout.
                     await Task.WhenAny(WaitForAsync(runTask, followerTask, compacting), Task.Delay(stopTimeout)).ConfigureAwait(false);
 
                     await store.DisposeAsync().ConfigureAwait(false);
@@ -152,12 +153,10 @@ namespace CMiX.Core.Networking
             _afterFirstConnect = false;
             _storeError = string.Empty;
 
-            // The loops write the state through the dispatcher. The reset goes the same way, so it
-            // comes after a write of a loop that is already queued. It posts and does not wait.
+            // The state reset goes through the dispatcher, after the queued writes of the loops. It does not wait.
             Dispatch(() =>
             {
-                // A new store can restart its IDs. A kept position would look like an entry that
-                // never arrives, or like a gap.
+                // A new store can restart its IDs, so the positions go back to zero.
                 LastSentId = StreamPosition.Zero;
                 LastAppliedId = StreamPosition.Zero;
                 TailId = StreamPosition.Zero;
@@ -170,7 +169,7 @@ namespace CMiX.Core.Networking
 
         public void Dispose() => Stop();
 
-        // Returns when the run has ended, so the stop work can wait for the loops it started.
+        // Returns when the run has ended.
         private async Task RunAsync(SyncRun run)
         {
             var store = run.Store;
@@ -235,13 +234,10 @@ namespace CMiX.Core.Networking
             }
         }
 
-        // False after a Stop, or after a Start that made a new run. Then the caller belongs to an
-        // earlier run and must change nothing.
+        // False after a Stop or after a newer Start. Then the caller is of an earlier run.
         private bool IsCurrent(SyncRun run) => ReferenceEquals(Volatile.Read(ref _run), run);
 
-        // Makes the state change only when the run is still the current one. Returns false when it
-        // did nothing. The dispatcher and Start and Stop use the same thread, so the check and the
-        // change cannot be separated.
+        // Checks the run inside the dispatched action, on the dispatcher thread. Returns false when it did nothing.
         private Task<bool> DispatchCurrentAsync(SyncRun run, Action action) => DispatchAsync(() =>
         {
             if (!IsCurrent(run)) return false;

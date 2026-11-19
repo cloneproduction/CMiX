@@ -33,11 +33,7 @@ namespace CMiX.Core.Networking
             }
         }
 
-        // The run is that of the reader that found the entries. Entries that were read before a
-        // restart must change nothing after it. The batch runs as one action on the dispatcher
-        // thread, and Start and Stop run on that thread too, so one run check at the start of the
-        // action covers the whole batch. One action per batch keeps a frame based dispatcher from
-        // applying one entry per frame.
+        // One action per batch. The run check inside it covers the whole batch.
         private async Task ApplyEntriesAsync(SyncRun run, IReadOnlyList<StreamEntry> entries)
         {
             if (entries.Count == 0) return;
@@ -67,8 +63,7 @@ namespace CMiX.Core.Networking
                     var envelope = decoded.Envelope;
                     var own = decoded.IsOwn;
                     var payload = envelope?.Payload;
-                    // An append that timed out on the client but reached the store is sent again.
-                    // The entry then arrives twice, and a move applied twice gives a wrong order.
+                    // A timed out append that reached the store is sent again, so an entry can arrive twice.
                     var apply = !own && !_applied.IsDuplicate(envelope.MessageID);
 
                     if (apply)
@@ -76,6 +71,7 @@ namespace CMiX.Core.Networking
                         try
                         {
                             _target.Apply(payload);
+                            // A snapshot entry forgets the applied IDs and raises SnapshotApplied.
                             if (payload is MessageProjectSnapshot)
                             {
                                 _applied.Forget();
@@ -91,9 +87,11 @@ namespace CMiX.Core.Networking
                         }
                     }
 
+                    // Own entries and duplicates also move the position.
                     LastAppliedId = entry.Id;
                     if (entry.Id > TailId) TailId = entry.Id;
 
+                    // MessageApplied comes after the position.
                     if (apply) MessageApplied?.Invoke(this, new MessageAppliedEventArgs(entry, payload));
                 }
             }).ConfigureAwait(false);
@@ -104,6 +102,7 @@ namespace CMiX.Core.Networking
             _target.ApplySnapshot(model);
             _applied.Forget();
             SnapshotApplied?.Invoke(this, EventArgs.Empty);
+            // The positions come after the snapshot, Forget and SnapshotApplied.
             LastAppliedId = position;
             if (position > TailId) TailId = position;
         }

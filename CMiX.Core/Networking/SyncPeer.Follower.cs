@@ -14,9 +14,7 @@ namespace CMiX.Core.Networking
 {
     public partial class SyncPeer
     {
-        // The stream was trimmed past the own position when its oldest entry is newer than that
-        // position and the snapshot is ahead. Then the entries in between are gone, and only the
-        // snapshot has the state. An empty stream has no gap.
+        // The stream was trimmed past the own position: the oldest entry is newer and the snapshot is ahead.
         private bool HasGap(StreamPosition snapshotId, StreamPosition? oldest)
             => snapshotId > LastAppliedId && oldest.HasValue && oldest.Value > LastAppliedId;
 
@@ -41,8 +39,7 @@ namespace CMiX.Core.Networking
             run.FollowerTask = null;
             if (cts == null) return;
 
-            // The source is not disposed. Stop can still hold a reference to it, and a cancelled
-            // linked source without a timer costs nearly nothing.
+            // The source is not disposed: Stop can still hold it, and a cancelled source costs nearly nothing.
             Cancel(cts);
             if (task != null)
             {
@@ -57,12 +54,11 @@ namespace CMiX.Core.Networking
             }
         }
 
-        // After a store error or a long pause: show the state, and re-apply the snapshot only when
-        // the stream was trimmed past the own position while the peer was away. Otherwise the
-        // reader replays.
+        // Recovery: apply the snapshot again only when the stream was trimmed past the own position.
         private async Task OnFollowerErrorAsync(SyncRun run)
         {
             var store = run.Store;
+            // The flag covers the whole recovery.
             Volatile.Write(ref _recovering, true);
             try
             {

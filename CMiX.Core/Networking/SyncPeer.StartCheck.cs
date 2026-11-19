@@ -30,6 +30,7 @@ namespace CMiX.Core.Networking
             var snapshot = await store.ReadSnapshotAsync().ConfigureAwait(false);
             var tail = await store.ReadTailAsync().ConfigureAwait(false);
 
+            // No snapshot and an empty stream gives PushSilently.
             if (snapshot == null)
                 return new StartEvaluation(tail == StreamPosition.Zero ? StartCheck.PushSilently : StartCheck.NotInSync, tail);
 
@@ -43,21 +44,21 @@ namespace CMiX.Core.Networking
             return new StartEvaluation(same ? StartCheck.AlreadyInSync : StartCheck.NotInSync, snapshot.StreamId);
         }
 
-        // Acts on the start check. NotInSync leaves the peer blocked until the user pushes or pulls.
-        // Runs under the join lock, so a connection event during the check cannot start a second
-        // check, and a queued check after a join does nothing.
+        // Runs under the join lock. NotInSync leaves the peer blocked until the user pushes or pulls.
         private Task RunStartCheckAsync(SyncRun run)
         {
             return RunUnderJoinLockAsync(run, CheckAsync);
 
             async Task CheckAsync()
             {
+                // A check queued after a join does nothing.
                 if (IsJoined) return;
 
                 await SetActivityAsync("Checking").ConfigureAwait(false);
                 var result = await EvaluateStartAsync(run.Store).ConfigureAwait(false);
                 if (!IsCurrent(run)) return;
 
+                // The activity clears before the check acts, and again in the finally of the lock.
                 await SetActivityAsync(null).ConfigureAwait(false);
 
                 switch (result.Check)
