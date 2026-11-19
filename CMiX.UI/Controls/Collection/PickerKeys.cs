@@ -6,35 +6,30 @@ using Avalonia.Input;
 
 namespace CMiX.UI.Controls.Collection
 {
+    // What the keys of a search list need from the list: its rows, its highlight and its search.
+    public interface IPickerRows
+    {
+        int Count { get; }
+        int Highlighted { get; }
+        bool Searching { get; }
+        bool IsUsable(int index);
+        void Highlight(int index);
+        bool TryActivate(int index);
+        void ClearSearch();
+    }
+
     // The cursor over the rows of a search list and the keys of its search field. The list keeps the highlighted row.
     public sealed class PickerKeys
     {
-        private readonly Func<int> count;
-        private readonly Func<int, bool> isUsable;
-        private readonly Func<int> highlighted;
-        private readonly Action<int> highlight;
-        private readonly Func<int, bool> tryActivate;
-        private readonly Func<bool> searching;
-        private readonly Action clearSearch;
+        private readonly IPickerRows rows;
 
-        public PickerKeys(Func<int> count, Func<int, bool> isUsable, Func<int> highlighted, Action<int> highlight,
-            Func<int, bool> tryActivate, Func<bool> searching, Action clearSearch)
+        public PickerKeys(IPickerRows rows)
         {
-            this.count = count;
-            this.isUsable = isUsable;
-            this.highlighted = highlighted;
-            this.highlight = highlight;
-            this.tryActivate = tryActivate;
-            this.searching = searching;
-            this.clearSearch = clearSearch;
+            this.rows = rows;
         }
 
         // Highlights the row at the index, kept inside the rows, or no row when there are none.
-        public void Reset(int index)
-        {
-            var rows = count();
-            highlight(rows == 0 ? -1 : Math.Clamp(index, 0, rows - 1));
-        }
+        public void Reset(int index) => rows.Highlight(rows.Count == 0 ? -1 : Math.Clamp(index, 0, rows.Count - 1));
 
         public void Next() => Reset(UsableFrom(1));
 
@@ -55,11 +50,11 @@ namespace CMiX.UI.Controls.Collection
                     break;
 
                 case Key.Enter:
-                    e.Handled = tryActivate(highlighted());
+                    e.Handled = rows.TryActivate(rows.Highlighted);
                     break;
 
-                case Key.Escape when searching():
-                    clearSearch();
+                case Key.Escape when rows.Searching:
+                    rows.ClearSearch();
                     e.Handled = true;
                     break;
             }
@@ -68,11 +63,10 @@ namespace CMiX.UI.Controls.Collection
         // The first usable row after the highlighted one in the direction, or the highlighted row when there is none.
         private int UsableFrom(int direction)
         {
-            var start = highlighted();
-            var rows = count();
-            for (var index = start + direction; index >= 0 && index < rows; index += direction)
+            var start = rows.Highlighted;
+            for (var index = start + direction; index >= 0 && index < rows.Count; index += direction)
             {
-                if (isUsable(index))
+                if (rows.IsUsable(index))
                     return index;
             }
 

@@ -15,7 +15,7 @@ namespace CMiX.UI.Controls.Collection
 {
     // A list of groups under a search field. A header shows its row count. A group over CollapseFrom rows starts closed.
     // Right and Left open and close a header, Escape raises Cancelled. PickerKeys holds Down, Up, Enter and Escape.
-    public partial class GroupedSearchList : UserControl
+    public partial class GroupedSearchList : UserControl, IPickerRows
     {
         private sealed record RowRef(PickerGroup Group, PickerItem? Item, Border Visual);
 
@@ -34,8 +34,7 @@ namespace CMiX.UI.Controls.Collection
 
         public GroupedSearchList()
         {
-            keys = new PickerKeys(() => rows.Count, IsUsable, () => highlighted, Highlight, TryActivate,
-                () => Searching, () => SearchText = string.Empty);
+            keys = new PickerKeys(this);
             InitializeComponent();
             PART_Search.KeyDown += OnSearchKeyDown;
         }
@@ -293,8 +292,20 @@ namespace CMiX.UI.Controls.Collection
             Picked?.Invoke(this, new PickerPickedEventArgs(row.Group, row.Item));
         }
 
+        int IPickerRows.Count => rows.Count;
+
+        int IPickerRows.Highlighted => highlighted;
+
+        bool IPickerRows.Searching => Searching;
+
+        bool IPickerRows.IsUsable(int index) => IsUsable(index);
+
+        void IPickerRows.Highlight(int index) => Highlight(index);
+
+        void IPickerRows.ClearSearch() => SearchText = string.Empty;
+
         // Enter is used even on a row that does nothing.
-        private bool TryActivate(int index)
+        bool IPickerRows.TryActivate(int index)
         {
             Activate(index);
             return true;

@@ -11,7 +11,7 @@ namespace CMiX.UI.Controls.Collection
 {
     // An ItemPickerList under a search field. The rows are the items whose text holds the search text, in any case.
     // The filter reads item names when the text changes. PickerKeys holds Down, Up, Enter and Escape.
-    public partial class SearchableItemPickerList : ItemPickerBase
+    public partial class SearchableItemPickerList : ItemPickerBase, IPickerRows
     {
         private readonly PickerKeys _keys;
         private INotifyCollectionChanged? _watched;
@@ -26,8 +26,7 @@ namespace CMiX.UI.Controls.Collection
 
         public SearchableItemPickerList()
         {
-            _keys = new PickerKeys(() => Matches.Count, _ => true, () => HighlightedIndex, Highlight, TryPick,
-                () => !string.IsNullOrEmpty(SearchText), () => SearchText = string.Empty);
+            _keys = new PickerKeys(this);
             InitializeComponent();
             PART_Search.KeyDown += _keys.OnKeyDown;
 
@@ -142,7 +141,19 @@ namespace CMiX.UI.Controls.Collection
                 PART_List.HighlightedItem = index < 0 || index >= Matches.Count ? null : Matches[index];
         }
 
-        private bool TryPick(int index)
+        int IPickerRows.Count => Matches.Count;
+
+        int IPickerRows.Highlighted => HighlightedIndex;
+
+        bool IPickerRows.Searching => !string.IsNullOrEmpty(SearchText);
+
+        bool IPickerRows.IsUsable(int index) => true;
+
+        void IPickerRows.Highlight(int index) => Highlight(index);
+
+        void IPickerRows.ClearSearch() => SearchText = string.Empty;
+
+        bool IPickerRows.TryActivate(int index)
         {
             if (index < 0 || ItemCommand is not { } command || !command.CanExecute(Matches[index]))
                 return false;
