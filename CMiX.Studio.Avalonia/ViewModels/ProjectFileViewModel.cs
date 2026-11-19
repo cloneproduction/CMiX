@@ -34,19 +34,20 @@ namespace CMiX.Studio.Avalonia.ViewModels
         private readonly IMessageNotice _messageNotice;
         private static readonly List<FileFilter> ProjectFilters = new() { new FileFilter("CMiX Project", "cmix") };
 
-        // True: the project may be discarded. The fingerprint is computed once. Save counts only when the file was written, so a cancelled Save As keeps the project.
-        public async Task<bool> ConfirmDiscardAsync()
-        {
-            if (!_unsavedChanges.HasChanges)
-                return true;
+        // One fingerprint of the whole project. A caller reads it once and then asks with AskToDiscardAsync.
+        public bool HasUnsavedChanges => _unsavedChanges.HasChanges;
 
-            return await _unsavedChangesPrompt.AskAsync() switch
+        // True: the project may be discarded.
+        public async Task<bool> ConfirmDiscardAsync() => !HasUnsavedChanges || await AskToDiscardAsync();
+
+        // Asks without a fingerprint check. Save counts only when the file was written, so a cancelled Save As keeps the project.
+        public async Task<bool> AskToDiscardAsync() =>
+            await _unsavedChangesPrompt.AskAsync() switch
             {
                 UnsavedChangesChoice.Save => await WriteOrAskForPath(),
                 UnsavedChangesChoice.DontSave => true,
                 _ => false
             };
-        }
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(TitleBarText))]

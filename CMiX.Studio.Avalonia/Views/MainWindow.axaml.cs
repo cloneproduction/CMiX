@@ -11,7 +11,6 @@ using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 using CMiX.UI.Behaviors;
 using Avalonia.LogicalTree;
-using Avalonia.Threading;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.ViewModels;
@@ -75,20 +74,20 @@ namespace CMiX.Studio.Avalonia.Views
             Interaction.GetBehaviors(this).Add(toggleDrag);
         }
 
-        // The cross button, Alt+F4 and the close command all end here. The close is put off until the project
-        // file has answered, with one fingerprint check. The window then closes for good, without asking again.
+        // The cross button, Alt+F4 and the close command all end here. With unsaved changes the close is
+        // put off until the user has answered. The window then closes for good, without asking again.
         private async void OnClosing(object? sender, WindowClosingEventArgs e)
         {
-            if (DataContext is not MainViewModel viewModel)
+            if (DataContext is not MainViewModel { ProjectFile.HasUnsavedChanges: true } viewModel)
                 return;
 
             e.Cancel = true;
 
-            if (!await viewModel.ProjectFile.ConfirmDiscardAsync())
+            if (!await viewModel.ProjectFile.AskToDiscardAsync())
                 return;
 
             Closing -= OnClosing;
-            Dispatcher.UIThread.Post(Close);
+            Close();
         }
 
         private MainMenuViewModel? _menu;
