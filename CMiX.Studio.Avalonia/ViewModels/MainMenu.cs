@@ -10,7 +10,6 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
-using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Persistence;
@@ -25,9 +24,9 @@ using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 namespace CMiX.Studio.Avalonia.ViewModels
 {
-    public partial class MainMenu : ObservableRecipient, IControl
+    public partial class MainMenu : ObservableObject
     {
-        public MainMenu(Project project, ControlFactory controlFactory, UndoManager undoManager, IDialogService dialogService,
+        public MainMenu(Project project, UndoManager undoManager, IDialogService dialogService,
                         UnsavedChanges unsavedChanges, IUnsavedChangesPrompt unsavedChangesPrompt, IMessageNotice messageNotice,
                         ISyncTarget syncTarget, SyncPeer sync)
         {
@@ -53,8 +52,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
             UndoCommand = new RelayCommand(() => undoManager.Undo());
             RedoCommand = new RelayCommand(() => undoManager.Redo());
             CloseWindowCommand = new RelayCommand(CloseMainWindow);
-
-            ControlFactory = controlFactory;
         }
 
         private readonly UndoManager _undoManager;
@@ -95,8 +92,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public string TitleBarText =>
             $"CMiX - {(string.IsNullOrWhiteSpace(FolderPath) ? "(Unsaved)" : Path.GetFileName(FolderPath))}";
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public ControlFactory ControlFactory { get; set; }
         public Project Project { get; set; }
 
         public ICommand NewProjectCommand { get; }
@@ -312,8 +307,5 @@ namespace CMiX.Studio.Avalonia.ViewModels
             var projectModel = ProjectModelBuilder.Build(Project);
             await Task.Run(() => ProjectSerializer.Save(projectModel, path));
         }
-
-        public IControlModel ToModel() => throw new NotImplementedException();
-        public void FromModel(IControlModel model) => throw new NotImplementedException();
     }
 }
