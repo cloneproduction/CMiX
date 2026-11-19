@@ -45,7 +45,7 @@ These rules apply to every task in this repository.
 
 - State objects use CommunityToolkit.Mvvm (ObservableObject, [ObservableProperty],
   RelayCommand, AsyncRelayCommand). Services are singletons, registered in
-  `AddCMiXCore` with constructor injection. No statics. Each host starts its peer
+  `AddCMiXCore` with constructor injection. No static state. A static class is allowed when it holds pure functions and no state. Each host starts its peer
   with `SyncPeerStartup` (`StartAsStudio`, `StartAsEngine`).
 - Wire data uses MessagePack through VL.Serialization.MessagePack. Project
   files and hashes use System.Text.Json with ProjectSerializer.Options.
