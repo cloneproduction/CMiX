@@ -201,6 +201,8 @@ namespace CMiX.Studio.Avalonia.Tests
                 Assert.Equal("Open Project", title);
                 Assert.Equal($"{Path.GetFileName(path)}: The apply failed.", text);
                 Assert.Null(viewModel.ProjectFile.ProjectPath);
+                Assert.Empty(viewModel.Project.CompositionManager.ManagerData.Items);
+                Assert.False(viewModel.ProjectFile.HasUnsavedChanges);
             }
             finally
             {

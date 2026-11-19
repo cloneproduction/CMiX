@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using CMiX.Core.Compositing;
 using CMiX.Studio.Avalonia.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -85,25 +86,39 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         public async Task OpenProjectFromPath(string path)
         {
+            ProjectModel model;
             try
             {
-                // The parse comes first, so a parse failure leaves the open session untouched.
-                var model = await _session.ReadAsync(path);
-                ProjectPath = null;
-                _session.LoadProject(model);
-                // The path is set after the apply, so a failed apply leaves it null.
-                ProjectPath = path;
-                _unsavedChanges.MarkSaved();
+                model = await _session.ReadAsync(path);
             }
             catch (Exception ex)
             {
-                await _messageNotice.ShowErrorAsync($"{Path.GetFileName(path)}: {ex.Message}", "Open Project");
+                await ShowOpenFailure(path, ex);
                 return;
             }
+
+            // The session is emptied before the apply, so a failed apply leaves an empty saved session with no path.
+            ProjectPath = null;
+            try
+            {
+                _session.LoadProject(model);
+                ProjectPath = path;
+            }
+            catch (Exception ex)
+            {
+                _session.ClearAll();
+                _unsavedChanges.MarkSaved();
+                await ShowOpenFailure(path, ex);
+                return;
+            }
+            _unsavedChanges.MarkSaved();
 
             // The push is outside the catch: the file is open, and a push failure shows in the sync status.
             await _session.PushToPeersAsync();
         }
+
+        private Task ShowOpenFailure(string path, Exception ex) =>
+            _messageNotice.ShowErrorAsync($"{Path.GetFileName(path)}: {ex.Message}", "Open Project");
 
         [RelayCommand]
         private async Task SaveProject()
