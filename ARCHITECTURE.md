@@ -73,7 +73,7 @@ Classes that are several shapes at once, or none:
 | `ModulatableValue<T>` | Three `GenericValue` in one: the value, the id of the modulator, the name of the output. Also commands. |
 | `PrefabManager` | A list of controls. ViewModel (7 commands), undo source, message sender and receiver, model converter. The VL patches use it by name. |
 | `ManagerData`, `CollectionManager`, `CollectionSync` | The three inner parts of a list: the items and the selection, the add and remove with the repository, the sender. Not a shape of their own. |
-| `SyncPeer` | Service (the sync state machine) and ViewModel (the sync panel binds its properties and its `PushCommand` and `PullCommand`). |
+| `SyncPeer` | Service (the sync state machine) and ViewModel (the sync panel binds its properties and its `PushCommand` and `PullCommand`). One partial class in nine files, one job per file: `SyncPeer.cs` (hub: start, stop, run), `SyncPeer.Panel.cs`, `SyncPeer.Send.cs`, `SyncPeer.Connection.cs`, `SyncPeer.StartCheck.cs`, `SyncPeer.Presence.cs`, `SyncPeer.Follower.cs`, `SyncPeer.Apply.cs`, `SyncPeer.Join.cs`. `SyncRun` holds the resources of one Start. |
 | `MasterBeat`, `AssetManager`, `OutputMappingManager`, `RedisAddressRegistry` | Singleton and control at once. |
 | `PrefabService` | Not a service. It is the name and the visibility of a prefab. |
 | `ValueInteraction`, `ControlCloner`, `ListRules`, `DerivedId`, `ManagerIDs`, `ProjectSerializer`, `ProjectStateHash`, `ProjectModelBuilder`, `SyncPeerStartup`, `ControlExtensions` | Static helpers. `ValueInteraction` holds state. |
@@ -111,9 +111,9 @@ Three static entry points connect it to an application: `InteractionHost`, `Icon
 1. **View.** `SliderModulatable` binds to `ModulatableValue<float>.Value`. The CMiX.UI editor opens a drag scope through `InteractionHost`, which `App.Initialize` connects to `ValueInteraction.BeginScope`.
 2. **Value.** `ModulatableValue.Value` passes the write to `GenericValue<T>.Value`. The setter does three things: it stores the value, it pushes a `ValueChangedCommand` to `UndoManager`, and it calls `SendValueChanged`. During a drag it sends at most 60 messages each second and makes one undo step for the whole drag.
 3. **Message.** `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
-4. **Peer.** `SyncPeer.SendMessage` drops the message if the peer is not the writer. Else it wraps it in a `MessageEnvelope`, serializes it with MessagePack and puts it in `OutgoingQueue`.
+4. **Peer.** `SyncPeer.SendMessage` (`SyncPeer.Send.cs`) drops the message if the peer is not the writer. Else it wraps it in a `MessageEnvelope`, serializes it with MessagePack and puts it in `OutgoingQueue`.
 5. **Redis.** One task appends the entry to the stream `{prefix}:updates` through `RedisSyncStore`, sets the tail key and publishes a wake signal. `SnapshotCompactor` writes a new snapshot later.
-6. **Engine.** `StreamFollower` reads the new entries. `SyncPeer` posts each batch to its dispatcher. In vvvv that is `MainloopQueue`, which the patch drains once for each frame. In `CMiX.Console` the apply runs inline.
+6. **Engine.** `StreamFollower` reads the new entries. `SyncPeer` (`SyncPeer.Apply.cs`) posts each batch to its dispatcher. In vvvv that is `MainloopQueue`, which the patch drains once for each frame. In `CMiX.Console` the apply runs inline.
 7. **Apply.** `ProjectSyncTarget.Apply` sends the message on `WeakReferenceMessenger.Default`. Every active control receives every message. `GenericValue.Receive` compares the id and, on a match, sets the value inside `SuppressSending()`, so it sends nothing and records no undo step.
 8. **Render.** The patch reads the state through `EngineHost.ServiceProvider`: `Project`, `ControlRepository`, `PrefabManager`, `ManagerData` and the processors. I did not open the patches in vvvv. I only searched them for type names.
 
@@ -126,7 +126,7 @@ The view calls a command of `PrefabManager`, for example `AddItemCommand`. `Pref
 The engine does not write to the stream. Three things come back to the Studio:
 
 - **Presence.** Each peer writes its peer key every 2 s. The Studio lists the peers and shows the lag of each.
-- **Start check, Push, Pull.** `SyncPeer.CheckStartAsync` compares the stored state with the loaded project. The sync panel offers Push or Pull.
+- **Start check, Push, Pull.** `SyncPeer.CheckStartAsync` (`SyncPeer.StartCheck.cs`) compares the stored state with the loaded project. The sync panel offers Push or Pull.
 - **Engine values.** `DEVELOPMENT.md` says that the patch can write plain Redis keys. The Redis modulators and `RedisAddressRegistry` hold addresses for this. I did not find the place where the Studio reads such a key, and I am not sure there is one.
 
 ### Undo and redo
@@ -251,7 +251,7 @@ Core has no Avalonia reference.
 | # | Class | Lines | Ctor params | Commands | Why |
 |---|---|---|---|---|---|
 | 1 | `ProjectTree` (Studio) | 169, six partial files, 873 in all | 7 | 27 | Done on 2026-11-19: the state and the commands stay on the hub, the logic is in parts (`TreeSearch`, `TreeEdit`, `TreeOpenState`, `TreeAddCatalogue`, `TreeDragState`, `TreeDrop`, `TreeFileDropRules`, `TreeViewSet`). See `ViewModels/Tree/README.md`. |
-| 2 | `SyncPeer` (Core) | 1137 | 3 | 2 | Connect, join, push, pull, gap check, send, apply, and the state for the sync panel. Service and ViewModel at once. |
+| 2 | `SyncPeer` (Core) | 316, nine partial files, 1216 in all | 3 | 2 | Done on 2026-11-20: one job per file (connect, join and push, start check, gap check, send, apply, follower, panel state). `SyncRun` holds the resources of one Start. Still a service and a ViewModel at once. |
 | 3 | `ProjectTreeView` code-behind (Studio) | 233 | 0 | 0 | Done on 2026-11-19: the hub builds the parts (`TreeKeyInput`, `TreePointerInput`, `TreeFocusKeeper`, `TreeScreenRequests`, `TreeMenus`, `TreeRowReveal`, `TreeFileDropInput`, `TreeHints`). |
 | 4 | `PrefabManager` (Core) | 350 | 9, 1 optional | 7 | List ViewModel, undo, send, receive, model converter. Every domain object has several. VL uses its names. |
 | 5 | `GenericValue<T>` (Core) | 190 | 4 or 0 | 1 | Value, undo, throttle, send and receive in one setter. It reads a static. |

@@ -584,8 +584,8 @@ and a second call throws. The patch drains the queue once per frame with
 run on the mainloop. The read batch is the number of entries that one such
 action applies. The default is 256. A larger value gives a faster catch-up and
 a longer frame. A patch that stops draining stalls the peer. `Dispose` calls
-`SyncPeer.Stop` and then `Close` on the queue, so the peer stops at once. The
-`Dispose` of the patch must call it. `CMiX.Console` has no mainloop, has no
+`SyncPeer.Stop` and then `Close` on the queue, so the peer stops at once. `Stop`
+ends the `SyncRun` of the last `Start`. The `Dispose` of the patch must call it. `CMiX.Console` has no mainloop, has no
 `EngineHost`, and applies inline.
 
 ### The Studio settings file
