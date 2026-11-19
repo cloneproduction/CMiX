@@ -204,14 +204,15 @@ namespace CMiX.Core.Networking
             await FinishJoinAsync(run).ConfigureAwait(false);
         }
 
+        private Task FinishJoinAsync(SyncRun run) => DispatchCurrentAsync(run, () => MarkJoined(run));
+
         // Ends a join or a push: ErrorMessage clears, IsJoined is true, then the follower starts.
-        private Task FinishJoinAsync(SyncRun run)
-            => DispatchCurrentAsync(run, () =>
-            {
-                ErrorMessage = string.Empty;
-                IsJoined = true;
-                StartFollower(run);
-            });
+        private void MarkJoined(SyncRun run)
+        {
+            ErrorMessage = string.Empty;
+            IsJoined = true;
+            StartFollower(run);
+        }
 
         // Push order: discard and idle the queue, the full model as one entry, the snapshot, the trim.
         private async Task PushCoreAsync(SyncRun run)

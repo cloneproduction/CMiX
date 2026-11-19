@@ -67,9 +67,7 @@ namespace CMiX.Core.Networking
                     {
                         LastAppliedId = result.Position;
                         TailId = result.Position;
-                        ErrorMessage = string.Empty;
-                        IsJoined = true;
-                        StartFollower(run);
+                        MarkJoined(run);
                     }).ConfigureAwait(false);
                     break;
             }
