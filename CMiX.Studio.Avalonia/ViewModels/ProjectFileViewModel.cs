@@ -64,7 +64,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         private async Task NewProject()
         {
             if (!await ConfirmDiscardAsync()) return;
-            _session.NewProject();
+            _session.ClearAll();
             ProjectPath = null;
             _unsavedChanges.MarkSaved();
         }

@@ -98,8 +98,6 @@ namespace CMiX.Studio.Avalonia.Services
             _undoManager.Clear();
         }
 
-        public void NewProject() => ClearAll();
-
         // The file replaces the session. The apply sends no message and records no undo step.
         public void LoadProject(ProjectModel model)
         {
