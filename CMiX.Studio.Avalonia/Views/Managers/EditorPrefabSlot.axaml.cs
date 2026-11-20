@@ -9,15 +9,15 @@ using CMiX.UI.Controls.Parts;
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
     // The slot list of a manager and the editor of its selected item. The DataContext is the manager.
-    public partial class PrefabSlotEditor : UserControl
+    public partial class EditorPrefabSlot : UserControl
     {
-        public PrefabSlotEditor()
+        public EditorPrefabSlot()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
-            AvaloniaProperty.Register<PrefabSlotEditor, IEnumerable>(nameof(ItemsSource));
+            AvaloniaProperty.Register<EditorPrefabSlot, IEnumerable>(nameof(ItemsSource));
         public IEnumerable ItemsSource
         {
             get => GetValue(ItemsSourceProperty);
@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         }
 
         public static readonly StyledProperty<Control?> SelectionPanelProperty =
-            LogicalPanelContent.Register<PrefabSlotEditor>(nameof(SelectionPanel));
+            LogicalPanelContent.Register<EditorPrefabSlot>(nameof(SelectionPanel));
         public Control? SelectionPanel
         {
             get => GetValue(SelectionPanelProperty);
@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         }
 
         public static readonly StyledProperty<Control?> EditingPanelProperty =
-            LogicalPanelContent.Register<PrefabSlotEditor>(nameof(EditingPanel));
+            LogicalPanelContent.Register<EditorPrefabSlot>(nameof(EditingPanel));
         public Control? EditingPanel
         {
             get => GetValue(EditingPanelProperty);

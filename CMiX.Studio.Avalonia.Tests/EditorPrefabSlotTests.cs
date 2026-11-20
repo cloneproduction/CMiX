@@ -16,7 +16,7 @@ using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class PrefabSlotEditorTests
+    public class EditorPrefabSlotTests
     {
         private static Layer LayerWithACamera()
         {
@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var layer = LayerWithACamera();
             var panel = new Border();
-            var editor = new PrefabSlotEditor { DataContext = layer.CameraManager, ItemsSource = layer.CameraManager.ControlRepository.Cameras, EditingPanel = panel };
+            var editor = new EditorPrefabSlot { DataContext = layer.CameraManager, ItemsSource = layer.CameraManager.ControlRepository.Cameras, EditingPanel = panel };
             Show(editor);
 
             var camera = layer.CameraManager.ManagerData.Items[0];
