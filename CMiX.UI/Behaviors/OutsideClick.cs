@@ -10,6 +10,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+using CMiX.UI.Popups;
 
 namespace CMiX.UI.Behaviors
 {

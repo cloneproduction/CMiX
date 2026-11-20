@@ -4,8 +4,8 @@
 using Avalonia;
 using Avalonia.Controls;
 using CMiX.UI.AttachedProperties;
-using CMiX.UI.Behaviors;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Popups;
 
 namespace CMiX.UI.Controls
 {

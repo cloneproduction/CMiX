@@ -10,7 +10,7 @@ using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Number;
 
-namespace CMiX.UI.Behaviors
+namespace CMiX.UI.Popups
 {
     // Closes a popup, a flyout or a menu when the pointer goes away from it.
     // The owner calls Start when the content opens and Stop when it closes.

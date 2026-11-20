@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using CMiX.UI.Behaviors;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Popups;
 using AvaloniaInteraction = Avalonia.Xaml.Interactivity.Interaction;
 
 namespace CMiX.UI.AttachedProperties

@@ -6,7 +6,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using CMiX.UI.AttachedProperties;
-using CMiX.UI.Behaviors;
+using CMiX.UI.Popups;
 
 namespace CMiX.UI.Controls.Collection
 {

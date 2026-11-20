@@ -7,6 +7,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Diagnostics;
 using Avalonia.Controls.Primitives;
 using Avalonia.Xaml.Interactivity;
+using CMiX.UI.Popups;
 
 namespace CMiX.UI.Behaviors
 {
