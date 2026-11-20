@@ -9,7 +9,7 @@ namespace CMiX.Studio.Avalonia.Tests
     {
         private static readonly Regex Comment = new("<!--.*?-->", RegexOptions.Singleline);
 
-        // Opening tags of Popup only. The lookahead skips property elements such as Popup.Child and names such as PopupButton.
+        // Opening tags of Popup only. The lookahead skips property elements such as Popup.Child and names such as PopupFrame.
         private static readonly Regex Tag = new(@"<Popup(?![.\w])((?:""[^""]*""|[^>""])*)>");
 
         [Fact]
@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 }
             }
 
-            // PopupButton, ListPanelItem, PrefabSlotManager and ColorSelector have one popup each.
+            // ButtonPopup, ListPanelItem, PrefabSlotManager and ColorSelector have one popup each.
             Assert.True(tagCount >= 4, $"The scan found only {tagCount} tags. The scan is broken.");
             Assert.True(violations.Count == 0, string.Join(Environment.NewLine, violations));
         }

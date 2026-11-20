@@ -134,7 +134,7 @@ come from the value editors of vvvv:
 | `Collection` | a list of items | `PanelItem`, `ListPanelItem`, `ListItemIcon`, `ListBoxRepository`, `ListBoxEditable` |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ValueMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
 
-`AppIcon`, `ListBoxCMiX` and `PopupButton` stay in the root of `Controls`. They do not change a value.
+`AppIcon`, `ListBoxCMiX` and `ButtonPopup` stay in the root of `Controls`. They do not change a value.
 
 ### Attached properties and behaviors
 
@@ -404,7 +404,7 @@ A `Popup` that a `ToggleButton` opens uses the attached property `TogglePopup.To
 <Popup ui:TogglePopup.Toggle="{Binding ElementName=MyToggle}" Placement="Bottom">
 ```
 
-The popup is open while the toggle is checked. The property sets the placement target, switches the light dismiss off and adds `ClosePopupBehavior`. Do not set these by hand. `PopupButton` is a ready-made toggle with a popup. `PopupWiringGuardTests` fails when a `Popup` outside the Themes folder does not use the property.
+The popup is open while the toggle is checked. The property sets the placement target, switches the light dismiss off and adds `ClosePopupBehavior`. Do not set these by hand. `ButtonPopup` is a ready-made toggle with a popup. `PopupWiringGuardTests` fails when a `Popup` outside the Themes folder does not use the property.
 
 ### A click outside only closes
 

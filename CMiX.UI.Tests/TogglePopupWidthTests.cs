@@ -88,9 +88,9 @@ namespace CMiX.UI.Tests
             popup.Child!.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "PART_Surface").Bounds.Width;
 
         [AvaloniaFact]
-        public void ThePopupButton_IsAsWideAsItsToggle()
+        public void TheButtonPopup_IsAsWideAsItsToggle()
         {
-            var button = new PopupButton { Caption = "Pick", PopupContent = new TextBlock { Text = "Short" }, Width = 320, HorizontalAlignment = HorizontalAlignment.Left };
+            var button = new ButtonPopup { Caption = "Pick", PopupContent = new TextBlock { Text = "Short" }, Width = 320, HorizontalAlignment = HorizontalAlignment.Left };
             new Window { Content = button, Width = 900, Height = 500 }.Show();
             Dispatcher.UIThread.RunJobs();
 

@@ -19,9 +19,9 @@ namespace CMiX.UI.Tests
     {
         private const double ShadowRoom = 8;
 
-        private static (PopupButton Button, ToggleButton Toggle, Popup Popup) ShowPopupButton()
+        private static (ButtonPopup Button, ToggleButton Toggle, Popup Popup) ShowButtonPopup()
         {
-            var button = new PopupButton { Caption = "Add", PopupContent = new TextBlock { Text = "Short" }, Width = 300, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(100, 40, 0, 0) };
+            var button = new ButtonPopup { Caption = "Add", PopupContent = new TextBlock { Text = "Short" }, Width = 300, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(100, 40, 0, 0) };
             new Window { Content = button, Width = 900, Height = 500 }.Show();
             Dispatcher.UIThread.RunJobs();
             var toggle = button.FindControl<ToggleButton>("PopUpToggle")!;
@@ -38,9 +38,9 @@ namespace CMiX.UI.Tests
             popup.Child!.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "PART_Surface");
 
         [AvaloniaFact]
-        public void ThePopupOfAPopupButton_HoldsADropdownFrame()
+        public void ThePopupOfAButtonPopup_HoldsADropdownFrame()
         {
-            var (_, toggle, popup) = ShowPopupButton();
+            var (_, toggle, popup) = ShowButtonPopup();
 
             Open(toggle);
 
@@ -50,7 +50,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void ThePanel_HasTheAddPopupColor()
         {
-            var (_, toggle, popup) = ShowPopupButton();
+            var (_, toggle, popup) = ShowButtonPopup();
 
             Open(toggle);
 
@@ -61,7 +61,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void TheFrame_CastsTheWindowShadow()
         {
-            var (_, toggle, popup) = ShowPopupButton();
+            var (_, toggle, popup) = ShowButtonPopup();
 
             Open(toggle);
 
@@ -73,7 +73,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void ACenteredPopup_MovesUpByTheRoomOfTheShadow_ButNotSideways()
         {
-            var (_, toggle, popup) = ShowPopupButton();
+            var (_, toggle, popup) = ShowButtonPopup();
 
             Open(toggle);
 
@@ -83,9 +83,9 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ThePanelOfAPopupButton_StartsAtTheBottomEdgeOfTheToggle()
+        public void ThePanelOfAButtonPopup_StartsAtTheBottomEdgeOfTheToggle()
         {
-            var (_, toggle, popup) = ShowPopupButton();
+            var (_, toggle, popup) = ShowButtonPopup();
 
             Open(toggle);
 
@@ -117,9 +117,9 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ThePanelOfAPopupButton_StartsAtTheLeftEdgeOfTheToggle_AndIsAsWide()
+        public void ThePanelOfAButtonPopup_StartsAtTheLeftEdgeOfTheToggle_AndIsAsWide()
         {
-            var (_, toggle, popup) = ShowPopupButton();
+            var (_, toggle, popup) = ShowButtonPopup();
 
             Open(toggle);
 
@@ -148,7 +148,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void OpeningThePopupAgain_DoesNotMoveItAgain()
         {
-            var (_, toggle, popup) = ShowPopupButton();
+            var (_, toggle, popup) = ShowButtonPopup();
             Open(toggle);
             toggle.IsChecked = false;
             Dispatcher.UIThread.RunJobs();

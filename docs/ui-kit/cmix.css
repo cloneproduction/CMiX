@@ -940,9 +940,9 @@
         &.open > .Popup { display: block; margin-top: 2px; }
     }
 
-    /* ---------------------------------------------------------------- PopupButton.axaml */
+    /* ---------------------------------------------------------------- ButtonPopup.axaml */
     /* A ToggleButton. Its popup is a DropdownFrame under it, as wide as the toggle. */
-    .PopupButton {
+    .ButtonPopup {
         position: relative;
         display: block;
         > .Popup { display: none; position: absolute; left: 0; right: 0; top: calc(100% + 2px); z-index: 10; }
@@ -1592,8 +1592,8 @@
     .RowBorder .TextBoxEditable { flex: none; }
     .RowBorder > .header > .KindCountBadges { margin-left: 4px; }
 
-    /* The corners of a PopupButton go to its toggle. */
-    .PopupButton { border-radius: var(--Position, var(--CornerRadiusAll)); > .ToggleButton { border-radius: inherit; } }
+    /* The corners of a ButtonPopup go to its toggle. */
+    .ButtonPopup { border-radius: var(--Position, var(--CornerRadiusAll)); > .ToggleButton { border-radius: inherit; } }
 }
 
 .cmix {

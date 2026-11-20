@@ -9,12 +9,12 @@ using Xunit;
 namespace CMiX.UI.Tests
 {
     // A button that opens a popup with any content.
-    public class PopupButtonTests
+    public class ButtonPopupTests
     {
-        private static (PopupButton Panel, TextBlock Content) Show()
+        private static (ButtonPopup Panel, TextBlock Content) Show()
         {
             var content = new TextBlock { Text = "choice" };
-            var panel = new PopupButton { Caption = "Add", PopupContent = content, Width = 200 };
+            var panel = new ButtonPopup { Caption = "Add", PopupContent = content, Width = 200 };
             var window = new Window { Content = panel, Width = 300, Height = 200 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

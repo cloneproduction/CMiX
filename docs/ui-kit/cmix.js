@@ -472,7 +472,7 @@
         ListItemIcon: listItemIcon,
         PanelItem: panelItem,
         ListPanelItem: panelItemList,
-        PopupButton: popupButton,
+        ButtonPopup: popupButton,
         ListSearchableItemPicker: searchablePicker,
         ListGroupedSearch: groupedSearchList,
         Expander: expander,
@@ -650,9 +650,9 @@
 
         if (!target || isDisabled(target)) return;
 
-        /* The toggle of a ColorSelector, a PopupButton or a ListPanelItem opens its popup. A RadioButton of a ColorPickerSliders picks the mode. */
+        /* The toggle of a ColorSelector, a ButtonPopup or a ListPanelItem opens its popup. A RadioButton of a ColorPickerSliders picks the mode. */
         var owner = target.parentElement;
-        if (/\b(ColorSelector|PopupButton|ListPanelItem)\b/.test(owner.className)) {
+        if (/\b(ColorSelector|ButtonPopup|ListPanelItem)\b/.test(owner.className)) {
             if (owner.hasAttribute('data-keep-open')) return;
             owner.classList.toggle('open');
         }

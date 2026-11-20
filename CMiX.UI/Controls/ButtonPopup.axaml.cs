@@ -9,15 +9,15 @@ using CMiX.UI.Popups;
 
 namespace CMiX.UI.Controls
 {
-    public partial class PopupButton : UserControl, ICaptioned
+    public partial class ButtonPopup : UserControl, ICaptioned
     {
-        public PopupButton()
+        public ButtonPopup()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<Control?> PopupContentProperty =
-            LogicalPanelContent.Register<PopupButton>(nameof(PopupContent));
+            LogicalPanelContent.Register<ButtonPopup>(nameof(PopupContent));
         public Control? PopupContent
         {
             get => GetValue(PopupContentProperty);
@@ -25,7 +25,7 @@ namespace CMiX.UI.Controls
         }
 
         public static readonly StyledProperty<string> CaptionProperty =
-            AvaloniaProperty.Register<PopupButton, string>(nameof(Caption), string.Empty);
+            AvaloniaProperty.Register<ButtonPopup, string>(nameof(Caption), string.Empty);
         public string Caption
         {
             get => GetValue(CaptionProperty);
@@ -34,7 +34,7 @@ namespace CMiX.UI.Controls
 
         // False: the popup stays open when the pointer goes away (see TogglePopup.ClosesOnPointerAway).
         public static readonly StyledProperty<bool> ClosesOnPointerAwayProperty =
-            AvaloniaProperty.Register<PopupButton, bool>(nameof(ClosesOnPointerAway), true);
+            AvaloniaProperty.Register<ButtonPopup, bool>(nameof(ClosesOnPointerAway), true);
 
         public bool ClosesOnPointerAway
         {
@@ -44,7 +44,7 @@ namespace CMiX.UI.Controls
 
         // The distance of the pointer from the popup and the toggle, in pixels, that closes the popup.
         public static readonly StyledProperty<double> PointerAwayDistanceProperty =
-            AvaloniaProperty.Register<PopupButton, double>(nameof(PointerAwayDistance), PointerAwayCloser.DefaultDistance);
+            AvaloniaProperty.Register<ButtonPopup, double>(nameof(PointerAwayDistance), PointerAwayCloser.DefaultDistance);
 
         public double PointerAwayDistance
         {

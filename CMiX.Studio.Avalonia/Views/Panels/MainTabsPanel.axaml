@@ -97,11 +97,11 @@
                 ItemsSource="{Binding ControlRepository.Textures}"
                 ToolTipText="Textures">
                 <Managers:RepositoryTab.SelectionPanel>
-                    <ui:PopupButton Caption="New Texture">
-                        <ui:PopupButton.PopupContent>
+                    <ui:ButtonPopup Caption="New Texture">
+                        <ui:ButtonPopup.PopupContent>
                             <Managers:AutoSelectionPanel Interface="{x:Type TextureSources:ITextureSource}" />
-                        </ui:PopupButton.PopupContent>
-                    </ui:PopupButton>
+                        </ui:ButtonPopup.PopupContent>
+                    </ui:ButtonPopup>
                 </Managers:RepositoryTab.SelectionPanel>
                 <Managers:RepositoryTab.EditingPanel>
                     <Views:Texture />

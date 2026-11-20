@@ -138,9 +138,9 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData(true, false)]
         [InlineData(false, true)]
-        public void ThePopupButton_PassesTheSettingToItsPopup(bool closesOnPointerAway, bool expectedOpen)
+        public void TheButtonPopup_PassesTheSettingToItsPopup(bool closesOnPointerAway, bool expectedOpen)
         {
-            var button = new PopupButton
+            var button = new ButtonPopup
             {
                 Caption = "Pick",
                 PopupContent = new TextBlock { Text = "Short" },

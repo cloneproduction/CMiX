@@ -76,13 +76,13 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(button.IsEnabled);
         }
 
-        private static ToggleButton ToggleOf(PopupButton popup) =>
+        private static ToggleButton ToggleOf(ButtonPopup popup) =>
             popup.GetVisualDescendants().OfType<ToggleButton>().Single(toggle => toggle.Name == "PopUpToggle");
 
         [AvaloniaFact]
-        public void APopupButtonOutsideTheSlot_StaysRounded()
+        public void AButtonPopupOutsideTheSlot_StaysRounded()
         {
-            var popup = new PopupButton { Caption = "Add Filter" };
+            var popup = new ButtonPopup { Caption = "Add Filter" };
             Show(popup);
 
             Assert.Equal(ControlPosition.All, PositionedControl.GetPosition(ToggleOf(popup)));

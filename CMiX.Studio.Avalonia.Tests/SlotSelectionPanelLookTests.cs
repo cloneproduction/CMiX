@@ -30,9 +30,9 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
         }
 
-        // The control that has the corners: the toggle of a PopupButton, or the button itself.
+        // The control that has the corners: the toggle of a ButtonPopup, or the button itself.
         private static Control Cornered(Control selectionPanel) =>
-            selectionPanel is PopupButton
+            selectionPanel is ButtonPopup
                 ? selectionPanel.GetVisualDescendants().OfType<ToggleButton>().Single(toggle => toggle.Name == "PopUpToggle")
                 : selectionPanel;
 
@@ -55,9 +55,9 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void APopupButton_AsTheSelectionPanel_IsSquare()
+        public void AButtonPopup_AsTheSelectionPanel_IsSquare()
         {
-            var slot = new PrefabSlotManager { DataContext = Manager(), SelectionPanel = new PopupButton { Caption = "Add Entity" } };
+            var slot = new PrefabSlotManager { DataContext = Manager(), SelectionPanel = new ButtonPopup { Caption = "Add Entity" } };
             Show(slot);
 
             AssertSquare(slot);

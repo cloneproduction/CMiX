@@ -94,7 +94,7 @@ window.CMIX_CATALOGUE = [
                     { id: '9.6', name: 'PopupFrame', source: 'CMiX.UI/Controls/Parts/PopupFrame.cs' },
                     { id: '9.7', name: 'PopupCard', source: 'CMiX.UI/Controls/Parts/PopupCard.cs' },
                     { id: '9.8', name: 'PopupFlyout', source: 'CMiX.UI/Themes/Styles/Menu/PopupFlyout.axaml' },
-                    { id: '9.9', name: 'PopupButton', source: 'CMiX.UI/Controls/PopupButton.axaml' },
+                    { id: '9.9', name: 'ButtonPopup', source: 'CMiX.UI/Controls/ButtonPopup.axaml' },
                     { id: '9.10', name: 'ToolTipCard', source: 'CMiX.UI/Controls/Parts/ToolTipCard.cs' },
                     { id: '9.11', name: 'PopupTip', source: 'CMiX.UI/Controls/Parts/PopupTip.cs' }
                 ]

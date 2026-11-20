@@ -31,11 +31,11 @@
                 </i:Interaction.Behaviors>
 
                 <Managers:PrefabSlotManager.SelectionPanel>
-                    <ui:PopupButton Caption="Add Entity">
-                        <ui:PopupButton.PopupContent>
+                    <ui:ButtonPopup Caption="Add Entity">
+                        <ui:ButtonPopup.PopupContent>
                             <Views:EntitySelectionPanel />
-                        </ui:PopupButton.PopupContent>
-                    </ui:PopupButton>
+                        </ui:ButtonPopup.PopupContent>
+                    </ui:ButtonPopup>
                 </Managers:PrefabSlotManager.SelectionPanel>
 
             </Managers:PrefabSlotManager>
