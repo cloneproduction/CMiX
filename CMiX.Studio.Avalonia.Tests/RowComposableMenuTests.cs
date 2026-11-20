@@ -27,7 +27,7 @@ namespace CMiX.Studio.Avalonia.Tests
             for (var i = 0; i < layerCount; i++)
                 manager.AddItem(typeof(Layer));
 
-            var view = new ComposableManager { ItemType = typeof(Layer), DataContext = manager };
+            var view = new ListComposable { ItemType = typeof(Layer), DataContext = manager };
             var window = new Window { Content = view, Width = 500, Height = 800 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

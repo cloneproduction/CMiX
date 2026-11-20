@@ -61,7 +61,7 @@ namespace CMiX.Studio.Avalonia.Tests
             for (var i = 0; i < 3; i++)
                 layers.AddItem(typeof(Layer));
 
-            var view = new ComposableManager { ItemType = typeof(Layer), DataContext = layers };
+            var view = new ListComposable { ItemType = typeof(Layer), DataContext = layers };
             var window = new Window { Content = view, Width = 400, Height = 300 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

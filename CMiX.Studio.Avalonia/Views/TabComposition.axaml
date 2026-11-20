@@ -24,7 +24,7 @@
         <Views:Composition DataContext="{Binding Project.CompositionManager.SelectedItem}" />
       </Border>
 
-      <Views:ComposableManager
+      <Views:ListComposable
           Grid.Row="0"
           ItemType="{x:Type Compositing:Composition}"
           DataContext="{Binding Project.CompositionManager}" />

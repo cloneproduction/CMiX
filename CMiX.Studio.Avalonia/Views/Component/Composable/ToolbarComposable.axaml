@@ -11,7 +11,7 @@
 
         <ui:ButtonIcon
             Command="{Binding AddItemCommand}"
-            CommandParameter="{Binding $parent[Views:ComposableManager].ItemType}"
+            CommandParameter="{Binding $parent[Views:ListComposable].ItemType}"
             IconKey="Add" />
 
         <ui:ButtonIcon

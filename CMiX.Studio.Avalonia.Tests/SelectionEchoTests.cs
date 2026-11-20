@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
                     compositions.Receive(new MessageAddItem(compositions.ManagerData.ID, mirror.Compositions.SelectedItem.ToModel(), 0));
                 var layers = ((Composition)compositions.ManagerData.Items.Single()).LayerManager;
 
-                var view = new ComposableManager { ItemType = typeof(Layer), DataContext = layers };
+                var view = new ListComposable { ItemType = typeof(Layer), DataContext = layers };
                 new Window { Content = view, Width = 400, Height = 300 }.Show();
                 Dispatcher.UIThread.RunJobs();
 
