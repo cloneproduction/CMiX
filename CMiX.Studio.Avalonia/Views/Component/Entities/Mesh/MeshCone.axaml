@@ -5,9 +5,7 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <StackPanel>
-
-        <Views:ScaleOffset />
+    <Views:MeshShapeFrame>
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
@@ -23,13 +21,6 @@
 
         </ui:StackPanelPositioned>
 
-        <ui:IntegerValue
-            Margin="0,8,0,0"
-            Caption="Tessellation"
-            Minimum="1"
-            Value="{Binding Tessellation.Value}"
-            ResetCommand="{Binding Tessellation.ResetCommand}" />
-
-    </StackPanel>
+    </Views:MeshShapeFrame>
 
 </UserControl>

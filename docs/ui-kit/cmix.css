@@ -1561,6 +1561,14 @@
     /* A PanelItemList. Each PanelItem has 4 of space above and below. */
     .ModifierManager > .PanelItem { margin: 4px 0; }
 
+    /* ---------------------------------------------------------------- Themes/Styles/MeshShapeFrame.axaml */
+    .MeshShapeFrame {
+        display: flex;
+        flex-direction: column;
+        > .ScaleOffset { display: flex; flex-direction: column; > :last-child { margin: 8px 0; } }
+        > :last-child { margin-top: 8px; }
+    }
+
     /* ---------------------------------------------------------------- Themes/Styles/TypeWriter.axaml */
     textarea.TextBoxTypeWriter {
         all: unset;

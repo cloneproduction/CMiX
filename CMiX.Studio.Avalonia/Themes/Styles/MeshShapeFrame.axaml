@@ -1,0 +1,28 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
+
+    <ControlTheme x:Key="{x:Type Views:MeshShapeFrame}" TargetType="Views:MeshShapeFrame">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel>
+
+                    <Views:ScaleOffset />
+
+                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                    <ui:IntegerValue
+                        Margin="0,8,0,0"
+                        Caption="Tessellation"
+                        Minimum="1"
+                        Value="{Binding Tessellation.Value}"
+                        ResetCommand="{Binding Tessellation.ResetCommand}" />
+
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>
