@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="itemPickerList">
+    x:Name="listItemPicker">
 
     <!-- One row is lit at a time: the highlighted row. The mouse moves the highlight, so a row under a still
          pointer gets no hover look of its own while the keys move the highlight elsewhere. -->
@@ -23,7 +23,7 @@
         ui:ScrollStep.ItemSpacing="4"
         ui:ScrollStep.VisibleItemCount="{DynamicResource ComboBoxVisibleItems}">
 
-        <ItemsControl x:Name="PART_Items" ItemsSource="{Binding ItemsSource, ElementName=itemPickerList}">
+        <ItemsControl x:Name="PART_Items" ItemsSource="{Binding ItemsSource, ElementName=listItemPicker}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Spacing="4" />

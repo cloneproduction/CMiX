@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="groupedList">
+    x:Name="listGroupedSearch">
 
     <!-- The row under the highlight is lit. The mouse moves the highlight, as in ListItemPicker. A header is quieter than a row. -->
     <UserControl.Styles>
@@ -31,7 +31,7 @@
 
         <ui:TextBoxSearch
             x:Name="PART_Search"
-            Text="{Binding SearchText, ElementName=groupedList, Mode=TwoWay}" />
+            Text="{Binding SearchText, ElementName=listGroupedSearch, Mode=TwoWay}" />
 
         <ScrollViewer
             x:Name="PART_Scroll"
@@ -40,7 +40,7 @@
             VerticalScrollBarVisibility="Auto"
             ui:ScrollStep.ItemHeight="{DynamicResource ControlHeightMD}"
             ui:ScrollStep.ItemSpacing="0"
-            ui:ScrollStep.VisibleItemCount="{Binding VisibleRows, ElementName=groupedList}">
+            ui:ScrollStep.VisibleItemCount="{Binding VisibleRows, ElementName=listGroupedSearch}">
             <StackPanel x:Name="PART_Rows" />
         </ScrollViewer>
 

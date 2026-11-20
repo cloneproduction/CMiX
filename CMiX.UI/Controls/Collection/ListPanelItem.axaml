@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="panelItemList">
+    x:Name="listPanelItem">
 
     <!-- The items, then the add button. The popup of the button shows AddContent.
          This control is not a templated control on purpose: a control that shows foreign content
@@ -12,27 +12,27 @@
     <StackPanel>
 
         <ItemsControl
-            ui:ListBoxReorder.Service="{Binding ReorderService, ElementName=panelItemList}"
-            ItemTemplate="{Binding ItemTemplate, ElementName=panelItemList}"
-            ItemsSource="{Binding ItemsSource, ElementName=panelItemList}" />
+            ui:ListBoxReorder.Service="{Binding ReorderService, ElementName=listPanelItem}"
+            ItemTemplate="{Binding ItemTemplate, ElementName=listPanelItem}"
+            ItemsSource="{Binding ItemsSource, ElementName=listPanelItem}" />
 
         <ToggleButton
             x:Name="addToggle"
             Margin="0,8,0,0"
             Background="{DynamicResource Grey600Brush}"
-            Content="{Binding AddCaption, ElementName=panelItemList}"
+            Content="{Binding AddCaption, ElementName=listPanelItem}"
             Theme="{StaticResource ToggleButtonPopup}" />
 
         <Popup
-            ui:TogglePopup.ClosesOnPointerAway="{Binding AddClosesOnPointerAway, ElementName=panelItemList}"
+            ui:TogglePopup.ClosesOnPointerAway="{Binding AddClosesOnPointerAway, ElementName=listPanelItem}"
             ui:TogglePopup.MatchesToggleWidth="True"
-            ui:TogglePopup.PointerAwayDistance="{Binding AddPointerAwayDistance, ElementName=panelItemList}"
+            ui:TogglePopup.PointerAwayDistance="{Binding AddPointerAwayDistance, ElementName=listPanelItem}"
             ui:TogglePopup.Toggle="{Binding ElementName=addToggle}"
             Placement="Bottom">
 
             <ui:DropdownFrame>
 
-                <ContentControl Content="{Binding AddContent, ElementName=panelItemList}" />
+                <ContentControl Content="{Binding AddContent, ElementName=listPanelItem}" />
 
             </ui:DropdownFrame>
 

@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="searchablePicker">
+    x:Name="listSearchableItemPicker">
 
     <!-- The search field, then the rows that match it. The rows are a ListItemPicker, so a long list scrolls. -->
     <StackPanel Spacing="4">
@@ -11,13 +11,13 @@
         <!-- The magnifier is inside the field, at its left. The text starts after it. -->
         <ui:TextBoxSearch
             x:Name="PART_Search"
-            Text="{Binding SearchText, ElementName=searchablePicker, Mode=TwoWay}" />
+            Text="{Binding SearchText, ElementName=listSearchableItemPicker, Mode=TwoWay}" />
 
         <ui:ListItemPicker
             x:Name="PART_List"
-            ItemCommand="{Binding ItemCommand, ElementName=searchablePicker}"
-            ItemsSource="{Binding Matches, ElementName=searchablePicker}"
-            TextPath="{Binding TextPath, ElementName=searchablePicker}" />
+            ItemCommand="{Binding ItemCommand, ElementName=listSearchableItemPicker}"
+            ItemsSource="{Binding Matches, ElementName=listSearchableItemPicker}"
+            TextPath="{Binding TextPath, ElementName=listSearchableItemPicker}" />
 
         <TextBlock
             x:Name="PART_NoMatch"
