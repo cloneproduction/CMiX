@@ -1201,10 +1201,10 @@
         &.checked > .AppIcon:nth-child(2) { display: block; }
     }
 
-    /* ---------------------------------------------------------------- Views/Component/Composable/ComposableToggles.axaml */
+    /* ---------------------------------------------------------------- Views/Component/Composable/TogglesComposable.axaml */
     /* The mask toggle, then the visibility toggle, each on a square. An empty square has no button.
        No class: the header of the inspector. row: the tree. small: the lists of composables. */
-    .ComposableToggles {
+    .TogglesComposable {
         display: flex;
         flex: none;
         gap: var(--SpacingXXS);
@@ -1538,7 +1538,7 @@
         align-items: center;
         min-height: var(--ControlHeightMD);
         > .TextBoxEditable { flex: 1; min-width: 0; margin-left: 3px; }
-        > .ComposableToggles { margin: 0 4px; }
+        > .TogglesComposable { margin: 0 4px; }
     }
     .ToolbarComposable {
         display: flex;

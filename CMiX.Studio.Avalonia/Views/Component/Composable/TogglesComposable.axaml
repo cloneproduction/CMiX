@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.ComposableToggles"
+    x:Class="CMiX.Studio.Avalonia.Views.TogglesComposable"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
@@ -32,47 +32,47 @@
             <Setter Property="Grid.Column" Value="0" />
         </Style>
 
-        <Style Selector="Views|ComposableToggles.row Border.slot">
+        <Style Selector="Views|TogglesComposable.row Border.slot">
             <Setter Property="Width" Value="{DynamicResource TreeRowHeight}" />
             <Setter Property="Height" Value="{DynamicResource TreeRowHeight}" />
         </Style>
-        <Style Selector="Views|ComposableToggles.row Border.slot, Views|ComposableToggles.row Border.slot.empty">
+        <Style Selector="Views|TogglesComposable.row Border.slot, Views|TogglesComposable.row Border.slot.empty">
             <Setter Property="Background" Value="Transparent" />
         </Style>
         <!-- In the tree the mask sits at the right of its square, so the space between the mask and the eye is about the space between the eye
              and the right edge of the row. A mask in the middle of its square looks too far to the left. -->
-        <Style Selector="Views|ComposableToggles.row Border.mask ToggleButton">
+        <Style Selector="Views|TogglesComposable.row Border.mask ToggleButton">
             <Setter Property="HorizontalAlignment" Value="Right" />
         </Style>
-        <Style Selector="Views|ComposableToggles.row Border.gap">
+        <Style Selector="Views|TogglesComposable.row Border.gap">
             <Setter Property="Width" Value="{DynamicResource TreeRowSpacing}" />
         </Style>
 
-        <Style Selector="Views|ComposableToggles.small Border.slot">
+        <Style Selector="Views|TogglesComposable.small Border.slot">
             <Setter Property="Width" Value="{DynamicResource ControlHeightXS}" />
             <Setter Property="Height" Value="{DynamicResource ControlHeightXS}" />
             <Setter Property="Background" Value="Transparent" />
         </Style>
-        <Style Selector="Views|ComposableToggles.small Border.gap">
+        <Style Selector="Views|TogglesComposable.small Border.gap">
             <Setter Property="Width" Value="{DynamicResource SpacingSM}" />
         </Style>
     </UserControl.Styles>
 
     <Grid ColumnDefinitions="Auto,Auto,Auto">
 
-        <Border Classes="slot visibility" Classes.empty="{Binding $parent[Views:ComposableToggles].DataContext, Converter={x:Static ObjectConverters.IsNull}}">
+        <Border Classes="slot visibility" Classes.empty="{Binding $parent[Views:TogglesComposable].DataContext, Converter={x:Static ObjectConverters.IsNull}}">
             <ToggleButton
                 x:Name="visibilityToggle"
                 Focusable="False"
                 IsChecked="{Binding PrefabService.Visibility.Value}"
-                IsVisible="{Binding $parent[Views:ComposableToggles].DataContext, Converter={x:Static ObjectConverters.IsNotNull}}"
+                IsVisible="{Binding $parent[Views:TogglesComposable].DataContext, Converter={x:Static ObjectConverters.IsNotNull}}"
                 Theme="{DynamicResource ToggleButtonVisibility}" />
         </Border>
 
         <Border Grid.Column="1" Classes="gap" />
 
-        <Border Classes="slot mask" Classes.empty="{Binding $parent[Views:ComposableToggles].Composable, Converter={x:Static ObjectConverters.IsNull}}">
-            <ContentControl Content="{Binding $parent[Views:ComposableToggles].Composable}">
+        <Border Classes="slot mask" Classes.empty="{Binding $parent[Views:TogglesComposable].Composable, Converter={x:Static ObjectConverters.IsNull}}">
+            <ContentControl Content="{Binding $parent[Views:TogglesComposable].Composable}">
                 <ContentControl.DataTemplates>
                     <DataTemplate DataType="{x:Type Compositing:IComposable}">
                         <ToggleButton

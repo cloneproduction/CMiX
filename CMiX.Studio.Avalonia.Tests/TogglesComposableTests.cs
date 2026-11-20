@@ -15,14 +15,14 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The visibility and mask toggles of an item, on their squares.
-    public class ComposableTogglesTests
+    public class TogglesComposableTests
     {
         private static object Create(Type type) =>
             TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(type);
 
-        private static ComposableToggles Show(object? item, string? size = null, Action<Window>? setup = null)
+        private static TogglesComposable Show(object? item, string? size = null, Action<Window>? setup = null)
         {
-            var toggles = new ComposableToggles { DataContext = item };
+            var toggles = new TogglesComposable { DataContext = item };
             if (size != null)
                 toggles.Classes.Add(size);
             var window = new Window { Width = 300, Height = 100 };
@@ -33,13 +33,13 @@ namespace CMiX.Studio.Avalonia.Tests
             return toggles;
         }
 
-        private static List<Border> Slots(ComposableToggles toggles) =>
+        private static List<Border> Slots(TogglesComposable toggles) =>
             toggles.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("slot") && border.IsEffectivelyVisible).ToList();
 
         private static ToggleButton? Visible(Border slot) =>
             slot.GetVisualDescendants().OfType<ToggleButton>().SingleOrDefault(button => button.IsEffectivelyVisible);
 
-        private static ToggleButton ToggleWithTheme(ComposableToggles toggles, string themeKey) =>
+        private static ToggleButton ToggleWithTheme(TogglesComposable toggles, string themeKey) =>
             toggles.GetVisualDescendants().OfType<ToggleButton>()
                 .Single(button => button.IsEffectivelyVisible && ReferenceEquals(button.Theme, Application.Current!.FindResource(themeKey)));
 

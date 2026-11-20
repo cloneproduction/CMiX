@@ -38,7 +38,7 @@
             Background="{Binding InspectedNode, Converter={StaticResource TreeTone}, ConverterParameter=FillSelected}"
             DockPanel.Dock="Top"
             IsVisible="{Binding InspectedNode, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}">
-            <!-- The badge, the name, and at the right end the toggles of the item (see ComposableToggles).
+            <!-- The badge, the name, and at the right end the toggles of the item (see TogglesComposable).
                  The name of an item can be edited here, as in the tree. A group has a name that can not be changed, and no toggle. -->
             <Grid VerticalAlignment="Center" ColumnDefinitions="Auto,*,Auto">
                 <Views:BadgeCategory
@@ -58,7 +58,7 @@
                         IsVisible="{Binding InspectedNode.Item, Converter={x:Static ObjectConverters.IsNull}}" />
                 </Panel>
 
-                <Views:ComposableToggles
+                <Views:TogglesComposable
                     Name="headerToggles"
                     Grid.Column="2"
                     VerticalAlignment="Center"

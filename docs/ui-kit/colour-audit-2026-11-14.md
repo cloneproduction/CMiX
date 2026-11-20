@@ -64,7 +64,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | PanelBorderBackground | Black 0.4 | expander header | `Expander.axaml:44` | same value as ListBoxBackground |
 | ListBoxBackground | Black 0.4 | list surface | ListBox.axaml:30,44,84,121; TypeWriter.axaml:23 | duplicate of PanelBorderBackground |
 | PanelBackgroundLevel1Brush | Grey200 | panel level 1, tree stripes (`ProjectTreeView.axaml:60`) | 8 | fine |
-| PanelBackgroundLevel2Brush | Grey300 | panel level 2 | ExpanderIndentedDepth.axaml:13; ComposableToggles.axaml:19 | fine |
+| PanelBackgroundLevel2Brush | Grey300 | panel level 2 | ExpanderIndentedDepth.axaml:13; TogglesComposable.axaml:19 | fine |
 | PanelBackgroundLevel3Brush | Grey400 | panel level 3 | ExpanderIndentedDepth.axaml:16 | fine |
 | PopupBackgroundBrush | PopupCardBackground | popup surface | 12 | fine |
 | PopupCardWarningBrush | PopupCardWarning | attention | 5 | name |

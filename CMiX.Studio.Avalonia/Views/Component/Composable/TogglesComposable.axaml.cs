@@ -9,14 +9,14 @@ using CMiX.Core.Compositing;
 namespace CMiX.Studio.Avalonia.Views
 {
     // The visibility toggle and the mask toggle of an item. The DataContext is the item.
-    public partial class ComposableToggles : UserControl
+    public partial class TogglesComposable : UserControl
     {
-        public static readonly DirectProperty<ComposableToggles, IComposable?> ComposableProperty =
-            AvaloniaProperty.RegisterDirect<ComposableToggles, IComposable?>(nameof(Composable), toggles => toggles.Composable);
+        public static readonly DirectProperty<TogglesComposable, IComposable?> ComposableProperty =
+            AvaloniaProperty.RegisterDirect<TogglesComposable, IComposable?>(nameof(Composable), toggles => toggles.Composable);
 
         private IComposable? composable;
 
-        public ComposableToggles()
+        public TogglesComposable()
         {
             InitializeComponent();
         }

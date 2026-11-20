@@ -376,7 +376,7 @@
             : '<div class="TextBoxEditable" data-text="' + attribute(element, 'data-name') + '"></div>' + badges;
         var toggles = group
             ? '<span class="slot"><button class="ToggleButtonVisibility' + (hidden ? ' checked' : '') + '"></button></span>'
-            : '<span class="ComposableToggles row"' + (element.hasAttribute('data-mask') ? ' data-mask="' + attribute(element, 'data-mask') + '"' : '') + (hidden ? ' data-hidden' : '') + '></span>';
+            : '<span class="TogglesComposable row"' + (element.hasAttribute('data-mask') ? ' data-mask="' + attribute(element, 'data-mask') + '"' : '') + (hidden ? ' data-hidden' : '') + '></span>';
         return '<div class="RowGrid"><button class="TreeChevronToggle"><svg viewBox="-1 -1 6 10"><path d="M 0 0 L 4 4 L 0 8"/></svg></button>'
             + '<div class="RowBorder">' + icon(attribute(element, 'data-icon-key')) + '<span class="header">' + header + '</span>'
             + '<span class="TogglesRow">' + toggles + '</span></div></div>'
@@ -487,7 +487,7 @@
         MenuItem: menuItem('SubMenuBorder'),
         ToolTip: toolTip,
         ToggleButtonMask: icon('MaskOff') + icon('Mask'),
-        ComposableToggles: composableToggles,
+        TogglesComposable: composableToggles,
         BadgesKindCount: kindCountBadges,
         TreeViewItem: treeViewItem,
         BadgeCategory: icon('{icon}'),

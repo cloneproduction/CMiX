@@ -6,7 +6,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <!-- The toggles of a row of the tree, inside the colored row, at its right end. The DataContext is the tree node.
-         The slots are ComposableToggles of the row size, with no fill: the icons show on the color of the row. The column has the width of the spaces and all the slots (TreeToggleWidth,
+         The slots are TogglesComposable of the row size, with no fill: the icons show on the color of the row. The column has the width of the spaces and all the slots (TreeToggleWidth,
          see ProjectTreeView), so the icons of all rows line up. A new toggle is a new slot and a wider column. -->
     <!-- A row under a hidden parent, a list or an item (see TreeNode.IsUnderHiddenParent): its visibility toggles look as if they were disabled. They still work. -->
     <UserControl.Styles>
@@ -35,7 +35,7 @@
 
         <Panel>
 
-            <Views:ComposableToggles Classes="row" DataContext="{Binding Item}" />
+            <Views:TogglesComposable Classes="row" DataContext="{Binding Item}" />
 
             <!-- The hide button of a group row (Entities, Filters, Cameras and so on): it hides the whole list, and what is in it, in the engine. It is in
                  the place of the visibility of an item. The items keep their own visibility, so showing the list again brings back what was shown. -->

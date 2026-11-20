@@ -140,7 +140,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (view, tree) = Show();
             var composition = tree.CompositionNodes()[0];
 
-            // The mask sits at the right of its square (see ComposableToggles), so only the eye is in the middle of its square.
+            // The mask sits at the right of its square (see TogglesComposable), so only the eye is in the middle of its square.
             foreach (var square in SquaresOf(ColumnOf(view, composition)).Skip(1))
             {
                 var toggle = BoundsIn(square.GetVisualDescendants().OfType<ToggleButton>().Single());
