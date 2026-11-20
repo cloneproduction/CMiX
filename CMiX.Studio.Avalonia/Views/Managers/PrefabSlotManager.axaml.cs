@@ -69,14 +69,6 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             set => SetValue(SelectionPanelProperty, value);
         }
 
-        public static readonly StyledProperty<Control> ItemTemplateProperty =
-            AvaloniaProperty.Register<PrefabSlotManager, Control>(nameof(ItemTemplate));
-        public Control ItemTemplate
-        {
-            get => GetValue(ItemTemplateProperty);
-            set => SetValue(ItemTemplateProperty, value);
-        }
-
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
             AvaloniaProperty.Register<PrefabSlotManager, IEnumerable>(nameof(ItemsSource));
         public IEnumerable ItemsSource
