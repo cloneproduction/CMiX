@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // Every tab sits on the surface of the main window. The network tab had a lighter surface of its own.
         [AvaloniaTheory]
-        [InlineData("Network", "SyncPanel")]
+        [InlineData("Network", "PanelSync")]
         public void TheNetworkTab_SitsOnTheSurfaceOfTheWindow(string icon, string viewName)
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();

@@ -11,14 +11,14 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class SyncSettingsTests
+    public class SettingsSyncTests
     {
         [AvaloniaFact]
         public void CredentialNameAndToggle_DisableUserAndPassword()
         {
             var provider = TestServiceProviderFactory.Create();
             var peer = provider.GetRequiredService<SyncPeer>();
-            var view = new SyncSettings { DataContext = peer };
+            var view = new SettingsSync { DataContext = peer };
             var window = new Window { Content = view, Width = 400, Height = 600 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
@@ -65,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var peer = provider.GetRequiredService<SyncPeer>();
-            var view = new SyncSettings { DataContext = peer };
+            var view = new SettingsSync { DataContext = peer };
             var window = new Window { Content = view, Width = 400, Height = 600 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

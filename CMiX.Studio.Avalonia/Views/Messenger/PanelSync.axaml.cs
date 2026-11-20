@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class SyncManagementPanel : UserControl
+    public partial class PanelSync : UserControl
     {
-        public SyncManagementPanel()
+        public PanelSync()
         {
             InitializeComponent();
         }

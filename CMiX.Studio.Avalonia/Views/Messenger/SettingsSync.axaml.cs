@@ -14,9 +14,9 @@ using CMiX.UI.Controls.Boolean;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class SyncSettings : UserControl
+    public partial class SettingsSync : UserControl
     {
-        public SyncSettings()
+        public SettingsSync()
         {
             InitializeComponent();
             EditConnectionButton.Flyout!.Opened += EditConnectionFlyout_Opened;

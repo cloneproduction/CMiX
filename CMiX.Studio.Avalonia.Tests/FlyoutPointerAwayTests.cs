@@ -47,11 +47,11 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaTheory]
         [InlineData("SyncButton")]
         [InlineData("EditConnectionButton")]
-        public void TheSyncSettingsFlyouts_CloseWhenThePointerGoesFarAway(string buttonName)
+        public void TheSettingsSyncFlyouts_CloseWhenThePointerGoesFarAway(string buttonName)
         {
             var provider = TestServiceProviderFactory.Create();
             var peer = provider.GetRequiredService<SyncPeer>();
-            var view = new SyncSettings { DataContext = peer };
+            var view = new SettingsSync { DataContext = peer };
             var window = new Window { Content = view, Width = 1200, Height = 1000 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

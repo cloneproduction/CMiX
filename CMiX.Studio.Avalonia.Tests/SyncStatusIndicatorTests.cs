@@ -21,7 +21,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var peer = TestServiceProviderFactory.Create().GetRequiredService<SyncPeer>();
             var indicator = new SyncStatusIndicator { DataContext = peer };
-            var network = new SyncSettings { DataContext = peer };
+            var network = new SettingsSync { DataContext = peer };
             new Window { Content = new StackPanel { Children = { indicator, network } }, Width = 400, Height = 600 }.Show();
             Dispatcher.UIThread.RunJobs();
 
