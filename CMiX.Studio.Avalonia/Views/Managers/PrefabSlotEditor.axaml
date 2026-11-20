@@ -1,0 +1,25 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Managers.PrefabSlotEditor"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
+    x:Name="prefabSlotEditor">
+
+    <DockPanel>
+        <Managers:PrefabSlotManager
+            Margin="8"
+            MinItemCount="3"
+            RowMenu="Slot"
+            DockPanel.Dock="Top"
+            ItemsSource="{Binding ItemsSource, ElementName=prefabSlotEditor}"
+            SelectionPanel="{Binding SelectionPanel, ElementName=prefabSlotEditor}" />
+
+        <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
+            <ContentControl
+                Content="{Binding EditingPanel, ElementName=prefabSlotEditor}"
+                DataContext="{Binding SelectedItem}" />
+        </Border>
+
+    </DockPanel>
+
+</UserControl>

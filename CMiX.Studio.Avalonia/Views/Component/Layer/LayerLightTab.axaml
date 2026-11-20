@@ -7,29 +7,20 @@
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers">
 
     <ScrollViewer Theme="{StaticResource ScrollViewerOverlayKeepOffset}">
-        <DockPanel>
-            <Managers:PrefabSlotManager
-                Margin="8"
-                MinItemCount="3"
-                RowMenu="Slot"
-                DataContext="{Binding LightManager}"
-                DockPanel.Dock="Top"
-                ItemsSource="{Binding ControlRepository.Lights}">
+        <Managers:PrefabSlotEditor DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
 
-                <Managers:PrefabSlotManager.SelectionPanel>
-                    <Button
-                        Command="{Binding AddItemCommand}"
-                        CommandParameter="{x:Type Lights:LightEntity}"
-                        Content="New Light" />
-                </Managers:PrefabSlotManager.SelectionPanel>
+            <Managers:PrefabSlotEditor.SelectionPanel>
+                <Button
+                    Command="{Binding AddItemCommand}"
+                    CommandParameter="{x:Type Lights:LightEntity}"
+                    Content="New Light" />
+            </Managers:PrefabSlotEditor.SelectionPanel>
 
-            </Managers:PrefabSlotManager>
+            <Managers:PrefabSlotEditor.EditingPanel>
+                <Views:LightEntity />
+            </Managers:PrefabSlotEditor.EditingPanel>
 
-            <Border IsVisible="{Binding LightManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
-                <Views:LightEntity DataContext="{Binding LightManager.SelectedItem}" />
-            </Border>
-
-        </DockPanel>
+        </Managers:PrefabSlotEditor>
     </ScrollViewer>
 
 </UserControl>
