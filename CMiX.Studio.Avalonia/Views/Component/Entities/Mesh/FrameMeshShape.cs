@@ -5,7 +5,7 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public class MeshShapeFrame : ContentControl
+    public class FrameMeshShape : ContentControl
     {
     }
 }

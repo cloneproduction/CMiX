@@ -13,7 +13,7 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class MeshShapeFrameTests
+    public class FrameMeshShapeTests
     {
         private static Control Show(Control view)
         {
