@@ -6,6 +6,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Behaviors;
 using Xunit;
 

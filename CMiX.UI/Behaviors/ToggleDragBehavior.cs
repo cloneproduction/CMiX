@@ -9,6 +9,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+using CMiX.UI.AttachedProperties;
 
 namespace CMiX.UI.Behaviors
 {

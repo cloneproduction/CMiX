@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:behaviors="clr-namespace:CMiX.UI.Behaviors;assembly=CMiX.UI">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="avares://CMiX.UI/Themes/Tokens/Converters.axaml" />
@@ -61,7 +60,7 @@
 
     <ControlTheme x:Key="ToggleButtonVisibility" BasedOn="{StaticResource ToggleButtonIcon}" TargetType="ToggleButton">
         <!-- A drag over these buttons sets them all to one state (see ToggleDragBehavior). -->
-        <Setter Property="behaviors:ToggleDrag.Group" Value="visibility" />
+        <Setter Property="ui:ToggleDrag.Group" Value="visibility" />
         <Setter Property="ToolTip.Tip" Value="Visible" />
 
         <Style Selector="^ /template/ ui|AppIcon#icon">

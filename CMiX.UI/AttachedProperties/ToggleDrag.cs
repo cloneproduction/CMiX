@@ -5,7 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 
-namespace CMiX.UI.Behaviors
+namespace CMiX.UI.AttachedProperties
 {
     // Marks a toggle button as part of a group that a drag can paint (see ToggleDragBehavior).
     // A drag that starts on a button paints only the buttons with the same group name.

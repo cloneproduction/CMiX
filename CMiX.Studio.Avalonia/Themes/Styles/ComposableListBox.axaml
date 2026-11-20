@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    xmlns:behaviors="clr-namespace:CMiX.UI.Behaviors;assembly=CMiX.UI">
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <ControlTheme x:Key="ListBoxItemComposableBorder" TargetType="Border">
         <Setter Property="Background" Value="Transparent" />
@@ -60,7 +59,7 @@
                   BasedOn="{StaticResource ToggleButtonPower}"
                   TargetType="ToggleButton">
         <!-- A drag over these buttons sets them all to one state (see ToggleDragBehavior). -->
-        <Setter Property="behaviors:ToggleDrag.Group" Value="mask" />
+        <Setter Property="ui:ToggleDrag.Group" Value="mask" />
 
         <Style Selector="^ /template/ ui|AppIcon#icon">
             <Setter Property="IconKey" Value="MaskOff" />

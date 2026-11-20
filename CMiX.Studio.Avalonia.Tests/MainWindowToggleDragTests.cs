@@ -12,6 +12,7 @@ using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Behaviors;
 using CMiX.UI.Controls.String;
 using Microsoft.Extensions.DependencyInjection;
