@@ -13,7 +13,7 @@
             <StackPanel>
 
                 <Managers:ListRepository
-                    x:Name="EntitiesRepository"
+                    x:Name="entitiesRepository"
                     DataContext="{Binding EntityManager}"
                     DockPanel.Dock="Top"
                     ItemsSource="{Binding ControlRepository.Entities}"

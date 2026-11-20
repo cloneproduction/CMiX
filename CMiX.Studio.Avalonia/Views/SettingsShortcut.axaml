@@ -9,20 +9,20 @@
     <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
 
         <Button
-            x:Name="ResetAllButton"
+            x:Name="resetAllButton"
             Height="{DynamicResource ControlHeightMD}"
             Padding="8,0"
             HorizontalAlignment="Right"
             Command="{Binding ResetAllCommand}"
             Content="Reset All" />
 
-        <ItemsControl x:Name="ScopeList" ItemsSource="{Binding Scopes}">
+        <ItemsControl x:Name="scopeList" ItemsSource="{Binding Scopes}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,0,0,8" Spacing="4">
 
                         <TextBlock
-                            x:Name="ScopeHeader"
+                            x:Name="scopeHeader"
                             Foreground="{DynamicResource ForegroundBrush}"
                             Text="{Binding Name}" />
 
@@ -40,7 +40,7 @@
                                                 ResetCommand="{Binding ResetCommand}" />
                                             <!-- Marks a gesture that another command of the scope also has. -->
                                             <Ellipse
-                                                x:Name="ConflictMark"
+                                                x:Name="conflictMark"
                                                 Grid.Column="1"
                                                 Width="{DynamicResource IndicatorSize}"
                                                 Height="{DynamicResource IndicatorSize}"
@@ -60,7 +60,7 @@
         </ItemsControl>
 
         <TextBlock
-            x:Name="SaveErrorText"
+            x:Name="saveErrorText"
             Foreground="{DynamicResource PopupCardDangerBrush}"
             TextWrapping="Wrap"
             Text="{Binding SaveError}"

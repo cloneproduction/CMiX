@@ -119,7 +119,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.True(screen.Tree.IsDragging);
             Assert.True(screen.View.Classes.Contains(TreeViewProject.GrabbingClass));
-            Assert.True(screen.View.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "GrabFrame").IsEffectivelyVisible);
+            Assert.True(screen.View.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "grabFrame").IsEffectivelyVisible);
             Assert.Equal(TreeHintMode.Grab, screen.View.HintMode);
         }
 

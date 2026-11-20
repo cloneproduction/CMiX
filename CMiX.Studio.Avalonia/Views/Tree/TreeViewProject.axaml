@@ -13,10 +13,10 @@
 
     <UserControl.Styles>
         <!-- The frame of a grab shows while the view has the class grabbing. -->
-        <Style Selector="Border#GrabFrame">
+        <Style Selector="Border#grabFrame">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="Views|TreeViewProject.grabbing Border#GrabFrame">
+        <Style Selector="Views|TreeViewProject.grabbing Border#grabFrame">
             <Setter Property="IsVisible" Value="True" />
         </Style>
     </UserControl.Styles>
@@ -148,7 +148,7 @@
 
     <!-- The accent frame around the rows during a grab. -->
     <Border
-        x:Name="GrabFrame"
+        x:Name="grabFrame"
         BorderBrush="{DynamicResource AccentBrush}"
         BorderThickness="{DynamicResource CursorFrameThickness}"
         IsHitTestVisible="False" />

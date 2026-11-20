@@ -82,7 +82,7 @@ namespace CMiX.Studio.Avalonia.Tests
             map.Set("Tree.Rename", new KeyGesture(Key.Delete));
             Dispatcher.UIThread.RunJobs();
 
-            var marks = view.GetVisualDescendants().OfType<Ellipse>().Where(e => e.Name == "ConflictMark" && e.IsVisible).ToList();
+            var marks = view.GetVisualDescendants().OfType<Ellipse>().Where(e => e.Name == "conflictMark" && e.IsVisible).ToList();
 
             Assert.Equal(new[] { "Tree.Rename", "Tree.Remove" }, marks.Select(mark => ((ShortcutRow)mark.DataContext!).Name));
             var expected = ((ISolidColorBrush)Application.Current!.FindResource("WarningMutedBrush")!).Color;
@@ -95,7 +95,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (_, settings, view) = Show();
 
-            var button = view.GetVisualDescendants().OfType<Button>().Single(b => b.Name == "ResetAllButton");
+            var button = view.GetVisualDescendants().OfType<Button>().Single(b => b.Name == "resetAllButton");
 
             Assert.Same(settings.ResetAllCommand, button.Command);
         }
@@ -117,7 +117,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void SaveError_AfterAFailedSave_ShowsTheTextInTheDangerColor()
         {
             var (_, settings, view) = Show();
-            var text = view.GetVisualDescendants().OfType<TextBlock>().Single(t => t.Name == "SaveErrorText");
+            var text = view.GetVisualDescendants().OfType<TextBlock>().Single(t => t.Name == "saveErrorText");
             Assert.False(text.IsVisible);
             // A file in the place of the folder makes each save fail.
             File.WriteAllText(folder, string.Empty);

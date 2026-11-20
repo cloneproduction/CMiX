@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal TreeGrab Grab => grab;
 
-        // While a grab runs, the view shows the accent frame (GrabFrame).
+        // While a grab runs, the view shows the accent frame (grabFrame).
         internal const string GrabbingClass = "grabbing";
 
         public TreeViewProject()

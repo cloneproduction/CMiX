@@ -21,7 +21,7 @@
             <!-- Saved in studio-settings.json at once (see InterfaceOptions). -->
             <ui:ExpanderIndented Header="Interface">
                 <ui:ToggleButtonCaptioned
-                    x:Name="ShowKeyHintsToggle"
+                    x:Name="showKeyHintsToggle"
                     Caption="Show key hints under the tree"
                     IsChecked="{Binding Interface.ShowKeyHints, Mode=TwoWay}" />
             </ui:ExpanderIndented>
