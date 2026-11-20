@@ -21,7 +21,7 @@ window.CMIX_CATALOGUE = [
                 id: '2', name: 'Number', entries: [
                     { id: '2.1', name: 'DragValue', source: 'CMiX.UI/Controls/Number/DragValue.cs' },
                     { id: '2.2', name: 'NumericInput', source: 'CMiX.UI/Controls/Number/NumericInput.cs' },
-                    { id: '2.3', name: 'IntegerValue', source: 'CMiX.UI/Controls/Number/IntegerValue.cs' },
+                    { id: '2.3', name: 'DragValueInteger', source: 'CMiX.UI/Controls/Number/DragValueInteger.cs' },
                     { id: '2.4', name: 'RangeValue', source: 'CMiX.UI/Controls/Number/RangeValue.axaml' },
                     { id: '2.5', name: 'SliderCMiX', source: 'CMiX.UI/Controls/Number/SliderCMiX.cs' }
                 ]
@@ -173,7 +173,7 @@ window.CMIX_CATALOGUE = [
                 id: '25', name: 'Modulation', entries: [
                     { id: '25.1', name: 'DragValueModulatable', source: 'CMiX.Studio.Avalonia/Views/Modulation/DragValueModulatable.axaml' },
                     { id: '25.2', name: 'SliderModulatable', source: 'CMiX.Studio.Avalonia/Views/Modulation/SliderModulatable.axaml' },
-                    { id: '25.3', name: 'IntegerValueModulatable', source: 'CMiX.Studio.Avalonia/Views/Modulation/IntegerValueModulatable.axaml' },
+                    { id: '25.3', name: 'DragValueIntegerModulatable', source: 'CMiX.Studio.Avalonia/Views/Modulation/DragValueIntegerModulatable.axaml' },
                     { id: '25.4', name: 'ToggleButtonModulatable', source: 'CMiX.Studio.Avalonia/Views/Modulation/ToggleButtonModulatable.axaml' },
                     { id: '25.5', name: 'ButtonMomentaryModulatable', source: 'CMiX.Studio.Avalonia/Views/Modulation/ButtonMomentaryModulatable.axaml' },
                     { id: '25.6', name: 'Vector2Modulatable', source: 'CMiX.Studio.Avalonia/Views/Modulation/Vector2Modulatable.axaml' },

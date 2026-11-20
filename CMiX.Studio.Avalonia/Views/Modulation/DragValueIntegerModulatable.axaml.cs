@@ -5,14 +5,14 @@ using Avalonia;
 
 namespace CMiX.Studio.Avalonia.Views.Modulation
 {
-    public partial class IntegerValueModulatable : UserControlLimitedModulatable
+    public partial class DragValueIntegerModulatable : UserControlLimitedModulatable
     {
-        static IntegerValueModulatable()
+        static DragValueIntegerModulatable()
         {
-            MinimumProperty.OverrideDefaultValue<IntegerValueModulatable>(1.0);
+            MinimumProperty.OverrideDefaultValue<DragValueIntegerModulatable>(1.0);
         }
 
-        public IntegerValueModulatable()
+        public DragValueIntegerModulatable()
         {
             InitializeComponent();
         }

@@ -22,7 +22,7 @@
             SelectedItem="{Binding Asset}"
             SelectsFolder="True" />
 
-        <Modulation:IntegerValueModulatable
+        <Modulation:DragValueIntegerModulatable
             Caption="Seek Frame"
             DataContext="{Binding SeekTarget}"
             Minimum="0"

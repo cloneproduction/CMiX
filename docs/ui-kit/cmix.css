@@ -270,7 +270,7 @@
 .cmix {
     /* ---------------------------------------------------------------- ContentCaptioned.axaml */
     /* The Caption in the first 40%, at the right. The content in the other 60%. */
-    .ContentCaptioned, .DragValue, .IntegerValue {
+    .ContentCaptioned, .DragValue, .DragValueInteger {
         display: grid;
         grid-template-columns: 40% 60%;
         height: var(--ControlHeightMD);
@@ -291,7 +291,7 @@
     }
 
     /* ---------------------------------------------------------------- DragValue.axaml */
-    .DragValue, .IntegerValue, .DragValueInlineCaption {
+    .DragValue, .DragValueInteger, .DragValueInlineCaption {
         height: var(--ControlHeightMD);
         border-radius: var(--Position, var(--CornerRadiusAll));
 
@@ -1516,8 +1516,8 @@
     }
 
     /* The content of a DragValue has LeadingContent at its left and TrailingContent at its right. */
-    .DragValue > .value, .IntegerValue > .value { display: flex; align-items: center; min-width: 0; }
-    .DragValue > .value > .mainBorder, .IntegerValue > .value > .mainBorder { flex: 1; }
+    .DragValue > .value, .DragValueInteger > .value { display: flex; align-items: center; min-width: 0; }
+    .DragValue > .value > .mainBorder, .DragValueInteger > .value > .mainBorder { flex: 1; }
 
     /* ---------------------------------------------------------------- Views/Modulation/*Modulatable.axaml */
     .SliderModulatable { display: flex; height: var(--ControlHeightMD); > .SliderCMiX { flex: 1; min-width: 0; } }

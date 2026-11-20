@@ -9,7 +9,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:IntegerValue
+        <ui:DragValueInteger
             Caption="Track Index"
             Minimum="0"
             Value="{Binding TrackIndex.Value}"

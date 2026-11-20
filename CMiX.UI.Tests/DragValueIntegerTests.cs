@@ -9,8 +9,8 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // IntegerValue is a DragValue that starts as a whole number editor. It takes the same bindings.
-    public class IntegerValueTests
+    // DragValueInteger is a DragValue that starts as a whole number editor. It takes the same bindings.
+    public class DragValueIntegerTests
     {
         private static Window Host(Control content)
         {
@@ -21,9 +21,9 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void IntegerValue_StartsAsWholeNumbers_WithStepsOfOne()
+        public void DragValueInteger_StartsAsWholeNumbers_WithStepsOfOne()
         {
-            var box = new IntegerValue();
+            var box = new DragValueInteger();
 
             Assert.True(box.IsInteger);
             Assert.Equal(1.0, box.SmallChange);
@@ -42,10 +42,10 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void IntegerValue_FollowsItsModelBothWays()
+        public void DragValueInteger_FollowsItsModelBothWays()
         {
             var model = new NumberValue(4);
-            var box = new IntegerValue { DataContext = model };
+            var box = new DragValueInteger { DataContext = model };
             box.Bind(DragValue.ValueProperty, new Binding("Value", BindingMode.TwoWay));
             Host(box);
 
@@ -62,7 +62,7 @@ namespace CMiX.UI.Tests
         public void TheMenu_HasResetAll_OnlyWhileTheCommandIsSet()
         {
             var ran = "";
-            var box = new IntegerValue
+            var box = new DragValueInteger
             {
                 ResetCommand = new RelayCommand(() => ran += "reset"),
                 ResetAllCommand = new RelayCommand(() => ran += "all")

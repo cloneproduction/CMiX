@@ -72,9 +72,9 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AnIntegerValue_RoundsThePastedValue()
+        public void ADragValueInteger_RoundsThePastedValue()
         {
-            var box = Show(new IntegerValue { Value = 0, Minimum = 0, Maximum = 10 });
+            var box = Show(new DragValueInteger { Value = 0, Minimum = 0, Maximum = 10 });
 
             Text(box).PasteValueText("3.6");
 

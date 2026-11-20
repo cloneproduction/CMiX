@@ -16,7 +16,7 @@
             ItemsSource="{Binding AssetRepository.Videos}"
             SelectedItem="{Binding Asset}" />
 
-        <Modulation:IntegerValueModulatable
+        <Modulation:DragValueIntegerModulatable
             Caption="Seek Frame"
             DataContext="{Binding SeekTarget}"
             Minimum="0"

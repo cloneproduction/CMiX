@@ -62,12 +62,12 @@ The editors with a Reset menu are `SliderCMiX`, `DragValue`,
 `ToggleButtonCaptioned`, `ComboBoxCaptioned` and `ToggleButtonCMiX`. Use
 `ToggleButtonCMiX`, not `ToggleButton`, for a toggle that edits a model value.
 Bind the `ResetCommand` of an editor to the `ResetCommand` of the value.
-`IntegerValue` is a `DragValue` for whole numbers: it starts with `IsInteger` on and
+`DragValueInteger` is a `DragValue` for whole numbers: it starts with `IsInteger` on and
 steps of 1. It takes the same bindings as `DragValue`:
 `Value="{Binding Name.Value}"` and `ResetCommand="{Binding Name.ResetCommand}"`.
 An editor that is one part of a group (a vector) also takes a `ResetAllCommand`, and
 its Reset menu then has a Reset All row. `ValueBindingTests` fails when a
-`DragValue` or an `IntegerValue` in an AXAML file has no `Value` binding.
+`DragValue` or a `DragValueInteger` in an AXAML file has no `Value` binding.
 
 ## Views and folders
 
@@ -124,7 +124,7 @@ come from the value editors of vvvv:
 
 | Folder | The data | In it |
 |---|---|---|
-| `Number` | one number | `DragValue`, `SliderCMiX`, `NumericInput`, `NumericTextHelper`, `IntegerValue`, `RangeValue`, `NumbersOnly` |
+| `Number` | one number | `DragValue`, `SliderCMiX`, `NumericInput`, `NumericTextHelper`, `DragValueInteger`, `RangeValue`, `NumbersOnly` |
 | `Vector` | several numbers | `Vector2`, `Vector3`, `Integer2`, `Integer3`, `AxisSelector2`, `AxisSelector3` |
 | `Boolean` | on, off, or a press | `ToggleButtonCaptioned`, `ToggleButtonCMiX`, `ButtonCaptioned` |
 | `Enum` | one item of a fixed list | `ComboBoxCaptioned` |
@@ -275,8 +275,9 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
   `ComboBoxCaptionedSelectionTests` keeps this protection.
 - `UserControlCaptioned` is the base of the other controls that have a `Caption`.
 - The word `Value` ends the names of the editors of one value: `DragValue`,
-  `IntegerValue`, `RangeValue`, `EditableValue`. No standard control is called
+  `RangeValue`, `EditableValue`. No standard control is called
   `Value`, so there is nothing to put first. These names stay as they are.
+  `DragValueInteger` derives from `DragValue`, so its name starts with that kind.
 - In the Studio, the ending `Modulatable` marks a control that takes modulators. An
   editor has a modulator button: `DragValueModulatable`, `SliderModulatable`,
   `Vector2Modulatable`. Their base is `UserControlModulatable`. The button is

@@ -6,12 +6,12 @@ namespace CMiX.Studio.Avalonia.Tests
     // A number editor in a view must bind its Value. Without it the box does not follow the model.
     public class ValueBindingTests
     {
-        private static readonly Regex Editor = new(@"<ui:(DragValue|IntegerValue)(?![.\w])(?<attributes>(?:""[^""]*""|[^>""])*)>", RegexOptions.Compiled);
+        private static readonly Regex Editor = new(@"<ui:(DragValue|DragValueInteger)(?![.\w])(?<attributes>(?:""[^""]*""|[^>""])*)>", RegexOptions.Compiled);
         private static readonly Regex Comment = new("<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex ValueBinding = new(@"\bValue\s*=\s*""\{", RegexOptions.Compiled);
 
         [Fact]
-        public void EveryDragValueAndIntegerValueInTheAxaml_BindsItsValue()
+        public void EveryDragValueAndDragValueIntegerInTheAxaml_BindsItsValue()
         {
             var found = 0;
             var violations = new List<string>();

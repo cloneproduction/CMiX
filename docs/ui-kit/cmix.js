@@ -26,7 +26,7 @@
     }
 
     function isInteger(element) {
-        return element.classList.contains('IntegerValue') || element.hasAttribute('data-is-integer');
+        return element.classList.contains('DragValueInteger') || element.hasAttribute('data-is-integer');
     }
 
     /* N0 for a whole number and N3 for the others, as the templates of CMiX. */
@@ -389,7 +389,7 @@
         return '<button class="ButtonModulatorAssign"' + (kind ? ' data-modulator="' + escapeHtml(kind) + '"' : '') + ' data-slot="trailing"></button>';
     }
 
-    /* A DragValue or an IntegerValue with a ButtonModulatorAssign as its TrailingContent. */
+    /* A DragValue or a DragValueInteger with a ButtonModulatorAssign as its TrailingContent. */
     function valueModulatable(kind) {
         return function (element) {
             element.classList.add(kind);
@@ -442,14 +442,14 @@
         ToggleButtonBox: icon('IsChecked'),
         ToggleButtonCaptioned: '<span class="box">' + icon('IsChecked') + '</span><span class="caption">{caption}</span>',
         DragValue: dragValue,
-        IntegerValue: dragValue,
+        DragValueInteger: dragValue,
         DragValueInlineCaption: dragValue,
         RangeValue: rangeValue,
         SliderCMiX: slider,
         Vector2: vector(['X', 'Y'], 'DragValue'),
         Vector3: vector(['X', 'Y', 'Z'], 'DragValue'),
-        Integer2: vector(['X', 'Y'], 'IntegerValue'),
-        Integer3: vector(['X', 'Y', 'Z'], 'IntegerValue'),
+        Integer2: vector(['X', 'Y'], 'DragValueInteger'),
+        Integer3: vector(['X', 'Y', 'Z'], 'DragValueInteger'),
         AxisSelector2: axisSelector(['X', 'Y']),
         AxisSelector3: axisSelector(['X', 'Y', 'Z']),
         Chevron: icon('ChevronDown'),
@@ -492,7 +492,7 @@
         TreeViewItem: treeViewItem,
         CategoryBadge: icon('{icon}'),
         DragValueModulatable: valueModulatable('DragValue'),
-        IntegerValueModulatable: valueModulatable('IntegerValue'),
+        DragValueIntegerModulatable: valueModulatable('DragValueInteger'),
         Vector2Modulatable: vector(['X', 'Y'], 'DragValueModulatable'),
         Vector3Modulatable: vector(['X', 'Y', 'Z'], 'DragValueModulatable'),
         SliderModulatable: sliderModulatable,
@@ -500,7 +500,7 @@
         ButtonMomentaryModulatable: buttonModulatable('ButtonMomentary'),
         FloatRangeEditor: floatRangeEditor,
         SyncStatusIndicator: syncStatusIndicator,
-        MeshShapeFrame: '<div class="ScaleOffset"><div class="Vector3" data-caption="Scale" data-x="1" data-y="1" data-z="1"></div><div class="Vector3" data-caption="Offset" data-x="0" data-y="0" data-z="0"></div></div>{content}<div class="IntegerValue" data-caption="Tessellation" data-value="32"></div>'
+        MeshShapeFrame: '<div class="ScaleOffset"><div class="Vector3" data-caption="Scale" data-x="1" data-y="1" data-z="1"></div><div class="Vector3" data-caption="Offset" data-x="0" data-y="0" data-z="0"></div></div>{content}<div class="DragValueInteger" data-caption="Tessellation" data-value="32"></div>'
     };
 
     function selector() {
@@ -555,7 +555,7 @@
 
     /* The buttons of a DragValue change the value by SmallChange: 0.0001, or 1 for a whole number. */
     function stepDragValue(button) {
-        var host = closestKind(button, ['DragValue', 'IntegerValue']);
+        var host = closestKind(button, ['DragValue', 'DragValueInteger']);
         if (!host || isDisabled(host)) return;
         var change = number(host, 'data-small-change', isInteger(host) ? 1 : 0.0001);
         var value = number(host, 'data-value', 0) + (button.classList.contains('AddButton') ? change : -change);

@@ -11,7 +11,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <ui:IntegerValue
+        <ui:DragValueInteger
             Caption="Divisions"
             Minimum="1"
             Value="{Binding Divisions.Value}"
@@ -19,7 +19,7 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <ui:IntegerValue
+            <ui:DragValueInteger
                 Caption="Iterations"
                 Minimum="1"
                 Value="{Binding Iterations.Value}"

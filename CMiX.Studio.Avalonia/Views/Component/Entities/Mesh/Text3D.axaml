@@ -20,7 +20,7 @@
                 ResetCommand="{Binding FontFamily.ResetCommand}"
                 SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 
-            <ui:IntegerValue
+            <ui:DragValueInteger
                 Caption="Size"
                 Value="{Binding FontSize.Value}"
                 ResetCommand="{Binding FontSize.ResetCommand}" />

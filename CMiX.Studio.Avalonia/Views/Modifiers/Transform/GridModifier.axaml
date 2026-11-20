@@ -12,18 +12,18 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <Modulation:IntegerValueModulatable
+            <Modulation:DragValueIntegerModulatable
                 Caption="Count X"
                 DataContext="{Binding Count.X}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
-            <Modulation:IntegerValueModulatable
+            <Modulation:DragValueIntegerModulatable
                 ui:ControlTitle.Text="Count Y"
                 Caption="Y"
                 DataContext="{Binding Count.Y}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
-            <Modulation:IntegerValueModulatable
+            <Modulation:DragValueIntegerModulatable
                 ui:ControlTitle.Text="Count Z"
                 Caption="Z"
                 DataContext="{Binding Count.Z}"

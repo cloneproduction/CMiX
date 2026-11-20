@@ -22,7 +22,7 @@
           </ui:ComboBoxCaptioned.TrailingContent>
         </ui:ComboBoxCaptioned>
             
-        <Modulation:IntegerValueModulatable
+        <Modulation:DragValueIntegerModulatable
             Caption="Count"
             DataContext="{Binding Count}"
             IsEnabled="{Binding DataContext.Mode.Value, ElementName=modifierModeSelector, Converter={x:Static ui:EnumMatchConverter.Instance}, ConverterParameter={x:Static CoreModifiers:ModifierMode.ToSpread}}"

@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.All(frames, frame =>
             {
                 Assert.IsType<ScaleOffset>(frame.Children.First());
-                var tessellation = Assert.IsType<IntegerValue>(frame.Children.Last());
+                var tessellation = Assert.IsType<DragValueInteger>(frame.Children.Last());
                 Assert.Equal("Tessellation", tessellation.Caption);
                 Assert.Equal(8, tessellation.Margin.Top);
             });

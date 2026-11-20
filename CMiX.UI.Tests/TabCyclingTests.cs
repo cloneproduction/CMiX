@@ -159,9 +159,9 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void Tab_InAnIntegerValue_GoesOnToTheNextEditor()
+        public void Tab_InADragValueInteger_GoesOnToTheNextEditor()
         {
-            var a = new IntegerValue { Value = 1, Minimum = 0, Maximum = 10 };
+            var a = new DragValueInteger { Value = 1, Minimum = 0, Maximum = 10 };
             var b = Drag(2);
             var window = Show(Loop(a, b));
             StartEdit(a);

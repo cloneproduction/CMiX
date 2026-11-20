@@ -8,13 +8,13 @@
 
     <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-        <ui:IntegerValue
+        <ui:DragValueInteger
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer2Value, Mode=OneWay}"
             ResetAllCommand="{Binding ResetAllCommand}"
             Value="{Binding X.Value}"
             ResetCommand="{Binding X.ResetCommand}" />
 
-        <ui:IntegerValue
+        <ui:DragValueInteger
             ui:ControlTitle.Text="{Binding Caption, StringFormat=' {0} Y', ElementName=integer2Value, Mode=OneWay}"
             Caption="Y"
             ResetAllCommand="{Binding ResetAllCommand}"

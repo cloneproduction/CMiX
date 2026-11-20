@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Limits_NotSet_KeepTheDefaultsOfEachEditor()
         {
             var dragValue = Show<DragValueModulatable>();
-            var integerValue = Show<IntegerValueModulatable>();
+            var integerValue = Show<DragValueIntegerModulatable>();
             var slider = Show<SliderModulatable>();
 
             Assert.Equal(-10000.0, dragValue.Minimum);
