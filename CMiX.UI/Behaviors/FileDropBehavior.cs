@@ -10,24 +10,6 @@ using Avalonia.Xaml.Interactivity;
 
 namespace CMiX.UI.Behaviors
 {
-    // What a drop accepts: the files of the drag, the folders of the drag, or both.
-    public enum FileDropMode
-    {
-        Files,
-        Folders,
-        FilesAndFolders
-    }
-
-    public class PathsDroppedEventArgs : EventArgs
-    {
-        public PathsDroppedEventArgs(IReadOnlyList<string> paths)
-        {
-            Paths = paths;
-        }
-
-        public IReadOnlyList<string> Paths { get; }
-    }
-
     // Lets a control accept files dragged from the file explorer. The behavior only finds the
     // paths. What to do with them is up to the one who handles PathsDropped, or who overrides
     // OnPathsDropped.
