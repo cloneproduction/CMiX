@@ -137,7 +137,7 @@
     function textBoxEditable(element) {
         var text = attribute(element, 'data-text');
         var suffix = element.getAttribute('data-suffix');
-        return '<span class="TextDisplay">' + text + '</span>' + (suffix ? '<span class="Suffix">' + escapeHtml(suffix) + '</span>' : '')
+        return '<span class="textDisplay">' + text + '</span>' + (suffix ? '<span class="Suffix">' + escapeHtml(suffix) + '</span>' : '')
             + '<input class="TextBox" type="text" spellcheck="false" value="' + text + '">';
     }
 
@@ -712,12 +712,12 @@
        Enter or a click outside keeps the text. Escape keeps the old text. An empty text is not a name. */
     function endEdit(host, keep) {
         var input = host.querySelector(':scope > .TextBox');
-        var display = host.querySelector(':scope > .TextDisplay');
+        var display = host.querySelector(':scope > .textDisplay');
         if (keep && input.value !== '') display.textContent = input.value;
         host.classList.remove('editing');
     }
     document.addEventListener('dblclick', function (e) {
-        var display = e.target.closest ? e.target.closest('.cmix .TextBoxEditable > .TextDisplay, .cmix .EditableValue > .TextDisplay') : null;
+        var display = e.target.closest ? e.target.closest('.cmix .TextBoxEditable > .textDisplay, .cmix .EditableValue > .textDisplay') : null;
         if (!display) return;
         var host = display.parentElement;
         var input = host.querySelector(':scope > .TextBox');
