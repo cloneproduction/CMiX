@@ -210,7 +210,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var tree = screen.Window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
             var treeItem = tree.GetVisualDescendants().OfType<TreeViewItem>().First(item => ReferenceEquals(item.DataContext, screen.LayerNode));
-            var treeToggles = treeItem.GetVisualDescendants().OfType<RowToggles>().First();
+            var treeToggles = treeItem.GetVisualDescendants().OfType<TogglesRow>().First();
             var treeSlots = treeToggles.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("slot") && border.IsEffectivelyVisible).ToList();
             var treeButtons = treeToggles.GetVisualDescendants().OfType<ToggleButton>().Where(button => button.IsEffectivelyVisible).ToList();
 
@@ -743,7 +743,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
             var tree = screen.Window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
             var item = tree.GetVisualDescendants().OfType<TreeViewItem>().First(row => ReferenceEquals(row.DataContext, screen.LayerNode));
-            var toggle = item.GetVisualDescendants().OfType<RowToggles>().First()
+            var toggle = item.GetVisualDescendants().OfType<TogglesRow>().First()
                 .GetVisualDescendants().OfType<ToggleButton>().First(button => CMiX.UI.AttachedProperties.ToggleDrag.GetGroup(button) == "visibility");
             var point = toggle.TranslatePoint(new Point(toggle.Bounds.Width / 2, toggle.Bounds.Height / 2), screen.Window)!.Value;
 

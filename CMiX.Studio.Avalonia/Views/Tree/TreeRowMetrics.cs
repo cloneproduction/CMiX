@@ -62,7 +62,7 @@ namespace CMiX.Studio.Avalonia.Views
             return new TreeRowResources(
                 row.Height,
                 row.Spacing,
-                RowToggles.WidthFor(row.Height, row.Spacing),
+                TogglesRow.WidthFor(row.Height, row.Spacing),
                 gap,
                 line,
                 new Thickness(0, row.Height + free, 0, 0),

@@ -285,7 +285,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, tree) = Show();
             var source = FirstEntity(tree);
-            var toggles = ItemOf(view, source).GetVisualDescendants().OfType<RowToggles>().First();
+            var toggles = ItemOf(view, source).GetVisualDescendants().OfType<TogglesRow>().First();
 
             // The right end of the column: an entity has no mask toggle there, so it is the space around the buttons.
             var point = toggles.TranslatePoint(new Point(toggles.Bounds.Width - 3, toggles.Bounds.Height / 2), window!)!.Value;

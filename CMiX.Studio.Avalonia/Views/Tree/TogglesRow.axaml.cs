@@ -6,11 +6,11 @@ using Avalonia.Controls;
 namespace CMiX.Studio.Avalonia.Views
 {
     // The visibility toggle first, then the mask toggle.
-    public partial class RowToggles : UserControl
+    public partial class TogglesRow : UserControl
     {
         public const int Slots = 2;
 
-        public RowToggles()
+        public TogglesRow()
         {
             InitializeComponent();
         }

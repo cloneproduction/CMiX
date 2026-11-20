@@ -102,7 +102,7 @@
                                     VerticalContentAlignment="Center"
                                     Content="{TemplateBinding Header}"
                                     ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                                <Views:RowToggles Grid.Column="1" VerticalAlignment="Center" />
+                                <Views:TogglesRow Grid.Column="1" VerticalAlignment="Center" />
                             </Grid>
                             <!-- The cover of a row that is out of play in a drag or a search. -->
                             <Border

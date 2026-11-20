@@ -49,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 .First(toggle => toggle.Name == "PART_ExpandCollapseChevron");
 
         private static ToggleButton FirstToggleOf(TreeTestScreen screen, TreeNode node) =>
-            TreeTestScreen.ItemOf(screen.View, node).GetVisualDescendants().OfType<RowToggles>().First()
+            TreeTestScreen.ItemOf(screen.View, node).GetVisualDescendants().OfType<TogglesRow>().First()
                 .GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.IsEffectivelyVisible);
 
         [AvaloniaFact]

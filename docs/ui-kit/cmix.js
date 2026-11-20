@@ -379,7 +379,7 @@
             : '<span class="ComposableToggles row"' + (element.hasAttribute('data-mask') ? ' data-mask="' + attribute(element, 'data-mask') + '"' : '') + (hidden ? ' data-hidden' : '') + '></span>';
         return '<div class="RowGrid"><button class="TreeChevronToggle"><svg viewBox="-1 -1 6 10"><path d="M 0 0 L 4 4 L 0 8"/></svg></button>'
             + '<div class="RowBorder">' + icon(attribute(element, 'data-icon-key')) + '<span class="header">' + header + '</span>'
-            + '<span class="RowToggles">' + toggles + '</span></div></div>'
+            + '<span class="TogglesRow">' + toggles + '</span></div></div>'
             + '<div class="GapUnderTheRow"></div><div class="DropLine"></div><div class="items">' + element.innerHTML + '</div>';
     }
 

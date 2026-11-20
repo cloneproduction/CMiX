@@ -42,11 +42,11 @@ namespace CMiX.Studio.Avalonia.Tests
             return (screen.View, scene.Tree);
         }
 
-        private static RowToggles ColumnOf(ProjectTreeView view, TreeNode node) =>
-            ItemOf(view, node).GetVisualDescendants().OfType<RowToggles>().First();
+        private static TogglesRow ColumnOf(ProjectTreeView view, TreeNode node) =>
+            ItemOf(view, node).GetVisualDescendants().OfType<TogglesRow>().First();
 
         // The squares from the left: the mask first, the visibility last.
-        private List<Border> SquaresOf(RowToggles column) =>
+        private List<Border> SquaresOf(TogglesRow column) =>
             column.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("slot") && border.IsEffectivelyVisible)
                 .OrderBy(border => BoundsIn(border).Left).ToList();
 
@@ -299,7 +299,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var column = ColumnOf(view, tree.CompositionNodes()[0]);
             var row = BoundsIn(RowOf(view, tree.CompositionNodes()[0]));
 
-            Assert.Equal(RowToggles.WidthFor(row.Height, Convert.ToDouble(view.Resources["TreeRowSpacing"])), column.Bounds.Width, 3);
+            Assert.Equal(TogglesRow.WidthFor(row.Height, Convert.ToDouble(view.Resources["TreeRowSpacing"])), column.Bounds.Width, 3);
         }
     }
 }

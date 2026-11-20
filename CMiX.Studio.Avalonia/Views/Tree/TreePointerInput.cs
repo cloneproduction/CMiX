@@ -68,7 +68,7 @@ namespace CMiX.Studio.Avalonia.Views
             (source as Visual)?.FindAncestorOfType<ToggleButton>(true) is { Focusable: false } button && TreeRows.ItemOf(button) != null;
 
         private static bool IsInToggles(object? source) =>
-            (source as Visual)?.FindAncestorOfType<RowToggles>(true) != null;
+            (source as Visual)?.FindAncestorOfType<TogglesRow>(true) != null;
 
         private static bool IsEditor(object? source) =>
             TreeRows.HasAncestor<ToggleButton>(source) || TreeRows.HasAncestor<TextBox>(source);

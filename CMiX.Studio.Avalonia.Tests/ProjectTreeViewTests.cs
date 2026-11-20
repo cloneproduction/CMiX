@@ -87,7 +87,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // The toggles of a row: the ones in its toggle column, from the left. The column of the first row found is its own.
         private static List<ToggleButton> TogglesOf(TreeViewItem row) =>
-            row.GetVisualDescendants().OfType<RowToggles>().First()
+            row.GetVisualDescendants().OfType<TogglesRow>().First()
                 .GetVisualDescendants().OfType<ToggleButton>()
                 .Where(toggle => toggle.IsEffectivelyVisible).ToList();
 
@@ -482,7 +482,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var coloredRight = colored.TranslatePoint(new Point(colored.Bounds.Width, 0), screen.Window)!.Value.X;
 
             // The box reaches the toggles, which end the colored row.
-            var toggles = row.GetVisualDescendants().OfType<RowToggles>().First().Bounds.Width;
+            var toggles = row.GetVisualDescendants().OfType<TogglesRow>().First().Bounds.Width;
             Assert.True(coloredRight - boxRight <= toggles + 4, $"The name box ends {coloredRight - boxRight} px before the end of the row.");
             Assert.True(box.Bounds.Width > content.Bounds.Width / 2, "The name box is less than half of the row.");
         }

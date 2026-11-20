@@ -1276,7 +1276,7 @@
             > .header { flex: 1; min-width: 0; display: flex; align-items: center; }
             > .header > .TextBlock { margin: 0 4px; color: inherit; white-space: nowrap; }
             > .header .TextDisplay { color: inherit; }
-            > .RowToggles { flex: none; display: flex; justify-content: flex-end; width: var(--TreeToggleWidth); }
+            > .TogglesRow { flex: none; display: flex; justify-content: flex-end; width: var(--TreeToggleWidth); }
             &:hover { background: var(--FillHover); }
             /* The marks lie over the row and take no room. */
             &::after { content: ""; position: absolute; inset: 0; border-radius: var(--CornerRadiusAll); pointer-events: none; }
@@ -1587,7 +1587,7 @@
 
 .cmix {
     /* The square of the eye of a group row, and the count squares of a row under the pointer or selected. */
-    .RowToggles > .slot { display: flex; align-items: center; justify-content: center; width: var(--ControlHeightMD); height: var(--ControlHeightMD); }
+    .TogglesRow > .slot { display: flex; align-items: center; justify-content: center; width: var(--ControlHeightMD); height: var(--ControlHeightMD); }
     .TreeViewItem.selected > .RowGrid .kindcount { background: var(--KindSelected); }
     .RowBorder .TextBoxEditable { flex: none; }
     .RowBorder > .header > .BadgesKindCount { margin-left: 4px; }

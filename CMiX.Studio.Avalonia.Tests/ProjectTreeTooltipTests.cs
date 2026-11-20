@@ -65,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             foreach (var node in new[] { tree.CompositionNodes()[0], tree.CompositionNodes()[0].Children[0].Children[0] })
             {
-                var toggle = ItemOf(view, node).GetVisualDescendants().OfType<RowToggles>().First()
+                var toggle = ItemOf(view, node).GetVisualDescendants().OfType<TogglesRow>().First()
                     .GetVisualDescendants().OfType<ToggleButton>().Single(button => Equals(ToolTip.GetTip(button), "Mask"));
 
                 Assert.Equal(new[] { "Mask" }, TextOfTooltip(toggle));
@@ -76,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheMaskToggle_OpensItsTooltipBelowIt()
         {
             var (view, tree) = Show();
-            var toggle = ItemOf(view, tree.CompositionNodes()[0]).GetVisualDescendants().OfType<RowToggles>().First()
+            var toggle = ItemOf(view, tree.CompositionNodes()[0]).GetVisualDescendants().OfType<TogglesRow>().First()
                 .GetVisualDescendants().OfType<ToggleButton>().Single(button => Equals(ToolTip.GetTip(button), "Mask"));
 
             Assert.Equal(PlacementMode.Custom, ToolTip.GetPlacement(toggle));
@@ -87,7 +87,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void VisibilityToggle_Show_HasTheVisibleTip()
         {
             var (view, tree) = Show();
-            var toggle = ItemOf(view, tree.CompositionNodes()[0]).GetVisualDescendants().OfType<RowToggles>().First()
+            var toggle = ItemOf(view, tree.CompositionNodes()[0]).GetVisualDescendants().OfType<TogglesRow>().First()
                 .GetVisualDescendants().OfType<ToggleButton>()
                 .First(button => ReferenceEquals(button.Theme, Application.Current!.FindResource("ToggleButtonVisibility")));
 

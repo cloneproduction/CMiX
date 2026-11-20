@@ -40,7 +40,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             // The buttons in the toggle column of a node, not the buttons in the rows below it.
             public ToggleButton ButtonOf(TreeNode node, string group) =>
-                ItemOf(node).GetVisualDescendants().OfType<RowToggles>().First()
+                ItemOf(node).GetVisualDescendants().OfType<TogglesRow>().First()
                     .GetVisualDescendants().OfType<ToggleButton>().First(button => ToggleDrag.GetGroup(button) == group);
 
             public Point CenterOf(ToggleButton button)
