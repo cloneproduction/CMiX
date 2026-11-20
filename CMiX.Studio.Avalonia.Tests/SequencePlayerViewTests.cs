@@ -39,11 +39,11 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void AssetPathSelector_SelectsAFolderFromTheImageSequences()
+        public void ComboBoxAssetPath_SelectsAFolderFromTheImageSequences()
         {
             var (player, view, _) = ShowSequencePlayerView();
 
-            var pathSelector = view.GetVisualDescendants().OfType<AssetPathSelector>().Single();
+            var pathSelector = view.GetVisualDescendants().OfType<ComboBoxAssetPath>().Single();
 
             Assert.True(pathSelector.SelectsFolder);
             Assert.Equal("Image Folder", pathSelector.Caption);

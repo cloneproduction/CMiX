@@ -12,24 +12,24 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The path a user chooses or drops becomes an asset of the repository.
-    public class AssetPathSelectorTests : IDisposable
+    public class ComboBoxAssetPathTests : IDisposable
     {
         private readonly string _folder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "cmix-assets-" + Guid.NewGuid().ToString("N"));
 
-        public AssetPathSelectorTests()
+        public ComboBoxAssetPathTests()
         {
             Directory.CreateDirectory(_folder);
         }
 
         public void Dispose() => Directory.Delete(_folder, true);
 
-        private sealed class Dropper : AssetPathSelector
+        private sealed class Dropper : ComboBoxAssetPath
         {
             public void Drop(IReadOnlyList<string> paths) => OnPathsDropped(paths);
         }
 
         // Stands for the file dialog: the Browse button gets the path that the user would pick.
-        private sealed class BrowsingTo : AssetPathSelector
+        private sealed class BrowsingTo : ComboBoxAssetPath
         {
             private readonly string? _picked;
 
@@ -61,7 +61,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void ItAsksForTheAssetFileTypes()
         {
-            var selector = new AssetPathSelector();
+            var selector = new ComboBoxAssetPath();
 
             Assert.Equal("Assets", selector.FileTypeName);
             Assert.Equal(AssetTypes.AllExtensions, selector.Extensions);
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var image = NewImage();
             var path = NewFile("one.png");
-            var selector = new AssetPathSelector { DataContext = image.AssetSelector };
+            var selector = new ComboBoxAssetPath { DataContext = image.AssetSelector };
 
             selector.ChoosePath(path);
 

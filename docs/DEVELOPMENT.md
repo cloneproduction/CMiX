@@ -289,7 +289,7 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
 `ComboBoxPath` chooses a file or a folder: a list of known items, a Browse button and a
 drop of files from the file explorer. It only finds the path and raises `PathChosen`
 and `PathsDropped`. It does not know what the path becomes. The Studio has
-`AssetPathSelector`, which turns the path into an asset of its repository. The drop
+`ComboBoxAssetPath`, which turns the path into an asset of its repository. The drop
 is done by `FileDropBehavior`, which any control can use. `TextureDropBehavior` of the
 Studio is built on it.
 

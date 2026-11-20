@@ -11,9 +11,9 @@ namespace CMiX.Studio.Avalonia.Views
 {
     // The ComboBoxPath of the Studio. The DataContext is an AssetSelector: a path the user
     // chooses or drops becomes an asset of its repository.
-    public class AssetPathSelector : ComboBoxPath
+    public class ComboBoxAssetPath : ComboBoxPath
     {
-        public AssetPathSelector()
+        public ComboBoxAssetPath()
         {
             Extensions = AssetTypes.AllExtensions;
             FileTypeName = "Assets";

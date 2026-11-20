@@ -15,7 +15,7 @@
             HasLoop="True"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=sequencePlayer}" />
 
-        <Views:AssetPathSelector
+        <Views:ComboBoxAssetPath
             Caption="Image Folder"
             DataContext="{Binding AssetSelector}"
             ItemsSource="{Binding AssetRepository.ImageSequences}"

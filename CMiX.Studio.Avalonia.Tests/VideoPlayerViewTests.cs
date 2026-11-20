@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var play = view.GetVisualDescendants().OfType<CMiX.UI.Controls.Boolean.ToggleButtonCMiX>().Single(t => (t.Content as string) == "Play");
             var doSeek = view.GetVisualDescendants().OfType<CMiX.UI.Controls.Boolean.ButtonMomentary>().Single();
-            var pathSelector = view.GetVisualDescendants().OfType<AssetPathSelector>().Single();
+            var pathSelector = view.GetVisualDescendants().OfType<ComboBoxAssetPath>().Single();
 
             var playY = play.TranslatePoint(new Point(0, 0), view)!.Value.Y;
             var doSeekY = doSeek.TranslatePoint(new Point(0, 0), view)!.Value.Y;
@@ -49,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
             File.WriteAllText(file, "x");
             try
             {
-                var pathSelector = view.GetVisualDescendants().OfType<AssetPathSelector>().Single();
+                var pathSelector = view.GetVisualDescendants().OfType<ComboBoxAssetPath>().Single();
                 var combo = pathSelector.GetVisualDescendants().OfType<ComboBox>().Single();
 
                 pathSelector.ChoosePath(file);

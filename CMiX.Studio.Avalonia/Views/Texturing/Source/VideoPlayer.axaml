@@ -11,7 +11,7 @@
         <Views:PlayerTransport
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=videoPlayer}" />
 
-        <Views:AssetPathSelector
+        <Views:ComboBoxAssetPath
             DataContext="{Binding AssetSelector}"
             ItemsSource="{Binding AssetRepository.Videos}"
             SelectedItem="{Binding Asset}" />

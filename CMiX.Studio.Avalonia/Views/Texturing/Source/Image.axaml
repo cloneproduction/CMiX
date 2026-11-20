@@ -6,7 +6,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Views:AssetPathSelector
+        <Views:ComboBoxAssetPath
             VerticalAlignment="Top"
             DataContext="{Binding AssetSelector}"
             ItemsSource="{Binding AssetRepository.Images}"
