@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class EntitySelectionPanel : UserControl
+    public partial class PanelAddEntity : UserControl
     {
-        public EntitySelectionPanel()
+        public PanelAddEntity()
         {
             InitializeComponent();
         }
