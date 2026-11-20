@@ -69,7 +69,8 @@
         <Border
             x:Name="titleBar"
             Background="{DynamicResource Grey100Brush}"
-            DockPanel.Dock="Top">
+            DockPanel.Dock="Top"
+            PointerPressed="TitleBar_PointerPressed">
 
             <DockPanel LastChildFill="True">
 

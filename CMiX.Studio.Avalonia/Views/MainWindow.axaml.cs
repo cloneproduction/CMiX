@@ -18,10 +18,7 @@ namespace CMiX.Studio.Avalonia.Views
 {
     public partial class MainWindow : Window
     {
-        // Avalonia opens the main menu when Alt goes up alone, as Windows does (AccessKeyHandler). The menu has no access keys, and
-        // Alt is a part of the tree keys (Alt+E, Alt+Up, Alt+Down), so the window takes the press and the release of Alt itself, and
-        // the menu does not take the keyboard. A key binding with Alt still runs: it reads the Alt of the other key. A class handler
-        // runs before the handler of Avalonia on the window.
+        // The window takes Alt before Avalonia, so Alt alone does not open the main menu and the tree keys with Alt still run.
         static MainWindow()
         {
             static void TakeAlt(MainWindow _, KeyEventArgs e)
@@ -35,22 +32,22 @@ namespace CMiX.Studio.Avalonia.Views
             KeyDownEvent.AddClassHandler<MainWindow>((window, e) => window.OnKeyDownAfterTextBox(e), RoutingStrategies.Bubble);
         }
 
-        // A key that the focused text box does not handle runs the paused key binding of the window. A class handler runs before the
-        // Tab navigation of the window, so Ctrl+Tab in a text box moves the focus to the next panel, not to the next control.
+        // A class handler runs before the Tab navigation, so Ctrl+Tab in a text box moves the focus to the next panel.
         private void OnKeyDownAfterTextBox(KeyEventArgs e) => textGuard.RunPausedBinding(e);
+
+        private readonly PanelFocusCycle? panelFocus;
+        private readonly NotificationService? notifications;
 
         public MainWindow(PanelFocusCycle panelFocus, NotificationService notifications) : this()
         {
-            panelFocus.Attach(this);
-            notifications.Attach(panelNotification);
+            this.panelFocus = panelFocus;
+            this.notifications = notifications;
         }
 
         public MainWindow()
         {
             InitializeComponent();
-            titleBar.PointerPressed += TitleBar_PointerPressed;
             Closing += OnClosing;
-            Opened += (_, _) => { if (DockOnOpen) WindowDock.DockRight(this); };
             InstallToggleDrag();
             // A text box gets Ctrl+Z first. A key that it does not handle still undoes or redoes the project (see OnKeyDownAfterTextBox).
             textGuard = KeyBindingTextGuard.Install(this);
@@ -60,6 +57,15 @@ namespace CMiX.Studio.Avalonia.Views
 
         // The window opens on the right edge of the screen, as high as the working area. A program can turn this off.
         public bool DockOnOpen { get; set; } = true;
+
+        protected override void OnOpened(EventArgs e)
+        {
+            panelFocus?.Attach(this);
+            notifications?.Attach(panelNotification);
+            if (DockOnOpen)
+                WindowDock.DockRight(this);
+            base.OnOpened(e);
+        }
 
         // A drag over the visibility or the mask buttons sets them all to one state. The whole drag is one undo step.
         private void InstallToggleDrag()
