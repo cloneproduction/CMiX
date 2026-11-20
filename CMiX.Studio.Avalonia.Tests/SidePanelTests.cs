@@ -158,7 +158,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal("Tree", ToolTip.GetTip(toggle));
             Assert.Equal(PlacementMode.Custom, ToolTip.GetPlacement(toggle));
-            Assert.Equal(CMiX.UI.Popups.PopupSide.Bottom, CMiX.UI.ToolTipDefaults.GetSide(toggle));
+            Assert.Equal(CMiX.UI.Popups.PopupSide.Bottom, CMiX.UI.AttachedProperties.ToolTipDefaults.GetSide(toggle));
 
             screen.ViewModel.LeftPanel = PanelChoice.Assets;
             TestServiceProviderFactory.Pump();

@@ -6,7 +6,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Layout;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.UI;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Popups;
 using Xunit;

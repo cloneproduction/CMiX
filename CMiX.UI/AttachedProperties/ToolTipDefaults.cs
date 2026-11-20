@@ -8,7 +8,7 @@ using Avalonia.Input;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Popups;
 
-namespace CMiX.UI
+namespace CMiX.UI.AttachedProperties
 {
     // Where every tooltip of the app opens: on one side of the control that has it, 8 pixels away, never over it (see PopupPlacement).
     // The card opens at the pointer along the control, and its tip points at the pointer. It stays where it opened.

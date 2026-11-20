@@ -3,6 +3,7 @@
 
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
+using CMiX.UI.AttachedProperties;
 
 namespace CMiX.UI.Themes
 {
