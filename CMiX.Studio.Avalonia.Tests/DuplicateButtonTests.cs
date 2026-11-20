@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ToolbarDuplicateButton_ShowsTheDuplicateIcon_AndIsDisabledWithoutItems()
         {
             var manager = CreateManager();
-            var view = new Views.ComposableManagerToolbar { DataContext = manager };
+            var view = new Views.ToolbarComposable { DataContext = manager };
             Show(view);
             var button = ButtonIn(view, "DuplicateButton");
 
@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var manager = CreateManager();
             manager.AddItem(typeof(Layer));
-            var view = new Views.ComposableManagerToolbar { DataContext = manager };
+            var view = new Views.ToolbarComposable { DataContext = manager };
             Show(view);
 
             var add = view.GetVisualDescendants().OfType<Button>().First(button => (button.Content as AppIcon)?.IconKey == "Add");
@@ -68,7 +68,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var manager = CreateManager();
             manager.AddItem(typeof(Layer));
-            var view = new Views.ComposableManagerToolbar { DataContext = manager };
+            var view = new Views.ToolbarComposable { DataContext = manager };
             Show(view);
             var button = ButtonIn(view, "DuplicateButton");
 

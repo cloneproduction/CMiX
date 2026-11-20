@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class ComposableManagerToolbar : UserControl
+    public partial class ToolbarComposable : UserControl
     {
-        public ComposableManagerToolbar()
+        public ToolbarComposable()
         {
             InitializeComponent();
         }

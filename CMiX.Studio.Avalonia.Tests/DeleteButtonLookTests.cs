@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void ToolbarRemoveButton_ShowsTheTrashCan()
         {
-            var view = new Views.ComposableManagerToolbar { DataContext = CreateManager() };
+            var view = new Views.ToolbarComposable { DataContext = CreateManager() };
             Show(view);
 
             Assert.Equal(TrashCan, IconOf(RemoveButtonIn(view)));
@@ -64,7 +64,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ToolbarRemoveButton_IsDisabledWithoutItems_AndEnabledWithOne()
         {
             var manager = CreateManager();
-            var view = new Views.ComposableManagerToolbar { DataContext = manager };
+            var view = new Views.ToolbarComposable { DataContext = manager };
             Show(view);
             var button = RemoveButtonIn(view);
 

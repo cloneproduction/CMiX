@@ -1532,7 +1532,7 @@
     /* PanelModulatable: the content, then the ModifierManager that adds a modulator. */
     .PanelModulatable { display: flex; flex-direction: column; > .ListPanelItem { margin-top: 8px; } }
 
-    /* ---------------------------------------------------------------- Views/Component/Composable/ComposableManagerItem.axaml, ComposableManagerToolbar.axaml */
+    /* ---------------------------------------------------------------- Views/Component/Composable/ComposableManagerItem.axaml, ToolbarComposable.axaml */
     .ComposableManagerItem {
         display: flex;
         align-items: center;
@@ -1540,7 +1540,7 @@
         > .TextBoxEditable { flex: 1; min-width: 0; margin-left: 3px; }
         > .ComposableToggles { margin: 0 4px; }
     }
-    .ComposableManagerToolbar {
+    .ToolbarComposable {
         display: flex;
         > .ButtonRounded { flex: none; width: var(--ControlHeightMD); background: transparent; > .AppIcon { opacity: 0.9; } }
         > .ButtonRounded:hover { background: var(--StateHoverBrush); }

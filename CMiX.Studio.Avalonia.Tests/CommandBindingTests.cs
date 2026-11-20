@@ -57,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void TheComposableToolbar_HoldsTheAddMoveAndDeleteCommands()
         {
             var manager = LayerManagerWithItems(2);
-            var view = new Views.ComposableManagerToolbar { DataContext = manager };
+            var view = new Views.ToolbarComposable { DataContext = manager };
             Show(view);
             var service = (ManagerReorderService)manager.ManagerReorderService;
 
