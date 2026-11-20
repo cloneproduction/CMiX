@@ -42,7 +42,6 @@ namespace CMiX.UI.Behaviors
 
         private readonly PointerAwayCloser closer;
         private Control? subscribedChild;
-        private bool parentHandlersAdded;
 
         public ClosePopupBehavior()
         {
@@ -74,7 +73,6 @@ namespace CMiX.UI.Behaviors
                 AssociatedObject.Closed -= OnClosed;
             }
             RemoveChildHandlers();
-            RemoveParentWindowHandlers();
             closer.Stop();
         }
 
@@ -88,7 +86,6 @@ namespace CMiX.UI.Behaviors
 
             subscribedChild = child;
             child.PointerEntered += OnPointerEntered;
-            child.PointerExited += OnPointerExited;
 
             child.AddHandler(InputElement.PointerReleasedEvent, OnChildPointerReleased, RoutingStrategies.Tunnel);
         }
@@ -99,30 +96,8 @@ namespace CMiX.UI.Behaviors
                 return;
 
             subscribedChild.PointerEntered -= OnPointerEntered;
-            subscribedChild.PointerExited -= OnPointerExited;
             subscribedChild.RemoveHandler(InputElement.PointerReleasedEvent, OnChildPointerReleased);
             subscribedChild = null;
-        }
-
-        private void AddParentWindowHandlers()
-        {
-            var topLevel = ParentTopLevel;
-            if (topLevel == null || parentHandlersAdded)
-                return;
-
-            parentHandlersAdded = true;
-
-            topLevel.AddHandler(InputElement.PointerPressedEvent, OnParentPointerPressed, RoutingStrategies.Tunnel);
-        }
-
-        private void RemoveParentWindowHandlers()
-        {
-            var topLevel = ParentTopLevel;
-            if (topLevel == null || !parentHandlersAdded)
-                return;
-
-            parentHandlersAdded = false;
-            topLevel.RemoveHandler(InputElement.PointerPressedEvent, OnParentPointerPressed);
         }
 
         private void ClosePopup()
@@ -138,7 +113,6 @@ namespace CMiX.UI.Behaviors
         private void OnOpened(object? sender, EventArgs e)
         {
             AddChildHandlers();
-            AddParentWindowHandlers();
             UpdateCloser();
         }
 
@@ -154,19 +128,13 @@ namespace CMiX.UI.Behaviors
         private void OnClosed(object? sender, EventArgs e)
         {
             closer.Stop();
-            RemoveParentWindowHandlers();
             RemoveChildHandlers();
             var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
             mainWindow?.Focus();
         }
 
         // The pointer is back in the content, so the pointer going away closes the popup again.
-        private void OnPointerEntered(object? sender, PointerEventArgs e)
-        {
-            RemoveParentWindowHandlers();
-            UpdateCloser();
-        }
-        private void OnPointerExited(object? sender, PointerEventArgs e) => AddParentWindowHandlers();
+        private void OnPointerEntered(object? sender, PointerEventArgs e) => UpdateCloser();
 
         private void OnChildPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
@@ -177,17 +145,5 @@ namespace CMiX.UI.Behaviors
 
         // A press outside ended an edit of the popup (see OutsideClick). Only the next press outside closes the popup.
         internal void EditEndedOutside() => closer.Stop();
-
-        // A press outside ends the edit of a value of the popup, and that is all it does. The next press outside
-        // closes the popup. The control under the pointer gets neither the press nor its release (see OutsideClick).
-        private void OnParentPointerPressed(object? sender, PointerPressedEventArgs e)
-        {
-            if (PointerAwayCloser.EndEdits(AssociatedObject?.Child))
-                closer.Stop();
-            else
-                ClosePopup();
-
-            OutsideClick.Take(e);
-        }
     }
 }

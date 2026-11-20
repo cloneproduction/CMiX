@@ -411,7 +411,7 @@ The popup is open while the toggle is checked. The property sets the placement t
 
 A popup, a flyout or a context menu can close when the pointer moves away from it:
 
-- A `Popup` uses the behavior `ClosePopupBehavior`. It also closes the popup on a click outside it and on a click on a button in it.
+- A `Popup` uses the behavior `ClosePopupBehavior`. It also closes the popup on a click on a button in it. `OutsideClick` owns the press outside the popup.
 - A `Flyout` or a `MenuFlyout` uses the behavior `CloseFlyoutOnPointerAwayBehavior`. It only checks the distance.
 - A `ContextMenu` with the theme `ContextMenuDefault` has it already, for example the Reset menu of a value editor. The theme sets the attached property `ContextMenuPointerAway.ClosesOnPointerAway`. Set it to false on a menu to switch the rule off.
 
