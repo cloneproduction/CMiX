@@ -278,7 +278,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(screen.Placeholder.IsVisible);
             Assert.Same(screen.CompositionNode.Item, screen.Editor.Content);
             Assert.NotNull(screen.Find<CompositionView>());
-            Assert.Same(screen.CompositionNode.Item, screen.Find<ComposableItemSettings>()!.DataContext);
+            Assert.Same(screen.CompositionNode.Item, screen.Find<SettingsComposable>()!.DataContext);
             Assert.Equal("Composition", screen.HeaderIcon.IconKey);
             Assert.Equal(screen.CompositionNode.Header, screen.Title.Text);
         }
@@ -439,7 +439,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Select(screen, screen.LayerNode);
 
             Assert.Same(screen.Layer, screen.Editor.Content);
-            Assert.Same(screen.Layer, screen.Find<ComposableItemSettings>()!.DataContext);
+            Assert.Same(screen.Layer, screen.Find<SettingsComposable>()!.DataContext);
             Assert.NotNull(screen.Find<LayerPostFXTab>());
             Assert.Null(screen.Find<LayerEntityTab>());
             Assert.Null(screen.Find<LayerCameraTab>());

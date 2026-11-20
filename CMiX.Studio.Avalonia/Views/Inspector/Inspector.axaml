@@ -87,7 +87,7 @@
                     <DataTemplate DataType="{x:Type Compositing:Composition}">
                         <StackPanel>
                             <Border Background="{DynamicResource Grey200Brush}">
-                                <Views:ComposableItemSettings Margin="8" />
+                                <Views:SettingsComposable Margin="8" />
                             </Border>
                             <Views:Composition Classes="hosted" />
                         </StackPanel>
@@ -96,7 +96,7 @@
                     <DataTemplate DataType="{x:Type Compositing:Layer}">
                         <StackPanel>
                             <Border Background="{DynamicResource Grey200Brush}">
-                                <Views:ComposableItemSettings Margin="8" />
+                                <Views:SettingsComposable Margin="8" />
                             </Border>
                             <Views:LayerPostFXTab Classes="hosted" />
                         </StackPanel>

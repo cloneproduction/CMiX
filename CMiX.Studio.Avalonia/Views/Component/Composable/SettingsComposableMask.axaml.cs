@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class ComposableManagerSettings : UserControl
+    public partial class SettingsComposableMask : UserControl
     {
-        public ComposableManagerSettings()
+        public SettingsComposableMask()
         {
             InitializeComponent();
         }

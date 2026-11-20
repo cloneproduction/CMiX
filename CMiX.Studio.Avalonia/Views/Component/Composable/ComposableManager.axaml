@@ -19,7 +19,7 @@
             <Border DockPanel.Dock="Bottom"
                     Background="{DynamicResource Grey200Brush}"
                     IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-                <Views:ComposableItemSettings Margin="8" DataContext="{Binding SelectedItem}" />
+                <Views:SettingsComposable Margin="8" DataContext="{Binding SelectedItem}" />
             </Border>
 
             <ListBox

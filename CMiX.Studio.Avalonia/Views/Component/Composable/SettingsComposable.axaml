@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.ComposableItemSettings"
+    x:Class="CMiX.Studio.Avalonia.Views.SettingsComposable"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
@@ -10,8 +10,8 @@
          the alpha. The DataContext is the composition or the layer. The list of the compositions, the list of the layers and the
          inspector show the same settings with this one view. -->
     <StackPanel>
-        <Views:ComposableManagerMaskSettings IsVisible="{Binding Mask.IsMask.Value}" />
-        <Views:ComposableManagerSettings />
+        <Views:SettingsComposableMask IsVisible="{Binding Mask.IsMask.Value}" />
+        <Views:SettingsComposableCompositing />
     </StackPanel>
 
 </UserControl>
