@@ -172,5 +172,83 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(0, scene.Tree.SearchMatchCount);
             Assert.Empty(scene.Tree.SearchMatches);
         }
+
+        [Fact]
+        public void LeaveSearch_WithAText_EmptiesTheTextAndKeepsTheFocus()
+        {
+            var scene = CreateScene([1]);
+            var focusRequests = 0;
+            scene.Tree.TreeFocusRequested += (_, _) => focusRequests++;
+            scene.Tree.SearchText = "Echo";
+
+            scene.Tree.LeaveSearch();
+
+            Assert.Equal(string.Empty, scene.Tree.SearchText);
+            Assert.Equal(0, focusRequests);
+        }
+
+        [Fact]
+        public void LeaveSearch_WithNoText_RequestsTheTreeFocus()
+        {
+            var scene = CreateScene([1]);
+            var focusRequests = 0;
+            scene.Tree.TreeFocusRequested += (_, _) => focusRequests++;
+
+            scene.Tree.LeaveSearch();
+
+            Assert.Equal(1, focusRequests);
+        }
+
+        [Fact]
+        public void LeaveSearch_DuringADrag_CancelsTheDrag()
+        {
+            var scene = CreateScene([2]);
+            var cancels = 0;
+            scene.Tree.AttachView(new TreeViewHooks { CancelDrag = () => cancels++ });
+            scene.Tree.SearchText = "Echo";
+            scene.Tree.BeginDrag(scene.LayerNodeOfA(0));
+
+            scene.Tree.LeaveSearch();
+
+            Assert.Equal(1, cancels);
+            Assert.Equal("Echo", scene.Tree.SearchText);
+        }
+
+        [Fact]
+        public void MoveCursorToNextMatch_DuringADrag_CannotRun()
+        {
+            var scene = CreateScene([2]);
+            scene.Tree.BeginDrag(scene.LayerNodeOfA(0));
+
+            Assert.False(scene.Tree.MoveCursorToNextMatchCommand.CanExecute(null));
+            Assert.False(scene.Tree.MoveCursorToPreviousMatchCommand.CanExecute(null));
+        }
+
+        [Fact]
+        public void MoveCursorToPreviousMatch_TwoMatches_MovesToTheMatchBefore()
+        {
+            var scene = CreateScene([2], s =>
+            {
+                s.LayerOfA(1).TextureModifierManager.AddItem(typeof(Echo));
+                s.LayerOfA(0).TextureModifierManager.AddItem(typeof(Echo));
+            });
+            var first = NodeOf(scene, scene.LayerOfA(0).TextureModifierManager.ManagerData.Items[0]);
+            var second = NodeOf(scene, scene.LayerOfA(1).TextureModifierManager.ManagerData.Items[0]);
+            scene.Tree.SearchText = "echo";
+            scene.Tree.CursorNode = second;
+
+            scene.Tree.MoveCursorToPreviousMatch();
+
+            Assert.Same(first, scene.Tree.CursorNode);
+        }
+
+        [Fact]
+        public void FocusTreeCommand_DuringADrag_CannotRun()
+        {
+            var scene = CreateScene([2]);
+            scene.Tree.BeginDrag(scene.LayerNodeOfA(0));
+
+            Assert.False(scene.Tree.FocusTreeCommand.CanExecute(null));
+        }
     }
 }

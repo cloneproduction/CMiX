@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
@@ -18,6 +19,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public event EventHandler? MenuRequested;
 
+        [RelayCommand(CanExecute = nameof(CanMoveCursorToMatch))]
         public void FocusTree() => TreeFocusRequested?.Invoke(this, EventArgs.Empty);
 
         public event EventHandler? TreeFocusRequested;

@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
@@ -37,16 +38,40 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             SearchText = string.Empty;
         }
 
-        public void MoveCursorToMatch(int step)
+        [RelayCommand]
+        public void LeaveSearch()
         {
             if (IsDragging)
+                Views.CancelDrag();
+            else if (SearchText.Length > 0)
+                SearchText = string.Empty;
+            else
+                FocusTree();
+        }
+
+        [RelayCommand(CanExecute = nameof(CanMoveCursorToMatch))]
+        public void MoveCursorToNextMatch()
+        {
+            if (!IsDragging)
+                MoveCursorTo(search.MoveToMatch(CursorNode, 1));
+        }
+
+        [RelayCommand(CanExecute = nameof(CanMoveCursorToMatch))]
+        public void MoveCursorToPreviousMatch()
+        {
+            if (!IsDragging)
+                MoveCursorTo(search.MoveToMatch(CursorNode, -1));
+        }
+
+        private bool CanMoveCursorToMatch() => !IsDragging;
+
+        private void MoveCursorTo(TreeNode? match)
+        {
+            if (match == null)
                 return;
 
-            if (search.MoveToMatch(CursorNode, step) is not { } node)
-                return;
-
-            CursorNode = node;
-            RevealRequested?.Invoke(this, node);
+            CursorNode = match;
+            RevealRequested?.Invoke(this, match);
         }
 
         // A search that found nothing still dimmed every row, so its end must run.

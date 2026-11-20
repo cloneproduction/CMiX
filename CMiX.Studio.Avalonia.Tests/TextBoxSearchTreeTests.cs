@@ -372,7 +372,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Pump(screen);
 
             Press(screen, PhysicalKey.Enter);
-            scene.Tree.MoveCursorToMatch(1);
+            scene.Tree.MoveCursorToNextMatch();
 
             Assert.Same(scene.NodeA, scene.Tree.CursorNode);
             Assert.Same(scene.NodeA, scene.Tree.SelectedNode);
