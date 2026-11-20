@@ -25,10 +25,10 @@ namespace CMiX.Studio.Avalonia.Views.Dialogs
             this.options = options;
             InitializeComponent();
 
-            MessageIcon.IconKey = options.IconKey;
-            TitleText.Text = options.Title;
-            TitleText.IsVisible = !string.IsNullOrEmpty(options.Title);
-            MessageText.Text = options.Text;
+            messageIcon.IconKey = options.IconKey;
+            titleText.Text = options.Title;
+            titleText.IsVisible = !string.IsNullOrEmpty(options.Title);
+            messageText.Text = options.Text;
 
             foreach (var item in options.Buttons)
             {
@@ -42,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Views.Dialogs
                 };
                 var result = item.Result;
                 button.Click += (_, _) => Close(result);
-                ButtonRow.Children.Add(button);
+                buttonRow.Children.Add(button);
             }
         }
 

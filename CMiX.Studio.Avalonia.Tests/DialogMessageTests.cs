@@ -70,8 +70,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var (dialog, _) = Show(MessageNotice.Options("cmix.cmix: The file is broken.", "Open Project"));
 
             TextBlock Named(string name) => dialog.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Name == name);
-            var title = Named("TitleText");
-            var message = Named("MessageText");
+            var title = Named("titleText");
+            var message = Named("messageText");
 
             Assert.True(title.IsVisible);
             Assert.Equal("Open Project", title.Text);

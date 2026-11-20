@@ -18,7 +18,7 @@
 
             <DockPanel>
                 <ui:AppIcon
-                    x:Name="MessageIcon"
+                    x:Name="messageIcon"
                     Margin="8"
                     VerticalAlignment="Top"
                     DockPanel.Dock="Left"
@@ -26,20 +26,20 @@
                     Size="{DynamicResource IconSizeXS}" />
                 <StackPanel VerticalAlignment="Center" Spacing="4">
                     <TextBlock
-                        x:Name="TitleText"
+                        x:Name="titleText"
                         MaxWidth="420"
                         FontWeight="SemiBold"
                         Foreground="{DynamicResource ForegroundBrush}"
                         TextWrapping="Wrap" />
                     <TextBlock
-                        x:Name="MessageText"
+                        x:Name="messageText"
                         MaxWidth="420"
                         Foreground="{DynamicResource ForegroundBrush}"
                         TextWrapping="Wrap" />
                 </StackPanel>
             </DockPanel>
 
-            <UniformGrid x:Name="ButtonRow" HorizontalAlignment="Right" Rows="1" />
+            <UniformGrid x:Name="buttonRow" HorizontalAlignment="Right" Rows="1" />
 
         </StackPanel>
 
