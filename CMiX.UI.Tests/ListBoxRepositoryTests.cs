@@ -42,7 +42,7 @@ namespace CMiX.UI.Tests
         {
             var (_, detail, _) = Show();
 
-            var remove = detail.GetVisualDescendants().OfType<Button>().Single(button => button.Name == "RemoveButton");
+            var remove = detail.GetVisualDescendants().OfType<Button>().Single(button => button.Name == "removeButton");
 
             Assert.Equal(ControlPosition.Right, PositionedControl.GetPosition(remove));
         }
@@ -90,7 +90,7 @@ namespace CMiX.UI.Tests
             var (_, detail, rows) = Show(d => d.DeleteCommand = command);
             detail.SelectedItem = rows[1];
             Dispatcher.UIThread.RunJobs();
-            var delete = detail.GetVisualDescendants().OfType<Button>().Single(b => b.Name == "RemoveButton");
+            var delete = detail.GetVisualDescendants().OfType<Button>().Single(b => b.Name == "removeButton");
 
             Assert.Same(command, delete.Command);
             Assert.Same(rows[1], delete.CommandParameter);

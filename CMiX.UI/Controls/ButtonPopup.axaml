@@ -8,7 +8,7 @@
     <Panel>
 
         <ToggleButton
-            x:Name="PopUpToggle"
+            x:Name="popupToggle"
             Content="{Binding Caption, ElementName=popupButton}"
             ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=popupButton}" />
 
@@ -16,7 +16,7 @@
             ui:TogglePopup.ClosesOnPointerAway="{Binding ClosesOnPointerAway, ElementName=popupButton}"
             ui:TogglePopup.MatchesToggleWidth="True"
             ui:TogglePopup.PointerAwayDistance="{Binding PointerAwayDistance, ElementName=popupButton}"
-            ui:TogglePopup.Toggle="{Binding ElementName=PopUpToggle}"
+            ui:TogglePopup.Toggle="{Binding ElementName=popupToggle}"
             Placement="Bottom">
             <ui:DropdownFrame>
 

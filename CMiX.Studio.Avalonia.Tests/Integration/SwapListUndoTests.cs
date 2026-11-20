@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
         private static void PickWithSearch(Setup setup, string text)
         {
-            setup.Slot.FindControl<ToggleButton>("SwapToggle")!.IsChecked = true;
+            setup.Slot.FindControl<ToggleButton>("swapToggle")!.IsChecked = true;
             TestServiceProviderFactory.Pump();
 
             setup.Window.KeyTextInput(text);

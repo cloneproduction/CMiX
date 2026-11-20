@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static string? IconOf(Button button) => (button.Content as AppIcon)?.IconKey;
 
         private static Button RemoveButtonIn(Control view) =>
-            view.GetVisualDescendants().OfType<Button>().Single(button => button.Name == "RemoveButton");
+            view.GetVisualDescendants().OfType<Button>().Single(button => button.Name == "removeButton");
 
         [AvaloniaFact]
         public void SlotRemoveButton_ShowsTheTrashCan()
@@ -77,7 +77,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         private static ToggleButton ToggleOf(ButtonPopup popup) =>
-            popup.GetVisualDescendants().OfType<ToggleButton>().Single(toggle => toggle.Name == "PopUpToggle");
+            popup.GetVisualDescendants().OfType<ToggleButton>().Single(toggle => toggle.Name == "popupToggle");
 
         [AvaloniaFact]
         public void AButtonPopupOutsideTheSlot_StaysRounded()

@@ -124,7 +124,7 @@ namespace CMiX.UI.Tests
             var window = new Window { Content = new StackPanel { Margin = new Thickness(0, 100, 0, 0), Children = { list } }, Width = 1200, Height = 800 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
-            var toggle = list.FindControl<ToggleButton>("AddToggle")!;
+            var toggle = list.FindControl<ToggleButton>("addToggle")!;
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
             window.MouseMove(Middle(window, toggle));
@@ -151,7 +151,7 @@ namespace CMiX.UI.Tests
             var window = new Window { Content = new StackPanel { Margin = new Thickness(0, 100, 0, 0), Children = { button } }, Width = 1200, Height = 800 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
-            var toggle = button.FindControl<ToggleButton>("PopUpToggle")!;
+            var toggle = button.FindControl<ToggleButton>("popupToggle")!;
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
             window.MouseMove(Middle(window, toggle));

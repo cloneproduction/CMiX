@@ -378,7 +378,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             var tree = screen.View.GetVisualDescendants().OfType<TreeView>().First();
-            var buttons = new[] { "AddButton", "DuplicateButton", "MoveUpButton", "MoveDownButton", "RemoveButton" }.Select(screen.ButtonOf).ToList();
+            var buttons = new[] { "addButton", "duplicateButton", "moveUpButton", "moveDownButton", "removeButton" }.Select(screen.ButtonOf).ToList();
             var height = Convert.ToDouble(Application.Current!.FindResource("ControlHeightMD"));
 
             Assert.All(buttons, button => Assert.Equal(height, button.Bounds.Height));
@@ -396,14 +396,14 @@ namespace CMiX.Studio.Avalonia.Tests
 
             screen.Scene.Tree.SelectedNode = screen.Scene.Group<EntitiesGroup>(0).Children[0];
             // A composition can be added whatever is selected, so Add is never disabled.
-            Assert.True(screen.ButtonOf("AddButton").IsEffectivelyEnabled);
-            Assert.True(screen.ButtonOf("DuplicateButton").IsEffectivelyEnabled);
-            Assert.False(screen.ButtonOf("MoveUpButton").IsEffectivelyEnabled);
+            Assert.True(screen.ButtonOf("addButton").IsEffectivelyEnabled);
+            Assert.True(screen.ButtonOf("duplicateButton").IsEffectivelyEnabled);
+            Assert.False(screen.ButtonOf("moveUpButton").IsEffectivelyEnabled);
 
             screen.Scene.Tree.SelectedNode = screen.Scene.Group<EntitiesGroup>(0);
-            Assert.True(screen.ButtonOf("AddButton").IsEffectivelyEnabled);
-            Assert.False(screen.ButtonOf("DuplicateButton").IsEffectivelyEnabled);
-            Assert.False(screen.ButtonOf("RemoveButton").IsEffectivelyEnabled);
+            Assert.True(screen.ButtonOf("addButton").IsEffectivelyEnabled);
+            Assert.False(screen.ButtonOf("duplicateButton").IsEffectivelyEnabled);
+            Assert.False(screen.ButtonOf("removeButton").IsEffectivelyEnabled);
         }
 
         [AvaloniaFact]
@@ -412,7 +412,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             screen.Scene.Tree.SelectedNode = screen.Scene.Tree.CompositionNodes()[1];
 
-            screen.Click(screen.ButtonOf("AddButton"));
+            screen.Click(screen.ButtonOf("addButton"));
 
             Assert.True(screen.Panel.IsOpen);
             Assert.Equal(new[] { "Layer", "Filter", "Modifier", "Project" }, screen.GroupHeaders());
@@ -431,7 +431,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             screen.Scene.Tree.SelectedNode = screen.Scene.Tree.CompositionNodes()[1];
-            screen.Click(screen.ButtonOf("AddButton"));
+            screen.Click(screen.ButtonOf("addButton"));
 
             screen.PickRow("Layer");
 
@@ -447,7 +447,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
             screen.Scene.Tree.SelectedNode = screen.Scene.Group<EntitiesGroup>(0).Children[0];
 
-            screen.Click(screen.ButtonOf("AddButton"));
+            screen.Click(screen.ButtonOf("addButton"));
 
             Assert.True(screen.Panel.IsOpen);
             Assert.Equal(new[] { "Texture", "Modifier", "Project" }, screen.GroupHeaders());
@@ -460,7 +460,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             screen.Scene.Tree.SelectedNode = screen.Scene.Group<CamerasGroup>(0);
 
-            screen.Click(screen.ButtonOf("AddButton"));
+            screen.Click(screen.ButtonOf("addButton"));
             screen.PickRow("Camera");
 
             Assert.IsType<Camera>(Assert.Single(screen.Scene.LayerOfA(0).CameraManager.ManagerData.Items));
@@ -473,7 +473,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var layer = screen.Scene.LayerNodeOfA(0);
             screen.Scene.Tree.SelectedNode = layer;
 
-            screen.Click(screen.ButtonOf("AddButton"));
+            screen.Click(screen.ButtonOf("addButton"));
 
             Assert.True(screen.Panel.IsOpen);
             Assert.Equal(new[] { "Content", "Filter", "Modifier", "Project" }, screen.GroupHeaders());
@@ -492,7 +492,7 @@ namespace CMiX.Studio.Avalonia.Tests
             // Room above the toolbar, so the card can reach above the pointer.
             screen.View.Margin = new Thickness(150, 200, 0, 0);
             screen.Scene.Tree.SelectedNode = group ? screen.Scene.Group<EntitiesGroup>(0) : screen.Scene.LayerNodeOfA(0);
-            var button = screen.ButtonOf("AddButton");
+            var button = screen.ButtonOf("addButton");
             screen.Window.UpdateLayout();
             var pointer = button.TranslatePoint(new Point(button.Bounds.Width / 2, button.Bounds.Height / 2), screen.Window)!.Value;
             screen.Window.MouseMove(pointer);
@@ -515,7 +515,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             screen.Scene.Tree.SelectedNode = screen.Scene.LayerNodeOfA(0);
-            var button = screen.ButtonOf("AddButton");
+            var button = screen.ButtonOf("addButton");
             screen.Window.MouseMove(new Point(390, 880));
             Dispatcher.UIThread.RunJobs();
             Assert.False(button.IsPointerOver);
@@ -536,7 +536,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             screen.Scene.Tree.SelectedNode = screen.Scene.LayerNodeOfA(1);
-            screen.Click(screen.ButtonOf("AddButton"));
+            screen.Click(screen.ButtonOf("addButton"));
 
             screen.PickRow("Light");
 
@@ -550,7 +550,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             screen.Scene.Tree.SelectedNode = screen.Scene.Group<EntitiesGroup>(0);
 
-            screen.Click(screen.ButtonOf("AddButton"));
+            screen.Click(screen.ButtonOf("addButton"));
 
             Assert.Equal(new[] { "Content", "Project" }, screen.GroupHeaders());
             Assert.Equal(new[] { "Entity", "Fullscreen Quad", "Text" }, screen.Panel.List.Groups!.Single(group => group.Header == "Content").Items.Where(item => item.IsEnabled).Select(item => item.Text));
@@ -563,14 +563,14 @@ namespace CMiX.Studio.Avalonia.Tests
             var first = screen.Scene.LayerOfA(0);
             screen.Scene.Tree.SelectedNode = screen.Scene.LayerNodeOfA(0);
 
-            screen.Click(screen.ButtonOf("DuplicateButton"));
+            screen.Click(screen.ButtonOf("duplicateButton"));
             Assert.Equal(3, screen.Scene.A.LayerManager.ManagerData.Items.Count);
 
             screen.Scene.Tree.SelectedNode = screen.Scene.LayerNodeOfA(0);
-            screen.Click(screen.ButtonOf("MoveDownButton"));
+            screen.Click(screen.ButtonOf("moveDownButton"));
             Assert.NotSame(first, screen.Scene.A.LayerManager.ManagerData.Items[0]);
 
-            screen.Click(screen.ButtonOf("RemoveButton"));
+            screen.Click(screen.ButtonOf("removeButton"));
             Assert.Equal(2, screen.Scene.A.LayerManager.ManagerData.Items.Count);
         }
 
@@ -583,7 +583,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Scene.Tree.SelectedNode = screen.Scene.LayerNodeOfA(0);
             screen.Scene.Tree.CursorNode = screen.Scene.LayerNodeOfA(1);
 
-            screen.Click(screen.ButtonOf("RemoveButton"));
+            screen.Click(screen.ButtonOf("removeButton"));
 
             Assert.Equal(new IControl[] { first }, screen.Scene.A.LayerManager.ManagerData.Items);
         }
@@ -594,11 +594,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             var expected = new Dictionary<string, string>
             {
-                ["AddButton"] = "Add",
-                ["DuplicateButton"] = "Duplicate",
-                ["MoveUpButton"] = "Move up",
-                ["MoveDownButton"] = "Move down",
-                ["RemoveButton"] = "Remove"
+                ["addButton"] = "Add",
+                ["duplicateButton"] = "Duplicate",
+                ["moveUpButton"] = "Move up",
+                ["moveDownButton"] = "Move down",
+                ["removeButton"] = "Remove"
             };
 
             foreach (var (name, tip) in expected)
@@ -611,11 +611,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             var expected = new Dictionary<string, string>
             {
-                ["AddButton"] = "Shift+A",
-                ["DuplicateButton"] = "Shift+D",
-                ["MoveUpButton"] = "Alt+Up",
-                ["MoveDownButton"] = "Alt+Down",
-                ["RemoveButton"] = "Delete"
+                ["addButton"] = "Shift+A",
+                ["duplicateButton"] = "Shift+D",
+                ["moveUpButton"] = "Alt+Up",
+                ["moveDownButton"] = "Alt+Down",
+                ["removeButton"] = "Delete"
             };
 
             foreach (var (name, shortcut) in expected)
@@ -629,7 +629,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             screen.Scene.Tree.Shortcuts.Set("Tree.Add", new KeyGesture(Key.N, KeyModifiers.Control));
 
-            Assert.Equal("Ctrl+N", Assert.IsType<CMiX.UI.Popups.TipContent>(ToolTip.GetTip(screen.ButtonOf("AddButton"))).Shortcut);
+            Assert.Equal("Ctrl+N", Assert.IsType<CMiX.UI.Popups.TipContent>(ToolTip.GetTip(screen.ButtonOf("addButton"))).Shortcut);
         }
 
         [AvaloniaFact]
@@ -639,7 +639,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Scene.Tree.SelectedNode = screen.Scene.Group<EntitiesGroup>(0);
             Dispatcher.UIThread.RunJobs();
 
-            var button = screen.ButtonOf("DuplicateButton");
+            var button = screen.ButtonOf("duplicateButton");
             var tip = Assert.IsType<CMiX.UI.Popups.TipContent>(ToolTip.GetTip(button));
 
             Assert.False(button.IsEffectivelyEnabled);
@@ -657,7 +657,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Scene.Tree.SelectedNode = screen.Scene.LayerNodeOfA(0);
             Dispatcher.UIThread.RunJobs();
 
-            Assert.Null(Assert.IsType<CMiX.UI.Popups.TipContent>(ToolTip.GetTip(screen.ButtonOf("DuplicateButton"))).Reason);
+            Assert.Null(Assert.IsType<CMiX.UI.Popups.TipContent>(ToolTip.GetTip(screen.ButtonOf("duplicateButton"))).Reason);
         }
 
         // The look of the buttons before the change to ButtonIcon: 24 by 24, a transparent corner of 2, an icon of 16 at 0.9.
@@ -666,7 +666,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
 
-            foreach (var name in new[] { "AddButton", "DuplicateButton", "MoveUpButton", "MoveDownButton", "RemoveButton" })
+            foreach (var name in new[] { "addButton", "duplicateButton", "moveUpButton", "moveDownButton", "removeButton" })
             {
                 var button = screen.ButtonOf(name);
                 var border = button.GetVisualDescendants().OfType<Border>().First();

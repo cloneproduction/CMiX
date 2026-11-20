@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var toggle = manager.GetVisualDescendants().OfType<ToggleButton>().First(t => t.Name == "AddToggle");
+            var toggle = manager.GetVisualDescendants().OfType<ToggleButton>().First(t => t.Name == "addToggle");
             var popup = manager.GetVisualDescendants().OfType<Popup>().First();
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();

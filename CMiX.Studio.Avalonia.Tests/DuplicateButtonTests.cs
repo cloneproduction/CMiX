@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var manager = CreateManager();
             var view = new Views.ToolbarComposable { DataContext = manager };
             Show(view);
-            var button = ButtonIn(view, "DuplicateButton");
+            var button = ButtonIn(view, "duplicateButton");
 
             Assert.Equal("Duplicate", IconOf(button));
             Assert.False(button.IsEnabled);
@@ -56,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Show(view);
 
             var add = view.GetVisualDescendants().OfType<Button>().First(button => (button.Content as AppIcon)?.IconKey == "Add");
-            var duplicate = ButtonIn(view, "DuplicateButton");
+            var duplicate = ButtonIn(view, "duplicateButton");
             var moveUp = view.GetVisualDescendants().OfType<Button>().First(button => (button.Content as AppIcon)?.IconKey == "ArrowUp");
 
             Assert.True(LeftOf(add, view) < LeftOf(duplicate, view));
@@ -70,7 +70,7 @@ namespace CMiX.Studio.Avalonia.Tests
             manager.AddItem(typeof(Layer));
             var view = new Views.ToolbarComposable { DataContext = manager };
             Show(view);
-            var button = ButtonIn(view, "DuplicateButton");
+            var button = ButtonIn(view, "duplicateButton");
 
             button.Command!.Execute(button.CommandParameter);
 
@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var manager = CreateManager();
             var view = new ListPrefabSlot { DataContext = manager };
             Show(view);
-            var button = ButtonIn(view, "DuplicateButton");
+            var button = ButtonIn(view, "duplicateButton");
 
             Assert.Equal("Duplicate", IconOf(button));
             Assert.False(button.IsEnabled);
@@ -101,9 +101,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var view = new ListPrefabSlot { DataContext = manager };
             Show(view);
 
-            var duplicate = ButtonIn(view, "DuplicateButton");
-            var remove = ButtonIn(view, "RemoveButton");
-            var moveUp = ButtonIn(view, "MoveUpButton");
+            var duplicate = ButtonIn(view, "duplicateButton");
+            var remove = ButtonIn(view, "removeButton");
+            var moveUp = ButtonIn(view, "moveUpButton");
 
             Assert.True(LeftOf(moveUp, view) < LeftOf(duplicate, view));
             Assert.True(LeftOf(duplicate, view) < LeftOf(remove, view));
@@ -117,7 +117,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Show(view);
             manager.AddItem(typeof(Entity));
             Dispatcher.UIThread.RunJobs();
-            var button = ButtonIn(view, "DuplicateButton");
+            var button = ButtonIn(view, "duplicateButton");
 
             button.Command!.Execute(button.CommandParameter);
 

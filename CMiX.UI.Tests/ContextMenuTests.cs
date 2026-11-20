@@ -133,7 +133,7 @@ namespace CMiX.UI.Tests
             var selector = new SelectorColor { DataContext = color, Width = 200, Height = 40 };
             Host(selector);
 
-            selector.FindControl<ToggleButton>("PopupToggle")!.IsChecked = true;
+            selector.FindControl<ToggleButton>("popupToggle")!.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
             var popup = selector.FindControl<Popup>("colorPickerPopup")!;
             Assert.True(popup.IsOpen);
@@ -145,7 +145,7 @@ namespace CMiX.UI.Tests
         {
             var (selector, _) = ShowSelectorColorWithOpenPopup();
 
-            RequestMenu(selector.FindControl<ToggleButton>("PopupToggle")!);
+            RequestMenu(selector.FindControl<ToggleButton>("popupToggle")!);
 
             Assert.True(selector.ContextMenu!.IsOpen);
         }

@@ -49,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public Composition A { get; init; } = null!;
 
             public TreeView TreeView => View.GetVisualDescendants().OfType<TreeView>().First();
-            public Button AddButton => View.GetVisualDescendants().OfType<Button>().First(button => button.Name == "AddButton");
+            public Button AddButton => View.GetVisualDescendants().OfType<Button>().First(button => button.Name == "addButton");
             public AddPanel Panel => View.GetVisualDescendants().OfType<ToolbarProjectTree>().First().Panel;
             public TreeNode LayerNode => Tree.CompositionNodes()[0].Children[0].Children[0];
 

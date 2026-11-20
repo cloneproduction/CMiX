@@ -26,7 +26,7 @@ namespace CMiX.UI.Tests
         {
             var (panel, content) = Show();
 
-            Assert.Equal("Add", panel.FindControl<ToggleButton>("PopUpToggle")!.Content);
+            Assert.Equal("Add", panel.FindControl<ToggleButton>("popupToggle")!.Content);
             Assert.Same(panel, ((ILogical)content).LogicalParent);
         }
 
@@ -34,7 +34,7 @@ namespace CMiX.UI.Tests
         public void CheckingTheButton_OpensThePopup_AndUncheckingClosesIt()
         {
             var (panel, _) = Show();
-            var toggle = panel.FindControl<ToggleButton>("PopUpToggle")!;
+            var toggle = panel.FindControl<ToggleButton>("popupToggle")!;
             var popup = panel.GetLogicalDescendants().OfType<Popup>().Single();
             Assert.False(popup.IsOpen);
 

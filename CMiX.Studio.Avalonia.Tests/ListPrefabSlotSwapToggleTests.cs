@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return (view, repository, provider);
         }
 
-        private static ToggleButton SwapToggle(ListPrefabSlot view) => view.FindControl<ToggleButton>("SwapToggle")!;
+        private static ToggleButton SwapToggle(ListPrefabSlot view) => view.FindControl<ToggleButton>("swapToggle")!;
 
         [AvaloniaFact]
         public void ThePopupOfTheToggle_HasTheSharedDropdownFrame_AndKeepsItsPosition()

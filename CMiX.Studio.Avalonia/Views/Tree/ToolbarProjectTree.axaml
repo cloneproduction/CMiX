@@ -9,14 +9,14 @@
     <DockPanel LastChildFill="False">
 
         <ui:ButtonIcon
-            x:Name="AddButton"
+            x:Name="addButton"
             Click="OnAddClick"
             IconKey="Add"
             Tip="Add"
             TipShortcut="{Binding Shortcuts[Tree.Add], Converter={StaticResource KeyGestureText}}" />
 
         <ui:ButtonIcon
-            x:Name="DuplicateButton"
+            x:Name="duplicateButton"
             Command="{Binding DuplicateItemCommand}"
             IconKey="Duplicate"
             DisabledReason="Select a row to duplicate."
@@ -24,7 +24,7 @@
             TipShortcut="{Binding Shortcuts[Tree.Duplicate], Converter={StaticResource KeyGestureText}}" />
 
         <ui:ButtonIcon
-            x:Name="MoveUpButton"
+            x:Name="moveUpButton"
             Command="{Binding MoveItemUpCommand}"
             IconKey="ArrowUp"
             DisabledReason="Select a row that can move up."
@@ -32,7 +32,7 @@
             TipShortcut="{Binding Shortcuts[Tree.MoveUp], Converter={StaticResource KeyGestureText}}" />
 
         <ui:ButtonIcon
-            x:Name="MoveDownButton"
+            x:Name="moveDownButton"
             Command="{Binding MoveItemDownCommand}"
             IconKey="ArrowDown"
             DisabledReason="Select a row that can move down."
@@ -40,7 +40,7 @@
             TipShortcut="{Binding Shortcuts[Tree.MoveDown], Converter={StaticResource KeyGestureText}}" />
 
         <ui:ButtonIcon
-            x:Name="RemoveButton"
+            x:Name="removeButton"
             Command="{Binding RemoveItemCommand}"
             DockPanel.Dock="Right"
             IconKey="Remove"

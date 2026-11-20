@@ -24,7 +24,7 @@ namespace CMiX.UI.Tests
             var button = new ButtonPopup { Caption = "Add", PopupContent = new TextBlock { Text = "Short" }, Width = 300, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(100, 40, 0, 0) };
             new Window { Content = button, Width = 900, Height = 500 }.Show();
             Dispatcher.UIThread.RunJobs();
-            var toggle = button.FindControl<ToggleButton>("PopUpToggle")!;
+            var toggle = button.FindControl<ToggleButton>("popupToggle")!;
             return (button, toggle, button.GetLogicalDescendants().OfType<Popup>().Single());
         }
 

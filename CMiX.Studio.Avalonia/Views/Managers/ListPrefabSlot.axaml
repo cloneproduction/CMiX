@@ -24,7 +24,7 @@
         <ui:DockPanelPositioned Margin="0,4,0,0">
 
             <ui:ButtonIcon
-                x:Name="RemoveButton"
+                x:Name="removeButton"
                 Command="{Binding RemoveItemCommand}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
@@ -33,7 +33,7 @@
                 IconKey="Remove" />
 
             <ui:ButtonIcon
-                x:Name="DuplicateButton"
+                x:Name="duplicateButton"
                 Margin="0,0,1,0"
                 Command="{Binding DuplicateItemCommand}"
                 CommandParameter="{Binding SelectedItem}"
@@ -43,7 +43,7 @@
                 IconKey="Duplicate" />
 
             <ui:ButtonIcon
-                x:Name="MoveUpButton"
+                x:Name="moveUpButton"
                 Margin="1,0"
                 Command="{Binding ManagerReorderService.MoveItemUpCommand, FallbackValue={x:Null}}"
                 CommandParameter="{Binding SelectedItem}"
@@ -53,7 +53,7 @@
                 IconKey="ArrowUp" />
 
             <ui:ButtonIcon
-                x:Name="MoveDownButton"
+                x:Name="moveDownButton"
                 Command="{Binding ManagerReorderService.MoveItemDownCommand, FallbackValue={x:Null}}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
@@ -62,7 +62,7 @@
                 IconKey="ArrowDown" />
 
             <ToggleButton
-                x:Name="SwapToggle"
+                x:Name="swapToggle"
                 Width="{DynamicResource ControlHeightMD}"
                 Height="{DynamicResource ControlHeightMD}"
                 Content="⇄"
@@ -70,7 +70,7 @@
                 IsEnabled="{Binding ItemsSource.Count, ElementName=prefabSlotManager, Converter={StaticResource CountToVisibility}, ConverterParameter=0}" />
 
             <Popup
-                ui:TogglePopup.Toggle="{Binding ElementName=SwapToggle}"
+                ui:TogglePopup.Toggle="{Binding ElementName=swapToggle}"
                 Placement="BottomEdgeAlignedLeft"
                 VerticalOffset="-1">
                 <ui:DropdownFrame>

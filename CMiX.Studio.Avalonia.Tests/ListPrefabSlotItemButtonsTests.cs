@@ -12,7 +12,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // The remove, move up and move down buttons of the slot act on the items inside it.
     public class ListPrefabSlotItemButtonsTests
     {
-        private static readonly string[] ButtonNames = { "RemoveButton", "MoveUpButton", "MoveDownButton" };
+        private static readonly string[] ButtonNames = { "removeButton", "moveUpButton", "moveDownButton" };
 
         private static (ListPrefabSlot View, PrefabManager Manager) Show()
         {

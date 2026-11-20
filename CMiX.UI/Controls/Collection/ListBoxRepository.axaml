@@ -17,7 +17,7 @@
         <ui:DockPanelPositioned Margin="8,0,8,8">
 
             <ui:ButtonIcon
-                x:Name="RemoveButton"
+                x:Name="removeButton"
                 Command="{Binding DeleteCommand, ElementName=listBoxRepository}"
                 CommandParameter="{Binding SelectedItem, ElementName=listBoxRepository}"
                 DockPanel.Dock="Right"

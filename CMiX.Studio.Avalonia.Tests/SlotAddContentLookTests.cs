@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // The control that has the corners: the toggle of a ButtonPopup, or the button itself.
         private static Control Cornered(Control selectionPanel) =>
             selectionPanel is ButtonPopup
-                ? selectionPanel.GetVisualDescendants().OfType<ToggleButton>().Single(toggle => toggle.Name == "PopUpToggle")
+                ? selectionPanel.GetVisualDescendants().OfType<ToggleButton>().Single(toggle => toggle.Name == "popupToggle")
                 : selectionPanel;
 
         private static void AssertSquare(ListPrefabSlot slot)
@@ -94,11 +94,11 @@ namespace CMiX.Studio.Avalonia.Tests
             ControlPosition PositionOf(string name) =>
                 PositionedControl.GetPosition(slot.GetVisualDescendants().OfType<Control>().Single(control => control.Name == name));
 
-            Assert.Equal(ControlPosition.Left, PositionOf("SwapToggle"));
-            Assert.Equal(ControlPosition.None, PositionOf("MoveDownButton"));
-            Assert.Equal(ControlPosition.None, PositionOf("MoveUpButton"));
-            Assert.Equal(ControlPosition.None, PositionOf("DuplicateButton"));
-            Assert.Equal(ControlPosition.Right, PositionOf("RemoveButton"));
+            Assert.Equal(ControlPosition.Left, PositionOf("swapToggle"));
+            Assert.Equal(ControlPosition.None, PositionOf("moveDownButton"));
+            Assert.Equal(ControlPosition.None, PositionOf("moveUpButton"));
+            Assert.Equal(ControlPosition.None, PositionOf("duplicateButton"));
+            Assert.Equal(ControlPosition.Right, PositionOf("removeButton"));
         }
 
         public enum RealSlot { Cameras, Lights, Entities, Colors, Textures }

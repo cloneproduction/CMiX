@@ -17,7 +17,7 @@
             ItemsSource="{Binding ItemsSource, ElementName=panelItemList}" />
 
         <ToggleButton
-            x:Name="AddToggle"
+            x:Name="addToggle"
             Margin="0,8,0,0"
             Background="{DynamicResource Grey600Brush}"
             Content="{Binding AddCaption, ElementName=panelItemList}"
@@ -27,7 +27,7 @@
             ui:TogglePopup.ClosesOnPointerAway="{Binding AddClosesOnPointerAway, ElementName=panelItemList}"
             ui:TogglePopup.MatchesToggleWidth="True"
             ui:TogglePopup.PointerAwayDistance="{Binding AddPointerAwayDistance, ElementName=panelItemList}"
-            ui:TogglePopup.Toggle="{Binding ElementName=AddToggle}"
+            ui:TogglePopup.Toggle="{Binding ElementName=addToggle}"
             Placement="Bottom">
 
             <ui:DropdownFrame>

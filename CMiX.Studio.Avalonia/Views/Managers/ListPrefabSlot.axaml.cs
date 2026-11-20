@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         }
 
         // An item of the repository was picked in the list of the swap toggle. The popup closes.
-        private void OnSwapListPicked(object? sender, System.EventArgs e) => SwapToggle.IsChecked = false;
+        private void OnSwapListPicked(object? sender, System.EventArgs e) => swapToggle.IsChecked = false;
 
         // The menu of the rows. None, the default, gives them no menu.
         public static readonly StyledProperty<RowMenuKind> RowMenuProperty =

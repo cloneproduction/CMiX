@@ -75,7 +75,7 @@ namespace CMiX.UI.Tests
             new Window { Content = list, Width = 900, Height = 500 }.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var toggle = list.FindControl<ToggleButton>("AddToggle")!;
+            var toggle = list.FindControl<ToggleButton>("addToggle")!;
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
 
@@ -94,7 +94,7 @@ namespace CMiX.UI.Tests
             new Window { Content = button, Width = 900, Height = 500 }.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var toggle = button.FindControl<ToggleButton>("PopUpToggle")!;
+            var toggle = button.FindControl<ToggleButton>("popupToggle")!;
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
 

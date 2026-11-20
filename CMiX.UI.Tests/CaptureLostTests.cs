@@ -382,7 +382,7 @@ namespace CMiX.UI.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var swatch = selector.FindControl<ToggleButton>("PopupToggle")!;
+            var swatch = selector.FindControl<ToggleButton>("popupToggle")!;
             var popup = selector.FindControl<Popup>("colorPickerPopup")!;
             var top = swatch.TranslatePoint(new Point(0, 0), window)!.Value;
             var click = new Point(top.X + swatch.Bounds.Width * 0.05, top.Y + swatch.Bounds.Height / 2);
@@ -431,7 +431,7 @@ namespace CMiX.UI.Tests
             var (window, selector, popup) = ShowSelectorWithOpenPopup();
             var pointer = NewPointer();
             pointer.Capture(popup.Child);
-            var swatch = selector.FindControl<ToggleButton>("PopupToggle")!;
+            var swatch = selector.FindControl<ToggleButton>("popupToggle")!;
             var near = swatch.TranslatePoint(new Point(swatch.Bounds.Width / 2, swatch.Bounds.Height / 2), window)!.Value;
             Move(window, pointer, Far, window);
 

@@ -15,7 +15,7 @@
             IconKey="Add" />
 
         <ui:ButtonIcon
-            x:Name="DuplicateButton"
+            x:Name="duplicateButton"
             Command="{Binding DuplicateItemCommand}"
             CommandParameter="{Binding SelectedItem}"
             IsEnabled="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
@@ -36,7 +36,7 @@
         </Border>
 
         <ui:ButtonIcon
-            x:Name="RemoveButton"
+            x:Name="removeButton"
             Command="{Binding RemoveItemCommand}"
             CommandParameter="{Binding SelectedItem}"
             DockPanel.Dock="Right"

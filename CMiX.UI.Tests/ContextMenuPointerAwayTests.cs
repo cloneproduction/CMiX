@@ -65,7 +65,7 @@ namespace CMiX.UI.Tests
         {
             var selector = new SelectorColor { DataContext = new StringValue(), Width = 200, Height = 40, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
             var window = Host(selector);
-            OpenMenu(selector.FindControl<Control>("PopupToggle")!);
+            OpenMenu(selector.FindControl<Control>("popupToggle")!);
             Assert.True(selector.ContextMenu!.IsOpen);
 
             Move(window, new Point(790, 490));

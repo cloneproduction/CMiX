@@ -34,7 +34,7 @@ namespace CMiX.UI.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var swatch = selector.FindControl<ToggleButton>("PopupToggle")!;
+            var swatch = selector.FindControl<ToggleButton>("popupToggle")!;
             var popup = selector.FindControl<Popup>("colorPickerPopup")!;
             Click(window, OnSwatch(window, swatch, 0.05));
             Assert.True(popup.IsOpen);
