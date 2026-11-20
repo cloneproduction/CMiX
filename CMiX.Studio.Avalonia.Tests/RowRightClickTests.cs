@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public Window Window { get; init; } = null!;
             public PrefabManager Layers { get; init; } = null!;
             public ListBox List { get; init; } = null!;
-            public List<ComposableManagerItem> Rows { get; init; } = null!;
+            public List<RowComposable> Rows { get; init; } = null!;
             public UndoManager Undo { get; init; } = null!;
 
             public int UndoSteps =>
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 Window = window,
                 Layers = layers,
                 List = view.GetVisualDescendants().OfType<ListBox>().First(),
-                Rows = view.GetVisualDescendants().OfType<ComposableManagerItem>().ToList(),
+                Rows = view.GetVisualDescendants().OfType<RowComposable>().ToList(),
                 Undo = undo
             };
         }

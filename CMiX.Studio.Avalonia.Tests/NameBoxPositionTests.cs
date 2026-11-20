@@ -113,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.SelectMainTab(window, "Composition");
             TestServiceProviderFactory.Pump();
             var tree = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
-            var box = window.GetVisualDescendants().OfType<ComposableManagerItem>().First()
+            var box = window.GetVisualDescendants().OfType<RowComposable>().First()
                 .GetVisualDescendants().OfType<TextBoxEditable>().First();
             Assert.False(tree.IsVisualAncestorOf(box));
 

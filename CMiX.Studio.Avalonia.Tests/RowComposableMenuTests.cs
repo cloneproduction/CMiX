@@ -16,9 +16,9 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The context menu of a row in the layer list and the composition list. It acts on the row that owns it.
-    public class ComposableManagerItemMenuTests
+    public class RowComposableMenuTests
     {
-        private static (PrefabManager Manager, List<ComposableManagerItem> Rows, Window Window) Show(int layerCount = 3)
+        private static (PrefabManager Manager, List<RowComposable> Rows, Window Window) Show(int layerCount = 3)
         {
             var provider = TestServiceProviderFactory.Create();
             var compositions = provider.GetRequiredService<PrefabManager>();
@@ -32,20 +32,20 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            return (manager, view.GetVisualDescendants().OfType<ComposableManagerItem>().ToList(), window);
+            return (manager, view.GetVisualDescendants().OfType<RowComposable>().ToList(), window);
         }
 
-        private static MenuItem Row(ComposableManagerItem item, string header) =>
+        private static MenuItem Row(RowComposable item, string header) =>
             item.ContextMenu!.Items.OfType<MenuItem>().Single(row => Equals(row.Header, header));
 
         // The right click of a user raises ContextRequested on the row.
-        private static void OpenMenu(ComposableManagerItem item)
+        private static void OpenMenu(RowComposable item)
         {
             item.RaiseEvent(new ContextRequestedEventArgs { Source = item });
             Dispatcher.UIThread.RunJobs();
         }
 
-        private static void Click(ComposableManagerItem item, string header)
+        private static void Click(RowComposable item, string header)
         {
             OpenMenu(item);
             Row(item, header).RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));

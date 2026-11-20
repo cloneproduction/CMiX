@@ -9,16 +9,16 @@ using CMiX.Studio.Avalonia.Views.Managers;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class ComposableManagerItem : UserControl
+    public partial class RowComposable : UserControl
     {
-        public ComposableManagerItem()
+        public RowComposable()
         {
             InitializeComponent();
             PrefabRowMenu.AttachTo(this, RowMenuKind.Composable, () => editableTextBox);
         }
 
         public static readonly StyledProperty<bool> DragHandleIsPressedProperty =
-            AvaloniaProperty.Register<ComposableManagerItem, bool>(nameof(DragHandleIsPressed), false, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<RowComposable, bool>(nameof(DragHandleIsPressed), false, defaultBindingMode: BindingMode.TwoWay);
         public bool DragHandleIsPressed
         {
             get => GetValue(DragHandleIsPressedProperty);

@@ -18,7 +18,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void TheRowOfALayer_ShowsTheVisibilityAndTheMaskToggles()
         {
             var layer = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Layer));
-            var row = new Views.ComposableManagerItem { DataContext = layer };
+            var row = new Views.RowComposable { DataContext = layer };
             new Window { Content = row, Width = 400, Height = 60 }.Show();
             Dispatcher.UIThread.RunJobs();
 
@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void TheVisibilityToggle_IsOnTheFarRight_AndTheMaskToggleIsLeftOfIt()
         {
             var layer = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Layer));
-            var row = new Views.ComposableManagerItem { DataContext = layer };
+            var row = new Views.RowComposable { DataContext = layer };
             var window = new Window { Content = row, Width = 400, Height = 60 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

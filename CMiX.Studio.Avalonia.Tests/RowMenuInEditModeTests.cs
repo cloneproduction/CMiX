@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 var layers = ((Composition)compositions.SelectedItem).LayerManager;
                 layers.AddItem(typeof(Layer));
                 view = new ComposableManager { ItemType = typeof(Layer), DataContext = layers };
-                row = () => view.GetVisualDescendants().OfType<ComposableManagerItem>().First();
+                row = () => view.GetVisualDescendants().OfType<RowComposable>().First();
             }
             else
             {

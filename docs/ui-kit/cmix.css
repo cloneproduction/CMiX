@@ -1532,8 +1532,8 @@
     /* PanelModulatable: the content, then the ModifierManager that adds a modulator. */
     .PanelModulatable { display: flex; flex-direction: column; > .ListPanelItem { margin-top: 8px; } }
 
-    /* ---------------------------------------------------------------- Views/Component/Composable/ComposableManagerItem.axaml, ToolbarComposable.axaml */
-    .ComposableManagerItem {
+    /* ---------------------------------------------------------------- Views/Component/Composable/RowComposable.axaml, ToolbarComposable.axaml */
+    .RowComposable {
         display: flex;
         align-items: center;
         min-height: var(--ControlHeightMD);

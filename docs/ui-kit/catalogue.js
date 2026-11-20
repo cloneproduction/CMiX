@@ -186,7 +186,7 @@ window.CMIX_CATALOGUE = [
             },
             {
                 id: '26', name: 'Composable', entries: [
-                    { id: '26.1', name: 'ComposableManagerItem', source: 'CMiX.Studio.Avalonia/Views/Component/Composable/ComposableManagerItem.axaml' },
+                    { id: '26.1', name: 'RowComposable', source: 'CMiX.Studio.Avalonia/Views/Component/Composable/RowComposable.axaml' },
                     { id: '26.2', name: 'ToolbarComposable', source: 'CMiX.Studio.Avalonia/Views/Component/Composable/ToolbarComposable.axaml' },
                     { id: '26.3', name: 'ComposableToggles', source: 'CMiX.Studio.Avalonia/Views/Component/Composable/ComposableToggles.axaml' },
                     { id: '26.4', name: 'ComposableListBox', source: 'CMiX.Studio.Avalonia/Themes/Styles/ComposableListBox.axaml' }

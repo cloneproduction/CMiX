@@ -21,7 +21,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static (Window Window, TextBoxEditable Name) Show()
         {
             var layer = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Layer));
-            var row = new Views.ComposableManagerItem { DataContext = layer };
+            var row = new Views.RowComposable { DataContext = layer };
             var window = new Window { Content = row, Width = 400, Height = 60 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

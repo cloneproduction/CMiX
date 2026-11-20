@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
             var list = view.GetVisualDescendants().OfType<ListBox>().First();
-            var selectedRow = view.GetVisualDescendants().OfType<ComposableManagerItem>().ElementAt(2);
+            var selectedRow = view.GetVisualDescendants().OfType<RowComposable>().ElementAt(2);
             var point = selectedRow.TranslatePoint(new Point(selectedRow.Bounds.Width / 2, selectedRow.Bounds.Height / 2), window)!.Value;
 
             window.MouseMove(point);
