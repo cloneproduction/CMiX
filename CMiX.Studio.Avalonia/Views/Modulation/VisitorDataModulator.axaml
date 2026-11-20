@@ -9,17 +9,17 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Modulation:FloatRangeEditor Caption="Heart Rate" DataContext="{Binding HeartRateRange}" />
+        <Modulation:EditorFloatRange Caption="Heart Rate" DataContext="{Binding HeartRateRange}" />
 
-        <Modulation:FloatRangeEditor Caption="Temperature" DataContext="{Binding TemperatureRange}" />
+        <Modulation:EditorFloatRange Caption="Temperature" DataContext="{Binding TemperatureRange}" />
 
-        <Modulation:FloatRangeEditor Caption="Conductivity" DataContext="{Binding ConductivityRange}" />
+        <Modulation:EditorFloatRange Caption="Conductivity" DataContext="{Binding ConductivityRange}" />
 
-        <Modulation:FloatRangeEditor Caption="ETemp" DataContext="{Binding ETempRange}" />
+        <Modulation:EditorFloatRange Caption="ETemp" DataContext="{Binding ETempRange}" />
 
-        <Modulation:FloatRangeEditor Caption="BlueIOT Pos X" DataContext="{Binding BlueIOTPosXRange}" />
+        <Modulation:EditorFloatRange Caption="BlueIOT Pos X" DataContext="{Binding BlueIOTPosXRange}" />
 
-        <Modulation:FloatRangeEditor Caption="BlueIOT Pos Y" DataContext="{Binding BlueIOTPosYRange}" />
+        <Modulation:EditorFloatRange Caption="BlueIOT Pos Y" DataContext="{Binding BlueIOTPosYRange}" />
 
         <ui:ContentCaptioned Caption="Count" />
 

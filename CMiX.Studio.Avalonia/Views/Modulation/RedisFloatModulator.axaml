@@ -10,7 +10,7 @@
 
         <Modulation:SelectorRedisAddress Caption="Address" />
 
-        <Modulation:FloatRangeEditor DataContext="{Binding Range}" />
+        <Modulation:EditorFloatRange DataContext="{Binding Range}" />
 
     </StackPanel>
 </UserControl>

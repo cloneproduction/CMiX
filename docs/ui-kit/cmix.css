@@ -1527,7 +1527,7 @@
         height: var(--ControlHeightMD);
         > .value { grid-column: 2; display: flex; min-width: 0; }
     }
-    .FloatRangeEditor { display: grid; grid-template-columns: 40% 60%; height: var(--ControlHeightMD); > .caption { justify-self: end; align-self: center; margin-right: 8px; white-space: nowrap; } }
+    .EditorFloatRange { display: grid; grid-template-columns: 40% 60%; height: var(--ControlHeightMD); > .caption { justify-self: end; align-self: center; margin-right: 8px; white-space: nowrap; } }
 
     /* PanelModulatable: the content, then the ModifierManager that adds a modulator. */
     .PanelModulatable { display: flex; flex-direction: column; > .ListPanelItem { margin-top: 8px; } }

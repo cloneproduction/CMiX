@@ -9,9 +9,9 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Modulation:FloatRangeEditor Caption="X" DataContext="{Binding XRange}" />
+        <Modulation:EditorFloatRange Caption="X" DataContext="{Binding XRange}" />
 
-        <Modulation:FloatRangeEditor Caption="Y" DataContext="{Binding YRange}" />
+        <Modulation:EditorFloatRange Caption="Y" DataContext="{Binding YRange}" />
 
         <ui:ContentCaptioned Caption="Count" />
 

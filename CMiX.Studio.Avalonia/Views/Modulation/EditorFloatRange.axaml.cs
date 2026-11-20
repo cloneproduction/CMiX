@@ -7,9 +7,9 @@ using CMiX.UI.Controls.Parts;
 namespace CMiX.Studio.Avalonia.Views.Modulation
 {
     // The Min and Max of a FloatRange in one row, with an optional caption.
-    public partial class FloatRangeEditor : UserControlCaptioned
+    public partial class EditorFloatRange : UserControlCaptioned
     {
-        public FloatRangeEditor()
+        public EditorFloatRange()
         {
             InitializeComponent();
             UpdateBare();

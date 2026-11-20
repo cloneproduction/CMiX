@@ -15,13 +15,13 @@
             Value="{Binding TrackIndex.Value}"
             ResetCommand="{Binding TrackIndex.ResetCommand}" />
 
-        <Modulation:FloatRangeEditor Caption="Bass" DataContext="{Binding BassRange}" />
+        <Modulation:EditorFloatRange Caption="Bass" DataContext="{Binding BassRange}" />
 
-        <Modulation:FloatRangeEditor Caption="Lower Mid" DataContext="{Binding LowerMidRange}" />
+        <Modulation:EditorFloatRange Caption="Lower Mid" DataContext="{Binding LowerMidRange}" />
 
-        <Modulation:FloatRangeEditor Caption="Higher Mid" DataContext="{Binding HigherMidRange}" />
+        <Modulation:EditorFloatRange Caption="Higher Mid" DataContext="{Binding HigherMidRange}" />
 
-        <Modulation:FloatRangeEditor Caption="High" DataContext="{Binding HighRange}" />
+        <Modulation:EditorFloatRange Caption="High" DataContext="{Binding HighRange}" />
 
     </StackPanel>
 

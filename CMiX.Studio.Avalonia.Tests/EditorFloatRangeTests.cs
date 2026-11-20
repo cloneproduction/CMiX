@@ -15,7 +15,7 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The Min and Max editor of a FloatRange, with and without a caption.
-    public class FloatRangeEditorTests
+    public class EditorFloatRangeTests
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
 
@@ -26,9 +26,9 @@ namespace CMiX.Studio.Avalonia.Tests
             return (LFOModulator)blur.ModulatorManager.SelectedItem;
         }
 
-        private static FloatRangeEditor Show(LFOModulator modulator, string caption)
+        private static EditorFloatRange Show(LFOModulator modulator, string caption)
         {
-            var editor = new FloatRangeEditor { DataContext = modulator.Range, Caption = caption };
+            var editor = new EditorFloatRange { DataContext = modulator.Range, Caption = caption };
             new Window { Content = editor, Width = 400, Height = 200 }.Show();
             Dispatcher.UIThread.RunJobs();
             return editor;

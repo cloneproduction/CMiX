@@ -17,7 +17,7 @@
             ResetCommand="{Binding Period.ResetCommand}"
             Value="{Binding Period.Value}" />
 
-        <Modulation:FloatRangeEditor DataContext="{Binding Range}" />
+        <Modulation:EditorFloatRange DataContext="{Binding Range}" />
 
         <ui:ComboBoxCaptioned
             Caption="Wave Type"
