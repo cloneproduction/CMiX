@@ -150,7 +150,7 @@ window.CMIX_CATALOGUE = [
                     { id: '22.1', name: 'PrefabListItemTemplates', source: 'CMiX.Studio.Avalonia/Views/Managers/PrefabListItemTemplates.axaml' },
                     { id: '22.2', name: 'PrefabRowMenu', source: 'CMiX.Studio.Avalonia/Views/Managers/PrefabRowMenu.cs' },
                     { id: '22.3', name: 'PrefabSlotManager', source: 'CMiX.Studio.Avalonia/Views/Managers/PrefabSlotManager.axaml' },
-                    { id: '22.4', name: 'RepositoryTab', source: 'CMiX.Studio.Avalonia/Views/Managers/RepositoryTab.axaml' },
+                    { id: '22.4', name: 'TabRepository', source: 'CMiX.Studio.Avalonia/Views/Managers/TabRepository.axaml' },
                     { id: '22.5', name: 'ComboBoxAssetPath', source: 'CMiX.Studio.Avalonia/Views/Assets/ComboBoxAssetPath.cs' },
                     { id: '22.6', name: 'EditorPrefabSlot', source: 'CMiX.Studio.Avalonia/Views/Managers/EditorPrefabSlot.axaml' }
                 ]

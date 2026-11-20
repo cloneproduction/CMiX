@@ -11,11 +11,11 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     // Covers the two bindings the repository tabs depend on and that no compiler checks.
     // TabControl presents TabItem content through its own presenter, outside the TabItem
     // template, so that content does not inherit the tab DataContext on its own and
-    // RepositoryTab rebinds it explicitly by ElementName. A regression there leaves the
+    // TabRepository rebinds it explicitly by ElementName. A regression there leaves the
     // repository manager on the window DataContext, where every manager binding silently
     // resolves to nothing. The second test covers the layer view, which reaches the same
     // repository through the manager of each slot.
-    public class RepositoryTabTests
+    public class TabRepositoryTests
     {
         [AvaloniaFact]
         public void TexturesTab_PresentsItsManagerAndTheEditingPanelOfTheSelectedTexture()
@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
             var tabControl = TestServiceProviderFactory.MainTabControl(window);
-            var texturesTab = tabControl.Items.OfType<RepositoryTab>()
+            var texturesTab = tabControl.Items.OfType<TabRepository>()
                 .Single(tab => ReferenceEquals(tab.DataContext, viewModel.TextureManager));
 
             tabControl.SelectedItem = texturesTab;
@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             var tabControl = TestServiceProviderFactory.MainTabControl(window);
-            tabControl.SelectedItem = tabControl.Items.OfType<RepositoryTab>()
+            tabControl.SelectedItem = tabControl.Items.OfType<TabRepository>()
                 .Single(tab => ReferenceEquals(tab.DataContext, viewModel.TextureManager));
             Dispatcher.UIThread.RunJobs();
             viewModel.TextureManager.AddItem(typeof(CheckerBoard));

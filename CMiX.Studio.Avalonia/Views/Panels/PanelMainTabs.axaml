@@ -91,85 +91,85 @@
 
             </TabItem>
 
-            <Managers:RepositoryTab
+            <Managers:TabRepository
                 DataContext="{Binding TextureManager}"
                 Icon="Texture"
                 ItemsSource="{Binding ControlRepository.Textures}"
                 ToolTipText="Textures">
-                <Managers:RepositoryTab.SelectionPanel>
+                <Managers:TabRepository.SelectionPanel>
                     <ui:ButtonPopup Caption="New Texture">
                         <ui:ButtonPopup.PopupContent>
                             <Managers:PanelAddTypes Interface="{x:Type TextureSources:ITextureSource}" />
                         </ui:ButtonPopup.PopupContent>
                     </ui:ButtonPopup>
-                </Managers:RepositoryTab.SelectionPanel>
-                <Managers:RepositoryTab.EditingPanel>
+                </Managers:TabRepository.SelectionPanel>
+                <Managers:TabRepository.EditingPanel>
                     <Views:Texture />
-                </Managers:RepositoryTab.EditingPanel>
-            </Managers:RepositoryTab>
+                </Managers:TabRepository.EditingPanel>
+            </Managers:TabRepository>
 
-            <Managers:RepositoryTab
+            <Managers:TabRepository
                 DataContext="{Binding CameraManager}"
                 Icon="Camera"
                 ItemsSource="{Binding ControlRepository.Cameras}"
                 RowMenu="Repository"
                 ToolTipText="Cameras">
-                <Managers:RepositoryTab.SelectionPanel>
+                <Managers:TabRepository.SelectionPanel>
                     <Button
                         Command="{Binding AddItemCommand}"
                         CommandParameter="{x:Type Cameras:Camera}"
                         Content="New Camera" />
-                </Managers:RepositoryTab.SelectionPanel>
-                <Managers:RepositoryTab.EditingPanel>
+                </Managers:TabRepository.SelectionPanel>
+                <Managers:TabRepository.EditingPanel>
                     <Views:Camera />
-                </Managers:RepositoryTab.EditingPanel>
-            </Managers:RepositoryTab>
+                </Managers:TabRepository.EditingPanel>
+            </Managers:TabRepository>
 
-            <Managers:RepositoryTab
+            <Managers:TabRepository
                 DataContext="{Binding LightManager}"
                 Icon="MeshLight"
                 ItemsSource="{Binding ControlRepository.Lights}"
                 RowMenu="Repository"
                 ToolTipText="Lights">
-                <Managers:RepositoryTab.SelectionPanel>
+                <Managers:TabRepository.SelectionPanel>
                     <Button
                         Command="{Binding AddItemCommand}"
                         CommandParameter="{x:Type Lights:LightEntity}"
                         Content="New Light" />
-                </Managers:RepositoryTab.SelectionPanel>
-                <Managers:RepositoryTab.EditingPanel>
+                </Managers:TabRepository.SelectionPanel>
+                <Managers:TabRepository.EditingPanel>
                     <Views:LightEntity />
-                </Managers:RepositoryTab.EditingPanel>
-            </Managers:RepositoryTab>
+                </Managers:TabRepository.EditingPanel>
+            </Managers:TabRepository>
 
-<!--            <Managers:RepositoryTab
+<!--            <Managers:TabRepository
                 DataContext="{Binding BeatManager}"
                 Icon="Beat"
                 ItemsSource="{Binding ControlRepository.BeatModulators}"
                 ToolTipText="BeatModulators">
-                <Managers:RepositoryTab.SelectionPanel>
+                <Managers:TabRepository.SelectionPanel>
                     <Button
                         Command="{Binding AddItemCommand}"
                         CommandParameter="{x:Type Modulators:BeatModulator}"
                         Content="New Beat" />
-                </Managers:RepositoryTab.SelectionPanel>
-                <Managers:RepositoryTab.EditingPanel>
+                </Managers:TabRepository.SelectionPanel>
+                <Managers:TabRepository.EditingPanel>
                     <Views:BeatModulator />
-                </Managers:RepositoryTab.EditingPanel>
-            </Managers:RepositoryTab>-->
+                </Managers:TabRepository.EditingPanel>
+            </Managers:TabRepository>-->
 
-<!--            <Managers:RepositoryTab
+<!--            <Managers:TabRepository
                 DataContext="{Binding ColorPaletteManager}"
                 Icon="Coloration"
                 ItemsSource="{Binding ControlRepository.ColorPalettes}"
                 ToolTipText="Color Palette">
-                <Managers:RepositoryTab.SelectionPanel>
+                <Managers:TabRepository.SelectionPanel>
                     <Button
                         Command="{Binding AddItemCommand}"
                         CommandParameter="{x:Type ColorModifiers:ColorPaletteModifier}"
                         Content="New Palette" />
-                </Managers:RepositoryTab.SelectionPanel>
-            </Managers:RepositoryTab>-->
+                </Managers:TabRepository.SelectionPanel>
+            </Managers:TabRepository>-->
 
             <TabItem Theme="{StaticResource TabItemHorizontal}">
 

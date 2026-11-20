@@ -192,7 +192,7 @@ Names that collide:
 | **Message** | A wire message (`IMessage`) and a notice to the user (`MessageNotice`, `DialogMessage`). The sync views are in `Views/Messenger`, the code is in `Networking`, the classes say `Sync`. |
 | **Command** | `...Command` is for XAML and `...UndoCommand` is an undo step. `ValueChangedCommand` and `CompositeCommand` are undo steps without the `Undo` word. |
 | **Visible, Visibility, Hidden** | `PrefabService.Visibility`, `PrefabManager.Hidden`, and `VisibilityComponent.IsVisible => !Visible.Value`, where true means hidden. |
-| **Repository** | `ControlRepository` is the index. `ListRepository` and `RepositoryTab` are views of the six lists that `MainViewModel` owns. |
+| **Repository** | `ControlRepository` is the index. `ListRepository` and `TabRepository` are views of the six lists that `MainViewModel` owns. |
 | **Tree, SelectorPrefab** | `ProjectTree` is the tree. `Views/Controls/SelectorPrefab` is another control, used in the `Mesh` view. |
 | **Delete** | The rule says no `Delete` in code. Fixed on 2026-11-19: the menu has `RemoveCompositionCommand` and `RemoveLayerCommand`, and only the menu headers say Delete. |
 | Two enums with one name | `HorizontalAlignment` in `Assets.Mesh` and in `Text`. `WaveType` and `WaveTypeEnum`. |

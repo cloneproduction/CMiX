@@ -23,10 +23,10 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     // lists the whole repository rather than one manager's items, those textures stayed on screen.
     public class NewProjectTests
     {
-        private static RepositoryTab SelectTab(Views.MainWindow window, string toolTipText)
+        private static TabRepository SelectTab(Views.MainWindow window, string toolTipText)
         {
             var tabControl = TestServiceProviderFactory.MainTabControl(window);
-            var tab = tabControl.Items.OfType<RepositoryTab>().Single(t => t.ToolTipText == toolTipText);
+            var tab = tabControl.Items.OfType<TabRepository>().Single(t => t.ToolTipText == toolTipText);
             tabControl.SelectedItem = tab;
             TestServiceProviderFactory.Pump();
             return tab;
