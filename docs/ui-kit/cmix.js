@@ -473,7 +473,7 @@
         PanelItem: panelItem,
         PanelItemList: panelItemList,
         PopupButton: popupButton,
-        SearchableItemPickerList: searchablePicker,
+        ListSearchableItemPicker: searchablePicker,
         GroupedSearchList: groupedSearchList,
         Expander: expander,
         ExpanderItem: expander,

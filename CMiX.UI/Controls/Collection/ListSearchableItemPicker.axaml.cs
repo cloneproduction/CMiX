@@ -12,19 +12,19 @@ namespace CMiX.UI.Controls.Collection
 {
     // An ListItemPicker under a search field. The rows are the items whose text holds the search text, in any case.
     // The filter reads item names when the text changes. PickerKeys holds Down, Up, Enter and Escape.
-    public partial class SearchableItemPickerList : ListItemPickerBase, IPickerRows
+    public partial class ListSearchableItemPicker : ListItemPickerBase, IPickerRows
     {
         private readonly PickerKeys _keys;
         private INotifyCollectionChanged? _watched;
 
-        static SearchableItemPickerList()
+        static ListSearchableItemPicker()
         {
-            ItemsSourceProperty.Changed.AddClassHandler<SearchableItemPickerList>((list, e) => list.WatchItems(e.NewValue as INotifyCollectionChanged));
-            SearchTextProperty.Changed.AddClassHandler<SearchableItemPickerList>((list, _) => list.Filter());
-            TextPathProperty.Changed.AddClassHandler<SearchableItemPickerList>((list, _) => list.Filter());
+            ItemsSourceProperty.Changed.AddClassHandler<ListSearchableItemPicker>((list, e) => list.WatchItems(e.NewValue as INotifyCollectionChanged));
+            SearchTextProperty.Changed.AddClassHandler<ListSearchableItemPicker>((list, _) => list.Filter());
+            TextPathProperty.Changed.AddClassHandler<ListSearchableItemPicker>((list, _) => list.Filter());
         }
 
-        public SearchableItemPickerList()
+        public ListSearchableItemPicker()
         {
             _keys = new PickerKeys(this);
             InitializeComponent();
@@ -35,7 +35,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<string> SearchTextProperty =
-            AvaloniaProperty.Register<SearchableItemPickerList, string>(nameof(SearchText), string.Empty);
+            AvaloniaProperty.Register<ListSearchableItemPicker, string>(nameof(SearchText), string.Empty);
 
         public string SearchText
         {

@@ -80,7 +80,7 @@ window.CMIX_CATALOGUE = [
                     { id: '8.5', name: 'PanelItem', source: 'CMiX.UI/Controls/Collection/PanelItem.cs' },
                     { id: '8.6', name: 'PanelItemList', source: 'CMiX.UI/Controls/Collection/PanelItemList.axaml' },
                     { id: '8.7', name: 'ListItemPicker', source: 'CMiX.UI/Controls/Collection/ListItemPicker.axaml' },
-                    { id: '8.8', name: 'SearchableItemPickerList', source: 'CMiX.UI/Controls/Collection/SearchableItemPickerList.axaml' },
+                    { id: '8.8', name: 'ListSearchableItemPicker', source: 'CMiX.UI/Controls/Collection/ListSearchableItemPicker.axaml' },
                     { id: '8.9', name: 'GroupedSearchList', source: 'CMiX.UI/Controls/Collection/GroupedSearchList.axaml' }
                 ]
             },

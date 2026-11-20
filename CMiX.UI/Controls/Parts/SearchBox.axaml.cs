@@ -10,7 +10,7 @@ using Avalonia.Threading;
 
 namespace CMiX.UI.Controls.Parts
 {
-    // The search field with a magnifier. The lists with a search (GroupedSearchList, SearchableItemPickerList) and the drop-downs with a
+    // The search field with a magnifier. The lists with a search (GroupedSearchList, ListSearchableItemPicker) and the drop-downs with a
     // search (see ComboBoxSearch) use this one control, so every search field looks and works the same. A key of the field
     // goes up to this control as a normal routed event. ShowsClear adds a clear button inside the field.
     public partial class SearchBox : UserControl

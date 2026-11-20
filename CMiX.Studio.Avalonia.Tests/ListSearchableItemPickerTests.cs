@@ -16,16 +16,16 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The list with a search field. The rows are the items whose text holds the text of the field.
-    public class SearchableItemPickerListTests
+    public class ListSearchableItemPickerTests
     {
         private sealed record Item(string Name);
 
         private static readonly string[] Names = { "Cube", "Camera Rig", "Sphere", "Cylinder", "Plane" };
 
-        private static (Window Window, SearchableItemPickerList List, ObservableCollection<Item> Items) Show(Action<object?>? onPick = null)
+        private static (Window Window, ListSearchableItemPicker List, ObservableCollection<Item> Items) Show(Action<object?>? onPick = null)
         {
             var items = new ObservableCollection<Item>(Names.Select(name => new Item(name)));
-            var list = new SearchableItemPickerList
+            var list = new ListSearchableItemPicker
             {
                 ItemsSource = items,
                 TextPath = nameof(Item.Name),
@@ -38,16 +38,16 @@ namespace CMiX.Studio.Avalonia.Tests
             return (window, list, items);
         }
 
-        private static TextBox Search(SearchableItemPickerList list) =>
+        private static TextBox Search(ListSearchableItemPicker list) =>
             list.GetVisualDescendants().OfType<TextBox>().Single(box => box.Name == "PART_Search");
 
-        private static TextBlock NoMatch(SearchableItemPickerList list) =>
+        private static TextBlock NoMatch(ListSearchableItemPicker list) =>
             list.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Name == "PART_NoMatch");
 
-        private static string[] Rows(SearchableItemPickerList list) =>
+        private static string[] Rows(ListSearchableItemPicker list) =>
             list.GetVisualDescendants().OfType<Button>().Select(row => (string)row.Content!).ToArray();
 
-        private static void Type(SearchableItemPickerList list, string text)
+        private static void Type(ListSearchableItemPicker list, string text)
         {
             Search(list).Text = text;
             Dispatcher.UIThread.RunJobs();
@@ -174,7 +174,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(Names, Rows(list));
         }
 
-        private static Button[] HighlightedRows(SearchableItemPickerList list) =>
+        private static Button[] HighlightedRows(ListSearchableItemPicker list) =>
             list.GetVisualDescendants().OfType<Button>().Where(row => row.Classes.Contains("highlighted")).ToArray();
 
         [AvaloniaFact]
@@ -273,7 +273,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Press_DownPastTheView_ScrollsTheRowIntoView()
         {
             var items = new ObservableCollection<Item>(Enumerable.Range(1, 40).Select(i => new Item($"Entity {i}")));
-            var list = new SearchableItemPickerList { ItemsSource = items, TextPath = nameof(Item.Name), Width = 200 };
+            var list = new ListSearchableItemPicker { ItemsSource = items, TextPath = nameof(Item.Name), Width = 200 };
             new Window { Content = list, Width = 400, Height = 800 }.Show();
             Dispatcher.UIThread.RunJobs();
 
@@ -332,7 +332,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Same(items[1], picked);
         }
 
-        private static Button RowButton(SearchableItemPickerList list, int index) =>
+        private static Button RowButton(ListSearchableItemPicker list, int index) =>
             list.GetVisualDescendants().OfType<Button>().ElementAt(index);
 
         private static Color BackgroundOf(Button row)
@@ -465,7 +465,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Detach_WhileWatchingAList_RemovesTheHandler()
         {
             var source = new CountingSource();
-            var list = new SearchableItemPickerList { ItemsSource = source, TextPath = nameof(Item.Name) };
+            var list = new ListSearchableItemPicker { ItemsSource = source, TextPath = nameof(Item.Name) };
             var window = new Window { Content = list, Width = 400, Height = 600 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
@@ -483,7 +483,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Attach_Again_WatchesTheListAgain()
         {
             var source = new CountingSource();
-            var list = new SearchableItemPickerList { ItemsSource = source, TextPath = nameof(Item.Name) };
+            var list = new ListSearchableItemPicker { ItemsSource = source, TextPath = nameof(Item.Name) };
             var window = new Window { Content = list, Width = 400, Height = 600 };
             window.Show();
             window.Content = null;

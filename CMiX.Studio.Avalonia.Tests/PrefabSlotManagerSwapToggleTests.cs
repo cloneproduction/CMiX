@@ -99,7 +99,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
 
             var popup = view.GetLogicalDescendants().OfType<Popup>().Single();
-            var list = popup.Child!.GetVisualDescendants().OfType<SearchableItemPickerList>().Single();
+            var list = popup.Child!.GetVisualDescendants().OfType<ListSearchableItemPicker>().Single();
             Assert.True(list.IsVisible);
             Assert.Single(popup.Child!.GetVisualDescendants().OfType<ListItemPicker>());
         }
@@ -115,7 +115,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(1, list.HighlightedIndex);
         }
 
-        private static (PrefabSlotManager View, PrefabManager Manager, Popup Popup, SearchableItemPickerList List) ShowWithOpenPopup(int repositoryItems)
+        private static (PrefabSlotManager View, PrefabManager Manager, Popup Popup, ListSearchableItemPicker List) ShowWithOpenPopup(int repositoryItems)
         {
             var (view, repository, provider) = Show();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -127,7 +127,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
 
             var popup = view.GetLogicalDescendants().OfType<Popup>().Single();
-            var list = popup.Child!.GetVisualDescendants().OfType<SearchableItemPickerList>().Single();
+            var list = popup.Child!.GetVisualDescendants().OfType<ListSearchableItemPicker>().Single();
             return (view, (PrefabManager)view.DataContext!, popup, list);
         }
 
