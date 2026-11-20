@@ -29,7 +29,7 @@
     <!-- The search field, then the groups. The rows scroll when there are more than VisibleRows. -->
     <StackPanel Spacing="4">
 
-        <ui:SearchBox
+        <ui:TextBoxSearch
             x:Name="PART_Search"
             Text="{Binding SearchText, ElementName=groupedList, Mode=TwoWay}" />
 

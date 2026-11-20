@@ -27,8 +27,8 @@ namespace CMiX.UI.Tests
             return (window, combo);
         }
 
-        private static SearchBox BoxOf(ComboBox combo) =>
-            ((Visual)combo.GetVisualDescendants().OfType<Popup>().Single().Child!).GetVisualDescendants().OfType<SearchBox>().Single(box => box.Name == ComboBoxSearch.PartName);
+        private static TextBoxSearch BoxOf(ComboBox combo) =>
+            ((Visual)combo.GetVisualDescendants().OfType<Popup>().Single().Child!).GetVisualDescendants().OfType<TextBoxSearch>().Single(box => box.Name == ComboBoxSearch.PartName);
 
         private static List<string> VisibleRows(ComboBox combo) =>
             Enumerable.Range(0, combo.ItemCount)

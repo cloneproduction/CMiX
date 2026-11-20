@@ -9,7 +9,7 @@
     <StackPanel Spacing="4">
 
         <!-- The magnifier is inside the field, at its left. The text starts after it. -->
-        <ui:SearchBox
+        <ui:TextBoxSearch
             x:Name="PART_Search"
             Text="{Binding SearchText, ElementName=searchablePicker, Mode=TwoWay}" />
 

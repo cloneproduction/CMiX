@@ -109,7 +109,7 @@
             ? '<button class="ToggleButtonRoundedLeft toggle"><i class="Chevron"></i></button>'
             : '<span class="toggle"><i class="Chevron"></i></span><span class="contentPresenter">' + (items[index] ? items[index].innerHTML : '') + '</span>';
         return head + '<div class="Popup"><div class="DropdownFrame">'
-            + (element.hasAttribute('data-is-searchable') ? '<div class="SearchBox"></div>' : '')
+            + (element.hasAttribute('data-is-searchable') ? '<div class="TextBoxSearch"></div>' : '')
             + '<div class="items">' + items.map(function (i) { return i.outerHTML; }).join('') + '</div></div></div>';
     }
 
@@ -287,12 +287,12 @@
 
     /* The children are the rows: buttons with the class ButtonItem. */
     function searchablePicker(element) {
-        return '<div class="SearchBox"></div><div class="ListItemPicker">' + element.innerHTML + '</div><span class="PART_NoMatch">No match</span>';
+        return '<div class="TextBoxSearch"></div><div class="ListItemPicker">' + element.innerHTML + '</div><span class="PART_NoMatch">No match</span>';
     }
 
     /* The children are the rows: elements with the class row, and row header for the name of a group. */
     function groupedSearchList(element) {
-        return '<div class="SearchBox"></div><div class="PART_Rows ScrollViewerOverlay">' + element.innerHTML + '</div><span class="PART_NoMatch">No match</span>';
+        return '<div class="TextBoxSearch"></div><div class="PART_Rows ScrollViewerOverlay">' + element.innerHTML + '</div><span class="PART_NoMatch">No match</span>';
     }
 
     function contentCaptioned(element) { return captioned(element, element.innerHTML); }
@@ -457,7 +457,7 @@
         ComboBoxWithButton: comboBox,
         ComboBoxCaptioned: comboBoxCaptioned,
         ComboBoxPath: pathSelector,
-        SearchBox: searchBox,
+        TextBoxSearch: searchBox,
         TextBoxEditable: textBoxEditable,
         EditableValue: textBoxEditable,
         TextBoxIP: ipBox,
@@ -593,7 +593,7 @@
             return;
         }
 
-        var clear = e.target.closest('.SearchBox > .ButtonIconClose');
+        var clear = e.target.closest('.TextBoxSearch > .ButtonIconClose');
         if (clear) {
             var field = clear.parentElement.querySelector('.TextBox');
             field.value = '';
@@ -697,7 +697,7 @@
 
     /* A search field knows that it holds text, and filters the rows of its drop down. */
     document.addEventListener('input', function (e) {
-        var box = e.target.closest ? e.target.closest('.cmix .SearchBox') : null;
+        var box = e.target.closest ? e.target.closest('.cmix .TextBoxSearch') : null;
         if (!box) return;
         box.classList.toggle('hastext', e.target.value !== '');
         var frame = box.closest('.DropdownFrame');

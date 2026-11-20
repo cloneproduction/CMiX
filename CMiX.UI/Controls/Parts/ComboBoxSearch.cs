@@ -13,7 +13,7 @@ using Avalonia.Threading;
 
 namespace CMiX.UI.Controls.Parts
 {
-    // Gives a ComboBox a search field at the top of its drop-down. The theme of the ComboBox holds the field (a SearchBox named
+    // Gives a ComboBox a search field at the top of its drop-down. The theme of the ComboBox holds the field (a TextBoxSearch named
     // PART_ComboSearch) and shows it when IsSearchable is true. The field filters the rows by their text, in any case. Down and Up move a highlight
     // over the rows that are left, and Enter picks the highlighted row. The highlight starts on the selected row, or on the first row that is left.
     // The field is empty each time the drop-down opens, and it has the focus.
@@ -55,7 +55,7 @@ namespace CMiX.UI.Controls.Parts
         {
             private readonly ComboBox comboBox;
             private readonly ITemplate<Panel?>? panelBefore;
-            private SearchBox? box;
+            private TextBoxSearch? box;
             private int highlighted = -1;
 
             public Search(ComboBox comboBox)
@@ -78,7 +78,7 @@ namespace CMiX.UI.Controls.Parts
             private void OnTemplateApplied(object? sender, Avalonia.Controls.Primitives.TemplateAppliedEventArgs e)
             {
                 Detach();
-                box = e.NameScope.Find<SearchBox>(PartName);
+                box = e.NameScope.Find<TextBoxSearch>(PartName);
                 if (box == null)
                     return;
 
@@ -108,7 +108,7 @@ namespace CMiX.UI.Controls.Parts
 
             private void OnBoxChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
             {
-                if (e.Property == SearchBox.TextProperty)
+                if (e.Property == TextBoxSearch.TextProperty)
                     Filter();
             }
 

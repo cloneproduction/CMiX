@@ -75,9 +75,9 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void Show_TheIconOfASearchBox_HasTheIdleOpacity()
+        public void Show_TheIconOfATextBoxSearch_HasTheIdleOpacity()
         {
-            var box = Show(new SearchBox { Width = 160 });
+            var box = Show(new TextBoxSearch { Width = 160 });
 
             Assert.Equal(Token("OpacityIconIdle"), IconOf(box).Opacity);
         }

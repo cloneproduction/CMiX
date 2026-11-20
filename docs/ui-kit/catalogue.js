@@ -51,7 +51,7 @@ window.CMIX_CATALOGUE = [
                     { id: '5.4', name: 'TextBox', source: 'CMiX.UI/Themes/Styles/TextBox.axaml' },
                     { id: '5.5', name: 'TextBoxEditable', source: 'CMiX.UI/Controls/String/TextBoxEditable.axaml' },
                     { id: '5.6', name: 'EditableValue', source: 'CMiX.UI/Controls/String/EditableValue.axaml' },
-                    { id: '5.7', name: 'SearchBox', source: 'CMiX.UI/Controls/Parts/SearchBox.axaml' },
+                    { id: '5.7', name: 'TextBoxSearch', source: 'CMiX.UI/Controls/Parts/TextBoxSearch.axaml' },
                     { id: '5.8', name: 'TextBoxIP', source: 'CMiX.UI/Controls/String/TextBoxIP.axaml' },
                     { id: '5.9', name: 'TextBoxKeyGesture', source: 'CMiX.UI/Controls/String/TextBoxKeyGesture.axaml' },
                     { id: '5.10', name: 'ContentControlKeyCap', source: 'CMiX.UI/Themes/Styles/KeyCap.axaml' },

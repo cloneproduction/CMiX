@@ -450,7 +450,7 @@
         > .Popup { display: none; position: absolute; left: 0; top: calc(100% + 2px); z-index: 10; min-width: 100%; }
         &.open > .Popup { display: block; }
         .items { max-height: calc(var(--ComboBoxVisibleItems) * var(--ControlHeightMD)); overflow: hidden auto; scrollbar-width: none; }
-        .SearchBox { margin: 4px 4px 2px; }
+        .TextBoxSearch { margin: 4px 4px 2px; }
         &.disabled { opacity: var(--OpacityDisabled); pointer-events: none; }
     }
     .ComboBox {
@@ -536,9 +536,9 @@
         &:focus, &.focus { border-color: var(--Grey600Brush); }
     }
 
-    /* ---------------------------------------------------------------- Parts/SearchBox.axaml */
+    /* ---------------------------------------------------------------- Parts/TextBoxSearch.axaml */
     /* The magnifier is inside the field, at the left. With ShowsClear, a clear button is at the right while the field holds text. */
-    .SearchBox {
+    .TextBoxSearch {
         position: relative;
         display: block;
         height: var(--ControlHeightMD);
@@ -1329,7 +1329,7 @@
 
     /* ---------------------------------------------------------------- Views/Tree/TreeSearchBox.axaml */
     /* Class filtering: a search filters the rows and the focus is not in the field. The border of the field has the accent. */
-    .SearchBox.filtering > .TextBox { border-color: var(--AccentBrush); }
+    .TextBoxSearch.filtering > .TextBox { border-color: var(--AccentBrush); }
 
     /* ---------------------------------------------------------------- Views/Tree/ProjectTreeToolbar.axaml */
     .ProjectTreeToolbar {
@@ -1393,7 +1393,7 @@
         > .bar > .pickerToggle { width: auto; min-width: var(--ControlHeightMD); padding: 0 10px; gap: var(--SpacingSM); }
         > .bar > .pickerToggle > .Chevron { --ClosedAngle: 0deg; --OpenAngle: 180deg; }
         > .bar > .pickerToggle.checked > .Chevron { transform: rotate(180deg); }
-        > .bar > .SearchBox { width: var(--TreeSearchWidth); }
+        > .bar > .TextBoxSearch { width: var(--TreeSearchWidth); }
         > .content { flex: 1; min-height: 0; }
     }
 

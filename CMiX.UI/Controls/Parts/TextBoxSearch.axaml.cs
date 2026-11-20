@@ -13,20 +13,20 @@ namespace CMiX.UI.Controls.Parts
     // The search field with a magnifier. The lists with a search (ListGroupedSearch, ListSearchableItemPicker) and the drop-downs with a
     // search (see ComboBoxSearch) use this one control, so every search field looks and works the same. A key of the field
     // goes up to this control as a normal routed event. ShowsClear adds a clear button inside the field.
-    public partial class SearchBox : UserControl
+    public partial class TextBoxSearch : UserControl
     {
         // The padding of the text: room for the magnifier at the left, and with ShowsClear room for the clear button at the right.
         private static readonly Thickness TextPadding = new(28, 0, 6, 0);
         private static readonly Thickness TextPaddingWithClear = new(28, 0, 28, 0);
 
-        static SearchBox()
+        static TextBoxSearch()
         {
-            TextProperty.Changed.AddClassHandler<SearchBox>((box, _) => box.UpdateClear());
-            ShowsClearProperty.Changed.AddClassHandler<SearchBox>((box, _) => box.UpdateClear());
-            IsReadOnlyProperty.Changed.AddClassHandler<SearchBox>((box, _) => box.UpdateClear());
+            TextProperty.Changed.AddClassHandler<TextBoxSearch>((box, _) => box.UpdateClear());
+            ShowsClearProperty.Changed.AddClassHandler<TextBoxSearch>((box, _) => box.UpdateClear());
+            IsReadOnlyProperty.Changed.AddClassHandler<TextBoxSearch>((box, _) => box.UpdateClear());
         }
 
-        public SearchBox()
+        public TextBoxSearch()
         {
             InitializeComponent();
             UpdateClear();
@@ -34,7 +34,7 @@ namespace CMiX.UI.Controls.Parts
 
         // True: a clear button is inside the field, at its right, while the field holds text. False by default.
         public static readonly StyledProperty<bool> ShowsClearProperty =
-            AvaloniaProperty.Register<SearchBox, bool>(nameof(ShowsClear));
+            AvaloniaProperty.Register<TextBoxSearch, bool>(nameof(ShowsClear));
 
         public bool ShowsClear
         {
@@ -96,7 +96,7 @@ namespace CMiX.UI.Controls.Parts
         }
 
         public static readonly StyledProperty<string> TextProperty =
-            AvaloniaProperty.Register<SearchBox, string>(nameof(Text), string.Empty, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<TextBoxSearch, string>(nameof(Text), string.Empty, defaultBindingMode: BindingMode.TwoWay);
 
         public string Text
         {
@@ -105,7 +105,7 @@ namespace CMiX.UI.Controls.Parts
         }
 
         public static readonly StyledProperty<string> WatermarkProperty =
-            AvaloniaProperty.Register<SearchBox, string>(nameof(Watermark), "Search");
+            AvaloniaProperty.Register<TextBoxSearch, string>(nameof(Watermark), "Search");
 
         public string Watermark
         {
@@ -115,7 +115,7 @@ namespace CMiX.UI.Controls.Parts
 
         // True: the field keeps its text and takes no typing.
         public static readonly StyledProperty<bool> IsReadOnlyProperty =
-            AvaloniaProperty.Register<SearchBox, bool>(nameof(IsReadOnly));
+            AvaloniaProperty.Register<TextBoxSearch, bool>(nameof(IsReadOnly));
 
         public bool IsReadOnly
         {

@@ -42,8 +42,8 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         // For the tests.
-        internal SearchBox Field => searchField;
-        internal Button Clear => searchField.GetVisualDescendants().OfType<Button>().First(button => button.Name == SearchBox.ClearPartName);
+        internal TextBoxSearch Field => searchField;
+        internal Button Clear => searchField.GetVisualDescendants().OfType<Button>().First(button => button.Name == TextBoxSearch.ClearPartName);
 
         protected override void OnDataContextChanged(EventArgs e)
         {

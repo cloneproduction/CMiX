@@ -12,13 +12,13 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // The clear button of a search field (SearchBox.ShowsClear): inside the field at its right, with no background, only while the field
+    // The clear button of a search field (TextBoxSearch.ShowsClear): inside the field at its right, with no background, only while the field
     // holds text. A click empties the field and keeps the focus in it. Without ShowsClear the field has no clear button.
-    public class SearchBoxTests
+    public class TextBoxSearchTests
     {
-        private static (Window Window, SearchBox Box) Show(bool showsClear, string text = "")
+        private static (Window Window, TextBoxSearch Box) Show(bool showsClear, string text = "")
         {
-            var box = new SearchBox { Width = 200, ShowsClear = showsClear, Text = text, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+            var box = new TextBoxSearch { Width = 200, ShowsClear = showsClear, Text = text, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
             var window = new Window { Content = box, Width = 400, Height = 200 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
@@ -26,7 +26,7 @@ namespace CMiX.UI.Tests
             return (window, box);
         }
 
-        private static TextBox InputOf(SearchBox box) => box.GetVisualDescendants().OfType<TextBox>().First();
+        private static TextBox InputOf(TextBoxSearch box) => box.GetVisualDescendants().OfType<TextBox>().First();
 
         private static Rect BoundsIn(Window window, Control control) =>
             new(control.TranslatePoint(default, window)!.Value, control.Bounds.Size);
@@ -57,7 +57,7 @@ namespace CMiX.UI.Tests
             window.UpdateLayout();
             Dispatcher.UIThread.RunJobs();
 
-            var clear = box.GetVisualDescendants().OfType<Button>().First(button => button.Name == SearchBox.ClearPartName);
+            var clear = box.GetVisualDescendants().OfType<Button>().First(button => button.Name == TextBoxSearch.ClearPartName);
             Assert.True(clear.IsVisible);
             Assert.Equal(height, box.Bounds.Height, 0.01);
             Assert.True(clear.Bounds.Height <= height + 0.01, "clear: " + clear.Bounds.Height);

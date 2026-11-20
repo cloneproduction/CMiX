@@ -6,17 +6,17 @@
     HorizontalAlignment="Right">
 
     <!-- The search of the project tree, in the bar of the panel at the right. It is always shown while the panel shows the tree. The data
-         context is the ProjectTree. The clear button is inside the field, at its right, while the field holds text (SearchBox.ShowsClear).
+         context is the ProjectTree. The clear button is inside the field, at its right, while the field holds text (TextBoxSearch.ShowsClear).
          During a drag the field and the clear button take no input, and the text stays (ProjectTree.IsDragging). The keys are in
          TreeSearchBox.axaml.cs. The class filtering shows that the search still filters the rows while the focus is not in the field:
          the border of the field has the accent. -->
     <UserControl.Styles>
-        <Style Selector="ui|SearchBox.filtering TextBox#PART_Search /template/ Border#border">
+        <Style Selector="ui|TextBoxSearch.filtering TextBox#PART_Search /template/ Border#border">
             <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
         </Style>
     </UserControl.Styles>
 
-    <ui:SearchBox
+    <ui:TextBoxSearch
         x:Name="searchField"
         Width="{DynamicResource TreeSearchWidth}"
         IsReadOnly="{Binding IsDragging}"
