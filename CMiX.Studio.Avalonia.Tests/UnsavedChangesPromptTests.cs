@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return owner;
         }
 
-        private static MessageDialog Dialog() => new(UnsavedChangesPrompt.Options);
+        private static DialogMessage Dialog() => new(UnsavedChangesPrompt.Options);
 
         private static async Task<UnsavedChangesChoice> Answer(Task<MessageDialogResult> result) =>
             UnsavedChangesPrompt.ToChoice(await result);

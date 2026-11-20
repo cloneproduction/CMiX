@@ -14,7 +14,7 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The one message window of the app: the frame of the menus, an icon, a text and a row of buttons.
-    public class MessageDialogTests
+    public class DialogMessageTests
     {
         private static readonly MessageDialogOptions ThreeButtons = new(
             "Three buttons.",
@@ -34,9 +34,9 @@ namespace CMiX.Studio.Avalonia.Tests
             return owner;
         }
 
-        private static (MessageDialog Dialog, Task<MessageDialogResult> Result) Show(MessageDialogOptions options)
+        private static (DialogMessage Dialog, Task<MessageDialogResult> Result) Show(MessageDialogOptions options)
         {
-            var dialog = new MessageDialog(options);
+            var dialog = new DialogMessage(options);
             var result = dialog.ShowDialog<MessageDialogResult>(Owner());
             Dispatcher.UIThread.RunJobs();
             return (dialog, result);
@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static List<Button> Buttons(Control dialog) => dialog.GetVisualDescendants().OfType<Button>().ToList();
 
-        private static void Press(MessageDialog dialog, Key key)
+        private static void Press(DialogMessage dialog, Key key)
         {
             dialog.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = key, Source = dialog });
             Dispatcher.UIThread.RunJobs();

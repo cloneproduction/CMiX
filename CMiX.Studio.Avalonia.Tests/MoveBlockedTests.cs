@@ -71,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheDialog_ShowsTheMessage()
         {
-            var dialog = new MessageDialog(MoveBlockedNotice.Options("The layer shares items."));
+            var dialog = new DialogMessage(MoveBlockedNotice.Options("The layer shares items."));
             dialog.Show();
             Dispatcher.UIThread.RunJobs();
 
@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Click_TheOkButton_ClosesTheDialog()
         {
-            var dialog = new MessageDialog(MoveBlockedNotice.Options("The layer shares items."));
+            var dialog = new DialogMessage(MoveBlockedNotice.Options("The layer shares items."));
             var closed = false;
             dialog.Closed += (_, _) => closed = true;
             dialog.Show();
@@ -99,7 +99,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_Escape_ClosesTheDialog()
         {
-            var dialog = new MessageDialog(MoveBlockedNotice.Options("The layer shares items."));
+            var dialog = new DialogMessage(MoveBlockedNotice.Options("The layer shares items."));
             var closed = false;
             dialog.Closed += (_, _) => closed = true;
             dialog.Show();

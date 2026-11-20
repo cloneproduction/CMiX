@@ -16,7 +16,7 @@ namespace CMiX.Studio.Avalonia.Services
             if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime { MainWindow: { } owner })
                 return;
 
-            await MessageDialog.ShowAsync(owner, Options(text, title));
+            await DialogMessage.ShowAsync(owner, Options(text, title));
         }
 
         public static MessageDialogOptions Options(string text, string title) => MessageDialogOptions.Notice(text, "Error", title);

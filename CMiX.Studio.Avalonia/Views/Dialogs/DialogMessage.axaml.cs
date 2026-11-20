@@ -12,15 +12,15 @@ namespace CMiX.Studio.Avalonia.Views.Dialogs
 {
     // The one message window of the app: the frame of the menus, an icon, a text and a row of buttons.
     // The window closes with the result of the button.
-    public partial class MessageDialog : Window
+    public partial class DialogMessage : Window
     {
         private readonly MessageDialogOptions options;
 
-        public MessageDialog() : this(MessageDialogOptions.Notice(string.Empty, "Warning"))
+        public DialogMessage() : this(MessageDialogOptions.Notice(string.Empty, "Warning"))
         {
         }
 
-        public MessageDialog(MessageDialogOptions options)
+        public DialogMessage(MessageDialogOptions options)
         {
             this.options = options;
             InitializeComponent();
@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Views.Dialogs
         }
 
         public static Task<MessageDialogResult> ShowAsync(Window owner, MessageDialogOptions options) =>
-            new MessageDialog(options).ShowDialog<MessageDialogResult>(owner);
+            new DialogMessage(options).ShowDialog<MessageDialogResult>(owner);
 
         protected override void OnKeyDown(KeyEventArgs e)
         {

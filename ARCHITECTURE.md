@@ -189,7 +189,7 @@ Names that collide:
 | **Entity** | `Entity` is the mesh object. The view is `ModelEntity`. `ControlRepository.ModelEntities` is `Entity`, `TextEntity` and `FullscreenQuad`. `LightEntity` is a light. |
 | **Texture** | `Texture` is the pair of diffuse and mask. `ControlRepository.Textures` and `MainViewModel.TextureManager` hold texture sources. |
 | **Filter = texture modifier** | The classes are filters (`ITextureFilter`, folder `Filters`). The list is `TextureModifierManager` and the interface is `ITextureModifiable`. A texture modifier is not a `Modifier`. |
-| **Message** | A wire message (`IMessage`) and a notice to the user (`MessageNotice`, `MessageDialog`). The sync views are in `Views/Messenger`, the code is in `Networking`, the classes say `Sync`. |
+| **Message** | A wire message (`IMessage`) and a notice to the user (`MessageNotice`, `DialogMessage`). The sync views are in `Views/Messenger`, the code is in `Networking`, the classes say `Sync`. |
 | **Command** | `...Command` is for XAML and `...UndoCommand` is an undo step. `ValueChangedCommand` and `CompositeCommand` are undo steps without the `Undo` word. |
 | **Visible, Visibility, Hidden** | `PrefabService.Visibility`, `PrefabManager.Hidden`, and `VisibilityComponent.IsVisible => !Visible.Value`, where true means hidden. |
 | **Repository** | `ControlRepository` is the index. `RepositoryManager` and `RepositoryTab` are views of the six lists that `MainViewModel` owns. |

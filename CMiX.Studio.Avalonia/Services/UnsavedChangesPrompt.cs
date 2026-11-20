@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.Services
             if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime { MainWindow: { } owner })
                 return UnsavedChangesChoice.Cancel;
 
-            return ToChoice(await MessageDialog.ShowAsync(owner, Options));
+            return ToChoice(await DialogMessage.ShowAsync(owner, Options));
         }
 
         public static UnsavedChangesChoice ToChoice(MessageDialogResult result) => result switch
