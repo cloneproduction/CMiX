@@ -13,16 +13,16 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class EntityTextureSectionTests
+    public class SectionEntityTextureTests
     {
-        private static EntityTextureSection SectionOf(Control view)
+        private static SectionEntityTexture SectionOf(Control view)
         {
             new Window { Content = view, Width = 400, Height = 1200 }.Show();
             Dispatcher.UIThread.RunJobs();
-            return view.GetVisualDescendants().OfType<EntityTextureSection>().Single();
+            return view.GetVisualDescendants().OfType<SectionEntityTexture>().Single();
         }
 
-        private static List<ExpanderIndented> TopExpandersOf(EntityTextureSection section) =>
+        private static List<ExpanderIndented> TopExpandersOf(SectionEntityTexture section) =>
             section.GetVisualDescendants().OfType<ExpanderIndented>()
                 .Where(expander => !expander.GetVisualAncestors().TakeWhile(ancestor => ancestor != section).OfType<ExpanderIndented>().Any())
                 .ToList();
