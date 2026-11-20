@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
-    public partial class RedisAddressesPanel : UserControl
+    public partial class PanelRedisAddresses : UserControl
     {
-        public RedisAddressesPanel()
+        public PanelRedisAddresses()
         {
             InitializeComponent();
         }

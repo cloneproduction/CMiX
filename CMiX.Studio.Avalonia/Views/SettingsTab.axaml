@@ -15,7 +15,7 @@
             </ui:ExpanderIndented>
 
             <ui:ExpanderIndented Header="Redis Addresses">
-                <Managers:RedisAddressesPanel DataContext="{Binding Project.RedisAddressRegistry}" />
+                <Managers:PanelRedisAddresses DataContext="{Binding Project.RedisAddressRegistry}" />
             </ui:ExpanderIndented>
 
             <!-- Saved in studio-settings.json at once (see InterfaceOptions). -->

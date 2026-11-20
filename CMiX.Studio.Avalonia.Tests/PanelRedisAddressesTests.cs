@@ -16,13 +16,13 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The list of Redis addresses in the Settings tab.
-    public class RedisAddressesPanelTests
+    public class PanelRedisAddressesTests
     {
-        private static (RedisAddressRegistry Registry, RedisAddressesPanel Panel, IServiceProvider Provider) Show(int addressCount)
+        private static (RedisAddressRegistry Registry, PanelRedisAddresses Panel, IServiceProvider Provider) Show(int addressCount)
         {
             var provider = TestServiceProviderFactory.Create();
             var registry = provider.GetRequiredService<RedisAddressRegistry>();
-            var panel = new RedisAddressesPanel { DataContext = registry };
+            var panel = new PanelRedisAddresses { DataContext = registry };
             new Window { Content = panel, Width = 400, Height = 400 }.Show();
             Dispatcher.UIThread.RunJobs();
 
