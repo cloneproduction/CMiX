@@ -18,9 +18,9 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The list of the outputs. The count of outputs is fixed, so the list shows all of them and has no resize handle.
-    public class OutputMappingsPanelTests
+    public class PanelOutputMappingsTests
     {
-        private static OutputMappingsPanel Panel() => new()
+        private static PanelOutputMappings Panel() => new()
         {
             DataContext = TestServiceProviderFactory.Create().GetRequiredService<Project>().OutputMappingManager
         };

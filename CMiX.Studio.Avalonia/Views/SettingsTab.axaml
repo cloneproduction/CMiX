@@ -11,7 +11,7 @@
         <StackPanel>
 
             <ui:ExpanderIndented Header="Output Mappings">
-                <Managers:OutputMappingsPanel DataContext="{Binding Project.OutputMappingManager}" />
+                <Managers:PanelOutputMappings DataContext="{Binding Project.OutputMappingManager}" />
             </ui:ExpanderIndented>
 
             <ui:ExpanderIndented Header="Redis Addresses">

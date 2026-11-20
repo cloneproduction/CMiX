@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
-    public partial class OutputMappingsPanel : UserControl
+    public partial class PanelOutputMappings : UserControl
     {
-        public OutputMappingsPanel()
+        public PanelOutputMappings()
         {
             InitializeComponent();
         }
