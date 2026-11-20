@@ -11,11 +11,11 @@ namespace CMiX.Studio.Avalonia.Views
     public static class WindowDock
     {
         // The place of a window of the given width (in device independent pixels) on a working area (in screen pixels).
-        public static (PixelPoint Position, double Width, double Height) Compute(PixelRect workingArea, double scaling, double width)
+        public static WindowDockPlace Compute(PixelRect workingArea, double scaling, double width)
         {
             var fitted = Math.Min(width, workingArea.Width / scaling);
             var x = workingArea.Right - (int)Math.Round(fitted * scaling);
-            return (new PixelPoint(x, workingArea.Y), fitted, workingArea.Height / scaling);
+            return new WindowDockPlace(new PixelPoint(x, workingArea.Y), fitted, workingArea.Height / scaling);
         }
 
         // Docks the window on the screen where it is. A window with no screen stays as it is.
