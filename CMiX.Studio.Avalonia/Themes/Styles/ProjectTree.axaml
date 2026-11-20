@@ -175,7 +175,7 @@
             <Setter Property="Background" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=FillHover}" />
         </Style>
         <!-- The cursor frame without the focus. The look of the tree is in ProjectTreeView.axaml. -->
-        <Style Selector="^.cursor /template/ Border#CursorFrame">
+        <Style Selector="^:cursor /template/ Border#CursorFrame">
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="BorderBrush" Value="{DynamicResource CursorFrameInactiveBrush}" />
             <Setter Property="BorderThickness" Value="{DynamicResource CursorFrameInactiveThickness}" />
@@ -194,11 +194,11 @@
             </Style.Animations>
         </Style>
         <!-- The cursor row is drawn over the rows under it, so its shadow falls on them. -->
-        <Style Selector="^.cursor /template/ Panel#RowLift">
+        <Style Selector="^:cursor /template/ Panel#RowLift">
             <Setter Property="ZIndex" Value="1" />
         </Style>
         <!-- The text of a row: white on the cursor row and on the selected row. -->
-        <Style Selector="^.cursor /template/ Border#RowBorder">
+        <Style Selector="^:cursor /template/ Border#RowBorder">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
         </Style>
         <Style Selector="^:selected /template/ Border#RowBorder">
@@ -231,7 +231,7 @@
         <Style Selector="^ /template/ ToggleButton#PART_ExpandCollapseChevron">
             <Setter Property="Foreground" Value="{DynamicResource Grey800Brush}" />
         </Style>
-        <Style Selector="^.cursor /template/ ToggleButton#PART_ExpandCollapseChevron">
+        <Style Selector="^:cursor /template/ ToggleButton#PART_ExpandCollapseChevron">
             <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         </Style>
         <Style Selector="^:selected /template/ ToggleButton#PART_ExpandCollapseChevron">

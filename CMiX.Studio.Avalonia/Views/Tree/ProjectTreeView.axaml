@@ -73,12 +73,12 @@
                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
             </Style>
             <!-- The cursor frame: one pixel of the screen in the colour of the kind, with the focus and without it. -->
-            <Style Selector="TreeViewItem.cursor /template/ Border#CursorFrame">
+            <Style Selector="TreeViewItem:cursor /template/ Border#CursorFrame">
                 <Setter Property="BorderThickness" Value="{DynamicResource TreeSelectionThickness}" />
                 <Setter Property="BorderBrush" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=KindSelected}" />
             </Style>
             <!-- The cursor frame on the selected row: white on the fill of the kind. -->
-            <Style Selector="TreeViewItem:selected.cursor /template/ Border#CursorFrame">
+            <Style Selector="TreeViewItem:selected:cursor /template/ Border#CursorFrame">
                 <Setter Property="BorderBrush" Value="{DynamicResource CursorFrameBrush}" />
             </Style>
         </TreeView.Styles>

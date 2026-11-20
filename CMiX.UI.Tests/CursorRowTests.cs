@@ -45,15 +45,15 @@ namespace CMiX.UI.Tests
         private static Border Frame(ListBoxItem row) => row.GetVisualDescendants().OfType<Border>().First(border => border.Name == "CursorFrame");
 
         [AvaloniaFact]
-        public void IsCursor_SetAndCleared_SetsAndClearsTheClass()
+        public void IsCursor_SetAndCleared_SetsAndClearsThePseudoClass()
         {
             var row = new Border();
 
             CursorRow.SetIsCursor(row, true);
-            Assert.Contains(CursorRow.CursorClass, row.Classes);
+            Assert.Contains(CursorRow.CursorPseudoClass, row.Classes);
 
             CursorRow.SetIsCursor(row, false);
-            Assert.DoesNotContain(CursorRow.CursorClass, row.Classes);
+            Assert.DoesNotContain(CursorRow.CursorPseudoClass, row.Classes);
         }
 
         [AvaloniaTheory]

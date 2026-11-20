@@ -180,7 +180,7 @@
             <Setter Property="Background" Value="{DynamicResource RowHoverBrush}" />
         </Style>
         <!-- The look of a focused list is in CursorRow.axaml. -->
-        <Style Selector="^.cursor /template/ Border#CursorFrame">
+        <Style Selector="^:cursor /template/ Border#CursorFrame">
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="BorderBrush" Value="{DynamicResource CursorFrameInactiveBrush}" />
             <Setter Property="BorderThickness" Value="{DynamicResource CursorFrameInactiveThickness}" />

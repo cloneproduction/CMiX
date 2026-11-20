@@ -106,8 +106,8 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Same(next, screen.Tree.CursorNode);
             Assert.True(next.IsCursor);
             Assert.False(first.IsCursor);
-            Assert.Contains(CursorRow.CursorClass, ItemOf(screen.View, next).Classes);
-            Assert.DoesNotContain(CursorRow.CursorClass, ItemOf(screen.View, first).Classes);
+            Assert.Contains(CursorRow.CursorPseudoClass, ItemOf(screen.View, next).Classes);
+            Assert.DoesNotContain(CursorRow.CursorPseudoClass, ItemOf(screen.View, first).Classes);
         }
 
         [AvaloniaFact]

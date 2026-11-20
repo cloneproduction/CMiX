@@ -7,12 +7,12 @@ using Avalonia.Controls;
 namespace CMiX.UI.AttachedProperties
 {
     // Marks the cursor row of a list or a tree: the row that the arrow keys move to.
-    // IsCursor sets the class cursor on the row. The style of the row draws the cursor frame for this class.
-    // A style setter can not set a class, so the theme of the row binds IsCursor to a value of the model.
+    // IsCursor sets the pseudo class :cursor on the row. The style of the row draws the cursor frame for this pseudo class.
+    // A style setter can not set a pseudo class, so the theme of the row binds IsCursor to a value of the model.
     // The fill of a row shows the selection. The frame shows the cursor.
     public static class CursorRow
     {
-        public const string CursorClass = "cursor";
+        public const string CursorPseudoClass = ":cursor";
 
         public static readonly AttachedProperty<bool> IsCursorProperty =
             AvaloniaProperty.RegisterAttached<Control, bool>(
@@ -24,7 +24,7 @@ namespace CMiX.UI.AttachedProperties
 
         static CursorRow()
         {
-            IsCursorProperty.Changed.AddClassHandler<Control>((row, e) => row.Classes.Set(CursorClass, e.GetNewValue<bool>()));
+            IsCursorProperty.Changed.AddClassHandler<Control>((row, e) => ((IPseudoClasses)row.Classes).Set(CursorPseudoClass, e.GetNewValue<bool>()));
         }
     }
 }

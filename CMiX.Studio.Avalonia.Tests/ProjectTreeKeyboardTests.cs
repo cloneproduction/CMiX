@@ -13,6 +13,7 @@ using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.String;
 using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
@@ -155,7 +156,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Press(PhysicalKey.ArrowDown);
 
             // The cursor row is lifted (TreeRowShadow) and framed in the colour of its kind.
-            Assert.Contains("cursor", ItemOf(screen.View, second).Classes);
+            Assert.Contains(CursorRow.CursorPseudoClass, ItemOf(screen.View, second).Classes);
             Assert.True(Part(screen.View, second, "CursorFrame").IsVisible);
 
             // The first row stays selected: it keeps the selected fill and has no frame.
