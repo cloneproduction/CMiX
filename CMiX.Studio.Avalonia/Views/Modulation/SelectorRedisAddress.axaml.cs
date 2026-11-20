@@ -6,9 +6,9 @@ using CMiX.UI.Controls.Parts;
 namespace CMiX.Studio.Avalonia.Views.Modulation
 {
     // The address combo box of a Redis modulator. The DataContext is a RedisModulatorBase.
-    public partial class RedisAddressSelector : UserControlCaptioned
+    public partial class SelectorRedisAddress : UserControlCaptioned
     {
-        public RedisAddressSelector()
+        public SelectorRedisAddress()
         {
             InitializeComponent();
         }

@@ -181,7 +181,7 @@ window.CMIX_CATALOGUE = [
                     { id: '25.8', name: 'PanelModulatable', source: 'CMiX.Studio.Avalonia/Views/Modulation/PanelModulatable.axaml' },
                     { id: '25.9', name: 'ButtonModulatorAssign', source: 'CMiX.Studio.Avalonia/Views/Modulation/ButtonModulatorAssign.axaml' },
                     { id: '25.10', name: 'FloatRangeEditor', source: 'CMiX.Studio.Avalonia/Views/Modulation/FloatRangeEditor.axaml' },
-                    { id: '25.11', name: 'RedisAddressSelector', source: 'CMiX.Studio.Avalonia/Views/Modulation/RedisAddressSelector.axaml' }
+                    { id: '25.11', name: 'SelectorRedisAddress', source: 'CMiX.Studio.Avalonia/Views/Modulation/SelectorRedisAddress.axaml' }
                 ]
             },
             {
