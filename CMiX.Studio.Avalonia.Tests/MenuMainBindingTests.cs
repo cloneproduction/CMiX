@@ -20,7 +20,7 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A row of the main menu holds the command of its source. The title bar shows the open project.
-    public class MainMenuBindingTests
+    public class MenuMainBindingTests
     {
         private static ICommand ExpectedCommand(MainViewModel viewModel, string top, string row) => (top, row) switch
         {
@@ -59,11 +59,11 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData("Layer", "New Layer")]
         [InlineData("Layer", "Delete")]
         [InlineData("Layer", "Duplicate")]
-        public void Open_AMainMenuRow_HoldsTheCommandOfItsSource(string top, string row)
+        public void Open_AMenuMainRow_HoldsTheCommandOfItsSource(string top, string row)
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-            var rowItem = MainMenuRows.OpenRow(window, top, row);
+            var rowItem = MenuMainRows.OpenRow(window, top, row);
 
             Assert.Same(ExpectedCommand(viewModel, top, row), rowItem.Command);
         }
@@ -79,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
 
-            var rowItem = MainMenuRows.OpenRow(window, top, row);
+            var rowItem = MenuMainRows.OpenRow(window, top, row);
 
             Assert.True(RunCommandAfterClose.GetIsEnabled(rowItem));
         }

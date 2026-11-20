@@ -122,7 +122,7 @@ window.CMIX_CATALOGUE = [
         part: 'B', title: 'CMiX.Studio.Avalonia', categories: [
             {
                 id: '20', name: 'Shell', entries: [
-                    { id: '20.1', name: 'MainMenu', source: 'CMiX.Studio.Avalonia/Views/Menus/MainMenu.axaml' },
+                    { id: '20.1', name: 'MenuMain', source: 'CMiX.Studio.Avalonia/Views/Menus/MenuMain.axaml' },
                     { id: '20.2', name: 'PanelMainTabs', source: 'CMiX.Studio.Avalonia/Views/Panels/PanelMainTabs.axaml' },
                     { id: '20.3', name: 'SidePanelHost', source: 'CMiX.Studio.Avalonia/Views/Panels/SidePanelHost.axaml' },
                     { id: '20.4', name: 'Inspector', source: 'CMiX.Studio.Avalonia/Views/Inspector/Inspector.axaml' },

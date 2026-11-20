@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views.Menus
 {
-    public partial class MainMenu : UserControl
+    public partial class MenuMain : UserControl
     {
-        public MainMenu()
+        public MenuMain()
         {
             InitializeComponent();
         }

@@ -7,13 +7,13 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A row of the main menu shows the gesture of the shortcut map through InputGesture, with the shortcut look of every menu.
-    public class MainMenuShortcutTests
+    public class MenuMainShortcutTests
     {
         private static (TextBlock Gesture, ViewModels.MainViewModel ViewModel) OpenAndFindGesture(string top, string row)
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             TestServiceProviderFactory.Pump();
-            var rowItem = MainMenuRows.OpenRow(window, top, row);
+            var rowItem = MenuMainRows.OpenRow(window, top, row);
             return (rowItem.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Name == "PART_InputGestureText"), viewModel);
         }
 
@@ -21,7 +21,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData("Edit", "Undo", "Edit.Undo")]
         [InlineData("Edit", "Redo", "Edit.Redo")]
         [InlineData("File", "Open", "File.Open")]
-        public void Open_AMainMenuRow_ShowsTheGestureOfTheShortcutMap(string top, string row, string shortcut)
+        public void Open_AMenuMainRow_ShowsTheGestureOfTheShortcutMap(string top, string row, string shortcut)
         {
             var (gesture, viewModel) = OpenAndFindGesture(top, row);
 

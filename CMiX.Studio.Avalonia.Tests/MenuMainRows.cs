@@ -7,7 +7,7 @@ using Avalonia.VisualTree;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Finds the items of the main menu of a window by their header.
-    public static class MainMenuRows
+    public static class MenuMainRows
     {
         public static MenuItem TopItem(Window window, string header) =>
             window.GetVisualDescendants().OfType<Menu>().First().Items.OfType<MenuItem>().Single(item => (string?)item.Header == header);
