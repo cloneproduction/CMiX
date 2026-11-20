@@ -19,13 +19,13 @@ namespace CMiX.Studio.Avalonia.Views
         public SettingsSync()
         {
             InitializeComponent();
-            EditConnectionButton.Flyout!.Opened += EditConnectionFlyout_Opened;
-            UseCredentialManagerBox.PropertyChanged += (s, e) =>
+            editConnectionButton.Flyout!.Opened += EditConnectionFlyout_Opened;
+            useCredentialManagerBox.PropertyChanged += (s, e) =>
             {
                 if (e.Property == ToggleButtonCaptioned.IsCheckedProperty)
                     UpdateCredentialBoxes();
             };
-            CredentialNameBox.TextChanged += (s, e) => UpdateCredentialBoxes();
+            credentialNameBox.TextChanged += (s, e) => UpdateCredentialBoxes();
         }
 
         private readonly WindowsCredentialStore _store = new();
@@ -53,26 +53,26 @@ namespace CMiX.Studio.Avalonia.Views
 
             // The sync Flyout acts on the store, so it must not outlive the connection.
             if (e.PropertyName == nameof(SyncPeer.IsConnected) && !peer.IsConnected)
-                SyncButton.Flyout?.Hide();
+                syncButton.Flyout?.Hide();
 
             if (e.PropertyName == nameof(SyncPeer.Status))
-                ConnectButton.Content = peer.Status == "Connecting" ? "Connecting..." : "Connect";
+                connectButton.Content = peer.Status == "Connecting" ? "Connecting..." : "Connect";
         }
 
         // The endpoint line shows the options of the running peer.
         private void ShowEndpoint(SyncPeer peer)
         {
             var options = peer.Options;
-            EndpointText.Text = options == null
+            endpointText.Text = options == null
                 ? string.Empty
                 : $"{options.Ip}:{options.Port} db {options.Database}, user {options.User} {StudioSettings.Load().Resolve(_store).UserSource}";
         }
 
         private void UpdateCredentialBoxes()
         {
-            var useCredential = UseCredentialManagerBox.IsChecked == true && !string.IsNullOrEmpty(CredentialNameBox.Text);
-            UserBox.IsEnabled = !useCredential;
-            PasswordBox.IsEnabled = !useCredential;
+            var useCredential = useCredentialManagerBox.IsChecked == true && !string.IsNullOrEmpty(credentialNameBox.Text);
+            userBox.IsEnabled = !useCredential;
+            passwordBox.IsEnabled = !useCredential;
         }
 
         // The boxes show the file content. WithFallbacks fills the empty entries, so TextBoxIP
@@ -81,39 +81,39 @@ namespace CMiX.Studio.Avalonia.Views
         {
             var settings = StudioSettings.Load();
             var options = settings.ToSyncOptions();
-            IpBox.IPAddress = options.Ip;
-            PortBox.Text = options.Port.ToString(CultureInfo.InvariantCulture);
-            DatabaseBox.Text = options.Database.ToString(CultureInfo.InvariantCulture);
-            UserBox.Text = options.User;
-            PasswordBox.Text = options.Password;
-            KeyPrefixBox.Text = options.KeyPrefix;
-            PeerNameBox.Text = options.PeerName;
-            UseCredentialManagerBox.IsChecked = settings.Redis.UseCredentialManager;
-            CredentialNameBox.Text = settings.Redis.CredentialName;
+            ipBox.IPAddress = options.Ip;
+            portBox.Text = options.Port.ToString(CultureInfo.InvariantCulture);
+            databaseBox.Text = options.Database.ToString(CultureInfo.InvariantCulture);
+            userBox.Text = options.User;
+            passwordBox.Text = options.Password;
+            keyPrefixBox.Text = options.KeyPrefix;
+            peerNameBox.Text = options.PeerName;
+            useCredentialManagerBox.IsChecked = settings.Redis.UseCredentialManager;
+            credentialNameBox.Text = settings.Redis.CredentialName;
             UpdateCredentialBoxes();
-            ErrorText.Text = string.Empty;
+            errorText.Text = string.Empty;
         }
 
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            if (!TryReadInt(PortBox.Text, 1, out var port))
+            if (!TryReadInt(portBox.Text, 1, out var port))
             {
-                ErrorText.Text = "The port must be a whole number above zero.";
+                errorText.Text = "The port must be a whole number above zero.";
                 return;
             }
 
-            if (!TryReadInt(DatabaseBox.Text, 0, out var database))
+            if (!TryReadInt(databaseBox.Text, 0, out var database))
             {
-                ErrorText.Text = "The database must be a whole number of zero or more.";
+                errorText.Text = "The database must be a whole number of zero or more.";
                 return;
             }
 
-            var edited = new SyncOptions(IpBox.IPAddress, port, database, UserBox.Text ?? string.Empty,
-                PasswordBox.Text ?? string.Empty, KeyPrefixBox.Text ?? string.Empty,
-                PeerNameBox.Text ?? string.Empty, "studio");
+            var edited = new SyncOptions(ipBox.IPAddress, port, database, userBox.Text ?? string.Empty,
+                passwordBox.Text ?? string.Empty, keyPrefixBox.Text ?? string.Empty,
+                peerNameBox.Text ?? string.Empty, "studio");
             var settings = StudioSettings.FromSyncOptions(edited);
-            settings.Redis.UseCredentialManager = UseCredentialManagerBox.IsChecked == true;
-            settings.Redis.CredentialName = CredentialNameBox.Text ?? string.Empty;
+            settings.Redis.UseCredentialManager = useCredentialManagerBox.IsChecked == true;
+            settings.Redis.CredentialName = credentialNameBox.Text ?? string.Empty;
             // The file also holds the interface settings. They stay as they are.
             settings.Interface = StudioSettings.Load().Interface ?? new InterfaceSettings();
 
@@ -123,24 +123,24 @@ namespace CMiX.Studio.Avalonia.Views
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                ErrorText.Text = ex.Message;
+                errorText.Text = ex.Message;
                 return;
             }
 
-            ErrorText.Text = string.Empty;
+            errorText.Text = string.Empty;
 
             // Both calls return at once. The peer connects on a background task.
             var peer = Peer;
             peer.Stop();
             peer.Start(settings.Resolve(_store).Options);
             ShowEndpoint(peer);
-            EditConnectionButton.Flyout!.Hide();
+            editConnectionButton.Flyout!.Hide();
         }
 
         private static bool TryReadInt(string? text, int minimum, out int value) =>
             int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out value) && value >= minimum;
 
-        private void CancelEditConnection_Click(object sender, RoutedEventArgs e) => EditConnectionButton.Flyout!.Hide();
+        private void CancelEditConnection_Click(object sender, RoutedEventArgs e) => editConnectionButton.Flyout!.Hide();
 
         // The buttons run the bound command. The Flyout closes after the click, so the command
         // still finds its content attached.
@@ -148,8 +148,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void Pull_Click(object sender, RoutedEventArgs e) => HideSyncFlyout();
 
-        private void CancelSync_Click(object sender, RoutedEventArgs e) => SyncButton.Flyout!.Hide();
+        private void CancelSync_Click(object sender, RoutedEventArgs e) => syncButton.Flyout!.Hide();
 
-        private void HideSyncFlyout() => Dispatcher.UIThread.Post(() => SyncButton.Flyout?.Hide());
+        private void HideSyncFlyout() => Dispatcher.UIThread.Post(() => syncButton.Flyout?.Hide());
     }
 }

@@ -23,14 +23,14 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var button = view.FindControl<Button>("EditConnectionButton")!;
+            var button = view.FindControl<Button>("editConnectionButton")!;
             button.Flyout!.ShowAt(button);
             TestServiceProviderFactory.Pump();
 
-            var toggle = view.FindControl<ToggleButtonCaptioned>("UseCredentialManagerBox");
-            var nameBox = view.FindControl<TextBox>("CredentialNameBox");
-            var userBox = view.FindControl<TextBox>("UserBox");
-            var passwordBox = view.FindControl<TextBox>("PasswordBox");
+            var toggle = view.FindControl<ToggleButtonCaptioned>("useCredentialManagerBox");
+            var nameBox = view.FindControl<TextBox>("credentialNameBox");
+            var userBox = view.FindControl<TextBox>("userBox");
+            var passwordBox = view.FindControl<TextBox>("passwordBox");
             Assert.NotNull(toggle);
             Assert.NotNull(nameBox);
             Assert.NotNull(userBox);
@@ -59,8 +59,8 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaTheory]
-        [InlineData("SyncButton")]
-        [InlineData("EditConnectionButton")]
+        [InlineData("syncButton")]
+        [InlineData("editConnectionButton")]
         public void TheFlyouts_CloseOnEscape(string buttonName)
         {
             var provider = TestServiceProviderFactory.Create();
