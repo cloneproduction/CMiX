@@ -13,12 +13,12 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The Modifiers section of an entity: its add button opens a popup with one button for each modifier
     // that fits the entity, and a click on one adds that modifier to the entity.
-    public class EntityModifiersSectionTests
+    public class SectionEntityModifiersTests
     {
-        private static (Entity entity, EntityModifiersSection section, ToggleButton add, Popup popup) Show()
+        private static (Entity entity, SectionEntityModifiers section, ToggleButton add, Popup popup) Show()
         {
             var entity = (Entity)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Entity));
-            var section = new EntityModifiersSection { PanelOwner = typeof(Entity), DataContext = entity };
+            var section = new SectionEntityModifiers { PanelOwner = typeof(Entity), DataContext = entity };
             var window = new Window { Content = section, Width = 400, Height = 800 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

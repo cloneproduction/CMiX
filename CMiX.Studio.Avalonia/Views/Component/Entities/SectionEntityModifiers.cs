@@ -10,10 +10,10 @@ namespace CMiX.Studio.Avalonia.Views
     // Shared "Modifiers" expander + AutoSelectionPanel wiring every entity type used to hand-roll.
     // An entity that needs an extra AutoSelectionPanel (e.g. TextEntity, which also shows the
     // generic Entity modifiers) can project it in through Content.
-    public class EntityModifiersSection : ContentControl
+    public class SectionEntityModifiers : ContentControl
     {
         public static readonly StyledProperty<Type> PanelOwnerProperty =
-            AvaloniaProperty.Register<EntityModifiersSection, Type>(nameof(PanelOwner));
+            AvaloniaProperty.Register<SectionEntityModifiers, Type>(nameof(PanelOwner));
 
         public Type PanelOwner
         {

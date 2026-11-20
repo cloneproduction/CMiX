@@ -5,7 +5,7 @@
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
-    <ControlTheme x:Key="{x:Type Views:EntityModifiersSection}" TargetType="Views:EntityModifiersSection">
+    <ControlTheme x:Key="{x:Type Views:SectionEntityModifiers}" TargetType="Views:SectionEntityModifiers">
         <Setter Property="Template">
             <ControlTemplate>
                 <ui:ExpanderIndented Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">

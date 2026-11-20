@@ -223,7 +223,7 @@ own XAML, for example `Title="{Binding PrefabService.Name.Value}"`. The test
   `UserControl` and not a templated control. A templated control takes over the template
   parent of the content that it shows in its template. Then a `TemplateBinding` inside that
   content, such as the owner type of the add panel of an entity, reads from the wrong
-  control and finds nothing. `EntityModifiersSectionTests` keeps this case.
+  control and finds nothing. `SectionEntityModifiersTests` keeps this case.
 - A Studio control tells the library control which properties of the model to use.
   `ModifierManager` is a `ListPanelItem` of `PanelItem` rows. `RepositoryManager` is a
   `ListBoxRepository` with the icon templates of the prefabs. `ModulatorHoverBehavior` tells

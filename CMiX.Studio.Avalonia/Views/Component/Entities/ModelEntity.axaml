@@ -25,7 +25,7 @@
         <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
       </ui:ExpanderIndented>
 
-      <Views:EntityModifiersSection
+      <Views:SectionEntityModifiers
           PanelOwner="{x:Type Compositing:Entity}" />
 
       <Views:SectionEntityTexture />

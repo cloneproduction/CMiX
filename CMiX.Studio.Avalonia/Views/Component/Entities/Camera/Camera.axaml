@@ -9,7 +9,7 @@
 
     <StackPanel>
 
-        <Views:EntityModifiersSection PanelOwner="{x:Type Cameras:Camera}" />
+        <Views:SectionEntityModifiers PanelOwner="{x:Type Cameras:Camera}" />
 
         <ui:ExpanderIndented
             Header="Settings"

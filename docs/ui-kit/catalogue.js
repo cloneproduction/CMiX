@@ -197,7 +197,7 @@ window.CMIX_CATALOGUE = [
                     { id: '27.1', name: 'Parameter panel', source: 'CMiX.Studio.Avalonia/Views/Modifiers, Views/Texturing, Views/Component' },
                     { id: '27.2', name: 'ModifierEntry', source: 'CMiX.Studio.Avalonia/Views/Modifiers/ModifierEntry.cs', removed: 'It is a data class with no look of its own. See 27.8.' },
                     { id: '27.3', name: 'ModifierModeSelector', source: 'CMiX.Studio.Avalonia/Views/Modifiers/ModifierModeSelector.axaml' },
-                    { id: '27.4', name: 'EntityModifiersSection', source: 'CMiX.Studio.Avalonia/Themes/Styles/EntityModifiersSection.axaml' },
+                    { id: '27.4', name: 'SectionEntityModifiers', source: 'CMiX.Studio.Avalonia/Themes/Styles/SectionEntityModifiers.axaml' },
                     { id: '27.5', name: 'TextureSlot', source: 'CMiX.Studio.Avalonia/Views/Texturing/TextureSlot.axaml' },
                     { id: '27.6', name: 'PlayerTransport', source: 'CMiX.Studio.Avalonia/Views/Texturing/Source/PlayerTransport.axaml' },
                     { id: '27.7', name: 'TypeWriter', source: 'CMiX.Studio.Avalonia/Themes/Styles/TypeWriter.axaml' },

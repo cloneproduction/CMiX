@@ -14,9 +14,9 @@
         <ui:ExpanderIndented Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
             <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
         </ui:ExpanderIndented>
-        <Views:EntityModifiersSection PanelOwner="{x:Type Compositing:TextEntity}">
+        <Views:SectionEntityModifiers PanelOwner="{x:Type Compositing:TextEntity}">
             <Managers:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />
-        </Views:EntityModifiersSection>
+        </Views:SectionEntityModifiers>
 
         <ui:ExpanderIndented Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
             <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
