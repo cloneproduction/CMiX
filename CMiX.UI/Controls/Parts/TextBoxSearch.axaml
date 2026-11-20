@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="searchBox">
+    x:Name="textBoxSearch">
 
     <!-- The search field of every list and drop-down that filters its rows. The magnifier is inside the field, at its left. The text starts after it.
          With ShowsClear, a clear button with no background is inside the field, at its right, while the field holds text. The text always
@@ -15,9 +15,9 @@
             Height="{DynamicResource ControlHeightMD}"
             Padding="28,0,6,0"
             VerticalContentAlignment="Center"
-            IsReadOnly="{Binding IsReadOnly, ElementName=searchBox}"
-            Text="{Binding Text, ElementName=searchBox, Mode=TwoWay}"
-            Watermark="{Binding Watermark, ElementName=searchBox}" />
+            IsReadOnly="{Binding IsReadOnly, ElementName=textBoxSearch}"
+            Text="{Binding Text, ElementName=textBoxSearch, Mode=TwoWay}"
+            Watermark="{Binding Watermark, ElementName=textBoxSearch}" />
 
         <ui:AppIcon
             x:Name="PART_SearchIcon"
