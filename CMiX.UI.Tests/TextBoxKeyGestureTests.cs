@@ -10,8 +10,8 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // KeyGestureBox shows a gesture as text. While it has the focus, it records the next key combination.
-    public class KeyGestureBoxTests
+    // TextBoxKeyGesture shows a gesture as text. While it has the focus, it records the next key combination.
+    public class TextBoxKeyGestureTests
     {
         private static Window Show(Control content)
         {
@@ -21,9 +21,9 @@ namespace CMiX.UI.Tests
             return window;
         }
 
-        private static (Window Window, KeyGestureBox Box) ShowFocused(KeyGesture? gesture)
+        private static (Window Window, TextBoxKeyGesture Box) ShowFocused(KeyGesture? gesture)
         {
-            var box = new KeyGestureBox { Gesture = gesture };
+            var box = new TextBoxKeyGesture { Gesture = gesture };
             var window = Show(box);
             box.Focus();
             Dispatcher.UIThread.RunJobs();
@@ -40,7 +40,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Show_AGesture_ShowsItsText()
         {
-            var box = new KeyGestureBox { Gesture = new KeyGesture(Key.S, KeyModifiers.Control) };
+            var box = new TextBoxKeyGesture { Gesture = new KeyGesture(Key.S, KeyModifiers.Control) };
             Show(box);
 
             Assert.Equal("Ctrl+S", box.ShownText);
@@ -49,7 +49,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Show_ANumberKey_ShowsTheDigit()
         {
-            var box = new KeyGestureBox { Gesture = new KeyGesture(Key.D1, KeyModifiers.Control) };
+            var box = new TextBoxKeyGesture { Gesture = new KeyGesture(Key.D1, KeyModifiers.Control) };
             Show(box);
 
             Assert.Equal("Ctrl+1", box.ShownText);
@@ -58,7 +58,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Show_NoGesture_ShowsNone()
         {
-            var box = new KeyGestureBox();
+            var box = new TextBoxKeyGesture();
             Show(box);
 
             Assert.Equal("None", box.ShownText);
@@ -115,7 +115,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Box_WithoutResetCommand_HasNoMenu()
         {
-            var box = new KeyGestureBox();
+            var box = new TextBoxKeyGesture();
             Show(box);
 
             Assert.Null(box.ContextMenu);
@@ -125,7 +125,7 @@ namespace CMiX.UI.Tests
         public void Box_WithResetCommand_HasAResetMenuThatRunsIt()
         {
             var ran = false;
-            var box = new KeyGestureBox { ResetCommand = new RelayCommand(() => ran = true) };
+            var box = new TextBoxKeyGesture { ResetCommand = new RelayCommand(() => ran = true) };
             Show(box);
 
             box.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, "Reset")).Command!.Execute(null);

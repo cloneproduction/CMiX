@@ -38,15 +38,15 @@ namespace CMiX.Studio.Avalonia.Tests
             return (map, settings, view);
         }
 
-        private static KeyGestureBox Box(Control view, string name) =>
-            view.GetVisualDescendants().OfType<KeyGestureBox>().Single(box => box.DataContext is ShortcutRow row && row.Name == name);
+        private static TextBoxKeyGesture Box(Control view, string name) =>
+            view.GetVisualDescendants().OfType<TextBoxKeyGesture>().Single(box => box.DataContext is ShortcutRow row && row.Name == name);
 
         [AvaloniaFact]
-        public void Show_TheView_ShowsOneKeyGestureBoxPerRow()
+        public void Show_TheView_ShowsOneTextBoxKeyGesturePerRow()
         {
             var (map, _, view) = Show();
 
-            var boxes = view.GetVisualDescendants().OfType<KeyGestureBox>().ToList();
+            var boxes = view.GetVisualDescendants().OfType<TextBoxKeyGesture>().ToList();
 
             Assert.Equal(map.Names, boxes.Select(box => ((ShortcutRow)box.DataContext!).Name));
             Assert.Equal(map["Tree.Rename"], Box(view, "Tree.Rename").Gesture);

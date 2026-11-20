@@ -34,7 +34,7 @@
                                         Caption="{Binding Label}"
                                         ToolTip.Tip="{Binding ConflictText}">
                                         <Grid ColumnDefinitions="*,Auto">
-                                            <ui:KeyGestureBox
+                                            <ui:TextBoxKeyGesture
                                                 Grid.Column="0"
                                                 Gesture="{Binding Gesture, Mode=TwoWay}"
                                                 ResetCommand="{Binding ResetCommand}" />

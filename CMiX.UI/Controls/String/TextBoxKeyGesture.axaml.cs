@@ -14,10 +14,10 @@ using CMiX.UI.Converters;
 namespace CMiX.UI.Controls.String
 {
     // Shows a key gesture and records the next key combination while it has the focus.
-    public partial class KeyGestureBox : UserControl, IValueText
+    public partial class TextBoxKeyGesture : UserControl, IValueText
     {
         public static readonly StyledProperty<KeyGesture?> GestureProperty =
-            AvaloniaProperty.Register<KeyGestureBox, KeyGesture?>(nameof(Gesture), defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<TextBoxKeyGesture, KeyGesture?>(nameof(Gesture), defaultBindingMode: BindingMode.TwoWay);
         public KeyGesture? Gesture
         {
             get => GetValue(GestureProperty);
@@ -25,7 +25,7 @@ namespace CMiX.UI.Controls.String
         }
 
         public static readonly StyledProperty<ICommand?> ResetCommandProperty =
-            AvaloniaProperty.Register<KeyGestureBox, ICommand?>(nameof(ResetCommand));
+            AvaloniaProperty.Register<TextBoxKeyGesture, ICommand?>(nameof(ResetCommand));
         public ICommand? ResetCommand
         {
             get => GetValue(ResetCommandProperty);
@@ -38,7 +38,7 @@ namespace CMiX.UI.Controls.String
         // The text that shows when there is no gesture.
         internal const string NoneText = "None";
 
-        public KeyGestureBox()
+        public TextBoxKeyGesture()
         {
             InitializeComponent();
             ValueMenu.Follow(this, ResetCommandProperty);

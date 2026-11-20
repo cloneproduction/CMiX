@@ -585,8 +585,8 @@
         .Label { background: var(--Grey100Brush); }
     }
 
-    /* ---------------------------------------------------------------- String/KeyGestureBox.axaml */
-    .KeyGestureBox {
+    /* ---------------------------------------------------------------- String/TextBoxKeyGesture.axaml */
+    .TextBoxKeyGesture {
         display: flex;
         align-items: center;
         height: var(--ControlHeightMD);
@@ -1439,7 +1439,7 @@
         > .ResetAllButton { align-self: flex-end; width: auto; padding: 0 8px; }
         > .scope { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
         .ContentCaptioned > .value { display: flex; align-items: center; min-width: 0; }
-        .ContentCaptioned .KeyGestureBox { flex: 1; min-width: 0; }
+        .ContentCaptioned .TextBoxKeyGesture { flex: 1; min-width: 0; }
         .ConflictMark { flex: none; width: var(--IndicatorSize); height: var(--IndicatorSize); margin-left: 4px; border-radius: 50%; background: var(--WarningMutedBrush); }
     }
 

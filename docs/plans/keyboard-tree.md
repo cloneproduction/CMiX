@@ -18,7 +18,7 @@ The analysis read the code on branch `fix/drag-capture-loss`. Paths are relative
 8. Hover uses the selection fill (`ProjectTree.axaml:203-206` and `214-217`). A row under a resting mouse looks selected. Drop inside also uses the selection fill (`:219-221`).
 9. `ShortcutMap.Conflicts` groups by scope only (`Services/ShortcutMap.cs:86`). A tree gesture on Ctrl+Z does not conflict with Edit.Undo.
 10. The context menu has no `:selected` style (`CMiX.UI` `ContextMenu.axaml:101-107`). The arrow keys in the W menu show nothing.
-11. The Studio has four focus looks (TextBox, KeyGestureBox, tree, proposal) and three shortcut text looks (tooltip, menu, `MainMenu.axaml:55`). Opacities are numbers in place (0.5, 0.56, 0.6, 0.4, 0.8).
+11. The Studio has four focus looks (TextBox, TextBoxKeyGesture, tree, proposal) and three shortcut text looks (tooltip, menu, `MainMenu.axaml:55`). Opacities are numbers in place (0.5, 0.56, 0.6, 0.4, 0.8).
 12. Tooltips stay open while the user presses keys (`Views/Tree/TreeTooltips.cs:27-29`).
 13. The mouse drag (`Views/Tree/TreeRowDrag.cs`) needs a pressed button: `Begin` takes an `IPointer` (`:132`), `OnPointerMoved` returns when the left button is up (`ProjectTreeView.axaml.cs:541`), and `StartDrop` reads the drop place again at the pointer (`TreeRowDrag.cs:216`). The drop rules are in the model: `CanDrop`, `Locate`, `DropAsync`.
 14. Each row keeps its open state in the model (`TreeNode.cs:162`). A parent that closes and opens again shows its children as before. The state is not saved in the project.
