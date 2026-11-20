@@ -181,6 +181,23 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void BeginUndoCaptureCommand_ThenTwoChanges_AreOneUndoStep()
+        {
+            var screen = Show();
+            var before = screen.Layers.Select(layer => layer.PrefabService.Visibility.Value).ToList();
+            screen.Undo.Clear();
+
+            screen.ViewModel.BeginUndoCaptureCommand.Execute(null);
+            screen.Layers[0].PrefabService.Visibility.Value = !before[0];
+            screen.Layers[1].PrefabService.Visibility.Value = !before[1];
+            screen.ViewModel.EndUndoCaptureCommand.Execute(null);
+            screen.Undo.Undo();
+
+            Assert.Equal(before, screen.Layers.Select(layer => layer.PrefabService.Visibility.Value).ToList());
+            Assert.False(screen.Undo.CanUndo);
+        }
+
+        [AvaloniaFact]
         public void Click_AToggle_TogglesOnceInOneUndoStep()
         {
             var screen = Show();

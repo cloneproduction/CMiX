@@ -11,7 +11,6 @@ using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 using CMiX.UI.Behaviors;
 using Avalonia.LogicalTree;
-using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.ViewModels;
 
@@ -19,8 +18,6 @@ namespace CMiX.Studio.Avalonia.Views
 {
     public partial class MainWindow : Window
     {
-        private readonly UndoManager? _undoManager;
-
         // Avalonia opens the main menu when Alt goes up alone, as Windows does (AccessKeyHandler). The menu has no access keys, and
         // Alt is a part of the tree keys (Alt+E, Alt+Up, Alt+Down), so the window takes the press and the release of Alt itself, and
         // the menu does not take the keyboard. A key binding with Alt still runs: it reads the Alt of the other key. A class handler
@@ -42,9 +39,8 @@ namespace CMiX.Studio.Avalonia.Views
         // Tab navigation of the window, so Ctrl+Tab in a text box moves the focus to the next panel, not to the next control.
         private void OnKeyDownAfterTextBox(KeyEventArgs e) => textGuard.RunPausedBinding(e);
 
-        public MainWindow(UndoManager undoManager, PanelFocusCycle panelFocus, NotificationService notifications) : this()
+        public MainWindow(PanelFocusCycle panelFocus, NotificationService notifications) : this()
         {
-            _undoManager = undoManager;
             panelFocus.Attach(this);
             notifications.Attach(panelNotification);
         }
@@ -69,8 +65,8 @@ namespace CMiX.Studio.Avalonia.Views
         private void InstallToggleDrag()
         {
             var toggleDrag = new ToggleDragBehavior();
-            toggleDrag.StrokeStarted += (_, _) => _undoManager?.BeginCapture();
-            toggleDrag.StrokeEnded += (_, _) => _undoManager?.EndCapture();
+            toggleDrag.StrokeStarted += (_, _) => (DataContext as MainViewModel)?.BeginUndoCaptureCommand.Execute(null);
+            toggleDrag.StrokeEnded += (_, _) => (DataContext as MainViewModel)?.EndUndoCaptureCommand.Execute(null);
             Interaction.GetBehaviors(this).Add(toggleDrag);
         }
 

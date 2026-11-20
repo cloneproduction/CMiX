@@ -42,6 +42,8 @@ namespace CMiX.Studio.Avalonia.ViewModels
             ShortcutSettings = new ShortcutSettings(shortcuts);
             UndoCommand = new RelayCommand(undoManager.Undo);
             RedoCommand = new RelayCommand(undoManager.Redo);
+            BeginUndoCaptureCommand = new RelayCommand(undoManager.BeginCapture);
+            EndUndoCaptureCommand = new RelayCommand(undoManager.EndCapture);
             PathDropService = pathDropService;
             ProjectTree = projectTree;
             Sync = sync;
@@ -95,6 +97,9 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         public IRelayCommand UndoCommand { get; }
         public IRelayCommand RedoCommand { get; }
+
+        public IRelayCommand BeginUndoCaptureCommand { get; }
+        public IRelayCommand EndUndoCaptureCommand { get; }
 
         // What the left and the right panel of the window show. The tree can be on both sides.
         public System.Collections.Generic.IReadOnlyList<PanelChoice> PanelChoices => PanelChoice.All;
