@@ -81,6 +81,24 @@ These rules apply to every task in this repository.
   `Move_Rows_MoveTheItemAndStopAtTheEdges`. A file has the name of its type.
   When a member gets a new name, the tests that carry the old name get the new one.
 
+### The order of the words
+
+- A name reads from the kind to the thing: the kind first, then what it is for.
+  The first word is what a person types first in a search.
+  A person looks for a Button, then for the right button.
+- The kind is the Avalonia base control when there is one: Button, ToggleButton, ListBox,
+  ComboBox, TextBox, Slider, ScrollViewer, TabItem, Expander, Menu, DragValue.
+  Else the kind is one of the CMiX kinds: Panel, Tab, List, Editor, Selector, Settings,
+  Section, Row, Frame, Dialog, Window, Toolbar, Badge, Notification.
+  A view with several of one kind starts with the plural kind: `TogglesRow`, `BadgesKindCount`.
+- Controls, Host, Indicator, Item (for a row), View, and Manager (for a view) are not kinds.
+  Manager is the word of the Core managers.
+- Examples: `ListBoxEditable`, `ToggleButtonBox`, `ButtonModulatorAssign`, `DragValueModulatable`,
+  `PanelSync`, `TabLayerCamera`, `ListPrefabSlot`, `TextBoxSearch`.
+- A domain view keeps the exact name of its model, for the view locator.
+  Theme keys follow the same order.
+  `x:Name` in XAML is camelCase.
+
 ### Names that do not change without a plan
 
 The compiler does not check these names. Ask the owner before you change one.

@@ -91,6 +91,8 @@ folder. A view can move to another folder without a change to its namespace or i
 - `Views/Controls`: the Studio controls that are not views, for example the
   Outliner. The generic controls are in CMiX.UI.
 
+The names of the views and the controls follow the order rule in `.claude/CLAUDE.md`, section Names: the kind first, then the thing.
+
 The value editors start a drag through `InteractionHost`. The App connects it to
 `ValueInteraction` in `App.Initialize`.
 
