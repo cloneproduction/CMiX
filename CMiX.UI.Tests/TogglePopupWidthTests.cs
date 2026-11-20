@@ -71,7 +71,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void TheAddPanel_IsAsWideAsItsAddToggle()
         {
-            var list = new PanelItemList { AddCaption = "Add", AddContent = new TextBlock { Text = "Short" }, Width = 400, HorizontalAlignment = HorizontalAlignment.Left };
+            var list = new ListPanelItem { AddCaption = "Add", AddContent = new TextBlock { Text = "Short" }, Width = 400, HorizontalAlignment = HorizontalAlignment.Left };
             new Window { Content = list, Width = 900, Height = 500 }.Show();
             Dispatcher.UIThread.RunJobs();
 

@@ -111,9 +111,9 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData(true, false)]
         [InlineData(false, true)]
-        public void ThePanelItemList_PassesTheSettingToItsAddPopup(bool closesOnPointerAway, bool expectedOpen)
+        public void TheListPanelItem_PassesTheSettingToItsAddPopup(bool closesOnPointerAway, bool expectedOpen)
         {
-            var list = new PanelItemList
+            var list = new ListPanelItem
             {
                 AddCaption = "Add",
                 AddContent = new TextBlock { Text = "Short" },

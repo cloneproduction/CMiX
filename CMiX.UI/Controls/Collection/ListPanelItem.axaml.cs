@@ -14,15 +14,15 @@ namespace CMiX.UI.Controls.Collection
     // A list of items with an add button under it. The application sets the ItemTemplate, usually with
     // a PanelItem. The add button opens a popup that shows AddContent. The list is reordered by the user
     // only when ReorderService is set.
-    public partial class PanelItemList : UserControl
+    public partial class ListPanelItem : UserControl
     {
-        public PanelItemList()
+        public ListPanelItem()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty =
-            AvaloniaProperty.Register<PanelItemList, IEnumerable?>(nameof(ItemsSource));
+            AvaloniaProperty.Register<ListPanelItem, IEnumerable?>(nameof(ItemsSource));
 
         public IEnumerable? ItemsSource
         {
@@ -31,7 +31,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<IDataTemplate?> ItemTemplateProperty =
-            AvaloniaProperty.Register<PanelItemList, IDataTemplate?>(nameof(ItemTemplate));
+            AvaloniaProperty.Register<ListPanelItem, IDataTemplate?>(nameof(ItemTemplate));
 
         public IDataTemplate? ItemTemplate
         {
@@ -41,7 +41,7 @@ namespace CMiX.UI.Controls.Collection
 
         // Without a service the items cannot be reordered.
         public static readonly StyledProperty<IReorderService?> ReorderServiceProperty =
-            AvaloniaProperty.Register<PanelItemList, IReorderService?>(nameof(ReorderService));
+            AvaloniaProperty.Register<ListPanelItem, IReorderService?>(nameof(ReorderService));
 
         public IReorderService? ReorderService
         {
@@ -50,7 +50,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<string> AddCaptionProperty =
-            AvaloniaProperty.Register<PanelItemList, string>(nameof(AddCaption), string.Empty);
+            AvaloniaProperty.Register<ListPanelItem, string>(nameof(AddCaption), string.Empty);
 
         public string AddCaption
         {
@@ -59,7 +59,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<Control?> AddContentProperty =
-            LogicalPanelContent.Register<PanelItemList>(nameof(AddContent));
+            LogicalPanelContent.Register<ListPanelItem>(nameof(AddContent));
 
         public Control? AddContent
         {
@@ -69,7 +69,7 @@ namespace CMiX.UI.Controls.Collection
 
         // False: the add popup stays open when the pointer goes away (see TogglePopup.ClosesOnPointerAway).
         public static readonly StyledProperty<bool> AddClosesOnPointerAwayProperty =
-            AvaloniaProperty.Register<PanelItemList, bool>(nameof(AddClosesOnPointerAway), true);
+            AvaloniaProperty.Register<ListPanelItem, bool>(nameof(AddClosesOnPointerAway), true);
 
         public bool AddClosesOnPointerAway
         {
@@ -79,7 +79,7 @@ namespace CMiX.UI.Controls.Collection
 
         // The distance of the pointer from the popup and the toggle, in pixels, that closes the add popup.
         public static readonly StyledProperty<double> AddPointerAwayDistanceProperty =
-            AvaloniaProperty.Register<PanelItemList, double>(nameof(AddPointerAwayDistance), PointerAwayCloser.DefaultDistance);
+            AvaloniaProperty.Register<ListPanelItem, double>(nameof(AddPointerAwayDistance), PointerAwayCloser.DefaultDistance);
 
         public double AddPointerAwayDistance
         {

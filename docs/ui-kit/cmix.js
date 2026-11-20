@@ -471,7 +471,7 @@
         ListBoxRepository: listBoxRepository,
         ListItemIcon: listItemIcon,
         PanelItem: panelItem,
-        PanelItemList: panelItemList,
+        ListPanelItem: panelItemList,
         PopupButton: popupButton,
         ListSearchableItemPicker: searchablePicker,
         ListGroupedSearch: groupedSearchList,
@@ -650,9 +650,9 @@
 
         if (!target || isDisabled(target)) return;
 
-        /* The toggle of a ColorSelector, a PopupButton or a PanelItemList opens its popup. A RadioButton of a ColorPickerSliders picks the mode. */
+        /* The toggle of a ColorSelector, a PopupButton or a ListPanelItem opens its popup. A RadioButton of a ColorPickerSliders picks the mode. */
         var owner = target.parentElement;
-        if (/\b(ColorSelector|PopupButton|PanelItemList)\b/.test(owner.className)) {
+        if (/\b(ColorSelector|PopupButton|ListPanelItem)\b/.test(owner.className)) {
             if (owner.hasAttribute('data-keep-open')) return;
             owner.classList.toggle('open');
         }

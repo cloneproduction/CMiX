@@ -13,8 +13,8 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // PanelItemList shows its items with the template of the application, and an add button under them.
-    public class PanelItemListTests
+    // ListPanelItem shows its items with the template of the application, and an add button under them.
+    public class ListPanelItemTests
     {
         private sealed class Model
         {
@@ -28,7 +28,7 @@ namespace CMiX.UI.Tests
             public void Dropped(int sourceIndex, int insertIndex) { }
         }
 
-        private static (Window window, PanelItemList list) Show(PanelItemList list)
+        private static (Window window, ListPanelItem list) Show(ListPanelItem list)
         {
             var window = new Window { Content = list, Width = 400, Height = 500 };
             window.Show();
@@ -36,9 +36,9 @@ namespace CMiX.UI.Tests
             return (window, list);
         }
 
-        private static PanelItemList NewList(IEnumerable<string>? items = null)
+        private static ListPanelItem NewList(IEnumerable<string>? items = null)
         {
-            return new PanelItemList
+            return new ListPanelItem
             {
                 ItemsSource = items ?? new[] { "one", "two", "three" },
                 ItemTemplate = new FuncDataTemplate<string>((text, _) => new PanelItem { Title = text }),

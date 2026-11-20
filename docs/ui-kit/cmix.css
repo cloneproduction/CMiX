@@ -930,8 +930,8 @@
         > .content { padding: 8px; }
     }
 
-    /* ---------------------------------------------------------------- Collection/PanelItemList.axaml */
-    .PanelItemList {
+    /* ---------------------------------------------------------------- Collection/ListPanelItem.axaml */
+    .ListPanelItem {
         position: relative;
         display: flex;
         flex-direction: column;
@@ -1530,7 +1530,7 @@
     .FloatRangeEditor { display: grid; grid-template-columns: 40% 60%; height: var(--ControlHeightMD); > .caption { justify-self: end; align-self: center; margin-right: 8px; white-space: nowrap; } }
 
     /* PanelModulatable: the content, then the ModifierManager that adds a modulator. */
-    .PanelModulatable { display: flex; flex-direction: column; > .PanelItemList { margin-top: 8px; } }
+    .PanelModulatable { display: flex; flex-direction: column; > .ListPanelItem { margin-top: 8px; } }
 
     /* ---------------------------------------------------------------- Views/Component/Composable/ComposableManagerItem.axaml, ComposableManagerToolbar.axaml */
     .ComposableManagerItem {
@@ -1558,7 +1558,7 @@
     }
 
     /* ---------------------------------------------------------------- Views/Modifiers/ModifierManager.axaml */
-    /* A PanelItemList. Each PanelItem has 4 of space above and below. */
+    /* A ListPanelItem. Each PanelItem has 4 of space above and below. */
     .ModifierManager > .PanelItem { margin: 4px 0; }
 
     /* ---------------------------------------------------------------- Themes/Styles/MeshShapeFrame.axaml */
