@@ -8,7 +8,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Threading;
 using CMiX.Core;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.UI.AttachedProperties;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {

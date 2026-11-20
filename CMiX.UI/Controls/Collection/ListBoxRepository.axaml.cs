@@ -7,7 +7,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
-using CMiX.UI.AttachedProperties;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.Collection
 {
