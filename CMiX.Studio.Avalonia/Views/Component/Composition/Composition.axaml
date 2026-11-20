@@ -37,7 +37,7 @@
             <ui:ExpanderIndented
                 Header="Settings"
                 IsExpanded="{Binding OutputSettingsIsExpanded}">
-                <Views:CompositionSettings Margin="8" DataContext="{Binding}" />
+                <Views:SettingsComposition Margin="8" DataContext="{Binding}" />
             </ui:ExpanderIndented>
 
         </StackPanel>

@@ -59,7 +59,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var provider = TestServiceProviderFactory.Create();
             var project = provider.GetRequiredService<Project>();
             project.CompositionManager.AddItem(typeof(Composition));
-            var view = new Views.CompositionSettings { DataContext = project.CompositionManager.SelectedItem };
+            var view = new Views.SettingsComposition { DataContext = project.CompositionManager.SelectedItem };
             Show(view);
 
             var combo = view.GetVisualDescendants().OfType<ComboBoxCaptioned>().Single();
