@@ -63,7 +63,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void TheMenuWrittenInXaml_ClosesWhenThePointerGoesFarAway()
         {
-            var selector = new ColorSelector { DataContext = new StringValue(), Width = 200, Height = 40, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+            var selector = new SelectorColor { DataContext = new StringValue(), Width = 200, Height = 40, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
             var window = Host(selector);
             OpenMenu(selector.FindControl<Control>("PopupToggle")!);
             Assert.True(selector.ContextMenu!.IsOpen);

@@ -8,19 +8,19 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // The ColorSelector has the same menu as the other value editors.
-    public class ColorSelectorMenuTests
+    // The SelectorColor has the same menu as the other value editors.
+    public class SelectorColorMenuTests
     {
-        private static (ColorSelector Selector, StringValue Model) Show(string value = "#FF336699")
+        private static (SelectorColor Selector, StringValue Model) Show(string value = "#FF336699")
         {
             var model = new StringValue { Value = value };
-            var selector = new ColorSelector { Caption = "Color", DataContext = model, Width = 200, Height = 40 };
+            var selector = new SelectorColor { Caption = "Color", DataContext = model, Width = 200, Height = 40 };
             new Window { Content = selector, Width = 300, Height = 100 }.Show();
             Dispatcher.UIThread.RunJobs();
             return (selector, model);
         }
 
-        private static IValueText Text(ColorSelector selector) => selector;
+        private static IValueText Text(SelectorColor selector) => selector;
 
         [AvaloniaFact]
         public void TheMenu_HasTheTitleCopyPasteAndReset()

@@ -17,7 +17,7 @@
             ResetCommand="{Binding Compositing.BlendMode.ResetCommand}"
             SelectedItem="{Binding Compositing.BlendMode.Value, Mode=TwoWay}" />
 
-        <ui:ColorSelector
+        <ui:SelectorColor
             Caption="Background"
             DataContext="{Binding Compositing.BackgroundColor}" />
 

@@ -26,7 +26,7 @@
                     Text="{Binding Text.Value}"
                     Theme="{StaticResource TextBoxTypeWriter}" />
 
-                <ui:ColorSelector
+                <ui:SelectorColor
                     Caption="Color"
                     DataContext="{Binding Color}" />
 

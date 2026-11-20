@@ -10,9 +10,9 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.ColorPicker
 {
-    public partial class ColorSelector : UserControlCaptioned, IValueText
+    public partial class SelectorColor : UserControlCaptioned, IValueText
     {
-        public ColorSelector()
+        public SelectorColor()
         {
             InitializeComponent();
 
@@ -21,7 +21,7 @@ namespace CMiX.UI.Controls.ColorPicker
         }
 
         public static readonly StyledProperty<ICommand?> ResetCommandProperty =
-            AvaloniaProperty.Register<ColorSelector, ICommand?>(nameof(ResetCommand));
+            AvaloniaProperty.Register<SelectorColor, ICommand?>(nameof(ResetCommand));
         public ICommand? ResetCommand
         {
             get => GetValue(ResetCommandProperty);
@@ -42,7 +42,7 @@ namespace CMiX.UI.Controls.ColorPicker
         }
 
         public static readonly StyledProperty<Color> SelectedColorProperty =
-            AvaloniaProperty.Register<ColorSelector, Color>(nameof(SelectedColor), Colors.Yellow, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<SelectorColor, Color>(nameof(SelectedColor), Colors.Yellow, defaultBindingMode: BindingMode.TwoWay);
         public Color SelectedColor
         {
             get => GetValue(SelectedColorProperty);

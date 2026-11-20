@@ -29,11 +29,11 @@
 
     <ui:StackPanelPositioned Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 
-      <ui:ColorSelector
+      <ui:SelectorColor
           Caption="Foreground"
           DataContext="{Binding Foreground}" />
 
-      <ui:ColorSelector
+      <ui:SelectorColor
           Caption="Background"
           DataContext="{Binding Background}" />
 

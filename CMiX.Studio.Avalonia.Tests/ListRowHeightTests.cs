@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
 
             var rows = view.GetVisualDescendants().OfType<ListBoxItem>().ToList();
-            var swatch = rows[0].GetVisualDescendants().OfType<ColorSelector>().Single();
+            var swatch = rows[0].GetVisualDescendants().OfType<SelectorColor>().Single();
 
             Assert.Equal(Token("ControlHeightMD"), rows[0].Bounds.Height);
             Assert.Equal(rows[0].Bounds.Height, swatch.Bounds.Height);

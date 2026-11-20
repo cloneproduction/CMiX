@@ -22,7 +22,7 @@ namespace CMiX.UI.Tests
         // The swatch is 540 wide and the popup 232, so the ends of the swatch are 154 from the popup.
         private static (Window Window, ToggleButton Swatch, Popup Popup) ShowWideSelectorWithOpenPopup()
         {
-            var selector = new ColorSelector
+            var selector = new SelectorColor
             {
                 DataContext = new StringValue(),
                 Width = 900,

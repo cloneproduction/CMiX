@@ -30,11 +30,11 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <ui:ColorSelector
+            <ui:SelectorColor
                 Caption="Background"
                 DataContext="{Binding BackgroundColor}" />
 
-            <ui:ColorSelector
+            <ui:SelectorColor
                 Caption="Bubble"
                 DataContext="{Binding BubbleColor}" />
 

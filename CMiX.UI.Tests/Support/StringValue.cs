@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.UI.Tests.Support
 {
-    // A model for the editors that bind Value and ResetCommand, such as the ColorSelector.
+    // A model for the editors that bind Value and ResetCommand, such as the SelectorColor.
     public class StringValue : ObservableObject
     {
         private string _value = "#FF000000";

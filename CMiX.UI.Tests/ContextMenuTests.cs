@@ -127,10 +127,10 @@ namespace CMiX.UI.Tests
             Assert.False(drag.ContextMenu!.IsOpen);
         }
 
-        private static (ColorSelector Selector, Popup Popup) ShowColorSelectorWithOpenPopup()
+        private static (SelectorColor Selector, Popup Popup) ShowSelectorColorWithOpenPopup()
         {
             var color = new StringValue();
-            var selector = new ColorSelector { DataContext = color, Width = 200, Height = 40 };
+            var selector = new SelectorColor { DataContext = color, Width = 200, Height = 40 };
             Host(selector);
 
             selector.FindControl<ToggleButton>("PopupToggle")!.IsChecked = true;
@@ -141,9 +141,9 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ColorSelector_ContextRequestOnTheSwatch_OpensTheResetMenu()
+        public void SelectorColor_ContextRequestOnTheSwatch_OpensTheResetMenu()
         {
-            var (selector, _) = ShowColorSelectorWithOpenPopup();
+            var (selector, _) = ShowSelectorColorWithOpenPopup();
 
             RequestMenu(selector.FindControl<ToggleButton>("PopupToggle")!);
 
@@ -151,9 +151,9 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ColorSelector_ContextRequestInsideThePopup_OpensNoMenu()
+        public void SelectorColor_ContextRequestInsideThePopup_OpensNoMenu()
         {
-            var (selector, popup) = ShowColorSelectorWithOpenPopup();
+            var (selector, popup) = ShowSelectorColorWithOpenPopup();
             var insidePopup = popup.Child!.GetVisualDescendants().OfType<SliderCMiX>().First();
 
             RequestMenu(insidePopup);

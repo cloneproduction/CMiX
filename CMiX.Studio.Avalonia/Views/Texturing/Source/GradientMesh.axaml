@@ -26,19 +26,19 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <ui:ColorSelector
+            <ui:SelectorColor
                 Caption="Color 1"
                 DataContext="{Binding Color1}" />
 
-            <ui:ColorSelector
+            <ui:SelectorColor
                 Caption="Color 2"
                 DataContext="{Binding Color2}" />
 
-            <ui:ColorSelector
+            <ui:SelectorColor
                 Caption="Color 3"
                 DataContext="{Binding Color3}" />
 
-            <ui:ColorSelector
+            <ui:SelectorColor
                 Caption="Color 4"
                 DataContext="{Binding Color4}" />
 

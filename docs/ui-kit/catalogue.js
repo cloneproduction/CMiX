@@ -65,7 +65,7 @@ window.CMIX_CATALOGUE = [
             },
             {
                 id: '7', name: 'ColorPicker', entries: [
-                    { id: '7.1', name: 'ColorSelector', source: 'CMiX.UI/Controls/ColorPicker/ColorSelector.axaml' },
+                    { id: '7.1', name: 'SelectorColor', source: 'CMiX.UI/Controls/ColorPicker/SelectorColor.axaml' },
                     { id: '7.2', name: 'ColorPickerFull', source: 'CMiX.UI/Controls/ColorPicker/ColorPickerFull.axaml' },
                     { id: '7.3', name: 'ColorPickerSliders', source: 'CMiX.UI/Controls/ColorPicker/ColorPickerSliders.axaml' },
                     { id: '7.4', name: 'ColorPickerWheel', source: 'CMiX.UI/Controls/ColorPicker/ColorPickerWheel.cs' }

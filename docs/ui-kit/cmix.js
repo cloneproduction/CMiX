@@ -464,7 +464,7 @@
         ColorPickerWheel: colorWheel,
         ColorPickerSliders: colorSliders,
         ColorPickerFull: colorPickerFull,
-        ColorSelector: colorSelector,
+        SelectorColor: colorSelector,
         ListBox: listBox,
         ListBoxCMiX: listBoxCMiX,
         ListBoxEditable: listBoxEditable,
@@ -650,9 +650,9 @@
 
         if (!target || isDisabled(target)) return;
 
-        /* The toggle of a ColorSelector, a ButtonPopup or a ListPanelItem opens its popup. A RadioButton of a ColorPickerSliders picks the mode. */
+        /* The toggle of a SelectorColor, a ButtonPopup or a ListPanelItem opens its popup. A RadioButton of a ColorPickerSliders picks the mode. */
         var owner = target.parentElement;
-        if (/\b(ColorSelector|ButtonPopup|ListPanelItem)\b/.test(owner.className)) {
+        if (/\b(SelectorColor|ButtonPopup|ListPanelItem)\b/.test(owner.className)) {
             if (owner.hasAttribute('data-keep-open')) return;
             owner.classList.toggle('open');
         }

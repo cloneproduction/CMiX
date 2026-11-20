@@ -368,9 +368,9 @@ namespace CMiX.UI.Tests
 
         // ---------------------------------------------------------------- the popup
 
-        private static (Window Window, ColorSelector Selector, Popup Popup) ShowSelectorWithOpenPopup()
+        private static (Window Window, SelectorColor Selector, Popup Popup) ShowSelectorWithOpenPopup()
         {
-            var selector = new ColorSelector
+            var selector = new SelectorColor
             {
                 DataContext = new StringValue(),
                 Width = 300,

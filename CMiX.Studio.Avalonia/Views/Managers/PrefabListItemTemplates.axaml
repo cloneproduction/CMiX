@@ -11,7 +11,7 @@
     xmlns:TextureSources="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core">
 
     <DataTemplate DataType="{x:Type Compositing:Color}">
-        <ui:ColorSelector Caption="{Binding Value}" />
+        <ui:SelectorColor Caption="{Binding Value}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">

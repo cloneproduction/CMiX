@@ -17,11 +17,11 @@
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
-            <ui:ColorSelector
+            <ui:SelectorColor
                 Caption="From"
                 DataContext="{Binding From}" />
 
-            <ui:ColorSelector
+            <ui:SelectorColor
                 Caption="To"
                 DataContext="{Binding To}" />
 

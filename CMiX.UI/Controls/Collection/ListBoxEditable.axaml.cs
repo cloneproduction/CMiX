@@ -15,7 +15,7 @@ namespace CMiX.UI.Controls.Collection
 {
     // A list of items of one type, with a column of buttons on its right: add and remove, then move up
     // and move down. The application sets the ItemTemplate, so an item can
-    // be a DragValue, a ColorSelector or any other editor. A button shows only when its command is set.
+    // be a DragValue, a SelectorColor or any other editor. A button shows only when its command is set.
     // When ReorderService is set, each row has a drag handle and the user can drag the rows.
     public partial class ListBoxEditable : UserControl
     {

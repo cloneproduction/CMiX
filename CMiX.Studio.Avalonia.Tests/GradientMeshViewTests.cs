@@ -65,11 +65,11 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_View_HasFourColorSelectorsAndTheResolution()
+        public void Show_View_HasFourSelectorColorsAndTheResolution()
         {
             var (source, view) = Show();
 
-            var colors = view.GetVisualDescendants().OfType<ColorSelector>().ToList();
+            var colors = view.GetVisualDescendants().OfType<SelectorColor>().ToList();
 
             Assert.Equal(4, colors.Count);
             Assert.Equal(new object[] { source.Color1, source.Color2, source.Color3, source.Color4 }, colors.Select(c => c.DataContext));

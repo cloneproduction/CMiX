@@ -130,7 +130,7 @@ come from the value editors of vvvv:
 | `Enum` | one item of a fixed list | `ComboBoxCaptioned` |
 | `String` | text or an address | `TextBoxEditable`, `EditableValue`, `TextBoxIP`, `SelectOnFocus`, `TextBlockTrimmed` |
 | `Path` | a file or a folder | `ComboBoxPath` |
-| `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
+| `ColorPicker` | a color | `SelectorColor`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
 | `Collection` | a list of items | `PanelItem`, `ListPanelItem`, `ListItemIcon`, `ListBoxRepository`, `ListBoxEditable` |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ValueMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
 
@@ -214,7 +214,7 @@ own XAML, for example `Title="{Binding PrefabService.Name.Value}"`. The test
 - The list is reordered only when the application sets `ReorderService` on it.
 - `ListBoxEditable` is a list of items of one type, with a column of buttons on its right: add and
   remove, then move up and move down. The application sets the
-  `ItemTemplate`, so an item can be a `DragValue`, a `ColorSelector` or any other editor. A button
+  `ItemTemplate`, so an item can be a `DragValue`, a `SelectorColor` or any other editor. A button
   shows only when its command (`AddCommand`, `RemoveCommand`, `MoveUpCommand`, `MoveDownCommand`)
   is set. `AddCommandParameter` is the parameter of the add command, and the other commands get the
   selected item. When `ReorderService` is set, each row has a drag handle. The `BeatStepModulator`
@@ -258,7 +258,7 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
   standard control and keeps its API. A variant with a special purpose gets its own
   word instead, as `ExpanderIndented` does. A later variant never needs a rename.
 - A control with no standard equivalent has its own name: `DragValue`, `RangeValue`,
-  `Vector2`, `ColorSelector`.
+  `Vector2`, `SelectorColor`.
 - The dimension is a digit: `Vector3`, `Integer2`, `AxisSelector3`. Never 2D, 3D, XY
   or XYZ.
 - The kind stays at the end for converters (`...Converter`), for a real

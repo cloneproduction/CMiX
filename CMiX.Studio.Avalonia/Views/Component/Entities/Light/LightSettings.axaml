@@ -9,7 +9,7 @@
 
     <StackPanel Margin="8">
 
-        <ui:ColorSelector Caption="Color" DataContext="{Binding LightColor}" />
+        <ui:SelectorColor Caption="Color" DataContext="{Binding LightColor}" />
 
         <ui:DragValue
             Margin="0,8"
