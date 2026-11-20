@@ -14,7 +14,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // The add menus do not offer the types that do not work yet. A project can still hold them.
     public class HiddenTypesTests
     {
-        private static List<object?> Offered(AutoSelectionPanel panel) =>
+        private static List<object?> Offered(PanelAddTypes panel) =>
             ((Grid)panel.Content!).Children
                 .OfType<StackPanel>()
                 .SelectMany(stack => stack.Children.OfType<Button>())
@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void TheLayerMenu_DoesNotOfferTheRenderModifiers()
         {
-            var offered = Offered(new AutoSelectionPanel { PanelOwner = typeof(Layer) });
+            var offered = Offered(new PanelAddTypes { PanelOwner = typeof(Layer) });
 
             Assert.DoesNotContain(typeof(RenderRandomEntityModifier), offered);
             Assert.DoesNotContain(typeof(RenderSequenceEntityModifier), offered);
@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void TheEntityMenu_DoesNotOfferBillboard()
         {
-            var offered = Offered(new AutoSelectionPanel { PanelOwner = typeof(Entity) });
+            var offered = Offered(new PanelAddTypes { PanelOwner = typeof(Entity) });
 
             Assert.DoesNotContain(typeof(BillboardModifier), offered);
             Assert.Contains(typeof(TranslateModifier), offered);
@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void TheModulatorMenu_OffersTheRedisModulators()
         {
-            var offered = Offered(new AutoSelectionPanel { Interface = typeof(IModulator) });
+            var offered = Offered(new PanelAddTypes { Interface = typeof(IModulator) });
 
             Assert.Contains(typeof(RedisFloatModulator), offered);
             Assert.Contains(typeof(RedisBoolModulator), offered);

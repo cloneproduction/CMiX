@@ -15,13 +15,13 @@ using AvaloniaGrid = Avalonia.Controls.Grid;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
-    public partial class AutoSelectionPanel : UserControl
+    public partial class PanelAddTypes : UserControl
     {
         public static readonly StyledProperty<Type> PanelOwnerProperty =
-            AvaloniaProperty.Register<AutoSelectionPanel, Type>(nameof(PanelOwner));
+            AvaloniaProperty.Register<PanelAddTypes, Type>(nameof(PanelOwner));
 
         public static readonly StyledProperty<Type> InterfaceProperty =
-            AvaloniaProperty.Register<AutoSelectionPanel, Type>(nameof(Interface));
+            AvaloniaProperty.Register<PanelAddTypes, Type>(nameof(Interface));
 
         public Type PanelOwner
         {
@@ -35,13 +35,13 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             set => SetValue(InterfaceProperty, value);
         }
 
-        static AutoSelectionPanel()
+        static PanelAddTypes()
         {
-            PanelOwnerProperty.Changed.AddClassHandler<AutoSelectionPanel>((panel, e) => panel.Discover());
-            InterfaceProperty.Changed.AddClassHandler<AutoSelectionPanel>((panel, e) => panel.Discover());
+            PanelOwnerProperty.Changed.AddClassHandler<PanelAddTypes>((panel, e) => panel.Discover());
+            InterfaceProperty.Changed.AddClassHandler<PanelAddTypes>((panel, e) => panel.Discover());
         }
 
-        public AutoSelectionPanel()
+        public PanelAddTypes()
         {
             InitializeComponent();
         }

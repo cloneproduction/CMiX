@@ -60,7 +60,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData(typeof(CMiX.Core.Compositing.Layer))]
         public void AddList_OffersAlphaAndVisibility(System.Type owner)
         {
-            var panel = new Views.Managers.AutoSelectionPanel { PanelOwner = owner };
+            var panel = new Views.Managers.PanelAddTypes { PanelOwner = owner };
             var window = new Window { Content = panel, Width = 400, Height = 400 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

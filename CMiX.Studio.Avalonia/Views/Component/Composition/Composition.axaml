@@ -19,7 +19,7 @@
                 IsExpanded="{Binding TextureModifierIsExpanded}">
                 <Views:ModifierManager Caption="Add Filter" Margin="8, 0, 8, 8" DataContext="{Binding TextureModifierManager}">
                     <Views:ModifierManager.SelectionPanel>
-                        <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
+                        <Managers:PanelAddTypes Interface="{x:Type Filters:ITextureFilter}" />
                     </Views:ModifierManager.SelectionPanel>
                 </Views:ModifierManager>
             </ui:ExpanderIndented>
@@ -29,7 +29,7 @@
                 IsExpanded="{Binding ModifierIsExpanded}">
                 <Views:ModifierManager Caption="Add Modifier" Margin="8, 0, 8, 8" DataContext="{Binding ModifierManager}">
                     <Views:ModifierManager.SelectionPanel>
-                        <Managers:AutoSelectionPanel PanelOwner="{x:Type Compositing:Composition}" />
+                        <Managers:PanelAddTypes PanelOwner="{x:Type Compositing:Composition}" />
                     </Views:ModifierManager.SelectionPanel>
                 </Views:ModifierManager>
             </ui:ExpanderIndented>

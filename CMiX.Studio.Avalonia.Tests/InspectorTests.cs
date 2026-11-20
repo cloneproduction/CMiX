@@ -302,7 +302,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal("Add Modifier", manager.Caption);
 
             // The panel that adds an item lists what can be added to an entity.
-            var selection = (AutoSelectionPanel)manager.SelectionPanel!;
+            var selection = (PanelAddTypes)manager.SelectionPanel!;
             Assert.Equal(typeof(Entity), selection.PanelOwner);
         }
 
@@ -315,7 +315,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var layerPanel = screen.Find<ModifierManager>()!;
             Assert.Same(screen.Layer.TextureModifierManager, layerPanel.DataContext);
             Assert.Equal("Add Filter", layerPanel.Caption);
-            Assert.Equal(typeof(CMiX.Core.Texturing.Filters.ITextureFilter), ((AutoSelectionPanel)layerPanel.SelectionPanel!).Interface);
+            Assert.Equal(typeof(CMiX.Core.Texturing.Filters.ITextureFilter), ((PanelAddTypes)layerPanel.SelectionPanel!).Interface);
 
             Select(screen, screen.CompositionNode.Children.Single(group => group.Group is FiltersGroup));
             Assert.Same(((Composition)screen.CompositionNode.Item!).TextureModifierManager, screen.Find<ModifierManager>()!.DataContext);
@@ -327,10 +327,10 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
 
             Select(screen, screen.LayerNode.Children.Single(group => group.Group is ModifiersGroup));
-            Assert.Equal(typeof(Layer), ((AutoSelectionPanel)screen.Find<ModifierManager>()!.SelectionPanel!).PanelOwner);
+            Assert.Equal(typeof(Layer), ((PanelAddTypes)screen.Find<ModifierManager>()!.SelectionPanel!).PanelOwner);
 
             Select(screen, screen.CompositionNode.Children.Single(group => group.Group is ModifiersGroup));
-            Assert.Equal(typeof(Composition), ((AutoSelectionPanel)screen.Find<ModifierManager>()!.SelectionPanel!).PanelOwner);
+            Assert.Equal(typeof(Composition), ((PanelAddTypes)screen.Find<ModifierManager>()!.SelectionPanel!).PanelOwner);
         }
 
         [AvaloniaFact]
@@ -378,7 +378,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var list = screen.Find<ModifierManager>()!;
             Assert.Same(modifier.ModulatorManager, list.DataContext);
             Assert.Equal("Add Modulator", list.Caption);
-            Assert.Equal(typeof(CMiX.Core.Modulation.Modulators.IModulator), ((AutoSelectionPanel)list.SelectionPanel!).Interface);
+            Assert.Equal(typeof(CMiX.Core.Modulation.Modulators.IModulator), ((PanelAddTypes)list.SelectionPanel!).Interface);
 
             Select(screen, groupNode.Children[0]);
             Assert.Same(groupNode.Children[0].Item, screen.Editor.Content);

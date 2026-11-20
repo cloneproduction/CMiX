@@ -15,7 +15,7 @@
             <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
         </ui:ExpanderIndented>
         <Views:SectionEntityModifiers PanelOwner="{x:Type Compositing:TextEntity}">
-            <Managers:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />
+            <Managers:PanelAddTypes PanelOwner="{x:Type Compositing:Entity}" />
         </Views:SectionEntityModifiers>
 
         <ui:ExpanderIndented Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">

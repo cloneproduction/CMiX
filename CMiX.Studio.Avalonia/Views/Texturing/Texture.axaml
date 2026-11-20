@@ -31,7 +31,7 @@
                 Caption="Add Filter"
                 DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
                 <Views:ModifierManager.SelectionPanel>
-                    <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
+                    <Managers:PanelAddTypes Interface="{x:Type Filters:ITextureFilter}" />
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
 

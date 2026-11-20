@@ -21,7 +21,7 @@
         <Controls:SelectorPrefab.SelectionPanel>
           <ui:ButtonPopup Caption="New Control Texture">
             <ui:ButtonPopup.PopupContent>
-              <Managers:AutoSelectionPanel Interface="{x:Type TextureSources:ITextureSource}" />
+              <Managers:PanelAddTypes Interface="{x:Type TextureSources:ITextureSource}" />
             </ui:ButtonPopup.PopupContent>
           </ui:ButtonPopup>
         </Controls:SelectorPrefab.SelectionPanel>

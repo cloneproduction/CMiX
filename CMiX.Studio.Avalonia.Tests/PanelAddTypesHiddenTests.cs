@@ -35,9 +35,9 @@ namespace CMiX.Studio.Avalonia.Tests
     }
 
     // The add menus do not offer a type with HiddenInMenu.
-    public class AutoSelectionPanelHiddenTests
+    public class PanelAddTypesHiddenTests
     {
-        private static List<object?> Offered(AutoSelectionPanel panel) =>
+        private static List<object?> Offered(PanelAddTypes panel) =>
             ((Grid)panel.Content!).Children
                 .OfType<StackPanel>()
                 .SelectMany(stack => stack.Children.OfType<Button>())
@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void ByAttribute_ALabelledTypeIsOffered()
         {
-            var panel = new AutoSelectionPanel { PanelOwner = typeof(HiddenMenuOwner) };
+            var panel = new PanelAddTypes { PanelOwner = typeof(HiddenMenuOwner) };
 
             Assert.Contains(typeof(VisibleMenuModifier), Offered(panel));
         }
@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void ByAttribute_AHiddenTypeIsNotOffered()
         {
-            var panel = new AutoSelectionPanel { PanelOwner = typeof(HiddenMenuOwner) };
+            var panel = new PanelAddTypes { PanelOwner = typeof(HiddenMenuOwner) };
 
             Assert.DoesNotContain(typeof(HiddenMenuModifier), Offered(panel));
         }
@@ -63,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void ByInterface_AHiddenTypeIsNotOffered()
         {
-            var panel = new AutoSelectionPanel { Interface = typeof(IMenuItem) };
+            var panel = new PanelAddTypes { Interface = typeof(IMenuItem) };
 
             Assert.Contains(typeof(VisibleMenuItem), Offered(panel));
             Assert.DoesNotContain(typeof(HiddenMenuItem), Offered(panel));

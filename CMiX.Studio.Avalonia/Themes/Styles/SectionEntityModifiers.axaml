@@ -12,7 +12,7 @@
                     <Views:ModifierManager Caption="Add Modifier" Margin="8, 0, 8, 8" DataContext="{Binding ModifierManager}">
                         <Views:ModifierManager.SelectionPanel>
                             <StackPanel>
-                                <Managers:AutoSelectionPanel PanelOwner="{TemplateBinding PanelOwner}" />
+                                <Managers:PanelAddTypes PanelOwner="{TemplateBinding PanelOwner}" />
                                 <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
                             </StackPanel>
                         </Views:ModifierManager.SelectionPanel>

@@ -7,8 +7,8 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Shared "Modifiers" expander + AutoSelectionPanel wiring every entity type used to hand-roll.
-    // An entity that needs an extra AutoSelectionPanel (e.g. TextEntity, which also shows the
+    // Shared "Modifiers" expander + PanelAddTypes wiring every entity type used to hand-roll.
+    // An entity that needs an extra PanelAddTypes (e.g. TextEntity, which also shows the
     // generic Entity modifiers) can project it in through Content.
     public class SectionEntityModifiers : ContentControl
     {
