@@ -32,17 +32,17 @@ namespace CMiX.UI.Controls.Path
     // who handles PathChosen and PathsDropped, or who overrides OnPathChosen and OnPathsDropped.
     // The items of the list need a Name.
     // Inside this namespace write System.IO.Path, because the namespace hides the name Path.
-    public partial class PathSelector : UserControlCaptioned
+    public partial class ComboBoxPath : UserControlCaptioned
     {
         private readonly FileDropBehavior _drop;
 
-        static PathSelector()
+        static ComboBoxPath()
         {
-            CaptionProperty.OverrideDefaultValue<PathSelector>("Filename");
-            SelectsFolderProperty.Changed.AddClassHandler<PathSelector>((selector, e) => selector.UpdateDropMode());
+            CaptionProperty.OverrideDefaultValue<ComboBoxPath>("Filename");
+            SelectsFolderProperty.Changed.AddClassHandler<ComboBoxPath>((selector, e) => selector.UpdateDropMode());
         }
 
-        public PathSelector()
+        public ComboBoxPath()
         {
             InitializeComponent();
 
@@ -105,7 +105,7 @@ namespace CMiX.UI.Controls.Path
         }
 
         public static readonly StyledProperty<bool> SelectsFolderProperty =
-            AvaloniaProperty.Register<PathSelector, bool>(nameof(SelectsFolder));
+            AvaloniaProperty.Register<ComboBoxPath, bool>(nameof(SelectsFolder));
 
         // False: the control chooses a file. True: it chooses a folder.
         public bool SelectsFolder
@@ -115,7 +115,7 @@ namespace CMiX.UI.Controls.Path
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
-            AvaloniaProperty.Register<PathSelector, IEnumerable>(nameof(ItemsSource));
+            AvaloniaProperty.Register<ComboBoxPath, IEnumerable>(nameof(ItemsSource));
 
         public IEnumerable ItemsSource
         {
@@ -124,7 +124,7 @@ namespace CMiX.UI.Controls.Path
         }
 
         public static readonly StyledProperty<object> SelectedItemProperty =
-            AvaloniaProperty.Register<PathSelector, object>(nameof(SelectedItem), defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<ComboBoxPath, object>(nameof(SelectedItem), defaultBindingMode: BindingMode.TwoWay);
 
         public object SelectedItem
         {
@@ -133,7 +133,7 @@ namespace CMiX.UI.Controls.Path
         }
 
         public static readonly StyledProperty<IReadOnlyList<string>?> ExtensionsProperty =
-            AvaloniaProperty.Register<PathSelector, IReadOnlyList<string>?>(nameof(Extensions));
+            AvaloniaProperty.Register<ComboBoxPath, IReadOnlyList<string>?>(nameof(Extensions));
 
         // The file types of the Browse dialog, for example "png" or ".png". Empty means all files.
         public IReadOnlyList<string>? Extensions
@@ -143,7 +143,7 @@ namespace CMiX.UI.Controls.Path
         }
 
         public static readonly StyledProperty<string> FileTypeNameProperty =
-            AvaloniaProperty.Register<PathSelector, string>(nameof(FileTypeName), "Files");
+            AvaloniaProperty.Register<ComboBoxPath, string>(nameof(FileTypeName), "Files");
 
         // The name of the file type filter in the Browse dialog.
         public string FileTypeName

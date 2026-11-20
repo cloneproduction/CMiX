@@ -456,7 +456,7 @@
         ComboBox: comboBox,
         ComboBoxWithButton: comboBox,
         ComboBoxCaptioned: comboBoxCaptioned,
-        PathSelector: pathSelector,
+        ComboBoxPath: pathSelector,
         SearchBox: searchBox,
         TextBoxEditable: textBoxEditable,
         EditableValue: textBoxEditable,

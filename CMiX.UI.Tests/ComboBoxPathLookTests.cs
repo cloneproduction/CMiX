@@ -9,12 +9,12 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    public class PathSelectorLookTests
+    public class ComboBoxPathLookTests
     {
         [AvaloniaFact]
         public void TheBrowseButton_IsRoundedOnTheRightOnly()
         {
-            var selector = new PathSelector();
+            var selector = new ComboBoxPath();
             new Window { Content = selector, Width = 400, Height = 100 }.Show();
             Dispatcher.UIThread.RunJobs();
 

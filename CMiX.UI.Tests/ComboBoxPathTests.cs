@@ -13,13 +13,13 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    public class PathSelectorTests : IDisposable
+    public class ComboBoxPathTests : IDisposable
     {
         private readonly string _folder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "cmix-path-" + Guid.NewGuid().ToString("N"));
         private readonly string _file;
         private readonly string _subFolder;
 
-        public PathSelectorTests()
+        public ComboBoxPathTests()
         {
             Directory.CreateDirectory(_folder);
             _file = System.IO.Path.Combine(_folder, "picture.png");
@@ -30,9 +30,9 @@ namespace CMiX.UI.Tests
 
         public void Dispose() => Directory.Delete(_folder, true);
 
-        private static (Window Window, PathSelector Selector) Show()
+        private static (Window Window, ComboBoxPath Selector) Show()
         {
-            var selector = new PathSelector();
+            var selector = new ComboBoxPath();
             var window = new Window { Content = selector, Width = 400, Height = 100 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
@@ -44,7 +44,7 @@ namespace CMiX.UI.Tests
             return (window, selector);
         }
 
-        private static void DropOnTheList(Window window, PathSelector selector, IDataObject data)
+        private static void DropOnTheList(Window window, ComboBoxPath selector, IDataObject data)
         {
             var list = selector.GetVisualDescendants().OfType<ComboBox>().Single();
             var point = list.TranslatePoint(new Point(10, list.Bounds.Height / 2), window)!.Value;

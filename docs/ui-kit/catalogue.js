@@ -60,7 +60,7 @@ window.CMIX_CATALOGUE = [
             },
             {
                 id: '6', name: 'Path', entries: [
-                    { id: '6.1', name: 'PathSelector', source: 'CMiX.UI/Controls/Path/PathSelector.axaml' }
+                    { id: '6.1', name: 'ComboBoxPath', source: 'CMiX.UI/Controls/Path/ComboBoxPath.axaml' }
                 ]
             },
             {

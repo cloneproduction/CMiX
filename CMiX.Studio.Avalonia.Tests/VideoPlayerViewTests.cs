@@ -14,7 +14,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class VideoPlayerViewTests
     {
         [AvaloniaFact]
-        public void PlayAndDoSeek_AreAboveThePathSelector()
+        public void PlayAndDoSeek_AreAboveTheComboBoxPath()
         {
             var provider = TestServiceProviderFactory.Create();
             var player = provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.VideoPlayer));

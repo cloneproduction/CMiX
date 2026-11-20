@@ -129,7 +129,7 @@ come from the value editors of vvvv:
 | `Boolean` | on, off, or a press | `ToggleButtonCaptioned`, `ToggleButtonCMiX`, `ButtonCaptioned` |
 | `Enum` | one item of a fixed list | `ComboBoxCaptioned` |
 | `String` | text or an address | `TextBoxEditable`, `EditableValue`, `TextBoxIP`, `SelectOnFocus`, `TextBlockTrimmed` |
-| `Path` | a file or a folder | `PathSelector` |
+| `Path` | a file or a folder | `ComboBoxPath` |
 | `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
 | `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxRepository`, `ListBoxEditable` |
 | `Parts` | nothing: what every editor is made of | `ContentCaptioned`, `UserControlCaptioned`, `ValueMenu`, `ContextMenuGuard`, `DragEditHelper`, `PopupFrame` |
@@ -285,7 +285,7 @@ in the autocomplete. The Color, Popup and Drag families work the same way.
 - `CMiXTheme` is the one name that keeps the brand in front, like `FluentTheme` in
   Avalonia.
 
-`PathSelector` chooses a file or a folder: a list of known items, a Browse button and a
+`ComboBoxPath` chooses a file or a folder: a list of known items, a Browse button and a
 drop of files from the file explorer. It only finds the path and raises `PathChosen`
 and `PathsDropped`. It does not know what the path becomes. The Studio has
 `AssetPathSelector`, which turns the path into an asset of its repository. The drop
