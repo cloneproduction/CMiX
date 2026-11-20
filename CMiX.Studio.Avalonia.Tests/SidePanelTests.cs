@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public SidePanelHost Left => Hosts[0];
             public SidePanelHost Right => Hosts[1];
             public List<ProjectTreeView> Trees => Window.GetVisualDescendants().OfType<ProjectTreeView>().ToList();
-            public List<MainTabsPanel> Tabs => Window.GetVisualDescendants().OfType<MainTabsPanel>().ToList();
+            public List<PanelMainTabs> Tabs => Window.GetVisualDescendants().OfType<PanelMainTabs>().ToList();
             public List<AssetManager> Assets => Window.GetVisualDescendants().OfType<AssetManager>().ToList();
 
             public static ToggleButton ToggleOf(SidePanelHost host) => host.FindControl<ToggleButton>("pickerToggle")!;

@@ -6,9 +6,9 @@ using Avalonia.Controls;
 namespace CMiX.Studio.Avalonia.Views
 {
     // The tabs of the app with the master beat under them.
-    public partial class MainTabsPanel : UserControl
+    public partial class PanelMainTabs : UserControl
     {
-        public MainTabsPanel()
+        public PanelMainTabs()
         {
             InitializeComponent();
         }

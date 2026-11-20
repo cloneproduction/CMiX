@@ -94,7 +94,7 @@
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type StudioViewModels:TabsPanelChoice}">
-                    <Views:MainTabsPanel DataContext="{Binding Context, ElementName=sidePanelHost}" />
+                    <Views:PanelMainTabs DataContext="{Binding Context, ElementName=sidePanelHost}" />
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type StudioViewModels:AssetsPanelChoice}">
