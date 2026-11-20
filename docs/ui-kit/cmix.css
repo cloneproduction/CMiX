@@ -573,9 +573,9 @@
         &.editing { > .TextDisplay { visibility: hidden; } > .TextBox { display: block; } }
     }
 
-    /* ---------------------------------------------------------------- String/IPBox.axaml */
+    /* ---------------------------------------------------------------- String/TextBoxIP.axaml */
     /* Four number fields with a point between them: 1 part for a field, half a part for a point. */
-    .IPBox {
+    .TextBoxIP {
         display: grid;
         grid-template-columns: 40% 60%;
         height: var(--ControlHeightMD);

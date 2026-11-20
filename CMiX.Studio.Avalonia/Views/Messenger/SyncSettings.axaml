@@ -145,7 +145,7 @@
                         <TextBlock Text="Connection Settings"
                                    Margin="0, 0, 0, 8"/>
 
-                        <ui:IPBox x:Name="IpBox"/>
+                        <ui:TextBoxIP x:Name="IpBox"/>
 
                         <ui:ContentCaptioned Caption="Port">
                             <TextBox x:Name="PortBox" />

@@ -460,7 +460,7 @@
         SearchBox: searchBox,
         TextBoxEditable: textBoxEditable,
         EditableValue: textBoxEditable,
-        IPBox: ipBox,
+        TextBoxIP: ipBox,
         ColorPickerWheel: colorWheel,
         ColorPickerSliders: colorSliders,
         ColorPickerFull: colorPickerFull,

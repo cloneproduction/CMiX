@@ -75,7 +75,7 @@ namespace CMiX.Studio.Avalonia.Views
             PasswordBox.IsEnabled = !useCredential;
         }
 
-        // The boxes show the file content. WithFallbacks fills the empty entries, so IPBox
+        // The boxes show the file content. WithFallbacks fills the empty entries, so TextBoxIP
         // always gets four parts. User and Password show the file values, never the credential.
         private void EditConnectionFlyout_Opened(object? sender, EventArgs e)
         {

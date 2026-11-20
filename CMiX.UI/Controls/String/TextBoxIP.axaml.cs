@@ -11,29 +11,29 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.UI.Controls.String
 {
-    public partial class IPBox : UserControlCaptioned
+    public partial class TextBoxIP : UserControlCaptioned
     {
-        public IPBox()
+        public TextBoxIP()
         {
             InitializeComponent();
             txtboxFirstPart.AddHandler(KeyDownEvent, txtboxFirstPart_PreviewKeyDown, RoutingStrategies.Tunnel);
         }
 
         public static readonly StyledProperty<string> IPAddressProperty =
-            AvaloniaProperty.Register<IPBox, string>(nameof(IPAddress));
+            AvaloniaProperty.Register<TextBoxIP, string>(nameof(IPAddress));
         public string IPAddress
         {
             get => GetValue(IPAddressProperty);
             set => SetValue(IPAddressProperty, value);
         }
 
-        static IPBox()
+        static TextBoxIP()
         {
-            IPAddressProperty.Changed.AddClassHandler<IPBox>(OnIPAddressChanged);
-            CaptionProperty.OverrideDefaultValue<IPBox>("IP Address");
+            IPAddressProperty.Changed.AddClassHandler<TextBoxIP>(OnIPAddressChanged);
+            CaptionProperty.OverrideDefaultValue<TextBoxIP>("IP Address");
         }
 
-        private static void OnIPAddressChanged(IPBox userControl, AvaloniaPropertyChangedEventArgs args)
+        private static void OnIPAddressChanged(TextBoxIP userControl, AvaloniaPropertyChangedEventArgs args)
         {
             var val = args.NewValue as string;
             if (val != null && userControl.txtboxFirstPart != null)

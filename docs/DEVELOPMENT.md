@@ -128,7 +128,7 @@ come from the value editors of vvvv:
 | `Vector` | several numbers | `Vector2`, `Vector3`, `Integer2`, `Integer3`, `AxisSelector2`, `AxisSelector3` |
 | `Boolean` | on, off, or a press | `ToggleButtonCaptioned`, `ToggleButtonCMiX`, `ButtonCaptioned` |
 | `Enum` | one item of a fixed list | `ComboBoxCaptioned` |
-| `String` | text or an address | `TextBoxEditable`, `EditableValue`, `IPBox`, `SelectOnFocus`, `TextBlockTrimmed` |
+| `String` | text or an address | `TextBoxEditable`, `EditableValue`, `TextBoxIP`, `SelectOnFocus`, `TextBlockTrimmed` |
 | `Path` | a file or a folder | `PathSelector` |
 | `ColorPicker` | a color | `ColorSelector`, `ColorPickerFull`, `ColorPickerWheel`, `ColorPickerSliders` |
 | `Collection` | a list of items | `PanelItem`, `PanelItemList`, `ListItemIcon`, `ListBoxRepository`, `ListBoxEditable` |
