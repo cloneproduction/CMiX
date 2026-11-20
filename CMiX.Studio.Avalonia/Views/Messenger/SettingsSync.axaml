@@ -192,7 +192,7 @@
                                 x:Name="connectButton"
                                 Margin="0,0,4,0"
                                 Click="Connect_Click"
-                                Content="Connect" />
+                                Content="{Binding Status, Converter={StaticResource SyncStatusConnectText}}" />
                             <Button
                                 Margin="4,0,0,0"
                                 Click="CancelEditConnection_Click"

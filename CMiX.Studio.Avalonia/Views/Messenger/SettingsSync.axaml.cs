@@ -54,9 +54,6 @@ namespace CMiX.Studio.Avalonia.Views
             // The sync Flyout acts on the store, so it must not outlive the connection.
             if (e.PropertyName == nameof(SyncPeer.IsConnected) && !peer.IsConnected)
                 syncButton.Flyout?.Hide();
-
-            if (e.PropertyName == nameof(SyncPeer.Status))
-                connectButton.Content = peer.Status == "Connecting" ? "Connecting..." : "Connect";
         }
 
         // The endpoint line shows the options of the running peer.
