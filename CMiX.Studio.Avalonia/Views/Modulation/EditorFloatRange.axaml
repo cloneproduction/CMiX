@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="floatRangeEditor">
+    x:Name="editorFloatRange">
 
     <ui:UserControlCaptioned.Styles>
         <!-- An empty caption: no caption column, the RangeValue takes the full width. -->
@@ -17,7 +17,7 @@
         </Style>
     </ui:UserControlCaptioned.Styles>
 
-    <ui:ContentCaptioned x:Name="captioned" Caption="{Binding Caption, ElementName=floatRangeEditor}">
+    <ui:ContentCaptioned x:Name="captioned" Caption="{Binding Caption, ElementName=editorFloatRange}">
         <ui:RangeValue
             LeftValue="{Binding Minimum.Value}"
             LeftCaption="Min"

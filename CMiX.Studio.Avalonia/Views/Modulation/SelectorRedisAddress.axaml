@@ -3,10 +3,10 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="redisAddressSelector">
+    x:Name="selectorRedisAddress">
 
     <ui:ComboBoxCaptioned
-        Caption="{Binding Caption, ElementName=redisAddressSelector}"
+        Caption="{Binding Caption, ElementName=selectorRedisAddress}"
         ItemsSource="{Binding Registry.AddressManager.ManagerData.Items}"
         ResetCommand="{Binding SelectedAddressID.ResetCommand}"
         SelectedItem="{Binding SelectedAddress}">
