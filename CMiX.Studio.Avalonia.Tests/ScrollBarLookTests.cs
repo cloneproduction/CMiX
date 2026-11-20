@@ -66,7 +66,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var presenterBox = new Rect(presenter.TranslatePoint(new Point(0, 0), window)!.Value, presenter.Bounds.Size);
             var viewerBox = new Rect(viewer.TranslatePoint(new Point(0, 0), window)!.Value, viewer.Bounds.Size);
 
-            Assert.Same(Application.Current!.FindResource("ScrollViewerOverlay"), viewer.Theme);
+            Assert.Same(Application.Current!.FindResource("ScrollViewerOverlayKeepOffset"), viewer.Theme);
+            Assert.Same(Application.Current!.FindResource("ScrollViewerOverlay"), viewer.Theme.BasedOn);
             Assert.True(viewer.Extent.Height > viewer.Viewport.Height, "The content is not higher than the view, so the test proves nothing.");
             Assert.True(bar.IsVisible, "The bar is not shown.");
             Assert.True(bar.Bounds.Width > 0);

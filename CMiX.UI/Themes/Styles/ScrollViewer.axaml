@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
 
     <!-- A scroll viewer whose bars lie over the content. The content has the same size with a bar and without one,
          so it does not move when the bar appears. The default template puts the vertical bar in a column of its own,
@@ -37,6 +39,16 @@
                         Orientation="Vertical" />
                 </Grid>
             </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ScrollViewerOverlayKeepOffset" TargetType="ScrollViewer" BasedOn="{StaticResource ScrollViewerOverlay}">
+        <Setter Property="(i:Interaction.Behaviors)">
+            <i:BehaviorCollectionTemplate>
+                <i:BehaviorCollection>
+                    <ui:ScrollViewerBehavior />
+                </i:BehaviorCollection>
+            </i:BehaviorCollectionTemplate>
         </Setter>
     </ControlTheme>
 

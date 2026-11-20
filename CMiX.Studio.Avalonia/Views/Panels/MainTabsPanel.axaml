@@ -2,7 +2,6 @@
     x:Class="CMiX.Studio.Avalonia.Views.MainTabsPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
@@ -182,10 +181,7 @@
                         ToolTip.Tip="Network" />
                 </TabItem.Header>
 
-                <ScrollViewer Theme="{DynamicResource ScrollViewerOverlay}">
-                    <i:Interaction.Behaviors>
-                        <ui:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
+                <ScrollViewer Theme="{StaticResource ScrollViewerOverlayKeepOffset}">
                     <Views:SyncManagementPanel DataContext="{Binding Sync}" />
                 </ScrollViewer>
 

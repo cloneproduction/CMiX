@@ -2,16 +2,11 @@
     x:Class="CMiX.Studio.Avalonia.Views.LayerCameraTab"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
-    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers">
 
-    <ScrollViewer Theme="{DynamicResource ScrollViewerOverlay}">
-        <i:Interaction.Behaviors>
-            <ui:ScrollViewerBehavior />
-        </i:Interaction.Behaviors>
+    <ScrollViewer Theme="{StaticResource ScrollViewerOverlayKeepOffset}">
         <DockPanel>
             <Managers:PrefabSlotManager
                 Margin="8"

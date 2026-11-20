@@ -2,7 +2,6 @@
     x:Class="CMiX.Studio.Avalonia.Views.Inspector"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
@@ -79,12 +78,8 @@
 
         <ScrollViewer
             Name="scroller"
-            Theme="{DynamicResource ScrollViewerOverlay}"
+            Theme="{StaticResource ScrollViewerOverlayKeepOffset}"
             IsVisible="{Binding InspectedNode.InspectorContent, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}">
-
-            <i:Interaction.Behaviors>
-                <ui:ScrollViewerBehavior />
-            </i:Interaction.Behaviors>
 
             <ContentControl Name="editor" Content="{Binding InspectedNode.InspectorContent}">
                 <ContentControl.DataTemplates>

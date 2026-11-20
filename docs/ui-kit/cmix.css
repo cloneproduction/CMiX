@@ -739,8 +739,9 @@
 .cmix {
     /* ---------------------------------------------------------------- ScrollViewer.axaml */
     /* ScrollViewerOverlay: the content leaves ScrollBarGutter at the right, and the bar lies in it.
+       ScrollViewerOverlayKeepOffset: the same look, and it keeps its offset when the content grows.
        ScrollBar: a thumb of ScrollBarThickness with ScrollBarMargin at its sides, on a track of black with 0.2 of opacity. */
-    .ScrollViewerOverlay {
+    .ScrollViewerOverlay, .ScrollViewerOverlayKeepOffset {
         overflow: hidden auto;
         scrollbar-gutter: stable;
         &::-webkit-scrollbar { width: var(--ScrollBarSize); height: var(--ScrollBarSize); }
