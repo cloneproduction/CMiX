@@ -1155,11 +1155,11 @@ window.CMIX_TOKENS = {
                                           "note":  ""
                                       },
                                       {
-                                          "name":  "ToastMargin",
+                                          "name":  "NotificationMargin",
                                           "type":  "Thickness",
                                           "raw":  "0,0,0,16",
                                           "css":  "0 0 16px 0",
-                                          "note":  "The space between a toast (ToastHost) and the bottom edge of its area."
+                                          "note":  "The space between a notification (PanelNotification) and the bottom edge of its area."
                                       },
                                       {
                                           "name":  "HintStripHeight",

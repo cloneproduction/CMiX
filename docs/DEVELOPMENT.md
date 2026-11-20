@@ -117,7 +117,7 @@ An application uses the library in two steps:
 The folders and namespaces follow each other. The top folders are `Controls`,
 `Panels`, `AttachedProperties`, `Behaviors`, `Popups`, `Converters`, `Interaction`,
 `Mathematics` and `Themes`. `Popups` holds the popup logic with no XAML face: `OutsideClick`,
-`PointerAwayCloser`, `PopupAnchoring`, `PopupPlacement`, `TipContent`, `Toast` and `ToastHost`.
+`PointerAwayCloser`, `PopupAnchoring`, `PopupPlacement`, `TipContent`, `Notification` and `PanelNotification`.
 
 `Controls` has one folder for each type of data that an editor changes. The names
 come from the value editors of vvvv:

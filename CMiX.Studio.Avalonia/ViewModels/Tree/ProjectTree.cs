@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private IReadOnlyList<TreeAdd> targetAdds;
 
         public ProjectTree(Project project, UndoManager undoManager, IMoveBlockedNotice notice,
-            ShortcutMap shortcuts, PathDropService pathDrop, IToastService toasts, InterfaceOptions interfaceOptions)
+            ShortcutMap shortcuts, PathDropService pathDrop, INotificationService notifications, InterfaceOptions interfaceOptions)
         {
             this.undoManager = undoManager;
             Shortcuts = shortcuts;
@@ -40,7 +40,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             Views = new TreeViewSet();
             adds = new TreeAddCatalogue(compositions);
             fileDrop = new TreeFileDropRules(pathDrop, compositions, undoManager);
-            edit = new TreeEdit(undoManager, toasts);
+            edit = new TreeEdit(undoManager, notifications);
             dragState = new TreeDragState(dropService);
             drop = new TreeDrop(dropService, notice);
             search = new TreeSearch(Views);

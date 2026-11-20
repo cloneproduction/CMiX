@@ -15,8 +15,8 @@ namespace CMiX.UI.Themes
         // A fade of a mark, such as the dimming of a row during a drag. It is quick and soft.
         public static readonly TimeSpan FadeDuration = TimeSpan.FromMilliseconds(120);
 
-        // The time that a toast (see ToastHost) shows before it hides itself.
-        public static readonly TimeSpan ToastDuration = TimeSpan.FromSeconds(3);
+        // The time that a notification (see PanelNotification) shows before it hides itself.
+        public static readonly TimeSpan NotificationDuration = TimeSpan.FromSeconds(3);
 
         public static Easing Easing => new CubicEaseOut();
     }

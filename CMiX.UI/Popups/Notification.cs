@@ -10,13 +10,13 @@ using CMiX.UI.Controls.Parts;
 namespace CMiX.UI.Popups
 {
     // A short message on a popup card, for example "Removed Layer 1". When it has an undo gesture, the gesture shows as a key cap
-    // (ContentControlKeyCap) followed by the word "undo". A ToastHost shows it. It has no tip and takes no focus.
-    public class Toast : PopupCard
+    // (ContentControlKeyCap) followed by the word "undo". A PanelNotification shows it. It has no tip and takes no focus.
+    public class Notification : PopupCard
     {
         public const string UndoWord = "undo";
 
         public static readonly StyledProperty<string?> TextProperty =
-            AvaloniaProperty.Register<Toast, string?>(nameof(Text));
+            AvaloniaProperty.Register<Notification, string?>(nameof(Text));
 
         public string? Text
         {
@@ -25,7 +25,7 @@ namespace CMiX.UI.Popups
         }
 
         public static readonly StyledProperty<string?> UndoGestureProperty =
-            AvaloniaProperty.Register<Toast, string?>(nameof(UndoGesture));
+            AvaloniaProperty.Register<Notification, string?>(nameof(UndoGesture));
 
         // The text of the undo gesture, such as "Ctrl+Z". Null shows no key cap and no undo word.
         public string? UndoGesture
@@ -38,7 +38,7 @@ namespace CMiX.UI.Popups
         private readonly ContentControl keyCap = new() { Focusable = false, IsVisible = false };
         private readonly TextBlock undoWord = new() { Text = UndoWord, IsVisible = false };
 
-        public Toast()
+        public Notification()
         {
             Focusable = false;
             ShowsTip = false;

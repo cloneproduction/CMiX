@@ -38,8 +38,8 @@ namespace CMiX.Studio.Avalonia.Tests
             serviceCollection.AddSingleton<IMoveBlockedNotice>(provider => provider.GetRequiredService<FakeMoveBlockedNotice>());
             serviceCollection.AddSingleton<FakeMessageNotice>();
             serviceCollection.AddSingleton<IMessageNotice>(provider => provider.GetRequiredService<FakeMessageNotice>());
-            serviceCollection.AddSingleton<ToastService>();
-            serviceCollection.AddSingleton<IToastService>(provider => provider.GetRequiredService<ToastService>());
+            serviceCollection.AddSingleton<NotificationService>();
+            serviceCollection.AddSingleton<INotificationService>(provider => provider.GetRequiredService<NotificationService>());
             serviceCollection.AddSingleton<PathDropService>();
             serviceCollection.AddSingleton<ProjectTree>();
             serviceCollection.AddSingleton<PanelFocusCycle>();
@@ -64,8 +64,8 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var mainWindow = provider.GetRequiredService<Views.MainWindow>();
 
-            // The toast hides on a clock that moves only by hand. A real timer would hide the toast during a later test.
-            mainWindow.FindControl<CMiX.UI.Popups.ToastHost>("toastHost")!.TimeProvider = new CMiX.UI.Tests.ManualTimeProvider();
+            // The notification hides on a clock that moves only by hand. A real timer would hide the notification during a later test.
+            mainWindow.FindControl<CMiX.UI.Popups.PanelNotification>("panelNotification")!.TimeProvider = new CMiX.UI.Tests.ManualTimeProvider();
             mainWindow.DataContext = provider.GetRequiredService<MainViewModel>();
             provider.GetRequiredService<CMiX.Core.ControlActivationService>().ActivateAll();
             provider.GetRequiredService<UnsavedChanges>().MarkSaved();

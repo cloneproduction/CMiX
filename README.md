@@ -148,14 +148,14 @@ The file maps a command name to a gesture:
 | `Tree.Search` | Ctrl+F | Put the focus in the search field of the tree |
 | `Tree.ClearSearch` | Alt+F | Clear the search of the tree and put the focus on the cursor row. It works from anywhere, also from a text box, while a search is active and no row is dragged or grabbed. The main menu has no access key on F for this reason |
 | `Tree.Rename` | Ctrl+R | Rename the target row |
-| `Tree.Remove` | Delete | Remove the target item. A toast at the bottom of the window shows "Removed" and the name, with the `Edit.Undo` key |
+| `Tree.Remove` | Delete | Remove the target item. A notification at the bottom of the window shows "Removed" and the name, with the `Edit.Undo` key |
 | `Tree.Duplicate` | Shift+D | Duplicate the target item |
 | `Tree.MoveUp` | Alt+Up | Move the target item up |
 | `Tree.MoveDown` | Alt+Down | Move the target item down |
 | `Tree.Open` | Enter | Select the row that has the keyboard focus |
 | `Tree.Reveal` | F | Reveal the selected row: open its parents, put the cursor on it and scroll it to the middle of the tree |
-| `Tree.Hide` | H | Hide or show the target row, as a click on its eye. On a group row, hide or show the whole list. A toast shows "Hidden:" or "Shown:" and the name, with the `Edit.Undo` key |
-| `Tree.ShowAll` | Alt+H | Show every hidden row of the tree as one undo step. A toast shows "All rows shown" with the `Edit.Undo` key. With no hidden row, nothing changes |
+| `Tree.Hide` | H | Hide or show the target row, as a click on its eye. On a group row, hide or show the whole list. A notification shows "Hidden:" or "Shown:" and the name, with the `Edit.Undo` key |
+| `Tree.ShowAll` | Alt+H | Show every hidden row of the tree as one undo step. A notification shows "All rows shown" with the `Edit.Undo` key. With no hidden row, nothing changes |
 | `Tree.Grab` | G | Grab the target row, as G in Blender: the row follows the pointer at once, with no pressed button. The arrow keys move the mark to the next valid place; after a key, the pointer takes the mark back when it moves more than 14 px. A left click or Enter puts the row down, one undo step. A click where the row cannot go does nothing. A right click, Escape, a focus in another panel or another window ends the grab with no move |
 
 The part of a name before the dot is its scope. Two names of one scope must not have the same gesture. The `Edit`, `File` and `Window` keys work in every scope, so their gestures must not be the gesture of any other name. An entry with an unknown name, or with a gesture that does not parse, is ignored and the default stays. An empty gesture removes the shortcut. In the file, a digit key is `D1` to `D9` and `D0`, for example `"Ctrl+D1"`.

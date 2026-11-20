@@ -55,7 +55,7 @@ The parts, grouped by what the user does:
 | Navigate | `TreeOpenState` | Expand a branch, open or close a level, collapse all, collapse others, open the parents of a row. |
 | Navigate | `TreeSearch` | The matches, the rows the search opened, the kept cursor row. `Release(row)` takes a row out of the search when the user changes it. |
 | Navigate | `TreeViewSet` | The attached views, the active view, the aggregate hook answers. |
-| Edit | `TreeEdit` | Duplicate, move up, move down, remove, hide, show all, with the toasts. |
+| Edit | `TreeEdit` | Duplicate, move up, move down, remove, hide, show all, with the notifications. |
 | Edit | `TreeAddCatalogue` | What can be added under a row: `GroupsFor` for the Add panel, `ChoicesFor` for the toolbar. |
 | Edit | `TreeAddIds`, `AddableTypes`, `TreeIcons`, `TreeCategory`, `TreeGroup` | The fixed tables: add ids, labels, icons, kinds, the groups of a row. |
 | Drag | `TreeDragState` | Marks every row with a `DragLook` while a drag runs. |

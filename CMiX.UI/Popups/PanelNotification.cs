@@ -11,52 +11,52 @@ using CMiX.UI.Themes;
 
 namespace CMiX.UI.Popups
 {
-    // The place of the one toast of a window: at the bottom center of its area, over the other controls.
-    // Show puts a new toast in place of the old one. The toast hides itself after Duration.
-    // The host and its toast take no focus and no pointer input, so a click goes to the control under them.
-    public class ToastHost : Decorator
+    // The place of the one notification of a window: at the bottom center of its area, over the other controls.
+    // Show puts a new notification in place of the old one. The notification hides itself after Duration.
+    // The host and its notification take no focus and no pointer input, so a click goes to the control under them.
+    public class PanelNotification : Decorator
     {
         public static readonly StyledProperty<TimeSpan> DurationProperty =
-            AvaloniaProperty.Register<ToastHost, TimeSpan>(nameof(Duration), Motion.ToastDuration);
+            AvaloniaProperty.Register<PanelNotification, TimeSpan>(nameof(Duration), Motion.NotificationDuration);
 
-        // The time that a toast shows.
+        // The time that a notification shows.
         public TimeSpan Duration
         {
             get => GetValue(DurationProperty);
             set => SetValue(DurationProperty, value);
         }
 
-        private readonly Toast toast = new();
+        private readonly Notification notification = new();
         private ITimer? timer;
 
-        // The number of the toast that shows. A timer of an older toast does not hide a newer one.
+        // The number of the notification that shows. A timer of an older notification does not hide a newer one.
         private int shown;
 
-        public ToastHost()
+        public PanelNotification()
         {
             Focusable = false;
             IsHitTestVisible = false;
             HorizontalAlignment = HorizontalAlignment.Center;
             VerticalAlignment = VerticalAlignment.Bottom;
-            this.Bind(MarginProperty, this.GetResourceObservable("ToastMargin"));
-            toast.IsVisible = false;
-            Child = toast;
+            this.Bind(MarginProperty, this.GetResourceObservable("NotificationMargin"));
+            notification.IsVisible = false;
+            Child = notification;
         }
 
         // The clock of the hide timer. A test sets a clock that it moves by hand.
         public TimeProvider TimeProvider { get; set; } = TimeProvider.System;
 
-        public Toast Toast => toast;
+        public Notification Notification => notification;
 
-        public bool IsShowing => toast.IsVisible;
+        public bool IsShowing => notification.IsVisible;
 
-        // Shows the text, and the undo gesture as a key cap when it is not null. The toast replaces the toast that shows.
+        // Shows the text, and the undo gesture as a key cap when it is not null. The notification replaces the notification that shows.
         public void Show(string text, string? undoGesture = null)
         {
             Dispatcher.UIThread.VerifyAccess();
-            toast.Text = text;
-            toast.UndoGesture = undoGesture;
-            toast.IsVisible = true;
+            notification.Text = text;
+            notification.UndoGesture = undoGesture;
+            notification.IsVisible = true;
 
             // The timer posts the hide to the dispatcher of the host. It never posts to a dispatcher that comes later (a new test).
             var number = ++shown;
@@ -80,7 +80,7 @@ namespace CMiX.UI.Popups
         {
             timer?.Dispose();
             timer = null;
-            toast.IsVisible = false;
+            notification.IsVisible = false;
         }
     }
 }

@@ -13,14 +13,14 @@ using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // A remove in the tree shows a toast in the main window: "Removed" and the name, with the key of Edit.Undo as a key cap.
-    public class RemoveToastTests : IDisposable
+    // A remove in the tree shows a notification in the main window: "Removed" and the name, with the key of Edit.Undo as a key cap.
+    public class RemoveNotificationTests : IDisposable
     {
         private Views.MainWindow? window;
 
         public void Dispose() => window?.Close();
 
-        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, ToastHost Host)
+        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, PanelNotification Host)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public TreeNode LayerNode(int index) => Tree.CompositionNodes()[0].Children[0].Children[index];
@@ -38,15 +38,15 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var host = mainWindow.GetVisualDescendants().OfType<ToastHost>().Single();
+            var host = mainWindow.GetVisualDescendants().OfType<PanelNotification>().Single();
             var screen = new Screen(provider, mainWindow, viewModel, host);
             screen.Tree.SelectedNode = screen.LayerNode(0);
             TestServiceProviderFactory.Pump();
             return screen;
         }
 
-        private static string? KeyText(ToastHost host) =>
-            host.Toast.GetVisualDescendants().OfType<TextBlock>().SingleOrDefault(text => text.Name == "PART_KeyText")?.Text;
+        private static string? KeyText(PanelNotification host) =>
+            host.Notification.GetVisualDescendants().OfType<TextBlock>().SingleOrDefault(text => text.Name == "PART_KeyText")?.Text;
 
         [AvaloniaFact]
         public void RemoveItem_SelectedLayer_ShowsTheNameAndTheUndoKey()
@@ -58,8 +58,8 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
 
             Assert.True(screen.Host.IsShowing);
-            Assert.Equal($"Removed {name}", screen.Host.Toast.Text);
-            Assert.Equal("Ctrl+Z", screen.Host.Toast.UndoGesture);
+            Assert.Equal($"Removed {name}", screen.Host.Notification.Text);
+            Assert.Equal("Ctrl+Z", screen.Host.Notification.UndoGesture);
             Assert.Equal("Ctrl+Z", KeyText(screen.Host));
         }
 
@@ -72,12 +72,12 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Tree.RemoveItemCommand.Execute(null);
             TestServiceProviderFactory.Pump();
 
-            Assert.Equal("Ctrl+Shift+U", screen.Host.Toast.UndoGesture);
+            Assert.Equal("Ctrl+Shift+U", screen.Host.Notification.UndoGesture);
             Assert.Equal("Ctrl+Shift+U", KeyText(screen.Host));
         }
 
         [AvaloniaFact]
-        public void RemoveItem_Twice_TheSecondToastReplacesTheFirst()
+        public void RemoveItem_Twice_TheSecondNotificationReplacesTheFirst()
         {
             var screen = Show();
             var second = screen.LayerNode(1).Header;
@@ -88,12 +88,12 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Tree.RemoveItemCommand.Execute(null);
             TestServiceProviderFactory.Pump();
 
-            Assert.Single(screen.Window.GetVisualDescendants().OfType<Toast>());
-            Assert.Equal($"Removed {second}", screen.Host.Toast.Text);
+            Assert.Single(screen.Window.GetVisualDescendants().OfType<Notification>());
+            Assert.Equal($"Removed {second}", screen.Host.Notification.Text);
         }
 
         [AvaloniaFact]
-        public void RemoveItem_WithTheFocusInTheWindow_DoesNotMoveTheFocusToTheToast()
+        public void RemoveItem_WithTheFocusInTheWindow_DoesNotMoveTheFocusToTheNotification()
         {
             var screen = Show();
             screen.Window.Focus();
@@ -104,7 +104,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Same(focused, screen.Window.FocusManager!.GetFocusedElement());
             Assert.False(screen.Host.IsHitTestVisible);
-            Assert.False(screen.Host.Toast.Focusable);
+            Assert.False(screen.Host.Notification.Focusable);
         }
     }
 }

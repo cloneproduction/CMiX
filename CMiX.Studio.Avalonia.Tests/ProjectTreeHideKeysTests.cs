@@ -23,7 +23,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Tree.Hide (H) hides or shows the target row as a click on its eye does. Tree.ShowAll (Alt+H) shows every hidden row as one undo step.
-    // Both show a toast with the undo key.
+    // Both show a notification with the undo key.
     public class ProjectTreeHideKeysTests : IDisposable
     {
         private Views.MainWindow? window;
@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public void SendMessage(IMessage message) => Sent.Add(message);
         }
 
-        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View, ToastHost Host)
+        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View, PanelNotification Host)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public UndoManager Undo => Provider.GetRequiredService<UndoManager>();
@@ -62,7 +62,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
             var view = mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().Single();
-            var host = mainWindow.GetVisualDescendants().OfType<ToastHost>().Single();
+            var host = mainWindow.GetVisualDescendants().OfType<PanelNotification>().Single();
             var screen = new Screen(provider, mainWindow, viewModel, view, host);
             screen.Tree.SelectedNode = screen.LayerNode(0);
             Settle(mainWindow);
@@ -187,14 +187,14 @@ namespace CMiX.Studio.Avalonia.Tests
             Press(screen, PhysicalKey.H);
 
             Assert.True(screen.Host.IsShowing);
-            Assert.Equal($"Hidden: {node.Header}", screen.Host.Toast.Text);
-            Assert.Equal("Ctrl+Z", screen.Host.Toast.UndoGesture);
+            Assert.Equal($"Hidden: {node.Header}", screen.Host.Notification.Text);
+            Assert.Equal("Ctrl+Z", screen.Host.Notification.UndoGesture);
 
             Press(screen, PhysicalKey.H);
 
             Assert.False(node.IsHidden);
-            Assert.Equal($"Shown: {node.Header}", screen.Host.Toast.Text);
-            Assert.Equal("Ctrl+Z", screen.Host.Toast.UndoGesture);
+            Assert.Equal($"Shown: {node.Header}", screen.Host.Notification.Text);
+            Assert.Equal("Ctrl+Z", screen.Host.Notification.UndoGesture);
         }
 
         // ---------------------------------------------------------------- Tree.ShowAll
@@ -219,8 +219,8 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(screen.LayerNode(1).IsHidden);
             Assert.False(screen.LayerNode(2).IsHidden);
             Assert.Equal(before + 1, screen.UndoSteps);
-            Assert.Equal("All rows shown", screen.Host.Toast.Text);
-            Assert.Equal("Ctrl+Z", screen.Host.Toast.UndoGesture);
+            Assert.Equal("All rows shown", screen.Host.Notification.Text);
+            Assert.Equal("Ctrl+Z", screen.Host.Notification.UndoGesture);
 
             screen.Undo.Undo();
 
@@ -230,7 +230,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Press_AltHWithNothingHidden_AddsNoUndoStepAndNoToast()
+        public void Press_AltHWithNothingHidden_AddsNoUndoStepAndNoNotification()
         {
             var screen = Show();
             Focus(screen, screen.LayerNode(1));

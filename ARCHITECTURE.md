@@ -85,7 +85,7 @@ Classes that are several shapes at once, or none:
 |---|---|
 | View | Everything in `Views/`: one view for each Core control with the same name (`Blur`, `Layer`, `ModelEntity`, ...), `MainWindow`, `ProjectTreeView`, `Inspector`, `SyncPanel`, `AssetManager`, `MainMenu` (the view), the tree helpers (`TreeDragSession`, `TreeGrab`, `AddPanel`, `PrefabRowMenu`, ...), the converters and the behaviors. |
 | ViewModel | `MainViewModel`, `MainMenuViewModel`, `ProjectFileViewModel`, `MainWindowController`, `ShortcutSettings`, `PanelChoice`, and the tree: `ProjectTree`, `TreeNode`, `TreeGroup`, `TreeAdd`, `TreeViewHooks`. |
-| Service | `ShortcutMap`, `InterfaceOptions`, `StudioSettings`, `JsonSettingsFile`, `PathDropService`, `PanelFocusCycle`, `ToastService`, `UnsavedChanges`, `UnsavedChangesPrompt`, `MessageNotice`, `MoveBlockedNotice`, `MainWindowDialogManager`, `TreeDropService`. |
+| Service | `ShortcutMap`, `InterfaceOptions`, `StudioSettings`, `JsonSettingsFile`, `PathDropService`, `PanelFocusCycle`, `NotificationService`, `UnsavedChanges`, `UnsavedChangesPrompt`, `MessageNotice`, `MoveBlockedNotice`, `MainWindowDialogManager`, `TreeDropService`. |
 | Model, Message | None. |
 
 Several at once, or none:
@@ -289,7 +289,7 @@ Shapes.
 
 The row "Control" is not one of the five shapes. It is in the table because the code has it today. Open question 1 decides if it stays.
 
-A ViewModel never asks the view. The view pushes its state (focus, pointer, drag) into properties of the ViewModel. A ViewModel that must open a dialog or a toast uses a service, as `IMessageNotice` does today.
+A ViewModel never asks the view. The view pushes its state (focus, pointer, drag) into properties of the ViewModel. A ViewModel that must open a dialog or a notification uses a service, as `IMessageNotice` does today.
 
 ## 2. The standard structure for one feature
 

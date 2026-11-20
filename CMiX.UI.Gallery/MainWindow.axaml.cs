@@ -76,7 +76,7 @@ namespace CMiX.UI.Gallery
             Sections.Children.Add(KeyboardStates());
             Sections.Children.Add(PanelFocus());
             Sections.Children.Add(KeyCaps());
-            Sections.Children.Add(Toasts());
+            Sections.Children.Add(Notifications());
             Sections.Children.Add(HintStrips());
         }
 
@@ -457,13 +457,13 @@ namespace CMiX.UI.Gallery
             return Frame("Key caps and shortcut text", "keycaps", row);
         }
 
-        // The toast of a window (Toast in a ToastHost), with and without the undo key cap.
-        private Control Toasts()
+        // The notification of a window (Notification in a PanelNotification), with and without the undo key cap.
+        private Control Notifications()
         {
             var row = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 24, Margin = new Thickness(8) };
-            row.Children.Add(new Toast { Text = "Removed Layer 1", UndoGesture = "Ctrl+Z" });
-            row.Children.Add(new Toast { Text = "Hidden: Layer 1" });
-            return Frame("Toast", "toast", row);
+            row.Children.Add(new Notification { Text = "Removed Layer 1", UndoGesture = "Ctrl+Z" });
+            row.Children.Add(new Notification { Text = "Hidden: Layer 1" });
+            return Frame("Notification", "notification", row);
         }
 
         // The hint strip (KeyHintStrip) under a panel, with the hints of the tree: idle, search, menu and grab.
