@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="outliner">
+    x:Name="selectorPrefab">
 
     <DockPanel Height="{DynamicResource ControlHeightMD}">
 
@@ -11,7 +11,7 @@
             x:Name="comboBox"
             Focusable="False"
             HorizontalAlignment="Stretch"
-            ItemsSource="{Binding ItemsSource, ElementName=outliner}"
+            ItemsSource="{Binding ItemsSource, ElementName=selectorPrefab}"
             SelectedItem="{Binding SelectedItem, Mode=OneWay}"
             SelectionChanged="ComboBox_SelectionChanged"
             Theme="{StaticResource ComboBoxWithButton}">
@@ -26,7 +26,7 @@
 
             <ContentControl
                 Margin="1,0,0,0"
-                Content="{Binding AddContent, ElementName=outliner}" />
+                Content="{Binding AddContent, ElementName=selectorPrefab}" />
 
             <Border>
                 <!-- NullToVisibility returns a bool in this project; the Collapsed converter parameter is gone. -->
