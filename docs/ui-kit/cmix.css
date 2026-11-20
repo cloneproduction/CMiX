@@ -1444,13 +1444,13 @@
     }
 
     /* ---------------------------------------------------------------- Views/Managers/ListPrefabSlot.axaml */
-    /* A ListBoxCMiX, and under it: the swap toggle, the SelectionPanel, then move down, move up, duplicate and remove. */
+    /* A ListBoxCMiX, and under it: the swap toggle, the AddContent, then move down, move up, duplicate and remove. */
     .ListPrefabSlot {
         display: flex;
         flex-direction: column;
         > .DockPanelPositioned { display: flex; gap: 1px; margin-top: 4px; }
         > .DockPanelPositioned > .Button, > .DockPanelPositioned > .ToggleButton { flex: none; width: var(--ControlHeightMD); --Position: var(--CornerRadiusNone); > .AppIcon { opacity: 0.7; } }
-        > .DockPanelPositioned > .SelectionPanel { flex: 1; min-width: 0; height: var(--ControlHeightMD); }
+        > .DockPanelPositioned > .AddContent { flex: 1; min-width: 0; height: var(--ControlHeightMD); }
         > .DockPanelPositioned > :first-child { --Position: var(--CornerRadiusLeft); }
         > .DockPanelPositioned > :last-child { --Position: var(--CornerRadiusRight); }
     }

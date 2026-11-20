@@ -15,7 +15,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         static ListPrefabSlot()
         {
             // The selection panel is the middle of the row: the swap toggle is on its left, the arrows on its right.
-            SelectionPanelProperty.Changed.AddClassHandler<ListPrefabSlot>((_, e) =>
+            AddContentProperty.Changed.AddClassHandler<ListPrefabSlot>((_, e) =>
             {
                 if (e.NewValue is Control panel)
                     PositionedControl.SetPosition(panel, ControlPosition.None);
@@ -58,12 +58,12 @@ namespace CMiX.Studio.Avalonia.Views.Managers
                 SetCurrentValue(MinItemCountProperty, count);
         }
 
-        public static readonly StyledProperty<Control?> SelectionPanelProperty =
-            LogicalPanelContent.Register<ListPrefabSlot>(nameof(SelectionPanel));
-        public Control? SelectionPanel
+        public static readonly StyledProperty<Control?> AddContentProperty =
+            LogicalPanelContent.Register<ListPrefabSlot>(nameof(AddContent));
+        public Control? AddContent
         {
-            get => GetValue(SelectionPanelProperty);
-            set => SetValue(SelectionPanelProperty, value);
+            get => GetValue(AddContentProperty);
+            set => SetValue(AddContentProperty, value);
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =

@@ -20,7 +20,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var manager = new ModifierManager
             {
                 Caption = "Add",
-                SelectionPanel = new TextBlock { Text = "Modifiers" },
+                AddContent = new TextBlock { Text = "Modifiers" },
                 Width = 300,
                 HorizontalAlignment = HorizontalAlignment.Left
             };

@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The button that adds an item sits in the middle of the row of its slot: the swap toggle is on its left and the
     // arrows are on its right. So it has no rounded corner, whatever the kind of control that the caller gives to the slot.
-    public class SlotSelectionPanelLookTests
+    public class SlotAddContentLookTests
     {
         private static void Show(Control view)
         {
@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static void AssertSquare(ListPrefabSlot slot)
         {
-            var cornered = Cornered(slot.SelectionPanel!);
+            var cornered = Cornered(slot.AddContent!);
             Assert.Equal(ControlPosition.None, PositionedControl.GetPosition(cornered));
             Assert.Equal(default, cornered.GetVisualDescendants().OfType<Border>().First().CornerRadius);
         }
@@ -46,40 +46,40 @@ namespace CMiX.Studio.Avalonia.Tests
         private static PrefabManager Manager() => TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
 
         [AvaloniaFact]
-        public void APlainButton_AsTheSelectionPanel_IsSquare()
+        public void APlainButton_AsTheAddContent_IsSquare()
         {
-            var slot = new ListPrefabSlot { DataContext = Manager(), SelectionPanel = new Button { Content = "New Camera" } };
+            var slot = new ListPrefabSlot { DataContext = Manager(), AddContent = new Button { Content = "New Camera" } };
             Show(slot);
 
             AssertSquare(slot);
         }
 
         [AvaloniaFact]
-        public void AButtonPopup_AsTheSelectionPanel_IsSquare()
+        public void AButtonPopup_AsTheAddContent_IsSquare()
         {
-            var slot = new ListPrefabSlot { DataContext = Manager(), SelectionPanel = new ButtonPopup { Caption = "Add Entity" } };
+            var slot = new ListPrefabSlot { DataContext = Manager(), AddContent = new ButtonPopup { Caption = "Add Entity" } };
             Show(slot);
 
             AssertSquare(slot);
         }
 
         [AvaloniaFact]
-        public void AButtonThatChoosesItsOwnTheme_AsTheSelectionPanel_IsSquareToo()
+        public void AButtonThatChoosesItsOwnTheme_AsTheAddContent_IsSquareToo()
         {
             var theme = (ControlTheme)Application.Current!.FindResource("ButtonRoundedRightNoHover")!;
-            var slot = new ListPrefabSlot { DataContext = Manager(), SelectionPanel = new Button { Content = "New Color", Theme = theme } };
+            var slot = new ListPrefabSlot { DataContext = Manager(), AddContent = new Button { Content = "New Color", Theme = theme } };
             Show(slot);
 
             AssertSquare(slot);
         }
 
         [AvaloniaFact]
-        public void ASelectionPanelThatIsReplaced_IsSquareToo()
+        public void AnAddContentThatIsReplaced_IsSquareToo()
         {
-            var slot = new ListPrefabSlot { DataContext = Manager(), SelectionPanel = new Button { Content = "First" } };
+            var slot = new ListPrefabSlot { DataContext = Manager(), AddContent = new Button { Content = "First" } };
             Show(slot);
 
-            slot.SelectionPanel = new Button { Content = "Second" };
+            slot.AddContent = new Button { Content = "Second" };
             Dispatcher.UIThread.RunJobs();
 
             AssertSquare(slot);
@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void TheButtonsOfTheRow_TakeTheirCornersFromTheirPlace()
         {
-            var slot = new ListPrefabSlot { DataContext = Manager(), SelectionPanel = new Button { Content = "New Camera" } };
+            var slot = new ListPrefabSlot { DataContext = Manager(), AddContent = new Button { Content = "New Camera" } };
             Show(slot);
 
             ControlPosition PositionOf(string name) =>

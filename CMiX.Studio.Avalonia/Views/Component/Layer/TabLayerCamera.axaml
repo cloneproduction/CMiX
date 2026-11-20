@@ -9,12 +9,12 @@
     <ScrollViewer Theme="{StaticResource ScrollViewerOverlayKeepOffset}">
         <Managers:EditorPrefabSlot DataContext="{Binding CameraManager}" ItemsSource="{Binding ControlRepository.Cameras}">
 
-            <Managers:EditorPrefabSlot.SelectionPanel>
+            <Managers:EditorPrefabSlot.AddContent>
                 <Button
                     Command="{Binding AddItemCommand}"
                     CommandParameter="{x:Type Cameras:Camera}"
                     Content="New Camera" />
-            </Managers:EditorPrefabSlot.SelectionPanel>
+            </Managers:EditorPrefabSlot.AddContent>
 
             <Managers:EditorPrefabSlot.EditingPanel>
                 <Views:Camera />

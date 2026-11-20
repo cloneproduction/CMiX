@@ -16,7 +16,7 @@
         AddCaption="{Binding Caption, ElementName=modifierManager}"
         AddClosesOnPointerAway="{Binding AddClosesOnPointerAway, ElementName=modifierManager}"
         AddPointerAwayDistance="{Binding AddPointerAwayDistance, ElementName=modifierManager}"
-        AddContent="{Binding SelectionPanel, ElementName=modifierManager}"
+        AddContent="{Binding AddContent, ElementName=modifierManager}"
         ItemsSource="{Binding ManagerData.Items}">
 
         <ui:ListPanelItem.ItemTemplate>

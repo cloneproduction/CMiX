@@ -15,12 +15,12 @@ namespace CMiX.Studio.Avalonia.Views
             InitializeComponent();
         }
 
-        public static readonly StyledProperty<Control?> SelectionPanelProperty =
-            LogicalPanelContent.Register<ModifierManager>(nameof(SelectionPanel));
-        public Control? SelectionPanel
+        public static readonly StyledProperty<Control?> AddContentProperty =
+            LogicalPanelContent.Register<ModifierManager>(nameof(AddContent));
+        public Control? AddContent
         {
-            get => GetValue(SelectionPanelProperty);
-            set => SetValue(SelectionPanelProperty, value);
+            get => GetValue(AddContentProperty);
+            set => SetValue(AddContentProperty, value);
         }
 
         public static readonly StyledProperty<string> CaptionProperty =

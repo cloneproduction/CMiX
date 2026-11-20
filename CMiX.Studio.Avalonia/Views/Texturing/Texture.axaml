@@ -30,9 +30,9 @@
                 Margin="8, 0, 8, 8"
                 Caption="Add Filter"
                 DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
-                <Views:ModifierManager.SelectionPanel>
+                <Views:ModifierManager.AddContent>
                     <Managers:PanelAddTypes Interface="{x:Type Filters:ITextureFilter}" />
-                </Views:ModifierManager.SelectionPanel>
+                </Views:ModifierManager.AddContent>
             </Views:ModifierManager>
 
         </ui:ExpanderIndented>

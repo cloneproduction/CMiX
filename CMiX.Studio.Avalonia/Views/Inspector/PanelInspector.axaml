@@ -121,26 +121,26 @@
                     <DataTemplate DataType="{x:Type Tree:ModifiersGroup}">
                         <Border Name="groupRoot">
                             <Views:ModifierManager Caption="Add Modifier" Margin="8" DataContext="{Binding Manager}">
-                                <Views:ModifierManager.SelectionPanel>
+                                <Views:ModifierManager.AddContent>
                                     <Managers:PanelAddTypes PanelOwner="{Binding DataContext.OwnerType, ElementName=groupRoot}" />
-                                </Views:ModifierManager.SelectionPanel>
+                                </Views:ModifierManager.AddContent>
                             </Views:ModifierManager>
                         </Border>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type Tree:FiltersGroup}">
                         <Views:ModifierManager Caption="Add Filter" Margin="8" DataContext="{Binding Manager}">
-                            <Views:ModifierManager.SelectionPanel>
+                            <Views:ModifierManager.AddContent>
                                 <Managers:PanelAddTypes Interface="{x:Type Filters:ITextureFilter}" />
-                            </Views:ModifierManager.SelectionPanel>
+                            </Views:ModifierManager.AddContent>
                         </Views:ModifierManager>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type Tree:ModulatorsGroup}">
                         <Views:ModifierManager Caption="Add Modulator" Margin="8" DataContext="{Binding Manager}">
-                            <Views:ModifierManager.SelectionPanel>
+                            <Views:ModifierManager.AddContent>
                                 <Managers:PanelAddTypes Interface="{x:Type Modulators:IModulator}" />
-                            </Views:ModifierManager.SelectionPanel>
+                            </Views:ModifierManager.AddContent>
                         </Views:ModifierManager>
                     </DataTemplate>
 

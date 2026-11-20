@@ -12,7 +12,7 @@
             RowMenu="Slot"
             DockPanel.Dock="Top"
             ItemsSource="{Binding ItemsSource, ElementName=prefabSlotEditor}"
-            SelectionPanel="{Binding SelectionPanel, ElementName=prefabSlotEditor}" />
+            AddContent="{Binding AddContent, ElementName=prefabSlotEditor}" />
 
         <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
             <ContentControl

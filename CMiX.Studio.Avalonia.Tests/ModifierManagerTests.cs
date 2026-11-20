@@ -139,7 +139,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var blur = (Blur)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var panel = new Button();
             panel.Bind(Button.CommandProperty, new Binding("AddItemCommand"));
-            var view = new Views.ModifierManager { DataContext = blur.ModulatorManager, Caption = "Add Modulator", SelectionPanel = panel };
+            var view = new Views.ModifierManager { DataContext = blur.ModulatorManager, Caption = "Add Modulator", AddContent = panel };
             new Window { Content = view, Width = 400, Height = 600 }.Show();
             Dispatcher.UIThread.RunJobs();
 
@@ -151,7 +151,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var blur = (Blur)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var panel = new Button { Content = "the panel" };
-            var view = new Views.ModifierManager { DataContext = blur.ModulatorManager, Caption = "Add Modulator", SelectionPanel = panel };
+            var view = new Views.ModifierManager { DataContext = blur.ModulatorManager, Caption = "Add Modulator", AddContent = panel };
             var window = new Window { Content = view, Width = 400, Height = 600 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

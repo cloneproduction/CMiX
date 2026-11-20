@@ -17,9 +17,9 @@
                     Margin="8"
                     DataContext="{Binding TextureModifierManager}">
 
-                    <Views:ModifierManager.SelectionPanel>
+                    <Views:ModifierManager.AddContent>
                         <Managers:PanelAddTypes Interface="{x:Type Filters:ITextureFilter}" />
-                    </Views:ModifierManager.SelectionPanel>
+                    </Views:ModifierManager.AddContent>
 
                 </Views:ModifierManager>
             </ui:ExpanderIndented>
@@ -30,9 +30,9 @@
                     Margin="8"
                     DataContext="{Binding ModifierManager}">
 
-                    <Views:ModifierManager.SelectionPanel>
+                    <Views:ModifierManager.AddContent>
                         <Managers:PanelAddTypes PanelOwner="{x:Type Compositing:Layer}" />
-                    </Views:ModifierManager.SelectionPanel>
+                    </Views:ModifierManager.AddContent>
 
                 </Views:ModifierManager>
             </ui:ExpanderIndented>

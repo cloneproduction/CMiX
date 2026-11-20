@@ -24,12 +24,12 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             set => SetValue(ItemsSourceProperty, value);
         }
 
-        public static readonly StyledProperty<Control?> SelectionPanelProperty =
-            LogicalPanelContent.Register<EditorPrefabSlot>(nameof(SelectionPanel));
-        public Control? SelectionPanel
+        public static readonly StyledProperty<Control?> AddContentProperty =
+            LogicalPanelContent.Register<EditorPrefabSlot>(nameof(AddContent));
+        public Control? AddContent
         {
-            get => GetValue(SelectionPanelProperty);
-            set => SetValue(SelectionPanelProperty, value);
+            get => GetValue(AddContentProperty);
+            set => SetValue(AddContentProperty, value);
         }
 
         public static readonly StyledProperty<Control?> EditingPanelProperty =

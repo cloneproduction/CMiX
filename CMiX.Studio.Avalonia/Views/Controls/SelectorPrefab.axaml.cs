@@ -33,12 +33,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             });
         }
 
-        public static readonly StyledProperty<Control?> SelectionPanelProperty =
-            LogicalPanelContent.Register<SelectorPrefab>(nameof(SelectionPanel));
-        public Control? SelectionPanel
+        public static readonly StyledProperty<Control?> AddContentProperty =
+            LogicalPanelContent.Register<SelectorPrefab>(nameof(AddContent));
+        public Control? AddContent
         {
-            get => GetValue(SelectionPanelProperty);
-            set => SetValue(SelectionPanelProperty, value);
+            get => GetValue(AddContentProperty);
+            set => SetValue(AddContentProperty, value);
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =

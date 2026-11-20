@@ -18,12 +18,12 @@
                     DockPanel.Dock="Top"
                     ItemsSource="{Binding ControlRepository.Entities}"
                     RowMenu="Repository">
-                    <Managers:ListRepository.SelectionPanel>
+                    <Managers:ListRepository.AddContent>
                         <Button
                             Command="{Binding AddItemCommand}"
                             CommandParameter="{x:Type Compositing:Entity}"
                             Content="New Entity" />
-                    </Managers:ListRepository.SelectionPanel>
+                    </Managers:ListRepository.AddContent>
                 </Managers:ListRepository>
 
                 <Border IsVisible="{Binding EntityManager.SelectedItem, Converter={StaticResource NullToVisibility}}">

@@ -10,15 +10,15 @@
 
     <!--
         Consolidates the repeated MainWindow.axaml tab shape (ScrollViewer with the
-        theme ScrollViewerOverlayKeepOffset plus Border plus ListRepository plus SelectionPanel
-        plus EditingPanel). Icon, ToolTipText, ItemsSource, SelectionPanel and
+        theme ScrollViewerOverlayKeepOffset plus Border plus ListRepository plus AddContent
+        plus EditingPanel). Icon, ToolTipText, ItemsSource, AddContent and
         EditingPanel are the parts that vary per tab; DataContext is the manager set
         by the consumer. TabControl presents TabItem.Content through its own
         presenter outside the TabItem's own template, so Content does not inherit
         the TabItem DataContext on its own; the ScrollViewer below re-binds it
         explicitly by ElementName so the ListRepository gets the manager DataContext
         instead of the window DataContext once the tab is selected and its content
-        is realized. SelectionPanel and EditingPanel track into the logical tree the
+        is realized. AddContent and EditingPanel track into the logical tree the
         same way ListRepository tracks its own, see LogicalPanelContent.
     -->
     <TabItem.Header>
@@ -34,7 +34,7 @@
             <Managers:ListRepository
                 ItemsSource="{Binding ItemsSource, ElementName=repositoryTab}"
                 RowMenu="{Binding RowMenu, ElementName=repositoryTab}"
-                SelectionPanel="{Binding SelectionPanel, ElementName=repositoryTab}"
+                AddContent="{Binding AddContent, ElementName=repositoryTab}"
                 EditingPanel="{Binding EditingPanel, ElementName=repositoryTab}" />
         </Border>
     </ScrollViewer>

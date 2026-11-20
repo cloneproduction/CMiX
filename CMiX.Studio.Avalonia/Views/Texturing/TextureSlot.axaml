@@ -18,13 +18,13 @@
             <Behaviors:TextureDropBehavior PrefabManager="{Binding}" />
         </i:Interaction.Behaviors>
 
-        <Managers:ListPrefabSlot.SelectionPanel>
+        <Managers:ListPrefabSlot.AddContent>
             <ui:ButtonPopup Caption="Add Texture">
                 <ui:ButtonPopup.PopupContent>
                     <Managers:PanelAddTypes Interface="{x:Type TextureSources:ITextureSource}" />
                 </ui:ButtonPopup.PopupContent>
             </ui:ButtonPopup>
-        </Managers:ListPrefabSlot.SelectionPanel>
+        </Managers:ListPrefabSlot.AddContent>
 
     </Managers:ListPrefabSlot>
 

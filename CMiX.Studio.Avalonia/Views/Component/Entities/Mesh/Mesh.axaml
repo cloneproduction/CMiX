@@ -91,13 +91,13 @@
                 <Controls:SelectorPrefab
                     DataContext="{Binding ExplodeTriangleTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
-                    <Controls:SelectorPrefab.SelectionPanel>
+                    <Controls:SelectorPrefab.AddContent>
                         <ui:ButtonPopup Caption="New Control Texture">
                             <ui:ButtonPopup.PopupContent>
                                 <Managers:PanelAddTypes Interface="{x:Type TextureSources:ITextureSource}" />
                             </ui:ButtonPopup.PopupContent>
                         </ui:ButtonPopup>
-                    </Controls:SelectorPrefab.SelectionPanel>
+                    </Controls:SelectorPrefab.AddContent>
                 </Controls:SelectorPrefab>
 
                 <Border IsVisible="{Binding ExplodeTriangleTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
@@ -126,13 +126,13 @@
                     DataContext="{Binding DisplacementTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
                   
-                    <Controls:SelectorPrefab.SelectionPanel>
+                    <Controls:SelectorPrefab.AddContent>
                         <ui:ButtonPopup Caption="New Control Texture">
                             <ui:ButtonPopup.PopupContent>
                                 <Managers:PanelAddTypes Interface="{x:Type TextureSources:ITextureSource}" />
                             </ui:ButtonPopup.PopupContent>
                         </ui:ButtonPopup>
-                    </Controls:SelectorPrefab.SelectionPanel>
+                    </Controls:SelectorPrefab.AddContent>
                 </Controls:SelectorPrefab>
 
                 <Border IsVisible="{Binding DisplacementTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">

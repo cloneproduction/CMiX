@@ -30,13 +30,13 @@
                     <Behaviors:EntityDropBehavior PrefabManager="{Binding}" />
                 </i:Interaction.Behaviors>
 
-                <Managers:ListPrefabSlot.SelectionPanel>
+                <Managers:ListPrefabSlot.AddContent>
                     <ui:ButtonPopup Caption="Add Entity">
                         <ui:ButtonPopup.PopupContent>
                             <Views:PanelAddEntity />
                         </ui:ButtonPopup.PopupContent>
                     </ui:ButtonPopup>
-                </Managers:ListPrefabSlot.SelectionPanel>
+                </Managers:ListPrefabSlot.AddContent>
 
             </Managers:ListPrefabSlot>
 

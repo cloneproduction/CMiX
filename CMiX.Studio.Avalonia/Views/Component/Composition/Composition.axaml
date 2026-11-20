@@ -18,9 +18,9 @@
                 Header="Filters"
                 IsExpanded="{Binding TextureModifierIsExpanded}">
                 <Views:ModifierManager Caption="Add Filter" Margin="8, 0, 8, 8" DataContext="{Binding TextureModifierManager}">
-                    <Views:ModifierManager.SelectionPanel>
+                    <Views:ModifierManager.AddContent>
                         <Managers:PanelAddTypes Interface="{x:Type Filters:ITextureFilter}" />
-                    </Views:ModifierManager.SelectionPanel>
+                    </Views:ModifierManager.AddContent>
                 </Views:ModifierManager>
             </ui:ExpanderIndented>
 
@@ -28,9 +28,9 @@
                 Header="Modifiers"
                 IsExpanded="{Binding ModifierIsExpanded}">
                 <Views:ModifierManager Caption="Add Modifier" Margin="8, 0, 8, 8" DataContext="{Binding ModifierManager}">
-                    <Views:ModifierManager.SelectionPanel>
+                    <Views:ModifierManager.AddContent>
                         <Managers:PanelAddTypes PanelOwner="{x:Type Compositing:Composition}" />
-                    </Views:ModifierManager.SelectionPanel>
+                    </Views:ModifierManager.AddContent>
                 </Views:ModifierManager>
             </ui:ExpanderIndented>
 

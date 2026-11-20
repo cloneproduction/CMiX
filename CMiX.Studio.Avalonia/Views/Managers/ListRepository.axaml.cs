@@ -25,12 +25,12 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             set => SetValue(RowMenuProperty, value);
         }
 
-        public static readonly StyledProperty<Control?> SelectionPanelProperty =
-            LogicalPanelContent.Register<ListRepository>(nameof(SelectionPanel));
-        public Control? SelectionPanel
+        public static readonly StyledProperty<Control?> AddContentProperty =
+            LogicalPanelContent.Register<ListRepository>(nameof(AddContent));
+        public Control? AddContent
         {
-            get => GetValue(SelectionPanelProperty);
-            set => SetValue(SelectionPanelProperty, value);
+            get => GetValue(AddContentProperty);
+            set => SetValue(AddContentProperty, value);
         }
 
         public static readonly StyledProperty<Control?> EditingPanelProperty =

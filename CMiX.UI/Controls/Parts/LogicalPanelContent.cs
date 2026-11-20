@@ -7,7 +7,7 @@ using Avalonia.LogicalTree;
 
 namespace CMiX.UI.Controls.Parts
 {
-    // Controls assigned to plain styled properties, such as the SelectionPanel and
+    // Controls assigned to plain styled properties, such as the AddContent and
     // EditingPanel content declared in consuming views, are not part of any logical
     // tree until a ContentControl presents them. Avalonia never applies the deferred
     // XAML bindings of such foreign subtrees when they first attach lazily, for

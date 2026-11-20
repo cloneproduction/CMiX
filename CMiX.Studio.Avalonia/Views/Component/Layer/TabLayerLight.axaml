@@ -9,12 +9,12 @@
     <ScrollViewer Theme="{StaticResource ScrollViewerOverlayKeepOffset}">
         <Managers:EditorPrefabSlot DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
 
-            <Managers:EditorPrefabSlot.SelectionPanel>
+            <Managers:EditorPrefabSlot.AddContent>
                 <Button
                     Command="{Binding AddItemCommand}"
                     CommandParameter="{x:Type Lights:LightEntity}"
                     Content="New Light" />
-            </Managers:EditorPrefabSlot.SelectionPanel>
+            </Managers:EditorPrefabSlot.AddContent>
 
             <Managers:EditorPrefabSlot.EditingPanel>
                 <Views:LightEntity />

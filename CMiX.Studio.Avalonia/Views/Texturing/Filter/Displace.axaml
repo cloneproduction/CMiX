@@ -18,13 +18,13 @@
         DataContext="{Binding TextureSelector}"
         ItemsSource="{Binding ControlRepository.Textures}">
 
-        <Controls:SelectorPrefab.SelectionPanel>
+        <Controls:SelectorPrefab.AddContent>
           <ui:ButtonPopup Caption="New Control Texture">
             <ui:ButtonPopup.PopupContent>
               <Managers:PanelAddTypes Interface="{x:Type TextureSources:ITextureSource}" />
             </ui:ButtonPopup.PopupContent>
           </ui:ButtonPopup>
-        </Controls:SelectorPrefab.SelectionPanel>
+        </Controls:SelectorPrefab.AddContent>
 
       </Controls:SelectorPrefab>
       

@@ -18,9 +18,9 @@
                                Caption="Add Modulator" 
                                PanelBackground="{DynamicResource Grey400Brush}" 
                                DataContext="{Binding ModulatorManager}">
-            <Views:ModifierManager.SelectionPanel>
+            <Views:ModifierManager.AddContent>
                 <Managers:PanelAddTypes Interface="{x:Type Modulators:IModulator}" />
-            </Views:ModifierManager.SelectionPanel>
+            </Views:ModifierManager.AddContent>
         </Views:ModifierManager>
     </HeaderedContentControl.Header>
 

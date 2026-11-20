@@ -10,7 +10,7 @@
          and which icon each type of prefab gets. -->
     <ui:ListBoxRepository
         x:Name="detailList"
-        AddContent="{Binding SelectionPanel, ElementName=repositoryManager}"
+        AddContent="{Binding AddContent, ElementName=repositoryManager}"
         DeleteCommand="{Binding RemoveEverywhereCommand}"
         DetailContent="{Binding EditingPanel, ElementName=repositoryManager}"
         ItemsSource="{Binding ItemsSource, ElementName=repositoryManager}"

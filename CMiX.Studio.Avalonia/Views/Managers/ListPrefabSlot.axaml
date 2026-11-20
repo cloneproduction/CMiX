@@ -86,7 +86,7 @@
             <ContentControl
                 Height="{DynamicResource ControlHeightMD}"
                 Margin="1,0"
-                Content="{Binding SelectionPanel, ElementName=prefabSlotManager}"
+                Content="{Binding AddContent, ElementName=prefabSlotManager}"
                 DockPanel.Dock="Left" />
 
         </ui:DockPanelPositioned>
