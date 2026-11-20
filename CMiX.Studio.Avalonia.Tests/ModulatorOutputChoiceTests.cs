@@ -53,6 +53,35 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void ForBindable_ABindableThatRefusesAnOutput_LeavesItOut()
+        {
+            var (blur, _, _) = CreateBlurWithModulators();
+            blur.ModulatorManager.AddItem(typeof(RedisBoolModulator));
+            var refused = blur.ModulatorManager.ManagerData.Items.OfType<RedisBoolModulator>().Single();
+
+            var rows = ModulatorOutputChoice.ForBindable(blur.ModulatorManager.ManagerData.Items, blur.Strength);
+
+            Assert.Equal(
+                new[] { "Assign Modulator", "-", "Random Value", "FFT Bass", "FFT LowerMid", "FFT HigherMid", "FFT High", "Unassign" },
+                rows.Select(r => r.Label).ToArray());
+            Assert.DoesNotContain(rows, r => r.Selection != null && r.Selection.Modulator == refused);
+        }
+
+        [AvaloniaFact]
+        public void ForBindable_NoBindable_GivesEveryOutput()
+        {
+            var (blur, random, fft) = CreateBlurWithModulators();
+            blur.ModulatorManager.AddItem(typeof(RedisBoolModulator));
+            var redisBool = blur.ModulatorManager.ManagerData.Items.OfType<RedisBoolModulator>().Single();
+
+            var rows = ModulatorOutputChoice.ForBindable(blur.ModulatorManager.ManagerData.Items, null);
+
+            Assert.Equal<ModulatorOutputSelection?>(
+                Selections(random, fft, redisBool),
+                rows.Skip(2).Take(rows.Count - 3).Select(r => r.Selection));
+        }
+
+        [AvaloniaFact]
         public void AnAddressedOutput_ShowsItsAddressInTheLabel()
         {
             var (blur, _, _) = CreateBlurWithModulators();

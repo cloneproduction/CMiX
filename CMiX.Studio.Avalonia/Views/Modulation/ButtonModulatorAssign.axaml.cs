@@ -3,11 +3,9 @@
 
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using CMiX.Core.Modulation;
-using CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Studio.Avalonia.Views.Modulation
 {
@@ -27,21 +25,29 @@ namespace CMiX.Studio.Avalonia.Views.Modulation
             InitializeComponent();
             Flyout.ItemsSource = _choices;
             Flyout.Opening += (s, e) => RebuildChoices();
-            OnModulatorManagerChanged();
         }
 
         private MenuFlyout Flyout => (MenuFlyout)assignButton.Flyout!;
 
         private void OnModulatorManagerChanged()
         {
-            if (_observedItems != null)
-                _observedItems.CollectionChanged -= OnItemsCollectionChanged;
+            WatchItems();
+            RebuildChoices();
+        }
 
-            _observedItems = ModulatorManager?.ManagerData?.Items as INotifyCollectionChanged;
+        private void WatchItems()
+        {
+            UnwatchItems();
+            _observedItems = ModulatorManager?.ManagerData?.Items;
             if (_observedItems != null)
                 _observedItems.CollectionChanged += OnItemsCollectionChanged;
+        }
 
-            RebuildChoices();
+        private void UnwatchItems()
+        {
+            if (_observedItems != null)
+                _observedItems.CollectionChanged -= OnItemsCollectionChanged;
+            _observedItems = null;
         }
 
         private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => RebuildChoices();
@@ -61,14 +67,7 @@ namespace CMiX.Studio.Avalonia.Views.Modulation
             if (items == null)
                 return;
 
-            var bindable = DataContext as IModulatorBindable;
-
-            // No bindable context means show every output.
-            var selections = items.OfType<IModulator>().SelectMany(modulator => modulator.Outputs
-                .Where(output => bindable?.CanBind(output) ?? true)
-                .Select(output => new ModulatorOutputSelection(modulator, output)));
-
-            foreach (var choice in ModulatorOutputChoice.Build(selections, bindable))
+            foreach (var choice in ModulatorOutputChoice.ForBindable(items, DataContext as IModulatorBindable))
                 _choices.Add(choice);
         }
 
@@ -81,11 +80,7 @@ namespace CMiX.Studio.Avalonia.Views.Modulation
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnDetachedFromVisualTree(e);
-            if (_observedItems != null)
-            {
-                _observedItems.CollectionChanged -= OnItemsCollectionChanged;
-                _observedItems = null;
-            }
+            UnwatchItems();
         }
     }
 }

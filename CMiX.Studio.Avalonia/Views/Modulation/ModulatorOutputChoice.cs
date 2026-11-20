@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using CMiX.Core;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CommunityToolkit.Mvvm.Input;
@@ -56,6 +57,15 @@ namespace CMiX.Studio.Avalonia.Views.Modulation
             choices.AddRange(selections.Select(selection => For(selection, bindable)));
             choices.Add(Unassign(bindable));
             return choices;
+        }
+
+        // No bindable context means show every output.
+        public static IReadOnlyList<ModulatorOutputChoice> ForBindable(IEnumerable<IControl> items, IModulatorBindable? bindable)
+        {
+            var selections = items.OfType<IModulator>().SelectMany(modulator => modulator.Outputs
+                .Where(output => bindable?.CanBind(output) ?? true)
+                .Select(output => new ModulatorOutputSelection(modulator, output)));
+            return Build(selections, bindable);
         }
 
         private static string LabelOf(ModulatorOutputSelection selection) => LabelOf(selection.Modulator, selection.Output);
