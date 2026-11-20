@@ -366,7 +366,7 @@
 
         var group = element.classList.contains('group');
         var badges = element.hasAttribute('data-counts') || element.hasAttribute('data-missing')
-            ? '<span class="KindCountBadges" data-counts="' + attribute(element, 'data-counts') + '"'
+            ? '<span class="BadgesKindCount" data-counts="' + attribute(element, 'data-counts') + '"'
                 + (element.hasAttribute('data-more') ? ' data-more="' + attribute(element, 'data-more') + '"' : '')
                 + (element.hasAttribute('data-missing') ? ' data-missing="' + attribute(element, 'data-missing') + '"' : '') + '></span>'
             : '';
@@ -488,7 +488,7 @@
         ToolTip: toolTip,
         ToggleButtonMask: icon('MaskOff') + icon('Mask'),
         ComposableToggles: composableToggles,
-        KindCountBadges: kindCountBadges,
+        BadgesKindCount: kindCountBadges,
         TreeViewItem: treeViewItem,
         BadgeCategory: icon('{icon}'),
         DragValueModulatable: valueModulatable('DragValue'),

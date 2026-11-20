@@ -6,13 +6,13 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class KindCountBadges : UserControl
+    public partial class BadgesKindCount : UserControl
     {
         public static readonly StyledProperty<bool> IsSelectedProperty =
-            AvaloniaProperty.Register<KindCountBadges, bool>(nameof(IsSelected));
+            AvaloniaProperty.Register<BadgesKindCount, bool>(nameof(IsSelected));
 
         public static readonly StyledProperty<bool> IsHoveredProperty =
-            AvaloniaProperty.Register<KindCountBadges, bool>(nameof(IsHovered));
+            AvaloniaProperty.Register<BadgesKindCount, bool>(nameof(IsHovered));
 
         public bool IsSelected
         {
@@ -26,13 +26,13 @@ namespace CMiX.Studio.Avalonia.Views
             set => SetValue(IsHoveredProperty, value);
         }
 
-        static KindCountBadges()
+        static BadgesKindCount()
         {
-            IsSelectedProperty.Changed.AddClassHandler<KindCountBadges>((badges, e) => badges.PseudoClasses.Set(":selected", e.GetNewValue<bool>()));
-            IsHoveredProperty.Changed.AddClassHandler<KindCountBadges>((badges, e) => badges.PseudoClasses.Set(":hovered", e.GetNewValue<bool>()));
+            IsSelectedProperty.Changed.AddClassHandler<BadgesKindCount>((badges, e) => badges.PseudoClasses.Set(":selected", e.GetNewValue<bool>()));
+            IsHoveredProperty.Changed.AddClassHandler<BadgesKindCount>((badges, e) => badges.PseudoClasses.Set(":hovered", e.GetNewValue<bool>()));
         }
 
-        public KindCountBadges()
+        public BadgesKindCount()
         {
             InitializeComponent();
         }

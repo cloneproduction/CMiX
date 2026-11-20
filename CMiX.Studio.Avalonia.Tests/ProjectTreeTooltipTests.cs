@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
 
         private static List<Border> SquaresOf(ProjectTreeView view, TreeNode node) =>
-            ItemOf(view, node).GetVisualDescendants().OfType<KindCountBadges>().First()
+            ItemOf(view, node).GetVisualDescendants().OfType<BadgesKindCount>().First()
                 .GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).ToList();
 
         [AvaloniaFact]
@@ -119,7 +119,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var layer = tree.CompositionNodes()[0].Children[0].Children[0];
             layer.IsExpanded = false;
             Settle();
-            var badges = ItemOf(view, layer).GetVisualDescendants().OfType<KindCountBadges>().First();
+            var badges = ItemOf(view, layer).GetVisualDescendants().OfType<BadgesKindCount>().First();
             badges.IsHovered = true;
             Settle();
             var square = SquaresOf(view, layer).First();

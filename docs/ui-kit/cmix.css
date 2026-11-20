@@ -1216,11 +1216,11 @@
         &.small > .slot { width: var(--ControlHeightXS); height: var(--ControlHeightXS); background: transparent; }
     }
 
-    /* ---------------------------------------------------------------- Views/Tree/KindCountBadges.axaml */
+    /* ---------------------------------------------------------------- Views/Tree/BadgesKindCount.axaml */
     /* What a collapsed row holds: a square of TreeKindSquareSize for each kind, in the colour of the kind with the icon of the kind in white,
        then "+n" for the other kinds. The count is in the tooltip. Then the sign of a missing asset: an amber triangle with a white mark
        (PopupCardWarningBrush), on the row of the asset and on every collapsed row above it. */
-    .KindCountBadges {
+    .BadgesKindCount {
         display: flex;
         align-items: center;
         gap: var(--SpacingXS);
@@ -1590,7 +1590,7 @@
     .RowToggles > .slot { display: flex; align-items: center; justify-content: center; width: var(--ControlHeightMD); height: var(--ControlHeightMD); }
     .TreeViewItem.selected > .RowGrid .kindcount { background: var(--KindSelected); }
     .RowBorder .TextBoxEditable { flex: none; }
-    .RowBorder > .header > .KindCountBadges { margin-left: 4px; }
+    .RowBorder > .header > .BadgesKindCount { margin-left: 4px; }
 
     /* The corners of a ButtonPopup go to its toggle. */
     .ButtonPopup { border-radius: var(--Position, var(--CornerRadiusAll)); > .ToggleButton { border-radius: inherit; } }

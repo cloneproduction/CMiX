@@ -138,7 +138,7 @@ window.CMIX_CATALOGUE = [
                     { id: '21.3', name: 'TreeSearchBox', source: 'CMiX.Studio.Avalonia/Views/Tree/TreeSearchBox.axaml' },
                     { id: '21.4', name: 'RowToggles', source: 'CMiX.Studio.Avalonia/Views/Tree/RowToggles.axaml' },
                     { id: '21.5', name: 'BadgeCategory', source: 'CMiX.Studio.Avalonia/Views/Tree/BadgeCategory.axaml' },
-                    { id: '21.6', name: 'KindCountBadges', source: 'CMiX.Studio.Avalonia/Views/Tree/KindCountBadges.axaml' },
+                    { id: '21.6', name: 'BadgesKindCount', source: 'CMiX.Studio.Avalonia/Views/Tree/BadgesKindCount.axaml' },
                     { id: '21.7', name: 'AddPanel', source: 'CMiX.Studio.Avalonia/Views/Tree/AddPanel.cs' },
                     { id: '21.8', name: 'TreeDragGhost', source: 'CMiX.Studio.Avalonia/Views/Tree/TreeDragGhost.cs' },
                     { id: '21.9', name: 'TreeDropMarker', source: 'CMiX.Studio.Avalonia/Views/Tree/TreeDropMarker.cs' },

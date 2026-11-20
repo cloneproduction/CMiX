@@ -17,7 +17,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | Grey300 | #2B2B2E | panel level 2, tree toolbar (`ProjectTreeView.axaml:43`), empty group row (`ProjectTree.axaml:244`) | Level2Brush, Grey300Brush (20) | C | fine |
 | Grey400 | #363639 | panel level 3, empty group hover (`:247`) | Level3Brush | C | fine |
 | Grey500 | #414144 | pressed control, hovered row, empty group chosen (`:250`) | StatePressedBrush, RowHoverBrush | C | one grey, three meanings (pressed, row hover, chosen empty group) |
-| Grey600 | #4C4C4F | idle control, key cap frame, "+n" badge (`KindCountBadges.axaml:59`) | StateIdleBrush, KeyCapBorderBrush | C | fine |
+| Grey600 | #4C4C4F | idle control, key cap frame, "+n" badge (`BadgesKindCount.axaml:59`) | StateIdleBrush, KeyCapBorderBrush | C | fine |
 | Grey700 | #606063 | hovered control, dead group text and icon (`KindIconBrushConverter.cs:34`) | StateHoverBrush | C | same hex as ModulatorUnassigned |
 | Grey800 | #808083 | chevron (`ProjectTree.axaml:262`), cursor frame without focus, "pending" sync dot | CursorFrameInactiveBrush, StatusPendingBrush | C | a status meaning on a primitive |
 | Grey900 | #B0B1B4 | shortcut text on a hovered row | ShortcutTextHoverBrush | C | fine |
@@ -43,7 +43,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | CategoryModulator | #AD8DFD | kind: modulator | CategoryPalette | M | dE 7.4 to Composable5 |
 | WarningMuted | #B4685C | a conflict mark (`SettingsShortcut.axaml:49`) | WarningMutedBrush, 1 use | M | comment says "refused drop frame": the tree uses a grey cover for that |
 | PopupCardBackground | #18181B | popup surface (tooltip, menu, flyout, Add panel) | PopupBackgroundBrush (12) | P | fine; a surface step between Grey100 and Grey200 that is not in the ramp |
-| PopupCardWarning | #E2A355 | needs attention: disabled reason, missing asset (`KindCountBadges.axaml:88`), unsynced dot | PopupCardWarningBrush, StatusUnsyncedBrush | P | name says place, meaning is status |
+| PopupCardWarning | #E2A355 | needs attention: disabled reason, missing asset (`BadgesKindCount.axaml:88`), unsynced dot | PopupCardWarningBrush, StatusUnsyncedBrush | P | name says place, meaning is status |
 | PopupCardDanger | #E97871 | bad: Delete row, disconnected dot | PopupCardDangerBrush, StatusDisconnectedBrush | P | name says place, meaning is status |
 | StatusSuccess | #6FC082 | good: connected dot | StatusConnectedBrush | M | dE 2.0 to CategoryComposable3 |
 | TreeTextRest | #C9C9CE | row text at rest | TreeTextRestBrush (8) | M | fine |

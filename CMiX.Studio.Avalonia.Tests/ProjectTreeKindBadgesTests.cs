@@ -46,10 +46,10 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private void Settle() => TreeTestScreen.Settle(window!);
 
-        private static KindCountBadges BadgesOf(ProjectTreeView view, TreeNode node) =>
-            ItemOf(view, node).GetVisualDescendants().OfType<KindCountBadges>().First(badges => ReferenceEquals(badges.DataContext, node));
+        private static BadgesKindCount BadgesOf(ProjectTreeView view, TreeNode node) =>
+            ItemOf(view, node).GetVisualDescendants().OfType<BadgesKindCount>().First(badges => ReferenceEquals(badges.DataContext, node));
 
-        private static List<Border> SquaresOf(KindCountBadges badges) =>
+        private static List<Border> SquaresOf(BadgesKindCount badges) =>
             badges.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).ToList();
 
 
@@ -182,7 +182,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(top > 0);
         }
 
-        private static Border MoreKindsOf(KindCountBadges badges) =>
+        private static Border MoreKindsOf(BadgesKindCount badges) =>
             badges.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "MoreKinds");
 
         [AvaloniaFact]

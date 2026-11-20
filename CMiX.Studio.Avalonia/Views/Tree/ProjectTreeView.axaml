@@ -103,7 +103,7 @@
                             IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNotNull}}"
                             Views:TreeRowBrush.Role="Text">
                             <ui:TextBoxEditable.Suffix>
-                                <Views:KindCountBadges
+                                <Views:BadgesKindCount
                                     IsVisible="{Binding ShowsBadges}"
                                     IsHovered="{Binding $parent[TreeViewItem].IsPointerOver}"
                                     IsSelected="{Binding $parent[TreeViewItem].IsSelected}" />
@@ -119,7 +119,7 @@
                                 VerticalAlignment="Center"
                                 Text="{Binding Header}"
                                 Views:TreeRowBrush.Role="Text" />
-                            <Views:KindCountBadges
+                            <Views:BadgesKindCount
                                 IsVisible="{Binding ShowsBadges}"
                                 IsHovered="{Binding $parent[TreeViewItem].IsPointerOver}"
                                 IsSelected="{Binding $parent[TreeViewItem].IsSelected}" />

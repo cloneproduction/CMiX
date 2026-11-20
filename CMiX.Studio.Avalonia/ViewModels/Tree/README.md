@@ -87,7 +87,7 @@ The hub, `ProjectTreeView.axaml.cs`: builds the parts, attaches and detaches the
 | Drag | `TreeDragGhost`, `TreeDropMarker`, `TreeDropMark`, `DragAutoScroller` | The label under the pointer, the white marks, the scroll at the edges. |
 | Rows | `TreeRowIndex`, `TreeRows`, `TreeRowAnchor` | Finds the item of a row and its place on screen. |
 | Rows | `TreeRowMetrics`, `TreeRowResources`, `TreeScrollAnchor`, `TreeRowReveal`, `TreeRowShadow` | Row sizes in whole pixels, keeping a row still while rows close, scrolling a row into view, the shadow. |
-| Rows | `TreeRowBrush`, `RowToggles`, `KindCountBadges`, `BadgeCategory` | The colours and the small controls inside a row. |
+| Rows | `TreeRowBrush`, `RowToggles`, `BadgesKindCount`, `BadgeCategory` | The colours and the small controls inside a row. |
 | Rows | `TreeViewContext` | What every part needs from the view: the tree view, the row index, the tree, the scroller. Its getters read live values. |
 
 The look of a row is in `Themes/Styles/ProjectTree.axaml` (the item theme) and in the styles block of `ProjectTreeView.axaml` (the cursor frame). The tokens of the tree are in `CMiX.UI/Themes/Tokens/Geometry.axaml`.
