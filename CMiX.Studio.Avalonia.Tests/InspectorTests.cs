@@ -150,7 +150,7 @@ namespace CMiX.Studio.Avalonia.Tests
             foreach (var node in new[] { screen.CompositionNode, screen.LayerNode, screen.Group<EntitiesGroup>(), screen.Group<LightsGroup>() })
             {
                 Select(screen, node);
-                var square = screen.Header.GetVisualDescendants().OfType<CategoryBadge>().Single().GetVisualDescendants().OfType<Border>().First();
+                var square = screen.Header.GetVisualDescendants().OfType<BadgeCategory>().Single().GetVisualDescendants().OfType<Border>().First();
 
                 var expected = palette.For(node.Category!.Value, node.ComposableDepth, node.KindDepth).FillSelected;
                 Assert.Equal(expected, ((global::Avalonia.Media.ISolidColorBrush)screen.Header.Background!).Color);
@@ -164,7 +164,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             Select(screen, screen.CompositionNode);
-            var square = screen.Header.GetVisualDescendants().OfType<CategoryBadge>().Single().GetVisualDescendants().OfType<Border>().First();
+            var square = screen.Header.GetVisualDescendants().OfType<BadgeCategory>().Single().GetVisualDescendants().OfType<Border>().First();
 
             var row = Convert.ToDouble(Application.Current!.FindResource("ControlHeightMD"));
             Assert.Equal(row, square.Bounds.Width);

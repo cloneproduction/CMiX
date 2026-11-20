@@ -1361,9 +1361,9 @@
         .kind { flex: none; width: 12.8px; height: 12.8px; background: var(--Kind); border-radius: 2px; }
     }
 
-    /* ---------------------------------------------------------------- Views/Tree/CategoryBadge.axaml */
+    /* ---------------------------------------------------------------- Views/Tree/BadgeCategory.axaml */
     /* The icon of an item in the title bar of the inspector. The bar has the color of the kind. */
-    .CategoryBadge {
+    .BadgeCategory {
         flex: none;
         display: flex;
         align-items: center;
@@ -1379,7 +1379,7 @@
         display: flex;
         flex-direction: column;
         > .header { display: flex; align-items: center; flex: none; height: var(--ControlHeightXL); padding: 0 8px; background: var(--FillSelected); }
-        > .header > .CategoryBadge { margin-right: 8px; }
+        > .header > .BadgeCategory { margin-right: 8px; }
         > .header > .name { flex: 1; min-width: 0; }
         > .placeholder { margin: 8px; text-align: center; opacity: 0.5; }
     }

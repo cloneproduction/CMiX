@@ -490,7 +490,7 @@
         ComposableToggles: composableToggles,
         KindCountBadges: kindCountBadges,
         TreeViewItem: treeViewItem,
-        CategoryBadge: icon('{icon}'),
+        BadgeCategory: icon('{icon}'),
         DragValueModulatable: valueModulatable('DragValue'),
         DragValueIntegerModulatable: valueModulatable('DragValueInteger'),
         Vector2Modulatable: vector(['X', 'Y'], 'DragValueModulatable'),

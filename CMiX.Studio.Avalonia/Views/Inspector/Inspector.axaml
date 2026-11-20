@@ -41,7 +41,7 @@
             <!-- The badge, the name, and at the right end the toggles of the item (see ComposableToggles).
                  The name of an item can be edited here, as in the tree. A group has a name that can not be changed, and no toggle. -->
             <Grid VerticalAlignment="Center" ColumnDefinitions="Auto,*,Auto">
-                <Views:CategoryBadge
+                <Views:BadgeCategory
                     Grid.Column="0"
                     Margin="0,0,8,0"
                     DataContext="{Binding InspectedNode}" />

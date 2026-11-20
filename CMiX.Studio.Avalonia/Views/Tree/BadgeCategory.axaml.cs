@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class CategoryBadge : UserControl
+    public partial class BadgeCategory : UserControl
     {
-        public CategoryBadge()
+        public BadgeCategory()
         {
             InitializeComponent();
         }
