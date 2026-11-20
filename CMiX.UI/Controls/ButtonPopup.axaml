@@ -3,24 +3,24 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
-    x:Name="popupButton">
+    x:Name="buttonPopup">
 
     <Panel>
 
         <ToggleButton
             x:Name="popupToggle"
-            Content="{Binding Caption, ElementName=popupButton}"
-            ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=popupButton}" />
+            Content="{Binding Caption, ElementName=buttonPopup}"
+            ui:PositionedControl.Position="{Binding (ui:PositionedControl.Position), ElementName=buttonPopup}" />
 
         <Popup
-            ui:TogglePopup.ClosesOnPointerAway="{Binding ClosesOnPointerAway, ElementName=popupButton}"
+            ui:TogglePopup.ClosesOnPointerAway="{Binding ClosesOnPointerAway, ElementName=buttonPopup}"
             ui:TogglePopup.MatchesToggleWidth="True"
-            ui:TogglePopup.PointerAwayDistance="{Binding PointerAwayDistance, ElementName=popupButton}"
+            ui:TogglePopup.PointerAwayDistance="{Binding PointerAwayDistance, ElementName=buttonPopup}"
             ui:TogglePopup.Toggle="{Binding ElementName=popupToggle}"
             Placement="Bottom">
             <ui:DropdownFrame>
 
-                <ContentControl Content="{Binding PopupContent, ElementName=popupButton}" />
+                <ContentControl Content="{Binding PopupContent, ElementName=buttonPopup}" />
 
             </ui:DropdownFrame>
 
