@@ -5,7 +5,7 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:StudioViewModels="clr-namespace:CMiX.Studio.Avalonia.ViewModels"
-    x:Name="sidePanelHost"
+    x:Name="panelSide"
     ui:PopupOwner.IsEnabled="True"
     Classes="focuspanel">
 
@@ -31,9 +31,9 @@
                         Padding="6,0"
                         HorizontalAlignment="Left"
                         DockPanel.Dock="Left"
-                        ToolTip.Tip="{Binding Choice.Name, ElementName=sidePanelHost}">
+                        ToolTip.Tip="{Binding Choice.Name, ElementName=panelSide}">
                         <StackPanel Margin="4,0" Orientation="Horizontal" Spacing="{DynamicResource SpacingSM}">
-                            <ui:AppIcon IconKey="{Binding Choice.IconKey, ElementName=sidePanelHost}" Size="{DynamicResource IconSizeXS}" />
+                            <ui:AppIcon IconKey="{Binding Choice.IconKey, ElementName=panelSide}" Size="{DynamicResource IconSizeXS}" />
                             <ui:Chevron
                                 VerticalAlignment="Center"
                                 ClosedAngle="0"
@@ -51,8 +51,8 @@
                             <ui:ListItemPicker
                                 Name="pickerList"
                                 IconPath="IconKey"
-                                ItemCommand="{Binding PickCommand, ElementName=sidePanelHost}"
-                                ItemsSource="{Binding Choices, ElementName=sidePanelHost}"
+                                ItemCommand="{Binding PickCommand, ElementName=panelSide}"
+                                ItemsSource="{Binding Choices, ElementName=panelSide}"
                                 Picked="OnPicked"
                                 TextPath="Name" />
                         </ui:DropdownFrame>
@@ -63,10 +63,10 @@
                         Name="barTools"
                         HorizontalContentAlignment="Right"
                         VerticalContentAlignment="Center"
-                        Content="{Binding Choice, ElementName=sidePanelHost}">
+                        Content="{Binding Choice, ElementName=panelSide}">
                         <ContentControl.DataTemplates>
                             <DataTemplate DataType="{x:Type StudioViewModels:TreePanelChoice}">
-                                <Views:TextBoxSearchTree DataContext="{Binding Context.ProjectTree, ElementName=sidePanelHost}" />
+                                <Views:TextBoxSearchTree DataContext="{Binding Context.ProjectTree, ElementName=panelSide}" />
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type StudioViewModels:PanelChoice}">
                                 <Panel />
@@ -86,20 +86,20 @@
             Name="content"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
-            Content="{Binding Choice, ElementName=sidePanelHost}">
+            Content="{Binding Choice, ElementName=panelSide}">
             <ContentControl.DataTemplates>
 
                 <DataTemplate DataType="{x:Type StudioViewModels:TreePanelChoice}">
-                    <Views:TreeViewProject DataContext="{Binding Context.ProjectTree, ElementName=sidePanelHost}" />
+                    <Views:TreeViewProject DataContext="{Binding Context.ProjectTree, ElementName=panelSide}" />
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type StudioViewModels:TabsPanelChoice}">
-                    <Views:PanelMainTabs DataContext="{Binding Context, ElementName=sidePanelHost}" />
+                    <Views:PanelMainTabs DataContext="{Binding Context, ElementName=panelSide}" />
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type StudioViewModels:AssetsPanelChoice}">
                     <ScrollViewer Theme="{StaticResource ScrollViewerOverlayKeepOffset}">
-                        <Views:AssetManager DataContext="{Binding Context.AssetManager, ElementName=sidePanelHost}" />
+                        <Views:AssetManager DataContext="{Binding Context.AssetManager, ElementName=panelSide}" />
                     </ScrollViewer>
                 </DataTemplate>
 
