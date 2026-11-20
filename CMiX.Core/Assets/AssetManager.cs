@@ -15,6 +15,19 @@ namespace CMiX.Core.Assets
         public Guid ID { get; set; }
         public AssetRepository AssetRepository { get; set; }
 
+        public List<string> CollectAssetFilePaths(IEnumerable<string> paths)
+        {
+            var result = new List<string>();
+            foreach (var path in paths)
+            {
+                if (File.Exists(path))
+                    result.Add(path);
+                else if (Directory.Exists(path))
+                    result.AddRange(EnumerateAssetFilePaths(new DirectoryInfo(path)));
+            }
+            return result;
+        }
+
         public List<string> EnumerateAssetFilePaths(DirectoryInfo directoryInfo)
         {
             var paths = new List<string>();

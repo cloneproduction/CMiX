@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -51,18 +50,7 @@ namespace CMiX.Studio.Avalonia.Views
                 // The filesystem walk (deep folders, network shares) runs off the UI thread. Only the
                 // AssetRepository mutating calls, which touch bound ObservableCollections, go back through
                 // the dispatcher.
-                var filePaths = await Task.Run(() =>
-                {
-                    var result = new List<string>();
-                    foreach (var path in paths)
-                    {
-                        if (File.Exists(path))
-                            result.Add(path);
-                        else if (Directory.Exists(path))
-                            result.AddRange(assetManager.EnumerateAssetFilePaths(new DirectoryInfo(path)));
-                    }
-                    return result;
-                });
+                var filePaths = await Task.Run(() => assetManager.CollectAssetFilePaths(paths));
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
