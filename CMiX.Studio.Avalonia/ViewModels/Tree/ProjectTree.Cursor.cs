@@ -15,6 +15,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public TreeNode? TargetNode => CursorNode ?? selectedNode;
 
+        public string? AddHeader => TargetNode is { } node ? "Add to " + node.Header : null;
+
         // It does not select the chain: no undo step and no wire message.
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(OpenSelectedCommand))]

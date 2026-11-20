@@ -482,6 +482,25 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Empty(screen.Scene.LayerOfA(0).ModelEntityManager.ManagerData.Items);
         }
 
+        [AvaloniaFact]
+        public void AddHeader_ALayerAsTarget_NamesTheLayer()
+        {
+            var screen = Show();
+            var layer = screen.Scene.LayerNodeOfA(0);
+            screen.Scene.Tree.SelectedNode = layer;
+
+            Assert.Equal("Add to " + layer.Header, screen.Scene.Tree.AddHeader);
+        }
+
+        [AvaloniaFact]
+        public void AddHeader_NoTarget_IsNull()
+        {
+            var screen = Show();
+            screen.Scene.Tree.SelectedNode = null;
+
+            Assert.Null(screen.Scene.Tree.AddHeader);
+        }
+
         // A click with the pointer: the middle of the search field is on the pointer, so the user can type at once.
         [AvaloniaTheory]
         [InlineData(false)]

@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             var node = tree.TargetNode;
-            var header = node == null ? null : "Add to " + node.Header;
+            var header = tree.AddHeader;
             if (addButton.IsPointerOver)
                 panel.OpenAtPoint(this, lastPointer, tree.GetAddGroups(node), header);
             else
