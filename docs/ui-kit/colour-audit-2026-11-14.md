@@ -22,7 +22,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | Grey800 | #808083 | chevron (`ProjectTree.axaml:262`), cursor frame without focus, "pending" sync dot | CursorFrameInactiveBrush, StatusPendingBrush | C | a status meaning on a primitive |
 | Grey900 | #B0B1B4 | shortcut text on a hovered row | ShortcutTextHoverBrush | C | fine |
 | TreeBackground | #0F0F12 | tree surface, dim cover, mix base of the palette | TreeBackgroundBrush, `CategoryPalette.cs:85` | M | duplicate of Grey100 |
-| AccentPrimary | #5680C2 | on + pointer (Button.axaml:125,128,233; Menu.axaml:71), focus line (TextBox.axaml:102,194; TreeSearchBox.axaml:15; PanelFocus.axaml:12), text selection (TextBox:20,118; NumericInput:22), slider track (Slider:118), grab frame (`ProjectTreeView.axaml:203`), in-sync dot (`StatusIndicators.axaml:11`) | AccentBrush (31) | C | collision: 4 meanings |
+| AccentPrimary | #5680C2 | on + pointer (Button.axaml:125,128,233; Menu.axaml:71), focus line (TextBox.axaml:102,194; TextBoxSearchTree.axaml:15; PanelFocus.axaml:12), text selection (TextBox:20,118; NumericInput:22), slider track (Slider:118), grab frame (`ProjectTreeView.axaml:203`), in-sync dot (`StatusIndicators.axaml:11`) | AccentBrush (31) | C | collision: 4 meanings |
 | AccentSecondary | #4d6490 | on, at rest (ToggleButton:13,177; RadioButton:42; Slider:7; ListBox:172; ContextMenu:107) | AccentInactiveBrush (18) | C | fine |
 | AccentHover | #4B74B6 | on + pointer, rows and toggles (ComboBox:137,147; ListBox:169; RadioButton:46; ToggleButton:17,180) | StateOnHoverBrush (14) | C | synonym of AccentPrimary in Button.axaml:233 (two "on + pointer" blues) |
 | Active | #5680C2 | none | 0 uses | M | dead, duplicate of AccentPrimary |
@@ -265,7 +265,7 @@ Fix:       Keep 0.55 for every fill that carries text (chosen row, Inspector hea
 ```
 ```
 [MAJOR] One blue, four meanings
-Where:     Brushes.axaml:7; Button.axaml:125,128,233; TextBox.axaml:102,194; PanelFocus.axaml:12; TreeSearchBox.axaml:15;
+Where:     Brushes.axaml:7; Button.axaml:125,128,233; TextBox.axaml:102,194; PanelFocus.axaml:12; TextBoxSearchTree.axaml:15;
            ProjectTreeView.axaml:203; StatusIndicators.axaml:11
 Problem:   AccentPrimary is "on + pointer", the focus line, the grab-mode frame and the "in sync" dot. In the tree the
            cursor and the focus are a frame in the kind hue, so a blue focus elsewhere is a second focus code.

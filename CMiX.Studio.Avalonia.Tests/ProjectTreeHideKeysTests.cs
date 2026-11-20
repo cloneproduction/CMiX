@@ -255,7 +255,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.LayerNode(2).HiddenValue!.Value = true;
             screen.Tree.CursorNode = screen.LayerNode(1);
             Settle(screen.Window);
-            var box = screen.Window.GetVisualDescendants().OfType<TreeSearchBox>().First().GetVisualDescendants().OfType<TextBox>().First();
+            var box = screen.Window.GetVisualDescendants().OfType<TextBoxSearchTree>().First().GetVisualDescendants().OfType<TextBox>().First();
             box.Focus();
             Settle(screen.Window);
             Assert.True(box.IsFocused);

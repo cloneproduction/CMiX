@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // The setting InterfaceOptions.ShowKeyHints hides it. It takes no click and no focus.
     public class TreeKeyHintStripTests : IDisposable
     {
-        private sealed record Screen(Window Window, TreeSearchBox Box, ProjectTreeView View);
+        private sealed record Screen(Window Window, TextBoxSearchTree Box, ProjectTreeView View);
 
         private Window? window;
         private readonly string folder = Path.Combine(Path.GetTempPath(), $"cmix-interface-{Guid.NewGuid():N}");
@@ -39,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private (Screen Screen, Scene Scene) Show()
         {
             var scene = CreateScene([3]);
-            var box = new TreeSearchBox { DataContext = scene.Tree };
+            var box = new TextBoxSearchTree { DataContext = scene.Tree };
             var view = new ProjectTreeView { DataContext = scene.Tree };
             DockPanel.SetDock(box, Dock.Top);
             window = new Window { Content = new DockPanel { Children = { box, view } }, Width = PanelWidth, Height = 500 };

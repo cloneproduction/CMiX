@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // A text box outside the tree: the search field in the bar of the panel.
         private static TextBox FocusATextBoxOutsideTheTree(Screen screen)
         {
-            var box = screen.Window.GetVisualDescendants().OfType<TreeSearchBox>().First().GetVisualDescendants().OfType<TextBox>().First();
+            var box = screen.Window.GetVisualDescendants().OfType<TextBoxSearchTree>().First().GetVisualDescendants().OfType<TextBox>().First();
             box.Focus();
             Settle(screen.Window);
             Assert.True(box.IsFocused);

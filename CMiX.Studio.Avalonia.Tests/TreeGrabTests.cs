@@ -313,7 +313,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             screen.Tree.CursorNode = screen.LayerNode(0);
-            var box = screen.Window.GetVisualDescendants().OfType<TreeSearchBox>().First().GetVisualDescendants().OfType<TextBox>().First();
+            var box = screen.Window.GetVisualDescendants().OfType<TextBoxSearchTree>().First().GetVisualDescendants().OfType<TextBox>().First();
             box.Focus();
             Settle(screen.Window);
 

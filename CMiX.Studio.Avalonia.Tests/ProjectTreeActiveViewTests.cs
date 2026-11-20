@@ -192,12 +192,12 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var focused = mainWindow.FocusManager!.GetFocusedElement() as Visual;
             Assert.NotNull(focused);
-            Assert.True(hosts[active].GetVisualDescendants().OfType<TreeSearchBox>().Single().IsVisualAncestorOf(focused!));
+            Assert.True(hosts[active].GetVisualDescendants().OfType<TextBoxSearchTree>().Single().IsVisualAncestorOf(focused!));
         }
 
         // Both side panels of the main window show the tree. The pointer is over the tree of the first panel, and the search box of
         // the second panel has the focus.
-        private (Window Window, List<SidePanelHost> Hosts, MainViewModel ViewModel) ShowFocusInSecondSearchBox()
+        private (Window Window, List<SidePanelHost> Hosts, MainViewModel ViewModel) ShowFocusInSecondTextBoxSearchTree()
         {
             var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             window = mainWindow;
@@ -218,12 +218,12 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static ProjectTreeView ViewOf(SidePanelHost host) => host.GetVisualDescendants().OfType<ProjectTreeView>().Single();
 
-        private static TreeSearchBox BoxOf(SidePanelHost host) => host.GetVisualDescendants().OfType<TreeSearchBox>().Single();
+        private static TextBoxSearchTree BoxOf(SidePanelHost host) => host.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
 
         [AvaloniaFact]
-        public void FocusTree_FocusInTheSearchBoxOfTheSecondPanel_FocusesTheRowsOfTheSecondPanelOnly()
+        public void FocusTree_FocusInTheTextBoxSearchTreeOfTheSecondPanel_FocusesTheRowsOfTheSecondPanelOnly()
         {
-            var (_, hosts, viewModel) = ShowFocusInSecondSearchBox();
+            var (_, hosts, viewModel) = ShowFocusInSecondTextBoxSearchTree();
 
             viewModel.ProjectTree.FocusTree();
             TestServiceProviderFactory.Pump();
@@ -233,9 +233,9 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void FocusSearch_PointerOverTheFirstTreeAndFocusInTheSecondPanel_FocusesTheSecondSearchBox()
+        public void FocusSearch_PointerOverTheFirstTreeAndFocusInTheSecondPanel_FocusesTheSecondTextBoxSearchTree()
         {
-            var (_, hosts, viewModel) = ShowFocusInSecondSearchBox();
+            var (_, hosts, viewModel) = ShowFocusInSecondTextBoxSearchTree();
 
             viewModel.ProjectTree.FocusSearch();
             TestServiceProviderFactory.Pump();

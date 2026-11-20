@@ -287,7 +287,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var tree = viewModel.ProjectTree;
             Scene.LayersOf(tree.CompositionNodes()[0]).IsExpanded = false;
             Settle(mainWindow);
-            var box = mainWindow.GetVisualDescendants().OfType<TreeSearchBox>().First().GetVisualDescendants().OfType<TextBox>().First();
+            var box = mainWindow.GetVisualDescendants().OfType<TextBoxSearchTree>().First().GetVisualDescendants().OfType<TextBox>().First();
             box.Focus();
             Settle(mainWindow);
             Assert.True(box.IsFocused);

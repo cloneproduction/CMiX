@@ -15,13 +15,13 @@ using CMiX.UI.Controls.Parts;
 namespace CMiX.Studio.Avalonia.Views
 {
     // The text stays when the focus goes out of the field, so the rows stay dimmed until the text is cleared.
-    public partial class TreeSearchBox : UserControl
+    public partial class TextBoxSearchTree : UserControl
     {
         private ProjectTree? watched;
 
         internal const string FilteringClass = "filtering";
 
-        public TreeSearchBox()
+        public TextBoxSearchTree()
         {
             InitializeComponent();
             searchField.AddHandler(KeyDownEvent, OnFieldKeyDown, RoutingStrategies.Tunnel);

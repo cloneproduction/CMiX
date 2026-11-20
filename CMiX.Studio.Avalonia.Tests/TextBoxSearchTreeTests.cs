@@ -22,9 +22,9 @@ namespace CMiX.Studio.Avalonia.Tests
     // the focus. The number of matches and the clear button show while it holds text. Escape clears the text, and Escape in an empty field
     // gives the focus back to the rows. Enter and Shift+Enter move the cursor from match to match, and Down gives the focus to the cursor
     // row. There is no search during a drag.
-    public class ProjectTreeSearchBoxTests : IDisposable
+    public class TextBoxSearchTreeTests : IDisposable
     {
-        private sealed record Screen(Window Window, TreeSearchBox Box, ProjectTreeView View)
+        private sealed record Screen(Window Window, TextBoxSearchTree Box, ProjectTreeView View)
         {
             // The text box inside the search field.
             public TextBox Input => Box.Field.GetVisualDescendants().OfType<TextBox>().First();
@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private (Screen Screen, Scene Scene) Show()
         {
             var scene = CreateScene([3]);
-            var box = new TreeSearchBox { DataContext = scene.Tree };
+            var box = new TextBoxSearchTree { DataContext = scene.Tree };
             var view = new ProjectTreeView { DataContext = scene.Tree };
             DockPanel.SetDock(box, Dock.Top);
             window = new Window { Content = new DockPanel { Children = { box, view } }, Width = 400, Height = 700 };
@@ -440,9 +440,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // ---------------------------------------------------------------- the bar of the panel and the shortcut of the main window
 
-        private static (SidePanelHost Host, TreeSearchBox Box) TreeHostOf(Window window) =>
+        private static (SidePanelHost Host, TextBoxSearchTree Box) TreeHostOf(Window window) =>
             window.GetVisualDescendants().OfType<SidePanelHost>()
-                .Select(host => (Host: host, Box: host.GetVisualDescendants().OfType<TreeSearchBox>().FirstOrDefault()))
+                .Select(host => (Host: host, Box: host.GetVisualDescendants().OfType<TextBoxSearchTree>().FirstOrDefault()))
                 .First(pair => pair.Box != null)!;
 
         // The field is in the bar of the panel that shows the tree, at the right end, on the same line as the button of the panel choice.
@@ -475,7 +475,7 @@ namespace CMiX.Studio.Avalonia.Tests
             host.Choice = host.Choices!.Cast<PanelChoice>().First(choice => choice is not TreePanelChoice);
             TestServiceProviderFactory.Pump();
 
-            Assert.Empty(host.GetVisualDescendants().OfType<TreeSearchBox>());
+            Assert.Empty(host.GetVisualDescendants().OfType<TextBoxSearchTree>());
         }
 
         [AvaloniaFact]

@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.TreeSearchBox"
+    x:Class="CMiX.Studio.Avalonia.Views.TextBoxSearchTree"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
@@ -8,7 +8,7 @@
     <!-- The search of the project tree, in the bar of the panel at the right. It is always shown while the panel shows the tree. The data
          context is the ProjectTree. The clear button is inside the field, at its right, while the field holds text (TextBoxSearch.ShowsClear).
          During a drag the field and the clear button take no input, and the text stays (ProjectTree.IsDragging). The keys are in
-         TreeSearchBox.axaml.cs. The class filtering shows that the search still filters the rows while the focus is not in the field:
+         TextBoxSearchTree.axaml.cs. The class filtering shows that the search still filters the rows while the focus is not in the field:
          the border of the field has the accent. -->
     <UserControl.Styles>
         <Style Selector="ui|TextBoxSearch.filtering TextBox#PART_Search /template/ Border#border">

@@ -141,7 +141,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal bool IsSearchFocused()
         {
-            if (FocusedControl() is not Visual focused || focused.FindAncestorOfType<TreeSearchBox>(true) is not { } box
+            if (FocusedControl() is not Visual focused || focused.FindAncestorOfType<TextBoxSearchTree>(true) is not { } box
                 || !ReferenceEquals(box.DataContext, context.Tree))
                 return false;
 

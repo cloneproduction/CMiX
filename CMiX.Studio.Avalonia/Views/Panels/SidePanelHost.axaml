@@ -66,7 +66,7 @@
                         Content="{Binding Choice, ElementName=sidePanelHost}">
                         <ContentControl.DataTemplates>
                             <DataTemplate DataType="{x:Type StudioViewModels:TreePanelChoice}">
-                                <Views:TreeSearchBox DataContext="{Binding Context.ProjectTree, ElementName=sidePanelHost}" />
+                                <Views:TextBoxSearchTree DataContext="{Binding Context.ProjectTree, ElementName=sidePanelHost}" />
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type StudioViewModels:PanelChoice}">
                                 <Panel />

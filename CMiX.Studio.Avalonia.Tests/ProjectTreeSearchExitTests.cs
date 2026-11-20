@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window?.Close();
         }
 
-        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View, TreeSearchBox Box)
+        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View, TextBoxSearchTree Box)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public TreeNode LayerNode(int index) => Tree.CompositionNodes()[0].Children[0].Children[index];
@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             var treeView = mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().Single();
             view = treeView;
-            var box = mainWindow.GetVisualDescendants().OfType<TreeSearchBox>().Single();
+            var box = mainWindow.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
             var screen = new Screen(mainWindow, viewModel, treeView, box);
             screen.Tree.SelectedNode = screen.Tree.CompositionNodes()[0];
             Settle(mainWindow);
@@ -180,7 +180,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // ---------------------------------------------------------------- Tree.ClearSearch (Alt+F)
 
         [AvaloniaFact]
-        public void AltF_InTheSearchBox_ClearsSearchAndFocusesTheCursorRow()
+        public void AltF_InTheTextBoxSearchTree_ClearsSearchAndFocusesTheCursorRow()
         {
             var screen = Show();
             SearchOneLayer(screen);
@@ -277,16 +277,16 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             SearchOneLayer(screen);
-            Assert.DoesNotContain(TreeSearchBox.FilteringClass, screen.Box.Field.Classes);
+            Assert.DoesNotContain(TextBoxSearchTree.FilteringClass, screen.Box.Field.Classes);
 
             Press(screen, PhysicalKey.ArrowDown);
 
-            Assert.Contains(TreeSearchBox.FilteringClass, screen.Box.Field.Classes);
+            Assert.Contains(TextBoxSearchTree.FilteringClass, screen.Box.Field.Classes);
             Assert.Equal(AccentColor, BorderColorOf(screen));
 
             Press(screen, PhysicalKey.Escape);
 
-            Assert.DoesNotContain(TreeSearchBox.FilteringClass, screen.Box.Field.Classes);
+            Assert.DoesNotContain(TextBoxSearchTree.FilteringClass, screen.Box.Field.Classes);
             Assert.NotEqual(AccentColor, BorderColorOf(screen));
         }
 
@@ -300,7 +300,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Press(screen, PhysicalKey.ArrowDown);
 
             Assert.True(screen.View.IsKeyboardFocusWithin);
-            Assert.DoesNotContain(TreeSearchBox.FilteringClass, screen.Box.Field.Classes);
+            Assert.DoesNotContain(TextBoxSearchTree.FilteringClass, screen.Box.Field.Classes);
             Assert.NotEqual(AccentColor, BorderColorOf(screen));
         }
 

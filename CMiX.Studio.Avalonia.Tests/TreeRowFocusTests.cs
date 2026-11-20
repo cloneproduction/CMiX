@@ -145,7 +145,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             StartRename(screen, "Typed");
-            var search = screen.Window.GetVisualDescendants().OfType<TreeSearchBox>().First().GetVisualDescendants().OfType<TextBox>().First();
+            var search = screen.Window.GetVisualDescendants().OfType<TextBoxSearchTree>().First().GetVisualDescendants().OfType<TextBox>().First();
 
             var point = search.TranslatePoint(new Point(search.Bounds.Width / 2, search.Bounds.Height / 2), screen.Window)!.Value;
             screen.Window.MouseMove(point);
