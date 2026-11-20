@@ -58,24 +58,19 @@ namespace CMiX.Studio.Avalonia.Views.Managers
                 .Select(type => new ModifierEntry { Type = type })
                 .ToList();
 
-            int columns = entries.Count switch { <= 4 => 1, <= 9 => 2, _ => 3 };
-            int rows = (int)Math.Ceiling((double)entries.Count / columns);
+            var columns = AddableTypes.Columns(entries);
 
             var grid = new AvaloniaGrid { Margin = new Thickness(4) };
 
-            for (int i = 0; i < columns; i++)
+            for (int i = 0; i < columns.Count; i++)
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
 
-            for (int col = 0; col < columns; col++)
+            for (int col = 0; col < columns.Count; col++)
             {
                 var stack = new StackPanel();
                 AvaloniaGrid.SetColumn(stack, col);
 
-                var columnEntries = entries
-                    .Skip(col * rows)
-                    .Take(rows);
-
-                foreach (var entry in columnEntries)
+                foreach (var entry in columns[col])
                 {
                     var button = new Button
                     {

@@ -39,6 +39,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 .Where(IsAddable)
                 .Where(interfaceType.IsAssignableFrom));
 
+        // One column up to 4 items, two up to 9, else three. Each column fills top down.
+        public static IReadOnlyList<IReadOnlyList<T>> Columns<T>(IReadOnlyList<T> items)
+        {
+            int columns = items.Count switch { <= 4 => 1, <= 9 => 2, _ => 3 };
+            int rows = (int)Math.Ceiling((double)items.Count / columns);
+
+            return Enumerable.Range(0, columns)
+                .Select(column => (IReadOnlyList<T>)items.Skip(column * rows).Take(rows).ToList())
+                .ToList();
+        }
+
         private static readonly string[] Suffixes = { "Modifier", "Modulator" };
 
         // A modifier or a modulator drops the word Modifier or Modulator: TranslateModifier gives Translate.

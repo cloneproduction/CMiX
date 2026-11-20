@@ -56,6 +56,30 @@ namespace CMiX.Studio.Avalonia.Tests
                 Assert.Equal(AddableTypes.LabelOf(type), converter.Convert(type, typeof(string), null, CultureInfo.InvariantCulture));
         }
 
+        [Fact]
+        public void Columns_FourItems_GivesOneColumnOfFour()
+        {
+            var columns = AddableTypes.Columns(Enumerable.Range(0, 4).ToList());
+
+            Assert.Equal(new[] { new[] { 0, 1, 2, 3 } }, columns.Select(column => column.ToArray()));
+        }
+
+        [Fact]
+        public void Columns_NineItems_GivesTwoColumnsFilledTopDown()
+        {
+            var columns = AddableTypes.Columns(Enumerable.Range(0, 9).ToList());
+
+            Assert.Equal(new[] { new[] { 0, 1, 2, 3, 4 }, new[] { 5, 6, 7, 8 } }, columns.Select(column => column.ToArray()));
+        }
+
+        [Fact]
+        public void Columns_TenItems_GivesThreeColumnsFilledTopDown()
+        {
+            var columns = AddableTypes.Columns(Enumerable.Range(0, 10).ToList());
+
+            Assert.Equal(new[] { new[] { 0, 1, 2, 3 }, new[] { 4, 5, 6, 7 }, new[] { 8, 9 } }, columns.Select(column => column.ToArray()));
+        }
+
         private sealed class PlainModifier
         {
         }
