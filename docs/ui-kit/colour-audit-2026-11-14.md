@@ -1,6 +1,6 @@
 # CMiX colour audit (2026-11-14)
 
-Scope: `CMiX.UI/Themes/Tokens/Colors.axaml` (43 Color keys), `CMiX.UI/Themes/Tokens/Brushes.axaml` (46 Brush keys), `CMiX.Studio.Avalonia/Themes/CategoryPalette.cs`, the tree converters, `Themes/Styles/ProjectTree.axaml`, `Views/Tree/*`, `Views/Inspector/Inspector.axaml`, `Views/Modulation/*`, `PopupCard`/`ToolTipCard`, `Themes/Styles/StatusIndicators.axaml`, and a grep of every `*.axaml` and `*.cs`. All numbers are computed (WCAG 2 ratio, OKLab dE x100, Machado 2009 CVD simulation at full severity). The mix formula is the one of the code: `ColorMix.Over` = sRGB lerp over `TreeBackground` #0F0F12.
+Scope: `CMiX.UI/Themes/Tokens/Colors.axaml` (43 Color keys), `CMiX.UI/Themes/Tokens/Brushes.axaml` (46 Brush keys), `CMiX.Studio.Avalonia/Themes/CategoryPalette.cs`, the tree converters, `Themes/Styles/ProjectTree.axaml`, `Views/Tree/*`, `Views/Inspector/PanelInspector.axaml`, `Views/Modulation/*`, `PopupCard`/`ToolTipCard`, `Themes/Styles/StatusIndicators.axaml`, and a grep of every `*.axaml` and `*.cs`. All numbers are computed (WCAG 2 ratio, OKLab dE x100, Machado 2009 CVD simulation at full severity). The mix formula is the one of the code: `ColorMix.Over` = sRGB lerp over `TreeBackground` #0F0F12.
 
 ## Summary
 
@@ -13,7 +13,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | Key | Hex | Meaning (what it tells the user) | Used by | Name | Issue |
 |---|---|---|---|---|---|
 | Grey100 | #0F0F12 | window surface, deepest | Grey100Brush (33), checkerboard, empty toggle slot | C | primitive, fine |
-| Grey200 | #212124 | panel level 1, hint strip, inspector settings band (`Inspector.axaml:94,103`) | Level1Brush, HintStripBackgroundBrush | C | fine |
+| Grey200 | #212124 | panel level 1, hint strip, inspector settings band (`PanelInspector.axaml:94,103`) | Level1Brush, HintStripBackgroundBrush | C | fine |
 | Grey300 | #2B2B2E | panel level 2, tree toolbar (`ProjectTreeView.axaml:43`), empty group row (`ProjectTree.axaml:244`) | Level2Brush, Grey300Brush (20) | C | fine |
 | Grey400 | #363639 | panel level 3, empty group hover (`:247`) | Level3Brush | C | fine |
 | Grey500 | #414144 | pressed control, hovered row, empty group chosen (`:250`) | StatePressedBrush, RowHoverBrush | C | one grey, three meanings (pressed, row hover, chosen empty group) |
@@ -85,7 +85,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | KeyCapBorderBrush | Grey600 | key cap frame | 1 | fine |
 | HintStripBackgroundBrush / HintStripTextBrush | Grey200 / ShortcutText | hint strip | 1 / 1 | text 4.38:1, under AA |
 
-Hardcoded values outside the tokens: `ProjectTreeView.axaml:194` BoxShadow `#E6000000`; `Brushes.axaml:5,18,19,20` literal `Black`; `CMiX.UI/Converters/CurrentStepConverter.cs:16` fallback `Brushes.OrangeRed` (the current step of BeatSteps); `CMiX.UI/Behaviors/ListBoxReorder.cs:291` `Brushes.Gray`; `Inspector.axaml:76` placeholder at Opacity 0.5 (opacity used as a text colour). Core model defaults (`#FFFFFFFF` and so on) are content, not UI.
+Hardcoded values outside the tokens: `ProjectTreeView.axaml:194` BoxShadow `#E6000000`; `Brushes.axaml:5,18,19,20` literal `Black`; `CMiX.UI/Converters/CurrentStepConverter.cs:16` fallback `Brushes.OrangeRed` (the current step of BeatSteps); `CMiX.UI/Behaviors/ListBoxReorder.cs:291` `Brushes.Gray`; `PanelInspector.axaml:76` placeholder at Opacity 0.5 (opacity used as a text colour). Core model defaults (`#FFFFFFFF` and so on) are content, not UI.
 
 ## 3. Meaning map
 
@@ -311,7 +311,7 @@ Fix:       Use StatusWarning for the conflict mark and retire WarningMuted. The 
 [MINOR] Hardcoded values
 Where:     ProjectTreeView.axaml:194 (#E6000000); Brushes.axaml:5,18-20 (Black); CurrentStepConverter.cs:16
            (Brushes.OrangeRed, the current step of BeatSteps); ListBoxReorder.cs:291 (Brushes.Gray);
-           Inspector.axaml:76 (Opacity 0.5 as a text colour)
+           PanelInspector.axaml:76 (Opacity 0.5 as a text colour)
 Fix:       Tokens: ShadowColor, OverlayBlack30 / OverlayBlack40, TextMutedBrush for the placeholder. The current step of
            BeatSteps is "live" feedback and needs its own token (chart group Feedback), not a fallback.
 ```
@@ -337,7 +337,7 @@ The tree code is: kind hue = who you are; tone strength = state; shapes (frame, 
 
 | Fact | Cue | Token / strength | Why this cue |
 |---|---|---|---|
-| Kind of the inspected node | Header band fill (already there, `Inspector.axaml:39`, FillSelected) with a white icon and a white name | kind hue at 0.55 over Grey100 (white text 4.5 to 6.6:1) | The same look as the chosen row: "the thing you picked is the thing you edit". One meaning, one look. |
+| Kind of the inspected node | Header band fill (already there, `PanelInspector.axaml:39`, FillSelected) with a white icon and a white name | kind hue at 0.55 over Grey100 (white text 4.5 to 6.6:1) | The same look as the chosen row: "the thing you picked is the thing you edit". One meaning, one look. |
 | Kind, when the panel scrolls | A 2 px left bar down the whole editor | Kind 0.60 (3.2 to 4.8:1 on Grey100; 3:1 met) | A thin bar survives scrolling and does not compete with the walls. Not 0.85: a long saturated bar dazzles in a dark room. |
 | Composable context (the composition, layer or scene that holds the node) | A breadcrumb strip under the header: one chip per ancestor composable, each in its wheel hue at Kind 0.60 with a white icon, the name in TreeTextRest on Grey200 | wheel step by depth, as in the tree | The wheel is a depth code: the user already learned "my composition is magenta, its layers are coral". The chips repeat exactly those tones. |
 | Section of a child kind (the Modifiers group inside an entity) | Section header with a Kind 0.60 badge of that kind, text in TreeTextRest, no fill | badge only | A fill of a second kind inside a panel of a first kind reads as two selected things. Badges, like the count squares of a collapsed row, say "what is inside". |

@@ -7,9 +7,9 @@ using Avalonia.Controls.Presenters;
 namespace CMiX.Studio.Avalonia.Views
 {
     // The editor of the node the project tree sends to the inspector (ProjectTree.InspectedNode). The DataContext is the ProjectTree.
-    public partial class Inspector : UserControl
+    public partial class PanelInspector : UserControl
     {
-        public Inspector()
+        public PanelInspector()
         {
             InitializeComponent();
             editor.TemplateApplied += (_, _) =>

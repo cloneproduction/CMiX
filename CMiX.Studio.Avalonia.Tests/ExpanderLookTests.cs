@@ -111,7 +111,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var inspector = window.GetVisualDescendants().OfType<CMiX.Studio.Avalonia.Views.Inspector>().Single();
+            var inspector = window.GetVisualDescendants().OfType<CMiX.Studio.Avalonia.Views.PanelInspector>().Single();
 
             foreach (var node in viewModel.ProjectTree.VisibleNodes().ToList())
             {

@@ -125,7 +125,7 @@ window.CMIX_CATALOGUE = [
                     { id: '20.1', name: 'MenuMain', source: 'CMiX.Studio.Avalonia/Views/Menus/MenuMain.axaml' },
                     { id: '20.2', name: 'PanelMainTabs', source: 'CMiX.Studio.Avalonia/Views/Panels/PanelMainTabs.axaml' },
                     { id: '20.3', name: 'SidePanelHost', source: 'CMiX.Studio.Avalonia/Views/Panels/SidePanelHost.axaml' },
-                    { id: '20.4', name: 'Inspector', source: 'CMiX.Studio.Avalonia/Views/Inspector/Inspector.axaml' },
+                    { id: '20.4', name: 'PanelInspector', source: 'CMiX.Studio.Avalonia/Views/Inspector/PanelInspector.axaml' },
                     { id: '20.5', name: 'SelectorPrefab', source: 'CMiX.Studio.Avalonia/Views/Controls/SelectorPrefab.axaml' },
                     { id: '20.6', name: 'DialogMessage', source: 'CMiX.Studio.Avalonia/Views/Dialogs/DialogMessage.axaml' },
                     { id: '20.7', name: 'SettingsShortcut', source: 'CMiX.Studio.Avalonia/Views/SettingsShortcut.axaml' }

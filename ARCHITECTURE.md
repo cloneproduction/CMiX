@@ -83,7 +83,7 @@ Classes that are several shapes at once, or none:
 
 | Shape | Main classes |
 |---|---|
-| View | Everything in `Views/`: one view for each Core control with the same name (`Blur`, `Layer`, `ModelEntity`, ...), `MainWindow`, `ProjectTreeView`, `Inspector`, `PanelSync`, `AssetManager`, `MainMenu` (the view), the tree helpers (`TreeDragSession`, `TreeGrab`, `AddPanel`, `PrefabRowMenu`, ...), the converters and the behaviors. |
+| View | Everything in `Views/`: one view for each Core control with the same name (`Blur`, `Layer`, `ModelEntity`, ...), `MainWindow`, `ProjectTreeView`, `PanelInspector`, `PanelSync`, `AssetManager`, `MainMenu` (the view), the tree helpers (`TreeDragSession`, `TreeGrab`, `AddPanel`, `PrefabRowMenu`, ...), the converters and the behaviors. |
 | ViewModel | `MainViewModel`, `MainMenuViewModel`, `ProjectFileViewModel`, `MainWindowController`, `ShortcutSettings`, `PanelChoice`, and the tree: `ProjectTree`, `TreeNode`, `TreeGroup`, `TreeAdd`, `TreeViewHooks`. |
 | Service | `ShortcutMap`, `InterfaceOptions`, `StudioSettings`, `JsonSettingsFile`, `PathDropService`, `PanelFocusCycle`, `NotificationService`, `UnsavedChanges`, `UnsavedChangesPrompt`, `MessageNotice`, `MoveBlockedNotice`, `MainWindowDialogManager`, `TreeDropService`. |
 | Model, Message | None. |

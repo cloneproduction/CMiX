@@ -15,14 +15,14 @@ namespace CMiX.Studio.Avalonia.Tests
     // The bounds of time are about three times the measured values, so a slow machine passes.
     // Measured on the headless renderer (2026-11-06), in ms: entity 370 to 440 (the first build), layer 120 to 180,
     // composition 45 to 95, entity again 230 to 370. Each change of the kind of the item builds one view.
-    public class InspectorBudgetTests
+    public class PanelInspectorBudgetTests
     {
         private const int Layers = 20;
         private const int EntitiesPerLayer = 100;
 
         private readonly ITestOutputHelper output;
 
-        public InspectorBudgetTests(ITestOutputHelper output) => this.output = output;
+        public PanelInspectorBudgetTests(ITestOutputHelper output) => this.output = output;
 
         [AvaloniaFact]
         public void SelectedNode_OnALargeComposition_BuildsOneViewAndStaysInTheTimeBudget()
@@ -41,7 +41,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var tree = viewModel.ProjectTree;
             tree.SelectedNode = null;
             TestServiceProviderFactory.SelectMainTab(window, "Inspector");
-            var inspector = window.GetVisualDescendants().OfType<Inspector>().Single();
+            var inspector = window.GetVisualDescendants().OfType<PanelInspector>().Single();
             TestServiceProviderFactory.Pump();
 
             var compositionNode = tree.CompositionNodes()[0];

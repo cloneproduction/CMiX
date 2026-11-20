@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             UserControl panel = name switch
             {
-                "Inspector" => new Inspector { DataContext = viewModel.ProjectTree },
+                "Inspector" => new PanelInspector { DataContext = viewModel.ProjectTree },
                 "Settings" => new TabSettings { DataContext = viewModel },
                 "Entities" => new TabEntities { DataContext = viewModel },
                 "Composition" => new CompositionView { DataContext = composition },
@@ -40,7 +40,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 "LayerLight" => new TabLayerLight { DataContext = layer },
                 _ => throw new ArgumentOutOfRangeException(nameof(name)),
             };
-            if (panel is Inspector)
+            if (panel is PanelInspector)
                 viewModel.ProjectTree.Inspect(viewModel.ProjectTree.CompositionNodes()[0].Children[0].Children[0]);
 
             var window = new Window { Content = panel, Width = 300, Height = 60 };
@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             window.UpdateLayout();
 
-            var viewer = panel is Inspector inspector ? inspector.FindControl<ScrollViewer>("scroller")! : (ScrollViewer)panel.Content!;
+            var viewer = panel is PanelInspector inspector ? inspector.FindControl<ScrollViewer>("scroller")! : (ScrollViewer)panel.Content!;
             return (window, viewer);
         }
 

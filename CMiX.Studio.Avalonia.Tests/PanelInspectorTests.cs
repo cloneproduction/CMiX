@@ -34,13 +34,13 @@ using TextEntityView = CMiX.Studio.Avalonia.Views.TextEntity;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The inspector shows the editor of the item that is selected in the project tree. The other tabs stay as they were.
-    public class InspectorTests
+    public class PanelInspectorTests
     {
         private sealed class Screen
         {
             public MainWindow Window { get; init; } = null!;
             public MainViewModel ViewModel { get; init; } = null!;
-            public Inspector Inspector { get; init; } = null!;
+            public PanelInspector Inspector { get; init; } = null!;
             public Layer Layer { get; init; } = null!;
             public UndoManager UndoManager { get; init; } = null!;
 
@@ -81,7 +81,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             viewModel.ProjectTree.SelectedNode = null;
             TestServiceProviderFactory.SelectMainTab(window, "Inspector");
-            var inspector = window.GetVisualDescendants().OfType<Inspector>().Single();
+            var inspector = window.GetVisualDescendants().OfType<PanelInspector>().Single();
             TestServiceProviderFactory.Pump();
             return new Screen { Window = window, ViewModel = viewModel, Inspector = inspector, Layer = layer, UndoManager = provider.GetRequiredService<UndoManager>() };
         }
@@ -658,7 +658,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Select(screen, screen.Group<CamerasGroup>().Children[0]);
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Inspector");
 
-            var inspector = screen.Window.GetVisualDescendants().OfType<Inspector>().Single();
+            var inspector = screen.Window.GetVisualDescendants().OfType<PanelInspector>().Single();
             Assert.NotNull(inspector.GetVisualDescendants().OfType<CameraView>().FirstOrDefault());
             Assert.Null(inspector.GetVisualDescendants().OfType<TabLayerPostFX>().FirstOrDefault());
         }
