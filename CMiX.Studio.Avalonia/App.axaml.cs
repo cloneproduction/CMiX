@@ -79,6 +79,8 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddSingleton<PathDropService>();
                 serviceCollection.AddSingleton<ProjectTree>();
                 serviceCollection.AddSingleton<PanelFocusCycle>();
+                serviceCollection.AddSingleton(_ => new StudioSettingsFile(StudioSettings.DefaultPath));
+                serviceCollection.AddSingleton<ICredentialStore, WindowsCredentialStore>();
                 serviceCollection.AddSingleton(_ =>
                 {
                     var options = new InterfaceOptions(StudioSettings.DefaultPath);
@@ -100,10 +102,12 @@ namespace CMiX.Studio.Avalonia
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();
                 MessageNotice = serviceProvider.GetRequiredService<IMessageNotice>();
+                var settingsFile = serviceProvider.GetRequiredService<StudioSettingsFile>();
+                var credentialStore = serviceProvider.GetRequiredService<ICredentialStore>();
                 // Post, not Invoke, so the Redis reader thread never waits for the UI thread.
                 serviceProvider.GetRequiredService<SyncPeer>().StartAsStudio(
                     serviceProvider.GetRequiredService<ControlMessenger>(),
-                    a => Dispatcher.UIThread.Post(a), StudioSettings.Load().Resolve(new WindowsCredentialStore()).Options);
+                    a => Dispatcher.UIThread.Post(a), settingsFile.Load().Resolve(credentialStore).Options);
 
                 var masterBeat = serviceProvider.GetRequiredService<MasterBeat>();
                 // The master beat holds the controller through its handlers, so no field keeps it.

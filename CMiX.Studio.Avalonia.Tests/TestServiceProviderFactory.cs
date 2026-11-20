@@ -2,6 +2,7 @@
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.DependencyInjection;
+using CMiX.Core.Networking;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.ViewModels;
@@ -45,6 +46,8 @@ namespace CMiX.Studio.Avalonia.Tests
             serviceCollection.AddSingleton<PanelFocusCycle>();
             // The defaults, with no file. A test never reads or writes the settings file of the Studio.
             serviceCollection.AddSingleton(_ => new InterfaceOptions());
+            serviceCollection.AddSingleton(_ => new StudioSettingsFile(Path.Combine(Path.GetTempPath(), $"cmix-studiosettings-{Guid.NewGuid():N}", StudioSettings.FileName)));
+            serviceCollection.AddSingleton<ICredentialStore, FakeCredentialStore>();
             // The defaults, with a file path in the temp folder. A test never reads or writes the file of the user.
             serviceCollection.AddSingleton(_ => new ShortcutMap(Path.Combine(Path.GetTempPath(), $"cmix-shortcuts-{Guid.NewGuid():N}", ShortcutMap.FileName)));
             // A test sets no mouse hook on the desktop.
