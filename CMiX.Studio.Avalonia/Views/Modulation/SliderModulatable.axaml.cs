@@ -5,27 +5,17 @@ using Avalonia;
 
 namespace CMiX.Studio.Avalonia.Views.Modulation
 {
-    public partial class SliderModulatable : UserControlModulatable
+    public partial class SliderModulatable : UserControlLimitedModulatable
     {
+        static SliderModulatable()
+        {
+            MinimumProperty.OverrideDefaultValue<SliderModulatable>(0.0);
+            MaximumProperty.OverrideDefaultValue<SliderModulatable>(1.0);
+        }
+
         public SliderModulatable()
         {
             InitializeComponent();
-        }
-
-        public static readonly StyledProperty<double> MinimumProperty =
-            AvaloniaProperty.Register<SliderModulatable, double>(nameof(Minimum));
-        public double Minimum
-        {
-            get => GetValue(MinimumProperty);
-            set => SetValue(MinimumProperty, value);
-        }
-
-        public static readonly StyledProperty<double> MaximumProperty =
-            AvaloniaProperty.Register<SliderModulatable, double>(nameof(Maximum), 1.0);
-        public double Maximum
-        {
-            get => GetValue(MaximumProperty);
-            set => SetValue(MaximumProperty, value);
         }
     }
 }

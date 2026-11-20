@@ -5,19 +5,16 @@ using Avalonia;
 
 namespace CMiX.Studio.Avalonia.Views.Modulation
 {
-    public partial class IntegerValueModulatable : UserControlModulatable
+    public partial class IntegerValueModulatable : UserControlLimitedModulatable
     {
+        static IntegerValueModulatable()
+        {
+            MinimumProperty.OverrideDefaultValue<IntegerValueModulatable>(1.0);
+        }
+
         public IntegerValueModulatable()
         {
             InitializeComponent();
-        }
-
-        public static readonly StyledProperty<double> MinimumProperty =
-            AvaloniaProperty.Register<IntegerValueModulatable, double>(nameof(Minimum), 1.0);
-        public double Minimum
-        {
-            get => GetValue(MinimumProperty);
-            set => SetValue(MinimumProperty, value);
         }
     }
 }

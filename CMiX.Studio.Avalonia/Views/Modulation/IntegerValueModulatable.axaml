@@ -1,4 +1,4 @@
-<Modulation:UserControlModulatable
+<Modulation:UserControlLimitedModulatable
     x:Class="CMiX.Studio.Avalonia.Views.Modulation.IntegerValueModulatable"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -15,6 +15,7 @@
         IsInteger="True"
         IsReadOnly="{Binding IsModulated}"
         LargeChange="1.0"
+        Maximum="{Binding Maximum, ElementName=countValue}"
         Minimum="{Binding Minimum, ElementName=countValue}"
         ResetCommand="{Binding ResetCommand}"
         SmallChange="1.0"
@@ -25,4 +26,4 @@
         </ui:DragValue.TrailingContent>
     </ui:DragValue>
 
-</Modulation:UserControlModulatable>
+</Modulation:UserControlLimitedModulatable>
