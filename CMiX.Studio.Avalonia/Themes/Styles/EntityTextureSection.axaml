@@ -1,0 +1,67 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI">
+
+    <ControlTheme x:Key="{x:Type Views:EntityTextureSection}" TargetType="Views:EntityTextureSection">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel>
+
+                    <ui:ExpanderIndented
+                        Header="Texture"
+                        IsExpanded="{Binding TextureIsExpanded}">
+
+                      <StackPanel>
+
+                        <Views:DiffuseTexture DataContext="{Binding Texture.DiffuseTexture}" />
+
+                        <!-- The mask has the color of the texture panel around it, not the darker color of a deeper level. -->
+                        <ui:ExpanderIndented
+                            Background="{DynamicResource PanelBackgroundLevel1Brush}"
+                            Indentation="4"
+                            IsExpanded="{Binding Texture.MaskTexture.IsExpanded}">
+
+                          <ui:ExpanderIndented.Header>
+                            <DockPanel>
+                              <ui:ToggleButtonCMiX
+                                  Width="{DynamicResource ControlHeightXS}"
+                                  Height="{DynamicResource ControlHeightXS}"
+                                  IsChecked="{Binding Texture.MaskTexture.IsEnabled.Value, Mode=TwoWay}"
+                                  ResetCommand="{Binding Texture.MaskTexture.IsEnabled.ResetCommand}"
+                                  Theme="{StaticResource ToggleButtonBox}" />
+                              <TextBlock Margin="8,0" Text="Mask" />
+                            </DockPanel>
+                          </ui:ExpanderIndented.Header>
+
+                          <Views:MaskTexture DataContext="{Binding Texture.MaskTexture}" />
+
+                        </ui:ExpanderIndented>
+
+                      </StackPanel>
+
+                    </ui:ExpanderIndented>
+
+                    <ui:ExpanderIndented
+                      Header="Transform Texture"
+                      IsExpanded="{Binding TransformTextureIsExpanded}">
+
+                      <StackPanel Margin="8" Spacing="{DynamicResource SpacingMD}">
+
+                        <Views:Transform2D
+                          DataContext="{Binding Texture.DiffuseTexture.Transform2D}" />
+
+                        <Views:SamplerState
+                          DataContext="{Binding Texture.DiffuseTexture.SamplerState}" />
+
+                      </StackPanel>
+
+                    </ui:ExpanderIndented>
+
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

@@ -201,7 +201,8 @@ window.CMIX_CATALOGUE = [
                     { id: '27.6', name: 'PlayerTransport', source: 'CMiX.Studio.Avalonia/Views/Texturing/Source/PlayerTransport.axaml' },
                     { id: '27.7', name: 'TypeWriter', source: 'CMiX.Studio.Avalonia/Themes/Styles/TypeWriter.axaml' },
                     { id: '27.8', name: 'ModifierManager', source: 'CMiX.Studio.Avalonia/Views/Modifiers/ModifierManager.axaml' },
-                    { id: '27.9', name: 'MeshShapeFrame', source: 'CMiX.Studio.Avalonia/Themes/Styles/MeshShapeFrame.axaml' }
+                    { id: '27.9', name: 'MeshShapeFrame', source: 'CMiX.Studio.Avalonia/Themes/Styles/MeshShapeFrame.axaml' },
+                    { id: '27.10', name: 'EntityTextureSection', source: 'CMiX.Studio.Avalonia/Themes/Styles/EntityTextureSection.axaml' }
                 ]
             }
         ]
