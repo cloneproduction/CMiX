@@ -7,8 +7,8 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
-using CMiX.UI.Behaviors;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Popups;
 
 namespace CMiX.UI.Controls.String
 {

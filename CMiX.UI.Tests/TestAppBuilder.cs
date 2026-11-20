@@ -19,7 +19,7 @@ namespace CMiX.UI.Tests
             Styles.Add(new SimpleTheme());
             Styles.Add(new MaterialIconStyles(null));
             Styles.Add(new CMiXTheme());
-            CMiX.UI.Behaviors.OutsideClick.Install();
+            CMiX.UI.Popups.OutsideClick.Install();
         }
     }
 

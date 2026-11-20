@@ -9,7 +9,7 @@ namespace CMiX.UI.Gallery
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
-            CMiX.UI.Behaviors.OutsideClick.Install();
+            CMiX.UI.Popups.OutsideClick.Install();
         }
 
         public override void OnFrameworkInitializationCompleted()

@@ -10,9 +10,9 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
-using CMiX.UI.Popups;
+using CMiX.UI.Behaviors;
 
-namespace CMiX.UI.Behaviors
+namespace CMiX.UI.Popups
 {
     // A press outside the open popups (a panel, a dropdown, a menu, a flyout) only ends them, and does nothing else: the control
     // under the pointer gets neither the press nor its release, so a click does not select a row and a right click opens no menu.
