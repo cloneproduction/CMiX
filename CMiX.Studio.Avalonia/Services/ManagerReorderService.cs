@@ -4,7 +4,7 @@
 using System;
 using CMiX.Core;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.UI.Behaviors;
+using CMiX.UI.AttachedProperties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 

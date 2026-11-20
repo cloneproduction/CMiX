@@ -9,7 +9,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using CMiX.UI.AttachedProperties;
-using CMiX.UI.Behaviors;
 using CMiX.UI.Panels;
 
 namespace CMiX.UI.Controls.Collection

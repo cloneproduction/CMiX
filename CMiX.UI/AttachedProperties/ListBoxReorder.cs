@@ -9,7 +9,7 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 
-namespace CMiX.UI.Behaviors
+namespace CMiX.UI.AttachedProperties
 {
     public static class ListBoxReorder
     {

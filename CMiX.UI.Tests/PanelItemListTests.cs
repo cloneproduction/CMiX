@@ -7,7 +7,7 @@ using Avalonia.Data;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.UI.Behaviors;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.Collection;
 using Xunit;
 

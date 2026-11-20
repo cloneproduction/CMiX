@@ -8,7 +8,6 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.AttachedProperties;
-using CMiX.UI.Behaviors;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
 using CMiX.UI.Panels;
