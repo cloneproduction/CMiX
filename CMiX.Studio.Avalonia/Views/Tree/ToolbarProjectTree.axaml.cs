@@ -11,13 +11,13 @@ using CMiX.UI.Popups;
 namespace CMiX.Studio.Avalonia.Views
 {
     // A click opens the Add panel under the pointer, as Tree.Add does. A keyboard click opens it under the button.
-    public partial class ProjectTreeToolbar : UserControl
+    public partial class ToolbarProjectTree : UserControl
     {
         private readonly AddPanel panel = new();
 
         private Point lastPointer;
 
-        public ProjectTreeToolbar()
+        public ToolbarProjectTree()
         {
             InitializeComponent();
             AddHandler(PointerMovedEvent, (_, e) => lastPointer = e.GetPosition(this), RoutingStrategies.Tunnel, handledEventsToo: true);

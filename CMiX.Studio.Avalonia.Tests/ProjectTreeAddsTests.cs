@@ -27,7 +27,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             foreach (var window in windows)
             {
-                foreach (var toolbar in window.GetVisualDescendants().OfType<ProjectTreeToolbar>())
+                foreach (var toolbar in window.GetVisualDescendants().OfType<ToolbarProjectTree>())
                     toolbar.Panel.Close();
 
                 if (window.GetVisualDescendants().OfType<ProjectTreeView>().FirstOrDefault() is { } treeView)
@@ -50,7 +50,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             public TreeView TreeView => View.GetVisualDescendants().OfType<TreeView>().First();
             public Button AddButton => View.GetVisualDescendants().OfType<Button>().First(button => button.Name == "AddButton");
-            public AddPanel Panel => View.GetVisualDescendants().OfType<ProjectTreeToolbar>().First().Panel;
+            public AddPanel Panel => View.GetVisualDescendants().OfType<ToolbarProjectTree>().First().Panel;
             public TreeNode LayerNode => Tree.CompositionNodes()[0].Children[0].Children[0];
 
             public TreeViewItem RowOf(TreeNode node) =>

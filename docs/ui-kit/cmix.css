@@ -1316,7 +1316,7 @@
         display: flex;
         flex-direction: column;
         background: var(--TreeBackgroundBrush);
-        > .ProjectTreeToolbar { background: var(--Grey300Brush); }
+        > .ToolbarProjectTree { background: var(--Grey300Brush); }
         > .tree { position: relative; flex: 1; min-height: 0; }
         > .tree > .RowStripes { position: absolute; inset: 0; opacity: 0.6; --Brush: var(--Grey200); background-position: 0 8px; }
         > .tree > .TreeView { position: relative; padding: 8px 8px 8px 8px; }
@@ -1331,8 +1331,8 @@
     /* Class filtering: a search filters the rows and the focus is not in the field. The border of the field has the accent. */
     .TextBoxSearch.filtering > .TextBox { border-color: var(--AccentBrush); }
 
-    /* ---------------------------------------------------------------- Views/Tree/ProjectTreeToolbar.axaml */
-    .ProjectTreeToolbar {
+    /* ---------------------------------------------------------------- Views/Tree/ToolbarProjectTree.axaml */
+    .ToolbarProjectTree {
         display: flex;
         padding: var(--TreeToolbarPadding);
         > :last-child { margin-left: auto; }

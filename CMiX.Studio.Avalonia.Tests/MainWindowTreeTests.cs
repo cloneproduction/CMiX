@@ -82,7 +82,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(8, rowOrigin.X, 0.5);
             Assert.Equal(8, tree.Bounds.Width - (rowOrigin.X + row.Bounds.Width), 0.5);
             // The toolbar is over the tree, so the space above the first row is counted from the bottom of the toolbar.
-            var toolbar = tree.GetVisualDescendants().OfType<ProjectTreeToolbar>().Single();
+            var toolbar = tree.GetVisualDescendants().OfType<ToolbarProjectTree>().Single();
             Assert.Equal(8, rowOrigin.Y - toolbar.Bounds.Bottom, 0.5);
 
             // The right space of 8 is the room that the scroll bar has (ScrollBarGutter), so the list has no margin on the right.

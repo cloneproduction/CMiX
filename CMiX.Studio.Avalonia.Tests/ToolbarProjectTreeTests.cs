@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The toolbar over the tree: add, duplicate, move up, move down and remove, for the selected node.
     // A button that has nothing to do for the selected node is disabled.
-    public class ProjectTreeToolbarTests : IDisposable
+    public class ToolbarProjectTreeTests : IDisposable
     {
         private readonly List<Window> windows = new();
 
@@ -37,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             foreach (var window in windows)
             {
-                foreach (var toolbar in window.GetVisualDescendants().OfType<ProjectTreeToolbar>())
+                foreach (var toolbar in window.GetVisualDescendants().OfType<ToolbarProjectTree>())
                     toolbar.Panel.Close();
 
                 foreach (var button in window.GetVisualDescendants().OfType<Button>())
@@ -317,7 +317,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             public Button ButtonOf(string name) => View.GetVisualDescendants().OfType<Button>().First(button => button.Name == name);
 
-            public ProjectTreeToolbar Toolbar => View.GetVisualDescendants().OfType<ProjectTreeToolbar>().First();
+            public ToolbarProjectTree Toolbar => View.GetVisualDescendants().OfType<ToolbarProjectTree>().First();
             public AddPanel Panel => Toolbar.Panel;
 
             // The headers of the groups in the panel of the Add button.

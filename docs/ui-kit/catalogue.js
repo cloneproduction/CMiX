@@ -134,7 +134,7 @@ window.CMIX_CATALOGUE = [
             {
                 id: '21', name: 'Tree', entries: [
                     { id: '21.1', name: 'ProjectTree', source: 'CMiX.Studio.Avalonia/Themes/Styles/ProjectTree.axaml' },
-                    { id: '21.2', name: 'ProjectTreeToolbar', source: 'CMiX.Studio.Avalonia/Views/Tree/ProjectTreeToolbar.axaml' },
+                    { id: '21.2', name: 'ToolbarProjectTree', source: 'CMiX.Studio.Avalonia/Views/Tree/ToolbarProjectTree.axaml' },
                     { id: '21.3', name: 'TreeSearchBox', source: 'CMiX.Studio.Avalonia/Views/Tree/TreeSearchBox.axaml' },
                     { id: '21.4', name: 'RowToggles', source: 'CMiX.Studio.Avalonia/Views/Tree/RowToggles.axaml' },
                     { id: '21.5', name: 'BadgeCategory', source: 'CMiX.Studio.Avalonia/Views/Tree/BadgeCategory.axaml' },
