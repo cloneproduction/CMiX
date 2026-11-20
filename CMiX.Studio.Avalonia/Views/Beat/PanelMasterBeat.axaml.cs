@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class MasterBeatControl : UserControl
+    public partial class PanelMasterBeat : UserControl
     {
-        public MasterBeatControl()
+        public PanelMasterBeat()
         {
             InitializeComponent();
         }

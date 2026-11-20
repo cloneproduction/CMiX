@@ -196,7 +196,7 @@
             BorderBrush="{DynamicResource Grey100Brush}"
             BorderThickness="2,0">
 
-            <Views:MasterBeatControl DataContext="{Binding Project.MasterBeat}" />
+            <Views:PanelMasterBeat DataContext="{Binding Project.MasterBeat}" />
 
         </Border>
 

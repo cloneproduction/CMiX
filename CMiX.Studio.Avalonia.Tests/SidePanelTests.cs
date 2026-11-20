@@ -294,7 +294,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Pick(screen, left: true, PanelChoice.Tabs);
             Pick(screen, left: false, PanelChoice.Tree);
 
-            var beat = screen.Window.GetVisualDescendants().OfType<MasterBeatControl>().Single();
+            var beat = screen.Window.GetVisualDescendants().OfType<PanelMasterBeat>().Single();
             var tabs = Assert.Single(screen.Tabs);
 
             Assert.True(tabs.IsVisualAncestorOf(beat));

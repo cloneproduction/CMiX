@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData("P", ControlPosition.Left)]
         [InlineData("-", ControlPosition.None)]
         [InlineData("+", ControlPosition.Right)]
-        public void MasterBeatControl_Buttons_TakeTheirCorners(string content, ControlPosition expected) =>
-            Assert.Equal(expected, PositionOfButton(new MasterBeatControl(), content));
+        public void PanelMasterBeat_Buttons_TakeTheirCorners(string content, ControlPosition expected) =>
+            Assert.Equal(expected, PositionOfButton(new PanelMasterBeat(), content));
     }
 }

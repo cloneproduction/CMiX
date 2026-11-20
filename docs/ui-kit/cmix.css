@@ -1469,7 +1469,7 @@
     .EllipseSyncState { background: var(--Grey800); &.insync { background: var(--AccentPrimary); } }
     .BadgeSyncStatus { display: flex; align-items: center; gap: var(--SpacingSM); white-space: nowrap; }
 
-    /* ---------------------------------------------------------------- Views/Beat/PanelBeat.axaml, MasterBeatControl.axaml */
+    /* ---------------------------------------------------------------- Views/Beat/PanelBeat.axaml, PanelMasterBeat.axaml */
     .PanelBeat {
         display: grid;
         grid-template-columns: 40% 60%;
@@ -1482,7 +1482,7 @@
         .Button { flex: none; width: var(--ControlHeightMD); --Position: var(--CornerRadiusNone); }
         .Button:last-child { --Position: var(--CornerRadiusRight); }
     }
-    .MasterBeatControl {
+    .PanelMasterBeat {
         display: flex;
         flex-direction: column;
         > .DragValue { margin-bottom: 8px; }

@@ -21,7 +21,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // Editors that must not have a reset: (view, caption).
         private static readonly HashSet<(string View, string Caption)> NoReset = new()
         {
-            ("MasterBeatControl", "BPM"),
+            ("PanelMasterBeat", "BPM"),
             ("Composition", "Output Mapping"),      // picks an item, not a value
         };
 
@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
             ["MeshSphere"] = "Mesh", ["MeshCone"] = "Mesh", ["MeshCylinder"] = "Mesh", ["MeshTorus"] = "Mesh", ["MeshPlane"] = "Mesh",
             ["LightPoint"] = "LightSettings", ["LightSpot"] = "LightSettings", ["LightDirectional"] = "LightSettings",
             ["Text3D"] = "Text3DSettings",
-            ["MasterBeatControl"] = "MasterBeat",
+            ["PanelMasterBeat"] = "MasterBeat",
         };
 
         private static string Caption(Control c) =>

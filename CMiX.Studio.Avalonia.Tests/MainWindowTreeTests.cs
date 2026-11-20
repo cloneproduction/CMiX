@@ -49,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
             var tree = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
             var tabs = TestServiceProviderFactory.MainTabControl(window);
-            var beat = window.GetVisualDescendants().OfType<MasterBeatControl>().Single();
+            var beat = window.GetVisualDescendants().OfType<PanelMasterBeat>().Single();
 
             var tabsOrigin = tabs.TranslatePoint(new(0, 0), window)!.Value;
             var beatOrigin = beat.TranslatePoint(new(0, 0), window)!.Value;
