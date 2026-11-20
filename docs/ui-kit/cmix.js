@@ -474,7 +474,7 @@
         PanelItemList: panelItemList,
         PopupButton: popupButton,
         ListSearchableItemPicker: searchablePicker,
-        GroupedSearchList: groupedSearchList,
+        ListGroupedSearch: groupedSearchList,
         Expander: expander,
         ExpanderItem: expander,
         ExpanderIndented: expander,

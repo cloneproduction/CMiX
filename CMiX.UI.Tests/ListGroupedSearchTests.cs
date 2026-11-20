@@ -14,7 +14,7 @@ using Xunit;
 namespace CMiX.UI.Tests
 {
     // The list of groups with a search field: the state of the groups, the search, the keys and the clicks.
-    public class GroupedSearchListTests
+    public class ListGroupedSearchTests
     {
         private static readonly string[] Content = { "Entity", "Fullscreen quad", "Text", "Camera", "Light" };
 
@@ -27,10 +27,10 @@ namespace CMiX.UI.Tests
         private static PickerGroup Group(string header, string[] names, string kind) =>
             new(header, names.Select(name => new PickerItem(name, name, kind)).ToList(), kind);
 
-        private static (Window Window, GroupedSearchList List, List<PickerPickedEventArgs> Picks) Show()
+        private static (Window Window, ListGroupedSearch List, List<PickerPickedEventArgs> Picks) Show()
         {
             var picks = new List<PickerPickedEventArgs>();
-            var list = new GroupedSearchList
+            var list = new ListGroupedSearch
             {
                 Groups = new[] { Group("Content", Content, "content"), Group("Filter", Filters, "filter"), Group("Modifier", Modifiers, "modifier") },
                 KindBrush = kind => kind switch
@@ -48,16 +48,16 @@ namespace CMiX.UI.Tests
             return (window, list, picks);
         }
 
-        private static TextBox Search(GroupedSearchList list) =>
+        private static TextBox Search(ListGroupedSearch list) =>
             list.GetVisualDescendants().OfType<TextBox>().Single(box => box.Name == "PART_Search");
 
-        private static void Type(GroupedSearchList list, string text)
+        private static void Type(ListGroupedSearch list, string text)
         {
             Search(list).Text = text;
             Dispatcher.UIThread.RunJobs();
         }
 
-        private static void Press(GroupedSearchList list, Key key, int times = 1)
+        private static void Press(ListGroupedSearch list, Key key, int times = 1)
         {
             for (var i = 0; i < times; i++)
                 Search(list).RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = key });
@@ -136,7 +136,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Show_ARowWithoutAColor_ShowsOnlyItsText()
         {
-            var list = new GroupedSearchList
+            var list = new ListGroupedSearch
             {
                 Groups = new[] { new PickerGroup("Group", new[] { new PickerItem("No color") }) },
                 Width = 240,
@@ -157,10 +157,10 @@ namespace CMiX.UI.Tests
         }
 
 
-        private static GroupedSearchList ShowWithDisabledRows(out List<PickerPickedEventArgs> picks)
+        private static ListGroupedSearch ShowWithDisabledRows(out List<PickerPickedEventArgs> picks)
         {
             var picked = new List<PickerPickedEventArgs>();
-            var list = new GroupedSearchList
+            var list = new ListGroupedSearch
             {
                 Groups = new[]
                 {

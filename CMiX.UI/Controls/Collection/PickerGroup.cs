@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace CMiX.UI.Controls.Collection
 {
-    // One row that can be picked in a GroupedSearchList. Value is what the owner gets back. Kind is any object that the list
+    // One row that can be picked in a ListGroupedSearch. Value is what the owner gets back. Kind is any object that the list
     // gives to its KindBrush function, to color the square of the row. It is null for a row with no color.
     // A row that is not enabled shows greyed. It cannot be picked, and the keys skip it.
     public sealed record PickerItem(string Text, object? Value = null, object? Kind = null, bool IsEnabled = true);

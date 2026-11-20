@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly PopupAnchoring anchoring;
         private readonly PopupCard card = new();
         private readonly TextBlock title = new() { VerticalAlignment = VerticalAlignment.Center };
-        private readonly GroupedSearchList list = new() { Collapsible = false };
+        private readonly ListGroupedSearch list = new() { Collapsible = false };
         private readonly Dictionary<TreeCategory, IBrush?> brushes = new();
         private readonly Converters.TreeToneConverter tone = new();
         private bool closedByCode;
@@ -67,7 +67,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         // For the tests.
         internal PopupAnchoring Anchoring => anchoring;
-        internal GroupedSearchList List => list;
+        internal ListGroupedSearch List => list;
         internal PopupCard Card => card;
         internal TextBlock Title => title;
 

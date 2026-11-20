@@ -94,7 +94,7 @@ The panel opens in three ways:
 
 - The Add row of the menu of a row. The panel opens to the right of the menu, with its search field on the Add row.
 - The Add button of the toolbar over the tree. The panel opens with the middle of its search field under the pointer and names the target row. A click from the keyboard opens it under the button. With nothing selected, the panel offers a composition.
-- The shortcut `Tree.Add` (Shift+A) opens the Add panel of the target row with the middle of its search field on the middle of that row, with the title Add. With nothing selected, the panel opens under the pointer and offers a composition. It works on the condition of every tree shortcut (see Keyboard shortcuts). The panel shows every category open: a category is a name, with no expander (`GroupedSearchList.Collapsible`).
+- The shortcut `Tree.Add` (Shift+A) opens the Add panel of the target row with the middle of its search field on the middle of that row, with the title Add. With nothing selected, the panel opens under the pointer and offers a composition. It works on the condition of every tree shortcut (see Keyboard shortcuts). The panel shows every category open: a category is a name, with no expander (`ListGroupedSearch.Collapsible`).
 
 A right click opens the menu of a row with its Add row under the pointer, and puts the target on that row, also when the row is already selected. After the user picks another row of a menu, such as Duplicate, the next menu opens with that row under the pointer. A key opens the menu under the row, at the left edge of its name: `Tree.Menu` (W) opens the menu of the target row, and the Menu key opens the menu of the row with the keyboard focus.
 

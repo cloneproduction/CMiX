@@ -54,7 +54,7 @@ window.CMIX_CATALOGUE = [
                     { id: '5.7', name: 'SearchBox', source: 'CMiX.UI/Controls/Parts/SearchBox.axaml' },
                     { id: '5.8', name: 'TextBoxIP', source: 'CMiX.UI/Controls/String/TextBoxIP.axaml' },
                     { id: '5.9', name: 'TextBoxKeyGesture', source: 'CMiX.UI/Controls/String/TextBoxKeyGesture.axaml' },
-                    { id: '5.10', name: 'KeyCap', source: 'CMiX.UI/Themes/Styles/KeyCap.axaml' },
+                    { id: '5.10', name: 'ContentControlKeyCap', source: 'CMiX.UI/Themes/Styles/KeyCap.axaml' },
                     { id: '5.11', name: 'KeyHintStrip', source: 'CMiX.UI/Controls/Parts/KeyHintStrip.cs' }
                 ]
             },
@@ -81,7 +81,7 @@ window.CMIX_CATALOGUE = [
                     { id: '8.6', name: 'PanelItemList', source: 'CMiX.UI/Controls/Collection/PanelItemList.axaml' },
                     { id: '8.7', name: 'ListItemPicker', source: 'CMiX.UI/Controls/Collection/ListItemPicker.axaml' },
                     { id: '8.8', name: 'ListSearchableItemPicker', source: 'CMiX.UI/Controls/Collection/ListSearchableItemPicker.axaml' },
-                    { id: '8.9', name: 'GroupedSearchList', source: 'CMiX.UI/Controls/Collection/GroupedSearchList.axaml' }
+                    { id: '8.9', name: 'ListGroupedSearch', source: 'CMiX.UI/Controls/Collection/ListGroupedSearch.axaml' }
                 ]
             },
             {

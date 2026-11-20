@@ -861,15 +861,15 @@
         > .ButtonItem:hover:not(.highlighted) { background: transparent; }
     }
 
-    /* ---------------------------------------------------------------- Collection/ListSearchableItemPicker.axaml, GroupedSearchList.axaml */
-    .ListSearchableItemPicker, .GroupedSearchList {
+    /* ---------------------------------------------------------------- Collection/ListSearchableItemPicker.axaml, ListGroupedSearch.axaml */
+    .ListSearchableItemPicker, .ListGroupedSearch {
         display: flex;
         flex-direction: column;
         gap: 4px;
         > .PART_NoMatch { display: none; margin: 0 0 4px 8px; opacity: 0.5; }
         &.nomatch > .PART_NoMatch { display: block; }
     }
-    .GroupedSearchList {
+    .ListGroupedSearch {
         > .PART_Rows { display: flex; flex-direction: column; }
         .row { display: flex; align-items: center; gap: 8px; flex: none; height: var(--ControlHeightMD); padding: 0 8px 0 12px; border-radius: var(--CornerRadiusAll); }
         .row.highlighted { background: var(--RowHoverBrush); }
@@ -1354,10 +1354,10 @@
     }
 
     /* ---------------------------------------------------------------- Views/Tree/AddPanel.cs */
-    /* A PopupCard with a line of text, then a GroupedSearchList of AddPanelWidth. A row has a square in the color of its kind. */
+    /* A PopupCard with a line of text, then a ListGroupedSearch of AddPanelWidth. A row has a square in the color of its kind. */
     .AddPanel {
         > .title { display: flex; align-items: center; height: var(--ControlHeightMD); color: var(--ForegroundBrush); }
-        > .GroupedSearchList { width: var(--AddPanelWidth); margin-top: 4px; }
+        > .ListGroupedSearch { width: var(--AddPanelWidth); margin-top: 4px; }
         .kind { flex: none; width: 12.8px; height: 12.8px; background: var(--Kind); border-radius: 2px; }
     }
 

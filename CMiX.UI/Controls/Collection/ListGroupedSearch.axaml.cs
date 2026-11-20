@@ -15,7 +15,7 @@ namespace CMiX.UI.Controls.Collection
 {
     // A list of groups under a search field. A header shows its row count. A group over CollapseFrom rows starts closed.
     // Right and Left open and close a header, Escape raises Cancelled. PickerKeys holds Down, Up, Enter and Escape.
-    public partial class GroupedSearchList : UserControl, IPickerRows
+    public partial class ListGroupedSearch : UserControl, IPickerRows
     {
         private sealed record RowRef(PickerGroup Group, PickerItem? Item, Border Visual);
 
@@ -24,15 +24,15 @@ namespace CMiX.UI.Controls.Collection
         private readonly PickerKeys keys;
         private int highlighted = -1;
 
-        static GroupedSearchList()
+        static ListGroupedSearch()
         {
-            GroupsProperty.Changed.AddClassHandler<GroupedSearchList>((list, _) => list.RebuildIfAttached());
-            SearchTextProperty.Changed.AddClassHandler<GroupedSearchList>((list, _) => list.RebuildIfAttached());
-            CollapseFromProperty.Changed.AddClassHandler<GroupedSearchList>((list, _) => list.RebuildIfAttached());
-            CollapsibleProperty.Changed.AddClassHandler<GroupedSearchList>((list, _) => list.RebuildIfAttached());
+            GroupsProperty.Changed.AddClassHandler<ListGroupedSearch>((list, _) => list.RebuildIfAttached());
+            SearchTextProperty.Changed.AddClassHandler<ListGroupedSearch>((list, _) => list.RebuildIfAttached());
+            CollapseFromProperty.Changed.AddClassHandler<ListGroupedSearch>((list, _) => list.RebuildIfAttached());
+            CollapsibleProperty.Changed.AddClassHandler<ListGroupedSearch>((list, _) => list.RebuildIfAttached());
         }
 
-        public GroupedSearchList()
+        public ListGroupedSearch()
         {
             keys = new PickerKeys(this);
             InitializeComponent();
@@ -40,7 +40,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<IEnumerable<PickerGroup>?> GroupsProperty =
-            AvaloniaProperty.Register<GroupedSearchList, IEnumerable<PickerGroup>?>(nameof(Groups));
+            AvaloniaProperty.Register<ListGroupedSearch, IEnumerable<PickerGroup>?>(nameof(Groups));
 
         public IEnumerable<PickerGroup>? Groups
         {
@@ -49,7 +49,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<string> SearchTextProperty =
-            AvaloniaProperty.Register<GroupedSearchList, string>(nameof(SearchText), string.Empty);
+            AvaloniaProperty.Register<ListGroupedSearch, string>(nameof(SearchText), string.Empty);
 
         public string SearchText
         {
@@ -59,7 +59,7 @@ namespace CMiX.UI.Controls.Collection
 
         // A group with more rows than this starts closed.
         public static readonly StyledProperty<int> CollapseFromProperty =
-            AvaloniaProperty.Register<GroupedSearchList, int>(nameof(CollapseFrom), 8);
+            AvaloniaProperty.Register<ListGroupedSearch, int>(nameof(CollapseFrom), 8);
 
         public int CollapseFrom
         {
@@ -69,7 +69,7 @@ namespace CMiX.UI.Controls.Collection
 
         // True when a click on a header opens and closes its group. Otherwise a header only names its category.
         public static readonly StyledProperty<bool> CollapsibleProperty =
-            AvaloniaProperty.Register<GroupedSearchList, bool>(nameof(Collapsible), true);
+            AvaloniaProperty.Register<ListGroupedSearch, bool>(nameof(Collapsible), true);
 
         public bool Collapsible
         {
@@ -79,7 +79,7 @@ namespace CMiX.UI.Controls.Collection
 
         // The number of rows that show before the list scrolls. A header counts as a row.
         public static readonly StyledProperty<int> VisibleRowsProperty =
-            AvaloniaProperty.Register<GroupedSearchList, int>(nameof(VisibleRows), 10);
+            AvaloniaProperty.Register<ListGroupedSearch, int>(nameof(VisibleRows), 10);
 
         public int VisibleRows
         {
