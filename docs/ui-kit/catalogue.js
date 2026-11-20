@@ -88,7 +88,7 @@ window.CMIX_CATALOGUE = [
                 id: '9', name: 'Popups and menus', entries: [
                     { id: '9.1', name: 'Menu', source: 'CMiX.UI/Themes/Styles/Menu/Menu.axaml' },
                     { id: '9.2', name: 'ContextMenu', source: 'CMiX.UI/Themes/Styles/Menu/ContextMenu.axaml' },
-                    { id: '9.3', name: 'TitledContextMenu', source: 'CMiX.UI/Controls/Parts/TitledContextMenu.cs' },
+                    { id: '9.3', name: 'ContextMenuTitled', source: 'CMiX.UI/Controls/Parts/ContextMenuTitled.cs' },
                     { id: '9.4', name: 'ValueMenu', source: 'CMiX.UI/Controls/Parts/ValueMenu.cs' },
                     { id: '9.5', name: 'DropdownFrame', source: 'CMiX.UI/Controls/Parts/DropdownFrame.cs' },
                     { id: '9.6', name: 'PopupFrame', source: 'CMiX.UI/Controls/Parts/PopupFrame.cs' },

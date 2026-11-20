@@ -12,7 +12,7 @@ using CMiX.UI.AttachedProperties;
 namespace CMiX.UI.Controls.Parts
 {
     // The menu of a value editor. The owner must have a ResetCommand property.
-    // The menu starts with the title of the owner (see ControlTitle) and a line (see TitledContextMenu).
+    // The menu starts with the title of the owner (see ControlTitle) and a line (see ContextMenuTitled).
     // An owner that is an IValueText also gets the rows Copy and Paste. They use the clipboard of the system.
     // An owner with a ResetAllCommand also gets a Reset All row while that command is set.
     // The menu opens with the row that the user used last under the pointer. The first time, it is Copy.
@@ -27,7 +27,7 @@ namespace CMiX.UI.Controls.Parts
 
         public static ContextMenu Create(Control owner, bool withResetAll = false)
         {
-            var builder = new TitledContextMenu(owner, () => ControlTitle.Of(owner), CopyId);
+            var builder = new ContextMenuTitled(owner, () => ControlTitle.Of(owner), CopyId);
 
             MenuItem? copyItem = null;
             MenuItem? pasteItem = null;

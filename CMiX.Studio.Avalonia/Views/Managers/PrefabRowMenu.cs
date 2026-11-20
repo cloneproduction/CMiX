@@ -20,7 +20,7 @@ using CMiX.UI.Popups;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
-    // The menu of a row of a list of prefabs, in the look of the other menus (see TitledContextMenu). It starts
+    // The menu of a row of a list of prefabs, in the look of the other menus (see ContextMenuTitled). It starts
     // with the name of the item and acts on the item of the row, not on the selected item.
     // The list box that holds the row has the manager of the list as its data context.
     // The caller picks the rows and the lines between them.
@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         private readonly IReadOnlyList<RowMenuAdd> _adds;
         private readonly AddMenuRow? _addRow;
         private readonly Func<string, KeyGesture?>? _gestureOf;
-        private readonly TitledContextMenu _builder;
+        private readonly ContextMenuTitled _builder;
         private readonly List<MenuItem> _towardsTheStart = new();
         private readonly List<MenuItem> _towardsTheEnd = new();
         private readonly List<MenuItem> _inertRows = new();
@@ -64,7 +64,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             // The menu opens on the row that was used last, if it has it. Before that it opens on the first row that adds, so a click
             // right after the creation of an item can add what goes in it (a layer in a composition). Rows without such an add open on Duplicate.
             // The Add row of the panel counts as such an add.
-            _builder = new TitledContextMenu(row, title ?? (() => (row.DataContext as IPrefab)?.PrefabService.Name.Value?.Trim() ?? string.Empty),
+            _builder = new ContextMenuTitled(row, title ?? (() => (row.DataContext as IPrefab)?.PrefabService.Name.Value?.Trim() ?? string.Empty),
                                              addRow is { Primary: true } ? AddId : adds.FirstOrDefault()?.Id ?? DuplicateId);
         }
 

@@ -16,7 +16,7 @@ namespace CMiX.UI.Controls.Parts
     // The menu opens with the row that the user used last under the pointer, as in Blender (see MenuAnchor).
     // Before the first use it opens on the default row, else on the first row.
     // The title and the anchor are read each time the menu opens, because both can change after the menu is built.
-    public sealed class TitledContextMenu
+    public sealed class ContextMenuTitled
     {
         private readonly Control owner;
         private readonly Func<string> title;
@@ -27,7 +27,7 @@ namespace CMiX.UI.Controls.Parts
         private readonly List<MenuItem> actionRows = new();
 
         // The title is a function, so a rename of the owner shows in the next menu.
-        public TitledContextMenu(Control owner, Func<string> title, string? defaultAnchorId = null)
+        public ContextMenuTitled(Control owner, Func<string> title, string? defaultAnchorId = null)
         {
             this.owner = owner;
             this.title = title;
