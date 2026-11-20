@@ -203,7 +203,7 @@ Names that collide:
 
 | Class | What it uses |
 |---|---|
-| `MainMenuViewModel` | Clean since 2026-11-19: no Avalonia type. The six composition and layer commands run after the menu popup closes through the view behaviour `RunCommandAfterClose` in CMiX.UI. |
+| `MainMenuViewModel` | Clean since 2026-11-19: no Avalonia type. The six composition and layer commands run after the menu popup closes through the attached property `RunCommandAfterClose` in CMiX.UI. |
 | `MainWindowController` | Takes an Avalonia `Window` as the command parameter and changes its state. |
 | `ShortcutSettings`, `ShortcutMap` | Avalonia input types. |
 | `PanelFocusCycle` | Uses `CMiX.Studio.Avalonia.Views` and Avalonia. |
@@ -336,7 +336,7 @@ The order goes from low risk to high risk. First the classes that only the Studi
 | Step | Class | First action | Why here | Complexity |
 |---|---|---|---|---|
 | 1 | `MainViewModel` | Half done on 2026-11-19: the six lists are in `ProjectSession`. Left: remove `IControl`. | Small, Studio only, and it shows the true dependencies of the window. | 2 |
-| 2 | `MainMenu` | Done on 2026-11-19 on the branch `refactor/tree-structure`: `ProjectSession` (Service), `ProjectFileViewModel`, `MainMenuViewModel`, the behaviour `RunCommandAfterClose`. | Studio only. | 3 |
+| 2 | `MainMenu` | Done on 2026-11-19 on the branch `refactor/tree-structure`: `ProjectSession` (Service), `ProjectFileViewModel`, `MainMenuViewModel`, the attached property `RunCommandAfterClose`. | Studio only. | 3 |
 | 3 | `ProjectTree` | Done on 2026-11-19 on the branch `refactor/tree-structure`. | The bound state stayed on the hub in partial files, the logic went into parts. | 4 |
 | 4 | `TreeNode` | Done on 2026-11-19: `DragLook`, `RowCounts`, `TreeNodeHost`, and the row computes its own search look. | The row keeps its identity and its list mirroring. | 3 |
 | 5 | `ProjectTreeView` | Done on 2026-11-19, with one deviation: `TreeViewHooks` stays, one set per view, because two views can show one tree and the tree must know which view answers. The next step is a per-view state object that `TreeViewSet` reads. | After steps 3 and 4. | 4 |

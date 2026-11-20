@@ -113,8 +113,9 @@ An application uses the library in two steps:
    one name maps all the namespaces of the library.
 
 The folders and namespaces follow each other. The top folders are `Controls`,
-`Panels`, `AttachedProperties`, `Behaviors`, `Converters`, `Interaction`,
-`Mathematics` and `Themes`.
+`Panels`, `AttachedProperties`, `Behaviors`, `Popups`, `Converters`, `Interaction`,
+`Mathematics` and `Themes`. `Popups` holds the popup logic with no XAML face: `OutsideClick`,
+`PointerAwayCloser`, `PopupAnchoring`, `PopupPlacement`, `TipContent`, `Toast` and `ToastHost`.
 
 `Controls` has one folder for each type of data that an editor changes. The names
 come from the value editors of vvvv:
@@ -344,7 +345,7 @@ scrolls to the control) and `ListBox.AutoScrollToSelectedItem` (a pick scrolls t
 views around it). A text box keeps its own setting. One ScrollViewer can turn the first one on
 again with `BringIntoViewOnFocusChange="True"`. A change of the total height, for example a
 panel above the click that grows or collapses, still moves the content. `ScrollViewerBehavior`
-restores the offset when the height grows. `ScrollStabilityTests` shows both behaviors.
+restores the offset when the height grows. The theme `ScrollViewerOverlayKeepOffset` applies it. `ScrollStabilityTests` shows both behaviors.
 
 The application connects three things to the library:
 
@@ -411,13 +412,13 @@ The popup is open while the toggle is checked. The property sets the placement t
 
 A popup, a flyout or a context menu can close when the pointer moves away from it:
 
-- A `Popup` uses the behavior `ClosePopupBehavior`. It also closes the popup on a click on a button in it. `OutsideClick` owns the press outside the popup.
+- A `Popup` uses the behavior `ClosePopupBehavior`, set by the attached property `TogglePopup.ClosesOnPointerAway`. It also closes the popup on a click on a button in it. `OutsideClick` owns the press outside the popup.
 - A `Flyout` or a `MenuFlyout` uses the behavior `CloseFlyoutOnPointerAwayBehavior`. It only checks the distance.
 - A `ContextMenu` with the theme `ContextMenuDefault` has it already, for example the Reset menu of a value editor. The theme sets the attached property `ContextMenuPointerAway.ClosesOnPointerAway`. Set it to false on a menu to switch the rule off.
 
 All three use the class `PointerAwayCloser`. A new kind of popup needs only a small wrapper around it. A context menu can have a companion, a second control that counts as a part of the menu (`ContextMenuPointerAway.Companion`).
 
-The pointer is away when it is farther than `PointerAwayDistance` from the content and from the control that opened it. The default is 64. The pointer on the control that opened the popup is never away, also when the control is much wider than the popup. After the user types in a text box of the popup, the popup stays open, because a close would lose the text. The behaviors only check the distance when the pointer moves.
+The pointer is away when it is farther than `PointerAwayDistance` (the same name on `TogglePopup` and on `ContextMenuPointerAway`) from the content and from the control that opened it. The default is 64. The pointer on the control that opened the popup is never away, also when the control is much wider than the popup. After the user types in a text box of the popup, the popup stays open, because a close would lose the text. The behaviors only check the distance when the pointer moves.
 
 ### The card, the tip and the place of a popup
 
