@@ -57,9 +57,9 @@ namespace CMiX.Studio.Avalonia.Tests
             for (var i = 0; i < count; i++)
                 manager.AddItem(kind);
 
-            Control tab = kind == typeof(Camera) ? new LayerCameraTab { DataContext = layer }
-                : kind == typeof(LightEntity) ? new LayerLightTab { DataContext = layer }
-                : new LayerEntityTab { DataContext = layer };
+            Control tab = kind == typeof(Camera) ? new TabLayerCamera { DataContext = layer }
+                : kind == typeof(LightEntity) ? new TabLayerLight { DataContext = layer }
+                : new TabLayerEntity { DataContext = layer };
             var window = new Window { Content = tab, Width = 500, Height = 900 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

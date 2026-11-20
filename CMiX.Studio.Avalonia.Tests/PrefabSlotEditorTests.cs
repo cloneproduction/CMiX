@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var layer = LayerWithACamera();
             layer.CameraManager.SelectedItem = layer.CameraManager.ManagerData.Items[0];
-            var tab = new LayerCameraTab { DataContext = layer };
+            var tab = new TabLayerCamera { DataContext = layer };
             Show(tab);
 
             var list = tab.GetVisualDescendants().OfType<PrefabSlotManager>().Single();

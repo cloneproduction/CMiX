@@ -440,10 +440,10 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Same(screen.Layer, screen.Editor.Content);
             Assert.Same(screen.Layer, screen.Find<SettingsComposable>()!.DataContext);
-            Assert.NotNull(screen.Find<LayerPostFXTab>());
-            Assert.Null(screen.Find<LayerEntityTab>());
-            Assert.Null(screen.Find<LayerCameraTab>());
-            Assert.Null(screen.Find<LayerLightTab>());
+            Assert.NotNull(screen.Find<TabLayerPostFX>());
+            Assert.Null(screen.Find<TabLayerEntity>());
+            Assert.Null(screen.Find<TabLayerCamera>());
+            Assert.Null(screen.Find<TabLayerLight>());
             Assert.Equal("LayerScene", screen.HeaderIcon.IconKey);
         }
 
@@ -488,18 +488,18 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(screen.Placeholder.IsVisible);
             Assert.True(screen.Scroller.IsVisible);
             Assert.Same(screen.Layer, Assert.IsType<CamerasGroup>(screen.Editor.Content).Layer);
-            Assert.Same(screen.Layer, screen.Find<LayerCameraTab>()!.DataContext);
-            Assert.Null(screen.Find<LayerEntityTab>());
+            Assert.Same(screen.Layer, screen.Find<TabLayerCamera>()!.DataContext);
+            Assert.Null(screen.Find<TabLayerEntity>());
 
             Select(screen, screen.Group<EntitiesGroup>());
             Assert.Equal("Entities", screen.Title.Text);
-            Assert.Same(screen.Layer, screen.Find<LayerEntityTab>()!.DataContext);
-            Assert.Null(screen.Find<LayerCameraTab>());
+            Assert.Same(screen.Layer, screen.Find<TabLayerEntity>()!.DataContext);
+            Assert.Null(screen.Find<TabLayerCamera>());
 
             Select(screen, screen.Group<LightsGroup>());
             Assert.Equal("Lights", screen.Title.Text);
-            Assert.Same(screen.Layer, screen.Find<LayerLightTab>()!.DataContext);
-            Assert.Null(screen.Find<LayerEntityTab>());
+            Assert.Same(screen.Layer, screen.Find<TabLayerLight>()!.DataContext);
+            Assert.Null(screen.Find<TabLayerEntity>());
         }
 
         [AvaloniaFact]
@@ -509,10 +509,10 @@ namespace CMiX.Studio.Avalonia.Tests
             var entity = screen.Group<EntitiesGroup>().Children[0];
 
             Select(screen, screen.LayerNode);
-            Assert.NotNull(screen.Find<LayerPostFXTab>());
+            Assert.NotNull(screen.Find<TabLayerPostFX>());
 
             Select(screen, entity);
-            Assert.Null(screen.Find<LayerPostFXTab>());
+            Assert.Null(screen.Find<TabLayerPostFX>());
             Assert.NotNull(screen.Find<ModelEntity>());
 
             ((IPrefab)entity.Item!).PrefabService.Name.Value = "Floor";
@@ -535,7 +535,7 @@ namespace CMiX.Studio.Avalonia.Tests
             // The selection falls back to the group of cameras, which shows the panel of the list.
             Assert.Equal("Cameras", screen.Title.Text);
             Assert.IsType<CamerasGroup>(screen.Editor.Content);
-            Assert.NotNull(screen.Find<LayerCameraTab>());
+            Assert.NotNull(screen.Find<TabLayerCamera>());
         }
 
         [AvaloniaFact]
@@ -617,7 +617,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             Select(screen, screen.LayerNode);
-            Assert.NotNull(screen.Find<LayerPostFXTab>());
+            Assert.NotNull(screen.Find<TabLayerPostFX>());
 
             screen.ViewModel.Project.CompositionManager.RemoveItem((IControl)screen.CompositionNode.Item!);
             TestServiceProviderFactory.Pump();
@@ -660,7 +660,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var inspector = screen.Window.GetVisualDescendants().OfType<Inspector>().Single();
             Assert.NotNull(inspector.GetVisualDescendants().OfType<CameraView>().FirstOrDefault());
-            Assert.Null(inspector.GetVisualDescendants().OfType<LayerPostFXTab>().FirstOrDefault());
+            Assert.Null(inspector.GetVisualDescendants().OfType<TabLayerPostFX>().FirstOrDefault());
         }
 
         // ---- the inspector tab opens on a click in the tree ----
@@ -791,7 +791,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             screen.Window.UpdateLayout();
 
-            var view = screen.Find<LayerPostFXTab>()!;
+            var view = screen.Find<TabLayerPostFX>()!;
             var inner = (ScrollViewer)view.Content!;
             var innerPresenter = inner.GetVisualDescendants().OfType<global::Avalonia.Controls.Presenters.ScrollContentPresenter>().First(p => p.TemplatedParent == inner);
 

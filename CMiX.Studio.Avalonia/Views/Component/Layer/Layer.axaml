@@ -17,28 +17,28 @@
                 <TabItem.Header>
                     <ui:AppIcon Margin="8" IconKey="Entity" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
-                <Views:LayerEntityTab />
+                <Views:TabLayerEntity />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
                     <ui:AppIcon Margin="8" IconKey="Camera" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
-                <Views:LayerCameraTab />
+                <Views:TabLayerCamera />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
                     <ui:AppIcon Margin="8" IconKey="MeshLight" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
-                <Views:LayerLightTab />
+                <Views:TabLayerLight />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
                     <ui:AppIcon Margin="8" IconKey="PostFX" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
-                <Views:LayerPostFXTab />
+                <Views:TabLayerPostFX />
             </TabItem>
 
         </TabControl>

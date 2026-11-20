@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class LayerPostFXTab : UserControl
+    public partial class TabLayerCamera : UserControl
     {
-        public LayerPostFXTab()
+        public TabLayerCamera()
         {
             InitializeComponent();
         }

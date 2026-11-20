@@ -36,8 +36,8 @@ namespace CMiX.Studio.Avalonia.Tests
                 "Settings" => new TabSettings { DataContext = viewModel },
                 "Entities" => new TabEntities { DataContext = viewModel },
                 "Composition" => new CompositionView { DataContext = composition },
-                "LayerPostFX" => new LayerPostFXTab { DataContext = layer },
-                "LayerLight" => new LayerLightTab { DataContext = layer },
+                "LayerPostFX" => new TabLayerPostFX { DataContext = layer },
+                "LayerLight" => new TabLayerLight { DataContext = layer },
                 _ => throw new ArgumentOutOfRangeException(nameof(name)),
             };
             if (panel is Inspector)

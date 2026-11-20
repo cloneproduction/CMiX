@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var layer = (Layer)provider.GetRequiredService<ControlFactory>().Create(typeof(Layer));
-            var tab = new LayerEntityTab { DataContext = layer };
+            var tab = new TabLayerEntity { DataContext = layer };
             var window = new Window { Content = tab, Width = 500, Height = 900 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

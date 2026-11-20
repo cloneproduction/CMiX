@@ -98,22 +98,22 @@
                             <Border Background="{DynamicResource Grey200Brush}">
                                 <Views:SettingsComposable Margin="8" />
                             </Border>
-                            <Views:LayerPostFXTab Classes="hosted" />
+                            <Views:TabLayerPostFX Classes="hosted" />
                         </StackPanel>
                     </DataTemplate>
 
                     <!-- A group row of a layer shows the panel of the old tab for that kind: the list of the items and the editor of the
                          one that is chosen in it. The panels take the layer as their DataContext. -->
                     <DataTemplate DataType="{x:Type Tree:EntitiesGroup}">
-                        <Views:LayerEntityTab Classes="hosted" DataContext="{Binding Layer}" />
+                        <Views:TabLayerEntity Classes="hosted" DataContext="{Binding Layer}" />
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type Tree:CamerasGroup}">
-                        <Views:LayerCameraTab Classes="hosted" DataContext="{Binding Layer}" />
+                        <Views:TabLayerCamera Classes="hosted" DataContext="{Binding Layer}" />
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type Tree:LightsGroup}">
-                        <Views:LayerLightTab Classes="hosted" DataContext="{Binding Layer}" />
+                        <Views:TabLayerLight Classes="hosted" DataContext="{Binding Layer}" />
                     </DataTemplate>
 
                     <!-- The groups of any item: the same panels as in the editors, for the list of the group. The panel that adds an item lists

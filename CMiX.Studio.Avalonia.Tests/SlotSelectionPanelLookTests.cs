@@ -107,9 +107,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static Control RealView(RealSlot kind, ControlFactory factory) => kind switch
         {
-            RealSlot.Cameras => new Views.LayerCameraTab { DataContext = factory.Create(typeof(Layer)) },
-            RealSlot.Lights => new Views.LayerLightTab { DataContext = factory.Create(typeof(Layer)) },
-            RealSlot.Entities => new Views.LayerEntityTab { DataContext = factory.Create(typeof(Layer)) },
+            RealSlot.Cameras => new Views.TabLayerCamera { DataContext = factory.Create(typeof(Layer)) },
+            RealSlot.Lights => new Views.TabLayerLight { DataContext = factory.Create(typeof(Layer)) },
+            RealSlot.Entities => new Views.TabLayerEntity { DataContext = factory.Create(typeof(Layer)) },
             RealSlot.Colors => new Views.ColorPaletteModifier { DataContext = factory.Create(typeof(ColorPaletteModifier)) },
             _ => new Views.TextureSlot { DataContext = factory.Create(typeof(MaskTexture)) }
         };
