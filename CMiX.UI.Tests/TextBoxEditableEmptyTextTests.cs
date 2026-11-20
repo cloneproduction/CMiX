@@ -18,7 +18,7 @@ namespace CMiX.UI.Tests
             var window = new Window { Content = new StackPanel { Children = { box, other } }, Width = 300, Height = 200 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
-            return (window, box, box.FindControl<TextBox>("InputValue")!, other);
+            return (window, box, box.FindControl<TextBox>("inputValue")!, other);
         }
 
         private static void Edit(TextBoxEditable box, TextBox input, string text)

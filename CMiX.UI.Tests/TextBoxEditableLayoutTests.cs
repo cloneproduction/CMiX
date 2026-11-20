@@ -19,7 +19,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
 
             var grid = (Grid)box.Content!;
-            var block = box.GetVisualDescendants().OfType<TextBlock>().First(t => t.Name == "TextDisplay");
+            var block = box.GetVisualDescendants().OfType<TextBlock>().First(t => t.Name == "textDisplay");
             var shownOrigin = block.TranslatePoint(new Point(block.Padding.Left, block.Padding.Top), grid)!.Value;
             var shown = new Rect(shownOrigin, new Size(block.Bounds.Width, block.Bounds.Height));
 

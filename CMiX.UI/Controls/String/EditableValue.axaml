@@ -6,12 +6,12 @@
 
     <Panel>
         <TextBlock
-            x:Name="TextDisplay"
+            x:Name="textDisplay"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Text="{Binding Text, ElementName=editableValue}" />
         <TextBox
-            x:Name="InputValue"
+            x:Name="inputValue"
             Padding="5"
             VerticalAlignment="Center"
             Background="{DynamicResource Grey300Brush}"

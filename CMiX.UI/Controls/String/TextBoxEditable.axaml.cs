@@ -56,8 +56,8 @@ namespace CMiX.UI.Controls.String
                 if (!e.GetNewValue<bool>()) return;
 
                 textbox.OnSwitchToEditingMode();
-                textbox.InputValue.Focus();
-                textbox.InputValue.SelectAll();
+                textbox.inputValue.Focus();
+                textbox.inputValue.SelectAll();
             });
         }
 
@@ -66,16 +66,16 @@ namespace CMiX.UI.Controls.String
             InitializeComponent();
             SetInputVisible(false);
             // The menu of a row must not open in the edit mode. A double click starts the edit mode without IsEditing, so the input tells.
-            _contextMenuGuard = ContextMenuGuard.Install(this, () => InputValue.IsVisible);
+            _contextMenuGuard = ContextMenuGuard.Install(this, () => inputValue.IsVisible);
             DoubleTapped += TextBoxEditable_DoubleTapped;
             AddHandler(PointerPressedEvent, TextBoxEditable_PointerPressed, RoutingStrategies.Tunnel);
         }
 
         private void SetInputVisible(bool editing)
         {
-            InputValue.IsVisible = editing;
-            TextDisplay.IsVisible = !editing;
-            DisplayRow.IsVisible = !editing;
+            inputValue.IsVisible = editing;
+            textDisplay.IsVisible = !editing;
+            displayRow.IsVisible = !editing;
         }
 
         private void TextBoxEditable_PointerPressed(object? sender, PointerPressedEventArgs e)
@@ -93,12 +93,12 @@ namespace CMiX.UI.Controls.String
         // (to select a word), is taken here, so the row does not see it.
         private void TextBoxEditable_DoubleTapped(object? sender, TappedEventArgs e)
         {
-            if (ReferenceEquals(e.Source, TextDisplay))
+            if (ReferenceEquals(e.Source, textDisplay))
             {
                 OnSwitchToEditingMode();
                 e.Handled = true;
             }
-            else if (e.Source is Visual source && (ReferenceEquals(source, InputValue) || InputValue.IsVisualAncestorOf(source)))
+            else if (e.Source is Visual source && (ReferenceEquals(source, inputValue) || inputValue.IsVisualAncestorOf(source)))
             {
                 e.Handled = true;
             }
@@ -148,17 +148,17 @@ namespace CMiX.UI.Controls.String
         {
             SetInputVisible(true);
             HookTopLevelEvents();
-            InputValue.Text = Text;
-            InputValue.Focus();
-            InputValue.SelectAll();
+            inputValue.Text = Text;
+            inputValue.Focus();
+            inputValue.SelectAll();
         }
 
         // The edit ends with the text of the input. An empty text is not a name: the old text stays.
         // Only the input that is shown holds a text to commit. A hidden input holds the text of the last edit.
         private void OnSwitchToNormalMode()
         {
-            if (InputValue.IsVisible && !string.IsNullOrWhiteSpace(InputValue.Text))
-                Text = InputValue.Text;
+            if (inputValue.IsVisible && !string.IsNullOrWhiteSpace(inputValue.Text))
+                Text = inputValue.Text;
 
             SetInputVisible(false);
             UnhookTopLevelEvents();
@@ -203,7 +203,7 @@ namespace CMiX.UI.Controls.String
                 return;
             }
 
-            if (!InputValue.IsPointerOver)
+            if (!inputValue.IsPointerOver)
                 OnSwitchToNormalMode();
         }
 

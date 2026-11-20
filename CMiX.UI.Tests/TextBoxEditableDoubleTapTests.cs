@@ -22,7 +22,7 @@ namespace CMiX.UI.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (window, box,
-                box.GetVisualDescendants().OfType<TextBlock>().Single(block => block.Name == "TextDisplay"),
+                box.GetVisualDescendants().OfType<TextBlock>().Single(block => block.Name == "textDisplay"),
                 box.GetVisualDescendants().OfType<TextBox>().Single());
         }
 

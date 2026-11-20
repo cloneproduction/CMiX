@@ -25,7 +25,7 @@ namespace CMiX.UI.Tests
         public void Show_AnyText_KeepsTheSuffixAtAFixedDistanceFromItsEnd()
         {
             var (box, suffix, window) = Show();
-            var text = box.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "TextDisplay");
+            var text = box.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "textDisplay");
 
             var textRight = text.TranslatePoint(new Point(text.Bounds.Width, 0), window)!.Value.X;
             var suffixLeft = suffix.TranslatePoint(new Point(0, 0), window)!.Value.X;
@@ -71,13 +71,13 @@ namespace CMiX.UI.Tests
         public void Show_ABoxWithoutASuffix_KeepsTheTextPlace()
         {
             var (_, _, window) = Show();
-            var withSuffix = window.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "TextDisplay").Bounds;
+            var withSuffix = window.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "textDisplay").Bounds;
 
             var plain = new TextBoxEditable { Text = "Layer 1" };
             var plainWindow = new Window { Content = plain, Width = 300, Height = 60 };
             plainWindow.Show();
             Dispatcher.UIThread.RunJobs();
-            var withoutSuffix = plain.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "TextDisplay").Bounds;
+            var withoutSuffix = plain.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "textDisplay").Bounds;
 
             Assert.Equal(withoutSuffix, withSuffix);
         }

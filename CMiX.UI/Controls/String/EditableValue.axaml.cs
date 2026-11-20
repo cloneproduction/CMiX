@@ -43,13 +43,13 @@ namespace CMiX.UI.Controls.String
         {
             InitializeComponent();
             SetInputVisible(false);
-            InputValue.AddHandler(TextInputEvent, TextInput_OnTextInput, RoutingStrategies.Tunnel);
+            inputValue.AddHandler(TextInputEvent, TextInput_OnTextInput, RoutingStrategies.Tunnel);
         }
 
         private void SetInputVisible(bool editing)
         {
-            InputValue.IsVisible = editing;
-            TextDisplay.IsVisible = !editing;
+            inputValue.IsVisible = editing;
+            textDisplay.IsVisible = !editing;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -72,15 +72,15 @@ namespace CMiX.UI.Controls.String
         {
             HookTopLevelEvents();
             SetInputVisible(true);
-            InputValue.Text = Text;
-            InputValue.Focus();
-            InputValue.SelectAll();
+            inputValue.Text = Text;
+            inputValue.Focus();
+            inputValue.SelectAll();
         }
 
         private void OnSwitchToNormalMode()
         {
             IsEditing = false;
-            Text = InputValue.Text ?? string.Empty;
+            Text = inputValue.Text ?? string.Empty;
             SetInputVisible(false);
             UnhookTopLevelEvents();
         }
@@ -102,7 +102,7 @@ namespace CMiX.UI.Controls.String
 
         private void TopLevel_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            if (!InputValue.IsPointerOver)
+            if (!inputValue.IsPointerOver)
                 OnSwitchToNormalMode();
         }
 

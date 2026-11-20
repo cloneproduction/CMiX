@@ -213,7 +213,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle();
 
             static Color NameColor(TreeViewProject view, TreeNode node) =>
-                ((ISolidColorBrush)ItemOf(view, node).GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "TextDisplay").Foreground!).Color;
+                ((ISolidColorBrush)ItemOf(view, node).GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "textDisplay").Foreground!).Color;
 
             var white = ((ISolidColorBrush)Application.Current!.FindResource("ActiveForegroundBrush")!).Color;
             var light = ((ISolidColorBrush)Application.Current!.FindResource("TreeTextRestBrush")!).Color;

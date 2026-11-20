@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void DoubleClick_OnTheTextOfTheName_StartsTheRename()
         {
             var (window, name) = Show();
-            var text = name.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "TextDisplay");
+            var text = name.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "textDisplay");
 
             DoubleClick(window, text.TranslatePoint(new Point(text.Bounds.Width / 2, text.Bounds.Height / 2), window)!.Value);
 

@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // The boxes and the origin of the text in the display mode and in the edit mode, in window coordinates.
         private static Measure Take(Window window, TextBoxEditable box)
         {
-            var display = box.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "TextDisplay");
+            var display = box.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "textDisplay");
             var input = box.GetVisualDescendants().OfType<TextBox>().First();
 
             window.UpdateLayout();

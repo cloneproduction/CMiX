@@ -17,7 +17,7 @@ namespace CMiX.UI.Tests
             var window = new Window { Content = new StackPanel { Children = { box } }, Width = 300, Height = 200 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
-            var input = box.FindControl<TextBox>("InputValue")!;
+            var input = box.FindControl<TextBox>("inputValue")!;
             box.IsEditing = true;
             Dispatcher.UIThread.RunJobs();
             input.Text = newText;

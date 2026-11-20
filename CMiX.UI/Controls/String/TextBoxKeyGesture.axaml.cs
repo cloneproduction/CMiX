@@ -46,7 +46,7 @@ namespace CMiX.UI.Controls.String
         }
 
         // The text that shows now. For the tests.
-        internal string? ShownText => GestureText.Text;
+        internal string? ShownText => gestureText.Text;
 
         protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
         {
@@ -123,7 +123,7 @@ namespace CMiX.UI.Controls.String
 
         private void UpdateText()
         {
-            GestureText.Text = IsFocused ? RecordingText : Gesture is { } gesture ? KeyGestureTextConverter.TextOf(gesture) : NoneText;
+            gestureText.Text = IsFocused ? RecordingText : Gesture is { } gesture ? KeyGestureTextConverter.TextOf(gesture) : NoneText;
         }
 
         bool IValueText.CanCopyValueText() => Gesture != null;

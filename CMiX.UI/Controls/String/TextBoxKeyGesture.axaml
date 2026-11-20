@@ -7,23 +7,23 @@
 
     <!-- The brush is in a style and not on the Border: a local value is stronger than a style. -->
     <UserControl.Styles>
-        <Style Selector="local|TextBoxKeyGesture Border#Frame">
+        <Style Selector="local|TextBoxKeyGesture Border#frame">
             <Setter Property="BorderBrush" Value="Transparent" />
         </Style>
         <!-- While it records, the box has the accent border of the edit mode. -->
-        <Style Selector="local|TextBoxKeyGesture:recording Border#Frame">
+        <Style Selector="local|TextBoxKeyGesture:recording Border#frame">
             <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
         </Style>
     </UserControl.Styles>
 
     <Border
-        x:Name="Frame"
+        x:Name="frame"
         Height="{DynamicResource ControlHeightMD}"
         Background="{DynamicResource Grey100Brush}"
         BorderThickness="1"
         CornerRadius="{DynamicResource CornerRadiusAll}">
         <TextBlock
-            x:Name="GestureText"
+            x:Name="gestureText"
             Padding="6,0"
             VerticalAlignment="Center"
             Foreground="{DynamicResource ForegroundBrush}" />

@@ -2,7 +2,7 @@
     x:Class="CMiX.UI.Controls.String.TextBoxEditable"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Name="editableTextBox">
+    x:Name="textBoxEditable">
 
     <Grid
         Height="{DynamicResource ControlHeightMD}"
@@ -15,29 +15,29 @@
              The least width keeps an empty name easy to hit. -->
         <!-- The suffix is something that follows the text, such as the counts of a row of a tree. It shows with the text. -->
         <StackPanel
-            x:Name="DisplayRow"
+            x:Name="displayRow"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <TextBlock
-                x:Name="TextDisplay"
+                x:Name="textDisplay"
                 MinWidth="{DynamicResource ControlHeightMD}"
                 Padding="4,2"
                 Background="Transparent"
                 VerticalAlignment="Center"
-                Foreground="{Binding Foreground, ElementName=editableTextBox}"
-                Text="{Binding Text, ElementName=editableTextBox}" />
+                Foreground="{Binding Foreground, ElementName=textBoxEditable}"
+                Text="{Binding Text, ElementName=textBoxEditable}" />
             <ContentPresenter
-                x:Name="SuffixPresenter"
+                x:Name="suffixPresenter"
                 Margin="4,0,0,0"
                 VerticalAlignment="Center"
-                Content="{Binding Suffix, ElementName=editableTextBox}" />
+                Content="{Binding Suffix, ElementName=textBoxEditable}" />
         </StackPanel>
 
         <!-- The input has no binding to Text: it gets the text when the edit starts, and gives it back when the edit ends.
              So the text of the owner never holds a half edited or an empty text. -->
         <TextBox
-            x:Name="InputValue"
+            x:Name="inputValue"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             VerticalContentAlignment="Center"

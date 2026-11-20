@@ -52,8 +52,8 @@ namespace CMiX.Studio.Avalonia.Tests
             // Found by its name: while no item is selected the scroll viewer is hidden and has no visual children yet.
             public ContentControl Editor => Inspector.FindControl<ContentControl>("editor")!;
             public ScrollViewer Scroller => Inspector.FindControl<ScrollViewer>("scroller")!;
-            // The name of an item is in its name editor (TextDisplay), the name of a group is in a text block called title.
-            public TextBlock Title => Header.GetVisualDescendants().OfType<TextBlock>().First(t => t.Name is "title" or "TextDisplay" && t.IsEffectivelyVisible);
+            // The name of an item is in its name editor (textDisplay), the name of a group is in a text block called title.
+            public TextBlock Title => Header.GetVisualDescendants().OfType<TextBlock>().First(t => t.Name is "title" or "textDisplay" && t.IsEffectivelyVisible);
             public ToggleButton? VisibilityToggle => Inspector.GetVisualDescendants().OfType<ToggleButton>().FirstOrDefault(t => t.Name == "visibilityToggle");
             public ToggleButton? MaskToggle => Inspector.GetVisualDescendants().OfType<ToggleButton>().FirstOrDefault(t => t.Name == "maskToggle");
             public TextBoxEditable NameEditor => Inspector.FindControl<TextBoxEditable>("nameEditor")!;

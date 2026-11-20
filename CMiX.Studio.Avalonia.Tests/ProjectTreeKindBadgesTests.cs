@@ -239,7 +239,7 @@ namespace CMiX.Studio.Avalonia.Tests
             layer.IsExpanded = false;
             Settle();
             var item = ItemOf(view, layer);
-            var name = item.GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "TextDisplay");
+            var name = item.GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "textDisplay");
             var badges = BadgesOf(view, layer);
 
             var nameRight = name.TranslatePoint(new Point(name.Bounds.Width, 0), window!)!.Value.X;

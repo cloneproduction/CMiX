@@ -137,7 +137,7 @@ namespace CMiX.UI.Tests
         public void Focus_TheBox_ShowsTheRecordingLook()
         {
             var (_, box) = ShowFocused(null);
-            var frame = box.FindControl<Border>("Frame")!;
+            var frame = box.FindControl<Border>("frame")!;
 
             Assert.True(box.Classes.Contains(":recording"));
             Assert.Equal(Tokens.Get<ISolidColorBrush>("AccentBrush").Color, ((ISolidColorBrush)frame.BorderBrush!).Color);
