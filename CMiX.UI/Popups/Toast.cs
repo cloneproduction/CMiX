@@ -10,7 +10,7 @@ using CMiX.UI.Controls.Parts;
 namespace CMiX.UI.Popups
 {
     // A short message on a popup card, for example "Removed Layer 1". When it has an undo gesture, the gesture shows as a key cap
-    // (TextBlockKeyCap) followed by the word "undo". A ToastHost shows it. It has no tip and takes no focus.
+    // (ContentControlKeyCap) followed by the word "undo". A ToastHost shows it. It has no tip and takes no focus.
     public class Toast : PopupCard
     {
         public const string UndoWord = "undo";
@@ -42,7 +42,7 @@ namespace CMiX.UI.Popups
         {
             Focusable = false;
             ShowsTip = false;
-            keyCap.Bind(ThemeProperty, keyCap.GetResourceObservable("TextBlockKeyCap"));
+            keyCap.Bind(ThemeProperty, keyCap.GetResourceObservable("ContentControlKeyCap"));
 
             var line = new StackPanel { Orientation = Orientation.Horizontal };
             line.Bind(StackPanel.SpacingProperty, line.GetResourceObservable("SpacingMD"));

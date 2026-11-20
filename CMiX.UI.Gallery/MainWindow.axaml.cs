@@ -431,10 +431,10 @@ namespace CMiX.UI.Gallery
             return Frame("Panel focus line", "panelfocus", row);
         }
 
-        // Key caps (TextBlockKeyCap) next to the shortcut text of a tooltip and of a menu row, resting and hovered.
+        // Key caps (ContentControlKeyCap) next to the shortcut text of a tooltip and of a menu row, resting and hovered.
         private Control KeyCaps()
         {
-            Control Cap(string key) => new ContentControl { Theme = Theme("TextBlockKeyCap"), Content = key };
+            Control Cap(string key) => new ContentControl { Theme = Theme("ContentControlKeyCap"), Content = key };
 
             Control Pair(string name, Control sample, string key)
             {

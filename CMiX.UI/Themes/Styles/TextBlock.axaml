@@ -8,7 +8,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <!-- The one look of a shortcut: in a tooltip, in a menu row and in a key cap (TextBlockKeyCap).
+    <!-- The one look of a shortcut: in a tooltip, in a menu row and in a key cap (ContentControlKeyCap).
          It is a style and not a control theme, because a style wins over the TextBlock style above. -->
     <Style Selector="TextBlock.shortcut">
         <Setter Property="FontFamily" Value="{DynamicResource FontFamilyMono}" />

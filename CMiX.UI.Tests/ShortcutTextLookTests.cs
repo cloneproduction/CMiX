@@ -168,7 +168,7 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Show_AKeyCap_HasTheShortcutLookInARoundedFrame()
         {
-            var cap = new ContentControl { Theme = Tokens.Get<ControlTheme>("TextBlockKeyCap"), Content = "G" };
+            var cap = new ContentControl { Theme = Tokens.Get<ControlTheme>("ContentControlKeyCap"), Content = "G" };
             new Window { Content = cap, Width = 300, Height = 200 }.Show();
             Dispatcher.UIThread.RunJobs();
 

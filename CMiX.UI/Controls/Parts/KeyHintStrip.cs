@@ -9,7 +9,7 @@ using Avalonia.Layout;
 
 namespace CMiX.UI.Controls.Parts
 {
-    // One quiet line at the bottom of a panel: a short list of keys and what they do. Each key is a key cap (TextBlockKeyCap), followed by
+    // One quiet line at the bottom of a panel: a short list of keys and what they do. Each key is a key cap (ContentControlKeyCap), followed by
     // its words. The keys of one hint are apart by a slash. The text is static: the owner sets new hints when its mode changes.
     // The strip has no hit test and takes no focus, so a click goes through it. A hint that does not fit at the right is cut.
     public class KeyHintStrip : Border
@@ -65,7 +65,7 @@ namespace CMiX.UI.Controls.Parts
                         item.Children.Add(Words(KeySeparator));
 
                     var cap = new ContentControl { Focusable = false, Content = hint.Keys[i] };
-                    cap.Bind(ThemeProperty, cap.GetResourceObservable("TextBlockKeyCap"));
+                    cap.Bind(ThemeProperty, cap.GetResourceObservable("ContentControlKeyCap"));
                     item.Children.Add(cap);
                 }
 

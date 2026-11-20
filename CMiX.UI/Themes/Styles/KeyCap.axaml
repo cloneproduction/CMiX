@@ -4,7 +4,7 @@
 
     <!-- A key cap: the text of one key in a small rounded frame, for example in a hint strip. Set it on a ContentControl,
          with the key text as the content. The text has the look of every shortcut (TextBlock.shortcut). -->
-    <ControlTheme x:Key="TextBlockKeyCap" TargetType="ContentControl">
+    <ControlTheme x:Key="ContentControlKeyCap" TargetType="ContentControl">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
             <ControlTemplate>

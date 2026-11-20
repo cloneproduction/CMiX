@@ -43,7 +43,7 @@ namespace CMiX.UI.Tests
             Assert.Equal(new[] { "E", "Click", "Enter" }, KeyTexts(strip));
             Assert.Equal(new[] { "open", KeyHintStrip.KeySeparator, "place" }, Words(strip));
             Assert.All(strip.GetVisualDescendants().OfType<ContentControl>(),
-                cap => Assert.Same(Tokens.Get<object>("TextBlockKeyCap"), cap.Theme));
+                cap => Assert.Same(Tokens.Get<object>("ContentControlKeyCap"), cap.Theme));
         }
 
         [AvaloniaFact]

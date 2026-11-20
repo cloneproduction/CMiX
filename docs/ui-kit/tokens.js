@@ -599,7 +599,7 @@ window.CMIX_TOKENS = {
                                           "type":  "SolidColorBrush",
                                           "raw":  "{DynamicResource ShortcutText}",
                                           "css":  "var(--ShortcutText)",
-                                          "note":  "The text of a shortcut (the class shortcut of a TextBlock), and the frame of a key cap (TextBlockKeyCap)."
+                                          "note":  "The text of a shortcut (the class shortcut of a TextBlock), and the frame of a key cap (ContentControlKeyCap)."
                                       },
                                       {
                                           "name":  "ShortcutTextHoverBrush",
@@ -1145,7 +1145,7 @@ window.CMIX_TOKENS = {
                                           "type":  "Thickness",
                                           "raw":  "1",
                                           "css":  "1px",
-                                          "note":  "A key cap (TextBlockKeyCap): the line around the key text, and the space between the line and the text."
+                                          "note":  "A key cap (ContentControlKeyCap): the line around the key text, and the space between the line and the text."
                                       },
                                       {
                                           "name":  "KeyCapPadding",
