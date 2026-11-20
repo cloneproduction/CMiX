@@ -27,7 +27,7 @@
             </ui:ExpanderIndented>
 
             <ui:ExpanderIndented Header="Shortcuts" IsExpanded="False">
-                <Views:ShortcutSettingsView DataContext="{Binding ShortcutSettings}" />
+                <Views:SettingsShortcut DataContext="{Binding ShortcutSettings}" />
             </ui:ExpanderIndented>
 
         </StackPanel>

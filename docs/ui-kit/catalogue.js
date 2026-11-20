@@ -128,7 +128,7 @@ window.CMIX_CATALOGUE = [
                     { id: '20.4', name: 'Inspector', source: 'CMiX.Studio.Avalonia/Views/Inspector/Inspector.axaml' },
                     { id: '20.5', name: 'Outliner', source: 'CMiX.Studio.Avalonia/Views/Controls/Outliner.axaml' },
                     { id: '20.6', name: 'MessageDialog', source: 'CMiX.Studio.Avalonia/Views/Dialogs/MessageDialog.axaml' },
-                    { id: '20.7', name: 'ShortcutSettingsView', source: 'CMiX.Studio.Avalonia/Views/ShortcutSettingsView.axaml' }
+                    { id: '20.7', name: 'SettingsShortcut', source: 'CMiX.Studio.Avalonia/Views/SettingsShortcut.axaml' }
                 ]
             },
             {

@@ -18,7 +18,7 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The Shortcuts section of the Settings tab.
-    public class ShortcutSettingsViewTests : IDisposable
+    public class SettingsShortcutTests : IDisposable
     {
         private readonly string folder = Path.Combine(Path.GetTempPath(), $"cmix-shortcuts-{Guid.NewGuid():N}");
 
@@ -28,11 +28,11 @@ namespace CMiX.Studio.Avalonia.Tests
                 Directory.Delete(folder, true);
         }
 
-        private (ShortcutMap Map, ShortcutSettings Settings, ShortcutSettingsView View) Show()
+        private (ShortcutMap Map, ShortcutSettings Settings, SettingsShortcut View) Show()
         {
             var map = new ShortcutMap(Path.Combine(folder, ShortcutMap.FileName));
             var settings = new ShortcutSettings(map);
-            var view = new ShortcutSettingsView { DataContext = settings };
+            var view = new SettingsShortcut { DataContext = settings };
             new Window { Content = view, Width = 400, Height = 600 }.Show();
             Dispatcher.UIThread.RunJobs();
             return (map, settings, view);

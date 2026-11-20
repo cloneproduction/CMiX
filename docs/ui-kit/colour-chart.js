@@ -515,7 +515,7 @@ window.CMIX_COLOUR_CHART = {
                                                            "WarningMuted",
                                                            "WarningMutedBrush"
                                                        ],
-                                            "rule":  "One use, ShortcutSettingsView.axaml:49. Use Warning instead.",
+                                            "rule":  "One use, SettingsShortcut.axaml:49. Use Warning instead.",
                                             "flags":  [
                                                           "candidate to retire: a fourth status hue for one mark",
                                                           "comment says \u0027refused drop frame\u0027 but the tree uses a grey cover"

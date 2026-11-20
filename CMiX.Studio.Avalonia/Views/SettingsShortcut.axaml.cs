@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class ShortcutSettingsView : UserControl
+    public partial class SettingsShortcut : UserControl
     {
-        public ShortcutSettingsView()
+        public SettingsShortcut()
         {
             InitializeComponent();
         }

@@ -41,7 +41,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | CategoryFilter | #2DC5A6 | kind: filter | CategoryPalette | M | dE 7.7 to Composable4 |
 | CategoryModifier | #22B5E1 | kind: modifier | CategoryPalette | M | dE 3.8 to Composable4 |
 | CategoryModulator | #AD8DFD | kind: modulator | CategoryPalette | M | dE 7.4 to Composable5 |
-| WarningMuted | #B4685C | a conflict mark (`ShortcutSettingsView.axaml:49`) | WarningMutedBrush, 1 use | M | comment says "refused drop frame": the tree uses a grey cover for that |
+| WarningMuted | #B4685C | a conflict mark (`SettingsShortcut.axaml:49`) | WarningMutedBrush, 1 use | M | comment says "refused drop frame": the tree uses a grey cover for that |
 | PopupCardBackground | #18181B | popup surface (tooltip, menu, flyout, Add panel) | PopupBackgroundBrush (12) | P | fine; a surface step between Grey100 and Grey200 that is not in the ramp |
 | PopupCardWarning | #E2A355 | needs attention: disabled reason, missing asset (`KindCountBadges.axaml:88`), unsynced dot | PopupCardWarningBrush, StatusUnsyncedBrush | P | name says place, meaning is status |
 | PopupCardDanger | #E97871 | bad: Delete row, disconnected dot | PopupCardDangerBrush, StatusDisconnectedBrush | P | name says place, meaning is status |
@@ -303,7 +303,7 @@ Fix:       Hint strip on PopupCardBackground (4.83) or text Grey900 (7.49).
 ```
 ```
 [MINOR] WarningMuted: a fourth status hue for one use, with a stale comment
-Where:     Colors.axaml:58-60; the only use is ShortcutSettingsView.axaml:49
+Where:     Colors.axaml:58-60; the only use is SettingsShortcut.axaml:49
 Numbers:   dE to Danger 10.9 (same family at a glance); on Grey400 2.91 (under 3:1 for a mark).
 Fix:       Use StatusWarning for the conflict mark and retire WarningMuted. The tree says "refused" with a grey cover.
 ```
