@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    x:Name="prefabSlotManager"    
+    x:Name="listPrefabSlot"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
@@ -12,7 +12,7 @@
 
         <ui:ListBoxCMiX
             x:Name="prefabListBox"
-            MinItemCount="{Binding MinItemCount, ElementName=prefabSlotManager}"
+            MinItemCount="{Binding MinItemCount, ElementName=listPrefabSlot}"
             ItemsSource="{Binding ManagerData.Items}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
@@ -67,7 +67,7 @@
                 Height="{DynamicResource ControlHeightMD}"
                 Content="⇄"
                 DockPanel.Dock="Left"
-                IsEnabled="{Binding ItemsSource.Count, ElementName=prefabSlotManager, Converter={StaticResource CountToVisibility}, ConverterParameter=0}" />
+                IsEnabled="{Binding ItemsSource.Count, ElementName=listPrefabSlot, Converter={StaticResource CountToVisibility}, ConverterParameter=0}" />
 
             <Popup
                 ui:TogglePopup.Toggle="{Binding ElementName=swapToggle}"
@@ -76,8 +76,8 @@
                 <ui:DropdownFrame>
                     <ui:ListSearchableItemPicker
                         Picked="OnSwapListPicked"
-                        ItemCommand="{Binding DataContext.AddExistingItemCommand, ElementName=prefabSlotManager}"
-                        ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}"
+                        ItemCommand="{Binding DataContext.AddExistingItemCommand, ElementName=listPrefabSlot}"
+                        ItemsSource="{Binding ItemsSource, ElementName=listPrefabSlot}"
                         TextPath="PrefabService.Name.Value" />
                 </ui:DropdownFrame>
             </Popup>
@@ -86,7 +86,7 @@
             <ContentControl
                 Height="{DynamicResource ControlHeightMD}"
                 Margin="1,0"
-                Content="{Binding AddContent, ElementName=prefabSlotManager}"
+                Content="{Binding AddContent, ElementName=listPrefabSlot}"
                 DockPanel.Dock="Left" />
 
         </ui:DockPanelPositioned>

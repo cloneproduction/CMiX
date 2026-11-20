@@ -5,7 +5,7 @@
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    x:Name="repositoryTab"
+    x:Name="tabRepository"
     Theme="{StaticResource TabItemHorizontal}">
 
     <!--
@@ -24,18 +24,18 @@
     <TabItem.Header>
         <ui:AppIcon
             Margin="8"
-            IconKey="{Binding Icon, ElementName=repositoryTab}"
+            IconKey="{Binding Icon, ElementName=tabRepository}"
             Size="{DynamicResource IconSizeXS}"
-            ToolTip.Tip="{Binding ToolTipText, ElementName=repositoryTab}" />
+            ToolTip.Tip="{Binding ToolTipText, ElementName=tabRepository}" />
     </TabItem.Header>
 
-    <ScrollViewer DataContext="{Binding DataContext, ElementName=repositoryTab}" Theme="{StaticResource ScrollViewerOverlayKeepOffset}">
+    <ScrollViewer DataContext="{Binding DataContext, ElementName=tabRepository}" Theme="{StaticResource ScrollViewerOverlayKeepOffset}">
         <Border Background="Transparent">
             <Managers:ListRepository
-                ItemsSource="{Binding ItemsSource, ElementName=repositoryTab}"
-                RowMenu="{Binding RowMenu, ElementName=repositoryTab}"
-                AddContent="{Binding AddContent, ElementName=repositoryTab}"
-                EditingPanel="{Binding EditingPanel, ElementName=repositoryTab}" />
+                ItemsSource="{Binding ItemsSource, ElementName=tabRepository}"
+                RowMenu="{Binding RowMenu, ElementName=tabRepository}"
+                AddContent="{Binding AddContent, ElementName=tabRepository}"
+                EditingPanel="{Binding EditingPanel, ElementName=tabRepository}" />
         </Border>
     </ScrollViewer>
 

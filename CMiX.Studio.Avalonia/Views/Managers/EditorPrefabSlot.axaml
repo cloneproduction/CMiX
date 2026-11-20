@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    x:Name="prefabSlotEditor">
+    x:Name="editorPrefabSlot">
 
     <DockPanel>
         <Managers:ListPrefabSlot
@@ -11,12 +11,12 @@
             MinItemCount="3"
             RowMenu="Slot"
             DockPanel.Dock="Top"
-            ItemsSource="{Binding ItemsSource, ElementName=prefabSlotEditor}"
-            AddContent="{Binding AddContent, ElementName=prefabSlotEditor}" />
+            ItemsSource="{Binding ItemsSource, ElementName=editorPrefabSlot}"
+            AddContent="{Binding AddContent, ElementName=editorPrefabSlot}" />
 
         <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
             <ContentControl
-                Content="{Binding EditingPanel, ElementName=prefabSlotEditor}"
+                Content="{Binding EditingPanel, ElementName=editorPrefabSlot}"
                 DataContext="{Binding SelectedItem}" />
         </Border>
 
