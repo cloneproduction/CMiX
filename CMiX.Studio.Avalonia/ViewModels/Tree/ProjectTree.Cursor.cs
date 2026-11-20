@@ -123,6 +123,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public SelectionOrigin Origin { get; private set; } = SelectionOrigin.Program;
 
+        public bool RevealsSelection => Origin is SelectionOrigin.Program or SelectionOrigin.Peer;
+
         // The origin is set before the change event.
         public void Select(TreeNode? node, SelectionOrigin origin)
         {

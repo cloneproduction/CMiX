@@ -161,11 +161,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void OnWatchedPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ProjectTree.IsSearchActive))
-                hints.Update();
-
             if (e.PropertyName != nameof(ProjectTree.SelectedNode) || dragSession.IsDropping || watched?.SelectedNode is not { } node
-                || watched.Origin is not (SelectionOrigin.Program or SelectionOrigin.Peer))
+                || !watched.RevealsSelection)
                 return;
 
             lifetime.Post(() => reveal.RevealRow(node), DispatcherPriority.Loaded);

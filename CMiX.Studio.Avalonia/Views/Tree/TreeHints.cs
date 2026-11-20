@@ -64,11 +64,16 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal void Watch(ProjectTree tree)
         {
+            tree.PropertyChanged += OnTreeChanged;
             tree.Shortcuts.PropertyChanged += OnShortcutsChanged;
             RefreshGestures();
         }
 
-        internal void Unwatch(ProjectTree tree) => tree.Shortcuts.PropertyChanged -= OnShortcutsChanged;
+        internal void Unwatch(ProjectTree tree)
+        {
+            tree.PropertyChanged -= OnTreeChanged;
+            tree.Shortcuts.PropertyChanged -= OnShortcutsChanged;
+        }
 
         internal void AttachWindow(TopLevel window)
         {
@@ -98,5 +103,11 @@ namespace CMiX.Studio.Avalonia.Views
         private void OnWindowFocusChanged(object? sender, RoutedEventArgs e) => lifetime.Post(Update, DispatcherPriority.Input);
 
         private void OnShortcutsChanged(object? sender, PropertyChangedEventArgs e) => RefreshGestures();
+
+        private void OnTreeChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ProjectTree.IsSearchActive))
+                Update();
+        }
     }
 }

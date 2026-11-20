@@ -70,5 +70,38 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Same(layer.Item, tree.SelectedNode?.Item);
             Assert.Equal(SelectionOrigin.Program, tree.Origin);
         }
+
+        [Fact]
+        public void RevealsSelection_AProgramSelection_IsTrue()
+        {
+            var tree = CreateTree();
+            var layer = tree.CompositionNodes()[0].Children[0].Children[1];
+
+            tree.Select(layer, SelectionOrigin.Program);
+
+            Assert.True(tree.RevealsSelection);
+        }
+
+        [Fact]
+        public void RevealsSelection_APointerSelection_IsFalse()
+        {
+            var tree = CreateTree();
+            var layer = tree.CompositionNodes()[0].Children[0].Children[1];
+
+            tree.SelectedNode = layer;
+
+            Assert.False(tree.RevealsSelection);
+        }
+
+        [Fact]
+        public void RevealsSelection_APeerSelection_IsTrue()
+        {
+            var tree = CreateTree();
+            var layer = tree.CompositionNodes()[0].Children[0].Children[1];
+
+            tree.Select(layer, SelectionOrigin.Peer);
+
+            Assert.True(tree.RevealsSelection);
+        }
     }
 }
