@@ -16,16 +16,16 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // Reproduces the regression fixed in commits f0406d5b and 82b09f3c: CheckerBoard, TouchBlob
     // and ColorPaletteModifier had no DataTemplate in the ListBoxCMiX.DataTemplates collections that
-    // RepositoryManager and PrefabSlotManager inline, so a list row for one of these types fell
+    // ListRepository and PrefabSlotManager inline, so a list row for one of these types fell
     // through to the Application level reflection view locator (Views.ViewModelToViewTemplate),
     // which resolves by exact type name to the full settings editing view (for example
     // Views.CheckerBoard, the heavy editor panel) instead of the small ListItemIcon row used
     // by every other prefab type.
     public class ListTemplateRegressionTests
     {
-        private static RepositoryManager CreateShownRepositoryManager()
+        private static ListRepository CreateShownListRepository()
         {
-            var repositoryManager = new RepositoryManager();
+            var repositoryManager = new ListRepository();
             var window = new Window { Content = repositoryManager, Width = 400, Height = 600 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
@@ -42,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var touchBlob = controlFactory.Create(typeof(TouchBlob));
             var colorPalette = controlFactory.Create(typeof(ColorPaletteModifier));
 
-            var repositoryManager = CreateShownRepositoryManager();
+            var repositoryManager = CreateShownListRepository();
             var listBox = repositoryManager.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
 
             var items = new List<IControl> { checkerBoard, touchBlob, colorPalette };
@@ -66,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ARow_ShowsThePrefabName_AndItsToggleWritesTheVisibility()
         {
             var checkerBoard = (CheckerBoard)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(CheckerBoard));
-            var listBox = CreateShownRepositoryManager().GetVisualDescendants().OfType<ListBoxCMiX>().Single();
+            var listBox = CreateShownListRepository().GetVisualDescendants().OfType<ListBoxCMiX>().Single();
             listBox.ItemsSource = new List<IControl> { checkerBoard };
             TestServiceProviderFactory.Pump();
 

@@ -118,7 +118,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void TheRepositoryList_HoldsTheCommandThatDeletesEverywhere()
         {
             var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
-            var view = new Views.Managers.RepositoryManager { DataContext = manager, ItemsSource = manager.ManagerData.Items };
+            var view = new Views.Managers.ListRepository { DataContext = manager, ItemsSource = manager.ManagerData.Items };
             Show(view);
 
             var list = view.GetVisualDescendants().OfType<ListBoxRepository>().Single();

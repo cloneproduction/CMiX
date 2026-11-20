@@ -59,7 +59,7 @@ namespace CMiX.Studio.Avalonia.Tests
                         break;
                     case ListKind.Repository:
                         manager = provider.GetRequiredService<PrefabManager>();
-                        view = new RepositoryManager { DataContext = manager, ItemsSource = manager.ManagerData.Items };
+                        view = new ListRepository { DataContext = manager, ItemsSource = manager.ManagerData.Items };
                         break;
                     default:
                         var modulator = (BeatStepModulator)provider.GetRequiredService<ControlFactory>().Create(typeof(BeatStepModulator));

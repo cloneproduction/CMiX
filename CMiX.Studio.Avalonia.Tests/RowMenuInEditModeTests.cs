@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 var manager = provider.GetRequiredService<PrefabManager>();
                 view = kind == RowKind.SlotList
                     ? new PrefabSlotManager { DataContext = manager, RowMenu = RowMenuKind.Slot }
-                    : new RepositoryManager { DataContext = manager, ItemsSource = manager.ManagerData.Items, RowMenu = RowMenuKind.Repository };
+                    : new ListRepository { DataContext = manager, ItemsSource = manager.ManagerData.Items, RowMenu = RowMenuKind.Repository };
                 new Window { Content = view, Width = 500, Height = 600 }.Show();
                 Dispatcher.UIThread.RunJobs();
                 manager.AddItem(typeof(Entity));

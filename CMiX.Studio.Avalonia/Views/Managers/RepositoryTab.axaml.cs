@@ -8,7 +8,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
-    // Replaces the repeated MainWindow.axaml TabItem shape wrapping a RepositoryManager.
+    // Replaces the repeated MainWindow.axaml TabItem shape wrapping a ListRepository.
     public partial class RepositoryTab : TabItem
     {
         public RepositoryTab()

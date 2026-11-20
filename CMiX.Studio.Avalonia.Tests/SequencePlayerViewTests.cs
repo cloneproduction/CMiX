@@ -136,7 +136,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var provider = TestServiceProviderFactory.Create();
             var player = provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.SequencePlayer));
 
-            var repositoryManager = new RepositoryManager();
+            var repositoryManager = new ListRepository();
             var window = new Window { Content = repositoryManager, Width = 400, Height = 600 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

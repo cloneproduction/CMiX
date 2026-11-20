@@ -225,7 +225,7 @@ own XAML, for example `Title="{Binding PrefabService.Name.Value}"`. The test
   content, such as the owner type of the add panel of an entity, reads from the wrong
   control and finds nothing. `SectionEntityModifiersTests` keeps this case.
 - A Studio control tells the library control which properties of the model to use.
-  `ModifierManager` is a `ListPanelItem` of `PanelItem` rows. `RepositoryManager` is a
+  `ModifierManager` is a `ListPanelItem` of `PanelItem` rows. `ListRepository` is a
   `ListBoxRepository` with the icon templates of the prefabs. `ModulatorHoverBehavior` tells
   a modulator that the pointer is over its panel, because the library panel knows no
   modulator.

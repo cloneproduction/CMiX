@@ -8,9 +8,9 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
-    public partial class RepositoryManager : UserControl
+    public partial class ListRepository : UserControl
     {
-        public RepositoryManager()
+        public ListRepository()
         {
             InitializeComponent();
             detailList.ContainerPrepared += (_, e) => PrefabRowMenu.AttachTo(e.Container, RowMenu);
@@ -18,7 +18,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
 
         // The menu of the rows. None, the default, gives them no menu.
         public static readonly StyledProperty<RowMenuKind> RowMenuProperty =
-            AvaloniaProperty.Register<RepositoryManager, RowMenuKind>(nameof(RowMenu));
+            AvaloniaProperty.Register<ListRepository, RowMenuKind>(nameof(RowMenu));
         public RowMenuKind RowMenu
         {
             get => GetValue(RowMenuProperty);
@@ -26,7 +26,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         }
 
         public static readonly StyledProperty<Control?> SelectionPanelProperty =
-            LogicalPanelContent.Register<RepositoryManager>(nameof(SelectionPanel));
+            LogicalPanelContent.Register<ListRepository>(nameof(SelectionPanel));
         public Control? SelectionPanel
         {
             get => GetValue(SelectionPanelProperty);
@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         }
 
         public static readonly StyledProperty<Control?> EditingPanelProperty =
-            LogicalPanelContent.Register<RepositoryManager>(nameof(EditingPanel));
+            LogicalPanelContent.Register<ListRepository>(nameof(EditingPanel));
         public Control? EditingPanel
         {
             get => GetValue(EditingPanelProperty);
@@ -42,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
-            AvaloniaProperty.Register<RepositoryManager, IEnumerable>(nameof(ItemsSource));
+            AvaloniaProperty.Register<ListRepository, IEnumerable>(nameof(ItemsSource));
         public IEnumerable ItemsSource
         {
             get => GetValue(ItemsSourceProperty);

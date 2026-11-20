@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 ViewModel = viewModel,
                 Kind = kind,
                 Manager = manager,
-                List = window.GetVisualDescendants().OfType<RepositoryManager>().Single().GetVisualDescendants().OfType<ListBoxCMiX>().First(),
+                List = window.GetVisualDescendants().OfType<ListRepository>().Single().GetVisualDescendants().OfType<ListBoxCMiX>().First(),
                 Undo = undo
             };
         }

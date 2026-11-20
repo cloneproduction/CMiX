@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             Dispatcher.UIThread.RunJobs();
 
             // Only the selected tab realizes its content, so this is the textures manager.
-            var repositoryManager = Assert.Single(window.GetVisualDescendants().OfType<RepositoryManager>());
+            var repositoryManager = Assert.Single(window.GetVisualDescendants().OfType<ListRepository>());
             Assert.Same(viewModel.TextureManager, repositoryManager.DataContext);
             Assert.Same(viewModel.ControlRepository.Textures, repositoryManager.ItemsSource);
 
@@ -62,7 +62,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             viewModel.TextureManager.SelectedItem = texture;
             TestServiceProviderFactory.Pump();
 
-            var repositoryManager = Assert.Single(window.GetVisualDescendants().OfType<RepositoryManager>());
+            var repositoryManager = Assert.Single(window.GetVisualDescendants().OfType<ListRepository>());
             var delete = repositoryManager.GetVisualDescendants().OfType<Button>().Single(b => b.Name == "RemoveButton");
 
             Assert.Same(viewModel.TextureManager.RemoveEverywhereCommand, delete.Command);

@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void RepositoryRemoveButton_ShowsTheTrashCan()
         {
             var manager = CreateManager();
-            var view = new RepositoryManager { DataContext = manager, ItemsSource = manager.ManagerData.Items };
+            var view = new ListRepository { DataContext = manager, ItemsSource = manager.ManagerData.Items };
             Show(view);
 
             Assert.Equal(TrashCan, IconOf(RemoveButtonIn(view)));

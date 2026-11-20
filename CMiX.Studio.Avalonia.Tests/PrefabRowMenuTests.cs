@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static (PrefabManager Manager, ListBox List) ShowRepositoryList(RowMenuKind kind, int itemCount)
         {
             var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
-            return Show(new RepositoryManager { DataContext = manager, ItemsSource = manager.ManagerData.Items, RowMenu = kind }, manager, itemCount);
+            return Show(new ListRepository { DataContext = manager, ItemsSource = manager.ManagerData.Items, RowMenu = kind }, manager, itemCount);
         }
 
         private static Control RowAt(ListBox list, int index) => list.ContainerFromIndex(index)!;
