@@ -8,7 +8,7 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
 
-namespace CMiX.UI.Behaviors
+namespace CMiX.UI.AttachedProperties
 {
     // A menu item with this property runs its command after its menu has closed, not while the popup is still open.
     public static class RunCommandAfterClose

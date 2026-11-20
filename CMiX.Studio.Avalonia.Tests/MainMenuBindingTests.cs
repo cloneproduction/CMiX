@@ -9,7 +9,7 @@ using CMiX.Core.Networking;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Tests.Integration;
 using CMiX.Studio.Avalonia.ViewModels;
-using CMiX.UI.Behaviors;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.String;
 using CommunityToolkit.Mvvm.Input;
 using HanumanInstitute.MvvmDialogs;
