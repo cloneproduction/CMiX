@@ -49,21 +49,21 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 FocusTree();
         }
 
-        [RelayCommand(CanExecute = nameof(CanMoveCursorToMatch))]
+        [RelayCommand(CanExecute = nameof(CanRunSearchKey))]
         public void MoveCursorToNextMatch()
         {
             if (!IsDragging)
                 MoveCursorTo(search.MoveToMatch(CursorNode, 1));
         }
 
-        [RelayCommand(CanExecute = nameof(CanMoveCursorToMatch))]
+        [RelayCommand(CanExecute = nameof(CanRunSearchKey))]
         public void MoveCursorToPreviousMatch()
         {
             if (!IsDragging)
                 MoveCursorTo(search.MoveToMatch(CursorNode, -1));
         }
 
-        private bool CanMoveCursorToMatch() => !IsDragging;
+        private bool CanRunSearchKey() => !IsDragging;
 
         private void MoveCursorTo(TreeNode? match)
         {

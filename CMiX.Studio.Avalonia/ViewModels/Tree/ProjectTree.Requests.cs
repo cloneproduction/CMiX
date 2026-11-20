@@ -19,7 +19,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public event EventHandler? MenuRequested;
 
-        [RelayCommand(CanExecute = nameof(CanMoveCursorToMatch))]
+        [RelayCommand(CanExecute = nameof(CanRunSearchKey))]
         public void FocusTree() => TreeFocusRequested?.Invoke(this, EventArgs.Empty);
 
         public event EventHandler? TreeFocusRequested;
