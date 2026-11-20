@@ -10,19 +10,19 @@ using CMiX.UI.Panels;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
-    public partial class PrefabSlotManager : UserControl
+    public partial class ListPrefabSlot : UserControl
     {
-        static PrefabSlotManager()
+        static ListPrefabSlot()
         {
             // The selection panel is the middle of the row: the swap toggle is on its left, the arrows on its right.
-            SelectionPanelProperty.Changed.AddClassHandler<PrefabSlotManager>((_, e) =>
+            SelectionPanelProperty.Changed.AddClassHandler<ListPrefabSlot>((_, e) =>
             {
                 if (e.NewValue is Control panel)
                     PositionedControl.SetPosition(panel, ControlPosition.None);
             });
         }
 
-        public PrefabSlotManager()
+        public ListPrefabSlot()
         {
             InitializeComponent();
             prefabListBox.ContainerPrepared += (_, e) => PrefabRowMenu.AttachTo(e.Container, RowMenu);
@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
 
         // The menu of the rows. None, the default, gives them no menu.
         public static readonly StyledProperty<RowMenuKind> RowMenuProperty =
-            AvaloniaProperty.Register<PrefabSlotManager, RowMenuKind>(nameof(RowMenu));
+            AvaloniaProperty.Register<ListPrefabSlot, RowMenuKind>(nameof(RowMenu));
         public RowMenuKind RowMenu
         {
             get => GetValue(RowMenuProperty);
@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         // The least number of rows of the list. Zero, the default, takes the token ListVisibleItems when the
         // manager is in a window.
         public static readonly StyledProperty<int> MinItemCountProperty =
-            AvaloniaProperty.Register<PrefabSlotManager, int>(nameof(MinItemCount));
+            AvaloniaProperty.Register<ListPrefabSlot, int>(nameof(MinItemCount));
         public int MinItemCount
         {
             get => GetValue(MinItemCountProperty);
@@ -59,7 +59,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         }
 
         public static readonly StyledProperty<Control?> SelectionPanelProperty =
-            LogicalPanelContent.Register<PrefabSlotManager>(nameof(SelectionPanel));
+            LogicalPanelContent.Register<ListPrefabSlot>(nameof(SelectionPanel));
         public Control? SelectionPanel
         {
             get => GetValue(SelectionPanelProperty);
@@ -67,7 +67,7 @@ namespace CMiX.Studio.Avalonia.Views.Managers
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
-            AvaloniaProperty.Register<PrefabSlotManager, IEnumerable>(nameof(ItemsSource));
+            AvaloniaProperty.Register<ListPrefabSlot, IEnumerable>(nameof(ItemsSource));
         public IEnumerable ItemsSource
         {
             get => GetValue(ItemsSourceProperty);

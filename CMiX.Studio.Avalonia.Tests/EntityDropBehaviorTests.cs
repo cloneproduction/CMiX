@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var slot = tab.GetVisualDescendants().OfType<PrefabSlotManager>().First();
+            var slot = tab.GetVisualDescendants().OfType<ListPrefabSlot>().First();
             var behavior = Assert.Single(Interaction.GetBehaviors(slot).OfType<EntityDropBehavior>());
 
             Assert.Same(layer.ModelEntityManager, behavior.PrefabManager);

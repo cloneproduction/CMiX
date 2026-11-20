@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 }
             }
 
-            // ButtonPopup, ListPanelItem, PrefabSlotManager and SelectorColor have one popup each.
+            // ButtonPopup, ListPanelItem, ListPrefabSlot and SelectorColor have one popup each.
             Assert.True(tagCount >= 4, $"The scan found only {tagCount} tags. The scan is broken.");
             Assert.True(violations.Count == 0, string.Join(Environment.NewLine, violations));
         }

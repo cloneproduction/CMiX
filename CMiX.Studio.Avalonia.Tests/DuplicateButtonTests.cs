@@ -81,7 +81,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void SlotDuplicateButton_ShowsTheDuplicateIcon_AndIsDisabledWithoutItems()
         {
             var manager = CreateManager();
-            var view = new PrefabSlotManager { DataContext = manager };
+            var view = new ListPrefabSlot { DataContext = manager };
             Show(view);
             var button = ButtonIn(view, "DuplicateButton");
 
@@ -98,7 +98,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void SlotDuplicateButton_SitsBeforeTheRemoveButton()
         {
             var manager = CreateManager();
-            var view = new PrefabSlotManager { DataContext = manager };
+            var view = new ListPrefabSlot { DataContext = manager };
             Show(view);
 
             var duplicate = ButtonIn(view, "DuplicateButton");
@@ -113,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void SlotDuplicateButton_DuplicatesTheSelectedItem()
         {
             var manager = CreateManager();
-            var view = new PrefabSlotManager { DataContext = manager };
+            var view = new ListPrefabSlot { DataContext = manager };
             Show(view);
             manager.AddItem(typeof(Entity));
             Dispatcher.UIThread.RunJobs();

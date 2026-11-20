@@ -57,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var tab = new TabLayerCamera { DataContext = layer };
             Show(tab);
 
-            var list = tab.GetVisualDescendants().OfType<PrefabSlotManager>().Single();
+            var list = tab.GetVisualDescendants().OfType<ListPrefabSlot>().Single();
             var cameraEditor = tab.GetVisualDescendants().OfType<Views.Camera>().Single();
 
             Assert.Equal(new Thickness(8), list.Margin);

@@ -48,10 +48,10 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static double TopOf(Control control, Control view) => control.TranslatePoint(new Point(0, 0), view)!.Value.Y;
 
-        private static (ComboBoxCaptioned MaskChannel, ToggleButtonCaptioned Invert, PrefabSlotManager Slot) SlotAndMaskControls(Control view) =>
+        private static (ComboBoxCaptioned MaskChannel, ToggleButtonCaptioned Invert, ListPrefabSlot Slot) SlotAndMaskControls(Control view) =>
             (view.GetVisualDescendants().OfType<ComboBoxCaptioned>().Single(combo => combo.Caption == "MaskChannel"),
              view.GetVisualDescendants().OfType<ToggleButtonCaptioned>().Single(toggle => toggle.Caption == "Invert"),
-             view.GetVisualDescendants().OfType<PrefabSlotManager>().Single());
+             view.GetVisualDescendants().OfType<ListPrefabSlot>().Single());
 
         [AvaloniaFact]
         public void MaskChannelAndInvert_SitUnderTheSlot_AndAboveFilterAndTransform()

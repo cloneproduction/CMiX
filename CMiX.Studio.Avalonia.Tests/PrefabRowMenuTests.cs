@@ -27,7 +27,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static (PrefabManager Manager, ListBox List) ShowSlotList(RowMenuKind kind, int itemCount)
         {
             var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
-            return Show(new PrefabSlotManager { DataContext = manager, RowMenu = kind }, manager, itemCount);
+            return Show(new ListPrefabSlot { DataContext = manager, RowMenu = kind }, manager, itemCount);
         }
 
         private static (PrefabManager Manager, ListBox List) ShowRepositoryList(RowMenuKind kind, int itemCount)

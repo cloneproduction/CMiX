@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 {
                     case ListKind.PrefabSlot:
                         manager = provider.GetRequiredService<PrefabManager>();
-                        view = new PrefabSlotManager { DataContext = manager };
+                        view = new ListPrefabSlot { DataContext = manager };
                         break;
                     case ListKind.Repository:
                         manager = provider.GetRequiredService<PrefabManager>();

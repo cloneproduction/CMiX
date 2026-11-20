@@ -10,20 +10,20 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The remove, move up and move down buttons of the slot act on the items inside it.
-    public class PrefabSlotManagerItemButtonsTests
+    public class ListPrefabSlotItemButtonsTests
     {
         private static readonly string[] ButtonNames = { "RemoveButton", "MoveUpButton", "MoveDownButton" };
 
-        private static (PrefabSlotManager View, PrefabManager Manager) Show()
+        private static (ListPrefabSlot View, PrefabManager Manager) Show()
         {
             var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
-            var view = new PrefabSlotManager { DataContext = manager };
+            var view = new ListPrefabSlot { DataContext = manager };
             new Window { Content = view, Width = 400, Height = 400 }.Show();
             Dispatcher.UIThread.RunJobs();
             return (view, manager);
         }
 
-        private static List<bool> EnabledStates(PrefabSlotManager view) =>
+        private static List<bool> EnabledStates(ListPrefabSlot view) =>
             ButtonNames.Select(name => view.FindControl<Button>(name)!.IsEnabled).ToList();
 
         [AvaloniaFact]

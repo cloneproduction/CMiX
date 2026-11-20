@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
             var layerView = Assert.Single(window.GetVisualDescendants().OfType<Views.Layer>());
             Assert.True(
-                layerView.GetVisualDescendants().OfType<PrefabSlotManager>()
+                layerView.GetVisualDescendants().OfType<ListPrefabSlot>()
                     .Any(slotManager => ReferenceEquals(slotManager.ItemsSource, viewModel.ControlRepository.ModelEntities)),
                 "The layer entity slots did not resolve the model entities of the repository.");
         }

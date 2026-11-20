@@ -21,20 +21,20 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The toggle of the slot that opens the list of the items of the repository.
-    public class PrefabSlotManagerSwapToggleTests
+    public class ListPrefabSlotSwapToggleTests
     {
-        private static (PrefabSlotManager View, ObservableCollection<IControl> Repository, IServiceProvider Provider) Show()
+        private static (ListPrefabSlot View, ObservableCollection<IControl> Repository, IServiceProvider Provider) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = provider.GetRequiredService<PrefabManager>();
             var repository = new ObservableCollection<IControl>();
-            var view = new PrefabSlotManager { DataContext = manager, ItemsSource = repository };
+            var view = new ListPrefabSlot { DataContext = manager, ItemsSource = repository };
             new Window { Content = view, Width = 400, Height = 400 }.Show();
             Dispatcher.UIThread.RunJobs();
             return (view, repository, provider);
         }
 
-        private static ToggleButton SwapToggle(PrefabSlotManager view) => view.FindControl<ToggleButton>("SwapToggle")!;
+        private static ToggleButton SwapToggle(ListPrefabSlot view) => view.FindControl<ToggleButton>("SwapToggle")!;
 
         [AvaloniaFact]
         public void ThePopupOfTheToggle_HasTheSharedDropdownFrame_AndKeepsItsPosition()
@@ -115,7 +115,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(1, list.HighlightedIndex);
         }
 
-        private static (PrefabSlotManager View, PrefabManager Manager, Popup Popup, ListSearchableItemPicker List) ShowWithOpenPopup(int repositoryItems)
+        private static (ListPrefabSlot View, PrefabManager Manager, Popup Popup, ListSearchableItemPicker List) ShowWithOpenPopup(int repositoryItems)
         {
             var (view, repository, provider) = Show();
             var factory = provider.GetRequiredService<ControlFactory>();

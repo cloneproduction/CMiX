@@ -10,9 +10,9 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The list of a PrefabSlotManager shows the number of rows that the application asks for, and the
+    // The list of a ListPrefabSlot shows the number of rows that the application asks for, and the
     // token ListVisibleItems when it asks for none.
-    public class PrefabSlotManagerMinItemCountTests
+    public class ListPrefabSlotMinItemCountTests
     {
         private static T Token<T>(string key)
         {
@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return rows * (Token<double>("ControlHeightMD") + spacing) - spacing + margin.Top + margin.Bottom;
         }
 
-        private static ListBoxCMiX Show(PrefabSlotManager manager)
+        private static ListBoxCMiX Show(ListPrefabSlot manager)
         {
             new Window { Content = manager, Width = 400, Height = 600 }.Show();
             Dispatcher.UIThread.RunJobs();
@@ -39,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void WithoutAnyCount_TheListTakesTheToken()
         {
-            var list = Show(new PrefabSlotManager());
+            var list = Show(new ListPrefabSlot());
 
             Assert.Equal(Token<int>("ListVisibleItems"), list.MinItemCount);
             Assert.Equal(HeightOfRows(Token<int>("ListVisibleItems")), list.MinHeight);
@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void WithACount_TheListShowsThatNumberOfRows()
         {
-            var list = Show(new PrefabSlotManager { MinItemCount = 2 });
+            var list = Show(new ListPrefabSlot { MinItemCount = 2 });
 
             Assert.Equal(2, list.MinItemCount);
             Assert.Equal(HeightOfRows(2), list.MinHeight);
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Tests
             new Window { Content = mask, Width = 400, Height = 800 }.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var manager = mask.GetVisualDescendants().OfType<PrefabSlotManager>().First();
+            var manager = mask.GetVisualDescendants().OfType<ListPrefabSlot>().First();
             var left = manager.TranslatePoint(new Point(0, 0), mask)!.Value.X;
 
             Assert.Equal(Token<double>("SpacingMD"), left);

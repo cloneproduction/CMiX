@@ -16,7 +16,7 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // Reproduces the regression fixed in commits f0406d5b and 82b09f3c: CheckerBoard, TouchBlob
     // and ColorPaletteModifier had no DataTemplate in the ListBoxCMiX.DataTemplates collections that
-    // ListRepository and PrefabSlotManager inline, so a list row for one of these types fell
+    // ListRepository and ListPrefabSlot inline, so a list row for one of these types fell
     // through to the Application level reflection view locator (Views.ViewModelToViewTemplate),
     // which resolves by exact type name to the full settings editing view (for example
     // Views.CheckerBoard, the heavy editor panel) instead of the small ListItemIcon row used

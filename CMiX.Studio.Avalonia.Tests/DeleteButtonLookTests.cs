@@ -35,7 +35,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void SlotRemoveButton_ShowsTheTrashCan()
         {
-            var view = new PrefabSlotManager { DataContext = CreateManager() };
+            var view = new ListPrefabSlot { DataContext = CreateManager() };
             Show(view);
 
             Assert.Equal(TrashCan, IconOf(RemoveButtonIn(view)));

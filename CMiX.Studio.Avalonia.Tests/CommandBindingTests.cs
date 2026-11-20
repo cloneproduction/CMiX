@@ -70,10 +70,10 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ThePrefabSlotManager_HoldsTheMoveAndDeleteCommands()
+        public void TheListPrefabSlot_HoldsTheMoveAndDeleteCommands()
         {
             var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
-            var view = new Views.Managers.PrefabSlotManager { DataContext = manager };
+            var view = new Views.Managers.ListPrefabSlot { DataContext = manager };
             Show(view);
             var service = (ManagerReorderService)manager.ManagerReorderService;
 

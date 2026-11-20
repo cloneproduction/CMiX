@@ -8,7 +8,7 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity">
 
-    <Managers:PrefabSlotManager
+    <Managers:ListPrefabSlot
         Margin="8"
         MinItemCount="2"
         DataContext="{Binding TextureManager}"
@@ -18,14 +18,14 @@
             <Behaviors:TextureDropBehavior PrefabManager="{Binding}" />
         </i:Interaction.Behaviors>
 
-        <Managers:PrefabSlotManager.SelectionPanel>
+        <Managers:ListPrefabSlot.SelectionPanel>
             <ui:ButtonPopup Caption="Add Texture">
                 <ui:ButtonPopup.PopupContent>
                     <Managers:PanelAddTypes Interface="{x:Type TextureSources:ITextureSource}" />
                 </ui:ButtonPopup.PopupContent>
             </ui:ButtonPopup>
-        </Managers:PrefabSlotManager.SelectionPanel>
+        </Managers:ListPrefabSlot.SelectionPanel>
 
-    </Managers:PrefabSlotManager>
+    </Managers:ListPrefabSlot>
 
 </UserControl>

@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 ? selectionPanel.GetVisualDescendants().OfType<ToggleButton>().Single(toggle => toggle.Name == "PopUpToggle")
                 : selectionPanel;
 
-        private static void AssertSquare(PrefabSlotManager slot)
+        private static void AssertSquare(ListPrefabSlot slot)
         {
             var cornered = Cornered(slot.SelectionPanel!);
             Assert.Equal(ControlPosition.None, PositionedControl.GetPosition(cornered));
@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void APlainButton_AsTheSelectionPanel_IsSquare()
         {
-            var slot = new PrefabSlotManager { DataContext = Manager(), SelectionPanel = new Button { Content = "New Camera" } };
+            var slot = new ListPrefabSlot { DataContext = Manager(), SelectionPanel = new Button { Content = "New Camera" } };
             Show(slot);
 
             AssertSquare(slot);
@@ -57,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void AButtonPopup_AsTheSelectionPanel_IsSquare()
         {
-            var slot = new PrefabSlotManager { DataContext = Manager(), SelectionPanel = new ButtonPopup { Caption = "Add Entity" } };
+            var slot = new ListPrefabSlot { DataContext = Manager(), SelectionPanel = new ButtonPopup { Caption = "Add Entity" } };
             Show(slot);
 
             AssertSquare(slot);
@@ -67,7 +67,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void AButtonThatChoosesItsOwnTheme_AsTheSelectionPanel_IsSquareToo()
         {
             var theme = (ControlTheme)Application.Current!.FindResource("ButtonRoundedRightNoHover")!;
-            var slot = new PrefabSlotManager { DataContext = Manager(), SelectionPanel = new Button { Content = "New Color", Theme = theme } };
+            var slot = new ListPrefabSlot { DataContext = Manager(), SelectionPanel = new Button { Content = "New Color", Theme = theme } };
             Show(slot);
 
             AssertSquare(slot);
@@ -76,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void ASelectionPanelThatIsReplaced_IsSquareToo()
         {
-            var slot = new PrefabSlotManager { DataContext = Manager(), SelectionPanel = new Button { Content = "First" } };
+            var slot = new ListPrefabSlot { DataContext = Manager(), SelectionPanel = new Button { Content = "First" } };
             Show(slot);
 
             slot.SelectionPanel = new Button { Content = "Second" };
@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void TheButtonsOfTheRow_TakeTheirCornersFromTheirPlace()
         {
-            var slot = new PrefabSlotManager { DataContext = Manager(), SelectionPanel = new Button { Content = "New Camera" } };
+            var slot = new ListPrefabSlot { DataContext = Manager(), SelectionPanel = new Button { Content = "New Camera" } };
             Show(slot);
 
             ControlPosition PositionOf(string name) =>
@@ -122,7 +122,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var view = RealView(kind, factory);
             Show(view);
 
-            AssertSquare(view.GetVisualDescendants().OfType<PrefabSlotManager>().First());
+            AssertSquare(view.GetVisualDescendants().OfType<ListPrefabSlot>().First());
         }
     }
 }

@@ -10,7 +10,7 @@ using Avalonia.Markup.Xaml;
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
     // Shared source for the prefab list item DataTemplates previously duplicated in
-    // ListRepository.axaml and PrefabSlotManager.axaml. The ordered template list
+    // ListRepository.axaml and ListPrefabSlot.axaml. The ordered template list
     // lives in PrefabListItemTemplates.axaml (declaration order matters, derived types
     // before base types); this class loads it once and exposes it as a single
     // IDataTemplate, following the precedent of Views\ViewModelToViewTemplate.cs.

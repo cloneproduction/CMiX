@@ -16,7 +16,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     // The flow in the real window: pick an entity in the swap list with the keyboard, then undo and redo with the keys of the window.
     public class SwapListUndoTests
     {
-        private sealed record Setup(Views.MainWindow Window, Layer Layer, Entity Entity, PrefabSlotManager Slot, UndoManager Undo);
+        private sealed record Setup(Views.MainWindow Window, Layer Layer, Entity Entity, ListPrefabSlot Slot, UndoManager Undo);
 
         // The entity "Torus" is in a slot of the first layer. The window shows the entity slot of the second layer.
         private static Setup Show()
@@ -39,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             tabControl.SelectedItem = tabControl.Items.OfType<TabItem>().Single(tab => tab.Content is Views.TabLayers);
             TestServiceProviderFactory.Pump();
 
-            var slot = window.GetVisualDescendants().OfType<PrefabSlotManager>()
+            var slot = window.GetVisualDescendants().OfType<ListPrefabSlot>()
                 .First(manager => ReferenceEquals(manager.ItemsSource, viewModel.ControlRepository.ModelEntities)
                                   && ReferenceEquals(manager.DataContext, second.ModelEntityManager));
 

@@ -1443,9 +1443,9 @@
         .ConflictMark { flex: none; width: var(--IndicatorSize); height: var(--IndicatorSize); margin-left: 4px; border-radius: 50%; background: var(--WarningMutedBrush); }
     }
 
-    /* ---------------------------------------------------------------- Views/Managers/PrefabSlotManager.axaml */
+    /* ---------------------------------------------------------------- Views/Managers/ListPrefabSlot.axaml */
     /* A ListBoxCMiX, and under it: the swap toggle, the SelectionPanel, then move down, move up, duplicate and remove. */
-    .PrefabSlotManager {
+    .ListPrefabSlot {
         display: flex;
         flex-direction: column;
         > .DockPanelPositioned { display: flex; gap: 1px; margin-top: 4px; }
