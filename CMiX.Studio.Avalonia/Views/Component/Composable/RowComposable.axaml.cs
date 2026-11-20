@@ -14,7 +14,7 @@ namespace CMiX.Studio.Avalonia.Views
         public RowComposable()
         {
             InitializeComponent();
-            PrefabRowMenu.AttachTo(this, RowMenuKind.Composable, () => editableTextBox);
+            PrefabRowMenu.AttachTo(this, RowMenuKind.Composable, () => textBoxEditable);
         }
 
         public static readonly StyledProperty<bool> DragHandleIsPressedProperty =
