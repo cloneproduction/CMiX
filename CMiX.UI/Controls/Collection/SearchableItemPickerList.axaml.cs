@@ -10,9 +10,9 @@ using Avalonia.VisualTree;
 
 namespace CMiX.UI.Controls.Collection
 {
-    // An ItemPickerList under a search field. The rows are the items whose text holds the search text, in any case.
+    // An ListItemPicker under a search field. The rows are the items whose text holds the search text, in any case.
     // The filter reads item names when the text changes. PickerKeys holds Down, Up, Enter and Escape.
-    public partial class SearchableItemPickerList : ItemPickerBase, IPickerRows
+    public partial class SearchableItemPickerList : ListItemPickerBase, IPickerRows
     {
         private readonly PickerKeys _keys;
         private INotifyCollectionChanged? _watched;

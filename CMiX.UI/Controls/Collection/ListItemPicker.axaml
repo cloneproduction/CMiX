@@ -1,5 +1,5 @@
-<ui:ItemPickerBase
-    x:Class="CMiX.UI.Controls.Collection.ItemPickerList"
+<ui:ListItemPickerBase
+    x:Class="CMiX.UI.Controls.Collection.ListItemPicker"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
@@ -7,11 +7,11 @@
 
     <!-- One row is lit at a time: the highlighted row. The mouse moves the highlight, so a row under a still
          pointer gets no hover look of its own while the keys move the highlight elsewhere. -->
-    <ui:ItemPickerBase.Styles>
+    <ui:ListItemPickerBase.Styles>
         <Style Selector="Button:pointerover:not(.highlighted) /template/ Border#border">
             <Setter Property="Background" Value="Transparent" />
         </Style>
-    </ui:ItemPickerBase.Styles>
+    </ui:ListItemPickerBase.Styles>
 
     <!-- One row is a button of ControlHeightMD and a space of 4. The wheel moves by whole rows and the list
          is as high as ComboBoxVisibleItems rows, so a long list scrolls instead of leaving the screen. -->
@@ -33,4 +33,4 @@
 
     </ScrollViewer>
 
-</ui:ItemPickerBase>
+</ui:ListItemPickerBase>

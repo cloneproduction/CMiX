@@ -48,7 +48,7 @@
                         Placement="BottomEdgeAlignedLeft"
                         VerticalOffset="-1">
                         <ui:DropdownFrame>
-                            <ui:ItemPickerList
+                            <ui:ListItemPicker
                                 Name="pickerList"
                                 IconPath="IconKey"
                                 ItemCommand="{Binding PickCommand, ElementName=sidePanelHost}"

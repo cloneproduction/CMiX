@@ -287,7 +287,7 @@
 
     /* The children are the rows: buttons with the class ButtonItem. */
     function searchablePicker(element) {
-        return '<div class="SearchBox"></div><div class="ItemPickerList">' + element.innerHTML + '</div><span class="PART_NoMatch">No match</span>';
+        return '<div class="SearchBox"></div><div class="ListItemPicker">' + element.innerHTML + '</div><span class="PART_NoMatch">No match</span>';
     }
 
     /* The children are the rows: elements with the class row, and row header for the name of a group. */

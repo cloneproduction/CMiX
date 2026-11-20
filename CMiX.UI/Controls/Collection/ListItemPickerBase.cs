@@ -11,10 +11,10 @@ namespace CMiX.UI.Controls.Collection
 {
     // The input of the lists that offer items to pick. A click on an item runs ItemCommand with the item.
     // TextPath is the path of the text of an item, such as PrefabService.Name.Value. Empty gives the ToString of the item.
-    public class ItemPickerBase : UserControl
+    public class ListItemPickerBase : UserControl
     {
         public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty =
-            AvaloniaProperty.Register<ItemPickerBase, IEnumerable?>(nameof(ItemsSource));
+            AvaloniaProperty.Register<ListItemPickerBase, IEnumerable?>(nameof(ItemsSource));
 
         public IEnumerable? ItemsSource
         {
@@ -23,7 +23,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<ICommand?> ItemCommandProperty =
-            AvaloniaProperty.Register<ItemPickerBase, ICommand?>(nameof(ItemCommand));
+            AvaloniaProperty.Register<ListItemPickerBase, ICommand?>(nameof(ItemCommand));
 
         public ICommand? ItemCommand
         {
@@ -32,7 +32,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<string> TextPathProperty =
-            AvaloniaProperty.Register<ItemPickerBase, string>(nameof(TextPath), string.Empty);
+            AvaloniaProperty.Register<ListItemPickerBase, string>(nameof(TextPath), string.Empty);
 
         public string TextPath
         {
@@ -42,7 +42,7 @@ namespace CMiX.UI.Controls.Collection
 
         // The path of the icon key of an item. Empty, the default, gives rows with the text only.
         public static readonly StyledProperty<string> IconPathProperty =
-            AvaloniaProperty.Register<ItemPickerBase, string>(nameof(IconPath), string.Empty);
+            AvaloniaProperty.Register<ListItemPickerBase, string>(nameof(IconPath), string.Empty);
 
         public string IconPath
         {

@@ -9,13 +9,13 @@ using Xunit;
 namespace CMiX.UI.Tests
 {
     // A row of the list can have the icon of its item before its text.
-    public class ItemPickerListIconTests
+    public class ListItemPickerIconTests
     {
         private sealed record Item(string Name, string Icon);
 
-        private static (Window Window, ItemPickerList List) Show(string iconPath)
+        private static (Window Window, ListItemPicker List) Show(string iconPath)
         {
-            var list = new ItemPickerList
+            var list = new ListItemPicker
             {
                 ItemsSource = new[] { new Item("Tree", "Tree"), new Item("Assets", "Resources") },
                 TextPath = nameof(Item.Name),

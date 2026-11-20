@@ -12,25 +12,25 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The list of rows in a popup. A long list scrolls inside the popup and does not leave the screen.
-    public class ItemPickerListTests
+    public class ListItemPickerTests
     {
         private sealed record Item(string Name);
 
         private static double Token(string key) => System.Convert.ToDouble(Application.Current!.FindResource(key)!);
 
-        private static (ItemPickerList List, ObservableCollection<Item> Items) Show(int count, ICommand? command = null)
+        private static (ListItemPicker List, ObservableCollection<Item> Items) Show(int count, ICommand? command = null)
         {
             var items = new ObservableCollection<Item>(Enumerable.Range(1, count).Select(i => new Item($"Entity {i}")));
-            var list = new ItemPickerList { ItemsSource = items, TextPath = nameof(Item.Name), ItemCommand = command, Width = 200 };
+            var list = new ListItemPicker { ItemsSource = items, TextPath = nameof(Item.Name), ItemCommand = command, Width = 200 };
             new Window { Content = list, Width = 400, Height = 1000 }.Show();
             Dispatcher.UIThread.RunJobs();
             return (list, items);
         }
 
-        private static ScrollViewer Scroll(ItemPickerList list) =>
+        private static ScrollViewer Scroll(ListItemPicker list) =>
             list.GetVisualDescendants().OfType<ScrollViewer>().Single(scroll => scroll.Name == "PART_Scroll");
 
-        private static IReadOnlyList<Button> Rows(ItemPickerList list) =>
+        private static IReadOnlyList<Button> Rows(ListItemPicker list) =>
             list.GetVisualDescendants().OfType<Button>().ToList();
 
         [AvaloniaFact]

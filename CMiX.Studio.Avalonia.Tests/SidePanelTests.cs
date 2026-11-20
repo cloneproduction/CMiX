@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             public static ToggleButton ToggleOf(SidePanelHost host) => host.FindControl<ToggleButton>("pickerToggle")!;
             public static Popup PopupOf(SidePanelHost host) => host.FindControl<Popup>("pickerPopup")!;
-            public static ItemPickerList ListOf(SidePanelHost host) => host.FindControl<ItemPickerList>("pickerList")!;
+            public static ListItemPicker ListOf(SidePanelHost host) => host.FindControl<ListItemPicker>("pickerList")!;
 
             // The rows of the list, as the user sees them after a click on the button.
             public static List<Button> RowsOf(SidePanelHost host) =>

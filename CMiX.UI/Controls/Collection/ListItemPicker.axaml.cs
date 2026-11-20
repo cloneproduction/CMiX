@@ -15,21 +15,21 @@ using CMiX.UI.Themes;
 namespace CMiX.UI.Controls.Collection
 {
     // Rows to pick from, at most ComboBoxVisibleItems at once. The owner moves HighlightedItem.
-    public partial class ItemPickerList : ItemPickerBase
+    public partial class ListItemPicker : ListItemPickerBase
     {
-        static ItemPickerList()
+        static ListItemPicker()
         {
-            HighlightedItemProperty.Changed.AddClassHandler<ItemPickerList>((list, _) => list.ShowHighlight());
+            HighlightedItemProperty.Changed.AddClassHandler<ListItemPicker>((list, _) => list.ShowHighlight());
         }
 
-        public ItemPickerList()
+        public ListItemPicker()
         {
             InitializeComponent();
             PART_Items.ItemTemplate = new FuncDataTemplate<object>((item, _) => Row(item));
         }
 
         public static readonly StyledProperty<object?> HighlightedItemProperty =
-            AvaloniaProperty.Register<ItemPickerList, object?>(nameof(HighlightedItem));
+            AvaloniaProperty.Register<ListItemPicker, object?>(nameof(HighlightedItem));
 
         public object? HighlightedItem
         {

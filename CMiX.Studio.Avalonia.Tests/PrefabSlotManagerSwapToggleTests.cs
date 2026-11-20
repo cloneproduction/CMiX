@@ -101,7 +101,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var popup = view.GetLogicalDescendants().OfType<Popup>().Single();
             var list = popup.Child!.GetVisualDescendants().OfType<SearchableItemPickerList>().Single();
             Assert.True(list.IsVisible);
-            Assert.Single(popup.Child!.GetVisualDescendants().OfType<ItemPickerList>());
+            Assert.Single(popup.Child!.GetVisualDescendants().OfType<ListItemPicker>());
         }
 
 
