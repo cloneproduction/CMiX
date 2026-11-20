@@ -7,7 +7,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    // What BeatControls binds to.
+    // What PanelBeat binds to.
     public interface IBeatTimedModulator
     {
         GenericValue<int> BeatIndex { get; }

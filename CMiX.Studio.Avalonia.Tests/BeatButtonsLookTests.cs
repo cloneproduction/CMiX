@@ -27,8 +27,8 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaTheory]
         [InlineData("-", ControlPosition.None)]
         [InlineData("+", ControlPosition.Right)]
-        public void BeatControls_Buttons_TakeTheirCorners(string content, ControlPosition expected) =>
-            Assert.Equal(expected, PositionOfButton(new BeatControls(), content));
+        public void PanelBeat_Buttons_TakeTheirCorners(string content, ControlPosition expected) =>
+            Assert.Equal(expected, PositionOfButton(new PanelBeat(), content));
 
         [AvaloniaTheory]
         [InlineData("P", ControlPosition.Left)]

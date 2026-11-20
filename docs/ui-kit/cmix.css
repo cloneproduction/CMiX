@@ -1469,8 +1469,8 @@
     .EllipseSyncState { background: var(--Grey800); &.insync { background: var(--AccentPrimary); } }
     .SyncStatusIndicator { display: flex; align-items: center; gap: var(--SpacingSM); white-space: nowrap; }
 
-    /* ---------------------------------------------------------------- Views/Beat/BeatControls.axaml, MasterBeatControl.axaml */
-    .BeatControls {
+    /* ---------------------------------------------------------------- Views/Beat/PanelBeat.axaml, MasterBeatControl.axaml */
+    .PanelBeat {
         display: grid;
         grid-template-columns: 40% 60%;
         height: var(--ControlHeightMD);

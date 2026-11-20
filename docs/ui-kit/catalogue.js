@@ -163,7 +163,7 @@ window.CMIX_CATALOGUE = [
             },
             {
                 id: '24', name: 'Beat', entries: [
-                    { id: '24.1', name: 'BeatControls', source: 'CMiX.Studio.Avalonia/Views/Beat/BeatControls.axaml' },
+                    { id: '24.1', name: 'PanelBeat', source: 'CMiX.Studio.Avalonia/Views/Beat/PanelBeat.axaml' },
                     { id: '24.2', name: 'MasterBeatControl', source: 'CMiX.Studio.Avalonia/Views/Beat/MasterBeatControl.axaml' },
                     { id: '24.3', name: 'Quantize', source: 'CMiX.Studio.Avalonia/Views/Beat/Quantize.axaml' },
                     { id: '24.4', name: 'Easing', source: 'CMiX.Studio.Avalonia/Views/Beat/Easing.axaml' }

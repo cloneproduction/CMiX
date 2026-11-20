@@ -10,7 +10,7 @@
 
     <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-        <Views:BeatControls />
+        <Views:PanelBeat />
 
         <ui:ListBoxEditable
             DataContext="{Binding StepManager}"
