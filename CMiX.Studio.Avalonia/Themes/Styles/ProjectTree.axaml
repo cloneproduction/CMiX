@@ -143,13 +143,13 @@
                     </StackPanel>
                     </Panel>
                     <!-- The children, with the animation of the expanders. -->
-                    <ui:CollapsePanel Name="PART_Collapse" IsExpanded="{TemplateBinding IsExpanded}">
+                    <ui:PanelCollapse Name="PART_Collapse" IsExpanded="{TemplateBinding IsExpanded}">
                         <Panel>
                             <ItemsPresenter
                                 Name="PART_ItemsPresenter"
                                 ItemsPanel="{TemplateBinding ItemsPanel}" />
                         </Panel>
-                    </ui:CollapsePanel>
+                    </ui:PanelCollapse>
                 </StackPanel>
                 <!-- The drop line, inside the item: an item cuts what is drawn outside it. -->
                 <Panel IsHitTestVisible="False">
@@ -243,7 +243,7 @@
             <Setter Property="IsHitTestVisible" Value="False" />
         </Style>
         <!-- An empty list of children takes no room. -->
-        <Style Selector="^:empty /template/ ui|CollapsePanel#PART_Collapse">
+        <Style Selector="^:empty /template/ ui|PanelCollapse#PART_Collapse">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 

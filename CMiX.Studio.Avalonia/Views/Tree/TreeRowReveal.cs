@@ -75,7 +75,7 @@ namespace CMiX.Studio.Avalonia.Views
         internal void EndReveal() => hold.Stop();
 
         private static bool IsOpening(TreeViewItem item) =>
-            item.GetVisualAncestors().OfType<CollapsePanel>().Any(panel => panel.IsExpanded && panel.Progress < 1);
+            item.GetVisualAncestors().OfType<PanelCollapse>().Any(panel => panel.IsExpanded && panel.Progress < 1);
 
         private void BringRowToMiddle(TreeNode node) => BringRowIntoView(node, BringToMiddle);
 

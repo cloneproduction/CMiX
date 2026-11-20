@@ -11,7 +11,7 @@ namespace CMiX.UI.Tests
         [Avalonia.Headless.XUnit.AvaloniaFact]
         public void Duration_APanelAndAChevron_AreTheDurationOfMotion()
         {
-            Assert.Equal(Motion.Duration, new CollapsePanel().Duration);
+            Assert.Equal(Motion.Duration, new PanelCollapse().Duration);
             Assert.Equal(Motion.Duration, new Chevron().Duration);
         }
     }

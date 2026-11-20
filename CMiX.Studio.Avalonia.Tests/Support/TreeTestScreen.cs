@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests.Support
                 HeadlessScaling.Set(window, value);
             if (instant)
             {
-                foreach (var panel in view.GetVisualDescendants().OfType<CollapsePanel>())
+                foreach (var panel in view.GetVisualDescendants().OfType<PanelCollapse>())
                     panel.Duration = TimeSpan.Zero;
             }
 

@@ -72,7 +72,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // The panels of the rows open and close at once, so a row is never measured in the middle of the animation.
         private static void WithoutAnimation(Screen screen)
         {
-            foreach (var panel in screen.View.GetVisualDescendants().OfType<CollapsePanel>())
+            foreach (var panel in screen.View.GetVisualDescendants().OfType<PanelCollapse>())
                 panel.Duration = TimeSpan.Zero;
         }
 

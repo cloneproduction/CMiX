@@ -9,12 +9,12 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // The expanders open and close their content with the animation of CollapsePanel.
+    // The expanders open and close their content with the animation of PanelCollapse.
     public class ExpanderAnimationTests
     {
         private static ControlTheme Theme(string key) => (ControlTheme)Avalonia.Application.Current!.FindResource(key)!;
 
-        private static (Control view, CollapsePanel panel) Show(string kind, bool expanded)
+        private static (Control view, PanelCollapse panel) Show(string kind, bool expanded)
         {
             Control view = kind switch
             {
@@ -24,7 +24,7 @@ namespace CMiX.UI.Tests
             };
             new Window { Content = new StackPanel { Children = { view } }, Width = 300, Height = 400 }.Show();
             Dispatcher.UIThread.RunJobs();
-            return (view, view.GetVisualDescendants().OfType<CollapsePanel>().Single());
+            return (view, view.GetVisualDescendants().OfType<PanelCollapse>().Single());
         }
 
         private static void Toggle(Control view, bool expanded)

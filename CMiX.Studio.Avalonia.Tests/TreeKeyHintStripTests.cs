@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
             DockPanel.SetDock(box, Dock.Top);
             window = new Window { Content = new DockPanel { Children = { box, view } }, Width = PanelWidth, Height = 500 };
             window.Show();
-            foreach (var panel in view.GetVisualDescendants().OfType<CollapsePanel>())
+            foreach (var panel in view.GetVisualDescendants().OfType<PanelCollapse>())
                 panel.Duration = TimeSpan.Zero;
             var screen = new Screen(window, box, view);
             Pump(screen);

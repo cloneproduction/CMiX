@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
             grid.Children.Add(second);
             window = new Window { Content = grid, Width = 800, Height = 900 };
             window.Show();
-            foreach (var panel in window.GetVisualDescendants().OfType<CollapsePanel>())
+            foreach (var panel in window.GetVisualDescendants().OfType<PanelCollapse>())
                 panel.Duration = TimeSpan.Zero;
             TreeTestScreen.Settle(window);
             return (first, second);

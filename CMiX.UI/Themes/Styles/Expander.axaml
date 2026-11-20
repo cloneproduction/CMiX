@@ -57,7 +57,7 @@
                         <Border
                             Background="{DynamicResource PanelBackground}"
                             HorizontalAlignment="Stretch">
-                            <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}">
+                            <ui:PanelCollapse IsExpanded="{TemplateBinding IsExpanded}">
                                 <ContentPresenter
                                     Name="PART_ContentPresenter"
                                     Content="{TemplateBinding Content}"
@@ -66,7 +66,7 @@
                                     ui:EditCycle.IsLoop="True"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            </ui:CollapsePanel>
+                            </ui:PanelCollapse>
                         </Border>
                     </DockPanel>
                 </Border>
@@ -142,7 +142,7 @@
                             IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
                             Theme="{StaticResource ExpanderItemHeader}"
                             VerticalContentAlignment="Center" />
-                        <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}">
+                        <ui:PanelCollapse IsExpanded="{TemplateBinding IsExpanded}">
                             <ContentPresenter
                                 Name="PART_ContentPresenter"
                                 Content="{TemplateBinding Content}"
@@ -152,7 +152,7 @@
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 Margin="{TemplateBinding Padding}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </ui:CollapsePanel>
+                        </ui:PanelCollapse>
                     </DockPanel>
                 </Border>
             </ControlTemplate>
@@ -223,7 +223,7 @@
                   Name="contentBackground"
                   Background="{TemplateBinding Background}"
                   HorizontalAlignment="Stretch">
-                <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}">
+                <ui:PanelCollapse IsExpanded="{TemplateBinding IsExpanded}">
                   <ContentPresenter
                       Name="PART_ContentPresenter"
                       Content="{TemplateBinding Content}"
@@ -232,7 +232,7 @@
                       ui:EditCycle.IsLoop="True"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                </ui:CollapsePanel>
+                </ui:PanelCollapse>
               </Border>
             </DockPanel>
           </Border>

@@ -466,7 +466,7 @@ A test that opens a menu at the pointer must put the pointer at the left of the 
 - `OpenedByDrag` lists every row that the drag opened, in order. A new drag starts a new list.
 - `Tree.Expand` (E) during a drag runs `ProjectTree.ToggleExpandTargetCommand`, as outside a drag. While `ProjectTree.IsDragging` is true, the command calls `ProjectTree.ToggleDragRow`, which the view sets to `TreeDragSession.ToggleHovered`. `ToggleHovered` opens the row under the pointer at once, or closes it when this drag opened it. It does not close a row that was open before the drag. A row that E closed does not open again on a rest until the pointer leaves it.
 - `CloseOpenedRows(kept)` closes the rows of `OpenedRows`, except `kept` and its parents. After a drop, `StartDrop` calls it with the target of the slot (`TreeDragSession.Slot`), so for a drop Before or After a row, the parents of that row stay open. After a cancel, or a drop with no slot, `Finish` closes every row of the list.
-- `CollapsePanel` closes a row over a few frames, so the rows above the view get shorter after the close. `TreeScrollAnchor.HoldWhileClosing` puts the anchor row back after each layout of the tree, until the `PART_Collapse` panel of every closed row reaches `Progress` 0, or after 500 layout passes. The drop and the cancel both use it after `RestoreAnchor`.
+- `PanelCollapse` closes a row over a few frames, so the rows above the view get shorter after the close. `TreeScrollAnchor.HoldWhileClosing` puts the anchor row back after each layout of the tree, until the `PART_Collapse` panel of every closed row reaches `Progress` 0, or after 500 layout passes. The drop and the cancel both use it after `RestoreAnchor`.
 
 ### The label of a drag
 

@@ -97,8 +97,8 @@ namespace CMiX.Studio.Avalonia.Views
             if (anchor is not { } kept || closed.Count == 0 || context.Scroller is not { } view || TopLevel.GetTopLevel(context.TreeView) is not { } top)
                 return;
 
-            var panels = closed.Select(node => context.RowIndex.FindItem(node)?.GetVisualDescendants().OfType<CollapsePanel>().FirstOrDefault(panel => panel.Name == "PART_Collapse"))
-                               .OfType<CollapsePanel>().ToList();
+            var panels = closed.Select(node => context.RowIndex.FindItem(node)?.GetVisualDescendants().OfType<PanelCollapse>().FirstOrDefault(panel => panel.Name == "PART_Collapse"))
+                               .OfType<PanelCollapse>().ToList();
             if (panels.Count == 0)
                 return;
 

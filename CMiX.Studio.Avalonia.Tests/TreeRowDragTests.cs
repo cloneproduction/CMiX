@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var view = new ProjectTreeView { DataContext = tree };
             window = new Window { Content = view, Width = 400, Height = height };
             window.Show();
-            foreach (var panel in view.GetVisualDescendants().OfType<CollapsePanel>())
+            foreach (var panel in view.GetVisualDescendants().OfType<PanelCollapse>())
                 panel.Duration = TimeSpan.Zero;
             var screen = new Screen { Window = window, View = view, Tree = tree, Project = project, Undo = undo, A = a, B = b };
             screen.Settle();
@@ -407,7 +407,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 dragged = AllNodes(layer.Children).First(node => node.Item is Entity);
                 for (var parent = dragged; parent != null; parent = AllNodes(screen.Tree.Roots).FirstOrDefault(node => node.Children.Contains(parent)))
                     parent.IsExpanded = true;
-                foreach (var panel in screen.View.GetVisualDescendants().OfType<CollapsePanel>())
+                foreach (var panel in screen.View.GetVisualDescendants().OfType<PanelCollapse>())
                     panel.Duration = TimeSpan.Zero;
                 screen.Settle();
             }

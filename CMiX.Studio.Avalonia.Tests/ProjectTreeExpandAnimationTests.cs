@@ -9,12 +9,12 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // A row of the project tree opens and closes its children with the animation of CollapsePanel.
+    // A row of the project tree opens and closes its children with the animation of PanelCollapse.
     public class ProjectTreeExpandAnimationTests
     {
         private static ControlTheme Theme => (ControlTheme)Application.Current!.FindResource("TreeViewItemCMiX")!;
 
-        private static (TreeViewItem Row, CollapsePanel Panel) Show(bool expanded, bool withChild = true)
+        private static (TreeViewItem Row, PanelCollapse Panel) Show(bool expanded, bool withChild = true)
         {
             var row = new TreeViewItem { Theme = Theme, Header = "Parent", IsExpanded = expanded };
             if (withChild)
@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             new Window { Content = new TreeView { Items = { row } }, Width = 300, Height = 400 }.Show();
             Dispatcher.UIThread.RunJobs();
-            return (row, row.GetVisualDescendants().OfType<CollapsePanel>().First());
+            return (row, row.GetVisualDescendants().OfType<PanelCollapse>().First());
         }
 
         [AvaloniaFact]

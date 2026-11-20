@@ -98,7 +98,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var view = new ProjectTreeView { DataContext = tree };
             window = new Window { Content = view, Width = 500, Height = 500 };
             window.Show();
-            foreach (var panel in view.GetVisualDescendants().OfType<CollapsePanel>())
+            foreach (var panel in view.GetVisualDescendants().OfType<PanelCollapse>())
                 panel.Duration = TimeSpan.Zero;
             Dispatcher.UIThread.RunJobs();
             AvaloniaHeadlessPlatform.ForceRenderTimerTick();

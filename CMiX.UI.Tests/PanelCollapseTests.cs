@@ -8,8 +8,8 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // A CollapsePanel opens and closes its content with an animation, and it does not lay the content out again for it.
-    public class CollapsePanelTests
+    // A PanelCollapse opens and closes its content with an animation, and it does not lay the content out again for it.
+    public class PanelCollapseTests
     {
         private sealed class Counted : Border
         {
@@ -22,10 +22,10 @@ namespace CMiX.UI.Tests
             }
         }
 
-        private static (CollapsePanel panel, Counted content) Show(bool isExpanded, TimeSpan? duration = null)
+        private static (PanelCollapse panel, Counted content) Show(bool isExpanded, TimeSpan? duration = null)
         {
             var content = new Counted { Height = 100, Child = new Button { Content = "Content" } };
-            var panel = new CollapsePanel { IsExpanded = isExpanded, Child = content };
+            var panel = new PanelCollapse { IsExpanded = isExpanded, Child = content };
             if (duration is { } time)
                 panel.Duration = time;
             new Window { Content = new StackPanel { Children = { panel } }, Width = 300, Height = 400 }.Show();

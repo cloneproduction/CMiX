@@ -10,16 +10,16 @@ using CMiX.UI.Themes;
 namespace CMiX.UI.Panels
 {
     // Opens and closes its content with an animation. Bind IsExpanded and the panel does the rest:
-    //     <ui:CollapsePanel IsExpanded="{TemplateBinding IsExpanded}"> ... </ui:CollapsePanel>
+    //     <ui:PanelCollapse IsExpanded="{TemplateBinding IsExpanded}"> ... </ui:PanelCollapse>
     // The panel measures its content once at full size, and its own height is that height times Progress.
     // So the animation does not lay out the content again, also when the content is large. The content is clipped while the panel moves.
     // The panel owns the IsVisible of its content: the content is hidden when the panel is closed, so it takes no focus
     // and no pointer. It is shown before an opening starts, because a hidden control has no size.
     // The first state shows at once. The animation starts after the panel is loaded.
-    public class CollapsePanel : Decorator
+    public class PanelCollapse : Decorator
     {
         public static readonly StyledProperty<bool> IsExpandedProperty =
-            AvaloniaProperty.Register<CollapsePanel, bool>(nameof(IsExpanded));
+            AvaloniaProperty.Register<PanelCollapse, bool>(nameof(IsExpanded));
 
         public bool IsExpanded
         {
@@ -29,7 +29,7 @@ namespace CMiX.UI.Panels
 
         // How much of the content shows, from 0 (closed) to 1 (open). The animation is a transition of this property.
         public static readonly StyledProperty<double> ProgressProperty =
-            AvaloniaProperty.Register<CollapsePanel, double>(nameof(Progress));
+            AvaloniaProperty.Register<PanelCollapse, double>(nameof(Progress));
 
         public double Progress
         {
@@ -38,7 +38,7 @@ namespace CMiX.UI.Panels
         }
 
         public static readonly StyledProperty<TimeSpan> DurationProperty =
-            AvaloniaProperty.Register<CollapsePanel, TimeSpan>(nameof(Duration), Motion.Duration);
+            AvaloniaProperty.Register<PanelCollapse, TimeSpan>(nameof(Duration), Motion.Duration);
 
         public TimeSpan Duration
         {
@@ -46,17 +46,17 @@ namespace CMiX.UI.Panels
             set => SetValue(DurationProperty, value);
         }
 
-        static CollapsePanel()
+        static PanelCollapse()
         {
-            AffectsMeasure<CollapsePanel>(ProgressProperty);
+            AffectsMeasure<PanelCollapse>(ProgressProperty);
 
-            IsExpandedProperty.Changed.AddClassHandler<CollapsePanel>((panel, _) => panel.OnIsExpandedChanged());
-            ProgressProperty.Changed.AddClassHandler<CollapsePanel>((panel, _) => panel.OnProgressChanged());
-            ChildProperty.Changed.AddClassHandler<CollapsePanel>((panel, _) => panel.UpdateChildVisibility());
-            DurationProperty.Changed.AddClassHandler<CollapsePanel>((panel, _) => panel.UpdateTransition());
+            IsExpandedProperty.Changed.AddClassHandler<PanelCollapse>((panel, _) => panel.OnIsExpandedChanged());
+            ProgressProperty.Changed.AddClassHandler<PanelCollapse>((panel, _) => panel.OnProgressChanged());
+            ChildProperty.Changed.AddClassHandler<PanelCollapse>((panel, _) => panel.UpdateChildVisibility());
+            DurationProperty.Changed.AddClassHandler<PanelCollapse>((panel, _) => panel.UpdateTransition());
         }
 
-        public CollapsePanel()
+        public PanelCollapse()
         {
             Loaded += (_, _) => UpdateTransition();
         }
