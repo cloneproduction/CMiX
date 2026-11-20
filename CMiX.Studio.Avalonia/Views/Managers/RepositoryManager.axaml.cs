@@ -10,13 +10,6 @@ namespace CMiX.Studio.Avalonia.Views.Managers
 {
     public partial class RepositoryManager : UserControl
     {
-        // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
-        static RepositoryManager()
-        {
-            LogicalPanelContent.Track<RepositoryManager>(SelectionPanelProperty);
-            LogicalPanelContent.Track<RepositoryManager>(EditingPanelProperty);
-        }
-
         public RepositoryManager()
         {
             InitializeComponent();
@@ -32,17 +25,17 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             set => SetValue(RowMenuProperty, value);
         }
 
-        public static readonly StyledProperty<Control> SelectionPanelProperty =
-            AvaloniaProperty.Register<RepositoryManager, Control>(nameof(SelectionPanel));
-        public Control SelectionPanel
+        public static readonly StyledProperty<Control?> SelectionPanelProperty =
+            LogicalPanelContent.Register<RepositoryManager>(nameof(SelectionPanel));
+        public Control? SelectionPanel
         {
             get => GetValue(SelectionPanelProperty);
             set => SetValue(SelectionPanelProperty, value);
         }
 
-        public static readonly StyledProperty<Control> EditingPanelProperty =
-            AvaloniaProperty.Register<RepositoryManager, Control>(nameof(EditingPanel));
-        public Control EditingPanel
+        public static readonly StyledProperty<Control?> EditingPanelProperty =
+            LogicalPanelContent.Register<RepositoryManager>(nameof(EditingPanel));
+        public Control? EditingPanel
         {
             get => GetValue(EditingPanelProperty);
             set => SetValue(EditingPanelProperty, value);

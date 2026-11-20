@@ -14,12 +14,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 {
     public partial class Outliner : UserControl
     {
-        // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
-        static Outliner()
-        {
-            LogicalPanelContent.Track<Outliner>(SelectionPanelProperty);
-        }
-
         public Outliner()
         {
             InitializeComponent();
@@ -39,9 +33,9 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             });
         }
 
-        public static readonly StyledProperty<Control> SelectionPanelProperty =
-            AvaloniaProperty.Register<Outliner, Control>(nameof(SelectionPanel));
-        public Control SelectionPanel
+        public static readonly StyledProperty<Control?> SelectionPanelProperty =
+            LogicalPanelContent.Register<Outliner>(nameof(SelectionPanel));
+        public Control? SelectionPanel
         {
             get => GetValue(SelectionPanelProperty);
             set => SetValue(SelectionPanelProperty, value);

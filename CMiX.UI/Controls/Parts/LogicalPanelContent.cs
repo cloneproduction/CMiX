@@ -17,6 +17,14 @@ namespace CMiX.UI.Controls.Parts
     // bindings apply normally.
     public static class LogicalPanelContent
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("AvaloniaProperty", "AVP1001")]
+        public static StyledProperty<Control?> Register<TOwner>(string name) where TOwner : Control
+        {
+            var property = AvaloniaProperty.Register<TOwner, Control?>(name);
+            Track<TOwner>(property);
+            return property;
+        }
+
         public static void Track<TOwner>(AvaloniaProperty property) where TOwner : Control
         {
             property.Changed.AddClassHandler<TOwner>((owner, e) =>

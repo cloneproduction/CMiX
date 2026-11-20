@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static void AssertSquare(PrefabSlotManager slot)
         {
-            var cornered = Cornered(slot.SelectionPanel);
+            var cornered = Cornered(slot.SelectionPanel!);
             Assert.Equal(ControlPosition.None, PositionedControl.GetPosition(cornered));
             Assert.Equal(default, cornered.GetVisualDescendants().OfType<Border>().First().CornerRadius);
         }

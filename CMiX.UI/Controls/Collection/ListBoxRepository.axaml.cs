@@ -16,12 +16,6 @@ namespace CMiX.UI.Controls.Collection
     // The DataContext of DetailContent is the selected item. It shows only while an item is selected.
     public partial class ListBoxRepository : UserControl
     {
-        static ListBoxRepository()
-        {
-            LogicalPanelContent.Track<ListBoxRepository>(AddContentProperty);
-            LogicalPanelContent.Track<ListBoxRepository>(DetailContentProperty);
-        }
-
         public ListBoxRepository()
         {
             InitializeComponent();
@@ -60,7 +54,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<Control?> AddContentProperty =
-            AvaloniaProperty.Register<ListBoxRepository, Control?>(nameof(AddContent));
+            LogicalPanelContent.Register<ListBoxRepository>(nameof(AddContent));
 
         public Control? AddContent
         {
@@ -69,7 +63,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<Control?> DetailContentProperty =
-            AvaloniaProperty.Register<ListBoxRepository, Control?>(nameof(DetailContent));
+            LogicalPanelContent.Register<ListBoxRepository>(nameof(DetailContent));
 
         public Control? DetailContent
         {

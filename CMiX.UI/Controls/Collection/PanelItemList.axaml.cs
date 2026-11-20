@@ -16,11 +16,6 @@ namespace CMiX.UI.Controls.Collection
     // only when ReorderService is set.
     public partial class PanelItemList : UserControl
     {
-        static PanelItemList()
-        {
-            LogicalPanelContent.Track<PanelItemList>(AddContentProperty);
-        }
-
         public PanelItemList()
         {
             InitializeComponent();
@@ -64,7 +59,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         public static readonly StyledProperty<Control?> AddContentProperty =
-            AvaloniaProperty.Register<PanelItemList, Control?>(nameof(AddContent));
+            LogicalPanelContent.Register<PanelItemList>(nameof(AddContent));
 
         public Control? AddContent
         {

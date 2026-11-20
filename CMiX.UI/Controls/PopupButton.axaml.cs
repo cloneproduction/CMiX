@@ -11,20 +11,14 @@ namespace CMiX.UI.Controls
 {
     public partial class PopupButton : UserControl, ICaptioned
     {
-        // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
-        static PopupButton()
-        {
-            LogicalPanelContent.Track<PopupButton>(PopupContentProperty);
-        }
-
         public PopupButton()
         {
             InitializeComponent();
         }
 
-        public static readonly StyledProperty<Control> PopupContentProperty =
-            AvaloniaProperty.Register<PopupButton, Control>(nameof(PopupContent));
-        public Control PopupContent
+        public static readonly StyledProperty<Control?> PopupContentProperty =
+            LogicalPanelContent.Register<PopupButton>(nameof(PopupContent));
+        public Control? PopupContent
         {
             get => GetValue(PopupContentProperty);
             set => SetValue(PopupContentProperty, value);

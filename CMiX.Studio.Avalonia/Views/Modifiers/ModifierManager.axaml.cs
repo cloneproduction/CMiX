@@ -10,20 +10,14 @@ namespace CMiX.Studio.Avalonia.Views
 {
     public partial class ModifierManager : UserControl
     {
-        // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
-        static ModifierManager()
-        {
-            LogicalPanelContent.Track<ModifierManager>(SelectionPanelProperty);
-        }
-
         public ModifierManager()
         {
             InitializeComponent();
         }
 
-        public static readonly StyledProperty<Control> SelectionPanelProperty =
-            AvaloniaProperty.Register<ModifierManager, Control>(nameof(SelectionPanel));
-        public Control SelectionPanel
+        public static readonly StyledProperty<Control?> SelectionPanelProperty =
+            LogicalPanelContent.Register<ModifierManager>(nameof(SelectionPanel));
+        public Control? SelectionPanel
         {
             get => GetValue(SelectionPanelProperty);
             set => SetValue(SelectionPanelProperty, value);

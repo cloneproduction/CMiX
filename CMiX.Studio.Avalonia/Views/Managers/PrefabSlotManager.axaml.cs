@@ -12,11 +12,8 @@ namespace CMiX.Studio.Avalonia.Views.Managers
 {
     public partial class PrefabSlotManager : UserControl
     {
-        // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
         static PrefabSlotManager()
         {
-            LogicalPanelContent.Track<PrefabSlotManager>(SelectionPanelProperty);
-
             // The selection panel is the middle of the row: the swap toggle is on its left, the arrows on its right.
             SelectionPanelProperty.Changed.AddClassHandler<PrefabSlotManager>((_, e) =>
             {
@@ -61,9 +58,9 @@ namespace CMiX.Studio.Avalonia.Views.Managers
                 SetCurrentValue(MinItemCountProperty, count);
         }
 
-        public static readonly StyledProperty<Control> SelectionPanelProperty =
-            AvaloniaProperty.Register<PrefabSlotManager, Control>(nameof(SelectionPanel));
-        public Control SelectionPanel
+        public static readonly StyledProperty<Control?> SelectionPanelProperty =
+            LogicalPanelContent.Register<PrefabSlotManager>(nameof(SelectionPanel));
+        public Control? SelectionPanel
         {
             get => GetValue(SelectionPanelProperty);
             set => SetValue(SelectionPanelProperty, value);
