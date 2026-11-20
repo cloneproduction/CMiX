@@ -193,7 +193,7 @@ Names that collide:
 | **Command** | `...Command` is for XAML and `...UndoCommand` is an undo step. `ValueChangedCommand` and `CompositeCommand` are undo steps without the `Undo` word. |
 | **Visible, Visibility, Hidden** | `PrefabService.Visibility`, `PrefabManager.Hidden`, and `VisibilityComponent.IsVisible => !Visible.Value`, where true means hidden. |
 | **Repository** | `ControlRepository` is the index. `RepositoryManager` and `RepositoryTab` are views of the six lists that `MainViewModel` owns. |
-| **Tree, Outliner** | `ProjectTree` is the tree. `Views/Controls/Outliner` is another control, used in the `Mesh` view. |
+| **Tree, SelectorPrefab** | `ProjectTree` is the tree. `Views/Controls/SelectorPrefab` is another control, used in the `Mesh` view. |
 | **Delete** | The rule says no `Delete` in code. Fixed on 2026-11-19: the menu has `RemoveCompositionCommand` and `RemoveLayerCommand`, and only the menu headers say Delete. |
 | Two enums with one name | `HorizontalAlignment` in `Assets.Mesh` and in `Text`. `WaveType` and `WaveTypeEnum`. |
 

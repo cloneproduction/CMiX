@@ -42,10 +42,10 @@ namespace CMiX.Studio.Avalonia.Tests
             view.GetVisualDescendants().OfType<ICommandSource>().Select(source => source.Command).ToList();
 
         [AvaloniaFact]
-        public void TheOutliner_MinusButton_HoldsTheCommandThatClearsTheSelection()
+        public void TheSelectorPrefab_MinusButton_HoldsTheCommandThatClearsTheSelection()
         {
             var manager = LayerManagerWithItems(2);
-            var view = new Views.Controls.Outliner { DataContext = manager, ItemsSource = manager.ManagerData.Items };
+            var view = new Views.Controls.SelectorPrefab { DataContext = manager, ItemsSource = manager.ManagerData.Items };
             Show(view);
 
             var button = view.GetVisualDescendants().OfType<Button>().Single(b => b.Name == "deleteItemButton");

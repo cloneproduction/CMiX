@@ -89,7 +89,7 @@ folder. A view can move to another folder without a change to its namespace or i
 - `Views/Modifiers`: the modifier views. The subfolders `Camera`, `Color`, `Layer`,
   `Material`, `Text` and `Transform` follow `CMiX.Core/Modulation/Modifiers`.
 - `Views/Controls`: the Studio controls that are not views, for example the
-  Outliner. The generic controls are in CMiX.UI.
+  SelectorPrefab. The generic controls are in CMiX.UI.
 
 The names of the views and the controls follow the order rule in `.claude/CLAUDE.md`, section Names: the kind first, then the thing.
 

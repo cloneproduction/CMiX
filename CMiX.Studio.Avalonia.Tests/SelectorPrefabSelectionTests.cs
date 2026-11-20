@@ -12,10 +12,10 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // Drives the real Outliner in the real Displace view, picking an item from its dropdown.
-    public class OutlinerSelectionTests
+    // Drives the real SelectorPrefab in the real Displace view, picking an item from its dropdown.
+    public class SelectorPrefabSelectionTests
     {
-        private static (ComboBox ComboBox, PrefabManager Selector) ShowDisplaceOutliner()
+        private static (ComboBox ComboBox, PrefabManager Selector) ShowDisplaceSelectorPrefab()
         {
             var provider = TestServiceProviderFactory.Create();
             var displace = (Displace)provider.GetRequiredService<ControlFactory>().Create(typeof(Displace));
@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
-            var outliner = view.GetVisualDescendants().OfType<Outliner>().Single();
+            var outliner = view.GetVisualDescendants().OfType<SelectorPrefab>().Single();
             var comboBox = outliner.GetVisualDescendants().OfType<ComboBox>().First();
             return (comboBox, displace.TextureSelector);
         }
@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void PickingAClearedItemFromTheDropdownSelectsItAgain()
         {
-            var (comboBox, selector) = ShowDisplaceOutliner();
+            var (comboBox, selector) = ShowDisplaceSelectorPrefab();
 
             selector.AddItemCommand.Execute(typeof(BubbleNoise));
             var bubbleNoise = selector.SelectedItem;
@@ -56,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void PickingAnItemFromTheDropdownAfterTwoQuickAddsSelectsItWithoutLooping()
         {
-            var (comboBox, selector) = ShowDisplaceOutliner();
+            var (comboBox, selector) = ShowDisplaceSelectorPrefab();
 
             selector.AddItemCommand.Execute(typeof(BubbleNoise));
             var bubbleNoise = selector.SelectedItem;

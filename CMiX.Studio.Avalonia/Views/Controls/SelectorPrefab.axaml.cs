@@ -12,9 +12,9 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class Outliner : UserControl
+    public partial class SelectorPrefab : UserControl
     {
-        public Outliner()
+        public SelectorPrefab()
         {
             InitializeComponent();
         }
@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<Control?> SelectionPanelProperty =
-            LogicalPanelContent.Register<Outliner>(nameof(SelectionPanel));
+            LogicalPanelContent.Register<SelectorPrefab>(nameof(SelectionPanel));
         public Control? SelectionPanel
         {
             get => GetValue(SelectionPanelProperty);
@@ -42,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
-            AvaloniaProperty.Register<Outliner, IEnumerable>(nameof(ItemsSource));
+            AvaloniaProperty.Register<SelectorPrefab, IEnumerable>(nameof(ItemsSource));
         public IEnumerable ItemsSource
         {
             get => GetValue(ItemsSourceProperty);

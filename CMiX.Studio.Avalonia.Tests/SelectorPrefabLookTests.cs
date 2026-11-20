@@ -9,12 +9,12 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class OutlinerLookTests
+    public class SelectorPrefabLookTests
     {
         [AvaloniaFact]
         public void TheClearButton_IsRoundedOnTheRightOnly()
         {
-            var outliner = new Outliner();
+            var outliner = new SelectorPrefab();
             new Window { Content = outliner, Width = 400, Height = 100 }.Show();
             Dispatcher.UIThread.RunJobs();
 
