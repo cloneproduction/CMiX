@@ -16,17 +16,17 @@
         <Border Height="{DynamicResource ControlHeightMD}">
             <UniformGrid Columns="3">
                 <RadioButton
-                    x:Name="HSVRadio"
+                    x:Name="hsvRadio"
                     ui:PositionedControl.Position="Left"
                     Content="HSV"
                     IsChecked="True" />
                 <RadioButton
-                    x:Name="RGBRadio"
+                    x:Name="rgbRadio"
                     Margin="1,0"
                     ui:PositionedControl.Position="Middle"
                     Content="RGB" />
                 <RadioButton
-                    x:Name="HEXRadio"
+                    x:Name="hexRadio"
                     ui:PositionedControl.Position="Right"
                     Content="HEX" />
             </UniformGrid>
@@ -40,14 +40,14 @@
                     <Setter Property="IsHitTestVisible" Value="False" />
                 </Style>
             </Panel.Styles>
-            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=HEXRadio}">
+            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=hexRadio}">
                 <StackPanel>
                     <TextBox
                         Height="{DynamicResource ControlHeightMD}"
                         Text="{Binding SelectedColor, ElementName=colorPickerSliders, Mode=TwoWay, Converter={StaticResource ColorToHex}}" />
                 </StackPanel>
             </Border>
-            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=RGBRadio}">
+            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=rgbRadio}">
                 <StackPanel>
 
                     <ui:SliderCMiX
@@ -86,7 +86,7 @@
 
                 </StackPanel>
             </Border>
-            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=HSVRadio}">
+            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=hsvRadio}">
 
                 <StackPanel>
                     <ui:SliderCMiX

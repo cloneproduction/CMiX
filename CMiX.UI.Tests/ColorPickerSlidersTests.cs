@@ -34,9 +34,9 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
 
             var radios = picker.GetVisualDescendants().OfType<RadioButton>().ToList();
-            var hsvRadio = radios.Single(r => r.Name == "HSVRadio");
-            var rgbRadio = radios.Single(r => r.Name == "RGBRadio");
-            var hexRadio = radios.Single(r => r.Name == "HEXRadio");
+            var hsvRadio = radios.Single(r => r.Name == "hsvRadio");
+            var rgbRadio = radios.Single(r => r.Name == "rgbRadio");
+            var hexRadio = radios.Single(r => r.Name == "hexRadio");
 
             hsvRadio.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
