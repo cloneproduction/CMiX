@@ -11,7 +11,7 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The bottom bar of the main window shows the state of the connection and the state of the sync, as the Network tab does.
-    public class SyncStatusIndicatorTests
+    public class BadgeSyncStatusTests
     {
         private static IEnumerable<TextBlock> VisibleTexts(Control view) =>
             view.GetVisualDescendants().OfType<TextBlock>().Where(text => text.IsEffectivelyVisible);
@@ -20,7 +20,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void TheIndicator_ShowsTheStatusOfThePeerOnce_LikeTheNetworkTab()
         {
             var peer = TestServiceProviderFactory.Create().GetRequiredService<SyncPeer>();
-            var indicator = new SyncStatusIndicator { DataContext = peer };
+            var indicator = new BadgeSyncStatus { DataContext = peer };
             var network = new SettingsSync { DataContext = peer };
             new Window { Content = new StackPanel { Children = { indicator, network } }, Width = 400, Height = 600 }.Show();
             Dispatcher.UIThread.RunJobs();
@@ -39,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void TheBottomBar_ShowsOneStatusText()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            var bar = window.GetVisualDescendants().OfType<SyncStatusIndicator>().Single();
+            var bar = window.GetVisualDescendants().OfType<BadgeSyncStatus>().Single();
 
             var shown = VisibleTexts(bar).Select(text => text.Text).ToList();
 
@@ -51,7 +51,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
 
-            Assert.Single(window.GetVisualDescendants().OfType<SyncStatusIndicator>());
+            Assert.Single(window.GetVisualDescendants().OfType<BadgeSyncStatus>());
             var texts = window.GetVisualDescendants().OfType<TextBlock>().Select(text => text.Text).ToList();
             Assert.DoesNotContain("CMiX Studio", texts);
             Assert.DoesNotContain("CloneProduction", texts);
@@ -61,7 +61,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void TheDot_FollowsTheConnectionAndTheSyncStateOfThePeer()
         {
             var peer = TestServiceProviderFactory.Create().GetRequiredService<SyncPeer>();
-            var indicator = new SyncStatusIndicator { DataContext = peer };
+            var indicator = new BadgeSyncStatus { DataContext = peer };
             new Window { Content = indicator, Width = 300, Height = 100 }.Show();
             Dispatcher.UIThread.RunJobs();
             var dot = indicator.GetVisualDescendants().OfType<Ellipse>().Single();

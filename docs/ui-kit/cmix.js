@@ -499,7 +499,7 @@
         ToggleButtonModulatable: buttonModulatable('ToggleButton'),
         ButtonMomentaryModulatable: buttonModulatable('ButtonMomentary'),
         FloatRangeEditor: floatRangeEditor,
-        SyncStatusIndicator: syncStatusIndicator,
+        BadgeSyncStatus: syncStatusIndicator,
         MeshShapeFrame: '<div class="ScaleOffset"><div class="Vector3" data-caption="Scale" data-x="1" data-y="1" data-z="1"></div><div class="Vector3" data-caption="Offset" data-x="0" data-y="0" data-z="0"></div></div>{content}<div class="DragValueInteger" data-caption="Tessellation" data-value="32"></div>'
     };
 

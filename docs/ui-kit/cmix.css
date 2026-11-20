@@ -1455,7 +1455,7 @@
         > .DockPanelPositioned > :last-child { --Position: var(--CornerRadiusRight); }
     }
 
-    /* ---------------------------------------------------------------- Themes/Styles/StatusIndicators.axaml, Views/Messenger/SyncStatusIndicator.axaml */
+    /* ---------------------------------------------------------------- Themes/Styles/StatusIndicators.axaml, Views/Messenger/BadgeSyncStatus.axaml */
     /* The colors of the dots are colors of the theme: PopupCardDanger, StatusSuccess, PopupCardWarning, Grey800 and AccentPrimary.
        EllipseSyncConnection: red, green when connected, orange when connected and not in sync, grey while it connects.
        EllipseSyncState: grey, blue when in sync. */
@@ -1467,7 +1467,7 @@
         &.connecting { background: var(--Grey800); }
     }
     .EllipseSyncState { background: var(--Grey800); &.insync { background: var(--AccentPrimary); } }
-    .SyncStatusIndicator { display: flex; align-items: center; gap: var(--SpacingSM); white-space: nowrap; }
+    .BadgeSyncStatus { display: flex; align-items: center; gap: var(--SpacingSM); white-space: nowrap; }
 
     /* ---------------------------------------------------------------- Views/Beat/PanelBeat.axaml, MasterBeatControl.axaml */
     .PanelBeat {

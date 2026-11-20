@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class SyncStatusIndicator : UserControl
+    public partial class BadgeSyncStatus : UserControl
     {
-        public SyncStatusIndicator()
+        public BadgeSyncStatus()
         {
             InitializeComponent();
         }

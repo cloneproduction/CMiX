@@ -157,7 +157,7 @@ window.CMIX_CATALOGUE = [
             },
             {
                 id: '23', name: 'Messenger', entries: [
-                    { id: '23.1', name: 'SyncStatusIndicator', source: 'CMiX.Studio.Avalonia/Views/Messenger/SyncStatusIndicator.axaml' },
+                    { id: '23.1', name: 'BadgeSyncStatus', source: 'CMiX.Studio.Avalonia/Views/Messenger/BadgeSyncStatus.axaml' },
                     { id: '23.2', name: 'StatusIndicators', source: 'CMiX.Studio.Avalonia/Themes/Styles/StatusIndicators.axaml' }
                 ]
             },
