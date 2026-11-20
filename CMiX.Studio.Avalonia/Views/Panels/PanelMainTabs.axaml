@@ -46,7 +46,7 @@
                         ToolTip.Tip="Settings" />
                 </TabItem.Header>
 
-                <Views:SettingsTab />
+                <Views:TabSettings />
 
             </TabItem>
 
@@ -60,7 +60,7 @@
                         ToolTip.Tip="Composition" />
                 </TabItem.Header>
 
-                <Views:MainWindowCompositionTab />
+                <Views:TabComposition />
 
             </TabItem>
 
@@ -74,7 +74,7 @@
                         ToolTip.Tip="Layers" />
                 </TabItem.Header>
 
-                <Views:MainWindowLayersTab />
+                <Views:TabLayers />
 
             </TabItem>
 
@@ -87,7 +87,7 @@
                         ToolTip.Tip="Entities" />
                 </TabItem.Header>
 
-                <Views:MainWindowEntitiesTab />
+                <Views:TabEntities />
 
             </TabItem>
 

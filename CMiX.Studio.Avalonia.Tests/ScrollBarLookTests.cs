@@ -33,8 +33,8 @@ namespace CMiX.Studio.Avalonia.Tests
             UserControl panel = name switch
             {
                 "Inspector" => new Inspector { DataContext = viewModel.ProjectTree },
-                "Settings" => new SettingsTab { DataContext = viewModel },
-                "Entities" => new MainWindowEntitiesTab { DataContext = viewModel },
+                "Settings" => new TabSettings { DataContext = viewModel },
+                "Entities" => new TabEntities { DataContext = viewModel },
                 "Composition" => new CompositionView { DataContext = composition },
                 "LayerPostFX" => new LayerPostFXTab { DataContext = layer },
                 "LayerLight" => new LayerLightTab { DataContext = layer },

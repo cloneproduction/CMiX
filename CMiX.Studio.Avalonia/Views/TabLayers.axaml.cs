@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class MainWindowCompositionTab : UserControl
+    public partial class TabLayers : UserControl
     {
-        public MainWindowCompositionTab()
+        public TabLayers()
         {
             InitializeComponent();
         }

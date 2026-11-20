@@ -86,9 +86,9 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheSettingsTab_ShowsTheOutputMappingsTheRedisAddressesTheInterfaceAndTheShortcuts()
+        public void TheTabSettings_ShowsTheOutputMappingsTheRedisAddressesTheInterfaceAndTheShortcuts()
         {
-            var tab = new Views.SettingsTab();
+            var tab = new Views.TabSettings();
             new Window { Content = tab, Width = 400, Height = 400 }.Show();
             Dispatcher.UIThread.RunJobs();
 

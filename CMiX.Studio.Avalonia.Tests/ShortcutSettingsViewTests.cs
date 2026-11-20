@@ -139,12 +139,12 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_TheSettingsTab_HasTheShortcutsExpanderClosed()
+        public void Show_TheTabSettings_HasTheShortcutsExpanderClosed()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             TestServiceProviderFactory.SelectMainTab(window, "Settings");
 
-            var tab = window.GetVisualDescendants().OfType<SettingsTab>().Single();
+            var tab = window.GetVisualDescendants().OfType<TabSettings>().Single();
             var expander = tab.GetVisualDescendants().OfType<ExpanderIndented>().Single(e => Equals(e.Header, "Shortcuts"));
 
             Assert.False(expander.IsExpanded);

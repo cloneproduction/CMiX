@@ -34,8 +34,8 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // Where the card of a ModelEntity is shown: the Entities tab, and the entity tab of a layer.
         [AvaloniaTheory]
-        [InlineData("MainWindowEntitiesTab")]
-        [InlineData("MainWindowLayersTab")]
+        [InlineData("TabEntities")]
+        [InlineData("TabLayers")]
         public void NothingBehindTheCards_IsLighterThanTheWindow(string tabName)
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
@@ -76,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
             composition.LayerManager.AddItem(typeof(Layer));
             var mainTabs = TestServiceProviderFactory.MainTabControl(window);
-            mainTabs.SelectedItem = mainTabs.Items.OfType<TabItem>().First(t => t.Content?.GetType().Name == "MainWindowLayersTab");
+            mainTabs.SelectedItem = mainTabs.Items.OfType<TabItem>().First(t => t.Content?.GetType().Name == "TabLayers");
             TestServiceProviderFactory.Pump();
 
             var layerTabs = window.GetVisualDescendants().OfType<Views.Layer>().First().GetVisualDescendants().OfType<TabControl>().First();

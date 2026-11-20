@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var second = (Layer)composition.LayerManager.SelectedItem;
 
             var tabControl = TestServiceProviderFactory.MainTabControl(window);
-            tabControl.SelectedItem = tabControl.Items.OfType<TabItem>().Single(tab => tab.Content is Views.MainWindowLayersTab);
+            tabControl.SelectedItem = tabControl.Items.OfType<TabItem>().Single(tab => tab.Content is Views.TabLayers);
             TestServiceProviderFactory.Pump();
 
             var slot = window.GetVisualDescendants().OfType<PrefabSlotManager>()

@@ -67,7 +67,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 : viewModel.EntityManager;
             var tabs = TestServiceProviderFactory.MainTabControl(window);
             tabs.SelectedItem = kind == typeof(Entity)
-                ? tabs.Items.OfType<TabItem>().Single(tab => tab.Content is Views.MainWindowEntitiesTab)
+                ? tabs.Items.OfType<TabItem>().Single(tab => tab.Content is Views.TabEntities)
                 : tabs.Items.OfType<RepositoryTab>().Single(tab => ReferenceEquals(tab.DataContext, manager));
             Dispatcher.UIThread.RunJobs();
             for (var i = 0; i < count; i++)

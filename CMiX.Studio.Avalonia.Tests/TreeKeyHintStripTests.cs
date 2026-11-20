@@ -248,13 +248,13 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_TheSettingsTab_HasTheKeyHintsToggleOnTheInterfaceOptions()
+        public void Show_TheTabSettings_HasTheKeyHintsToggleOnTheInterfaceOptions()
         {
             var (provider, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             window = mainWindow;
             TestServiceProviderFactory.SelectMainTab(mainWindow, "Settings");
 
-            var tab = mainWindow.GetVisualDescendants().OfType<SettingsTab>().Single();
+            var tab = mainWindow.GetVisualDescendants().OfType<TabSettings>().Single();
             var toggle = tab.GetVisualDescendants().OfType<ToggleButtonCaptioned>().Single(t => t.Name == "ShowKeyHintsToggle");
 
             Assert.Same(provider.GetRequiredService<InterfaceOptions>(), viewModel.Interface);

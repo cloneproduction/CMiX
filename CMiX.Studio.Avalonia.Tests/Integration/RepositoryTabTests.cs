@@ -80,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
             var tabControl = TestServiceProviderFactory.MainTabControl(window);
             var layersTab = tabControl.Items.OfType<TabItem>()
-                .Single(tab => tab.Content is Views.MainWindowLayersTab);
+                .Single(tab => tab.Content is Views.TabLayers);
             tabControl.SelectedItem = layersTab;
             TestServiceProviderFactory.Pump();
 
