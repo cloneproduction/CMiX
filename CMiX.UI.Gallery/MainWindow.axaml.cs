@@ -62,40 +62,40 @@ namespace CMiX.UI.Gallery
             InitializeComponent();
 
             BindScale();
-            Bind(IdleBox, "StateIdleBrush", "Grey600Brush");
-            Bind(HoverBox, "StateHoverBrush", "Grey700Brush");
-            Bind(PressedBox, "StatePressedBrush", "Grey500Brush");
-            Bind(RowBox, "RowHoverBrush", "Grey500Brush");
+            Bind(idleBox, "StateIdleBrush", "Grey600Brush");
+            Bind(hoverBox, "StateHoverBrush", "Grey700Brush");
+            Bind(pressedBox, "StatePressedBrush", "Grey500Brush");
+            Bind(rowBox, "RowHoverBrush", "Grey500Brush");
 
-            Sections.Children.Add(Chevrons());
-            Sections.Children.Add(Stacked());
-            Sections.Children.Add(Section("Surface controls", "surface", SurfaceSamples()));
-            Sections.Children.Add(Section("Rows", "row", RowSamples()));
-            Sections.Children.Add(Tabs());
-            Sections.Children.Add(Section("Icon only (the rule is already this one)", "icon", IconSamples()));
-            Sections.Children.Add(KeyboardStates());
-            Sections.Children.Add(PanelFocus());
-            Sections.Children.Add(KeyCaps());
-            Sections.Children.Add(Notifications());
-            Sections.Children.Add(HintStrips());
+            sections.Children.Add(Chevrons());
+            sections.Children.Add(Stacked());
+            sections.Children.Add(Section("Surface controls", "surface", SurfaceSamples()));
+            sections.Children.Add(Section("Rows", "row", RowSamples()));
+            sections.Children.Add(Tabs());
+            sections.Children.Add(Section("Icon only (the rule is already this one)", "icon", IconSamples()));
+            sections.Children.Add(KeyboardStates());
+            sections.Children.Add(PanelFocus());
+            sections.Children.Add(KeyCaps());
+            sections.Children.Add(Notifications());
+            sections.Children.Add(HintStrips());
         }
 
         private void BindScale()
         {
-            ScaleBox.ItemsSource = Scales.Keys.ToList();
-            ScaleBox.SelectedIndex = 0;
-            ScaleBox.SelectionChanged += (_, _) =>
+            scaleBox.ItemsSource = Scales.Keys.ToList();
+            scaleBox.SelectedIndex = 0;
+            scaleBox.SelectionChanged += (_, _) =>
             {
-                var colors = Scales[(string)ScaleBox.SelectedItem!];
+                var colors = Scales[(string)scaleBox.SelectedItem!];
                 for (var i = 0; i < colors.Length; i++)
                     Application.Current!.Resources[$"Grey{(i + 1) * 100}"] = Color.Parse(colors[i]);
             };
 
-            LevelsBox.ItemsSource = Levels.Keys.ToList();
-            LevelsBox.SelectedIndex = 0;
-            LevelsBox.SelectionChanged += (_, _) =>
+            levelsBox.ItemsSource = Levels.Keys.ToList();
+            levelsBox.SelectedIndex = 0;
+            levelsBox.SelectionChanged += (_, _) =>
             {
-                var brushes = Levels[(string)LevelsBox.SelectedItem!]();
+                var brushes = Levels[(string)levelsBox.SelectedItem!]();
                 for (var i = 0; i < brushes.Length; i++)
                     Application.Current!.Resources[$"PanelBackgroundLevel{i + 1}Brush"] = brushes[i];
             };

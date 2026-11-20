@@ -16,22 +16,22 @@
             Spacing="8">
 
             <TextBlock Margin="0,12,0,0" Text="Grey scale (100 to 700)" />
-            <ComboBox x:Name="ScaleBox" HorizontalAlignment="Stretch" />
+            <ComboBox x:Name="scaleBox" HorizontalAlignment="Stretch" />
 
             <TextBlock Text="Panel levels" />
-            <ComboBox x:Name="LevelsBox" HorizontalAlignment="Stretch" />
+            <ComboBox x:Name="levelsBox" HorizontalAlignment="Stretch" />
 
             <TextBlock Margin="0,12,0,0" Text="Surface idle" />
-            <ComboBox x:Name="IdleBox" HorizontalAlignment="Stretch" />
+            <ComboBox x:Name="idleBox" HorizontalAlignment="Stretch" />
 
             <TextBlock Text="Surface hover" />
-            <ComboBox x:Name="HoverBox" HorizontalAlignment="Stretch" />
+            <ComboBox x:Name="hoverBox" HorizontalAlignment="Stretch" />
 
             <TextBlock Text="Surface pressed" />
-            <ComboBox x:Name="PressedBox" HorizontalAlignment="Stretch" />
+            <ComboBox x:Name="pressedBox" HorizontalAlignment="Stretch" />
 
             <TextBlock Text="Row hover" />
-            <ComboBox x:Name="RowBox" HorizontalAlignment="Stretch" />
+            <ComboBox x:Name="rowBox" HorizontalAlignment="Stretch" />
 
             <TextBlock
                 Margin="0,12,0,0"
@@ -42,7 +42,7 @@
 
         <ScrollViewer>
             <StackPanel
-                x:Name="Sections"
+                x:Name="sections"
                 Margin="12"
                 Spacing="20" />
         </ScrollViewer>
