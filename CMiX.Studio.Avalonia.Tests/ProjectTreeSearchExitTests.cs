@@ -198,7 +198,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             SearchOneLayer(screen);
-            var other = screen.Window.GetVisualDescendants().OfType<SidePanelHost>()
+            var other = screen.Window.GetVisualDescendants().OfType<PanelSide>()
                 .First(host => host.IsEffectivelyVisible && !host.GetVisualDescendants().OfType<ProjectTreeView>().Any());
             screen.ViewModel.PanelFocus.FocusPanel(other);
             Settle(screen.Window);

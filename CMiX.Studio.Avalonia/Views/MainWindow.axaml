@@ -112,13 +112,13 @@
             </Grid.ColumnDefinitions>
 
         <!-- Each side shows what the user picks with the icon button at its top: the tree, the tabs, or the same thing on both sides. -->
-        <Views:SidePanelHost
+        <Views:PanelSide
             Grid.Column="0"
             Choice="{Binding LeftPanel, Mode=TwoWay}"
             Choices="{Binding PanelChoices}"
             Context="{Binding}" />
 
-        <Views:SidePanelHost
+        <Views:PanelSide
             Grid.Column="1"
             Choice="{Binding RightPanel, Mode=TwoWay}"
             Choices="{Binding PanelChoices}"

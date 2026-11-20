@@ -15,12 +15,12 @@ using CommunityToolkit.Mvvm.Input;
 namespace CMiX.Studio.Avalonia.Services
 {
     // Moves the keyboard focus between the panels of the main window (Window.NextPanel, Window.PreviousPanel, Window.FocusPanel1 to 4)
-    // and to the tree (Tree.Focus). The panels are the visible side panels (SidePanelHost), from left to right. Each panel keeps its
+    // and to the tree (Tree.Focus). The panels are the visible side panels (PanelSide), from left to right. Each panel keeps its
     // last focused control. The focus goes back to that control, else to the first control of the panel that can take the focus.
     public sealed class PanelFocusCycle
     {
         private readonly ProjectTree tree;
-        private readonly Dictionary<SidePanelHost, Control> lastFocused = new();
+        private readonly Dictionary<PanelSide, Control> lastFocused = new();
         private TopLevel? window;
 
         public PanelFocusCycle(ProjectTree tree)
@@ -94,12 +94,12 @@ namespace CMiX.Studio.Avalonia.Services
         }
 
         // The visible side panels, from left to right.
-        public IReadOnlyList<SidePanelHost> Panels()
+        public IReadOnlyList<PanelSide> Panels()
         {
             if (window is not { } top)
-                return new List<SidePanelHost>();
+                return new List<PanelSide>();
 
-            return top.GetVisualDescendants().OfType<SidePanelHost>()
+            return top.GetVisualDescendants().OfType<PanelSide>()
                 .Where(panel => panel.IsEffectivelyVisible)
                 .OrderBy(panel => panel.TranslatePoint(default, top)?.X ?? 0)
                 .ToList();
@@ -111,10 +111,10 @@ namespace CMiX.Studio.Avalonia.Services
                 lastFocused[panel] = control;
         }
 
-        private static SidePanelHost? PanelOf(Visual visual) =>
-            visual as SidePanelHost ?? visual.FindAncestorOfType<SidePanelHost>();
+        private static PanelSide? PanelOf(Visual visual) =>
+            visual as PanelSide ?? visual.FindAncestorOfType<PanelSide>();
 
-        private SidePanelHost? FocusedPanel() =>
+        private PanelSide? FocusedPanel() =>
             window?.FocusManager?.GetFocusedElement() is Visual focused ? PanelOf(focused) : null;
 
         // With no panel focused, the next panel is the first panel and the previous panel is the last panel.
@@ -131,7 +131,7 @@ namespace CMiX.Studio.Avalonia.Services
             FocusPanel(panels[next]);
         }
 
-        private static int IndexOf(IReadOnlyList<SidePanelHost> panels, SidePanelHost panel)
+        private static int IndexOf(IReadOnlyList<PanelSide> panels, PanelSide panel)
         {
             for (var i = 0; i < panels.Count; i++)
                 if (ReferenceEquals(panels[i], panel))
@@ -147,7 +147,7 @@ namespace CMiX.Studio.Avalonia.Services
                 FocusPanel(panels[index]);
         }
 
-        public void FocusPanel(SidePanelHost panel)
+        public void FocusPanel(PanelSide panel)
         {
             if (lastFocused.TryGetValue(panel, out var last) && CanFocus(last) && panel.IsVisualAncestorOf(last) && last.Focus(NavigationMethod.Tab))
                 return;
@@ -156,7 +156,7 @@ namespace CMiX.Studio.Avalonia.Services
         }
 
         // The first control of the content of the panel, else of its bar. In a panel of the tree, the focus then goes to the cursor row.
-        private void FocusFirst(SidePanelHost panel)
+        private void FocusFirst(PanelSide panel)
         {
             Visual content = panel.FindControl<ContentControl>("content") is { } found ? found : panel;
             var first = FirstFocusable(content) ?? FirstFocusable(panel);

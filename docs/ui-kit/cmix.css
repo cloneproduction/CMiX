@@ -1384,9 +1384,9 @@
         > .placeholder { margin: 8px; text-align: center; opacity: 0.5; }
     }
 
-    /* ---------------------------------------------------------------- Views/Panels/SidePanelHost.axaml */
+    /* ---------------------------------------------------------------- Views/Panels/PanelSide.axaml */
     /* A panel of the window. Its bar has the button that picks what the panel shows, and the tools of the choice at the right. */
-    .SidePanelHost {
+    .PanelSide {
         display: flex;
         flex-direction: column;
         > .bar { position: relative; display: flex; align-items: center; justify-content: space-between; flex: none; padding: 4px; background: var(--Grey100Brush); }

@@ -20,7 +20,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // focused control. The accent line of the panel follows the focus.
     public class PanelFocusCycleTests : IDisposable
     {
-        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, SidePanelHost Left, SidePanelHost Right)
+        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, PanelSide Left, PanelSide Right)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public ProjectTreeView View => Left.GetVisualDescendants().OfType<ProjectTreeView>().Single();
@@ -50,7 +50,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
 
-            var hosts = window.GetVisualDescendants().OfType<SidePanelHost>()
+            var hosts = window.GetVisualDescendants().OfType<PanelSide>()
                 .OrderBy(host => host.TranslatePoint(default, window)!.Value.X).ToList();
             screen = new Screen(window, viewModel, hosts[0], hosts[1]);
             screen.Tree.SelectedNode = screen.LayerNode;
@@ -71,10 +71,10 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle(screen.Window);
         }
 
-        private static bool IsIn(SidePanelHost panel, object? focused) =>
+        private static bool IsIn(PanelSide panel, object? focused) =>
             focused is Visual visual && panel.IsVisualAncestorOf(visual);
 
-        private static bool IsLineOn(SidePanelHost panel) => panel.FindControl<Border>("focusLine")!.IsEffectivelyVisible;
+        private static bool IsLineOn(PanelSide panel) => panel.FindControl<Border>("focusLine")!.IsEffectivelyVisible;
 
         [AvaloniaFact]
         public void Panels_OfTheMainWindow_AreTheTwoSidePanelsFromLeftToRight()
@@ -302,10 +302,10 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // A text box at the end of the content of the panel, for the tests that need one.
-        private static TextBox AddTextBox(SidePanelHost panel) => AddControl(panel, new TextBox { Text = "text" });
+        private static TextBox AddTextBox(PanelSide panel) => AddControl(panel, new TextBox { Text = "text" });
 
         // Adds the control to the first visible panel of the side panel.
-        private static T AddControl<T>(SidePanelHost panel, T control) where T : Control
+        private static T AddControl<T>(PanelSide panel, T control) where T : Control
         {
             var host = panel.GetVisualDescendants().OfType<Panel>().First(found => found.IsEffectivelyVisible && found.Children.Count > 0 && found is StackPanel or DockPanel or Grid);
             host.Children.Add(control);

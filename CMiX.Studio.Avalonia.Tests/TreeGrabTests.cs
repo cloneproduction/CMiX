@@ -297,7 +297,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             GrabFirstLayer(screen);
-            var other = screen.Window.GetVisualDescendants().OfType<SidePanelHost>()
+            var other = screen.Window.GetVisualDescendants().OfType<PanelSide>()
                 .First(host => !host.IsVisualAncestorOf(screen.View))
                 .GetVisualDescendants().OfType<InputElement>().First(element => element.Focusable && element.IsEffectivelyVisible);
 

@@ -366,10 +366,10 @@ namespace CMiX.Studio.Avalonia.Tests
         // A button of the other side panel. A button takes no letter key.
         private static void FocusAButtonOfTheOtherPanel(Screen screen)
         {
-            var panel = screen.View.FindAncestorOfType<SidePanelHost>()!;
+            var panel = screen.View.FindAncestorOfType<PanelSide>()!;
             var button = screen.Window.GetVisualDescendants().OfType<Button>().First(candidate =>
                 candidate.Focusable && candidate.IsEffectivelyVisible && candidate.IsEffectivelyEnabled
-                && candidate.FindAncestorOfType<SidePanelHost>() is { } host && !ReferenceEquals(host, panel));
+                && candidate.FindAncestorOfType<PanelSide>() is { } host && !ReferenceEquals(host, panel));
             button.Focus();
             Settle(screen.Window);
             Assert.True(button.IsFocused);

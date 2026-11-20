@@ -56,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Same(Application.Current!.FindResource("GridSplitterCMiX"), splitter.Theme);
 
             // It is on top: it comes after the two side panels in the grid.
-            Assert.All(grid.Children.OfType<SidePanelHost>(), host => Assert.True(grid.Children.IndexOf(splitter) > grid.Children.IndexOf(host)));
+            Assert.All(grid.Children.OfType<PanelSide>(), host => Assert.True(grid.Children.IndexOf(splitter) > grid.Children.IndexOf(host)));
         }
 
         [AvaloniaFact]

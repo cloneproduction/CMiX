@@ -27,19 +27,19 @@ namespace CMiX.Studio.Avalonia.Tests
             public MainWindow Window { get; init; } = null!;
             public MainViewModel ViewModel { get; init; } = null!;
 
-            public List<SidePanelHost> Hosts => Window.GetVisualDescendants().OfType<SidePanelHost>().OrderBy(host => host.TranslatePoint(new Point(0, 0), Window)!.Value.X).ToList();
-            public SidePanelHost Left => Hosts[0];
-            public SidePanelHost Right => Hosts[1];
+            public List<PanelSide> Hosts => Window.GetVisualDescendants().OfType<PanelSide>().OrderBy(host => host.TranslatePoint(new Point(0, 0), Window)!.Value.X).ToList();
+            public PanelSide Left => Hosts[0];
+            public PanelSide Right => Hosts[1];
             public List<ProjectTreeView> Trees => Window.GetVisualDescendants().OfType<ProjectTreeView>().ToList();
             public List<PanelMainTabs> Tabs => Window.GetVisualDescendants().OfType<PanelMainTabs>().ToList();
             public List<AssetManager> Assets => Window.GetVisualDescendants().OfType<AssetManager>().ToList();
 
-            public static ToggleButton ToggleOf(SidePanelHost host) => host.FindControl<ToggleButton>("pickerToggle")!;
-            public static Popup PopupOf(SidePanelHost host) => host.FindControl<Popup>("pickerPopup")!;
-            public static ListItemPicker ListOf(SidePanelHost host) => host.FindControl<ListItemPicker>("pickerList")!;
+            public static ToggleButton ToggleOf(PanelSide host) => host.FindControl<ToggleButton>("pickerToggle")!;
+            public static Popup PopupOf(PanelSide host) => host.FindControl<Popup>("pickerPopup")!;
+            public static ListItemPicker ListOf(PanelSide host) => host.FindControl<ListItemPicker>("pickerList")!;
 
             // The rows of the list, as the user sees them after a click on the button.
-            public static List<Button> RowsOf(SidePanelHost host) =>
+            public static List<Button> RowsOf(PanelSide host) =>
                 ListOf(host).GetVisualDescendants().OfType<Button>().ToList();
         }
 
@@ -374,7 +374,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheHostInAnyPanel_Works()
         {
-            var host = new SidePanelHost { Choices = PanelChoice.All, Choice = PanelChoice.Tabs };
+            var host = new PanelSide { Choices = PanelChoice.All, Choice = PanelChoice.Tabs };
 
             Assert.Same(PanelChoice.Tabs, host.Choice);
             Assert.Equal(3, host.Choices!.Cast<object>().Count());

@@ -440,8 +440,8 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // ---------------------------------------------------------------- the bar of the panel and the shortcut of the main window
 
-        private static (SidePanelHost Host, TextBoxSearchTree Box) TreeHostOf(Window window) =>
-            window.GetVisualDescendants().OfType<SidePanelHost>()
+        private static (PanelSide Host, TextBoxSearchTree Box) TreeHostOf(Window window) =>
+            window.GetVisualDescendants().OfType<PanelSide>()
                 .Select(host => (Host: host, Box: host.GetVisualDescendants().OfType<TextBoxSearchTree>().FirstOrDefault()))
                 .First(pair => pair.Box != null)!;
 

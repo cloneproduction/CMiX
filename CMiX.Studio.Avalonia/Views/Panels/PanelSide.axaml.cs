@@ -13,10 +13,10 @@ using CommunityToolkit.Mvvm.Input;
 namespace CMiX.Studio.Avalonia.Views
 {
     // A panel of the window with an icon button at the top, in which the user picks what the panel shows.
-    public partial class SidePanelHost : UserControl
+    public partial class PanelSide : UserControl
     {
         public static readonly StyledProperty<PanelChoice?> ChoiceProperty =
-            AvaloniaProperty.Register<SidePanelHost, PanelChoice?>(nameof(Choice), defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<PanelSide, PanelChoice?>(nameof(Choice), defaultBindingMode: BindingMode.TwoWay);
 
         public PanelChoice? Choice
         {
@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         public static readonly StyledProperty<IEnumerable?> ChoicesProperty =
-            AvaloniaProperty.Register<SidePanelHost, IEnumerable?>(nameof(Choices));
+            AvaloniaProperty.Register<PanelSide, IEnumerable?>(nameof(Choices));
 
         public IEnumerable? Choices
         {
@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         public static readonly StyledProperty<MainViewModel?> ContextProperty =
-            AvaloniaProperty.Register<SidePanelHost, MainViewModel?>(nameof(Context));
+            AvaloniaProperty.Register<PanelSide, MainViewModel?>(nameof(Context));
 
         // The view model that the views of the choices show.
         public MainViewModel? Context
@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Views
         // The command of the rows of the list: it makes the picked choice the choice of the panel.
         public ICommand PickCommand { get; }
 
-        public SidePanelHost()
+        public PanelSide()
         {
             PickCommand = new RelayCommand<PanelChoice>(choice => Choice = choice);
             InitializeComponent();

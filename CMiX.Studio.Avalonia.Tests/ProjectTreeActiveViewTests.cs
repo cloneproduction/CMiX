@@ -181,7 +181,7 @@ namespace CMiX.Studio.Avalonia.Tests
             viewModel.Project.CompositionManager.AddItem(typeof(CMiX.Core.Compositing.Composition));
             viewModel.RightPanel = PanelChoice.Tree;
             TestServiceProviderFactory.Pump();
-            var hosts = mainWindow.GetVisualDescendants().OfType<SidePanelHost>().ToList();
+            var hosts = mainWindow.GetVisualDescendants().OfType<PanelSide>().ToList();
             Assert.Equal(2, hosts.Count);
             var view = hosts[active].GetVisualDescendants().OfType<ProjectTreeView>().Single();
             Assert.True(TreeTestScreen.ItemOf(view, viewModel.ProjectTree.Roots[0]).Focus(NavigationMethod.Tab));
@@ -197,14 +197,14 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // Both side panels of the main window show the tree. The pointer is over the tree of the first panel, and the search box of
         // the second panel has the focus.
-        private (Window Window, List<SidePanelHost> Hosts, MainViewModel ViewModel) ShowFocusInSecondTextBoxSearchTree()
+        private (Window Window, List<PanelSide> Hosts, MainViewModel ViewModel) ShowFocusInSecondTextBoxSearchTree()
         {
             var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             window = mainWindow;
             viewModel.Project.CompositionManager.AddItem(typeof(CMiX.Core.Compositing.Composition));
             viewModel.RightPanel = PanelChoice.Tree;
             TestServiceProviderFactory.Pump();
-            var hosts = mainWindow.GetVisualDescendants().OfType<SidePanelHost>().ToList();
+            var hosts = mainWindow.GetVisualDescendants().OfType<PanelSide>().ToList();
             Assert.Equal(2, hosts.Count);
             var firstView = ViewOf(hosts[0]);
             mainWindow.MouseMove(firstView.TranslatePoint(new Point(firstView.Bounds.Width / 2, firstView.Bounds.Height / 2), mainWindow)!.Value);
@@ -216,9 +216,9 @@ namespace CMiX.Studio.Avalonia.Tests
             return (mainWindow, hosts, viewModel);
         }
 
-        private static ProjectTreeView ViewOf(SidePanelHost host) => host.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+        private static ProjectTreeView ViewOf(PanelSide host) => host.GetVisualDescendants().OfType<ProjectTreeView>().Single();
 
-        private static TextBoxSearchTree BoxOf(SidePanelHost host) => host.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
+        private static TextBoxSearchTree BoxOf(PanelSide host) => host.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
 
         [AvaloniaFact]
         public void FocusTree_FocusInTheTextBoxSearchTreeOfTheSecondPanel_FocusesTheRowsOfTheSecondPanelOnly()

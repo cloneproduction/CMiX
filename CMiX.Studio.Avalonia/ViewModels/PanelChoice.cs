@@ -7,7 +7,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
 {
     // What a side panel of the main window can show. The user picks it in the list that opens from the icon at the top of the panel.
     // Each choice is its own type, so the panel picks the view with a data template.
-    // To add a choice: add a type here, add it to All, and add a data template for it in SidePanelHost.
+    // To add a choice: add a type here, add it to All, and add a data template for it in PanelSide.
     public abstract class PanelChoice
     {
         protected PanelChoice(string name, string iconKey)

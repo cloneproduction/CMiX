@@ -14,7 +14,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Bind_EveryContextPathOfTheSidePanels_NamesAMemberOfMainViewModel()
         {
             var members = typeof(MainViewModel).GetProperties().Select(property => property.Name).ToHashSet();
-            var file = SourceTree.AxamlFiles().Single(f => System.IO.Path.GetFileName(f) == "SidePanelHost.axaml");
+            var file = SourceTree.AxamlFiles().Single(f => System.IO.Path.GetFileName(f) == "PanelSide.axaml");
             var text = Comment.Replace(File.ReadAllText(file), "");
             var violations = new List<string>();
 

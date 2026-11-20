@@ -20,7 +20,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // The panel with the keyboard focus shows a 2 px accent line under its header. The line stays on while a popup of the panel is open.
     public class PanelFocusLineTests : IDisposable
     {
-        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, SidePanelHost Left, SidePanelHost Right)
+        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, PanelSide Left, PanelSide Right)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public ProjectTreeView View => Left.GetVisualDescendants().OfType<ProjectTreeView>().Single();
@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
 
-            var hosts = window.GetVisualDescendants().OfType<SidePanelHost>()
+            var hosts = window.GetVisualDescendants().OfType<PanelSide>()
                 .OrderBy(host => host.TranslatePoint(default, window)!.Value.X).ToList();
             screen = new Screen(window, viewModel, hosts[0], hosts[1]);
             screen.Tree.SelectedNode = screen.LayerNode;
@@ -62,7 +62,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return screen;
         }
 
-        private static Border LineOf(SidePanelHost host) => host.FindControl<Border>("focusLine")!;
+        private static Border LineOf(PanelSide host) => host.FindControl<Border>("focusLine")!;
 
         private static void Press(Screen screen, PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
         {
@@ -72,7 +72,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // The line is shown, as thick as SplitterIndicatorSize, in AccentBrush, and at the bottom of the bar.
-        private static void AssertLineOn(SidePanelHost host)
+        private static void AssertLineOn(PanelSide host)
         {
             var line = LineOf(host);
             var bar = host.FindControl<Border>("bar")!;
@@ -85,7 +85,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(bar.Bounds.Width, line.Bounds.Width);
         }
 
-        private static void AssertLineOff(SidePanelHost host) => Assert.False(LineOf(host).IsEffectivelyVisible);
+        private static void AssertLineOff(PanelSide host) => Assert.False(LineOf(host).IsEffectivelyVisible);
 
         [AvaloniaFact]
         public void FocusLine_FocusInTree_ShowsTheLineOfTheTreePanelOnly()

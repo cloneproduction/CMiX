@@ -145,7 +145,7 @@ namespace CMiX.Studio.Avalonia.Views
                 || !ReferenceEquals(box.DataContext, context.Tree))
                 return false;
 
-            return owner.FindAncestorOfType<SidePanelHost>() is not { } host || host.IsVisualAncestorOf(box);
+            return owner.FindAncestorOfType<PanelSide>() is not { } host || host.IsVisualAncestorOf(box);
         }
 
         internal static bool IsInTextBox(object? source) => TreeRows.HasAncestor<TextBox>(source);
@@ -162,7 +162,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private bool IsInPanel(IInputElement focused)
         {
-            Visual panel = owner.FindAncestorOfType<SidePanelHost>() is { } host ? host : owner;
+            Visual panel = owner.FindAncestorOfType<PanelSide>() is { } host ? host : owner;
             return focused is Visual visual && (ReferenceEquals(visual, panel) || panel.IsVisualAncestorOf(visual));
         }
     }
