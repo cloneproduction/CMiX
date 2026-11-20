@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Shadow : FilterPanel
+    public partial class Shadow : PanelFilter
     {
         public Shadow()
         {

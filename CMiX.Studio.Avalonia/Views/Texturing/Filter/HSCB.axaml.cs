@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class HSCB : FilterPanel
+    public partial class HSCB : PanelFilter
     {
         public HSCB()
         {

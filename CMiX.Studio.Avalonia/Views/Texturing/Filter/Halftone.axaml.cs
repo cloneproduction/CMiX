@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Halftone : FilterPanel
+    public partial class Halftone : PanelFilter
     {
         public Halftone()
         {

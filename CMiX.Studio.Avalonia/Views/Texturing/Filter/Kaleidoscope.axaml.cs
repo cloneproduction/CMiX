@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Kaleidoscope : FilterPanel
+    public partial class Kaleidoscope : PanelFilter
     {
         public Kaleidoscope()
         {

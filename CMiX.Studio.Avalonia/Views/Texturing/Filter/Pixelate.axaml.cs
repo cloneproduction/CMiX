@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Pixelate : FilterPanel
+    public partial class Pixelate : PanelFilter
     {
         public Pixelate()
         {

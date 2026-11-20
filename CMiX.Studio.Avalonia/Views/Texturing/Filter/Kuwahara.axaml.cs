@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Kuwahara : FilterPanel
+    public partial class Kuwahara : PanelFilter
     {
         public Kuwahara()
         {

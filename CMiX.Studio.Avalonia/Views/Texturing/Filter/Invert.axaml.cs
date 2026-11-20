@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Invert : FilterPanel
+    public partial class Invert : PanelFilter
     {
         public Invert()
         {

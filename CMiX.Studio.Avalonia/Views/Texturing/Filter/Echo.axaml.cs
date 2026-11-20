@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Echo : FilterPanel
+    public partial class Echo : PanelFilter
     {
         public Echo()
         {

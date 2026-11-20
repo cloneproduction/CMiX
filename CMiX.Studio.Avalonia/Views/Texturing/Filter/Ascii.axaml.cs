@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Ascii : FilterPanel
+    public partial class Ascii : PanelFilter
     {
         public Ascii()
         {

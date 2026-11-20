@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Edge : FilterPanel
+    public partial class Edge : PanelFilter
     {
         public Edge()
         {

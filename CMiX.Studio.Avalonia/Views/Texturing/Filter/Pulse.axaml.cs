@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Pulse : FilterPanel
+    public partial class Pulse : PanelFilter
     {
         public Pulse()
         {

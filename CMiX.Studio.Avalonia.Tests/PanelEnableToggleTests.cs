@@ -12,13 +12,13 @@ namespace CMiX.Studio.Avalonia.Tests
     // The switch in the header of a panel that turns the panel on is the box of the captioned toggle, without the caption.
     public class PanelEnableToggleTests
     {
-        public static TheoryData<string> Panels => new() { "AmbientOcclusion", "LocalReflection", "FilterPanel" };
+        public static TheoryData<string> Panels => new() { "AmbientOcclusion", "LocalReflection", "PanelFilter" };
 
         private static Control Create(string panel) => panel switch
         {
             "AmbientOcclusion" => new Views.AmbientOcclusion(),
             "LocalReflection" => new Views.LocalReflection(),
-            _ => new Views.FilterPanel()
+            _ => new Views.PanelFilter()
         };
 
         [AvaloniaTheory]

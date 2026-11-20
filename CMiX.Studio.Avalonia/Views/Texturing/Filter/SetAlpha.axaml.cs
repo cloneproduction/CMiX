@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class SetAlpha : FilterPanel
+    public partial class SetAlpha : PanelFilter
     {
         public SetAlpha()
         {

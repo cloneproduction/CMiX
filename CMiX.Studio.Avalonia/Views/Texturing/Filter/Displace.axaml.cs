@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Displace : FilterPanel
+    public partial class Displace : PanelFilter
     {
         public Displace()
         {

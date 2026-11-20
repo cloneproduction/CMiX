@@ -5,9 +5,9 @@ using Avalonia.Controls.Primitives;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class FilterPanel : HeaderedContentControl
+    public partial class PanelFilter : HeaderedContentControl
     {
-        public FilterPanel()
+        public PanelFilter()
         {
             InitializeComponent();
         }

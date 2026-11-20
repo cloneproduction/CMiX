@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Feedback : FilterPanel
+    public partial class Feedback : PanelFilter
     {
         public Feedback()
         {

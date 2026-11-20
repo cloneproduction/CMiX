@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class LEDPanel : FilterPanel
+    public partial class LEDPanel : PanelFilter
     {
         public LEDPanel()
         {

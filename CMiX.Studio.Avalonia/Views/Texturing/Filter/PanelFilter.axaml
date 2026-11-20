@@ -1,5 +1,5 @@
 ﻿<HeaderedContentControl
-    x:Class="CMiX.Studio.Avalonia.Views.FilterPanel"
+    x:Class="CMiX.Studio.Avalonia.Views.PanelFilter"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
@@ -74,7 +74,7 @@
     </HeaderedContentControl.Header>
 
     <HeaderedContentControl.Template>
-        <ControlTemplate TargetType="Views:FilterPanel">
+        <ControlTemplate TargetType="Views:PanelFilter">
 
             <StackPanel Spacing="4">
 

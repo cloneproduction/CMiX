@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Threshold : FilterPanel
+    public partial class Threshold : PanelFilter
     {
         public Threshold()
         {

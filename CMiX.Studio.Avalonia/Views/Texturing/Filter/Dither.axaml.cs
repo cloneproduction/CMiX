@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Dither : FilterPanel
+    public partial class Dither : PanelFilter
     {
         public Dither()
         {

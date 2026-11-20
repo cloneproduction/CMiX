@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class TransformTexture : FilterPanel
+    public partial class TransformTexture : PanelFilter
     {
         public TransformTexture()
         {

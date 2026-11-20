@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Blur : FilterPanel
+    public partial class Blur : PanelFilter
     {
         public Blur()
         {

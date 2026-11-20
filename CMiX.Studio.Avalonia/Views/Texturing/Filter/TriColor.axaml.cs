@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class TriColor : FilterPanel
+    public partial class TriColor : PanelFilter
     {
         public TriColor()
         {
