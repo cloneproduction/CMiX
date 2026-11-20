@@ -90,7 +90,7 @@ namespace CMiX.Studio.Avalonia.Services
 
             return ReferenceEquals(focused.GetVisualRoot(), window)
                 && focused is not TextBox && focused.FindAncestorOfType<TextBox>() == null
-                && focused is not ProjectTreeView && focused.FindAncestorOfType<ProjectTreeView>() == null;
+                && focused is not TreeViewProject && focused.FindAncestorOfType<TreeViewProject>() == null;
         }
 
         // The visible side panels, from left to right.
@@ -163,7 +163,7 @@ namespace CMiX.Studio.Avalonia.Services
             if (first == null || !first.Focus(NavigationMethod.Tab))
                 return;
 
-            if (panel.GetVisualDescendants().OfType<ProjectTreeView>().Any())
+            if (panel.GetVisualDescendants().OfType<TreeViewProject>().Any())
                 tree.FocusTree();
         }
 

@@ -185,7 +185,7 @@ namespace CMiX.Studio.Avalonia.Tests
             compositionNode.IsExpanded = false;
             TreeTestScreen.Settle(mainWindow);
             mainWindow.Focus();
-            var view = mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var row = TreeTestScreen.RowOf(view, compositionNode);
             mainWindow.MouseMove(row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), mainWindow)!.Value);
             Dispatcher.UIThread.RunJobs();

@@ -27,7 +27,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public void Dispose() => window?.Close();
 
-        private (ProjectTreeView View, ProjectTree Tree) Show()
+        private (TreeViewProject View, ProjectTree Tree) Show()
         {
             var tree = CreateScene([1]).Tree;
             var screen = TreeTestScreen.Show(tree, 400, 400, instant: false, settle: false);

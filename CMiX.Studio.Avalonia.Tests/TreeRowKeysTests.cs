@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // tree and no other panel has the focus. No key runs while a text box has the focus, and not during a drag of a row.
     public class TreeRowKeysTests : IDisposable
     {
-        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View)
+        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, TreeViewProject View)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public Composition Composition => (Composition)ViewModel.Project.CompositionManager.ManagerData.Items[0];
@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var screen = new Screen(mainWindow, viewModel, view);
             screen.Tree.SelectedNode = screen.LayerNode(0);
             Settle(mainWindow);

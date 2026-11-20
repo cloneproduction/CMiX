@@ -148,7 +148,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (node == null || e.InitialPressMouseButton != MouseButton.Left || !IsOverRow(node, e))
                 return;
 
-            owner.RaiseEvent(new NodeChosenEventArgs(ProjectTreeView.NodeChosenEvent, owner, node));
+            owner.RaiseEvent(new NodeChosenEventArgs(TreeViewProject.NodeChosenEvent, owner, node));
         }
 
         // The drag ends without a drop when the window loses the pointer.

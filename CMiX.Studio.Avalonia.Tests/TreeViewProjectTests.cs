@@ -24,12 +24,12 @@ using Project = CMiX.Core.Compositing.Project;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The tree of the project on screen: one row per node, and a drag that follows the rules of TreeDropService.
-    public class ProjectTreeViewTests
+    public class TreeViewProjectTests
     {
         private sealed class Screen
         {
             public Window Window { get; init; } = null!;
-            public ProjectTreeView View { get; init; } = null!;
+            public TreeViewProject View { get; init; } = null!;
             public ProjectTree Tree { get; init; } = null!;
             public Project Project { get; init; } = null!;
             public Composition A { get; init; } = null!;
@@ -767,7 +767,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             var layerNode = screen.Tree.CompositionNodes()[0].Children[0].Children[0];
-            var pointerInput = typeof(ProjectTreeView).GetField("pointerInput", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(screen.View)!;
+            var pointerInput = typeof(TreeViewProject).GetField("pointerInput", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(screen.View)!;
             var field = typeof(TreePointerInput).GetField("pressedDraggableNode", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
             screen.Window.UpdateLayout();
             AvaloniaHeadlessPlatform.ForceRenderTimerTick();
@@ -891,7 +891,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // The number of handlers of the change event of the tree that belong to the view.
-        private static int HandlersOfView(ProjectTree tree, ProjectTreeView view)
+        private static int HandlersOfView(ProjectTree tree, TreeViewProject view)
         {
             var field = typeof(CommunityToolkit.Mvvm.ComponentModel.ObservableObject)
                 .GetField("PropertyChanged", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!;

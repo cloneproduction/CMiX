@@ -14,7 +14,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 |---|---|---|---|---|---|
 | Grey100 | #0F0F12 | window surface, deepest | Grey100Brush (33), checkerboard, empty toggle slot | C | primitive, fine |
 | Grey200 | #212124 | panel level 1, hint strip, inspector settings band (`PanelInspector.axaml:94,103`) | Level1Brush, HintStripBackgroundBrush | C | fine |
-| Grey300 | #2B2B2E | panel level 2, tree toolbar (`ProjectTreeView.axaml:43`), empty group row (`ProjectTree.axaml:244`) | Level2Brush, Grey300Brush (20) | C | fine |
+| Grey300 | #2B2B2E | panel level 2, tree toolbar (`TreeViewProject.axaml:43`), empty group row (`ProjectTree.axaml:244`) | Level2Brush, Grey300Brush (20) | C | fine |
 | Grey400 | #363639 | panel level 3, empty group hover (`:247`) | Level3Brush | C | fine |
 | Grey500 | #414144 | pressed control, hovered row, empty group chosen (`:250`) | StatePressedBrush, RowHoverBrush | C | one grey, three meanings (pressed, row hover, chosen empty group) |
 | Grey600 | #4C4C4F | idle control, key cap frame, "+n" badge (`BadgesKindCount.axaml:59`) | StateIdleBrush, KeyCapBorderBrush | C | fine |
@@ -22,7 +22,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | Grey800 | #808083 | chevron (`ProjectTree.axaml:262`), cursor frame without focus, "pending" sync dot | CursorFrameInactiveBrush, StatusPendingBrush | C | a status meaning on a primitive |
 | Grey900 | #B0B1B4 | shortcut text on a hovered row | ShortcutTextHoverBrush | C | fine |
 | TreeBackground | #0F0F12 | tree surface, dim cover, mix base of the palette | TreeBackgroundBrush, `CategoryPalette.cs:85` | M | duplicate of Grey100 |
-| AccentPrimary | #5680C2 | on + pointer (Button.axaml:125,128,233; Menu.axaml:71), focus line (TextBox.axaml:102,194; TextBoxSearchTree.axaml:15; PanelFocus.axaml:12), text selection (TextBox:20,118; NumericInput:22), slider track (Slider:118), grab frame (`ProjectTreeView.axaml:203`), in-sync dot (`StatusIndicators.axaml:11`) | AccentBrush (31) | C | collision: 4 meanings |
+| AccentPrimary | #5680C2 | on + pointer (Button.axaml:125,128,233; Menu.axaml:71), focus line (TextBox.axaml:102,194; TextBoxSearchTree.axaml:15; PanelFocus.axaml:12), text selection (TextBox:20,118; NumericInput:22), slider track (Slider:118), grab frame (`TreeViewProject.axaml:203`), in-sync dot (`StatusIndicators.axaml:11`) | AccentBrush (31) | C | collision: 4 meanings |
 | AccentSecondary | #4d6490 | on, at rest (ToggleButton:13,177; RadioButton:42; Slider:7; ListBox:172; ContextMenu:107) | AccentInactiveBrush (18) | C | fine |
 | AccentHover | #4B74B6 | on + pointer, rows and toggles (ComboBox:137,147; ListBox:169; RadioButton:46; ToggleButton:17,180) | StateOnHoverBrush (14) | C | synonym of AccentPrimary in Button.axaml:233 (two "on + pointer" blues) |
 | Active | #5680C2 | none | 0 uses | M | dead, duplicate of AccentPrimary |
@@ -63,7 +63,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | PanelBackground | Black 0.3 | panel tint | 14 | translucent black, outside the ramp |
 | PanelBorderBackground | Black 0.4 | expander header | `Expander.axaml:44` | same value as ListBoxBackground |
 | ListBoxBackground | Black 0.4 | list surface | ListBox.axaml:30,44,84,121; TypeWriter.axaml:23 | duplicate of PanelBorderBackground |
-| PanelBackgroundLevel1Brush | Grey200 | panel level 1, tree stripes (`ProjectTreeView.axaml:60`) | 8 | fine |
+| PanelBackgroundLevel1Brush | Grey200 | panel level 1, tree stripes (`TreeViewProject.axaml:60`) | 8 | fine |
 | PanelBackgroundLevel2Brush | Grey300 | panel level 2 | ExpanderIndentedDepth.axaml:13; TogglesComposable.axaml:19 | fine |
 | PanelBackgroundLevel3Brush | Grey400 | panel level 3 | ExpanderIndentedDepth.axaml:16 | fine |
 | PopupBackgroundBrush | PopupCardBackground | popup surface | 12 | fine |
@@ -76,7 +76,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | RowHoverBrush | Grey500 | row under the pointer | 15 | same grey as pressed |
 | StateOnHoverBrush | AccentHover | on + pointer | 14 | fine |
 | WarningMutedBrush | WarningMuted | conflict | 1 | 1 use |
-| CursorFrameBrush | ActiveText | cursor with focus; drop frame; drop line | CursorRow.axaml:11,15; ProjectTree.axaml:154,185; ProjectTreeView.axaml:106 | one brush, two cues (cursor, drop); the shapes differ, accepted |
+| CursorFrameBrush | ActiveText | cursor with focus; drop frame; drop line | CursorRow.axaml:11,15; ProjectTree.axaml:154,185; TreeViewProject.axaml:106 | one brush, two cues (cursor, drop); the shapes differ, accepted |
 | CursorFrameInactiveBrush | Grey800 | cursor without focus | 6 | fine |
 | ForegroundBrush / ActiveForegroundBrush | Text / ActiveText | text / text on colour | 82 / 33 | fine |
 | TextMutedBrush | ShortcutText | quiet text | ContextMenu.axaml:130; ToolTip.axaml:65 | synonym of ShortcutTextBrush and HintStripTextBrush: 3 brushes, 1 colour, 1 meaning |
@@ -85,7 +85,7 @@ Name test: does the key say the meaning (M), the colour (C), or the place (P)?
 | KeyCapBorderBrush | Grey600 | key cap frame | 1 | fine |
 | HintStripBackgroundBrush / HintStripTextBrush | Grey200 / ShortcutText | hint strip | 1 / 1 | text 4.38:1, under AA |
 
-Hardcoded values outside the tokens: `ProjectTreeView.axaml:194` BoxShadow `#E6000000`; `Brushes.axaml:5,18,19,20` literal `Black`; `CMiX.UI/Converters/CurrentStepConverter.cs:16` fallback `Brushes.OrangeRed` (the current step of BeatSteps); `CMiX.UI/Behaviors/ListBoxReorder.cs:291` `Brushes.Gray`; `PanelInspector.axaml:76` placeholder at Opacity 0.5 (opacity used as a text colour). Core model defaults (`#FFFFFFFF` and so on) are content, not UI.
+Hardcoded values outside the tokens: `TreeViewProject.axaml:194` BoxShadow `#E6000000`; `Brushes.axaml:5,18,19,20` literal `Black`; `CMiX.UI/Converters/CurrentStepConverter.cs:16` fallback `Brushes.OrangeRed` (the current step of BeatSteps); `CMiX.UI/Behaviors/ListBoxReorder.cs:291` `Brushes.Gray`; `PanelInspector.axaml:76` placeholder at Opacity 0.5 (opacity used as a text colour). Core model defaults (`#FFFFFFFF` and so on) are content, not UI.
 
 ## 3. Meaning map
 
@@ -93,7 +93,7 @@ Hardcoded values outside the tokens: `ProjectTreeView.axaml:194` BoxShadow `#E60
 |---|---|---|
 | on / selected control | AccentSecondary at rest, AccentHover under the pointer, AccentPrimary under the pointer in Button.axaml:233 | synonym: two "on + pointer" blues |
 | focus (text box, panel, search) | AccentPrimary | collision with "on", "grab mode", "in sync" |
-| grab mode frame | AccentPrimary (`ProjectTreeView.axaml:203`) | collision |
+| grab mode frame | AccentPrimary (`TreeViewProject.axaml:203`) | collision |
 | in sync (dot) | AccentPrimary | collision: a status in the interaction hue |
 | pending (dot) | Grey800 | same grey as the chevron and the unfocused cursor; dE to AccentPrimary 10.8, to Danger under protanopia 5.7 |
 | ok / connected | StatusSuccess | dE 2.0 to CategoryComposable3, 6.5 to CategoryTexture |
@@ -266,7 +266,7 @@ Fix:       Keep 0.55 for every fill that carries text (chosen row, Inspector hea
 ```
 [MAJOR] One blue, four meanings
 Where:     Brushes.axaml:7; Button.axaml:125,128,233; TextBox.axaml:102,194; PanelFocus.axaml:12; TextBoxSearchTree.axaml:15;
-           ProjectTreeView.axaml:203; StatusIndicators.axaml:11
+           TreeViewProject.axaml:203; StatusIndicators.axaml:11
 Problem:   AccentPrimary is "on + pointer", the focus line, the grab-mode frame and the "in sync" dot. In the tree the
            cursor and the focus are a frame in the kind hue, so a blue focus elsewhere is a second focus code.
 Numbers:   white on AccentPrimary 3.99 (text on an "on" button fails AA); focus line on Grey600 2.14 (under 3:1).
@@ -309,7 +309,7 @@ Fix:       Use StatusWarning for the conflict mark and retire WarningMuted. The 
 ```
 ```
 [MINOR] Hardcoded values
-Where:     ProjectTreeView.axaml:194 (#E6000000); Brushes.axaml:5,18-20 (Black); CurrentStepConverter.cs:16
+Where:     TreeViewProject.axaml:194 (#E6000000); Brushes.axaml:5,18-20 (Black); CurrentStepConverter.cs:16
            (Brushes.OrangeRed, the current step of BeatSteps); ListBoxReorder.cs:291 (Brushes.Gray);
            PanelInspector.axaml:76 (Opacity 0.5 as a text colour)
 Fix:       Tokens: ShadowColor, OverlayBlack30 / OverlayBlack40, TextMutedBrush for the placeholder. The current step of

@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 window.Close();
         }
 
-        private (Window Window, ProjectTreeView View, ProjectTree Tree) Show()
+        private (Window Window, TreeViewProject View, ProjectTree Tree) Show()
         {
             var tree = CreateScene([2], s => s.Layer.ModelEntityManager.AddItem(typeof(Entity))).Tree;
             var screen = TreeTestScreen.Show(tree, 400, 600, instant: false);
@@ -200,7 +200,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void TreeBackground_Show_EqualsTheBackgroundUnderTheRows()
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
-            var view = window.GetVisualDescendants().OfType<ProjectTreeView>().First();
+            var view = window.GetVisualDescendants().OfType<TreeViewProject>().First();
             var token = ((ISolidColorBrush)Application.Current!.FindResource("TreeBackgroundBrush")!).Color;
             var rows = view.GetVisualDescendants().OfType<TreeView>().First();
 

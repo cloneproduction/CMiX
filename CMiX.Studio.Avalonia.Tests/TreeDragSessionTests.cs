@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public void Dispose() => shown?.Dispose();
 
-        private sealed record Screen(ProjectTreeView View, TreeView TreeView, TreeNode Entity, TreeNode LayerA0, TreeNode LayerA1)
+        private sealed record Screen(TreeViewProject View, TreeView TreeView, TreeNode Entity, TreeNode LayerA0, TreeNode LayerA1)
         {
             public TreeDragSession Session => View.DragSession;
 

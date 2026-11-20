@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public void Dispose() => window?.Close();
 
-        private (ProjectTreeView View, ProjectTree Tree) Show()
+        private (TreeViewProject View, ProjectTree Tree) Show()
         {
             var scene = CreateScene([1], s => AddKinds(s.Layer));
             var screen = TreeTestScreen.Show(scene.Tree, 500, 600);
@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return (screen.View, scene.Tree);
         }
 
-        private static ToggleButton MaskOf(ProjectTreeView view, TreeNode node) =>
+        private static ToggleButton MaskOf(TreeViewProject view, TreeNode node) =>
             ItemOf(view, node).GetVisualDescendants().OfType<ToggleButton>().First(toggle => Equals(ToolTip.GetTip(toggle), "Mask") && toggle.IsEffectivelyVisible);
 
         [AvaloniaFact]

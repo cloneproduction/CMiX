@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private void Settle() => TreeTestScreen.Settle(window!);
 
         // A composition with a layer that has an entity.
-        private (ProjectTreeView View, ProjectTree Tree) Show(double scale = 1.0)
+        private (TreeViewProject View, ProjectTree Tree) Show(double scale = 1.0)
         {
             var scene = CreateScene([2], s => s.Layer.ModelEntityManager.AddItem(typeof(Entity)));
             var screen = TreeTestScreen.Show(scene.Tree, 500, 600, scale);
@@ -153,7 +153,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData(2.0, 3.0)]
         public void Show_TheGap_SnapsToWholePixels(double scale, double expected)
         {
-            var (_, gap) = ProjectTreeView.SnapToPixels(24, ProjectTreeView.RowGap, scale);
+            var (_, gap) = TreeViewProject.SnapToPixels(24, TreeViewProject.RowGap, scale);
 
             Assert.Equal(expected, gap, 6);
             Assert.Equal(Math.Round(gap * scale), gap * scale, 6);
@@ -212,7 +212,7 @@ namespace CMiX.Studio.Avalonia.Tests
             tree.SelectedNode = layer;
             Settle();
 
-            static Color NameColor(ProjectTreeView view, TreeNode node) =>
+            static Color NameColor(TreeViewProject view, TreeNode node) =>
                 ((ISolidColorBrush)ItemOf(view, node).GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "TextDisplay").Foreground!).Color;
 
             var white = ((ISolidColorBrush)Application.Current!.FindResource("ActiveForegroundBrush")!).Color;

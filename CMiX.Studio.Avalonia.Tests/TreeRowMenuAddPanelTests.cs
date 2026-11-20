@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // the panel close together.
     public class TreeRowMenuAddPanelTests : IDisposable
     {
-        private readonly List<(Window Window, ProjectTreeView View)> shown = new();
+        private readonly List<(Window Window, TreeViewProject View)> shown = new();
 
         public void Dispose()
         {
@@ -37,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
         }
 
-        private sealed record Screen(Window Window, ProjectTreeView View, Scene Scene)
+        private sealed record Screen(Window Window, TreeViewProject View, Scene Scene)
         {
             public TreeView TreeView => View.TreeView();
 
@@ -98,7 +98,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var scene = TreeFixtures.CreateScene([2]);
             scene.Layer.ModelEntityManager.AddItem(typeof(Entity));
-            var view = new ProjectTreeView { DataContext = scene.Tree, Width = 400, HorizontalAlignment = HorizontalAlignment.Left };
+            var view = new TreeViewProject { DataContext = scene.Tree, Width = 400, HorizontalAlignment = HorizontalAlignment.Left };
             var window = new Window { Content = view, Width = 1000, Height = 700 };
             window.Show();
             shown.Add((window, view));
@@ -266,8 +266,8 @@ namespace CMiX.Studio.Avalonia.Tests
         }
     }
 
-    internal static class ProjectTreeViewExtensions
+    internal static class TreeViewProjectExtensions
     {
-        public static TreeView TreeView(this ProjectTreeView view) => view.GetVisualDescendants().OfType<TreeView>().First();
+        public static TreeView TreeView(this TreeViewProject view) => view.GetVisualDescendants().OfType<TreeView>().First();
     }
 }

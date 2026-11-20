@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // The window of the test gets a scaling of the screen.
-        private (Window Window, ProjectTreeView View, ProjectTree Tree) Show(double scale, int layers)
+        private (Window Window, TreeViewProject View, ProjectTree Tree) Show(double scale, int layers)
         {
             var tree = CreateScene([layers]).Tree;
             var screen = TreeTestScreen.Show(tree, 400, 900, scale);
@@ -40,7 +40,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return (screen.Window, screen.View, tree);
         }
 
-        private static List<Border> RowsOf(ProjectTreeView view) =>
+        private static List<Border> RowsOf(TreeViewProject view) =>
             view.GetVisualDescendants().OfType<TreeViewItem>()
                 .Select(item => item.GetVisualDescendants().OfType<Border>().First(border => border.Name == "RowBorder"))
                 .Where(row => row.IsEffectivelyVisible)
@@ -94,7 +94,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData(2.0, 24.0, 1.0)]
         public void TheSnappedSizes_AreWholePixels(double scale, double expectedHeight, double expectedSpacing)
         {
-            var (height, spacing) = ProjectTreeView.SnapToPixels(24, 1, scale);
+            var (height, spacing) = TreeViewProject.SnapToPixels(24, 1, scale);
 
             Assert.Equal(expectedHeight, height, 6);
             Assert.Equal(expectedSpacing, spacing, 6);
@@ -105,7 +105,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void ASizeThatIsNotAWholeNumberOfPixels_GoesUpToTheNextPixel()
         {
-            var (height, spacing) = ProjectTreeView.SnapToPixels(24, 1, 1.1);
+            var (height, spacing) = TreeViewProject.SnapToPixels(24, 1, 1.1);
 
             Assert.Equal(27 / 1.1, height, 6);
             Assert.Equal(1 / 1.1, spacing, 6);

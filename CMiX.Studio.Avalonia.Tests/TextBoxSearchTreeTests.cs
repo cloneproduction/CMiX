@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // row. There is no search during a drag.
     public class TextBoxSearchTreeTests : IDisposable
     {
-        private sealed record Screen(Window Window, TextBoxSearchTree Box, ProjectTreeView View)
+        private sealed record Screen(Window Window, TextBoxSearchTree Box, TreeViewProject View)
         {
             // The text box inside the search field.
             public TextBox Input => Box.Field.GetVisualDescendants().OfType<TextBox>().First();
@@ -39,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var scene = CreateScene([3]);
             var box = new TextBoxSearchTree { DataContext = scene.Tree };
-            var view = new ProjectTreeView { DataContext = scene.Tree };
+            var view = new TreeViewProject { DataContext = scene.Tree };
             DockPanel.SetDock(box, Dock.Top);
             window = new Window { Content = new DockPanel { Children = { box, view } }, Width = 400, Height = 700 };
             window.Show();
@@ -496,7 +496,7 @@ namespace CMiX.Studio.Avalonia.Tests
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             window.Focus();
-            var view = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             window.MouseMove(view.TranslatePoint(new Point(view.Bounds.Width / 2, view.Bounds.Height / 2), window)!.Value);
             Dispatcher.UIThread.RunJobs();
 
@@ -514,7 +514,7 @@ namespace CMiX.Studio.Avalonia.Tests
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             window.Focus();
-            var view = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             window.MouseMove(view.TranslatePoint(new Point(view.Bounds.Width / 2, view.Bounds.Height / 2), window)!.Value);
             Dispatcher.UIThread.RunJobs();
             viewModel.ProjectTree.BeginDrag(viewModel.ProjectTree.CompositionNodes()[0]);

@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public List<PanelSide> Hosts => Window.GetVisualDescendants().OfType<PanelSide>().OrderBy(host => host.TranslatePoint(new Point(0, 0), Window)!.Value.X).ToList();
             public PanelSide Left => Hosts[0];
             public PanelSide Right => Hosts[1];
-            public List<ProjectTreeView> Trees => Window.GetVisualDescendants().OfType<ProjectTreeView>().ToList();
+            public List<TreeViewProject> Trees => Window.GetVisualDescendants().OfType<TreeViewProject>().ToList();
             public List<PanelMainTabs> Tabs => Window.GetVisualDescendants().OfType<PanelMainTabs>().ToList();
             public List<AssetManager> Assets => Window.GetVisualDescendants().OfType<AssetManager>().ToList();
 

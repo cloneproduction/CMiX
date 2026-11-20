@@ -21,7 +21,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // at the pointer and puts the cursor on the clicked row.
     public class TreeMenuAtCursorTests : IDisposable
     {
-        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View)
+        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, TreeViewProject View)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public TreeNode LayerNode(int index) => Tree.CompositionNodes()[0].Children[0].Children[index];
@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
             screen = new Screen(mainWindow, viewModel, view);
             screen.Tree.SelectedNode = screen.LayerNode(0);
             Settle(mainWindow);

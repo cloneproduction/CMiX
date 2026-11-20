@@ -79,8 +79,8 @@ namespace CMiX.Studio.Avalonia.Views
             }, DispatcherPriority.Loaded);
         }
 
-        private ProjectTreeView? TreeViewOfPanel() =>
-            this.FindAncestorOfType<PanelSide>()?.GetVisualDescendants().OfType<ProjectTreeView>().FirstOrDefault();
+        private TreeViewProject? TreeViewOfPanel() =>
+            this.FindAncestorOfType<PanelSide>()?.GetVisualDescendants().OfType<TreeViewProject>().FirstOrDefault();
 
         private void OnFieldKeyDown(object? sender, KeyEventArgs e)
         {

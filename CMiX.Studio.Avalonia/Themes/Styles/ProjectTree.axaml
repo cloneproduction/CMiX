@@ -126,7 +126,7 @@
                                     </Transitions>
                                 </Border.Transitions>
                             </Border>
-                            <!-- The cursor frame (see the styles of ProjectTreeView). -->
+                            <!-- The cursor frame (see the styles of TreeViewProject). -->
                             <Border Name="CursorFrame" Theme="{DynamicResource CursorFrame}" />
                             <!-- The frame of the row that takes a drop inside it, over CursorFrame. The style sets its thickness. -->
                             <Border
@@ -174,7 +174,7 @@
         <Style Selector="^ /template/ Border#RowBorder:pointerover">
             <Setter Property="Background" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=FillHover}" />
         </Style>
-        <!-- The cursor frame without the focus. The look of the tree is in ProjectTreeView.axaml. -->
+        <!-- The cursor frame without the focus. The look of the tree is in TreeViewProject.axaml. -->
         <Style Selector="^:cursor /template/ Border#CursorFrame">
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="BorderBrush" Value="{DynamicResource CursorFrameInactiveBrush}" />

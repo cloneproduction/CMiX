@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public void SendMessage(IMessage message) => Sent.Add(message);
         }
 
-        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View, PanelNotification Host)
+        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, TreeViewProject View, PanelNotification Host)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public UndoManager Undo => Provider.GetRequiredService<UndoManager>();
@@ -61,7 +61,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var host = mainWindow.GetVisualDescendants().OfType<PanelNotification>().Single();
             var screen = new Screen(provider, mainWindow, viewModel, view, host);
             screen.Tree.SelectedNode = screen.LayerNode(0);

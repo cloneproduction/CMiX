@@ -166,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Views
             }
             catch (Exception exception)
             {
-                Debug.WriteLine($"ProjectTreeView: the drop failed. {exception}");
+                Debug.WriteLine($"TreeViewProject: the drop failed. {exception}");
             }
             finally
             {

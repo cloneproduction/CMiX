@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // A composition with two layers. The first has two entities. The second has one.
-        private (ProjectTreeView View, ProjectTree Tree) Show()
+        private (TreeViewProject View, ProjectTree Tree) Show()
         {
             var scene = CreateScene([2], s =>
             {
@@ -255,7 +255,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // The center of the row of the node, in the window.
-        private Point Center(ProjectTreeView view, TreeNode node)
+        private Point Center(TreeViewProject view, TreeNode node)
         {
             var row = Part(view, node, "RowBorder");
             return row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), window!)!.Value;

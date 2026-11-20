@@ -11,7 +11,7 @@ The tree has two halves. Each half is a hub that owns small parts. A part has on
             |  bind to
             v
  +------------------------------+     requests (8 events)     +------------------------------+
- |  ProjectTree  (model hub)    | --------------------------> |  ProjectTreeView (screen hub)|
+ |  ProjectTree  (model hub)    | --------------------------> |  TreeViewProject (screen hub)|
  |  ViewModels/Tree             | <-------------------------- |  Views/Tree                  |
  |  one ObservableObject,       |     hooks (TreeViewHooks,   |  one UserControl,            |
  |  six partial files           |      one set per view)      |  one part per concern        |
@@ -25,7 +25,7 @@ The tree has two halves. Each half is a hub that owns small parts. A part has on
 ```
 
 - `ProjectTree` is the model hub. It is the one object that XAML binds. Its surface is split into partial files, one per concern. It holds the bound state and the commands. The logic is in the parts.
-- `ProjectTreeView` is the screen hub. Its constructor builds the parts and connects them. It holds no logic.
+- `TreeViewProject` is the screen hub. Its constructor builds the parts and connects them. It holds no logic.
 - The model never touches the screen. When it needs the screen to do something (reveal a row, open a menu, start a rename, start a grab) it raises a request event. `TreeScreenRequests` answers them, in the active view only.
 - The screen tells the model facts (is the pointer over the tree, is the tree focused, is a text box focused) through `TreeViewHooks`. Each view gives its own set. `TreeViewSet` holds them and picks the active view. Two views can show one tree.
 - Every key command goes through one gate, `CanRunTreeKey`, in `ProjectTree.Commands.cs`.
@@ -70,7 +70,7 @@ A row, `TreeNode`, with its small types: `RowCounts` (the kind counts, the hidde
 
 ## The screen half, folder `Views/Tree`
 
-The hub, `ProjectTreeView.axaml.cs`: builds the parts, attaches and detaches them with the visual tree, subscribes once to the tree, and keeps the one-line accessors the tests read.
+The hub, `TreeViewProject.axaml.cs`: builds the parts, attaches and detaches them with the visual tree, subscribes once to the tree, and keeps the one-line accessors the tests read.
 
 | Group | Part | One job |
 |---|---|---|
@@ -90,7 +90,7 @@ The hub, `ProjectTreeView.axaml.cs`: builds the parts, attaches and detaches the
 | Rows | `TreeRowBrush`, `TogglesRow`, `BadgesKindCount`, `BadgeCategory` | The colours and the small controls inside a row. |
 | Rows | `TreeViewContext` | What every part needs from the view: the tree view, the row index, the tree, the scroller. Its getters read live values. |
 
-The look of a row is in `Themes/Styles/ProjectTree.axaml` (the item theme) and in the styles block of `ProjectTreeView.axaml` (the cursor frame). The tokens of the tree are in `CMiX.UI/Themes/Tokens/Geometry.axaml`.
+The look of a row is in `Themes/Styles/ProjectTree.axaml` (the item theme) and in the styles block of `TreeViewProject.axaml` (the cursor frame). The tokens of the tree are in `CMiX.UI/Themes/Tokens/Geometry.axaml`.
 
 ## Where to go
 

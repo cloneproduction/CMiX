@@ -208,7 +208,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             Select(screen, screen.LayerNode);
 
-            var tree = screen.Window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = screen.Window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var treeItem = tree.GetVisualDescendants().OfType<TreeViewItem>().First(item => ReferenceEquals(item.DataContext, screen.LayerNode));
             var treeToggles = treeItem.GetVisualDescendants().OfType<TogglesRow>().First();
             var treeSlots = treeToggles.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("slot") && border.IsEffectivelyVisible).ToList();
@@ -667,7 +667,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static Point CenterOfRow(Screen screen, TreeNode node)
         {
-            var tree = screen.Window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = screen.Window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             screen.Window.UpdateLayout();
             AvaloniaHeadlessPlatform.ForceRenderTimerTick();
             Dispatcher.UIThread.RunJobs();
@@ -699,7 +699,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Click_BesideTheRows_FocusesTheCursorRow()
         {
             var screen = Show();
-            var tree = screen.Window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = screen.Window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var treeView = tree.GetVisualDescendants().OfType<TreeView>().First();
             screen.Window.UpdateLayout();
             var point = treeView.TranslatePoint(new Point(treeView.Bounds.Width / 2, treeView.Bounds.Height - 4), screen.Window)!.Value;
@@ -741,7 +741,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
-            var tree = screen.Window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = screen.Window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var item = tree.GetVisualDescendants().OfType<TreeViewItem>().First(row => ReferenceEquals(row.DataContext, screen.LayerNode));
             var toggle = item.GetVisualDescendants().OfType<TogglesRow>().First()
                 .GetVisualDescendants().OfType<ToggleButton>().First(button => CMiX.UI.AttachedProperties.ToggleDrag.GetGroup(button) == "visibility");

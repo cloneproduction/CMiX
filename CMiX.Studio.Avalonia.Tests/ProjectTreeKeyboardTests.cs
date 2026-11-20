@@ -33,13 +33,13 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public void Dispose()
         {
-            foreach (var view in window?.GetVisualDescendants().OfType<ProjectTreeView>() ?? Enumerable.Empty<ProjectTreeView>())
+            foreach (var view in window?.GetVisualDescendants().OfType<TreeViewProject>() ?? Enumerable.Empty<TreeViewProject>())
                 view.MenuAddPanel.Close();
 
             window?.Close();
         }
 
-        private sealed record Screen(ProjectTreeView View, ProjectTree Tree, UndoManager Undo, Composition Composition, ShortcutMap Shortcuts);
+        private sealed record Screen(TreeViewProject View, ProjectTree Tree, UndoManager Undo, Composition Composition, ShortcutMap Shortcuts);
 
         private void Settle() => TreeTestScreen.Settle(window!);
 
@@ -165,7 +165,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.All(ItemOf(screen.View, first).GetVisualDescendants().OfType<Border>(), border => Assert.False(border.Name is "SelectionFrame" or "FocusFrame"));
         }
 
-        private static bool InTree(IInputElement? element, ProjectTreeView view) => element is Visual visual && view.GetVisualDescendants().OfType<TreeView>().First().GetVisualDescendants().Contains(visual);
+        private static bool InTree(IInputElement? element, TreeViewProject view) => element is Visual visual && view.GetVisualDescendants().OfType<TreeView>().First().GetVisualDescendants().Contains(visual);
 
         [AvaloniaFact]
         public void Tab_FromARow_LeavesTheTreeInOneStep()

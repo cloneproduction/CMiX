@@ -90,7 +90,7 @@
             <ContentControl.DataTemplates>
 
                 <DataTemplate DataType="{x:Type StudioViewModels:TreePanelChoice}">
-                    <Views:ProjectTreeView DataContext="{Binding Context.ProjectTree, ElementName=sidePanelHost}" />
+                    <Views:TreeViewProject DataContext="{Binding Context.ProjectTree, ElementName=sidePanelHost}" />
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type StudioViewModels:TabsPanelChoice}">

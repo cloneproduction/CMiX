@@ -83,7 +83,7 @@ Classes that are several shapes at once, or none:
 
 | Shape | Main classes |
 |---|---|
-| View | Everything in `Views/`: one view for each Core control with the same name (`Blur`, `Layer`, `ModelEntity`, ...), `MainWindow`, `ProjectTreeView`, `PanelInspector`, `PanelSync`, `AssetManager`, `MainMenu` (the view), the tree helpers (`TreeDragSession`, `TreeGrab`, `AddPanel`, `PrefabRowMenu`, ...), the converters and the behaviors. |
+| View | Everything in `Views/`: one view for each Core control with the same name (`Blur`, `Layer`, `ModelEntity`, ...), `MainWindow`, `TreeViewProject`, `PanelInspector`, `PanelSync`, `AssetManager`, `MainMenu` (the view), the tree helpers (`TreeDragSession`, `TreeGrab`, `AddPanel`, `PrefabRowMenu`, ...), the converters and the behaviors. |
 | ViewModel | `MainViewModel`, `MainMenuViewModel`, `ProjectFileViewModel`, `MainWindowController`, `ShortcutSettings`, `PanelChoice`, and the tree: `ProjectTree`, `TreeNode`, `TreeGroup`, `TreeAdd`, `TreeViewHooks`. |
 | Service | `ShortcutMap`, `InterfaceOptions`, `StudioSettings`, `JsonSettingsFile`, `PathDropService`, `PanelFocusCycle`, `NotificationService`, `UnsavedChanges`, `UnsavedChangesPrompt`, `MessageNotice`, `MoveBlockedNotice`, `MainWindowDialogManager`, `TreeDropService`. |
 | Model, Message | None. |
@@ -252,7 +252,7 @@ Core has no Avalonia reference.
 |---|---|---|---|---|---|
 | 1 | `ProjectTree` (Studio) | 169, six partial files, 873 in all | 7 | 27 | Done on 2026-11-19: the state and the commands stay on the hub, the logic is in parts (`TreeSearch`, `TreeEdit`, `TreeOpenState`, `TreeAddCatalogue`, `TreeDragState`, `TreeDrop`, `TreeFileDropRules`, `TreeViewSet`). See `ViewModels/Tree/README.md`. |
 | 2 | `SyncPeer` (Core) | 316, nine partial files, 1216 in all | 3 | 2 | Done on 2026-11-20: one job per file (connect, join and push, start check, gap check, send, apply, follower, panel state). `SyncRun` holds the resources of one Start. Still a service and a ViewModel at once. |
-| 3 | `ProjectTreeView` code-behind (Studio) | 233 | 0 | 0 | Done on 2026-11-19: the hub builds the parts (`TreeKeyInput`, `TreePointerInput`, `TreeFocusKeeper`, `TreeScreenRequests`, `TreeMenus`, `TreeRowReveal`, `TreeFileDropInput`, `TreeHints`). |
+| 3 | `TreeViewProject` code-behind (Studio) | 233 | 0 | 0 | Done on 2026-11-19: the hub builds the parts (`TreeKeyInput`, `TreePointerInput`, `TreeFocusKeeper`, `TreeScreenRequests`, `TreeMenus`, `TreeRowReveal`, `TreeFileDropInput`, `TreeHints`). |
 | 4 | `PrefabManager` (Core) | 350 | 9, 1 optional | 7 | List ViewModel, undo, send, receive, model converter. Every domain object has several. VL uses its names. |
 | 5 | `GenericValue<T>` (Core) | 190 | 4 or 0 | 1 | Value, undo, throttle, send and receive in one setter. It reads a static. |
 | 6 | `MainViewModel` (Studio) | 160 | 18 | 2 | A bag of everything for the bindings. It also sets ids and activates lists. A false `IControl`. |
@@ -339,7 +339,7 @@ The order goes from low risk to high risk. First the classes that only the Studi
 | 2 | `MainMenu` | Done on 2026-11-19 on the branch `refactor/tree-structure`: `ProjectSession` (Service), `ProjectFileViewModel`, `MainMenuViewModel`, the attached property `RunCommandAfterClose`. | Studio only. | 3 |
 | 3 | `ProjectTree` | Done on 2026-11-19 on the branch `refactor/tree-structure`. | The bound state stayed on the hub in partial files, the logic went into parts. | 4 |
 | 4 | `TreeNode` | Done on 2026-11-19: `DragLook`, `RowCounts`, `TreeNodeHost`, and the row computes its own search look. | The row keeps its identity and its list mirroring. | 3 |
-| 5 | `ProjectTreeView` | Done on 2026-11-19, with one deviation: `TreeViewHooks` stays, one set per view, because two views can show one tree and the tree must know which view answers. The next step is a per-view state object that `TreeViewSet` reads. | After steps 3 and 4. | 4 |
+| 5 | `TreeViewProject` | Done on 2026-11-19, with one deviation: `TreeViewHooks` stays, one set per view, because two views can show one tree and the tree must know which view answers. The next step is a per-view state object that `TreeViewSet` reads. | After steps 3 and 4. | 4 |
 | 6 | `ControlFactory` | Move the naming of prefabs into its own service. | Core, and no name on the wire or in a patch changes. | 2 |
 | 7 | `GenericValue<T>` | Make `ValueInteraction` an injected object. Remove the empty constructor. | Every value depends on it, so do it before the lists. | 4 |
 | 8 | `SyncPeer` | Split the state for the panel from the peer. | Well tested and isolated. The Redis tests need a server. | 4 |

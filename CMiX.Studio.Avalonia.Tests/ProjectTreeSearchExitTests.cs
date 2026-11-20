@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class ProjectTreeSearchExitTests : IDisposable
     {
         private Views.MainWindow? window;
-        private ProjectTreeView? view;
+        private TreeViewProject? view;
 
         // A grab that a test leaves running would take the input of the next tests, so it ends here first.
         public void Dispose()
@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window?.Close();
         }
 
-        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View, TextBoxSearchTree Box)
+        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, TreeViewProject View, TextBoxSearchTree Box)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public TreeNode LayerNode(int index) => Tree.CompositionNodes()[0].Children[0].Children[index];
@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var treeView = mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var treeView = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
             view = treeView;
             var box = mainWindow.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
             var screen = new Screen(mainWindow, viewModel, treeView, box);
@@ -199,7 +199,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             SearchOneLayer(screen);
             var other = screen.Window.GetVisualDescendants().OfType<PanelSide>()
-                .First(host => host.IsEffectivelyVisible && !host.GetVisualDescendants().OfType<ProjectTreeView>().Any());
+                .First(host => host.IsEffectivelyVisible && !host.GetVisualDescendants().OfType<TreeViewProject>().Any());
             screen.ViewModel.PanelFocus.FocusPanel(other);
             Settle(screen.Window);
             Assert.True(other.IsKeyboardFocusWithin);

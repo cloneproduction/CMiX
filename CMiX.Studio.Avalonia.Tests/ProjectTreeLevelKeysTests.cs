@@ -185,7 +185,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // ---------------------------------------------------------------- the keys of the main window
 
         // One composition with three layers, each with an Echo filter. Every row is open. The composition is selected.
-        private (Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View) Show()
+        private (Views.MainWindow Window, MainViewModel ViewModel, TreeViewProject View) Show()
         {
             var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             window = mainWindow;
@@ -200,13 +200,13 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
             viewModel.ProjectTree.SelectedNode = viewModel.ProjectTree.CompositionNodes()[0];
             Settle(mainWindow);
             return (mainWindow, viewModel, view);
         }
 
-        private static void FocusTheCursorRow(Views.MainWindow mainWindow, ProjectTreeView view, ProjectTree tree)
+        private static void FocusTheCursorRow(Views.MainWindow mainWindow, TreeViewProject view, ProjectTree tree)
         {
             ItemOf(view, tree.CursorNode!).Focus();
             Settle(mainWindow);

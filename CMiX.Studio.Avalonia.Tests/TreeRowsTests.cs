@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // A composition with two layers. Each layer has two entities.
-        private (ProjectTreeView View, ProjectTree Tree, Composition Composition) Show()
+        private (TreeViewProject View, ProjectTree Tree, Composition Composition) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var project = provider.GetRequiredService<Project>();
@@ -39,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests
             }
 
             var tree = TreeFixtures.CreateTree(provider);
-            var view = new ProjectTreeView { DataContext = tree };
+            var view = new TreeViewProject { DataContext = tree };
             window = new Window { Content = view, Width = 500, Height = 800 };
             window.Show();
             foreach (var panel in view.GetVisualDescendants().OfType<PanelCollapse>())

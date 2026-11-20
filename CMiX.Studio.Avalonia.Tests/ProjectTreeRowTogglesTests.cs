@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private void Settle() => TreeTestScreen.Settle(window!);
 
         // A composition with a layer, which has an entity.
-        private (ProjectTreeView View, ProjectTree Tree) Show(double scale = 1.0)
+        private (TreeViewProject View, ProjectTree Tree) Show(double scale = 1.0)
         {
             var scene = CreateScene([1], s => s.Layer.ModelEntityManager.AddItem(typeof(Entity)));
             var screen = TreeTestScreen.Show(scene.Tree, 500, 600, scale);
@@ -42,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return (screen.View, scene.Tree);
         }
 
-        private static TogglesRow ColumnOf(ProjectTreeView view, TreeNode node) =>
+        private static TogglesRow ColumnOf(TreeViewProject view, TreeNode node) =>
             ItemOf(view, node).GetVisualDescendants().OfType<TogglesRow>().First();
 
         // The squares from the left: the mask first, the visibility last.

@@ -21,7 +21,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // tree keys go on working with the pointer away from the tree. A click on another control keeps the focus on that control.
     public class TreeRowFocusTests : IDisposable
     {
-        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View)
+        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, TreeViewProject View)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public Composition Composition => (Composition)ViewModel.Project.CompositionManager.ManagerData.Items[0];
@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var screen = new Screen(mainWindow, viewModel, view);
             screen.Tree.SelectedNode = screen.LayerNode(0);
             Settle(mainWindow);

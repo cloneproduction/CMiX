@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // Two compositions with six open layers each: a tree that is much higher than the window.
-        private (ProjectTreeView View, ProjectTree Tree, ScrollViewer Scroller) Show()
+        private (TreeViewProject View, ProjectTree Tree, ScrollViewer Scroller) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var project = provider.GetRequiredService<Project>();
@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var tree = TreeFixtures.CreateTree(provider);
             TestServiceProviderFactory.ExpandAll(tree);
-            var view = new ProjectTreeView { DataContext = tree };
+            var view = new TreeViewProject { DataContext = tree };
             window = new Window { Content = view, Width = 500, Height = 500 };
             window.Show();
             Settle();
@@ -53,23 +53,23 @@ namespace CMiX.Studio.Avalonia.Tests
             return (view, tree, view.GetVisualDescendants().OfType<ScrollViewer>().First());
         }
 
-        private Border RowOf(ProjectTreeView view, TreeNode node) =>
+        private Border RowOf(TreeViewProject view, TreeNode node) =>
             view.GetVisualDescendants().OfType<TreeViewItem>().First(item => ReferenceEquals(item.DataContext, node))
                 .GetVisualDescendants().OfType<Border>().First(border => border.Name == "RowBorder");
 
-        private double Top(ProjectTreeView view, TreeNode node) => RowOf(view, node).TranslatePoint(new Point(0, 0), window!)!.Value.Y;
+        private double Top(TreeViewProject view, TreeNode node) => RowOf(view, node).TranslatePoint(new Point(0, 0), window!)!.Value.Y;
 
         private static IEnumerable<TreeNode> All(IEnumerable<TreeNode> nodes) =>
             nodes.SelectMany(node => new[] { node }.Concat(All(node.Children)));
 
-        private Point Center(ProjectTreeView view, TreeNode node)
+        private Point Center(TreeViewProject view, TreeNode node)
         {
             var row = RowOf(view, node);
             return row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), window!)!.Value;
         }
 
         // Drags the source row to the target row and drops it on its middle.
-        private void Drop(ProjectTreeView view, TreeNode source, TreeNode target)
+        private void Drop(TreeViewProject view, TreeNode source, TreeNode target)
         {
             TreeDrag.Drop(window!, Center(view, source), Center(view, target));
             Settle();

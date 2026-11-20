@@ -28,10 +28,10 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // Two views of the tree side by side. Each view has its own height.
-        private (ProjectTreeView First, ProjectTreeView Second) Show(Scene scene, double firstHeight = 600, double secondHeight = 600)
+        private (TreeViewProject First, TreeViewProject Second) Show(Scene scene, double firstHeight = 600, double secondHeight = 600)
         {
-            var first = new ProjectTreeView { DataContext = scene.Tree, Height = firstHeight, VerticalAlignment = VerticalAlignment.Top };
-            var second = new ProjectTreeView { DataContext = scene.Tree, Height = secondHeight, VerticalAlignment = VerticalAlignment.Top };
+            var first = new TreeViewProject { DataContext = scene.Tree, Height = firstHeight, VerticalAlignment = VerticalAlignment.Top };
+            var second = new TreeViewProject { DataContext = scene.Tree, Height = secondHeight, VerticalAlignment = VerticalAlignment.Top };
             var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("*,*") };
             Grid.SetColumn(second, 1);
             grid.Children.Add(first);
@@ -44,19 +44,19 @@ namespace CMiX.Studio.Avalonia.Tests
             return (first, second);
         }
 
-        private static ProjectTreeView Pick(ProjectTreeView first, ProjectTreeView second, int index) => index == 0 ? first : second;
+        private static TreeViewProject Pick(TreeViewProject first, TreeViewProject second, int index) => index == 0 ? first : second;
 
         // The focus goes to a row of the view, so the view is the active view.
-        private void FocusView(ProjectTreeView view, TreeNode node)
+        private void FocusView(TreeViewProject view, TreeNode node)
         {
             Assert.True(TreeTestScreen.ItemOf(view, node).Focus(NavigationMethod.Tab));
             Dispatcher.UIThread.RunJobs();
             Assert.True(view.IsActiveView);
         }
 
-        private static TreeView TreeViewOf(ProjectTreeView view) => view.GetVisualDescendants().OfType<TreeView>().First();
+        private static TreeView TreeViewOf(TreeViewProject view) => view.GetVisualDescendants().OfType<TreeView>().First();
 
-        private static TextBoxEditable NameBoxOf(ProjectTreeView view, TreeNode node) =>
+        private static TextBoxEditable NameBoxOf(TreeViewProject view, TreeNode node) =>
             TreeTestScreen.RowOf(view, node).GetVisualDescendants().OfType<TextBoxEditable>().First();
 
         [AvaloniaTheory]
@@ -183,7 +183,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             var hosts = mainWindow.GetVisualDescendants().OfType<PanelSide>().ToList();
             Assert.Equal(2, hosts.Count);
-            var view = hosts[active].GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = hosts[active].GetVisualDescendants().OfType<TreeViewProject>().Single();
             Assert.True(TreeTestScreen.ItemOf(view, viewModel.ProjectTree.Roots[0]).Focus(NavigationMethod.Tab));
             Dispatcher.UIThread.RunJobs();
 
@@ -216,7 +216,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return (mainWindow, hosts, viewModel);
         }
 
-        private static ProjectTreeView ViewOf(PanelSide host) => host.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+        private static TreeViewProject ViewOf(PanelSide host) => host.GetVisualDescendants().OfType<TreeViewProject>().Single();
 
         private static TextBoxSearchTree BoxOf(PanelSide host) => host.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
 

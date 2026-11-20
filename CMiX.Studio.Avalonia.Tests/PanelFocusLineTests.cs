@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, PanelSide Left, PanelSide Right)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
-            public ProjectTreeView View => Left.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            public TreeViewProject View => Left.GetVisualDescendants().OfType<TreeViewProject>().Single();
             public TreeView TreeView => View.GetVisualDescendants().OfType<TreeView>().First();
             public TreeNode LayerNode => Tree.CompositionNodes()[0].Children[0].Children[0];
         }

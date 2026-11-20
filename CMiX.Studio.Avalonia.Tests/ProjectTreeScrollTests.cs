@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // A composition with twelve layers: a tree that is much higher than the window.
-        private (ProjectTreeView View, ProjectTree Tree, ScrollViewer Scroller) Show()
+        private (TreeViewProject View, ProjectTree Tree, ScrollViewer Scroller) Show()
         {
             var tree = CreateScene([12]).Tree;
             var screen = TreeTestScreen.Show(tree, 500, 500);
@@ -44,10 +44,10 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private void Settle() => TreeTestScreen.Settle(window!);
 
-        private double RowTop(ProjectTreeView view, TreeNode node) =>
+        private double RowTop(TreeViewProject view, TreeNode node) =>
             ItemOf(view, node).GetVisualDescendants().OfType<Border>().First(border => border.Name == "RowBorder").TranslatePoint(new Point(0, 0), window!)!.Value.Y;
 
-        private Point RowPoint(ProjectTreeView view, TreeNode node)
+        private Point RowPoint(TreeViewProject view, TreeNode node)
         {
             var row = ItemOf(view, node).GetVisualDescendants().OfType<Border>().First(border => border.Name == "RowBorder");
             // Left of the toggles, which end the row.
@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // Scrolls until a layer row is near the bottom edge of the view, where its whole block is not in view. Returns that layer.
-        private TreeNode ScrollToARowAtTheBottomEdge(ProjectTreeView view, ProjectTree tree, ScrollViewer scroller)
+        private TreeNode ScrollToARowAtTheBottomEdge(TreeViewProject view, ProjectTree tree, ScrollViewer scroller)
         {
             for (var offset = 0; offset < 900; offset += 10)
             {
@@ -140,7 +140,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private Point PointAt(ScrollViewer scroller, double y) => scroller.TranslatePoint(new Point(40, y), window!)!.Value;
 
         // Starts the drag of the first layer with the pointer and moves it to the height y of the scroll viewer.
-        private void DragTo(ProjectTreeView view, ProjectTree tree, ScrollViewer scroller, double y)
+        private void DragTo(TreeViewProject view, ProjectTree tree, ScrollViewer scroller, double y)
         {
             TreeDrag.Over(window!, RowPoint(view, tree.CompositionNodes()[0].Children[0].Children[0]), PointAt(scroller, y));
             Settle();
@@ -212,7 +212,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(view.IsAutoScrolling);
         }
 
-        // A file drag comes from the system (see ProjectTreeView.OnDragOver). The edge zone serves it.
+        // A file drag comes from the system (see TreeViewProject.OnDragOver). The edge zone serves it.
         private void FilesAt(ScrollViewer scroller, double y, RawDragEventType type)
         {
             var data = new DataObject();

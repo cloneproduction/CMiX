@@ -89,14 +89,14 @@ namespace CMiX.Studio.Avalonia.Tests
         // The pointer on the middle of the tree view, or beside it.
         private static void PointOnTree(Window window)
         {
-            var view = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             window.MouseMove(view.TranslatePoint(new Point(view.Bounds.Width / 2, view.Bounds.Height / 2), window)!.Value);
             Dispatcher.UIThread.RunJobs();
         }
 
         private static void PointBesideTree(Window window)
         {
-            var view = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var right = view.TranslatePoint(new Point(view.Bounds.Width, 0), window)!.Value.X;
             window.MouseMove(new Point(right + 10, 10));
             Dispatcher.UIThread.RunJobs();
@@ -132,7 +132,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Press(window, PhysicalKey.A, RawInputModifiers.Shift);
 
             // The panel opens at once, with no context menu first.
-            var view = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             TestServiceProviderFactory.Pump();
             Assert.True(view.MenuAddPanel.IsOpen);
             var groups = view.MenuAddPanel.List.Groups!.ToList();
@@ -158,7 +158,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Press(window, PhysicalKey.A, RawInputModifiers.Shift);
 
             Assert.Equal(before, viewModel.Project.CompositionManager.ManagerData.Items.Count);
-            Assert.False(window.GetVisualDescendants().OfType<ProjectTreeView>().Single().MenuAddPanel.IsOpen);
+            Assert.False(window.GetVisualDescendants().OfType<TreeViewProject>().Single().MenuAddPanel.IsOpen);
         }
 
         [AvaloniaFact]
@@ -174,7 +174,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Press(window, PhysicalKey.A, RawInputModifiers.Shift);
             TestServiceProviderFactory.Pump();
 
-            var view = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             Assert.Equal(before, viewModel.Project.CompositionManager.ManagerData.Items.Count);
             Assert.True(view.MenuAddPanel.IsOpen);
             Assert.Equal(new[] { "Project" }, view.MenuAddPanel.List.Groups!.Select(group => group.Header));
@@ -184,7 +184,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // The menu of the tree, and the texts that it shows.
         private static (ContextMenu? Menu, IReadOnlyList<string> Texts) MenuOf(Window window)
         {
-            var treeView = window.GetVisualDescendants().OfType<ProjectTreeView>().Single().GetVisualDescendants().OfType<TreeView>().First();
+            var treeView = window.GetVisualDescendants().OfType<TreeViewProject>().Single().GetVisualDescendants().OfType<TreeView>().First();
             var menu = treeView.ContextMenu;
             var texts = menu?.GetVisualDescendants().OfType<TextBlock>().Select(text => text.Text ?? "").ToList() ?? new List<string>();
             return (menu, texts);
@@ -348,7 +348,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Press(window, PhysicalKey.A, RawInputModifiers.Shift);
 
             Assert.True(node.IsExpanded);
-            Assert.False(window.GetVisualDescendants().OfType<ProjectTreeView>().Single().MenuAddPanel.IsOpen);
+            Assert.False(window.GetVisualDescendants().OfType<TreeViewProject>().Single().MenuAddPanel.IsOpen);
         }
 
         [AvaloniaFact]
@@ -396,7 +396,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             window.Focus();
             PointOnTree(window);
-            var view = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
 
             Press(window, PhysicalKey.A, RawInputModifiers.Shift);
             TestServiceProviderFactory.Pump();

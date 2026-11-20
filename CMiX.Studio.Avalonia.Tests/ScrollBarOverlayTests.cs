@@ -127,7 +127,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             window.UpdateLayout();
 
-            var tree = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var treeView = tree.GetVisualDescendants().OfType<TreeView>().First();
             var row = tree.GetVisualDescendants().OfType<TreeViewItem>().First();
             var result = (row.Bounds.Width, VerticalBarOf(treeView).IsVisible);

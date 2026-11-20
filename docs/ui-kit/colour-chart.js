@@ -51,7 +51,7 @@ window.CMIX_COLOUR_CHART = {
                                             "tokens":  [
                                                            "PanelBackgroundLevel2Brush"
                                                        ],
-                                            "rule":  "Second nesting (Grey300). The toolbar of the tree reads Grey300Brush directly today (ProjectTreeView.axaml:43).",
+                                            "rule":  "Second nesting (Grey300). The toolbar of the tree reads Grey300Brush directly today (TreeViewProject.axaml:43).",
                                             "flags":  [
     
                                                       ]

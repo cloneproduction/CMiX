@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public MainWindow Window { get; init; } = null!;
             public MainViewModel ViewModel { get; init; } = null!;
             public UndoManager Undo { get; init; } = null!;
-            public ProjectTreeView TreeView { get; init; } = null!;
+            public TreeViewProject TreeView { get; init; } = null!;
             public List<Layer> Layers { get; } = new();
 
             public TreeNode LayerNode(int index) => ViewModel.ProjectTree.CompositionNodes()[0].Children[0].Children[index];
@@ -76,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 Window = window,
                 ViewModel = viewModel,
                 Undo = provider.GetRequiredService<UndoManager>(),
-                TreeView = window.GetVisualDescendants().OfType<ProjectTreeView>().Single()
+                TreeView = window.GetVisualDescendants().OfType<TreeViewProject>().Single()
             };
             for (var i = 0; i < 4; i++)
             {

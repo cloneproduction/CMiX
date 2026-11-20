@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // Two compositions. The first has a layer, so the row above the second composition is a row of that layer.
-        private (ProjectTreeView View, ProjectTree Tree) Show()
+        private (TreeViewProject View, ProjectTree Tree) Show()
         {
             var tree = CreateScene([1, 0]).Tree;
             TestServiceProviderFactory.ExpandAll(tree);

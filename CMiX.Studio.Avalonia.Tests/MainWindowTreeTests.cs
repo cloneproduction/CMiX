@@ -19,7 +19,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-            var tree = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var tabs = TestServiceProviderFactory.MainTabControl(window);
 
             Assert.Same(viewModel.ProjectTree, tree.DataContext);
@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheTreeAndTheTabs_HaveTheSameWidth()
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
-            var tree = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var columns = tree.GetVisualAncestors().OfType<Grid>().First(grid => grid.ColumnDefinitions.Count == 2).ColumnDefinitions;
 
             Assert.True(columns[0].ActualWidth > 0);
@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheMasterBeat_IsUnderTheTabsOnly()
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
-            var tree = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var tabs = TestServiceProviderFactory.MainTabControl(window);
             var beat = window.GetVisualDescendants().OfType<PanelMasterBeat>().Single();
 
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheTreeRows_HaveTheSameSpaceOnAllSides()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            var tree = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             var row = tree.GetVisualDescendants().OfType<TreeViewItem>().First();
@@ -106,7 +106,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Add_ACompositionAndALayer_ShowsThemInTheTree()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            var tree = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
             var before = tree.GetVisualDescendants().OfType<TreeViewItem>().Count();
 
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
@@ -128,15 +128,15 @@ namespace CMiX.Studio.Avalonia.Tests
             var leftBefore = viewModel.LeftPanel;
             var rightBefore = viewModel.RightPanel;
             TestServiceProviderFactory.SelectMainTab(window, "Settings");
-            var tree = window.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
 
-            tree.RaiseEvent(new NodeChosenEventArgs(ProjectTreeView.NodeChosenEvent, tree, viewModel.ProjectTree.CompositionNodes()[0]));
+            tree.RaiseEvent(new NodeChosenEventArgs(TreeViewProject.NodeChosenEvent, tree, viewModel.ProjectTree.CompositionNodes()[0]));
             TestServiceProviderFactory.Pump();
 
             // Each side keeps its content, and the tab that the user picked stays picked.
             Assert.Same(leftBefore, viewModel.LeftPanel);
             Assert.Same(rightBefore, viewModel.RightPanel);
-            Assert.Same(tree, window.GetVisualDescendants().OfType<ProjectTreeView>().Single());
+            Assert.Same(tree, window.GetVisualDescendants().OfType<TreeViewProject>().Single());
             var selected = TestServiceProviderFactory.MainTabControl(window).SelectedItem as TabItem;
             Assert.Equal("Settings", (selected?.Header as CMiX.UI.Controls.AppIcon)?.IconKey);
         }

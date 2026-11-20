@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private sealed class Screen
         {
             public Window Window { get; init; } = null!;
-            public ProjectTreeView View { get; init; } = null!;
+            public TreeViewProject View { get; init; } = null!;
             public ProjectTree Tree { get; init; } = null!;
             public Composition A { get; init; } = null!;
 
@@ -59,7 +59,7 @@ namespace CMiX.Studio.Avalonia.Tests
             b.LayerManager.AddItem(typeof(Layer));
 
             var tree = TreeFixtures.CreateTree(provider);
-            var view = new ProjectTreeView { DataContext = tree };
+            var view = new TreeViewProject { DataContext = tree };
             var window = new Window { Content = view, Width = 400, Height = 900 };
             windows.Add(window);
             window.Show();

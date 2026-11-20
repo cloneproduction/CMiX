@@ -19,7 +19,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // A composition with two layers. The first has one entity, renamed Echo.
-        private (ProjectTreeView View, ProjectTree Tree, TreeNode Echo) Show()
+        private (TreeViewProject View, ProjectTree Tree, TreeNode Echo) Show()
         {
             var scene = CreateScene([2], s => s.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity)));
             var screen = TreeTestScreen.Show(scene.Tree, 500, 700);
@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private void Settle() => TreeTestScreen.Settle(window!);
 
-        private static bool IsCovered(ProjectTreeView view, TreeNode node) => Part(view, node, "DimLayer").Classes.Contains("dimmed");
+        private static bool IsCovered(TreeViewProject view, TreeNode node) => Part(view, node, "DimLayer").Classes.Contains("dimmed");
 
         [AvaloniaFact]
         public void Search_AName_CoversTheRowsThatDoNotMatchAndTheParents()

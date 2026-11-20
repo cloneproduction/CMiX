@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // A composition with a layer that has two entities, a filter and three modifiers.
-        private (ProjectTreeView View, ProjectTree Tree) Show()
+        private (TreeViewProject View, ProjectTree Tree) Show()
         {
             var scene = CreateScene([1], s => AddKinds(s.Layer));
             var screen = TreeTestScreen.Show(scene.Tree, 500, 600);
@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
 
-        private static List<Border> SquaresOf(ProjectTreeView view, TreeNode node) =>
+        private static List<Border> SquaresOf(TreeViewProject view, TreeNode node) =>
             ItemOf(view, node).GetVisualDescendants().OfType<BadgesKindCount>().First()
                 .GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).ToList();
 

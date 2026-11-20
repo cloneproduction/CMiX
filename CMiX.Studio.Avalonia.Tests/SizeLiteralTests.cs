@@ -27,7 +27,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static readonly string[] SpaceFiles =
         {
             "CMiX.Studio.Avalonia/Themes/Styles/ProjectTree.axaml",
-            "CMiX.Studio.Avalonia/Views/Tree/ProjectTreeView.axaml",
+            "CMiX.Studio.Avalonia/Views/Tree/TreeViewProject.axaml",
             "CMiX.UI/Themes/Styles/ScrollViewer.axaml",
             "CMiX.UI/Themes/Styles/GridSplitter.axaml",
         };

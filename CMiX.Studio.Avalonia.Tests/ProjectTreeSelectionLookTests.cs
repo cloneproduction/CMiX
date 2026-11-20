@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private void Settle() => TreeTestScreen.Settle(window!);
 
-        private (ProjectTreeView View, ProjectTree Tree) Show()
+        private (TreeViewProject View, ProjectTree Tree) Show()
         {
             var tree = CreateScene([2], s => s.Layer.ModelEntityManager.AddItem(typeof(Entity))).Tree;
             var screen = TreeTestScreen.Show(tree, 500, 700);

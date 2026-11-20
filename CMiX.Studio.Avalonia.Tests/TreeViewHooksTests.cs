@@ -136,8 +136,8 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Unwatch_SecondViewLeaves_TheFocusedViewStillTellsTheTreeHasTheFocus()
         {
             var scene = CreateScene();
-            var first = new ProjectTreeView { DataContext = scene.Tree };
-            var second = new ProjectTreeView { DataContext = scene.Tree };
+            var first = new TreeViewProject { DataContext = scene.Tree };
+            var second = new TreeViewProject { DataContext = scene.Tree };
             var panel = new StackPanel { Children = { first, second } };
             var window = new Window { Content = panel, Width = 400, Height = 1100 };
             window.Show();

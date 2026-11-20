@@ -63,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private sealed class Screen
         {
             public Window Window { get; init; } = null!;
-            public ProjectTreeView View { get; init; } = null!;
+            public TreeViewProject View { get; init; } = null!;
             public ProjectTree Tree { get; init; } = null!;
             public Project Project { get; init; } = null!;
             public UndoManager Undo { get; init; } = null!;

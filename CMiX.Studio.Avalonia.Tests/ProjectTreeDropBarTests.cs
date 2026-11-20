@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // A composition with a layer, an entity, and three modifiers on it.
-        private (ProjectTreeView View, ProjectTree Tree, Entity Entity, TreeNode Group) Show()
+        private (TreeViewProject View, ProjectTree Tree, Entity Entity, TreeNode Group) Show()
         {
             var scene = CreateScene([1], s =>
             {
@@ -48,21 +48,21 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private void Settle() => TreeTestScreen.Settle(window!);
 
-        private Point PointIn(ProjectTreeView view, TreeNode node, double fraction)
+        private Point PointIn(TreeViewProject view, TreeNode node, double fraction)
         {
             var row = ItemOf(view, node).GetVisualDescendants().OfType<Border>().First(border => border.Name == "RowBorder");
             return row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height * fraction), window!)!.Value;
         }
 
         // Drags the source row over the target and keeps the button down.
-        private void DragOver(ProjectTreeView view, TreeNode source, TreeNode target, double fraction)
+        private void DragOver(TreeViewProject view, TreeNode source, TreeNode target, double fraction)
         {
             TreeDrag.Over(window!, PointIn(view, source, 0.5), PointIn(view, target, fraction));
             Settle();
         }
 
         // Ends the drag without a drop.
-        private void Cancel(ProjectTreeView view, TreeNode under)
+        private void Cancel(TreeViewProject view, TreeNode under)
         {
             TreeDrag.Cancel(window!, PointIn(view, under, 0.5));
             Settle();

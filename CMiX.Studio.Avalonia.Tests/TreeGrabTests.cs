@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class TreeGrabTests : IDisposable
     {
         private Views.MainWindow? window;
-        private ProjectTreeView? view;
+        private TreeViewProject? view;
 
         // A grab that a test leaves running would take the input of the next tests, so it ends here first.
         public void Dispose()
@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window?.Close();
         }
 
-        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, ProjectTreeView View)
+        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, TreeViewProject View)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public UndoManager Undo => Provider.GetRequiredService<UndoManager>();
@@ -58,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().Single();
+            var view = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
             this.view = view;
             var screen = new Screen(provider, mainWindow, viewModel, view);
             // The rows open and close with no animation, so no row moves while a test reads its place.
@@ -118,7 +118,7 @@ namespace CMiX.Studio.Avalonia.Tests
             GrabFirstLayer(screen);
 
             Assert.True(screen.Tree.IsDragging);
-            Assert.True(screen.View.Classes.Contains(ProjectTreeView.GrabbingClass));
+            Assert.True(screen.View.Classes.Contains(TreeViewProject.GrabbingClass));
             Assert.True(screen.View.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "GrabFrame").IsEffectivelyVisible);
             Assert.Equal(TreeHintMode.Grab, screen.View.HintMode);
         }
@@ -137,7 +137,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(screen.Tree.IsDragging);
             Assert.Equal(before, Layers(screen));
             Assert.Equal(0, screen.UndoSteps);
-            Assert.False(screen.View.Classes.Contains(ProjectTreeView.GrabbingClass));
+            Assert.False(screen.View.Classes.Contains(TreeViewProject.GrabbingClass));
             Assert.Equal(TreeHintMode.Idle, screen.View.HintMode);
         }
 

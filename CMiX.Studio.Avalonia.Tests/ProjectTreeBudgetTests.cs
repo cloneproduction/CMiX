@@ -95,7 +95,7 @@ namespace CMiX.Studio.Avalonia.Tests
             foreach (var layer in tree.CompositionNodes()[0].Children[0].Children.Take(Layers - 1))
                 layer.IsExpanded = false;
 
-            var view = new ProjectTreeView { DataContext = tree };
+            var view = new TreeViewProject { DataContext = tree };
             window = new Window { Content = view, Width = 500, Height = 500 };
             window.Show();
             foreach (var panel in view.GetVisualDescendants().OfType<PanelCollapse>())

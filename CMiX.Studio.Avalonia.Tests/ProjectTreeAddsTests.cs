@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 foreach (var toolbar in window.GetVisualDescendants().OfType<ToolbarProjectTree>())
                     toolbar.Panel.Close();
 
-                if (window.GetVisualDescendants().OfType<ProjectTreeView>().FirstOrDefault() is { } treeView)
+                if (window.GetVisualDescendants().OfType<TreeViewProject>().FirstOrDefault() is { } treeView)
                     treeView.MenuAddPanel.Close();
 
                 foreach (var control in window.GetVisualDescendants().OfType<Control>())
@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private sealed class Screen
         {
             public Window Window { get; init; } = null!;
-            public ProjectTreeView View { get; init; } = null!;
+            public TreeViewProject View { get; init; } = null!;
             public ProjectTree Tree { get; init; } = null!;
             public Project Project { get; init; } = null!;
             public Composition A { get; init; } = null!;
@@ -79,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
             ((Layer)a.LayerManager.ManagerData.Items[0]).ModelEntityManager.AddItem(typeof(Entity));
 
             var tree = TreeFixtures.CreateTree(provider);
-            var view = new ProjectTreeView { DataContext = tree };
+            var view = new TreeViewProject { DataContext = tree };
             var window = new Window { Content = view, Width = 400, Height = 900 };
             windows.Add(window);
             window.Show();

@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // The setting InterfaceOptions.ShowKeyHints hides it. It takes no click and no focus.
     public class TreeKeyHintStripTests : IDisposable
     {
-        private sealed record Screen(Window Window, TextBoxSearchTree Box, ProjectTreeView View);
+        private sealed record Screen(Window Window, TextBoxSearchTree Box, TreeViewProject View);
 
         private Window? window;
         private readonly string folder = Path.Combine(Path.GetTempPath(), $"cmix-interface-{Guid.NewGuid():N}");
@@ -40,7 +40,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var scene = CreateScene([3]);
             var box = new TextBoxSearchTree { DataContext = scene.Tree };
-            var view = new ProjectTreeView { DataContext = scene.Tree };
+            var view = new TreeViewProject { DataContext = scene.Tree };
             DockPanel.SetDock(box, Dock.Top);
             window = new Window { Content = new DockPanel { Children = { box, view } }, Width = PanelWidth, Height = 500 };
             window.Show();
@@ -264,7 +264,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
 
             Assert.False(viewModel.Interface.ShowKeyHints);
-            Assert.False(mainWindow.GetVisualDescendants().OfType<ProjectTreeView>().First().HintStrip.IsVisible);
+            Assert.False(mainWindow.GetVisualDescendants().OfType<TreeViewProject>().First().HintStrip.IsVisible);
         }
     }
 }

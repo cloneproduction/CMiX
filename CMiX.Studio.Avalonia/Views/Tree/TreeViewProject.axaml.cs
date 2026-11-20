@@ -12,7 +12,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class ProjectTreeView : UserControl
+    public partial class TreeViewProject : UserControl
     {
         public const double RowGap = TreeRowMetrics.RowGap;
 
@@ -57,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Views
         // While a grab runs, the view shows the accent frame (GrabFrame).
         internal const string GrabbingClass = "grabbing";
 
-        public ProjectTreeView()
+        public TreeViewProject()
         {
             InitializeComponent();
 
@@ -222,7 +222,7 @@ namespace CMiX.Studio.Avalonia.Views
         // A left click on a row chooses the node, on the release when no drag started.
         // A selection by a program, a list or a peer raises no NodeChosen.
         public static readonly RoutedEvent<NodeChosenEventArgs> NodeChosenEvent =
-            RoutedEvent.Register<ProjectTreeView, NodeChosenEventArgs>(nameof(NodeChosen), RoutingStrategies.Bubble);
+            RoutedEvent.Register<TreeViewProject, NodeChosenEventArgs>(nameof(NodeChosen), RoutingStrategies.Bubble);
 
         public event EventHandler<NodeChosenEventArgs> NodeChosen
         {

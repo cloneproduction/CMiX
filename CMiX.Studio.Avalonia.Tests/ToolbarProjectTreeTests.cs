@@ -312,7 +312,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private sealed class Screen
         {
             public Window Window { get; init; } = null!;
-            public ProjectTreeView View { get; init; } = null!;
+            public TreeViewProject View { get; init; } = null!;
             public Scene Scene { get; init; } = null!;
 
             public Button ButtonOf(string name) => View.GetVisualDescendants().OfType<Button>().First(button => button.Name == name);
@@ -366,7 +366,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private Screen Show(double leftRoom = 0)
         {
             var scene = CreateScene();
-            var view = new ProjectTreeView { DataContext = scene.Tree, Margin = new Thickness(leftRoom, 0, 0, 0) };
+            var view = new TreeViewProject { DataContext = scene.Tree, Margin = new Thickness(leftRoom, 0, 0, 0) };
             var window = TreeTestScreen.Show(view, 400, 900, instant: false, settle: false).Window;
             windows.Add(window);
             Dispatcher.UIThread.RunJobs();
