@@ -61,8 +61,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void CancelEditConnection_Click(object sender, RoutedEventArgs e) => editConnectionButton.Flyout!.Hide();
 
-        // The buttons run the bound command. The Flyout closes after the click, so the command
-        // still finds its content attached.
+        // The Flyout closes after the click, so the bound command still finds its content attached.
         private void HideSyncFlyout_Click(object sender, RoutedEventArgs e) => Dispatcher.UIThread.Post(() => syncButton.Flyout?.Hide());
 
         private void CancelSync_Click(object sender, RoutedEventArgs e) => syncButton.Flyout!.Hide();

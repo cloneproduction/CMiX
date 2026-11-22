@@ -76,8 +76,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 : $"{options.Ip}:{options.Port} db {options.Database}, user {options.User} {_file.Load().Resolve(_store).UserSource}";
         }
 
-        // The boxes show the file content. WithFallbacks fills the empty entries, so TextBoxIP
-        // always gets four parts. User and Password show the file values, never the credential.
+        // The boxes show the file values, never the credential. WithFallbacks gives TextBoxIP its four parts.
         [RelayCommand]
         private void LoadConnection()
         {
