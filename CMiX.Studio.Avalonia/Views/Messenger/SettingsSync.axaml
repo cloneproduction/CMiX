@@ -18,15 +18,15 @@
                         Width="{DynamicResource IndicatorSize}"
                         VerticalAlignment="Center"
                         Height="{DynamicResource IndicatorSize}"
-                        Classes.connected="{Binding IsConnected}"
-                        Classes.unsynced="{Binding !IsInSync}"
-                        Classes.connecting="{Binding Status, Converter={StaticResource SyncStatusIsConnecting}}"
+                        Classes.connected="{Binding Peer.IsConnected}"
+                        Classes.unsynced="{Binding !Peer.IsInSync}"
+                        Classes.connecting="{Binding Peer.Status, Converter={StaticResource SyncStatusIsConnecting}}"
                         Theme="{StaticResource EllipseSyncConnection}" />
                     <TextBlock
                         Margin="4, 0, 0, 0"
                         VerticalAlignment="Center"
                         Foreground="{DynamicResource ForegroundBrush}"
-                        Text="{Binding Status}" />
+                        Text="{Binding Peer.Status}" />
                 </StackPanel>
             </Border>
         </ui:ContentCaptioned>
@@ -37,8 +37,8 @@
 
             Foreground="{DynamicResource PopupCardDangerBrush}"
             TextWrapping="Wrap"
-            Text="{Binding ErrorMessage}"
-            IsVisible="{Binding ErrorMessage, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}" />
+            Text="{Binding Peer.ErrorMessage}"
+            IsVisible="{Binding Peer.ErrorMessage, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}" />
 
         <!-- The single entry point for resolving an out-of-sync state: plain and inert while in
              sync, becomes clickable once not - clicking opens the Push/Pull/Cancel Flyout below. -->
@@ -54,23 +54,23 @@
             <Button
                 Grid.Column="1"
                 x:Name="syncButton"
-                IsEnabled="{Binding !IsInSync}">
+                IsEnabled="{Binding !Peer.IsInSync}">
                 <StackPanel Orientation="Horizontal">
                     <Ellipse
                         Width="{DynamicResource IndicatorSize}"
                         Height="{DynamicResource IndicatorSize}"
                         Margin="0,0,4,0"
-                        Classes.insync="{Binding IsInSync}"
+                        Classes.insync="{Binding Peer.IsInSync}"
                         Theme="{StaticResource EllipseSyncState}" />
                     <TextBlock
                         VerticalAlignment="Center"
                         Foreground="{DynamicResource ForegroundBrush}"
-                        IsVisible="{Binding IsInSync}"
+                        IsVisible="{Binding Peer.IsInSync}"
                         Text="In sync" />
                     <TextBlock
                         VerticalAlignment="Center"
                         Foreground="{DynamicResource ForegroundBrush}"
-                        IsVisible="{Binding !IsInSync}"
+                        IsVisible="{Binding !Peer.IsInSync}"
                         Text="Not in sync" />
                 </StackPanel>
 
@@ -96,17 +96,17 @@
                                     Grid.Column="0"
                                     Margin="0,0,4,0"
                                     Click="Push_Click"
-                                    Command="{Binding PushCommand}"
+                                    Command="{Binding Peer.PushCommand}"
                                     Content="Push"
-                                    IsEnabled="{Binding IsConnected}"
+                                    IsEnabled="{Binding Peer.IsConnected}"
                                     ToolTip.Tip="Push: send the loaded project to Redis and all engines" />
                                 <Button
                                     Grid.Column="1"
                                     Margin="4,0"
                                     Click="Pull_Click"
-                                    Command="{Binding PullCommand}"
+                                    Command="{Binding Peer.PullCommand}"
                                     Content="Pull"
-                                    IsEnabled="{Binding !IsJoined}"
+                                    IsEnabled="{Binding !Peer.IsJoined}"
                                     ToolTip.Tip="Pull: replace the loaded project with the Redis state. Available while not in sync." />
                                 <Button
                                     Grid.Column="2"
@@ -124,6 +124,7 @@
         <ui:ContentCaptioned Caption="Redis">
             <TextBlock
                 x:Name="endpointText"
+                Text="{Binding EndpointText}"
                 VerticalAlignment="Center"
                 Foreground="{DynamicResource ForegroundBrush}" />
         </ui:ContentCaptioned>
@@ -134,6 +135,7 @@
             Content="Connection">
             <Button.Flyout>
                 <Flyout
+                    Opened="EditConnectionFlyout_Opened"
                     Placement="Pointer"
                     FlyoutPresenterTheme="{StaticResource FlyoutPresenterPanel}">
                     <i:Interaction.Behaviors>
@@ -145,36 +147,36 @@
                         <TextBlock Text="Connection Settings"
                                    Margin="0, 0, 0, 8"/>
 
-                        <ui:TextBoxIP x:Name="ipBox"/>
+                        <ui:TextBoxIP x:Name="ipBox" IPAddress="{Binding Ip, Mode=TwoWay}"/>
 
                         <ui:ContentCaptioned Caption="Port">
-                            <TextBox x:Name="portBox" />
+                            <TextBox x:Name="portBox" Text="{Binding Port}" />
                         </ui:ContentCaptioned>
 
                         <ui:ContentCaptioned Caption="Database">
-                            <TextBox x:Name="databaseBox" />
+                            <TextBox x:Name="databaseBox" Text="{Binding Database}" />
                         </ui:ContentCaptioned>
 
-                        <ui:ToggleButtonCaptioned x:Name="useCredentialManagerBox" Caption="Use Credential Manager" />
+                        <ui:ToggleButtonCaptioned x:Name="useCredentialManagerBox" Caption="Use Credential Manager" IsChecked="{Binding UseCredentialManager}" />
 
                         <ui:ContentCaptioned Caption="Credential Name">
-                            <TextBox x:Name="credentialNameBox" />
+                            <TextBox x:Name="credentialNameBox" Text="{Binding CredentialName}" />
                         </ui:ContentCaptioned>
 
                         <ui:ContentCaptioned Caption="User">
-                            <TextBox Grid.Column="1" x:Name="userBox" />
+                            <TextBox Grid.Column="1" x:Name="userBox" Text="{Binding User}" IsEnabled="{Binding IsUserEditable}" />
                         </ui:ContentCaptioned>
 
                         <ui:ContentCaptioned Caption="Password">
-                            <TextBox Grid.Column="1" x:Name="passwordBox" PasswordChar="*" />
+                            <TextBox Grid.Column="1" x:Name="passwordBox" PasswordChar="*" Text="{Binding Password}" IsEnabled="{Binding IsUserEditable}" />
                         </ui:ContentCaptioned>
 
                         <ui:ContentCaptioned Caption="Key Prefix">
-                            <TextBox Grid.Column="1" x:Name="keyPrefixBox" />
+                            <TextBox Grid.Column="1" x:Name="keyPrefixBox" Text="{Binding KeyPrefix}" />
                         </ui:ContentCaptioned>
 
                         <ui:ContentCaptioned Caption="Peer Name">
-                            <TextBox Grid.Column="1" x:Name="peerNameBox" />
+                            <TextBox Grid.Column="1" x:Name="peerNameBox" Text="{Binding PeerName}" />
                         </ui:ContentCaptioned>
 
                         <!-- Reserves space so the popup does not resize when a message appears. -->
@@ -182,6 +184,7 @@
                             <TextBlock
                                 
                                 x:Name="errorText"
+                                Text="{Binding ErrorText}"
                                 Margin="0,4"
                                 Foreground="{DynamicResource PopupCardDangerBrush}"
                                 TextWrapping="Wrap" />
@@ -191,8 +194,8 @@
                             <Button
                                 x:Name="connectButton"
                                 Margin="0,0,4,0"
-                                Click="Connect_Click"
-                                Content="{Binding Status, Converter={StaticResource SyncStatusConnectText}}" />
+                                Command="{Binding ConnectCommand}"
+                                Content="{Binding Peer.Status, Converter={StaticResource SyncStatusConnectText}}" />
                             <Button
                                 Margin="4,0,0,0"
                                 Click="CancelEditConnection_Click"

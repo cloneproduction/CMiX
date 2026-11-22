@@ -4,6 +4,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using CMiX.Core.Networking;
+using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.Boolean;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var peer = provider.GetRequiredService<SyncPeer>();
-            var view = new SettingsSync { DataContext = peer };
+            var view = new SettingsSync { DataContext = provider.GetRequiredService<SettingsSyncViewModel>() };
             var window = new Window { Content = view, Width = 400, Height = 600 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
@@ -65,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var peer = provider.GetRequiredService<SyncPeer>();
-            var view = new SettingsSync { DataContext = peer };
+            var view = new SettingsSync { DataContext = provider.GetRequiredService<SettingsSyncViewModel>() };
             var window = new Window { Content = view, Width = 400, Height = 600 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

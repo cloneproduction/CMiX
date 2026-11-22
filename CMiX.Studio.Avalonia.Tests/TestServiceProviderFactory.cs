@@ -31,6 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests
             serviceCollection.AddSingleton<MainWindowController>();
             serviceCollection.AddSingleton<MainMenuViewModel>();
             serviceCollection.AddSingleton<ProjectFileViewModel>();
+            serviceCollection.AddSingleton<SettingsSyncViewModel>();
             serviceCollection.AddSingleton(ProjectSession.Create);
             serviceCollection.AddSingleton<UnsavedChanges>();
             serviceCollection.AddSingleton<FakeUnsavedChangesPrompt>();

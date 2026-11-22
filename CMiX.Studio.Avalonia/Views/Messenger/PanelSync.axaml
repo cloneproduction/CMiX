@@ -12,7 +12,7 @@
 
         <Views:SettingsSync />
 
-        <ui:ExpanderIndented Header="Peers">
+        <ui:ExpanderIndented Header="Peers" DataContext="{Binding Peer}">
             <StackPanel>
                 <Grid Margin="8,8,8,0">
                     <Grid.ColumnDefinitions>
@@ -96,7 +96,7 @@
             </StackPanel>
         </ui:ExpanderIndented>
 
-        <ui:ExpanderIndented Header="Statistics">
+        <ui:ExpanderIndented Header="Statistics" DataContext="{Binding Peer}">
             <StackPanel Margin="8">
                 <Grid
                     Height="{DynamicResource ControlHeightMD}"

@@ -10,6 +10,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.UI.Controls.Collection;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -124,6 +125,22 @@ namespace CMiX.Studio.Avalonia.Tests
             var list = view.GetVisualDescendants().OfType<ListBoxRepository>().Single();
 
             Assert.Same(manager.RemoveEverywhereCommand, list.DeleteCommand);
+        }
+
+        [AvaloniaFact]
+        public void SettingsSync_ConnectButton_HoldsTheConnectCommand()
+        {
+            var viewModel = TestServiceProviderFactory.Create().GetRequiredService<SettingsSyncViewModel>();
+            var view = new Views.SettingsSync { DataContext = viewModel };
+            Show(view);
+            var editButton = view.FindControl<Button>("editConnectionButton")!;
+            editButton.Flyout!.ShowAt(editButton);
+            Dispatcher.UIThread.RunJobs();
+
+            var button = view.FindControl<Button>("connectButton")!;
+
+            Assert.Same(viewModel.ConnectCommand, button.Command);
+            editButton.Flyout.Hide();
         }
     }
 }

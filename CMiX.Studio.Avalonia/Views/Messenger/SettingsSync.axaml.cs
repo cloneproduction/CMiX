@@ -3,14 +3,11 @@
 
 using System;
 using System.ComponentModel;
-using System.Globalization;
-using System.IO;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using CMiX.Core.Networking;
-using CMiX.Studio.Avalonia.Services;
-using CMiX.UI.Controls.Boolean;
+using CMiX.Studio.Avalonia.ViewModels;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -19,32 +16,34 @@ namespace CMiX.Studio.Avalonia.Views
         public SettingsSync()
         {
             InitializeComponent();
-            editConnectionButton.Flyout!.Opened += EditConnectionFlyout_Opened;
-            useCredentialManagerBox.PropertyChanged += (s, e) =>
-            {
-                if (e.Property == ToggleButtonCaptioned.IsCheckedProperty)
-                    UpdateCredentialBoxes();
-            };
-            credentialNameBox.TextChanged += (s, e) => UpdateCredentialBoxes();
         }
 
-        private readonly WindowsCredentialStore _store = new();
-        private SyncPeer Peer => (SyncPeer)DataContext!;
-        private SyncPeer? _subscribedPeer;
+        private SettingsSyncViewModel? _viewModel;
 
         protected override void OnDataContextChanged(EventArgs e)
         {
             base.OnDataContextChanged(e);
 
-            if (_subscribedPeer != null)
-                _subscribedPeer.PropertyChanged -= Peer_PropertyChanged;
-            _subscribedPeer = null;
+            if (_viewModel != null)
+                Unhook(_viewModel);
+            _viewModel = DataContext as SettingsSyncViewModel;
 
-            if (DataContext is not SyncPeer peer) return;
+            if (_viewModel == null) return;
 
-            peer.PropertyChanged += Peer_PropertyChanged;
-            _subscribedPeer = peer;
-            ShowEndpoint(peer);
+            Hook(_viewModel);
+            _viewModel.ShowEndpointCommand.Execute(null);
+        }
+
+        private void Hook(SettingsSyncViewModel viewModel)
+        {
+            viewModel.Peer.PropertyChanged += Peer_PropertyChanged;
+            viewModel.ConnectionApplied += ViewModel_ConnectionApplied;
+        }
+
+        private void Unhook(SettingsSyncViewModel viewModel)
+        {
+            viewModel.Peer.PropertyChanged -= Peer_PropertyChanged;
+            viewModel.ConnectionApplied -= ViewModel_ConnectionApplied;
         }
 
         private void Peer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -56,86 +55,9 @@ namespace CMiX.Studio.Avalonia.Views
                 syncButton.Flyout?.Hide();
         }
 
-        // The endpoint line shows the options of the running peer.
-        private void ShowEndpoint(SyncPeer peer)
-        {
-            var options = peer.Options;
-            endpointText.Text = options == null
-                ? string.Empty
-                : $"{options.Ip}:{options.Port} db {options.Database}, user {options.User} {StudioSettings.Load().Resolve(_store).UserSource}";
-        }
+        private void ViewModel_ConnectionApplied(object? sender, EventArgs e) => editConnectionButton.Flyout!.Hide();
 
-        private void UpdateCredentialBoxes()
-        {
-            var useCredential = useCredentialManagerBox.IsChecked == true && !string.IsNullOrEmpty(credentialNameBox.Text);
-            userBox.IsEnabled = !useCredential;
-            passwordBox.IsEnabled = !useCredential;
-        }
-
-        // The boxes show the file content. WithFallbacks fills the empty entries, so TextBoxIP
-        // always gets four parts. User and Password show the file values, never the credential.
-        private void EditConnectionFlyout_Opened(object? sender, EventArgs e)
-        {
-            var settings = StudioSettings.Load();
-            var options = settings.ToSyncOptions();
-            ipBox.IPAddress = options.Ip;
-            portBox.Text = options.Port.ToString(CultureInfo.InvariantCulture);
-            databaseBox.Text = options.Database.ToString(CultureInfo.InvariantCulture);
-            userBox.Text = options.User;
-            passwordBox.Text = options.Password;
-            keyPrefixBox.Text = options.KeyPrefix;
-            peerNameBox.Text = options.PeerName;
-            useCredentialManagerBox.IsChecked = settings.Redis.UseCredentialManager;
-            credentialNameBox.Text = settings.Redis.CredentialName;
-            UpdateCredentialBoxes();
-            errorText.Text = string.Empty;
-        }
-
-        private void Connect_Click(object sender, RoutedEventArgs e)
-        {
-            if (!TryReadInt(portBox.Text, 1, out var port))
-            {
-                errorText.Text = "The port must be a whole number above zero.";
-                return;
-            }
-
-            if (!TryReadInt(databaseBox.Text, 0, out var database))
-            {
-                errorText.Text = "The database must be a whole number of zero or more.";
-                return;
-            }
-
-            var edited = new SyncOptions(ipBox.IPAddress, port, database, userBox.Text ?? string.Empty,
-                passwordBox.Text ?? string.Empty, keyPrefixBox.Text ?? string.Empty,
-                peerNameBox.Text ?? string.Empty, "studio");
-            var settings = StudioSettings.FromSyncOptions(edited);
-            settings.Redis.UseCredentialManager = useCredentialManagerBox.IsChecked == true;
-            settings.Redis.CredentialName = credentialNameBox.Text ?? string.Empty;
-            // The file also holds the interface settings. They stay as they are.
-            settings.Interface = StudioSettings.Load().Interface ?? new InterfaceSettings();
-
-            try
-            {
-                settings.Save();
-            }
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-            {
-                errorText.Text = ex.Message;
-                return;
-            }
-
-            errorText.Text = string.Empty;
-
-            // Both calls return at once. The peer connects on a background task.
-            var peer = Peer;
-            peer.Stop();
-            peer.Start(settings.Resolve(_store).Options);
-            ShowEndpoint(peer);
-            editConnectionButton.Flyout!.Hide();
-        }
-
-        private static bool TryReadInt(string? text, int minimum, out int value) =>
-            int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out value) && value >= minimum;
+        private void EditConnectionFlyout_Opened(object? sender, EventArgs e) => _viewModel?.LoadConnectionCommand.Execute(null);
 
         private void CancelEditConnection_Click(object sender, RoutedEventArgs e) => editConnectionButton.Flyout!.Hide();
 

@@ -182,7 +182,7 @@
                 </TabItem.Header>
 
                 <ScrollViewer Theme="{StaticResource ScrollViewerOverlayKeepOffset}">
-                    <Views:PanelSyncManagement DataContext="{Binding Sync}" />
+                    <Views:PanelSyncManagement DataContext="{Binding SettingsSync}" />
                 </ScrollViewer>
 
             </TabItem>

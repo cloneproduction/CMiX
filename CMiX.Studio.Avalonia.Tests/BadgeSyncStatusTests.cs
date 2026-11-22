@@ -4,6 +4,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Networking;
+using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -19,9 +20,10 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void TheIndicator_ShowsTheStatusOfThePeerOnce_LikeTheNetworkTab()
         {
-            var peer = TestServiceProviderFactory.Create().GetRequiredService<SyncPeer>();
+            var provider = TestServiceProviderFactory.Create();
+            var peer = provider.GetRequiredService<SyncPeer>();
             var indicator = new BadgeSyncStatus { DataContext = peer };
-            var network = new SettingsSync { DataContext = peer };
+            var network = new SettingsSync { DataContext = provider.GetRequiredService<SettingsSyncViewModel>() };
             new Window { Content = new StackPanel { Children = { indicator, network } }, Width = 400, Height = 600 }.Show();
             Dispatcher.UIThread.RunJobs();
 
