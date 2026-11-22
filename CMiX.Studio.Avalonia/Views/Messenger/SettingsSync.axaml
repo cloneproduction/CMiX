@@ -95,7 +95,7 @@
                                 <Button
                                     Grid.Column="0"
                                     Margin="0,0,4,0"
-                                    Click="Push_Click"
+                                    Click="HideSyncFlyout_Click"
                                     Command="{Binding Peer.PushCommand}"
                                     Content="Push"
                                     IsEnabled="{Binding Peer.IsConnected}"
@@ -103,7 +103,7 @@
                                 <Button
                                     Grid.Column="1"
                                     Margin="4,0"
-                                    Click="Pull_Click"
+                                    Click="HideSyncFlyout_Click"
                                     Command="{Binding Peer.PullCommand}"
                                     Content="Pull"
                                     IsEnabled="{Binding !Peer.IsJoined}"

@@ -63,12 +63,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         // The buttons run the bound command. The Flyout closes after the click, so the command
         // still finds its content attached.
-        private void Push_Click(object sender, RoutedEventArgs e) => HideSyncFlyout();
-
-        private void Pull_Click(object sender, RoutedEventArgs e) => HideSyncFlyout();
+        private void HideSyncFlyout_Click(object sender, RoutedEventArgs e) => Dispatcher.UIThread.Post(() => syncButton.Flyout?.Hide());
 
         private void CancelSync_Click(object sender, RoutedEventArgs e) => syncButton.Flyout!.Hide();
-
-        private void HideSyncFlyout() => Dispatcher.UIThread.Post(() => syncButton.Flyout?.Hide());
     }
 }
