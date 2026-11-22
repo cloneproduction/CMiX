@@ -100,14 +100,12 @@ namespace CMiX.Studio.Avalonia.Tests
             button.Flyout!.ShowAt(button);
             TestServiceProviderFactory.Pump();
             var errorText = view.FindControl<TextBlock>("errorText")!;
-            var errorPanel = (StackPanel)errorText.Parent!;
-            Assert.False(errorPanel.IsVisible);
 
             viewModel.Port = "abc";
             viewModel.ConnectCommand.Execute(null);
             TestServiceProviderFactory.Pump();
 
-            Assert.True(errorPanel.IsVisible);
+            Assert.True(errorText.IsEffectivelyVisible);
             Assert.Equal("The port must be a whole number above zero.", errorText.Text);
 
             button.Flyout.Hide();
@@ -116,7 +114,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void LoadConnection_AfterAnError_HidesTheErrorText()
+        public void LoadConnection_AfterAnError_ClearsTheErrorText()
         {
             var provider = TestServiceProviderFactory.Create();
             var peer = provider.GetRequiredService<SyncPeer>();
@@ -129,16 +127,18 @@ namespace CMiX.Studio.Avalonia.Tests
             var button = view.FindControl<Button>("editConnectionButton")!;
             button.Flyout!.ShowAt(button);
             TestServiceProviderFactory.Pump();
-            var errorPanel = (StackPanel)view.FindControl<TextBlock>("errorText")!.Parent!;
+            var errorText = view.FindControl<TextBlock>("errorText")!;
+            var errorPanel = (StackPanel)errorText.Parent!;
             viewModel.Port = "abc";
             viewModel.ConnectCommand.Execute(null);
             TestServiceProviderFactory.Pump();
-            Assert.True(errorPanel.IsVisible);
+            Assert.NotEmpty(errorText.Text!);
 
             viewModel.LoadConnectionCommand.Execute(null);
             TestServiceProviderFactory.Pump();
 
-            Assert.False(errorPanel.IsVisible);
+            Assert.Empty(errorText.Text!);
+            Assert.True(errorPanel.Bounds.Height >= 40);
 
             button.Flyout.Hide();
             peer.Dispose();
