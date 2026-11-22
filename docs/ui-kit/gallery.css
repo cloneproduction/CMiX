@@ -324,3 +324,10 @@ body {
 .g-cstep > small { font: 400 10px/12px var(--c-mono); color: var(--c-mute); white-space: nowrap; }
 .g-clist { margin: 4px 0 0; padding-left: 18px; font: 400 12px/18px var(--c-sans); color: var(--c-text); max-width: 900px; }
 .g-clist b { color: var(--c-ink); font-weight: 600; }
+
+/* ------------------------------------------------------------------ a long note shows its first lines; a click opens it */
+.g-clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; cursor: pointer; }
+.g-samplenote.g-clamp, .g-note.g-clamp, .g-clist > li.g-clamp { -webkit-line-clamp: 1; }
+.g-clist > li.g-clamp { display: list-item; white-space: nowrap; text-overflow: ellipsis; }
+.g-clamp.g-open { -webkit-line-clamp: unset; white-space: normal; }
+.g-sample > .g-sublabel > .g-samplenote { flex: 1; min-width: 0; }

@@ -812,5 +812,13 @@
     window.addEventListener('hashchange', function () { fromAddress(true); });
     window.addEventListener('popstate', function () { fromAddress(true); });
 
+    /* A long note shows its first lines. The full text is in the tooltip, and a click opens or closes it. */
+    Array.prototype.forEach.call(document.querySelectorAll('.g-note, .g-cnote, .g-samplenote, .g-cmeaning, .g-cintro, .g-clist > li'), function (n) {
+        if (!n.textContent) return;
+        n.classList.add('g-clamp');
+        n.title = n.textContent;
+        n.addEventListener('click', function (e) { e.stopPropagation(); n.classList.toggle('g-open'); });
+    });
+
     fromAddress(false);
 })();
