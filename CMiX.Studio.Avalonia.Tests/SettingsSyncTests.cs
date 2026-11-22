@@ -84,5 +84,65 @@ namespace CMiX.Studio.Avalonia.Tests
             peer.Dispose();
             window.Close();
         }
+
+        [AvaloniaFact]
+        public void Connect_ABadPort_ShowsTheErrorText()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var peer = provider.GetRequiredService<SyncPeer>();
+            var viewModel = provider.GetRequiredService<SettingsSyncViewModel>();
+            var view = new SettingsSync { DataContext = viewModel };
+            var window = new Window { Content = view, Width = 400, Height = 600 };
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            var button = view.FindControl<Button>("editConnectionButton")!;
+            button.Flyout!.ShowAt(button);
+            TestServiceProviderFactory.Pump();
+            var errorText = view.FindControl<TextBlock>("errorText")!;
+            var errorPanel = (StackPanel)errorText.Parent!;
+            Assert.False(errorPanel.IsVisible);
+
+            viewModel.Port = "abc";
+            viewModel.ConnectCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
+
+            Assert.True(errorPanel.IsVisible);
+            Assert.Equal("The port must be a whole number above zero.", errorText.Text);
+
+            button.Flyout.Hide();
+            peer.Dispose();
+            window.Close();
+        }
+
+        [AvaloniaFact]
+        public void LoadConnection_AfterAnError_HidesTheErrorText()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var peer = provider.GetRequiredService<SyncPeer>();
+            var viewModel = provider.GetRequiredService<SettingsSyncViewModel>();
+            var view = new SettingsSync { DataContext = viewModel };
+            var window = new Window { Content = view, Width = 400, Height = 600 };
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            var button = view.FindControl<Button>("editConnectionButton")!;
+            button.Flyout!.ShowAt(button);
+            TestServiceProviderFactory.Pump();
+            var errorPanel = (StackPanel)view.FindControl<TextBlock>("errorText")!.Parent!;
+            viewModel.Port = "abc";
+            viewModel.ConnectCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
+            Assert.True(errorPanel.IsVisible);
+
+            viewModel.LoadConnectionCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
+
+            Assert.False(errorPanel.IsVisible);
+
+            button.Flyout.Hide();
+            peer.Dispose();
+            window.Close();
+        }
     }
 }

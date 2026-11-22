@@ -180,7 +180,7 @@
                         </ui:ContentCaptioned>
 
                         <!-- Reserves space so the popup does not resize when a message appears. -->
-                        <StackPanel IsVisible="False" MinHeight="40">
+                        <StackPanel IsVisible="{Binding ErrorText, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}" MinHeight="40">
                             <TextBlock
                                 
                                 x:Name="errorText"
