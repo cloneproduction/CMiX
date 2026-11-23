@@ -19,8 +19,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         // The release of a grab click must not reach a row.
         private bool releasePending;
 
-        public bool IsAttached => top != null;
-
         private ListTreeGrab Grab => Part<ListTreeGrab>();
 
         protected override void OnUnwatch() => DetachFromWindow();
@@ -28,6 +26,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         public void AttachToWindow(TopLevel window)
         {
             top = window;
+            Context.InputOwner = ListTreeInputOwner.Grab;
             window.AddHandler(InputElement.KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel);
             window.AddHandler(InputElement.PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel);
             window.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
@@ -63,6 +62,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 closable.Closed -= OnDeactivated;
             top = null;
             releasePending = false;
+            Context.InputOwner = ListTreeInputOwner.None;
         }
 
         private void OnKeyDown(object? sender, KeyEventArgs e)
@@ -101,7 +101,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void OnPointerMoved(object? sender, PointerEventArgs e)
         {
             if (Grab.IsGrabbing)
-                Grab.TrackPointer(e.GetPosition(Context.Rows), e.GetPosition(Context.Scroller));
+                Grab.TrackPointer(e.GetPosition(Context.Scroller));
         }
 
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)

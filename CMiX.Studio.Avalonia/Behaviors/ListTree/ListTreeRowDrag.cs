@@ -74,14 +74,12 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             pressed = null;
-            if (tree is not { } pressedTree || Session.IsRunning || Part<ListTreeGrab>().HoldsThePointer || !e.GetCurrentPoint(Rows).Properties.IsLeftButtonPressed || ListTreeRowClick.IsEditor(e.Source))
+            if (tree is not { } pressedTree || Session.IsRunning || Context.InputOwner != ListTreeInputOwner.None || !e.GetCurrentPoint(Rows).Properties.IsLeftButtonPressed || ListTreeRowClick.IsEditor(e.Source))
                 return;
 
             if (ListTreeRowClick.RowOf(e.Source) is { DataContext: TreeNode node, Place: { } place } && pressedTree.CanDrag(node))
-                pressed = new PressedRow(node, PressOf(PointOf(e), place));
+                pressed = new PressedRow(node, ListTreePress.At(PointOf(e), place));
         }
-
-        private static ListTreePress PressOf(ListTreePoint point, ListTreePlace place) => new(point, point.Y - place.Y, place.Depth);
 
         private void OnPointerMoved(object? sender, PointerEventArgs e)
         {
@@ -104,6 +102,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
 
             pointer = captured;
+            Context.InputOwner = ListTreeInputOwner.Drag;
             captured.Capture(Scroller);
             Session.Track(point);
         }
@@ -126,7 +125,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void OnScrollChanged(object? sender, ScrollChangedEventArgs e)
         {
             if (IsDragging)
-                Session.Track(new ListTreePoint(lastInScroller.X - Rows.Bounds.X, lastInScroller.Y + Scroller.Offset.Y - Rows.Bounds.Y));
+                Session.Track(Context.ToRows(lastInScroller));
         }
 
         private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e) => Cancel();
@@ -145,15 +144,13 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         {
             var captured = pointer;
             pointer = null;
+            if (captured != null)
+                Context.InputOwner = ListTreeInputOwner.None;
             if (ReferenceEquals(captured?.Captured, Scroller))
                 captured.Capture(null);
         }
 
-        private ListTreePoint PointOf(PointerEventArgs e)
-        {
-            var point = e.GetPosition(Rows);
-            return new ListTreePoint(point.X, point.Y);
-        }
+        private ListTreePoint PointOf(PointerEventArgs e) => Context.ToRows(e.GetPosition(Scroller));
 
         private sealed record PressedRow(TreeNode Node, ListTreePress Press);
     }

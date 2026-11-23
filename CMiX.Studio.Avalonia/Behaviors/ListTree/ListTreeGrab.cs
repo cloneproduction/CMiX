@@ -20,22 +20,22 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         private ProjectTree? tree;
         private bool isMarkFromKey;
-        private Point keyMovePoint;
-        private Point lastPointer;
+        private ListTreePoint keyMovePoint = new(0, 0);
+        private ListTreePoint lastPointer = new(0, 0);
 
         // A right click asks for a menu on the release.
         private bool menuBlocked;
 
-        public bool IsGrabbing => Input.IsAttached && Session.IsRunning;
-
-        // Until the release of the last grab click, no press starts a pointer drag.
-        public bool HoldsThePointer => Input.IsAttached;
+        public bool IsGrabbing => HoldsTheInput && Session.IsRunning;
 
         internal ListTreeDrag? Drag => IsGrabbing ? Session.Drag : null;
 
         private ListTreeDragSession Session => Part<ListTreeDragSession>();
 
         private ListTreeGrabInput Input => Part<ListTreeGrabInput>();
+
+        // Until the release of the last grab click, no press starts a pointer drag.
+        private bool HoldsTheInput => Context.InputOwner == ListTreeInputOwner.Grab;
 
         private PanelListTreeRows Rows => Context.Rows;
 
@@ -61,12 +61,12 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         public void Start(TreeNode node)
         {
-            if (Input.IsAttached || Session.IsRunning || tree is not { } project || !project.CanDrag(node)
+            if (Context.InputOwner != ListTreeInputOwner.None || Session.IsRunning || tree is not { } project || !project.CanDrag(node)
                 || TopLevel.GetTopLevel(Context.Owner) is not { } window || PlaceOf(node) is not { } place)
                 return;
 
-            var pointer = PointerInRows();
-            Session.Begin(node, PressAt(pointer, place));
+            var pointer = Context.ToRows(Part<ListTreeLastPointer>().Last);
+            Session.Begin(node, ListTreePress.AtMiddleOf(place, pointer.X));
             if (!Session.IsRunning)
                 return;
 
@@ -75,14 +75,14 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             lastPointer = pointer;
             menuBlocked = false;
             Input.AttachToWindow(window);
-            ShowAt(StartIndex());
+            ShowAt(Session.Drag is { } drag ? ListTreeGrabSteps.StartIndexOf(drag) : -1);
             ShowGrabbing();
         }
 
         // Every row goes back to its place, and nothing moves.
         public void Cancel()
         {
-            if (Input.IsAttached)
+            if (HoldsTheInput)
                 Session.Cancel();
         }
 
@@ -93,9 +93,17 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Input.DetachFromWindow();
         }
 
-        public void StepUp() => Step(-1);
+        public void StepUp()
+        {
+            if (Session.Drag is { Candidates.Count: > 0 } drag)
+                StepTo(ListTreeGrabSteps.IndexAbove(drag));
+        }
 
-        public void StepDown() => Step(1);
+        public void StepDown()
+        {
+            if (Session.Drag is { Candidates.Count: > 0 } drag)
+                StepTo(ListTreeGrabSteps.IndexBelow(drag));
+        }
 
         // At the start place a confirm ends the grab with no move, as in Blender.
         public void Confirm()
@@ -116,10 +124,11 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 Session.Drop();
         }
 
-        public void TrackPointer(Point inRows, Point inScroller)
+        public void TrackPointer(Point inScroller)
         {
+            var inRows = Context.ToRows(inScroller);
             lastPointer = inRows;
-            if (isMarkFromKey && ((Vector)(inRows - keyMovePoint)).Length < TreeGrab.MouseTakeOver)
+            if (isMarkFromKey && ListTreeGrabTakeOver.KeepsTheKeyMark(keyMovePoint, inRows, TreeGrab.MouseTakeOver))
                 return;
 
             isMarkFromKey = false;
@@ -127,7 +136,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             if (!new Rect(Context.Scroller.Bounds.Size).Contains(inScroller))
                 return;
 
-            Session.Track(new ListTreePoint(inRows.X, inRows.Y));
+            Session.Track(inRows);
             Part<ListTreeAutoScroll>().Track(inScroller.Y);
         }
 
@@ -137,45 +146,11 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             return Rows.RowOf(node)?.Place;
         }
 
-        private Point PointerInRows()
+        private void StepTo(int index)
         {
-            var last = Part<ListTreeLastPointer>().Last;
-            return Context.Scroller.TranslatePoint(last, Rows) ?? last;
-        }
-
-        // The press is at the middle of the row, so the row follows the pointer to the place under it.
-        private static ListTreePress PressAt(Point pointer, ListTreePlace place) =>
-            new(new ListTreePoint(pointer.X, place.Y + place.RowHeight / 2), place.RowHeight / 2, place.Depth);
-
-        private int StartIndex() =>
-            Session.Drag is { } drag ? IndexOf(drag, candidate => ReferenceEquals(candidate.Slot.Target, drag.Node)) : -1;
-
-        private static int IndexOf(ListTreeDrag drag, Func<ListTreeCandidate, bool> match)
-        {
-            for (var i = 0; i < drag.Candidates.Count; i++)
-                if (match(drag.Candidates[i]))
-                    return i;
-
-            return -1;
-        }
-
-        private int ShownIndex(ListTreeDrag drag)
-        {
-            var index = drag.Look is { } look ? IndexOf(drag, candidate => candidate.Slot == look.Candidate.Slot) : -1;
-            return index >= 0 ? index : StartIndex();
-        }
-
-        // The candidates are in tree order, and a step stops at the first and at the last.
-        private void Step(int direction)
-        {
-            if (Session.Drag is not { Candidates.Count: > 0 } drag)
-                return;
-
-            var index = ShownIndex(drag);
-            var last = drag.Candidates.Count - 1;
             isMarkFromKey = true;
             keyMovePoint = lastPointer;
-            ShowAt(direction > 0 ? Math.Min(index + 1, last) : index < 0 ? last : Math.Max(index - 1, 0));
+            ShowAt(index);
         }
 
         private void ShowAt(int index)
@@ -191,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         // A drop, a cancel and a cancel from the tree all end the session.
         private void OnSessionEnded(object? sender, EventArgs e)
         {
-            if (!Input.IsAttached)
+            if (!HoldsTheInput)
                 return;
 
             isMarkFromKey = false;

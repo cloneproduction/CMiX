@@ -13,6 +13,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // The key is the gesture that opens the card at once.
         public static string OfNearCard(ListTreeDragLook look, TreeNode card, string key) => $"{Of(look)} {key} opens {card.Header} now.";
 
+        // With no near card or no key, the note is the plain note.
+        public static string WithNearCard(ListTreeDragLook look, TreeNode? card, string? key) =>
+            card != null && key != null ? OfNearCard(look, card, key) : Of(look);
+
         private static string NameOf(ListTreeDragLook look) => look.HolderNode?.Header ?? "the project";
     }
 }

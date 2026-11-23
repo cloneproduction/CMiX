@@ -27,6 +27,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             Press = press;
         }
 
+        // The pressed row and the selected rows that go with it, with the candidates of the live tree.
+        public static ListTreeDrag Start(ProjectTree tree, TreeNode pressed, ListTreePress press, ListTreePick pick, ListTreeSizes sizes)
+        {
+            var service = tree.DropService;
+            var snapshot = ListTreeSnapshot.Of(tree.Roots);
+            var nodes = ListTreeDragNodes.Of(snapshot, pressed, tree.SelectedNodes);
+            var drag = new ListTreeDrag(new ListTreeCandidates(new ListTreeSlots(service), service, sizes), pick, nodes, press);
+            drag.MakeCandidates(snapshot);
+            return drag;
+        }
+
         public ListTreeDragNodes Nodes { get; }
 
         // The pressed row.

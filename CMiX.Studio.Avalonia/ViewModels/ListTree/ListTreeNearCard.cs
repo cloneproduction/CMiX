@@ -31,6 +31,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return near;
         }
 
+        // A key puts the dragged row at the place of the candidate, with no pointer.
+        public static TreeNode? OfKey(ListTreeDragLook look, ListTreePress press) =>
+            Of(look, press, new ListTreePoint(press.Pointer.X, look.Candidate.Place.Y + press.GrabOffsetY));
+
         private static bool IsClosedCardWithATarget(ListTreeDragLook look, ListTreeRow row) =>
             !row.IsExpanded && row.Children.Count > 0 && !row.Key.Equals(look.Dragged) && row.Node is { HasDropTargetBelow: true };
     }

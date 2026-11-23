@@ -4,8 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Avalonia.Controls;
-using Avalonia.Input;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -16,11 +14,10 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
     internal sealed class ListTreeDragSession : ListTreeBehavior
     {
         private readonly ListTreePick pick = new(ListTreeDragNumbers.Default);
-        private readonly Cursor moveCursor = new(TreeDragSession.MoveCursorType);
 
         private ProjectTree? tree;
         private ListTreeDrag? drag;
-        private Cursor? cursorBefore;
+        private ListTreeDragScreen? screen;
         private ListTreePoint lastPoint = new(0, 0);
         private IReadOnlyList<ListTreeOpenState> openBefore = Array.Empty<ListTreeOpenState>();
         private ListTreeSlot? keyedSlot;
@@ -40,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         private PanelListTreeRows Rows => Context.Rows;
 
-        private ScrollViewer Scroller => Context.Scroller;
+        private ListTreeDragScreen Screen => screen ??= new ListTreeDragScreen(Context.Scroller, Context.DragNote);
 
         private ListTreeDragRest Rest => Part<ListTreeDragRest>();
 
@@ -62,15 +59,10 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             if (drag != null || tree is not { } dragged)
                 return;
 
-            var service = dragged.DropService;
-            var snapshot = ListTreeSnapshot.Of(dragged.Roots);
-            var nodes = ListTreeDragNodes.Of(snapshot, node, dragged.SelectedNodes);
-            drag = new ListTreeDrag(new ListTreeCandidates(new ListTreeSlots(service), service, Rows.Sizes), pick, nodes, press);
-            openBefore = nodes.Nodes.Select(ListTreeOpenState.Of).ToArray();
+            drag = ListTreeDrag.Start(dragged, node, press, pick, Rows.Sizes);
+            openBefore = drag.Nodes.Nodes.Select(ListTreeOpenState.Of).ToArray();
             dragged.BeginDrag(node);
-            cursorBefore = Scroller.Cursor;
-            Scroller.Cursor = moveCursor;
-            drag.MakeCandidates(snapshot);
+            Screen.ShowMoveCursor();
             Began?.Invoke(this, EventArgs.Empty);
         }
 
@@ -83,7 +75,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             {
                 Rows.ShowLiveTree();
                 Rest.Rest(null);
-                ShowNote(null);
+                Screen.ShowNote(null);
                 return;
             }
 
@@ -92,7 +84,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
             var near = ListTreeNearCard.Of(look, dragging.Press, point);
             Rest.Rest(near);
-            ShowNote(NoteOf(look, near));
+            Screen.ShowNote(NoteOf(look, near));
         }
 
         // The near card of a key waits for the key Tree.Expand: a rest needs the pointer.
@@ -107,17 +99,14 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             if (!ReferenceEquals(look, shown))
                 Rows.ShowDrag(look);
 
-            ShowNote(NoteOf(look, KeyNearCard()));
+            Screen.ShowNote(NoteOf(look, KeyNearCard()));
         }
 
         private TreeNode? KeyNearCard() =>
-            keyedSlot != null && drag is { Look: { } look } keyed ? ListTreeNearCard.Of(look, keyed.Press, AtPlaceOf(keyed.Press, look.Candidate)) : null;
-
-        private static ListTreePoint AtPlaceOf(ListTreePress press, ListTreeCandidate candidate) =>
-            new(press.Pointer.X, candidate.Place.Y + press.GrabOffsetY);
+            keyedSlot != null && drag is { Look: { } look } keyed ? ListTreeNearCard.OfKey(look, keyed.Press) : null;
 
         private string NoteOf(ListTreeDragLook look, TreeNode? near) =>
-            near != null && tree?.Shortcuts["Tree.Expand"] is { } key ? ListTreeDragNote.OfNearCard(look, near, key.ToString()) : ListTreeDragNote.Of(look);
+            ListTreeDragNote.WithNearCard(look, near, tree?.Shortcuts["Tree.Expand"]?.ToString());
 
         private void OnRested(object? sender, EventArgs e) => OpenNearCard();
 
@@ -167,17 +156,10 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Rest.Rest(null);
             Part<ListTreeAutoScroll>().Stop();
             Rows.ShowLiveTree();
-            ShowNote(null);
+            Screen.ShowNote(null);
             tree?.EndDrag();
-            Scroller.Cursor = cursorBefore;
-            cursorBefore = null;
+            Screen.RestoreCursor();
             Ended?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ShowNote(string? text)
-        {
-            Context.DragNote.Text = text;
-            Context.DragNote.IsVisible = text != null;
         }
     }
 }

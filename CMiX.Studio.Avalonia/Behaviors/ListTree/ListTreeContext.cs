@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
@@ -50,6 +51,11 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         public AddPanel AddPanel { get; }
 
         public ListTreeMenuOpen MenuOpen { get; }
+
+        public ListTreeInputOwner InputOwner { get; set; }
+
+        // The offset of the scroller is read now, so the point is right also in a scroll that the layout has not shown yet.
+        public ListTreePoint ToRows(Point inScroller) => new(inScroller.X - Rows.Bounds.X, inScroller.Y + Scroller.Offset.Y - Rows.Bounds.Y);
 
         public T Part<T>() where T : ListTreeBehavior => Interaction.GetBehaviors(Owner).OfType<T>().Single();
     }
