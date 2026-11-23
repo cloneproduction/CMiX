@@ -13,7 +13,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         private readonly IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> liveRows;
         private readonly ListTreeLight light;
         private readonly ListTreeBlock block;
-        private ListTreeDropHolder? holder;
+        private ListTreeRowKey? holder;
+        private bool isHolderRead;
+        private bool? isSameParent;
 
         private ListTreeDragLook(ListTreeCandidate candidate, IReadOnlyList<ListTreeRow> rows, IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> liveRows,
             ListTreeLight light, ListTreeBlock block)
@@ -34,12 +36,26 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         public ListTreeRowKey Dragged => Candidate.Place.Key;
 
-        public ListTreeDropHolder Holder => holder ??= ListTreeDropHolder.Of(liveRows, block.Pressed, Candidate);
-
         // Null for a reorder in the same parent: the moving row shows the place.
-        public TreeNode? DropTarget => Holder.IsSameParent ? null : HolderNode;
+        public TreeNode? DropTarget => IsSameParent ? null : HolderNode;
 
-        public TreeNode? HolderNode => Holder.Key is { } key ? liveRows.GetValueOrDefault(key)?.Node : null;
+        public TreeNode? HolderNode => Holder is { } key ? liveRows.GetValueOrDefault(key)?.Node : null;
+
+        private bool IsSameParent => isSameParent ??= Equals(Dragged.Parent, block.Pressed.Key.Parent);
+
+        private ListTreeRowKey? Holder
+        {
+            get
+            {
+                if (!isHolderRead)
+                {
+                    holder = Candidate.LiveHolderIn(liveRows);
+                    isHolderRead = true;
+                }
+
+                return holder;
+            }
+        }
 
         public static ListTreeDragLook Of(ListTreeSnapshot live, ListTreeRow source, ListTreeCandidate candidate, ListTreeLight light) =>
             Of(live, ListTreeBlock.Of(source), candidate, light);

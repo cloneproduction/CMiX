@@ -202,7 +202,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var look = Show(LookOf(Entity(0), candidate => candidate.Slot.Position == DropPosition.After && ReferenceEquals(candidate.Slot.Target, Entity(1))));
 
-            Assert.True(look.Holder.IsSameParent);
+            Assert.Equal(ListTreeKeys.Of(Entity(0)).Parent, look.Dragged.Parent);
             Assert.Null(Panel.Surfaces.DropTarget);
             Assert.False(Panel.Surfaces.Outline.IsVisible);
         }
