@@ -58,6 +58,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         // The moved tree is made only for the candidate that a drag shows.
         private ListTreeCandidate? CandidateOf(ListTreeSnapshot snapshot, ListTreeCountedTree counted, ListTreeSlot slot) =>
-            counted.PlaceOf(slot) is { } place ? new ListTreeCandidate(slot, place, new ListTreeMovedTree(snapshot, counted.Block, slot, sizes)) : null;
+            counted.PlaceOf(slot) is { } place ? new ListTreeCandidate(slot, place, snapshot, counted.Block, sizes) : null;
     }
 }
