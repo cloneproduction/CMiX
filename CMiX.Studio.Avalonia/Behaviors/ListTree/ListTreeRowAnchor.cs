@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using Avalonia;
+using CMiX.Studio.Avalonia.Views;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // The places of a row of the new tree where a popup opens, as TreeRowAnchor gives them for the old tree.
     internal static class ListTreeRowAnchor
