@@ -11,6 +11,7 @@ using Avalonia.Media;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Themes;
+using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls;
@@ -253,6 +254,37 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(indent, LeftIn(area.Surface, area));
             AssertMark(area.Mark, KindOf(Entities).HoverBorder, indent, area);
             Assert.Equal(area.Place.AreaHeight, area.Mark.Bounds.Height);
+        }
+
+        [AvaloniaFact]
+        public void Place_AReusedCardAreaGetsANewPlace_MovesItsSurfaceToTheNewIndent()
+        {
+            var place = AreaOf(Entities).Place!;
+            var area = new FrameListTreeCard { DataContext = Entities, Place = place };
+            area.ShowMarks(new ListTreeMarks(Layer, null, null));
+            window.Content = area;
+            Settle();
+            var indent = place.Indent + 16;
+
+            area.Place = place with { Indent = indent };
+            Settle();
+
+            Assert.Equal(indent, area.IndentMargin.Left);
+            Assert.Equal(indent, LeftIn(area.Surface, area));
+        }
+
+        [AvaloniaFact]
+        public void Show_NestedCardAreasAfterARebuild_DrawTheInnerAreaOverItsOuterArea()
+        {
+            Entities.IsExpanded = false;
+            Settle();
+            Entities.IsExpanded = true;
+            Settle();
+
+            var outer = AreaOf(Layer);
+            var inner = AreaOf(Entities);
+            Assert.Equal(outer.ZIndex, inner.ZIndex);
+            Assert.True(view.Rows.Children.IndexOf(inner) > view.Rows.Children.IndexOf(outer));
         }
 
         [AvaloniaFact]

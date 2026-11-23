@@ -16,18 +16,40 @@ namespace CMiX.Studio.Avalonia.Views
         public const string InSelectionClass = ":inselection";
         public const string DropTargetClass = ":droptarget";
 
+        public static readonly StyledProperty<ListTreePlace?> PlaceProperty =
+            AvaloniaProperty.Register<FrameListTreeCard, ListTreePlace?>(nameof(Place));
+
+        public static readonly StyledProperty<Thickness> IndentMarginProperty =
+            AvaloniaProperty.Register<FrameListTreeCard, Thickness>(nameof(IndentMargin));
+
         public FrameListTreeCard()
         {
             InitializeComponent();
         }
 
-        public ListTreePlace? Place { get; set; }
+        public ListTreePlace? Place
+        {
+            get => GetValue(PlaceProperty);
+            set => SetValue(PlaceProperty, value);
+        }
 
-        public Thickness IndentMargin => new(Place?.Indent ?? 0, 0, 0, 0);
+        public Thickness IndentMargin
+        {
+            get => GetValue(IndentMarginProperty);
+            private set => SetValue(IndentMarginProperty, value);
+        }
 
         internal Border Surface => surface;
 
         internal Border Mark => mark;
+
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+        {
+            base.OnPropertyChanged(change);
+
+            if (change.Property == PlaceProperty)
+                IndentMargin = new Thickness(Place?.Indent ?? 0, 0, 0, 0);
+        }
 
         public void ShowMarks(ListTreeMarks marks)
         {
