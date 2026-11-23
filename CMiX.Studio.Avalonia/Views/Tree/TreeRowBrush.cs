@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
@@ -57,28 +58,32 @@ namespace CMiX.Studio.Avalonia.Views
             if (!element.TryFindResource(ConverterKey, out var resource) || resource is not IMultiValueConverter converter)
                 return false;
 
-            element.Bind(TextElement.ForegroundProperty, CreateBrushBinding(converter, role, priority));
+            element.Bind(TextElement.ForegroundProperty, CreateBrushBinding(element, converter, role, priority));
             return true;
         }
 
         // The brush has the priority of the role, so a role that a style sets gives a style value.
-        private static MultiBinding CreateBrushBinding(IMultiValueConverter converter, TreeRowBrushRole role, BindingPriority priority) => new()
+        private static MultiBinding CreateBrushBinding(Control element, IMultiValueConverter converter, TreeRowBrushRole role, BindingPriority priority) => new()
         {
             Converter = converter,
             ConverterParameter = role.ToString(),
             Priority = priority,
             Bindings =
             {
-                ToRow("DataContext"),
-                ToRow("DataContext.IsCursor"),
-                ToRow(nameof(TreeViewItem.IsSelected)),
-                ToRow(nameof(TreeViewItem.ItemCount)),
+                ToRow(element, "DataContext"),
+                ToRow(element, "DataContext.IsCursor"),
+                ToRow(element, nameof(TreeViewItem.IsSelected)),
+                ToRow(element, nameof(TreeViewItem.ItemCount)),
             },
         };
 
-        private static Binding ToRow(string path) => new(path)
+        private static Binding ToRow(Control element, string path) => new(path)
         {
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor) { AncestorType = typeof(TreeViewItem) },
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor) { AncestorType = RowTypeOf(element) },
         };
+
+        // The row of the new list tree has the same properties as the TreeViewItem of the old tree.
+        private static Type RowTypeOf(Control element) =>
+            element.FindLogicalAncestorOfType<RowListTree>() != null ? typeof(RowListTree) : typeof(TreeViewItem);
     }
 }

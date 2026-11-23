@@ -12,12 +12,20 @@ namespace CMiX.Studio.Avalonia.Views
     public partial class RowListTree : UserControl
     {
         public const string CardClass = ":card";
+        public const string SelectedClass = ":selected";
 
         public static readonly StyledProperty<ListTreePlace?> PlaceProperty =
             AvaloniaProperty.Register<RowListTree, ListTreePlace?>(nameof(Place));
 
         public static readonly StyledProperty<string?> IconKeyProperty =
             AvaloniaProperty.Register<RowListTree, string?>(nameof(IconKey));
+
+        // TreeRowBrush reads IsSelected and ItemCount, the same as on the TreeViewItem of the old tree.
+        public static readonly StyledProperty<bool> IsSelectedProperty =
+            AvaloniaProperty.Register<RowListTree, bool>(nameof(IsSelected));
+
+        public static readonly StyledProperty<int> ItemCountProperty =
+            AvaloniaProperty.Register<RowListTree, int>(nameof(ItemCount));
 
         public RowListTree()
         {
@@ -36,6 +44,18 @@ namespace CMiX.Studio.Avalonia.Views
             set => SetValue(IconKeyProperty, value);
         }
 
+        public bool IsSelected
+        {
+            get => GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
+        }
+
+        public int ItemCount
+        {
+            get => GetValue(ItemCountProperty);
+            set => SetValue(ItemCountProperty, value);
+        }
+
         internal Control IconHit => iconHit;
 
         internal TogglesRow Toggles => toggles;
@@ -46,6 +66,8 @@ namespace CMiX.Studio.Avalonia.Views
 
             if (change.Property == PlaceProperty)
                 ShowPlace(Place);
+            else if (change.Property == IsSelectedProperty)
+                PseudoClasses.Set(SelectedClass, IsSelected);
         }
 
         private void ShowPlace(ListTreePlace? place)

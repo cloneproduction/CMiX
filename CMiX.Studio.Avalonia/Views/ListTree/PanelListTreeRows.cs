@@ -29,6 +29,9 @@ namespace CMiX.Studio.Avalonia.Views
         public static readonly StyledProperty<double> IndentProperty =
             AvaloniaProperty.Register<PanelListTreeRows, double>(nameof(Indent), ListTreeSizes.Default.Indent);
 
+        public static readonly StyledProperty<TreeNode?> SelectedNodeProperty =
+            AvaloniaProperty.Register<PanelListTreeRows, TreeNode?>(nameof(SelectedNode));
+
         // The time of a row move. A test sets zero, so the rows are at their place at once.
         public static readonly StyledProperty<TimeSpan> MoveDurationProperty =
             AvaloniaProperty.Register<PanelListTreeRows, TimeSpan>(nameof(MoveDuration), Motion.Duration);
@@ -73,6 +76,12 @@ namespace CMiX.Studio.Avalonia.Views
             set => SetValue(IndentProperty, value);
         }
 
+        public TreeNode? SelectedNode
+        {
+            get => GetValue(SelectedNodeProperty);
+            set => SetValue(SelectedNodeProperty, value);
+        }
+
         public TimeSpan MoveDuration
         {
             get => GetValue(MoveDurationProperty);
@@ -112,6 +121,8 @@ namespace CMiX.Studio.Avalonia.Views
             if (isAttached && (change.Property == RootsProperty || change.Property == RowHeightProperty
                 || change.Property == RowGapProperty || change.Property == IndentProperty))
                 Rebuild();
+            else if (change.Property == SelectedNodeProperty)
+                ShowSelection();
         }
 
         // One rebuild for a burst of changes, such as a close of all cards.
@@ -153,9 +164,19 @@ namespace CMiX.Studio.Avalonia.Views
             var control = rowsByKey.GetValueOrDefault(row.Key) ?? AddRow(row.Key, place);
             control.DataContext = row.Node;
             control.IconKey = ListTreeIcons.KeyOf(row);
+            control.ItemCount = row.Node.Children.Count;
+            control.IsSelected = IsSelected(row.Node);
             control.Place = place;
             SetTop(control, place.Y);
         }
+
+        private void ShowSelection()
+        {
+            foreach (var control in rowsByKey.Values)
+                control.IsSelected = control.DataContext is TreeNode node && IsSelected(node);
+        }
+
+        private bool IsSelected(TreeNode node) => ReferenceEquals(node, SelectedNode);
 
         // A new row shows at its place at once. Only later moves slide.
         private RowListTree AddRow(ListTreeRowKey key, ListTreePlace place)

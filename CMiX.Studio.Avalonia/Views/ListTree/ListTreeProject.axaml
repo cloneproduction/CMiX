@@ -15,7 +15,8 @@
                 Indent="{DynamicResource ListTreeIndent}"
                 Roots="{Binding Roots}"
                 RowGap="{DynamicResource ListTreeRowGap}"
-                RowHeight="{DynamicResource ListTreeRowHeight}" />
+                RowHeight="{DynamicResource ListTreeRowHeight}"
+                SelectedNode="{Binding SelectedNode}" />
         </ScrollViewer>
 
     </DockPanel>

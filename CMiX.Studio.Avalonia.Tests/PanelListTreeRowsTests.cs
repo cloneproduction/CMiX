@@ -49,6 +49,9 @@ namespace CMiX.Studio.Avalonia.Tests
         private static T Named<T>(Control root, string name) where T : Control =>
             root.GetVisualDescendants().OfType<T>().First(control => control.Name == name);
 
+        private BadgesKindCount BadgesOf(TreeNode node) =>
+            Named<TextBoxEditable>(RowOf(node), "nameBox").GetVisualDescendants().OfType<BadgesKindCount>().Single();
+
         private static Color ColorOf(IBrush? brush) => Assert.IsAssignableFrom<ISolidColorBrush>(brush).Color;
 
         private static Color Token(string key) => ColorOf((IBrush)Application.Current!.FindResource(key)!);
@@ -103,7 +106,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void IsExpanded_AClosedCard_HidesItsRowsAndShowsItsCountSquares()
+        public void IsExpanded_AClosedCard_HidesItsRowsAndShowsItsKindBadges()
         {
             var layer = scene.LayerNodeOfA(0);
             var topOfB = RowOf(scene.NodeB).Bounds.Y;
@@ -112,18 +115,18 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle();
 
             Assert.Null(Panel.RowOf(ListTreeKeys.Of(layer)));
-            var squares = Named<ItemsControl>(RowOf(scene.NodeA), "countSquares");
-            Assert.True(squares.IsEffectivelyVisible);
-            Assert.NotEmpty(squares.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("countsquare")));
+            var badges = BadgesOf(scene.NodeA);
+            Assert.True(badges.IsEffectivelyVisible);
+            Assert.NotEmpty(badges.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")));
             var indexOfB = Panel.Layout.Places.ToList().FindIndex(place => place.Key == ListTreeKeys.Of(scene.NodeB));
             Assert.True(RowOf(scene.NodeB).Bounds.Y < topOfB);
             Assert.Equal(indexOfB * 35, RowOf(scene.NodeB).Bounds.Y);
         }
 
         [AvaloniaFact]
-        public void IsExpanded_AnOpenCard_ShowsNoCountSquares()
+        public void IsExpanded_AnOpenCard_ShowsNoKindBadges()
         {
-            Assert.False(Named<ItemsControl>(RowOf(scene.NodeA), "countSquares").IsEffectivelyVisible);
+            Assert.False(BadgesOf(scene.NodeA).IsEffectivelyVisible);
         }
 
         [AvaloniaFact]
