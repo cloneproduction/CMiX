@@ -2,13 +2,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Threading;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -18,40 +15,31 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
     // The pointer drag of a row of the new tree. The scroller captures the pointer, so the moves and the release come on every platform.
     internal sealed class ListTreeRowDrag : ListTreeBehavior
     {
-        public static readonly TimeSpan RestDelay = TimeSpan.FromMilliseconds(500);
-
-        private readonly ListTreePick pick = new(ListTreeDragNumbers.Default);
-        private readonly Cursor moveCursor = new(TreeDragSession.MoveCursorType);
-        private readonly DispatcherTimer restTimer = new() { Interval = RestDelay };
-
         private ProjectTree? tree;
         private PressedRow? pressed;
-        private ListTreeDrag? drag;
         private IPointer? pointer;
-        private Cursor? cursorBefore;
-        private ListTreePoint lastPoint = new(0, 0);
         private Point lastInScroller;
-        private TreeNode? resting;
-        private ListTreeOpenState? openBefore;
 
-        public bool IsDragging => drag != null;
+        public static TimeSpan RestDelay => ListTreeDragRest.RestDelay;
 
-        internal ListTreeDrag? Drag => drag;
+        public bool IsDragging => pointer != null;
 
-        internal TreeNode? RestingNode => resting;
+        internal ListTreeDrag? Drag => Session.Drag;
 
-        internal bool IsRestTimerRunning => restTimer.IsEnabled;
+        internal TreeNode? RestingNode => Part<ListTreeDragRest>().RestingNode;
+
+        internal bool IsRestTimerRunning => Part<ListTreeDragRest>().IsTimerRunning;
 
         private PanelListTreeRows Rows => Context.Rows;
 
         private ScrollViewer Scroller => Context.Scroller;
 
-        private ListTreeAutoScroll AutoScroll => Part<ListTreeAutoScroll>();
+        private ListTreeDragSession Session => Part<ListTreeDragSession>();
 
         protected override void OnWatch(ProjectTree attached)
         {
             tree = attached;
-            restTimer.Tick += OnRested;
+            Session.Ended += OnSessionEnded;
             Scroller.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Bubble, handledEventsToo: true);
             Scroller.AddHandler(InputElement.PointerMovedEvent, OnPointerMoved, RoutingStrategies.Bubble, handledEventsToo: true);
             Scroller.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble, handledEventsToo: true);
@@ -69,22 +57,24 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Scroller.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
             Scroller.RemoveHandler(InputElement.KeyDownEvent, OnKeyDownTunnel);
             Scroller.ScrollChanged -= OnScrollChanged;
-            restTimer.Tick -= OnRested;
+            Session.Ended -= OnSessionEnded;
             tree = null;
         }
+
+        public void OpenNearCard() => Session.OpenNearCard();
 
         // Every row goes back to its place, and nothing moves.
         public void Cancel()
         {
             pressed = null;
-            if (drag != null)
-                Finish();
+            if (IsDragging)
+                Session.Cancel();
         }
 
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             pressed = null;
-            if (tree is not { } pressedTree || drag != null || !e.GetCurrentPoint(Rows).Properties.IsLeftButtonPressed || ListTreeRowClick.IsEditor(e.Source))
+            if (tree is not { } pressedTree || Session.IsRunning || !e.GetCurrentPoint(Rows).Properties.IsLeftButtonPressed || ListTreeRowClick.IsEditor(e.Source))
                 return;
 
             if (ListTreeRowClick.RowOf(e.Source) is { DataContext: TreeNode node, Place: { } place } && pressedTree.CanDrag(node))
@@ -97,142 +87,53 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         {
             var point = PointOf(e);
             lastInScroller = e.GetPosition(Scroller);
-            if (drag != null)
+            if (IsDragging)
             {
-                Track(point);
-                AutoScroll.Track(lastInScroller.Y);
+                Session.Track(point);
+                Part<ListTreeAutoScroll>().Track(lastInScroller.Y);
             }
-            else if (pressed is { } press && pick.HasPassedThreshold(press.Press, point))
+            else if (pressed is { } press && Session.Pick.HasPassedThreshold(press.Press, point))
                 Begin(press, e.Pointer, point);
         }
 
         private void Begin(PressedRow press, IPointer captured, ListTreePoint point)
         {
             pressed = null;
-            if (tree is not { } dragged)
+            Session.Begin(press.Node, press.Press);
+            if (!Session.IsRunning)
                 return;
 
-            var service = dragged.DropService;
-            drag = new ListTreeDrag(new ListTreeCandidates(new ListTreeSlots(service), service, Rows.Sizes), pick, press.Node, press.Press);
             pointer = captured;
-            openBefore = ListTreeOpenState.Of(press.Node);
             captured.Capture(Scroller);
-            dragged.BeginDrag(press.Node);
-            cursorBefore = Scroller.Cursor;
-            Scroller.Cursor = moveCursor;
-            drag.MakeCandidates(ListTreeSnapshot.Of(dragged.Roots));
-            Track(point);
-        }
-
-        private void Track(ListTreePoint point)
-        {
-            lastPoint = point;
-            var shown = drag?.Look;
-            if (drag is not { } dragging || dragging.PickAt(point) is not { } look)
-            {
-                Rows.ShowLiveTree();
-                Rest(null);
-                ShowNote(null);
-                return;
-            }
-
-            if (!ReferenceEquals(look, shown))
-                Rows.ShowDrag(look);
-
-            var near = ListTreeNearCard.Of(look, dragging.Press, point);
-            Rest(near);
-            ShowNote(NoteOf(look, near));
-        }
-
-        private string NoteOf(ListTreeDragLook look, TreeNode? near) =>
-            near != null && tree?.Shortcuts["Tree.Expand"] is { } key ? ListTreeDragNote.OfNearCard(look, near, key.ToString()) : ListTreeDragNote.Of(look);
-
-        // A rest of the pointer next to a closed card opens it.
-        private void Rest(TreeNode? near)
-        {
-            if (ReferenceEquals(near, resting))
-                return;
-
-            restTimer.Stop();
-            resting = near;
-            if (near != null)
-                restTimer.Start();
-        }
-
-        private void OnRested(object? sender, EventArgs e) => OpenNearCard();
-
-        // The timer and the key Tree.Expand open the card. It stays open after the drop and after a cancel.
-        public void OpenNearCard()
-        {
-            var card = resting;
-            Rest(null);
-            if (drag == null || tree is not { } opened || card == null)
-                return;
-
-            card.IsExpanded = true;
-            Rows.ApplyTreeChanges();
-            drag.MakeCandidates(ListTreeSnapshot.Of(opened.Roots));
-            Track(lastPoint);
+            Session.Track(point);
         }
 
         // The release can come at another point than the last move, so the place is read again.
         private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             pressed = null;
-            if (drag is not { } ended || tree is not { } project)
+            if (!IsDragging)
                 return;
 
-            Track(PointOf(e));
-            if (ended.Look is not { } look || ended.IsAtItsOwnPlace())
-            {
-                Finish();
-                return;
-            }
-
-            var drop = project.DropAsync(ended.Node, look.Candidate.Slot.Target, look.Candidate.Slot.Position);
-            var dropped = DroppedNodeOf(project, ended.Node);
-            if (dropped != null)
-                openBefore?.RestoreOn(dropped);
-            Finish();
-            if (dropped != null)
-                ShowDropped(dropped);
-            _ = ObserveAsync(drop);
-        }
-
-        // The drop selects the moved item. A blocked drop leaves the source selected.
-        private static TreeNode? DroppedNodeOf(ProjectTree project, TreeNode source) =>
-            project.SelectedNode is { } selected && ReferenceEquals(selected.Item, source.Item) ? selected : null;
-
-        private void ShowDropped(TreeNode dropped)
-        {
-            if (Part<ListTreeRowReveal>().ShownRowOf(dropped) is { } row)
-                row.Flash();
-        }
-
-        private static async Task ObserveAsync(Task drop)
-        {
-            try
-            {
-                await drop;
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine($"ListTreeProject: the drop failed. {exception}");
-            }
+            Session.Track(PointOf(e));
+            if (Session.HasDropPlace)
+                Session.Drop();
+            else
+                Session.Cancel();
         }
 
         // A scroll moves the rows under a pointer that stays still.
         private void OnScrollChanged(object? sender, ScrollChangedEventArgs e)
         {
-            if (drag != null)
-                Track(new ListTreePoint(lastInScroller.X - Rows.Bounds.X, lastInScroller.Y + Scroller.Offset.Y - Rows.Bounds.Y));
+            if (IsDragging)
+                Session.Track(new ListTreePoint(lastInScroller.X - Rows.Bounds.X, lastInScroller.Y + Scroller.Offset.Y - Rows.Bounds.Y));
         }
 
         private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e) => Cancel();
 
         private void OnKeyDownTunnel(object? sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Escape || drag == null)
+            if (e.Key != Key.Escape || !IsDragging)
                 return;
 
             Cancel();
@@ -240,28 +141,12 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         }
 
         // The release of the capture comes back as a capture lost, which then does nothing.
-        private void Finish()
+        private void OnSessionEnded(object? sender, EventArgs e)
         {
-            drag = null;
-            openBefore = null;
-            Rest(null);
-            AutoScroll.Stop();
-            Rows.ShowLiveTree();
-            ShowNote(null);
-            tree?.EndDrag();
-            Scroller.Cursor = cursorBefore;
-            cursorBefore = null;
-
             var captured = pointer;
             pointer = null;
             if (ReferenceEquals(captured?.Captured, Scroller))
                 captured.Capture(null);
-        }
-
-        private void ShowNote(string? text)
-        {
-            Context.DragNote.Text = text;
-            Context.DragNote.IsVisible = text != null;
         }
 
         private ListTreePoint PointOf(PointerEventArgs e)

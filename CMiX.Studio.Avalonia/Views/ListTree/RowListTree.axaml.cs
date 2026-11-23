@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Views
         public const string DraggedClass = ":dragged";
         public const string FlashClass = ":flash";
 
-        // The time of the animation of the flash in the styles of the row.
+        // The flash animation in the styles of the row and the timer that ends it use this time.
         public static readonly TimeSpan FlashDuration = TimeSpan.FromSeconds(0.7);
 
         public static readonly StyledProperty<ListTreePlace?> PlaceProperty =

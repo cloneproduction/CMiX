@@ -42,9 +42,8 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeNodeWatch watch = new();
         private readonly ListTreeSurfaces surfaces;
         private readonly ListTreeRowControls rowControls;
+        private readonly ListTreeShownLayout shown;
 
-        private ListTreeArrangement arrangement = ListTreeArrangement.Empty;
-        private ListTreeDragLook? dragLook;
         private bool isAttached;
         private bool isRebuildPosted;
 
@@ -57,6 +56,7 @@ namespace CMiX.Studio.Avalonia.Views
         {
             surfaces = new ListTreeSurfaces(this);
             rowControls = new ListTreeRowControls(this, surfaces);
+            shown = new ListTreeShownLayout(rowControls, surfaces);
         }
 
         public IEnumerable<TreeNode>? Roots
@@ -99,7 +99,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         public static void SetTop(Control row, double top) => row.SetValue(TopProperty, top);
 
-        public ListTreeLayout Layout => arrangement.Layout;
+        public ListTreeLayout Layout => shown.LiveLayout;
 
         public ListTreeSizes Sizes => new(RowHeight, RowGap, Indent);
 
@@ -115,20 +115,18 @@ namespace CMiX.Studio.Avalonia.Views
 
         public void MarkDropTarget(TreeNode? node) => surfaces.MarkDropTarget(node);
 
-        // The rows take the places of the candidate of a drag, until the drag ends.
         public void ShowDrag(ListTreeDragLook look)
         {
-            dragLook = look;
-            ShowArrangement();
+            shown.ShowDrag(look);
+            InvalidateMeasure();
         }
 
         public void ShowLiveTree()
         {
-            if (dragLook == null)
+            if (!shown.IsDragShown)
                 return;
 
-            dragLook = null;
-            surfaces.EndDrag();
+            shown.EndDrag();
             if (isRebuildPosted)
                 ApplyTreeChanges();
             else
@@ -193,23 +191,13 @@ namespace CMiX.Studio.Avalonia.Views
         {
             var roots = Roots ?? Array.Empty<TreeNode>();
             watch.Watch(roots);
-            arrangement = ListTreeArrangement.Of(roots, Sizes);
-            ShowArrangement();
+            shown.Arrange(roots, Sizes);
+            InvalidateMeasure();
         }
 
         private void ShowArrangement()
         {
-            if (dragLook is { } look)
-            {
-                rowControls.ShowDrag(look);
-                surfaces.ShowDrag(look);
-            }
-            else
-            {
-                rowControls.Show(arrangement.Rows, arrangement.Layout);
-                surfaces.Show(arrangement.Rows, arrangement.Layout);
-            }
-
+            shown.Show();
             InvalidateMeasure();
         }
 
@@ -219,7 +207,7 @@ namespace CMiX.Studio.Avalonia.Views
                 child.Measure(new Size(availableSize.Width, HeightOf(child)));
 
             var width = double.IsInfinity(availableSize.Width) ? Children.Select(child => child.DesiredSize.Width).DefaultIfEmpty(0).Max() : availableSize.Width;
-            return new Size(width, (dragLook?.Layout ?? arrangement.Layout).TotalHeight);
+            return new Size(width, shown.Layout.TotalHeight);
         }
 
         protected override Size ArrangeOverride(Size finalSize)

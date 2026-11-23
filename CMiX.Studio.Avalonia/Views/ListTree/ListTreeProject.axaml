@@ -14,6 +14,9 @@
         <tree:ListTreeFocusKeeper />
         <tree:ListTreePressFocus />
         <tree:ListTreeRowClick />
+        <tree:ListTreeDragSession />
+        <tree:ListTreeDragRest />
+        <tree:ListTreeDrop />
         <tree:ListTreeRowDrag />
         <tree:ListTreeAutoScroll />
         <tree:ListTreeKeyInput />
@@ -49,7 +52,7 @@
             DockPanel.Dock="Bottom"
             IsVisible="{Binding Interface.ShowKeyHints}" />
 
-        <!-- One line during a drag: where the row goes (ListTreeRowDrag). -->
+        <!-- One line during a drag: where the row goes (ListTreeDragSession). -->
         <TextBlock
             x:Name="dragNote"
             DockPanel.Dock="Bottom"
