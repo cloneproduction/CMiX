@@ -25,6 +25,26 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return rows;
         }
 
+        // Also the rows under a closed card, in tree order.
+        public IReadOnlyList<ListTreeRow> AllRows()
+        {
+            var rows = new List<ListTreeRow>();
+            AddAllRows(Roots, rows);
+            return rows;
+        }
+
+        // Null when the node has no row in the snapshot.
+        public ListTreeRow? RowOf(TreeNode node) => AllRows().FirstOrDefault(row => ReferenceEquals(row.Node, node));
+
+        private static void AddAllRows(IEnumerable<ListTreeRow> nodes, List<ListTreeRow> rows)
+        {
+            foreach (var row in nodes)
+            {
+                rows.Add(row);
+                AddAllRows(row.Children, rows);
+            }
+        }
+
         private static void AddVisibleRows(IEnumerable<ListTreeRow> nodes, List<ListTreeRow> rows)
         {
             foreach (var row in nodes)

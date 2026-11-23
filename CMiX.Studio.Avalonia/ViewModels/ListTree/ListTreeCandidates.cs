@@ -42,12 +42,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         {
             var moved = ListTreeMove.Of(snapshot, source, slot);
             var layout = ListTreeLayout.Of(moved, sizes);
-            return SpotOf(moved, layout, node) is { } spot ? new ListTreeCandidate(slot, moved, layout, spot) : null;
-        }
-
-        private static ListTreeSpot? SpotOf(ListTreeSnapshot moved, ListTreeLayout layout, TreeNode source) =>
-            moved.VisibleRows().FirstOrDefault(row => ReferenceEquals(row.Node, source)) is { } row && layout.PlaceOf(row.Key) is { } place
-                ? new ListTreeSpot(place.Y, place.Depth)
+            return moved.RowOf(node) is { } row && layout.PlaceOf(row.Key) is { } place
+                ? new ListTreeCandidate(slot, moved, layout, new ListTreeSpot(place.Y, place.Depth))
                 : null;
+        }
     }
 }

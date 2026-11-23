@@ -29,15 +29,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // Option E hides an empty list, so its card is the target that the live tree shows.
         private static ListTreeRowKey? LiveHolderOf(IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> rows, ListTreeRow source, ListTreeCandidate candidate)
         {
-            var holder = MovedRowOf(candidate.Snapshot, source)?.Key.Parent;
+            var holder = source.Node is { } node ? candidate.Snapshot.RowOf(node)?.Key.Parent : null;
             if (holder == null)
                 return null;
 
             return rows.ContainsKey(holder) ? holder : candidate.Slot.ShownTarget;
         }
-
-        private static ListTreeRow? MovedRowOf(ListTreeSnapshot moved, ListTreeRow source) =>
-            AllRows(moved.Roots).FirstOrDefault(row => ReferenceEquals(row.Node, source.Node));
 
         private static IReadOnlySet<ListTreeRowKey> BrightRowsOf(
             IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> rows, IReadOnlySet<ListTreeRowKey> targets, ListTreeRow source)
@@ -56,9 +53,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             targets.Where(target => rows.TryGetValue(target, out var row) && row.IsGroup).Select(target => target.Parent).OfType<ListTreeRowKey>();
 
         private static IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> RowsByKey(ListTreeSnapshot snapshot) =>
-            AllRows(snapshot.Roots).ToDictionary(row => row.Key);
-
-        private static IEnumerable<ListTreeRow> AllRows(IEnumerable<ListTreeRow> rows) =>
-            rows.SelectMany(row => AllRows(row.Children).Prepend(row));
+            snapshot.AllRows().ToDictionary(row => row.Key);
     }
 }

@@ -64,6 +64,40 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void AllRows_AClosedCard_GivesTheRowsUnderItInTreeOrder()
+        {
+            var scene = CreateOpenScene();
+            scene.NodeA.IsExpanded = false;
+
+            var rows = ListTreeSnapshot.Of(scene.Tree.Roots).AllRows();
+
+            var expected = new[] { scene.Tree.Roots[0], scene.NodeA, Scene.LayersOf(scene.NodeA), scene.LayerNodeOfA(0), scene.LayerNodeOfA(1) };
+            Assert.Equal(expected, rows.Select(row => row.Node));
+        }
+
+        [Fact]
+        public void RowOf_ANodeUnderAClosedCard_GivesItsRow()
+        {
+            var scene = CreateOpenScene();
+            scene.NodeA.IsExpanded = false;
+
+            var row = ListTreeSnapshot.Of(scene.Tree.Roots).RowOf(scene.LayerNodeOfA(1));
+
+            Assert.Same(scene.LayerNodeOfA(1), row?.Node);
+            Assert.Equal(ListTreeKeys.Of(scene.LayerNodeOfA(1)), row?.Key);
+        }
+
+        [Fact]
+        public void RowOf_AGroupWithNoItem_GivesNull()
+        {
+            var scene = CreateOpenScene();
+
+            var row = ListTreeSnapshot.Of(scene.Tree.Roots).RowOf(scene.Group<EntitiesGroup>(0));
+
+            Assert.Null(row);
+        }
+
+        [Fact]
         public void Of_AGroupRowWithNoItem_LeavesItOut()
         {
             var scene = CreateOpenScene();
