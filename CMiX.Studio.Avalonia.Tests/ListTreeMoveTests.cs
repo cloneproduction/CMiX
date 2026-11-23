@@ -63,6 +63,22 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.LayerOfA(1).ModelEntityManager.AddExistingItem((IPrefab)scene.LayerOfA(0).ModelEntityManager.ManagerData.Items[1]);
         }
 
+        // The entity of B, which has no modifiers, shows under both layers of B.
+        private static Scene CreateSharedCardScene()
+        {
+            var scene = TreeFixtures.CreateScene([2, 2], ShareTheEntityOfB);
+            foreach (var node in scene.All())
+                node.IsExpanded = node.Group == null || node.Children.Count > 0;
+
+            return scene;
+        }
+
+        private static void ShareTheEntityOfB(Scene scene)
+        {
+            Fill(scene);
+            LayerOfB(scene, 0).ModelEntityManager.AddExistingItem((IPrefab)LayerOfB(scene, 1).ModelEntityManager.ManagerData.Items[0]);
+        }
+
         private static Layer LayerOfB(Scene scene, int index) => (Layer)scene.B.LayerManager.ManagerData.Items[index];
 
         private static TreeNode Entity(Scene scene, int index) => scene.Group<EntitiesGroup>(0).Children[index];
@@ -242,6 +258,24 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(AllRows(before.Children).Select(row => row.Node), AllRows(moved.Children).Select(row => row.Node));
             Assert.Equal(AllRows(before.Children).Select(row => row.IsExpanded), AllRows(moved.Children).Select(row => row.IsExpanded));
             Assert.All(moved.Children, row => Assert.Equal(4, row.Depth));
+        }
+
+        [Fact]
+        public async Task Of_ADropIntoTheHiddenListOfASharedCard_ShowsTheListAtBothPlacesAsTheRealDrop()
+        {
+            var scene = CreateSharedCardScene();
+            var source = Modifier(scene, 0, 0);
+            var modifiers = ((Entity)LayerOfB(scene, 1).ModelEntityManager.ManagerData.Items[0]).ModifierManager;
+            var slot = SlotAt(scene, source, new ListPlace(modifiers, 0));
+            var item = source.Item!;
+
+            var moved = MoveOf(scene, source, slot);
+            await scene.Tree.DropAsync(source, slot.Target, slot.Position);
+
+            var lists = AllRows(moved.Roots).Where(row => ReferenceEquals(row.Key.Model, modifiers)).ToArray();
+            Assert.Equal(2, lists.Length);
+            Assert.All(lists, list => Assert.Same(item, Assert.Single(list.Children).Key.Model));
+            Assert.Equal(ShownRows(ListTreeSnapshot.Of(scene.Tree.Roots), item), ShownRows(moved, item));
         }
 
         [Fact]

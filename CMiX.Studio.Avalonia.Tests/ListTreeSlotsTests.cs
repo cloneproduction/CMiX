@@ -3,6 +3,7 @@
 
 using CMiX.Core.Compositing;
 using CMiX.Core.Modulation.Modifiers;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.Tests.Support;
@@ -44,6 +45,34 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.LayerOfA(1).TextureModifierManager.AddItem(typeof(Blur));
             LayerOfB(scene, 1).ModelEntityManager.AddItem(typeof(Entity));
         }
+
+        // The second entity of layer 1 of A shows under layer 2 of A too. Every row is open.
+        private static Scene CreateOpenSharedScene()
+        {
+            var scene = CreateScene([2, 2], ShareAnEntity);
+            foreach (var node in scene.All())
+                node.IsExpanded = true;
+
+            return scene;
+        }
+
+        private static void ShareAnEntity(Scene scene)
+        {
+            Fill(scene);
+            scene.LayerOfA(1).ModelEntityManager.AddExistingItem((IPrefab)scene.LayerOfA(0).ModelEntityManager.ManagerData.Items[1]);
+        }
+
+        // The drop into the modifiers of the shared entity gives the second place a row with no node.
+        private ListTreeSnapshot MovedIntoTheSharedEntity(Scene scene, TreeNode source)
+        {
+            var live = ListTreeSnapshot.Of(scene.Tree.Roots);
+            var place = new ListPlace(((Entity)Entity(scene, 0, 1).Item!).ModifierManager, 1);
+            var slot = new ListTreeSlots(service).Of(live, source).Single(found => found.ListPlace == place);
+            return ListTreeMove.Of(live, live.VisibleRows().Single(row => ReferenceEquals(row.Node, source)), slot);
+        }
+
+        private static IEnumerable<ListTreeRow> AllRows(IEnumerable<ListTreeRow> rows) =>
+            rows.SelectMany(row => AllRows(row.Children).Prepend(row));
 
         private static Layer LayerOfB(Scene scene, int index) => (Layer)scene.B.LayerManager.ManagerData.Items[index];
 
@@ -185,6 +214,20 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(service.CanDrop(scene.NodeA, entity, DropPosition.Inside));
             Assert.DoesNotContain(slots, slot => ReferenceEquals(slot.Target, entity));
             Assert.All(slots, slot => Assert.Same(scene.Project.CompositionManager, slot.ListPlace.List));
+        }
+
+        [Fact]
+        public void Of_ASnapshotWithARowWithNoNode_SkipsThatRow()
+        {
+            var scene = CreateOpenSharedScene();
+            var source = Modifier(scene, 0, 0);
+            var moved = MovedIntoTheSharedEntity(scene, source);
+            var noNode = AllRows(moved.Roots).Single(row => row.Node == null);
+
+            var slots = new ListTreeSlots(service).Of(moved, source);
+
+            Assert.NotEmpty(slots);
+            Assert.DoesNotContain(slots, slot => slot.ShownTarget.Equals(noNode.Key));
         }
 
         [Fact]

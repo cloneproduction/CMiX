@@ -32,43 +32,46 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         {
             foreach (var row in rows)
             {
-                if (ReferenceEquals(row.Node, source))
-                    candidates.Add(CurrentPlaceOf(row));
+                if (row.Node is not { } node)
+                    continue;
+
+                if (ReferenceEquals(node, source))
+                    candidates.Add(CurrentPlaceOf(row, node));
                 else
-                    AddRow(row, source, candidates);
+                    AddRow(row, node, source, candidates);
             }
         }
 
-        private void AddRow(ListTreeRow row, TreeNode source, List<Candidate> candidates)
+        private void AddRow(ListTreeRow row, TreeNode node, TreeNode source, List<Candidate> candidates)
         {
-            Add(row, DropPosition.Before, source, candidates);
+            Add(row, node, DropPosition.Before, source, candidates);
             if (OffersInside(row))
-                AddInside(row, source, candidates);
+                AddInside(row, node, source, candidates);
 
             if (row.IsExpanded)
                 AddRows(row.Children, source, candidates);
 
-            Add(row, DropPosition.After, source, candidates);
+            Add(row, node, DropPosition.After, source, candidates);
         }
 
-        private void Add(ListTreeRow row, DropPosition position, TreeNode source, List<Candidate> candidates)
+        private void Add(ListTreeRow row, TreeNode node, DropPosition position, TreeNode source, List<Candidate> candidates)
         {
-            if (dropService.PlaceOf(source, row.Node!, position) is { } place)
-                candidates.Add(new Candidate(new ListTreeSlot(row.Node!, position, place, row.Key), row.Depth));
+            if (dropService.PlaceOf(source, node, position) is { } place)
+                candidates.Add(new Candidate(new ListTreeSlot(node, position, place, row.Key), row.Depth));
         }
 
-        private void AddInside(ListTreeRow row, TreeNode source, List<Candidate> candidates)
+        private void AddInside(ListTreeRow row, TreeNode node, TreeNode source, List<Candidate> candidates)
         {
-            if (dropService.PlaceOf(source, row.Node!, DropPosition.Inside) is { } place)
-                candidates.Add(new Candidate(new ListTreeSlot(row.Node!, DropPosition.Inside, place, row.Key), row.Depth));
+            if (dropService.PlaceOf(source, node, DropPosition.Inside) is { } place)
+                candidates.Add(new Candidate(new ListTreeSlot(node, DropPosition.Inside, place, row.Key), row.Depth));
             else
-                AddInsideHiddenGroups(row, source, candidates);
+                AddInsideHiddenGroups(row, node, source, candidates);
         }
 
         // A drop Inside the card lands in its empty list of the kind of the source.
-        private void AddInsideHiddenGroups(ListTreeRow row, TreeNode source, List<Candidate> candidates)
+        private void AddInsideHiddenGroups(ListTreeRow row, TreeNode node, TreeNode source, List<Candidate> candidates)
         {
-            foreach (var group in row.Node!.Children.Where(IsHiddenGroup))
+            foreach (var group in node.Children.Where(IsHiddenGroup))
                 if (dropService.PlaceOf(source, group, DropPosition.Inside) is { } place)
                     candidates.Add(new Candidate(new ListTreeSlot(group, DropPosition.Inside, place, row.Key), row.Depth + 1));
         }
@@ -79,11 +82,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         private static bool OffersInside(ListTreeRow row) =>
             row.IsCard && (row.IsExpanded || row.Children.Count == 0);
 
-        private static Candidate CurrentPlaceOf(ListTreeRow row)
+        private static Candidate CurrentPlaceOf(ListTreeRow row, TreeNode source)
         {
-            var owner = row.Node!.Owner!;
-            var place = new ListPlace(owner, owner.ManagerData.Items.IndexOf(row.Node.Item!));
-            return new Candidate(new ListTreeSlot(row.Node, DropPosition.Before, place, row.Key), row.Depth);
+            var owner = source.Owner!;
+            var place = new ListPlace(owner, owner.ManagerData.Items.IndexOf(source.Item!));
+            return new Candidate(new ListTreeSlot(source, DropPosition.Before, place, row.Key), row.Depth);
         }
 
         private static IReadOnlyList<ListTreeSlot> OnePerPlace(List<Candidate> candidates)

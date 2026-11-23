@@ -27,8 +27,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         private static MovePlan PlanOf(ListTreeRow source, ListTreeSlot slot)
         {
-            var item = source.Node!.Item!;
-            var from = source.Node.Owner!;
+            var node = source.Node ?? throw new ArgumentException("The source is not a row of the live tree.", nameof(source));
+            var item = node.Item!;
+            var from = node.Owner!;
             var to = slot.ListPlace.List;
             return new MovePlan(item, from, to, IndexOf(item, from, slot.ListPlace), source, HolderOf(slot));
         }
@@ -58,8 +59,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             if (ReferenceEquals(row.Key.Model, plan.To))
                 return row with { Children = WithMovedRow(row, children, plan, holders) };
 
-            if (HiddenGroupOf(row, plan) is { } group && !children.Any(child => ReferenceEquals(child.Key.Model, plan.To)))
-                return row with { Children = WithGroupRow(row, children, group, plan, holders) };
+            if (HasHiddenList(row, children, plan))
+                return row with { Children = WithGroupRow(row, children, plan, holders) };
 
             return row with { Children = children };
         }
@@ -85,19 +86,38 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         // The list has no row yet because option E hides an empty list.
-        private static IReadOnlyList<ListTreeRow> WithGroupRow(ListTreeRow parent, IReadOnlyList<ListTreeRow> children, TreeNode group, MovePlan plan, List<ListTreeRowKey> holders)
+        private static IReadOnlyList<ListTreeRow> WithGroupRow(ListTreeRow parent, IReadOnlyList<ListTreeRow> children, MovePlan plan, List<ListTreeRowKey> holders)
         {
-            var key = ListTreeRowKey.Of(group, parent.Key);
+            var key = new ListTreeRowKey(plan.To, parent.Key);
             holders.Add(key);
-            var groupRow = new ListTreeRow(key, group, parent.Depth + 1, true, group.IsExpanded, new[] { NewRowUnder(key, parent.Depth + 2, plan) });
-            var groupIndex = parent.Node!.Children.IndexOf(group);
+            var group = GroupNodeOf(parent, plan);
+            var groupRow = new ListTreeRow(key, group, parent.Depth + 1, true, group?.IsExpanded ?? false, new[] { NewRowUnder(key, parent.Depth + 2, plan) });
+            var lists = ListsOf(parent);
+            var groupIndex = ListIndexOf(lists, plan.To);
             var rows = children.ToList();
-            rows.Insert(children.Count(child => parent.Node.Children.IndexOf(child.Node!) < groupIndex), groupRow);
+            rows.Insert(children.Count(child => ListIndexOf(lists, child.Key.Model) < groupIndex), groupRow);
             return rows;
         }
 
-        private static TreeNode? HiddenGroupOf(ListTreeRow row, MovePlan plan) =>
-            row.Node?.Children.FirstOrDefault(child => child.Item == null && ReferenceEquals(child.ChildManager, plan.To));
+        private static bool HasHiddenList(ListTreeRow row, IReadOnlyList<ListTreeRow> children, MovePlan plan) =>
+            !children.Any(child => ReferenceEquals(child.Key.Model, plan.To)) && ListIndexOf(ListsOf(row), plan.To) >= 0;
+
+        // The lists of the model of the row, in the order of their group rows.
+        private static IReadOnlyList<PrefabManager> ListsOf(ListTreeRow row) =>
+            row.Key.Model is IControl owner ? TreeGroup.GroupsOf(owner).Select(group => group.Manager).ToArray() : Array.Empty<PrefabManager>();
+
+        private static int ListIndexOf(IReadOnlyList<PrefabManager> lists, object model)
+        {
+            for (var index = 0; index < lists.Count; index++)
+                if (ReferenceEquals(lists[index], model))
+                    return index;
+
+            return -1;
+        }
+
+        // The second place of a shared card has no node, so its group row has none.
+        private static TreeNode? GroupNodeOf(ListTreeRow parent, MovePlan plan) =>
+            parent.Node?.Children.FirstOrDefault(child => ReferenceEquals(child.Group?.Manager, plan.To));
 
         // The row at the place of the slot keeps the source node. A second place of the same list has no node.
         private static ListTreeRow NewRowUnder(ListTreeRowKey parent, int depth, MovePlan plan) =>

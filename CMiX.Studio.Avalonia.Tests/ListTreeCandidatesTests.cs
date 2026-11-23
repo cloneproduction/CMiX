@@ -67,6 +67,23 @@ namespace CMiX.Studio.Avalonia.Tests
             return candidates.Of(snapshot, snapshot.VisibleRows().Single(row => ReferenceEquals(row.Node, source)));
         }
 
+        // A row with no node at the end of the list, as a copy that the live tree does not have yet.
+        private static ListTreeSnapshot WithACopyRow(ListTreeSnapshot live, ListTreeRowKey list) =>
+            new(live.Roots.Select(row => WithACopyRowIn(row, list)).ToArray());
+
+        private static ListTreeRow WithACopyRowIn(ListTreeRow row, ListTreeRowKey list)
+        {
+            var children = row.Children.Select(child => WithACopyRowIn(child, list)).ToList();
+            if (row.Key.Equals(list))
+                children.Add(new ListTreeRow(new ListTreeRowKey(new object(), row.Key), null, row.Depth + 1, false, false, []));
+
+            return row with { Children = children };
+        }
+
+        private static ListTreeRow CopyRowOf(ListTreeSnapshot snapshot) => snapshot.VisibleRows().Single(row => row.Node == null);
+
+        private ListTreeCandidates Candidates() => new(new ListTreeSlots(service), service, ListTreeSizes.Default);
+
         private IReadOnlyList<ListTreeSlot> SlotsOf(Scene scene, TreeNode source) =>
             new ListTreeSlots(service).Of(ListTreeSnapshot.Of(scene.Tree.Roots), source);
 
@@ -141,6 +158,30 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Contains(SlotsOf(scene, source), slot => IsInComposition(slot, scene.B));
             Assert.DoesNotContain(candidates, candidate => IsInComposition(candidate.Slot, scene.B));
             Assert.Contains(candidates, candidate => IsInComposition(candidate.Slot, scene.A));
+        }
+
+        [Fact]
+        public void Of_ASnapshotWithARowWithNoNode_SkipsThatRow()
+        {
+            var scene = CreateScene();
+            var snapshot = WithACopyRow(ListTreeSnapshot.Of(scene.Tree.Roots), ListTreeKeys.Of(scene.Group<EntitiesGroup>(0)));
+            var copy = CopyRowOf(snapshot);
+
+            var candidates = Candidates().Of(snapshot, snapshot.VisibleRows().Single(row => ReferenceEquals(row.Node, Entity(scene, 0))));
+
+            Assert.NotEmpty(candidates);
+            Assert.DoesNotContain(candidates, candidate => candidate.Slot.ShownTarget.Equals(copy.Key));
+        }
+
+        [Fact]
+        public void Of_ASourceWithNoNode_GivesNoCandidate()
+        {
+            var scene = CreateScene();
+            var snapshot = WithACopyRow(ListTreeSnapshot.Of(scene.Tree.Roots), ListTreeKeys.Of(scene.Group<EntitiesGroup>(0)));
+
+            var candidates = Candidates().Of(snapshot, CopyRowOf(snapshot));
+
+            Assert.Empty(candidates);
         }
 
         [Fact]
