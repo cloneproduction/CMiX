@@ -20,15 +20,9 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private IPointer? pointer;
         private Point lastInScroller;
 
-        public static TimeSpan RestDelay => ListTreeDragRest.RestDelay;
-
         public bool IsDragging => pointer != null;
 
         internal ListTreeDrag? Drag => Session.Drag;
-
-        internal TreeNode? RestingNode => Part<ListTreeDragRest>().RestingNode;
-
-        internal bool IsRestTimerRunning => Part<ListTreeDragRest>().IsTimerRunning;
 
         private PanelListTreeRows Rows => Context.Rows;
 
@@ -62,8 +56,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Session.Ended -= OnSessionEnded;
             tree = null;
         }
-
-        public void OpenNearCard() => Session.OpenNearCard();
 
         public void Cancel()
         {
