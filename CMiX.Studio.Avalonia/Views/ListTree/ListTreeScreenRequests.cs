@@ -31,6 +31,7 @@ namespace CMiX.Studio.Avalonia.Views
             tree = watched;
             watched.TreeFocusRequested += OnTreeFocusRequested;
             watched.CollapseOthersRequested += OnCollapseOthersRequested;
+            watched.RenameRequested += OnRenameRequested;
         }
 
         public void Unwatch()
@@ -40,6 +41,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             tree.TreeFocusRequested -= OnTreeFocusRequested;
             tree.CollapseOthersRequested -= OnCollapseOthersRequested;
+            tree.RenameRequested -= OnRenameRequested;
             tree = null;
         }
 
@@ -59,6 +61,8 @@ namespace CMiX.Studio.Avalonia.Views
 
             rows.Children.OfType<RowListTree>().FirstOrDefault()?.Focus(NavigationMethod.Tab);
         }
+
+        private void OnRenameRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => rows.RowOf(node)?.StartRename());
 
         private void OnCollapseOthersRequested(object? sender, EventArgs e) => AnswerWhenActive(CloseOtherRows);
 

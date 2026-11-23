@@ -75,6 +75,19 @@
         <Style Selector="Views|RowListTree:selected Border#cursorFrame">
             <Setter Property="BorderBrush" Value="{DynamicResource CursorFrameBrush}" />
         </Style>
+
+        <!-- AppIcon sets its own Foreground in its styles, so the state of the row reaches the icon through IconForeground. -->
+        <Style Selector="Views|RowListTree">
+            <Setter Property="IconForeground" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}" />
+        </Style>
+
+        <!-- A hidden row and every row under a hidden row have a fixed grey, never an opacity. The toggles keep the look of the old tree. -->
+        <Style Selector="Views|RowListTree:hiddenrow ui|TextBoxEditable#nameBox, Views|RowListTree:hiddenrow TextBlock#groupName">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextHiddenBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree:hiddenrow">
+            <Setter Property="IconForeground" Value="{DynamicResource ListTreeIconHiddenBrush}" />
+        </Style>
     </UserControl.Styles>
 
     <Panel>
@@ -102,7 +115,7 @@
                     <ui:AppIcon
                         x:Name="kindIcon"
                         IconKey="{Binding IconKey, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}"
-                        Foreground="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}"
+                        Foreground="{Binding IconForeground, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}"
                         Size="{DynamicResource IconSizeXS}" />
                 </Border>
 
