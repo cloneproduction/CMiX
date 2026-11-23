@@ -6,9 +6,9 @@ using CMiX.Studio.Avalonia.Views.Managers;
 using CompositionModel = CMiX.Core.Compositing.Composition;
 using LayerModel = CMiX.Core.Compositing.Layer;
 
-namespace CMiX.Studio.Avalonia.ViewModels.ListTree
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    public static class ListTreeMenuKind
+    internal static class ListTreeMenuKind
     {
         // A group row gets the inert menu, a layer or a composition the menu of a composable, every other item the menu of a slot.
         public static RowMenuKind Of(TreeNode node) =>
