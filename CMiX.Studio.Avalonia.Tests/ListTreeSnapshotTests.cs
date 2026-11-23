@@ -1,0 +1,111 @@
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+using CMiX.Core.Prefabs;
+using CMiX.Core.Texturing.Filters;
+using CMiX.Studio.Avalonia.ViewModels.ListTree;
+using CMiX.Studio.Avalonia.ViewModels.Tree;
+using Xunit;
+using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
+using Entity = CMiX.Core.Compositing.Entity;
+
+namespace CMiX.Studio.Avalonia.Tests
+{
+    public class ListTreeSnapshotTests
+    {
+        // A composition with two layers. Every row is open.
+        private static Scene CreateOpenScene()
+        {
+            var scene = CreateScene([2]);
+            OpenAll(scene);
+            return scene;
+        }
+
+        private static void OpenAll(Scene scene)
+        {
+            foreach (var node in TreeWalk.AllRows(scene.Tree.Roots))
+                node.IsExpanded = true;
+        }
+
+        private static ListTreeRow RowOf(ListTreeSnapshot snapshot, TreeNode node) =>
+            AllRows(snapshot.Roots).Single(row => ReferenceEquals(row.Node, node));
+
+        private static IEnumerable<ListTreeRow> AllRows(IEnumerable<ListTreeRow> rows) =>
+            rows.SelectMany(row => AllRows(row.Children).Prepend(row));
+
+        [Fact]
+        public void VisibleRows_AnOpenTree_GivesTheRowsInOrderWithTheirDepth()
+        {
+            var scene = CreateOpenScene();
+
+            var rows = ListTreeSnapshot.Of(scene.Tree.Roots).VisibleRows();
+
+            var expected = new[] { scene.Tree.Roots[0], scene.NodeA, Scene.LayersOf(scene.NodeA), scene.LayerNodeOfA(0), scene.LayerNodeOfA(1) };
+            Assert.Equal(expected, rows.Select(row => row.Node));
+            Assert.Equal(new[] { 0, 1, 2, 3, 3 }, rows.Select(row => row.Depth));
+            Assert.All(rows, row => Assert.Equal(TreeWalk.DepthOf(row.Node), row.Depth));
+        }
+
+        [Fact]
+        public void VisibleRows_AClosedCard_KeepsItsChildrenInTheSnapshotAndHidesThem()
+        {
+            var scene = CreateOpenScene();
+            scene.NodeA.IsExpanded = false;
+
+            var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+
+            var card = RowOf(snapshot, scene.NodeA);
+            Assert.True(card.IsCard);
+            Assert.False(card.IsExpanded);
+            Assert.Same(Scene.LayersOf(scene.NodeA), Assert.Single(card.Children).Node);
+            Assert.Equal(2, card.Children[0].Children.Count);
+            Assert.Equal(new[] { scene.Tree.Roots[0], scene.NodeA }, snapshot.VisibleRows().Select(row => row.Node));
+        }
+
+        [Fact]
+        public void Of_AGroupRowWithNoItem_LeavesItOut()
+        {
+            var scene = CreateOpenScene();
+
+            var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+
+            Assert.Equal(new[] { "Layers" }, RowOf(snapshot, scene.NodeA).Children.Select(row => row.Node.Header));
+            var layer = RowOf(snapshot, scene.LayerNodeOfA(0));
+            Assert.Empty(layer.Children);
+            Assert.True(layer.IsCard);
+        }
+
+        [Fact]
+        public void Of_AGroupRowWithItems_KeepsItAsTheParentOfItsItems()
+        {
+            var scene = CreateOpenScene();
+            scene.Composition.TextureModifierManager.AddItem(typeof(Blur));
+            var filters = Scene.Group<FiltersGroup>(scene.NodeA);
+
+            var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+
+            Assert.Equal(new[] { "Layers", "Filters" }, RowOf(snapshot, scene.NodeA).Children.Select(row => row.Node.Header));
+            var group = RowOf(snapshot, filters);
+            Assert.Equal(2, group.Depth);
+            var filter = Assert.Single(group.Children);
+            Assert.Same(filters.Children[0], filter.Node);
+            Assert.Equal(3, filter.Depth);
+        }
+
+        [Fact]
+        public void Of_OneEntityUnderTwoLayers_GivesTwoRows()
+        {
+            var scene = CreateOpenScene();
+            scene.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity));
+            var entity = (IPrefab)scene.LayerOfA(0).ModelEntityManager.ManagerData.Items[0];
+            scene.LayerOfA(1).ModelEntityManager.AddExistingItem(entity);
+
+            var rows = AllRows(ListTreeSnapshot.Of(scene.Tree.Roots).Roots).Where(row => ReferenceEquals(row.Node.Item, entity)).ToArray();
+
+            Assert.Equal(2, rows.Length);
+            Assert.NotSame(rows[0].Node, rows[1].Node);
+            Assert.Same(Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(0)), rows[0].Node.Parent);
+            Assert.Same(Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(1)), rows[1].Node.Parent);
+        }
+    }
+}
