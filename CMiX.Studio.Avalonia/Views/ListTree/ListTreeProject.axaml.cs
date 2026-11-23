@@ -15,8 +15,6 @@ namespace CMiX.Studio.Avalonia.Views
     public partial class ListTreeProject : UserControl
     {
         private readonly ListTreeAddBeside addBeside;
-        private readonly ListTreeRowReveal reveal;
-        private readonly ListTreeScrollAnchor scrollAnchor;
         private readonly ListTreeHints hints;
         private readonly ListTreeMenus menus;
         private readonly ListTreeKeyInput keyInput;
@@ -36,12 +34,11 @@ namespace CMiX.Studio.Avalonia.Views
             var focusKeeper = Context.Part<ListTreeFocusKeeper>();
             hints = new ListTreeHints(this, hintStrip, Context.Focus, Context.MenuOpen, lifetime);
             addBeside = new ListTreeAddBeside(rows, focusKeeper, Context.AddPanel, hints.Update, lifetime);
-            reveal = new ListTreeRowReveal(this, rows, scroller, lifetime);
-            scrollAnchor = new ListTreeScrollAnchor(rows, scroller);
+            var reveal = Context.Part<ListTreeRowReveal>();
             menus = new ListTreeMenus(scroller, reveal, addBeside, Context.Part<ListTreeLastPointer>(), hints.Update);
             keyInput = new ListTreeKeyInput(scroller, rows, focusKeeper, addBeside, lifetime);
             fileDrop = new ListTreeFileDropInput(scroller, rows);
-            requests = new ListTreeScreenRequests(rows, menus, reveal, scrollAnchor, () => IsActiveView);
+            requests = new ListTreeScreenRequests(rows, menus, reveal, Context.Part<ListTreeScrollAnchor>(), () => IsActiveView);
             hooks = BuildHooks();
             KeyBindingTextGuard.Install(this);
             tooltips = new TreeTooltips(rows);
@@ -107,7 +104,6 @@ namespace CMiX.Studio.Avalonia.Views
             menus.Attach(watched);
             hints.Watch(watched);
             fileDrop.Attach(watched);
-            reveal.Watch(watched);
         }
 
         private void Unwatch()
@@ -115,7 +111,6 @@ namespace CMiX.Studio.Avalonia.Views
             if (watched == null)
                 return;
 
-            reveal.Unwatch();
             fileDrop.Detach();
             hints.Unwatch();
             menus.Detach();

@@ -3,39 +3,26 @@
 
 using System;
 using System.ComponentModel;
-using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Threading;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.Studio.Avalonia.Views;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // Brings a row of the new tree into view, as TreeRowReveal does in the old tree. The rows have known places, so a reveal needs no frame hold.
-    internal sealed class ListTreeRowReveal
+    internal sealed class ListTreeRowReveal : ListTreeBehavior
     {
-        private readonly Control owner;
-        private readonly PanelListTreeRows rows;
-        private readonly ScrollViewer scroller;
-        private readonly TreeViewLifetime lifetime;
-
         private ProjectTree? tree;
 
-        public ListTreeRowReveal(Control owner, PanelListTreeRows rows, ScrollViewer scroller, TreeViewLifetime lifetime)
-        {
-            this.owner = owner;
-            this.rows = rows;
-            this.scroller = scroller;
-            this.lifetime = lifetime;
-        }
-
         // A selection by a program or a peer shows its row, as in the old tree.
-        public void Watch(ProjectTree watched)
+        protected override void OnWatch(ProjectTree watched)
         {
             tree = watched;
             watched.PropertyChanged += OnTreeChanged;
         }
 
-        public void Unwatch()
+        protected override void OnUnwatch()
         {
             if (tree != null)
                 tree.PropertyChanged -= OnTreeChanged;
@@ -47,6 +34,7 @@ namespace CMiX.Studio.Avalonia.Views
         // A row under a closed card is not shown, so it gives null.
         public RowListTree? ShownRowOf(TreeNode node)
         {
+            var rows = Context.Rows;
             rows.ApplyTreeChanges();
             if (rows.RowOf(node) is not { } row)
                 return null;
@@ -57,15 +45,17 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         // The parents open first, so the reveal runs after the rebuild.
-        public void RevealRowToMiddle(TreeNode node) => lifetime.Post(() => BringRowToMiddle(node), DispatcherPriority.Loaded);
+        public void RevealRowToMiddle(TreeNode node) => Context.Lifetime.Post(() => BringRowToMiddle(node), DispatcherPriority.Loaded);
 
         private void BringRowToMiddle(TreeNode node)
         {
+            var rows = Context.Rows;
+            var scroller = Context.Scroller;
             rows.ApplyTreeChanges();
             if (rows.RowOf(node) is not { Place: { } place } row)
                 return;
 
-            if (owner.IsKeyboardFocusWithin)
+            if (Context.Owner.IsKeyboardFocusWithin)
                 row.Focus(NavigationMethod.Tab);
 
             scroller.UpdateLayout();
@@ -79,7 +69,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (e.PropertyName != nameof(ProjectTree.SelectedNode) || tree?.SelectedNode is not { } node || !tree.RevealsSelection)
                 return;
 
-            lifetime.Post(() => RevealRow(node), DispatcherPriority.Loaded);
+            Context.Lifetime.Post(() => RevealRow(node), DispatcherPriority.Loaded);
         }
     }
 }

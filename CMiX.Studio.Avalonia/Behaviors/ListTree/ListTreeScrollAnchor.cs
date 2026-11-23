@@ -7,34 +7,31 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.Studio.Avalonia.Views;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // Keeps one row of the new tree still on the screen while cards close above it, as TreeScrollAnchor does in the old tree.
     // The rows slide to their new places, so the anchor is put back in each frame of the slide.
-    internal sealed class ListTreeScrollAnchor
+    internal sealed class ListTreeScrollAnchor : ListTreeBehavior
     {
         // At a scale of 125% or 150% the scroll rounds to pixels, so a smaller change would scroll again at each frame.
         private const double MinMove = 0.5;
 
-        private readonly PanelListTreeRows rows;
-        private readonly ScrollViewer scroller;
         private readonly FrameHold hold = new();
 
-        public ListTreeScrollAnchor(PanelListTreeRows rows, ScrollViewer scroller)
-        {
-            this.rows = rows;
-            this.scroller = scroller;
-        }
+        private PanelListTreeRows Rows => Context.Rows;
+
+        private ScrollViewer Scroller => Context.Scroller;
 
         // The row of the node, when the whole row is in view.
         public AnchoredRow? CaptureRow(TreeNode node)
         {
-            if (rows.RowOf(node) is not { } row)
+            if (Rows.RowOf(node) is not { } row)
                 return null;
 
             var top = TopInView(row);
-            return top >= 0 && top + row.Bounds.Height <= scroller.Viewport.Height ? new AnchoredRow(node, top) : null;
+            return top >= 0 && top + row.Bounds.Height <= Scroller.Viewport.Height ? new AnchoredRow(node, top) : null;
         }
 
         // The first row with its top in view.
@@ -51,13 +48,13 @@ namespace CMiX.Studio.Avalonia.Views
         {
             hold.Stop();
             var closed = close();
-            rows.ApplyTreeChanges();
+            Rows.ApplyTreeChanges();
             if (anchor is not { } kept)
                 return;
 
-            scroller.UpdateLayout();
+            Scroller.UpdateLayout();
             Place(kept);
-            if (closed.Count > 0 && TopLevel.GetTopLevel(scroller) is { } top)
+            if (closed.Count > 0 && TopLevel.GetTopLevel(Scroller) is { } top)
                 hold.Run(top, () => Place(kept), () => IsSliding(kept));
         }
 
@@ -65,23 +62,23 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void Place(AnchoredRow kept)
         {
-            if (rows.RowOf(kept.Node) is not { } row)
+            if (Rows.RowOf(kept.Node) is not { } row)
                 return;
 
             var top = TopInView(row);
-            var maxOffset = Math.Max(0, scroller.Extent.Height - scroller.Viewport.Height);
-            var offset = Math.Clamp(scroller.Offset.Y + top - kept.Top, 0, maxOffset);
-            if (Math.Abs(offset - scroller.Offset.Y) >= MinMove)
-                scroller.Offset = scroller.Offset.WithY(offset);
+            var maxOffset = Math.Max(0, Scroller.Extent.Height - Scroller.Viewport.Height);
+            var offset = Math.Clamp(Scroller.Offset.Y + top - kept.Top, 0, maxOffset);
+            if (Math.Abs(offset - Scroller.Offset.Y) >= MinMove)
+                Scroller.Offset = Scroller.Offset.WithY(offset);
         }
 
         private bool IsSliding(AnchoredRow kept) =>
-            rows.RowOf(kept.Node) is { Place: { } place } row && Math.Abs(PanelListTreeRows.GetTop(row) - place.Y) >= MinMove;
+            Rows.RowOf(kept.Node) is { Place: { } place } row && Math.Abs(PanelListTreeRows.GetTop(row) - place.Y) >= MinMove;
 
         private IEnumerable<RowListTree> RowsInOrder() =>
-            rows.Layout.Places.Select(place => rows.RowOf(place.Key)).OfType<RowListTree>();
+            Rows.Layout.Places.Select(place => Rows.RowOf(place.Key)).OfType<RowListTree>();
 
         // From the top of the row and the offset, not from the screen, so a step before the next layout reads the new offset.
-        private double TopInView(RowListTree row) => rows.Bounds.Y + PanelListTreeRows.GetTop(row) - scroller.Offset.Y;
+        private double TopInView(RowListTree row) => Rows.Bounds.Y + PanelListTreeRows.GetTop(row) - Scroller.Offset.Y;
     }
 }
