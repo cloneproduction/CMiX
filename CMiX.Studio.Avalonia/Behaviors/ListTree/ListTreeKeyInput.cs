@@ -71,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
             MoveCursor(cursor, e.Key);
             if (tree.CursorNode is { } node)
-                Context.Lifetime.Post(() => Part<ListTreeFocusKeeper>().FocusRow(node), DispatcherPriority.Loaded);
+                Part<ListTreeFocusKeeper>().FocusRowLater(node, DispatcherPriority.Loaded);
         }
 
         private static bool IsNavigationKey(Key key) =>
@@ -95,7 +95,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private int RowsInView()
         {
             var rows = Context.Rows;
-            var pitch = rows.RowHeight + rows.RowGap;
+            var pitch = rows.Sizes.Pitch;
             return rows.FindAncestorOfType<ScrollViewer>() is { } scroller && pitch > 0 ? Math.Max(1, (int)(scroller.Viewport.Height / pitch)) : 1;
         }
     }

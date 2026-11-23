@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             var rows = Context.Rows;
             var scroller = Context.Scroller;
             var space = Context.EndRoomSpace;
-            var pitch = rows.RowHeight + rows.RowGap;
+            var pitch = rows.Sizes.Pitch;
             var content = rows.DesiredSize.Height;
             var room = content > scroller.Viewport.Height + 0.5 ? Math.Max(0, scroller.Viewport.Height - RowsInView * pitch) : 0;
             if (Math.Abs(space.Height - room) > 0.5)

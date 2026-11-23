@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         // The next focus is known only after the event.
         private void OnLostFocusInTree(object? sender, RoutedEventArgs e)
         {
-            var node = (e.Source as Visual)?.FindAncestorOfType<RowListTree>(includeSelf: true)?.DataContext as TreeNode;
+            var node = RowListTree.Of(e.Source)?.DataContext as TreeNode;
             Context.Lifetime.Post(() => GiveTheFocusBack(node), DispatcherPriority.Input);
         }
 
@@ -88,6 +88,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             row.Focus(NavigationMethod.Tab);
             row.BringIntoView();
         }
+
+        public void FocusRowLater(TreeNode node, DispatcherPriority priority) => Context.Lifetime.Post(() => FocusRow(node), priority);
 
         private IInputElement? FocusedElement() => TopLevel.GetTopLevel(Context.Owner)?.FocusManager?.GetFocusedElement();
     }

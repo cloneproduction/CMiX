@@ -45,8 +45,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         // Three rows for each step of the wheel, as DragAutoScroller.ScrollByWheel.
         public void ScrollByWheel(int steps)
         {
-            var rows = Context.Rows;
-            ScrollTo(Scroller.Offset.Y - steps * 3 * (rows.RowHeight + rows.RowGap));
+            Context.ScrollTo(Scroller.Offset.Y - steps * 3 * Context.Rows.Sizes.Pitch);
         }
 
         private void OnTick(object? sender, EventArgs e) => ScrollStep();
@@ -62,14 +61,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return 0;
 
             var before = Scroller.Offset.Y;
-            ScrollTo(before + step);
+            Context.ScrollTo(before + step);
             return Scroller.Offset.Y - before;
-        }
-
-        private void ScrollTo(double y)
-        {
-            var maxOffset = Math.Max(0, Scroller.Extent.Height - Scroller.Viewport.Height);
-            Scroller.Offset = Scroller.Offset.WithY(Math.Clamp(y, 0, maxOffset));
         }
 
         // Faster as the pointer goes deeper into the zone.

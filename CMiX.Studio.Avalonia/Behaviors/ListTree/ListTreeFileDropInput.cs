@@ -1,10 +1,8 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Behaviors;
@@ -75,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
 
             e.DragEffects = DragDropEffects.Copy;
-            if (NodeOf(e.Source) is { } hovered && shown.IsPathTarget(hovered))
+            if (RowListTree.Of(e.Source)?.DataContext is TreeNode hovered && shown.IsPathTarget(hovered))
                 Rows.Surfaces.MarkDropTarget(hovered);
         }
 
@@ -101,10 +99,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             var files = FilesOf(e);
             dropFiles = null;
             if (tree is { } shown && files != null)
-                shown.DropPaths(NodeOf(e.Source), files.Accepted);
+                shown.DropPaths(RowListTree.Of(e.Source)?.DataContext as TreeNode, files.Accepted);
         }
-
-        private static TreeNode? NodeOf(object? source) =>
-            (source as Visual)?.FindAncestorOfType<RowListTree>(includeSelf: true)?.DataContext as TreeNode;
     }
 }

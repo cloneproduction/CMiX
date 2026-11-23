@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -54,6 +55,10 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         // The offset of the scroller is read now, so the point is right also in a scroll that the layout has not shown yet.
         public ListTreePoint ToRows(Point inScroller) => new(inScroller.X - Rows.Bounds.X, inScroller.Y + Scroller.Offset.Y - Rows.Bounds.Y);
+
+        public double ClampOffset(double y) => Math.Clamp(y, 0, Math.Max(0, Scroller.Extent.Height - Scroller.Viewport.Height));
+
+        public void ScrollTo(double y) => Scroller.Offset = Scroller.Offset.WithY(ClampOffset(y));
 
         public T Part<T>() where T : ListTreeBehavior => Interaction.GetBehaviors(Owner).OfType<T>().Single();
     }

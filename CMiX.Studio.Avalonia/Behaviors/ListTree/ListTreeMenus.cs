@@ -2,11 +2,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.VisualTree;
-using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Managers;
@@ -71,15 +68,15 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
             if (e.TryGetPosition(Host, out _))
             {
-                if (RowOf(e.Source)?.DataContext is TreeNode node && tree != null)
+                if (RowListTree.Of(e.Source)?.DataContext is TreeNode node && tree != null)
                     tree.CursorNode = node;
 
-                if (OpenMenuAtPointer(RowOf(e.Source)))
+                if (OpenMenuAtPointer(RowListTree.Of(e.Source)))
                     e.Handled = true;
                 return;
             }
 
-            var row = RowOf(e.Source) ?? (tree?.TargetNode is { } target ? Reveal.ShownRowOf(target) : null);
+            var row = RowListTree.Of(e.Source) ?? (tree?.TargetNode is { } target ? Reveal.ShownRowOf(target) : null);
             if (OpenMenuUnderRow(row))
                 e.Handled = true;
         }
@@ -147,7 +144,5 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 addRow: new AddMenuRow(AddPanel, () => project.GetAddGroups(node)),
                 gestureOf: command => project.Shortcuts[command]);
         }
-
-        private static RowListTree? RowOf(object? source) => (source as Visual)?.FindAncestorOfType<RowListTree>(includeSelf: true);
     }
 }

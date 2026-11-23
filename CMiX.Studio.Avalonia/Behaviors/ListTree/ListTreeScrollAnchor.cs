@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Avalonia;
 using Avalonia.Controls;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -65,10 +64,9 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
 
             var top = TopInView(row);
-            var maxOffset = Math.Max(0, Scroller.Extent.Height - Scroller.Viewport.Height);
-            var offset = Math.Clamp(Scroller.Offset.Y + top - kept.Top, 0, maxOffset);
+            var offset = Context.ClampOffset(Scroller.Offset.Y + top - kept.Top);
             if (Math.Abs(offset - Scroller.Offset.Y) >= MinMove)
-                Scroller.Offset = Scroller.Offset.WithY(offset);
+                Context.ScrollTo(offset);
         }
 
         private bool IsSliding(AnchoredRow kept) =>

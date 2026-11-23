@@ -56,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
             openedBesideTheCursor = false;
             if (tree?.CursorNode is { } cursor)
-                Context.Lifetime.Post(() => Part<ListTreeFocusKeeper>().FocusRow(cursor), DispatcherPriority.Input);
+                Part<ListTreeFocusKeeper>().FocusRowLater(cursor, DispatcherPriority.Input);
         }
     }
 }

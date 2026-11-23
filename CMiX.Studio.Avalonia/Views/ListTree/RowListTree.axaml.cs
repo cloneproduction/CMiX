@@ -26,6 +26,8 @@ namespace CMiX.Studio.Avalonia.Views
         public const string DraggedClass = ":dragged";
         public const string FlashClass = ":flash";
 
+        public static RowListTree? Of(object? source) => (source as Visual)?.FindAncestorOfType<RowListTree>(includeSelf: true);
+
         public static readonly StyledProperty<ListTreePlace?> PlaceProperty =
             AvaloniaProperty.Register<RowListTree, ListTreePlace?>(nameof(Place));
 

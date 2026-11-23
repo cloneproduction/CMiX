@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -59,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         private static void InspectByMiddleClick(ProjectTree clicked, PointerPressedEventArgs e)
         {
-            if (IsEditor(e.Source) || RowOf(e.Source) is not { DataContext: TreeNode node })
+            if (IsEditor(e.Source) || RowListTree.Of(e.Source) is not { DataContext: TreeNode node })
                 return;
 
             clicked.SelectByClick(node);
@@ -76,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
             }
 
-            var row = RowOf(e.Source);
+            var row = RowListTree.Of(e.Source);
             if (row?.DataContext is not TreeNode node)
             {
                 PressBesideRows(clicked);
@@ -123,7 +121,5 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         }
 
         internal static bool IsEditor(object? source) => TreeRows.HasAncestor<ToggleButton>(source) || TreeRows.HasAncestor<TextBox>(source);
-
-        internal static RowListTree? RowOf(object? source) => (source as Visual)?.FindAncestorOfType<RowListTree>(includeSelf: true);
     }
 }

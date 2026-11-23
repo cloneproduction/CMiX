@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System;
 using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -55,8 +54,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             var offset = scroller.Offset.Y;
             var height = scroller.Viewport.Height;
             var target = top < offset ? top : top + place.RowHeight > offset + height ? top + place.RowHeight - height : offset;
-            var maxOffset = Math.Max(0, scroller.Extent.Height - height);
-            scroller.Offset = scroller.Offset.WithY(Math.Clamp(target, 0, maxOffset));
+            Context.ScrollTo(target);
         }
 
         // The parents open first, so the reveal runs after the rebuild.
@@ -75,8 +73,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
             scroller.UpdateLayout();
             var middle = rows.Bounds.Y + place.Y + place.RowHeight / 2 - scroller.Viewport.Height / 2;
-            var maxOffset = Math.Max(0, scroller.Extent.Height - scroller.Viewport.Height);
-            scroller.Offset = scroller.Offset.WithY(Math.Clamp(middle, 0, maxOffset));
+            Context.ScrollTo(middle);
         }
 
         private void OnTreeChanged(object? sender, PropertyChangedEventArgs e)
