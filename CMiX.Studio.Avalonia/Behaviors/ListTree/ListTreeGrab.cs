@@ -126,7 +126,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         {
             var inRows = Context.ToRows(inScroller);
             lastPointer = inRows;
-            if (isMarkFromKey && ListTreeGrabTakeOver.KeepsTheKeyMark(keyMovePoint, inRows, TreeGrab.MouseTakeOver))
+            if (isMarkFromKey && ListTreePick.IsNearer(keyMovePoint, inRows, TreeGrab.MouseTakeOver))
                 return;
 
             isMarkFromKey = false;

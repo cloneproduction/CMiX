@@ -72,6 +72,18 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(expected, passed);
         }
 
+        [Theory]
+        [InlineData(13.9, true)]
+        [InlineData(14, false)]
+        public void IsNearer_AMoveNearTheDistance_IsTrueOnlyUnderIt(double length, bool expected)
+        {
+            var keyMove = new ListTreePoint(10, 20);
+
+            var isNearer = ListTreePick.IsNearer(keyMove, new ListTreePoint(10, 20 + length), 14);
+
+            Assert.Equal(expected, isNearer);
+        }
+
         [Fact]
         public void Nearest_ADraggedRowNearAPlace_PicksThatCandidate()
         {

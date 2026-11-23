@@ -17,11 +17,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             this.numbers = numbers;
         }
 
-        public bool HasPassedThreshold(ListTreePress press, ListTreePoint pointer)
+        public bool HasPassedThreshold(ListTreePress press, ListTreePoint pointer) => IsFarther(press.Pointer, pointer, numbers.Threshold);
+
+        public static bool IsFarther(ListTreePoint from, ListTreePoint to, double distance) => SquareDistanceOf(from, to) > distance * distance;
+
+        public static bool IsNearer(ListTreePoint from, ListTreePoint to, double distance) => SquareDistanceOf(from, to) < distance * distance;
+
+        private static double SquareDistanceOf(ListTreePoint from, ListTreePoint to)
         {
-            var dx = pointer.X - press.Pointer.X;
-            var dy = pointer.Y - press.Pointer.Y;
-            return dx * dx + dy * dy > numbers.Threshold * numbers.Threshold;
+            var dx = to.X - from.X;
+            var dy = to.Y - from.Y;
+            return dx * dx + dy * dy;
         }
 
         public ListTreeCandidate Nearest(IReadOnlyList<ListTreeCandidate> candidates, ListTreePress press, ListTreePoint pointer) =>
