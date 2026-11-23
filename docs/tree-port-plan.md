@@ -112,7 +112,7 @@ state) were tried and rejected. The colours of 52 stay, except where this list s
 | Rest delay | the 500 ms timer that opens a closed card starts from the card next to the landing place in the layout of the current candidate, not from the row under the pointer, because the rows move for 160 ms |
 | Hysteresis | the current candidate stays until another one is 6 px closer (the weighted distance of principle 3) |
 | After the drop | the dropped item becomes the selected one; a dropped card gets back the open state it had before the drag; its new parent is open; every card that a hover opened during the drag stays open (Atlassian tree guidelines). The current code closes them again (`CloseOpenedRows`): the new control does not |
-| Clicks | a click on a row selects it; a click on the icon of a card opens or closes it; a double click on the name, or F2, renames in place (Enter or a click outside keeps, Escape cancels). No double click to open. Click to toggle the whole row was tried and rejected: it clashes with select and rename |
+| Clicks | a click on a row selects it; a click on the icon of a card opens or closes it; a double click on the name, or F2, renames in place (Enter or a click outside keeps, Escape cancels). A double click on the row away from the name and the toggles opens or closes a card (owner, 2026-11-23). Click to toggle the whole row was tried and rejected: it clashes with select and rename |
 
 ## 4. Audit of the current code (2026-11-23)
 

@@ -3,6 +3,7 @@
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
@@ -18,7 +19,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A double click on the name or F2 renames a row of the new list tree in place. Enter or a click outside keeps the name, Escape cancels.
-    // A click selects only, a click on the icon of a card opens or closes it only, and no double click opens a card.
+    // A click selects only, a click on the icon of a card opens or closes it only, a double click away from the name opens or closes it.
     public class ListTreeRenameTests : IDisposable
     {
         private readonly Scene scene = CreateScene([2], s => AddKinds(s.Layer));
@@ -114,15 +115,36 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void DoubleClick_AwayFromTheNameOfACard_OpensNothingAndRenamesNothing()
+        public void DoubleClick_AwayFromTheNameOfACard_OpensOrClosesItAndRenamesNothing()
         {
             var before = Layer.IsExpanded;
 
             DoubleClick(BlankOf(RowOf(Layer)));
 
             Assert.False(IsRenaming(RowOf(Layer)));
-            Assert.Equal(before, Layer.IsExpanded);
+            Assert.Equal(!before, Layer.IsExpanded);
             Assert.Same(Layer, Tree.SelectedNode);
+        }
+
+        [AvaloniaFact]
+        public void DoubleClick_TheIconOfACard_OpensOrClosesItOncePerClick()
+        {
+            var before = Layer.IsExpanded;
+
+            DoubleClick(CenterOf(RowOf(Layer).IconHit));
+
+            Assert.Equal(before, Layer.IsExpanded);
+        }
+
+        [AvaloniaFact]
+        public void DoubleClick_AToggleOfACard_KeepsTheCardAsItIs()
+        {
+            var before = Layer.IsExpanded;
+            var toggle = RowOf(Layer).Toggles.GetVisualDescendants().OfType<ToggleButton>().First(button => button.IsEffectivelyVisible);
+
+            DoubleClick(CenterOf(toggle));
+
+            Assert.Equal(before, Layer.IsExpanded);
         }
 
         [AvaloniaFact]

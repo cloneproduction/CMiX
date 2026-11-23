@@ -48,6 +48,7 @@ namespace CMiX.Studio.Avalonia.Views
         public RowListTree()
         {
             InitializeComponent();
+            DoubleTapped += OnRowDoubleTapped;
         }
 
         public ListTreePlace? Place
@@ -143,7 +144,21 @@ namespace CMiX.Studio.Avalonia.Views
                 ? ListTreeRowPressPart.CardIcon
                 : ListTreeRowPressPart.Row;
 
-        private void OnIconTapped(object? sender, TappedEventArgs e) => ToggleCard();
+        // The row does not see the double tap of the icon, so the card toggles once per click.
+        private void OnIconTapped(object? sender, TappedEventArgs e)
+        {
+            ToggleCard();
+            e.Handled = true;
+        }
+
+        // A double click on the row outside the name, the icon and the toggles opens or closes a card. The name box takes a double click on its text.
+        private void OnRowDoubleTapped(object? sender, TappedEventArgs e)
+        {
+            if (e.Source is Visual source && (toggles == source || toggles.IsVisualAncestorOf(source)))
+                return;
+
+            ToggleCard();
+        }
 
         internal void ToggleCard()
         {

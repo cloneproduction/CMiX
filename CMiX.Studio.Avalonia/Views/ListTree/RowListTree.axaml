@@ -162,7 +162,8 @@
                     VerticalAlignment="Center"
                     DockPanel.Dock="Right" />
 
-                <!-- Each click on the icon of a card opens or closes the card, also the second click of a double click. -->
+                <!-- Each click on the icon of a card opens or closes the card, also the second click of a double click.
+                     A double click on the rest of the row, outside the name text and the toggles, opens or closes it too. -->
                 <Border
                     x:Name="iconHit"
                     Padding="{DynamicResource ListTreeIconMargin}"
