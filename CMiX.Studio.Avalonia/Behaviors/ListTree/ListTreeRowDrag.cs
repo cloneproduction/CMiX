@@ -45,6 +45,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Scroller.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble, handledEventsToo: true);
             Scroller.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
             Scroller.AddHandler(InputElement.KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
+            Scroller.AddHandler(InputElement.PointerWheelChangedEvent, OnPointerWheel, RoutingStrategies.Tunnel);
             Scroller.ScrollChanged += OnScrollChanged;
         }
 
@@ -56,6 +57,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Scroller.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
             Scroller.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
             Scroller.RemoveHandler(InputElement.KeyDownEvent, OnKeyDownTunnel);
+            Scroller.RemoveHandler(InputElement.PointerWheelChangedEvent, OnPointerWheel);
             Scroller.ScrollChanged -= OnScrollChanged;
             Session.Ended -= OnSessionEnded;
             tree = null;
@@ -79,6 +81,16 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
             if (ListTreeRowClick.RowOf(e.Source) is { DataContext: TreeNode node, Place: { } place } && pressedTree.CanDrag(node))
                 pressed = new PressedRow(node, ListTreePress.At(PointOf(e), place));
+        }
+
+        // The scroller holds the pointer during a drag, so its own wheel scroll does not run.
+        private void OnPointerWheel(object? sender, PointerWheelEventArgs e)
+        {
+            if (!IsDragging)
+                return;
+
+            Part<ListTreeAutoScroll>().ScrollByWheel(TreeRows.WheelSteps(e));
+            e.Handled = true;
         }
 
         private void OnPointerMoved(object? sender, PointerEventArgs e)

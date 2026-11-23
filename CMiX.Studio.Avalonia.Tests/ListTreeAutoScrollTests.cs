@@ -100,6 +100,20 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void Wheel_DuringADrag_ScrollsTheTreeAndKeepsTheDrag()
+        {
+            StartDrag();
+            var point = InScroller(Scroller.Bounds.Height / 2);
+            TreeDrag.MoveTo(window, point);
+
+            window.MouseWheel(point, new Vector(0, -1));
+            TreeTestScreen.Settle(window);
+
+            Assert.True(Scroller.Offset.Y > 0);
+            Assert.True(view.RowDrag.IsDragging);
+        }
+
+        [AvaloniaFact]
         public void ScrollStep_ADragInTheMiddle_DoesNotScroll()
         {
             StartDrag();
