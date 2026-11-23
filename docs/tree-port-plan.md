@@ -1,15 +1,17 @@
 # Port of the new project tree to Avalonia
 
-This document is for a Claude Code session, or a person, that ports the tree of the mockup
-`docs/ui-kit/mockups/nested-boxes.html` (version 52) to CMiX.Studio.Avalonia.
+This document is for a Claude Code session, or a person, that builds the tree of the mockup
+`docs/ui-kit/mockups/nested-boxes.html` (version 55) as a NEW control in CMiX.Studio.Avalonia.
+The current tree view stays as it is, next to the new one, so that the owner can compare them (decided, 2026-11-23).
 Read it all before you change code. Audit the code against it first, then execute the plan phase by phase.
 
-Status: plan, not started. Date: 2026-11-23. Owner decisions are marked "decided".
+Status: plan, not started. Date: 2026-11-23, updated the same day after versions 54 and 55. Owner decisions are marked "decided".
 
 ## 1. How to read the mockup
 
-- Open `docs/ui-kit/mockups/nested-boxes.html` in Chrome. The list at the left has numbered versions. Version 52 is the target.
-- A version is a set of CSS classes (`look-...`) on the panel. Later classes override earlier ones, so the CSS of one class alone is not the design. Section 3 gives the resolved values of version 52. Use them, not the CSS.
+- Open `docs/ui-kit/mockups/nested-boxes.html` in Chrome. The list at the left has numbered versions. Version 55 is the target.
+  Version 55 is version 52, plus the changes of 54 and 55. Section 3 gives 52, and section 3.5 gives the changes that win over it.
+- A version is a set of CSS classes (`look-...`) on the panel. Later classes override earlier ones, so the CSS of one class alone is not the design. Section 3 gives the resolved values. Use them, not the CSS.
 - The JS of the page holds the model: `layout()` (the layout function), `Panel.candidates()` (the drop places), `Panel.move()` (the nearest pick), `Panel.render()` (the states), `Panel.markActive()` (hover and selection classes).
 - The page can not load the kit tokens in the Claude browser pane. In the pane, inject the tokens or read the values from section 3.
 
@@ -89,31 +91,59 @@ The selection wins over the hover.
 
 Row moves: 160 ms, ease out (MotionDuration). Surface colours: 120 ms to 350 ms ease. The dragged row has no transition.
 
+### 3.5 Changes of versions 54 and 55 (decided, they win over the tables above)
+
+They come from three design reviews (venue manager, power operator, colour and greyscale) and from the owner.
+The colour values of the colour review (layer blue, hover border 60 %, dragged row 12 %, flash in the kind colour, one opaque surface per
+state) were tried and rejected. The colours of 52 stay, except where this list says otherwise.
+
+| Topic | Value |
+|---|---|
+| Hidden row, and every row under a hidden card | a fixed grey, never opacity: text #8A8A8F, icon #6C6C6F; the crossed eye stays as it is |
+| Undo notice | after a hide of a card with rows in it, and after every drop or remove: a notice under the tree, for example "Moved Quad into Swarm.", with an Undo button and Ctrl+Z, for 5 s; notice white 10 %, button white 16 %, button hover 20 % |
+| Toggles | 8 px between the mask and the eye (was 1 px); the toggle column is 72 px |
+| Count squares | each square shows the kind icon (12 px, kind colour) and the number in TreeTextRest, on white 7 % |
+| Group icon | a group has its own icon, `Folder` (the app uses `Composition` today, the same as a composition); its count squares use it too |
+| Collapsed card halo | none (owner): no outline around any icon; the count squares mark a closed card |
+| Selected and hovered | white 20 % (was 16 %) |
+| Hover inside a selected card | the hovered row adds white on top of the selected surface from its own indent (item 11 % band, card area 5 %); it gets brighter, never darker, and the area of the parent does not change. Its 3 px hover border sits at the indent of the row, next to the selection border. Outside a selection, hover is as in 52 (full width, border at the left edge) |
+| Landing line | none; the dragged row snaps into its place, so the place is clear. A reorder in the same parent shows only the moving row |
+| Drag note | one line under the tree during a drag: "Move into Swarm. Grey rows can not take it." With Alt: "Copy into ...". When a closed card is near: "E opens Swarm now." |
+| E during a drag | opens the closed card next to the landing place at once |
+| Rest delay | the 500 ms timer that opens a closed card starts from the card next to the landing place in the layout of the current candidate, not from the row under the pointer, because the rows move for 160 ms |
+| Hysteresis | the current candidate stays until another one is 6 px closer (the weighted distance of principle 3) |
+| After the drop | the dropped item becomes the selected one; a dropped card gets back the open state it had before the drag; its new parent is open; every card that a hover opened during the drag stays open (Atlassian tree guidelines). The current code closes them again (`CloseOpenedRows`): the new control does not |
+| Clicks | a click on a row selects it; a click on the icon of a card opens or closes it; a double click on the name, or F2, renames in place (Enter or a click outside keeps, Escape cancels). No double click to open. Click to toggle the whole row was tried and rejected: it clashes with select and rename |
+
 ## 4. Audit of the current code (2026-11-23)
 
 Read only audit. The executing session must check it again (section 6), because the code may change before the port starts.
 Paths are under `CMiX.Studio.Avalonia/` unless stated.
 
-### 4.1 What to keep, adapt or replace
+### 4.1 What to reuse, extend or leave
+
+The current tree view stays unchanged and working (decided). So "adapt" and "replace" below mean: the new control gets its own version.
+The old part stays for the old view. A shared model part may get new members, but its current behaviour does not change, and its tests
+stay green.
 
 **Model, keep as is.** `TreeWalk`, `TreeOpenState`, `TreeSearch`, `TreeViewSet`, `TreeViewHooks`, `TreeEdit`, `TreeAddCatalogue`, `TreeAddIds`,
 `AddableTypes`, `TreeIcons`, `TreeCategory`, `TreeGroup`, `TreeDropService`, `TreeDropText`, `TreeDrop`, `TreeFileDropRules`, `TreeRowOrder`,
 `RowCounts`, `KindCount`, `TreeNodeHost`, the small records, the six partial files of `ProjectTree`, `Themes/CategoryPalette.cs`, `TreeToneConverter`.
 
-**Model, adapt.**
+**Model, extend (new members or a new class next to it, the old behaviour stays).**
 - `TreeDropSlots`: it walks only the visible rows (`TreeDropSlots.cs:27`). The drag needs slots in collapsed cards and empty lists too.
 - `TreeDragState` and `DragLook`: they encode the old look (candidate, neighbour, hint), not a layout. They become the bright and dimmed classes of principle 9.
 - `TreeNode`: needs the option E flag and a stable row identity. `IsDropHint` and `IsDimmed` (`TreeNode.cs:201-203`) follow the old look.
-- `ProjectTree.Drag.Locate(source, hovered, fraction)` is hit testing and goes away. `DropAsync` stays (one undo step, move then select).
+- `ProjectTree.Drag.Locate(source, hovered, fraction)` is hit testing; the new control does not use it. `DropAsync` stays (one undo step, move then select).
 
-**Views, keep.** `TogglesRow`, `BadgeCategory`, `TextBoxSearchTree`, `ToolbarProjectTree`, `TreeHints`, `TreeKeyHints`, `TreeTooltips`,
+**Views, reuse in the new control.** `TogglesRow`, `BadgeCategory`, `TextBoxSearchTree`, `ToolbarProjectTree`, `TreeHints`, `TreeKeyHints`, `TreeTooltips`,
 `TreeViewLifetime`, `FrameHold`, `NodeChosenEventArgs`, `TreeDragEnd`, `RowSizes`, `TreeRowResources`, `AddPanel`, `DragAutoScroller`.
 
-**Views, adapt.** `BadgesKindCount` (binds `$parent[TreeViewItem]`), `TreeKeyInput`, `TreeFocusKeeper` (uses `TreeView.LayoutUpdated`),
+**Views, a new version for the new control (the old one stays).** `BadgesKindCount` (binds `$parent[TreeViewItem]`), `TreeKeyInput`, `TreeFocusKeeper` (uses `TreeView.LayoutUpdated`),
 `TreeFileDropInput`, `TreeMenus` (`TreeView.ContextMenu`), `TreeScreenRequests`, `TreeRowMetrics` (the pitch math stays), `TreeDragGhost`,
 `TreeGrab` (the key stepping stays), `TreeCoverConverter`, `KindIconBrushConverter` (its empty group branch dies under option E).
 
-**Views, replace.** `TreeViewProject.axaml` (nested `TreeView`, lines 48-134), `TreeRowIndex`, `TreeRows`, `TreeRowAnchor`, `TreeRowReveal`,
+**Views, not used by the new control (they stay for the old view).** `TreeViewProject.axaml` (nested `TreeView`, lines 48-134), `TreeRowIndex`, `TreeRows`, `TreeRowAnchor`, `TreeRowReveal`,
 `TreeScrollAnchor`, `TreeViewContext`, `TreeRowShadow` (breaks principle 11), `TreeRowBrush`, `TreeDropMark`, `TreeDropMarker`, `DropLine`,
 `DragAim`, `TreeDragSession`, `TreeRowDrag`, `TreePointerInput`, `TreeLiftConverter`, and the theme `TreeViewItemCMiX` in
 `Themes/Styles/ProjectTree.axaml` (lines 48-258).
@@ -144,14 +174,14 @@ Paths are under `CMiX.Studio.Avalonia/` unless stated.
 
 `TreeNode.AddGroups` (`TreeNode.cs:78-82`) always adds a row for each `TreeGroup.GroupsOf(item)`. Option E should filter in the walk, not
 in the model: the drop rules need the group row as a model child (`GroupUnder`, `KindOfItem` in `TreeDropService.cs:94-108`).
-The rule "a group row with no item is not visible" goes into `VisibleRows`, `LastVisible` and `TreeOpenState`. A hypothetical layout applies
-it again after the move, because a drop into an empty list makes its group row appear. `ProjectTreeGroupsTests` pins the empty rows today.
+The rule "a group row with no item is not visible" goes into the snapshot of the new control (step 1.1), not into `TreeWalk`, because the old view
+keeps its empty group rows. A hypothetical layout applies
+it again after the move, because a drop into an empty list makes its group row appear. `ProjectTreeGroupsTests` pins the empty rows of the old view and stays as it is.
 
 ### 4.4 Tests
 
 68 tree test files, about 761 tests. 19 test the model and survive (among them `TreeDropServiceTests`, `TreeDropSlotsTests`,
-`CategoryPaletteTests`, `ProjectTreeSelectionTests`, `ProjectTreeSearchTests`). 49 test the `TreeView` screen and must be rewritten for the
-new view (among them `TreeViewProjectTests`, `ToolbarProjectTreeTests`, `TreeRowMenuTests`, `TreeRowKeysTests`, `TreeRowDragTests`,
+`CategoryPaletteTests`, `ProjectTreeSelectionTests`, `ProjectTreeSearchTests`). 49 test the `TreeView` screen of the old view: they stay and must stay green. The new control gets its own screen tests (among them `TreeViewProjectTests`, `ToolbarProjectTreeTests`, `TreeRowMenuTests`, `TreeRowKeysTests`, `TreeRowDragTests`,
 `TreeGrabTests`). 10 more files outside the tree touch `TreeViewProject` (`MainWindow*Tests`, `PanelFocus*Tests`, `PanelInspectorTests`,
 `SidePanelTests` and others). `ProjectTreeRowMetricsTests` pins the row height 24.
 
@@ -159,8 +189,8 @@ new view (among them `TreeViewProjectTests`, `ToolbarProjectTreeTests`, `TreeRow
 
 - Tree tokens: `CMiX.UI/Themes/Tokens/Geometry.axaml:92-120`; colours in `Colors.axaml` and `Brushes.axaml`.
 - The token script is `docs/ui-kit/tools/Update-Tokens.ps1` (CLAUDE.md says `tools/`; the path in CLAUDE.md is out of date).
-- The old view stays usable behind the switch until the end, so add new keys for the new view instead of changing the old ones
-  (for example a row height of 32 next to `TreeRowHeight` 24). Remove the old keys in the cleanup phase.
+- The old view stays, so add new keys for the new control and never change the old ones
+  (for example a row height of 32 next to `TreeRowHeight` 24).
 - Kind mixes (border 45 %, outline 70 %) are computed per kind. Avalonia brushes can not mix at run time with relative colours:
   compute them in `CategoryPalette` (it already mixes kind colours) and test them.
 
@@ -170,8 +200,10 @@ new view (among them `TreeViewProjectTests`, `ToolbarProjectTreeTests`, `TreeRow
 - **Selection order:** `SelectedItem` binds TwoWay to `SelectedNode`. The new panel must keep the order "selection first, then the cursor".
 - **Focus and rename:** focus, rename on a double tap and the `TextBoxEditable` of each row depend on `TreeViewItem` focus today.
 - **Performance:** one layout per legal slot can be slow in a big project. Measure, and prune to the slots near the pointer if needed.
-- **UI kit:** entries 21.1 to 21.10 of `gallery.html` model the old row, the drop marks and the grab. They stay as they are during the
-  port and go out of date. Step 6.5 updates the kit once, after the switch over (see 5.1).
+- **UI kit:** entries 21.1 to 21.10 of `gallery.html` model the old row, and they stay right because the old view stays. The new control
+  gets its entries only when the owner asks (see 5.1).
+- **Two views on one model:** `TreeViewSet` already lets two views show one `ProjectTree`. Every new behaviour (option E, cards that stay
+  open after a drop, F2) must live in the new control or in new members, so the old view does not change.
 - **VL names:** no VL patch of this repository uses the tree types. The parent repository patches were not searched: search them before
   any rename.
 - **Build:** while Studio runs, build and test in the scratch copy (see the memory notes).
@@ -184,15 +216,17 @@ Rules for every step (from `.claude/CLAUDE.md`): one atomic commit, build and te
 attribution line, STE English.
 
 **The UI kit:** `.claude/CLAUDE.md` says the kit is updated only when the owner asks (changed on 2026-11-23). The steps of this port do
-not update `docs/ui-kit`. The mockup `nested-boxes.html` version 52 is the reference of the look during the port. Step 6.5 brings the kit
-up to date once, when the owner asks for it.
+not update `docs/ui-kit`. The mockup `nested-boxes.html` version 55 is the reference of the look. Step 6.3 adds the kit entries of the new
+control, only when the owner asks for it.
 
 The complexity of a step
-(1 to 5) gives the agent: 1 Sonnet, 2 and 3 Opus, 4 Fable, 5 the main agent. A subagent reads its step and the code first, and stops to ask
+(1 to 5) gives the agent: 1 Sonnet, 2 to 4 Opus, 5 the main agent. Fable is not used. A subagent reads its step and the code first, and stops to ask
 when a finding changes another step or the shared design. The main agent checks each commit before the next step.
 
-The new view lives next to the old one behind a switch until Phase 6. Nothing of the old view is removed before the owner says the new
-view is complete.
+**Two controls (decided, 2026-11-23).** The new control is new code in its own folders. The current tree view, its parts, its theme
+`TreeViewItemCMiX`, its tokens and its tests do not change. Both views attach to the same `ProjectTree` through `TreeViewSet`. A switch
+shows one or the other, and both can show side by side, so the owner can compare. Nothing of the old view is removed in this plan.
+A later plan, after the comparison, decides what happens to the old view.
 
 ### 5.2 Rules of the code: keep what the reviews gave
 
@@ -261,48 +295,47 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 
 | Step | Work | Complexity |
 |---|---|---|
-| 2.1 | New tree tokens for the new view: row 32, gap 3, border 3, outline 1.5 and offset 2, slot 2, the white mixes of section 3, the two text greys (#B6B6BB, #9A9A9F). Do not run `Update-Tokens.ps1` (step 6.5 runs it). | 2 |
-| 2.2 | The per kind mixes (border 45 %, outline 70 %, halo 55 %, count squares 60 %) in `CategoryPalette`, with tests that measure the colours. | 3 |
+| 2.1 | New tree tokens for the new view: row 32, gap 3, border 3, outline 1.5 and offset 2, the white mixes of sections 3 and 3.5 (5, 7, 10, 11, 12, 16, 20 %), the text greys (#B6B6BB, #9A9A9F, #8A8A8F) and the hidden icon #6C6C6F, the toggle gap 8. Do not run `Update-Tokens.ps1` (step 6.3 runs it). | 2 |
+| 2.2 | The per kind mixes (border 45 %, outline 70 %) in `CategoryPalette`, with tests that measure the colours. | 3 |
 
 ### Phase 3: the new view, without drag
 
 | Step | Work | Complexity |
 |---|---|---|
-| 3.1 | The switch between the old and the new view, both attached to the same `ProjectTree` through `TreeViewSet`. | 3 |
+| 3.1 | The new control in its own folders (`ViewModels/<name>`, `Views/<name>`, name from question 9), and the switch that shows the old view, the new one, or both side by side, all attached to the same `ProjectTree` through `TreeViewSet`. The old view does not change. | 3 |
 | 3.2 | The flat panel and the row control (icon that toggles, name in `TextBoxEditable`, count squares, `TogglesRow`), arranged by the layout function, with the ZIndex layers of principle 11. Tests that measure positions and sizes. | 4 |
 | 3.3 | Rest, hover and selection on surfaces and left borders (section 3), hover tested on the row only. Tests that measure the colours. | 4 |
-| 3.4 to 3.9 | Move one screen part at a time to the new view: keys, focus and rename, menus, tooltips, file drop, screen requests (reveal and scroll). One step each. | 2 to 3 |
+| 3.4 to 3.9 | Give the new control one screen part at a time, as a new part next to the old one: keys, focus and rename (click selects, the icon toggles, double click on the name or F2 renames), menus, tooltips, file drop, screen requests (reveal and scroll). One step each. | 2 to 3 |
 
 ### Phase 4: drag
 
 | Step | Work | Complexity |
 |---|---|---|
-| 4.1 | Pointer drag on the candidates: snap at the new depth, rows animate (160 ms), 2 px slot line, target outline, dimming, Alt copy, Escape, auto scroll, 500 ms hover opens a closed card, flash after the drop, commit through `DropAsync`. Headless tests. | 4 |
+| 4.1 | Pointer drag on the candidates: snap at the new depth, rows animate (160 ms), no landing line, target outline, dimming, Alt copy, Escape, auto scroll, 500 ms rest from the layout and E open a closed card, 6 px hysteresis, the drag note, flash after the drop, commit through `DropAsync` (it selects the dropped item), the cards opened by the drag stay open. Headless tests. | 4 |
 | 4.2 | The keyboard grab on the same candidates. | 3 |
 | 4.3 | Measure the drag on a big project. Prune the candidates near the pointer if it is slow. | 3 |
+| 4.4 | The Undo notice after a hide and after a drop, through a service (no view in the model). | 3 |
 
 ### Phase 5: category rows (option E) and the inspector
 
 | Step | Work | Complexity |
 |---|---|---|
-| 5.1 | Option E in the walk (4.3). Update `ProjectTreeGroupsTests`. | 3 |
+| 5.1 | Option E in the snapshot of the new control (4.3). `ProjectTreeGroupsTests` stays as it is. | 3 |
 | 5.2 | The panel, Add and Hide jobs of a category row in the inspector of its owner (only after the owner answers question 2). | 4 |
 
-### Phase 6: switch over and clean up
+### Phase 6: compare and close the plan
 
 | Step | Work | Complexity |
 |---|---|---|
-| 6.1 | The new view becomes the default. The owner checks it. | 5 |
-| 6.2 | Checkpoint commit. Then remove the replaced parts of 4.1, the `TreeViewItemCMiX` theme and the dead tokens, a few files per commit. | 3 |
-| 6.3 | Rewrite the remaining screen tests for the new view. | 3 |
-| 6.4 | Update `ViewModels/Tree/README.md`, the tree sections of `docs/DEVELOPMENT.md` and this document. | 2 |
-| 6.5 | The UI kit, once: run `Update-Tokens.ps1`, add the entries of the new tree with the next free numbers of category 21, mark the old entries 21.1 to 21.10 `removed` where they no longer apply. | 3 |
-| 6.6 | The full Core suite twice and the Studio suite once, with details captured. | 2 |
+| 6.1 | The owner uses both views side by side and decides what comes next. Nothing of the old view is removed in this plan. | 5 |
+| 6.2 | Update `ViewModels/Tree/README.md`, the tree sections of `docs/DEVELOPMENT.md` and this document for the new control. | 2 |
+| 6.3 | The UI kit entries of the new control with the next free numbers of category 21, and `Update-Tokens.ps1`, only when the owner asks. | 3 |
+| 6.4 | The full Core suite twice and the Studio suite once, with details captured. The old tree tests must still pass. | 2 |
 
 ## 6. What the executing session must do first
 
 1. Read this document, `.claude/CLAUDE.md`, the memory notes of the project (MEMORY.md and the files it lists about the tree), and the sources of 5.2.
-2. Open the mockup at version 52 and check section 3 against it in Chrome.
+2. Open the mockup at version 55 and check sections 3 and 3.5 against it in Chrome.
 3. Audit the current tree code against sections 2 and 4. Report any difference before you change code. When a finding changes the plan, stop and ask the owner.
 
 ## 7. Open questions for the owner (Phase 0)
@@ -313,9 +346,14 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 4. Saved projects: `.claude/CLAUDE.md` requires the compatibility test before a model change, an older memory note says old saves may break. Which rule applies to this port?
 5. The hover mark shows all around in the owner's Chrome but not in the browser pane. Check it together before Phase 3.
 6. Expand and collapse: keep an animation (the old `PanelCollapse`), or let the rows move with the same 160 ms row animation?
-7. The rest delay that opens a closed card during a drag: 500 ms (mockup) or 0.6 s (code)?
-8. `docs/DEVELOPMENT.md` ("The colors of the states") says a selected row uses accent-inactive and an icon only control dims with opacity
-   0.6. Version 52 uses a white surface with a kind border, and never dims with opacity. Does the tree become a new row kind in that table,
-   or does the table change for every row?
-9. The flat panel and its layout: a Studio part of the tree only, or a generic control in CMiX.UI that other lists can use later?
-   And the name of the new view, by the order rule (for example `PanelTree`, `TreeViewProject` kept for the new view)?
+7. `docs/DEVELOPMENT.md` ("The colors of the states") says a selected row uses accent-inactive and an icon only control dims with opacity
+   0.6. The new control uses a white surface with a kind border, and never dims with opacity. Is the tree a row kind of its own in that table?
+8. The name of the new control and its folders, by the order rule (kind first). The old `TreeViewProject` keeps its name.
+9. The flat panel and its layout: a part of the new tree only, or a generic control in CMiX.UI that other lists can use later?
+10. The switch between the two views: where is it (a menu, the toolbar of the tree, a setting), and is "both side by side" a mode of
+    the side panel or two panels?
+11. The power operator review asks for a drag of several selected rows as one block, a key that repeats the last move, Left and Right
+    to change the depth in a keyboard grab, and a compact row height. Which of them go into this plan?
+
+Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
+stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays.
