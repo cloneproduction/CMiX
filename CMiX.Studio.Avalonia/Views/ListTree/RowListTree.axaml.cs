@@ -19,6 +19,8 @@ namespace CMiX.Studio.Avalonia.Views
         public const string InHoveredCardClass = ":inhoveredcard";
         public const string HiddenClass = ":hiddenrow";
         public const string DropTargetClass = ":droptarget";
+        public const string DimmedClass = ":dimmed";
+        public const string DraggedClass = ":dragged";
 
         public static readonly StyledProperty<ListTreePlace?> PlaceProperty =
             AvaloniaProperty.Register<RowListTree, ListTreePlace?>(nameof(Place));
@@ -115,6 +117,12 @@ namespace CMiX.Studio.Avalonia.Views
             PseudoClasses.Set(InHoveredCardClass, marks.IsInHoveredCard(node));
             PseudoClasses.Set(DropTargetClass, marks.IsDropTarget(node));
             PseudoClasses.Set(HiddenClass, marks.IsHidden(node));
+        }
+
+        public void ShowLight(ListTreeRowLight light)
+        {
+            PseudoClasses.Set(DimmedClass, light == ListTreeRowLight.Dimmed);
+            PseudoClasses.Set(DraggedClass, light == ListTreeRowLight.Dragged);
         }
 
         internal bool IsCardIcon(object? source) =>

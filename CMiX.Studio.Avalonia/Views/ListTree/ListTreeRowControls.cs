@@ -31,19 +31,50 @@ namespace CMiX.Studio.Avalonia.Views
         public void Show(IReadOnlyList<ListTreeRow> rows, ListTreeLayout layout)
         {
             foreach (var row in rows)
-                ShowRow(row, layout.PlaceOf(row.Key)!);
+            {
+                var place = layout.PlaceOf(row.Key)!;
+                var control = ControlOf(row.Key, place);
+                Slide(control);
+                ShowRow(control, row, place, ListTreeRowLight.Rest);
+            }
 
+            RemoveRowsNotIn(layout);
+        }
+
+        // The dragged row has no transition: it snaps into its landing place.
+        public void ShowDrag(ListTreeDragLook look)
+        {
+            foreach (var row in look.Rows)
+            {
+                var place = look.Layout.PlaceOf(row.Key)!;
+                var control = ControlOf(row.Key, place);
+                var light = look.LightOf(row.Key);
+                if (light == ListTreeRowLight.Dragged)
+                    Snap(control);
+                else
+                    Slide(control);
+                ShowRow(control, row, place, light);
+            }
+
+            RemoveRowsNotIn(look.Layout);
+        }
+
+        private void RemoveRowsNotIn(ListTreeLayout layout)
+        {
             foreach (var key in rowsByKey.Keys.Where(key => layout.PlaceOf(key) == null).ToArray())
                 RemoveRow(key);
         }
 
-        private void ShowRow(ListTreeRow row, ListTreePlace place)
+        private RowListTree ControlOf(ListTreeRowKey key, ListTreePlace place) => rowsByKey.GetValueOrDefault(key) ?? AddRow(key, place);
+
+        private static void ShowRow(RowListTree control, ListTreeRow row, ListTreePlace place, ListTreeRowLight light)
         {
-            var control = rowsByKey.GetValueOrDefault(row.Key) ?? AddRow(row.Key, place);
             control.DataContext = row.Node;
             control.IconKey = ListTreeIcons.KeyOf(row);
-            control.ItemCount = row.Node.Children.Count;
+            control.ItemCount = row.Node?.Children.Count ?? 0;
             control.Place = place;
+            control.ZIndex = light == ListTreeRowLight.Dragged ? ListTreeLayers.DraggedRow : ListTreeLayers.Row;
+            control.ShowLight(light);
             PanelListTreeRows.SetTop(control, place.Y);
         }
 
@@ -52,17 +83,23 @@ namespace CMiX.Studio.Avalonia.Views
         {
             var control = new RowListTree { ZIndex = ListTreeLayers.Row };
             PanelListTreeRows.SetTop(control, place.Y);
-            if (panel.MoveDuration > TimeSpan.Zero)
-                control.Transitions = new Transitions
-                {
-                    new DoubleTransition { Property = PanelListTreeRows.TopProperty, Duration = panel.MoveDuration, Easing = Motion.Easing }
-                };
-
+            Slide(control);
             surfaces.Watch(control);
             rowsByKey[key] = control;
             panel.Children.Add(control);
             return control;
         }
+
+        private void Slide(RowListTree control)
+        {
+            if (control.Transitions == null && panel.MoveDuration > TimeSpan.Zero)
+                control.Transitions = new Transitions
+                {
+                    new DoubleTransition { Property = PanelListTreeRows.TopProperty, Duration = panel.MoveDuration, Easing = Motion.Easing }
+                };
+        }
+
+        private static void Snap(RowListTree control) => control.Transitions = null;
 
         private void RemoveRow(ListTreeRowKey key)
         {

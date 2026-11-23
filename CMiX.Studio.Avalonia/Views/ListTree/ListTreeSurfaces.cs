@@ -21,6 +21,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private TreeNode? selected;
         private TreeNode? dropTarget;
+        private bool isDragging;
 
         public ListTreeSurfaces(Panel panel)
         {
@@ -44,6 +45,20 @@ namespace CMiX.Studio.Avalonia.Views
             if (!panel.Children.Contains(outline))
                 panel.Children.Add(outline);
             ShowMarks();
+        }
+
+        // During a drag, the hover and the selection marks hide and the holder of the candidate is the drop target.
+        public void ShowDrag(ListTreeDragLook look)
+        {
+            isDragging = true;
+            dropTarget = look.DropTarget;
+            Show(look.Rows, look.Layout);
+        }
+
+        public void EndDrag()
+        {
+            isDragging = false;
+            dropTarget = null;
         }
 
         public void Select(TreeNode? node)
@@ -74,7 +89,7 @@ namespace CMiX.Studio.Avalonia.Views
         public void ShowMarks()
         {
             var rows = panel.Children.OfType<RowListTree>().ToList();
-            var marks = new ListTreeMarks(selected, HoveredCard(rows), dropTarget);
+            var marks = isDragging ? new ListTreeMarks(null, null, dropTarget) : new ListTreeMarks(selected, HoveredCard(rows), dropTarget);
             foreach (var row in rows)
                 row.ShowMarks(marks);
             foreach (var area in areas)

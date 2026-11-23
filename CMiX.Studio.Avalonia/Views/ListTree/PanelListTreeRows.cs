@@ -44,6 +44,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeRowControls rowControls;
 
         private ListTreeArrangement arrangement = ListTreeArrangement.Empty;
+        private ListTreeDragLook? dragLook;
         private bool isAttached;
         private bool isRebuildPosted;
 
@@ -112,6 +113,23 @@ namespace CMiX.Studio.Avalonia.Views
 
         public void MarkDropTarget(TreeNode? node) => surfaces.MarkDropTarget(node);
 
+        // The rows take the places of the candidate of a drag, until the drag ends.
+        public void ShowDrag(ListTreeDragLook look)
+        {
+            dragLook = look;
+            ShowArrangement();
+        }
+
+        public void ShowLiveTree()
+        {
+            if (dragLook == null)
+                return;
+
+            dragLook = null;
+            surfaces.EndDrag();
+            ShowArrangement();
+        }
+
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnAttachedToVisualTree(e);
@@ -171,8 +189,22 @@ namespace CMiX.Studio.Avalonia.Views
             var roots = Roots ?? Array.Empty<TreeNode>();
             watch.Watch(roots);
             arrangement = ListTreeArrangement.Of(roots, new ListTreeSizes(RowHeight, RowGap, Indent));
-            rowControls.Show(arrangement.Rows, arrangement.Layout);
-            surfaces.Show(arrangement.Rows, arrangement.Layout);
+            ShowArrangement();
+        }
+
+        private void ShowArrangement()
+        {
+            if (dragLook is { } look)
+            {
+                rowControls.ShowDrag(look);
+                surfaces.ShowDrag(look);
+            }
+            else
+            {
+                rowControls.Show(arrangement.Rows, arrangement.Layout);
+                surfaces.Show(arrangement.Rows, arrangement.Layout);
+            }
+
             InvalidateMeasure();
         }
 
@@ -182,7 +214,7 @@ namespace CMiX.Studio.Avalonia.Views
                 child.Measure(new Size(availableSize.Width, HeightOf(child)));
 
             var width = double.IsInfinity(availableSize.Width) ? Children.Select(child => child.DesiredSize.Width).DefaultIfEmpty(0).Max() : availableSize.Width;
-            return new Size(width, arrangement.Layout.TotalHeight);
+            return new Size(width, (dragLook?.Layout ?? arrangement.Layout).TotalHeight);
         }
 
         protected override Size ArrangeOverride(Size finalSize)

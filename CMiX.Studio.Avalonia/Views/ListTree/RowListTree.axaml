@@ -91,12 +91,40 @@
             <Setter Property="ui:ToolTipCard.Fill" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=FillHover}" />
         </Style>
 
+        <!-- During a drag, a row that can not take the drop is a readable grey, never an opacity. -->
+        <Style Selector="Views|RowListTree:dimmed Border#band">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowDimmedBandBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree:dimmed ui|TextBoxEditable#nameBox, Views|RowListTree:dimmed TextBlock#groupName">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextDimmedBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree:dimmed">
+            <Setter Property="IconForeground" Value="{DynamicResource ListTreeIconDimmedBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree:dimmed Views|TogglesRow ToggleButton">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextDimmedBrush}" />
+        </Style>
+
         <!-- A hidden row and every row under a hidden row have a fixed grey, never an opacity. The toggles keep the look of the old tree. -->
         <Style Selector="Views|RowListTree:hiddenrow ui|TextBoxEditable#nameBox, Views|RowListTree:hiddenrow TextBlock#groupName">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextHiddenBrush}" />
         </Style>
         <Style Selector="Views|RowListTree:hiddenrow">
             <Setter Property="IconForeground" Value="{DynamicResource ListTreeIconHiddenBrush}" />
+        </Style>
+
+        <!-- The dragged row sits at its landing place: a full width surface, white text, the icon in its kind colour. -->
+        <Style Selector="Views|RowListTree:dragged">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowDraggedBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree:dragged Border#band">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="Views|RowListTree:dragged ui|TextBoxEditable#nameBox, Views|RowListTree:dragged TextBlock#groupName">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextSelectedBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree:dragged Border#mark">
+            <Setter Property="IsVisible" Value="False" />
         </Style>
     </UserControl.Styles>
 
