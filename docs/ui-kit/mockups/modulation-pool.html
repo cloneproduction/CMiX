@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modulation pool</title>
+<!-- Mockup: one modulator pool for the project, links with an amount, and the tree with category rows only when filled. It links the kit and copies nothing. -->
+<link rel="stylesheet" href="../tokens.css">
+<style>
+    :root { --p-bg: #1C1C1F; --p-ink: #F2EDE4; --p-mute: #A39B8A; --p-sans: "Segoe UI", system-ui, sans-serif; --mod: var(--CategoryModulator); }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--p-bg); color: var(--p-mute); font: 400 13px/20px var(--p-sans); }
+    main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { margin: 0; font: 700 22px/28px var(--p-sans); color: var(--p-ink); }
+    .lead { margin: 6px 0 16px; max-width: 820px; }
+    .board { display: grid; grid-template-columns: 1fr 1.2fr 1.3fr; gap: 12px; }
+    @media (max-width: 800px) { .board { grid-template-columns: 1fr; } }
+    .panel { background: var(--PanelBackgroundLevel1Brush); border-radius: 3px; padding: 8px; color: var(--Text); min-height: 360px; }
+    .panel h2 { margin: 0 0 8px; font: 600 11px/16px var(--p-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--p-mute); }
+    button { font: 12px var(--p-sans); background: var(--Grey500); color: var(--Text); border: 0; border-radius: 2px; padding: 1px 8px; cursor: pointer; }
+
+    .row { display: flex; align-items: center; gap: 6px; height: 22px; padding-right: 6px; border-radius: 2px; cursor: pointer; }
+    .row:hover { background: var(--RowHoverBrush); }
+    .row.selected { background: var(--AccentPrimary); }
+    .row.cat { color: var(--p-mute); font-style: italic; cursor: default; }
+    .row.cat:hover { background: none; }
+    .row.gap { margin-top: 6px; }
+    .row.lit { box-shadow: inset 3px 0 0 var(--mod); background: color-mix(in srgb, var(--mod) 18%, transparent); }
+    .sw { width: 8px; height: 8px; border-radius: 50%; background: var(--k); flex: none; }
+    .mark { margin-left: auto; width: 6px; height: 6px; border-radius: 50%; background: var(--mod); }
+
+    .section { margin-bottom: 10px; }
+    .section .head { display: flex; gap: 6px; align-items: center; font-weight: 600; margin-bottom: 2px; }
+    .section .head span { flex: 1; }
+    .section .item { padding-left: 14px; }
+    .section .none { padding-left: 14px; color: var(--p-mute); font-style: italic; }
+    .value { display: flex; align-items: center; gap: 8px; height: 34px; border-radius: 2px; padding: 0 4px; }
+    .value.over { background: color-mix(in srgb, var(--mod) 25%, transparent); }
+    .value.lit { box-shadow: inset 3px 0 0 var(--mod); }
+    .value .label { width: 70px; color: var(--p-mute); }
+    .slider { flex: 1; height: 18px; border-radius: 2px; background: var(--Grey500); position: relative; overflow: hidden; }
+    .slider i { position: absolute; inset: 0 auto 0 0; background: var(--Grey700); }
+    .value.mod .slider i { background: color-mix(in srgb, var(--mod) 45%, var(--Grey600)); }
+    .ring { width: 26px; height: 26px; flex: none; cursor: ns-resize; }
+    .ring circle { fill: none; stroke-width: 3; }
+    .src { font-size: 11px; color: var(--mod); width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .pool { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .chip { padding: 2px 10px; border-radius: 10px; border: 1px solid var(--mod); color: var(--mod); cursor: grab; user-select: none; }
+    .chip.on { background: var(--mod); color: #1C1C1F; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th { text-align: left; font-weight: 600; color: var(--p-mute); padding: 2px 4px; }
+    td { padding: 2px 4px; border-top: 1px solid var(--Grey500); }
+    tr.lit td { background: color-mix(in srgb, var(--mod) 15%, transparent); }
+    input[type=range] { width: 90px; accent-color: var(--mod); vertical-align: middle; }
+    .notes { margin-top: 20px; max-width: 820px; }
+    .notes li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<main>
+    <h1>Modulation pool</h1>
+    <p class="lead">One pool of modulators for the project. Drag a modulator from the pool onto a value to link it. Each link has its own amount.</p>
+    <div class="board">
+        <section class="panel"><h2>Tree</h2><div id="tree"></div></section>
+        <section class="panel"><h2>Inspector</h2><div id="insp"></div></section>
+        <section class="panel"><h2>Modulation</h2><div class="pool" id="pool"></div><table id="matrix"></table></section>
+    </div>
+    <ol class="notes">
+        <li>Drag a chip from the pool onto a value. The value gets the one "modulated" colour and a ring. (Serum, TouchDesigner)</li>
+        <li>The ring shows the amount of the link. Turn the mouse wheel on the ring to change it. (Serum, Bitwig)</li>
+        <li>The matrix lists each link: source, target and amount. (Logic Pro, Serum)</li>
+        <li>Click a chip: its targets light in the tree, the inspector and the matrix. (Bitwig)</li>
+        <li>The tree shows a category row only when its list has items, with a gap between kinds. A layer shows its lists, with Add and Hide, in the inspector. (Blender)</li>
+    </ol>
+</main>
+<script>
+const kinds = { entity: ["Entities", "--CategoryEntity"], camera: ["Cameras", "--CategoryCamera"], light: ["Lights", "--CategoryLight"],
+    filter: ["Filters", "--CategoryFilter"], modifier: ["Modifiers", "--CategoryModifier"] };
+const layers = [
+    { id: "Background", lists: { entity: ["Quad"], filter: ["Blur"] } },
+    { id: "Particles", lists: { entity: ["Particles", "Title"], light: ["Key light"] } },
+];
+const values = { Quad: { Opacity: 1, Hue: .3 }, Blur: { Radius: .4 }, Particles: { Size: .5, Count: .7, Speed: .4 },
+    Title: { Opacity: .8, Scale: .5 }, "Key light": { Intensity: .6 } };
+const pool = ["LFO slow", "FFT low", "Beat step"];
+let links = [{ mod: "FFT low", obj: "Particles", val: "Size", amt: .6 }, { mod: "LFO slow", obj: "Quad", val: "Hue", amt: .3 }];
+let selected = "Particles", litMod = null;
+const el = id => document.getElementById(id);
+const linkOf = (o, v) => links.find(l => l.obj === o && l.val === v);
+const isLit = o => litMod && links.some(l => l.mod === litMod && l.obj === o);
+
+function renderTree() {
+    let h = "";
+    for (const layer of layers) {
+        h += `<div class="row ${selected === layer.id ? "selected" : ""} ${isLit(layer.id) ? "lit" : ""}" data-sel="${layer.id}" style="padding-left:6px">&#9662; ${layer.id}</div>`;
+        let first = true;
+        for (const k in kinds) {
+            const items = layer.lists[k];
+            if (!items || !items.length) continue;
+            h += `<div class="row cat ${first ? "" : "gap"}" style="padding-left:22px">${kinds[k][0]}</div>`;
+            first = false;
+            for (const it of items) {
+                const mod = links.some(l => l.obj === it);
+                h += `<div class="row ${selected === it ? "selected" : ""} ${isLit(it) ? "lit" : ""}" data-sel="${it}" style="padding-left:38px;--k:var(${kinds[k][1]})">
+                    <span class="sw"></span>${it}${mod ? '<span class="mark" title="Modulated"></span>' : ""}</div>`;
+            }
+        }
+    }
+    el("tree").innerHTML = h;
+}
+
+function ring(amt) {
+    const c = 2 * Math.PI * 10;
+    return `<svg class="ring" viewBox="0 0 26 26"><circle cx="13" cy="13" r="10" style="stroke:var(--Grey500)"/>
+        <circle cx="13" cy="13" r="10" style="stroke:var(--mod)" stroke-dasharray="${c * amt} ${c}" transform="rotate(-90 13 13)"/></svg>`;
+}
+
+function renderInsp() {
+    const layer = layers.find(l => l.id === selected);
+    if (layer) {
+        el("insp").innerHTML = `<div style="font-weight:600;margin-bottom:6px">${layer.id}</div>` + Object.keys(kinds).map(k => {
+            const items = layer.lists[k] || [];
+            return `<div class="section"><div class="head"><span style="color:var(${kinds[k][1]})">${kinds[k][0]}</span><button>+ Add</button><button>Hide</button></div>
+                ${items.length ? items.map(i => `<div class="item">${i}</div>`).join("") : '<div class="none">Empty</div>'}</div>`;
+        }).join("");
+        return;
+    }
+    el("insp").innerHTML = `<div style="font-weight:600;margin-bottom:6px">${selected}</div>` + Object.entries(values[selected]).map(([v, x]) => {
+        const l = linkOf(selected, v);
+        return `<div class="value ${l ? "mod" : ""} ${l && l.mod === litMod ? "lit" : ""}" data-val="${v}">
+            <span class="label">${v}</span><span class="slider"><i style="width:${x * 100}%"></i></span>
+            ${l ? ring(l.amt) : '<svg class="ring" viewBox="0 0 26 26"></svg>'}<span class="src">${l ? l.mod : ""}</span></div>`;
+    }).join("");
+}
+
+function renderPool() {
+    el("pool").innerHTML = pool.map(m => `<span class="chip ${m === litMod ? "on" : ""}" draggable="true" data-mod="${m}">${m}</span>`).join("");
+    el("matrix").innerHTML = `<tr><th>Source</th><th>Target</th><th>Amount</th><th></th></tr>` + links.map((l, i) => `
+        <tr class="${l.mod === litMod ? "lit" : ""}"><td>${l.mod}</td><td>${l.obj} &#8250; ${l.val}</td>
+        <td><input type="range" min="0" max="1" step="0.01" value="${l.amt}" data-i="${i}"></td>
+        <td><button data-rm="${i}">&#10005;</button></td></tr>`).join("");
+}
+
+function render() { renderTree(); renderInsp(); renderPool(); }
+
+document.addEventListener("click", e => {
+    const sel = e.target.closest("[data-sel]"), chip = e.target.closest(".chip"), rm = e.target.closest("[data-rm]");
+    if (sel) selected = sel.dataset.sel;
+    else if (chip) litMod = litMod === chip.dataset.mod ? null : chip.dataset.mod;
+    else if (rm) links.splice(+rm.dataset.rm, 1);
+    else return;
+    render();
+});
+document.addEventListener("input", e => { if (e.target.dataset.i) { links[+e.target.dataset.i].amt = +e.target.value; renderInsp(); } });
+document.addEventListener("wheel", e => {
+    const v = e.target.closest(".value.mod");
+    if (!v || !e.target.closest(".ring")) return;
+    e.preventDefault();
+    const l = linkOf(selected, v.dataset.val);
+    l.amt = Math.min(1, Math.max(0, l.amt - Math.sign(e.deltaY) * .05));
+    renderInsp(); renderPool();
+}, { passive: false });
+
+// Drag a chip onto a value to make a link, or to change the source of a link.
+document.addEventListener("dragstart", e => { if (e.target.dataset.mod) e.dataTransfer.setData("text/plain", e.target.dataset.mod); });
+document.addEventListener("dragover", e => { const v = e.target.closest(".value"); if (v) { e.preventDefault(); v.classList.add("over"); } });
+document.addEventListener("dragleave", e => { const v = e.target.closest(".value"); if (v) v.classList.remove("over"); });
+document.addEventListener("drop", e => {
+    const v = e.target.closest(".value");
+    if (!v) return;
+    e.preventDefault();
+    const mod = e.dataTransfer.getData("text/plain"), l = linkOf(selected, v.dataset.val);
+    if (l) l.mod = mod; else links.push({ mod, obj: selected, val: v.dataset.val, amt: .5 });
+    render();
+});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,1161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nested boxes</title>
+<!-- Mockup: the project stack as nested boxes, with many levels, collapse, open as root and one declarative drag. It links the kit and copies nothing. -->
+<link rel="stylesheet" href="../tokens.css">
+<script src="../icons.js"></script>
+<style>
+    :root { --p-bg: #1C1C1F; --p-ink: #F2EDE4; --p-mute: #A39B8A; --p-sans: "Segoe UI", system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--p-bg); color: var(--p-mute); font: 400 13px/20px var(--p-sans); }
+    main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+    .workspace { display: grid; grid-template-columns: 250px 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 720px) { .workspace { grid-template-columns: 1fr; } }
+    #version { width: 100%; background: var(--Grey200); color: var(--TreeTextRest); border: 1px solid var(--Grey300); border-radius: 2px;
+        font: 13px/18px var(--p-sans); padding: 4px; outline: none; }
+    #version option { padding: 4px 8px; border-radius: 2px; }
+    #version option:checked { background: var(--AccentPrimary); color: var(--ActiveText); }
+    .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; align-items: start; }
+    .pair h2 { margin: 0 0 6px; font: 700 13px/18px var(--p-sans); color: var(--p-ink); }
+    h1 { margin: 0; font: 700 22px/28px var(--p-sans); color: var(--p-ink); }
+    .lead { margin: 6px 0 4px; }
+    .help { margin: 0 0 14px; padding-left: 18px; font-size: 12px; line-height: 18px; }
+    /* The rules of the tree of CMiX (ProjectTree.axaml, CategoryPalette): the darkest background, and every row in a tone of its kind
+       over that background: 18 % at rest, 32 % on hover, 55 % when selected. A change of kind deeper multiplies the rest tone by 0.8, down to 9 %.
+       A composable (composition, group, layer) takes the hue of its depth from the wheel of six colours. Rows are 24 high with a gap of 3. */
+    .panel { background: var(--TreeBackground); border-radius: 3px; padding: 8px; color: var(--TreeTextRest); }
+    .stage { position: relative; user-select: none; touch-action: none; transition: height .16s; }
+    .el { position: absolute; left: 0; top: 0; border-radius: var(--CornerRadiusAll); cursor: grab;
+          transition: transform .16s ease-out, width .16s, height .16s, opacity .16s; }
+    .row { display: flex; align-items: center; gap: 4px; height: 24px; padding: 0 4px 0 0; border-radius: var(--CornerRadiusAll);
+           white-space: nowrap; overflow: hidden; background: color-mix(in srgb, var(--h) var(--f), var(--TreeBackground)); }
+    .row:hover { background: color-mix(in srgb, var(--h) 32%, var(--TreeBackground)); }
+    .el.selected > .row { background: color-mix(in srgb, var(--h) 55%, var(--TreeBackground)); color: var(--ActiveText); }
+    .row svg { width: 16px; height: 16px; flex: none; fill: color-mix(in srgb, var(--h) 85%, var(--TreeBackground)); }
+    .el.selected > .row svg { fill: var(--ActiveText); }
+    .row .arrow { width: 16px; flex: none; text-align: center; color: var(--Grey800); cursor: pointer; font-size: 10px; }
+    .row em { margin-left: auto; font-style: normal; font-size: 11px; color: var(--Grey800); }
+    /* A box adds only a thin outline in its hue to the row of its header. Inside, the tree background shows, so boxes never stack greys. */
+    .el.box { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--h) 30%, var(--TreeBackground)); }
+    .el.comp > .row { font-weight: 600; }
+    .el.drag { transition: none; z-index: 100 !important; box-shadow: 0 4px 12px rgba(0,0,0,.6), inset 0 0 0 1px var(--ActiveText); cursor: grabbing;
+               background: var(--TreeBackground); }
+    .el.follow { transition: none; z-index: 101 !important; }
+    /* The box that takes the drop lights in its kind colour, in every look. */
+    .el.target { box-shadow: inset 0 0 0 1px var(--k); }
+    .el.target > .row { background: color-mix(in srgb, var(--k) 32%, var(--TreeBackground)); }
+
+    /* Accents: neutral rows. The kind colour stays in the icon, a thin edge on the left of a row, the outline of a box and the selection. */
+    .look-accent .row { background: var(--Grey200); }
+    .look-accent .row:hover { background: var(--Grey300); }
+    .look-accent .row svg { fill: var(--k); }
+    .look-accent .el > .row { box-shadow: inset 2px 0 0 var(--k); }
+    /* The rail of a box: the left accent of its header row, stretched down over all that the box holds. */
+    .look-accent .el.box { box-shadow: none; }
+    .look-accent .el.box > .row { box-shadow: none; }
+    .look-accent .el.box::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--k);
+        border-radius: var(--CornerRadiusAll) 0 0 var(--CornerRadiusAll); pointer-events: none; }
+    .look-accent .el.selected > .row { background: color-mix(in srgb, var(--k) 55%, var(--TreeBackground)); }
+    /* Neutral: grey rows and grey icons. Colour shows only on the selection and on the drop target. */
+    .look-neutral .row { background: var(--Grey200); }
+    .look-neutral .row:hover { background: var(--Grey300); }
+    .look-neutral .row svg { fill: var(--Grey800); }
+    .look-neutral .el.box { box-shadow: inset 0 0 0 1px var(--Grey300); }
+    .look-neutral .el.selected > .row { background: color-mix(in srgb, var(--k) 55%, var(--TreeBackground)); }
+    .look-accent .el.target, .look-neutral .el.target { box-shadow: inset 0 0 0 1px var(--k); }
+    .look-accent .el.target > .row, .look-neutral .el.target > .row { background: color-mix(in srgb, var(--k) 32%, var(--TreeBackground)); }
+
+    /* A: refined accents. Icon at full colour, no edge on items, rails at 40 %, the active branch at full colour, a 5 % box fill. */
+    .look-a .row { background: var(--Grey200); box-shadow: none; }
+    .look-a .row:hover { background: var(--Grey300); }
+    .look-a .row svg { fill: var(--k); }
+    .look-a .el.box { box-shadow: none; background: color-mix(in srgb, var(--k) 5%, var(--TreeBackground)); }
+    .look-a .el.box::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; pointer-events: none;
+        background: color-mix(in srgb, var(--k) 40%, var(--TreeBackground)); }
+    .look-a .el.box.active::after { background: var(--k); }
+    .look-a .el.selected > .row { background: color-mix(in srgb, var(--k) 40%, var(--TreeBackground)); }
+    /* B: calm, like Blender and VS Code. No item background, grey box headers, 1 px grey guides, the active guide in colour. */
+    .look-b .row { background: transparent; box-shadow: none; }
+    .look-b .el.box > .row { background: var(--Grey200); }
+    .look-b .row:hover, .look-b .el.box > .row:hover { background: var(--Grey300); }
+    .look-b .row svg { fill: var(--k); }
+    .look-b .el.box > .row svg { fill: color-mix(in srgb, var(--k) 70%, var(--TreeBackground)); }
+    .look-b .el.box { box-shadow: none; }
+    .look-b .el.box::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--Grey400); pointer-events: none; }
+    .look-b .el.box.active::after { background: var(--k); }
+    .look-b .el.selected > .row, .look-b .el.box.selected > .row { background: color-mix(in srgb, var(--k) 30%, var(--TreeBackground)); box-shadow: inset 2px 0 0 var(--k); }
+    /* C: bold, like the backdrops of Nuke. A faint fill per box that adds up with depth, a tinted header, a thin border, two container hues. */
+    .look-c .row { background: var(--Grey200); box-shadow: none; }
+    .look-c .row:hover { background: var(--Grey300); }
+    .look-c .row svg { fill: var(--k); }
+    .look-c .el.box { background: color-mix(in srgb, var(--k) 7%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k) 25%, var(--TreeBackground)); }
+    .look-c .el.box > .row { background: color-mix(in srgb, var(--k) 20%, var(--TreeBackground)); color: color-mix(in srgb, var(--k) 70%, white); }
+    .look-c .el.selected > .row, .look-c .el.box.selected > .row { background: color-mix(in srgb, var(--k) 45%, var(--TreeBackground)); color: var(--ActiveText); }
+    .look-a .el.target > .row, .look-b .el.target > .row, .look-c .el.target > .row { background: color-mix(in srgb, var(--k) 32%, var(--TreeBackground)); }
+
+    /* Quiet: the structure of B. At rest each icon has its kind colour mixed with the grey of Neutral (the slider sets the mix).
+       On hover, on the selection and on the active branch, the icon and the guide take the full colour. */
+    .look-d .row { background: transparent; box-shadow: none; }
+    .look-d .el.box > .row { background: var(--Grey200); }
+    .look-d .row:hover, .look-d .el.box > .row:hover { background: var(--Grey300); }
+    .look-d .row svg { fill: color-mix(in srgb, var(--k) var(--rest, 50%), var(--Grey800)); transition: fill .12s; }
+    .look-d .row:hover svg, .look-d .el.selected > .row svg, .look-d .el.active > .row svg { fill: var(--k); }
+    .look-d .el.box { box-shadow: none; }
+    .look-d .el.box::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--Grey400); pointer-events: none; }
+    .look-d .el.box.active::after { background: var(--k); }
+    .look-d .el.selected > .row, .look-d .el.box.selected > .row { background: color-mix(in srgb, var(--k) 30%, var(--TreeBackground)); box-shadow: inset 2px 0 0 var(--k); }
+    .look-d .el.target > .row { background: color-mix(in srgb, var(--k) 32%, var(--TreeBackground)); }
+    /* E: cards, like nodes. A container is a card: a grey header with a short top line in its muted kind colour, and a 1 px grey frame.
+       The frame takes the kind colour only on the active branch, the selection and the drop target. Icons are muted at rest, as in D. */
+    .look-e .row { background: transparent; box-shadow: none; }
+    .look-e .row:hover { background: var(--Grey300); }
+    .look-e .row svg { fill: color-mix(in srgb, var(--k) var(--rest, 50%), var(--Grey800)); transition: fill .12s; }
+    .look-e .row:hover svg, .look-e .el.selected > .row svg, .look-e .el.active > .row svg { fill: var(--k); }
+    .look-e .el.box { border-radius: 4px; background: transparent; box-shadow: inset 0 0 0 1px var(--Grey300); }
+    .look-e .el.box > .row { background: var(--Grey200); border-radius: 4px 4px 0 0;
+        box-shadow: inset 0 2px 0 color-mix(in srgb, var(--k) var(--rest, 50%), var(--Grey800)); }
+    .look-e .el.box > .row:hover { background: var(--Grey300); }
+    .look-e .el.box.active { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k) 60%, var(--TreeBackground)); }
+    .look-e .el.box.active > .row { box-shadow: inset 0 2px 0 var(--k); }
+    .look-e .el.box.selected { box-shadow: inset 0 0 0 1px var(--k); }
+    .look-e .el.box.selected > .row { background: color-mix(in srgb, var(--k) 25%, var(--TreeBackground)); box-shadow: inset 0 2px 0 var(--k); }
+    .look-e .el.item.selected > .row { background: color-mix(in srgb, var(--k) 30%, var(--TreeBackground)); }
+    .look-e .el.target { box-shadow: inset 0 0 0 1px var(--k); }
+    .look-e .el.target > .row { background: color-mix(in srgb, var(--k) 25%, var(--TreeBackground)); }
+
+    /* F: surfaces. A card is one surface, header and body in the same grey, with no line. Nested cards alternate two greys by depth.
+       Colour is a tint of the surface: faint on the active branch, stronger on the selection and the drop target. Icons are muted at rest. */
+    .look-f { --s0: var(--Grey200); --s1: var(--Grey300); }
+    .look-f .row { background: transparent; box-shadow: none; }
+    .look-f .row:hover { background: rgba(255, 255, 255, .05); }
+    .look-f .row svg { fill: color-mix(in srgb, var(--k) var(--rest, 50%), var(--Grey800)); transition: fill .12s; }
+    .look-f .row:hover svg, .look-f .el.selected > .row svg, .look-f .el.active > .row svg { fill: var(--k); }
+    .look-f .el.box { border-radius: 4px; box-shadow: none; background: var(--s0); transition: transform .16s ease-out, width .16s, height .16s, background .16s; }
+    .look-f .el.box.odd { background: var(--s1); }
+    .look-f .el.box > .row { background: transparent; }
+    .look-f .el.box.active { background: color-mix(in srgb, var(--k) 8%, var(--s0)); }
+    .look-f .el.box.odd.active { background: color-mix(in srgb, var(--k) 8%, var(--s1)); }
+    .look-f .el.box.selected, .look-f .el.box.odd.selected { background: color-mix(in srgb, var(--k) 18%, var(--s0)); }
+    .look-f .el.item.selected > .row { background: color-mix(in srgb, var(--k) 30%, transparent); }
+    .look-f .el.target, .look-f .el.odd.target { background: color-mix(in srgb, var(--k) 22%, var(--s0)); box-shadow: none; }
+    .look-f .el.target > .row { background: transparent; }
+    .look-f .el.drag { box-shadow: 0 4px 12px rgba(0,0,0,.6); }
+
+    /* G: surfaces with the highlights of the CMiX tree (ProjectTree.axaml, KindIconBrushConverter, TreeRowShadow, DragLook).
+       Rest: the surfaces of F, the icon in its kind colour, the name a step dimmer than white. Selection: the kind at 55 % on the row
+       or the header, icon and name white, a soft shadow. Drag: what cannot take the drop is dimmed, the target row takes the kind at 32 %.
+       A collapsed box shows count squares in the kind colours. An empty box is grey. */
+    .look-g { --s0: var(--Grey200); --s1: var(--Grey300); }
+    .look-g .row { background: transparent; box-shadow: none; color: var(--TreeTextRest); transition: opacity .16s, background .16s; }
+    /* Hover, one step under the selection, after the ladder of CategoryPalette (rest, hover, selected):
+       the innermost thing under the pointer gets the kind at 18 % on its row or header, and a card gets a 1 px outline at 60 %. */
+    .look-g .el.hov:not(.selected) > .row { background: color-mix(in srgb, var(--k) 18%, transparent); }
+    .look-g .el.box.hov:not(.selected) { outline: 1px solid color-mix(in srgb, var(--k) 60%, var(--TreeBackground)); outline-offset: 1px; }
+    .look-g .el.hov .badges b { background: color-mix(in srgb, var(--q) 85%, var(--TreeBackground)); }
+    .look-g .row svg { fill: color-mix(in srgb, var(--k) var(--rest, 100%), var(--Grey800)); }
+    .look-g .el.box { border-radius: var(--CornerRadiusAll); box-shadow: none; background: var(--s0); }
+    .look-g .el.box.odd { background: var(--s1); }
+    .look-g .el.box > .row { background: transparent; border-radius: var(--CornerRadiusAll) var(--CornerRadiusAll) 0 0; }
+    .look-g .el.selected > .row, .look-g .el.box.selected > .row { background: color-mix(in srgb, var(--k) 55%, var(--TreeBackground)); color: var(--ActiveText); }
+    .look-g .el.box.selected > .row { border-radius: var(--CornerRadiusAll) var(--CornerRadiusAll) 0 0; }
+    /* A selected card shows all it holds: a 2 px outline in its kind colour, the same style as the drop outline. */
+    .look-g .el.box.selected { outline: 1px solid var(--k); outline-offset: 1px; }
+    .look-g .el.selected > .row svg { fill: var(--ActiveText); }
+    .look-g .el.selected { box-shadow: 0 0 32px rgba(0, 0, 0, .9); }
+    .look-g .el.item.selected { z-index: 60 !important; }
+    .look-g .el.empty > .row, .look-g .el.empty > .row svg { color: var(--Grey700); fill: var(--Grey700); }
+    /* During a drag, three levels, after the Atlassian guidelines (available and hovered destinations):
+       a possible target has a dashed 1 px outline in its kind colour at 55 %; the current target has the solid outline, the tint and the label;
+       what can not take the drop darkens, its surface too. The rows inside a possible target stay clear: the drop goes between them. */
+    .look-g .el.dim > .row { opacity: .4; }
+    .look-g .el.box.dim { filter: brightness(.55); }
+    .look-g .el.box.eligible::before { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: var(--CornerRadiusAll);
+        border: 1px dashed color-mix(in srgb, var(--k) 55%, var(--TreeBackground)); }
+    /* Drop feedback, after the Atlassian guidelines: one colour that means "drop" (the accent), used for nothing else in the tree.
+       Every card that can take the drop gets a faint tint. The card that will take it gets a stronger tint on its whole surface.
+       A slot shows the exact place and size where the thing will land. */
+    .look-g { --drop: var(--AccentPrimary); }
+    .look-g .el.box { transition: transform .16s ease-out, width .16s, height .16s, background .35s cubic-bezier(.15, 1, .3, 1); }
+    /* The group drop indicator of Atlassian: only the innermost card that takes the drop gets a 2 px outline and a light tint,
+       drawn as an overlay over the card and all it holds. A label on the outline says what the drop does. */
+    .look-g .el.target > .row { background: transparent; }
+    .zone { position: absolute; left: 0; top: 0; z-index: 95; display: none; pointer-events: none; border-radius: var(--CornerRadiusAll);
+        outline: 1px solid var(--z, var(--AccentPrimary)); outline-offset: 1px; background: color-mix(in srgb, var(--z, var(--AccentPrimary)) 8%, transparent);
+        transition: transform .12s ease-out, width .12s, height .12s; }
+    .zone span { position: absolute; right: 6px; top: -10px; padding: 0 6px; border-radius: 2px; font: 600 10px/16px var(--p-sans);
+        background: var(--z, var(--AccentPrimary)); color: var(--TreeBackground); white-space: nowrap; }
+    .look-g .zone.on { display: block; }
+    .slot { position: absolute; left: 0; top: 0; z-index: 90; display: none; pointer-events: none; border-radius: var(--CornerRadiusAll);
+        background: color-mix(in srgb, var(--z, var(--AccentPrimary)) 45%, var(--TreeBackground));
+        transition: transform .12s ease-out, width .12s, height .12s; }
+    .look-g .slot.on { display: block; }
+    .el.drag { pointer-events: none; }
+    @keyframes flash { from { background: color-mix(in srgb, var(--AccentPrimary) 55%, transparent); } }
+    .look-g .el.item.flash > .row, .look-g .el.box.flash { animation: flash .7s ease-out; }
+    .look-g .el.drag { box-shadow: 0 4px 16px rgba(0, 0, 0, .8); }
+    .badges { display: none; margin-left: auto; gap: 3px; }
+    .badges b { min-width: 16px; height: 14px; padding: 0 3px; border-radius: 2px; font: 600 10px/14px var(--p-sans); text-align: center;
+        color: var(--TreeBackground); background: color-mix(in srgb, var(--q) 60%, var(--TreeBackground)); }
+    .look-g .badges { display: flex; }
+    .look-g .row em { display: none; }
+
+    /* The toggles sit in one column at the right edge of the panel, outside the cards, as in TogglesRow (TreeToggleWidth).
+       Each toggle has a slot of the row height, so the toggles of every depth line up. */
+    .tog { position: absolute; top: 0; height: 24px; width: 50px; display: flex; justify-content: flex-end; gap: 1px; z-index: 1; }
+    .tog span { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: var(--CornerRadiusAll); }
+    .tog span:hover { background: var(--Grey300); }
+    .tog svg { width: 16px; height: 16px; fill: var(--Grey800); }
+    .tog span.off svg { fill: var(--Grey600); }
+    .el.hid > .row { opacity: .45; }
+    /* Flush right: cards indent on the left only and share one right edge, so the toggles sit inside each header and still line up. */
+    .flush .row { padding-right: 54px; }
+    /* Bridge: the toggles stay in the column, and every row reaches it. A header continues in the surface grey of its card,
+       so its toggles sit at the end of its own bar. An item row stays clear at rest; its hover band and its selection run through the column. */
+    .bridge .row { width: calc(100% + var(--rg, 0px)); padding-right: 58px; }
+    .bridge.look-g .el.box > .row { background: var(--s0); }
+    .bridge.look-g .el.box.odd > .row { background: var(--s1); }
+    .bridge.look-g .el.box > .row:hover { background: color-mix(in srgb, white 5%, var(--s0)); }
+    .bridge.look-g .el.box.odd > .row:hover { background: color-mix(in srgb, white 5%, var(--s1)); }
+    .bridge.look-g .el.box.selected > .row { background: color-mix(in srgb, var(--k) 55%, var(--TreeBackground)); }
+    .bridge .tog { z-index: 2; }
+    /* Column: the toggles stay in one column and are tied to their row by colour. A cell has the surface grey of the card the row
+       belongs to. Hover on a row lights its cell, hover on a cell lights its row. The selected row and its cell share the kind fill. */
+    .column.look-g .tog { background: var(--s0); border-radius: var(--CornerRadiusAll); transition: background .16s; }
+    .column.look-g .el.cellodd > .tog { background: var(--s1); }
+    .column.look-g .el:has(> .row:hover) > .tog, .column.look-g .tog:hover { background: color-mix(in srgb, white 6%, var(--s0)); }
+    .column.look-g .el.cellodd:has(> .row:hover) > .tog, .column.look-g .el.cellodd > .tog:hover { background: color-mix(in srgb, white 6%, var(--s1)); }
+    .column.look-g .el:has(> .tog:hover) > .row { background: rgba(255, 255, 255, .05); }
+    .column.look-g .el.box.active > .tog { background: color-mix(in srgb, var(--k) 12%, var(--s0)); }
+    .column.look-g .el.box.cellodd.active > .tog { background: color-mix(in srgb, var(--k) 12%, var(--s1)); }
+    .column.look-g .el.selected > .tog, .column.look-g .el.cellodd.selected > .tog { background: color-mix(in srgb, var(--k) 55%, var(--TreeBackground)); }
+    .column.look-g .el.selected > .tog svg { fill: var(--ActiveText); }
+    .column.look-g .tog span:hover { background: transparent; }
+
+    /* Branch focus: with a selection, the rows outside its branch fade. The branch is the selection, its parents and all it holds. */
+    .focus .el.unfocus > .row, .focus .el.unfocus > .tog { opacity: .4; }
+    .el > .row, .el > .tog { transition: opacity .2s; }
+
+    /* Version 13, from the review. A ladder of greys: a deeper card is always lighter, up to the fourth level. */
+    .look-h { --L0: var(--Grey200); --L1: color-mix(in srgb, var(--Grey400) 33%, var(--Grey200));
+        --L2: color-mix(in srgb, var(--Grey400) 66%, var(--Grey200)); --L3: var(--Grey400); }
+    .look-h .el.box, .look-h .el.box.odd { background: var(--L0); }
+    .look-h .el.box[data-d="1"] { background: var(--L1); }
+    .look-h .el.box[data-d="2"] { background: var(--L2); }
+    .look-h .el.box[data-d="3"] { background: var(--L3); }
+    /* A type scale by level: rank is shown by type, not by colour. */
+    .look-h .el.comp .nm { font: 600 11px/24px var(--p-sans); text-transform: uppercase; letter-spacing: .06em; }
+    .look-h .el.group .nm { font: 600 12px/24px var(--p-sans); }
+    .look-h .el.layer .nm { font: 500 12px/24px var(--p-sans); }
+    .look-h .el.item .nm { font: 400 12px/24px var(--p-sans); opacity: .85; }
+    /* The blend order: a number in each list, 1 is in front. It changes live during a drag. */
+    .ord { display: none; }
+    .look-h .ord { display: none; }
+    /* Toggles show only the exceptions. A hidden parent hides its whole branch, and the eyes of the branch show it faded. */
+    .look-h .tog span svg { transition: opacity .12s; }
+    .look-h .tog span:not(.exc) svg { opacity: 0; }
+    .look-h .el.hov > .tog span svg { opacity: 1; fill: var(--Grey700); }
+    .look-h .tog span[data-vis].exc svg { fill: var(--Grey800); }
+    .look-h .tog span[data-mask].exc svg { fill: color-mix(in srgb, var(--k) 70%, var(--TreeBackground)); }
+    .look-h .tog span.inh svg { opacity: .5; }
+
+    .rest { display: none; align-items: center; gap: 8px; margin: 0 0 8px; font-size: 12px; }
+    .rest input { accent-color: var(--AccentPrimary); }
+    body:has(.look-d) .rest, body:has(.look-e) .rest, body:has(.look-f) .rest, body:has(.look-g) .rest { display: flex; }
+
+    .looks { display: flex; flex-wrap: wrap; gap: 2px; margin-bottom: 8px; }
+    .looks button { font: 12px var(--p-sans); padding: 2px 10px; border: 0; border-radius: 2px; background: var(--Grey300); color: var(--TreeTextRest); cursor: pointer; }
+    .looks button.on { background: var(--AccentPrimary); color: var(--ActiveText); }
+    .el.gone { opacity: 0; }
+
+    .band { position: absolute; left: 0; right: 0; top: 0; height: 26px; display: flex; gap: 6px; align-items: center; }
+    .crumbs { display: flex; gap: 2px; flex: 1; overflow: hidden; }
+    .crumb { padding: 0 6px; border-radius: 2px; cursor: pointer; color: var(--p-mute); }
+    .crumb:hover { background: var(--Grey300); }
+    .crumb.here { color: var(--p-ink); font-weight: 600; }
+    .crumb + .crumb::before { content: "\203A"; margin-right: 6px; color: var(--Grey700); }
+    .chip, .trash { height: 24px; padding: 0 10px; border: 1px dashed var(--Grey600); border-radius: 2px; display: flex; align-items: center; color: var(--TreeTextRest); }
+    .chip { cursor: grab; }
+
+    .out { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--Grey300); align-items: flex-end; }
+    .out .title { width: 100%; font-size: 11px; }
+    .out .title.live { color: var(--CategoryModulator); }
+    .sq { position: relative; width: 64px; height: 44px; background: #000; border-radius: 2px; overflow: hidden; }
+    .sq b { position: absolute; width: 30px; height: 20px; border-radius: 2px; opacity: .9; }
+    .out span { display: block; font-size: 11px; text-align: center; }
+    /* The exact metrics of the CMiX tree (Geometry.axaml, ProjectTree.axaml, TextBoxEditable, TogglesRow, ToggleButtonIcon).
+       Tree margin 8 8 0 8. Row 24, gap 3, corner 2. Content margin 2. Chevron 16 wide: a 4 x 8 path, 1.5 px, Grey800, it keeps its room
+       on a row with no children. Icon 16 with 4 at each side. Name 12 px, padding 4 2, TreeTextRest. Count squares 16, 4 after the name.
+       Toggles 50 wide: slots of 24, a gap of 1, icons 16 in TreeTextRest at 0.9, 0.5 under a hidden parent, white on a selected row. */
+    .panel { padding: 8px 0 8px 8px; }
+    .row { gap: 0 !important; padding-right: 0; font: 400 12px/24px var(--p-sans); color: var(--TreeTextRest); }
+    .row .arrow { width: 16px; height: 24px; display: flex; align-items: center; justify-content: center; flex: none; }
+    .row .arrow svg { width: 16px; height: 24px; margin: 0; fill: none !important; stroke: var(--Grey800); stroke-width: 1.5; transition: transform .12s; }
+    .row .arrow.open svg { transform: rotate(90deg); }
+    .row > svg { width: 16px; height: 16px; margin: 0 4px; flex: none; }
+    .row .nm { padding: 2px 4px; line-height: 20px; }
+    .el.selected > .row, .el.selected > .row .nm { color: var(--ActiveText); }
+    .el.selected > .row .arrow svg { stroke: var(--ActiveText); }
+    .row em { margin-left: 4px !important; }
+    .badges { margin-left: 4px !important; }
+    .badges b { height: 16px; min-width: 16px; line-height: 16px; }
+    .tog svg { width: 16px; height: 16px; fill: var(--TreeTextRest) !important; opacity: .9; }
+    .tog span.off svg { fill: var(--TreeTextRest) !important; }
+    .el.selected > .tog svg { fill: var(--ActiveText) !important; }
+    .look-h .tog span.inh svg { opacity: .5; }
+    .look-h .tog span:not(.exc) svg { opacity: 0; }
+    .look-h .el.hov > .tog span svg { opacity: .9; }
+    .look-h .tog span[data-mask].exc svg { fill: color-mix(in srgb, var(--k) 70%, var(--TreeBackground)) !important; }
+    .flush .row { padding-right: 50px; }
+    /* Version 13 keeps the weights of its type scale, at the 12 px of the tree. */
+    .look-h .el.comp .nm, .look-h .el.group .nm, .look-h .el.layer .nm, .look-h .el.item .nm { font-size: 12px; line-height: 20px; text-transform: none; letter-spacing: 0; }
+
+    /* Version 14: flat inside, rails on demand. Only a composition is a card. Inside it everything sits on the same surface.
+       Each card has a 1 px guide under the middle of its chevron, from its header to its last row, like the indent guides of VS Code:
+       hidden at rest, faint grey while the pointer is over the tree, the kind colour on the active branch and on the possible targets of a drag. */
+    .look-i .el.box[data-d="0"], .look-i .el.box.odd[data-d="0"] { background: var(--Grey200); }
+    .look-i .el.box:not([data-d="0"]), .look-i .el.box.odd:not([data-d="0"]) { background: transparent; }
+    .look-i .el.box::after { content: ""; position: absolute; left: var(--gx); top: 24px; bottom: 0; width: 1px; pointer-events: none;
+        background: var(--Grey500); opacity: 0; transition: opacity .15s, background .15s; }
+    .look-i .stage:hover .el.box::after { opacity: 1; }
+    .look-i .el.box.active::after { opacity: 1; background: color-mix(in srgb, var(--k) 70%, var(--TreeBackground)); }
+    .look-i .el.box.eligible::after { opacity: 1; background: color-mix(in srgb, var(--k) 55%, var(--TreeBackground)); }
+    .look-i .el.box.dim { filter: none; }
+    .look-i .el.box.dim[data-d="0"] { filter: brightness(.55); }
+
+    /* Version 15: the CMiX tree of today (ProjectTree.axaml, CategoryPalette) with the drag of the mockup. No card: every row is filled in
+       the tone of its kind, 18 % at rest (0.8 for each change of kind deeper, down to 9 %), 32 % on hover, 55 % and white text when selected.
+       A container takes the hue of its depth on the wheel. The chevron sits in the indent, outside the coloured row. Only the drag keeps the
+       slot, the outlines, the label and the dimming. */
+    .look-j .el.box, .look-j .el.box.odd, .look-j .el.box[data-d] { background: transparent !important; outline: none !important; }
+    .look-j .row, .look-j .el.hov > .row, .look-j .el.selected > .row, .look-j .el.box.selected > .row, .look-j .el.target > .row {
+        background: none !important; padding-left: var(--pad) !important; position: relative; isolation: isolate; }
+    .look-j .row::before { content: ""; position: absolute; left: calc(var(--pad) + 16px); right: 0; top: 0; bottom: 0; z-index: -1;
+        border-radius: var(--CornerRadiusAll); background: color-mix(in srgb, var(--h) var(--f), var(--TreeBackground)); transition: background .12s; }
+    .look-j .el.hov > .row::before { background: color-mix(in srgb, var(--h) 32%, var(--TreeBackground)); }
+    .look-j .el.selected > .row::before { background: color-mix(in srgb, var(--h) 55%, var(--TreeBackground)); }
+    .look-j .row > svg { margin-left: 6px; fill: var(--h) !important; }
+    .look-j .el.selected > .row > svg { fill: var(--ActiveText) !important; }
+    .look-j .el.comp .nm { font-weight: 400; }
+    /* The shadow of the selection falls under the selected row only, not around the rows it holds. */
+    .look-j .el.box.selected { box-shadow: none; }
+    .look-j .el.box.selected > .row::before { box-shadow: 0 0 32px rgba(0, 0, 0, .9); }
+
+    /* Version 16: surfaces only, colour only on interaction. No outline, no dashed line, no rail. Every state is a fill of the kind colour,
+       on one ladder: rest a faint neutral band, active branch 8 %, possible target area 6 %, hover 18 %, target area 14 % and header 32 %,
+       slot 45 %, selected 55 % with white text. What can not take a drop fades. */
+    .look-k .row::before { background: rgba(255, 255, 255, .035); }
+    .look-k .el.box.active > .row::before { background: color-mix(in srgb, var(--h) 8%, var(--TreeBackground)); }
+    .look-k .el.hov > .row::before { background: color-mix(in srgb, var(--h) 18%, var(--TreeBackground)); }
+    .look-k .el.selected > .row::before { background: color-mix(in srgb, var(--h) 55%, var(--TreeBackground)); }
+    .look-k .el.box.eligible { background: color-mix(in srgb, var(--h) 6%, var(--TreeBackground)) !important; }
+    .look-k .el.box.eligible::before { display: none; }
+    .look-k .el.box.target { background: color-mix(in srgb, var(--h) 14%, var(--TreeBackground)) !important; }
+    .look-k .el.box.target > .row::before { background: color-mix(in srgb, var(--h) 32%, var(--TreeBackground)); }
+    .look-k .el.drag > .row::before { background: color-mix(in srgb, var(--h) 40%, var(--TreeBackground)); }
+    .look-k .el.box.dim { filter: none; }
+    .look-k .zone { outline: none; background: transparent; }
+    .look-k .zone span { top: 4px; }
+    /* Version 17: the ladder of 16, stronger, and one outline only: the current drop target. A possible target never gets a line. */
+    .look-l .row::before { background: rgba(255, 255, 255, .05); }
+    .look-l .el.box.active > .row::before { background: color-mix(in srgb, var(--h) 14%, var(--TreeBackground)); }
+    .look-l .el.hov > .row::before { background: color-mix(in srgb, var(--h) 28%, var(--TreeBackground)); }
+    .look-l .el.selected > .row::before { background: color-mix(in srgb, var(--h) 62%, var(--TreeBackground)); }
+    .look-l .el.box.eligible { background: color-mix(in srgb, var(--h) 12%, var(--TreeBackground)) !important; }
+    .look-l .el.box.target { background: color-mix(in srgb, var(--h) 24%, var(--TreeBackground)) !important; }
+    .look-l .el.box.target > .row::before { background: color-mix(in srgb, var(--h) 45%, var(--TreeBackground)); }
+    .look-l .slot { background: color-mix(in srgb, var(--z, var(--AccentPrimary)) 55%, var(--TreeBackground)); }
+    .look-l .zone { outline: 1px solid var(--z, var(--AccentPrimary)); outline-offset: 0; }
+    .look-l .zone span { top: -9px; }
+    body:has(.look-l) .legend.v16 { display: none !important; }
+    .legend.v17 { display: none !important; }
+    body:has(.look-l) .legend.v17 { display: block !important; }
+    /* Version 18: the selection lights its whole area, at 18 %, so the card and all it holds read as one. The drop tints win during a drag. */
+    .look-m .el.box.selected:not(.eligible):not(.target) { background: color-mix(in srgb, var(--h) 18%, var(--TreeBackground)) !important; }
+    .legend .m-only, .legend .o-only, .legend .p-only, .legend .q-only, .legend .x-only, .legend .y-only, .legend .z-only, .legend .aa-only { display: none; }
+    body:has(.look-aa) .legend .aa-only { display: flex; }
+    body:has(.look-z) .legend .z-only { display: flex; }
+    body:has(.look-y) .legend .y-only { display: flex; }
+    body:has(.look-x) .legend .x-only { display: flex; }
+    body:has(.look-q) .legend .q-only { display: flex; }
+    body:has(.look-p) .legend .p-only { display: flex; }
+    body:has(.look-o) .legend .o-only { display: flex; }
+    body:has(.look-m) .legend .m-only { display: flex; }
+    /* The stacking order of versions 15 to 18, from the bottom: the tree background, the card areas from the outside in, the rows,
+       the toggles, the landing slot, the drop outline and its label, the dragged element. No shadow falls on a row. A selected item keeps
+       the layer of its depth. The label of the drop sits inside the target header, left of its toggles. */
+    .look-j .el.selected, .look-j .el.box.selected > .row::before { box-shadow: none !important; }
+    .look-j .el.item.selected { z-index: var(--zi) !important; }
+    .look-j .zone span { top: calc((var(--H) - 16px) / 2) !important; right: calc(var(--H) * 2 + 6px); }
+    /* Version 19: a spotlight during a drag. The tree goes neutral: row fills, the selection tint and the icon colours turn grey.
+       A possible target gets only a faint neutral lift. Only the current target is in colour: its area, header, outline, label, its icons
+       and the landing slot. One hue on screen at a time. */
+    .look-n .dragging .row::before { background: rgba(255, 255, 255, .035) !important; }
+    .look-n .dragging .row > svg { fill: var(--Grey800) !important; }
+    .look-n .dragging .el.selected > .row, .look-n .dragging .el.selected > .row .nm { color: var(--TreeTextRest); }
+    .look-n .dragging .el.box.eligible { background: color-mix(in srgb, white 4%, var(--TreeBackground)) !important; }
+    .look-n .dragging .el.box.selected:not(.target):not(.eligible) { background: transparent !important; }
+    .look-n .dragging .el.box.target { background: color-mix(in srgb, var(--h) 24%, var(--TreeBackground)) !important; }
+    .look-n .dragging .el.box.target > .row::before { background: color-mix(in srgb, var(--h) 45%, var(--TreeBackground)) !important; }
+    .look-n .dragging .el.target > .row > svg, .look-n .dragging .el.intarget > .row > svg { fill: var(--h) !important; }
+    .look-n .dragging .el.drag > .row::before { background: color-mix(in srgb, var(--h) 40%, var(--TreeBackground)) !important; }
+    .look-n .dragging .el.drag > .row > svg { fill: var(--h) !important; }
+    /* Version 20: as 19, and a possible target keeps the colour of its icon. Every other icon is grey during a drag. */
+    .look-o .dragging .el.eligible > .row > svg { fill: var(--h) !important; }
+    /* Version 21: as 20, and the things of the same kind as the dragged one keep the colour of their icon: the drop can go before or after them. */
+    .look-p .dragging .el.samekind > .row > svg { fill: var(--h) !important; }
+    /* Version 22: as 21, and a hovered card lights its area too, at half of the selected area: 9 %. The selection wins over the hover. */
+    .look-q .el.box.hov:not(.selected):not(.eligible):not(.target) { background: color-mix(in srgb, var(--h) 9%, var(--TreeBackground)) !important; }
+    /* Version 23: a coloured background is for the selection only. Hover lights the grey, with no colour. The drop target is shown by its
+       outline and its label only, on a neutral surface. The landing slot between the rows keeps the colour of the target. The active branch has no tint. */
+    .look-r .el.hov:not(.selected) > .row::before { background: rgba(255, 255, 255, .10); }
+    .look-r .el.box.hov:not(.selected):not(.eligible):not(.target) { background: color-mix(in srgb, white 5%, var(--TreeBackground)) !important; }
+    .look-r .el.box.active:not(.selected):not(.hov) > .row::before { background: rgba(255, 255, 255, .05); }
+    .look-r .dragging .el.box.target { background: color-mix(in srgb, white 4%, var(--TreeBackground)) !important; }
+    .look-r .dragging .el.box.target > .row::before { background: rgba(255, 255, 255, .035) !important; }
+    /* The selection wins over the active branch: a selected card is also on the active branch. */
+    .look-k .el.box.selected.active > .row::before { background: color-mix(in srgb, var(--h) 55%, var(--TreeBackground)); }
+    .look-l .el.box.selected.active > .row::before { background: color-mix(in srgb, var(--h) 62%, var(--TreeBackground)); }
+    body:has(.look-r) .legend.v19 { display: none !important; }
+    .legend.v23 { display: none !important; }
+    body:has(.look-r) .legend.v23 { display: block !important; }
+    body:has(.look-n) .legend.v17 { display: none !important; }
+    .legend.v19 { display: none !important; }
+    body:has(.look-n) .legend.v19 { display: block !important; }
+    .legend { margin-top: 10px; font-size: 12px; line-height: 18px; display: none; }
+    .legend div { display: flex; gap: 8px; align-items: center; }
+    .legend i { width: 22px; height: 12px; border-radius: 2px; flex: none; }
+    body:has(.look-k) .legend { display: block; }
+
+    /* Version 25: the text follows the ladder of the surfaces. Rest 70 % of TreeTextRest, hover and the inside of the selection at 100 %,
+       selected white. During a drag: what can not take the drop fades to 20 %, neutral rows at 55 %, possible targets and the same kind
+       at 100 %, the target, its contents and the dragged row white. */
+    .look-s .row .nm { color: color-mix(in srgb, var(--TreeTextRest) 70%, var(--TreeBackground)); transition: color .12s; }
+    .look-s .el.hov > .row .nm, .look-s .el.insel > .row .nm { color: var(--TreeTextRest); }
+    .look-s .el.selected > .row .nm { color: var(--ActiveText); }
+    .look-s .dragging .row .nm { color: color-mix(in srgb, var(--TreeTextRest) 55%, var(--TreeBackground)); }
+    .look-s .dragging .el.eligible > .row .nm, .look-s .dragging .el.samekind > .row .nm { color: var(--TreeTextRest); }
+    .look-s .dragging .el.target > .row .nm, .look-s .dragging .el.intarget > .row .nm, .look-s .dragging .el.drag > .row .nm { color: var(--ActiveText); }
+    .look-s .dragging .el.dim > .row, .look-s .dragging .el.dim > .tog { opacity: .2 !important; }
+    /* Version 26: during a drag, only the icons of the target and of all it holds keep their colour. Every other icon is grey. */
+    .look-t .dragging .el.eligible:not(.target):not(.intarget) > .row > svg,
+    .look-t .dragging .el.samekind:not(.target):not(.intarget) > .row > svg { fill: var(--Grey800) !important; }
+    /* Version 27: during a drag the icon follows the lit background: a possible drop target, the current one included, and everything
+       inside it keep the colour of their icons. Every icon outside all possible targets is grey. */
+    .look-u .dragging .el:not(.eligible):not(.inposs) > .row > svg { fill: var(--Grey800) !important; }
+    .look-u .dragging .el.eligible > .row > svg, .look-u .dragging .el.inposs > .row > svg { fill: var(--h) !important; }
+    /* The text and the fade follow the lit background too. A lit row is never faded, and its text is at full rest colour. */
+    .look-u .dragging .el.inposs:not(.target):not(.intarget) > .row .nm { color: var(--TreeTextRest); }
+    .look-u .dragging .el.samekind:not(.eligible):not(.inposs) > .row .nm { color: color-mix(in srgb, var(--TreeTextRest) 55%, var(--TreeBackground)); }
+    .look-u .dragging .el.inposs.dim > .row, .look-u .dragging .el.inposs.dim > .tog { opacity: 1 !important; }
+    /* Version 28: the colour review. Every state has a fixed perceptual lightness: an OKLCH L for the kind surfaces, an APCA Lc for text
+       and icons (60 rest, 45 dimmed, 30 out of play). Steps at least 0.04 L apart. No dimming by opacity. Greys mix in srgb. */
+    .look-w .row .nm { color: color-mix(in srgb, var(--TreeTextRest) 90%, var(--TreeBackground)); }
+    .look-w .el.hov:not(.selected) > .row::before { background: color-mix(in srgb, white 14%, var(--TreeBackground)); }
+    .look-w .el.box.hov:not(.selected):not(.eligible):not(.target) { background: color-mix(in srgb, white 3%, var(--TreeBackground)) !important; }
+    .look-w .el.selected > .row::before, .look-w .el.box.selected.active > .row::before { background: oklch(from var(--h) 0.50 min(c, 0.11) h); }
+    .look-w .el.box.selected:not(.eligible):not(.target) { background: oklch(from var(--h) 0.29 min(c, 0.05) h) !important; }
+    .look-w .slot { background: oklch(from var(--z, var(--AccentPrimary)) 0.45 min(c, 0.10) h); }
+    .look-w .dragging .row::before, .look-w .dragging .el.box.target > .row::before { background: rgba(255, 255, 255, .05) !important; }
+    .look-w .dragging .row .nm, .look-w .dragging .el.samekind:not(.eligible):not(.inposs) > .row .nm { color: color-mix(in srgb, var(--TreeTextRest) 75%, var(--TreeBackground)); }
+    .look-w .dragging .el:not(.eligible):not(.inposs) > .row > svg { fill: #999A9E !important; }
+    .look-w .dragging .el.dim > .row, .look-w .dragging .el.dim > .tog { opacity: 1 !important; }
+    .look-w .dragging .el.dim:not(.eligible):not(.inposs) > .row .nm { color: #7A7A7E !important; }
+    .look-w .dragging .el.dim:not(.eligible):not(.inposs) > .row > svg { fill: #7A7A7E !important; }
+    .look-w .el.k-light:not(.selected) > .row > svg { fill: oklch(from var(--CategoryLight) 0.76 c h) !important; }
+    .look-w .dragging .el.k-light:not(.eligible):not(.inposs) > .row > svg { fill: #999A9E !important; }
+    .look-w .dragging .el.k-light.dim:not(.eligible):not(.inposs) > .row > svg { fill: #7A7A7E !important; }
+    /* Version 29: while a card is the drop target, its header row takes its kind colour across the full width, from the left edge of the panel. */
+    .look-x .dragging .el.box.target > .row::before { left: 0 !important; background: oklch(from var(--h) 0.42 min(c, 0.10) h) !important; }
+    .look-x .dragging .el.box.target > .row .nm { color: var(--ActiveText) !important; }
+    .look-x .dragging .el.box.target > .row .arrow svg { stroke: var(--ActiveText); }
+    .look-x .dragging .el.box.target > .row > svg { fill: var(--ActiveText) !important; }
+    /* Version 30: every coloured row fills the full width, from the left edge of the panel: the selection, the drop target and the dragged row.
+       Grey fills (rest, hover) still start after the indent. */
+    .look-y .el.selected > .row::before, .look-y .el.drag > .row::before { left: 0 !important; }
+    /* Version 31: a selection is one surface. The header takes the colour of the selected area, L 0.29; a selected item takes it too. */
+    .look-z .el.selected > .row::before, .look-z .el.box.selected.active > .row::before { background: oklch(from var(--h) 0.29 min(c, 0.05) h) !important; }
+    /* Version 32: a hovered card is one grey surface too. The header takes the grey of the hovered area, white 8 %. A hovered item has no area,
+       so its row keeps the hover grey of 14 %. */
+    .look-aa .el.box.hov:not(.selected):not(.eligible):not(.target) { background: color-mix(in srgb, white 8%, var(--TreeBackground)) !important; }
+    .look-aa .el.box.hov:not(.selected) > .row::before { background: transparent !important; }
+    /* Version 34: no chevron. The icon of a card is its toggle: a click opens or closes it, a hover shows a pointer and a light ring.
+       A collapsed card shows a halo around its icon in its kind colour (Logseq). The drop outline is 2 px. */
+    .look-ac .row .arrow { display: none !important; }
+    .look-ac .row::before { left: var(--pad); }
+    .look-ac .row > svg[data-toggle] { cursor: pointer; border-radius: 4px; transition: box-shadow .12s; }
+    .look-ac .row > svg[data-toggle]:hover { box-shadow: 0 0 0 3px rgba(255, 255, 255, .14); }
+    .look-ac .el.closed > .row > svg { box-shadow: 0 0 0 2px color-mix(in srgb, var(--h) 55%, transparent); }
+    .look-ac .el.closed > .row > svg[data-toggle]:hover { box-shadow: 0 0 0 3px color-mix(in srgb, var(--h) 70%, transparent); }
+    .look-ac .zone { outline-width: 2px !important; }
+    /* Version 35: the selection is an outline only, white like its icon. No coloured header, no coloured area. */
+    .selzone { position: absolute; left: 0; top: 0; z-index: 94; display: none; pointer-events: none; border-radius: var(--CornerRadiusAll);
+        outline: 2px solid var(--ActiveText); outline-offset: -1px; transition: transform .16s ease-out, width .16s, height .16s; }
+    .look-ae .selzone.on { display: block; }
+    .look-ae.look-ae .el.selected.selected > .row::before { background: rgba(255, 255, 255, .05) !important; left: var(--pad) !important; }
+    .look-ae.look-ae .el.box.selected.active > .row::before { background: rgba(255, 255, 255, .05) !important; left: var(--pad) !important; }
+    .look-ae .el.box.selected:not(.eligible):not(.target) { background: transparent !important; }
+    /* Version 36: a soft selection. A 1 px outline in the kind colour at 70 %, and a faint kind tint at L 0.22 on the selected area or row. */
+    .look-af .selzone { outline: 1px solid color-mix(in srgb, var(--z, var(--ActiveText)) 70%, transparent); outline-offset: 0; }
+    .look-af .el.box.selected:not(.eligible):not(.target) { background: oklch(from var(--h) 0.22 min(c, 0.04) h) !important; }
+    .look-af.look-af .el.item.selected.selected > .row::before { background: oklch(from var(--h) 0.24 min(c, 0.05) h) !important; left: 0 !important; }
+    /* Version 37: a selection pill, like the selection indicator of Fluent. A 3 x 16 px bar in the kind colour at the left of the selected row,
+       and a light neutral lift: white 10 % on the row, 6 % on the card area. No kind colour in the background. */
+    .look-ag .selzone { display: none !important; }
+    .look-ag.look-ag .el.selected.selected > .row::before,
+    .look-ag.look-ag.look-ag .el.box.selected.active > .row::before { background: rgba(255, 255, 255, .10) !important; left: 0 !important; }
+    .look-ag .el.box.selected:not(.eligible):not(.target) { background: color-mix(in srgb, white 6%, var(--TreeBackground)) !important; }
+    .look-ag .el.selected > .row::after { content: ""; position: absolute; left: calc(var(--pad) + 2px); top: calc(50% - 8px); width: 3px; height: 16px;
+        border-radius: 2px; background: var(--h); }
+    .look-ag .dragging .el.selected > .row::after { display: none; }
+    /* Version 38: the selection is one neutral surface, white 8 %, header and children area alike, with a 3 px left border in the kind colour
+       along the full height of the card. Only the selection has it. */
+    .look-ah.look-ah.look-ah .el.box.selected.selected > .row::before,
+    .look-ah.look-ah.look-ah .el.box.selected.active > .row::before { background: transparent !important; }
+    .look-ah.look-ah.look-ah .el.item.selected.selected > .row::before { background: color-mix(in srgb, white 8%, var(--TreeBackground)) !important; left: 0 !important; }
+    .look-ah .el.box.selected:not(.eligible):not(.target) { background: color-mix(in srgb, white 8%, var(--TreeBackground)) !important; }
+    .look-ah .el.selected > .row::after { display: none !important; }
+    .look-ah .selzone.on { display: block !important; outline: none !important; background: transparent;
+        border-left: 3px solid var(--z, var(--ActiveText)); box-sizing: border-box; border-radius: var(--CornerRadiusAll) 0 0 var(--CornerRadiusAll); }
+    /* Version 39: no frame goes all the way around. The drop target shows a 2 px left border in its kind colour, along its full height. */
+    .look-ai .zone { outline: none !important; background: transparent !important; border-left: 2px solid var(--z, var(--AccentPrimary));
+        box-sizing: border-box; border-radius: var(--CornerRadiusAll) 0 0 var(--CornerRadiusAll); }
+    /* Version 40: hover looks like the selection, weaker. The same 8 % surface (full row for an item, header and area for a card) and the same
+       3 px left border, at 45 % of the kind colour. The selection wins over the hover. */
+    .hovzone { position: absolute; left: 0; top: 0; z-index: 93; display: none; pointer-events: none; box-sizing: border-box;
+        border-left: 3px solid color-mix(in srgb, var(--z, var(--ActiveText)) 45%, transparent); border-radius: var(--CornerRadiusAll) 0 0 var(--CornerRadiusAll); }
+    .look-ak .hovzone.on { display: block; }
+    .look-ak.look-ak.look-ak .el.item.hov:not(.selected) > .row::before { background: color-mix(in srgb, white 8%, var(--TreeBackground)) !important; left: 0 !important; }
+    /* Version 42: the children of a hovered card get the text of the children of a selection, so the hovered card reads as one block. */
+    .look-am .el.inhov > .row .nm { color: var(--TreeTextRest); }
+    /* Version 43: the drag reuses the states the user knows (state layers of Material 3, drop guidelines of Zendesk, Semrush, NN/g).
+       Valid places look normal. The current target looks like a hovered card: 8 % surface, header without band, left border at 45 %.
+       A reorder in the same parent shows only the landing slot. The dragged item has the strongest state: 16 % surface, white text.
+       Invalid places keep the fixed out of play colours. */
+    .look-an.look-an.look-an.look-an .dragging .el > .row > svg { fill: var(--h) !important; }
+    .look-an.look-an.look-an.look-an.look-an .dragging .el.dim:not(.eligible):not(.inposs) > .row > svg { fill: #7A7A7E !important; }
+    .look-an.look-an.look-an.look-an .dragging .el > .row .nm { color: color-mix(in srgb, var(--TreeTextRest) 90%, var(--TreeBackground)) !important; }
+    .look-an.look-an.look-an.look-an .dragging .el.target > .row .nm { color: var(--TreeTextRest) !important; }
+    .look-an.look-an.look-an.look-an .dragging .el.drag > .row .nm { color: var(--ActiveText) !important; }
+    .look-an.look-an.look-an .dragging .el.box.eligible:not(.target) { background: transparent !important; }
+    .look-an.look-an.look-an .dragging .el.box.target { background: color-mix(in srgb, white 8%, var(--TreeBackground)) !important; }
+    .look-an.look-an.look-an.look-an .dragging .el.box.target > .row::before { background: transparent !important; }
+    .look-an .zone { border-left: 3px solid color-mix(in srgb, var(--z, var(--AccentPrimary)) 45%, transparent) !important; }
+    .look-an .dragging.sameparent .zone { display: none !important; }
+    .look-an.look-an.look-an.look-an .dragging.sameparent .el.box.target { background: transparent !important; }
+    .look-an.look-an.look-an.look-an .dragging.sameparent .el.box.target > .row::before { background: rgba(255, 255, 255, .05) !important; }
+    .look-an.look-an.look-an.look-an .el.drag > .row::before { background: color-mix(in srgb, white 16%, var(--TreeBackground)) !important; left: 0 !important; }
+    /* Version 44: hover adds a layer on the selection too: the selected surface goes from 8 % to 13 % white. */
+    .look-ao .el.box.selected.hov:not(.eligible):not(.target) { background: color-mix(in srgb, white 13%, var(--TreeBackground)) !important; }
+    .look-ao.look-ao.look-ao.look-ao .el.item.selected.hov > .row::before { background: color-mix(in srgb, white 13%, var(--TreeBackground)) !important; }
+    /* Version 45: a full outline only on hover and on the drop target, 2 px in the kind colour at 70 %. The selection has no border. */
+    .look-ap.look-ap .selzone, .look-ap.look-ap .selzone.on { display: none !important; }
+    .look-ap .hovzone { border: 2px solid color-mix(in srgb, var(--z, var(--ActiveText)) 70%, transparent) !important; border-radius: var(--CornerRadiusAll) !important; }
+    .look-ap .zone { border: 2px solid color-mix(in srgb, var(--z, var(--AccentPrimary)) 70%, transparent) !important; border-radius: var(--CornerRadiusAll) !important; }
+    /* Version 46: the full outline shows only on the drop target, 1.5 px, 2 px outside it. No outline on hover. */
+    .look-aq.look-aq .hovzone, .look-aq.look-aq .hovzone.on { display: none !important; }
+    .look-aq.look-aq .zone { border: none !important; outline: 1.5px solid color-mix(in srgb, var(--z, var(--AccentPrimary)) 70%, transparent) !important;
+        outline-offset: 2px !important; border-radius: var(--CornerRadiusAll) !important; }
+    /* Version 47: the selection is lifted by a soft shadow, as under the selected row of the CMiX tree. The shadow falls outside it only. */
+    .look-ar.look-ar.look-ar .selzone.on { display: block !important; background: transparent !important; border: none !important; outline: none !important;
+        border-radius: var(--CornerRadiusAll); box-shadow: 0 3px 14px rgba(0, 0, 0, .75), 0 0 0 1px rgba(0, 0, 0, .35); }
+    /* The children of a selected card have white text, like its header. */
+    .look-ar.look-ar .el.insel > .row .nm, .look-ar.look-ar .el.selected > .row .nm { color: var(--ActiveText); }
+    /* Version 48, from the UX review and the cold viewer: hover 5 %, selection 12 % (16 % when hovered), so the two differ. No shadow and
+       no edge: a dark theme shows a lift by a lighter surface. A selected row keeps its icon in its kind colour, only the
+       text is white. During a drag the dragged row snaps into the gap at its new depth, and the slot is a 2 px line from that depth.
+       Card names are semibold, so the rows that hold children show at rest. */
+    .look-as .el.box.hov:not(.selected):not(.eligible):not(.target) { background: color-mix(in srgb, white 5%, var(--TreeBackground)) !important; }
+    .look-as.look-as.look-as.look-as .el.item.hov:not(.selected) > .row::before { background: color-mix(in srgb, white 5%, var(--TreeBackground)) !important; }
+    .look-as.look-as .el.box.selected:not(.eligible):not(.target) { background: color-mix(in srgb, white 12%, var(--TreeBackground)) !important; }
+    .look-as.look-as.look-as.look-as .el.item.selected > .row::before { background: color-mix(in srgb, white 12%, var(--TreeBackground)) !important; left: 0 !important; }
+    .look-as.look-as .el.box.selected.hov:not(.eligible):not(.target) { background: color-mix(in srgb, white 16%, var(--TreeBackground)) !important; }
+    .look-as.look-as.look-as.look-as.look-as .el.item.selected.hov > .row::before { background: color-mix(in srgb, white 16%, var(--TreeBackground)) !important; }
+    .look-as.look-as.look-as.look-as .selzone.on { box-shadow: none !important; }
+    .look-as.look-as .el.selected > .row > svg { fill: var(--h) !important; }
+    .look-as.look-as .dragging .el.selected > .tog svg { fill: var(--TreeTextRest) !important; }
+    .look-as .el.box > .row .nm { font-weight: 600; }
+    /* Version 49: during a drag, a row stays bright when the dragged thing can land inside it (a possible target) or next to it (a direct
+       child of a possible target). Every other row dims to the readable floor of the colour review: text #9A9A9F, grey icons (Grey800).
+       The dragged row stays white. */
+    .look-at.look-at.look-at.look-at.look-at .dragging .el:not(.eligible):not(.nb):not(.drag) > .row .nm { color: #9A9A9F !important; }
+    .look-at.look-at.look-at.look-at.look-at .dragging .el:not(.eligible):not(.nb):not(.drag) > .row > svg { fill: var(--Grey800) !important; }
+    .look-at.look-at.look-at.look-at.look-at .dragging .el.eligible > .row .nm,
+    .look-at.look-at.look-at.look-at.look-at .dragging .el.nb > .row .nm { color: var(--TreeTextRest) !important; }
+    .look-at.look-at.look-at.look-at.look-at .dragging .el.drag > .row .nm { color: var(--ActiveText) !important; }
+    /* Version 50: the selection has a left border only, 3 px in its full kind colour, along its full height (as in version 38).
+       Hover has no outline. The drop target keeps its full outline. */
+    .look-au.look-au.look-au .selzone.on { display: block !important; background: transparent !important; border: none !important; box-shadow: none !important;
+        outline: none !important; border-left: 3px solid var(--z, var(--ActiveText)) !important; box-sizing: border-box;
+        border-radius: var(--CornerRadiusAll) 0 0 var(--CornerRadiusAll); }
+    /* Version 51: hover has a left border only too, 3 px in the kind colour at 45 %, the same shape as the selection border, dimmer. */
+    .look-av.look-av.look-av .hovzone.on { display: block !important; outline: none !important; border: none !important; box-sizing: border-box;
+        border-left: 3px solid color-mix(in srgb, var(--z, var(--ActiveText)) 45%, transparent) !important;
+        border-radius: var(--CornerRadiusAll) 0 0 var(--CornerRadiusAll) !important; }
+    /* No mark all around on hover: no ring around the icon that toggles a card, no square behind a toggle. A hovered toggle shows its icon
+       at full brightness. */
+    .look-av.look-av .row > svg[data-toggle]:hover, .look-av.look-av .el.closed > .row > svg[data-toggle]:hover { box-shadow: none !important; }
+    .look-av.look-av .tog span:hover { background: transparent !important; }
+    .look-av.look-av .tog span:hover svg { opacity: 1 !important; fill: var(--ActiveText) !important; }
+    /* Version 52: during a drag, the band of a dimmed row drops from 5 % to 2 % white. Version 53: it disappears. */
+    .look-aw.look-aw.look-aw.look-aw .dragging .el:not(.eligible):not(.nb):not(.drag) > .row::before { background: rgba(255, 255, 255, .02) !important; }
+    .look-ax.look-ax.look-ax.look-ax .dragging .el:not(.eligible):not(.nb):not(.drag) > .row::before { background: transparent !important; }
+    /* The landing slot has the colour of the outline, which is the colour of the icon of the target. */
+    .look-ac .slot { background: var(--z, var(--AccentPrimary)) !important; }
+    body:has(.look-w) .legend.v23 { display: none !important; }
+    .legend.v28 { display: none !important; }
+    body:has(.look-w) .legend.v28 { display: block !important; }
+    /* No label on the drop frame: the outline and the landing slot show the drop. */
+    .look-u .zone span { display: none; }
+    .legend .u-only { display: none; }
+    body:has(.look-u) .legend .u-only { display: flex; }
+    body:has(.look-u) .legend .not-t { display: none; }
+    .legend .t-only { display: none; }
+    body:has(.look-t) .legend .t-only { display: flex; }
+    body:has(.look-t) .legend .not-t { display: none; }
+    .legend .s-only { display: none; }
+    body:has(.look-s) .legend .s-only { display: flex; }
+
+    /* Row size: the row height, the space at each side of the icon and of the name. 24, 4 and 4 are the CMiX values. */
+    .panel { --H: 24px; --ip: 4px; --npx: 4px; }
+    .row { height: var(--H) !important; line-height: var(--H) !important; }
+    .row .arrow, .row .arrow svg { height: var(--H) !important; }
+    .row > svg { margin: 0 var(--ip) !important; }
+    .look-j .row > svg { margin-left: calc(var(--ip) + 2px) !important; }
+    .row .nm, .look-h .el.comp .nm, .look-h .el.group .nm, .look-h .el.layer .nm, .look-h .el.item .nm { padding: 0 var(--npx) !important; line-height: var(--H) !important; }
+    .tog { height: var(--H) !important; width: calc(var(--H) * 2 + 2px) !important; }
+    .tog span { width: var(--H) !important; height: var(--H) !important; }
+    .flush .row { padding-right: calc(var(--H) * 2 + 2px) !important; }
+
+    kbd { font: 11px var(--p-sans); border: 1px solid var(--Grey600); border-radius: 2px; padding: 0 4px; }
+</style>
+</head>
+<body>
+<main>
+    <h1>Nested boxes</h1>
+    <p class="lead">A composition holds layers and groups. A group holds layers and groups. A layer holds its items.</p>
+    <ul class="help">
+        <li>Drag any box or item. A box moves with all it holds. <kbd>Alt</kbd> copies, <kbd>Esc</kbd> cancels.</li>
+        <li>Click a row to select it. Click the arrow of a box to collapse it to one row with its counts.</li>
+        <li>Double click a box to open it as the root. Click a name in the path at the top to go back up.</li>
+        <li>Drop on a name in the path to move a thing up to that level.</li>
+        <li>"+ Layer" adds, the trash removes, a drop below the last composition makes a new one.</li>
+    </ul>
+    <div class="workspace">
+        <div>
+            <select id="version" size="53" aria-label="Version"></select>
+            <div class="legend v28">
+                <div><i style="background:color-mix(in srgb, white 5%, var(--TreeBackground))"></i>Rest band; text at Lc 62</div>
+                <div><i style="background:color-mix(in srgb, white 14%, var(--TreeBackground))"></i>Hovered row</div>
+                <div><i style="background:color-mix(in srgb, white 3%, var(--TreeBackground))"></i>Hovered area</div>
+                <div><i style="background:oklch(from var(--CategoryComposable1) 0.29 min(c, 0.05) h)"></i>Selected area, L 0.29</div>
+                <div><i style="background:oklch(from var(--CategoryComposable1) 0.50 min(c, 0.11) h)"></i>Selected header, L 0.50, white text</div>
+                <div><i style="background:oklch(from var(--CategoryComposable1) 0.45 min(c, 0.10) h)"></i>Drag: landing slot, L 0.45</div>
+                <div><i style="background:#9A9A9F"></i>Drag: unlit text, Lc 47</div>
+                <div><i style="background:#7A7A7E"></i>Drag: out of play, Lc 31, no opacity</div>
+                <div class="aa-only"><i style="background:color-mix(in srgb, white 8%, var(--TreeBackground))"></i>Hovered card: header and area one grey, 8 %</div>
+                <div class="z-only"><i style="background:oklch(from var(--CategoryComposable1) 0.29 min(c, 0.05) h)"></i>Selection: header and area one colour, L 0.29</div>
+                <div class="y-only"><i style="background:oklch(from var(--CategoryComposable1) 0.50 min(c, 0.11) h)"></i>Every coloured row: full width</div>
+                <div class="x-only"><i style="background:oklch(from var(--CategoryComposable1) 0.42 min(c, 0.10) h)"></i>Drag: target header, full width, L 0.42</div>
+            </div>
+            <div class="legend v23">
+                <div><i style="background:rgba(255,255,255,.05)"></i>Rest</div>
+                <div><i style="background:rgba(255,255,255,.10)"></i>Hovered row, grey</div>
+                <div><i style="background:color-mix(in srgb, white 5%, var(--TreeBackground))"></i>Hovered area, grey</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 18%, var(--TreeBackground))"></i>Selected area, 18 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 62%, var(--TreeBackground))"></i>Selected header, 62 %</div>
+                <div><i style="background:transparent;box-shadow:inset 0 0 0 1px var(--CategoryComposable1)"></i>Drag: the target, outline and label only</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 55%, var(--TreeBackground))"></i>Drag: landing slot, 55 % of the target colour</div>
+                <div class="not-t"><i style="background:var(--CategoryFilter)"></i>Drag: icons of the same kind and of possible targets</div>
+                <div class="t-only"><i style="background:var(--CategoryFilter)"></i>Drag: only the icons inside the target in colour</div>
+                <div class="u-only"><i style="background:var(--CategoryFilter)"></i>Drag: icons of possible targets and all inside them in colour</div>
+                <div class="s-only"><i style="background:color-mix(in srgb, var(--TreeTextRest) 70%, var(--TreeBackground))"></i>Text at rest, 70 %</div>
+                <div class="s-only"><i style="background:var(--TreeTextRest)"></i>Text on hover and inside the selection</div>
+                <div class="s-only"><i style="background:var(--ActiveText)"></i>Text selected, and of the drop target</div>
+                <div class="s-only"><i style="background:color-mix(in srgb, var(--TreeTextRest) 20%, var(--TreeBackground))"></i>Drag: not possible, 20 %</div>
+            </div>
+            <div class="legend v19">
+                <div><i style="background:rgba(255,255,255,.05)"></i>At rest, as in 18</div>
+                <div class="q-only"><i style="background:color-mix(in srgb, var(--CategoryComposable1) 9%, var(--TreeBackground))"></i>Hovered area, 9 %</div>
+                <div class="q-only"><i style="background:color-mix(in srgb, var(--CategoryComposable1) 18%, var(--TreeBackground))"></i>Selected area, 18 %</div>
+                <div><i style="background:color-mix(in srgb, white 4%, var(--TreeBackground))"></i>Drag: possible target, 4 % white</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 24%, var(--TreeBackground))"></i>Drag: target area, 24 % and outline</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 45%, var(--TreeBackground))"></i>Drag: target header, 45 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 55%, var(--TreeBackground))"></i>Drag: landing slot, 55 %</div>
+                <div class="o-only"><i style="background:var(--CategoryComposable1)"></i>Drag: icon of a possible target in colour</div>
+                <div class="p-only"><i style="background:var(--CategoryFilter)"></i>Drag: icon of the same kind in colour</div>
+                <div><i style="background:var(--Grey800)"></i>Drag: every other icon grey</div>
+            </div>
+            <div class="legend v17">
+                <div><i style="background:rgba(255,255,255,.05)"></i>Rest</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 12%, var(--TreeBackground))"></i>Possible target, 12 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 14%, var(--TreeBackground))"></i>Active branch, 14 %</div>
+                <div class="m-only"><i style="background:color-mix(in srgb, var(--CategoryComposable1) 18%, var(--TreeBackground))"></i>Selected area, 18 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 24%, var(--TreeBackground))"></i>Target area, 24 % and outline</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 28%, var(--TreeBackground))"></i>Hover, 28 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 45%, var(--TreeBackground))"></i>Target header, 45 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 55%, var(--TreeBackground))"></i>Landing slot, 55 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 62%, var(--TreeBackground))"></i>Selected, 62 %</div>
+            </div>
+            <div class="legend v16">
+                <div><i style="background:rgba(255,255,255,.035)"></i>Rest</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 6%, var(--TreeBackground))"></i>Possible target, 6 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 8%, var(--TreeBackground))"></i>Active branch, 8 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 14%, var(--TreeBackground))"></i>Target area, 14 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 18%, var(--TreeBackground))"></i>Hover, 18 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 32%, var(--TreeBackground))"></i>Target header, 32 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 45%, var(--TreeBackground))"></i>Landing slot, 45 %</div>
+                <div><i style="background:color-mix(in srgb, var(--CategoryComposable1) 55%, var(--TreeBackground))"></i>Selected, 55 %</div>
+            </div>
+        </div>
+        <div>
+            <label class="rest">Icon colour at rest <input type="range" id="rest" min="0" max="100" value="100"> <span id="restValue">100 %</span></label>
+            <section class="panel look-g flush" id="panel">
+                <div class="stage"><div class="slot"></div><div class="zone"><span></span></div><div class="selzone"></div><div class="hovzone"></div><div class="band"><div class="crumbs"></div><div class="chip">+ Layer</div><div class="trash">Trash</div></div></div>
+                <div class="out"></div>
+            </section>
+        </div>
+    </div>
+</main>
+<script>
+let H = 24, TOG = 50, ZOOM = 1;
+const GAP = 3, TOP = 34;
+let FLUSH = true, NEST = "bands", REVIEW = false, DEPTHX = false, UNIFORM = false;
+// The nesting: how much a card moves in from the left and the right, and how much its content moves in, at a depth.
+const nesting = depth => {
+    const two = Math.min(depth, 2), deep = Math.max(depth - 2, 0);
+    return {
+        both: { l: depth * STEP, r: depth * INSET_R, pad: 0 },
+        left: { l: depth * STEP, r: 0, pad: 0 },
+        bands: { l: 0, r: 0, pad: depth * 16 },
+        two: { l: two * STEP, r: two * INSET_R, pad: deep * 16 },
+    }[NEST];
+};
+let STEP = 8, INSET_R = 8;
+const KIND = { entity: "--CategoryEntity", filter: "--CategoryFilter", modulator: "--CategoryModulator", light: "--CategoryLight" };
+const ICON = { comp: "Composition", group: "Composition", layer: "LayerScene", entity: "Geometry", filter: "Filter", modulator: "Modulator", light: "MeshLight" };
+const PATHS = Object.fromEntries((window.CMIX_ICONS?.icons || []).map(i => [i.key, i.path]));
+const icon = key => `<svg viewBox="0 0 24 24"><path d="${PATHS[key] || "M6,6H18V18H6Z"}"/></svg>`;
+const base = id => id.replace(/ copy\d*$/, "");
+const hash = id => [...base(id)].reduce((a, ch) => a + ch.charCodeAt(0), 0);
+const n = (id, kind, children = [], extra = {}) => ({ id, kind, open: true, children, ...extra });
+const it = (id, k) => n(id, "item", [], { k });
+const initial = () => ({ root: n("Project", "root", [
+    n("Main", "comp", [
+        n("Sky", "layer", [it("Quad", "entity"), it("Blur", "filter"), it("LFO", "modulator")]),
+        n("Crowd", "group", [
+            n("Swarm", "layer", [it("Particles", "entity"), it("Key light", "light")]),
+            n("Sparks", "group", [
+                n("Embers", "layer", [it("Points", "entity"), it("Glow", "filter")]),
+                n("Haze", "group", [n("Smoke", "layer", [it("Fog", "entity")]), n("Dust", "layer", [it("Grain", "filter")])]),
+            ]),
+        ]),
+        n("Caption", "layer", [it("Title", "entity")]),
+    ]),
+    n("Intro", "comp", [n("Brand", "layer", [it("Logo", "entity")])]),
+    n("Outro", "comp", [n("End", "layer", [it("Credits", "entity")])]),
+]) });
+const clone = s => JSON.parse(JSON.stringify(s));
+const find = (node, id) => node.id === id ? node : (node.children || []).reduce((a, c) => a || find(c, id), null);
+const parentOf = (node, id) => (node.children || []).some(c => c.id === id) ? node : (node.children || []).reduce((a, c) => a || parentOf(c, id), null);
+const ancestors = (root, id) => { const p = parentOf(root, id); return p ? [...ancestors(root, p.id), p] : []; };
+const HOLDS = { root: ["comp"], comp: ["layer", "group"], group: ["layer", "group"], layer: ["item"], item: [] };
+const canHold = (parent, child) => HOLDS[parent.kind].includes(child.kind);
+// The hue of an element: its kind for an item, the wheel of its composable depth for a container.
+const hueOf = (x, cdepth) => x.kind === "item" ? `var(${KIND[x.k] || "--CategoryEntity"})` : `var(--CategoryComposable${cdepth % 6})`;
+const colorOf = x => `var(--CategoryComposable${hash(x.id) % 6})`;
+const ACCENT = { comp: "--CategoryComposable0", group: "--CategoryComposable1", layer: "--CategoryComposable1" };
+const accentOf = x => x.kind === "item" ? `var(${KIND[x.k] || "--CategoryEntity"})` : `var(${ACCENT[x.kind]})`;
+const countsOf = x => { const c = { layer: 0, group: 0, item: 0 }; const walk = y => y.children.forEach(z => { c[z.kind]++; walk(z); }); walk(x);
+    return Object.entries(c).filter(([, v]) => v).map(([k, v]) => `${v} ${k}${v > 1 ? "s" : ""}`).join(", "); };
+const badgesOf = x => {
+    const c = new Map(), walk = y => y.children.forEach(z => { const k = accentOf(z); c.set(k, (c.get(k) || 0) + 1); walk(z); });
+    walk(x);
+    return `<span class="badges">${[...c].map(([k, v]) => `<b style="--q:${k}">${v}</b>`).join("")}</span>`;
+};
+const layersOf = x => x.kind === "layer" ? [x] : x.children.filter(c => c.kind !== "item").flatMap(layersOf);
+let counter = 0;
+
+// The layout: one box for each visible container, one row for each item. path lists the boxes that hold an element.
+function layout(view, W, s0) {
+    const r = {}; let y = TOP; const WC = FLUSH ? W : W - TOG - 4;
+    const walk = (x, depth, path, cdepth, kdepth, ord, under) => {
+        const nest = nesting(depth), left = nest.l, w = WC - nest.l - (FLUSH ? 0 : nest.r), hue = hueOf(x, cdepth);
+        const fill = Math.max(18 * Math.pow(0.8, kdepth), 9);
+        const rg = W - (left + w);
+        const pad = nest.pad, eh = !!under;
+        if (x.kind === "item") { r[x.id] = { x: left, y, w, h: H, node: x, depth, path, hue, fill, rg, pad, ord, eh }; y += H + GAP; return; }
+        const y0 = y; y += H + GAP;
+        if (x.open) {
+            x.children.forEach((c, i) => walk(c, depth + 1, [...path, x.id], cdepth + (c.kind === "item" ? 0 : 1), kdepth + (c.kind === "item" ? 1 : 0),
+                i + 1, under || x.hidden));
+            // Uniform spacing: no space inside the end of a card, so every gap between two rows is GAP.
+            if (!UNIFORM) { if (!x.children.length) y += 10; if (!REVIEW) y += 4; }
+        }
+        r[x.id] = { x: left, y: y0, w, h: !x.open ? H : (REVIEW || UNIFORM) && x.children.length ? Math.max(...x.children.map(c => r[c.id].y + r[c.id].h)) - y0 : UNIFORM ? H : y - y0, node: x, depth, path, hue, fill, rg, pad, ord, eh };
+        y = UNIFORM ? y0 + r[x.id].h + GAP : y + (REVIEW && x.open ? 8 : GAP);
+    };
+    // A composition has depth 0. Each container inside adds 1, also above an opened box.
+    const top = view.kind === "root" ? 0 : ancestors(s0.root, view.id).filter(a => a.kind !== "root").length + 1;
+    view.children.forEach((c, i) => walk(c, 0, [], top, 0, i + 1, false));
+    return { r, h: y + 6 };
+}
+
+class Panel {
+    constructor(id, nest) {
+        this.nest = nest;
+        this.root = document.getElementById(id);
+        this.stage = this.root.querySelector(".stage");
+        this.crumbsEl = this.root.querySelector(".crumbs");
+        this.outEl = this.root.querySelector(".out");
+        this.state = initial(); this.focus = "Project"; this.els = {}; this.drag = null;
+        this.stage.addEventListener("pointerdown", e => this.down(e));
+        this.stage.addEventListener("pointerover", e => {
+            const row = e.target.closest(".row, .tog"), el = row && row.closest(".el");
+            this.hover = el ? el.dataset.id : null; this.markActive();
+        });
+        this.stage.addEventListener("pointerleave", () => { this.hover = null; this.markActive(); });
+        this.stage.addEventListener("dblclick", e => {
+            const el = e.target.closest(".el"), x = el && find(this.state.root, el.dataset.id);
+            if (x && x.kind !== "item") { this.focus = x.id; this.render(this.state); }
+        });
+        this.render(this.state);
+    }
+    view(s) { return find(s.root, this.focus) || s.root; }
+    lay(s) { NEST = this.nest; return layout(this.view(s), this.stage.clientWidth, s); }
+    rectOf(e) { const a = e.getBoundingClientRect(), b = this.stage.getBoundingClientRect(); return { x: (a.left - b.left) / ZOOM, y: (a.top - b.top) / ZOOM, w: a.width / ZOOM, h: a.height / ZOOM }; }
+    el(id, kind) {
+        if (this.els[id]) return this.els[id];
+        const e = document.createElement("div");
+        e.className = "el " + kind; e.dataset.id = id;
+        this.stage.appendChild(e);
+        return this.els[id] = e;
+    }
+    fill(e, r) {
+        const x = r.node;
+        e.style.setProperty("--rg", (r.rg || 0) + "px");
+        e.style.setProperty("--gx", ((r.pad || 0) + 10) + "px");
+        e.style.setProperty("--pad", (r.pad || 0) + "px");
+        e.style.setProperty("--h", r.hue); e.style.setProperty("--f", r.fill + "%"); e.style.setProperty("--k", accentOf(x));
+        e.style.zIndex = r.depth + 1;
+        e.style.setProperty("--zi", r.depth + 1);
+        e.classList.toggle("box", x.kind !== "item");
+        e.classList.toggle("odd", r.depth % 2 === 1);
+        e.dataset.d = Math.min(r.depth, 3);
+        e.classList.toggle("cellodd", (x.kind === "item" ? r.depth - 1 : r.depth) % 2 === 1);
+        e.classList.toggle("selected", x.id === this.selected);
+        const chev = `<svg viewBox="0 0 16 24"><path d="M6 8 L10 12 L6 16"/></svg>`;
+        const arrow = x.kind === "item" || !x.children.length ? `<span class="arrow"></span>` : `<span class="arrow ${x.open ? "open" : ""}" data-toggle>${chev}</span>`;
+        const off = x.hidden || r.eh;
+        e.innerHTML = `<div class="row" style="padding-left:${(r.pad || 0) + 2}px">${arrow}<span class="ord">${r.ord || ""}</span>` +
+            `${x.kind !== "item" && x.children.length ? icon(ICON[x.kind]).replace("<svg", "<svg data-toggle") : icon(ICON[x.kind === "item" ? x.k : x.kind])}<span class="nm">${x.id}</span>` +
+            `${x.kind !== "item" && !x.open ? `<em>${countsOf(x)}</em>${badgesOf(x)}` : ""}</div>` +
+            (r.rg !== undefined ? `<div class="tog" style="right:${-r.rg}px">` +
+                (x.kind !== "item" ? `<span data-mask class="${x.masked ? "exc" : "off"}">${icon(x.masked ? "Mask" : "MaskOff")}</span>` : "") +
+                `<span data-vis class="${off ? "off exc" : ""} ${r.eh && !x.hidden ? "inh" : ""}">${icon(off ? "NotVisible" : "Visible")}</span></div>` : "");
+        e.classList.toggle("hid", !!x.hidden || (REVIEW && !!r.eh));
+        e.classList.toggle("empty", x.kind !== "item" && x.children.length === 0);
+        e.classList.toggle("k-light", x.kind === "item" && x.k === "light");
+        e.classList.toggle("closed", x.kind !== "item" && !x.open && x.children.length > 0);
+    }
+    place(e, r) { e.style.transform = `translate(${r.x}px,${r.y}px)`; e.style.width = r.w + "px"; e.style.height = r.h + "px"; }
+
+    render(s) {
+        const L = this.lay(s), d = this.drag && this.drag.started ? this.drag : null;
+        const target = d ? parentOf(s.root, d.id) : null;
+        const possible = new Set(), above = new Set();
+        if (d) for (const [id, r] of Object.entries(L.r))
+            if (r.node.kind !== "item" && canHold(r.node, d.node) && !r.path.includes(d.id) && id !== d.id) { possible.add(id); r.path.forEach(x => above.add(x)); }
+        for (const [id, r] of Object.entries(L.r)) {
+            const e = this.el(id, r.node.kind), follows = d && r.path.includes(d.id);
+            this.fill(e, r);
+            e.classList.remove("gone"); e.classList.toggle("follow", !!follows);
+            e.classList.toggle("target", !!(target && target.id === id));
+            e.classList.toggle("intarget", !!(target && r.path.includes(target.id)));
+            e.classList.toggle("inposs", !!(d && r.path.some(x => possible.has(x))));
+            e.classList.toggle("nb", !!(d && r.path.length && possible.has(r.path[r.path.length - 1])));
+            e.classList.toggle("samekind", !!(d && id !== d.id && !follows && r.node.kind === d.node.kind && (r.node.kind !== "item" || r.node.k === d.node.k)));
+            const holds = d && r.node.kind !== "item" && canHold(r.node, d.node);
+            const onTarget = target && (target.id === id || (L.r[target.id] && L.r[target.id].path.includes(id)));
+            const parent = r.path[r.path.length - 1];
+            const inPossible = d && parent && possible.has(parent), abovePossible = d && above.has(id);
+            e.classList.toggle("dim", !!(d && !holds && !inPossible && !abovePossible && !onTarget && id !== d.id && !follows));
+            e.classList.toggle("eligible", !!(d && holds && !follows && id !== d.id));
+            if (d && id === d.id) continue;
+            if (follows) { const b = L.r[d.id]; this.place(e, { ...r, x: r.x + d.fx - b.x, y: r.y + d.fy - b.y }); }
+            else this.place(e, r);
+        }
+        for (const [id, e] of Object.entries(this.els))
+            if (!L.r[id] && !(this.drag && id === this.drag.id)) { e.remove(); delete this.els[id]; }
+        const snap = this.root.classList.contains("look-as");
+        if (d) {
+            const size = L.r[d.id] || d.size, landing = snap && d.best && !d.best.fixed && L.r[d.id];
+            this.place(this.els[d.id], landing ? { x: landing.x, y: landing.y, w: size.w, h: size.h } : { x: d.fx, y: d.fy, w: size.w, h: size.h });
+        }
+        this.stage.style.height = L.h + "px";
+        this.L = L; this.markActive();
+        this.stage.classList.toggle("dragging", !!d);
+        this.stage.classList.toggle("sameparent", !!(d && target && target.id === d.origParent));
+        const slot = this.stage.querySelector(".slot"), spot = d && d.best && !d.best.fixed ? d.best.spot : null;
+        slot.classList.toggle("on", !!spot);
+        // Version 41: the landing slot fills the full width. Before, it started at the indent of the drop level.
+        const fullSlot = this.root.classList.contains("look-al") && !snap;
+        if (spot) this.place(slot, snap ? { x: spot.x, y: spot.y - 2, w: spot.w, h: 2 }
+            : fullSlot ? spot : { ...spot, x: spot.x + (spot.pad || 0), w: spot.w - (spot.pad || 0) });
+        const zone = this.stage.querySelector(".zone");
+        let zr = null, label = "", zc = "";
+        if (d && d.best) {
+            const tgt = parentOf(d.best.s.root, d.id);
+            if (d.best.fixed) { zr = d.best.spot; label = d.best.label; }
+            else if (tgt && L.r[tgt.id]) { zr = L.r[tgt.id]; label = d.best.label || "Into " + tgt.id; zc = this.root.classList.contains("look-j") ? L.r[tgt.id].hue : accentOf(tgt); }
+            else if (tgt) { zr = d.best.spot; label = "Into " + tgt.id; zc = accentOf(tgt); }
+        }
+        zone.classList.toggle("on", !!zr);
+        const selzone = this.stage.querySelector(".selzone"), sr = !d && this.selected && L.r[this.selected];
+        selzone.classList.toggle("on", !!sr);
+        if (sr) {
+            this.place(selzone, sr);
+            selzone.style.setProperty("--z", sr.hue);
+        }
+        if (zr) { this.place(zone, zr); zone.firstElementChild.textContent = label; }
+        for (const x of [zone, slot]) zc ? x.style.setProperty("--z", zc) : x.style.removeProperty("--z");
+        const path = [...ancestors(s.root, this.focus), this.view(s)];
+        this.crumbsEl.innerHTML = path.map(x => `<span class="crumb ${x.id === this.focus ? "here" : ""}" data-crumb="${x.id}">${x.id}</span>`).join("");
+        this.outEl.innerHTML = `<div class="title ${d ? "live" : ""}">${d ? "Output: preview of the drop place" : "Output"}</div>` +
+            s.root.children.map(c => `<div><div class="sq">${layersOf(c).reverse().map((l, i) =>
+                `<b style="left:${4 + i * 5}px;top:${4 + i * 3}px;background:${colorOf(l)}"></b>`).join("")}</div><span>${c.id}</span></div>`).join("");
+    }
+
+    markActive() {
+        const ids = new Set();
+        for (const id of [this.selected, this.hover]) {
+            const r = this.L && this.L.r[id];
+            if (!r) continue;
+            r.path.forEach(x => ids.add(x));
+            if (r.node.kind !== "item") ids.add(id);
+        }
+        const sel = this.L && this.L.r[this.selected];
+        const hovSel = this.root.classList.contains("look-ap");
+        const hovzone = this.stage.querySelector(".hovzone"), hr = this.hover && (hovSel || this.hover !== this.selected) && !this.drag && this.L && this.L.r[this.hover];
+        if (hovzone) { hovzone.classList.toggle("on", !!hr); if (hr) { this.place(hovzone, hr); hovzone.style.setProperty("--z", hr.hue); } }
+        for (const [id, e] of Object.entries(this.els)) {
+            e.classList.toggle("active", ids.has(id)); e.classList.toggle("hov", id === this.hover && !this.drag);
+            const r = this.L && this.L.r[id];
+            const inBranch = !sel || !r || id === this.selected || r.path.includes(this.selected) || sel.path.includes(id);
+            e.classList.toggle("unfocus", !inBranch && !this.drag);
+            e.classList.toggle("insel", !!(sel && r && r.path.includes(this.selected)));
+            const hovBox = !this.drag && this.hover && this.L && this.L.r[this.hover] && this.L.r[this.hover].node.kind !== "item" ? this.hover : null;
+            e.classList.toggle("inhov", !!(hovBox && r && r.path.includes(hovBox)));
+        }
+    }
+
+    point(e) { const b = this.stage.getBoundingClientRect(); return { x: (e.clientX - b.left) / ZOOM, y: (e.clientY - b.top) / ZOOM }; }
+
+    down(e) {
+        if (e.button !== 0) return;
+        const crumb = e.target.closest("[data-crumb]");
+        if (crumb) { this.focus = crumb.dataset.crumb; this.render(this.state); return; }
+        const tog = e.target.closest("[data-vis], [data-mask]");
+        if (tog) {
+            const x = find(this.state.root, tog.closest(".el").dataset.id);
+            if (tog.hasAttribute("data-vis")) x.hidden = !x.hidden; else x.masked = !x.masked;
+            this.render(this.state); return;
+        }
+        const chip = e.target.closest(".chip"), el = e.target.closest(".el");
+        if (!chip && !el) { if (!e.target.closest(".band")) { this.selected = null; this.render(this.state); } return; }
+        const p = this.point(e);
+        if (chip) {
+            const id = "Layer " + (++counter), r = this.rectOf(chip), x = n(id, "layer");
+            const ne = this.el(id, "layer"); this.fill(ne, { node: x, depth: 0, hue: hueOf(x, 1), fill: 18 }); ne.classList.add("drag"); this.place(ne, r);
+            this.drag = { id, node: x, press: p, grab: { x: p.x - r.x, y: p.y - r.y }, size: r, fromChip: true, depth0: 1, x0: r.x };
+        } else {
+            const id = el.dataset.id, r = this.lay(this.state).r[id];
+            this.drag = { id, node: r.node, press: p, grab: { x: p.x - r.x, y: p.y - r.y }, size: r, toggle: !!e.target.closest("[data-toggle]"), depth0: r.depth, x0: r.x };
+        }
+        const move = ev => this.move(ev);
+        const up = () => { removeEventListener("pointermove", move); removeEventListener("pointerup", up); removeEventListener("keydown", key); this.up(); };
+        const key = ev => { if (ev.key === "Escape" && this.drag) { this.drag.best = { s: this.state, spot: this.drag.size }; up(); } };
+        addEventListener("pointermove", move); addEventListener("pointerup", up); addEventListener("keydown", key);
+        e.preventDefault();
+    }
+
+    // Every drop place is a whole state. The spot is the rect of the dragged element in the layout of that state.
+    candidates(copy) {
+        const d = this.drag, s = this.state, out = [], b = clone(s);
+        const add = (t, spot, label) => { const rr = this.lay(t).r[d.id]; out.push({ s: t, spot: spot || rr, fixed: !!spot, label, depth: rr ? rr.depth : 0 }); };
+        let moved = clone(d.node);
+        if (!d.fromChip) {
+            const p = parentOf(b.root, d.id), i = p.children.findIndex(c => c.id === d.id);
+            moved = clone(p.children[i]);
+            if (moved.kind !== "item") moved.open = false;
+            if (copy) { const tag = " copy" + (++counter), ren = x => ({ ...x, id: base(x.id) + tag, children: x.children.map(ren) }); p.children[i] = ren(p.children[i]); }
+            else p.children.splice(i, 1);
+        }
+        const visit = P => {
+            if (P.kind === "item" || !P.open) return;
+            if (canHold(P, moved)) for (let i = 0; i <= P.children.length; i++) { const t = clone(b); find(t.root, P.id).children.splice(i, 0, clone(moved)); add(t); }
+            P.children.forEach(visit);
+        };
+        visit(find(b.root, this.focus) || b.root);
+        if (this.focus === "Project" && (moved.kind === "layer" || moved.kind === "group")) {
+            const t = clone(b); t.root.children.push(n("Comp " + (t.root.children.length + 1), "comp", [clone(moved)])); add(t, null, "New composition");
+        }
+        for (const a of ancestors(b.root, this.focus)) if (canHold(a, moved)) {
+            const t = clone(b); find(t.root, a.id).children.push(clone(moved));
+            add(t, this.rectOf(this.crumbsEl.querySelector(`[data-crumb="${a.id}"]`)), "Up to " + a.id);
+        }
+        if (d.fromChip) add(clone(s), this.rectOf(this.stage.querySelector(".chip")), "Cancel");
+        else if (!copy) add(b, this.rectOf(this.stage.querySelector(".trash")), "Remove");
+        return out;
+    }
+
+    move(e) {
+        const d = this.drag, p = this.point(e);
+        if (!d.started) {
+            if (Math.hypot(p.x - d.press.x, p.y - d.press.y) <= 4) return;
+            d.started = true;
+            const p0 = d.fromChip ? null : parentOf(this.state.root, d.id);
+            d.origParent = p0 ? p0.id : null;
+            d.normal = this.candidates(false);
+            d.copy = d.node.kind !== "comp" && !d.fromChip ? this.candidates(true) : null;
+            this.els[d.id].classList.add("drag");
+        }
+        d.fx = p.x - d.grab.x; d.fy = p.y - d.grab.y;
+        const under = document.elementFromPoint(e.clientX, e.clientY), box = under && under.closest(".el.box");
+        const closed = box && find(this.state.root, box.dataset.id);
+        if (closed && !closed.open && closed.id !== d.id) {
+            if (d.waitId !== closed.id) {
+                clearTimeout(d.wait); d.waitId = closed.id;
+                d.wait = setTimeout(() => {
+                    closed.open = true;
+                    d.normal = this.candidates(false);
+                    d.copy = d.node.kind !== "comp" && !d.fromChip ? this.candidates(true) : null;
+                    this.move(e);
+                }, 500);
+            }
+        } else { clearTimeout(d.wait); d.waitId = null; }
+        // With full width bands every place has x = 0. Version 13 gives each place an x from its depth: 24 px to the side is one level.
+        const set = e.altKey && d.copy ? d.copy : d.normal;
+        const dist = c => DEPTHX && !c.fixed
+            ? Math.hypot(((c.depth - d.depth0) * 24 - (d.fx - d.x0)) * 1.5, c.spot.y - d.fy)
+            : Math.hypot(c.spot.x - d.fx, c.spot.y - d.fy);
+        d.best = set.reduce((a, c) => dist(c) < dist(a) ? c : a);
+        this.render(d.best.s);
+    }
+
+    up() {
+        const d = this.drag; this.drag = null;
+        if (!d) return;
+        const e = this.els[d.id];
+        if (!d.started) {
+            if (d.fromChip) { e.remove(); delete this.els[d.id]; }
+            else if (d.toggle) { const x = find(this.state.root, d.id); x.open = !x.open; this.render(this.state); }
+            else { this.selected = d.id; this.render(this.state); }
+            return;
+        }
+        clearTimeout(d.wait);
+        e.classList.remove("drag");
+        Object.values(this.els).forEach(x => x.classList.remove("follow"));
+        this.state = d.best.s;
+        const placed = find(this.state.root, d.id);
+        if (placed && placed.kind !== "item" && !d.fromChip) placed.open = d.node.open;
+        if (placed) { e.classList.remove("flash"); void e.offsetWidth; e.classList.add("flash"); setTimeout(() => e.classList.remove("flash"), 800); }
+        if (!this.lay(this.state).r[d.id]) {
+            this.place(e, d.best.spot); e.classList.add("gone");
+            delete this.els[d.id];
+            setTimeout(() => e.remove(), 180);
+        }
+        this.render(this.state);
+    }
+}
+
+const panels = [new Panel("panel", "bands")];
+const panel = panels[0];
+// Every version of the design, with the settings it needs.
+const VERSIONS = [
+    { n: "01", name: "Full colour", look: "look-full" },
+    { n: "02", name: "Neutral", look: "look-neutral" },
+    { n: "03", name: "Accents", look: "look-accent" },
+    { n: "04", name: "Refined", look: "look-a" },
+    { n: "05", name: "Calm", look: "look-b", step: 12 },
+    { n: "06", name: "Backdrops", look: "look-c" },
+    { n: "07", name: "Quiet", look: "look-d", step: 12 },
+    { n: "08", name: "Cards", look: "look-e", card: true },
+    { n: "09", name: "Surfaces", look: "look-f", card: true },
+    { n: "10", name: "Surfaces + CMiX, inset left", look: "look-g", card: true, nest: "left", flush: true },
+    { n: "11", name: "Surfaces + CMiX, full width", look: "look-g", card: true, nest: "bands", flush: true },
+    { n: "12", name: "Branch focus", look: "look-g", card: true, nest: "bands", flush: true, focus: true },
+    { n: "13", name: "Review: ladder, visibility", look: "look-g look-h", card: true, nest: "bands", flush: true, review: true },
+    { n: "14", name: "Flat inside, rails on demand", look: "look-g look-h look-i", card: true, nest: "bands", flush: true, review: true },
+    { n: "15", name: "CMiX today, with the new drag", look: "look-g look-j", card: true, nest: "bands", flush: true, depthX: true },
+    { n: "16", name: "Surfaces only, colour on interaction", look: "look-g look-j look-k", card: true, nest: "bands", flush: true, depthX: true },
+    { n: "17", name: "Stronger surfaces, one outline", look: "look-g look-j look-k look-l", card: true, nest: "bands", flush: true, depthX: true },
+    { n: "18", name: "Selection lights its area", look: "look-g look-j look-k look-l look-m", card: true, nest: "bands", flush: true, depthX: true },
+    { n: "19", name: "Spotlight on the drop target", look: "look-g look-j look-k look-l look-m look-n", card: true, nest: "bands", flush: true, depthX: true },
+    { n: "20", name: "Spotlight, possible targets keep icon colour", look: "look-g look-j look-k look-l look-m look-n look-o", card: true, nest: "bands", flush: true, depthX: true },
+    { n: "21", name: "Spotlight, same kind keeps icon colour", look: "look-g look-j look-k look-l look-m look-n look-o look-p", card: true, nest: "bands", flush: true, depthX: true },
+    { n: "22", name: "Hover lights the area, dimmer", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q", card: true, nest: "bands", flush: true, depthX: true },
+    { n: "23", name: "Colour for the selection only", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r", card: true, nest: "bands", flush: true, depthX: true },
+    { n: "24", name: "Taller rows, 32 px", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "25", name: "Text follows the state", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "26", name: "Icon colour only inside the target", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-t", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "27", name: "Icon colour follows the lit background", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "28", name: "Colour review: perceptual ladder", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "29", name: "Target header coloured, full width", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-x", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "30", name: "Every coloured row full width", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-x look-y", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "31", name: "Selection is one surface", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-x look-y look-z", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "32", name: "Hover is one surface", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-x look-y look-z look-aa", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "33", name: "Target with its outline only", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "34", name: "No chevron, the icon toggles", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "35", name: "Selection is a white outline", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "36", name: "Soft selection: thin kind outline, faint tint", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-af", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "37", name: "Selection pill", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "38", name: "Selection: one surface, left border", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "39", name: "Borders on the left only", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "40", name: "Hover like the selection, weaker", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "41", name: "Landing slot full width", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "42", name: "Hovered card reads as one block", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "43", name: "Drag reuses the hover", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "44", name: "Hover lights the selection too", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "45", name: "Full outline on hover and drag only", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "46", name: "Outline only on the drop target", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "47", name: "Selection lifted by a shadow", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "48", name: "Review: selection 12 %, snap and line", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6 },
+    { n: "49", name: "Drag: bright where it can land", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as look-at", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6, uniform: true },
+    { n: "50", name: "Selection: left border", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as look-at look-au", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6, uniform: true },
+    { n: "51", name: "Hover: left border, dimmer", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as look-at look-au look-av", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6, uniform: true },
+    { n: "52", name: "Drag: dimmed rows, band 2 %", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as look-at look-au look-av look-aw", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6, uniform: true },
+    { n: "53", name: "Drag: dimmed rows, no band", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as look-at look-au look-av look-ax", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6, uniform: true },
+];
+const CLASSES = ["look-full", "look-accent", "look-neutral", "look-a", "look-b", "look-c", "look-d", "look-e", "look-f", "look-g", "look-h", "look-i", "look-j", "look-k", "look-l", "look-m", "look-n", "look-o", "look-p", "look-q", "look-r", "look-s", "look-t", "look-u", "look-w", "look-x", "look-y", "look-z", "look-aa", "look-ac", "look-ae", "look-af", "look-ag", "look-ah", "look-ai", "look-ak", "look-al", "look-am", "look-an", "look-ao", "look-ap", "look-aq", "look-ar", "look-as", "look-at", "look-au", "look-av", "look-aw", "look-ax", "flush", "column", "focus"];
+const list = document.getElementById("version");
+list.innerHTML = VERSIONS.map(v => `<option value="${v.n}">${v.n}  ${v.name}</option>`).join("");
+function applyVersion(n) {
+    const v = VERSIONS.find(x => x.n === n) || VERSIONS[VERSIONS.length - 1];
+    list.value = v.n;
+    panel.root.classList.remove(...CLASSES);
+    v.look.split(" ").forEach(c => panel.root.classList.add(c));
+    FLUSH = !!v.flush;
+    panel.root.classList.add(FLUSH ? "flush" : "column");
+    if (v.focus) panel.root.classList.add("focus");
+    STEP = v.step || (v.card ? 8 : 7);
+    INSET_R = v.card ? 8 : 3;
+    panel.nest = v.nest || "both";
+    REVIEW = !!v.review; DEPTHX = !!(v.review || v.depthX); UNIFORM = !!v.uniform;
+    H = v.h || 24; TOG = H * 2 + 2;
+    panel.root.style.setProperty("--H", H + "px");
+    panel.root.style.setProperty("--ip", (v.ip || 4) + "px");
+    panel.root.style.setProperty("--npx", (v.npx || 4) + "px");
+    panel.render(panel.state);
+    try { localStorage.setItem("cmix-nested-version", v.n); } catch (e) { }
+}
+list.addEventListener("change", () => applyVersion(list.value));
+let saved = null;
+try { saved = localStorage.getItem("cmix-nested-version"); } catch (e) { }
+applyVersion("52");
+addEventListener("resize", () => panel.render(panel.state));
+</script>
+</body>
+</html>

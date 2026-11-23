@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colour concept</title>
+<!-- Mockup of board 0.0. It links the kit and copies nothing. Every CMiX colour is a variable of tokens.css. -->
+<link rel="stylesheet" href="../tokens.css">
+<script src="../colour-chart.js"></script>
+<script src="../icons.js"></script>
+<style>
+    /* The colours of the page itself. They are warm greys, as in gallery.css, so the page never looks like a control of CMiX. */
+    :root {
+        --p-bg: #1C1C1F;
+        --p-board: #111113;
+        --p-ink: #F2EDE4;
+        --p-text: #B8AE9C;
+        --p-mute: #A39B8A;
+        --p-line: #4A463C;
+        --p-head: #2E2B26;
+        --p-fight: #C8553D;
+        --p-sans: "Segoe UI", system-ui, sans-serif;
+        --p-mono: "Cascadia Mono", Consolas, Menlo, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--p-bg); color: var(--p-text); font: 400 13px/20px var(--p-sans); }
+    main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
+    h1 { margin: 0; font: 700 26px/32px var(--p-sans); color: var(--p-ink); }
+    h2 { margin: 0 0 4px; font: 700 13px/18px var(--p-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--p-ink); }
+    h2 .n { font-family: var(--p-mono); color: var(--p-mute); margin-right: 8px; }
+    .lead { margin: 6px 0 0; max-width: 820px; font-size: 15px; line-height: 22px; }
+    .why { margin: 0 0 14px; color: var(--p-mute); font-size: 12px; }
+    section { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--p-line); }
+    .board { background: var(--p-board); border-radius: 4px; padding: 16px; }
+    [title] { cursor: help; }
+    button { font: 600 12px/16px var(--p-sans); }
+    .kicker { font: 600 11px/14px var(--p-mono); color: var(--p-mute); text-transform: uppercase; letter-spacing: .08em; }
+
+    /* The three voices: the colour of a band name. The bands use tokens: grey, a name hue and the status red. */
+    .voice { display: inline-block; padding: 0 6px; border-radius: 2px; font: 700 10px/16px var(--p-mono); letter-spacing: .08em; color: var(--ActiveText); }
+    .voice.quiet { background: var(--Grey500); }
+    .voice.hand { background: var(--AccentSecondary); }
+    .voice.loud { background: color-mix(in srgb, var(--PopupCardDanger) 70%, var(--TreeBackground)); }
+
+    /* 1 The six sentences. */
+    .bands { display: grid; grid-template-columns: 3fr 2fr 1.2fr; gap: 12px; margin-top: 16px; }
+    .band { display: flex; flex-direction: column; gap: 8px; }
+    .band > header { display: flex; align-items: center; gap: 8px; min-height: 20px; }
+    .band > header small { color: var(--p-mute); font-size: 12px; }
+    .band-cards { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); flex: 1; }
+    .card { background: var(--p-board); border-radius: 4px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .card p { margin: 0; color: var(--p-ink); font-size: 14px; line-height: 19px; }
+    .card p b { font-family: var(--p-mono); color: var(--p-mute); margin-right: 6px; }
+    .card .viz { min-height: 54px; display: flex; align-items: flex-end; }
+    .truth { align-self: flex-start; font: 600 10px/14px var(--p-mono); padding: 0 5px; border-radius: 2px; border: 1px solid var(--p-line); color: var(--p-mute); }
+    .truth.false { border-color: var(--p-fight); color: var(--p-fight); }
+    .truth.partly { border-style: dashed; }
+
+    /* Tiny visuals. */
+    .nest { background: var(--Grey100); padding: 6px; border-radius: 2px; width: 100%; }
+    .nest > div { background: var(--Grey200); padding: 6px; border-radius: 2px; }
+    .nest > div > div { background: var(--Grey300); padding: 6px; border-radius: 2px; }
+    .nest > div > div > div { background: var(--Grey400); height: 10px; border-radius: 2px; }
+    .ladder { display: flex; gap: 3px; width: 100%; }
+    .ladder > span { flex: 1; display: flex; flex-direction: column; gap: 3px; align-items: stretch; }
+    .ladder i { display: block; height: 24px; border-radius: 2px; }
+    .ladder small { font: 400 10px/12px var(--p-mono); color: var(--p-mute); text-align: center; white-space: nowrap; }
+    .ladder .doubt small { color: var(--p-fight); }
+    .names { display: flex; gap: 4px; flex-wrap: wrap; }
+    .mini { width: 100%; background: var(--TreeBackground); padding: 4px; border-radius: 2px; display: grid; gap: 3px; }
+    .mini > div { height: 12px; border-radius: 2px; background: color-mix(in srgb, var(--CategoryTexture) 18%, var(--TreeBackground)); position: relative; }
+    .ctl { display: flex; gap: 8px; align-items: center; }
+    .ctl .on { width: 34px; height: 18px; border-radius: 2px; background: var(--AccentPrimary); }
+    .ctl .off { width: 34px; height: 18px; border-radius: 2px; background: var(--StateIdleBrush); }
+    .ctl .focus { width: 60px; height: 18px; border-radius: 2px; background: var(--Grey200); box-shadow: inset 0 0 0 1px var(--AccentPrimary); }
+    .stat { display: grid; gap: 4px; font: 700 11px/14px var(--p-mono); }
+    .stat span { display: flex; gap: 6px; align-items: center; }
+
+    /* The status shapes. */
+    .shape { width: 10px; height: 10px; flex: none; display: inline-block; }
+    .shape.ok { border-radius: 50%; background: var(--StatusSuccess); }
+    .shape.wait { border-radius: 50%; box-shadow: inset 0 0 0 2px var(--Grey800); }
+    .shape.warn { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 11px solid var(--PopupCardWarning); }
+    .shape.bad { background: var(--PopupCardDanger); clip-path: polygon(20% 0, 50% 30%, 80% 0, 100% 20%, 70% 50%, 100% 80%, 80% 100%, 50% 70%, 20% 100%, 0 80%, 30% 50%, 0 20%); }
+    .w-ok { color: var(--StatusSuccess); } .w-warn { color: var(--PopupCardWarning); } .w-bad { color: var(--PopupCardDanger); } .w-wait { color: var(--Grey800); }
+
+    /* 2 The anatomy of the tree. */
+    .anatomy { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; }
+    .tcell { background: var(--TreeBackground); padding: 0 0 0 8px; }
+    .tcell.first { padding-top: 8px; } .tcell.last { padding-bottom: 8px; }
+    .tree { background: var(--TreeBackground); padding: 8px 0 8px 8px; }
+    .row { height: var(--TreeRowHeight); margin-bottom: var(--TreeRowGap); display: flex; align-items: center; gap: 4px; padding-right: 8px;
+           border-radius: var(--CornerRadiusAll); color: var(--TreeTextRest); font: 400 var(--FontSizeMD)/16px var(--p-sans); position: relative; }
+    .row.chosen { color: var(--ActiveText); }
+    .row .chev { width: 12px; height: 12px; opacity: var(--OpacityIconIdle); }
+    .row .name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .row.cursor { box-shadow: inset 0 0 0 1px var(--k); }
+    .row.dim::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--TreeBackground); opacity: var(--TreeDimOpacity); }
+    .dropline { height: var(--TreeDropLineThickness); background: var(--ActiveText); margin: -2px 8px 2px 40px; }
+    .badge { width: var(--TreeKindSquareSize); height: var(--TreeKindSquareSize); border-radius: 2px; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+    .badge svg { width: var(--IconSizeSM); height: var(--IconSizeSM); fill: var(--ActiveText); }
+    .badge.plus { background: var(--Grey600); color: var(--ActiveText); font: 700 9px/1 var(--p-mono); width: auto; padding: 0 3px; }
+    .icon { width: var(--IconSizeMD); height: var(--IconSizeMD); flex: none; }
+    .icon svg { width: 100%; height: 100%; }
+    .co { display: flex; align-items: center; min-height: calc(var(--TreeRowHeight) + var(--TreeRowGap)); gap: 8px; font-size: 12px; line-height: 16px; }
+    .co::before { content: ""; width: 28px; flex: none; border-top: 1px dotted var(--p-line); }
+    .co .ch { font: 700 10px/14px var(--p-mono); padding: 0 5px; border-radius: 2px; background: var(--p-head); color: var(--p-ink); white-space: nowrap; }
+    .co .ax { color: var(--p-ink); font-weight: 600; white-space: nowrap; }
+    .co.fight .ch { background: var(--p-fight); }
+    .co.fight::before { border-top-color: var(--p-fight); }
+
+    /* 3 The matrix. */
+    .toggle { display: inline-flex; border: 1px solid var(--p-line); border-radius: 3px; overflow: hidden; }
+    .toggle button { background: transparent; color: var(--p-text); border: 0; padding: 4px 12px; cursor: pointer; }
+    .toggle button[aria-pressed="true"] { background: var(--p-head); color: var(--p-ink); }
+    .bar { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+    .bar .rule { color: var(--p-mute); font-size: 12px; }
+    .mx-wrap { overflow-x: auto; }
+    table.mx { border-collapse: separate; border-spacing: 3px; width: 100%; min-width: 860px; font-size: 12px; line-height: 15px; }
+    .mx th { text-align: left; font-weight: 600; color: var(--p-ink); padding: 4px 6px; vertical-align: bottom; }
+    .mx thead th small { display: block; font: 400 10px/12px var(--p-mono); color: var(--p-mute); }
+    .mx thead th.hot small { color: var(--p-fight); }
+    .mx tbody th { white-space: nowrap; width: 1%; }
+    .mx tbody th .voice { margin-right: 6px; }
+    .mx tr.groupstart th, .mx tr.groupstart td { border-top: 1px solid var(--p-line); }
+    .mx td { background: var(--p-board); padding: 5px 7px; border-radius: 2px; vertical-align: top; color: var(--p-text); width: 15%; }
+    .mx td.empty { background: transparent; }
+    .mx td.fight { box-shadow: inset 3px 0 0 var(--p-fight); background: color-mix(in srgb, var(--p-fight) 14%, var(--p-board)); color: var(--p-ink); }
+    .mx td.pending { background: repeating-linear-gradient(135deg, var(--p-board) 0 6px, var(--p-head) 6px 8px); color: var(--p-mute); font-style: italic; }
+    .mx td.same { opacity: .45; }
+    .mx td.none { color: var(--p-mute); }
+    .mx tr.missing th { color: var(--p-fight); }
+    .key { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-size: 11px; color: var(--p-mute); }
+    .key i { display: inline-block; width: 14px; height: 10px; margin-right: 5px; vertical-align: -1px; border-radius: 2px; }
+    .key .k-f { box-shadow: inset 3px 0 0 var(--p-fight); background: color-mix(in srgb, var(--p-fight) 14%, var(--p-board)); }
+    .key .k-p { background: repeating-linear-gradient(135deg, var(--p-board) 0 3px, var(--p-head) 3px 5px); }
+    .key .k-s { background: var(--p-board); opacity: .45; }
+    .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; margin-top: 18px; }
+    .legend > div { background: var(--p-board); border-radius: 4px; padding: 10px 12px; }
+    .legend h3 { margin: 0 0 6px; font: 600 12px/16px var(--p-sans); color: var(--p-ink); display: flex; gap: 6px; align-items: center; }
+    .legend ul { margin: 0; padding-left: 16px; font-size: 12px; line-height: 17px; }
+
+    /* 4 The two audiences. */
+    .wall { display: grid; gap: 12px; }
+    .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .tile { background: var(--Grey200); border-radius: 4px; padding: 14px 12px; display: flex; flex-direction: column; gap: 8px; position: relative; min-height: 96px; }
+    .tile .peer { font: 600 12px/16px var(--p-sans); color: var(--Text); }
+    .tile .state { display: flex; align-items: center; gap: 10px; font: 800 20px/24px var(--p-mono); letter-spacing: .04em; }
+    .tile .state .shape { transform: scale(2); transform-origin: left center; margin-right: 12px; }
+    .tile.live { box-shadow: 0 0 0 3px var(--ActiveText); }
+    .tile .livetag { position: absolute; top: -9px; right: 10px; background: var(--ActiveText); color: var(--Grey100); font: 800 11px/16px var(--p-mono); padding: 0 6px; border-radius: 2px; }
+    .tile.today { min-height: 56px; padding: 10px 12px; }
+    .tile.today .dot { width: var(--IndicatorSize); height: var(--IndicatorSize); border-radius: 50%; display: inline-block; }
+    .lower { display: grid; grid-template-columns: 1fr 220px; gap: 12px; align-items: start; }
+    .opbox { border: 1px dashed var(--p-line); border-radius: 4px; padding: 10px; }
+    .opbox .names { margin: 6px 0; }
+    .opbox p { margin: 0; font-size: 12px; color: var(--p-mute); }
+    .row .fault { display: inline-flex; align-items: center; gap: 6px; font: 800 11px/14px var(--p-mono); }
+    .wall-rules { margin: 0; padding-left: 18px; color: var(--p-ink); }
+
+    /* 5 Open findings and decisions. */
+    .open { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .open ol, .open ul { margin: 6px 0 0; padding-left: 18px; font-size: 12px; line-height: 18px; }
+    .open li b { color: var(--p-ink); font-weight: 600; }
+    .sw { display: inline-block; width: 12px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 1px; }
+
+    @media (max-width: 860px) {
+        .bands, .open, .lower { grid-template-columns: 1fr; }
+        .anatomy { grid-template-columns: 1fr; }
+        .tiles { grid-template-columns: repeat(2, 1fr); }
+    }
+</style>
+</head>
+<body>
+<main>
+    <div class="kicker">Board 0.0 &middot; proposal &middot; mockup</div>
+    <h1>Colour system: a grey room, two voices and a hand</h1>
+    <p class="lead">The room is grey. A <span class="voice quiet">QUIET</span> voice names things and their state, for the operator.
+        A <span class="voice loud">LOUD</span> voice tells the venue what is wrong, always with a shape and a word.
+        Blue is the <span class="voice hand">HAND</span> on a control.</p>
+
+    <!-- 1 -->
+    <section id="s1">
+        <h2><span class="n">1</span>Six sentences</h2>
+        <p class="why">Learn these six. The rest of the board explains them. A red mark says that the code does not do it today.</p>
+        <div class="bands">
+            <div class="band">
+                <header><span class="voice quiet">QUIET</span><small>place, name, state. For the operator.</small></header>
+                <div class="band-cards">
+                    <div class="card">
+                        <p><b>1</b>The room is grey. A higher surface is a lighter grey.</p>
+                        <div class="viz"><div class="nest" title="Grey100, Grey200, Grey300, Grey400. Grey means place only."><div><div><div></div></div></div></div></div>
+                        <span class="truth" title="True. The grey ramp is sound (audit).">true today</span>
+                    </div>
+                    <div class="card">
+                        <p><b>2</b>A hue is a name: what a thing is, or how deep it sits. The icon says it first.</p>
+                        <div class="viz"><div class="names" id="names"></div></div>
+                        <span class="truth partly" title="Partly. Seven kind hues and six wheel hues share one lightness. Six kinds have a wheel twin. Green, red and orange are also status hues.">partly true</span>
+                    </div>
+                    <div class="card">
+                        <p><b>3</b>Strength is state. One ladder for every hue.</p>
+                        <div class="viz"><div class="ladder" id="ladder"></div></div>
+                        <span class="truth partly" title="Partly. The tree speaks strength. The grey controls speak grey steps and blue. Kind depth also uses strength (LevelFactor 0.8).">partly true</span>
+                    </div>
+                </div>
+            </div>
+            <div class="band">
+                <header><span class="voice hand">HAND</span><small>where the hand is and what it holds.</small></header>
+                <div class="band-cards">
+                    <div class="card">
+                        <p><b>4</b>Shape is the hand: a thin frame, a white line, a grey cover.</p>
+                        <div class="viz"><div class="mini" title="Cursor frame, drop line, out of play cover.">
+                            <div style="box-shadow: inset 0 0 0 1px var(--CategoryTexture)"></div>
+                            <div style="height: var(--TreeDropLineThickness); background: var(--ActiveText)"></div>
+                            <div class="dimmed" style="opacity: var(--TreeDimOpacity)"></div>
+                        </div></div>
+                        <span class="truth partly" title="Partly. The grab mode frame is blue. The grey cursor frame (Grey800) is also the grey of a peer that connects.">partly true</span>
+                    </div>
+                    <div class="card">
+                        <p><b>5</b>Blue is the control: on and focus, nothing else.</p>
+                        <div class="viz"><div class="ctl"><span class="off" title="StateIdleBrush"></span><span class="on" title="AccentPrimary: on"></span><span class="focus" title="AccentPrimary: focus line"></span></div></div>
+                        <span class="truth false" title="False. AccentPrimary also draws the grab mode frame and the in sync dot (StatusIndicators.axaml:11).">false today</span>
+                    </div>
+                </div>
+            </div>
+            <div class="band">
+                <header><span class="voice loud">LOUD</span><small>the system. For everyone.</small></header>
+                <div class="band-cards">
+                    <div class="card">
+                        <p><b>6</b>Status is loud and fixed: a hue, a shape and a word, in one place. Never a fill.</p>
+                        <div class="viz"><div class="stat">
+                            <span class="w-ok"><i class="shape ok"></i>OK</span>
+                            <span class="w-warn"><i class="shape warn"></i>CHECK</span>
+                            <span class="w-bad"><i class="shape bad"></i>DOWN</span>
+                        </div></div>
+                        <span class="truth false" title="False. External modulation is orange. Composition depth 3 is the green of connected (dE 2.0). Camera is the red of disconnected (dE 3.9). Some status is a dot of colour only.">false today</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="s2">
+        <h2><span class="n">2</span>One tree, read by axis</h2>
+        <p class="why">Each row carries more than one message. The callout names the axis and the channel that carries it. A red callout is a fight.</p>
+        <div class="board anatomy" id="anatomy"></div>
+    </section>
+
+    <!-- 3 -->
+    <section id="s3">
+        <h2><span class="n">3</span>Which channel carries which message</h2>
+        <p class="why">A row is a message. A column is a channel of the eye. Two messages in one column on one element is a fight.</p>
+        <div class="bar">
+            <div class="toggle" id="mxToggle" role="group" aria-label="Candidate">
+                <button data-m="today" aria-pressed="true" title="The code of today.">Today</button>
+                <button data-m="A" aria-pressed="false" title="A: hue says what it is, lightness says how deep it sits.">A</button>
+                <button data-m="B" aria-pressed="false" title="B: only containers have colour, a thing is an icon.">B</button>
+                <button data-m="C" aria-pressed="false" title="C: identity whispers, status shouts. It sits on top of A or B.">C</button>
+            </div>
+            <span class="rule" id="mxRule"></span>
+        </div>
+        <div class="mx-wrap"><table class="mx" id="mx"></table></div>
+        <div class="key">
+            <span><i class="k-f"></i>fight: this channel has another job on the same element</span>
+            <span><i class="k-p"></i>pending: the candidate does not say</span>
+            <span><i class="k-s"></i>same as today: the candidate does not change it</span>
+            <span>Source: colour-principles-2026-11-14.md. Hover a cell for the numbers.</span>
+        </div>
+        <div class="legend" id="legend"></div>
+    </section>
+
+    <!-- 4 -->
+    <section id="s4">
+        <h2><span class="n">4</span>Two audiences, one screen</h2>
+        <p class="why">The venue manager reads the wall from two metres. The operator reads the tree from the desk. The loud voice must win at two metres.</p>
+        <div class="bar">
+            <div class="toggle" id="wallToggle" role="group" aria-label="View">
+                <button data-w="today" aria-pressed="false" title="What the code shows today.">Today</button>
+                <button data-w="wall" aria-pressed="true" title="What the venue manager asks for.">Wall</button>
+            </div>
+            <span class="rule" id="wallRule"></span>
+        </div>
+        <div class="board wall" id="wall"></div>
+    </section>
+
+    <!-- 5 -->
+    <section id="s5">
+        <h2><span class="n">5</span>Open</h2>
+        <div class="open">
+            <div class="board">
+                <div class="kicker">Findings of the audit</div>
+                <ul id="findings"></ul>
+            </div>
+            <div class="board">
+                <div class="kicker">Decisions of the owner</div>
+                <ol>
+                    <li title="See section 3. The specialist ranks C on top of B first, C on top of A with 4 families second."><b>A, B or C.</b> Which candidate?</li>
+                    <li title="Today the tree speaks strength and the controls speak grey steps and blue."><b>One dialect or two.</b> Does a grey list show chosen in blue?</li>
+                    <li title="LevelFactor 0.8 makes .18 into .144. The eye does not see it."><b>Kind depth.</b> Keep it, or drop LevelFactor?</li>
+                    <li title="Violet is the Modulator kind. Orange is warning."><b>Modulation source.</b> A name (quiet) or a status (loud)?</li>
+                    <li title="Only C keeps a free hue slider safe, and only for normal vision."><b>Hue slider.</b> Yes, snap or no?</li>
+                    <li title="White on KindHover .85 is 2.2 to 3.5:1. It is an icon only step."><b>KindHover .85.</b> A real step, or remove it?</li>
+                    <li title="The venue manager asks for it. No token and no shape exist."><b>LIVE.</b> Which token and which shape says on air?</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+(function () {
+    'use strict';
+    var chart = window.CMIX_COLOUR_CHART || {};
+    var icons = {};
+    ((window.CMIX_ICONS || {}).icons || []).forEach(function (i) { icons[i.key] = i.path; });
+
+    // A tone of a hue: the sRGB mix over TreeBackground, as ColorMix.Over in CategoryPalette.
+    function tone(token, s) { return 'color-mix(in srgb, var(--' + token + ') ' + Math.round(s * 1000) / 10 + '%, var(--TreeBackground))'; }
+    function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+    function svg(key) {
+        var p = icons[key];
+        if (!p) return null;
+        var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        s.setAttribute('viewBox', '0 0 24 24');
+        var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', p);
+        s.appendChild(path);
+        return s;
+    }
+    function badge(token, icon, s) {
+        var b = el('span', 'badge');
+        b.style.background = tone(token, s == null ? 0.60 : s);
+        var i = svg(icon); if (i) b.appendChild(i);
+        b.title = token;
+        return b;
+    }
+
+    // 1 The names and the ladder.
+    var names = document.getElementById('names');
+    [['CategoryComposable0', 'Composition'], ['CategoryCamera', 'Camera'], ['CategoryLight', 'MeshLight'], ['CategoryTexture', 'Texture'],
+     ['CategoryFilter', 'Filter'], ['CategoryModifier', 'Modifier'], ['CategoryModulator', 'Modulator']].forEach(function (k) { names.appendChild(badge(k[0], k[1])); });
+
+    var ladder = document.getElementById('ladder');
+    (chart.tones || []).forEach(function (t) {
+        var step = el('span', t.id === 'KindHover' || t.id === 'Floor' ? 'doubt' : '');
+        var fill = el('i'); fill.style.background = tone('CategoryEntity', t.strength);
+        step.appendChild(fill);
+        step.appendChild(el('small', '', String(t.strength).replace('0.', '.')));
+        step.title = t.id + ' ' + t.strength + ': ' + (t.meaning || '') + (t.id === 'KindHover' ? ' Open: a real step?' : '') + (t.id === 'Floor' ? ' Only for kind depth.' : '');
+        ladder.appendChild(step);
+    });
+
+    // 2 The anatomy. A row: the kind token, the icon, the indent, the strength, the state, the callouts [axis, channel, text, tip, fight].
+    function treeRow(r) {
+        var row = el('div', 'row' + (r.state === 'chosen' ? ' chosen' : '') + (r.cursor ? ' cursor' : '') + (r.dim ? ' dim' : ''));
+        row.style.marginLeft = 'calc(var(--TreeIndent) * ' + (r.indent || 0) + ')';
+        row.style.background = r.fill || tone(r.k, r.s);
+        row.style.setProperty('--k', 'var(--' + r.k + ')');
+        var chev = el('span', 'chev'); var c = svg(r.open ? 'ChevronDown' : 'ChevronRight'); if (c) { c.style.fill = 'currentColor'; chev.appendChild(c); } row.appendChild(chev);
+        if (r.state === 'chosen') { var ic = el('span', 'icon'); var s = svg(r.icon); if (s) { s.style.fill = 'var(--ActiveText)'; ic.appendChild(s); } row.appendChild(ic); }
+        else row.appendChild(badge(r.k, r.icon, r.badge));
+        row.appendChild(el('span', 'name', r.name));
+        (r.extra || []).forEach(function (x) { row.appendChild(x); });
+        if (r.tip) row.title = r.tip;
+        return row;
+    }
+    var anatomyRows = [
+        { name: 'Show A', k: 'CategoryComposable0', icon: 'Composition', s: 0.18, open: true, tip: 'Composition, depth 0, at rest (.18).',
+          co: [['Nesting', 'hue', 'Depth 0 of the wheel of 6.', 'CategoryComposable0 #DC89D5.']] },
+        { name: 'Layer 1', k: 'CategoryComposable1', icon: 'LayerScene', s: 0.18, indent: 1, open: true, tip: 'Layer, depth 1, at rest.',
+          co: [['Nesting', 'hue', 'Depth 1 is red: the red of Camera and of danger.', 'Composable1 vs Camera dE 3.0, vs PopupCardDanger dE 4.1.', true]] },
+        { name: 'Camera 1', k: 'CategoryCamera', icon: 'Camera', s: 0.55, indent: 2, state: 'chosen', tip: 'Chosen camera: .55, white text and icon.',
+          co: [['Row state', 'strength .55', 'The chosen row. White text.', 'A fill that carries text is at most .55. 0.85 fails AA.'],
+               ['Kind', 'hue + icon', 'A camera. The icon says it first.', 'Camera and Texture are dE 1.1 for a deutan eye.']] },
+        { name: 'Light 1', k: 'CategoryLight', icon: 'MeshLight', s: 0.32, indent: 2, tip: 'Light under the pointer (.32).',
+          co: [['Row state', 'strength .32', 'The pointer is here.', 'FillHoverStrength 0.32.']] },
+        { name: 'Texture 1', k: 'CategoryTexture', icon: 'Texture', s: 0.18 * 0.8, indent: 2, cursor: true, tip: 'Texture under a change of kind: .18 x 0.8 = .144, with the cursor frame.',
+          co: [['Hand', 'shape', 'The thin frame is the cursor.', 'Frame tone 1.0, 1 px. The grey frame without focus is Grey800.'],
+               ['Kind depth', 'strength .144', 'One change of kind deeper. You can not see it.', 'LevelFactor 0.8. Strength also says state: two jobs.', true]] },
+        { drop: true, co: [['Hand', 'shape', 'The white line: the drop goes here.', 'TreeDropLineThickness 1 px, ActiveText.']] },
+        { name: 'Filter 1', k: 'CategoryFilter', icon: 'Filter', s: 0.18, indent: 2, dim: true, tip: 'Out of play: it can not take the drop.',
+          co: [['Hand', 'shape', 'The grey cover: out of play.', 'TreeBackground at TreeDimOpacity 0.6.']] },
+        { name: 'Comp 3', k: 'CategoryComposable3', icon: 'Composition', s: 0.18, indent: 3, tip: 'A collapsed composition at depth 3, with a missing asset under it.',
+          extra: 'collapsed',
+          co: [['Status', 'shape + hue', 'Amber triangle: an asset under it is missing.', 'The mark rises to the collapsed row. It has no word.'],
+               ['Nesting', 'hue', 'Depth 3 is the green of connected.', 'CategoryComposable3 vs StatusSuccess dE 2.0: one colour.', true]] }
+    ];
+    // Each tree row and its callouts share one row of the grid, so a callout always sits next to its row.
+    var anatomy = document.getElementById('anatomy');
+    anatomyRows.forEach(function (r, ri) {
+        var cell = el('div', 'tcell' + (ri === 0 ? ' first' : '') + (ri === anatomyRows.length - 1 ? ' last' : ''));
+        if (r.drop) { cell.appendChild(el('div', 'dropline')); cell.style.paddingTop = '6px'; }
+        else {
+            if (r.extra === 'collapsed') {
+                var w = el('span', 'shape warn'); w.title = 'Missing asset (PopupCardWarning).';
+                r.extra = [badge('CategoryTexture', 'Texture'), badge('CategoryFilter', 'Filter'), el('span', 'badge plus', '+2'), w];
+            }
+            cell.appendChild(treeRow(r));
+        }
+        anatomy.appendChild(cell);
+        var box = el('div');
+        if (ri === 0) box.style.paddingTop = '8px';
+        r.co.forEach(function (c) {
+            var co = el('div', 'co' + (c[4] ? ' fight' : ''));
+            co.appendChild(el('span', 'ax', c[0]));
+            co.appendChild(el('span', 'ch', c[1]));
+            co.appendChild(el('span', '', c[2]));
+            co.title = c[3];
+            box.appendChild(co);
+        });
+        anatomy.appendChild(box);
+    });
+
+    // 3 The matrix. A cell: '!' fight, '?' pending, '-' none. A '|' starts the tooltip.
+    var cols = [['L', 'Lightness'], ['H', 'Hue'], ['C', 'Chroma'], ['S', 'Strength'], ['Sh', 'Shape'], ['P', 'Place']];
+    var rows = [
+        { id: 'surface', voice: 'quiet', name: 'Surface level',
+          today: { L: 'grey ramp 100 to 400|Grey100 #0F0F12 to Grey400 #363639.', P: 'panel in a panel' } },
+        { id: 'text', voice: 'quiet', name: 'Text emphasis',
+          today: { L: 'muted, rest, standard, white|Muted on Grey200 is 4.38:1, under AA.' } },
+        { id: 'kind', voice: 'quiet', name: 'Kind: what it is', group: true,
+          today: { H: '!7 hues at one lightness|Deutan: Camera and Texture dE 1.1. Six kinds have a wheel twin (3.0 to 8.3).', Sh: 'icon' },
+          A: { H: '8 hues, out of the status sectors|Camera 45, Texture 120. Among themselves still deutan 1.1: the icon carries the kind.', Sh: 'icon first' },
+          B: { H: '-no hue|Badge Grey600 with a white icon.', Sh: 'icon only' },
+          C: { H: 'name, from A or B', L: 'pale band L .78 to .86', C: 'quiet C .06 to .08|7 kinds at C .07 are only 2.1 to 5 dE apart: use 4 families, or B.', Sh: 'icon' } },
+        { id: 'nest', voice: 'quiet', name: 'Nesting depth',
+          today: { H: '!wheel of 6|Depth 1 vs Camera dE 3.0. Depth 3 vs connected dE 2.0. Depth 4 vs Modifier dE 3.8.', Sh: 'indent' },
+          A: { L: '!ladder .82 .72 .62|Lightness says depth, and strength also moves lightness: read the ladder per hue. Depth 0 and 3 are one colour.', H: 'one composable hue', Sh: 'indent' },
+          B: { H: 'wheel of 6, 60 degrees|Adjacent depths dE 17.', L: 'cycle .84 .72 .60|Neighbours differ in hue and in lightness, against colour blindness.', Sh: 'indent' },
+          C: { H: 'name, from A or B', L: 'pale band', C: 'quiet', Sh: 'indent' } },
+        { id: 'kdepth', voice: 'quiet', name: 'Kind depth',
+          today: { S: '!x0.8 per change of kind|.18 becomes .144: under the step the eye sees. Strength also says state.' },
+          A: { S: '-dropped|LevelFactor goes away in A.' }, B: { S: '?not said' }, C: { S: '?not said' } },
+        { id: 'state', voice: 'quiet', name: 'Row state',
+          today: { S: '!.18 .32 .55 in the tree|The tree speaks strength.', L: '!grey step in the controls|The controls speak grey steps: a second dialect.', H: '!blue chosen in grey lists|A grey list has no kind, so its chosen row is blue.' },
+          A: { S: '.18 .32 .55 .60 1.0', H: '!blue chosen in grey lists|The two codes for chosen remain in A.' },
+          B: { S: '.18 .32 .55 .60 1.0', L: '?one dialect?', H: '?one dialect?' },
+          C: { S: '.18 .32 .55 .60 1.0', L: '?one dialect?', H: '?one dialect?' } },
+        { id: 'hand', voice: 'hand', name: 'Cursor, drop, out of play', group: true,
+          today: { Sh: 'frame, white line, grey cover', H: '!kind frame, blue grab frame|The grab mode frame is AccentPrimary.', L: '!grey cursor = connecting grey|CursorFrameInactiveBrush and the connecting dot are both Grey800.' } },
+        { id: 'ctrl', voice: 'hand', name: 'On and focus',
+          today: { H: '!blue: on, focus, grab, in sync|AccentPrimary has four meanings.', L: '!grey idle, hover, pressed|Lightness also says surface and text.' },
+          C: { H: 'blue: on and focus only', L: 'mid band L .60', C: 'mid C .10|A third band between pale names and loud status.' } },
+        { id: 'status', voice: 'loud', name: 'System status', group: true,
+          today: { H: '!green, orange, red, grey; blue in sync|Green, red and orange are also names. In sync is AccentPrimary.', Sh: 'dot, triangle', P: 'status strip, row' },
+          A: { H: 'anchored: 150, 70, 25', Sh: 'always a shape', P: 'fixed' },
+          B: { H: 'anchored: 150, 70, 25', Sh: 'always a shape', P: 'fixed' },
+          C: { H: 'anchored: 150, 70, 25', L: 'loud band L .74', C: 'loud C .16|Pale names vs loud status: dE 11.9 or more at every rotation, normal vision.', Sh: 'always: dot, ring, triangle, word', P: 'fixed' } },
+        { id: 'mod', voice: 'loud', name: 'Modulation source',
+          today: { H: '!grey, violet, orange|Violet is also the Modulator kind. Orange is also warning.', Sh: 'dot', P: 'next to the value' },
+          A: { H: '?a name or a status?' }, B: { H: '?violet as driven, not a kind?' }, C: { H: '?a name or a status?' } },
+        { id: 'live', voice: 'loud', name: 'LIVE: on air', missing: true,
+          today: { Sh: '-no code|Chosen is not on air. Nothing says which show is live.' },
+          A: { Sh: '?not said' }, B: { Sh: '?not said' },
+          C: { Sh: '?a loud live token|C gives the current step of BeatSteps a loud live token. A show on air is a second thing.' } }
+    ];
+    var rules = {
+        today: 'Two dialects share the tokens. Hue has five jobs.',
+        A: 'Every kind has one colour. A composable gets lighter and darker as it nests.',
+        B: 'Colour tells which box you are in. Everything in a box is grey, and its icon says what it is.',
+        C: 'Pale colours tell what and where. Strong colours tell what is wrong, always with a shape or a word.'
+    };
+    function parse(v) {
+        if (v == null) return null;
+        var bar = v.indexOf('|'), text = bar < 0 ? v : v.slice(0, bar), tip = bar < 0 ? '' : v.slice(bar + 1);
+        var kind = { '!': 'fight', '?': 'pending', '-': 'none' }[text.charAt(0)] || '';
+        if (kind) text = text.slice(1);
+        return { text: text, tip: tip, kind: kind };
+    }
+    function drawMatrix(mode) {
+        var t = document.getElementById('mx'); t.innerHTML = '';
+        var cells = rows.map(function (r) {
+            var own = mode === 'today' ? r.today : r[mode];
+            return cols.map(function (c) {
+                var v = own ? own[c[0]] : undefined, same = false;
+                if (!own) { v = r.today[c[0]]; same = true; }
+                var p = parse(v); if (p) p.same = same; return p;
+            });
+        });
+        var thead = el('thead'), hr = el('tr'); hr.appendChild(el('th', '', 'Message'));
+        cols.forEach(function (c, ci) {
+            var jobs = 0, fights = 0;
+            cells.forEach(function (row) { var p = row[ci]; if (p && p.kind !== 'pending' && p.kind !== 'none') jobs++; if (p && p.kind === 'fight') fights++; });
+            var th = el('th', fights ? 'hot' : '', c[1]);
+            th.appendChild(el('small', '', jobs + (jobs === 1 ? ' job' : ' jobs') + (fights ? ', ' + fights + ' in a fight' : '')));
+            hr.appendChild(th);
+        });
+        thead.appendChild(hr); t.appendChild(thead);
+        var tb = el('tbody');
+        rows.forEach(function (r, ri) {
+            var tr = el('tr', (r.group ? 'groupstart' : '') + (r.missing ? ' missing' : ''));
+            var th = el('th'); th.appendChild(el('span', 'voice ' + r.voice, r.voice.toUpperCase())); th.appendChild(document.createTextNode(r.name));
+            if (r.id === 'mod') th.title = 'Open: is the modulation source a name (quiet) or a status (loud)?';
+            if (r.missing) th.title = 'The venue manager needs it. No colour and no shape exist today.';
+            tr.appendChild(th);
+            cells[ri].forEach(function (p) {
+                var td = el('td');
+                if (!p) td.className = 'empty';
+                else {
+                    td.className = (p.kind || '') + (p.same ? ' same' : '');
+                    td.textContent = p.kind === 'pending' ? 'pending: ' + p.text : p.text;
+                    td.title = (p.same ? 'Same as today. ' : '') + p.tip;
+                }
+                tr.appendChild(td);
+            });
+            tb.appendChild(tr);
+        });
+        t.appendChild(tb);
+        document.getElementById('mxRule').textContent = rules[mode];
+    }
+    function toggle(id, attr, draw) {
+        var g = document.getElementById(id);
+        g.addEventListener('click', function (e) {
+            var b = e.target.closest('button'); if (!b) return;
+            g.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+            draw(b.getAttribute(attr));
+        });
+    }
+    toggle('mxToggle', 'data-m', drawMatrix);
+    drawMatrix('today');
+
+    // The legend of colour-chart.js, grouped by message. The number is the index of the cue in chart.legend.
+    var legendGroups = [
+        ['quiet', 'Kind', [1, 8, 9, 11]], ['quiet', 'Nesting', [2]], ['quiet', 'Row state', [0, 3, 21]],
+        ['hand', 'Cursor, drop, out of play', [4, 5, 6, 7]], ['hand', 'On and focus', [12, 13]],
+        ['loud', 'System status', [14, 15, 16, 17, 10]], ['loud', 'Modulation source', [18, 19, 20]]
+    ];
+    var legend = document.getElementById('legend'), cues = chart.legend || [];
+    legendGroups.forEach(function (g) {
+        var box = el('div'), h = el('h3'); h.appendChild(el('span', 'voice ' + g[0], g[0].toUpperCase())); h.appendChild(document.createTextNode(g[1])); box.appendChild(h);
+        var ul = el('ul');
+        g[2].forEach(function (i) { var c = cues[i]; if (!c) return; var li = el('li', '', c.cue); li.title = c.meaning; ul.appendChild(li); });
+        box.appendChild(ul); legend.appendChild(box);
+    });
+
+    // 4 The wall. Peers: the name, the state, the word.
+    var peers = [['Studio', 'ok', 'OK'], ['Engine 1', 'ok', 'OK', true], ['Engine 2', 'warn', 'CHECK'], ['Engine 3', 'wait', 'WAIT']];
+    var todayDot = { ok: 'StatusSuccess', warn: 'PopupCardWarning', bad: 'PopupCardDanger', wait: 'Grey800' };
+    function drawWall(mode) {
+        var w = document.getElementById('wall'); w.innerHTML = '';
+        var tiles = el('div', 'tiles');
+        peers.forEach(function (p, i) {
+            var t = el('div', 'tile' + (mode === 'today' ? ' today' : '') + (mode === 'wall' && p[3] ? ' live' : ''));
+            t.appendChild(el('span', 'peer', p[0]));
+            if (mode === 'today') {
+                var d = el('span', 'dot');
+                // Today the in sync dot of a peer is blue.
+                d.style.background = 'var(--' + (i === 1 ? 'AccentPrimary' : todayDot[p[1]]) + ')';
+                d.title = i === 1 ? 'In sync: AccentPrimary. Blue is also on and focus.' : todayDot[p[1]] + ', a dot of colour only.';
+                t.appendChild(d);
+            } else {
+                var s = el('span', 'state w-' + p[1]); s.appendChild(el('i', 'shape ' + p[1])); s.appendChild(document.createTextNode(p[2])); t.appendChild(s);
+                if (p[3]) { var tag = el('span', 'livetag', 'LIVE'); tag.title = 'Proposal. No token exists. ActiveText is used here only as a stand in.'; t.appendChild(tag); }
+            }
+            tiles.appendChild(t);
+        });
+        w.appendChild(tiles);
+
+        var lower = el('div', 'lower'), tr = el('div', 'tree');
+        var quiet = mode === 'wall';
+        function grey(s) { return quiet ? 'var(--Grey200)' : null; }
+        var rowsW = [
+            { name: 'Show A', k: 'CategoryComposable0', icon: 'Composition', s: 0.18, open: true },
+            { name: 'Layer 1', k: 'CategoryComposable1', icon: 'LayerScene', s: 0.18, indent: 1 },
+            { name: 'Show B', k: 'CategoryComposable0', icon: 'Composition', s: 0.18, open: true },
+            { name: 'Comp 3', k: 'CategoryComposable3', icon: 'Composition', s: 0.18, indent: 1, fault: true },
+            { name: 'Camera 1', k: 'CategoryCamera', icon: 'Camera', s: 0.18, indent: 1 }
+        ];
+        rowsW.forEach(function (r) {
+            r.fill = grey(); if (quiet) r.badge = 0;
+            if (r.fault) {
+                var f = el('span', 'fault w-warn'); f.appendChild(el('i', 'shape warn'));
+                if (quiet) f.appendChild(document.createTextNode('MISSING'));
+                f.title = quiet ? 'A fault has a mark and a word. It rises to the collapsed row.' : 'Amber triangle, no word, among green and red rows.';
+                r.extra = [f];
+            }
+            var row = treeRow(r);
+            if (quiet) { var b = row.querySelector('.badge'); if (b) b.style.background = 'var(--Grey600)'; }
+            tr.appendChild(row);
+        });
+        lower.appendChild(tr);
+        var side = el('div');
+        if (quiet) {
+            var box = el('div', 'opbox'); box.appendChild(el('div', 'kicker', 'Operator colours'));
+            var n = el('div', 'names'); ['CategoryComposable0', 'CategoryComposable1', 'CategoryComposable3', 'CategoryCamera', 'CategoryTexture'].forEach(function (k) { n.appendChild(badge(k, null)); });
+            box.appendChild(n); box.appendChild(el('p', '', 'Not for you. They name things. They never mean a fault.'));
+            side.appendChild(box);
+        } else {
+            var ul = el('ul', 'wall-rules');
+            ['Comp 3 is the green of OK.', 'Camera and Layer 1 are the red of DOWN.', 'Engine 1 is blue: in sync, or on?', 'Which show is on air? No mark says it.'].forEach(function (s) { ul.appendChild(el('li', '', s)); });
+            side.appendChild(ul);
+        }
+        lower.appendChild(side);
+        w.appendChild(lower);
+        document.getElementById('wallRule').textContent = quiet
+            ? 'Status colours mean system state only. Shape first, then colour. A tint is never a fault.'
+            : 'Today: status is a dot of colour. Names use the same green, red and orange.';
+    }
+    toggle('wallToggle', 'data-w', drawWall);
+    drawWall('wall');
+
+    // 5 The findings: a swatch pair, the text, the tip.
+    var findings = [
+        [['CategoryComposable3', 'StatusSuccess'], 'Green twin: depth 3 and connected.', 'dE 2.0: one colour.'],
+        [['CategoryCamera', 'PopupCardDanger'], 'Red twins: Camera, depth 1 and disconnected.', 'Camera dE 3.9, Composable1 dE 4.1 to PopupCardDanger.'],
+        [['ModulatorExternal', 'PopupCardWarning'], 'Orange twin: external modulation and warning.', 'One hue family, two meanings.'],
+        [['AccentPrimary'], 'One blue, four meanings: on, focus, grab, in sync.', 'AccentBrush has 31 uses.'],
+        [['Grey800'], 'Connecting grey is the cursor grey.', 'CursorFrameInactiveBrush = Grey800.'],
+        [['CategoryCamera', 'CategoryTexture'], 'Seven kinds at one lightness fail colour blindness.', 'Deutan dE 1.1. The icon must carry the kind.'],
+        [['ShortcutText', 'Grey200'], 'Muted text on the hint strip fails AA.', '4.38:1 on Grey200.'],
+        [['CategoryEntity'], 'Kind depth is invisible.', '.18 x 0.8 = .144.']
+    ];
+    var fl = document.getElementById('findings');
+    findings.forEach(function (f) {
+        var li = el('li');
+        f[0].forEach(function (k, i) { var s = el('span', 'sw'); s.style.background = i === 0 && f[0].length === 1 && k === 'CategoryEntity' ? tone(k, 0.144) : 'var(--' + k + ')'; s.title = k; li.appendChild(s); });
+        li.appendChild(document.createTextNode(' ' + f[1])); li.title = f[2]; fl.appendChild(li);
+    });
+})();
+</script>
+</body>
+</html>

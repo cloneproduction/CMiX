@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tree without categories</title>
+<!-- Mockup: the project tree with its category rows, and four ways to show the kinds without them. It links the kit and copies nothing. -->
+<link rel="stylesheet" href="../tokens.css">
+<script src="../icons.js"></script>
+<style>
+    :root {
+        --p-bg: #1C1C1F;
+        --p-ink: #F2EDE4;
+        --p-mute: #A39B8A;
+        --p-line: #4A463C;
+        --p-sans: "Segoe UI", system-ui, sans-serif;
+        --row: 22px;
+        --indent: 14px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--p-bg); color: var(--p-mute); font: 400 13px/20px var(--p-sans); }
+    main { max-width: 1400px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { margin: 0; font: 700 22px/28px var(--p-sans); color: var(--p-ink); }
+    .lead { margin: 6px 0 16px; max-width: 820px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; align-items: start; }
+    .card h2 { margin: 0; font: 700 13px/18px var(--p-sans); color: var(--p-ink); }
+    .card .what { margin: 2px 0 6px; font-size: 12px; line-height: 16px; min-height: 32px; }
+    .card .stats { font-size: 11px; margin-bottom: 4px; }
+    .card .stats b { color: var(--p-ink); font-weight: 600; }
+    .tree { background: var(--TreeBackground); border-radius: 3px; padding: 4px 0; color: var(--Text); }
+
+    .row { position: relative; display: flex; align-items: center; gap: 6px; height: var(--row); padding-right: 8px; cursor: pointer; white-space: nowrap; }
+    .row:hover { background: var(--RowHoverBrush); }
+    .row.selected { background: color-mix(in srgb, var(--k) 35%, transparent); box-shadow: inset 0 0 0 1px var(--k); }
+    .row svg { width: 14px; height: 14px; flex: none; fill: var(--k); }
+    .row .chev { width: 10px; flex: none; color: var(--p-mute); font-size: 10px; text-align: center; }
+    .row.group { color: var(--p-mute); }
+    .row.group .name { font-style: italic; }
+    .row .count { margin-left: auto; font-size: 11px; color: var(--p-mute); }
+
+    /* B: a gap before each kind block after the first. */
+    .opt-gap .row.block-start:not(.first-block) { margin-top: 6px; }
+
+    /* C: a small kind label in the gap. It is not a row: no hover, no selection. */
+    .label { height: 14px; font: 600 9px/14px var(--p-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--k); opacity: .75; pointer-events: none; }
+
+    /* D: a rail in the kind colour on the left of each block. */
+    .opt-rail .row.kinded::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--x) - 5px); width: 2px; background: var(--k); opacity: .7; }
+    .opt-rail .row.kinded.block-start::before { top: 3px; }
+
+    .notes { margin-top: 20px; max-width: 820px; }
+    .notes li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<main>
+    <h1>Tree without categories</h1>
+    <p class="lead">One sample project, six times. The first panel is the tree today, with a row for each list. The other four have no category rows: the items of an owner follow each other in a fixed kind order. Click a row to select it.</p>
+    <div class="grid" id="grid"></div>
+    <ol class="notes">
+        <li>A: only the icon and its colour tell the kind. The most compact.</li>
+        <li>B: a small gap between two kinds. The blocks show without any text.</li>
+        <li>C: a small label in the kind colour above each block. It is not a row: you cannot select it, drop on it or hide it.</li>
+        <li>D: a line in the kind colour on the left of each block, at the indent of the items.</li>
+        <li>E: the middle ground. An empty list has no row, so a drop into it needs a place that shows only during a drag.</li>
+        <li>In every option, a drag of a filter can only land in a block of filters. An empty list keeps one drop place where its block would be.</li>
+    </ol>
+</main>
+<script>
+// The kinds in their fixed order inside an owner, with the group title of today, the icon key and the colour token.
+const kinds = {
+    composition: ["Compositions", "Composition", "--CategoryComposable"],
+    layer:       ["Layers", "LayerScene", "--CategoryComposable1"],
+    entity:      ["Entities", "Geometry", "--CategoryEntity"],
+    camera:      ["Cameras", "Camera", "--CategoryCamera"],
+    light:       ["Lights", "MeshLight", "--CategoryLight"],
+    texture:     ["Textures", "Texture", "--CategoryTexture"],
+    filter:      ["Filters", "Filter", "--CategoryFilter"],
+    modifier:    ["Modifiers", "Modifier", "--CategoryModifier"],
+    modulator:   ["Modulators", "Modulator", "--CategoryModulator"],
+};
+const order = Object.keys(kinds);
+
+// An item: [kind, name, lists]. The lists of an owner are kind: [items].
+const project = { name: "Project", lists: { composition: [
+    ["composition", "Main", { layer: [
+        ["layer", "Background", { entity: [["entity", "Fullscreen quad", {}]], filter: [["filter", "Blur", {}], ["filter", "Color grade", {}]], modulator: [["modulator", "LFO slow", {}]] }],
+        ["layer", "Particles", { entity: [["entity", "Particles", { modifier: [["modifier", "Noise", {}]] }], ["entity", "Title", {}]],
+            camera: [["camera", "Camera", {}]], light: [["light", "Key light", {}], ["light", "Rim light", {}]] }],
+        ["layer", "Overlay", { entity: [["entity", "Logo", { texture: [["texture", "Logo.png", {}]] }]] }],
+    ] }],
+] } };
+
+const paths = Object.fromEntries((window.CMIX_ICONS?.icons || []).map(i => [i.key, i.path]));
+const icon = key => paths[key] ? `<svg viewBox="0 0 24 24"><path d="${paths[key]}"/></svg>` : `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>`;
+
+// The groups each kind of owner has today, empty or not.
+const groupsOf = { project: ["composition"], composition: ["layer"], layer: ["entity", "camera", "light", "filter", "modulator"],
+    entity: ["texture", "modifier", "modulator"] };
+
+// Gives the rows of an option. groups is "all" (today), "filled" (only lists with items) or "none".
+function rowsOf(groups) {
+    const withGroups = groups !== "none";
+    const rows = [];
+    const walk = (lists, depth, owner) => {
+        let first = true;
+        for (const k of order) {
+            const items = lists[k] || [];
+            const shown = groups === "all" ? (groupsOf[owner] || []).includes(k) : items.length > 0;
+            if (!shown) continue;
+            if (withGroups) {
+                rows.push({ depth, kind: k, name: kinds[k][0], group: true, count: items.length });
+                items.forEach(([kind, name, sub]) => { rows.push({ depth: depth + 1, kind, name }); walk(sub, depth + 2, kind); });
+            } else {
+                items.forEach(([kind, name, sub], i) => {
+                    rows.push({ depth, kind, name, blockStart: i === 0, firstBlock: first, blockEnd: i === items.length - 1 });
+                    walk(sub, depth + 1, kind);
+                });
+            }
+            first = false;
+        }
+    };
+    rows.push({ depth: 0, kind: "composition", name: project.name, root: true });
+    walk(project.lists, 1, "project");
+    return rows;
+}
+
+const options = [
+    { id: "now", title: "Today: category rows", what: "Each list of an owner is a row, also when it is empty.", groups: "all" },
+    { id: "filled", title: "E: category rows when filled", what: "A category row shows only when its list has an item.", groups: "filled" },
+    { id: "icon", title: "A: icon and colour only", what: "No category rows. The icon colour tells the kind." },
+    { id: "gap", title: "B: gap between kinds", what: "A small space before each new kind block." },
+    { id: "label", title: "C: small kind label", what: "A label above each block. It is text, not a row." },
+    { id: "rail", title: "D: kind rail", what: "A line in the kind colour along each block." },
+];
+
+const grid = document.getElementById("grid");
+grid.innerHTML = options.map(o => {
+    const rows = rowsOf(o.groups || "none");
+    const html = rows.map((r, i) => {
+        const x = 6 + r.depth * 16;
+        const k = r.root ? "var(--Text)" : `var(${kinds[r.kind][2]})`;
+        const hasKids = rows[i + 1] && rows[i + 1].depth > r.depth;
+        const label = o.id === "label" && r.blockStart && !r.root
+            ? `<div class="label" style="padding-left:${x + 16}px;--k:${k}">${kinds[r.kind][0]}</div>` : "";
+        const cls = ["row", r.group ? "group" : "", r.blockStart ? "block-start" : "", r.firstBlock ? "first-block" : "",
+            r.blockEnd ? "block-end" : "", !r.root && !r.group ? "kinded" : ""].join(" ");
+        return `${label}<div class="${cls}" style="padding-left:${x}px;--x:${x}px;--k:${k}">
+            <span class="chev">${hasKids ? "&#9662;" : ""}</span>${r.root ? "" : icon(kinds[r.kind][1])}
+            <span class="name">${r.name}</span>${r.group ? `<span class="count">${r.count}</span>` : ""}</div>`;
+    }).join("");
+    const depth = Math.max(...rows.map(r => r.depth));
+    return `<section class="card opt-${o.id}"><h2>${o.title}</h2><p class="what">${o.what}</p>
+        <div class="stats">Rows: <b>${rows.length}</b> &nbsp; Deepest level: <b>${depth}</b></div>
+        <div class="tree">${html}</div></section>`;
+}).join("");
+
+grid.addEventListener("click", e => {
+    const row = e.target.closest(".row");
+    if (!row) return;
+    row.closest(".tree").querySelectorAll(".selected").forEach(r => r.classList.remove("selected"));
+    row.classList.add("selected");
+});
+</script>
+</body>
+</html>

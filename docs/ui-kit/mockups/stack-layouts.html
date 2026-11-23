@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stack layouts</title>
+<!-- Mockup: four ways to show and move compositions and layers, all driven by one declarative drag. It links the kit and copies nothing. -->
+<link rel="stylesheet" href="../tokens.css">
+<style>
+    :root { --p-bg: #1C1C1F; --p-ink: #F2EDE4; --p-mute: #A39B8A; --p-sans: "Segoe UI", system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--p-bg); color: var(--p-mute); font: 400 13px/20px var(--p-sans); }
+    main { max-width: 1240px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { margin: 0; font: 700 22px/28px var(--p-sans); color: var(--p-ink); }
+    .lead { margin: 6px 0 16px; max-width: 860px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 14px; }
+    .panel { background: var(--PanelBackgroundLevel1Brush); border-radius: 3px; padding: 10px; color: var(--Text); }
+    .panel h2 { margin: 0; font: 700 13px/18px var(--p-sans); color: var(--p-ink); }
+    .panel .what { margin: 2px 0 8px; font-size: 12px; line-height: 16px; color: var(--p-mute); }
+    .stage { position: relative; user-select: none; touch-action: none; transition: height .16s; }
+
+    .el { position: absolute; left: 0; top: 0; border-radius: 2px; display: flex; align-items: center; gap: 6px; padding: 0 8px;
+          white-space: nowrap; overflow: hidden; cursor: grab; transition: transform .16s ease-out, width .16s, height .16s, opacity .16s; }
+    .el.layer { background: var(--Grey500); z-index: 1; }
+    .el.layer i { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+    .el.comp { background: var(--Grey300); color: var(--p-ink); font-weight: 600; z-index: 0; align-items: flex-start; padding-top: 2px; }
+    .tree .el.comp { align-items: center; padding-top: 0; }
+    .nested .el.comp { background: transparent; border: 1px solid var(--Grey600); }
+    .board .el.comp { background: var(--Grey300); }
+    .el.drag { transition: none; z-index: 5; box-shadow: 0 4px 12px rgba(0,0,0,.5); cursor: grabbing; }
+    .el.follow { transition: none; z-index: 6; }
+    .el.gone { opacity: 0; }
+
+    .chip { position: absolute; left: 0; top: 0; height: 26px; padding: 0 10px; border: 1px dashed var(--Grey700); border-radius: 2px;
+            display: flex; align-items: center; cursor: grab; color: var(--p-ink); }
+    .trash { position: absolute; top: 0; right: 0; width: 56px; height: 26px; border: 1px dashed var(--Grey700); border-radius: 2px;
+             display: flex; align-items: center; justify-content: center; }
+
+    .out { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--Grey500); align-items: flex-end; }
+    .out .title { width: 100%; font-size: 11px; color: var(--p-mute); }
+    .out .title.live { color: var(--CategoryModulator); }
+    .sq { position: relative; width: 64px; height: 44px; background: #000; border-radius: 2px; overflow: hidden; }
+    .sq b { position: absolute; width: 34px; height: 22px; border-radius: 2px; opacity: .9; }
+    .out span { display: block; font-size: 11px; text-align: center; }
+    .notes { margin-top: 18px; max-width: 860px; }
+    .notes li { margin-bottom: 4px; }
+    kbd { font: 11px var(--p-sans); border: 1px solid var(--Grey600); border-radius: 2px; padding: 0 4px; }
+</style>
+</head>
+<body>
+<main>
+    <h1>Stack layouts</h1>
+    <p class="lead">Four ways to show and move compositions and layers. Drag a layer or a composition. Hold <kbd>Alt</kbd> during a layer drag to copy it. The output under each panel shows the blend of the drop place before you release. The top layer of a list draws in front. <kbd>Esc</kbd> cancels.</p>
+    <div class="grid">
+        <section class="panel tree" id="pTree"><h2>A. Tree</h2><p class="what">Today: one row for each composition and layer, with an indent.</p><div class="stage"></div><div class="out"></div></section>
+        <section class="panel board" id="pBoard"><h2>B. Board</h2><p class="what">Each composition is a column, its layers are cards in blend order. Move a layer across, or drag a column. (Kanban, Canvas of lists)</p><div class="stage"></div><div class="out"></div></section>
+        <section class="panel nested" id="pNested"><h2>C. Nested boxes</h2><p class="what">A composition is a box that holds its layers. The box grows when a layer enters. (Lists in lists, Layout editor)</p><div class="stage"></div><div class="out"></div></section>
+        <section class="panel board" id="pTools"><h2>D. Board with tools</h2><p class="what">Drag "+ Layer" into a column to add. Drop on the trash to remove. Drop right of the last column for a new composition. (Insert and remove, When far)</p><div class="stage"><div class="chip">+ Layer</div><div class="trash">Trash</div></div><div class="out"></div></section>
+    </div>
+    <ol class="notes">
+        <li>Every panel uses the same drag: each drop place is a whole project state, laid out once at the start of the drag. The nearest one wins.</li>
+        <li>Only the layout function differs from one panel to the next. In CMiX this is one function, not a new control.</li>
+        <li>The live output: during a drag, the output shows the state of the drop place. In CMiX the engine could show it after a short rest on a place.</li>
+    </ol>
+</main>
+<script>
+const COLORS = { Sky: "#4FB6C9", Particles: "#E8A33D", Text: "#D9617A", Logo: "#62C37A", Fade: "#8AA6FE", Credits: "#CDA629" };
+const NEW = ["#F275A0", "#2DC5A6", "#22B5E1", "#AD8DFD", "#F87B5C"];
+const colorOf = id => COLORS[id.replace(/ copy\d*$/, "")] || NEW[(parseInt(id.replace(/\D/g, "")) || 0) % NEW.length];
+const initial = () => ({ comps: [{ id: "Main", layers: ["Sky", "Particles", "Text"] }, { id: "Intro", layers: ["Logo", "Fade"] }, { id: "Outro", layers: ["Credits"] }] });
+const clone = s => JSON.parse(JSON.stringify(s));
+let counter = 0;
+
+// Layout functions: state -> rect of every element. Nothing else differs between the panels.
+const layouts = {
+    tree(s, W, top) {
+        const r = {}; let y = top;
+        for (const c of s.comps) {
+            r[c.id] = { x: 0, y, w: W, h: 24, kind: "comp" }; y += 26;
+            for (const l of c.layers) { r[l] = { x: 18, y, w: W - 18, h: 24, kind: "layer", parent: c.id }; y += 26; }
+        }
+        return { r, h: y };
+    },
+    board(s, W, top) {
+        const r = {}, CW = 104; let max = 1;
+        s.comps.forEach((c, i) => {
+            const x = i * (CW + 8);
+            r[c.id] = { x, y: top, w: CW, h: 30 + Math.max(1, c.layers.length) * 30, kind: "comp" };
+            c.layers.forEach((l, j) => r[l] = { x: x + 4, y: top + 28 + j * 30, w: CW - 8, h: 26, kind: "layer", parent: c.id });
+            max = Math.max(max, c.layers.length);
+        });
+        return { r, h: top + 34 + max * 30 };
+    },
+    nested(s, W, top) {
+        const r = {}; let y = top;
+        for (const c of s.comps) {
+            const h = 28 + Math.max(1, c.layers.length) * 28 + 4;
+            r[c.id] = { x: 0, y, w: W, h, kind: "comp" };
+            c.layers.forEach((l, j) => r[l] = { x: 10, y: y + 26 + j * 28, w: W - 20, h: 24, kind: "layer", parent: c.id });
+            y += h + 8;
+        }
+        return { r, h: y };
+    },
+};
+
+class Panel {
+    constructor(id, layout, opts = {}) {
+        this.root = document.getElementById(id);
+        this.stage = this.root.querySelector(".stage");
+        this.outEl = this.root.querySelector(".out");
+        this.layout = layout; this.opts = opts; this.state = initial(); this.els = {}; this.drag = null;
+        this.stage.addEventListener("pointerdown", e => this.down(e));
+        this.render(this.state);
+    }
+    lay(s) { return this.layout(s, this.stage.clientWidth, this.opts.top || 0); }
+    staticRect(sel) { const e = this.stage.querySelector(sel); return { x: e.offsetLeft, y: e.offsetTop, w: e.offsetWidth, h: e.offsetHeight }; }
+    el(id, kind) {
+        if (this.els[id]) return this.els[id];
+        const e = document.createElement("div");
+        e.className = "el " + kind; e.dataset.id = id;
+        e.innerHTML = kind === "layer" ? `<i style="background:${colorOf(id)}"></i>${id}` : id;
+        this.stage.appendChild(e);
+        return this.els[id] = e;
+    }
+    place(e, r) { e.style.transform = `translate(${r.x}px,${r.y}px)`; e.style.width = r.w + "px"; e.style.height = r.h + "px"; }
+
+    render(s) {
+        const L = this.lay(s), d = this.drag;
+        for (const [id, r] of Object.entries(L.r)) {
+            const e = this.el(id, r.kind);
+            e.classList.remove("gone");
+            e.classList.toggle("follow", !!(d && d.started && r.parent === d.id));
+            if (d && d.started && id === d.id) continue;
+            if (d && d.started && r.parent === d.id) {
+                const b = L.r[d.id];
+                this.place(e, { ...r, x: r.x + d.fx - b.x, y: r.y + d.fy - b.y });
+            } else this.place(e, r);
+        }
+        for (const [id, e] of Object.entries(this.els))
+            if (!L.r[id] && !(d && id === d.id)) { e.remove(); delete this.els[id]; }
+        if (d && d.started) {
+            const e = this.els[d.id], size = L.r[d.id] || d.size;
+            this.place(e, { x: d.fx, y: d.fy, w: size.w, h: size.h });
+        }
+        this.stage.style.height = Math.max(L.h, 40) + "px";
+        this.preview(s, !!(d && d.started));
+    }
+
+    preview(s, live) {
+        this.outEl.innerHTML = `<div class="title ${live ? "live" : ""}">${live ? "Output: preview of the drop place" : "Output"}</div>` +
+            s.comps.map(c => `<div><div class="sq">${c.layers.slice().reverse().map((l, i) =>
+                `<b style="left:${6 + i * 8}px;top:${6 + i * 5}px;background:${colorOf(l)}"></b>`).join("")}</div><span>${c.id}</span></div>`).join("");
+    }
+
+    point(e) { const b = this.stage.getBoundingClientRect(); return { x: e.clientX - b.left, y: e.clientY - b.top }; }
+
+    down(e) {
+        const chip = e.target.closest(".chip"), el = e.target.closest(".el");
+        if (!chip && !el) return;
+        const p = this.point(e);
+        if (chip) {
+            const id = "Layer " + (++counter), r = this.staticRect(".chip");
+            const n = this.el(id, "layer"); n.classList.add("drag"); this.place(n, r);
+            this.drag = { id, kind: "layer", press: p, grab: { x: p.x - r.x, y: p.y - r.y }, size: r, fromChip: true };
+        } else {
+            const id = el.dataset.id, r = this.lay(this.state).r[id];
+            this.drag = { id, kind: r.kind, press: p, grab: { x: p.x - r.x, y: p.y - r.y }, size: r };
+        }
+        const move = ev => this.move(ev), up = ev => { removeEventListener("pointermove", move); removeEventListener("pointerup", up); removeEventListener("keydown", key); this.up(ev); };
+        const key = ev => { if (ev.key === "Escape" && this.drag) { this.drag.best = { s: this.state, spot: this.drag.size }; up(ev); } };
+        addEventListener("pointermove", move); addEventListener("pointerup", up); addEventListener("keydown", key);
+        e.preventDefault();
+    }
+
+    // The drop places: each one is a whole state, with the rect of the dragged element in its layout.
+    candidates(copy) {
+        const d = this.drag, s = this.state, out = [];
+        const spotOf = (t, spot) => ({ s: t, spot: spot || this.lay(t).r[d.id] });
+        if (d.kind === "comp") {
+            const i = s.comps.findIndex(c => c.id === d.id);
+            for (let j = 0; j < s.comps.length; j++) { const t = clone(s); const [c] = t.comps.splice(i, 1); t.comps.splice(j, 0, c); out.push(spotOf(t)); }
+            return out;
+        }
+        const base = clone(s);
+        if (!d.fromChip) {
+            const c = base.comps.find(c => c.layers.includes(d.id)), li = c.layers.indexOf(d.id);
+            if (copy) c.layers[li] = d.id.replace(/ copy\d*$/, "") + " copy" + (++counter); else c.layers.splice(li, 1);
+        }
+        base.comps.forEach((c, k) => { for (let i = 0; i <= c.layers.length; i++) { const t = clone(base); t.comps[k].layers.splice(i, 0, d.id); out.push(spotOf(t)); } });
+        if (this.opts.tools) {
+            const t = clone(base); t.comps.push({ id: "Comp " + (s.comps.length + 1), layers: [d.id] }); out.push(spotOf(t));
+            if (d.fromChip) out.push(spotOf(clone(s), this.staticRect(".chip")));
+            else if (!copy) out.push(spotOf(base, this.staticRect(".trash")));
+        }
+        return out;
+    }
+
+    move(e) {
+        const d = this.drag, p = this.point(e);
+        if (!d.started) {
+            if (Math.hypot(p.x - d.press.x, p.y - d.press.y) <= 4) return;
+            d.started = true;
+            d.normal = this.candidates(false);
+            d.copy = d.kind === "layer" && !d.fromChip ? this.candidates(true) : null;
+            this.els[d.id].classList.add("drag");
+        }
+        d.fx = p.x - d.grab.x; d.fy = p.y - d.grab.y;
+        const set = e.altKey && d.copy ? d.copy : d.normal;
+        d.best = set.reduce((a, c) => Math.hypot(c.spot.x - d.fx, c.spot.y - d.fy) < Math.hypot(a.spot.x - d.fx, a.spot.y - d.fy) ? c : a);
+        this.render(d.best.s);
+    }
+
+    up() {
+        const d = this.drag; this.drag = null;
+        if (!d) return;
+        const e = this.els[d.id];
+        if (!d.started) { if (d.fromChip) { e.remove(); delete this.els[d.id]; } return; }
+        e.classList.remove("drag");
+        Object.values(this.els).forEach(x => x.classList.remove("follow"));
+        this.state = d.best.s;
+        const L = this.lay(this.state);
+        if (!L.r[d.id]) {
+            // Trash or back to the toolbar: the element goes to the spot, then fades.
+            this.place(e, d.best.spot); e.classList.add("gone");
+            delete this.els[d.id];
+            setTimeout(() => e.remove(), 180);
+        }
+        this.render(this.state);
+    }
+}
+
+const panels = [
+    new Panel("pTree", layouts.tree),
+    new Panel("pBoard", layouts.board),
+    new Panel("pNested", layouts.nested),
+    new Panel("pTools", layouts.board, { top: 36, tools: true }),
+];
+addEventListener("resize", () => panels.forEach(p => p.render(p.state)));
+</script>
+</body>
+</html>

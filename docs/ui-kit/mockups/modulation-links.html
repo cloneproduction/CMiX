@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modulation links</title>
+<!-- Mockup: how a modulator chain shows where it is used, and a value shows what drives it. It links the kit and copies nothing. -->
+<link rel="stylesheet" href="../tokens.css">
+<style>
+    /* The page colours, and one colour for each chain. The chain colours are a proposal, not tokens. */
+    :root {
+        --p-bg: #1C1C1F;
+        --p-ink: #F2EDE4;
+        --p-mute: #A39B8A;
+        --p-line: #4A463C;
+        --p-sans: "Segoe UI", system-ui, sans-serif;
+        --chain-1: #E8A33D;
+        --chain-2: #4FB6C9;
+        --chain-3: #D9617A;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--p-bg); color: var(--p-mute); font: 400 13px/20px var(--p-sans); }
+    main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { margin: 0; font: 700 22px/28px var(--p-sans); color: var(--p-ink); }
+    .lead { margin: 6px 0 16px; max-width: 760px; }
+    .bar { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 12px; color: var(--p-ink); }
+    .board { position: relative; display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 12px; }
+    @media (max-width: 760px) { .board { grid-template-columns: 1fr; } #wires { display: none; } }
+    .panel { background: var(--PanelBackgroundLevel1Brush); border-radius: 3px; padding: 8px; color: var(--Text); min-height: 320px; }
+    .panel h2 { margin: 0 0 8px; font: 600 11px/16px var(--p-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--p-mute); }
+
+    /* Tree */
+    .row { display: flex; align-items: center; height: 26px; padding-right: 6px; border-radius: 2px; cursor: pointer; border-left: 3px solid transparent; }
+    .row:hover { background: var(--RowHoverBrush); }
+    .row.selected { background: var(--AccentPrimary); }
+    .row.target { border-left-color: var(--hl); background: color-mix(in srgb, var(--hl) 22%, transparent); }
+    .row .name { flex: 1; }
+    .row.group .name { color: var(--p-mute); }
+    .dots { display: flex; gap: 3px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+    .dim .row:not(.target):not(.selected) { opacity: .45; }
+
+    /* Modulation view */
+    .chain { border: 1px solid var(--Grey600); border-left: 4px solid var(--c); border-radius: 3px; padding: 6px 8px; margin-bottom: 8px; cursor: pointer; }
+    .chain:hover { background: var(--RowHoverBrush); }
+    .chain.on { background: color-mix(in srgb, var(--c) 18%, transparent); border-color: var(--c); }
+    .chain .title { font-weight: 600; color: var(--c); }
+    .steps { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin: 4px 0; font-size: 12px; }
+    .step { padding: 0 6px; border-radius: 2px; background: var(--Grey500); }
+    .arrow { color: var(--p-mute); }
+    .targets { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tgt { font-size: 12px; padding: 0 6px; border-radius: 2px; border: 1px solid var(--Grey600); }
+    .tgt:hover { border-color: var(--c); }
+
+    /* Property panel */
+    .prop { display: flex; align-items: center; gap: 8px; height: 28px; }
+    .prop .label { width: 70px; color: var(--p-mute); }
+    .slider { flex: 1; height: 18px; border-radius: 2px; background: var(--Grey500); position: relative; overflow: hidden; }
+    .slider i { position: absolute; inset: 0 auto 0 0; background: var(--Grey700); }
+    .prop.mod .slider { box-shadow: 0 0 0 2px var(--c); }
+    .prop.mod .slider i { background: color-mix(in srgb, var(--c) 55%, var(--Grey600)); }
+    .src { font-size: 11px; color: var(--c); cursor: pointer; white-space: nowrap; }
+    .empty { color: var(--p-mute); font-style: italic; }
+
+    #wires { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+    #wires path { fill: none; stroke-width: 2; opacity: .85; }
+    .notes { margin-top: 20px; max-width: 760px; }
+    .notes li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<main>
+    <h1>Modulation links</h1>
+    <p class="lead">The tree keeps the structure and the blend order. The modulation view holds the chains. Each chain has a colour, and every value it drives shows that colour. Click a row, a chain, a target or a source to follow a link.</p>
+    <div class="bar">
+        <label><input type="checkbox" id="wireToggle"> Wires on hover</label>
+        <button id="clear">Clear selection</button>
+    </div>
+    <div class="board" id="board">
+        <section class="panel" id="treePanel"><h2>Tree</h2><div id="tree"></div></section>
+        <section class="panel"><h2>Modulation</h2><div id="chains"></div></section>
+        <section class="panel"><h2>Properties</h2><div id="props"></div></section>
+        <svg id="wires"></svg>
+    </div>
+    <ol class="notes">
+        <li>Chain colour: the dots on a tree row and the ring on a value show which chains drive it, with no click.</li>
+        <li>Selection in both directions: a chain lights its targets in the tree. A row lights the chains that drive it.</li>
+        <li>Targets in the chain: each chain lists its targets with their object, so the view shows source to target.</li>
+        <li>Wires on hover: only when the panels are side by side. Hover a chain or a row.</li>
+    </ol>
+</main>
+<script>
+const tree = [
+    { id: "Layers", group: true, children: [
+        { id: "Background", values: { Hue: .3, Opacity: 1 } },
+        { id: "Group", group: true, children: [
+            { id: "Particles", values: { Size: .5, Count: .7, Speed: .4 } },
+            { id: "Text", values: { Opacity: .8, Scale: .5 } } ] } ] },
+    { id: "Masks", group: true, children: [
+        { id: "Circle", values: { Radius: .6 } },
+        { id: "Gradient", values: { Angle: .2 } } ] },
+    { id: "Camera", values: { FOV: .5, Position: .5 } },
+];
+const chains = [
+    { id: "c1", name: "Kick pulse", color: "var(--chain-1)", steps: ["FFT low", "Integrator"],
+      targets: [["Particles", "Size"], ["Text", "Opacity"], ["Camera", "FOV"]] },
+    { id: "c2", name: "Slow sweep", color: "var(--chain-2)", steps: ["FFT mid", "LFO speed", "LFO 0.1 Hz"],
+      targets: [["Background", "Hue"], ["Gradient", "Angle"]] },
+    { id: "c3", name: "Beat step", color: "var(--chain-3)", steps: ["Beat step 1/4"],
+      targets: [["Particles", "Count"], ["Circle", "Radius"]] },
+];
+let selectedObject = null, selectedChain = null;
+const el = id => document.getElementById(id);
+const chainsOf = obj => chains.filter(c => c.targets.some(t => t[0] === obj));
+const chainOfValue = (obj, v) => chains.find(c => c.targets.some(t => t[0] === obj && t[1] === v));
+const find = (nodes, id) => { for (const n of nodes) { if (n.id === id) return n; const f = n.children && find(n.children, id); if (f) return f; } };
+
+function renderTree() {
+    const out = [];
+    const walk = (nodes, depth) => nodes.forEach(n => {
+        const cs = chainsOf(n.id);
+        const target = selectedChain && cs.includes(selectedChain);
+        out.push(`<div class="row ${n.group ? "group" : ""} ${n.id === selectedObject ? "selected" : ""} ${target ? "target" : ""}"
+            data-obj="${n.id}" style="padding-left:${6 + depth * 16}px;${target ? `--hl:${selectedChain.color}` : ""}">
+            <span class="name">${n.id}</span>
+            <span class="dots">${cs.map(c => `<span class="dot" style="--c:${c.color}" title="${c.name}"></span>`).join("")}</span></div>`);
+        if (n.children) walk(n.children, depth + 1);
+    });
+    walk(tree, 0);
+    el("tree").innerHTML = out.join("");
+    el("tree").classList.toggle("dim", !!selectedChain);
+}
+
+function renderChains() {
+    const lit = selectedObject ? chainsOf(selectedObject) : [];
+    el("chains").innerHTML = chains.map(c => `
+        <div class="chain ${c === selectedChain || lit.includes(c) ? "on" : ""}" data-chain="${c.id}" style="--c:${c.color}">
+            <div class="title">${c.name}</div>
+            <div class="steps">${c.steps.map(s => `<span class="step">${s}</span>`).join('<span class="arrow">&#8594;</span>')}</div>
+            <div class="targets">${c.targets.map(t => `<span class="tgt" data-obj="${t[0]}">${t[0]} &#8250; ${t[1]}</span>`).join("")}</div>
+        </div>`).join("");
+}
+
+function renderProps() {
+    const n = selectedObject && find(tree, selectedObject);
+    if (!n || !n.values) { el("props").innerHTML = `<div class="empty">Select an object in the tree.</div>`; return; }
+    el("props").innerHTML = `<div style="margin-bottom:6px;font-weight:600">${n.id}</div>` +
+        Object.entries(n.values).map(([k, v]) => {
+            const c = chainOfValue(n.id, k);
+            return `<div class="prop ${c ? "mod" : ""}" style="${c ? `--c:${c.color}` : ""}">
+                <span class="label">${k}</span><span class="slider"><i style="width:${v * 100}%"></i></span>
+                ${c ? `<span class="src" data-chain="${c.id}">&#9679; ${c.name}</span>` : ""}</div>`;
+        }).join("");
+}
+
+function render() { renderTree(); renderChains(); renderProps(); }
+
+// Draws a curve from each chain to each tree row it drives. Only for the hovered chain or row.
+function drawWires(list) {
+    const svg = el("wires");
+    if (!el("wireToggle").checked || !list.length) { svg.innerHTML = ""; return; }
+    const b = el("board").getBoundingClientRect();
+    svg.innerHTML = list.flatMap(c => c.targets.map(t => {
+        const row = el("tree").querySelector(`.row[data-obj="${t[0]}"]`).getBoundingClientRect();
+        const card = el("chains").querySelector(`[data-chain="${c.id}"]`).getBoundingClientRect();
+        const x1 = card.left - b.left, y1 = card.top - b.top + 12, x2 = row.right - b.left, y2 = row.top - b.top + row.height / 2;
+        const m = (x1 + x2) / 2;
+        return `<path d="M${x1},${y1} C${m},${y1} ${m},${y2} ${x2},${y2}" style="stroke:${c.color}"/>`;
+    })).join("");
+}
+
+document.addEventListener("click", e => {
+    const tgt = e.target.closest(".tgt"), src = e.target.closest(".src"), row = e.target.closest(".row"), chain = e.target.closest(".chain");
+    if (tgt) { selectedObject = tgt.dataset.obj; selectedChain = null; }
+    else if (src) { selectedChain = chains.find(c => c.id === src.dataset.chain); }
+    else if (row) { selectedObject = row.dataset.obj; selectedChain = null; }
+    else if (chain) { const c = chains.find(x => x.id === chain.dataset.chain); selectedChain = c === selectedChain ? null : c; }
+    else if (e.target.id === "clear") { selectedObject = selectedChain = null; }
+    else return;
+    render();
+});
+document.addEventListener("mouseover", e => {
+    const chain = e.target.closest(".chain"), row = e.target.closest(".row");
+    drawWires(chain ? [chains.find(c => c.id === chain.dataset.chain)] : row ? chainsOf(row.dataset.obj) : []);
+});
+render();
+</script>
+</body>
+</html>
