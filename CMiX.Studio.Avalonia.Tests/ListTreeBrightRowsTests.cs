@@ -71,6 +71,20 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void Of_AnEntity_KeepsEveryOpenLayerBrightAndDimsItsOtherLists()
+        {
+            var scene = CreateScene();
+
+            var light = LightOf(scene, Entity(scene, 0));
+
+            Assert.True(light.IsBright(Key(scene.LayerNodeOfA(0))));
+            Assert.True(light.IsBright(Key(scene.LayerNodeOfB(1))));
+            Assert.DoesNotContain(Key(scene.LayerNodeOfA(0)), light.PossibleTargets);
+            Assert.False(light.IsBright(Key(scene.Group<CamerasGroup>(0))));
+            Assert.False(light.IsBright(Key(scene.Group<FiltersGroup>(0))));
+        }
+
+        [Fact]
         public void Of_AnEntity_DimsTheCompositionsAndTheModifiersOfAnEntity()
         {
             var scene = CreateScene();
