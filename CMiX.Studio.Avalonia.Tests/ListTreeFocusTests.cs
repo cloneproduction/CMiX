@@ -186,18 +186,12 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void CursorFrame_TheSelectedRow_IsWhiteAndDiffersFromTheSelectionMark()
+        public void CursorFrame_TheSelectedRow_ShowsNoFrame()
         {
             Tree.SelectByClick(Entity);
             Settle();
 
-            var frame = Named(RowOf(Entity), "cursorFrame");
-            var mark = Named(RowOf(Entity), "mark");
-
-            Assert.True(frame.IsEffectivelyVisible);
-            Assert.Equal(ColorOf((IBrush)Application.Current!.FindResource("CursorFrameBrush")!), ColorOf(frame.BorderBrush));
-            Assert.NotEqual(ColorOf(mark.Background), ColorOf(frame.BorderBrush));
-            Assert.NotEqual(mark.Bounds.Width, frame.BorderThickness.Left);
+            Assert.Equal(0, Named(RowOf(Entity), "cursorFrame").Opacity);
         }
 
         [AvaloniaFact]

@@ -76,12 +76,12 @@
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <!-- The cursor frame of the old tree: one pixel in the colour of the kind, white on the selected row. -->
+        <!-- The cursor frame of the old tree: one pixel in the colour of the kind. A selected row shows no frame. -->
         <Style Selector="Border#cursorFrame">
             <Setter Property="BorderBrush" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}" />
         </Style>
         <Style Selector="Views|RowListTree:selected Border#cursorFrame">
-            <Setter Property="BorderBrush" Value="{DynamicResource CursorFrameBrush}" />
+            <Setter Property="Opacity" Value="0" />
         </Style>
 
         <!-- AppIcon sets its own Foreground in its styles, so the state of the row reaches the icon through IconForeground. -->
