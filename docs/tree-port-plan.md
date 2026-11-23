@@ -352,6 +352,10 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 
 Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
 stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays; no halo around any icon.
+Decided on 2026-11-23 during Phase 3 (owner):
+- The toggles at the right (visibility, mask) and the kind count badges keep the behaviour and the look of the current tree view (`TogglesRow`, `BadgesKindCount`, `TreeRowBrush`): their clicks and their colours in every state. They were designed before and work. This overrides the count squares "icon and number" of section 3.5.
+- Icons stay 16 px (the rule of `IconKeyTests`); the 12 px of the mockup is not used.
+
 Decided on 2026-11-23 during Phase 1:
 - Inside a card also reaches its empty list that option E hides: the drop target is the hidden group, the outline shows on the card (`ListTreeSlot.ShownTarget`).
 - A row of the new tree is identified by `ListTreeRowKey` (the model it shows and the key of its parent row), not by its live `TreeNode`: a move to another list builds new nodes, a shared entity shows under several layers, and a copy with Alt has no node before the drop. A copy takes a marker model (for example `ListTreeCopy(TreeNode Source)`) in step 4.1.
