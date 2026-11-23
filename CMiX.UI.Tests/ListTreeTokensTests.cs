@@ -21,7 +21,6 @@ namespace CMiX.UI.Tests
         [InlineData("ListTreeRowHeight", 32)]
         [InlineData("ListTreeRowGap", 3)]
         [InlineData("ListTreeIndent", 16)]
-        [InlineData("ListTreeIconSize", 16)]
         [InlineData("ListTreeLeftBorderWidth", 3)]
         [InlineData("ListTreeDropOutlineThickness", 1.5)]
         [InlineData("ListTreeDropOutlineOffset", 2)]
@@ -39,6 +38,8 @@ namespace CMiX.UI.Tests
             Assert.Equal(new Thickness(2, 0, 0, 0), Tokens.Get<Thickness>("ListTreeRowContentMargin"));
             Assert.Equal(new Thickness(8, 0), Tokens.Get<Thickness>("ListTreeIconMargin"));
             Assert.Equal(new Thickness(6, 0), Tokens.Get<Thickness>("ListTreeNamePadding"));
+            Assert.Equal(new Thickness(8, 8, 0, 8), Tokens.Get<Thickness>("ListTreeMargin"));
+            Assert.Equal(new Thickness(4), Tokens.Get<Thickness>("ListTreeToolbarPadding"));
         }
 
         [AvaloniaFact]
@@ -87,6 +88,8 @@ namespace CMiX.UI.Tests
         [InlineData("ListTreeTextActiveBrush", "TreeTextRest")]
         [InlineData("ListTreeTextSelectedBrush", "ActiveText")]
         [InlineData("ListTreeIconDimmedBrush", "Grey800")]
+        [InlineData("ListTreeBackgroundBrush", "TreeBackground")]
+        [InlineData("ListTreeToolbarBackgroundBrush", "Grey300")]
         public void Brush_EachSharedKey_IsTheColourOfTheTree(string key, string colour)
         {
             Assert.Equal(Tokens.Get<Color>(colour), BrushColor(key));

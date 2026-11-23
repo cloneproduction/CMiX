@@ -6,19 +6,19 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <!-- Tree.Open, as in the old tree. The keys of the selected row are in the main window.
-         F2 renames in place in the new tree only. Tree.Rename keeps its own gesture in the main window. -->
+         F2 is a fixed key: it renames in place in the new tree only. Tree.Rename keeps its own gesture in the main window. -->
     <UserControl.KeyBindings>
         <KeyBinding Command="{Binding OpenSelectedCommand}" Gesture="{Binding Shortcuts[Tree.Open]}" />
         <KeyBinding Command="{Binding RenameSelectedByKeyCommand}" Gesture="F2" />
     </UserControl.KeyBindings>
 
     <!-- The new project tree. The DataContext is the ProjectTree, the same as the one of TreeViewProject. -->
-    <DockPanel Background="{DynamicResource TreeBackgroundBrush}">
+    <DockPanel Background="{DynamicResource ListTreeBackgroundBrush}">
 
         <Views:ToolbarProjectTree
-            Background="{DynamicResource Grey300Brush}"
+            Background="{DynamicResource ListTreeToolbarBackgroundBrush}"
             DockPanel.Dock="Top"
-            Padding="{DynamicResource TreeToolbarPadding}" />
+            Padding="{DynamicResource ListTreeToolbarPadding}" />
 
         <!-- The keys of the mode of the tree, under the rows. -->
         <ui:KeyHintStrip
@@ -35,7 +35,7 @@
             <StackPanel>
             <Views:PanelListTreeRows
                 x:Name="rows"
-                Margin="{DynamicResource TreeMargin}"
+                Margin="{DynamicResource ListTreeMargin}"
                 Background="Transparent"
                 Indent="{DynamicResource ListTreeIndent}"
                 KeyboardNavigation.TabNavigation="Once"
