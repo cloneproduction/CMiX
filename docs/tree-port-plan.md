@@ -355,6 +355,9 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 
 Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
 stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays; no halo around any icon.
+Decided on 2026-11-23 during Phase 4 (owner):
+- Alt copy during a drag is skipped for now. The old tree never had it; a copy is Shift+D, then a drag. It needs a model operation "copy to a list place" as one undo step before it can come back.
+
 Decided on 2026-11-23 during Phase 3 (owner):
 - The toggles at the right (visibility, mask) and the kind count badges keep the behaviour and the look of the current tree view (`TogglesRow`, `BadgesKindCount`, `TreeRowBrush`): their clicks and their colours in every state. They were designed before and work. This overrides the count squares "icon and number" of section 3.5.
 - Icons stay 16 px (the rule of `IconKeyTests`); the 12 px of the mockup is not used.
