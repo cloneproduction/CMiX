@@ -174,9 +174,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var rows = Screen.RowsOf(screen.Left);
 
-            Assert.Equal(new[] { "Tree", "Tabs", "Assets" }, rows.Select(row => ((PanelChoice)row.CommandParameter!).Name));
-            Assert.Equal(new[] { "Tree", "Tabs", "Resources" }, rows.Select(row => row.GetVisualDescendants().OfType<AppIcon>().Single().IconKey));
-            Assert.Equal(new[] { "Tree", "Tabs", "Assets" }, rows.Select(row => row.GetVisualDescendants().OfType<TextBlock>().Single().Text));
+            Assert.Equal(new[] { "Tree", "List tree", "Tabs", "Assets" }, rows.Select(row => ((PanelChoice)row.CommandParameter!).Name));
+            Assert.Equal(new[] { "Tree", "Tree", "Tabs", "Resources" }, rows.Select(row => row.GetVisualDescendants().OfType<AppIcon>().Single().IconKey));
+            Assert.Equal(new[] { "Tree", "List tree", "Tabs", "Assets" }, rows.Select(row => row.GetVisualDescendants().OfType<TextBlock>().Single().Text));
         }
 
         [AvaloniaFact]
@@ -377,7 +377,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var host = new PanelSide { Choices = PanelChoice.All, Choice = PanelChoice.Tabs };
 
             Assert.Same(PanelChoice.Tabs, host.Choice);
-            Assert.Equal(3, host.Choices!.Cast<object>().Count());
+            Assert.Equal(4, host.Choices!.Cast<object>().Count());
             Assert.NotNull(host.PickCommand);
             host.PickCommand.Execute(PanelChoice.Assets);
             Assert.Same(PanelChoice.Assets, host.Choice);

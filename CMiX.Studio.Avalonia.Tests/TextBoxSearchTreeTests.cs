@@ -472,7 +472,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             var (host, _) = TreeHostOf(window);
 
-            host.Choice = host.Choices!.Cast<PanelChoice>().First(choice => choice is not TreePanelChoice);
+            host.Choice = host.Choices!.Cast<PanelChoice>().First(choice => choice is not TreePanelChoice and not ListTreePanelChoice);
             TestServiceProviderFactory.Pump();
 
             Assert.Empty(host.GetVisualDescendants().OfType<TextBoxSearchTree>());

@@ -1,0 +1,37 @@
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.VisualTree;
+
+namespace CMiX.Studio.Avalonia.Views
+{
+    // Where the keyboard focus is, seen from the new tree: in a text box, in its side panel, or in another panel.
+    internal sealed class ListTreeFocus
+    {
+        private readonly Control owner;
+
+        public ListTreeFocus(Control owner)
+        {
+            this.owner = owner;
+        }
+
+        public bool IsTextBoxFocused() => TreeFocusKeeper.IsInTextBox(TopLevel.GetTopLevel(owner)?.FocusManager?.GetFocusedElement());
+
+        // The focus on the window itself, or on no control, is in no panel.
+        public bool IsFocusInOtherPanel() => FocusedControl() is { } focused && !IsInPanel(focused);
+
+        public bool IsPanelFocused() => FocusedControl() is { } focused && IsInPanel(focused);
+
+        private IInputElement? FocusedControl() =>
+            TopLevel.GetTopLevel(owner)?.FocusManager?.GetFocusedElement() is { } focused and not TopLevel ? focused : null;
+
+        private bool IsInPanel(IInputElement focused)
+        {
+            Visual panel = owner.FindAncestorOfType<PanelSide>() is { } host ? host : owner;
+            return focused is Visual visual && (ReferenceEquals(visual, panel) || panel.IsVisualAncestorOf(visual));
+        }
+    }
+}

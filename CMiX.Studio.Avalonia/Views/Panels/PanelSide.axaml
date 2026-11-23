@@ -68,6 +68,9 @@
                             <DataTemplate DataType="{x:Type StudioViewModels:TreePanelChoice}">
                                 <Views:TextBoxSearchTree DataContext="{Binding Context.ProjectTree, ElementName=panelSide}" />
                             </DataTemplate>
+                            <DataTemplate DataType="{x:Type StudioViewModels:ListTreePanelChoice}">
+                                <Views:TextBoxSearchTree DataContext="{Binding Context.ProjectTree, ElementName=panelSide}" />
+                            </DataTemplate>
                             <DataTemplate DataType="{x:Type StudioViewModels:PanelChoice}">
                                 <Panel />
                             </DataTemplate>
@@ -91,6 +94,10 @@
 
                 <DataTemplate DataType="{x:Type StudioViewModels:TreePanelChoice}">
                     <Views:TreeViewProject DataContext="{Binding Context.ProjectTree, ElementName=panelSide}" />
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type StudioViewModels:ListTreePanelChoice}">
+                    <Views:ListTreeProject DataContext="{Binding Context.ProjectTree, ElementName=panelSide}" />
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type StudioViewModels:TabsPanelChoice}">
