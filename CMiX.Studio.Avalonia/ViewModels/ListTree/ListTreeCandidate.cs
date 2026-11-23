@@ -3,6 +3,6 @@
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // A legal slot with the tree as if the source were dropped on it.
-    public sealed record ListTreeCandidate(ListTreeSlot Slot, ListTreeSnapshot Snapshot, ListTreeLayout Layout, ListTreeSpot Spot);
+    // A legal slot with the tree as if the source were dropped on it. The place is the box of the moved row.
+    public sealed record ListTreeCandidate(ListTreeSlot Slot, ListTreeSnapshot Snapshot, ListTreeLayout Layout, ListTreePlace Place);
 }

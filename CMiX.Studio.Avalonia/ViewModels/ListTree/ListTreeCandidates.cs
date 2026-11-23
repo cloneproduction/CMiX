@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             var moved = ListTreeMove.Of(snapshot, source, slot);
             var layout = ListTreeLayout.Of(moved, sizes);
             return moved.RowOf(node) is { } row && layout.PlaceOf(row.Key) is { } place
-                ? new ListTreeCandidate(slot, moved, layout, new ListTreeSpot(place.Y, place.Depth))
+                ? new ListTreeCandidate(slot, moved, layout, place)
                 : null;
         }
     }

@@ -62,7 +62,7 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.LayerOfA(1).ModelEntityManager.AddExistingItem((IPrefab)scene.LayerOfA(0).ModelEntityManager.ManagerData.Items[1]);
         }
 
-        // The drop into the modifiers of the shared entity gives the second place a row with no node.
+        // The drop into the modifiers of the shared entity gives its second row a child with no node.
         private ListTreeSnapshot MovedIntoTheSharedEntity(Scene scene, TreeNode source)
         {
             var live = ListTreeSnapshot.Of(scene.Tree.Roots);
@@ -84,7 +84,7 @@ namespace CMiX.Studio.Avalonia.Tests
             new ListTreeSlots(service).Of(ListTreeSnapshot.Of(scene.Tree.Roots), source);
 
         [Fact]
-        public void Of_AnEntity_GivesAPlaceInEveryOpenLayerAndInAnEmptyEntitiesList()
+        public void Of_AnEntity_GivesASlotInEveryOpenLayerAndInAnEmptyEntitiesList()
         {
             var scene = CreateOpenScene();
 
@@ -125,7 +125,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Of_AClosedCardWithRows_GivesNoPlaceInsideIt()
+        public void Of_AClosedCardWithRows_GivesNoSlotInsideIt()
         {
             var scene = CreateOpenScene();
             scene.LayerNodeOfA(1).IsExpanded = false;
@@ -137,7 +137,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Of_ALayerNextToAClosedCardWithRows_GivesThePlacesBeforeAndAfterIt()
+        public void Of_ALayerNextToAClosedCardWithRows_GivesTheSlotsBeforeAndAfterIt()
         {
             var scene = CreateOpenScene();
             var closed = scene.LayerNodeOfA(1);
@@ -150,7 +150,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Of_ACardWithRows_GivesNoPlaceInsideTheSource()
+        public void Of_ACardWithRows_GivesNoSlotInsideTheSource()
         {
             var scene = CreateOpenScene();
             var source = scene.LayerNodeOfA(0);
@@ -163,7 +163,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Of_AnEntity_KeepsTheCurrentPlaceOnce()
+        public void Of_AnEntity_KeepsTheCurrentSlotOnce()
         {
             var scene = CreateOpenScene();
             var source = Entity(scene, 0, 1);
@@ -175,7 +175,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Of_PlacesWithOneListPlace_KeepTheDeepestRow()
+        public void Of_SlotsWithOneListPlace_KeepTheDeepestRow()
         {
             var scene = CreateOpenScene();
             var layer = scene.LayerNodeOfB(1);
@@ -204,7 +204,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Of_AComposition_GivesNoPlaceInsideAnEntity()
+        public void Of_AComposition_GivesNoSlotInsideAnEntity()
         {
             var scene = CreateOpenScene();
             var entity = Entity(scene, 0, 0);
@@ -231,7 +231,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Of_AnOpenTree_GivesEveryPlaceOfTreeDropSlots()
+        public void Of_AnOpenTree_GivesEverySlotOfTreeDropSlots()
         {
             var scene = CreateOpenScene();
             var sources = new[]

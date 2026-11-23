@@ -8,7 +8,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The places of the visible tree where the source can land, in tree order, one per list and index.
+    // The slots of the visible tree where the source can land, in tree order, one per list and index.
     public sealed class ListTreeSlots
     {
         private readonly TreeDropService dropService;
@@ -23,12 +23,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             if (source.Item == null || source.Owner == null)
                 return Array.Empty<ListTreeSlot>();
 
-            var candidates = new List<Candidate>();
-            AddRows(snapshot.Roots, source, candidates);
-            return OnePerPlace(candidates);
+            var slots = new List<SlotAtDepth>();
+            AddRows(snapshot.Roots, source, slots);
+            return OnePerListPlace(slots);
         }
 
-        private void AddRows(IEnumerable<ListTreeRow> rows, TreeNode source, List<Candidate> candidates)
+        private void AddRows(IEnumerable<ListTreeRow> rows, TreeNode source, List<SlotAtDepth> slots)
         {
             foreach (var row in rows)
             {
@@ -36,69 +36,69 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
                     continue;
 
                 if (ReferenceEquals(node, source))
-                    candidates.Add(CurrentPlaceOf(row, node));
+                    slots.Add(CurrentSlotOf(row, node));
                 else
-                    AddRow(row, node, source, candidates);
+                    AddRow(row, node, source, slots);
             }
         }
 
-        private void AddRow(ListTreeRow row, TreeNode node, TreeNode source, List<Candidate> candidates)
+        private void AddRow(ListTreeRow row, TreeNode node, TreeNode source, List<SlotAtDepth> slots)
         {
-            Add(row, node, DropPosition.Before, source, candidates);
+            Add(row, node, DropPosition.Before, source, slots);
             if (OffersInside(row))
-                AddInside(row, node, source, candidates);
+                AddInside(row, node, source, slots);
 
             if (row.IsExpanded)
-                AddRows(row.Children, source, candidates);
+                AddRows(row.Children, source, slots);
 
-            Add(row, node, DropPosition.After, source, candidates);
+            Add(row, node, DropPosition.After, source, slots);
         }
 
-        private void Add(ListTreeRow row, TreeNode node, DropPosition position, TreeNode source, List<Candidate> candidates)
+        private void Add(ListTreeRow row, TreeNode node, DropPosition position, TreeNode source, List<SlotAtDepth> slots)
         {
-            if (dropService.PlaceOf(source, node, position) is { } place)
-                candidates.Add(new Candidate(new ListTreeSlot(node, position, place, row.Key), row.Depth));
+            if (dropService.PlaceOf(source, node, position) is { } listPlace)
+                slots.Add(new SlotAtDepth(new ListTreeSlot(node, position, listPlace, row.Key), row.Depth));
         }
 
-        private void AddInside(ListTreeRow row, TreeNode node, TreeNode source, List<Candidate> candidates)
+        private void AddInside(ListTreeRow row, TreeNode node, TreeNode source, List<SlotAtDepth> slots)
         {
-            if (dropService.PlaceOf(source, node, DropPosition.Inside) is { } place)
-                candidates.Add(new Candidate(new ListTreeSlot(node, DropPosition.Inside, place, row.Key), row.Depth));
+            if (dropService.PlaceOf(source, node, DropPosition.Inside) is { } listPlace)
+                slots.Add(new SlotAtDepth(new ListTreeSlot(node, DropPosition.Inside, listPlace, row.Key), row.Depth));
             else
-                AddInsideHiddenGroups(row, node, source, candidates);
+                AddInsideHiddenGroups(row, node, source, slots);
         }
 
         // A drop Inside the card lands in its empty list of the kind of the source.
-        private void AddInsideHiddenGroups(ListTreeRow row, TreeNode node, TreeNode source, List<Candidate> candidates)
+        private void AddInsideHiddenGroups(ListTreeRow row, TreeNode node, TreeNode source, List<SlotAtDepth> slots)
         {
             foreach (var group in node.Children.Where(IsHiddenGroup))
-                if (dropService.PlaceOf(source, group, DropPosition.Inside) is { } place)
-                    candidates.Add(new Candidate(new ListTreeSlot(group, DropPosition.Inside, place, row.Key), row.Depth + 1));
+                if (dropService.PlaceOf(source, group, DropPosition.Inside) is { } listPlace)
+                    slots.Add(new SlotAtDepth(new ListTreeSlot(group, DropPosition.Inside, listPlace, row.Key), row.Depth + 1));
         }
 
         private static bool IsHiddenGroup(TreeNode node) => node.Group != null && node.Children.Count == 0;
 
-        // The drag opens a closed card with rows first, then the places are made again.
+        // The drag opens a closed card with rows first, then the slots are made again.
         private static bool OffersInside(ListTreeRow row) =>
             row.IsCard && (row.IsExpanded || row.Children.Count == 0);
 
-        private static Candidate CurrentPlaceOf(ListTreeRow row, TreeNode source)
+        private static SlotAtDepth CurrentSlotOf(ListTreeRow row, TreeNode source)
         {
             var owner = source.Owner!;
-            var place = new ListPlace(owner, owner.ManagerData.Items.IndexOf(source.Item!));
-            return new Candidate(new ListTreeSlot(source, DropPosition.Before, place, row.Key), row.Depth);
+            var listPlace = new ListPlace(owner, owner.ManagerData.Items.IndexOf(source.Item!));
+            return new SlotAtDepth(new ListTreeSlot(source, DropPosition.Before, listPlace, row.Key), row.Depth);
         }
 
-        private static IReadOnlyList<ListTreeSlot> OnePerPlace(List<Candidate> candidates)
+        private static IReadOnlyList<ListTreeSlot> OnePerListPlace(List<SlotAtDepth> slots)
         {
-            var kept = candidates.GroupBy(candidate => candidate.Slot.ListPlace).Select(Deepest).ToHashSet();
-            return candidates.Where(kept.Contains).Select(candidate => candidate.Slot).ToArray();
+            var kept = slots.GroupBy(atDepth => atDepth.Slot.ListPlace).Select(Deepest).ToHashSet();
+            return slots.Where(kept.Contains).Select(atDepth => atDepth.Slot).ToArray();
         }
 
         // At one depth, Before wins over After and After wins over Inside, as in TreeDropSlots.
-        private static Candidate Deepest(IEnumerable<Candidate> samePlace) =>
-            samePlace.OrderByDescending(candidate => candidate.Depth).ThenBy(candidate => candidate.Slot.Position).First();
+        private static SlotAtDepth Deepest(IEnumerable<SlotAtDepth> sameListPlace) =>
+            sameListPlace.OrderByDescending(atDepth => atDepth.Depth).ThenBy(atDepth => atDepth.Slot.Position).First();
 
-        private sealed record Candidate(ListTreeSlot Slot, int Depth);
+        private sealed record SlotAtDepth(ListTreeSlot Slot, int Depth);
     }
 }

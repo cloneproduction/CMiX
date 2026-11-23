@@ -17,7 +17,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             this.numbers = numbers;
         }
 
-        public bool PassedThreshold(ListTreePress press, ListTreePoint pointer)
+        public bool HasPassedThreshold(ListTreePress press, ListTreePoint pointer)
         {
             var dx = pointer.X - press.Pointer.X;
             var dy = pointer.Y - press.Pointer.Y;
@@ -42,8 +42,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         public double DistanceOf(ListTreeCandidate candidate, ListTreePress press, ListTreePoint pointer)
         {
             var dx = pointer.X - press.Pointer.X;
-            var dy = pointer.Y - press.GrabOffsetY - candidate.Spot.Y;
-            var levelX = (candidate.Spot.Depth - press.Depth) * numbers.PixelsPerLevel;
+            var dy = pointer.Y - press.GrabOffsetY - candidate.Place.Y;
+            var levelX = (candidate.Place.Depth - press.Depth) * numbers.PixelsPerLevel;
             return Math.Sqrt(Square((levelX - dx) * numbers.HorizontalWeight) + Square(dy));
         }
 

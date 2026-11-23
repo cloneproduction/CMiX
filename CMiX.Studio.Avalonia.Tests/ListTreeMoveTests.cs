@@ -261,7 +261,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public async Task Of_ADropIntoTheHiddenListOfASharedCard_ShowsTheListAtBothPlacesAsTheRealDrop()
+        public async Task Of_ADropIntoTheHiddenListOfASharedCard_ShowsTheListUnderBothCardsAsTheRealDrop()
         {
             var scene = CreateSharedCardScene();
             var source = Modifier(scene, 0, 0);
@@ -279,7 +279,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Of_ADropIntoAListThatShowsTwice_AddsTheRowAtBothPlaces()
+        public void Of_ADropIntoAListThatShowsTwice_AddsTheRowUnderBothCards()
         {
             var scene = CreateSharedScene();
             var source = Modifier(scene, 0, 0);

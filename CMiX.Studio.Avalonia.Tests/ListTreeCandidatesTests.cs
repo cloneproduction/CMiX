@@ -87,10 +87,13 @@ namespace CMiX.Studio.Avalonia.Tests
         private IReadOnlyList<ListTreeSlot> SlotsOf(Scene scene, TreeNode source) =>
             new ListTreeSlots(service).Of(ListTreeSnapshot.Of(scene.Tree.Roots), source);
 
-        private static ListTreeSpot LiveSpotOf(Scene scene, TreeNode node)
+        private static ListTreePlace LivePlaceOf(Scene scene, TreeNode node) =>
+            ListTreeLayout.Of(ListTreeSnapshot.Of(scene.Tree.Roots), ListTreeSizes.Default).PlaceOf(ListTreeKeys.Of(node))!;
+
+        private static void AssertYAndDepth(ListTreePlace expected, ListTreePlace actual)
         {
-            var place = ListTreeLayout.Of(ListTreeSnapshot.Of(scene.Tree.Roots), ListTreeSizes.Default).PlaceOf(ListTreeKeys.Of(node))!;
-            return new ListTreeSpot(place.Y, place.Depth);
+            Assert.Equal(expected.Y, actual.Y);
+            Assert.Equal(expected.Depth, actual.Depth);
         }
 
         private static bool IsInComposition(ListTreeSlot slot, Composition composition) =>
@@ -109,7 +112,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Of_ASlotBeforeTheFirstEntity_GivesTheSpotOfTheFirstEntity()
+        public void Of_ASlotBeforeTheFirstEntity_GivesThePlaceOfTheFirstEntity()
         {
             var scene = CreateScene();
             var first = Entity(scene, 0);
@@ -117,11 +120,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var candidates = CandidatesOf(scene, Entity(scene, 1));
 
             var before = Assert.Single(candidates, candidate => ReferenceEquals(candidate.Slot.Target, first) && candidate.Slot.Position == DropPosition.Before);
-            Assert.Equal(LiveSpotOf(scene, first), before.Spot);
+            AssertYAndDepth(LivePlaceOf(scene, first), before.Place);
         }
 
         [Fact]
-        public void Of_ASlotInAnotherComposition_GivesTheSpotOfTheMovedRowInThatLayout()
+        public void Of_ASlotInAnotherComposition_GivesThePlaceOfTheMovedRowInThatLayout()
         {
             var scene = CreateScene();
             var end = new ListPlace(LayerOfB(scene, 1).ModelEntityManager, 1);
@@ -130,13 +133,14 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var candidates = CandidatesOf(scene, Entity(scene, 0));
 
-            var spot = Assert.Single(candidates, candidate => candidate.Slot.ListPlace == end).Spot;
-            var below = LiveSpotOf(scene, entityOfB);
-            Assert.Equal(new ListTreeSpot(below.Y + (1 - rowsThatLeave) * ListTreeSizes.Default.Pitch, below.Depth), spot);
+            var place = Assert.Single(candidates, candidate => candidate.Slot.ListPlace == end).Place;
+            var below = LivePlaceOf(scene, entityOfB);
+            Assert.Equal(below.Y + (1 - rowsThatLeave) * ListTreeSizes.Default.Pitch, place.Y);
+            Assert.Equal(below.Depth, place.Depth);
         }
 
         [Fact]
-        public void Of_TheCurrentPlace_GivesTheSpotOfTheSource()
+        public void Of_TheCurrentSlot_GivesThePlaceOfTheSource()
         {
             var scene = CreateScene();
             var source = Entity(scene, 1);
@@ -144,11 +148,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var candidates = CandidatesOf(scene, source);
 
             var current = Assert.Single(candidates, candidate => ReferenceEquals(candidate.Slot.Target, source));
-            Assert.Equal(LiveSpotOf(scene, source), current.Spot);
+            AssertYAndDepth(LivePlaceOf(scene, source), current.Place);
         }
 
         [Fact]
-        public void Of_ALayerThatSharesItems_GivesNoPlaceInAnotherComposition()
+        public void Of_ALayerThatSharesItems_GivesNoSlotInAnotherComposition()
         {
             var scene = CreateSharedScene();
             var source = scene.LayerNodeOfA(0);
@@ -185,7 +189,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Of_AnItemOfALayerThatSharesIt_GivesNoPlaceInAnotherComposition()
+        public void Of_AnItemOfALayerThatSharesIt_GivesNoSlotInAnotherComposition()
         {
             var scene = CreateSharedScene();
             var source = Entity(scene, 1);

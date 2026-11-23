@@ -43,21 +43,22 @@ namespace CMiX.Studio.Avalonia.Tests
             return candidates.Of(snapshot, snapshot.VisibleRows().Single(row => ReferenceEquals(row.Node, source)));
         }
 
-        // A candidate whose moved row is at the spot. The pick reads only the spot.
+        // A candidate whose moved row is at the place. The pick reads only the place.
         private static ListTreeCandidate CandidateAt(double y, int depth)
         {
             var scene = CreateScene();
-            return CandidatesOf(scene, FilterOfTheSecondLayer(scene))[0] with { Spot = new ListTreeSpot(y, depth) };
+            var candidate = CandidatesOf(scene, FilterOfTheSecondLayer(scene))[0];
+            return candidate with { Place = candidate.Place with { Y = y, Depth = depth } };
         }
 
-        // The candidates of one scene, each of its own slot. The pick reads only the spot.
+        // The candidates of one scene, each of its own slot. The pick reads only the place.
         private static IReadOnlyList<ListTreeCandidate> SlotsOfOneScene()
         {
             var scene = CreateScene();
             return CandidatesOf(scene, FilterOfTheSecondLayer(scene));
         }
 
-        private static ListTreeCandidate At(ListTreeCandidate candidate, double y) => candidate with { Spot = new ListTreeSpot(y, 0) };
+        private static ListTreeCandidate At(ListTreeCandidate candidate, double y) => candidate with { Place = candidate.Place with { Y = y, Depth = 0 } };
 
         private static ListTreePress PressAt(double x, double y) => new(new ListTreePoint(x, y), 0, 0);
 
@@ -72,44 +73,44 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var press = PressAt(10, 10);
 
-            var passed = pick.PassedThreshold(press, new ListTreePoint(10 + dx, 10 + dy));
+            var passed = pick.HasPassedThreshold(press, new ListTreePoint(10 + dx, 10 + dy));
 
             Assert.Equal(expected, passed);
         }
 
         [Fact]
-        public void Nearest_ADraggedRowNearASpot_PicksThatCandidate()
+        public void Nearest_ADraggedRowNearAPlace_PicksThatCandidate()
         {
             var scene = CreateScene();
             var candidates = CandidatesOf(scene, scene.Group<EntitiesGroup>(0).Children[1]);
             var first = candidates[0];
-            var press = new ListTreePress(new ListTreePoint(100, 400), 10, first.Spot.Depth);
+            var press = new ListTreePress(new ListTreePoint(100, 400), 10, first.Place.Depth);
 
-            var nearest = pick.Nearest(candidates, press, new ListTreePoint(102, first.Spot.Y + 10 + 3));
+            var nearest = pick.Nearest(candidates, press, new ListTreePoint(102, first.Place.Y + 10 + 3));
 
             Assert.Same(first, nearest);
         }
 
         [Fact]
-        public void Nearest_TwoPlacesAtTheSameY_PicksThePlaceAtTheDepthOfThePointerX()
+        public void Nearest_TwoSlotsAtTheSameY_PicksTheSlotAtTheDepthOfThePointerX()
         {
             var scene = CreateScene();
             var source = FilterOfTheSecondLayer(scene);
             var candidates = CandidatesOf(scene, source);
             var current = Assert.Single(candidates, candidate => ReferenceEquals(candidate.Slot.Target, source));
-            var parentEnd = Assert.Single(candidates, candidate => candidate.Spot.Y == current.Spot.Y && candidate.Spot.Depth < current.Spot.Depth);
-            var press = new ListTreePress(new ListTreePoint(100, current.Spot.Y), 0, current.Spot.Depth);
-            var levelsUp = current.Spot.Depth - parentEnd.Spot.Depth;
+            var parentEnd = Assert.Single(candidates, candidate => candidate.Place.Y == current.Place.Y && candidate.Place.Depth < current.Place.Depth);
+            var press = new ListTreePress(new ListTreePoint(100, current.Place.Y), 0, current.Place.Depth);
+            var levelsUp = current.Place.Depth - parentEnd.Place.Depth;
 
-            var atTheStart = pick.Nearest(candidates, press, new ListTreePoint(100, current.Spot.Y));
-            var toTheLeft = pick.Nearest(candidates, press, new ListTreePoint(100 - levelsUp * 24, current.Spot.Y));
+            var atTheStart = pick.Nearest(candidates, press, new ListTreePoint(100, current.Place.Y));
+            var toTheLeft = pick.Nearest(candidates, press, new ListTreePoint(100 - levelsUp * 24, current.Place.Y));
 
             Assert.Same(current, atTheStart);
             Assert.Same(parentEnd, toTheLeft);
         }
 
         [Fact]
-        public void Nearest_APointer24PxToTheRight_PicksTheDeeperOfTwoPlacesAtTheSameY()
+        public void Nearest_APointer24PxToTheRight_PicksTheDeeperOfTwoSlotsAtTheSameY()
         {
             var cardEnd = CandidateAt(70, 3);
             var parentEnd = CandidateAt(70, 2);

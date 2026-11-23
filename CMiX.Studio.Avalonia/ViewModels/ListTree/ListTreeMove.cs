@@ -21,7 +21,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return new ListTreeSnapshot(Opened(moved, OpenedBy(HoldersToOpen(plan, holders))));
         }
 
-        // A move in its own list opens only the place of the slot. A move to another list opens every place of that list.
+        // A move in its own list opens only the holder of the slot. A move to another list opens every holder of that list.
         private static IReadOnlyList<ListTreeRowKey> HoldersToOpen(MovePlan plan, IReadOnlyList<ListTreeRowKey> holders) =>
             ReferenceEquals(plan.From, plan.To) ? new[] { plan.Holder } : holders;
 
@@ -35,10 +35,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         // The index is counted after the item leaves its list, as in TreeDropService.
-        private static int IndexOf(IControl item, PrefabManager from, ListPlace place)
+        private static int IndexOf(IControl item, PrefabManager from, ListPlace listPlace)
         {
             var oldIndex = from.ManagerData.Items.IndexOf(item);
-            return ReferenceEquals(place.List, from) && place.Index > oldIndex ? place.Index - 1 : place.Index;
+            return ReferenceEquals(listPlace.List, from) && listPlace.Index > oldIndex ? listPlace.Index - 1 : listPlace.Index;
         }
 
         // The key of the row that shows the list of the slot.
@@ -76,7 +76,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return rows;
         }
 
-        // In its own list, every place keeps its own row.
+        // In its own list, every holder keeps its own row.
         private static ListTreeRow MovedRowIn(ListTreeRow holder, MovePlan plan)
         {
             if (holder.Children.FirstOrDefault(child => ReferenceEquals(child.Key.Model, plan.Item)) is { } own)
@@ -91,7 +91,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             var key = new ListTreeRowKey(plan.To, parent.Key);
             holders.Add(key);
             var group = GroupNodeOf(parent, plan);
-            var groupRow = new ListTreeRow(key, group, parent.Depth + 1, true, true, group?.IsExpanded ?? false, new[] { NewRowUnder(key, parent.Depth + 2, plan) });
+            var groupRow = new ListTreeRow(key, group, parent.Depth + 1, IsCard: true, IsGroup: true, group?.IsExpanded ?? false, new[] { NewRowUnder(key, parent.Depth + 2, plan) });
             var lists = ListsOf(parent);
             var groupIndex = ListIndexOf(lists, plan.To);
             var rows = children.ToList();
@@ -115,11 +115,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return -1;
         }
 
-        // The second place of a shared card has no node, so its group row has none.
+        // A second row of a shared card has no node, so its group row has none.
         private static TreeNode? GroupNodeOf(ListTreeRow parent, MovePlan plan) =>
             parent.Node?.Children.FirstOrDefault(child => ReferenceEquals(child.Group?.Manager, plan.To));
 
-        // The row at the place of the slot keeps the source node. A second place of the same list has no node.
+        // The row in the holder of the slot keeps the source node. A second holder of the same list has no node.
         private static ListTreeRow NewRowUnder(ListTreeRowKey parent, int depth, MovePlan plan) =>
             parent.Equals(plan.Holder)
                 ? Closed(Moved(plan.Source, parent, depth))
