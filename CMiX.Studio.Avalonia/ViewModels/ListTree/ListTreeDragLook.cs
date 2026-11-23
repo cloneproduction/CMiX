@@ -57,15 +57,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             }
         }
 
-        public static ListTreeDragLook Of(ListTreeSnapshot live, ListTreeRow source, ListTreeCandidate candidate, ListTreeLight light) =>
+        public static ListTreeDragLook Of(ListTreeLiveRows live, ListTreeRow source, ListTreeCandidate candidate, ListTreeLight light) =>
             Of(live, ListTreeBlock.Of(source), candidate, light);
 
-        public static ListTreeDragLook Of(ListTreeSnapshot live, ListTreeBlock block, ListTreeCandidate candidate, ListTreeLight light)
+        public static ListTreeDragLook Of(ListTreeLiveRows live, ListTreeBlock block, ListTreeCandidate candidate, ListTreeLight light)
         {
-            var liveRows = live.AllRows().ToDictionary(row => row.Key);
-            var liveNodes = LiveNodesOf(liveRows.Values);
-            var rows = candidate.Snapshot.VisibleRows().Select(row => row.Node != null ? row : row with { Node = liveNodes.GetValueOrDefault(row.Key.Model) }).ToArray();
-            return new ListTreeDragLook(candidate, rows, liveRows, light, block);
+            var rows = candidate.Snapshot.VisibleRows().Select(row => row.Node != null ? row : row with { Node = live.NodeOf(row.Key.Model) }).ToArray();
+            return new ListTreeDragLook(candidate, rows, live.ByKey, light, block);
         }
 
         // A row that the live tree does not have is new in the candidate: the moved row or its list. It stays bright.
@@ -80,15 +78,5 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // The other rows of the block land next to the pressed row, under the same parent.
         private bool IsOtherRowOfTheBlock(ListTreeRowKey key) =>
             block.Rows.Count > 1 && Equals(key.Parent, Dragged.Parent) && block.Rows.Any(row => ReferenceEquals(row.Key.Model, key.Model));
-
-        private static IReadOnlyDictionary<object, TreeNode> LiveNodesOf(IEnumerable<ListTreeRow> rows)
-        {
-            var nodes = new Dictionary<object, TreeNode>(ReferenceEqualityComparer.Instance);
-            foreach (var row in rows)
-                if (row.Node is { } node)
-                    nodes.TryAdd(row.Key.Model, node);
-
-            return nodes;
-        }
     }
 }

@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
             var row = snapshot.VisibleRows().Single(visible => ReferenceEquals(visible.Node, source));
             var candidates = new ListTreeCandidates(new ListTreeSlots(service), service, ListTreeSizes.Default).Of(snapshot, row);
-            return ListTreeBrightRows.Of(snapshot, row, candidates);
+            return ListTreeBrightRows.Of(ListTreeLiveRows.Of(snapshot), row, candidates);
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
             var source = snapshot.VisibleRows().Single(row => ReferenceEquals(row.Node, Entity(scene, 1)));
 
-            var light = ListTreeBrightRows.Of(snapshot, source, Array.Empty<ListTreeCandidate>());
+            var light = ListTreeBrightRows.Of(ListTreeLiveRows.Of(snapshot), source, Array.Empty<ListTreeCandidate>());
 
             Assert.Equal(new[] { Key(scene.Group<EntitiesGroup>(0)) }, light.PossibleTargets);
             Assert.True(light.IsBright(source.Key));

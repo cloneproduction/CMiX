@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests
             IReadOnlyList<ListTreeCandidate> made = Array.Empty<ListTreeCandidate>();
 
             var candidatesMs = MillisecondsOf(() => made = candidates.Of(snapshot, source));
-            var brightRowsMs = MillisecondsOf(() => ListTreeBrightRows.Of(snapshot, source, made));
+            var brightRowsMs = MillisecondsOf(() => ListTreeBrightRows.Of(ListTreeLiveRows.Of(snapshot), source, made));
 
             output.WriteLine($"{sceneName}, {sourceName}: {snapshot.AllRows().Count} rows, {made.Count} candidates in {candidatesMs:F2} ms, bright rows in {brightRowsMs:F2} ms");
             Assert.NotEmpty(made);

@@ -24,6 +24,7 @@ The core has no Avalonia type. Most of it is records and static classes of pure 
 
 - `ListTreeSlots` lists every place in the visible tree where the dragged row can land, from the rules of `TreeDropService`, one slot for each list and index.
 - `ListTreeCandidates` keeps the slots that the real drop takes for every row of the block, and gives each one a `ListTreeCandidate`: the slot, the place of the moved row, and the moved tree.
+- `ListTreeLiveRows` finds the rows of the live snapshot by key and by node, and the node of a model. A drag makes it once for each set of candidates.
 - `ListTreePick` picks the nearest candidate. The pointer x gives the depth: 24 px of pointer movement is one level, with a weight of 1.5 on x (`ListTreeDragNumbers`). The current candidate stays until another one is 6 px closer (hysteresis). A drag starts after 4 px.
 - `ListTreeMove` gives the snapshot as if the block were dropped on the slot. A row that the move does not change is the same object as in the live snapshot. `ListTreeCandidate` builds this snapshot and its layout only for the candidate that the drag shows, then keeps them.
 - The rows slide to their places in the moved layout. The dragged row snaps into its landing place. The rows where the drop can land, and their direct children, stay bright (`ListTreeBrightRows`). The other rows dim to a fixed grey, never to an opacity. The line under the rows says where the row goes (`ListTreeDragNote`).

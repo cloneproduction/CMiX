@@ -26,11 +26,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         // The rows of the nodes in the snapshot. Null when a node has no row.
-        public ListTreeBlock? BlockIn(ListTreeSnapshot snapshot)
+        public ListTreeBlock? BlockIn(ListTreeLiveRows live)
         {
-            var rows = snapshot.AllRows().Where(row => row.Node != null).ToDictionary(row => row.Node!);
-            var blockRows = Nodes.Select(node => rows.GetValueOrDefault(node)).OfType<ListTreeRow>().ToArray();
-            return blockRows.Length == Nodes.Count && rows.TryGetValue(Pressed, out var pressed) ? new ListTreeBlock(blockRows, pressed) : null;
+            var blockRows = Nodes.Select(live.RowOf).OfType<ListTreeRow>().ToArray();
+            return blockRows.Length == Nodes.Count && live.RowOf(Pressed) is { } pressed ? new ListTreeBlock(blockRows, pressed) : null;
         }
 
         // The kind of an item is the kind of its group, as in TreeDropService.

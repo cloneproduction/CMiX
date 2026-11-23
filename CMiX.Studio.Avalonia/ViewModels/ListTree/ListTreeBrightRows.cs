@@ -9,9 +9,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
     // During a drag, the rows where the source can land and the rows next to it stay bright.
     public static class ListTreeBrightRows
     {
-        public static ListTreeLight Of(ListTreeSnapshot live, ListTreeRow source, IEnumerable<ListTreeCandidate> candidates)
+        public static ListTreeLight Of(ListTreeLiveRows live, ListTreeRow source, IEnumerable<ListTreeCandidate> candidates)
         {
-            var rows = RowsByKey(live);
+            var rows = live.ByKey;
             var targets = PossibleTargetsOf(rows, source, candidates);
             return new ListTreeLight(targets, BrightRowsOf(rows, targets, source));
         }
@@ -41,8 +41,5 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // The card that owns a target list stays bright, but its other lists do not.
         private static IEnumerable<ListTreeRowKey> CardsOfLists(IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> rows, IEnumerable<ListTreeRowKey> targets) =>
             targets.Where(target => rows.TryGetValue(target, out var row) && row.IsGroup).Select(target => target.Parent).OfType<ListTreeRowKey>();
-
-        private static IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> RowsByKey(ListTreeSnapshot snapshot) =>
-            snapshot.AllRows().ToDictionary(row => row.Key);
     }
 }

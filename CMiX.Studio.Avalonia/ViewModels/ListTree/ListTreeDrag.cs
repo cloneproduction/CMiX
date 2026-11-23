@@ -13,7 +13,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         private readonly ListTreeCandidates candidates;
         private readonly ListTreePick pick;
 
-        private ListTreeSnapshot live = new(Array.Empty<ListTreeRow>());
+        private ListTreeLiveRows liveRows = ListTreeLiveRows.Of(new ListTreeSnapshot(Array.Empty<ListTreeRow>()));
         private ListTreeBlock? block;
         private ListTreeRow? source;
         private IReadOnlyList<ListTreeCandidate> made = Array.Empty<ListTreeCandidate>();
@@ -52,11 +52,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // A card that opens during the drag has new places, so the candidates are made again.
         public void MakeCandidates(ListTreeSnapshot snapshot)
         {
-            live = snapshot;
-            block = Nodes.BlockIn(snapshot);
+            liveRows = ListTreeLiveRows.Of(snapshot);
+            block = Nodes.BlockIn(liveRows);
             source = block?.Pressed;
             made = block != null ? candidates.Of(snapshot, block) : Array.Empty<ListTreeCandidate>();
-            light = source != null ? ListTreeBrightRows.Of(snapshot, source, made) : null;
+            light = source != null ? ListTreeBrightRows.Of(liveRows, source, made) : null;
         }
 
         // The look stays the same object while the pick does not change.
@@ -67,7 +67,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
             var picked = Look is { } shown ? pick.NearestOrCurrent(made, shown.Candidate, Press, pointer) : pick.Nearest(made, Press, pointer);
             if (!ReferenceEquals(picked, Look?.Candidate))
-                Look = ListTreeDragLook.Of(live, block, picked, light);
+                Look = ListTreeDragLook.Of(liveRows, block, picked, light);
 
             return Look;
         }
@@ -79,7 +79,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
                 return Look = null;
 
             if (!ReferenceEquals(candidate, Look?.Candidate))
-                Look = ListTreeDragLook.Of(live, block, candidate, light);
+                Look = ListTreeDragLook.Of(liveRows, block, candidate, light);
 
             return Look;
         }

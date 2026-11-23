@@ -51,7 +51,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var live = ListTreeSnapshot.Of(scene.Tree.Roots);
             var row = live.RowOf(source)!;
             var candidates = new ListTreeCandidates(new ListTreeSlots(service), service, ListTreeSizes.Default).Of(live, row);
-            return ListTreeDragLook.Of(live, row, candidates.First(pick), ListTreeBrightRows.Of(live, row, candidates));
+            var liveRows = ListTreeLiveRows.Of(live);
+            return ListTreeDragLook.Of(liveRows, row, candidates.First(pick), ListTreeBrightRows.Of(liveRows, row, candidates));
         }
 
         private ListTreeDragLook Show(ListTreeDragLook look)
