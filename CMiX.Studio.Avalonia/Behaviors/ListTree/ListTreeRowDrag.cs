@@ -32,6 +32,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private ListTreePoint lastPoint = new(0, 0);
         private Point lastInScroller;
         private TreeNode? resting;
+        private ListTreeOpenState? openBefore;
 
         public bool IsDragging => drag != null;
 
@@ -114,6 +115,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             var service = dragged.DropService;
             drag = new ListTreeDrag(new ListTreeCandidates(new ListTreeSlots(service), service, Rows.Sizes), pick, press.Node, press.Press);
             pointer = captured;
+            openBefore = ListTreeOpenState.Of(press.Node);
             captured.Capture(Scroller);
             dragged.BeginDrag(press.Node);
             cursorBefore = Scroller.Cursor;
@@ -181,11 +183,30 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
 
             Track(PointOf(e));
-            var drop = ended.Look is { } look && !ended.IsAtItsOwnPlace()
-                ? project.DropAsync(ended.Node, look.Candidate.Slot.Target, look.Candidate.Slot.Position)
-                : Task.CompletedTask;
+            if (ended.Look is not { } look || ended.IsAtItsOwnPlace())
+            {
+                Finish();
+                return;
+            }
+
+            var drop = project.DropAsync(ended.Node, look.Candidate.Slot.Target, look.Candidate.Slot.Position);
+            var dropped = DroppedNodeOf(project, ended.Node);
+            if (dropped != null)
+                openBefore?.RestoreOn(dropped);
             Finish();
+            if (dropped != null)
+                ShowDropped(dropped);
             _ = ObserveAsync(drop);
+        }
+
+        // The drop selects the moved item. A blocked drop leaves the source selected.
+        private static TreeNode? DroppedNodeOf(ProjectTree project, TreeNode source) =>
+            project.SelectedNode is { } selected && ReferenceEquals(selected.Item, source.Item) ? selected : null;
+
+        private void ShowDropped(TreeNode dropped)
+        {
+            if (Part<ListTreeRowReveal>().ShownRowOf(dropped) is { } row)
+                row.Flash();
         }
 
         private static async Task ObserveAsync(Task drop)
@@ -222,6 +243,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void Finish()
         {
             drag = null;
+            openBefore = null;
             Rest(null);
             AutoScroll.Stop();
             Rows.ShowLiveTree();

@@ -126,9 +126,30 @@
         <Style Selector="Views|RowListTree:dragged Border#mark">
             <Setter Property="IsVisible" Value="False" />
         </Style>
+
+        <!-- After a drop: the accent colour over the surface of the row fades out once (FlashDuration). -->
+        <Style Selector="Views|RowListTree:flash Border#flash">
+            <Style.Animations>
+                <Animation Duration="0:0:0.7" Easing="CubicEaseOut">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Opacity" Value="0.55" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
     </UserControl.Styles>
 
     <Panel>
+        <Border
+            x:Name="flash"
+            Background="{DynamicResource AccentBrush}"
+            CornerRadius="{DynamicResource CornerRadiusAll}"
+            IsHitTestVisible="False"
+            Opacity="0" />
+
         <Border
             x:Name="band"
             Margin="{Binding IndentMargin, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}"

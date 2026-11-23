@@ -1,10 +1,12 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
@@ -21,6 +23,10 @@ namespace CMiX.Studio.Avalonia.Views
         public const string DropTargetClass = ":droptarget";
         public const string DimmedClass = ":dimmed";
         public const string DraggedClass = ":dragged";
+        public const string FlashClass = ":flash";
+
+        // The time of the animation of the flash in the styles of the row.
+        public static readonly TimeSpan FlashDuration = TimeSpan.FromSeconds(0.7);
 
         public static readonly StyledProperty<ListTreePlace?> PlaceProperty =
             AvaloniaProperty.Register<RowListTree, ListTreePlace?>(nameof(Place));
@@ -88,6 +94,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal Border Band => band;
 
+        internal Border FlashSurface => flash;
+
         // The name box of an item, the text of a group.
         internal Control NameText =>nameBox.IsVisible ? nameBox : groupName;
 
@@ -123,6 +131,13 @@ namespace CMiX.Studio.Avalonia.Views
         {
             PseudoClasses.Set(DimmedClass, light == ListTreeRowLight.Dimmed);
             PseudoClasses.Set(DraggedClass, light == ListTreeRowLight.Dragged);
+        }
+
+        // A dropped row flashes once in the accent colour.
+        public void Flash()
+        {
+            PseudoClasses.Set(FlashClass, true);
+            DispatcherTimer.RunOnce(() => PseudoClasses.Set(FlashClass, false), FlashDuration);
         }
 
         internal bool IsCardIcon(object? source) =>
