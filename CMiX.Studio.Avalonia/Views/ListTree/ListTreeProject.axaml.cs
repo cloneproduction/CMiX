@@ -4,7 +4,6 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
-using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
@@ -38,6 +37,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal bool IsActiveView => watched?.IsActiveView(hooks) == true;
 
+        internal PanelListTreeRows Rows => rows;
+
         protected override void OnDataContextChanged(EventArgs e)
         {
             base.OnDataContextChanged(e);
@@ -56,7 +57,6 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             watched.AttachView(hooks);
-            rows.ItemsSource = ListTreeSnapshot.Of(watched.Roots).VisibleRows();
         }
 
         private void Unwatch()
@@ -64,7 +64,6 @@ namespace CMiX.Studio.Avalonia.Views
             if (watched == null)
                 return;
 
-            rows.ItemsSource = null;
             watched.DetachView(hooks);
         }
 

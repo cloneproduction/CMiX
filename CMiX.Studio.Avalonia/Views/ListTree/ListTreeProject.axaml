@@ -2,18 +2,21 @@
     x:Class="CMiX.Studio.Avalonia.Views.ListTreeProject"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ListTree="clr-namespace:CMiX.Studio.Avalonia.ViewModels.ListTree">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <!-- The new project tree. The DataContext is the ProjectTree, the same as the one of TreeViewProject. -->
     <DockPanel Background="{DynamicResource TreeBackgroundBrush}">
 
-        <ItemsControl x:Name="rows" Margin="{DynamicResource TreeMargin}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ListTree:ListTreeRow}">
-                    <TextBlock Foreground="{DynamicResource ListTreeTextRestBrush}" Text="{Binding Node.Header}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ScrollViewer Theme="{DynamicResource ScrollViewerOverlay}" HorizontalScrollBarVisibility="Disabled">
+            <Views:PanelListTreeRows
+                x:Name="rows"
+                Margin="{DynamicResource TreeMargin}"
+                Background="Transparent"
+                Indent="{DynamicResource ListTreeIndent}"
+                Roots="{Binding Roots}"
+                RowGap="{DynamicResource ListTreeRowGap}"
+                RowHeight="{DynamicResource ListTreeRowHeight}" />
+        </ScrollViewer>
 
     </DockPanel>
 

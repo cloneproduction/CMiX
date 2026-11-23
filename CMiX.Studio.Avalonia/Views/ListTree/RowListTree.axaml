@@ -1,0 +1,123 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.RowListTree"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Tree="clr-namespace:CMiX.Studio.Avalonia.ViewModels.Tree"
+    xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters">
+
+    <!-- One row of the new tree, on the tree node. The padding is the indent: the band starts there, the toggles stay at the right edge. -->
+    <UserControl.Resources>
+        <StudioConverters:TreeToneConverter x:Key="RowTone" />
+
+        <DataTemplate x:Key="RowCountSquares" DataType="{x:Type Tree:TreeNode}">
+            <ItemsControl
+                x:Name="countSquares"
+                VerticalAlignment="Center"
+                IsVisible="{Binding ShowsKindCounts}"
+                ItemsSource="{Binding ShownKindCounts}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource SpacingXS}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type Tree:KindCount}">
+                        <Border
+                            Classes="countsquare"
+                            Height="{DynamicResource TreeKindSquareSize}"
+                            MinWidth="{DynamicResource TreeKindSquareSize}"
+                            Background="{DynamicResource ListTreeCountSquareBrush}"
+                            CornerRadius="{DynamicResource CornerRadiusAll}"
+                            ToolTip.Tip="{Binding Description}">
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="{DynamicResource SpacingXS}">
+                                <ui:AppIcon
+                                    IconKey="{Binding IconKey}"
+                                    Size="{DynamicResource IconSizeXS}"
+                                    Foreground="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}" />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource TreeTextRestBrush}"
+                                    Text="{Binding Count}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="ui|TextBoxEditable#nameBox, TextBlock#groupName">
+            <Setter Property="TextElement.FontSize" Value="{DynamicResource FontSizeMD}" />
+            <Setter Property="TextElement.FontWeight" Value="Normal" />
+        </Style>
+        <Style Selector="Views|RowListTree:card ui|TextBoxEditable#nameBox, Views|RowListTree:card TextBlock#groupName">
+            <Setter Property="TextElement.FontWeight" Value="SemiBold" />
+        </Style>
+    </UserControl.Styles>
+
+    <Border
+        x:Name="band"
+        Background="{DynamicResource ListTreeRowRestBandBrush}"
+        CornerRadius="{DynamicResource CornerRadiusAll}">
+        <DockPanel Margin="{DynamicResource ListTreeRowContentMargin}">
+
+            <Views:TogglesRow
+                x:Name="toggles"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Right"
+                ZIndex="{x:Static Views:ListTreeLayers.Toggles}" />
+
+            <!-- Each click on the icon of a card opens or closes the card, also the second click of a double click. -->
+            <Border
+                x:Name="iconHit"
+                Padding="{DynamicResource ListTreeIconMargin}"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                DockPanel.Dock="Left"
+                DoubleTapped="OnIconTapped"
+                Tapped="OnIconTapped">
+                <ui:AppIcon
+                    x:Name="kindIcon"
+                    IconKey="{Binding IconKey, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}"
+                    Foreground="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}"
+                    Size="{DynamicResource IconSizeXS}" />
+            </Border>
+
+            <!-- The name: a box for an item, a text for a group, each with the count squares of a closed card. -->
+            <Panel VerticalAlignment="Center">
+                <ui:TextBoxEditable
+                    x:Name="nameBox"
+                    Padding="{DynamicResource ListTreeNamePadding}"
+                    Foreground="{DynamicResource ListTreeTextRestBrush}"
+                    IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNotNull}}"
+                    Text="{Binding Item.PrefabService.Name.Value, Mode=TwoWay}">
+                    <ui:TextBoxEditable.Suffix>
+                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RowCountSquares}" />
+                    </ui:TextBoxEditable.Suffix>
+                </ui:TextBoxEditable>
+
+                <StackPanel
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNull}}"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        x:Name="groupName"
+                        Padding="{DynamicResource ListTreeNamePadding}"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource ListTreeTextRestBrush}"
+                        Text="{Binding Header}" />
+                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RowCountSquares}" />
+                </StackPanel>
+            </Panel>
+
+        </DockPanel>
+    </Border>
+
+</UserControl>
