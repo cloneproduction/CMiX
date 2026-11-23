@@ -23,16 +23,9 @@ namespace CMiX.Studio.Avalonia.Views
         {
             InitializeComponent();
 
-            Context = BuildContext();
+            Context = new ListTreeContext(this);
             hooks = BuildHooks();
             KeyBindingTextGuard.Install(this);
-        }
-
-        private ListTreeContext BuildContext()
-        {
-            var addPanel = new AddPanel();
-            return new ListTreeContext(this, rows, scroller, hintStrip, endRoomSpace, dragNote, new TreeViewLifetime(), new ListTreeViewState(),
-                new ListTreeFocus(this), addPanel, new ListTreeMenuOpen(scroller, addPanel));
         }
 
         private TreeViewHooks BuildHooks() =>
@@ -64,6 +57,10 @@ namespace CMiX.Studio.Avalonia.Views
         internal ListTreeViewState State => Context.State;
 
         internal PanelListTreeRows Rows => rows;
+
+        internal ScrollViewer Scroller => scroller;
+
+        internal Control EndRoomSpace => endRoomSpace;
 
         internal TreeTooltips Tooltips => Context.Part<ListTreeTooltips>().Tooltips;
 

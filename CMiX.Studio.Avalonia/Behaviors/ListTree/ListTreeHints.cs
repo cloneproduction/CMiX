@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 if (Part<ListTreeGrab>().IsGrabbing)
                     return TreeHintMode.Grab;
 
-                if (Context.MenuOpen.IsMenuOpen())
+                if (Context.IsMenuOpen)
                     return TreeHintMode.Menu;
 
                 if (Context.Focus.IsSearchFocused())
