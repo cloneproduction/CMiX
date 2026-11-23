@@ -13,7 +13,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 namespace CMiX.Studio.Avalonia.Views
 {
     // The card areas of the new tree and the marks on its rows and areas: the selection, the hover and the drop target.
-    // Each rebuild makes the areas in the row window again in tree order, so an inner area draws over its outer area.
+    // The areas in the row window are kept in tree order, so an inner area draws over its outer area.
     internal sealed class ListTreeSurfaces
     {
         private readonly PanelListTreeRows panel;
@@ -40,13 +40,15 @@ namespace CMiX.Studio.Avalonia.Views
 
         public void Show(IReadOnlyList<ListTreeRow> rows, ListTreeLayout shown)
         {
-            panel.Children.RemoveAll(areas);
-            areas.Clear();
+            var unused = areas.ToDictionary(area => area.Place!.Key);
             var window = panel.RowWindow;
+            areas.Clear();
             foreach (var row in rows)
                 if (shown.PlaceOf(row.Key) is { CanToggle: true } place && window.Overlaps(place.Y, place.AreaHeight))
-                    Add(row, place);
+                    areas.Add(AreaOf(unused, row, place));
 
+            panel.Children.RemoveAll(unused.Values);
+            KeepTreeOrder();
             if (!panel.Children.Contains(outline))
                 panel.Children.Add(outline);
             ShowMarks();
@@ -111,11 +113,42 @@ namespace CMiX.Studio.Avalonia.Views
         private static TreeNode? HoveredCard(IEnumerable<RowListTree> rows) =>
             rows.FirstOrDefault(row => row.IsPointerOver && row.Place is { CanToggle: true })?.DataContext as TreeNode;
 
-        private void Add(ListTreeRow row, ListTreePlace place)
+        // An area that stays in the window keeps its control, so a new drag look makes no new controls.
+        private FrameListTreeCard AreaOf(Dictionary<ListTreeRowKey, FrameListTreeCard> unused, ListTreeRow row, ListTreePlace place)
         {
-            var area = new FrameListTreeCard { Place = place, DataContext = row.Node, ZIndex = ListTreeLayers.CardArea };
-            areas.Add(area);
-            panel.Children.Add(area);
+            if (!unused.Remove(place.Key, out var area))
+            {
+                area = new FrameListTreeCard { ZIndex = ListTreeLayers.CardArea };
+                panel.Children.Add(area);
+            }
+
+            area.Place = place;
+            area.DataContext = row.Node;
+            return area;
+        }
+
+        // A new area is added at the end, so it can stand before its outer area. Then every area is added again in tree order.
+        private void KeepTreeOrder()
+        {
+            if (IsInTreeOrder())
+                return;
+
+            panel.Children.RemoveAll(areas);
+            panel.Children.AddRange(areas);
+        }
+
+        private bool IsInTreeOrder()
+        {
+            var last = -1;
+            foreach (var index in areas.Select(panel.Children.IndexOf))
+            {
+                if (index < last)
+                    return false;
+
+                last = index;
+            }
+
+            return true;
         }
     }
 }

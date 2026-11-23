@@ -186,6 +186,20 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void ShowDrag_ANewCandidate_KeepsTheAreaOfACardThatStays()
+        {
+            var composition = ListTreeKeys.Of(scene.NodeA);
+            Show(LookOf(Entity(0), candidate => IsInside(candidate, scene.LayerNodeOfA(1))));
+            var area = Panel.Surfaces.CardAreaOf(composition);
+
+            var look = Show(LookOf(Entity(0), candidate => candidate.Slot.Position == DropPosition.After && ReferenceEquals(candidate.Slot.Target, Entity(1))));
+
+            Assert.NotNull(area);
+            Assert.Same(area, Panel.Surfaces.CardAreaOf(composition));
+            Assert.Equal(look.Layout.PlaceOf(composition), area.Place);
+        }
+
+        [AvaloniaFact]
         public void ShowDrag_AReorderInTheSameParent_ShowsNoOutline()
         {
             var look = Show(LookOf(Entity(0), candidate => candidate.Slot.Position == DropPosition.After && ReferenceEquals(candidate.Slot.Target, Entity(1))));
