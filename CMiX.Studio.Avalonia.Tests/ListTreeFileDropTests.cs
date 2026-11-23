@@ -51,11 +51,9 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             scene = CreateScene(layers, s => { if (layers.Length > 0) AddKinds(s.Layer); });
             TestServiceProviderFactory.ExpandAll(scene.Tree);
-            view = new ListTreeProject { DataContext = scene.Tree };
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            window = new Window { Content = view, Width = 400, Height = 700 };
-            window.Show();
-            TreeTestScreen.Settle(window);
+            var screen = ListTreeTestScreen.Show(scene.Tree, 400, 700);
+            view = screen.View;
+            window = screen.Window;
             scene.ClearUndo();
         }
 

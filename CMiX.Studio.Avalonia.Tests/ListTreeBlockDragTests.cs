@@ -32,11 +32,9 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             TestServiceProviderFactory.ExpandAll(scene.Tree);
             scene.Tree.SelectedNode = null;
-            view = new ListTreeProject { DataContext = scene.Tree };
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            window = new Window { Content = view, Width = 400, Height = 900 };
-            window.Show();
-            Settle();
+            var screen = ListTreeTestScreen.Show(scene.Tree, 400, 900);
+            view = screen.View;
+            window = screen.Window;
         }
 
         public void Dispose()

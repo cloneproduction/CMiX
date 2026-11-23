@@ -34,11 +34,9 @@ namespace CMiX.Studio.Avalonia.Tests
             Directory.CreateDirectory(folder);
             scene = CreateScene([2, 1], s => AddKinds(s.Layer));
             TestServiceProviderFactory.ExpandAll(scene.Tree);
-            view = new ListTreeProject { DataContext = scene.Tree };
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            window = new Window { Content = view, Width = 400, Height = 300 };
-            window.Show();
-            TreeTestScreen.Settle(window);
+            var screen = ListTreeTestScreen.Show(scene.Tree, 400, 300);
+            view = screen.View;
+            window = screen.Window;
         }
 
         public void Dispose()

@@ -25,11 +25,9 @@ namespace CMiX.Studio.Avalonia.Tests
         public PanelListTreeRowsWindowTests()
         {
             TestServiceProviderFactory.ExpandAll(scene.Tree);
-            view = new ListTreeProject { DataContext = scene.Tree };
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            window = new Window { Content = view, Width = 400, Height = 600 };
-            window.Show();
-            Settle();
+            var screen = ListTreeTestScreen.Show(scene.Tree, 400, 600);
+            view = screen.View;
+            window = screen.Window;
         }
 
         public void Dispose() => window.Close();
