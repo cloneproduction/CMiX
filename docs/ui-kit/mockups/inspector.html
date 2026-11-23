@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inspector</title>
+<!-- Mockup: the inspector of a layer, before and after. Before is built from the kit entries as CMiX has them today.
+     After follows the reviews of the venue manager agent and the colour system agent, in the language of the new tree and the node graph.
+     Values marked "proposal" are not tokens yet. It links the kit and copies nothing. -->
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../cmix.css">
+<script src="../tokens.js"></script>
+<script src="../icons.js"></script>
+<script src="../cmix.js"></script>
+<style>
+    /* Proposal, not tokens: the selected row and the texts of the new tree, the surface ladder of the colour review. */
+    :root {
+        --row-selected: #202023; --text-rest: #B6B6BB; --text-hidden: #8A8A8F; --icon-hidden: #6C6C6F;
+        --level0: var(--Grey100); --level1: var(--Grey200); --level2: var(--Grey300); --field: var(--Grey600);
+        --kind: var(--CategoryComposable1);
+    }
+    body { margin: 0; background: var(--Grey100Brush); }
+    main { display: flex; flex-wrap: wrap; gap: 40px; padding: 24px; align-items: flex-start; }
+    .col h2 { margin: 0 0 4px; font-size: 13px; font-weight: 600; color: var(--ActiveText); }
+    .col p.sub { margin: 0 0 12px; font-size: 11px; color: var(--text-rest); max-width: 340px; }
+    .frame { width: 340px; background: var(--level0); border: 1px solid var(--level1); }
+    .notes { max-width: 380px; font-size: 12px; color: var(--TreeTextRest); line-height: 19px; }
+    .notes h2 { font-size: 13px; color: var(--ActiveText); margin: 0 0 8px; }
+    .notes ol { margin: 0; padding-left: 18px; }
+    .notes li { margin-bottom: 8px; }
+    .notes b { color: var(--ActiveText); font-weight: 600; }
+    .notes .n { display: inline-flex; width: 16px; height: 16px; border-radius: 8px; background: var(--ActiveText); color: #111; font-size: 10px; font-weight: 700; align-items: center; justify-content: center; margin-right: 4px; }
+
+    /* Before: the band of the settings, as SettingsComposable on Grey200. */
+    .before .band { background: var(--Grey200Brush); padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+    .before .pad { padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+
+    /* After. */
+    .after { --g: 24px; }
+    /* The title: the selected row of the tree, larger. A neutral surface, a 3 px left border and the icon in the kind colour, white text, a status word. */
+    .title { height: 32px; display: flex; align-items: center; gap: 8px; padding: 0 0 0 12px; background: var(--row-selected); box-shadow: inset 3px 0 0 var(--kind); color: var(--ActiveText); font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+    .title .AppIcon { width: 14px; height: 14px; color: var(--kind); fill: var(--kind); }
+    .title .live { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 400; color: var(--TreeTextRest); }
+    .title .live i { width: 6px; height: 6px; border-radius: 3px; background: #6FCF7F; }
+    /* The mask and the eye as in the tree: plain icons on a transparent base, white on the selected row, the eye at the far right. */
+    .title .TogglesComposable { margin-left: auto; gap: 1px; }
+    .title .TogglesComposable .ToggleButtonMask, .title .TogglesComposable .ToggleButtonVisibility { width: 24px; height: 24px; padding: 4px; opacity: 1; }
+    .title .TogglesComposable .AppIcon { width: 16px; height: 16px; color: var(--ActiveText); fill: var(--ActiveText); }
+    .title .TogglesComposable .slot:hover { background: var(--Grey300); }
+    /* A section: the values that change the wall, at the top, always open. */
+    .section { background: var(--level1); padding: 12px; display: flex; flex-direction: column; gap: 4px; margin-bottom: 3px; }
+    .section .cap { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-rest); margin-bottom: 4px; }
+    /* A group: one header of 32 px, as a tree row. The kind icon, the name, and a summary when it is closed. */
+    .group { margin-bottom: 3px; }
+    .gh { height: 32px; display: flex; align-items: center; gap: 8px; padding: 0 12px; background: color-mix(in srgb, #fff 5%, var(--level0)); color: var(--text-rest); font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 2px; }
+    .gh .AppIcon { width: 14px; height: 14px; }
+    .gh .sum { margin-left: auto; font-size: 11px; font-weight: 400; color: var(--text-rest); }
+    .gh:hover { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--k) 45%, transparent); color: var(--TreeTextRest); }
+    .group.open > .gh { background: var(--level1); color: var(--TreeTextRest); }
+    .group .body { display: none; background: var(--level1); padding: 0 12px 12px; flex-direction: column; gap: 4px; }
+    .group.open .body { display: flex; }
+    /* A card of a filter or a modifier: a header of 24 px with the kind icon, the name, a menu and the eye at the far right, as in the tree. No remove button here. */
+    .card { background: var(--level2); border-radius: 2px; }
+    .ch { height: 24px; display: flex; align-items: center; gap: 6px; padding: 0 0 0 8px; font-size: 12px; color: var(--TreeTextRest); }
+    .ch .AppIcon { width: 13px; height: 13px; color: var(--k); fill: var(--k); }
+    .ch .ButtonIcon, .ch .ToggleButtonVisibility { width: 24px; flex: none; }
+    .ch .more { margin-left: auto; }
+    .card .cb { padding: 4px 12px 12px; display: flex; flex-direction: column; gap: 4px; }
+    .card.hidden .ch { color: var(--text-hidden); }
+    .card.hidden .ch .AppIcon { color: var(--icon-hidden); fill: var(--icon-hidden); }
+    .card.selected { box-shadow: inset 3px 0 0 var(--k); }
+    .menu { position: relative; }
+    .menu .PopupFrame { position: absolute; right: 24px; top: 22px; z-index: 3; min-width: 150px; }
+    .MenuItem.danger { color: var(--PopupCardDanger); }
+</style>
+</head>
+<body class="cmix">
+<main>
+  <section class="col before">
+    <h2>Before</h2>
+    <p class="sub">The inspector of Layer 1 today, from the kit entries.</p>
+    <div class="frame">
+      <div class="PanelInspector" data-kind="Composable" style="width:100%"><div class="header"><span class="BadgeCategory" data-icon-key="LayerScene"></span><div class="TextBoxEditable name" data-text="Layer 1"></div><span class="TogglesComposable" data-mask="off"></span></div></div>
+      <div class="band">
+        <div class="ComboBoxCaptioned" data-caption="Blend"><div class="ComboBoxItem">Normal</div></div>
+        <div class="ComboBoxCaptioned" data-caption="Background"><div class="ComboBoxItem">Black</div></div>
+        <div class="SliderModulatable" data-caption="Alpha" data-value="0.8" data-modulator="Internal"></div>
+      </div>
+      <div class="ExpanderIndented" data-header="Texture Filters"><div class="pad">
+        <div class="PanelItem" data-title="Blur"><div class="SliderModulatable" data-caption="Amount" data-value="0.4"></div><div class="DragValueModulatable" data-caption="Passes" data-value="2" data-modulator="External"></div></div>
+        <div class="PanelItem collapsed" data-title="Echo"></div>
+        <div class="PanelItem collapsed" data-title="Kaleidoscope"></div>
+      </div></div>
+      <div class="ExpanderIndented" data-header="Modifiers"><div class="pad">
+        <div class="PanelItem collapsed" data-title="Scale"></div>
+        <div class="PanelItem collapsed" data-title="Rotate"></div>
+      </div></div>
+      <div class="ExpanderIndented" data-header="Ambient Occlusion"><div class="pad">
+        <div class="SliderCMiX" data-caption="Radius" data-value="0.3"></div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="col after">
+    <h2>After</h2>
+    <p class="sub">The same layer in the language of the new tree and the node graph. The groups open and close on a click.</p>
+    <div class="frame">
+      <div class="title"><i class="AppIcon" data-icon-key="LayerScene"></i>Layer 1<span class="live"><i></i>Live</span><span class="TogglesComposable row" data-mask="off"></span></div>
+
+      <div class="section">
+        <div class="cap">On the wall</div>
+        <div class="SliderModulatable" data-caption="Alpha" data-value="0.8" data-modulator="Internal"></div>
+        <div class="SliderModulatable" data-caption="Speed" data-value="0.5"></div>
+      </div>
+
+      <div class="group open" style="--k:var(--CategoryFilter)">
+        <div class="gh"><i class="AppIcon" data-icon-key="Filter" style="color:var(--k);fill:var(--k)"></i>Texture filters<span class="sum">3</span></div>
+        <div class="body">
+          <div class="card selected menu" style="--k:var(--CategoryFilter)">
+            <div class="ch"><i class="AppIcon" data-icon-key="Filter"></i>Blur<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div>
+            <div class="PopupFrame"><div class="MenuItem" data-icon-key="Duplicate">Duplicate</div><div class="MenuItem" data-icon-key="ArrowUp">Move up</div><div class="MenuItem" data-icon-key="ArrowDown">Move down</div><div class="MenuItem danger" data-icon-key="Remove">Remove</div></div>
+            <div class="cb">
+              <div class="SliderModulatable" data-caption="Amount" data-value="0.4"></div>
+              <div class="DragValueModulatable" data-caption="Passes" data-value="2" data-modulator="External"></div>
+            </div>
+          </div>
+          <div class="card" style="--k:var(--CategoryFilter)"><div class="ch"><i class="AppIcon" data-icon-key="Filter"></i>Echo<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div>
+          <div class="card hidden" style="--k:var(--CategoryFilter)"><div class="ch"><i class="AppIcon" data-icon-key="Filter"></i>Kaleidoscope, hidden<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility checked"></button></div></div>
+        </div>
+      </div>
+
+      <div class="group" style="--k:var(--CategoryModifier)">
+        <div class="gh"><i class="AppIcon" data-icon-key="Modifier" style="color:var(--k);fill:var(--k)"></i>Modifiers<span class="sum">2: Scale, Rotate</span></div>
+        <div class="body"><div class="card" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Scale<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div><div class="card" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Rotate<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div></div>
+      </div>
+
+      <div class="group" style="--k:var(--CategoryComposable1)">
+        <div class="gh"><i class="AppIcon" data-icon-key="Coloration" style="color:var(--text-rest);fill:var(--text-rest)"></i>Blend and background<span class="sum">Normal, black</span></div>
+        <div class="body"><div class="ComboBoxCaptioned" data-caption="Blend"><div class="ComboBoxItem">Normal</div></div><div class="ComboBoxCaptioned" data-caption="Background"><div class="ComboBoxItem">Black</div></div></div>
+      </div>
+
+      <div class="group" style="--k:var(--CategoryComposable1)">
+        <div class="gh"><i class="AppIcon" data-icon-key="PostFX" style="color:var(--text-rest);fill:var(--text-rest)"></i>Ambient occlusion<span class="sum">Radius 0.3</span></div>
+        <div class="body"><div class="SliderCMiX" data-caption="Radius" data-value="0.3"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="notes">
+    <h2>What changes</h2>
+    <ol>
+      <li><b>Title.</b> The selected row of the tree, larger: a neutral surface, a 3 px left border and the icon in the kind colour, white text. The mask and the eye are plain white icons, as in the tree. The kind fill went out: white text on it fails contrast, and its hue meant two things. A status word, "Live", says the layer is on the wall.</li>
+      <li><b>On the wall first.</b> Alpha and Speed come at the top, always open. Blend and background, a setup choice, move into a closed group.</li>
+      <li><b>Modulated values.</b> The sliders and value fields stay as before, with their assign button.</li>
+      <li><b>Groups.</b> One header of 32 px, as a tree row: the kind icon, the name, and a summary when closed ("2: Scale, Rotate"). Setup groups start closed. Hover adds a 3 px left border at 45 %.</li>
+      <li><b>Cards.</b> A header of 24 px with the kind icon. The eye is at the far right, as in the tree. Remove moved into the menu, away from the eye. A hidden card has fixed grey text, never opacity. The selected card has the full left border.</li>
+      <li><b>Surfaces.</b> Three levels only: the panel, the section and group, the card. Then the fields. Margins of 12 inside, gaps of 4 between controls, 3 between blocks.</li>
+    </ol>
+  </section>
+</main>
+<script>
+    // A click on a group header opens or closes the group.
+    document.querySelectorAll('.after .gh').forEach(function (h) {
+        h.addEventListener('click', function () { h.parentElement.classList.toggle('open'); });
+    });
+</script>
+</body>
+</html>
