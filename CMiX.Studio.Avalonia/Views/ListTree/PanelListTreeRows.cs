@@ -101,6 +101,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         public ListTreeLayout Layout => arrangement.Layout;
 
+        public ListTreeSizes Sizes => new(RowHeight, RowGap, Indent);
+
         public RowListTree? RowOf(ListTreeRowKey key) => rowControls.RowOf(key);
 
         public RowListTree? RowOf(TreeNode node) => rowControls.RowOf(node);
@@ -127,7 +129,10 @@ namespace CMiX.Studio.Avalonia.Views
 
             dragLook = null;
             surfaces.EndDrag();
-            ShowArrangement();
+            if (isRebuildPosted)
+                ApplyTreeChanges();
+            else
+                ShowArrangement();
         }
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -188,7 +193,7 @@ namespace CMiX.Studio.Avalonia.Views
         {
             var roots = Roots ?? Array.Empty<TreeNode>();
             watch.Watch(roots);
-            arrangement = ListTreeArrangement.Of(roots, new ListTreeSizes(RowHeight, RowGap, Indent));
+            arrangement = ListTreeArrangement.Of(roots, Sizes);
             ShowArrangement();
         }
 

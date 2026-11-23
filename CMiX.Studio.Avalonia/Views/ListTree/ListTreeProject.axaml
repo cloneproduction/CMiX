@@ -14,6 +14,7 @@
         <tree:ListTreeFocusKeeper />
         <tree:ListTreePressFocus />
         <tree:ListTreeRowClick />
+        <tree:ListTreeRowDrag />
         <tree:ListTreeKeyInput />
         <tree:ListTreeAddBeside />
         <tree:ListTreeLastPointer />
@@ -46,6 +47,16 @@
             x:Name="hintStrip"
             DockPanel.Dock="Bottom"
             IsVisible="{Binding Interface.ShowKeyHints}" />
+
+        <!-- One line during a drag: where the row goes (ListTreeRowDrag). -->
+        <TextBlock
+            x:Name="dragNote"
+            DockPanel.Dock="Bottom"
+            FontSize="{DynamicResource FontSizeMD}"
+            Foreground="{DynamicResource ListTreeTextRestBrush}"
+            IsVisible="False"
+            Padding="{DynamicResource ListTreeToolbarPadding}"
+            TextTrimming="CharacterEllipsis" />
 
         <!-- The clicks, the keys and the menus of the rows. A press under the rows hits the scroller too. -->
         <ScrollViewer

@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Views
         private ListTreeContext BuildContext()
         {
             var addPanel = new AddPanel();
-            return new ListTreeContext(this, rows, scroller, hintStrip, endRoomSpace, new TreeViewLifetime(), new ListTreeViewState(),
+            return new ListTreeContext(this, rows, scroller, hintStrip, endRoomSpace, dragNote, new TreeViewLifetime(), new ListTreeViewState(),
                 new ListTreeFocus(this), addPanel, new ListTreeMenuOpen(scroller, addPanel));
         }
 
@@ -43,6 +43,7 @@ namespace CMiX.Studio.Avalonia.Views
                 IsTextBoxFocused = () => Context.State.IsTextBoxFocused,
                 IsFocusInOtherPanel = () => Context.State.IsFocusInOtherPanel,
                 IsPanelFocused = () => Context.State.IsPanelFocused,
+                CancelDrag = () => Context.Part<ListTreeRowDrag>().Cancel(),
                 CloseRowsInView = CloseRowsInView
             };
 
@@ -64,6 +65,10 @@ namespace CMiX.Studio.Avalonia.Views
         internal ContextMenu? Menu => scroller.ContextMenu;
 
         internal KeyHintStrip HintStrip => hintStrip;
+
+        internal TextBlock DragNote => dragNote;
+
+        internal ListTreeRowDrag RowDrag => Context.Part<ListTreeRowDrag>();
 
         internal TreeHintMode HintMode => Context.Part<ListTreeHints>().Mode;
 

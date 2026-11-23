@@ -14,13 +14,14 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
     internal sealed class ListTreeContext
     {
         public ListTreeContext(ListTreeProject owner, PanelListTreeRows rows, ScrollViewer scroller, KeyHintStrip hintStrip, Control endRoomSpace,
-            TreeViewLifetime lifetime, ListTreeViewState state, ListTreeFocus focus, AddPanel addPanel, ListTreeMenuOpen menuOpen)
+            TextBlock dragNote, TreeViewLifetime lifetime, ListTreeViewState state, ListTreeFocus focus, AddPanel addPanel, ListTreeMenuOpen menuOpen)
         {
             Owner = owner;
             Rows = rows;
             Scroller = scroller;
             HintStrip = hintStrip;
             EndRoomSpace = endRoomSpace;
+            DragNote = dragNote;
             Lifetime = lifetime;
             State = state;
             Focus = focus;
@@ -37,6 +38,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         public KeyHintStrip HintStrip { get; }
 
         public Control EndRoomSpace { get; }
+
+        public TextBlock DragNote { get; }
 
         public TreeViewLifetime Lifetime { get; }
 
