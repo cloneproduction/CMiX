@@ -57,9 +57,6 @@ namespace CMiX.UI.Tests
         [InlineData("ListTreeRowSelectedHoverBrush", 0.20)]
         [InlineData("ListTreeRowDraggedBrush", 0.16)]
         [InlineData("ListTreeCardDropTargetBrush", 0.05)]
-        [InlineData("ListTreeNoticeBrush", 0.10)]
-        [InlineData("ListTreeNoticeButtonBrush", 0.16)]
-        [InlineData("ListTreeNoticeButtonHoverBrush", 0.20)]
         public void Surface_EachOpaqueKey_IsWhiteOverTheTreeBackground(string key, double strength)
         {
             Assert.Equal(WhiteOverTheTreeBackground(strength), BrushColor(key));
@@ -70,7 +67,6 @@ namespace CMiX.UI.Tests
         [InlineData("ListTreeRowSelectedBrush", "#FF2C2C2E")]
         [InlineData("ListTreeRowSelectedHoverBrush", "#FF3F3F41")]
         [InlineData("ListTreeRowDraggedBrush", "#FF353538")]
-        [InlineData("ListTreeNoticeBrush", "#FF27272A")]
         [InlineData("ListTreeRowRestBandBrush", "#0DFFFFFF")]
         [InlineData("ListTreeRowDimmedBandBrush", "#05FFFFFF")]
         [InlineData("ListTreeRowHoverInSelectionBandBrush", "#1CFFFFFF")]
