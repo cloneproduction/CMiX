@@ -25,6 +25,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return rows;
         }
 
+        public IReadOnlyList<TreeNode> VisibleNodes() => VisibleRows().Select(row => row.Node).OfType<TreeNode>().ToArray();
+
         // Also the rows under a closed card, in tree order.
         public IReadOnlyList<ListTreeRow> AllRows()
         {

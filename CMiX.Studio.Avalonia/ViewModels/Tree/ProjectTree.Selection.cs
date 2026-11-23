@@ -12,6 +12,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     {
         private IReadOnlyList<TreeNode> selectedNodes = Array.Empty<TreeNode>();
         private TreeNode? selectionAnchor;
+        private bool isSelectingWithSet;
 
         // The selected node is always in the list. Every other change of SelectedNode leaves only the selected node.
         public IReadOnlyList<TreeNode> SelectedNodes => selectedNodes;
@@ -20,8 +21,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public void AddToSelection(TreeNode node)
         {
             var kept = selectedNodes.Where(other => !ReferenceEquals(other, node)).ToArray();
-            SelectByClick(node);
-            ShowSelectedNodes(kept.Append(node).ToArray());
+            SelectWithSetByClick(node, kept.Append(node).ToArray());
         }
 
         // A Ctrl click on a selected row. The last row that joined before it becomes the selected node. The only selected row stays.
@@ -31,10 +31,27 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (!selectedNodes.Contains(node) || kept.Length == 0)
                 return;
 
-            SelectByClick(ReferenceEquals(node, selectedNode) ? kept[^1] : selectedNode!);
-            ShowSelectedNodes(kept);
+            SelectWithSetByClick(ReferenceEquals(node, selectedNode) ? kept[^1] : selectedNode!, kept);
             selectionAnchor = node;
         }
+
+        // A Ctrl click on a row.
+        public void AddOrRemoveFromSelection(TreeNode node)
+        {
+            if (selectedNodes.Contains(node))
+                RemoveFromSelection(node);
+            else
+                AddToSelection(node);
+        }
+
+        // A plain press on such a row waits for the release, so a drag can take every selected row.
+        public bool IsOneOfSeveralSelected(TreeNode node) => selectedNodes.Count > 1 && selectedNodes.Contains(node);
+
+        // The drop selects the moved items. A blocked drop leaves the sources selected, and the result is empty.
+        public IReadOnlyList<TreeNode> SelectedNodesOf(IReadOnlyList<object?> items) =>
+            selectedNode is { } selected && items.Contains(selected.Item, ReferenceEqualityComparer.Instance)
+                ? selectedNodes.Where(node => items.Contains(node.Item, ReferenceEqualityComparer.Instance)).ToArray()
+                : Array.Empty<TreeNode>();
 
         // A Shift click: the shown rows from the anchor to the row. With no anchor in the shown rows it is a plain click.
         public void SelectRange(TreeNode node, IReadOnlyList<TreeNode> shownRows)
@@ -48,23 +65,41 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 return;
             }
 
-            SelectByClick(node);
-            ShowSelectedNodes(shownRows.Skip(Math.Min(from, to)).Take(Math.Abs(to - from) + 1).ToArray());
+            SelectWithSetByClick(node, shownRows.Skip(Math.Min(from, to)).Take(Math.Abs(to - from) + 1).ToArray());
             selectionAnchor = anchor;
         }
 
         // After the drop of a block, the moved rows stay selected.
-        private void SelectBlock(TreeNode primary, IReadOnlyList<TreeNode> nodes)
+        private void SelectBlock(TreeNode primary, IReadOnlyList<TreeNode> nodes) => SelectWithSet(primary, nodes, SelectionOrigin.Program);
+
+        private void SelectWithSetByClick(TreeNode node, IReadOnlyList<TreeNode> nodes)
         {
-            Select(primary, SelectionOrigin.Program);
+            SelectWithSet(node, nodes, SelectionOrigin.Pointer);
+            CursorNode = node;
+        }
+
+        // The set is shown once: the reset to the selected node only does not run inside the select.
+        private void SelectWithSet(TreeNode node, IReadOnlyList<TreeNode> nodes, SelectionOrigin origin)
+        {
+            isSelectingWithSet = true;
+            try
+            {
+                Select(node, origin);
+            }
+            finally
+            {
+                isSelectingWithSet = false;
+            }
+
             ShowSelectedNodes(nodes);
         }
 
-        // The selected node becomes the only selected row, and the anchor of the next Shift click.
+        // The selected node becomes the anchor of the next Shift click, and the only selected row unless a select with a set runs.
         private void ResetSelectedNodes()
         {
             selectionAnchor = selectedNode;
-            ShowSelectedNodes(selectedNode == null ? Array.Empty<TreeNode>() : new[] { selectedNode });
+            if (!isSelectingWithSet)
+                ShowSelectedNodes(selectedNode == null ? Array.Empty<TreeNode>() : new[] { selectedNode });
         }
 
         private void ForgetSelectedUnder(TreeNode removed)

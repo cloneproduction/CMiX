@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -88,36 +86,25 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
             }
 
-            var modifiers = e.KeyModifiers;
-            var action = ListTreeRowPressRule.ActionOf(modifiers.HasFlag(KeyModifiers.Control), modifiers.HasFlag(KeyModifiers.Shift), row.IsCardIcon(e.Source));
+            var keys = new ListTreeRowPressKeys(e.KeyModifiers.HasFlag(KeyModifiers.Control), e.KeyModifiers.HasFlag(KeyModifiers.Shift));
+            var action = ListTreeRowPressRule.ActionOf(keys, row.PressPartOf(e.Source));
             if (action == ListTreeRowPressAction.Select)
                 SelectByPress(clicked, node);
             else if (action == ListTreeRowPressAction.AddOrRemove)
-                AddOrRemove(clicked, node);
+                clicked.AddOrRemoveFromSelection(node);
             else if (action == ListTreeRowPressAction.SelectRange)
-                clicked.SelectRange(node, ShownNodesOf(clicked));
+                clicked.SelectRange(node, ListTreeSnapshot.Of(clicked.Roots).VisibleNodes());
             else if (action == ListTreeRowPressAction.Stop)
                 e.Handled = true;
         }
 
         private void SelectByPress(ProjectTree clicked, TreeNode node)
         {
-            if (clicked.SelectedNodes.Count > 1 && clicked.SelectedNodes.Contains(node))
+            if (clicked.IsOneOfSeveralSelected(node))
                 pressedInSelection = node;
             else
                 clicked.SelectByClick(node);
         }
-
-        private static void AddOrRemove(ProjectTree clicked, TreeNode node)
-        {
-            if (clicked.SelectedNodes.Contains(node))
-                clicked.RemoveFromSelection(node);
-            else
-                clicked.AddToSelection(node);
-        }
-
-        private static IReadOnlyList<TreeNode> ShownNodesOf(ProjectTree clicked) =>
-            ListTreeSnapshot.Of(clicked.Roots).VisibleRows().Select(row => row.Node).OfType<TreeNode>().ToArray();
 
         // A drag took the press, so the selection stays.
         private void OnDragBegan(object? sender, EventArgs e) => pressedInSelection = null;

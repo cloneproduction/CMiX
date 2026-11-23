@@ -20,7 +20,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             var drop = nodes.IsBlock
                 ? project.DropBlockAsync(nodes.Nodes, nodes.Pressed, slot.Target, slot.Position)
                 : project.DropAsync(nodes.Pressed, slot.Target, slot.Position);
-            var dropped = DroppedNodesOf(project, items);
+            var dropped = project.SelectedNodesOf(items);
             foreach (var node in dropped)
                 OpenStateOf(openBefore, node)?.RestoreOn(node);
             return new Dropping(drop, dropped);
@@ -33,12 +33,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 Part<ListTreeRowReveal>().ShownRowOf(dropped)?.Flash();
             _ = ObserveAsync(dropping.Drop);
         }
-
-        // The drop selects the moved items. A blocked drop leaves the sources selected.
-        private static IReadOnlyList<TreeNode> DroppedNodesOf(ProjectTree project, IReadOnlyList<object?> items) =>
-            project.SelectedNode is { } selected && items.Contains(selected.Item, ReferenceEqualityComparer.Instance)
-                ? project.SelectedNodes.Where(node => items.Contains(node.Item, ReferenceEqualityComparer.Instance)).ToArray()
-                : Array.Empty<TreeNode>();
 
         private static ListTreeOpenState? OpenStateOf(IReadOnlyList<ListTreeOpenState> states, TreeNode node) =>
             states.FirstOrDefault(state => ReferenceEquals(state.Model, ListTreeRowKey.ModelOf(node)));

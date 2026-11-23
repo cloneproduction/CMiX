@@ -138,8 +138,10 @@ namespace CMiX.Studio.Avalonia.Views
             DispatcherTimer.RunOnce(() => PseudoClasses.Set(FlashClass, false), Motion.FlashDuration);
         }
 
-        internal bool IsCardIcon(object? source) =>
-            Place is { CanToggle: true } && source is Visual visual && (ReferenceEquals(visual, iconHit) || iconHit.IsVisualAncestorOf(visual));
+        internal ListTreeRowPressPart PressPartOf(object? source) =>
+            Place is { CanToggle: true } && source is Visual visual && (ReferenceEquals(visual, iconHit) || iconHit.IsVisualAncestorOf(visual))
+                ? ListTreeRowPressPart.CardIcon
+                : ListTreeRowPressPart.Row;
 
         private void OnIconTapped(object? sender, TappedEventArgs e) => ToggleCard();
 
