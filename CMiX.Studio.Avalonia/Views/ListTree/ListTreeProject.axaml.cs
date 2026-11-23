@@ -43,6 +43,7 @@ namespace CMiX.Studio.Avalonia.Views
                 IsTextBoxFocused = () => Context.State.IsTextBoxFocused,
                 IsFocusInOtherPanel = () => Context.State.IsFocusInOtherPanel,
                 IsPanelFocused = () => Context.State.IsPanelFocused,
+                ToggleDragRow = () => Context.Part<ListTreeRowDrag>().OpenNearCard(),
                 CancelDrag = () => Context.Part<ListTreeRowDrag>().Cancel(),
                 CloseRowsInView = CloseRowsInView
             };

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Threading;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -16,18 +17,27 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
     // The pointer drag of a row of the new tree. The scroller captures the pointer, so the moves and the release come on every platform.
     internal sealed class ListTreeRowDrag : ListTreeBehavior
     {
+        public static readonly TimeSpan RestDelay = TimeSpan.FromMilliseconds(500);
+
         private readonly ListTreePick pick = new(ListTreeDragNumbers.Default);
         private readonly Cursor moveCursor = new(TreeDragSession.MoveCursorType);
+        private readonly DispatcherTimer restTimer = new() { Interval = RestDelay };
 
         private ProjectTree? tree;
         private PressedRow? pressed;
         private ListTreeDrag? drag;
         private IPointer? pointer;
         private Cursor? cursorBefore;
+        private ListTreePoint lastPoint = new(0, 0);
+        private TreeNode? resting;
 
         public bool IsDragging => drag != null;
 
         internal ListTreeDrag? Drag => drag;
+
+        internal TreeNode? RestingNode => resting;
+
+        internal bool IsRestTimerRunning => restTimer.IsEnabled;
 
         private PanelListTreeRows Rows => Context.Rows;
 
@@ -36,6 +46,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         protected override void OnWatch(ProjectTree attached)
         {
             tree = attached;
+            restTimer.Tick += OnRested;
             Scroller.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Bubble, handledEventsToo: true);
             Scroller.AddHandler(InputElement.PointerMovedEvent, OnPointerMoved, RoutingStrategies.Bubble, handledEventsToo: true);
             Scroller.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble, handledEventsToo: true);
@@ -51,6 +62,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Scroller.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
             Scroller.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
             Scroller.RemoveHandler(InputElement.KeyDownEvent, OnKeyDownTunnel);
+            restTimer.Tick -= OnRested;
             tree = null;
         }
 
@@ -102,18 +114,53 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         private void Track(ListTreePoint point)
         {
+            lastPoint = point;
             var shown = drag?.Look;
-            var look = drag?.PickAt(point);
-            if (look == null)
+            if (drag is not { } dragging || dragging.PickAt(point) is not { } look)
             {
                 Rows.ShowLiveTree();
+                Rest(null);
                 ShowNote(null);
+                return;
             }
-            else if (!ReferenceEquals(look, shown))
-            {
+
+            if (!ReferenceEquals(look, shown))
                 Rows.ShowDrag(look);
-                ShowNote(ListTreeDragNote.Of(look));
-            }
+
+            var near = ListTreeNearCard.Of(look, dragging.Press, point);
+            Rest(near);
+            ShowNote(NoteOf(look, near));
+        }
+
+        private string NoteOf(ListTreeDragLook look, TreeNode? near) =>
+            near != null && tree?.Shortcuts["Tree.Expand"] is { } key ? ListTreeDragNote.OfNearCard(look, near, key.ToString()) : ListTreeDragNote.Of(look);
+
+        // A rest of the pointer next to a closed card opens it.
+        private void Rest(TreeNode? near)
+        {
+            if (ReferenceEquals(near, resting))
+                return;
+
+            restTimer.Stop();
+            resting = near;
+            if (near != null)
+                restTimer.Start();
+        }
+
+        private void OnRested(object? sender, EventArgs e) => OpenNearCard();
+
+        // The timer and the key Tree.Expand open the card. It stays open after the drop and after a cancel.
+        public void OpenNearCard()
+        {
+            var card = resting;
+            Rest(null);
+            if (drag == null || tree is not { } opened || card == null)
+                return;
+
+            card.IsExpanded = true;
+            Rows.ApplyTreeChanges();
+            drag.MakeCandidates(ListTreeSnapshot.Of(opened.Roots));
+            Track(lastPoint);
         }
 
         // The release can come at another point than the last move, so the place is read again.
@@ -158,6 +205,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void Finish()
         {
             drag = null;
+            Rest(null);
             Rows.ShowLiveTree();
             ShowNote(null);
             tree?.EndDrag();
