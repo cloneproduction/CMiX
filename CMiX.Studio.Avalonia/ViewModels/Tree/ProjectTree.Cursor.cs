@@ -92,6 +92,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
             if (e.PropertyName == nameof(SelectedNode))
             {
+                ResetSelectedNodes();
+
                 // The target can change also when the cursor does not: the selection goes away with no cursor.
                 var before = CursorNode;
                 CursorNode = selectedNode;
@@ -181,6 +183,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         void TreeNodeHost.NodeRemoved(TreeNode node)
         {
+            ForgetSelectedUnder(node);
             if (inspectedNode != null && inspectedNode.IsOrIsUnder(node))
                 Inspect(IsTop(node.Parent) ? null : node.Parent);
             if (CursorNode != null && CursorNode.IsOrIsUnder(node))

@@ -3,10 +3,12 @@
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // What a left press on a row does. Stop ends the press with no action, PassOn lets the row control have it.
+    // What a left press on a row does. AddOrRemove adds the row to the selection or takes it out. Stop ends the press with no action, PassOn lets the row control have it.
     public enum ListTreeRowPressAction
     {
         Select,
+        AddOrRemove,
+        SelectRange,
         PassOn,
         Stop
     }

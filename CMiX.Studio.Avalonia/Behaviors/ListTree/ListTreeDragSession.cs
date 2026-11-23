@@ -24,6 +24,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private ListTreeOpenState? openBefore;
         private ListTreeSlot? keyedSlot;
 
+        public event EventHandler? Began;
+
         public event EventHandler? Ended;
 
         public bool IsRunning => drag != null;
@@ -66,6 +68,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             cursorBefore = Scroller.Cursor;
             Scroller.Cursor = moveCursor;
             drag.MakeCandidates(ListTreeSnapshot.Of(dragged.Roots));
+            Began?.Invoke(this, EventArgs.Empty);
         }
 
         public void Track(ListTreePoint point)

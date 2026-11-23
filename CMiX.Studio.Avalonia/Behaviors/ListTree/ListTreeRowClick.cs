@@ -1,6 +1,9 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -15,9 +18,12 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // A press on a row of the new tree selects its node, as in the old tree. A toggle, a text box and the icon of a card keep their own click.
     // A middle click selects and inspects. The focus stays in the tree, as TreePointerInput keeps it in the old tree.
+    // Ctrl adds a row to the selection or takes it out, Shift selects the shown rows from the anchor.
+    // A plain press on a row of a selection of several rows selects only that row on the release, so a drag can take them all.
     internal sealed class ListTreeRowClick : ListTreeBehavior
     {
         private ProjectTree? tree;
+        private TreeNode? pressedInSelection;
 
         private ListTreePressFocus PressFocus => Part<ListTreePressFocus>();
 
@@ -26,12 +32,17 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             tree = attached;
             Context.Scroller.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
             Context.Scroller.AddHandler(InputElement.PointerPressedEvent, OnPointerPressedDone, RoutingStrategies.Bubble, handledEventsToo: true);
+            Context.Scroller.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Tunnel, handledEventsToo: true);
+            Part<ListTreeDragSession>().Began += OnDragBegan;
         }
 
         protected override void OnUnwatch()
         {
             Context.Scroller.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
             Context.Scroller.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressedDone);
+            Context.Scroller.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
+            Part<ListTreeDragSession>().Began -= OnDragBegan;
+            pressedInSelection = null;
             tree = null;
         }
 
@@ -39,6 +50,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
+            pressedInSelection = null;
             PressFocus.BeginPress();
             if (tree == null)
                 return;
@@ -76,11 +88,46 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
             }
 
-            var action = ListTreeRowPressRule.ActionOf(e.KeyModifiers.HasFlag(KeyModifiers.Control), row.IsCardIcon(e.Source));
+            var modifiers = e.KeyModifiers;
+            var action = ListTreeRowPressRule.ActionOf(modifiers.HasFlag(KeyModifiers.Control), modifiers.HasFlag(KeyModifiers.Shift), row.IsCardIcon(e.Source));
             if (action == ListTreeRowPressAction.Select)
-                clicked.SelectByClick(node);
+                SelectByPress(clicked, node);
+            else if (action == ListTreeRowPressAction.AddOrRemove)
+                AddOrRemove(clicked, node);
+            else if (action == ListTreeRowPressAction.SelectRange)
+                clicked.SelectRange(node, ShownNodesOf(clicked));
             else if (action == ListTreeRowPressAction.Stop)
                 e.Handled = true;
+        }
+
+        private void SelectByPress(ProjectTree clicked, TreeNode node)
+        {
+            if (clicked.SelectedNodes.Count > 1 && clicked.SelectedNodes.Contains(node))
+                pressedInSelection = node;
+            else
+                clicked.SelectByClick(node);
+        }
+
+        private static void AddOrRemove(ProjectTree clicked, TreeNode node)
+        {
+            if (clicked.SelectedNodes.Contains(node))
+                clicked.RemoveFromSelection(node);
+            else
+                clicked.AddToSelection(node);
+        }
+
+        private static IReadOnlyList<TreeNode> ShownNodesOf(ProjectTree clicked) =>
+            ListTreeSnapshot.Of(clicked.Roots).VisibleRows().Select(row => row.Node).OfType<TreeNode>().ToArray();
+
+        // A drag took the press, so the selection stays.
+        private void OnDragBegan(object? sender, EventArgs e) => pressedInSelection = null;
+
+        private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+        {
+            var pressed = pressedInSelection;
+            pressedInSelection = null;
+            if (pressed != null && tree != null && !Part<ListTreeDragSession>().IsRunning)
+                tree.SelectByClick(pressed);
         }
 
         // The focus moves after the press, because the default handling of the press would take it back.

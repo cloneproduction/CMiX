@@ -5,10 +5,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
     public static class ListTreeRowPressRule
     {
-        // The tree has one selection, so a Ctrl press on a row does nothing. The icon of a card opens or closes the card on its tap.
-        public static ListTreeRowPressAction ActionOf(bool isControlDown, bool isOnCardIcon) =>
-            isControlDown ? ListTreeRowPressAction.Stop
-            : isOnCardIcon ? ListTreeRowPressAction.PassOn
+        // The icon of a card opens or closes the card on its tap and never changes the selection. Ctrl wins over Shift.
+        public static ListTreeRowPressAction ActionOf(bool isControlDown, bool isShiftDown, bool isOnCardIcon) =>
+            isOnCardIcon ? (isControlDown ? ListTreeRowPressAction.Stop : ListTreeRowPressAction.PassOn)
+            : isControlDown ? ListTreeRowPressAction.AddOrRemove
+            : isShiftDown ? ListTreeRowPressAction.SelectRange
             : ListTreeRowPressAction.Select;
     }
 }

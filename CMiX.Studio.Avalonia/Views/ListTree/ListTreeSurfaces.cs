@@ -20,6 +20,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly FrameListTreeOutline outline = new() { IsHitTestVisible = false, IsVisible = false, ZIndex = ListTreeLayers.DropOutline };
 
         private TreeNode? selected;
+        private IReadOnlySet<TreeNode> alsoSelected = new HashSet<TreeNode>();
         private TreeNode? dropTarget;
         private bool isDragging;
 
@@ -67,6 +68,12 @@ namespace CMiX.Studio.Avalonia.Views
             ShowMarks();
         }
 
+        public void SelectAlso(IEnumerable<TreeNode> nodes)
+        {
+            alsoSelected = new HashSet<TreeNode>(nodes, ReferenceEqualityComparer.Instance);
+            ShowMarks();
+        }
+
         public void MarkDropTarget(TreeNode? node)
         {
             if (ReferenceEquals(node, dropTarget))
@@ -89,7 +96,7 @@ namespace CMiX.Studio.Avalonia.Views
         public void ShowMarks()
         {
             var rows = panel.Children.OfType<RowListTree>().ToList();
-            var marks = isDragging ? new ListTreeMarks(null, null, dropTarget) : new ListTreeMarks(selected, HoveredCard(rows), dropTarget);
+            var marks = isDragging ? new ListTreeMarks(null, null, dropTarget) : new ListTreeMarks(selected, HoveredCard(rows), dropTarget) { AlsoSelected = alsoSelected };
             foreach (var row in rows)
                 row.ShowMarks(marks);
             foreach (var area in areas)

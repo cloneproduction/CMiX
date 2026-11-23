@@ -31,6 +31,9 @@ namespace CMiX.Studio.Avalonia.Views
         public static readonly StyledProperty<TreeNode?> SelectedNodeProperty =
             AvaloniaProperty.Register<PanelListTreeRows, TreeNode?>(nameof(SelectedNode));
 
+        public static readonly StyledProperty<IReadOnlyList<TreeNode>?> SelectedNodesProperty =
+            AvaloniaProperty.Register<PanelListTreeRows, IReadOnlyList<TreeNode>?>(nameof(SelectedNodes));
+
         // The time of a row move. A test sets zero, so the rows are at their place at once.
         public static readonly StyledProperty<TimeSpan> MoveDurationProperty =
             AvaloniaProperty.Register<PanelListTreeRows, TimeSpan>(nameof(MoveDuration), Motion.Duration);
@@ -87,6 +90,12 @@ namespace CMiX.Studio.Avalonia.Views
         {
             get => GetValue(SelectedNodeProperty);
             set => SetValue(SelectedNodeProperty, value);
+        }
+
+        public IReadOnlyList<TreeNode>? SelectedNodes
+        {
+            get => GetValue(SelectedNodesProperty);
+            set => SetValue(SelectedNodesProperty, value);
         }
 
         public TimeSpan MoveDuration
@@ -162,6 +171,8 @@ namespace CMiX.Studio.Avalonia.Views
                 Rebuild();
             else if (change.Property == SelectedNodeProperty)
                 surfaces.Select(SelectedNode);
+            else if (change.Property == SelectedNodesProperty)
+                surfaces.SelectAlso(SelectedNodes ?? Array.Empty<TreeNode>());
         }
 
         // One rebuild for a burst of changes, such as a close of all cards.
