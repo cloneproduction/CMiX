@@ -79,6 +79,8 @@
         <!-- AppIcon sets its own Foreground in its styles, so the state of the row reaches the icon through IconForeground. -->
         <Style Selector="Views|RowListTree">
             <Setter Property="IconForeground" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}" />
+            <!-- The tooltips of a row have the hover fill of the old row, as TreeViewItemCMiX gives them. -->
+            <Setter Property="ui:ToolTipCard.Fill" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=FillHover}" />
         </Style>
 
         <!-- A hidden row and every row under a hidden row have a fixed grey, never an opacity. The toggles keep the look of the old tree. -->
@@ -94,7 +96,8 @@
         <Border
             x:Name="band"
             Margin="{Binding IndentMargin, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}"
-            CornerRadius="{DynamicResource CornerRadiusAll}">
+            CornerRadius="{DynamicResource CornerRadiusAll}"
+            ToolTip.Tip="{Binding DropBlockReason}">
             <DockPanel Margin="{DynamicResource ListTreeRowContentMargin}">
 
                 <Views:TogglesRow

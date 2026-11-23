@@ -23,6 +23,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeMenus menus;
         private readonly ListTreeKeyInput keyInput;
         private readonly ListTreeScreenRequests requests;
+        private readonly TreeTooltips tooltips;
         private readonly TreeViewHooks hooks;
 
         private ProjectTree? watched;
@@ -44,6 +45,7 @@ namespace CMiX.Studio.Avalonia.Views
             requests = new ListTreeScreenRequests(rows, menus, () => IsActiveView, lifetime);
             hooks = BuildHooks();
             KeyBindingTextGuard.Install(this);
+            tooltips = new TreeTooltips(rows);
         }
 
         private TreeViewHooks BuildHooks() =>
@@ -59,6 +61,8 @@ namespace CMiX.Studio.Avalonia.Views
         internal bool IsActiveView => watched?.IsActiveView(hooks) == true;
 
         internal PanelListTreeRows Rows => rows;
+
+        internal TreeTooltips Tooltips => tooltips;
 
         internal AddPanel MenuAddPanel => addBeside.AddPanel;
 
