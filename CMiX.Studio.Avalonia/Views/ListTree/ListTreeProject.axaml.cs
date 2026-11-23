@@ -18,6 +18,8 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeRowClick rowClick;
         private readonly ListTreeAddBeside addBeside;
         private readonly ListTreeRowReveal reveal;
+        private readonly ListTreeScrollAnchor scrollAnchor;
+        private readonly ListTreeEndRoom endRoom;
         private readonly ListTreeLastPointer pointer;
         private readonly ListTreeHints hints;
         private readonly ListTreeMenus menus;
@@ -39,12 +41,14 @@ namespace CMiX.Studio.Avalonia.Views
             // The menus come later, so the lambda reads the field at the call.
             hints = new ListTreeHints(this, hintStrip, focus, () => menus.IsMenuOpen(), lifetime);
             addBeside = new ListTreeAddBeside(rows, focusKeeper, hints.Update, lifetime);
-            reveal = new ListTreeRowReveal(rows);
+            reveal = new ListTreeRowReveal(this, rows, scroller, lifetime);
+            scrollAnchor = new ListTreeScrollAnchor(rows, scroller);
+            endRoom = new ListTreeEndRoom(rows, scroller, endRoomSpace);
             pointer = new ListTreeLastPointer(this, scroller);
             menus = new ListTreeMenus(scroller, reveal, addBeside, pointer, hints.Update);
             keyInput = new ListTreeKeyInput(scroller, rows, focusKeeper, addBeside, lifetime);
             fileDrop = new ListTreeFileDropInput(scroller, rows);
-            requests = new ListTreeScreenRequests(rows, menus, () => IsActiveView, lifetime);
+            requests = new ListTreeScreenRequests(rows, menus, reveal, scrollAnchor, () => IsActiveView);
             hooks = BuildHooks();
             KeyBindingTextGuard.Install(this);
             tooltips = new TreeTooltips(rows);
@@ -57,7 +61,8 @@ namespace CMiX.Studio.Avalonia.Views
                 IsTreeFocused = () => IsKeyboardFocusWithin,
                 IsTextBoxFocused = focus.IsTextBoxFocused,
                 IsFocusInOtherPanel = focus.IsFocusInOtherPanel,
-                IsPanelFocused = focus.IsPanelFocused
+                IsPanelFocused = focus.IsPanelFocused,
+                CloseRowsInView = requests.CloseRowsInView
             };
 
         internal bool IsActiveView => watched?.IsActiveView(hooks) == true;
@@ -101,6 +106,8 @@ namespace CMiX.Studio.Avalonia.Views
             menus.Attach(watched);
             hints.Watch(watched);
             fileDrop.Attach(watched);
+            reveal.Watch(watched);
+            endRoom.Attach();
         }
 
         private void Unwatch()
@@ -108,6 +115,8 @@ namespace CMiX.Studio.Avalonia.Views
             if (watched == null)
                 return;
 
+            endRoom.Detach();
+            reveal.Unwatch();
             fileDrop.Detach();
             hints.Unwatch();
             menus.Detach();

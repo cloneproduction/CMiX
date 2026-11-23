@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Threading;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
@@ -15,17 +14,20 @@ namespace CMiX.Studio.Avalonia.Views
     {
         private readonly PanelListTreeRows rows;
         private readonly ListTreeMenus menus;
+        private readonly ListTreeRowReveal reveal;
+        private readonly ListTreeScrollAnchor scrollAnchor;
         private readonly Func<bool> isActiveView;
-        private readonly TreeViewLifetime lifetime;
 
         private ProjectTree? tree;
 
-        public ListTreeScreenRequests(PanelListTreeRows rows, ListTreeMenus menus, Func<bool> isActiveView, TreeViewLifetime lifetime)
+        public ListTreeScreenRequests(PanelListTreeRows rows, ListTreeMenus menus, ListTreeRowReveal reveal, ListTreeScrollAnchor scrollAnchor,
+            Func<bool> isActiveView)
         {
             this.rows = rows;
             this.menus = menus;
+            this.reveal = reveal;
+            this.scrollAnchor = scrollAnchor;
             this.isActiveView = isActiveView;
-            this.lifetime = lifetime;
         }
 
         public void Watch(ProjectTree watched)
@@ -36,6 +38,7 @@ namespace CMiX.Studio.Avalonia.Views
             watched.RenameRequested += OnRenameRequested;
             watched.AddRequested += OnAddRequested;
             watched.MenuRequested += OnMenuRequested;
+            watched.RevealRequested += OnRevealRequested;
         }
 
         public void Unwatch()
@@ -48,6 +51,8 @@ namespace CMiX.Studio.Avalonia.Views
             tree.RenameRequested -= OnRenameRequested;
             tree.AddRequested -= OnAddRequested;
             tree.MenuRequested -= OnMenuRequested;
+            tree.RevealRequested -= OnRevealRequested;
+            scrollAnchor.EndHold();
             tree = null;
         }
 
@@ -60,6 +65,8 @@ namespace CMiX.Studio.Avalonia.Views
         private void OnAddRequested(object? sender, EventArgs e) => AnswerWhenActive(menus.OpenAddAtTarget);
 
         private void OnMenuRequested(object? sender, EventArgs e) => AnswerWhenActive(menus.OpenMenuAtTarget);
+
+        private void OnRevealRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => reveal.RevealRowToMiddle(node));
 
         private void OnTreeFocusRequested(object? sender, EventArgs e) => AnswerWhenActive(FocusTree);
 
@@ -74,6 +81,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void OnRenameRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => rows.RowOf(node)?.StartRename());
 
+        // The first row in view cannot be the anchor, because it can close away under a parent.
         private void OnCollapseOthersRequested(object? sender, EventArgs e) => AnswerWhenActive(CloseOtherRows);
 
         private void CloseOtherRows(ProjectTree active)
@@ -81,8 +89,21 @@ namespace CMiX.Studio.Avalonia.Views
             if (active.TargetNode is not { } target)
                 return;
 
+            if (scrollAnchor.CaptureRow(target) is { } anchor)
+            {
+                scrollAnchor.KeepStill(anchor, active.CloseOtherRows);
+                return;
+            }
+
             active.CloseOtherRows();
-            lifetime.Post(() => rows.RowOf(target)?.BringIntoView(), DispatcherPriority.Loaded);
+            reveal.RevealRow(target);
+        }
+
+        // The hook CloseRowsInView of the view: the row of the node stays still when it is in view, else the first row in view.
+        public void CloseRowsInView(TreeNode? node, Func<IReadOnlyList<TreeNode>> close)
+        {
+            var anchor = (node != null ? scrollAnchor.CaptureRow(node) : null) ?? scrollAnchor.CaptureFirstRowInView();
+            scrollAnchor.KeepStill(anchor, close);
         }
     }
 }

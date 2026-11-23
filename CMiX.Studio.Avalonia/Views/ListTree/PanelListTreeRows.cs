@@ -148,12 +148,18 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             isRebuildPosted = true;
-            Dispatcher.UIThread.Post(() =>
-            {
-                isRebuildPosted = false;
-                if (isAttached)
-                    Rebuild();
-            });
+            Dispatcher.UIThread.Post(ApplyTreeChanges);
+        }
+
+        // A part that needs the new places at once, such as a reveal or a scroll anchor, runs the posted rebuild now.
+        public void ApplyTreeChanges()
+        {
+            if (!isRebuildPosted)
+                return;
+
+            isRebuildPosted = false;
+            if (isAttached)
+                Rebuild();
         }
 
         private void Rebuild()

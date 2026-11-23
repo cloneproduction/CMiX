@@ -32,6 +32,7 @@
             Background="Transparent"
             HorizontalScrollBarVisibility="Disabled"
             Theme="{DynamicResource ScrollViewerOverlay}">
+            <StackPanel>
             <Views:PanelListTreeRows
                 x:Name="rows"
                 Margin="{DynamicResource TreeMargin}"
@@ -42,6 +43,10 @@
                 RowGap="{DynamicResource ListTreeRowGap}"
                 RowHeight="{DynamicResource ListTreeRowHeight}"
                 SelectedNode="{Binding SelectedNode}" />
+
+            <!-- The room under the rows (ListTreeEndRoom). -->
+            <Border x:Name="endRoomSpace" Height="0" />
+            </StackPanel>
         </ScrollViewer>
 
     </DockPanel>
