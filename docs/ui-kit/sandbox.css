@@ -1,3 +1,10 @@
 /* The After look of the proposals of sandbox.js. One block for each proposal, under the class "sb-" + its number.
    Nothing here applies outside the sandbox. When the owner decides, remove the block of the proposal.
    When the answer is yes, the change goes into CMiX first, and then into cmix.css as a copy. */
+
+/* S2: every status has a shape and a word. */
+.sb-S2 .s2-word { display: inline !important; }
+.sb-S2 .s2-dot { width: 10px !important; height: 10px !important; box-sizing: border-box; }
+.sb-S2 .s2-wait .s2-dot { background: none !important; border: 2px solid currentColor; }
+.sb-S2 .s2-warn .s2-dot { background: linear-gradient(transparent 40%, var(--Grey200) 40%, var(--Grey200) 60%, transparent 60%), currentColor !important; }
+.sb-S2 .s2-down .s2-dot { background: none !important; border: 2px solid currentColor; border-radius: 1px !important; }
