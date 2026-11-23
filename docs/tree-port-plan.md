@@ -302,7 +302,7 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 
 | Step | Work | Complexity |
 |---|---|---|
-| 3.1 | The new control in its own folders (`ViewModels/<name>`, `Views/<name>`, name from question 9), and the switch that shows the old view, the new one, or both side by side, all attached to the same `ProjectTree` through `TreeViewSet`. The old view does not change. | 3 |
+| 3.1 | The new control `ListTreeProject` in its own folders (`ViewModels/ListTree`, `Views/ListTree`), and the new entry of the side panel combo box that shows the old view, the new one, or both side by side, all attached to the same `ProjectTree` through `TreeViewSet`. The old view does not change. | 3 |
 | 3.2 | The flat panel and the row control (icon that toggles, name in `TextBoxEditable`, count squares, `TogglesRow`), arranged by the layout function, with the ZIndex layers of principle 11. Tests that measure positions and sizes. | 4 |
 | 3.3 | Rest, hover and selection on surfaces and left borders (section 3), hover tested on the row only. Tests that measure the colours. | 4 |
 | 3.4 to 3.9 | Give the new control one screen part at a time, as a new part next to the old one: keys, focus and rename (click selects, the icon toggles, double click on the name or F2 renames), menus, tooltips, file drop, screen requests (reveal and scroll). One step each. | 2 to 3 |
@@ -315,6 +315,7 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 | 4.2 | The keyboard grab on the same candidates. | 3 |
 | 4.3 | Measure the drag on a big project. Prune the candidates near the pointer if it is slow. | 3 |
 | 4.4 | The Undo notice after a hide and after a drop, through a service (no view in the model). | 3 |
+| 4.5 | A drag of several selected rows as one block: one candidate list for the block, one undo step. | 4 |
 
 ### Phase 5: category rows (option E) and the inspector
 
@@ -348,12 +349,14 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 6. Expand and collapse: keep an animation (the old `PanelCollapse`), or let the rows move with the same 160 ms row animation?
 7. `docs/DEVELOPMENT.md` ("The colors of the states") says a selected row uses accent-inactive and an icon only control dims with opacity
    0.6. The new control uses a white surface with a kind border, and never dims with opacity. Is the tree a row kind of its own in that table?
-8. The name of the new control and its folders, by the order rule (kind first). The old `TreeViewProject` keeps its name.
-9. The flat panel and its layout: a part of the new tree only, or a generic control in CMiX.UI that other lists can use later?
-10. The switch between the two views: where is it (a menu, the toolbar of the tree, a setting), and is "both side by side" a mode of
-    the side panel or two panels?
-11. The power operator review asks for a drag of several selected rows as one block, a key that repeats the last move, Left and Right
-    to change the depth in a keyboard grab, and a compact row height. Which of them go into this plan?
 
 Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
-stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays.
+stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays; no halo around any icon.
+Decided on 2026-11-23 in Phase 0:
+- The new control is `ListTreeProject`. Its folders are `ViewModels/ListTree` and `Views/ListTree`, namespaces after the folders.
+- The flat row panel and its layout function belong to the new tree only. They can move to CMiX.UI later.
+- The switch: the combo box of the side panel that chooses the view gets one new entry for the new tree. Two side panels can show the
+  old and the new tree side by side.
+- Every current behaviour of the CMiX tree stays in the new control (keys, search, grab, menus, Add panel, file drop, tooltips, hints):
+  it was discussed with the power operator already. Added: a drag of several selected rows as one block (step 4.5).
+  Not added: a key that repeats the last move, a compact row height.
