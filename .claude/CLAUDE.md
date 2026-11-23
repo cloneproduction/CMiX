@@ -138,10 +138,9 @@ The compiler does not check these names. Ask the owner before you change one.
 
 - `docs/ui-kit/` is the HTML copy of the UI. The owner and Claude use it to discuss a design.
   `gallery.html` is the catalogue. Part A is CMiX.UI. Part B is CMiX.Studio.Avalonia.
-- A change of a token, a style, a control or a view updates the UI kit in the same commit.
-  This applies to `CMiX.UI/Themes`, `CMiX.UI/Controls`, `CMiX.Studio.Avalonia/Themes` and
-  `CMiX.Studio.Avalonia/Views`.
-- A change of a token: run `tools/Update-Tokens.ps1` again. A change of an icon key: run `tools/Update-Icons.ps1` again.
+- The UI kit is not updated automatically. Update it only when the owner asks for it.
+- When you update it: after a change of a token, run `docs/ui-kit/tools/Update-Tokens.ps1` again. After a change of an icon key,
+  run `docs/ui-kit/tools/Update-Icons.ps1` again.
   Do not edit `tokens.css`, `tokens.js` or `icons.js` by hand.
 - A class in `cmix.css` is the key of a ControlTheme or the name of a control class. A state is the name of the pseudo class
   of Avalonia: `pointerover`, `pressed`, `checked`, `selected`, `disabled`. The template of a control is in `cmix.js`.
@@ -157,7 +156,8 @@ The compiler does not check these names. Ask the owner before you change one.
   One proposal is one decision. The number of a proposal (`S1`) is for the discussion only. After the decision, remove the
   proposal. A yes goes into CMiX first, then into `cmix.css`.
 - A design mockup is a file in `docs/ui-kit/mockups/`. It links the kit and does not copy it.
-- When you cannot update the UI kit in the step, tell the owner which entries are out of date.
+- When a step changes a token, a style, a control or a view that has an entry, tell the owner which entries are now out of date.
+  This applies to `CMiX.UI/Themes`, `CMiX.UI/Controls`, `CMiX.Studio.Avalonia/Themes` and `CMiX.Studio.Avalonia/Views`.
 
 ## Tests
 
