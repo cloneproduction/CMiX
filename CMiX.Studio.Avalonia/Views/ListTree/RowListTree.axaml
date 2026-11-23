@@ -6,83 +6,135 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters">
 
-    <!-- One row of the new tree, on the tree node. The padding is the indent: the band starts there, the toggles stay at the right edge. -->
+    <!-- One row of the new tree, on the tree node. The band starts at the indent, the toggles stay at the right edge.
+         The Background is the surface of an item row, full width. A card shows its surface on its area, under the rows. -->
     <UserControl.Resources>
         <StudioConverters:TreeToneConverter x:Key="RowTone" />
+        <StudioConverters:ListTreeKindBrushConverter x:Key="KindMark" />
     </UserControl.Resources>
 
     <UserControl.Styles>
         <Style Selector="ui|TextBoxEditable#nameBox, TextBlock#groupName">
             <Setter Property="TextElement.FontSize" Value="{DynamicResource FontSizeMD}" />
             <Setter Property="TextElement.FontWeight" Value="Normal" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextRestBrush}" />
         </Style>
         <Style Selector="Views|RowListTree:card ui|TextBoxEditable#nameBox, Views|RowListTree:card TextBlock#groupName">
             <Setter Property="TextElement.FontWeight" Value="SemiBold" />
         </Style>
+        <Style Selector="Views|RowListTree:pointerover ui|TextBoxEditable#nameBox, Views|RowListTree:pointerover TextBlock#groupName,
+                         Views|RowListTree:inhoveredcard ui|TextBoxEditable#nameBox, Views|RowListTree:inhoveredcard TextBlock#groupName">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextActiveBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree:selected ui|TextBoxEditable#nameBox, Views|RowListTree:selected TextBlock#groupName,
+                         Views|RowListTree:inselection ui|TextBoxEditable#nameBox, Views|RowListTree:inselection TextBlock#groupName">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextSelectedBrush}" />
+        </Style>
+
+        <Style Selector="Views|RowListTree:pointerover:not(:card):not(:inselection)">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowHoverBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree:selected:not(:card)">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree:selected:pointerover:not(:card)">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedHoverBrush}" />
+        </Style>
+
+        <Style Selector="Border#band">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowRestBandBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree:pointerover Border#band, Views|RowListTree:selected Border#band">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="Views|RowListTree:pointerover:inselection:not(:card) Border#band">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowHoverInSelectionBandBrush}" />
+        </Style>
+
+        <Style Selector="Border#mark">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="Views|RowListTree:pointerover:not(:card) Border#mark">
+            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=HoverBorder}" />
+        </Style>
+        <Style Selector="Views|RowListTree:inselection Border#mark">
+            <Setter Property="Margin" Value="{Binding IndentMargin, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}" />
+        </Style>
+        <Style Selector="Views|RowListTree:selected:not(:card) Border#mark">
+            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=SelectionBorder}" />
+        </Style>
     </UserControl.Styles>
 
-    <Border
-        x:Name="band"
-        Background="{DynamicResource ListTreeRowRestBandBrush}"
-        CornerRadius="{DynamicResource CornerRadiusAll}">
-        <DockPanel Margin="{DynamicResource ListTreeRowContentMargin}">
+    <Panel>
+        <Border
+            x:Name="band"
+            Margin="{Binding IndentMargin, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}"
+            CornerRadius="{DynamicResource CornerRadiusAll}">
+            <DockPanel Margin="{DynamicResource ListTreeRowContentMargin}">
 
-            <Views:TogglesRow
-                x:Name="toggles"
-                VerticalAlignment="Center"
-                DockPanel.Dock="Right"
-                ZIndex="{x:Static Views:ListTreeLayers.Toggles}" />
+                <Views:TogglesRow
+                    x:Name="toggles"
+                    VerticalAlignment="Center"
+                    DockPanel.Dock="Right"
+                    ZIndex="{x:Static Views:ListTreeLayers.Toggles}" />
 
-            <!-- Each click on the icon of a card opens or closes the card, also the second click of a double click. -->
-            <Border
-                x:Name="iconHit"
-                Padding="{DynamicResource ListTreeIconMargin}"
-                VerticalAlignment="Center"
-                Background="Transparent"
-                DockPanel.Dock="Left"
-                DoubleTapped="OnIconTapped"
-                Tapped="OnIconTapped">
-                <ui:AppIcon
-                    x:Name="kindIcon"
-                    IconKey="{Binding IconKey, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}"
-                    Foreground="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}"
-                    Size="{DynamicResource IconSizeXS}" />
-            </Border>
+                <!-- Each click on the icon of a card opens or closes the card, also the second click of a double click. -->
+                <Border
+                    x:Name="iconHit"
+                    Padding="{DynamicResource ListTreeIconMargin}"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    DockPanel.Dock="Left"
+                    DoubleTapped="OnIconTapped"
+                    Tapped="OnIconTapped">
+                    <ui:AppIcon
+                        x:Name="kindIcon"
+                        IconKey="{Binding IconKey, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}"
+                        Foreground="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}"
+                        Size="{DynamicResource IconSizeXS}" />
+                </Border>
 
-            <!-- The name: a box for an item, a text for a group, each with the badges of a closed card. -->
-            <Panel VerticalAlignment="Center">
-                <ui:TextBoxEditable
-                    x:Name="nameBox"
-                    Padding="{DynamicResource ListTreeNamePadding}"
-                    Foreground="{DynamicResource ListTreeTextRestBrush}"
-                    IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNotNull}}"
-                    Text="{Binding Item.PrefabService.Name.Value, Mode=TwoWay}">
-                    <ui:TextBoxEditable.Suffix>
+                <!-- The name: a box for an item, a text for a group, each with the badges of a closed card. -->
+                <Panel VerticalAlignment="Center">
+                    <ui:TextBoxEditable
+                        x:Name="nameBox"
+                        Padding="{DynamicResource ListTreeNamePadding}"
+                        IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNotNull}}"
+                        Text="{Binding Item.PrefabService.Name.Value, Mode=TwoWay}">
+                        <ui:TextBoxEditable.Suffix>
+                            <Views:BadgesKindCount
+                                IsVisible="{Binding ShowsBadges}"
+                                IsHovered="{Binding $parent[Views:RowListTree].IsPointerOver}"
+                                IsSelected="{Binding $parent[Views:RowListTree].IsSelected}" />
+                        </ui:TextBoxEditable.Suffix>
+                    </ui:TextBoxEditable>
+
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNull}}"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="groupName"
+                            Padding="{DynamicResource ListTreeNamePadding}"
+                            VerticalAlignment="Center"
+                            Text="{Binding Header}" />
                         <Views:BadgesKindCount
                             IsVisible="{Binding ShowsBadges}"
                             IsHovered="{Binding $parent[Views:RowListTree].IsPointerOver}"
                             IsSelected="{Binding $parent[Views:RowListTree].IsSelected}" />
-                    </ui:TextBoxEditable.Suffix>
-                </ui:TextBoxEditable>
+                    </StackPanel>
+                </Panel>
 
-                <StackPanel
-                    VerticalAlignment="Center"
-                    IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNull}}"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        x:Name="groupName"
-                        Padding="{DynamicResource ListTreeNamePadding}"
-                        VerticalAlignment="Center"
-                        Foreground="{DynamicResource ListTreeTextRestBrush}"
-                        Text="{Binding Header}" />
-                    <Views:BadgesKindCount
-                        IsVisible="{Binding ShowsBadges}"
-                        IsHovered="{Binding $parent[Views:RowListTree].IsPointerOver}"
-                        IsSelected="{Binding $parent[Views:RowListTree].IsSelected}" />
-                </StackPanel>
-            </Panel>
+            </DockPanel>
+        </Border>
 
-        </DockPanel>
-    </Border>
+        <Border
+            x:Name="mark"
+            Width="{DynamicResource ListTreeLeftBorderWidth}"
+            HorizontalAlignment="Left"
+            IsHitTestVisible="False" />
+    </Panel>
 
 </UserControl>

@@ -1,0 +1,51 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.FrameListTreeCard"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters"
+    IsHitTestVisible="False">
+
+    <!-- The area of a card, on the tree node. The panel sets the states. A hover inside a selected card adds a band from the indent of the card. -->
+    <UserControl.Resources>
+        <StudioConverters:ListTreeKindBrushConverter x:Key="KindMark" />
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="Border#mark">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="Views|FrameListTreeCard:hovered Border#surface">
+            <Setter Property="Background" Value="{DynamicResource ListTreeCardHoverBrush}" />
+        </Style>
+        <Style Selector="Views|FrameListTreeCard:hovered Border#mark">
+            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=HoverBorder}" />
+        </Style>
+        <Style Selector="Views|FrameListTreeCard:hovered:inselection Border#surface">
+            <Setter Property="Background" Value="{DynamicResource ListTreeCardHoverInSelectionBandBrush}" />
+        </Style>
+        <Style Selector="Views|FrameListTreeCard:inselection Border#surface, Views|FrameListTreeCard:inselection Border#mark">
+            <Setter Property="Margin" Value="{Binding IndentMargin, RelativeSource={RelativeSource AncestorType=Views:FrameListTreeCard}}" />
+        </Style>
+        <Style Selector="Views|FrameListTreeCard:selected Border#surface">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedBrush}" />
+        </Style>
+        <Style Selector="Views|FrameListTreeCard:selected:hovered Border#surface">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedHoverBrush}" />
+        </Style>
+        <Style Selector="Views|FrameListTreeCard:selected Border#mark">
+            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=SelectionBorder}" />
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+        <Border x:Name="surface" CornerRadius="{DynamicResource CornerRadiusAll}" />
+        <Border
+            x:Name="mark"
+            Width="{DynamicResource ListTreeLeftBorderWidth}"
+            HorizontalAlignment="Left" />
+    </Panel>
+
+</UserControl>

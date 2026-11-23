@@ -13,6 +13,7 @@ namespace CMiX.Studio.Avalonia.Views
     {
         private readonly TreeViewLifetime lifetime = new();
         private readonly ListTreeFocus focus;
+        private readonly ListTreeRowClick rowClick;
         private readonly TreeViewHooks hooks;
 
         private ProjectTree? watched;
@@ -22,6 +23,7 @@ namespace CMiX.Studio.Avalonia.Views
             InitializeComponent();
 
             focus = new ListTreeFocus(this);
+            rowClick = new ListTreeRowClick(rows);
             hooks = BuildHooks();
         }
 
@@ -57,6 +59,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             watched.AttachView(hooks);
+            rowClick.Attach(watched);
         }
 
         private void Unwatch()
@@ -64,6 +67,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (watched == null)
                 return;
 
+            rowClick.Detach();
             watched.DetachView(hooks);
         }
 

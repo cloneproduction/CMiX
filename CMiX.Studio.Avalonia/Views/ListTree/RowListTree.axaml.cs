@@ -4,6 +4,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 
@@ -13,6 +14,8 @@ namespace CMiX.Studio.Avalonia.Views
     {
         public const string CardClass = ":card";
         public const string SelectedClass = ":selected";
+        public const string InSelectionClass = ":inselection";
+        public const string InHoveredCardClass = ":inhoveredcard";
 
         public static readonly StyledProperty<ListTreePlace?> PlaceProperty =
             AvaloniaProperty.Register<RowListTree, ListTreePlace?>(nameof(Place));
@@ -26,6 +29,9 @@ namespace CMiX.Studio.Avalonia.Views
 
         public static readonly StyledProperty<int> ItemCountProperty =
             AvaloniaProperty.Register<RowListTree, int>(nameof(ItemCount));
+
+        public static readonly StyledProperty<Thickness> IndentMarginProperty =
+            AvaloniaProperty.Register<RowListTree, Thickness>(nameof(IndentMargin));
 
         public RowListTree()
         {
@@ -56,6 +62,12 @@ namespace CMiX.Studio.Avalonia.Views
             set => SetValue(ItemCountProperty, value);
         }
 
+        public Thickness IndentMargin
+        {
+            get => GetValue(IndentMarginProperty);
+            private set => SetValue(IndentMarginProperty, value);
+        }
+
         internal Control IconHit => iconHit;
 
         internal TogglesRow Toggles => toggles;
@@ -72,9 +84,20 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void ShowPlace(ListTreePlace? place)
         {
-            Padding = new Thickness(place?.Indent ?? 0, 0, 0, 0);
+            IndentMargin = new Thickness(place?.Indent ?? 0, 0, 0, 0);
             PseudoClasses.Set(CardClass, place?.CanToggle == true);
         }
+
+        public void ShowMarks(ListTreeMarks marks)
+        {
+            var node = DataContext as TreeNode;
+            IsSelected = marks.IsSelected(node);
+            PseudoClasses.Set(InSelectionClass, marks.IsInSelection(node));
+            PseudoClasses.Set(InHoveredCardClass, marks.IsInHoveredCard(node));
+        }
+
+        internal bool IsCardIcon(object? source) =>
+            Place is { CanToggle: true } && source is Visual visual && (ReferenceEquals(visual, iconHit) || iconHit.IsVisualAncestorOf(visual));
 
         private void OnIconTapped(object? sender, TappedEventArgs e) => ToggleCard();
 
