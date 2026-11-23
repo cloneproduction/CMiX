@@ -18,6 +18,8 @@
         <tree:ListTreeDragRest />
         <tree:ListTreeDrop />
         <tree:ListTreeRowDrag />
+        <tree:ListTreeGrab />
+        <tree:ListTreeGrabInput />
         <tree:ListTreeAutoScroll />
         <tree:ListTreeKeyInput />
         <tree:ListTreeAddBeside />
@@ -30,6 +32,16 @@
         <tree:ListTreeEndRoom />
         <tree:ListTreeTooltips />
     </i:Interaction.Behaviors>
+
+    <UserControl.Styles>
+        <!-- The frame of a grab shows while the view has the class grabbing (ListTreeGrab). -->
+        <Style Selector="Border#grabFrame">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="Views|ListTreeProject.grabbing Border#grabFrame">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+    </UserControl.Styles>
 
     <!-- Tree.Open, as in the old tree. The keys of the selected row are in the main window.
          F2 is a fixed key: it renames in place in the new tree only. Tree.Rename keeps its own gesture in the main window. -->
@@ -62,6 +74,7 @@
             Padding="{DynamicResource ListTreeToolbarPadding}"
             TextTrimming="CharacterEllipsis" />
 
+        <Panel>
         <!-- The clicks, the keys and the menus of the rows. A press under the rows hits the scroller too. -->
         <ScrollViewer
             x:Name="scroller"
@@ -84,6 +97,14 @@
             <Border x:Name="endRoomSpace" Height="0" />
             </StackPanel>
         </ScrollViewer>
+
+        <!-- The accent frame around the rows during a grab. -->
+        <Border
+            x:Name="grabFrame"
+            BorderBrush="{DynamicResource AccentBrush}"
+            BorderThickness="{DynamicResource CursorFrameThickness}"
+            IsHitTestVisible="False" />
+        </Panel>
 
     </DockPanel>
 

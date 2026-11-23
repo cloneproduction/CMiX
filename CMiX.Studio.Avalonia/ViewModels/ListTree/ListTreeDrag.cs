@@ -57,6 +57,18 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return Look;
         }
 
+        // A key of the grab picks the candidate itself, with no pointer.
+        public ListTreeDragLook? PickCandidate(ListTreeCandidate candidate)
+        {
+            if (source == null || light == null)
+                return Look = null;
+
+            if (!ReferenceEquals(candidate, Look?.Candidate))
+                Look = ListTreeDragLook.Of(live, source, candidate, light);
+
+            return Look;
+        }
+
         // The slot of the row itself: a drop there moves nothing.
         public bool IsAtItsOwnPlace() => Look is { } look && ReferenceEquals(look.Candidate.Slot.Target, Node);
     }

@@ -11,7 +11,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The key hint strip under the rows of the new tree, with the modes of TreeHints. The grab mode comes with the drag.
+    // The key hint strip under the rows of the new tree, with the modes of TreeHints.
     internal sealed class ListTreeHints : ListTreeBehavior
     {
         private ProjectTree? tree;
@@ -22,6 +22,9 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         {
             get
             {
+                if (Part<ListTreeGrab>().IsGrabbing)
+                    return TreeHintMode.Grab;
+
                 if (Context.MenuOpen.IsMenuOpen())
                     return TreeHintMode.Menu;
 

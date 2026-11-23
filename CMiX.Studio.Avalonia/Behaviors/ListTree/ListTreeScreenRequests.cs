@@ -30,6 +30,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             watched.AddRequested += OnAddRequested;
             watched.MenuRequested += OnMenuRequested;
             watched.RevealRequested += OnRevealRequested;
+            watched.GrabRequested += OnGrabRequested;
         }
 
         protected override void OnUnwatch()
@@ -43,6 +44,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             tree.AddRequested -= OnAddRequested;
             tree.MenuRequested -= OnMenuRequested;
             tree.RevealRequested -= OnRevealRequested;
+            tree.GrabRequested -= OnGrabRequested;
             ScrollAnchor.EndHold();
             tree = null;
         }
@@ -58,6 +60,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void OnMenuRequested(object? sender, EventArgs e) => AnswerWhenActive(Part<ListTreeMenus>().OpenMenuAtTarget);
 
         private void OnRevealRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => Reveal.RevealRowToMiddle(node));
+
+        private void OnGrabRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => Part<ListTreeGrab>().Start(node));
 
         private void OnTreeFocusRequested(object? sender, EventArgs e) => AnswerWhenActive(FocusTree);
 

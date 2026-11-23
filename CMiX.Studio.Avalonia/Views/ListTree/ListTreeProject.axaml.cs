@@ -43,10 +43,16 @@ namespace CMiX.Studio.Avalonia.Views
                 IsTextBoxFocused = () => Context.State.IsTextBoxFocused,
                 IsFocusInOtherPanel = () => Context.State.IsFocusInOtherPanel,
                 IsPanelFocused = () => Context.State.IsPanelFocused,
-                ToggleDragRow = () => Context.Part<ListTreeRowDrag>().OpenNearCard(),
-                CancelDrag = () => Context.Part<ListTreeRowDrag>().Cancel(),
+                ToggleDragRow = () => Context.Part<ListTreeDragSession>().OpenNearCard(),
+                CancelDrag = CancelDrag,
                 CloseRowsInView = CloseRowsInView
             };
+
+        private void CancelDrag()
+        {
+            Context.Part<ListTreeRowDrag>().Cancel();
+            Context.Part<ListTreeGrab>().Cancel();
+        }
 
         private void CloseRowsInView(TreeNode? node, Func<IReadOnlyList<TreeNode>> close) =>
             Context.Part<ListTreeScreenRequests>().CloseRowsInView(node, close);
@@ -70,6 +76,8 @@ namespace CMiX.Studio.Avalonia.Views
         internal TextBlock DragNote => dragNote;
 
         internal ListTreeRowDrag RowDrag => Context.Part<ListTreeRowDrag>();
+
+        internal ListTreeGrab Grab => Context.Part<ListTreeGrab>();
 
         internal ListTreeAutoScroll AutoScroll => Context.Part<ListTreeAutoScroll>();
 

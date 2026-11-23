@@ -63,6 +63,12 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         // A menu set during the event does not open on that event, so it opens here.
         private void OnContextRequested(object? sender, ContextRequestedEventArgs e)
         {
+            if (Part<ListTreeGrab>().TakeMenuBlock())
+            {
+                e.Handled = true;
+                return;
+            }
+
             if (e.TryGetPosition(Host, out _))
             {
                 if (RowOf(e.Source)?.DataContext is TreeNode node && tree != null)

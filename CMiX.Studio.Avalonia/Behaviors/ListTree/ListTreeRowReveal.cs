@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Threading;
+using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 
@@ -43,6 +44,19 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             row.BringIntoView();
             rows.UpdateLayout();
             return row;
+        }
+
+        // During a drag the rows show a candidate, so the place comes from its layout and not from a row control.
+        public void RevealPlace(ListTreePlace place)
+        {
+            var scroller = Context.Scroller;
+            scroller.UpdateLayout();
+            var top = Context.Rows.Bounds.Y + place.Y;
+            var offset = scroller.Offset.Y;
+            var height = scroller.Viewport.Height;
+            var target = top < offset ? top : top + place.RowHeight > offset + height ? top + place.RowHeight - height : offset;
+            var maxOffset = Math.Max(0, scroller.Extent.Height - height);
+            scroller.Offset = scroller.Offset.WithY(Math.Clamp(target, 0, maxOffset));
         }
 
         // The parents open first, so the reveal runs after the rebuild.

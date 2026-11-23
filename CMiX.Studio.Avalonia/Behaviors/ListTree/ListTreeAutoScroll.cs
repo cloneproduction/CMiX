@@ -42,6 +42,15 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             pointerY = null;
         }
 
+        // Three rows for each step of the wheel, as DragAutoScroller.ScrollByWheel.
+        public void ScrollByWheel(int steps)
+        {
+            var rows = Context.Rows;
+            var maxOffset = Math.Max(0, Scroller.Extent.Height - Scroller.Viewport.Height);
+            var distance = steps * 3 * (rows.RowHeight + rows.RowGap);
+            Scroller.Offset = Scroller.Offset.WithY(Math.Clamp(Scroller.Offset.Y - distance, 0, maxOffset));
+        }
+
         private void OnTick(object? sender, EventArgs e) => ScrollStep();
 
         // The distance that the step scrolled.

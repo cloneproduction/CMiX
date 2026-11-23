@@ -74,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             pressed = null;
-            if (tree is not { } pressedTree || Session.IsRunning || !e.GetCurrentPoint(Rows).Properties.IsLeftButtonPressed || ListTreeRowClick.IsEditor(e.Source))
+            if (tree is not { } pressedTree || Session.IsRunning || Part<ListTreeGrab>().HoldsThePointer || !e.GetCurrentPoint(Rows).Properties.IsLeftButtonPressed || ListTreeRowClick.IsEditor(e.Source))
                 return;
 
             if (ListTreeRowClick.RowOf(e.Source) is { DataContext: TreeNode node, Place: { } place } && pressedTree.CanDrag(node))

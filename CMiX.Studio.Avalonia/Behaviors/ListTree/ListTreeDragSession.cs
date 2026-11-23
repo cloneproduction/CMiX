@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
@@ -21,6 +22,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private Cursor? cursorBefore;
         private ListTreePoint lastPoint = new(0, 0);
         private ListTreeOpenState? openBefore;
+        private ListTreeSlot? keyedSlot;
 
         public event EventHandler? Ended;
 
@@ -69,6 +71,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         public void Track(ListTreePoint point)
         {
             lastPoint = point;
+            keyedSlot = null;
             var shown = drag?.Look;
             if (drag is not { } dragging || dragging.PickAt(point) is not { } look)
             {
@@ -86,6 +89,27 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             ShowNote(NoteOf(look, near));
         }
 
+        // The near card of a key waits for the key Tree.Expand: a rest needs the pointer.
+        public void ShowCandidate(ListTreeCandidate candidate)
+        {
+            var shown = drag?.Look;
+            if (drag?.PickCandidate(candidate) is not { } look)
+                return;
+
+            keyedSlot = candidate.Slot;
+            Rest.Rest(null);
+            if (!ReferenceEquals(look, shown))
+                Rows.ShowDrag(look);
+
+            ShowNote(NoteOf(look, KeyNearCard()));
+        }
+
+        private TreeNode? KeyNearCard() =>
+            keyedSlot != null && drag is { Look: { } look } keyed ? ListTreeNearCard.Of(look, keyed.Press, AtPlaceOf(keyed.Press, look.Candidate)) : null;
+
+        private static ListTreePoint AtPlaceOf(ListTreePress press, ListTreeCandidate candidate) =>
+            new(press.Pointer.X, candidate.Place.Y + press.GrabOffsetY);
+
         private string NoteOf(ListTreeDragLook look, TreeNode? near) =>
             near != null && tree?.Shortcuts["Tree.Expand"] is { } key ? ListTreeDragNote.OfNearCard(look, near, key.ToString()) : ListTreeDragNote.Of(look);
 
@@ -94,14 +118,22 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         // The timer and the key Tree.Expand open the card. It stays open after the drop and after a cancel.
         public void OpenNearCard()
         {
-            var card = Rest.TakeResting();
+            var card = Rest.TakeResting() ?? KeyNearCard();
             if (drag == null || tree is not { } opened || card == null)
                 return;
 
             card.IsExpanded = true;
             Rows.ApplyTreeChanges();
             drag.MakeCandidates(ListTreeSnapshot.Of(opened.Roots));
-            Track(lastPoint);
+            ShowAgain(drag);
+        }
+
+        private void ShowAgain(ListTreeDrag made)
+        {
+            if (keyedSlot is { } slot && made.Candidates.FirstOrDefault(candidate => candidate.Slot == slot) is { } keyed)
+                ShowCandidate(keyed);
+            else
+                Track(lastPoint);
         }
 
         public void Drop()
@@ -125,6 +157,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         {
             drag = null;
             openBefore = null;
+            keyedSlot = null;
             Rest.Rest(null);
             Part<ListTreeAutoScroll>().Stop();
             Rows.ShowLiveTree();
