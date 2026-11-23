@@ -24,20 +24,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             ShowSelectedNodes(kept.Append(node).ToArray());
         }
 
-        // A Ctrl click on a selected row. The last row that joined before it becomes the selected node.
+        // A Ctrl click on a selected row. The last row that joined before it becomes the selected node. The only selected row stays.
         public void RemoveFromSelection(TreeNode node)
         {
-            if (!selectedNodes.Contains(node))
-                return;
-
             var kept = selectedNodes.Where(other => !ReferenceEquals(other, node)).ToArray();
-            if (kept.Length == 0)
-            {
-                Select(null, SelectionOrigin.Pointer);
-                CursorNode = node;
-                selectionAnchor = node;
+            if (!selectedNodes.Contains(node) || kept.Length == 0)
                 return;
-            }
 
             SelectByClick(ReferenceEquals(node, selectedNode) ? kept[^1] : selectedNode!);
             ShowSelectedNodes(kept);

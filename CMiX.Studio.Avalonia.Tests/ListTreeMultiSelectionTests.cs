@@ -113,6 +113,18 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void Click_CtrlOnTheOnlySelectedRow_KeepsTheRowSelected()
+        {
+            Click(EntityAt(1));
+
+            Click(EntityAt(1), RawInputModifiers.Control);
+
+            Assert.Equal(new[] { EntityAt(1) }, Tree.SelectedNodes);
+            Assert.Same(EntityAt(1), Tree.SelectedNode);
+            Assert.Same(EntityAt(1), Tree.CursorNode);
+        }
+
+        [AvaloniaFact]
         public void Click_ShiftAfterAPlainClick_SelectsTheShownRowsFromTheAnchor()
         {
             Click(EntityAt(3));
