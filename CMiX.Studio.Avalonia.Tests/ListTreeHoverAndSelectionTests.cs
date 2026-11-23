@@ -10,14 +10,13 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Tests.Support;
-using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls;
-using CMiX.UI.Controls.String;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -49,18 +48,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
 
         private FrameListTreeCard AreaOf(TreeNode node) => Assert.IsType<FrameListTreeCard>(view.Rows.Surfaces.CardAreaOf(ListTreeKeys.Of(node)));
-
-        private static Border Named(Control root, string name) => root.GetVisualDescendants().OfType<Border>().First(border => border.Name == name);
-
-        private static Color FillOf(IBrush? brush) => brush is ISolidColorBrush solid ? solid.Color : Colors.Transparent;
-
-        private static Color Token(string key) => FillOf((IBrush)Application.Current!.FindResource(key)!);
-
-        private static Color TextOf(RowListTree row) =>
-            FillOf(row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault(box => box.IsVisible)?.Foreground
-                ?? row.GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "groupName").Foreground);
-
-        private static ListTreeKindColors KindOf(TreeNode node) => CategoryPalette.FromApplication().ForListTree(node.Category!.Value, node.ComposableDepth);
 
         private static double LeftIn(Visual part, Visual root) => part.TranslatePoint(new Point(0, 0), root)!.Value.X;
 

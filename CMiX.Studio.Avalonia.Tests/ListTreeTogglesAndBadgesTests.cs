@@ -15,6 +15,7 @@ using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -69,10 +70,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private BadgesKindCount NewBadgesOf(TreeNode node) =>
             NewRowOf(node).GetVisualDescendants().OfType<BadgesKindCount>().First(badges => badges.IsVisible);
 
-        private static Color ColorOf(IBrush? brush) => Assert.IsAssignableFrom<ISolidColorBrush>(brush).Color;
-
-        private static Color Token(string key) => ColorOf((IBrush)Application.Current!.FindResource(key)!);
-
         private static IReadOnlyList<ToggleLook> LookOf(TogglesRow toggles) =>
             toggles.GetVisualDescendants().OfType<ToggleButton>().Where(toggle => toggle.IsEffectivelyVisible)
                 .OrderBy(toggle => toggle.Name).Select(toggle => LookOf(toggle, toggles)).ToList();
@@ -100,8 +97,6 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         private static TextBlock CountOf(Border square) => square.GetVisualDescendants().OfType<TextBlock>().Single();
-
-        private static Border Named(Control root, string name) => root.GetVisualDescendants().OfType<Border>().First(border => border.Name == name);
 
         private static ToggleButton ToggleNamed(TogglesRow toggles, string name) =>
             toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.Name == name && toggle.IsEffectivelyVisible);

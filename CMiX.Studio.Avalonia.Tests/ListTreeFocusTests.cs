@@ -15,6 +15,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -55,10 +56,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(node));
 
         private IInputElement? Focused() => window.FocusManager!.GetFocusedElement();
-
-        private static Border Named(Control root, string name) => root.GetVisualDescendants().OfType<Border>().First(border => border.Name == name);
-
-        private static Color ColorOf(IBrush? brush) => Assert.IsAssignableFrom<ISolidColorBrush>(brush).Color;
 
         private static ToggleButton VisibilityToggleOf(RowListTree row) =>
             row.Toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.Name == "visibilityToggle" && toggle.IsEffectivelyVisible);

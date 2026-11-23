@@ -11,9 +11,9 @@ using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls;
-using CMiX.UI.Controls.String;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -50,17 +50,6 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(node));
-
-        private static Color ColorOf(IBrush? brush) => Assert.IsAssignableFrom<ISolidColorBrush>(brush).Color;
-
-        private static Color Token(string key) => ColorOf((IBrush)Application.Current!.FindResource(key)!);
-
-        private static Control NameOf(RowListTree row) =>
-            (Control?)row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault(box => box.IsVisible)
-            ?? row.GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "groupName");
-
-        private static Color TextOf(RowListTree row) =>
-            NameOf(row) is TextBoxEditable box ? ColorOf(box.Foreground) : ColorOf(((TextBlock)NameOf(row)).Foreground);
 
         private static AppIcon IconOf(RowListTree row) => row.GetVisualDescendants().OfType<AppIcon>().First(icon => icon.Name == "kindIcon");
 
