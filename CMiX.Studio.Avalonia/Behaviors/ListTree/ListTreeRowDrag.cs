@@ -65,7 +65,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         public void OpenNearCard() => Session.OpenNearCard();
 
-        // Every row goes back to its place, and nothing moves.
         public void Cancel()
         {
             pressed = null;

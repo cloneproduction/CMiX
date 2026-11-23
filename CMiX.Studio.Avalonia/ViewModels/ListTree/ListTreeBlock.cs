@@ -5,8 +5,7 @@ using System.Collections.Generic;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The rows that one move takes, in tree order. They land next to each other. The pressed row is one of them.
-    // ListTreeDragNodes holds the nodes of these rows.
+    // The rows that one move takes, in tree order, with the pressed row among them.
     public sealed record ListTreeBlock(IReadOnlyList<ListTreeRow> Rows, ListTreeRow Pressed)
     {
         public static ListTreeBlock Of(ListTreeRow row) => new(new[] { row }, row);

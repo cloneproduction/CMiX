@@ -8,8 +8,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The snapshot as if the source, or the block, were dropped on the slot. The live tree does not change.
-    // A row that the move does not change is the same object as in the live snapshot.
+    // The snapshot as if the source or block were dropped on the slot. The live tree does not change.
     public static class ListTreeMove
     {
         public static ListTreeSnapshot Of(ListTreeSnapshot snapshot, ListTreeRow source, ListTreeSlot slot) => Of(snapshot, ListTreeBlock.Of(source), slot);

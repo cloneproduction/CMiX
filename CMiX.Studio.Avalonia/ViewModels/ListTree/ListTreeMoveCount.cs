@@ -8,8 +8,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The rows of one move, counted on the live rows as ListTreeMove and ListTreeLayout give them. Only the rows that the move changes are counted again.
-    // The place is the place of the pressed row of the block.
+    // The rows of one move, counted on the live rows. Only the rows that the move changes are counted again.
     internal sealed class ListTreeMoveCount
     {
         private readonly ListTreeCountedTree tree;

@@ -7,16 +7,14 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The nodes that one drag moves, in tree order, and the pressed node among them.
-    // ListTreeBlock holds the rows of these nodes in one snapshot.
+    // The nodes that one drag moves, in tree order, with the pressed node among them.
     public sealed record ListTreeDragNodes(IReadOnlyList<TreeNode> Nodes, TreeNode Pressed)
     {
         public bool IsBlock => Nodes.Count > 1;
 
         public static ListTreeDragNodes Of(TreeNode pressed) => new(new[] { pressed }, pressed);
 
-        // A press on a row of a selection of several rows takes the selected rows that no other selected row holds.
-        // When they are not all items of one kind of list, or one item shows twice, the drag takes only the pressed row.
+        // A press in a selection takes the top selected rows, or only the pressed row when they are not one kind of item.
         public static ListTreeDragNodes Of(ListTreeSnapshot snapshot, TreeNode pressed, IReadOnlyCollection<TreeNode> selected)
         {
             if (selected.Count < 2 || !selected.Contains(pressed))

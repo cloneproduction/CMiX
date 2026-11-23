@@ -11,8 +11,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // Keeps one row of the new tree still on the screen while cards close above it, as TreeScrollAnchor does in the old tree.
-    // The rows slide to their new places, so the anchor is put back in each frame of the slide.
+    // Keeps one row still on the screen while cards close above it, and puts the anchor back in each frame of the slide.
     internal sealed class ListTreeScrollAnchor : ListTreeBehavior
     {
         // At a scale of 125% or 150% the scroll rounds to pixels, so a smaller change would scroll again at each frame.

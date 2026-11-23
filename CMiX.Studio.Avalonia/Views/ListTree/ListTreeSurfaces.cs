@@ -12,8 +12,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The card areas of the new tree and the marks on its rows and areas: the selection, the hover and the drop target.
-    // The areas in the row window are kept in tree order, so an inner area draws over its outer area.
+    // The card areas and the marks on rows and areas (selection, hover, drop target), kept in tree order so an inner area draws over its outer area.
     internal sealed class ListTreeSurfaces
     {
         private readonly PanelListTreeRows panel;

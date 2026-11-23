@@ -11,8 +11,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The grab of a row of the new tree (Tree.Grab), with the keys and the rules of TreeGrab: the drag starts with no pressed button.
-    // The keys step through the candidates of the drag. A pointer move past TreeGrab.MouseTakeOver gives the mark to the pointer.
+    // The grab of a row (Tree.Grab), with the keys and rules of TreeGrab: the keys step through the candidates, a pointer move past TreeGrab.MouseTakeOver takes the mark.
     internal sealed class ListTreeGrab : ListTreeBehavior
     {
         // While a grab runs, the view shows the accent frame (grabFrame).
@@ -79,7 +78,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             ShowGrabbing();
         }
 
-        // Every row goes back to its place, and nothing moves.
         public void Cancel()
         {
             if (HoldsTheInput)

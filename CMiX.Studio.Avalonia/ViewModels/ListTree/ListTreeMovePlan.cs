@@ -9,8 +9,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The move of a block to a slot. The holder is the key of the row that shows the list of the slot.
-    // The index is the place of the first row of the block in the list after every row of the block leaves it.
+    // The move of a block to a slot. The holder is the row that shows the list of the slot. The index is in the list after the block leaves it.
     public sealed record ListTreeMovePlan(IReadOnlyList<ListTreeMoveMember> Members, int PressedIndex, PrefabManager To, int Index, ListTreeRowKey Holder)
     {
         public bool IsInItsOwnList => Members.All(member => ReferenceEquals(member.From, To));
