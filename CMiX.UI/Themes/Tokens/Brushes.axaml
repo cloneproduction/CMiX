@@ -47,6 +47,29 @@
     <SolidColorBrush x:Key="Grey900Brush" Color="{DynamicResource Grey900}" />
     <SolidColorBrush x:Key="TreeTextRestBrush" Color="{DynamicResource TreeTextRest}" />
 
+    <!-- The new list tree. The active text is TreeTextRest, the selected text is ActiveText, the dimmed icon is Grey800. -->
+    <SolidColorBrush x:Key="ListTreeRowRestBandBrush" Color="{DynamicResource ListTreeRowRestBand}" />
+    <SolidColorBrush x:Key="ListTreeRowHoverBrush" Color="{DynamicResource ListTreeRowHover}" />
+    <SolidColorBrush x:Key="ListTreeCardHoverBrush" Color="{DynamicResource ListTreeCardHover}" />
+    <SolidColorBrush x:Key="ListTreeRowSelectedBrush" Color="{DynamicResource ListTreeRowSelected}" />
+    <SolidColorBrush x:Key="ListTreeRowSelectedHoverBrush" Color="{DynamicResource ListTreeRowSelectedHover}" />
+    <SolidColorBrush x:Key="ListTreeRowDraggedBrush" Color="{DynamicResource ListTreeRowDragged}" />
+    <SolidColorBrush x:Key="ListTreeRowDimmedBandBrush" Color="{DynamicResource ListTreeRowDimmedBand}" />
+    <SolidColorBrush x:Key="ListTreeCardDropTargetBrush" Color="{DynamicResource ListTreeCardDropTarget}" />
+    <SolidColorBrush x:Key="ListTreeRowHoverInSelectionBandBrush" Color="{DynamicResource ListTreeRowHoverInSelectionBand}" />
+    <SolidColorBrush x:Key="ListTreeCardHoverInSelectionBandBrush" Color="{DynamicResource ListTreeCardHoverInSelectionBand}" />
+    <SolidColorBrush x:Key="ListTreeCountSquareBrush" Color="{DynamicResource ListTreeCountSquare}" />
+    <SolidColorBrush x:Key="ListTreeNoticeBrush" Color="{DynamicResource ListTreeNotice}" />
+    <SolidColorBrush x:Key="ListTreeNoticeButtonBrush" Color="{DynamicResource ListTreeNoticeButton}" />
+    <SolidColorBrush x:Key="ListTreeNoticeButtonHoverBrush" Color="{DynamicResource ListTreeNoticeButtonHover}" />
+    <SolidColorBrush x:Key="ListTreeTextRestBrush" Color="{DynamicResource ListTreeTextRest}" />
+    <SolidColorBrush x:Key="ListTreeTextActiveBrush" Color="{DynamicResource TreeTextRest}" />
+    <SolidColorBrush x:Key="ListTreeTextSelectedBrush" Color="{DynamicResource ActiveText}" />
+    <SolidColorBrush x:Key="ListTreeTextDimmedBrush" Color="{DynamicResource ListTreeTextDimmed}" />
+    <SolidColorBrush x:Key="ListTreeTextHiddenBrush" Color="{DynamicResource ListTreeTextHidden}" />
+    <SolidColorBrush x:Key="ListTreeIconHiddenBrush" Color="{DynamicResource ListTreeIconHidden}" />
+    <SolidColorBrush x:Key="ListTreeIconDimmedBrush" Color="{DynamicResource Grey800}" />
+
     <!-- The states of the controls. Every theme reads these brushes, so a grey changes in one place.
          Surface controls (buttons, toggles, combo boxes, values, sliders): idle, then one step up under the pointer,
          then one step under idle while pressed (a press makes the control darker). The pressed grey is not the grey of a
