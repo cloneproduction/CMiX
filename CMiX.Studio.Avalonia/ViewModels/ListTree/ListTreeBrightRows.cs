@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
@@ -44,17 +43,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> rows, IReadOnlySet<ListTreeRowKey> targets, ListTreeRow source)
         {
             var bright = new HashSet<ListTreeRowKey>(targets) { source.Key };
-            bright.UnionWith(CardsOfLists(targets));
+            bright.UnionWith(CardsOfLists(rows, targets));
             foreach (var target in targets)
                 if (rows.TryGetValue(target, out var row))
-                    bright.UnionWith(row.Children.Select(child => child.Key).Where(child => child.Model is not PrefabManager));
+                    bright.UnionWith(row.Children.Where(child => !child.IsGroup).Select(child => child.Key));
 
             return bright;
         }
 
         // The card that owns a target list stays bright, but its other lists do not.
-        private static IEnumerable<ListTreeRowKey> CardsOfLists(IEnumerable<ListTreeRowKey> targets) =>
-            targets.Where(target => target.Model is PrefabManager).Select(target => target.Parent).OfType<ListTreeRowKey>();
+        private static IEnumerable<ListTreeRowKey> CardsOfLists(IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> rows, IEnumerable<ListTreeRowKey> targets) =>
+            targets.Where(target => rows.TryGetValue(target, out var row) && row.IsGroup).Select(target => target.Parent).OfType<ListTreeRowKey>();
 
         private static IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> RowsByKey(ListTreeSnapshot snapshot) =>
             AllRows(snapshot.Roots).ToDictionary(row => row.Key);

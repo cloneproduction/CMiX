@@ -91,7 +91,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             var key = new ListTreeRowKey(plan.To, parent.Key);
             holders.Add(key);
             var group = GroupNodeOf(parent, plan);
-            var groupRow = new ListTreeRow(key, group, parent.Depth + 1, true, group?.IsExpanded ?? false, new[] { NewRowUnder(key, parent.Depth + 2, plan) });
+            var groupRow = new ListTreeRow(key, group, parent.Depth + 1, true, true, group?.IsExpanded ?? false, new[] { NewRowUnder(key, parent.Depth + 2, plan) });
             var lists = ListsOf(parent);
             var groupIndex = ListIndexOf(lists, plan.To);
             var rows = children.ToList();
@@ -140,7 +140,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         // A group row shows a list, and option E leaves out a list with no row.
-        private static bool IsShown(ListTreeRow row) => row.Key.Model is not PrefabManager || row.Children.Count > 0;
+        private static bool IsShown(ListTreeRow row) => !row.IsGroup || row.Children.Count > 0;
 
         // A drop opens every row on the path to a list that gets the row.
         private static IReadOnlySet<ListTreeRowKey> OpenedBy(IEnumerable<ListTreeRowKey> holders)

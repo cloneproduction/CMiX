@@ -94,6 +94,18 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void Of_AGroupRowAndAnItemRow_MarksOnlyTheGroupRowAsAGroup()
+        {
+            var scene = CreateOpenScene();
+
+            var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+
+            Assert.True(RowOf(snapshot, Scene.LayersOf(scene.NodeA)).IsGroup);
+            Assert.False(RowOf(snapshot, scene.NodeA).IsGroup);
+            Assert.False(RowOf(snapshot, scene.LayerNodeOfA(0)).IsGroup);
+        }
+
+        [Fact]
         public void Of_OneEntityUnderTwoLayers_GivesTwoRows()
         {
             var scene = CreateOpenScene();

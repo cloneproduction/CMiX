@@ -75,7 +75,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var children = row.Children.Select(child => WithACopyRowIn(child, list)).ToList();
             if (row.Key.Equals(list))
-                children.Add(new ListTreeRow(new ListTreeRowKey(new object(), row.Key), null, row.Depth + 1, false, false, []));
+                children.Add(new ListTreeRow(new ListTreeRowKey(new object(), row.Key), null, row.Depth + 1, false, false, false, []));
 
             return row with { Children = children };
         }

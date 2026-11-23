@@ -14,11 +14,11 @@ namespace CMiX.Studio.Avalonia.Tests
         // The nodes only give the identity of the rows. The tests build the rows by hand.
         private readonly TreeNode[] nodes = CreateScene([8]).All().ToArray();
 
-        private ListTreeRow Item(int node, int depth) => new(KeyOf(node), nodes[node], depth, false, false, []);
+        private ListTreeRow Item(int node, int depth) => new(KeyOf(node), nodes[node], depth, false, false, false, []);
 
-        private ListTreeRow OpenCard(int node, int depth, params ListTreeRow[] children) => new(KeyOf(node), nodes[node], depth, true, true, children);
+        private ListTreeRow OpenCard(int node, int depth, params ListTreeRow[] children) => new(KeyOf(node), nodes[node], depth, true, false, true, children);
 
-        private ListTreeRow ClosedCard(int node, int depth, params ListTreeRow[] children) => new(KeyOf(node), nodes[node], depth, true, false, children);
+        private ListTreeRow ClosedCard(int node, int depth, params ListTreeRow[] children) => new(KeyOf(node), nodes[node], depth, true, false, false, children);
 
         private static ListTreeLayout LayoutOf(params ListTreeRow[] roots) => ListTreeLayout.Of(new ListTreeSnapshot(roots), ListTreeSizes.Default);
 
