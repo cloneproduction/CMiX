@@ -365,6 +365,19 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void Of_AMoveInsideOneComposition_KeepsTheRowsOfTheOtherCompositionAsTheSameObjects()
+        {
+            var scene = CreateScene();
+            var source = Entity(scene, 0);
+            var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+
+            var moved = ListTreeMove.Of(snapshot, RowOf(snapshot, source), InsideSlot(source, scene.LayerNodeOfA(1)));
+
+            Assert.Same(RowOf(snapshot, scene.NodeB), RowOf(moved, ListTreeKeys.Of(scene.NodeB)));
+            Assert.NotSame(RowOf(snapshot, scene.NodeA), RowOf(moved, ListTreeKeys.Of(scene.NodeA)));
+        }
+
+        [Fact]
         public void SlotsOf_ABlockWithASharedEntity_OffersNoSlotInTheOtherComposition()
         {
             var scene = CreateSharedScene();

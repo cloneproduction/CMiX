@@ -9,6 +9,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
     // The snapshot as if the source, or the block, were dropped on the slot. The live tree does not change.
+    // A row that the move does not change is the same object as in the live snapshot.
     public static class ListTreeMove
     {
         public static ListTreeSnapshot Of(ListTreeSnapshot snapshot, ListTreeRow source, ListTreeSlot slot) => Of(snapshot, ListTreeBlock.Of(source), slot);
@@ -25,22 +26,29 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         private static IReadOnlyList<ListTreeRowKey> HoldersToOpen(ListTreeMovePlan plan, IReadOnlyList<ListTreeRowKey> holders) =>
             plan.IsInItsOwnList ? new[] { plan.Holder } : holders;
 
-        private static IReadOnlyList<ListTreeRow> RowsOf(IEnumerable<ListTreeRow> rows, ListTreeMovePlan plan, List<ListTreeRowKey> holders) =>
-            rows.Select(row => RowOf(row, plan, holders)).Where(IsShown).ToArray();
+        private static IReadOnlyList<ListTreeRow> RowsOf(IReadOnlyList<ListTreeRow> rows, ListTreeMovePlan plan, List<ListTreeRowKey> holders) =>
+            SameOr(rows, rows.Select(row => RowOf(row, plan, holders)).Where(IsShown).ToArray());
 
         private static ListTreeRow RowOf(ListTreeRow row, ListTreeMovePlan plan, List<ListTreeRowKey> holders)
         {
-            var children = RowsOf(row.Children.Where(child => !IsSourceIn(row, child, plan)), plan, holders);
+            var children = RowsOf(ChildrenWithoutSource(row, plan), plan, holders);
             if (ReferenceEquals(row.Key.Model, plan.To))
                 return row with { Children = WithMovedRow(row, children, plan, holders) };
 
             if (HasHiddenList(row, children, plan))
                 return row with { Children = WithGroupRow(row, children, plan, holders) };
 
-            return row with { Children = children };
+            return ReferenceEquals(children, row.Children) ? row : row with { Children = children };
         }
 
+        private static IReadOnlyList<ListTreeRow> ChildrenWithoutSource(ListTreeRow row, ListTreeMovePlan plan) =>
+            row.Children.Any(child => IsSourceIn(row, child, plan)) ? row.Children.Where(child => !IsSourceIn(row, child, plan)).ToArray() : row.Children;
+
         private static bool IsSourceIn(ListTreeRow row, ListTreeRow child, ListTreeMovePlan plan) => plan.IsLeaving(row.Key.Model, child.Key.Model);
+
+        // The rows before the move when every row is the same object.
+        private static IReadOnlyList<ListTreeRow> SameOr(IReadOnlyList<ListTreeRow> before, IReadOnlyList<ListTreeRow> after) =>
+            after.SequenceEqual(before, ReferenceEqualityComparer.Instance) ? before : after;
 
         private static IReadOnlyList<ListTreeRow> WithMovedRow(ListTreeRow holder, IReadOnlyList<ListTreeRow> children, ListTreeMovePlan plan, List<ListTreeRowKey> holders)
         {
@@ -110,7 +118,14 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return opened;
         }
 
-        private static IReadOnlyList<ListTreeRow> Opened(IEnumerable<ListTreeRow> rows, IReadOnlySet<ListTreeRowKey> opened) =>
-            rows.Select(row => row with { IsExpanded = row.IsExpanded || opened.Contains(row.Key), Children = Opened(row.Children, opened) }).ToArray();
+        private static IReadOnlyList<ListTreeRow> Opened(IReadOnlyList<ListTreeRow> rows, IReadOnlySet<ListTreeRowKey> opened) =>
+            SameOr(rows, rows.Select(row => Opened(row, opened)).ToArray());
+
+        private static ListTreeRow Opened(ListTreeRow row, IReadOnlySet<ListTreeRowKey> opened)
+        {
+            var children = Opened(row.Children, opened);
+            var isExpanded = row.IsExpanded || opened.Contains(row.Key);
+            return isExpanded == row.IsExpanded && ReferenceEquals(children, row.Children) ? row : row with { IsExpanded = isExpanded, Children = children };
+        }
     }
 }
