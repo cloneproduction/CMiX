@@ -152,6 +152,11 @@ come from the value editors of vvvv:
 - A class with no user is removed. A state property with no reader is not registered.
 - `OutsideClick` is the one static class with state, because an Avalonia class handler is static.
 
+The new project tree, `ListTreeProject`, is made of behaviors in `CMiX.Studio.Avalonia/Behaviors/ListTree`. The view declares them in
+`Interaction.Behaviors`, in the order that they watch the tree, and builds one `ListTreeContext`: its named controls, its lifetime, its
+state and its Add panel. Each behavior derives from `ListTreeBehavior`. It watches the `ProjectTree` of the DataContext while the view is
+in the visual tree (`OnWatch`, `OnUnwatch`), and finds a peer with `Part<T>()` when an event comes. The old tree keeps its parts.
+
 ### Heights of lists and drop downs
 
 A list or a drop down shows a whole number of rows, so no row is cut at the bottom, and the wheel moves it

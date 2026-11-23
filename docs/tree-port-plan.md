@@ -241,6 +241,8 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 - Two hubs: `ProjectTree` (the model hub, the one object that XAML binds) and the screen hub of the view. The screen hub only builds and
   connects its parts. Each part has one job and its own state.
 - The model never touches the screen. It raises a request event, and the screen part `TreeScreenRequests` answers it in the active view.
+- The parts of the new view are behaviors (owner decision): `ListTreeProject` declares them in `Interaction.Behaviors` and builds one
+  `ListTreeContext`, and each behavior finds its peers with `Part<T>()` (DEVELOPMENT.md). The old tree keeps its parts.
 - The screen tells the model facts through the hooks of `TreeViewSet`. Two views can show one tree. The new view is a second view of the
   same `ProjectTree` and does not get its own model.
 - Every key command goes through the one gate `CanRunTreeKey`. The `Tree.*` shortcut ids and the command names stay.
@@ -254,7 +256,8 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 - The code behind of a view holds no logic. Pointer and drag math go into a part, not into the `UserControl`.
 
 **The classes (README rules and the refactorer tripwires).**
-- A part gets what it needs in its constructor. The constructor only assigns fields. Dependencies are required and injected.
+- A part gets what it needs in its constructor. The constructor only assigns fields. Dependencies are required and injected. A behavior of
+  the new view has no constructor parameter: it reads `ListTreeContext`.
 - No boolean flag parameter. No tuple across a method boundary: a small named record.
 - Commands are `[RelayCommand]` with `CanExecute = nameof(...)`. Properties are `[ObservableProperty]`.
 - Tripwires, not targets: a class over about 200 lines or with more than 5 constructor parameters, a method over about 30 lines or with
