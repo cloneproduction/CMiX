@@ -61,6 +61,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             selectionAnchor = anchor;
         }
 
+        // After the drop of a block, the moved rows stay selected.
+        private void SelectBlock(TreeNode primary, IReadOnlyList<TreeNode> nodes)
+        {
+            Select(primary, SelectionOrigin.Program);
+            ShowSelectedNodes(nodes);
+        }
+
         // The selected node becomes the only selected row, and the anchor of the next Shift click.
         private void ResetSelectedNodes()
         {

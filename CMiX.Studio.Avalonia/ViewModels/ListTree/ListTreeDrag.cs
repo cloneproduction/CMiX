@@ -7,26 +7,30 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // One drag of a row of the new tree: the candidates of the live tree and the one that the pointer picks.
+    // One drag of a row or of a block of the new tree: the candidates of the live tree and the one that the pointer picks.
     public sealed class ListTreeDrag
     {
         private readonly ListTreeCandidates candidates;
         private readonly ListTreePick pick;
 
         private ListTreeSnapshot live = new(Array.Empty<ListTreeRow>());
+        private ListTreeBlock? block;
         private ListTreeRow? source;
         private IReadOnlyList<ListTreeCandidate> made = Array.Empty<ListTreeCandidate>();
         private ListTreeLight? light;
 
-        public ListTreeDrag(ListTreeCandidates candidates, ListTreePick pick, TreeNode node, ListTreePress press)
+        public ListTreeDrag(ListTreeCandidates candidates, ListTreePick pick, ListTreeDragNodes nodes, ListTreePress press)
         {
             this.candidates = candidates;
             this.pick = pick;
-            Node = node;
+            Nodes = nodes;
             Press = press;
         }
 
-        public TreeNode Node { get; }
+        public ListTreeDragNodes Nodes { get; }
+
+        // The pressed row.
+        public TreeNode Node => Nodes.Pressed;
 
         public ListTreePress Press { get; }
 
@@ -39,20 +43,21 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         public void MakeCandidates(ListTreeSnapshot snapshot)
         {
             live = snapshot;
-            source = snapshot.RowOf(Node);
-            made = source != null ? candidates.Of(snapshot, source) : Array.Empty<ListTreeCandidate>();
+            block = Nodes.BlockIn(snapshot);
+            source = block?.Pressed;
+            made = block != null ? candidates.Of(snapshot, block) : Array.Empty<ListTreeCandidate>();
             light = source != null ? ListTreeBrightRows.Of(snapshot, source, made) : null;
         }
 
         // The look stays the same object while the pick does not change.
         public ListTreeDragLook? PickAt(ListTreePoint pointer)
         {
-            if (source == null || light == null || made.Count == 0)
+            if (block == null || light == null || made.Count == 0)
                 return Look = null;
 
             var picked = Look is { } shown ? pick.NearestOrCurrent(made, shown.Candidate, Press, pointer) : pick.Nearest(made, Press, pointer);
             if (!ReferenceEquals(picked, Look?.Candidate))
-                Look = ListTreeDragLook.Of(live, source, picked, light);
+                Look = ListTreeDragLook.Of(live, block, picked, light);
 
             return Look;
         }
@@ -60,11 +65,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // A key of the grab picks the candidate itself, with no pointer.
         public ListTreeDragLook? PickCandidate(ListTreeCandidate candidate)
         {
-            if (source == null || light == null)
+            if (block == null || light == null)
                 return Look = null;
 
             if (!ReferenceEquals(candidate, Look?.Candidate))
-                Look = ListTreeDragLook.Of(live, source, candidate, light);
+                Look = ListTreeDragLook.Of(live, block, candidate, light);
 
             return Look;
         }

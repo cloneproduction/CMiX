@@ -2,36 +2,46 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The drop of a drag of the new tree: one undo step that selects the moved item, the open states of before the drag, and a flash.
+    // The drop of a drag of the new tree: one undo step that selects the moved items, the open states of before the drag, and a flash on each row.
     internal sealed class ListTreeDrop : ListTreeBehavior
     {
-        public Dropping Start(ProjectTree project, TreeNode source, ListTreeSlot slot, ListTreeOpenState? openBefore)
+        public Dropping Start(ProjectTree project, ListTreeDragNodes nodes, ListTreeSlot slot, IReadOnlyList<ListTreeOpenState> openBefore)
         {
-            var drop = project.DropAsync(source, slot.Target, slot.Position);
-            var dropped = DroppedNodeOf(project, source);
-            if (dropped != null)
-                openBefore?.RestoreOn(dropped);
+            var items = nodes.Nodes.Select(node => node.Item).ToArray();
+            var drop = nodes.IsBlock
+                ? project.DropBlockAsync(nodes.Nodes, nodes.Pressed, slot.Target, slot.Position)
+                : project.DropAsync(nodes.Pressed, slot.Target, slot.Position);
+            var dropped = DroppedNodesOf(project, items);
+            foreach (var node in dropped)
+                OpenStateOf(openBefore, node)?.RestoreOn(node);
             return new Dropping(drop, dropped);
         }
 
         // The session ends between the start and the show, so the flash shows on the rows of the live tree.
         public void Show(Dropping dropping)
         {
-            if (dropping.Dropped is { } dropped && Part<ListTreeRowReveal>().ShownRowOf(dropped) is { } row)
-                row.Flash();
+            foreach (var dropped in dropping.Dropped)
+                Part<ListTreeRowReveal>().ShownRowOf(dropped)?.Flash();
             _ = ObserveAsync(dropping.Drop);
         }
 
-        // The drop selects the moved item. A blocked drop leaves the source selected.
-        private static TreeNode? DroppedNodeOf(ProjectTree project, TreeNode source) =>
-            project.SelectedNode is { } selected && ReferenceEquals(selected.Item, source.Item) ? selected : null;
+        // The drop selects the moved items. A blocked drop leaves the sources selected.
+        private static IReadOnlyList<TreeNode> DroppedNodesOf(ProjectTree project, IReadOnlyList<object?> items) =>
+            project.SelectedNode is { } selected && items.Contains(selected.Item, ReferenceEqualityComparer.Instance)
+                ? project.SelectedNodes.Where(node => items.Contains(node.Item, ReferenceEqualityComparer.Instance)).ToArray()
+                : Array.Empty<TreeNode>();
+
+        private static ListTreeOpenState? OpenStateOf(IReadOnlyList<ListTreeOpenState> states, TreeNode node) =>
+            states.FirstOrDefault(state => ReferenceEquals(state.Model, ListTreeRowKey.ModelOf(node)));
 
         private static async Task ObserveAsync(Task drop)
         {
@@ -45,6 +55,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             }
         }
 
-        public sealed record Dropping(Task Drop, TreeNode? Dropped);
+        public sealed record Dropping(Task Drop, IReadOnlyList<TreeNode> Dropped);
     }
 }

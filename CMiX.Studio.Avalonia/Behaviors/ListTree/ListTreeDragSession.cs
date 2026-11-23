@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -21,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private ListTreeDrag? drag;
         private Cursor? cursorBefore;
         private ListTreePoint lastPoint = new(0, 0);
-        private ListTreeOpenState? openBefore;
+        private IReadOnlyList<ListTreeOpenState> openBefore = Array.Empty<ListTreeOpenState>();
         private ListTreeSlot? keyedSlot;
 
         public event EventHandler? Began;
@@ -62,12 +63,14 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
 
             var service = dragged.DropService;
-            drag = new ListTreeDrag(new ListTreeCandidates(new ListTreeSlots(service), service, Rows.Sizes), pick, node, press);
-            openBefore = ListTreeOpenState.Of(node);
+            var snapshot = ListTreeSnapshot.Of(dragged.Roots);
+            var nodes = ListTreeDragNodes.Of(snapshot, node, dragged.SelectedNodes);
+            drag = new ListTreeDrag(new ListTreeCandidates(new ListTreeSlots(service), service, Rows.Sizes), pick, nodes, press);
+            openBefore = nodes.Nodes.Select(ListTreeOpenState.Of).ToArray();
             dragged.BeginDrag(node);
             cursorBefore = Scroller.Cursor;
             Scroller.Cursor = moveCursor;
-            drag.MakeCandidates(ListTreeSnapshot.Of(dragged.Roots));
+            drag.MakeCandidates(snapshot);
             Began?.Invoke(this, EventArgs.Empty);
         }
 
@@ -144,7 +147,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             if (!HasDropPlace || drag is not { Look: { } look } ended || tree is not { } project)
                 return;
 
-            var dropping = Part<ListTreeDrop>().Start(project, ended.Node, look.Candidate.Slot, openBefore);
+            var dropping = Part<ListTreeDrop>().Start(project, ended.Nodes, look.Candidate.Slot, openBefore);
             Finish();
             Part<ListTreeDrop>().Show(dropping);
         }
@@ -159,7 +162,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void Finish()
         {
             drag = null;
-            openBefore = null;
+            openBefore = Array.Empty<ListTreeOpenState>();
             keyedSlot = null;
             Rest.Rest(null);
             Part<ListTreeAutoScroll>().Stop();

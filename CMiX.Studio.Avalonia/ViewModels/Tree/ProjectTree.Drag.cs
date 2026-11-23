@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
@@ -73,5 +75,35 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
             await drop.NoticeBlockAsync(source, target, move.Outcome);
         }
+
+        // The moves of the rows of a block and the selection of the moved rows are one undo step. The pressed row stays the selected node.
+        public async Task DropBlockAsync(IReadOnlyList<TreeNode> sources, TreeNode pressed, TreeNode target, DropPosition position)
+        {
+            DropBlockMove move;
+            var pressedItem = pressed.Item;
+            undoManager.BeginCapture();
+            try
+            {
+                // Read before the drop: the drop removes the source nodes, and NodeRemoved passes the inspector up.
+                var inspected = sources.FirstOrDefault(source => ReferenceEquals(inspectedNode, source))?.Item;
+                move = drop.MoveBlock(root, sources, target, position);
+                if (move.MovedNodes.Count > 0)
+                {
+                    SelectBlock(MovedNodeOf(move, pressedItem) ?? move.MovedNodes[^1], move.MovedNodes);
+                    if (inspected != null && MovedNodeOf(move, inspected) is { } moved)
+                        Inspect(moved);
+                }
+            }
+            finally
+            {
+                undoManager.EndCapture();
+            }
+
+            if (move.Refusal is { } refusal)
+                await drop.NoticeBlockAsync(refusal.Source, refusal.Target, refusal.Outcome);
+        }
+
+        private static TreeNode? MovedNodeOf(DropBlockMove move, object? item) =>
+            move.MovedNodes.FirstOrDefault(node => ReferenceEquals(node.Item, item));
     }
 }

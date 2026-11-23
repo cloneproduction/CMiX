@@ -311,6 +311,37 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(slots.Select(slot => PlaceByMoveOf(snapshot, block, slot)), places);
         }
 
+        public static TheoryData<string> BlockNames => new(Blocks);
+
+        // The real tree opens the rows of a moved card. The new view restores them after the drop.
+        private static Shown[] ShownRowsOutsideTheBlock(ListTreeSnapshot snapshot, IReadOnlyList<IControl> block) =>
+            snapshot.VisibleRows().Where(row => !block.Any(item => IsUnder(row.Key.Parent, item))).Select(row => new Shown(row.Key, row.Depth)).ToArray();
+
+        [Theory]
+        [MemberData(nameof(BlockNames))]
+        public async Task Of_EverySlotOfABlock_GivesTheRowsOfTheRealBlockDrop(string name)
+        {
+            var first = CreateScene();
+            var firstSnapshot = ListTreeSnapshot.Of(first.Tree.Roots);
+            var count = SlotsOf(firstSnapshot, BlockOf(firstSnapshot, BlockNodesOf(first, name))).Count;
+            for (var index = 0; index < count; index++)
+            {
+                var scene = CreateScene();
+                var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+                var nodes = BlockNodesOf(scene, name);
+                var block = BlockOf(snapshot, nodes);
+                var slot = SlotsOf(snapshot, block)[index];
+                var items = nodes.Nodes.Select(node => node.Item!).ToArray();
+
+                var expected = ShownRowsOutsideTheBlock(ListTreeMove.Of(snapshot, block, slot), items);
+                await scene.Tree.DropBlockAsync(nodes.Nodes, nodes.Nodes[nodes.PressedIndex], slot.Target, slot.Position);
+
+                Assert.Equal(expected, ShownRowsOutsideTheBlock(ListTreeSnapshot.Of(scene.Tree.Roots), items));
+            }
+
+            Assert.True(count > 1, name);
+        }
+
         [Fact]
         public void Of_ABlockOfThreeEntitiesDroppedIntoAnotherLayer_ShowsTheRowsInTreeOrderAtTheSlot()
         {

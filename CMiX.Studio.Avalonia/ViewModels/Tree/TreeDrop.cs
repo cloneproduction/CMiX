@@ -1,12 +1,19 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CMiX.Studio.Avalonia.Services;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
     public sealed record DropMove(DropOutcome Outcome, TreeNode? MovedNode);
+
+    // The row that the drop did not move, the place that it did not take, and why.
+    public sealed record DropRefusal(TreeNode Source, TreeNode Target, DropOutcome Outcome);
+
+    // The refusal is null when every row of the block moved or was in its place already.
+    public sealed record DropBlockMove(IReadOnlyList<TreeNode> MovedNodes, DropRefusal? Refusal);
 
     public sealed class TreeDrop
     {
@@ -34,6 +41,33 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             // Search under the holder only. A shared item is also under other layers.
             var moved = TreeWalk.FindNode((owner ?? root).Children, node => ReferenceEquals(node.Item, movedItem));
             return new DropMove(outcome, moved);
+        }
+
+        // Each row lands after the row before it, so the rows keep their tree order. A row that is in its place already does not move.
+        public DropBlockMove MoveBlock(TreeNode root, IReadOnlyList<TreeNode> sources, TreeNode target, DropPosition position)
+        {
+            var moved = new List<TreeNode>();
+            var anchor = target;
+            var at = position;
+            foreach (var source in sources)
+            {
+                var move = Move(root, source, anchor, at);
+                if ((move.MovedNode ?? StayingNodeOf(source, anchor, at, move.Outcome)) is not { } landed)
+                    return new DropBlockMove(moved, new DropRefusal(source, anchor, move.Outcome));
+
+                moved.Add(landed);
+                anchor = landed;
+                at = DropPosition.After;
+            }
+
+            return new DropBlockMove(moved, null);
+        }
+
+        // A drop in the list of the row that moves nothing and has no reason leaves the row in its place.
+        private static TreeNode? StayingNodeOf(TreeNode source, TreeNode anchor, DropPosition position, DropOutcome outcome)
+        {
+            var list = position == DropPosition.Inside ? TreeDropService.InsideOf(source, anchor).ChildManager : anchor.Owner;
+            return !outcome.Moved && outcome.Blocking.Count == 0 && ReferenceEquals(source.Owner, list) ? source : null;
         }
 
         public Task NoticeBlockAsync(TreeNode source, TreeNode target, DropOutcome outcome)
