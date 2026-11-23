@@ -698,5 +698,16 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(service.CanDrop(scene.NodeA, scene.NodeA, DropPosition.Before));
             Assert.False(service.CanDrop(scene.NodeA, scene.LayerNodeOfA(0), DropPosition.Before));
         }
+
+        [Fact]
+        public void PlaceOf_ALayerAfterTheNextLayer_GivesTheListAndTheIndexBeforeTheMove()
+        {
+            var scene = CreateScene();
+
+            var place = service.PlaceOf(scene.LayerNodeOfA(0), scene.LayerNodeOfA(1), DropPosition.After);
+
+            Assert.Equal(new ListPlace(scene.A.LayerManager, 2), place);
+            Assert.Null(service.PlaceOf(scene.LayerNodeOfA(0), scene.LayerNodeOfA(1), DropPosition.Before));
+        }
     }
 }

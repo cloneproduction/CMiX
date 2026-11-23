@@ -139,6 +139,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public bool CanDrop(TreeNode source, TreeNode target, DropPosition position) =>
             Resolve(source, target, position) != null;
 
+        public ListPlace? PlaceOf(TreeNode source, TreeNode target, DropPosition position) =>
+            Resolve(source, target, position);
+
         // These rows are lit because a drop inside has no bar to show the place.
         public bool IsInsideTarget(TreeNode source, TreeNode target) =>
             source.Item != null && source.Owner != null
