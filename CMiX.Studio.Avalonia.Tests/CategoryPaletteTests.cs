@@ -174,6 +174,31 @@ namespace CMiX.Studio.Avalonia.Tests
                 Assert.NotEqual(default, palette.For(TreeCategory.Composable, depth).Fill);
         }
 
+        [Fact]
+        public void ForListTree_ALightRow_IsTheKindColourWithTheAlphaOfEachMark()
+        {
+            var colors = Palette().ForListTree(TreeCategory.Light, 0);
+
+            Assert.Equal(Color.FromArgb(115, 233, 211, 73), colors.HoverBorder);
+            Assert.Equal(Color.FromArgb(179, 233, 211, 73), colors.DropOutline);
+            Assert.Equal(Amber, colors.SelectionBorder);
+        }
+
+        [Fact]
+        public void ForListTree_AComposable_TakesTheHueOfItsDepth()
+        {
+            var palette = Palette();
+            var top = palette.ForListTree(TreeCategory.Composable, 0);
+            var deeper = palette.ForListTree(TreeCategory.Composable, 3);
+
+            Assert.Equal(Color.FromArgb(115, 220, 116, 215), top.HoverBorder);
+            Assert.Equal(Color.FromArgb(179, 220, 116, 215), top.DropOutline);
+            Assert.Equal(Magenta, top.SelectionBorder);
+            Assert.Equal(Color.FromArgb(115, 159, 133, 236), deeper.HoverBorder);
+            Assert.Equal(Color.FromArgb(179, 159, 133, 236), deeper.DropOutline);
+            Assert.Equal(Violet, deeper.SelectionBorder);
+        }
+
         [AvaloniaFact]
         public void FromApplication_TheTreeBackground_IsTheBaseOfTheMix()
         {
