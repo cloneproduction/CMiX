@@ -21,8 +21,6 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeAddBeside addBeside;
         private readonly ListTreeRowReveal reveal;
         private readonly ListTreeScrollAnchor scrollAnchor;
-        private readonly ListTreeEndRoom endRoom;
-        private readonly ListTreeLastPointer pointer;
         private readonly ListTreeHints hints;
         private readonly ListTreeMenus menus;
         private readonly ListTreeKeyInput keyInput;
@@ -47,9 +45,7 @@ namespace CMiX.Studio.Avalonia.Views
             addBeside = new ListTreeAddBeside(rows, focusKeeper, Context.AddPanel, hints.Update, lifetime);
             reveal = new ListTreeRowReveal(this, rows, scroller, lifetime);
             scrollAnchor = new ListTreeScrollAnchor(rows, scroller);
-            endRoom = new ListTreeEndRoom(rows, scroller, endRoomSpace);
-            pointer = new ListTreeLastPointer(this, scroller);
-            menus = new ListTreeMenus(scroller, reveal, addBeside, pointer, hints.Update);
+            menus = new ListTreeMenus(scroller, reveal, addBeside, Context.Part<ListTreeLastPointer>(), hints.Update);
             keyInput = new ListTreeKeyInput(scroller, rows, focusKeeper, addBeside, lifetime);
             fileDrop = new ListTreeFileDropInput(scroller, rows);
             requests = new ListTreeScreenRequests(rows, menus, reveal, scrollAnchor, () => IsActiveView);
@@ -119,12 +115,10 @@ namespace CMiX.Studio.Avalonia.Views
             rowClick.Attach(watched);
             keyInput.Attach(watched);
             addBeside.Attach(watched);
-            pointer.Attach();
             menus.Attach(watched);
             hints.Watch(watched);
             fileDrop.Attach(watched);
             reveal.Watch(watched);
-            endRoom.Attach();
         }
 
         private void Unwatch()
@@ -132,12 +126,10 @@ namespace CMiX.Studio.Avalonia.Views
             if (watched == null)
                 return;
 
-            endRoom.Detach();
             reveal.Unwatch();
             fileDrop.Detach();
             hints.Unwatch();
             menus.Detach();
-            pointer.Detach();
             addBeside.Detach();
             keyInput.Detach();
             rowClick.Detach();

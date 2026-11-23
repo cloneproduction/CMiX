@@ -4,9 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity">
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:tree="clr-namespace:CMiX.Studio.Avalonia.Behaviors.ListTree">
 
-    <i:Interaction.Behaviors />
+    <!-- The behaviors watch the tree in this order. -->
+    <i:Interaction.Behaviors>
+        <tree:ListTreeLastPointer />
+        <tree:ListTreeEndRoom />
+    </i:Interaction.Behaviors>
 
     <!-- Tree.Open, as in the old tree. The keys of the selected row are in the main window.
          F2 is a fixed key: it renames in place in the new tree only. Tree.Rename keeps its own gesture in the main window. -->
