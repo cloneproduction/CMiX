@@ -14,14 +14,16 @@ namespace CMiX.Studio.Avalonia.Views
     internal sealed class ListTreeScreenRequests
     {
         private readonly PanelListTreeRows rows;
+        private readonly ListTreeMenus menus;
         private readonly Func<bool> isActiveView;
         private readonly TreeViewLifetime lifetime;
 
         private ProjectTree? tree;
 
-        public ListTreeScreenRequests(PanelListTreeRows rows, Func<bool> isActiveView, TreeViewLifetime lifetime)
+        public ListTreeScreenRequests(PanelListTreeRows rows, ListTreeMenus menus, Func<bool> isActiveView, TreeViewLifetime lifetime)
         {
             this.rows = rows;
+            this.menus = menus;
             this.isActiveView = isActiveView;
             this.lifetime = lifetime;
         }
@@ -32,6 +34,8 @@ namespace CMiX.Studio.Avalonia.Views
             watched.TreeFocusRequested += OnTreeFocusRequested;
             watched.CollapseOthersRequested += OnCollapseOthersRequested;
             watched.RenameRequested += OnRenameRequested;
+            watched.AddRequested += OnAddRequested;
+            watched.MenuRequested += OnMenuRequested;
         }
 
         public void Unwatch()
@@ -42,6 +46,8 @@ namespace CMiX.Studio.Avalonia.Views
             tree.TreeFocusRequested -= OnTreeFocusRequested;
             tree.CollapseOthersRequested -= OnCollapseOthersRequested;
             tree.RenameRequested -= OnRenameRequested;
+            tree.AddRequested -= OnAddRequested;
+            tree.MenuRequested -= OnMenuRequested;
             tree = null;
         }
 
@@ -50,6 +56,10 @@ namespace CMiX.Studio.Avalonia.Views
             if (isActiveView() && tree is { } active)
                 answer(active);
         }
+
+        private void OnAddRequested(object? sender, EventArgs e) => AnswerWhenActive(menus.OpenAddAtTarget);
+
+        private void OnMenuRequested(object? sender, EventArgs e) => AnswerWhenActive(menus.OpenMenuAtTarget);
 
         private void OnTreeFocusRequested(object? sender, EventArgs e) => AnswerWhenActive(FocusTree);
 

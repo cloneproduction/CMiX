@@ -2,6 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.ListTreeProject"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <!-- Tree.Open, as in the old tree. The keys of the selected row are in the main window.
@@ -14,7 +15,23 @@
     <!-- The new project tree. The DataContext is the ProjectTree, the same as the one of TreeViewProject. -->
     <DockPanel Background="{DynamicResource TreeBackgroundBrush}">
 
-        <ScrollViewer Theme="{DynamicResource ScrollViewerOverlay}" HorizontalScrollBarVisibility="Disabled">
+        <Views:ToolbarProjectTree
+            Background="{DynamicResource Grey300Brush}"
+            DockPanel.Dock="Top"
+            Padding="{DynamicResource TreeToolbarPadding}" />
+
+        <!-- The keys of the mode of the tree, under the rows. -->
+        <ui:KeyHintStrip
+            x:Name="hintStrip"
+            DockPanel.Dock="Bottom"
+            IsVisible="{Binding Interface.ShowKeyHints}" />
+
+        <!-- The clicks, the keys and the menus of the rows. A press under the rows hits the scroller too. -->
+        <ScrollViewer
+            x:Name="scroller"
+            Background="Transparent"
+            HorizontalScrollBarVisibility="Disabled"
+            Theme="{DynamicResource ScrollViewerOverlay}">
             <Views:PanelListTreeRows
                 x:Name="rows"
                 Margin="{DynamicResource TreeMargin}"

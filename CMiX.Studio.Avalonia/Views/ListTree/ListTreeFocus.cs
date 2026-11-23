@@ -28,6 +28,16 @@ namespace CMiX.Studio.Avalonia.Views
         public IInputElement? FocusedControl() =>
             TopLevel.GetTopLevel(owner)?.FocusManager?.GetFocusedElement() is { } focused and not TopLevel ? focused : null;
 
+        // The search field of the same tree, in the side panel of the view.
+        public bool IsSearchFocused()
+        {
+            if (FocusedControl() is not Visual focused || focused.FindAncestorOfType<TextBoxSearchTree>(true) is not { } box
+                || !ReferenceEquals(box.DataContext, owner.DataContext))
+                return false;
+
+            return owner.FindAncestorOfType<PanelSide>() is not { } host || host.IsVisualAncestorOf(box);
+        }
+
         public bool IsInPanel(IInputElement focused)
         {
             Visual panel = owner.FindAncestorOfType<PanelSide>() is { } host ? host : owner;

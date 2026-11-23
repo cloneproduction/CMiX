@@ -5,6 +5,7 @@ using System;
 using Avalonia;
 using Avalonia.Controls;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -16,6 +17,10 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeFocusKeeper focusKeeper;
         private readonly ListTreeRowClick rowClick;
         private readonly ListTreeAddBeside addBeside;
+        private readonly ListTreeRowReveal reveal;
+        private readonly ListTreeLastPointer pointer;
+        private readonly ListTreeHints hints;
+        private readonly ListTreeMenus menus;
         private readonly ListTreeKeyInput keyInput;
         private readonly ListTreeScreenRequests requests;
         private readonly TreeViewHooks hooks;
@@ -28,10 +33,15 @@ namespace CMiX.Studio.Avalonia.Views
 
             focus = new ListTreeFocus(this);
             focusKeeper = new ListTreeFocusKeeper(this, rows, focus, lifetime);
-            rowClick = new ListTreeRowClick(this, rows, focusKeeper);
-            addBeside = new ListTreeAddBeside(rows, focusKeeper, lifetime);
-            keyInput = new ListTreeKeyInput(this, rows, focusKeeper, addBeside, lifetime);
-            requests = new ListTreeScreenRequests(rows, () => IsActiveView, lifetime);
+            rowClick = new ListTreeRowClick(scroller, rows, focusKeeper);
+            // The menus come later, so the lambda reads the field at the call.
+            hints = new ListTreeHints(this, hintStrip, focus, () => menus.IsMenuOpen(), lifetime);
+            addBeside = new ListTreeAddBeside(rows, focusKeeper, hints.Update, lifetime);
+            reveal = new ListTreeRowReveal(rows);
+            pointer = new ListTreeLastPointer(this, scroller);
+            menus = new ListTreeMenus(scroller, reveal, addBeside, pointer, hints.Update);
+            keyInput = new ListTreeKeyInput(scroller, rows, focusKeeper, addBeside, lifetime);
+            requests = new ListTreeScreenRequests(rows, menus, () => IsActiveView, lifetime);
             hooks = BuildHooks();
             KeyBindingTextGuard.Install(this);
         }
@@ -51,6 +61,12 @@ namespace CMiX.Studio.Avalonia.Views
         internal PanelListTreeRows Rows => rows;
 
         internal AddPanel MenuAddPanel => addBeside.AddPanel;
+
+        internal ContextMenu? Menu => scroller.ContextMenu;
+
+        internal KeyHintStrip HintStrip => hintStrip;
+
+        internal TreeHintMode HintMode => hints.Mode;
 
         protected override void OnDataContextChanged(EventArgs e)
         {
@@ -75,6 +91,9 @@ namespace CMiX.Studio.Avalonia.Views
             rowClick.Attach(watched);
             keyInput.Attach(watched);
             addBeside.Attach(watched);
+            pointer.Attach();
+            menus.Attach(watched);
+            hints.Watch(watched);
         }
 
         private void Unwatch()
@@ -82,6 +101,9 @@ namespace CMiX.Studio.Avalonia.Views
             if (watched == null)
                 return;
 
+            hints.Unwatch();
+            menus.Detach();
+            pointer.Detach();
             addBeside.Detach();
             keyInput.Detach();
             rowClick.Detach();

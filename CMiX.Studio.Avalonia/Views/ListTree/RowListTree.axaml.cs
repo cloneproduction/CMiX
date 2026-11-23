@@ -87,6 +87,11 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal TogglesRow Toggles => toggles;
 
+        internal Border Band => band;
+
+        // The name box of an item, the text of a group.
+        internal Control NameText =>nameBox.IsVisible ? nameBox : groupName;
+
         internal void StartRename() => nameBox.IsEditing = true;
 
         protected override void OnDataContextChanged(EventArgs e)
