@@ -8,12 +8,14 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The snapshot as if the source were dropped on the slot. The live tree does not change.
+    // The snapshot as if the source, or the block, were dropped on the slot. The live tree does not change.
     public static class ListTreeMove
     {
-        public static ListTreeSnapshot Of(ListTreeSnapshot snapshot, ListTreeRow source, ListTreeSlot slot)
+        public static ListTreeSnapshot Of(ListTreeSnapshot snapshot, ListTreeRow source, ListTreeSlot slot) => Of(snapshot, ListTreeBlock.Of(source), slot);
+
+        public static ListTreeSnapshot Of(ListTreeSnapshot snapshot, ListTreeBlock block, ListTreeSlot slot)
         {
-            var plan = ListTreeMovePlan.Of(source, slot);
+            var plan = ListTreeMovePlan.Of(block, slot);
             var holders = new List<ListTreeRowKey>();
             var moved = RowsOf(snapshot.Roots, plan, holders);
             return new ListTreeSnapshot(Opened(moved, OpenedBy(HoldersToOpen(plan, holders))));
@@ -38,24 +40,23 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return row with { Children = children };
         }
 
-        private static bool IsSourceIn(ListTreeRow row, ListTreeRow child, ListTreeMovePlan plan) =>
-            ReferenceEquals(row.Key.Model, plan.From) && ReferenceEquals(child.Key.Model, plan.Item);
+        private static bool IsSourceIn(ListTreeRow row, ListTreeRow child, ListTreeMovePlan plan) => plan.IsLeaving(row.Key.Model, child.Key.Model);
 
         private static IReadOnlyList<ListTreeRow> WithMovedRow(ListTreeRow holder, IReadOnlyList<ListTreeRow> children, ListTreeMovePlan plan, List<ListTreeRowKey> holders)
         {
             holders.Add(holder.Key);
             var rows = children.ToList();
-            rows.Insert(Math.Clamp(plan.Index, 0, rows.Count), MovedRowIn(holder, plan));
+            rows.InsertRange(Math.Clamp(plan.Index, 0, rows.Count), plan.Members.Select(member => MovedRowIn(holder, member, plan)));
             return rows;
         }
 
         // In its own list, every holder keeps its own row.
-        private static ListTreeRow MovedRowIn(ListTreeRow holder, ListTreeMovePlan plan)
+        private static ListTreeRow MovedRowIn(ListTreeRow holder, ListTreeMoveMember member, ListTreeMovePlan plan)
         {
-            if (holder.Children.FirstOrDefault(child => ReferenceEquals(child.Key.Model, plan.Item)) is { } own)
-                return own.Key.Equals(plan.Source.Key) ? Closed(own) : own;
+            if (holder.Children.FirstOrDefault(child => ReferenceEquals(child.Key.Model, member.Item)) is { } own)
+                return own.Key.Equals(member.Source.Key) ? Closed(own) : own;
 
-            return NewRowUnder(holder.Key, holder.Depth + 1, plan);
+            return NewRowUnder(holder.Key, holder.Depth + 1, member, plan);
         }
 
         // The list has no row yet because option E hides an empty list.
@@ -64,7 +65,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             var key = new ListTreeRowKey(plan.To, parent.Key);
             holders.Add(key);
             var group = GroupNodeOf(parent, plan);
-            var groupRow = new ListTreeRow(key, group, parent.Depth + 1, IsCard: true, IsGroup: true, group?.IsExpanded ?? false, new[] { NewRowUnder(key, parent.Depth + 2, plan) });
+            var groupRow = new ListTreeRow(key, group, parent.Depth + 1, IsCard: true, IsGroup: true, group?.IsExpanded ?? false,
+                plan.Members.Select(member => NewRowUnder(key, parent.Depth + 2, member, plan)).ToArray());
             var lists = ListTreeRowLists.Of(parent);
             var groupIndex = ListTreeRowLists.IndexOf(lists, plan.To);
             var rows = children.ToList();
@@ -80,10 +82,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             parent.Node?.Children.FirstOrDefault(child => ReferenceEquals(child.Group?.Manager, plan.To));
 
         // The row in the holder of the slot keeps the source node. A second holder of the same list has no node.
-        private static ListTreeRow NewRowUnder(ListTreeRowKey parent, int depth, ListTreeMovePlan plan) =>
+        private static ListTreeRow NewRowUnder(ListTreeRowKey parent, int depth, ListTreeMoveMember member, ListTreeMovePlan plan) =>
             parent.Equals(plan.Holder)
-                ? Closed(Moved(plan.Source, parent, depth))
-                : Closed(Mirrored(plan.Source, parent, depth));
+                ? Closed(Moved(member.Source, parent, depth))
+                : Closed(Mirrored(member.Source, parent, depth));
 
         private static ListTreeRow Closed(ListTreeRow row) => row with { IsExpanded = false };
 

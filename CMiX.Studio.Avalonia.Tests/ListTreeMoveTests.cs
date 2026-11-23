@@ -250,6 +250,94 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(slots.Select(slot => PlaceByMoveOf(snapshot, row, slot)), places);
         }
 
+        private static readonly string[] Blocks =
+            { "two entities", "an entity of each composition", "two modifiers of one entity", "modifiers of two entities", "two layers" };
+
+        public static TheoryData<string, string> ScenesAndBlocks
+        {
+            get
+            {
+                var data = new TheoryData<string, string>();
+                foreach (var scene in new[] { "plain", "closed", "shared entity", "shared card" })
+                    foreach (var block in Blocks)
+                        data.Add(scene, block);
+
+                return data;
+            }
+        }
+
+        private sealed record BlockNodes(TreeNode[] Nodes, int PressedIndex);
+
+        // The nodes are in tree order.
+        private static BlockNodes BlockNodesOf(Scene scene, string name) => name switch
+        {
+            "two entities" => new(new[] { Entity(scene, 0), Entity(scene, 1) }, 1),
+            "an entity of each composition" => new(new[] { Entity(scene, 0), EntityOfB(scene) }, 1),
+            "two modifiers of one entity" => new(new[] { Modifier(scene, 0, 0), Modifier(scene, 0, 1) }, 1),
+            "modifiers of two entities" => new(new[] { Modifier(scene, 0, 0), Modifier(scene, 1, 0) }, 0),
+            _ => new(new[] { scene.LayerNodeOfA(0), scene.LayerNodeOfB(1) }, 0)
+        };
+
+        private static ListTreeBlock BlockOf(ListTreeSnapshot snapshot, BlockNodes nodes)
+        {
+            var rows = nodes.Nodes.Select(node => RowOf(snapshot, node)).ToArray();
+            return new ListTreeBlock(rows, rows[nodes.PressedIndex]);
+        }
+
+        private static IReadOnlyList<ListTreeSlot> SlotsOf(ListTreeSnapshot snapshot, ListTreeBlock block)
+        {
+            var service = new TreeDropService();
+            return new ListTreeCandidates(new ListTreeSlots(service), service, ListTreeSizes.Default).SlotsOf(snapshot, block);
+        }
+
+        private static ListTreePlace? PlaceByMoveOf(ListTreeSnapshot snapshot, ListTreeBlock block, ListTreeSlot slot)
+        {
+            var moved = ListTreeMove.Of(snapshot, block, slot);
+            return moved.RowOf(block.Pressed.Node!) is { } row ? ListTreeLayout.Of(moved, ListTreeSizes.Default).PlaceOf(row.Key) : null;
+        }
+
+        [Theory]
+        [MemberData(nameof(ScenesAndBlocks))]
+        public void PlaceOf_EverySlotOfABlock_EqualsThePlaceOfThePressedRowInTheLayoutOfTheMove(string sceneName, string blockName)
+        {
+            var scene = SceneOf(sceneName);
+            var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+            var block = BlockOf(snapshot, BlockNodesOf(scene, blockName));
+            var slots = SlotsOf(snapshot, block);
+
+            var places = slots.Select(ListTreeCountedTree.Of(snapshot, block, ListTreeSizes.Default).PlaceOf).ToArray();
+
+            Assert.NotEmpty(slots);
+            Assert.Equal(slots.Select(slot => PlaceByMoveOf(snapshot, block, slot)), places);
+        }
+
+        [Fact]
+        public void Of_ABlockOfThreeEntitiesDroppedIntoAnotherLayer_ShowsTheRowsInTreeOrderAtTheSlot()
+        {
+            var scene = TreeFixtures.CreateScene([2], AddThreeEntitiesAndOne);
+            foreach (var node in scene.All())
+                node.IsExpanded = true;
+            var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+            var entities = scene.Group<EntitiesGroup>(0).Children.ToArray();
+            var target = scene.Group<EntitiesGroup>(1).Children[0];
+            var block = BlockOf(snapshot, new BlockNodes(entities, 1));
+            var slot = SlotsOf(snapshot, block).Single(slot => ReferenceEquals(slot.Target, target) && slot.Position == DropPosition.Before);
+
+            var moved = ListTreeMove.Of(snapshot, block, slot);
+
+            var holder = ListTreeKeys.Of(scene.Group<EntitiesGroup>(1));
+            var items = entities.Select(entity => (object)entity.Item!).Append(target.Item!);
+            Assert.Equal(items, RowOf(moved, holder).Children.Select(row => row.Key.Model));
+            Assert.DoesNotContain(RowOf(moved, ListTreeKeys.Of(scene.LayerNodeOfA(0))).Children, row => ReferenceEquals(row.Key.Model, scene.Layer.ModelEntityManager));
+        }
+
+        private static void AddThreeEntitiesAndOne(Scene scene)
+        {
+            for (var index = 0; index < 3; index++)
+                scene.Layer.ModelEntityManager.AddItem(typeof(Entity));
+            scene.LayerOfA(1).ModelEntityManager.AddItem(typeof(Entity));
+        }
+
         [Fact]
         public void Of_ADropIntoAClosedCard_OpensEveryRowOnThePath()
         {

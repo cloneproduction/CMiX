@@ -8,15 +8,15 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The live rows of one drag, counted once. A slot then gets the place of the moved row without a moved tree.
+    // The live rows of one drag, counted once. A slot then gets the place of the pressed row of the block without a moved tree.
     public sealed class ListTreeCountedTree
     {
         private readonly Builder built;
 
-        private ListTreeCountedTree(ListTreeCountedRow root, ListTreeRow source, ListTreeCountedRow? countedSource, ListTreeSizes sizes, Builder built)
+        private ListTreeCountedTree(ListTreeCountedRow root, ListTreeBlock block, ListTreeCountedRow? countedSource, ListTreeSizes sizes, Builder built)
         {
             Root = root;
-            Source = source;
+            Block = block;
             CountedSource = countedSource;
             Sizes = sizes;
             this.built = built;
@@ -25,14 +25,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // The root is not a row: its children are the roots of the snapshot.
         public ListTreeCountedRow Root { get; }
 
-        public ListTreeRow Source { get; }
+        public ListTreeBlock Block { get; }
 
+        // The counted row of the pressed row of the block.
         public ListTreeCountedRow? CountedSource { get; }
 
         public ListTreeSizes Sizes { get; }
 
         // Null when the move gives the source no visible row, as ListTreeMove and ListTreeLayout.
-        public ListTreePlace? PlaceOf(ListTreeSlot slot) => ListTreeMoveCount.Of(this, ListTreeMovePlan.Of(Source, slot)).Place();
+        public ListTreePlace? PlaceOf(ListTreeSlot slot) => ListTreeMoveCount.Of(this, ListTreeMovePlan.Of(Block, slot)).Place();
 
         public ListTreeCountedRow? ParentOf(ListTreeCountedRow row) => built.Parents.GetValueOrDefault(row);
 
@@ -43,20 +44,34 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         public IEnumerable<ListTreeCountedRow> OwnersOf(PrefabManager list) => built.OwnersByList.GetValueOrDefault(list) ?? Enumerable.Empty<ListTreeCountedRow>();
 
-        // The first row of the item of the source in the row, also when it leaves.
-        public ListTreeCountedRow? RowOfTheItemIn(ListTreeCountedRow row) => built.ItemRows.GetValueOrDefault(row);
+        // The first row of the item of a row of the block in the row, also when it leaves.
+        public ListTreeCountedRow? RowOfTheItemIn(ListTreeCountedRow row, object item) =>
+            built.ItemRows.GetValueOrDefault(row)?.FirstOrDefault(child => ReferenceEquals(child.Model, item));
 
         public IReadOnlyList<PrefabManager> ListsOf(ListTreeCountedRow owner) => built.ListsByOwner.GetValueOrDefault(owner) ?? Array.Empty<PrefabManager>();
 
-        // The rows of the source in the list that it leaves, one per row that shows the list.
+        // The rows of the block in the lists that they leave, one per row that shows a list.
         public IReadOnlyList<ListTreeCountedRow> LeavingRows => built.LeavingRows;
 
-        public static ListTreeCountedTree Of(ListTreeSnapshot snapshot, ListTreeRow source, ListTreeSizes sizes)
+        public static ListTreeCountedTree Of(ListTreeSnapshot snapshot, ListTreeRow source, ListTreeSizes sizes) => Of(snapshot, ListTreeBlock.Of(source), sizes);
+
+        public static ListTreeCountedTree Of(ListTreeSnapshot snapshot, ListTreeBlock block, ListTreeSizes sizes)
         {
             var root = ListTreeCountedRow.Of(RootRowOf(snapshot), 0);
-            var built = new Builder(source.Node?.Owner, source.Node?.Item);
+            var built = new Builder(ListsByItemOf(block));
             built.AddKeptChildren(root);
-            return new ListTreeCountedTree(root, source, built.RowsByKey.GetValueOrDefault(source.Key), sizes, built);
+            return new ListTreeCountedTree(root, block, built.RowsByKey.GetValueOrDefault(block.Pressed.Key), sizes, built);
+        }
+
+        // A row with no node leaves no list.
+        private static IReadOnlyDictionary<object, object> ListsByItemOf(ListTreeBlock block)
+        {
+            var lists = new Dictionary<object, object>(ReferenceEqualityComparer.Instance);
+            foreach (var row in block.Rows)
+                if (row.Node is { Item: { } item, Owner: { } list })
+                    lists.TryAdd(item, list);
+
+            return lists;
         }
 
         private static ListTreeRow RootRowOf(ListTreeSnapshot snapshot) =>
@@ -64,13 +79,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         private sealed class Builder
         {
-            private readonly object? from;
-            private readonly object? item;
+            private readonly IReadOnlyDictionary<object, object> listsByItem;
 
-            public Builder(object? from, object? item)
+            public Builder(IReadOnlyDictionary<object, object> listsByItem)
             {
-                this.from = from;
-                this.item = item;
+                this.listsByItem = listsByItem;
             }
 
             public Dictionary<ListTreeCountedRow, ListTreeCountedRow> Parents { get; } = new();
@@ -85,7 +98,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
             public List<ListTreeCountedRow> LeavingRows { get; } = new();
 
-            public Dictionary<ListTreeCountedRow, ListTreeCountedRow> ItemRows { get; } = new();
+            public Dictionary<ListTreeCountedRow, List<ListTreeCountedRow>> ItemRows { get; } = new();
 
             public void AddKeptChildren(ListTreeCountedRow row)
             {
@@ -117,8 +130,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             {
                 Parents.Add(child, row);
                 RowsByKey.Add(child.Row.Key, child);
-                if (item != null && ReferenceEquals(child.Model, item))
-                    ItemRows.TryAdd(row, child);
+                if (listsByItem.ContainsKey(child.Model))
+                    AddTo(ItemRows, row, child);
             }
 
             private void AddKept(ListTreeCountedRow row)
@@ -134,9 +147,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             }
 
             private bool IsSourceIn(ListTreeCountedRow row, ListTreeCountedRow child) =>
-                from != null && ReferenceEquals(row.Model, from) && ReferenceEquals(child.Model, item);
+                listsByItem.TryGetValue(child.Model, out var list) && ReferenceEquals(row.Model, list);
 
-            private static void AddTo(Dictionary<object, List<ListTreeCountedRow>> rows, object key, ListTreeCountedRow row)
+            private static void AddTo<TKey>(Dictionary<TKey, List<ListTreeCountedRow>> rows, TKey key, ListTreeCountedRow row) where TKey : notnull
             {
                 if (!rows.TryGetValue(key, out var list))
                     rows.Add(key, list = new List<ListTreeCountedRow>());
