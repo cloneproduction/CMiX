@@ -25,5 +25,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
             return -1;
         }
+
+        // The group row goes after the rows of the lists before it.
+        public static int GroupIndexIn(IReadOnlyList<PrefabManager> lists, PrefabManager list, IEnumerable<object> shownChildren)
+        {
+            var groupIndex = IndexOf(lists, list);
+            return shownChildren.Count(model => IndexOf(lists, model) < groupIndex);
+        }
     }
 }

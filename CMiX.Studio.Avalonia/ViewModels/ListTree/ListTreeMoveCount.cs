@@ -144,7 +144,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return count;
         }
 
-        // A group row shows a list, and option E leaves out a list with no row.
+        // The rule of ListTreeRow.IsShown, on the counts.
         private bool IsKeptIn(ListTreeCountedRow parent, ListTreeCountedRow child)
         {
             if (IsLeaving(parent, child))
@@ -166,13 +166,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return changes.HiddenListOwners.Contains(row) ? new Insert(GroupIndexIn(row), IsGroupOpen(row) ? 1 + plan.Members.Count : 1) : null;
         }
 
-        // The group row goes after the kept rows of the lists before it.
-        private int GroupIndexIn(ListTreeCountedRow owner)
-        {
-            var lists = tree.ListsOf(owner);
-            var groupIndex = ListTreeRowLists.IndexOf(lists, plan.To);
-            return owner.Children.Count(child => IsKeptIn(owner, child) && ListTreeRowLists.IndexOf(lists, child.Model) < groupIndex);
-        }
+        private int GroupIndexIn(ListTreeCountedRow owner) =>
+            ListTreeRowLists.GroupIndexIn(tree.ListsOf(owner), plan.To, owner.Children.Where(child => IsKeptIn(owner, child)).Select(child => child.Model));
 
         private bool IsGroupOpen(ListTreeCountedRow owner) =>
             (plan.GroupNodeOf(owner.Row)?.IsExpanded ?? false) || changes.IsOpened(changes.GroupKeyOf(owner));

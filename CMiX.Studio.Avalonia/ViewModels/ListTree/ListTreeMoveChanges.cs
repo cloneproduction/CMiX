@@ -68,7 +68,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         private static bool IsHiddenListOwner(ListTreeCountedRow owner, ListTreeMovePlan plan, IReadOnlySet<ListTreeCountedRow> holders) =>
-            !holders.Contains(owner) && !owner.Children.Any(child => ReferenceEquals(child.Model, plan.To));
+            !holders.Contains(owner) && plan.HidesListIn(owner.Children.Select(child => child.Model));
 
         private static ListTreeRowKey GroupKeyOf(ListTreeCountedRow owner, ListTreeMovePlan plan) => new(plan.To, owner.Row.Key);
 

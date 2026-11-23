@@ -26,7 +26,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             plan.IsInItsOwnList ? new[] { plan.Holder } : holders;
 
         private static IReadOnlyList<ListTreeRow> RowsOf(IReadOnlyList<ListTreeRow> rows, ListTreeMovePlan plan, List<ListTreeRowKey> holders) =>
-            SameOr(rows, rows.Select(row => RowOf(row, plan, holders)).Where(IsShown).ToArray());
+            SameOr(rows, rows.Select(row => RowOf(row, plan, holders)).Where(row => row.IsShown).ToArray());
 
         private static ListTreeRow RowOf(ListTreeRow row, ListTreeMovePlan plan, List<ListTreeRowKey> holders)
         {
@@ -73,15 +73,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             var group = plan.GroupNodeOf(parent);
             var groupRow = new ListTreeRow(key, group, parent.Depth + 1, IsCard: true, IsGroup: true, group?.IsExpanded ?? false,
                 plan.Members.Select(member => NewRowUnder(key, parent.Depth + 2, member, plan)).ToArray());
-            var lists = ListTreeRowLists.Of(parent);
-            var groupIndex = ListTreeRowLists.IndexOf(lists, plan.To);
             var rows = children.ToList();
-            rows.Insert(children.Count(child => ListTreeRowLists.IndexOf(lists, child.Key.Model) < groupIndex), groupRow);
+            rows.Insert(ListTreeRowLists.GroupIndexIn(ListTreeRowLists.Of(parent), plan.To, children.Select(child => child.Key.Model)), groupRow);
             return rows;
         }
 
         private static bool HasHiddenList(ListTreeRow row, IReadOnlyList<ListTreeRow> children, ListTreeMovePlan plan) =>
-            !children.Any(child => ReferenceEquals(child.Key.Model, plan.To)) && ListTreeRowLists.IndexOf(ListTreeRowLists.Of(row), plan.To) >= 0;
+            plan.HidesListIn(children.Select(child => child.Key.Model)) && ListTreeRowLists.IndexOf(ListTreeRowLists.Of(row), plan.To) >= 0;
 
         // The row in the holder of the slot keeps the source node. A second holder of the same list has no node.
         private static ListTreeRow NewRowUnder(ListTreeRowKey parent, int depth, ListTreeMoveMember member, ListTreeMovePlan plan) =>
@@ -102,9 +100,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             var key = new ListTreeRowKey(row.Key.Model, parent);
             return row with { Key = key, Node = null, Depth = depth, Children = row.Children.Select(child => Mirrored(child, key, depth + 1)).ToArray() };
         }
-
-        // A group row shows a list, and option E leaves out a list with no row.
-        private static bool IsShown(ListTreeRow row) => !row.IsGroup || row.Children.Count > 0;
 
         // A drop opens every row on the path to a list that gets the row.
         private static IReadOnlySet<ListTreeRowKey> OpenedBy(IEnumerable<ListTreeRowKey> holders)

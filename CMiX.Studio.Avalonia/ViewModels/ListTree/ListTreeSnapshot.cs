@@ -58,12 +58,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         private static IReadOnlyList<ListTreeRow> RowsOf(IEnumerable<TreeNode> nodes, int depth, ListTreeRowKey? parent) =>
-            nodes.Select(node => RowOf(node, depth, ListTreeRowKey.Of(node, parent))).Where(IsShown).ToArray();
+            nodes.Select(node => RowOf(node, depth, ListTreeRowKey.Of(node, parent))).Where(row => row.IsShown).ToArray();
 
         private static ListTreeRow RowOf(TreeNode node, int depth, ListTreeRowKey key) =>
             new(key, node, depth, IsCard(node), node.Group != null, node.IsExpanded, RowsOf(node.Children, depth + 1, key));
-
-        private static bool IsShown(ListTreeRow row) => !row.IsGroup || row.Children.Count > 0;
 
         private static bool IsCard(TreeNode node) => node.ChildManager != null || node.Children.Count > 0;
     }

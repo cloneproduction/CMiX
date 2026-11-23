@@ -21,6 +21,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         public bool IsLeaving(object list, object item) =>
             Members.Any(member => ReferenceEquals(member.Item, item) && ReferenceEquals(member.From, list));
 
+        // True when no child row shows the list of the slot.
+        public bool HidesListIn(IEnumerable<object> childModels) => !childModels.Any(model => ReferenceEquals(model, To));
+
         // A second row of a shared card has no node, so its group row has none.
         public TreeNode? GroupNodeOf(ListTreeRow owner) =>
             owner.Node?.Children.FirstOrDefault(child => ReferenceEquals(child.Group?.Manager, To));
