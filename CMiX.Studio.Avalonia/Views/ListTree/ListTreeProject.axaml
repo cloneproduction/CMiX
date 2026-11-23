@@ -10,16 +10,20 @@
     <!-- The behaviors watch the tree in this order. -->
     <i:Interaction.Behaviors>
         <tree:ListTreeViewStateInput />
+        <tree:ListTreeScreenRequests />
         <tree:ListTreeFocusKeeper />
         <tree:ListTreePressFocus />
         <tree:ListTreeRowClick />
+        <tree:ListTreeKeyInput />
         <tree:ListTreeAddBeside />
         <tree:ListTreeLastPointer />
         <tree:ListTreeMenus />
         <tree:ListTreeHints />
+        <tree:ListTreeFileDropInput />
         <tree:ListTreeRowReveal />
         <tree:ListTreeScrollAnchor />
         <tree:ListTreeEndRoom />
+        <tree:ListTreeTooltips />
     </i:Interaction.Behaviors>
 
     <!-- Tree.Open, as in the old tree. The keys of the selected row are in the main window.

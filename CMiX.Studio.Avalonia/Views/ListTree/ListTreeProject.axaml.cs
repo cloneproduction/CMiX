@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using CMiX.Studio.Avalonia.Behaviors.ListTree;
@@ -11,13 +12,9 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The screen hub of the new tree. It builds its parts and attaches them to the tree while the view is in the visual tree.
+    // The screen hub of the new tree. Its behaviors do the work. It gives them the context and attaches its hooks to the tree while the view is in the visual tree.
     public partial class ListTreeProject : UserControl
     {
-        private readonly ListTreeKeyInput keyInput;
-        private readonly ListTreeFileDropInput fileDrop;
-        private readonly ListTreeScreenRequests requests;
-        private readonly TreeTooltips tooltips;
         private readonly TreeViewHooks hooks;
 
         private ProjectTree? watched;
@@ -27,15 +24,8 @@ namespace CMiX.Studio.Avalonia.Views
             InitializeComponent();
 
             Context = BuildContext();
-            var lifetime = Context.Lifetime;
-            var focusKeeper = Context.Part<ListTreeFocusKeeper>();
-            keyInput = new ListTreeKeyInput(scroller, rows, focusKeeper, Context.Part<ListTreeAddBeside>(), lifetime);
-            fileDrop = new ListTreeFileDropInput(scroller, rows);
-            requests = new ListTreeScreenRequests(rows, Context.Part<ListTreeMenus>(), Context.Part<ListTreeRowReveal>(),
-                Context.Part<ListTreeScrollAnchor>(), () => IsActiveView);
             hooks = BuildHooks();
             KeyBindingTextGuard.Install(this);
-            tooltips = new TreeTooltips(rows);
         }
 
         private ListTreeContext BuildContext()
@@ -53,8 +43,11 @@ namespace CMiX.Studio.Avalonia.Views
                 IsTextBoxFocused = () => Context.State.IsTextBoxFocused,
                 IsFocusInOtherPanel = () => Context.State.IsFocusInOtherPanel,
                 IsPanelFocused = () => Context.State.IsPanelFocused,
-                CloseRowsInView = requests.CloseRowsInView
+                CloseRowsInView = CloseRowsInView
             };
+
+        private void CloseRowsInView(TreeNode? node, Func<IReadOnlyList<TreeNode>> close) =>
+            Context.Part<ListTreeScreenRequests>().CloseRowsInView(node, close);
 
         internal ListTreeContext Context { get; }
 
@@ -64,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal PanelListTreeRows Rows => rows;
 
-        internal TreeTooltips Tooltips => tooltips;
+        internal TreeTooltips Tooltips => Context.Part<ListTreeTooltips>().Tooltips;
 
         internal AddPanel MenuAddPanel => Context.AddPanel;
 
@@ -79,33 +72,11 @@ namespace CMiX.Studio.Avalonia.Views
             base.OnDataContextChanged(e);
 
             if (Context.Lifetime.IsAttached)
-                Unwatch();
+                watched?.DetachView(hooks);
 
             watched = DataContext as ProjectTree;
             if (Context.Lifetime.IsAttached)
-                Watch();
-        }
-
-        private void Watch()
-        {
-            if (watched == null)
-                return;
-
-            watched.AttachView(hooks);
-            requests.Watch(watched);
-            keyInput.Attach(watched);
-            fileDrop.Attach(watched);
-        }
-
-        private void Unwatch()
-        {
-            if (watched == null)
-                return;
-
-            fileDrop.Detach();
-            keyInput.Detach();
-            requests.Unwatch();
-            watched.DetachView(hooks);
+                watched?.AttachView(hooks);
         }
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -114,12 +85,12 @@ namespace CMiX.Studio.Avalonia.Views
 
             // The tree view model listens only while the view is attached.
             Context.Lifetime.Attach();
-            Watch();
+            watched?.AttachView(hooks);
         }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
-            Unwatch();
+            watched?.DetachView(hooks);
             Context.Lifetime.Detach();
             base.OnDetachedFromVisualTree(e);
         }

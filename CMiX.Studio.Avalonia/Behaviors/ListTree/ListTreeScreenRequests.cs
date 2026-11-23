@@ -5,33 +5,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Input;
-using CMiX.Studio.Avalonia.Behaviors.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.Studio.Avalonia.Views;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // The requests of the tree that the new tree answers while it is the active view, as TreeScreenRequests answers them for the old tree.
-    internal sealed class ListTreeScreenRequests
+    internal sealed class ListTreeScreenRequests : ListTreeBehavior
     {
-        private readonly PanelListTreeRows rows;
-        private readonly ListTreeMenus menus;
-        private readonly ListTreeRowReveal reveal;
-        private readonly ListTreeScrollAnchor scrollAnchor;
-        private readonly Func<bool> isActiveView;
-
         private ProjectTree? tree;
 
-        public ListTreeScreenRequests(PanelListTreeRows rows, ListTreeMenus menus, ListTreeRowReveal reveal, ListTreeScrollAnchor scrollAnchor,
-            Func<bool> isActiveView)
-        {
-            this.rows = rows;
-            this.menus = menus;
-            this.reveal = reveal;
-            this.scrollAnchor = scrollAnchor;
-            this.isActiveView = isActiveView;
-        }
+        private PanelListTreeRows Rows => Context.Rows;
 
-        public void Watch(ProjectTree watched)
+        private ListTreeRowReveal Reveal => Part<ListTreeRowReveal>();
+
+        private ListTreeScrollAnchor ScrollAnchor => Part<ListTreeScrollAnchor>();
+
+        protected override void OnWatch(ProjectTree watched)
         {
             tree = watched;
             watched.TreeFocusRequested += OnTreeFocusRequested;
@@ -42,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Views
             watched.RevealRequested += OnRevealRequested;
         }
 
-        public void Unwatch()
+        protected override void OnUnwatch()
         {
             if (tree == null)
                 return;
@@ -53,34 +43,34 @@ namespace CMiX.Studio.Avalonia.Views
             tree.AddRequested -= OnAddRequested;
             tree.MenuRequested -= OnMenuRequested;
             tree.RevealRequested -= OnRevealRequested;
-            scrollAnchor.EndHold();
+            ScrollAnchor.EndHold();
             tree = null;
         }
 
         private void AnswerWhenActive(Action<ProjectTree> answer)
         {
-            if (isActiveView() && tree is { } active)
+            if (Context.Owner.IsActiveView && tree is { } active)
                 answer(active);
         }
 
-        private void OnAddRequested(object? sender, EventArgs e) => AnswerWhenActive(menus.OpenAddAtTarget);
+        private void OnAddRequested(object? sender, EventArgs e) => AnswerWhenActive(Part<ListTreeMenus>().OpenAddAtTarget);
 
-        private void OnMenuRequested(object? sender, EventArgs e) => AnswerWhenActive(menus.OpenMenuAtTarget);
+        private void OnMenuRequested(object? sender, EventArgs e) => AnswerWhenActive(Part<ListTreeMenus>().OpenMenuAtTarget);
 
-        private void OnRevealRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => reveal.RevealRowToMiddle(node));
+        private void OnRevealRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => Reveal.RevealRowToMiddle(node));
 
         private void OnTreeFocusRequested(object? sender, EventArgs e) => AnswerWhenActive(FocusTree);
 
         private void FocusTree(ProjectTree active)
         {
             var node = active.TargetNode ?? active.VisibleNodes().FirstOrDefault();
-            if (node != null && rows.RowOf(node) is { } row && row.Focus(NavigationMethod.Tab))
+            if (node != null && Rows.RowOf(node) is { } row && row.Focus(NavigationMethod.Tab))
                 return;
 
-            rows.Children.OfType<RowListTree>().FirstOrDefault()?.Focus(NavigationMethod.Tab);
+            Rows.Children.OfType<RowListTree>().FirstOrDefault()?.Focus(NavigationMethod.Tab);
         }
 
-        private void OnRenameRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => rows.RowOf(node)?.StartRename());
+        private void OnRenameRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => Rows.RowOf(node)?.StartRename());
 
         // The first row in view cannot be the anchor, because it can close away under a parent.
         private void OnCollapseOthersRequested(object? sender, EventArgs e) => AnswerWhenActive(CloseOtherRows);
@@ -90,21 +80,21 @@ namespace CMiX.Studio.Avalonia.Views
             if (active.TargetNode is not { } target)
                 return;
 
-            if (scrollAnchor.CaptureRow(target) is { } anchor)
+            if (ScrollAnchor.CaptureRow(target) is { } anchor)
             {
-                scrollAnchor.KeepStill(anchor, active.CloseOtherRows);
+                ScrollAnchor.KeepStill(anchor, active.CloseOtherRows);
                 return;
             }
 
             active.CloseOtherRows();
-            reveal.RevealRow(target);
+            Reveal.RevealRow(target);
         }
 
         // The hook CloseRowsInView of the view: the row of the node stays still when it is in view, else the first row in view.
         public void CloseRowsInView(TreeNode? node, Func<IReadOnlyList<TreeNode>> close)
         {
-            var anchor = (node != null ? scrollAnchor.CaptureRow(node) : null) ?? scrollAnchor.CaptureFirstRowInView();
-            scrollAnchor.KeepStill(anchor, close);
+            var anchor = (node != null ? ScrollAnchor.CaptureRow(node) : null) ?? ScrollAnchor.CaptureFirstRowInView();
+            ScrollAnchor.KeepStill(anchor, close);
         }
     }
 }

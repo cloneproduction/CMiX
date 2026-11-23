@@ -7,44 +7,28 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Studio.Avalonia.Behaviors.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.Studio.Avalonia.Views;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // The keys of the new tree that need the focus in its rows, as TreeKeyInput gives them to the old tree. They move the cursor and select nothing.
-    internal sealed class ListTreeKeyInput
+    internal sealed class ListTreeKeyInput : ListTreeBehavior
     {
-        private readonly Control owner;
-        private readonly PanelListTreeRows rows;
-        private readonly ListTreeFocusKeeper focusKeeper;
-        private readonly ListTreeAddBeside addBeside;
-        private readonly TreeViewLifetime lifetime;
-
         private ProjectTree? tree;
         private ListTreeCursor? cursor;
 
-        public ListTreeKeyInput(Control owner, PanelListTreeRows rows, ListTreeFocusKeeper focusKeeper, ListTreeAddBeside addBeside,
-            TreeViewLifetime lifetime)
-        {
-            this.owner = owner;
-            this.rows = rows;
-            this.focusKeeper = focusKeeper;
-            this.addBeside = addBeside;
-            this.lifetime = lifetime;
-        }
-
-        public void Attach(ProjectTree attached)
+        protected override void OnWatch(ProjectTree attached)
         {
             tree = attached;
             cursor = new ListTreeCursor(attached);
-            owner.AddHandler(InputElement.KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
+            Context.Scroller.AddHandler(InputElement.KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
         }
 
-        public void Detach()
+        protected override void OnUnwatch()
         {
-            owner.RemoveHandler(InputElement.KeyDownEvent, OnKeyDownTunnel);
+            Context.Scroller.RemoveHandler(InputElement.KeyDownEvent, OnKeyDownTunnel);
             tree = null;
             cursor = null;
         }
@@ -73,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (e.Key == Key.Right && (e.KeyModifiers == KeyModifiers.Control
                                        || (e.KeyModifiers == KeyModifiers.None && cursor.IsCursorOnLeaf())))
             {
-                addBeside.Open();
+                Part<ListTreeAddBeside>().Open();
                 e.Handled = true;
                 return;
             }
@@ -87,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             MoveCursor(cursor, e.Key);
             if (tree.CursorNode is { } node)
-                lifetime.Post(() => focusKeeper.FocusRow(node), DispatcherPriority.Loaded);
+                Context.Lifetime.Post(() => Part<ListTreeFocusKeeper>().FocusRow(node), DispatcherPriority.Loaded);
         }
 
         private static bool IsNavigationKey(Key key) =>
@@ -110,6 +94,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private int RowsInView()
         {
+            var rows = Context.Rows;
             var pitch = rows.RowHeight + rows.RowGap;
             return rows.FindAncestorOfType<ScrollViewer>() is { } scroller && pitch > 0 ? Math.Max(1, (int)(scroller.Viewport.Height / pitch)) : 1;
         }

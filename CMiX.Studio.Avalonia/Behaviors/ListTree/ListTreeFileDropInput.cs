@@ -6,42 +6,38 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Behaviors;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // Files from disk over the rows of the new tree, with the rules of TreeFileDropRules, as TreeFileDropInput gives them to the old tree.
-    internal sealed class ListTreeFileDropInput
+    internal sealed class ListTreeFileDropInput : ListTreeBehavior
     {
-        private readonly Control host;
-        private readonly PanelListTreeRows rows;
-
         private ProjectTree? tree;
         private DropFiles? dropFiles;
 
-        public ListTreeFileDropInput(Control host, PanelListTreeRows rows)
-        {
-            this.host = host;
-            this.rows = rows;
-        }
+        private Control Host => Context.Scroller;
 
-        public void Attach(ProjectTree attached)
+        private PanelListTreeRows Rows => Context.Rows;
+
+        protected override void OnWatch(ProjectTree attached)
         {
             tree = attached;
-            DragDrop.SetAllowDrop(host, true);
-            host.AddHandler(DragDrop.DragEnterEvent, OnDragEnter);
-            host.AddHandler(DragDrop.DragOverEvent, OnDragOver);
-            host.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave);
-            host.AddHandler(DragDrop.DropEvent, OnDrop);
+            DragDrop.SetAllowDrop(Host, true);
+            Host.AddHandler(DragDrop.DragEnterEvent, OnDragEnter);
+            Host.AddHandler(DragDrop.DragOverEvent, OnDragOver);
+            Host.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave);
+            Host.AddHandler(DragDrop.DropEvent, OnDrop);
         }
 
-        public void Detach()
+        protected override void OnUnwatch()
         {
-            host.RemoveHandler(DragDrop.DragEnterEvent, OnDragEnter);
-            host.RemoveHandler(DragDrop.DragOverEvent, OnDragOver);
-            host.RemoveHandler(DragDrop.DragLeaveEvent, OnDragLeave);
-            host.RemoveHandler(DragDrop.DropEvent, OnDrop);
-            rows.MarkDropTarget(null);
+            Host.RemoveHandler(DragDrop.DragEnterEvent, OnDragEnter);
+            Host.RemoveHandler(DragDrop.DragOverEvent, OnDragOver);
+            Host.RemoveHandler(DragDrop.DragLeaveEvent, OnDragLeave);
+            Host.RemoveHandler(DragDrop.DropEvent, OnDrop);
+            Rows.MarkDropTarget(null);
             dropFiles = null;
             tree = null;
         }
@@ -73,20 +69,20 @@ namespace CMiX.Studio.Avalonia.Views
 
             e.Handled = true;
             e.DragEffects = DragDropEffects.None;
-            rows.MarkDropTarget(null);
+            Rows.MarkDropTarget(null);
             if (tree is not { } shown || FilesOf(e) is not { IsAccepted: true })
                 return;
 
             e.DragEffects = DragDropEffects.Copy;
             if (NodeOf(e.Source) is { } hovered && shown.IsPathTarget(hovered))
-                rows.MarkDropTarget(hovered);
+                Rows.MarkDropTarget(hovered);
         }
 
         // A leave of one row inside the tree keeps the record.
         private void OnDragLeave(object? sender, DragEventArgs e)
         {
-            rows.MarkDropTarget(null);
-            if (DropFiles.LeavesControl(host, e))
+            Rows.MarkDropTarget(null);
+            if (DropFiles.LeavesControl(Host, e))
                 dropFiles = null;
         }
 
@@ -96,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             e.Handled = true;
-            rows.MarkDropTarget(null);
+            Rows.MarkDropTarget(null);
             var files = FilesOf(e);
             dropFiles = null;
             if (tree is { } shown && files != null)
