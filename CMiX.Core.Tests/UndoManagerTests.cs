@@ -180,6 +180,47 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void RevertCapture_TwoCapturedSteps_UndoesThemNewestFirstAndKeepsThemOffTheStack()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            undoManager.BeginCapture();
+            undoManager.Push(new RecordingUndoCommand(1, executed));
+            undoManager.Push(new RecordingUndoCommand(2, executed));
+            undoManager.RevertCapture();
+
+            Assert.Equal(new[] { 2, 1 }, executed);
+            Assert.False(undoManager.CanUndo);
+            Assert.False(undoManager.CanRedo);
+            Assert.False(undoManager.IsApplying);
+        }
+
+        [Fact]
+        public void RevertCapture_InANestedCapture_RevertsOnlyTheInnerStepsAndKeepsTheOuterOpen()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            undoManager.BeginCapture();
+            undoManager.Push(new RecordingUndoCommand(1, executed));
+            undoManager.BeginCapture();
+            undoManager.Push(new RecordingUndoCommand(2, executed));
+            undoManager.RevertCapture();
+
+            Assert.Equal(new[] { 2 }, executed);
+            Assert.False(undoManager.CanUndo);
+
+            undoManager.EndCapture();
+            undoManager.Undo();
+
+            Assert.Equal(new[] { 2, 1 }, executed);
+            Assert.False(undoManager.CanUndo);
+        }
+
+        [Fact]
         public void Redo_ThrowingCommand_LeavesIsApplyingFalse()
         {
             var provider = TestServiceProviderFactory.Create();

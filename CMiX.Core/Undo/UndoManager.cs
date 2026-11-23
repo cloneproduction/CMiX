@@ -51,6 +51,7 @@ namespace CMiX.Core.Undo
 
         private List<IUndoCommand> _captureList = null;
         private int _captureDepth = 0;
+        private readonly Stack<int> _captureStarts = new();
 
         // Nestable so a capture opened by one caller (for example RemoveEverywhere) survives a
         // second capture opened by code it calls into (for example a per file loop). Only the
@@ -59,12 +60,14 @@ namespace CMiX.Core.Undo
         {
             if (_captureDepth == 0)
                 _captureList = new List<IUndoCommand>();
+            _captureStarts.Push(_captureList.Count);
             _captureDepth++;
         }
 
         public void EndCapture()
         {
             if (_captureDepth == 0) return;
+            _captureStarts.Pop();
             _captureDepth--;
             if (_captureDepth > 0) return;
 
@@ -76,6 +79,32 @@ namespace CMiX.Core.Undo
             _undoStack.AddLast(new CompositeCommand(commands));
             DropRedoStack();
             TrimStack();
+        }
+
+        // Ends the capture and undoes, newest first, what it captured since its BeginCapture. Nothing goes on the undo stack.
+        public void RevertCapture()
+        {
+            if (_captureDepth == 0) return;
+            var start = _captureStarts.Pop();
+            _captureDepth--;
+            var reverted = _captureList.GetRange(start, _captureList.Count - start);
+            _captureList.RemoveRange(start, reverted.Count);
+            if (_captureDepth == 0)
+                _captureList = null;
+
+            IsApplying = true;
+            try
+            {
+                for (var i = reverted.Count - 1; i >= 0; i--)
+                    reverted[i].Undo();
+            }
+            finally
+            {
+                IsApplying = false;
+            }
+
+            foreach (var command in reverted)
+                DropCommand(command);
         }
 
         public void Undo()
