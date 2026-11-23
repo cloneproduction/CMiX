@@ -166,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var place = Rows.Layout.PlaceOf(ListTreeKeys.Of(layer))!;
             var outline = Rows.Surfaces.Outline;
             Assert.True(outline.IsVisible);
-            Assert.Equal(new Rect(place.Indent - 2, place.Y - 2, Rows.Bounds.Width - place.Indent + 4, place.AreaHeight + 4), outline.Bounds);
+            Assert.Equal(new Rect(-2, place.Y - 2, Rows.Bounds.Width + 4, place.AreaHeight + 4), outline.Bounds);
             Assert.Equal(new Thickness(1.5), outline.BorderThickness);
             var expected = CategoryPalette.FromApplication().ForListTree(layer.Category!.Value, layer.ComposableDepth).DropOutline;
             Assert.Equal(expected, ((ISolidColorBrush)outline.BorderBrush!).Color);

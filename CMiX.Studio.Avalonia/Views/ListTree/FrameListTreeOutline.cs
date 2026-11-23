@@ -39,14 +39,14 @@ namespace CMiX.Studio.Avalonia.Views
             BorderBrush = target != null ? kindBrush.Convert(target, typeof(IBrush), ListTreeKindBrushConverter.DropOutline, CultureInfo.InvariantCulture) as IBrush : null;
         }
 
-        // A card is framed with its rows. The frame starts at the indent of the target.
+        // A card is framed with its rows. The frame is full width, as in the mockup.
         public Rect RectIn(double width)
         {
             if (Place is not { } place)
                 return default;
 
             var height = place.CanToggle ? place.AreaHeight : place.RowHeight;
-            return new Rect(place.Indent - offset, place.Y - offset, width - place.Indent + 2 * offset, height + 2 * offset);
+            return new Rect(-offset, place.Y - offset, width + 2 * offset, height + 2 * offset);
         }
 
         private double Read(string key) => this.TryFindResource(key, out var value) && value is double size ? size : 0;
