@@ -31,7 +31,7 @@ These rules apply to every task in this repository.
 
 - Analyze first and report the findings.
 - A plan has phases and steps. Each step carries a complexity from 1 to 5:
-  1 goes to a Sonnet subagent, 2 and 3 to an Opus subagent, 4 to a Fable subagent.
+  1 goes to a Sonnet subagent, 2, 3 and 4 to an Opus subagent.
   5 is a step needing the whole context and it goes to the main agent. 
   Execute phase by phase.
 - Every subagent prompt carries these rules. A subagent reads its step and the
