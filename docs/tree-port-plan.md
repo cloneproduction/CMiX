@@ -100,7 +100,6 @@ state) were tried and rejected. The colours of 52 stay, except where this list s
 | Topic | Value |
 |---|---|
 | Hidden row, and every row under a hidden card | a fixed grey, never opacity: text #8A8A8F, icon #6C6C6F; the crossed eye stays as it is |
-| Undo notice | after a hide of a card with rows in it, and after every drop or remove: a notice under the tree, for example "Moved Quad into Swarm.", with an Undo button and Ctrl+Z, for 5 s; notice white 10 %, button white 16 %, button hover 20 % |
 | Toggles | 8 px between the mask and the eye (was 1 px); the toggle column is 72 px |
 | Count squares | each square shows the kind icon (12 px, kind colour) and the number in TreeTextRest, on white 7 % |
 | Group icon | a group has its own icon, `Folder` (the app uses `Composition` today, the same as a composition); its count squares use it too |
@@ -317,7 +316,6 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 | 4.1 | Pointer drag on the candidates: snap at the new depth, rows animate (160 ms), no landing line, target outline, dimming, Alt copy, Escape, auto scroll, 500 ms rest from the layout and E open a closed card, 6 px hysteresis, the drag note, flash after the drop, commit through `DropAsync` (it selects the dropped item), the cards opened by the drag stay open. Headless tests. | 4 |
 | 4.2 | The keyboard grab on the same candidates. | 3 |
 | 4.3 | Measure the drag on a big project. Prune the candidates near the pointer if it is slow. | 3 |
-| 4.4 | The Undo notice after a hide and after a drop, through a service (no view in the model). | 3 |
 | 4.5 | A drag of several selected rows as one block: one candidate list for the block, one undo step. | 4 |
 
 ### Phase 5: category rows (option E) and the inspector
@@ -356,6 +354,7 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
 stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays; no halo around any icon.
 Decided on 2026-11-23 during Phase 4 (owner):
+- No undo notice in the new tree (owner): no message after a drop, a hide or a remove from the new tree. Step 4.4 is removed. The app's own notice of the shared commands (remove, Hide key) is not part of this plan and stays as it is.
 - Alt copy during a drag is skipped for now. The old tree never had it; a copy is Shift+D, then a drag. It needs a model operation "copy to a list place" as one undo step before it can come back.
 
 Decided on 2026-11-23 during Phase 3 (owner):
