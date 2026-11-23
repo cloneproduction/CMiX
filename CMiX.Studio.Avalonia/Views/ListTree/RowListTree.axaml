@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters">
+    xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters"
+    FocusAdorner="{x:Null}"
+    Focusable="True">
 
     <!-- One row of the new tree, on the tree node. The band starts at the indent, the toggles stay at the right edge.
          The Background is the surface of an item row, full width. A card shows its surface on its area, under the rows. -->
@@ -64,6 +66,14 @@
         <Style Selector="Views|RowListTree:selected:not(:card) Border#mark">
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=SelectionBorder}" />
+        </Style>
+
+        <!-- The cursor frame of the old tree: one pixel in the colour of the kind, white on the selected row. -->
+        <Style Selector="Border#cursorFrame">
+            <Setter Property="BorderBrush" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}" />
+        </Style>
+        <Style Selector="Views|RowListTree:selected Border#cursorFrame">
+            <Setter Property="BorderBrush" Value="{DynamicResource CursorFrameBrush}" />
         </Style>
     </UserControl.Styles>
 
@@ -129,6 +139,14 @@
 
             </DockPanel>
         </Border>
+
+        <Border
+            x:Name="cursorFrame"
+            Margin="{Binding IndentMargin, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}"
+            BorderThickness="{DynamicResource TreeSelectionThickness}"
+            CornerRadius="{DynamicResource CornerRadiusAll}"
+            IsHitTestVisible="False"
+            IsVisible="{Binding IsCursor}" />
 
         <Border
             x:Name="mark"

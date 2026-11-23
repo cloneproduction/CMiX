@@ -4,6 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
+    <!-- Tree.Open, as in the old tree. The keys of the selected row are in the main window. -->
+    <UserControl.KeyBindings>
+        <KeyBinding Command="{Binding OpenSelectedCommand}" Gesture="{Binding Shortcuts[Tree.Open]}" />
+    </UserControl.KeyBindings>
+
     <!-- The new project tree. The DataContext is the ProjectTree, the same as the one of TreeViewProject. -->
     <DockPanel Background="{DynamicResource TreeBackgroundBrush}">
 
@@ -13,6 +18,7 @@
                 Margin="{DynamicResource TreeMargin}"
                 Background="Transparent"
                 Indent="{DynamicResource ListTreeIndent}"
+                KeyboardNavigation.TabNavigation="Once"
                 Roots="{Binding Roots}"
                 RowGap="{DynamicResource ListTreeRowGap}"
                 RowHeight="{DynamicResource ListTreeRowHeight}"

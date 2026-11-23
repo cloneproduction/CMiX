@@ -25,10 +25,10 @@ namespace CMiX.Studio.Avalonia.Views
 
         public bool IsPanelFocused() => FocusedControl() is { } focused && IsInPanel(focused);
 
-        private IInputElement? FocusedControl() =>
+        public IInputElement? FocusedControl() =>
             TopLevel.GetTopLevel(owner)?.FocusManager?.GetFocusedElement() is { } focused and not TopLevel ? focused : null;
 
-        private bool IsInPanel(IInputElement focused)
+        public bool IsInPanel(IInputElement focused)
         {
             Visual panel = owner.FindAncestorOfType<PanelSide>() is { } host ? host : owner;
             return focused is Visual visual && (ReferenceEquals(visual, panel) || panel.IsVisualAncestorOf(visual));

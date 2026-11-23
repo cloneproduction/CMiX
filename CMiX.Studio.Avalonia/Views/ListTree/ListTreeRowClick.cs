@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -12,43 +13,98 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 namespace CMiX.Studio.Avalonia.Views
 {
     // A press on a row of the new tree selects its node, as in the old tree. A toggle, a text box and the icon of a card keep their own click.
+    // A middle click selects and inspects. The focus stays in the tree, as TreePointerInput keeps it in the old tree.
     internal sealed class ListTreeRowClick
     {
+        private readonly Control owner;
         private readonly PanelListTreeRows rows;
+        private readonly ListTreeFocusKeeper focusKeeper;
 
         private ProjectTree? tree;
 
-        public ListTreeRowClick(PanelListTreeRows rows)
+        public ListTreeRowClick(Control owner, PanelListTreeRows rows, ListTreeFocusKeeper focusKeeper)
         {
+            this.owner = owner;
             this.rows = rows;
+            this.focusKeeper = focusKeeper;
         }
 
         public void Attach(ProjectTree attached)
         {
             tree = attached;
-            rows.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
+            owner.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
+            owner.AddHandler(InputElement.PointerPressedEvent, OnPointerPressedDone, RoutingStrategies.Bubble, handledEventsToo: true);
         }
 
         public void Detach()
         {
-            rows.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
+            owner.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
+            owner.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressedDone);
             tree = null;
         }
 
+        private void OnPointerPressedDone(object? sender, PointerPressedEventArgs e) => focusKeeper.EndPress();
+
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            if (tree == null || !e.GetCurrentPoint(rows).Properties.IsLeftButtonPressed || e.KeyModifiers.HasFlag(KeyModifiers.Control))
+            focusKeeper.BeginPress();
+            if (tree == null)
                 return;
 
-            if (RowOf(e.Source) is not { DataContext: TreeNode node } row || IsOwnClick(row, e.Source))
-                return;
-
-            tree.SelectByClick(node);
+            var properties = e.GetCurrentPoint(rows).Properties;
+            if (properties.IsMiddleButtonPressed)
+                InspectByMiddleClick(tree, e);
+            else if (properties.IsLeftButtonPressed)
+                SelectByLeftClick(tree, e);
         }
 
-        private static RowListTree? RowOf(object? source) => (source as Visual)?.FindAncestorOfType<RowListTree>(includeSelf: true);
+        private static void InspectByMiddleClick(ProjectTree clicked, PointerPressedEventArgs e)
+        {
+            if (IsEditor(e.Source) || RowOf(e.Source) is not { DataContext: TreeNode node })
+                return;
 
-        private static bool IsOwnClick(RowListTree row, object? source) =>
-            TreeRows.HasAncestor<ToggleButton>(source) || TreeRows.HasAncestor<TextBox>(source) || row.IsCardIcon(source);
+            clicked.SelectByClick(node);
+            clicked.Inspect(node);
+            e.Handled = true;
+        }
+
+        private void SelectByLeftClick(ProjectTree clicked, PointerPressedEventArgs e)
+        {
+            if (IsEditor(e.Source))
+            {
+                if (TreeRows.HasAncestor<ToggleButton>(e.Source))
+                    focusKeeper.RememberFocusBeforeRowButton();
+                return;
+            }
+
+            var row = RowOf(e.Source);
+            if (row?.DataContext is not TreeNode node)
+            {
+                PressBesideRows(clicked);
+                return;
+            }
+
+            // The tree has one selection, so a Ctrl click on a row does nothing.
+            if (e.KeyModifiers.HasFlag(KeyModifiers.Control))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            if (!row.IsCardIcon(e.Source))
+                clicked.SelectByClick(node);
+        }
+
+        // The focus moves after the press, because the default handling of the press would take it back.
+        private void PressBesideRows(ProjectTree clicked)
+        {
+            clicked.CursorNode ??= clicked.SelectedNode ?? clicked.Roots.FirstOrDefault();
+            if (clicked.CursorNode != null)
+                focusKeeper.FocusCursorRowAfterPress();
+        }
+
+        private static bool IsEditor(object? source) => TreeRows.HasAncestor<ToggleButton>(source) || TreeRows.HasAncestor<TextBox>(source);
+
+        private static RowListTree? RowOf(object? source) => (source as Visual)?.FindAncestorOfType<RowListTree>(includeSelf: true);
     }
 }

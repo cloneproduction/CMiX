@@ -102,6 +102,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         public RowListTree? RowOf(ListTreeRowKey key) => rowsByKey.GetValueOrDefault(key);
 
+        public RowListTree? RowOf(TreeNode node) => rowsByKey.Values.FirstOrDefault(row => ReferenceEquals(row.DataContext, node));
+
         public FrameListTreeCard? CardAreaOf(ListTreeRowKey key) => areas.Areas.FirstOrDefault(area => area.Place?.Key == key);
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)

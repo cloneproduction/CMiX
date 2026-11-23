@@ -13,7 +13,11 @@ namespace CMiX.Studio.Avalonia.Views
     {
         private readonly TreeViewLifetime lifetime = new();
         private readonly ListTreeFocus focus;
+        private readonly ListTreeFocusKeeper focusKeeper;
         private readonly ListTreeRowClick rowClick;
+        private readonly ListTreeAddBeside addBeside;
+        private readonly ListTreeKeyInput keyInput;
+        private readonly ListTreeScreenRequests requests;
         private readonly TreeViewHooks hooks;
 
         private ProjectTree? watched;
@@ -23,8 +27,13 @@ namespace CMiX.Studio.Avalonia.Views
             InitializeComponent();
 
             focus = new ListTreeFocus(this);
-            rowClick = new ListTreeRowClick(rows);
+            focusKeeper = new ListTreeFocusKeeper(this, rows, focus, lifetime);
+            rowClick = new ListTreeRowClick(this, rows, focusKeeper);
+            addBeside = new ListTreeAddBeside(rows, focusKeeper, lifetime);
+            keyInput = new ListTreeKeyInput(this, rows, focusKeeper, addBeside, lifetime);
+            requests = new ListTreeScreenRequests(rows, () => IsActiveView, lifetime);
             hooks = BuildHooks();
+            KeyBindingTextGuard.Install(this);
         }
 
         private TreeViewHooks BuildHooks() =>
@@ -40,6 +49,8 @@ namespace CMiX.Studio.Avalonia.Views
         internal bool IsActiveView => watched?.IsActiveView(hooks) == true;
 
         internal PanelListTreeRows Rows => rows;
+
+        internal AddPanel MenuAddPanel => addBeside.AddPanel;
 
         protected override void OnDataContextChanged(EventArgs e)
         {
@@ -59,7 +70,11 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             watched.AttachView(hooks);
+            requests.Watch(watched);
+            focusKeeper.Attach(watched);
             rowClick.Attach(watched);
+            keyInput.Attach(watched);
+            addBeside.Attach(watched);
         }
 
         private void Unwatch()
@@ -67,7 +82,11 @@ namespace CMiX.Studio.Avalonia.Views
             if (watched == null)
                 return;
 
+            addBeside.Detach();
+            keyInput.Detach();
             rowClick.Detach();
+            focusKeeper.Detach();
+            requests.Unwatch();
             watched.DetachView(hooks);
         }
 
