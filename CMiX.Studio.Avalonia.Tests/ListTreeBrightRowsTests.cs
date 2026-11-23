@@ -9,6 +9,7 @@ using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Xunit;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeScenes;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 using Layer = CMiX.Core.Compositing.Layer;
 
@@ -20,14 +21,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // Layer 1 of A has two entities with modifiers, a camera and a filter. Layer 2 of A has only a filter.
         // B has an empty layer and a layer with one entity. Every empty list is closed.
-        private static Scene CreateScene()
-        {
-            var scene = TreeFixtures.CreateScene([2, 2], Fill);
-            foreach (var node in scene.All())
-                node.IsExpanded = node.Group == null || node.Children.Count > 0;
-
-            return scene;
-        }
+        private static Scene CreateScene() => Opened(TreeFixtures.CreateScene([2, 2], Fill));
 
         private static void Fill(Scene scene)
         {
@@ -42,10 +36,6 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.LayerOfA(1).TextureModifierManager.AddItem(typeof(Blur));
             ((Layer)scene.B.LayerManager.ManagerData.Items[1]).ModelEntityManager.AddItem(typeof(Entity));
         }
-
-        private static TreeNode Entity(Scene scene, int index) => scene.Group<EntitiesGroup>(0).Children[index];
-
-        private static TreeNode EntityOfB(Scene scene) => Scene.Group<EntitiesGroup>(scene.LayerNodeOfB(1)).Children[0];
 
         private static ListTreeRowKey Key(TreeNode node) => ListTreeKeys.Of(node);
 

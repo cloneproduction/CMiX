@@ -3,16 +3,14 @@
 
 using CMiX.Core;
 using CMiX.Core.Compositing;
-using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
-using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeScenes;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 using Layer = CMiX.Core.Compositing.Layer;
 
@@ -24,70 +22,27 @@ namespace CMiX.Studio.Avalonia.Tests
         // B has an empty layer that is closed and a layer with one entity. Every empty list is closed.
         private static Scene CreateScene()
         {
-            var scene = TreeFixtures.CreateScene([2, 2], Fill);
-            foreach (var node in scene.All())
-                node.IsExpanded = node.Group == null || node.Children.Count > 0;
-
+            var scene = Opened(TreeFixtures.CreateScene([2, 2], Fill));
             scene.LayerNodeOfB(0).IsExpanded = false;
             return scene;
-        }
-
-        private static void Fill(Scene scene)
-        {
-            var layer1 = scene.LayerOfA(0);
-            layer1.ModelEntityManager.AddItem(typeof(Entity));
-            layer1.ModelEntityManager.AddItem(typeof(Entity));
-            layer1.CameraManager.AddItem(typeof(Camera));
-            layer1.TextureModifierManager.AddItem(typeof(Blur));
-            var first = (Entity)layer1.ModelEntityManager.ManagerData.Items[0];
-            first.ModifierManager.AddItem(typeof(TranslateModifier));
-            first.ModifierManager.AddItem(typeof(ScaleModifier));
-            var second = (Entity)layer1.ModelEntityManager.ManagerData.Items[1];
-            second.ModifierManager.AddItem(typeof(TranslateModifier));
-            scene.LayerOfA(1).TextureModifierManager.AddItem(typeof(Blur));
-            LayerOfB(scene, 1).ModelEntityManager.AddItem(typeof(Entity));
         }
 
         // The second entity of layer 1 of A shows under layer 2 of A too.
         private static Scene CreateSharedScene()
         {
-            var scene = TreeFixtures.CreateScene([2, 2], ShareAnEntity);
-            foreach (var node in scene.All())
-                node.IsExpanded = node.Group == null || node.Children.Count > 0;
-
+            var scene = Opened(TreeFixtures.CreateScene([2, 2], ShareAnEntity));
             scene.LayerNodeOfA(1).IsExpanded = false;
             return scene;
         }
 
-        private static void ShareAnEntity(Scene scene)
-        {
-            Fill(scene);
-            scene.LayerOfA(1).ModelEntityManager.AddExistingItem((IPrefab)scene.LayerOfA(0).ModelEntityManager.ManagerData.Items[1]);
-        }
-
         // The entity of B, which has no modifiers, shows under both layers of B.
-        private static Scene CreateSharedCardScene()
-        {
-            var scene = TreeFixtures.CreateScene([2, 2], ShareTheEntityOfB);
-            foreach (var node in scene.All())
-                node.IsExpanded = node.Group == null || node.Children.Count > 0;
-
-            return scene;
-        }
+        private static Scene CreateSharedCardScene() => Opened(TreeFixtures.CreateScene([2, 2], ShareTheEntityOfB));
 
         private static void ShareTheEntityOfB(Scene scene)
         {
             Fill(scene);
             LayerOfB(scene, 0).ModelEntityManager.AddExistingItem((IPrefab)LayerOfB(scene, 1).ModelEntityManager.ManagerData.Items[0]);
         }
-
-        private static Layer LayerOfB(Scene scene, int index) => (Layer)scene.B.LayerManager.ManagerData.Items[index];
-
-        private static TreeNode Entity(Scene scene, int index) => scene.Group<EntitiesGroup>(0).Children[index];
-
-        private static TreeNode Modifier(Scene scene, int entity, int index) => Scene.Group<ModifiersGroup>(Entity(scene, entity)).Children[index];
-
-        private static TreeNode EntityOfB(Scene scene) => Scene.Group<EntitiesGroup>(scene.LayerNodeOfB(1)).Children[0];
 
         private static IReadOnlyList<ListTreeSlot> SlotsOf(Scene scene, TreeNode source) =>
             new ListTreeSlots(new TreeDropService()).Of(ListTreeSnapshot.Of(scene.Tree.Roots), source);
@@ -109,9 +64,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static ListTreeRow RowOf(ListTreeSnapshot snapshot, ListTreeRowKey key) =>
             AllRows(snapshot.Roots).Single(row => row.Key.Equals(key));
-
-        private static IEnumerable<ListTreeRow> AllRows(IEnumerable<ListTreeRow> rows) =>
-            rows.SelectMany(row => AllRows(row.Children).Prepend(row));
 
         private sealed record Shown(ListTreeRowKey Key, int Depth);
 

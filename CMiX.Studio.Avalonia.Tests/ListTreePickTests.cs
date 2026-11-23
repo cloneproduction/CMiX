@@ -7,6 +7,7 @@ using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Xunit;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeScenes;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
@@ -16,14 +17,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private readonly ListTreePick pick = new(ListTreeDragNumbers.Default);
 
         // Layer 1 of A has two entities and a filter. Layer 2 of A has only a filter. Every empty list is closed.
-        private static Scene CreateScene()
-        {
-            var scene = TreeFixtures.CreateScene([2], Fill);
-            foreach (var node in scene.All())
-                node.IsExpanded = node.Group == null || node.Children.Count > 0;
-
-            return scene;
-        }
+        private static Scene CreateScene() => Opened(TreeFixtures.CreateScene([2], Fill));
 
         private static void Fill(Scene scene)
         {

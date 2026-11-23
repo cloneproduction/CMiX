@@ -2,14 +2,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.Compositing;
-using CMiX.Core.Modulation.Modifiers;
-using CMiX.Core.Prefabs;
-using CMiX.Core.Rendering.Cameras;
-using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Xunit;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeScenes;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 using Layer = CMiX.Core.Compositing.Layer;
 
@@ -25,40 +22,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // The second entity of layer 1 of A shows under layer 2 of A too.
         private static Scene CreateSharedScene() => Opened(TreeFixtures.CreateScene([2, 2], ShareAnEntity));
-
-        private static Scene Opened(Scene scene)
-        {
-            foreach (var node in scene.All())
-                node.IsExpanded = node.Group == null || node.Children.Count > 0;
-
-            return scene;
-        }
-
-        private static void Fill(Scene scene)
-        {
-            var layer1 = scene.LayerOfA(0);
-            layer1.ModelEntityManager.AddItem(typeof(Entity));
-            layer1.ModelEntityManager.AddItem(typeof(Entity));
-            layer1.CameraManager.AddItem(typeof(Camera));
-            layer1.TextureModifierManager.AddItem(typeof(Blur));
-            var first = (Entity)layer1.ModelEntityManager.ManagerData.Items[0];
-            first.ModifierManager.AddItem(typeof(TranslateModifier));
-            first.ModifierManager.AddItem(typeof(ScaleModifier));
-            var second = (Entity)layer1.ModelEntityManager.ManagerData.Items[1];
-            second.ModifierManager.AddItem(typeof(TranslateModifier));
-            scene.LayerOfA(1).TextureModifierManager.AddItem(typeof(Blur));
-            LayerOfB(scene, 1).ModelEntityManager.AddItem(typeof(Entity));
-        }
-
-        private static void ShareAnEntity(Scene scene)
-        {
-            Fill(scene);
-            scene.LayerOfA(1).ModelEntityManager.AddExistingItem((IPrefab)scene.LayerOfA(0).ModelEntityManager.ManagerData.Items[1]);
-        }
-
-        private static Layer LayerOfB(Scene scene, int index) => (Layer)scene.B.LayerManager.ManagerData.Items[index];
-
-        private static TreeNode Entity(Scene scene, int index) => scene.Group<EntitiesGroup>(0).Children[index];
 
         private IReadOnlyList<ListTreeCandidate> CandidatesOf(Scene scene, TreeNode source)
         {

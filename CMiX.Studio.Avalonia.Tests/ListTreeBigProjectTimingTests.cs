@@ -10,6 +10,7 @@ using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Xunit;
 using Xunit.Abstractions;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeScenes;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 using Layer = CMiX.Core.Compositing.Layer;
 
@@ -31,14 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // 20 compositions of 10 layers. Each layer has 10 entities and a filter, and its first entity has a modifier.
         private static Scene CreateBig() => TreeFixtures.CreateScene(Enumerable.Repeat(10, 20).ToArray(), Fill);
 
-        private static Scene CreateBigAllOpen()
-        {
-            var scene = CreateBig();
-            foreach (var node in scene.All())
-                node.IsExpanded = node.Group == null || node.Children.Count > 0;
-
-            return scene;
-        }
+        private static Scene CreateBigAllOpen() => Opened(CreateBig());
 
         private static void Fill(Scene scene)
         {
