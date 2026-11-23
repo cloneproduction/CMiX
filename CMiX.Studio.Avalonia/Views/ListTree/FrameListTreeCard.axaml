@@ -6,7 +6,7 @@
     xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters"
     IsHitTestVisible="False">
 
-    <!-- The area of a card, on the tree node. The panel sets the states. A hover inside a selected card adds a band from the indent of the card. -->
+    <!-- The area of a card, on the tree node. The panel sets the states. A hover inside a selected card adds a full width band. -->
     <UserControl.Resources>
         <StudioConverters:ListTreeKindBrushConverter x:Key="KindMark" />
     </UserControl.Resources>
@@ -24,9 +24,6 @@
         </Style>
         <Style Selector="Views|FrameListTreeCard:hovered:inselection Border#surface">
             <Setter Property="Background" Value="{DynamicResource ListTreeCardHoverInSelectionBandBrush}" />
-        </Style>
-        <Style Selector="Views|FrameListTreeCard:inselection Border#surface, Views|FrameListTreeCard:inselection Border#mark">
-            <Setter Property="Margin" Value="{Binding IndentMargin, RelativeSource={RelativeSource AncestorType=Views:FrameListTreeCard}}" />
         </Style>
         <Style Selector="Views|FrameListTreeCard:selected Border#surface">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedBrush}" />

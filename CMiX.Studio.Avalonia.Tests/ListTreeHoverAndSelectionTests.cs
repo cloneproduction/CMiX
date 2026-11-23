@@ -223,54 +223,34 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Hover_AnItemInASelectedCard_AddsTheBandFromItsIndentAndKeepsTheAreaOfTheCard()
+        public void Hover_AnItemInASelectedCard_AddsAFullWidthBandAndKeepsTheAreaOfTheCard()
         {
             Select(Layer);
             var row = RowOf(Entity);
-            var indent = view.Rows.Layout.PlaceOf(ListTreeKeys.Of(Entity))!.Indent;
 
             Hover(BlankOf(row));
 
             Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(AreaOf(Layer).Surface.Background));
             AssertMark(AreaOf(Layer).Mark, KindOf(Layer).SelectionBorder, 0, AreaOf(Layer));
-            Assert.Equal(Colors.Transparent, FillOf(row.Background));
-            Assert.Equal(Token("ListTreeRowHoverInSelectionBandBrush"), FillOf(Named(row, "band").Background));
-            Assert.Equal(indent, LeftIn(Named(row, "band"), row));
-            AssertMark(Named(row, "mark"), KindOf(Entity).HoverBorder, indent, row);
+            Assert.Equal(Token("ListTreeRowHoverInSelectionBandBrush"), FillOf(row.Background));
+            Assert.Equal(Colors.Transparent, FillOf(Named(row, "band").Background));
+            AssertMark(Named(row, "mark"), KindOf(Entity).HoverBorder, 0, row);
             Assert.Equal(Token("ListTreeTextSelectedBrush"), TextOf(row));
         }
 
         [AvaloniaFact]
-        public void Hover_ACardInASelectedCard_AddsTheAreaBandFromItsIndentAndKeepsTheOuterArea()
+        public void Hover_ACardInASelectedCard_AddsAFullWidthAreaBandAndKeepsTheOuterArea()
         {
             Select(Layer);
             var area = AreaOf(Entities);
-            var indent = area.Place!.Indent;
 
             Hover(BlankOf(RowOf(Entities)));
 
             Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(AreaOf(Layer).Surface.Background));
             Assert.Equal(Token("ListTreeCardHoverInSelectionBandBrush"), FillOf(area.Surface.Background));
-            Assert.Equal(indent, LeftIn(area.Surface, area));
-            AssertMark(area.Mark, KindOf(Entities).HoverBorder, indent, area);
-            Assert.Equal(area.Place.AreaHeight, area.Mark.Bounds.Height);
-        }
-
-        [AvaloniaFact]
-        public void Place_AReusedCardAreaGetsANewPlace_MovesItsSurfaceToTheNewIndent()
-        {
-            var place = AreaOf(Entities).Place!;
-            var area = new FrameListTreeCard { DataContext = Entities, Place = place };
-            area.ShowMarks(new ListTreeMarks(Layer, null, null));
-            window.Content = area;
-            Settle();
-            var indent = place.Indent + 16;
-
-            area.Place = place with { Indent = indent };
-            Settle();
-
-            Assert.Equal(indent, area.IndentMargin.Left);
-            Assert.Equal(indent, LeftIn(area.Surface, area));
+            Assert.Equal(0, LeftIn(area.Surface, area));
+            AssertMark(area.Mark, KindOf(Entities).HoverBorder, 0, area);
+            Assert.Equal(area.Place!.AreaHeight, area.Mark.Bounds.Height);
         }
 
         [AvaloniaFact]

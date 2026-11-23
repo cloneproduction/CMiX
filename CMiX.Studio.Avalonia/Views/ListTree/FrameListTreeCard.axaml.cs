@@ -19,9 +19,6 @@ namespace CMiX.Studio.Avalonia.Views
         public static readonly StyledProperty<ListTreePlace?> PlaceProperty =
             AvaloniaProperty.Register<FrameListTreeCard, ListTreePlace?>(nameof(Place));
 
-        public static readonly StyledProperty<Thickness> IndentMarginProperty =
-            AvaloniaProperty.Register<FrameListTreeCard, Thickness>(nameof(IndentMargin));
-
         public FrameListTreeCard()
         {
             InitializeComponent();
@@ -33,23 +30,9 @@ namespace CMiX.Studio.Avalonia.Views
             set => SetValue(PlaceProperty, value);
         }
 
-        public Thickness IndentMargin
-        {
-            get => GetValue(IndentMarginProperty);
-            private set => SetValue(IndentMarginProperty, value);
-        }
-
         internal Border Surface => surface;
 
         internal Border Mark => mark;
-
-        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-        {
-            base.OnPropertyChanged(change);
-
-            if (change.Property == PlaceProperty)
-                IndentMargin = new Thickness(Place?.Indent ?? 0, 0, 0, 0);
-        }
 
         public void ShowMarks(ListTreeMarks marks)
         {

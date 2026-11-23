@@ -36,6 +36,10 @@
         <Style Selector="Views|RowListTree:pointerover:not(:card):not(:inselection):not(:dimmed)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowHoverBrush}" />
         </Style>
+        <!-- Inside a selected card, a hover adds a full width band of white over the selected surface. -->
+        <Style Selector="Views|RowListTree:pointerover:inselection:not(:card):not(:dimmed)">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowHoverInSelectionBandBrush}" />
+        </Style>
         <Style Selector="Views|RowListTree:selected:not(:card)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedBrush}" />
         </Style>
@@ -54,9 +58,6 @@
         <Style Selector="Views|RowListTree:pointerover Border#band, Views|RowListTree:selected Border#band">
             <Setter Property="Background" Value="Transparent" />
         </Style>
-        <Style Selector="Views|RowListTree:pointerover:inselection:not(:card) Border#band">
-            <Setter Property="Background" Value="{DynamicResource ListTreeRowHoverInSelectionBandBrush}" />
-        </Style>
 
         <Style Selector="Border#mark">
             <Setter Property="IsVisible" Value="False" />
@@ -64,9 +65,6 @@
         <Style Selector="Views|RowListTree:pointerover:not(:card):not(:dimmed) Border#mark">
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=HoverBorder}" />
-        </Style>
-        <Style Selector="Views|RowListTree:inselection Border#mark">
-            <Setter Property="Margin" Value="{Binding IndentMargin, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}" />
         </Style>
         <Style Selector="Views|RowListTree:selected:not(:card) Border#mark">
             <Setter Property="IsVisible" Value="True" />

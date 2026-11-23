@@ -105,7 +105,7 @@ state) were tried and rejected. The colours of 52 stay, except where this list s
 | Group icon | a group has its own icon, `Folder` (the app uses `Composition` today, the same as a composition); its count squares use it too |
 | Collapsed card halo | none (owner): no outline around any icon; the count squares mark a closed card |
 | Selected and hovered | white 20 % (was 16 %) |
-| Hover inside a selected card | the hovered row adds white on top of the selected surface from its own indent (item 11 % band, card area 5 %); it gets brighter, never darker, and the area of the parent does not change. Its 3 px hover border sits at the indent of the row, next to the selection border. Outside a selection, hover is as in 52 (full width, border at the left edge) |
+| Hover inside a selected card | the hovered row adds white on top of the selected surface at full width (item 5 % band, card area 3 %); it gets brighter, never darker, and the area of the parent does not change. Its 3 px hover border sits at the left edge, as outside a selection (owner, 2026-11-23) |
 | Landing line | none; the dragged row snaps into its place, so the place is clear. A reorder in the same parent shows only the moving row |
 | Drag note | one line under the tree during a drag: "Move into Swarm. Grey rows can not take it." With Alt: "Copy into ...". When a closed card is near: "E opens Swarm now." |
 | E during a drag | opens the closed card next to the landing place at once |
