@@ -4,6 +4,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using CMiX.Studio.Avalonia.Behaviors.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.UI.Controls.Parts;
@@ -13,9 +14,6 @@ namespace CMiX.Studio.Avalonia.Views
     // The screen hub of the new tree. It builds its parts and attaches them to the tree while the view is in the visual tree.
     public partial class ListTreeProject : UserControl
     {
-        private readonly TreeViewLifetime lifetime = new();
-        private readonly ListTreeViewState state = new();
-        private readonly ListTreeFocus focus;
         private readonly ListTreeViewStateInput stateInput;
         private readonly ListTreeFocusKeeper focusKeeper;
         private readonly ListTreePressFocus pressFocus;
@@ -39,14 +37,14 @@ namespace CMiX.Studio.Avalonia.Views
         {
             InitializeComponent();
 
-            focus = new ListTreeFocus(this);
+            Context = BuildContext();
+            var lifetime = Context.Lifetime;
             focusKeeper = new ListTreeFocusKeeper(this, rows, lifetime);
-            pressFocus = new ListTreePressFocus(rows, focus, focusKeeper, lifetime);
-            stateInput = new ListTreeViewStateInput(this, focus, state);
+            pressFocus = new ListTreePressFocus(rows, Context.Focus, focusKeeper, lifetime);
+            stateInput = new ListTreeViewStateInput(this, Context.Focus, Context.State);
             rowClick = new ListTreeRowClick(scroller, rows, pressFocus);
-            var addPanel = new AddPanel();
-            hints = new ListTreeHints(this, hintStrip, focus, new ListTreeMenuOpen(scroller, addPanel), lifetime);
-            addBeside = new ListTreeAddBeside(rows, focusKeeper, addPanel, hints.Update, lifetime);
+            hints = new ListTreeHints(this, hintStrip, Context.Focus, Context.MenuOpen, lifetime);
+            addBeside = new ListTreeAddBeside(rows, focusKeeper, Context.AddPanel, hints.Update, lifetime);
             reveal = new ListTreeRowReveal(this, rows, scroller, lifetime);
             scrollAnchor = new ListTreeScrollAnchor(rows, scroller);
             endRoom = new ListTreeEndRoom(rows, scroller, endRoomSpace);
@@ -60,20 +58,29 @@ namespace CMiX.Studio.Avalonia.Views
             tooltips = new TreeTooltips(rows);
         }
 
+        private ListTreeContext BuildContext()
+        {
+            var addPanel = new AddPanel();
+            return new ListTreeContext(this, rows, scroller, hintStrip, endRoomSpace, new TreeViewLifetime(), new ListTreeViewState(),
+                new ListTreeFocus(this), addPanel, new ListTreeMenuOpen(scroller, addPanel));
+        }
+
         private TreeViewHooks BuildHooks() =>
             new()
             {
-                IsPointerOverTree = () => state.IsPointerOverTree,
-                IsTreeFocused = () => state.IsTreeFocused,
-                IsTextBoxFocused = () => state.IsTextBoxFocused,
-                IsFocusInOtherPanel = () => state.IsFocusInOtherPanel,
-                IsPanelFocused = () => state.IsPanelFocused,
+                IsPointerOverTree = () => Context.State.IsPointerOverTree,
+                IsTreeFocused = () => Context.State.IsTreeFocused,
+                IsTextBoxFocused = () => Context.State.IsTextBoxFocused,
+                IsFocusInOtherPanel = () => Context.State.IsFocusInOtherPanel,
+                IsPanelFocused = () => Context.State.IsPanelFocused,
                 CloseRowsInView = requests.CloseRowsInView
             };
 
+        internal ListTreeContext Context { get; }
+
         internal bool IsActiveView => watched?.IsActiveView(hooks) == true;
 
-        internal ListTreeViewState State => state;
+        internal ListTreeViewState State => Context.State;
 
         internal PanelListTreeRows Rows => rows;
 
@@ -91,11 +98,11 @@ namespace CMiX.Studio.Avalonia.Views
         {
             base.OnDataContextChanged(e);
 
-            if (lifetime.IsAttached)
+            if (Context.Lifetime.IsAttached)
                 Unwatch();
 
             watched = DataContext as ProjectTree;
-            if (lifetime.IsAttached)
+            if (Context.Lifetime.IsAttached)
                 Watch();
         }
 
@@ -146,14 +153,14 @@ namespace CMiX.Studio.Avalonia.Views
             base.OnAttachedToVisualTree(e);
 
             // The tree view model listens only while the view is attached.
-            lifetime.Attach();
+            Context.Lifetime.Attach();
             Watch();
         }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
             Unwatch();
-            lifetime.Detach();
+            Context.Lifetime.Detach();
             base.OnDetachedFromVisualTree(e);
         }
     }
