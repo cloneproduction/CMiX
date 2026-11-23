@@ -11,17 +11,20 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
     internal sealed class ListTreeMoveChanges
     {
         private readonly ListTreeMovePlan plan;
-        private readonly IReadOnlySet<ListTreeRowKey> opened;
+        private readonly IReadOnlySet<ListTreeCountedRow> openedRows;
+        private readonly IReadOnlySet<ListTreeRowKey> openedKeys;
         private readonly IReadOnlySet<ListTreeCountedRow> changed;
-        private readonly IReadOnlyDictionary<ListTreeCountedRow, ListTreeCountedRow[]> changedChildren;
+        private readonly IReadOnlyDictionary<ListTreeCountedRow, List<ListTreeCountedRow>> changedChildren;
 
         private ListTreeMoveChanges(ListTreeMovePlan plan, IReadOnlySet<ListTreeCountedRow> holders, IReadOnlySet<ListTreeCountedRow> hiddenListOwners,
-            IReadOnlySet<ListTreeRowKey> opened, IReadOnlySet<ListTreeCountedRow> changed, IReadOnlyDictionary<ListTreeCountedRow, ListTreeCountedRow[]> changedChildren)
+            IReadOnlySet<ListTreeCountedRow> openedRows, IReadOnlySet<ListTreeRowKey> openedKeys, IReadOnlySet<ListTreeCountedRow> changed,
+            IReadOnlyDictionary<ListTreeCountedRow, List<ListTreeCountedRow>> changedChildren)
         {
             this.plan = plan;
             Holders = holders;
             HiddenListOwners = hiddenListOwners;
-            this.opened = opened;
+            this.openedRows = openedRows;
+            this.openedKeys = openedKeys;
             this.changed = changed;
             this.changedChildren = changedChildren;
         }
@@ -35,59 +38,114 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         public bool IsChanged(ListTreeCountedRow row) => changed.Contains(row);
 
         // The drop opens every row on the path to a row that gets the source.
-        public bool IsOpened(ListTreeRowKey key) => opened.Contains(key);
+        public bool IsOpened(ListTreeCountedRow row) => openedRows.Contains(row);
+
+        // A key with no live row is the group row of a hidden list.
+        public bool IsOpened(ListTreeRowKey key) => openedKeys.Contains(key);
 
         // In tree order: the changed children and the rows of the source that leave.
-        public IReadOnlyList<ListTreeCountedRow> ChangedChildrenOf(ListTreeCountedRow row) => changedChildren.GetValueOrDefault(row) ?? Array.Empty<ListTreeCountedRow>();
+        public IReadOnlyList<ListTreeCountedRow> ChangedChildrenOf(ListTreeCountedRow row) =>
+            changedChildren.TryGetValue(row, out var children) ? children : Array.Empty<ListTreeCountedRow>();
 
         public ListTreeRowKey GroupKeyOf(ListTreeCountedRow owner) => GroupKeyOf(owner, plan);
 
         public static ListTreeMoveChanges Of(ListTreeCountedTree tree, ListTreeMovePlan plan)
         {
-            var holders = tree.RowsOf(plan.To).ToHashSet();
-            var hiddenListOwners = tree.OwnersOf(plan.To).Where(owner => !holders.Contains(owner) && tree.RowOf(GroupKeyOf(owner, plan)) == null).ToHashSet();
-            var opened = OpenedBy(HoldersToOpen(plan, holders, hiddenListOwners));
-            var seeds = holders.Concat(hiddenListOwners).Concat(tree.LeavingRows.Select(tree.ParentOf)).Concat(opened.Select(tree.RowOf)).OfType<ListTreeCountedRow>();
-            var changed = ChangedRowsOf(tree, seeds);
-            return new ListTreeMoveChanges(plan, holders, hiddenListOwners, opened, changed, ChangedChildrenOf(tree, changed));
+            var holders = new HashSet<ListTreeCountedRow>(tree.RowsOf(plan.To));
+            var hiddenListOwners = new HashSet<ListTreeCountedRow>(tree.OwnersOf(plan.To).Where(owner => IsHiddenListOwner(owner, plan, holders)));
+            var openedRows = new HashSet<ListTreeCountedRow>();
+            var openedKeys = new HashSet<ListTreeRowKey>();
+            if (plan.IsInItsOwnList)
+                OpenKey(tree, plan.Holder, openedRows, openedKeys);
+            else
+                OpenHolders(tree, plan, holders, hiddenListOwners, openedRows, openedKeys);
+
+            var changed = new HashSet<ListTreeCountedRow> { tree.Root };
+            var changedChildren = new Dictionary<ListTreeCountedRow, List<ListTreeCountedRow>>();
+            foreach (var row in openedRows.Concat(holders).Concat(hiddenListOwners))
+                AddChanged(tree, row, changed, changedChildren);
+
+            AddLeavingRows(tree, changed, changedChildren);
+            foreach (var children in changedChildren.Values)
+                children.Sort((first, second) => first.Index.CompareTo(second.Index));
+
+            return new ListTreeMoveChanges(plan, holders, hiddenListOwners, openedRows, openedKeys, changed, changedChildren);
         }
+
+        private static bool IsHiddenListOwner(ListTreeCountedRow owner, ListTreeMovePlan plan, IReadOnlySet<ListTreeCountedRow> holders) =>
+            !holders.Contains(owner) && !owner.Children.Any(child => ReferenceEquals(child.Model, plan.To));
 
         private static ListTreeRowKey GroupKeyOf(ListTreeCountedRow owner, ListTreeMovePlan plan) => new(plan.To, owner.Row.Key);
 
-        // A move in its own list opens only the holder of the slot. A move to another list opens every row that shows that list.
-        private static IEnumerable<ListTreeRowKey> HoldersToOpen(ListTreeMovePlan plan, IEnumerable<ListTreeCountedRow> holders, IEnumerable<ListTreeCountedRow> hiddenListOwners) =>
-            plan.IsInItsOwnList
-                ? new[] { plan.Holder }
-                : holders.Select(holder => holder.Row.Key).Concat(hiddenListOwners.Select(owner => GroupKeyOf(owner, plan)));
-
-        private static IReadOnlySet<ListTreeRowKey> OpenedBy(IEnumerable<ListTreeRowKey> holders)
+        // A move to another list opens every row that shows that list. A move in its own list opens only the holder of the slot.
+        private static void OpenHolders(ListTreeCountedTree tree, ListTreeMovePlan plan, IEnumerable<ListTreeCountedRow> holders, IEnumerable<ListTreeCountedRow> hiddenListOwners,
+            HashSet<ListTreeCountedRow> openedRows, HashSet<ListTreeRowKey> openedKeys)
         {
-            var opened = new HashSet<ListTreeRowKey>();
             foreach (var holder in holders)
-                for (ListTreeRowKey? key = holder; key != null; key = key.Parent)
-                    opened.Add(key);
+                AddWithParents(tree, holder, openedRows);
 
-            return opened;
-        }
-
-        // A row changes when a row under it changes, so the root always changes.
-        private static IReadOnlySet<ListTreeCountedRow> ChangedRowsOf(ListTreeCountedTree tree, IEnumerable<ListTreeCountedRow> seeds)
-        {
-            var changed = new HashSet<ListTreeCountedRow> { tree.Root };
-            foreach (var seed in seeds)
+            foreach (var owner in hiddenListOwners)
             {
-                var row = seed;
-                while (row != null && changed.Add(row))
-                    row = tree.ParentOf(row);
+                openedKeys.Add(GroupKeyOf(owner, plan));
+                AddWithParents(tree, owner, openedRows);
             }
-
-            return changed;
         }
 
-        private static IReadOnlyDictionary<ListTreeCountedRow, ListTreeCountedRow[]> ChangedChildrenOf(ListTreeCountedTree tree, IEnumerable<ListTreeCountedRow> changed) =>
-            changed.Concat(tree.LeavingRows).Distinct()
-                .Where(row => tree.ParentOf(row) != null)
-                .GroupBy(row => tree.ParentOf(row)!)
-                .ToDictionary(group => group.Key, group => group.OrderBy(row => row.Index).ToArray());
+        private static void OpenKey(ListTreeCountedTree tree, ListTreeRowKey? key, HashSet<ListTreeCountedRow> openedRows, HashSet<ListTreeRowKey> openedKeys)
+        {
+            for (; key != null; key = key.Parent)
+            {
+                if (tree.RowOf(key) is { } row)
+                {
+                    AddWithParents(tree, row, openedRows);
+                    return;
+                }
+
+                openedKeys.Add(key);
+            }
+        }
+
+        private static void AddWithParents(ListTreeCountedTree tree, ListTreeCountedRow row, HashSet<ListTreeCountedRow> rows)
+        {
+            ListTreeCountedRow? next = row;
+            while (next != null && rows.Add(next))
+                next = tree.ParentOf(next);
+        }
+
+        // A row changes when a row under it changes, so the root always changes. An opened row changes.
+        private static void AddChanged(ListTreeCountedTree tree, ListTreeCountedRow row, HashSet<ListTreeCountedRow> changed,
+            Dictionary<ListTreeCountedRow, List<ListTreeCountedRow>> changedChildren)
+        {
+            ListTreeCountedRow? next = row;
+            while (next != null && changed.Add(next))
+            {
+                var parent = tree.ParentOf(next);
+                if (parent != null)
+                    AddTo(changedChildren, parent, next);
+
+                next = parent;
+            }
+        }
+
+        // A row of the source that leaves its list counts as a changed child of that list.
+        private static void AddLeavingRows(ListTreeCountedTree tree, HashSet<ListTreeCountedRow> changed, Dictionary<ListTreeCountedRow, List<ListTreeCountedRow>> changedChildren)
+        {
+            foreach (var row in tree.LeavingRows)
+            {
+                if (changed.Contains(row) || tree.ParentOf(row) is not { } list)
+                    continue;
+
+                AddTo(changedChildren, list, row);
+                AddChanged(tree, list, changed, changedChildren);
+            }
+        }
+
+        private static void AddTo(Dictionary<ListTreeCountedRow, List<ListTreeCountedRow>> children, ListTreeCountedRow parent, ListTreeCountedRow row)
+        {
+            if (!children.TryGetValue(parent, out var list))
+                children.Add(parent, list = new List<ListTreeCountedRow>());
+
+            list.Add(row);
+        }
     }
 }

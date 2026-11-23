@@ -27,9 +27,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             if (source.Node is not { } node)
                 return Array.Empty<ListTreeCandidate>();
 
+            var counted = ListTreeCountedTree.Of(snapshot, source, sizes);
             return slots.Of(snapshot, node)
                 .Where(slot => IsTakenByTheDrop(node, slot))
-                .Select(slot => CandidateOf(snapshot, source, node, slot))
+                .Select(slot => CandidateOf(snapshot, counted, slot))
                 .OfType<ListTreeCandidate>()
                 .ToArray();
         }
@@ -38,13 +39,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         private bool IsTakenByTheDrop(TreeNode source, ListTreeSlot slot) =>
             dropService.BlockReason(source, slot.Target) == null;
 
-        private ListTreeCandidate? CandidateOf(ListTreeSnapshot snapshot, ListTreeRow source, TreeNode node, ListTreeSlot slot)
-        {
-            var moved = ListTreeMove.Of(snapshot, source, slot);
-            var layout = ListTreeLayout.Of(moved, sizes);
-            return moved.RowOf(node) is { } row && layout.PlaceOf(row.Key) is { } place
-                ? new ListTreeCandidate(slot, moved, layout, place)
-                : null;
-        }
+        // The moved tree is made only for the candidate that a drag shows.
+        private ListTreeCandidate? CandidateOf(ListTreeSnapshot snapshot, ListTreeCountedTree counted, ListTreeSlot slot) =>
+            counted.PlaceOf(slot) is { } place ? new ListTreeCandidate(slot, place, new ListTreeMovedTree(snapshot, counted.Source, slot, sizes)) : null;
     }
 }

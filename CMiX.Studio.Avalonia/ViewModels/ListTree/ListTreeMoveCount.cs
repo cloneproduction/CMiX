@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // Null when the move gives the source no visible row.
         public ListTreePlace? Place()
         {
-            if (tree.RowOf(plan.Source.Key) is not { } source || tree.ParentOf(source) is not { } list || !IsLeaving(list, source))
+            if (tree.CountedSource is not { } source || tree.ParentOf(source) is not { } list || !IsLeaving(list, source))
                 return null;
 
             return plan.IsInItsOwnList ? PlaceInItsOwnList(list) : PlaceInHolder() ?? PlaceInHiddenList();
@@ -42,7 +42,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // A list that already has the item gives the source no row.
         private ListTreePlace? PlaceInHolder()
         {
-            if (tree.RowOf(plan.Holder) is not { } holder || !changes.Holders.Contains(holder) || OwnRowIn(holder) != null)
+            if (tree.RowOf(plan.Holder) is not { } holder || !changes.Holders.Contains(holder) || tree.RowOfTheItemIn(holder) != null)
                 return null;
 
             return IndexAt(holder, InsertOf(holder)!.Index) is { } index ? PlaceAt(new ListTreeRowKey(plan.Source.Key.Model, holder.Row.Key), index, holder.Row.Depth + 1) : null;
@@ -82,8 +82,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             InsertOf(parent) is { } insert && insert.Index <= keptIndex ? insert.Count : 0;
 
         // The rows that the kept children before the live index show.
-        private int CountBefore(ListTreeCountedRow parent, int liveIndex) =>
-            parent.CountBefore(liveIndex) + changes.ChangedChildrenOf(parent).Where(child => child.Index < liveIndex).Sum(child => ShownCountOf(parent, child) - child.Count);
+        private int CountBefore(ListTreeCountedRow parent, int liveIndex)
+        {
+            var count = parent.CountBefore(liveIndex);
+            foreach (var child in changes.ChangedChildrenOf(parent))
+                if (child.Index < liveIndex)
+                    count += ShownCountOf(parent, child) - child.Count;
+
+            return count;
+        }
 
         private int ShownCountOf(ListTreeCountedRow parent, ListTreeCountedRow child) => IsKeptIn(parent, child) ? CountOf(child) : 0;
 
@@ -98,8 +105,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return count;
         }
 
-        private int KeptIndexOf(ListTreeCountedRow parent, int liveIndex) =>
-            liveIndex - changes.ChangedChildrenOf(parent).Count(child => child.Index < liveIndex && !IsKeptIn(parent, child));
+        private int KeptIndexOf(ListTreeCountedRow parent, int liveIndex)
+        {
+            var keptIndex = liveIndex;
+            foreach (var child in changes.ChangedChildrenOf(parent))
+                if (child.Index < liveIndex && !IsKeptIn(parent, child))
+                    keptIndex--;
+
+            return keptIndex;
+        }
 
         private int LiveIndexOf(ListTreeCountedRow parent, int keptIndex)
         {
@@ -131,18 +145,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         private bool IsLeaving(ListTreeCountedRow parent, ListTreeCountedRow child) =>
             ReferenceEquals(parent.Model, plan.From) && ReferenceEquals(child.Model, plan.Item);
 
-        private bool IsOpen(ListTreeCountedRow row) => row.Row.IsExpanded || changes.IsOpened(row.Row.Key);
+        private bool IsOpen(ListTreeCountedRow row) => row.Row.IsExpanded || changes.IsOpened(row);
 
         // The row that the move inserts in a row: the moved row in a row of the list, or the group row of a hidden list.
         private Insert? InsertOf(ListTreeCountedRow row)
         {
             if (changes.Holders.Contains(row))
-                return new Insert(Math.Clamp(plan.Index, 0, KeptCountOf(row)), OwnRowIn(row) is { } own && !own.Row.Key.Equals(plan.Source.Key) ? own.Count : 1);
+                return new Insert(Math.Clamp(plan.Index, 0, KeptCountOf(row)), tree.RowOfTheItemIn(row) is { } own && !own.Row.Key.Equals(plan.Source.Key) ? own.Count : 1);
 
             return changes.HiddenListOwners.Contains(row) ? new Insert(GroupIndexIn(row), IsGroupOpen(row) ? 2 : 1) : null;
         }
 
-        private ListTreeCountedRow? OwnRowIn(ListTreeCountedRow holder) => tree.RowOf(new ListTreeRowKey(plan.Item, holder.Row.Key));
 
         // The group row goes after the kept rows of the lists before it.
         private int GroupIndexIn(ListTreeCountedRow owner)

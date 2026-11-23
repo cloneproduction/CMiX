@@ -19,7 +19,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         private static IReadOnlySet<ListTreeRowKey> PossibleTargetsOf(
             IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> rows, ListTreeRow source, IEnumerable<ListTreeCandidate> candidates)
         {
-            var targets = candidates.Select(candidate => LiveHolderOf(rows, source, candidate)).OfType<ListTreeRowKey>().ToHashSet();
+            var targets = candidates.Select(candidate => LiveHolderOf(rows, candidate)).OfType<ListTreeRowKey>().ToHashSet();
             if (source.Key.Parent is { } parent)
                 targets.Add(parent);
 
@@ -27,9 +27,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         // Option E hides an empty list, so its card is the target that the live tree shows.
-        private static ListTreeRowKey? LiveHolderOf(IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> rows, ListTreeRow source, ListTreeCandidate candidate)
+        private static ListTreeRowKey? LiveHolderOf(IReadOnlyDictionary<ListTreeRowKey, ListTreeRow> rows, ListTreeCandidate candidate)
         {
-            var holder = source.Node is { } node ? candidate.Snapshot.RowOf(node)?.Key.Parent : null;
+            var holder = candidate.Place.Key.Parent;
             if (holder == null)
                 return null;
 
