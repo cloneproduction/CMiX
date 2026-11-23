@@ -11,12 +11,17 @@ using CMiX.UI.Themes;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The row controls of the new tree by the key of their row. A row control lives as long as the key of its row.
+    // The row controls of the new tree by the key of their row. Only the rows in the row window of the panel have a control.
     internal sealed class ListTreeRowControls
     {
         private readonly PanelListTreeRows panel;
         private readonly ListTreeSurfaces surfaces;
         private readonly Dictionary<ListTreeRowKey, RowListTree> rowsByKey = new();
+        private readonly Dictionary<ListTreeRowKey, ListTreeRow> shownRows = new();
+        private readonly Dictionary<TreeNode, ListTreeRowKey> keyByNode = new(ReferenceEqualityComparer.Instance);
+
+        private ListTreeLayout layout = ListTreeArrangement.Empty.Layout;
+        private ListTreeDragLook? dragLook;
 
         public ListTreeRowControls(PanelListTreeRows panel, ListTreeSurfaces surfaces)
         {
@@ -24,51 +29,90 @@ namespace CMiX.Studio.Avalonia.Views
             this.surfaces = surfaces;
         }
 
-        public RowListTree? RowOf(ListTreeRowKey key) => rowsByKey.GetValueOrDefault(key);
+        public ListTreeRowWindow Window { get; private set; } = ListTreeRowWindow.All;
 
-        public RowListTree? RowOf(TreeNode node) => rowsByKey.Values.FirstOrDefault(row => ReferenceEquals(row.DataContext, node));
+        public IEnumerable<RowListTree> RealizedRows => rowsByKey.Values;
 
-        public void Show(IReadOnlyList<ListTreeRow> rows, ListTreeLayout layout)
+        public RowListTree? RealizedRowOf(ListTreeRowKey key) => rowsByKey.GetValueOrDefault(key);
+
+        // A shown row outside the window gets its control now, so a reveal, a focus or a rename finds it.
+        public RowListTree? RowOf(ListTreeRowKey key) => RealizedRowOf(key) ?? RealizeOutsideWindow(key);
+
+        public RowListTree? RowOf(TreeNode node) => keyByNode.TryGetValue(node, out var key) ? RowOf(key) : null;
+
+        public ListTreePlace? PlaceOf(TreeNode node) => keyByNode.TryGetValue(node, out var key) ? layout.PlaceOf(key) : null;
+
+        public void Show(IReadOnlyList<ListTreeRow> rows, ListTreeLayout shown)
         {
-            foreach (var row in rows)
-            {
-                var place = layout.PlaceOf(row.Key)!;
-                var control = ControlOf(row.Key, place);
-                Slide(control);
-                ShowRow(control, row, place, ListTreeRowLight.Rest);
-            }
-
-            RemoveRowsNotIn(layout);
+            dragLook = null;
+            ShowRows(rows, shown);
         }
 
-        // The dragged row has no transition: it snaps into its landing place.
         public void ShowDrag(ListTreeDragLook look)
         {
-            foreach (var row in look.Rows)
-            {
-                var place = look.Layout.PlaceOf(row.Key)!;
-                var control = ControlOf(row.Key, place);
-                var light = look.LightOf(row.Key);
-                if (light == ListTreeRowLight.Dragged)
-                    Snap(control);
-                else
-                    Slide(control);
-                ShowRow(control, row, place, light);
-            }
-
-            RemoveRowsNotIn(look.Layout);
+            dragLook = look;
+            ShowRows(look.Rows, look.Layout);
         }
 
-        private void RemoveRowsNotIn(ListTreeLayout layout)
+        // A row that leaves the window slides out before its control goes. A row that comes in slides from its last place.
+        private void ShowRows(IReadOnlyList<ListTreeRow> rows, ListTreeLayout shown)
         {
-            foreach (var key in rowsByKey.Keys.Where(key => layout.PlaceOf(key) == null).ToArray())
+            var before = layout;
+            layout = shown;
+            Window = panel.RowWindow;
+            Remember(rows);
+            var kept = new HashSet<ListTreeRowKey>();
+            foreach (var row in rows)
+            {
+                var place = shown.PlaceOf(row.Key)!;
+                var control = rowsByKey.GetValueOrDefault(row.Key);
+                if (control != null ? !IsKept(control, place) : !Window.Overlaps(place.Y, place.RowHeight))
+                    continue;
+
+                ShowRow(control ?? AddRow(row.Key, before.PlaceOf(row.Key) ?? place), row, place);
+                kept.Add(row.Key);
+            }
+
+            foreach (var key in rowsByKey.Keys.Where(key => !kept.Contains(key)).ToArray())
                 RemoveRow(key);
         }
 
-        private RowListTree ControlOf(ListTreeRowKey key, ListTreePlace place) => rowsByKey.GetValueOrDefault(key) ?? AddRow(key, place);
+        private bool IsKept(RowListTree control, ListTreePlace place) =>
+            Window.Overlaps(place.Y, place.RowHeight) || Window.Overlaps(PanelListTreeRows.GetTop(control), place.RowHeight) || control.IsKeyboardFocusWithin;
 
-        private static void ShowRow(RowListTree control, ListTreeRow row, ListTreePlace place, ListTreeRowLight light)
+        private void Remember(IReadOnlyList<ListTreeRow> rows)
         {
+            shownRows.Clear();
+            keyByNode.Clear();
+            foreach (var row in rows)
+            {
+                shownRows[row.Key] = row;
+                if (row.Node != null)
+                    keyByNode.TryAdd(row.Node, row.Key);
+            }
+        }
+
+        private RowListTree? RealizeOutsideWindow(ListTreeRowKey key)
+        {
+            if (!shownRows.TryGetValue(key, out var row) || layout.PlaceOf(key) is not { } place)
+                return null;
+
+            var control = AddRow(key, place);
+            ShowRow(control, row, place);
+            panel.PlaceRowNow(control);
+            surfaces.ShowMarks();
+            return control;
+        }
+
+        // The dragged row has no transition: it snaps into its landing place.
+        private void ShowRow(RowListTree control, ListTreeRow row, ListTreePlace place)
+        {
+            var light = dragLook?.LightOf(row.Key) ?? ListTreeRowLight.Rest;
+            if (light == ListTreeRowLight.Dragged)
+                Snap(control);
+            else
+                Slide(control);
+
             control.DataContext = row.Node;
             control.IconKey = ListTreeIcons.KeyOf(row);
             control.ItemCount = row.Node?.Children.Count ?? 0;
@@ -78,11 +122,11 @@ namespace CMiX.Studio.Avalonia.Views
             PanelListTreeRows.SetTop(control, place.Y);
         }
 
-        // A new row shows at its place at once. Only later moves slide.
-        private RowListTree AddRow(ListTreeRowKey key, ListTreePlace place)
+        // A new row starts at the place it had in the last layout, or at its place when it is new in the tree.
+        private RowListTree AddRow(ListTreeRowKey key, ListTreePlace start)
         {
             var control = new RowListTree { ZIndex = ListTreeLayers.Row };
-            PanelListTreeRows.SetTop(control, place.Y);
+            PanelListTreeRows.SetTop(control, start.Y);
             Slide(control);
             surfaces.Watch(control);
             rowsByKey[key] = control;

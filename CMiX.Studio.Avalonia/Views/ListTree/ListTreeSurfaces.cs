@@ -13,10 +13,10 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 namespace CMiX.Studio.Avalonia.Views
 {
     // The card areas of the new tree and the marks on its rows and areas: the selection, the hover and the drop target.
-    // Each rebuild makes the areas again in tree order, so an inner area draws over its outer area.
+    // Each rebuild makes the areas in the row window again in tree order, so an inner area draws over its outer area.
     internal sealed class ListTreeSurfaces
     {
-        private readonly Panel panel;
+        private readonly PanelListTreeRows panel;
         private readonly List<FrameListTreeCard> areas = new();
         private readonly FrameListTreeOutline outline = new() { IsHitTestVisible = false, IsVisible = false, ZIndex = ListTreeLayers.DropOutline };
 
@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Views
         private TreeNode? dropTarget;
         private bool isDragging;
 
-        public ListTreeSurfaces(Panel panel)
+        public ListTreeSurfaces(PanelListTreeRows panel)
         {
             this.panel = panel;
         }
@@ -42,8 +42,9 @@ namespace CMiX.Studio.Avalonia.Views
         {
             panel.Children.RemoveAll(areas);
             areas.Clear();
+            var window = panel.RowWindow;
             foreach (var row in rows)
-                if (shown.PlaceOf(row.Key) is { CanToggle: true } place)
+                if (shown.PlaceOf(row.Key) is { CanToggle: true } place && window.Overlaps(place.Y, place.AreaHeight))
                     Add(row, place);
 
             if (!panel.Children.Contains(outline))
@@ -104,14 +105,11 @@ namespace CMiX.Studio.Avalonia.Views
                 row.ShowMarks(marks);
             foreach (var area in areas)
                 area.ShowMarks(marks);
-            outline.Show(dropTarget, PlaceOf(rows, dropTarget));
+            outline.Show(dropTarget, dropTarget == null ? null : panel.ShownPlaceOf(dropTarget));
         }
 
         private static TreeNode? HoveredCard(IEnumerable<RowListTree> rows) =>
             rows.FirstOrDefault(row => row.IsPointerOver && row.Place is { CanToggle: true })?.DataContext as TreeNode;
-
-        private static ListTreePlace? PlaceOf(IEnumerable<RowListTree> rows, TreeNode? node) =>
-            node == null ? null : rows.FirstOrDefault(row => ReferenceEquals(row.DataContext, node))?.Place;
 
         private void Add(ListTreeRow row, ListTreePlace place)
         {

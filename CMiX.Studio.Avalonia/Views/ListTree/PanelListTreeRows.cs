@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.UI.Themes;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The rows of the new tree, each one a direct child, placed by ListTreeLayout. A row control lives as long as the key of its row.
+    // The rows of the new tree, each one a direct child, placed by ListTreeLayout. Only the rows near the view of the scroller have a control.
     public sealed class PanelListTreeRows : Panel
     {
         public static readonly StyledProperty<IEnumerable<TreeNode>?> RootsProperty =
@@ -48,6 +49,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeRebuildQueue rebuildQueue;
 
         private bool isAttached;
+        private ScrollViewer? scroller;
 
         static PanelListTreeRows()
         {
@@ -116,6 +118,21 @@ namespace CMiX.Studio.Avalonia.Views
 
         public RowListTree? RowOf(TreeNode node) => rowControls.RowOf(node);
 
+        // Null for a row outside the row window: no control is made.
+        public RowListTree? RealizedRowOf(ListTreeRowKey key) => rowControls.RealizedRowOf(key);
+
+        public IEnumerable<RowListTree> RealizedRows => rowControls.RealizedRows;
+
+        public ListTreePlace? ShownPlaceOf(TreeNode node) => rowControls.PlaceOf(node);
+
+        // With no scroller, every row has a control.
+        public ListTreeRowWindow RowWindow => scroller == null ? ListTreeRowWindow.All : ListTreeRowWindow.Around(ViewTop, ViewHeight);
+
+        private double ViewTop => (scroller?.Offset.Y ?? 0) - Bounds.Y;
+
+        // Before the first layout the scroller has no viewport, so the window height stands for it.
+        private double ViewHeight => scroller is { Viewport.Height: > 0 } shown ? shown.Viewport.Height : TopLevel.GetTopLevel(this)?.ClientSize.Height ?? 0;
+
         internal ListTreeSurfaces Surfaces => surfaces;
 
         public void ShowDrag(ListTreeDragLook look)
@@ -141,6 +158,9 @@ namespace CMiX.Studio.Avalonia.Views
             base.OnAttachedToVisualTree(e);
 
             isAttached = true;
+            scroller = this.FindAncestorOfType<ScrollViewer>();
+            if (scroller != null)
+                scroller.ScrollChanged += OnScrollChanged;
             ListTreeToggleSizes.Of(this).Write(Resources);
             watch.Changed += OnTreeChanged;
             watch.HiddenChanged += OnHiddenChanged;
@@ -150,6 +170,9 @@ namespace CMiX.Studio.Avalonia.Views
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
             isAttached = false;
+            if (scroller != null)
+                scroller.ScrollChanged -= OnScrollChanged;
+            scroller = null;
             watch.Changed -= OnTreeChanged;
             watch.HiddenChanged -= OnHiddenChanged;
             watch.Unwatch();
@@ -172,6 +195,12 @@ namespace CMiX.Studio.Avalonia.Views
         private void OnTreeChanged(object? sender, EventArgs e) => rebuildQueue.Post();
 
         private void OnHiddenChanged(object? sender, EventArgs e) => surfaces.ShowMarks();
+
+        private void OnScrollChanged(object? sender, ScrollChangedEventArgs e)
+        {
+            if (!rowControls.Window.Holds(ViewTop, ViewHeight))
+                ShowArrangement();
+        }
 
         public void ApplyTreeChanges() => rebuildQueue.Run();
 
@@ -213,6 +242,13 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         private static double TopOf(Control child) => child is FrameListTreeCard { Place: { } place } ? place.Y : GetTop(child);
+
+        // A row made outside a layout pass gets its bounds at once.
+        internal void PlaceRowNow(RowListTree row)
+        {
+            row.Measure(new Size(Bounds.Width, RowHeight));
+            row.Arrange(new Rect(0, TopOf(row), Bounds.Width, RowHeight));
+        }
 
         private double HeightOf(Control child) => child is FrameListTreeCard { Place: { } place } ? place.AreaHeight : RowHeight;
     }
