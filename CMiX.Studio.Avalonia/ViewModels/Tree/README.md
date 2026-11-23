@@ -2,6 +2,8 @@
 
 The tree shows the project: compositions, layers, entities, cameras, lights, textures, filters and modifiers as rows. The modulators are not rows: the inspector of their owner shows and adds them. The user selects, searches, adds, removes, moves and drags rows. This page says how the code is organized. Read it before you change the tree.
 
+Two views show the tree: `TreeViewProject`, the old view that this page describes, and `ListTreeProject`, the new view. The model half below is shared. The new view is described in `../ListTree/README.md`.
+
 ## The one pattern
 
 The tree has two halves. Each half is a hub that owns small parts. A part has one job and its own state.

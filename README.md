@@ -63,9 +63,11 @@ A project file saved before version 1.0.0 stores the Gamma of a gradient, the Fr
 
 ## Project tree
 
-The tree shows the project as rows. The one row at the top is the group Compositions, and the compositions are under it. A composition holds the group Layers (with its layers under it), then its Filters and Modifiers. A layer holds Entities, Filters, Modifiers, Cameras and Lights. An item can hold textures, filters, modifiers and modulators. They are groups under the item. The groups Compositions and Layers have a hide button like the other groups, and they have no panel in the inspector yet. A layer dropped on a composition goes to the end of its Layers group.
+Two views show the tree. The side panel chooses one: Tree is the view that this section describes, and List tree is the new view (see `CMiX.Studio.Avalonia/ViewModels/ListTree/README.md`).
 
-Each row has a kind: composable (a composition and a layer), entity, camera, light, texture, filter, modifier or modulator. A group has the kind of its items. The kind sets the color of the row.
+The tree shows the project as rows. The one row at the top is the group Compositions, and the compositions are under it. A composition holds the group Layers (with its layers under it), then its Filters and Modifiers. A layer holds Entities, Filters, Modifiers, Cameras and Lights. An item can hold textures, filters and modifiers. They are groups under the item. The modulators are not in the tree: the inspector of their owner shows and adds them. The groups Compositions and Layers have a hide button like the other groups, and they have no panel in the inspector yet. A layer dropped on a composition goes to the end of its Layers group.
+
+Each row has a kind: composable (a composition and a layer), entity, camera, light, texture, filter or modifier. A group has the kind of its items. The kind sets the color of the row.
 
 - The colors of the kinds are in `Colors.axaml`, with the names `Category` and the kind. A composable inside a composable has one more color for each level, `CategoryComposableLevel1` to `CategoryComposableLevel3`.
 - A row is filled with its color mixed with the gray of the panel. The fill under the pointer is as bright as the fill of a selected row, with no border and a white name. A selected row also has a border of one pixel of the screen in the bright color of its kind, and its name is white. A group and its items have the same tone. What a row holds of another kind is weaker by one step for each change of kind (`TreeNode.KindDepth`), down to a floor. `CategoryPalette` holds the strength of each step, and a test checks the contrast of the text on every kind, level and state.
@@ -84,11 +86,11 @@ While you drag a row, the rows that take it inside are lit, with no border: for 
 
 A collapsed row that leads to a place for the dragged row opens when the pointer rests on it for 0.6 s, so you can reach a place deep in the tree. `Tree.Expand` (E) during a drag opens the row under the pointer at once, and a second E closes it again. A row that was open before the drag stays open. At the end of the drag, the rows that the drag opened close again. After a drop, the row that took the drop and its parents stay open, so you see where the row went. Escape ends the drag without a drop, also when the search box has the focus, and closes every row that the drag opened.
 
-A row can move inside its list. It can also move to a list of the same kind of another owner: an entity to another layer, a modifier to another entity, a filter, a texture or a modulator to another owner of the same kind of list.
+A row can move inside its list. It can also move to a list of the same kind of another owner: an entity to another layer, a modifier to another entity, a filter or a texture to another owner of the same kind of list.
 
 ### Adding to the tree
 
-One panel adds things under a row. It has a search field, then the groups that the row can take, in this order: Layer, Content, Texture, Filter, Modifier, Modulator and Project. An entry that the row cannot take is not in the panel, and a group with no entry is not in it either. A layer takes content (entities, fullscreen quads, text, cameras and lights), filters and modifiers. An entity takes textures and modifiers. A group of rows takes only its own kind. An entry has a small square in the color of its kind, and a group does not show a number. A group with many rows starts closed, and the search opens them. A long list has a scroll bar. The menu of a row shows Add, Duplicate, Rename, the moves and Remove with an icon each. A row that cannot do one of them shows it greyed, and a group row shows all of them greyed.
+One panel adds things under a row. It has a search field, then the groups that the row can take, in this order: Layer, Content, Texture, Filter, Modifier and Project. An entry that the row cannot take is not in the panel, and a group with no entry is not in it either. A layer takes content (entities, fullscreen quads, text, cameras and lights), filters and modifiers. An entity takes textures and modifiers. A group of rows takes only its own kind. An entry has a small square in the color of its kind, and a group does not show a number. A group with many rows starts closed, and the search opens them. A long list has a scroll bar. The menu of a row shows Add, Duplicate, Rename, the moves and Remove with an icon each. A row that cannot do one of them shows it greyed, and a group row shows all of them greyed.
 
 The panel opens in three ways:
 

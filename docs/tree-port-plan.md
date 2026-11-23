@@ -5,7 +5,7 @@ This document is for a Claude Code session, or a person, that builds the tree of
 The current tree view stays as it is, next to the new one, so that the owner can compare them (decided, 2026-11-23).
 Read it all before you change code. Audit the code against it first, then execute the plan phase by phase.
 
-Status: plan, not started. Date: 2026-11-23, updated the same day after versions 54 and 55. Owner decisions are marked "decided".
+Status: phases 0 to 5 done, Phase 6 open (see the state at the top of Phase 6). Date: 2026-11-23, updated the same day after versions 54 and 55. Owner decisions are marked "decided".
 
 ## 1. How to read the mockup
 
@@ -322,15 +322,25 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 
 | Step | Work | Complexity |
 |---|---|---|
-| 5.1 | Option E in the snapshot of the new control (4.3). `ProjectTreeGroupsTests` stays as it is. | 3 |
+| 5.1 | Option E in the snapshot of the new control (4.3). `ProjectTreeGroupsTests` stays as it is. Done. | 3 |
 | 5.2 | Done with no code: the Add row of a card already lists every group the card can hold (`ProjectTreeAddGroupsTests`). A category row has no Hide or panel of its own. | - |
 
 ### Phase 6: compare and close the plan
 
+**State on 2026-11-23.** Phases 0 to 5 are done. After them, the owner asked for these fixes, and they are done: the selection colours (darker selected surfaces, no white cursor frame on a selected row, a hover inside a selection that gets brighter), the hover and the drop outline at full width, a double click away from the name that opens or closes a card, the kind count badges with the count in white and the Warning icon for a missing asset, the modulators out of the tree, the wheel that scrolls during a drag, and the speed: the row window (`ListTreeRowWindow`), the card areas kept across the looks of a drag, the unchanged rows of the live snapshot kept in the moved snapshot, and the rows that slide with a render offset (`ListTreeRowSlide`).
+
+What is left:
+
+- 6.1: the owner compares the two views.
+- 6.3: the UI kit, only when the owner asks. These entries are out of date: the selection colours, the kind count badges, and the modulator rows.
+- 6.4: the full suites.
+- The open questions 1, 4, 5 and 6 of section 7.
+- Two sizes over the tripwires of 5.2: `PanelListTreeRows` has about 250 lines, and `ListTreeContext` has 11 constructor parameters.
+
 | Step | Work | Complexity |
 |---|---|---|
 | 6.1 | The owner uses both views side by side and decides what comes next. Nothing of the old view is removed in this plan. | 5 |
-| 6.2 | Update `ViewModels/Tree/README.md`, the tree sections of `docs/DEVELOPMENT.md` and this document for the new control. | 2 |
+| 6.2 | Update `ViewModels/Tree/README.md`, the tree sections of `docs/DEVELOPMENT.md` and this document for the new control. Done: the new control is in `ViewModels/ListTree/README.md`. | 2 |
 | 6.3 | The UI kit entries of the new control with the next free numbers of category 21, and `Update-Tokens.ps1`, only when the owner asks. | 3 |
 | 6.4 | The full Core suite twice and the Studio suite once, with details captured. The old tree tests must still pass. | 2 |
 
@@ -346,9 +356,9 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 4. Saved projects: `.claude/CLAUDE.md` requires the compatibility test before a model change, an older memory note says old saves may break. Which rule applies to this port?
 5. The hover mark shows all around in the owner's Chrome but not in the browser pane. Check it together before Phase 3.
 6. Expand and collapse: keep an animation (the old `PanelCollapse`), or let the rows move with the same 160 ms row animation?
-7. `docs/DEVELOPMENT.md` ("The colors of the states") says a selected row uses accent-inactive and an icon only control dims with opacity
-   0.6. The new control uses a white surface with a kind border, and never dims with opacity. Is the tree a row kind of its own in that table?
 
+Answered in step 6.2 and removed from this list: question 7. `docs/DEVELOPMENT.md` ("The colors of the states") now has the row of the
+new tree as a kind of its own.
 Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
 stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays; no halo around any icon.
 Decided on 2026-11-23 during Phase 5 (owner):
