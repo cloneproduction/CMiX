@@ -629,6 +629,51 @@
     .tog span { width: var(--H) !important; height: var(--H) !important; }
     .flush .row { padding-right: calc(var(--H) * 2 + 2px) !important; }
 
+    /* Version 54: the changes of the design review of 2026-11-23 (venue manager, power operator, colour). */
+    /* Hidden: a fixed lightness, never opacity. Every row under a hidden card takes the same look. */
+    .look-ay.look-ay .el.hid > .row, .look-ay.look-ay .el.hid > .tog { opacity: 1 !important; }
+    .look-ay.look-ay.look-ay .el.hid > .row .nm { color: #8A8A8F !important; }
+    .look-ay.look-ay.look-ay .el.hid > .row > svg { fill: var(--Grey700) !important; }
+    .look-ay.look-ay.look-ay .el.hid > .row .badges b { opacity: .6; }
+    /* The mask stands 8 px away from the eye, so a click on one does not hit the other. */
+    .look-ay.look-ay .tog { gap: 8px !important; width: calc(var(--H) * 2 + 8px) !important; }
+    .look-ay.flush .row { padding-right: calc(var(--H) * 2 + 8px) !important; }
+    /* Count squares: the kind icon and the number, so the kind does not rest on the colour only. */
+    .look-ay .badges.v54 { gap: 3px; }
+    .look-ay .badges.v54 b { display: inline-flex; align-items: center; gap: 2px; width: auto; min-width: 0; padding: 0 4px 0 2px;
+        color: var(--TreeTextRest); background: rgba(255, 255, 255, .07); font: 600 10px/16px var(--p-sans); }
+    .look-ay .badges.v54 b svg { width: 12px; height: 12px; margin: 0; fill: var(--q) !important; }
+    /* Hover on a row inside a selected card: the band keeps its indent and adds white on top of the selected surface, so the row gets
+       brighter, never darker, and the area of the card does not change. A card adds 5 % white on its area. The hover border sits at the indent. */
+    .look-ay.look-ay.look-ay.look-ay .el.item.insel.hov:not(.selected) > .row::before { background: rgba(255, 255, 255, .11) !important; left: var(--pad) !important; }
+    .look-ay.look-ay.look-ay.look-ay .el.box.insel.hov:not(.selected):not(.eligible):not(.target) { background: rgba(255, 255, 255, .05) !important; }
+    /* The drag line under the tree says where the drop goes, and why rows are grey. The notice after a hide or a drop gives an undo. */
+    .dragnote, .toast { display: none; }
+    .look-ay .dragnote.on { display: block; margin-top: 6px; font: 12px/18px var(--p-sans); color: var(--TreeTextRest); }
+    .look-ay .dragnote kbd { margin: 0 2px; }
+    .look-ay .toast.on { display: flex; align-items: center; gap: 10px; margin-top: 6px; padding: 4px 6px 4px 10px; border-radius: var(--CornerRadiusAll);
+        background: color-mix(in srgb, white 10%, var(--TreeBackground)); color: var(--ActiveText); font: 12px/24px var(--p-sans); }
+    .look-ay .toast span { flex: 1; }
+    .look-ay .toast button { font: 600 12px/22px var(--p-sans); color: var(--ActiveText); background: color-mix(in srgb, white 14%, var(--TreeBackground));
+        border: none; border-radius: var(--CornerRadiusAll); padding: 0 10px; cursor: pointer; }
+    .look-ay .toast button:hover { background: color-mix(in srgb, white 20%, var(--TreeBackground)); }
+
+    /* Version 55: the fixes of the greyscale review of 2026-11-23. Version 54 plus these. */
+    /* Selected and hovered at 20 %, so the hover shows on a selection (16 % was 0.038 L from 12 %). */
+    .look-az.look-az.look-az.look-az.look-az.look-az.look-az.look-az .el.box.selected.hov:not(.eligible):not(.target) { background: color-mix(in srgb, white 20%, var(--TreeBackground)) !important; }
+    .look-az.look-az.look-az.look-az.look-az.look-az.look-az.look-az .el.item.selected.hov > .row::before { background: color-mix(in srgb, white 20%, var(--TreeBackground)) !important; }
+    /* The Undo button at 16 %, clearer on its 10 % notice. */
+    .look-az.look-az.look-az.look-az.look-az.look-az.look-az.look-az .toast button { background: color-mix(in srgb, white 16%, var(--TreeBackground)) !important; }
+    /* No halo around the icon of a collapsed card (owner): the count squares mark a closed card. */
+    .look-az.look-az.look-az.look-az.look-az.look-az.look-az.look-az .el.closed > .row > svg { box-shadow: none !important; }
+    /* No landing line: the dragged row snaps into its place, so the place is already clear. */
+    .look-az.look-az.look-az.look-az.look-az.look-az.look-az.look-az .slot { display: none !important; }
+    /* The hidden icon a step lighter (3.3:1 on the band). */
+    .look-az.look-az.look-az.look-az.look-az.look-az.look-az.look-az .el.hid > .row > svg { fill: #6C6C6F !important; }
+
+    /* Rename in place: the name gets a text field look. */
+    .look-ay .nm.editing { outline: 1px solid var(--Grey600); background: var(--TreeBackground); color: var(--ActiveText) !important; cursor: text; user-select: text; border-radius: 2px; }
+
     kbd { font: 11px var(--p-sans); border: 1px solid var(--Grey600); border-radius: 2px; padding: 0 4px; }
 </style>
 </head>
@@ -737,6 +782,8 @@ let STEP = 8, INSET_R = 8;
 const KIND = { entity: "--CategoryEntity", filter: "--CategoryFilter", modulator: "--CategoryModulator", light: "--CategoryLight" };
 const ICON = { comp: "Composition", group: "Composition", layer: "LayerScene", entity: "Geometry", filter: "Filter", modulator: "Modulator", light: "MeshLight" };
 const PATHS = Object.fromEntries((window.CMIX_ICONS?.icons || []).map(i => [i.key, i.path]));
+let V55 = false;
+const iconOf = kind => V55 && kind === "group" ? "Folder" : ICON[kind];
 const icon = key => `<svg viewBox="0 0 24 24"><path d="${PATHS[key] || "M6,6H18V18H6Z"}"/></svg>`;
 const base = id => id.replace(/ copy\d*$/, "");
 const hash = id => [...base(id)].reduce((a, ch) => a + ch.charCodeAt(0), 0);
@@ -771,6 +818,11 @@ const accentOf = x => x.kind === "item" ? `var(${KIND[x.k] || "--CategoryEntity"
 const countsOf = x => { const c = { layer: 0, group: 0, item: 0 }; const walk = y => y.children.forEach(z => { c[z.kind]++; walk(z); }); walk(x);
     return Object.entries(c).filter(([, v]) => v).map(([k, v]) => `${v} ${k}${v > 1 ? "s" : ""}`).join(", "); };
 const badgesOf = x => {
+    if (V54) {
+        const c = new Map(), walk = y => y.children.forEach(z => { const k = z.kind === "item" ? z.k : V55 && z.kind === "group" ? "group" : "layer"; const e = c.get(k) || { n: 0, z }; e.n++; c.set(k, e); walk(z); });
+        walk(x);
+        return `<span class="badges v54">${[...c].map(([k, e]) => `<b style="--q:${accentOf(e.z)}">${icon(iconOf(k))}${e.n}</b>`).join("")}</span>`;
+    }
     const c = new Map(), walk = y => y.children.forEach(z => { const k = accentOf(z); c.set(k, (c.get(k) || 0) + 1); walk(z); });
     walk(x);
     return `<span class="badges">${[...c].map(([k, v]) => `<b style="--q:${k}">${v}</b>`).join("")}</span>`;
@@ -779,6 +831,7 @@ const layersOf = x => x.kind === "layer" ? [x] : x.children.filter(c => c.kind !
 let counter = 0;
 
 // The layout: one box for each visible container, one row for each item. path lists the boxes that hold an element.
+let V54 = false;
 function layout(view, W, s0) {
     const r = {}; let y = TOP; const WC = FLUSH ? W : W - TOG - 4;
     const walk = (x, depth, path, cdepth, kdepth, ord, under) => {
@@ -811,6 +864,15 @@ class Panel {
         this.crumbsEl = this.root.querySelector(".crumbs");
         this.outEl = this.root.querySelector(".out");
         this.state = initial(); this.focus = "Project"; this.els = {}; this.drag = null;
+        this.note = document.createElement("div"); this.note.className = "dragnote"; this.root.insertBefore(this.note, this.outEl);
+        this.toast = document.createElement("div"); this.toast.className = "toast"; this.root.insertBefore(this.toast, this.outEl);
+        addEventListener("keydown", e => { if (V54 && !this.drag && (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z" && this.undoState) { e.preventDefault(); this.undo(); } });
+        // Version 54 and later: F2 renames the selected row, as a double click on its name does.
+        addEventListener("keydown", e => {
+            if (!V54 || this.drag || e.key !== "F2" || !this.selected || document.querySelector(".nm.editing")) return;
+            const nm = this.root.querySelector(`.el[data-id="${CSS.escape(this.selected)}"] > .row .nm`);
+            if (nm) { e.preventDefault(); this.rename(nm, this.selected); }
+        });
         this.stage.addEventListener("pointerdown", e => this.down(e));
         this.stage.addEventListener("pointerover", e => {
             const row = e.target.closest(".row, .tog"), el = row && row.closest(".el");
@@ -818,10 +880,42 @@ class Panel {
         });
         this.stage.addEventListener("pointerleave", () => { this.hover = null; this.markActive(); });
         this.stage.addEventListener("dblclick", e => {
+            const nm = V54 && e.target.closest(".nm");
+            if (nm) { this.rename(nm, nm.closest(".el").dataset.id); return; }
             const el = e.target.closest(".el"), x = el && find(this.state.root, el.dataset.id);
             if (x && x.kind !== "item") { this.focus = x.id; this.render(this.state); }
         });
         this.render(this.state);
+    }
+    // Version 54: a notice with an undo after a hide or a drop. It stays 5 s.
+    notify(text, prev) {
+        if (!V54) return;
+        this.undoState = prev; clearTimeout(this.toastTimer);
+        this.toast.innerHTML = `<span>${text}</span><button>Undo</button><kbd>Ctrl Z</kbd>`;
+        this.toast.querySelector("button").onclick = () => this.undo();
+        this.toast.classList.add("on");
+        this.toastTimer = setTimeout(() => { this.toast.classList.remove("on"); this.undoState = null; }, 5000);
+    }
+    undo() {
+        if (!this.undoState) return;
+        this.state = this.undoState; this.undoState = null; clearTimeout(this.toastTimer); this.toast.classList.remove("on");
+        this.render(this.state);
+    }
+    // Version 54 and later: a double click on the name edits it in place. Enter or a click outside keeps the text, Escape cancels.
+    rename(nm, id) {
+        const x = find(this.state.root, id), old = nm.textContent;
+        nm.contentEditable = "true"; nm.classList.add("editing"); nm.focus();
+        const range = document.createRange(); range.selectNodeContents(nm); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        const done = keep => {
+            nm.removeEventListener("keydown", key); nm.removeEventListener("blur", blur);
+            nm.contentEditable = "false"; nm.classList.remove("editing");
+            const text = nm.textContent.trim();
+            if (keep && text && text !== old) { x.label = text; this.selected = id; }
+            this.render(this.state);
+        };
+        const key = e => { if (e.key === "Enter") { e.preventDefault(); done(true); } else if (e.key === "Escape") { e.preventDefault(); nm.textContent = old; done(false); } e.stopPropagation(); };
+        const blur = () => done(true);
+        nm.addEventListener("keydown", key); nm.addEventListener("blur", blur);
     }
     view(s) { return find(s.root, this.focus) || s.root; }
     lay(s) { NEST = this.nest; return layout(this.view(s), this.stage.clientWidth, s); }
@@ -850,12 +944,12 @@ class Panel {
         const arrow = x.kind === "item" || !x.children.length ? `<span class="arrow"></span>` : `<span class="arrow ${x.open ? "open" : ""}" data-toggle>${chev}</span>`;
         const off = x.hidden || r.eh;
         e.innerHTML = `<div class="row" style="padding-left:${(r.pad || 0) + 2}px">${arrow}<span class="ord">${r.ord || ""}</span>` +
-            `${x.kind !== "item" && x.children.length ? icon(ICON[x.kind]).replace("<svg", "<svg data-toggle") : icon(ICON[x.kind === "item" ? x.k : x.kind])}<span class="nm">${x.id}</span>` +
+            `${x.kind !== "item" && x.children.length ? icon(iconOf(x.kind)).replace("<svg", "<svg data-toggle") : icon(iconOf(x.kind === "item" ? x.k : x.kind))}<span class="nm">${x.label || x.id}</span>` +
             `${x.kind !== "item" && !x.open ? `<em>${countsOf(x)}</em>${badgesOf(x)}` : ""}</div>` +
             (r.rg !== undefined ? `<div class="tog" style="right:${-r.rg}px">` +
                 (x.kind !== "item" ? `<span data-mask class="${x.masked ? "exc" : "off"}">${icon(x.masked ? "Mask" : "MaskOff")}</span>` : "") +
                 `<span data-vis class="${off ? "off exc" : ""} ${r.eh && !x.hidden ? "inh" : ""}">${icon(off ? "NotVisible" : "Visible")}</span></div>` : "");
-        e.classList.toggle("hid", !!x.hidden || (REVIEW && !!r.eh));
+        e.classList.toggle("hid", !!x.hidden || ((REVIEW || V54) && !!r.eh));
         e.classList.toggle("empty", x.kind !== "item" && x.children.length === 0);
         e.classList.toggle("k-light", x.kind === "item" && x.k === "light");
         e.classList.toggle("closed", x.kind !== "item" && !x.open && x.children.length > 0);
@@ -939,7 +1033,10 @@ class Panel {
         const sel = this.L && this.L.r[this.selected];
         const hovSel = this.root.classList.contains("look-ap");
         const hovzone = this.stage.querySelector(".hovzone"), hr = this.hover && (hovSel || this.hover !== this.selected) && !this.drag && this.L && this.L.r[this.hover];
-        if (hovzone) { hovzone.classList.toggle("on", !!hr); if (hr) { this.place(hovzone, hr); hovzone.style.setProperty("--z", hr.hue); } }
+        if (hovzone) { hovzone.classList.toggle("on", !!hr); if (hr) {
+            // Version 54: inside a selection, the hover border sits at the indent of the row, next to the selection border.
+            const inSel = V54 && this.selected && hr.path.includes(this.selected), dx = inSel ? hr.pad || 0 : 0;
+            this.place(hovzone, { ...hr, x: hr.x + dx, w: hr.w - dx }); hovzone.style.setProperty("--z", hr.hue); } }
         for (const [id, e] of Object.entries(this.els)) {
             e.classList.toggle("active", ids.has(id)); e.classList.toggle("hov", id === this.hover && !this.drag);
             const r = this.L && this.L.r[id];
@@ -954,13 +1051,15 @@ class Panel {
     point(e) { const b = this.stage.getBoundingClientRect(); return { x: (e.clientX - b.left) / ZOOM, y: (e.clientY - b.top) / ZOOM }; }
 
     down(e) {
-        if (e.button !== 0) return;
+        if (e.button !== 0 || e.target.closest('[contenteditable="true"]')) return;
         const crumb = e.target.closest("[data-crumb]");
         if (crumb) { this.focus = crumb.dataset.crumb; this.render(this.state); return; }
         const tog = e.target.closest("[data-vis], [data-mask]");
         if (tog) {
-            const x = find(this.state.root, tog.closest(".el").dataset.id);
+            const prev = clone(this.state), x = find(this.state.root, tog.closest(".el").dataset.id);
             if (tog.hasAttribute("data-vis")) x.hidden = !x.hidden; else x.masked = !x.masked;
+            const below = x.kind === "item" ? 0 : (function c(y) { return y.children.reduce((a, z) => a + 1 + c(z), 0); })(x);
+            if (tog.hasAttribute("data-vis") && x.hidden && below) this.notify(`Hid ${x.id} and the ${below} rows in it.`, prev);
             this.render(this.state); return;
         }
         const chip = e.target.closest(".chip"), el = e.target.closest(".el");
@@ -976,7 +1075,10 @@ class Panel {
         }
         const move = ev => this.move(ev);
         const up = () => { removeEventListener("pointermove", move); removeEventListener("pointerup", up); removeEventListener("keydown", key); this.up(); };
-        const key = ev => { if (ev.key === "Escape" && this.drag) { this.drag.best = { s: this.state, spot: this.drag.size }; up(); } };
+        const key = ev => {
+            if (ev.key === "Escape" && this.drag) { this.drag.best = { s: this.state, spot: this.drag.size }; up(); }
+            else if (V54 && ev.key.toLowerCase() === "e" && this.drag && this.drag.started && this.drag.near) { ev.preventDefault(); this.openNear(); }
+        };
         addEventListener("pointermove", move); addEventListener("pointerup", up); addEventListener("keydown", key);
         e.preventDefault();
     }
@@ -1022,14 +1124,25 @@ class Panel {
             d.copy = d.node.kind !== "comp" && !d.fromChip ? this.candidates(true) : null;
             this.els[d.id].classList.add("drag");
         }
-        d.fx = p.x - d.grab.x; d.fy = p.y - d.grab.y;
-        const under = document.elementFromPoint(e.clientX, e.clientY), box = under && under.closest(".el.box");
-        const closed = box && find(this.state.root, box.dataset.id);
+        d.fx = p.x - d.grab.x; d.fy = p.y - d.grab.y; d.last = e;
+        let closed;
+        if (V54) {
+            // The closed card next to the landing place, read from the layout of the current candidate, not from the rows that still move.
+            const L = this.lay(d.best ? d.best.s : this.state), cy = d.fy + H / 2; let bd = H; closed = null;
+            for (const [id, r] of Object.entries(L.r)) {
+                const x = r.node, dy = Math.abs(r.y + H / 2 - cy);
+                if (x.kind !== "item" && !x.open && x.children.length && id !== d.id && dy < bd) { bd = dy; closed = find(this.state.root, id); }
+            }
+            d.near = closed && !closed.open ? closed : null;
+        } else {
+            const under = document.elementFromPoint(e.clientX, e.clientY), box = under && under.closest(".el.box");
+            closed = box && find(this.state.root, box.dataset.id);
+        }
         if (closed && !closed.open && closed.id !== d.id) {
             if (d.waitId !== closed.id) {
                 clearTimeout(d.wait); d.waitId = closed.id;
                 d.wait = setTimeout(() => {
-                    closed.open = true;
+                    closed.open = true; if (V54) d.best = null;
                     d.normal = this.candidates(false);
                     d.copy = d.node.kind !== "comp" && !d.fromChip ? this.candidates(true) : null;
                     this.move(e);
@@ -1041,8 +1154,24 @@ class Panel {
         const dist = c => DEPTHX && !c.fixed
             ? Math.hypot(((c.depth - d.depth0) * 24 - (d.fx - d.x0)) * 1.5, c.spot.y - d.fy)
             : Math.hypot(c.spot.x - d.fx, c.spot.y - d.fy);
-        d.best = set.reduce((a, c) => dist(c) < dist(a) ? c : a);
+        const best = set.reduce((a, c) => dist(c) < dist(a) ? c : a);
+        // Version 54: keep the current place until another one is 6 px closer, so a hand that shakes does not move the line.
+        if (!(V54 && d.best && set.includes(d.best) && dist(best) > dist(d.best) - 6)) d.best = best;
+        d.alt = set === d.copy;
         this.render(d.best.s);
+        if (V54) {
+            const t = parentOf(d.best.s.root, d.id), fixed = d.best.label;
+            this.note.innerHTML = fixed ? `${fixed}.` : `${d.alt ? "Copy" : "Move"} into <b>${t ? t.id : "?"}</b>. Grey rows can not take it.` +
+                (d.near ? ` <kbd>E</kbd> opens ${d.near.id} now.` : "");
+            this.note.classList.add("on");
+        }
+    }
+    openNear() {
+        const d = this.drag; clearTimeout(d.wait); d.waitId = null;
+        d.near.open = true; d.near = null;
+        d.normal = this.candidates(false);
+        d.copy = d.node.kind !== "comp" && !d.fromChip ? this.candidates(true) : null;
+        d.best = null; this.move(d.last);
     }
 
     up() {
@@ -1055,12 +1184,19 @@ class Panel {
             else { this.selected = d.id; this.render(this.state); }
             return;
         }
-        clearTimeout(d.wait);
+        clearTimeout(d.wait); this.note.classList.remove("on");
         e.classList.remove("drag");
         Object.values(this.els).forEach(x => x.classList.remove("follow"));
+        const prev = this.state, moved = d.best.s !== prev;
         this.state = d.best.s;
         const placed = find(this.state.root, d.id);
+        if (moved && !d.fromChip) {
+            const t = placed && parentOf(this.state.root, d.id);
+            this.notify(!placed ? `Removed ${d.id}.` : `${d.alt ? "Copied" : "Moved"} ${base(d.id)} into ${t ? t.id : "?"}.`, prev);
+        }
         if (placed && placed.kind !== "item" && !d.fromChip) placed.open = d.node.open;
+        // Version 54 and later: a drop selects the dropped item, as the code does (ProjectTree.DropAsync).
+        if (V54 && placed && moved) this.selected = d.id;
         if (placed) { e.classList.remove("flash"); void e.offsetWidth; e.classList.add("flash"); setTimeout(() => e.classList.remove("flash"), 800); }
         if (!this.lay(this.state).r[d.id]) {
             this.place(e, d.best.spot); e.classList.add("gone");
@@ -1128,8 +1264,10 @@ const VERSIONS = [
     { n: "51", name: "Hover: left border, dimmer", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as look-at look-au look-av", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6, uniform: true },
     { n: "52", name: "Drag: dimmed rows, band 2 %", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as look-at look-au look-av look-aw", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6, uniform: true },
     { n: "53", name: "Drag: dimmed rows, no band", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as look-at look-au look-av look-ax", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6, uniform: true },
+{ n: "54", name: "Review: hidden, undo, drag aids", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as look-at look-au look-av look-aw look-ay", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6, uniform: true, v54: true },
+{ n: "55", name: "Greyscale fixes, group icon, no drop line", look: "look-g look-j look-k look-l look-m look-n look-o look-p look-q look-r look-s look-u look-w look-y look-z look-aa look-ac look-ae look-ag look-ah look-ai look-ak look-al look-am look-an look-ao look-ap look-aq look-ar look-as look-at look-au look-av look-aw look-ay look-az", card: true, nest: "bands", flush: true, depthX: true, h: 32, ip: 8, npx: 6, uniform: true, v54: true, v55: true },
 ];
-const CLASSES = ["look-full", "look-accent", "look-neutral", "look-a", "look-b", "look-c", "look-d", "look-e", "look-f", "look-g", "look-h", "look-i", "look-j", "look-k", "look-l", "look-m", "look-n", "look-o", "look-p", "look-q", "look-r", "look-s", "look-t", "look-u", "look-w", "look-x", "look-y", "look-z", "look-aa", "look-ac", "look-ae", "look-af", "look-ag", "look-ah", "look-ai", "look-ak", "look-al", "look-am", "look-an", "look-ao", "look-ap", "look-aq", "look-ar", "look-as", "look-at", "look-au", "look-av", "look-aw", "look-ax", "flush", "column", "focus"];
+const CLASSES = ["look-full", "look-accent", "look-neutral", "look-a", "look-b", "look-c", "look-d", "look-e", "look-f", "look-g", "look-h", "look-i", "look-j", "look-k", "look-l", "look-m", "look-n", "look-o", "look-p", "look-q", "look-r", "look-s", "look-t", "look-u", "look-w", "look-x", "look-y", "look-z", "look-aa", "look-ac", "look-ae", "look-af", "look-ag", "look-ah", "look-ai", "look-ak", "look-al", "look-am", "look-an", "look-ao", "look-ap", "look-aq", "look-ar", "look-as", "look-at", "look-au", "look-av", "look-aw", "look-ax", "look-ay", "look-az", "flush", "column", "focus"];
 const list = document.getElementById("version");
 list.innerHTML = VERSIONS.map(v => `<option value="${v.n}">${v.n}  ${v.name}</option>`).join("");
 function applyVersion(n) {
@@ -1143,8 +1281,8 @@ function applyVersion(n) {
     STEP = v.step || (v.card ? 8 : 7);
     INSET_R = v.card ? 8 : 3;
     panel.nest = v.nest || "both";
-    REVIEW = !!v.review; DEPTHX = !!(v.review || v.depthX); UNIFORM = !!v.uniform;
-    H = v.h || 24; TOG = H * 2 + 2;
+    V54 = !!v.v54; V55 = !!v.v55; REVIEW = !!v.review; DEPTHX = !!(v.review || v.depthX); UNIFORM = !!v.uniform;
+    H = v.h || 24; TOG = H * 2 + (V54 ? 8 : 2);
     panel.root.style.setProperty("--H", H + "px");
     panel.root.style.setProperty("--ip", (v.ip || 4) + "px");
     panel.root.style.setProperty("--npx", (v.npx || 4) + "px");
@@ -1154,7 +1292,7 @@ function applyVersion(n) {
 list.addEventListener("change", () => applyVersion(list.value));
 let saved = null;
 try { saved = localStorage.getItem("cmix-nested-version"); } catch (e) { }
-applyVersion("52");
+applyVersion("55");
 addEventListener("resize", () => panel.render(panel.state));
 </script>
 </body>
