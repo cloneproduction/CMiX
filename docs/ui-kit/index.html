@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CMiX design research</title>
+<!-- The menu of the UI kit and of every design mockup, for a presentation. It shows one page at a time in a frame.
+     Keys: arrow up or left for the page before, arrow down or right for the page after, P to show or hide the menu.
+     Each page has its own address (index.html#nested-boxes), so a link opens it directly. Open it through the kit server. -->
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="cmix.css">
+<style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body { display: grid; grid-template-columns: 280px 1fr; grid-template-rows: 48px 1fr; background: var(--Grey100Brush); color: var(--TreeTextRest); font: 12px var(--FontFamilyDefault, "Segoe UI", system-ui, sans-serif); }
+    body.present { grid-template-columns: 0 1fr; }
+    body.present nav { visibility: hidden; }
+
+    header { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; padding: 0 12px; background: var(--PanelBackgroundLevel1Brush); }
+    header .brand { width: 256px; font-size: 13px; font-weight: 600; color: var(--ActiveText); }
+    body.present header .brand { width: auto; }
+    header .now { display: flex; flex-direction: column; min-width: 0; line-height: 17px; }
+    header .now b { font-size: 13px; font-weight: 600; color: var(--ActiveText); }
+    header .now span { color: #B6B6BB; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    header .tools { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+    header .count { color: #B6B6BB; margin-right: 6px; font-variant-numeric: tabular-nums; }
+    header button, header a { all: unset; cursor: pointer; height: 24px; padding: 0 10px; display: flex; align-items: center; border-radius: var(--CornerRadiusAll, 2px); background: var(--PanelBackgroundLevel3Brush); color: var(--TreeTextRest); }
+    header button:hover, header a:hover { background: #4A4A4D; color: var(--ActiveText); }
+
+    nav { overflow-y: auto; padding: 8px 8px 16px; background: var(--PanelBackgroundLevel1Brush); }
+    nav h2 { margin: 16px 8px 6px; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #B6B6BB; }
+    nav h2:first-child { margin-top: 4px; }
+    /* A row of the menu has the look of a tree item: a neutral band, the selection is a 3 px left border and a lighter surface. */
+    nav a { display: block; margin-bottom: 3px; padding: 6px 10px; border-radius: var(--CornerRadiusAll, 2px); background: color-mix(in srgb, #fff 5%, transparent); color: var(--TreeTextRest); text-decoration: none; }
+    nav a b { display: block; font-size: 12px; font-weight: 600; color: var(--TreeTextRest); }
+    nav a span { display: block; margin-top: 2px; font-size: 11px; color: #9A9A9F; line-height: 15px; }
+    nav a small { float: right; font-size: 10px; color: var(--c, #B6B6BB); }
+    nav a:hover { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--c, #B6B6BB) 45%, transparent); }
+    nav a.on { background: color-mix(in srgb, #fff 12%, transparent); box-shadow: inset 3px 0 0 var(--c, #B6B6BB); }
+    nav a.on b { color: var(--ActiveText); }
+
+    main { position: relative; min-width: 0; }
+    iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--Grey100Brush); }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">CMiX design research</div>
+  <div class="now"><b id="title"></b><span id="note"></span></div>
+  <div class="tools">
+    <span class="count" id="count"></span>
+    <button id="prev" title="Page before (arrow up or left)">Before</button>
+    <button id="next" title="Page after (arrow down or right)">After</button>
+    <button id="present" title="Show or hide the menu (P)">Present</button>
+    <a id="alone" target="_blank" title="Open the page alone in a new tab">Open alone</a>
+  </div>
+</header>
+<nav id="menu"></nav>
+<main><iframe id="view" title="Mockup"></iframe></main>
+
+<script>
+(function () {
+    // The pages of the menu, by group. A group has the colour of its kind in the tree, so the menu reads as the kit.
+    var groups = [
+        { name: 'UI kit', colour: 'var(--AccentPrimary)', pages: [
+            ['gallery', 'gallery.html', 'CMiX UI kit', 'The catalogue of every control and view. Part A is CMiX.UI, part B is CMiX.Studio.Avalonia.'],
+            ['colour-concept', 'mockups/colour-concept.html', 'Colour concept', 'Board 0.0: every CMiX colour, from the tokens.']
+        ] },
+        { name: 'Tree research', colour: 'var(--CategoryComposable0)', pages: [
+            ['nested-boxes', 'mockups/nested-boxes.html', 'Nested boxes', 'The project stack as nested boxes. Version 55 is the lead look of the new tree.'],
+            ['stack-layouts', 'mockups/stack-layouts.html', 'Stack layouts', 'Four ways to show and move compositions and layers, with one declarative drag.'],
+            ['tree-without-categories', 'mockups/tree-without-categories.html', 'Tree without categories', 'The tree with its category rows, and four ways to show the kinds without them.']
+        ] },
+        { name: 'Modulation research', colour: 'var(--CategoryModulator)', pages: [
+            ['modulation-pool', 'mockups/modulation-pool.html', 'Modulation pool', 'One modulator pool for the project, and links with an amount.'],
+            ['modulation-links', 'mockups/modulation-links.html', 'Modulation links', 'Where a chain is used, and what drives a value.'],
+            ['modulation-chain', 'mockups/modulation-chain.html', 'Modulation chain', 'A chain with inputs and outputs: the pool, the inspector and the assign menu.'],
+            ['modulation-chain-nodes', 'mockups/modulation-chain-nodes.html', 'Node graph, option A', 'Colour for each category of node, after Bitwig Grid.'],
+            ['modulation-chain-lines', 'mockups/modulation-chain-lines.html', 'Node graph, option B', 'Colour for each output line, as a transit map.'],
+            ['modulation-chain-depth', 'mockups/modulation-chain-depth.html', 'Node graph, option C', 'The lead. Colour by depth, as the composables of the tree. See docs/modulation-graph-research.md.', 'lead']
+        ] }
+    ];
+    var pages = [], menu = document.getElementById('menu'), view = document.getElementById('view');
+    groups.forEach(function (g) {
+        var h = document.createElement('h2');
+        h.textContent = g.name;
+        menu.appendChild(h);
+        g.pages.forEach(function (p) {
+            var a = document.createElement('a');
+            a.href = '#' + p[0];
+            a.style.setProperty('--c', g.colour);
+            a.innerHTML = (p[4] ? '<small>' + p[4] + '</small>' : '') + '<b>' + p[2] + '</b><span>' + p[3] + '</span>';
+            menu.appendChild(a);
+            pages.push({ id: p[0], url: p[1], title: p[2], note: p[3], link: a });
+        });
+    });
+    function show(id) {
+        var i = Math.max(0, pages.findIndex(function (p) { return p.id === id; })), p = pages[i];
+        if (view.getAttribute('src') !== p.url) view.setAttribute('src', p.url);
+        pages.forEach(function (q) { q.link.classList.toggle('on', q === p); });
+        p.link.scrollIntoView({ block: 'nearest' });
+        document.getElementById('title').textContent = p.title;
+        document.getElementById('note').textContent = p.note;
+        document.getElementById('count').textContent = (i + 1) + ' / ' + pages.length;
+        document.getElementById('alone').href = p.url;
+        document.title = p.title + ' . CMiX design research';
+        return i;
+    }
+    function current() { return Math.max(0, pages.findIndex(function (p) { return '#' + p.id === location.hash; })); }
+    function step(d) { location.hash = pages[(current() + d + pages.length) % pages.length].id; }
+    function togglePresent() {
+        document.body.classList.toggle('present');
+        document.getElementById('present').textContent = document.body.classList.contains('present') ? 'Menu' : 'Present';
+    }
+    addEventListener('hashchange', function () { show(location.hash.slice(1)); });
+    document.getElementById('prev').addEventListener('click', function () { step(-1); });
+    document.getElementById('next').addEventListener('click', function () { step(1); });
+    document.getElementById('present').addEventListener('click', togglePresent);
+    // The keys work when the menu has the focus. A click in a page gives the focus to the page, so the page keeps its own keys.
+    addEventListener('keydown', function (e) {
+        if (e.target.closest && e.target.closest('input, textarea, select')) return;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') { step(1); e.preventDefault(); }
+        else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') { step(-1); e.preventDefault(); }
+        else if (e.key === 'p' || e.key === 'P') togglePresent();
+    });
+    show(location.hash.slice(1) || pages[0].id);
+})();
+</script>
+</body>
+</html>

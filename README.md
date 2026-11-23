@@ -202,6 +202,26 @@ A class with the attribute `[HiddenInMenu]` is not in the add menus. A saved pro
 
 These classes are hidden now: `RenderRandomEntityModifier`, `RenderSequenceEntityModifier` and `BillboardModifier`.
 
+## Design research
+
+`docs/ui-kit/` holds the HTML copy of the UI and the design mockups. The pages load the kit files, so open them through a local server, not as files:
+
+```
+python -m http.server 8765 --bind 127.0.0.1 --directory docs/ui-kit
+```
+
+Then open `http://127.0.0.1:8765/index.html`. This page is the menu of the UI kit and of every mockup, for a presentation:
+
+- The menu on the left shows the pages by group: UI kit, tree research, modulation research.
+- Arrow down or right opens the page after. Arrow up or left opens the page before.
+- P or the Present button hides the menu.
+- Each page has its own address, for example `index.html#nested-boxes`.
+- Open alone opens the page in a new tab.
+
+A click in a page gives the keys to the page. Click the menu to use the keys of the menu again.
+
+The research of the modulation graph is in `docs/modulation-graph-research.md`.
+
 ## License
 
 CMiX is free software under the [GNU LGPL, version 3 or later](LICENSE). The GPL text is in [COPYING](COPYING).
