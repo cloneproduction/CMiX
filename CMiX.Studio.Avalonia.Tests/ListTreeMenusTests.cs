@@ -9,6 +9,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -16,8 +17,6 @@ using CMiX.UI.Controls.Parts;
 using CMiX.UI.Controls.String;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
-using Composition = CMiX.Core.Compositing.Composition;
-using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -25,10 +24,10 @@ namespace CMiX.Studio.Avalonia.Tests
     // The toolbar and the key hint strip show as in the old tree.
     public class ListTreeMenusTests : IDisposable
     {
-        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, ListTreeProject View)
+        private sealed record Screen : ListTreeMainScreen
         {
-            public ProjectTree Tree => ViewModel.ProjectTree;
-            public TreeNode LayerNode(int index) => Tree.CompositionNodes()[0].Children[0].Children[index];
+            public Screen(ListTreeMainScreen shown) : base(shown) { }
+
             public ContextMenu? Menu => View.Menu;
             public RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(View.Rows.RowOf(node));
         }
@@ -49,22 +48,11 @@ namespace CMiX.Studio.Avalonia.Tests
         // The new tree is the only tree. One composition with three layers. The first layer is selected. The focus is on its row.
         private Screen Show()
         {
-            var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            viewModel.LeftPanel = PanelChoice.ListTree;
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
-            for (var i = 0; i < 3; i++)
-                composition.LayerManager.AddItem(typeof(Layer));
-            TestServiceProviderFactory.Pump();
-            TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
-            TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<ListTreeProject>().Single();
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            screen = new Screen(mainWindow, viewModel, view);
+            screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(PanelChoice.ListTree));
             screen.Tree.SelectedNode = screen.LayerNode(0);
-            Settle(mainWindow);
+            Settle(screen.Window);
             screen.RowOf(screen.LayerNode(0)).Focus();
-            Settle(mainWindow);
+            Settle(screen.Window);
             return screen;
         }
 

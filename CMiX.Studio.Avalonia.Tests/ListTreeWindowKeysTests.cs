@@ -4,27 +4,24 @@
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
-using Avalonia.VisualTree;
 using CMiX.Core;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
-using Composition = CMiX.Core.Compositing.Composition;
-using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The Tree keys of the main window run through CanRunTreeKey. With the focus in the new list tree, its hooks let them run.
     public class ListTreeWindowKeysTests : IDisposable
     {
-        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, ListTreeProject View)
+        private sealed record Screen : ListTreeMainScreen
         {
-            public ProjectTree Tree => ViewModel.ProjectTree;
-            public Composition Composition => (Composition)ViewModel.Project.CompositionManager.ManagerData.Items[0];
+            public Screen(ListTreeMainScreen shown) : base(shown) { }
+
             public IList<IControl> Layers => Composition.LayerManager.ManagerData.Items;
-            public TreeNode LayerNode(int index) => Tree.CompositionNodes()[0].Children[0].Children[index];
         }
 
         private Views.MainWindow? window;
@@ -34,24 +31,14 @@ namespace CMiX.Studio.Avalonia.Tests
         // The new tree is the only tree. One composition with three layers. The first layer is selected, and its row has the focus.
         private Screen Show()
         {
-            var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            window = mainWindow;
-            viewModel.LeftPanel = PanelChoice.ListTree;
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
-            for (var i = 0; i < 3; i++)
-                composition.LayerManager.AddItem(typeof(Layer));
-            TestServiceProviderFactory.Pump();
-            TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
-            TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<ListTreeProject>().Single();
-            var screen = new Screen(mainWindow, viewModel, view);
+            var screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(PanelChoice.ListTree));
+            window = screen.Window;
             screen.Tree.SelectedNode = screen.LayerNode(0);
-            Settle(mainWindow);
-            view.Rows.RowOf(screen.LayerNode(0))!.Focus();
-            Settle(mainWindow);
-            Assert.True(view.IsKeyboardFocusWithin);
-            Assert.True(view.IsActiveView);
+            Settle(screen.Window);
+            screen.View.Rows.RowOf(screen.LayerNode(0))!.Focus();
+            Settle(screen.Window);
+            Assert.True(screen.View.IsKeyboardFocusWithin);
+            Assert.True(screen.View.IsActiveView);
             return screen;
         }
 

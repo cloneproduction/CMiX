@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -16,7 +15,6 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Composition = CMiX.Core.Compositing.Composition;
 using Layer = CMiX.Core.Compositing.Layer;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
 
@@ -42,18 +40,13 @@ namespace CMiX.Studio.Avalonia.Tests
             oldView = null;
         }
 
-        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel)
+        private sealed record Screen : ListTreeMainScreen
         {
-            public ProjectTree Tree => ViewModel.ProjectTree;
-            public UndoManager Undo => Provider.GetRequiredService<UndoManager>();
-            public Composition Composition => (Composition)ViewModel.Project.CompositionManager.ManagerData.Items[0];
-            public TreeNode CompositionNode => Tree.CompositionNodes()[0];
-            public TreeNode LayerNode(int index) => CompositionNode.Children[0].Children[index];
-            public Layer Layer(int index) => (Layer)Composition.LayerManager.ManagerData.Items[index];
-            public Layer[] Layers => Enumerable.Range(0, 3).Select(Layer).ToArray();
+            public Screen(ListTreeMainScreen shown) : base(shown) { }
 
-            public int UndoSteps =>
-                ((LinkedList<IUndoCommand>)typeof(UndoManager).GetField("_undoStack", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(Undo)!).Count;
+            public UndoManager Undo => Provider.GetRequiredService<UndoManager>();
+            public Layer[] Layers => Enumerable.Range(0, 3).Select(Layer).ToArray();
+            public int UndoSteps => UndoCounts.StepsOf(Undo);
         }
 
         // The places of the grab and the order of the layers after the keys, as the original indices of the layers.
@@ -62,23 +55,14 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with three empty layers, in the tree of the panel. The layer rows are closed. The composition is selected.
         private Screen Show(PanelChoice panel)
         {
-            var (provider, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            window = mainWindow;
-            viewModel.LeftPanel = panel;
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
-            for (var i = 0; i < 3; i++)
-                composition.LayerManager.AddItem(typeof(Layer));
-            TestServiceProviderFactory.Pump();
-            TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
-            TestServiceProviderFactory.Pump();
-            var screen = new Screen(provider, mainWindow, viewModel);
-            foreach (var panelCollapse in mainWindow.GetVisualDescendants().OfType<CMiX.UI.Panels.PanelCollapse>())
+            var screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(panel));
+            window = screen.Window;
+            foreach (var panelCollapse in screen.Window.GetVisualDescendants().OfType<CMiX.UI.Panels.PanelCollapse>())
                 panelCollapse.Duration = TimeSpan.Zero;
             for (var i = 0; i < 3; i++)
                 screen.LayerNode(i).IsExpanded = false;
             screen.Tree.SelectedNode = screen.CompositionNode;
-            Settle(mainWindow);
+            Settle(screen.Window);
             screen.Undo.Clear();
             return screen;
         }
@@ -86,8 +70,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private Screen ShowNewTree()
         {
             var screen = Show(PanelChoice.ListTree);
-            view = screen.Window.GetVisualDescendants().OfType<ListTreeProject>().Single();
-            view.Rows.MoveDuration = TimeSpan.Zero;
+            view = screen.View;
             Settle(screen.Window);
             return screen;
         }
