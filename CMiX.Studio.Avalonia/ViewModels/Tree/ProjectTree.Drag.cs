@@ -81,13 +81,20 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         {
             DropBlockMove move;
             var pressedItem = pressed.Item;
+            var reverted = false;
             undoManager.BeginCapture();
             try
             {
                 // Read before the drop: the drop removes the source nodes, and NodeRemoved passes the inspector up.
                 var inspected = nodes.FirstOrDefault(source => ReferenceEquals(inspectedNode, source))?.Item;
                 move = drop.MoveBlock(root, nodes, target, position);
-                if (move.MovedNodes.Count > 0)
+                if (move.Refusal != null && move.MovedNodes.Count > 0)
+                {
+                    // A block moves whole or not at all: the rows that moved before the refusal go back.
+                    reverted = true;
+                    undoManager.RevertCapture();
+                }
+                else if (move.MovedNodes.Count > 0)
                 {
                     SelectBlock(MovedNodeOf(move, pressedItem) ?? move.MovedNodes[^1], move.MovedNodes);
                     if (inspected != null && MovedNodeOf(move, inspected) is { } moved)
@@ -96,7 +103,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             }
             finally
             {
-                undoManager.EndCapture();
+                if (!reverted)
+                    undoManager.EndCapture();
             }
 
             if (move.Refusal is { } refusal)
