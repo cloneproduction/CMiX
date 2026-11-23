@@ -4,6 +4,7 @@
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
@@ -43,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var expected = new[] { scene.Tree.Roots[0], scene.NodeA, Scene.LayersOf(scene.NodeA), scene.LayerNodeOfA(0), scene.LayerNodeOfA(1) };
             Assert.Equal(expected, rows.Select(row => row.Node));
             Assert.Equal(new[] { 0, 1, 2, 3, 3 }, rows.Select(row => row.Depth));
-            Assert.All(rows, row => Assert.Equal(TreeWalk.DepthOf(row.Node), row.Depth));
+            Assert.All(rows, row => Assert.Equal(TreeWalk.DepthOf(row.Node!), row.Depth));
         }
 
         [Fact]
@@ -69,7 +70,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
 
-            Assert.Equal(new[] { "Layers" }, RowOf(snapshot, scene.NodeA).Children.Select(row => row.Node.Header));
+            Assert.Equal(new[] { "Layers" }, RowOf(snapshot, scene.NodeA).Children.Select(row => row.Node!.Header));
             var layer = RowOf(snapshot, scene.LayerNodeOfA(0));
             Assert.Empty(layer.Children);
             Assert.True(layer.IsCard);
@@ -84,7 +85,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
 
-            Assert.Equal(new[] { "Layers", "Filters" }, RowOf(snapshot, scene.NodeA).Children.Select(row => row.Node.Header));
+            Assert.Equal(new[] { "Layers", "Filters" }, RowOf(snapshot, scene.NodeA).Children.Select(row => row.Node!.Header));
             var group = RowOf(snapshot, filters);
             Assert.Equal(2, group.Depth);
             var filter = Assert.Single(group.Children);
@@ -100,12 +101,41 @@ namespace CMiX.Studio.Avalonia.Tests
             var entity = (IPrefab)scene.LayerOfA(0).ModelEntityManager.ManagerData.Items[0];
             scene.LayerOfA(1).ModelEntityManager.AddExistingItem(entity);
 
-            var rows = AllRows(ListTreeSnapshot.Of(scene.Tree.Roots).Roots).Where(row => ReferenceEquals(row.Node.Item, entity)).ToArray();
+            var rows = AllRows(ListTreeSnapshot.Of(scene.Tree.Roots).Roots).Where(row => ReferenceEquals(row.Node!.Item, entity)).ToArray();
 
             Assert.Equal(2, rows.Length);
             Assert.NotSame(rows[0].Node, rows[1].Node);
             Assert.Same(Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(0)), rows[0].Node.Parent);
-            Assert.Same(Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(1)), rows[1].Node.Parent);
+            Assert.Same(Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(1)), rows[1].Node!.Parent);
+        }
+
+        [Fact]
+        public void Of_OneEntityUnderTwoLayers_GivesTwoKeysOfOneModel()
+        {
+            var scene = CreateOpenScene();
+            scene.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity));
+            var entity = (IPrefab)scene.LayerOfA(0).ModelEntityManager.ManagerData.Items[0];
+            scene.LayerOfA(1).ModelEntityManager.AddExistingItem(entity);
+
+            var rows = AllRows(ListTreeSnapshot.Of(scene.Tree.Roots).Roots).Where(row => ReferenceEquals(row.Key.Model, entity)).ToArray();
+
+            Assert.Equal(2, rows.Length);
+            Assert.NotEqual(rows[0].Key, rows[1].Key);
+            Assert.Equal(ListTreeKeys.Of(rows[0].Node!), rows[0].Key);
+            Assert.Same(scene.LayerOfA(1).ModelEntityManager, rows[1].Key.Parent!.Model);
+        }
+
+        [Fact]
+        public void Of_ARowAfterTheTreeIsMadeAgain_GivesAnEqualKey()
+        {
+            var scene = CreateOpenScene();
+            var before = RowOf(ListTreeSnapshot.Of(scene.Tree.Roots), scene.LayerNodeOfA(1)).Key;
+
+            var again = CreateTree(scene.Provider);
+
+            var layer = AllRows(ListTreeSnapshot.Of(again.Roots).Roots).Single(row => ReferenceEquals(row.Key.Model, scene.LayerOfA(1)));
+            Assert.NotSame(scene.LayerNodeOfA(1), layer.Node);
+            Assert.Equal(before, layer.Key);
         }
     }
 }

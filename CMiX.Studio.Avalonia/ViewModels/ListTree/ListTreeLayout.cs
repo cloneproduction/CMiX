@@ -3,18 +3,17 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
     public sealed class ListTreeLayout
     {
-        private readonly IReadOnlyDictionary<TreeNode, ListTreePlace> placeByNode;
+        private readonly IReadOnlyDictionary<ListTreeRowKey, ListTreePlace> placeByKey;
 
-        private ListTreeLayout(IReadOnlyList<ListTreePlace> places, IReadOnlyDictionary<TreeNode, ListTreePlace> placeByNode, double totalHeight)
+        private ListTreeLayout(IReadOnlyList<ListTreePlace> places, IReadOnlyDictionary<ListTreeRowKey, ListTreePlace> placeByKey, double totalHeight)
         {
             Places = places;
-            this.placeByNode = placeByNode;
+            this.placeByKey = placeByKey;
             TotalHeight = totalHeight;
         }
 
@@ -23,14 +22,14 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         public double TotalHeight { get; }
 
         // Null when the row is under a closed card or not in the snapshot.
-        public ListTreePlace? PlaceOf(TreeNode node) => placeByNode.GetValueOrDefault(node);
+        public ListTreePlace? PlaceOf(ListTreeRowKey key) => placeByKey.GetValueOrDefault(key);
 
         public static ListTreeLayout Of(ListTreeSnapshot snapshot, ListTreeSizes sizes)
         {
             var places = new List<ListTreePlace>();
             AddPlaces(snapshot.Roots, sizes, places);
-            var placeByNode = places.ToDictionary<ListTreePlace, TreeNode>(place => place.Node, ReferenceEqualityComparer.Instance);
-            return new ListTreeLayout(places, placeByNode, TotalHeightOf(places.Count, sizes));
+            var placeByKey = places.ToDictionary(place => place.Key);
+            return new ListTreeLayout(places, placeByKey, TotalHeightOf(places.Count, sizes));
         }
 
         private static void AddPlaces(IEnumerable<ListTreeRow> rows, ListTreeSizes sizes, List<ListTreePlace> places)
@@ -44,7 +43,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         private static ListTreePlace PlaceOf(ListTreeRow row, double y, ListTreeSizes sizes) =>
-            new(row.Node, y, sizes.RowHeight, TotalHeightOf(VisibleCountOf(row), sizes), row.Depth, row.Depth * sizes.Indent, row.Children.Count > 0);
+            new(row.Key, y, sizes.RowHeight, TotalHeightOf(VisibleCountOf(row), sizes), row.Depth, row.Depth * sizes.Indent, row.Children.Count > 0);
 
         private static int VisibleCountOf(ListTreeRow row) =>
             1 + (row.IsExpanded ? row.Children.Sum(VisibleCountOf) : 0);

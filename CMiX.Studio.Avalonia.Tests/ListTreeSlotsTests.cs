@@ -5,6 +5,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Xunit;
@@ -65,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Contains(scene.LayerOfA(1).ModelEntityManager, lists);
             Assert.Contains(LayerOfB(scene, 0).ModelEntityManager, lists);
             Assert.Contains(LayerOfB(scene, 1).ModelEntityManager, lists);
-            Assert.Contains(new ListTreeSlot(scene.LayerNodeOfA(1), DropPosition.Inside, new ListPlace(scene.LayerOfA(1).ModelEntityManager, 0), scene.LayerNodeOfA(1)), slots);
+            Assert.Contains(new ListTreeSlot(scene.LayerNodeOfA(1), DropPosition.Inside, new ListPlace(scene.LayerOfA(1).ModelEntityManager, 0), ListTreeKeys.Of(scene.LayerNodeOfA(1))), slots);
         }
 
         [Fact]
@@ -79,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var slots = SlotsOf(scene, Modifier(scene, 1, 0));
 
             Assert.Null(service.PlaceOf(Modifier(scene, 1, 0), entity, DropPosition.Inside));
-            Assert.Contains(new ListTreeSlot(modifiers, DropPosition.Inside, place, entity), slots);
+            Assert.Contains(new ListTreeSlot(modifiers, DropPosition.Inside, place, ListTreeKeys.Of(entity)), slots);
         }
 
         [Fact]
@@ -91,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var slots = SlotsOf(scene, Scene.Group<FiltersGroup>(scene.LayerNodeOfA(1)).Children[0]);
 
-            Assert.Contains(new ListTreeSlot(filters, DropPosition.Inside, place, scene.NodeA), slots);
+            Assert.Contains(new ListTreeSlot(filters, DropPosition.Inside, place, ListTreeKeys.Of(scene.NodeA)), slots);
         }
 
         [Fact]
@@ -115,8 +116,8 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var slots = SlotsOf(scene, scene.LayerNodeOfB(0));
 
-            Assert.Contains(new ListTreeSlot(closed, DropPosition.Before, new ListPlace(scene.A.LayerManager, 1), closed), slots);
-            Assert.Contains(new ListTreeSlot(closed, DropPosition.After, new ListPlace(scene.A.LayerManager, 2), closed), slots);
+            Assert.Contains(new ListTreeSlot(closed, DropPosition.Before, new ListPlace(scene.A.LayerManager, 1), ListTreeKeys.Of(closed)), slots);
+            Assert.Contains(new ListTreeSlot(closed, DropPosition.After, new ListPlace(scene.A.LayerManager, 2), ListTreeKeys.Of(closed)), slots);
         }
 
         [Fact]
@@ -141,7 +142,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var slots = SlotsOf(scene, source);
 
-            Assert.Equal(new ListTreeSlot(source, DropPosition.Before, current, source), Assert.Single(slots, slot => slot.ListPlace == current));
+            Assert.Equal(new ListTreeSlot(source, DropPosition.Before, current, ListTreeKeys.Of(source)), Assert.Single(slots, slot => slot.ListPlace == current));
         }
 
         [Fact]
@@ -156,7 +157,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(service.CanDrop(Entity(scene, 0, 0), layer, DropPosition.Inside));
             Assert.Equal(slots.Count, slots.Select(slot => slot.ListPlace).Distinct().Count());
             var last = Scene.Group<EntitiesGroup>(layer).Children[0];
-            Assert.Equal(new ListTreeSlot(last, DropPosition.After, end, last), Assert.Single(slots, slot => slot.ListPlace == end));
+            Assert.Equal(new ListTreeSlot(last, DropPosition.After, end, ListTreeKeys.Of(last)), Assert.Single(slots, slot => slot.ListPlace == end));
         }
 
         [Fact]

@@ -16,7 +16,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         public IReadOnlyList<ListTreeRow> Roots { get; }
 
-        public static ListTreeSnapshot Of(IEnumerable<TreeNode> roots) => new(RowsOf(roots, 0));
+        public static ListTreeSnapshot Of(IEnumerable<TreeNode> roots) => new(RowsOf(roots, 0, null));
 
         public IReadOnlyList<ListTreeRow> VisibleRows()
         {
@@ -35,11 +35,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             }
         }
 
-        private static IReadOnlyList<ListTreeRow> RowsOf(IEnumerable<TreeNode> nodes, int depth) =>
-            nodes.Where(IsShown).Select(node => RowOf(node, depth)).ToArray();
+        private static IReadOnlyList<ListTreeRow> RowsOf(IEnumerable<TreeNode> nodes, int depth, ListTreeRowKey? parent) =>
+            nodes.Where(IsShown).Select(node => RowOf(node, depth, ListTreeRowKey.Of(node, parent))).ToArray();
 
-        private static ListTreeRow RowOf(TreeNode node, int depth) =>
-            new(node, depth, IsCard(node), node.IsExpanded, RowsOf(node.Children, depth + 1));
+        private static ListTreeRow RowOf(TreeNode node, int depth, ListTreeRowKey key) =>
+            new(key, node, depth, IsCard(node), node.IsExpanded, RowsOf(node.Children, depth + 1, key));
 
         private static bool IsShown(TreeNode node) => node.Group == null || node.Children.Count > 0;
 

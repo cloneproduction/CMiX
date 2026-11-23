@@ -53,14 +53,14 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         private void Add(ListTreeRow row, DropPosition position, TreeNode source, List<Candidate> candidates)
         {
-            if (dropService.PlaceOf(source, row.Node, position) is { } place)
-                candidates.Add(new Candidate(new ListTreeSlot(row.Node, position, place, row.Node), row.Depth));
+            if (dropService.PlaceOf(source, row.Node!, position) is { } place)
+                candidates.Add(new Candidate(new ListTreeSlot(row.Node!, position, place, row.Key), row.Depth));
         }
 
         private void AddInside(ListTreeRow row, TreeNode source, List<Candidate> candidates)
         {
-            if (dropService.PlaceOf(source, row.Node, DropPosition.Inside) is { } place)
-                candidates.Add(new Candidate(new ListTreeSlot(row.Node, DropPosition.Inside, place, row.Node), row.Depth));
+            if (dropService.PlaceOf(source, row.Node!, DropPosition.Inside) is { } place)
+                candidates.Add(new Candidate(new ListTreeSlot(row.Node!, DropPosition.Inside, place, row.Key), row.Depth));
             else
                 AddInsideHiddenGroups(row, source, candidates);
         }
@@ -68,9 +68,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // A drop Inside the card lands in its empty list of the kind of the source.
         private void AddInsideHiddenGroups(ListTreeRow row, TreeNode source, List<Candidate> candidates)
         {
-            foreach (var group in row.Node.Children.Where(IsHiddenGroup))
+            foreach (var group in row.Node!.Children.Where(IsHiddenGroup))
                 if (dropService.PlaceOf(source, group, DropPosition.Inside) is { } place)
-                    candidates.Add(new Candidate(new ListTreeSlot(group, DropPosition.Inside, place, row.Node), row.Depth + 1));
+                    candidates.Add(new Candidate(new ListTreeSlot(group, DropPosition.Inside, place, row.Key), row.Depth + 1));
         }
 
         private static bool IsHiddenGroup(TreeNode node) => node.Group != null && node.Children.Count == 0;
@@ -81,9 +81,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         private static Candidate CurrentPlaceOf(ListTreeRow row)
         {
-            var owner = row.Node.Owner!;
+            var owner = row.Node!.Owner!;
             var place = new ListPlace(owner, owner.ManagerData.Items.IndexOf(row.Node.Item!));
-            return new Candidate(new ListTreeSlot(row.Node, DropPosition.Before, place, row.Node), row.Depth);
+            return new Candidate(new ListTreeSlot(row.Node, DropPosition.Before, place, row.Key), row.Depth);
         }
 
         private static IReadOnlyList<ListTreeSlot> OnePerPlace(List<Candidate> candidates)

@@ -6,6 +6,6 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The node is the identity, because one item can show under several layers.
-    public sealed record ListTreeRow(TreeNode Node, int Depth, bool IsCard, bool IsExpanded, IReadOnlyList<ListTreeRow> Children);
+    // The key is the identity. The node is null for a row that the live tree does not have.
+    public sealed record ListTreeRow(ListTreeRowKey Key, TreeNode? Node, int Depth, bool IsCard, bool IsExpanded, IReadOnlyList<ListTreeRow> Children);
 }
