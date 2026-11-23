@@ -352,6 +352,11 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 
 Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
 stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays; no halo around any icon.
+Decided on 2026-11-23 during Phase 1:
+- Inside a card also reaches its empty list that option E hides: the drop target is the hidden group, the outline shows on the card (`ListTreeSlot.ShownTarget`).
+- A row of the new tree is identified by `ListTreeRowKey` (the model it shows and the key of its parent row), not by its live `TreeNode`: a move to another list builds new nodes, a shared entity shows under several layers, and a copy with Alt has no node before the drop. A copy takes a marker model (for example `ListTreeCopy(TreeNode Source)`) in step 4.1.
+- After a drop, every card under the dropped card keeps the open state it had before the drag. The real tree opens them all after a move to another list, so the new view restores them (step 4.1).
+- Places that the real drop refuses (layers that share items, `IMoveRestricted`, a list that refuses the item) are not candidates (step 1.5).
 Decided on 2026-11-23 in Phase 0:
 - Option E applies at the root too: an empty project shows an empty tree; a composition is added from the toolbar or the Add panel.
 - A row shows as a card (the icon opens and closes it) only when it has visible rows. Where a drop can go comes from the drop rules.
