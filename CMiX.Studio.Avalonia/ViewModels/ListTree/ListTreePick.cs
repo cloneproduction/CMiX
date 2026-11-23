@@ -32,10 +32,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         public ListTreeCandidate NearestOrCurrent(IReadOnlyList<ListTreeCandidate> candidates, ListTreeCandidate current, ListTreePress press, ListTreePoint pointer)
         {
             var nearest = Nearest(candidates, press, pointer);
-            if (!candidates.Any(candidate => ReferenceEquals(candidate, current)))
+            if (candidates.FirstOrDefault(candidate => candidate.Slot == current.Slot) is not { } kept)
                 return nearest;
 
-            return DistanceOf(nearest, press, pointer) > DistanceOf(current, press, pointer) - numbers.Hysteresis ? current : nearest;
+            return DistanceOf(nearest, press, pointer) > DistanceOf(kept, press, pointer) - numbers.Hysteresis ? kept : nearest;
         }
 
         // Every row has the full width, so the pointer x gives the depth.

@@ -50,6 +50,15 @@ namespace CMiX.Studio.Avalonia.Tests
             return CandidatesOf(scene, FilterOfTheSecondLayer(scene))[0] with { Spot = new ListTreeSpot(y, depth) };
         }
 
+        // The candidates of one scene, each of its own slot. The pick reads only the spot.
+        private static IReadOnlyList<ListTreeCandidate> SlotsOfOneScene()
+        {
+            var scene = CreateScene();
+            return CandidatesOf(scene, FilterOfTheSecondLayer(scene));
+        }
+
+        private static ListTreeCandidate At(ListTreeCandidate candidate, double y) => candidate with { Spot = new ListTreeSpot(y, 0) };
+
         private static ListTreePress PressAt(double x, double y) => new(new ListTreePoint(x, y), 0, 0);
 
         [Theory]
@@ -115,10 +124,21 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void Nearest_NoCandidate_ThrowsAnArgumentException()
+        {
+            var candidates = Array.Empty<ListTreeCandidate>();
+
+            var nearest = () => pick.Nearest(candidates, PressAt(0, 0), new ListTreePoint(0, 10));
+
+            Assert.Throws<ArgumentException>(nearest);
+        }
+
+        [Fact]
         public void NearestOrCurrent_ANearestLessThan6PxCloser_KeepsTheCurrent()
         {
-            var current = CandidateAt(20, 0);
-            var other = CandidateAt(14.5, 0);
+            var slots = SlotsOfOneScene();
+            var current = At(slots[0], 20);
+            var other = At(slots[1], 14.5);
 
             var picked = pick.NearestOrCurrent(new[] { current, other }, current, PressAt(0, 0), new ListTreePoint(0, 10));
 
@@ -128,8 +148,9 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void NearestOrCurrent_ANearest6PxCloser_PicksTheNearest()
         {
-            var current = CandidateAt(20, 0);
-            var other = CandidateAt(14, 0);
+            var slots = SlotsOfOneScene();
+            var current = At(slots[0], 20);
+            var other = At(slots[1], 14);
 
             var picked = pick.NearestOrCurrent(new[] { current, other }, current, PressAt(0, 0), new ListTreePoint(0, 10));
 
@@ -139,13 +160,29 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void NearestOrCurrent_ACurrentThatIsNotInTheList_PicksTheNearest()
         {
-            var current = CandidateAt(10, 0);
-            var far = CandidateAt(40, 0);
-            var near = CandidateAt(12, 0);
+            var slots = SlotsOfOneScene();
+            var current = At(slots[0], 10);
+            var far = At(slots[1], 40);
+            var near = At(slots[2], 12);
 
             var picked = pick.NearestOrCurrent(new[] { far, near }, current, PressAt(0, 0), new ListTreePoint(0, 10));
 
             Assert.Same(near, picked);
+        }
+
+        [Fact]
+        public void NearestOrCurrent_ARebuiltCandidateListLessThan6PxCloser_KeepsTheSlotOfTheCurrent()
+        {
+            var scene = CreateScene();
+            var source = FilterOfTheSecondLayer(scene);
+            var current = At(CandidatesOf(scene, source)[0], 20);
+            var rebuilt = CandidatesOf(scene, source);
+            var kept = At(rebuilt[0], 20);
+            var other = At(rebuilt[1], 14.5);
+
+            var picked = pick.NearestOrCurrent(new[] { kept, other }, current, PressAt(0, 0), new ListTreePoint(0, 10));
+
+            Assert.Same(kept, picked);
         }
     }
 }
