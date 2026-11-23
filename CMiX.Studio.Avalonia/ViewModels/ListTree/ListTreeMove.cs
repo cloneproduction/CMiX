@@ -4,8 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CMiX.Core;
-using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
@@ -15,45 +13,20 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
     {
         public static ListTreeSnapshot Of(ListTreeSnapshot snapshot, ListTreeRow source, ListTreeSlot slot)
         {
-            var plan = PlanOf(source, slot);
+            var plan = ListTreeMovePlan.Of(source, slot);
             var holders = new List<ListTreeRowKey>();
             var moved = RowsOf(snapshot.Roots, plan, holders);
             return new ListTreeSnapshot(Opened(moved, OpenedBy(HoldersToOpen(plan, holders))));
         }
 
         // A move in its own list opens only the holder of the slot. A move to another list opens every holder of that list.
-        private static IReadOnlyList<ListTreeRowKey> HoldersToOpen(MovePlan plan, IReadOnlyList<ListTreeRowKey> holders) =>
-            ReferenceEquals(plan.From, plan.To) ? new[] { plan.Holder } : holders;
+        private static IReadOnlyList<ListTreeRowKey> HoldersToOpen(ListTreeMovePlan plan, IReadOnlyList<ListTreeRowKey> holders) =>
+            plan.IsInItsOwnList ? new[] { plan.Holder } : holders;
 
-        private static MovePlan PlanOf(ListTreeRow source, ListTreeSlot slot)
-        {
-            var node = source.Node ?? throw new ArgumentException("The source is not a row of the live tree.", nameof(source));
-            var item = node.Item!;
-            var from = node.Owner!;
-            var to = slot.ListPlace.List;
-            return new MovePlan(item, from, to, IndexOf(item, from, slot.ListPlace), source, HolderOf(slot));
-        }
-
-        // The index is counted after the item leaves its list, as in TreeDropService.
-        private static int IndexOf(IControl item, PrefabManager from, ListPlace listPlace)
-        {
-            var oldIndex = from.ManagerData.Items.IndexOf(item);
-            return ReferenceEquals(listPlace.List, from) && listPlace.Index > oldIndex ? listPlace.Index - 1 : listPlace.Index;
-        }
-
-        // The key of the row that shows the list of the slot.
-        private static ListTreeRowKey HolderOf(ListTreeSlot slot)
-        {
-            if (slot.Position != DropPosition.Inside)
-                return slot.ShownTarget.Parent!;
-
-            return ReferenceEquals(slot.ShownTarget.Model, slot.ListPlace.List) ? slot.ShownTarget : new ListTreeRowKey(slot.ListPlace.List, slot.ShownTarget);
-        }
-
-        private static IReadOnlyList<ListTreeRow> RowsOf(IEnumerable<ListTreeRow> rows, MovePlan plan, List<ListTreeRowKey> holders) =>
+        private static IReadOnlyList<ListTreeRow> RowsOf(IEnumerable<ListTreeRow> rows, ListTreeMovePlan plan, List<ListTreeRowKey> holders) =>
             rows.Select(row => RowOf(row, plan, holders)).Where(IsShown).ToArray();
 
-        private static ListTreeRow RowOf(ListTreeRow row, MovePlan plan, List<ListTreeRowKey> holders)
+        private static ListTreeRow RowOf(ListTreeRow row, ListTreeMovePlan plan, List<ListTreeRowKey> holders)
         {
             var children = RowsOf(row.Children.Where(child => !IsSourceIn(row, child, plan)), plan, holders);
             if (ReferenceEquals(row.Key.Model, plan.To))
@@ -65,10 +38,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return row with { Children = children };
         }
 
-        private static bool IsSourceIn(ListTreeRow row, ListTreeRow child, MovePlan plan) =>
+        private static bool IsSourceIn(ListTreeRow row, ListTreeRow child, ListTreeMovePlan plan) =>
             ReferenceEquals(row.Key.Model, plan.From) && ReferenceEquals(child.Key.Model, plan.Item);
 
-        private static IReadOnlyList<ListTreeRow> WithMovedRow(ListTreeRow holder, IReadOnlyList<ListTreeRow> children, MovePlan plan, List<ListTreeRowKey> holders)
+        private static IReadOnlyList<ListTreeRow> WithMovedRow(ListTreeRow holder, IReadOnlyList<ListTreeRow> children, ListTreeMovePlan plan, List<ListTreeRowKey> holders)
         {
             holders.Add(holder.Key);
             var rows = children.ToList();
@@ -77,7 +50,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         // In its own list, every holder keeps its own row.
-        private static ListTreeRow MovedRowIn(ListTreeRow holder, MovePlan plan)
+        private static ListTreeRow MovedRowIn(ListTreeRow holder, ListTreeMovePlan plan)
         {
             if (holder.Children.FirstOrDefault(child => ReferenceEquals(child.Key.Model, plan.Item)) is { } own)
                 return own.Key.Equals(plan.Source.Key) ? Closed(own) : own;
@@ -86,41 +59,28 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         // The list has no row yet because option E hides an empty list.
-        private static IReadOnlyList<ListTreeRow> WithGroupRow(ListTreeRow parent, IReadOnlyList<ListTreeRow> children, MovePlan plan, List<ListTreeRowKey> holders)
+        private static IReadOnlyList<ListTreeRow> WithGroupRow(ListTreeRow parent, IReadOnlyList<ListTreeRow> children, ListTreeMovePlan plan, List<ListTreeRowKey> holders)
         {
             var key = new ListTreeRowKey(plan.To, parent.Key);
             holders.Add(key);
             var group = GroupNodeOf(parent, plan);
             var groupRow = new ListTreeRow(key, group, parent.Depth + 1, IsCard: true, IsGroup: true, group?.IsExpanded ?? false, new[] { NewRowUnder(key, parent.Depth + 2, plan) });
-            var lists = ListsOf(parent);
-            var groupIndex = ListIndexOf(lists, plan.To);
+            var lists = ListTreeRowLists.Of(parent);
+            var groupIndex = ListTreeRowLists.IndexOf(lists, plan.To);
             var rows = children.ToList();
-            rows.Insert(children.Count(child => ListIndexOf(lists, child.Key.Model) < groupIndex), groupRow);
+            rows.Insert(children.Count(child => ListTreeRowLists.IndexOf(lists, child.Key.Model) < groupIndex), groupRow);
             return rows;
         }
 
-        private static bool HasHiddenList(ListTreeRow row, IReadOnlyList<ListTreeRow> children, MovePlan plan) =>
-            !children.Any(child => ReferenceEquals(child.Key.Model, plan.To)) && ListIndexOf(ListsOf(row), plan.To) >= 0;
-
-        // The lists of the model of the row, in the order of their group rows.
-        private static IReadOnlyList<PrefabManager> ListsOf(ListTreeRow row) =>
-            row.Key.Model is IControl owner ? TreeGroup.GroupsOf(owner).Select(group => group.Manager).ToArray() : Array.Empty<PrefabManager>();
-
-        private static int ListIndexOf(IReadOnlyList<PrefabManager> lists, object model)
-        {
-            for (var index = 0; index < lists.Count; index++)
-                if (ReferenceEquals(lists[index], model))
-                    return index;
-
-            return -1;
-        }
+        private static bool HasHiddenList(ListTreeRow row, IReadOnlyList<ListTreeRow> children, ListTreeMovePlan plan) =>
+            !children.Any(child => ReferenceEquals(child.Key.Model, plan.To)) && ListTreeRowLists.IndexOf(ListTreeRowLists.Of(row), plan.To) >= 0;
 
         // A second row of a shared card has no node, so its group row has none.
-        private static TreeNode? GroupNodeOf(ListTreeRow parent, MovePlan plan) =>
+        private static TreeNode? GroupNodeOf(ListTreeRow parent, ListTreeMovePlan plan) =>
             parent.Node?.Children.FirstOrDefault(child => ReferenceEquals(child.Group?.Manager, plan.To));
 
         // The row in the holder of the slot keeps the source node. A second holder of the same list has no node.
-        private static ListTreeRow NewRowUnder(ListTreeRowKey parent, int depth, MovePlan plan) =>
+        private static ListTreeRow NewRowUnder(ListTreeRowKey parent, int depth, ListTreeMovePlan plan) =>
             parent.Equals(plan.Holder)
                 ? Closed(Moved(plan.Source, parent, depth))
                 : Closed(Mirrored(plan.Source, parent, depth));
@@ -155,7 +115,5 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         private static IReadOnlyList<ListTreeRow> Opened(IEnumerable<ListTreeRow> rows, IReadOnlySet<ListTreeRowKey> opened) =>
             rows.Select(row => row with { IsExpanded = row.IsExpanded || opened.Contains(row.Key), Children = Opened(row.Children, opened) }).ToArray();
-
-        private sealed record MovePlan(IControl Item, PrefabManager From, PrefabManager To, int Index, ListTreeRow Source, ListTreeRowKey Holder);
     }
 }

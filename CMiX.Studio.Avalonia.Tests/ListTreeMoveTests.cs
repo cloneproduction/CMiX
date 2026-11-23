@@ -187,6 +187,69 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(count > 1, name);
         }
 
+        private static readonly string[] AllSources =
+            { "composition", "layer", "layer of B", "entity", "entity of B", "modifier", "first modifier", "second modifier", "camera", "filter" };
+
+        public static TheoryData<string, string> ScenesAndSources
+        {
+            get
+            {
+                var data = new TheoryData<string, string>();
+                foreach (var scene in new[] { "plain", "closed", "shared entity", "shared card" })
+                    foreach (var source in AllSources)
+                        data.Add(scene, source);
+
+                return data;
+            }
+        }
+
+        // The entity with two modifiers, layer 2 of A and composition B are closed.
+        private static Scene CreateClosedScene()
+        {
+            var scene = CreateScene();
+            Entity(scene, 0).IsExpanded = false;
+            scene.LayerNodeOfA(1).IsExpanded = false;
+            scene.NodeB.IsExpanded = false;
+            return scene;
+        }
+
+        private static Scene SceneOf(string name) => name switch
+        {
+            "closed" => CreateClosedScene(),
+            "shared entity" => CreateSharedScene(),
+            "shared card" => CreateSharedCardScene(),
+            _ => CreateScene()
+        };
+
+        private static TreeNode AnySourceOf(Scene scene, string name) => name switch
+        {
+            "first modifier" => Modifier(scene, 0, 0),
+            "second modifier" => Modifier(scene, 0, 1),
+            _ => SourceOf(scene, name)
+        };
+
+        private static ListTreePlace? PlaceByMoveOf(ListTreeSnapshot snapshot, ListTreeRow source, ListTreeSlot slot)
+        {
+            var moved = ListTreeMove.Of(snapshot, source, slot);
+            return moved.RowOf(source.Node!) is { } row ? ListTreeLayout.Of(moved, ListTreeSizes.Default).PlaceOf(row.Key) : null;
+        }
+
+        [Theory]
+        [MemberData(nameof(ScenesAndSources))]
+        public void PlaceOf_EverySlotOfTheSource_EqualsThePlaceInTheLayoutOfTheMove(string sceneName, string sourceName)
+        {
+            var scene = SceneOf(sceneName);
+            var source = AnySourceOf(scene, sourceName);
+            var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+            var row = RowOf(snapshot, source);
+            var slots = SlotsOf(scene, source);
+
+            var places = slots.Select(ListTreeCountedTree.Of(snapshot, row, ListTreeSizes.Default).PlaceOf).ToArray();
+
+            Assert.NotEmpty(slots);
+            Assert.Equal(slots.Select(slot => PlaceByMoveOf(snapshot, row, slot)), places);
+        }
+
         [Fact]
         public void Of_ADropIntoAClosedCard_OpensEveryRowOnThePath()
         {
