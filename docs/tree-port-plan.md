@@ -248,7 +248,7 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 
 **The shapes (ARCHITECTURE.md Part 2, section 1).**
 - The new pure parts of Phase 1 (snapshot, layout, slots, `Move`, `Nearest`, the bright and dimmed classes) are plain classes or records in
-  `ViewModels/Tree`, with no Avalonia type. A static class is allowed only when it holds pure functions and no state.
+  `ViewModels/ListTree`, with no Avalonia type. A static class is allowed only when it holds pure functions and no state.
 - A ViewModel never asks the view. The view pushes its state into the model. The README names the next step: each view pushes a small
   state object (pointer over, focused, text box focused) in place of the `Func` hooks. Do it when the new view needs the hooks (step 3.1).
 - The code behind of a view holds no logic. Pointer and drag math go into a part, not into the `UserControl`.
@@ -353,6 +353,8 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
 stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays; no halo around any icon.
 Decided on 2026-11-23 in Phase 0:
+- Option E applies at the root too: an empty project shows an empty tree; a composition is added from the toolbar or the Add panel.
+- A row shows as a card (the icon opens and closes it) only when it has visible rows. Where a drop can go comes from the drop rules.
 - The new control is `ListTreeProject`. Its folders are `ViewModels/ListTree` and `Views/ListTree`, namespaces after the folders.
 - The flat row panel and its layout function belong to the new tree only. They can move to CMiX.UI later.
 - The switch: the combo box of the side panel that chooses the view gets one new entry for the new tree. Two side panels can show the
