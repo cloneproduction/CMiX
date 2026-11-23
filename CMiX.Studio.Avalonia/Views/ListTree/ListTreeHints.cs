@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System;
 using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -18,19 +17,19 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly Control owner;
         private readonly KeyHintStrip strip;
         private readonly ListTreeFocus focus;
-        private readonly Func<bool> isMenuOpen;
+        private readonly ListTreeMenuOpen menuOpen;
         private readonly TreeViewLifetime lifetime;
 
         private ProjectTree? tree;
         private TopLevel? window;
         private TreeHintMode? shownMode;
 
-        public ListTreeHints(Control owner, KeyHintStrip strip, ListTreeFocus focus, Func<bool> isMenuOpen, TreeViewLifetime lifetime)
+        public ListTreeHints(Control owner, KeyHintStrip strip, ListTreeFocus focus, ListTreeMenuOpen menuOpen, TreeViewLifetime lifetime)
         {
             this.owner = owner;
             this.strip = strip;
             this.focus = focus;
-            this.isMenuOpen = isMenuOpen;
+            this.menuOpen = menuOpen;
             this.lifetime = lifetime;
         }
 
@@ -38,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Views
         {
             get
             {
-                if (isMenuOpen())
+                if (menuOpen.IsMenuOpen())
                     return TreeHintMode.Menu;
 
                 if (focus.IsSearchFocused())

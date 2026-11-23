@@ -38,8 +38,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         private AddPanel AddPanel => addBeside.AddPanel;
 
-        public bool IsMenuOpen() => host.ContextMenu?.IsOpen == true || AddPanel.IsOpen;
-
         public void Attach(ProjectTree attached)
         {
             tree = attached;

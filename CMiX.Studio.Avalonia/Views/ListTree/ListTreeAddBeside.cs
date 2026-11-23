@@ -19,16 +19,17 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeFocusKeeper focusKeeper;
         private readonly Action updateHints;
         private readonly TreeViewLifetime lifetime;
-        private readonly AddPanel addPanel = new();
+        private readonly AddPanel addPanel;
 
         private ProjectTree? tree;
 
         private bool openedBesideTheCursor;
 
-        public ListTreeAddBeside(PanelListTreeRows rows, ListTreeFocusKeeper focusKeeper, Action updateHints, TreeViewLifetime lifetime)
+        public ListTreeAddBeside(PanelListTreeRows rows, ListTreeFocusKeeper focusKeeper, AddPanel addPanel, Action updateHints, TreeViewLifetime lifetime)
         {
             this.rows = rows;
             this.focusKeeper = focusKeeper;
+            this.addPanel = addPanel;
             this.updateHints = updateHints;
             this.lifetime = lifetime;
         }

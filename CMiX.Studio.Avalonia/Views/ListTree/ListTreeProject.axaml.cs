@@ -4,6 +4,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.UI.Controls.Parts;
 
@@ -13,7 +14,9 @@ namespace CMiX.Studio.Avalonia.Views
     public partial class ListTreeProject : UserControl
     {
         private readonly TreeViewLifetime lifetime = new();
+        private readonly ListTreeViewState state = new();
         private readonly ListTreeFocus focus;
+        private readonly ListTreeViewStateInput stateInput;
         private readonly ListTreeFocusKeeper focusKeeper;
         private readonly ListTreeRowClick rowClick;
         private readonly ListTreeAddBeside addBeside;
@@ -37,10 +40,11 @@ namespace CMiX.Studio.Avalonia.Views
 
             focus = new ListTreeFocus(this);
             focusKeeper = new ListTreeFocusKeeper(this, rows, focus, lifetime);
+            stateInput = new ListTreeViewStateInput(this, focus, state);
             rowClick = new ListTreeRowClick(scroller, rows, focusKeeper);
-            // The menus come later, so the lambda reads the field at the call.
-            hints = new ListTreeHints(this, hintStrip, focus, () => menus.IsMenuOpen(), lifetime);
-            addBeside = new ListTreeAddBeside(rows, focusKeeper, hints.Update, lifetime);
+            var addPanel = new AddPanel();
+            hints = new ListTreeHints(this, hintStrip, focus, new ListTreeMenuOpen(scroller, addPanel), lifetime);
+            addBeside = new ListTreeAddBeside(rows, focusKeeper, addPanel, hints.Update, lifetime);
             reveal = new ListTreeRowReveal(this, rows, scroller, lifetime);
             scrollAnchor = new ListTreeScrollAnchor(rows, scroller);
             endRoom = new ListTreeEndRoom(rows, scroller, endRoomSpace);
@@ -57,15 +61,17 @@ namespace CMiX.Studio.Avalonia.Views
         private TreeViewHooks BuildHooks() =>
             new()
             {
-                IsPointerOverTree = () => IsPointerOver,
-                IsTreeFocused = () => IsKeyboardFocusWithin,
-                IsTextBoxFocused = focus.IsTextBoxFocused,
-                IsFocusInOtherPanel = focus.IsFocusInOtherPanel,
-                IsPanelFocused = focus.IsPanelFocused,
+                IsPointerOverTree = () => state.IsPointerOverTree,
+                IsTreeFocused = () => state.IsTreeFocused,
+                IsTextBoxFocused = () => state.IsTextBoxFocused,
+                IsFocusInOtherPanel = () => state.IsFocusInOtherPanel,
+                IsPanelFocused = () => state.IsPanelFocused,
                 CloseRowsInView = requests.CloseRowsInView
             };
 
         internal bool IsActiveView => watched?.IsActiveView(hooks) == true;
+
+        internal ListTreeViewState State => state;
 
         internal PanelListTreeRows Rows => rows;
 
@@ -96,6 +102,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (watched == null)
                 return;
 
+            stateInput.Attach();
             watched.AttachView(hooks);
             requests.Watch(watched);
             focusKeeper.Attach(watched);
@@ -127,6 +134,7 @@ namespace CMiX.Studio.Avalonia.Views
             focusKeeper.Detach();
             requests.Unwatch();
             watched.DetachView(hooks);
+            stateInput.Detach();
         }
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
