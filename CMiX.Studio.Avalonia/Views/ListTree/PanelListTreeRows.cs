@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeSurfaces surfaces;
         private readonly ListTreeRowControls rowControls;
 
-        private ListTreeLayout layout = ListTreeLayout.Of(new ListTreeSnapshot(Array.Empty<ListTreeRow>()), ListTreeSizes.Default);
+        private ListTreeArrangement arrangement = ListTreeArrangement.Empty;
         private bool isAttached;
         private bool isRebuildPosted;
 
@@ -98,7 +98,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         public static void SetTop(Control row, double top) => row.SetValue(TopProperty, top);
 
-        public ListTreeLayout Layout => layout;
+        public ListTreeLayout Layout => arrangement.Layout;
 
         public RowListTree? RowOf(ListTreeRowKey key) => rowControls.RowOf(key);
 
@@ -170,11 +170,9 @@ namespace CMiX.Studio.Avalonia.Views
         {
             var roots = Roots ?? Array.Empty<TreeNode>();
             watch.Watch(roots);
-            var snapshot = ListTreeSnapshot.Of(roots);
-            layout = ListTreeLayout.Of(snapshot, new ListTreeSizes(RowHeight, RowGap, Indent));
-            var rows = snapshot.VisibleRows();
-            rowControls.Show(rows, layout);
-            surfaces.Show(rows, layout);
+            arrangement = ListTreeArrangement.Of(roots, new ListTreeSizes(RowHeight, RowGap, Indent));
+            rowControls.Show(arrangement.Rows, arrangement.Layout);
+            surfaces.Show(arrangement.Rows, arrangement.Layout);
             InvalidateMeasure();
         }
 
@@ -184,7 +182,7 @@ namespace CMiX.Studio.Avalonia.Views
                 child.Measure(new Size(availableSize.Width, HeightOf(child)));
 
             var width = double.IsInfinity(availableSize.Width) ? Children.Select(child => child.DesiredSize.Width).DefaultIfEmpty(0).Max() : availableSize.Width;
-            return new Size(width, layout.TotalHeight);
+            return new Size(width, arrangement.Layout.TotalHeight);
         }
 
         protected override Size ArrangeOverride(Size finalSize)

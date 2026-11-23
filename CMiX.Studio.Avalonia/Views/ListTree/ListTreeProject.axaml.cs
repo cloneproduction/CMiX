@@ -18,6 +18,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeFocus focus;
         private readonly ListTreeViewStateInput stateInput;
         private readonly ListTreeFocusKeeper focusKeeper;
+        private readonly ListTreePressFocus pressFocus;
         private readonly ListTreeRowClick rowClick;
         private readonly ListTreeAddBeside addBeside;
         private readonly ListTreeRowReveal reveal;
@@ -39,9 +40,10 @@ namespace CMiX.Studio.Avalonia.Views
             InitializeComponent();
 
             focus = new ListTreeFocus(this);
-            focusKeeper = new ListTreeFocusKeeper(this, rows, focus, lifetime);
+            focusKeeper = new ListTreeFocusKeeper(this, rows, lifetime);
+            pressFocus = new ListTreePressFocus(rows, focus, focusKeeper, lifetime);
             stateInput = new ListTreeViewStateInput(this, focus, state);
-            rowClick = new ListTreeRowClick(scroller, rows, focusKeeper);
+            rowClick = new ListTreeRowClick(scroller, rows, pressFocus);
             var addPanel = new AddPanel();
             hints = new ListTreeHints(this, hintStrip, focus, new ListTreeMenuOpen(scroller, addPanel), lifetime);
             addBeside = new ListTreeAddBeside(rows, focusKeeper, addPanel, hints.Update, lifetime);
@@ -106,6 +108,7 @@ namespace CMiX.Studio.Avalonia.Views
             watched.AttachView(hooks);
             requests.Watch(watched);
             focusKeeper.Attach(watched);
+            pressFocus.Attach(watched);
             rowClick.Attach(watched);
             keyInput.Attach(watched);
             addBeside.Attach(watched);
@@ -131,6 +134,7 @@ namespace CMiX.Studio.Avalonia.Views
             addBeside.Detach();
             keyInput.Detach();
             rowClick.Detach();
+            pressFocus.Detach();
             focusKeeper.Detach();
             requests.Unwatch();
             watched.DetachView(hooks);

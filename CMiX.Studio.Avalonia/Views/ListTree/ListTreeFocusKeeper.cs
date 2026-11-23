@@ -12,14 +12,11 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The focus goes back to a row of the new tree after a rename, a move, or a press beside the rows or on a row button, as TreeFocusKeeper does.
+    // The focus goes back to a row of the new tree after a rename or a move, as TreeFocusKeeper does. ListTreePressFocus keeps it after a press.
     internal sealed class ListTreeFocusKeeper
     {
-        private sealed record FocusBefore(IInputElement? Control);
-
         private readonly Control owner;
         private readonly PanelListTreeRows rows;
-        private readonly ListTreeFocus focus;
         private readonly TreeViewLifetime lifetime;
 
         private ProjectTree? tree;
@@ -29,15 +26,10 @@ namespace CMiX.Studio.Avalonia.Views
 
         private bool focusCheckPosted;
 
-        private bool pressWasBesideRows;
-
-        private FocusBefore? focusBeforeRowButton;
-
-        public ListTreeFocusKeeper(Control owner, PanelListTreeRows rows, ListTreeFocus focus, TreeViewLifetime lifetime)
+        public ListTreeFocusKeeper(Control owner, PanelListTreeRows rows, TreeViewLifetime lifetime)
         {
             this.owner = owner;
             this.rows = rows;
-            this.focus = focus;
             this.lifetime = lifetime;
         }
 
@@ -55,8 +47,6 @@ namespace CMiX.Studio.Avalonia.Views
             owner.RemoveHandler(InputElement.LostFocusEvent, OnLostFocusInTree);
             rows.LayoutUpdated -= OnLayoutUpdated;
             focusCheckPosted = false;
-            pressWasBesideRows = false;
-            focusBeforeRowButton = null;
             tree = null;
         }
 
@@ -106,36 +96,6 @@ namespace CMiX.Studio.Avalonia.Views
 
             row.Focus(NavigationMethod.Tab);
             row.BringIntoView();
-        }
-
-        public void BeginPress() => focusBeforeRowButton = null;
-
-        public void RememberFocusBeforeRowButton() => focusBeforeRowButton = new FocusBefore(focus.FocusedControl());
-
-        public void FocusCursorRowAfterPress() => pressWasBesideRows = true;
-
-        // A toggle cannot take the focus, so the focus goes back to the control before the press, else to the cursor row.
-        public void EndPress()
-        {
-            if (pressWasBesideRows)
-            {
-                pressWasBesideRows = false;
-                if (tree?.CursorNode is { } cursor)
-                    lifetime.Post(() => FocusRow(cursor), DispatcherPriority.Input);
-                return;
-            }
-
-            if (focusBeforeRowButton is not { } before)
-                return;
-
-            focusBeforeRowButton = null;
-            if (ReferenceEquals(focus.FocusedControl(), before.Control))
-                return;
-
-            if (before.Control is InputElement { IsEffectivelyVisible: true } control && focus.IsInPanel(control) && control.GetVisualRoot() != null)
-                control.Focus(control is RowListTree ? NavigationMethod.Tab : NavigationMethod.Unspecified);
-            else if (tree?.CursorNode is { } cursor)
-                rows.RowOf(cursor)?.Focus(NavigationMethod.Tab);
         }
 
         private IInputElement? FocusedElement() => TopLevel.GetTopLevel(owner)?.FocusManager?.GetFocusedElement();

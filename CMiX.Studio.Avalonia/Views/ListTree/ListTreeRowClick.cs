@@ -18,15 +18,15 @@ namespace CMiX.Studio.Avalonia.Views
     {
         private readonly Control owner;
         private readonly PanelListTreeRows rows;
-        private readonly ListTreeFocusKeeper focusKeeper;
+        private readonly ListTreePressFocus pressFocus;
 
         private ProjectTree? tree;
 
-        public ListTreeRowClick(Control owner, PanelListTreeRows rows, ListTreeFocusKeeper focusKeeper)
+        public ListTreeRowClick(Control owner, PanelListTreeRows rows, ListTreePressFocus pressFocus)
         {
             this.owner = owner;
             this.rows = rows;
-            this.focusKeeper = focusKeeper;
+            this.pressFocus = pressFocus;
         }
 
         public void Attach(ProjectTree attached)
@@ -43,11 +43,11 @@ namespace CMiX.Studio.Avalonia.Views
             tree = null;
         }
 
-        private void OnPointerPressedDone(object? sender, PointerPressedEventArgs e) => focusKeeper.EndPress();
+        private void OnPointerPressedDone(object? sender, PointerPressedEventArgs e) => pressFocus.EndPress();
 
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            focusKeeper.BeginPress();
+            pressFocus.BeginPress();
             if (tree == null)
                 return;
 
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (IsEditor(e.Source))
             {
                 if (TreeRows.HasAncestor<ToggleButton>(e.Source))
-                    focusKeeper.RememberFocusBeforeRowButton();
+                    pressFocus.RememberFocusBeforeRowButton();
                 return;
             }
 
@@ -96,7 +96,7 @@ namespace CMiX.Studio.Avalonia.Views
         {
             clicked.EnsureCursor();
             if (clicked.CursorNode != null)
-                focusKeeper.FocusCursorRowAfterPress();
+                pressFocus.FocusCursorRowAfterPress();
         }
 
         private static bool IsEditor(object? source) => TreeRows.HasAncestor<ToggleButton>(source) || TreeRows.HasAncestor<TextBox>(source);
