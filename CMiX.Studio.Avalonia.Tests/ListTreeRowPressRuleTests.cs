@@ -11,7 +11,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void ActionOf_APlainPressOnARow_Selects()
         {
-            Assert.Equal(ListTreeRowPressAction.Select, ListTreeRowPressRule.ActionOf(new(IsControlDown: false, IsShiftDown: false), ListTreeRowPressPart.Row));
+            Assert.Equal(ListTreeRowPressRule.Action.Select, ListTreeRowPressRule.ActionOf(new(IsControlDown: false, IsShiftDown: false), ListTreeRowPressRule.Part.Row));
         }
 
         [Theory]
@@ -19,13 +19,13 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData(true)]
         public void ActionOf_APressOnTheIconOfACard_PassesOn(bool isShiftDown)
         {
-            Assert.Equal(ListTreeRowPressAction.PassOn, ListTreeRowPressRule.ActionOf(new(IsControlDown: false, isShiftDown), ListTreeRowPressPart.CardIcon));
+            Assert.Equal(ListTreeRowPressRule.Action.PassOn, ListTreeRowPressRule.ActionOf(new(IsControlDown: false, isShiftDown), ListTreeRowPressRule.Part.CardIcon));
         }
 
         [Fact]
         public void ActionOf_ACtrlPressOnTheIconOfACard_Stops()
         {
-            Assert.Equal(ListTreeRowPressAction.Stop, ListTreeRowPressRule.ActionOf(new(IsControlDown: true, IsShiftDown: false), ListTreeRowPressPart.CardIcon));
+            Assert.Equal(ListTreeRowPressRule.Action.Stop, ListTreeRowPressRule.ActionOf(new(IsControlDown: true, IsShiftDown: false), ListTreeRowPressRule.Part.CardIcon));
         }
 
         [Theory]
@@ -33,13 +33,13 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData(true)]
         public void ActionOf_ACtrlPressOnARow_AddsOrRemoves(bool isShiftDown)
         {
-            Assert.Equal(ListTreeRowPressAction.AddOrRemove, ListTreeRowPressRule.ActionOf(new(IsControlDown: true, isShiftDown), ListTreeRowPressPart.Row));
+            Assert.Equal(ListTreeRowPressRule.Action.AddOrRemove, ListTreeRowPressRule.ActionOf(new(IsControlDown: true, isShiftDown), ListTreeRowPressRule.Part.Row));
         }
 
         [Fact]
         public void ActionOf_AShiftPressOnARow_SelectsARange()
         {
-            Assert.Equal(ListTreeRowPressAction.SelectRange, ListTreeRowPressRule.ActionOf(new(IsControlDown: false, IsShiftDown: true), ListTreeRowPressPart.Row));
+            Assert.Equal(ListTreeRowPressRule.Action.SelectRange, ListTreeRowPressRule.ActionOf(new(IsControlDown: false, IsShiftDown: true), ListTreeRowPressRule.Part.Row));
         }
     }
 }

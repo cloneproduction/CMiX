@@ -139,10 +139,10 @@ namespace CMiX.Studio.Avalonia.Views
             DispatcherTimer.RunOnce(() => PseudoClasses.Set(FlashClass, false), Motion.FlashDuration);
         }
 
-        internal ListTreeRowPressPart PressPartOf(object? source) =>
+        internal ListTreeRowPressRule.Part PressPartOf(object? source) =>
             Place is { CanToggle: true } && source is Visual visual && (ReferenceEquals(visual, iconHit) || iconHit.IsVisualAncestorOf(visual))
-                ? ListTreeRowPressPart.CardIcon
-                : ListTreeRowPressPart.Row;
+                ? ListTreeRowPressRule.Part.CardIcon
+                : ListTreeRowPressRule.Part.Row;
 
         // The row does not see the double tap of the icon, so the card toggles once per click.
         private void OnIconTapped(object? sender, TappedEventArgs e)

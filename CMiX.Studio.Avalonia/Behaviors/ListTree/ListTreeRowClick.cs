@@ -83,15 +83,15 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
             }
 
-            var keys = new ListTreeRowPressKeys(e.KeyModifiers.HasFlag(KeyModifiers.Control), e.KeyModifiers.HasFlag(KeyModifiers.Shift));
+            var keys = new ListTreeRowPressRule.Keys(e.KeyModifiers.HasFlag(KeyModifiers.Control), e.KeyModifiers.HasFlag(KeyModifiers.Shift));
             var action = ListTreeRowPressRule.ActionOf(keys, row.PressPartOf(e.Source));
-            if (action == ListTreeRowPressAction.Select)
+            if (action == ListTreeRowPressRule.Action.Select)
                 SelectByPress(clicked, node);
-            else if (action == ListTreeRowPressAction.AddOrRemove)
+            else if (action == ListTreeRowPressRule.Action.AddOrRemove)
                 clicked.AddOrRemoveFromSelection(node);
-            else if (action == ListTreeRowPressAction.SelectRange)
+            else if (action == ListTreeRowPressRule.Action.SelectRange)
                 clicked.SelectRange(node, ListTreeSnapshot.Of(clicked.Roots).VisibleNodes());
-            else if (action == ListTreeRowPressAction.Stop)
+            else if (action == ListTreeRowPressRule.Action.Stop)
                 e.Handled = true;
         }
 
