@@ -53,6 +53,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             watched.PropertyChanged += OnTreeChanged;
             watched.Shortcuts.PropertyChanged += OnShortcutsChanged;
             Part<ListTreeGrab>().GrabbingChanged += OnModeSourceChanged;
+            Context.AddPanel.Opened += OnModeSourceChanged;
             Context.AddPanel.Closed += OnModeSourceChanged;
             AttachWindow(TopLevel.GetTopLevel(Context.Owner));
             Show(watched, Mode);
@@ -67,6 +68,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             tree.PropertyChanged -= OnTreeChanged;
             tree.Shortcuts.PropertyChanged -= OnShortcutsChanged;
             Part<ListTreeGrab>().GrabbingChanged -= OnModeSourceChanged;
+            Context.AddPanel.Opened -= OnModeSourceChanged;
             Context.AddPanel.Closed -= OnModeSourceChanged;
             tree = null;
         }

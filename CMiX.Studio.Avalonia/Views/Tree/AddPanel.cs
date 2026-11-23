@@ -54,6 +54,12 @@ namespace CMiX.Studio.Avalonia.Views
 
         public bool IsOpen => flyout.IsOpen;
 
+        public event EventHandler? Opened
+        {
+            add => flyout.Opened += value;
+            remove => flyout.Opened -= value;
+        }
+
         public event EventHandler? Closed
         {
             add => flyout.Closed += value;

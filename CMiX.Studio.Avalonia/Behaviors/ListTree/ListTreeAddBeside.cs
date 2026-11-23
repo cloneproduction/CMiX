@@ -44,7 +44,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             var anchor = row.TranslatePoint(default, window) is { } topLeft ? new Rect(topLeft, row.Bounds.Size) : (Rect?)null;
             addPanel.OpenWithTip(row, PopupSide.Right, tree.GetAddGroups(node), AddTitle, anchor);
             openedBesideTheCursor = addPanel.IsOpen;
-            Part<ListTreeHints>().Update();
         }
 
         // A panel beside the cursor row is a leaf of the tree, so the cursor row takes the focus back.

@@ -45,7 +45,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         {
             var point = target.TargetNode is { } node && Reveal.ShownRowOf(node) is { } row ? ListTreeRowAnchor.CenterOf(row, Host) : null;
             AddPanel.OpenAtPoint(Host, point ?? Part<ListTreeLastPointer>().Last, target.GetAddGroups(target.TargetNode), AddTitle);
-            Part<ListTreeHints>().Update();
         }
 
         // A target row that is not shown opens no menu.
