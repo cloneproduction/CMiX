@@ -94,12 +94,12 @@ namespace CMiX.Studio.Avalonia.Tests
         private static BadgesLook LookOf(BadgesKindCount badges)
         {
             var squares = badges.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount"))
-                .Select(square => $"{ColorOf(square.Background)} {IconOf(square).IconKey} {ColorOf(IconOf(square).Foreground)}");
+                .Select(square => $"{ColorOf(square.Background)} {CountOf(square).Text} {ColorOf(CountOf(square).Foreground)}");
             return new BadgesLook(badges.IsEffectivelyVisible, badges.IsHovered, badges.IsSelected, string.Join(";", squares),
                 Named(badges, "MoreKinds").IsEffectivelyVisible, Named(badges, "MissingSign").IsEffectivelyVisible);
         }
 
-        private static AppIcon IconOf(Border square) => square.GetVisualDescendants().OfType<AppIcon>().Single();
+        private static TextBlock CountOf(Border square) => square.GetVisualDescendants().OfType<TextBlock>().Single();
 
         private static Border Named(Control root, string name) => root.GetVisualDescendants().OfType<Border>().First(border => border.Name == name);
 

@@ -353,6 +353,7 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
 stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays; no halo around any icon.
 Decided on 2026-11-23 during Phase 5 (owner):
+- The kind count squares of both trees show the count in white, not the icon. A missing asset shows the orange Warning icon, not a drawn triangle.
 - An empty category row stays hidden. A new item of an empty list is added from the menu of its card (Add). Empty lists do not show when a card is selected.
 Decided on 2026-11-23 during Phase 4 (owner):
 - No undo notice in the new tree (owner): no message after a drop, a hide or a remove from the new tree. Step 4.4 is removed. The app's own notice of the shared commands (remove, Hide key) is not part of this plan and stays as it is.

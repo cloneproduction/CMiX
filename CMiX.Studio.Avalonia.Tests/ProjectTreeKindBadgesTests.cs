@@ -24,7 +24,7 @@ using Project = CMiX.Core.Compositing.Project;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // A collapsed row shows what it holds: a square for each kind, in the color of the kind, with the icon of the kind. The count is in the tooltip.
+    // A collapsed row shows what it holds: a square for each kind, in the color of the kind, with how many. The tooltip names the kind.
     public class ProjectTreeKindBadgesTests : IDisposable
     {
         private Window? window;
@@ -52,15 +52,10 @@ namespace CMiX.Studio.Avalonia.Tests
         private static List<Border> SquaresOf(BadgesKindCount badges) =>
             badges.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).ToList();
 
-
-        private static string IconOf(Border square) => square.GetVisualDescendants().OfType<AppIcon>().Single().IconKey;
-
         private static string TextIn(Border square) => square.GetVisualDescendants().OfType<TextBlock>().Single().Text!;
 
-        private static string IconKeyOf(TreeCategory category) => new KindCount(category, 1).IconKey;
-
         [AvaloniaFact]
-        public void Show_ACollapsedRow_ShowsASquareWithTheIconForEachKind()
+        public void Show_ACollapsedRow_ShowsASquareWithTheCountForEachKind()
         {
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
@@ -70,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var squares = SquaresOf(badges);
 
             Assert.True(badges.IsEffectivelyVisible);
-            Assert.Equal(new[] { TreeCategory.Entity, TreeCategory.Filter, TreeCategory.Modifier }.Select(IconKeyOf), squares.Select(IconOf));
+            Assert.Equal(new[] { "2", "1", "3" }, squares.Select(TextIn));
             Assert.Equal(new[] { "2 Entities", "1 Filter", "3 Modifiers" }, squares.Select(square => (string)ToolTip.GetTip(square)!));
             Assert.Equal(
                 new[] { TreeCategory.Entity, TreeCategory.Filter, TreeCategory.Modifier }.Select(category => palette.For(category).Kind),
@@ -105,7 +100,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_ACollapsedGroup_ShowsItsIconInTheColorOfItsKind()
+        public void Show_ACollapsedGroup_ShowsItsCountInTheColorOfItsKind()
         {
             var (view, _, layer, _) = Show();
             var entities = layer.Children.Single(child => child.Group is EntitiesGroup);
@@ -114,7 +109,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var square = Assert.Single(SquaresOf(BadgesOf(view, entities)));
 
-            Assert.Equal(IconKeyOf(TreeCategory.Entity), IconOf(square));
+            Assert.Equal("2", TextIn(square));
             Assert.Equal("2 Entities", ToolTip.GetTip(square));
             Assert.Equal(palette.For(TreeCategory.Entity).Kind, FillOf(square));
         }
@@ -139,30 +134,30 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(tone.Kind, FillOf(SquaresOf(badges).First()));
         }
 
-        private static AvaloniaColor IconColorOf(Border square) =>
-            ((ISolidColorBrush)square.GetVisualDescendants().OfType<AppIcon>().Single().Foreground!).Color;
+        private static AvaloniaColor CountColorOf(Border square) =>
+            ((ISolidColorBrush)square.GetVisualDescendants().OfType<TextBlock>().Single().Foreground!).Color;
 
         private static AvaloniaColor ColorOf(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
 
-        // The icon is always white: on the square at rest, under the pointer and on the full color of a selected row.
+        // The count is always white: on the square at rest, under the pointer and on the full color of a selected row.
         [AvaloniaFact]
-        public void Select_ARow_KeepsTheIconsWhite()
+        public void Select_ARow_KeepsTheCountsWhite()
         {
             var (view, tree, layer, _) = Show();
             layer.IsExpanded = false;
             Settle();
             var badges = BadgesOf(view, layer);
 
-            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), IconColorOf(square)));
+            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), CountColorOf(square)));
 
             badges.IsHovered = true;
             Settle();
-            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), IconColorOf(square)));
+            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), CountColorOf(square)));
 
             badges.IsHovered = false;
             tree.SelectedNode = layer;
             Settle();
-            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), IconColorOf(square)));
+            Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), CountColorOf(square)));
         }
 
         [AvaloniaFact]
@@ -203,7 +198,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var badges = BadgesOf(screen.View, layer);
             var more = MoreKindsOf(badges);
 
-            Assert.Equal(new[] { TreeCategory.Entity, TreeCategory.Filter, TreeCategory.Modifier }.Select(IconKeyOf), SquaresOf(badges).Select(IconOf));
+            Assert.Equal(new[] { "2", "1", "3" }, SquaresOf(badges).Select(TextIn));
             Assert.True(more.IsEffectivelyVisible);
             Assert.Equal("+2", TextIn(more));
             Assert.Equal("1 Camera" + Environment.NewLine + "1 Light", ToolTip.GetTip(more));
@@ -230,6 +225,21 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.False(layer.HasMissingAssets);
             Assert.False(sign.IsEffectivelyVisible);
+        }
+
+        [AvaloniaFact]
+        public void Show_TheMissingSign_IsTheOrangeWarningIcon()
+        {
+            var (view, _, layer, _) = Show();
+            layer.IsExpanded = false;
+            Settle();
+
+            var sign = BadgesOf(view, layer).GetVisualDescendants().OfType<Border>().Single(border => border.Name == "MissingSign");
+            var icon = sign.GetVisualDescendants().OfType<AppIcon>().Single();
+
+            Assert.Equal("Warning", icon.IconKey);
+            Assert.Equal(ColorOf("PopupCardWarningBrush"), ((ISolidColorBrush)icon.Foreground!).Color);
+            Assert.Empty(sign.GetVisualDescendants().OfType<global::Avalonia.Controls.Shapes.Path>());
         }
 
         [AvaloniaFact]

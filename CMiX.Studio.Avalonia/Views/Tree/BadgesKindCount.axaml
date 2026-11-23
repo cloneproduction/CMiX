@@ -6,15 +6,18 @@
     xmlns:Tree="clr-namespace:CMiX.Studio.Avalonia.ViewModels.Tree"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <!-- What a collapsed row holds: a small square for each kind, in the colour of the kind, with the icon of the kind in white; the tooltip, in the colour
-         of the kind, gives how many.
+    <!-- What a collapsed row holds: a small square for each kind, in the colour of the kind, with how many in white; the tooltip, in the colour
+         of the kind, names the kind.
          At most TreeNode.MaxShownKindCounts squares show. A grey square "+n" counts the other kinds.
-         The DataContext is the tree node. The squares keep their colour under the pointer and when the row is selected: a white icon on the
+         The DataContext is the tree node. The squares keep their colour under the pointer and when the row is selected: a white number on the
          full colour of a light kind would not be read. -->
     <UserControl.Styles>
         <Style Selector="Border.kindcount">
             <Setter Property="Background" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=Kind}" />
             <Setter Property="ui:ToolTipCard.Fill" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=Kind}" />
+        </Style>
+        <Style Selector="Border.kindcount > TextBlock.count">
+            <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
         </Style>
     </UserControl.Styles>
 
@@ -34,18 +37,12 @@
                         MinWidth="{DynamicResource TreeKindSquareSize}"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         ToolTip.Tip="{Binding Description}">
-                        <!-- The icon of the kind, white on the square. The count is in the tooltip (Description). The colour is
-                             a local value: AppIcon has a style of its own for its Foreground. -->
-                        <ui:AppIcon
+                        <TextBlock
                             Classes="count"
+                            Margin="4,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            IconKey="{Binding IconKey}"
-                            Size="{DynamicResource IconSizeXS}">
-                            <ui:AppIcon.Foreground>
-                                <DynamicResourceExtension ResourceKey="ActiveForegroundBrush" />
-                            </ui:AppIcon.Foreground>
-                        </ui:AppIcon>
+                            Text="{Binding Count}" />
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -69,7 +66,7 @@
         </Border>
         </StackPanel>
 
-        <!-- The sign of a missing asset on this row or under it (TreeNode.MissingCount), after the kinds: an amber triangle with a white mark. Like the
+        <!-- The sign of a missing asset on this row or under it (TreeNode.MissingCount), after the kinds: the orange Warning icon. Like the
              kind squares it shows on a collapsed row, for what is under it; an open row leaves it to the rows below. The missing row
              itself always shows it. -->
         <Border
@@ -81,22 +78,16 @@
             Background="Transparent"
             IsVisible="{Binding ShowsMissingSign}"
             ToolTip.Tip="{Binding MissingCount, StringFormat='{}{0} missing asset(s)'}">
-            <!-- A warning triangle in amber, with a white mark. The triangle fills the square; the mark sits in its lower, wider part. -->
-            <Panel>
-                <Path
-                    Data="M 8,0.5 L 15.5,15 L 0.5,15 Z"
-                    Fill="{DynamicResource PopupCardWarningBrush}"
-                    Stretch="Uniform"
-                    Margin="1" />
-                <TextBlock
-                    Margin="0,3,0,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="10"
-                    FontWeight="Bold"
-                    Foreground="{DynamicResource ActiveForegroundBrush}"
-                    Text="!" />
-            </Panel>
+            <ui:AppIcon
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IconKey="Warning"
+                Size="{DynamicResource IconSizeXS}">
+                <!-- A local value: AppIcon has a style of its own for its Foreground. -->
+                <ui:AppIcon.Foreground>
+                    <DynamicResourceExtension ResourceKey="PopupCardWarningBrush" />
+                </ui:AppIcon.Foreground>
+            </ui:AppIcon>
         </Border>
 
     </StackPanel>
