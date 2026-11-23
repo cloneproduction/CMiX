@@ -27,7 +27,7 @@
     <!-- The colors of the modulator assign button, one pair for each ModulatorCategory.
          The name is Modulator + category + (Highlight when the modulator is hovered).
          A new category needs two colors here and two brushes in Brushes.axaml.
-         An internal modulator has the color of the modulator rows of the tree (CategoryModulator), not the accent: the accent
+         An internal modulator has the color of the modulator kind (CategoryModulator), not the accent: the accent
          means on or selected. -->
     <Color x:Key="ModulatorUnassigned">#FF606063</Color>
     <Color x:Key="ModulatorInternal">#FFAD8DFD</Color>
