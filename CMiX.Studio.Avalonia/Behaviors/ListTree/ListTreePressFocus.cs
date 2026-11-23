@@ -6,18 +6,14 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.Studio.Avalonia.Views;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // The focus after a press in the new tree: a press beside the rows focuses the cursor row, a row button gives the focus back.
-    internal sealed class ListTreePressFocus
+    internal sealed class ListTreePressFocus : ListTreeBehavior
     {
         private sealed record FocusBefore(IInputElement? Control);
-
-        private readonly PanelListTreeRows rows;
-        private readonly ListTreeFocus focus;
-        private readonly ListTreeFocusKeeper focusKeeper;
-        private readonly TreeViewLifetime lifetime;
 
         private ProjectTree? tree;
 
@@ -25,17 +21,9 @@ namespace CMiX.Studio.Avalonia.Views
 
         private FocusBefore? focusBeforeRowButton;
 
-        public ListTreePressFocus(PanelListTreeRows rows, ListTreeFocus focus, ListTreeFocusKeeper focusKeeper, TreeViewLifetime lifetime)
-        {
-            this.rows = rows;
-            this.focus = focus;
-            this.focusKeeper = focusKeeper;
-            this.lifetime = lifetime;
-        }
+        protected override void OnWatch(ProjectTree attached) => tree = attached;
 
-        public void Attach(ProjectTree attached) => tree = attached;
-
-        public void Detach()
+        protected override void OnUnwatch()
         {
             pressWasBesideRows = false;
             focusBeforeRowButton = null;
@@ -44,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         public void BeginPress() => focusBeforeRowButton = null;
 
-        public void RememberFocusBeforeRowButton() => focusBeforeRowButton = new FocusBefore(focus.FocusedControl());
+        public void RememberFocusBeforeRowButton() => focusBeforeRowButton = new FocusBefore(Context.Focus.FocusedControl());
 
         public void FocusCursorRowAfterPress() => pressWasBesideRows = true;
 
@@ -55,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Views
             {
                 pressWasBesideRows = false;
                 if (tree?.CursorNode is { } cursor)
-                    lifetime.Post(() => focusKeeper.FocusRow(cursor), DispatcherPriority.Input);
+                    Context.Lifetime.Post(() => Part<ListTreeFocusKeeper>().FocusRow(cursor), DispatcherPriority.Input);
                 return;
             }
 
@@ -63,13 +51,14 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             focusBeforeRowButton = null;
+            var focus = Context.Focus;
             if (ReferenceEquals(focus.FocusedControl(), before.Control))
                 return;
 
             if (before.Control is InputElement { IsEffectivelyVisible: true } control && focus.IsInPanel(control) && control.GetVisualRoot() != null)
                 control.Focus(control is RowListTree ? NavigationMethod.Tab : NavigationMethod.Unspecified);
             else if (tree?.CursorNode is { } cursor)
-                rows.RowOf(cursor)?.Focus(NavigationMethod.Tab);
+                Context.Rows.RowOf(cursor)?.Focus(NavigationMethod.Tab);
         }
     }
 }

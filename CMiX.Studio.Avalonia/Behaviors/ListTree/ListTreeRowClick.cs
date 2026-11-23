@@ -9,49 +9,41 @@ using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.Studio.Avalonia.Views;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // A press on a row of the new tree selects its node, as in the old tree. A toggle, a text box and the icon of a card keep their own click.
     // A middle click selects and inspects. The focus stays in the tree, as TreePointerInput keeps it in the old tree.
-    internal sealed class ListTreeRowClick
+    internal sealed class ListTreeRowClick : ListTreeBehavior
     {
-        private readonly Control owner;
-        private readonly PanelListTreeRows rows;
-        private readonly ListTreePressFocus pressFocus;
-
         private ProjectTree? tree;
 
-        public ListTreeRowClick(Control owner, PanelListTreeRows rows, ListTreePressFocus pressFocus)
-        {
-            this.owner = owner;
-            this.rows = rows;
-            this.pressFocus = pressFocus;
-        }
+        private ListTreePressFocus PressFocus => Part<ListTreePressFocus>();
 
-        public void Attach(ProjectTree attached)
+        protected override void OnWatch(ProjectTree attached)
         {
             tree = attached;
-            owner.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
-            owner.AddHandler(InputElement.PointerPressedEvent, OnPointerPressedDone, RoutingStrategies.Bubble, handledEventsToo: true);
+            Context.Scroller.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
+            Context.Scroller.AddHandler(InputElement.PointerPressedEvent, OnPointerPressedDone, RoutingStrategies.Bubble, handledEventsToo: true);
         }
 
-        public void Detach()
+        protected override void OnUnwatch()
         {
-            owner.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
-            owner.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressedDone);
+            Context.Scroller.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
+            Context.Scroller.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressedDone);
             tree = null;
         }
 
-        private void OnPointerPressedDone(object? sender, PointerPressedEventArgs e) => pressFocus.EndPress();
+        private void OnPointerPressedDone(object? sender, PointerPressedEventArgs e) => PressFocus.EndPress();
 
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            pressFocus.BeginPress();
+            PressFocus.BeginPress();
             if (tree == null)
                 return;
 
-            var properties = e.GetCurrentPoint(rows).Properties;
+            var properties = e.GetCurrentPoint(Context.Rows).Properties;
             if (properties.IsMiddleButtonPressed)
                 InspectByMiddleClick(tree, e);
             else if (properties.IsLeftButtonPressed)
@@ -73,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (IsEditor(e.Source))
             {
                 if (TreeRows.HasAncestor<ToggleButton>(e.Source))
-                    pressFocus.RememberFocusBeforeRowButton();
+                    PressFocus.RememberFocusBeforeRowButton();
                 return;
             }
 
@@ -96,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Views
         {
             clicked.EnsureCursor();
             if (clicked.CursorNode != null)
-                pressFocus.FocusCursorRowAfterPress();
+                PressFocus.FocusCursorRowAfterPress();
         }
 
         private static bool IsEditor(object? source) => TreeRows.HasAncestor<ToggleButton>(source) || TreeRows.HasAncestor<TextBox>(source);

@@ -14,9 +14,6 @@ namespace CMiX.Studio.Avalonia.Views
     // The screen hub of the new tree. It builds its parts and attaches them to the tree while the view is in the visual tree.
     public partial class ListTreeProject : UserControl
     {
-        private readonly ListTreeFocusKeeper focusKeeper;
-        private readonly ListTreePressFocus pressFocus;
-        private readonly ListTreeRowClick rowClick;
         private readonly ListTreeAddBeside addBeside;
         private readonly ListTreeRowReveal reveal;
         private readonly ListTreeScrollAnchor scrollAnchor;
@@ -36,9 +33,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             Context = BuildContext();
             var lifetime = Context.Lifetime;
-            focusKeeper = new ListTreeFocusKeeper(this, rows, lifetime);
-            pressFocus = new ListTreePressFocus(rows, Context.Focus, focusKeeper, lifetime);
-            rowClick = new ListTreeRowClick(scroller, rows, pressFocus);
+            var focusKeeper = Context.Part<ListTreeFocusKeeper>();
             hints = new ListTreeHints(this, hintStrip, Context.Focus, Context.MenuOpen, lifetime);
             addBeside = new ListTreeAddBeside(rows, focusKeeper, Context.AddPanel, hints.Update, lifetime);
             reveal = new ListTreeRowReveal(this, rows, scroller, lifetime);
@@ -107,9 +102,6 @@ namespace CMiX.Studio.Avalonia.Views
 
             watched.AttachView(hooks);
             requests.Watch(watched);
-            focusKeeper.Attach(watched);
-            pressFocus.Attach(watched);
-            rowClick.Attach(watched);
             keyInput.Attach(watched);
             addBeside.Attach(watched);
             menus.Attach(watched);
@@ -129,9 +121,6 @@ namespace CMiX.Studio.Avalonia.Views
             menus.Detach();
             addBeside.Detach();
             keyInput.Detach();
-            rowClick.Detach();
-            pressFocus.Detach();
-            focusKeeper.Detach();
             requests.Unwatch();
             watched.DetachView(hooks);
         }
