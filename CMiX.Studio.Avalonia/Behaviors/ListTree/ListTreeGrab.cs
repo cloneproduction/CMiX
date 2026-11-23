@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         protected override void OnUnwatch()
         {
-            Detach();
+            DetachFromWindow();
             Session.Ended -= OnSessionEnded;
             tree = null;
         }
@@ -74,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             keyMovePoint = pointer;
             lastPointer = pointer;
             menuBlocked = false;
-            Input.Attach(window);
+            Input.AttachToWindow(window);
             ShowAt(StartIndex());
             ShowGrabbing();
         }
@@ -87,10 +87,10 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         }
 
         // Every handler goes, also when a release is still awaited.
-        public void Detach()
+        public void DetachFromWindow()
         {
             Cancel();
-            Input.Detach();
+            Input.DetachFromWindow();
         }
 
         public void StepUp() => Step(-1);
@@ -196,7 +196,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
             isMarkFromKey = false;
             ShowGrabbing();
-            Input.DetachAfterRelease();
+            Input.DetachFromWindowAfterRelease();
         }
 
         private void ShowGrabbing()

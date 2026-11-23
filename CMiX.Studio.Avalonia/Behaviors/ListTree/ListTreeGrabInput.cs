@@ -23,9 +23,9 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         private ListTreeGrab Grab => Part<ListTreeGrab>();
 
-        protected override void OnUnwatch() => Detach();
+        protected override void OnUnwatch() => DetachFromWindow();
 
-        public void Attach(TopLevel window)
+        public void AttachToWindow(TopLevel window)
         {
             top = window;
             window.AddHandler(InputElement.KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel);
@@ -40,13 +40,13 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 closable.Closed += OnDeactivated;
         }
 
-        public void DetachAfterRelease()
+        public void DetachFromWindowAfterRelease()
         {
             if (!releasePending)
-                Detach();
+                DetachFromWindow();
         }
 
-        public void Detach()
+        public void DetachFromWindow()
         {
             if (top is not { } window)
                 return;
@@ -122,7 +122,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             e.Handled = true;
             releasePending = false;
             if (!Grab.IsGrabbing)
-                Detach();
+                DetachFromWindow();
         }
 
         private void OnPointerWheel(object? sender, PointerWheelEventArgs e)
@@ -141,6 +141,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 Grab.Cancel();
         }
 
-        private void OnDeactivated(object? sender, EventArgs e) => Grab.Detach();
+        private void OnDeactivated(object? sender, EventArgs e) => Grab.DetachFromWindow();
     }
 }

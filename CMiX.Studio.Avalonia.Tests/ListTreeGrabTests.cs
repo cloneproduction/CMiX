@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private void CloseWindow()
         {
-            view?.Grab.Detach();
+            view?.Grab.DetachFromWindow();
             oldView?.Grab.Detach();
             window?.Close();
             window = null;
