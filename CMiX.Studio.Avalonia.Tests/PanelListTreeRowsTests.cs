@@ -196,19 +196,28 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Transitions_ARowWithTheDefaultTime_SlidesToANewPlaceIn160Milliseconds()
+        public void Show_ARowThatMovesWithTheDefaultTime_SlidesItsRenderIn160MillisecondsAndNotItsTop()
         {
-            var other = new ListTreeProject { DataContext = CreateScene().Tree };
+            var moved = CreateScene([1, 1]);
+            var other = new ListTreeProject { DataContext = moved.Tree };
             var screen = new Window { Content = other, Width = 400, Height = 600 };
             screen.Show();
             TreeTestScreen.Settle(screen);
+            var row = Assert.IsType<RowListTree>(other.Rows.RowOf(moved.Tree.CompositionNodes()[1]));
+            var before = PanelListTreeRows.GetTop(row);
 
-            var row = Assert.IsType<RowListTree>(other.Rows.RowOf(other.Rows.Layout.Places[0].Key));
-            var transition = Assert.Single(row.Transitions!.OfType<DoubleTransition>());
+            moved.Tree.CompositionNodes()[0].IsExpanded = false;
+            other.Rows.ApplyTreeChanges();
+
+            var transition = Assert.Single(row.Transitions!.OfType<TransformOperationsTransition>());
+            var top = PanelListTreeRows.GetTop(row);
+            var shown = ListTreeRowSlide.ShownTopOf(row);
             screen.Close();
 
-            Assert.Same(PanelListTreeRows.TopProperty, transition.Property);
+            Assert.Same(Visual.RenderTransformProperty, transition.Property);
             Assert.Equal(TimeSpan.FromMilliseconds(160), transition.Duration);
+            Assert.True(top < before);
+            Assert.True(shown > top);
         }
 
         [AvaloniaFact]

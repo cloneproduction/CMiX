@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Views
         public static readonly StyledProperty<TimeSpan> MoveDurationProperty =
             AvaloniaProperty.Register<PanelListTreeRows, TimeSpan>(nameof(MoveDuration), Motion.Duration);
 
-        // The top of a row. It moves with a transition, so a row slides to its new place.
+        // The top of a row in the layout. ListTreeRowSlide slides its render to it.
         public static readonly AttachedProperty<double> TopProperty =
             AvaloniaProperty.RegisterAttached<PanelListTreeRows, Control, double>("Top");
 

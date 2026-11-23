@@ -73,12 +73,12 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         }
 
         private bool IsSliding(AnchoredRow kept) =>
-            Rows.RowOf(kept.Node) is { Place: { } place } row && Math.Abs(PanelListTreeRows.GetTop(row) - place.Y) >= MinMove;
+            Rows.RowOf(kept.Node) is { Place: { } place } row && Math.Abs(ListTreeRowSlide.ShownTopOf(row) - place.Y) >= MinMove;
 
         private IEnumerable<RowListTree> RowsInOrder() =>
             Rows.Layout.Places.Select(place => Rows.RealizedRowOf(place.Key)).OfType<RowListTree>();
 
         // From the top of the row and the offset, not from the screen, so a step before the next layout reads the new offset.
-        private double TopInView(RowListTree row) => Rows.Bounds.Y + PanelListTreeRows.GetTop(row) - Scroller.Offset.Y;
+        private double TopInView(RowListTree row) => Rows.Bounds.Y + ListTreeRowSlide.ShownTopOf(row) - Scroller.Offset.Y;
     }
 }

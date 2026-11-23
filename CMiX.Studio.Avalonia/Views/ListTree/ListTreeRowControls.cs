@@ -4,10 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Avalonia.Animation;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
-using CMiX.UI.Themes;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -78,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Views
         }
 
         private bool IsKept(RowListTree control, ListTreePlace place) =>
-            Window.Overlaps(place.Y, place.RowHeight) || Window.Overlaps(PanelListTreeRows.GetTop(control), place.RowHeight) || control.IsKeyboardFocusWithin;
+            Window.Overlaps(place.Y, place.RowHeight) || Window.Overlaps(ListTreeRowSlide.ShownTopOf(control), place.RowHeight) || control.IsKeyboardFocusWithin;
 
         private void Remember(IReadOnlyList<ListTreeRow> rows)
         {
@@ -104,14 +102,12 @@ namespace CMiX.Studio.Avalonia.Views
             return control;
         }
 
-        // The dragged row has no transition: it snaps into its landing place.
+        // The dragged row snaps into its landing place. Another row slides from where it shows, unless its top stays.
         private void ShowRow(RowListTree control, ListTreeRow row, ListTreePlace place)
         {
             var light = dragLook?.LightOf(row.Key) ?? ListTreeRowLight.Rest;
-            if (light == ListTreeRowLight.Dragged)
-                Snap(control);
-            else
-                Slide(control);
+            var shownTop = ListTreeRowSlide.ShownTopOf(control);
+            var moves = PanelListTreeRows.GetTop(control) != place.Y;
 
             control.DataContext = row.Node;
             control.IconKey = ListTreeIcons.KeyOf(row);
@@ -120,6 +116,10 @@ namespace CMiX.Studio.Avalonia.Views
             control.ZIndex = light == ListTreeRowLight.Dragged ? ListTreeLayers.DraggedRow : ListTreeLayers.Row;
             control.ShowLight(light);
             PanelListTreeRows.SetTop(control, place.Y);
+            if (light == ListTreeRowLight.Dragged)
+                ListTreeRowSlide.Snap(control);
+            else if (moves)
+                ListTreeRowSlide.From(control, shownTop, panel.MoveDuration);
         }
 
         // A new row starts at the place it had in the last layout, or at its place when it is new in the tree.
@@ -127,23 +127,11 @@ namespace CMiX.Studio.Avalonia.Views
         {
             var control = new RowListTree { ZIndex = ListTreeLayers.Row };
             PanelListTreeRows.SetTop(control, start.Y);
-            Slide(control);
             surfaces.Watch(control);
             rowsByKey[key] = control;
             panel.Children.Add(control);
             return control;
         }
-
-        private void Slide(RowListTree control)
-        {
-            if (control.Transitions == null && panel.MoveDuration > TimeSpan.Zero)
-                control.Transitions = new Transitions
-                {
-                    new DoubleTransition { Property = PanelListTreeRows.TopProperty, Duration = panel.MoveDuration, Easing = Motion.Easing }
-                };
-        }
-
-        private static void Snap(RowListTree control) => control.Transitions = null;
 
         private void RemoveRow(ListTreeRowKey key)
         {
