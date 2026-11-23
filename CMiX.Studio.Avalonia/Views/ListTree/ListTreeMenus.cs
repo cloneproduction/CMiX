@@ -6,11 +6,10 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls.Parts;
-using CompositionModel = CMiX.Core.Compositing.Composition;
-using LayerModel = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -142,13 +141,9 @@ namespace CMiX.Studio.Avalonia.Views
 
         private ContextMenu CreateMenu(RowListTree row, TreeNode node, ProjectTree project)
         {
-            var kind = node.Item == null ? RowMenuKind.Group
-                : node.Item is CompositionModel or LayerModel ? RowMenuKind.Composable
-                : RowMenuKind.Slot;
-
             return PrefabRowMenu.Create(
                 row,
-                kind,
+                ListTreeMenuKind.Of(node),
                 () => node.Owner != null && node.Item != null ? (node.Owner, node.Item) : null,
                 Array.Empty<RowMenuAdd>(),
                 () => node.Header,

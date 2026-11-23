@@ -71,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Views
                 ShowMarks();
         }
 
-        private void ShowMarks()
+        public void ShowMarks()
         {
             var rows = panel.Children.OfType<RowListTree>().ToList();
             var marks = new ListTreeMarks(selected, HoveredCard(rows), dropTarget);

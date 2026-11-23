@@ -273,6 +273,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         partial void OnIsExpandedChanged(bool value) => host.RowExpandedChanged(this);
 
+        public void ToggleExpand() => IsExpanded = !IsExpanded;
+
         public bool IsOrIsUnder(TreeNode node)
         {
             for (var current = this; current != null; current = current.Parent)

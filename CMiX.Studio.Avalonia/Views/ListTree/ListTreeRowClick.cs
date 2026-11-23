@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
@@ -84,21 +84,17 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
             }
 
-            // The tree has one selection, so a Ctrl click on a row does nothing.
-            if (e.KeyModifiers.HasFlag(KeyModifiers.Control))
-            {
-                e.Handled = true;
-                return;
-            }
-
-            if (!row.IsCardIcon(e.Source))
+            var action = ListTreeRowPressRule.ActionOf(e.KeyModifiers.HasFlag(KeyModifiers.Control), row.IsCardIcon(e.Source));
+            if (action == ListTreeRowPressAction.Select)
                 clicked.SelectByClick(node);
+            else if (action == ListTreeRowPressAction.Stop)
+                e.Handled = true;
         }
 
         // The focus moves after the press, because the default handling of the press would take it back.
         private void PressBesideRows(ProjectTree clicked)
         {
-            clicked.CursorNode ??= clicked.SelectedNode ?? clicked.Roots.FirstOrDefault();
+            clicked.EnsureCursor();
             if (clicked.CursorNode != null)
                 focusKeeper.FocusCursorRowAfterPress();
         }

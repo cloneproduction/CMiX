@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System;
-using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -40,8 +38,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         public static readonly StyledProperty<IBrush?> IconForegroundProperty =
             AvaloniaProperty.Register<RowListTree, IBrush?>(nameof(IconForeground));
-
-        private TreeNode? watchedNode;
 
         public RowListTree()
         {
@@ -95,45 +91,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal void StartRename() => nameBox.IsEditing = true;
 
-        protected override void OnDataContextChanged(EventArgs e)
-        {
-            base.OnDataContextChanged(e);
-            if (this.GetVisualRoot() != null)
-                WatchNode(DataContext as TreeNode);
-        }
-
-        // The row listens to its node only while it is shown, so a node does not keep a row that a closed card took away.
-        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
-        {
-            base.OnAttachedToVisualTree(e);
-            WatchNode(DataContext as TreeNode);
-        }
-
-        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
-        {
-            WatchNode(null);
-            base.OnDetachedFromVisualTree(e);
-        }
-
-        private void WatchNode(TreeNode? node)
-        {
-            if (watchedNode != null)
-                watchedNode.PropertyChanged -= OnNodeChanged;
-
-            watchedNode = node;
-            if (node != null)
-                node.PropertyChanged += OnNodeChanged;
-            ShowHidden();
-        }
-
-        private void OnNodeChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName is nameof(TreeNode.IsHidden) or nameof(TreeNode.IsUnderHiddenParent))
-                ShowHidden();
-        }
-
-        private void ShowHidden() => PseudoClasses.Set(HiddenClass, watchedNode is { } node && (node.IsHidden || node.IsUnderHiddenParent));
-
         protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
         {
             base.OnPropertyChanged(change);
@@ -157,6 +114,7 @@ namespace CMiX.Studio.Avalonia.Views
             PseudoClasses.Set(InSelectionClass, marks.IsInSelection(node));
             PseudoClasses.Set(InHoveredCardClass, marks.IsInHoveredCard(node));
             PseudoClasses.Set(DropTargetClass, marks.IsDropTarget(node));
+            PseudoClasses.Set(HiddenClass, marks.IsHidden(node));
         }
 
         internal bool IsCardIcon(object? source) =>
@@ -169,7 +127,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (Place is not { CanToggle: true } || DataContext is not TreeNode node)
                 return;
 
-            node.IsExpanded = !node.IsExpanded;
+            node.ToggleExpand();
         }
     }
 }

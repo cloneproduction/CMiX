@@ -37,6 +37,18 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void Watch_ALayerIsHidden_RaisesHiddenChangedOnceAndNotChanged()
+        {
+            var hiddenChanges = 0;
+            watch.HiddenChanged += (_, _) => hiddenChanges++;
+
+            scene.Layer.PrefabService.Visibility.Value = true;
+
+            Assert.Equal(1, hiddenChanges);
+            Assert.Equal(0, changes);
+        }
+
+        [Fact]
         public void Unwatch_ACardCloses_RaisesNothing()
         {
             watch.Unwatch();

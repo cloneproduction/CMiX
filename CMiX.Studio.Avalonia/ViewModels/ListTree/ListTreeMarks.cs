@@ -18,6 +18,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         public bool IsInHoveredCard(TreeNode? node) => IsInside(node, HoveredCard);
 
+        // A row under a hidden row looks hidden too.
+        public bool IsHidden(TreeNode? node) => node != null && (node.IsHidden || node.IsUnderHiddenParent);
+
         private static bool IsInside(TreeNode? node, TreeNode? card) =>
             node != null && card != null && !ReferenceEquals(node, card) && node.IsOrIsUnder(card);
     }

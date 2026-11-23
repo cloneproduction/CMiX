@@ -321,6 +321,43 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void EnsureCursor_NoCursorAndASelection_PutsTheCursorOnTheSelectedNode()
+        {
+            var scene = CreateScene();
+            var selected = LayerNode(scene, 1);
+            scene.Tree.SelectedNode = selected;
+            scene.Tree.CursorNode = null;
+
+            scene.Tree.EnsureCursor();
+
+            Assert.Same(selected, scene.Tree.CursorNode);
+        }
+
+        [Fact]
+        public void EnsureCursor_NoCursorAndNoSelection_PutsTheCursorOnTheFirstRoot()
+        {
+            var scene = CreateScene();
+            scene.Tree.SelectedNode = null;
+
+            scene.Tree.EnsureCursor();
+
+            Assert.Same(scene.Tree.Roots[0], scene.Tree.CursorNode);
+        }
+
+        [Fact]
+        public void EnsureCursor_ACursor_KeepsTheCursor()
+        {
+            var scene = CreateScene();
+            scene.Tree.SelectedNode = LayerNode(scene, 1);
+            var cursor = LayerNode(scene, 0);
+            scene.Tree.CursorNode = cursor;
+
+            scene.Tree.EnsureCursor();
+
+            Assert.Same(cursor, scene.Tree.CursorNode);
+        }
+
+        [Fact]
         public void Remove_TheOnlyComposition_ClearsTheSelection()
         {
             var scene = CreateScene();

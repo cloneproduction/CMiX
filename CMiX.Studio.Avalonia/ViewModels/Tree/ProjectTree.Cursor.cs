@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
@@ -45,6 +46,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             var next = index < 0 ? (rows >= 0 ? 0 : nodes.Count - 1) : Math.Clamp(index + rows, 0, nodes.Count - 1);
             CursorNode = nodes[next];
         }
+
+        // With no cursor, the cursor goes to the selected node, else to the first root.
+        public void EnsureCursor() => CursorNode ??= SelectedNode ?? Roots.FirstOrDefault();
 
         public void MoveCursorToFirst()
         {

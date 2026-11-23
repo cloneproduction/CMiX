@@ -9,13 +9,17 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // Raises Changed when a row comes, goes or moves, or a card opens or closes. Call Watch again after a change, for the new nodes.
+    // Raises Changed when a row comes, goes or moves, or a card opens or closes, and HiddenChanged when a row is hidden or shown.
+    // Call Watch again after a change, for the new nodes.
     public sealed class ListTreeNodeWatch
     {
         private readonly List<TreeNode> watchedNodes = new();
         private readonly List<INotifyCollectionChanged> watchedLists = new();
 
         public event EventHandler? Changed;
+
+        // The rows under the row get a new IsUnderHiddenParent at the same time.
+        public event EventHandler? HiddenChanged;
 
         public void Watch(IEnumerable<TreeNode> roots)
         {
@@ -54,6 +58,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         {
             if (e.PropertyName == nameof(TreeNode.IsExpanded))
                 Changed?.Invoke(this, EventArgs.Empty);
+            else if (e.PropertyName == nameof(TreeNode.IsHidden))
+                HiddenChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnListChanged(object? sender, NotifyCollectionChangedEventArgs e) =>

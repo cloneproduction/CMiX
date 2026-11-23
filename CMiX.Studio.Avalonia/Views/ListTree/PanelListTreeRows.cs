@@ -119,6 +119,7 @@ namespace CMiX.Studio.Avalonia.Views
             isAttached = true;
             ListTreeToggleSizes.Of(this).Write(Resources);
             watch.Changed += OnTreeChanged;
+            watch.HiddenChanged += OnHiddenChanged;
             Rebuild();
         }
 
@@ -126,6 +127,7 @@ namespace CMiX.Studio.Avalonia.Views
         {
             isAttached = false;
             watch.Changed -= OnTreeChanged;
+            watch.HiddenChanged -= OnHiddenChanged;
             watch.Unwatch();
             base.OnDetachedFromVisualTree(e);
         }
@@ -150,6 +152,8 @@ namespace CMiX.Studio.Avalonia.Views
             isRebuildPosted = true;
             Dispatcher.UIThread.Post(ApplyTreeChanges);
         }
+
+        private void OnHiddenChanged(object? sender, EventArgs e) => surfaces.ShowMarks();
 
         // A part that needs the new places at once, such as a reveal or a scroll anchor, runs the posted rebuild now.
         public void ApplyTreeChanges()
