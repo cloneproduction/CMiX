@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // Null when the move gives the pressed row no visible row.
         public ListTreePlace? Place()
         {
-            if (tree.CountedSource is not { } source || tree.ParentOf(source) is not { } list || !IsLeaving(list, source))
+            if (tree.CountedPressed is not { } pressed || tree.ParentOf(pressed) is not { } list || !IsLeaving(list, pressed))
                 return null;
 
             return plan.IsPressedInItsOwnList ? PlaceInItsOwnList(list) : PlaceInHolder() ?? PlaceInHiddenList();
@@ -51,14 +51,14 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
                 : null;
         }
 
-        private ListTreeRow Pressed => plan.Pressed.Source;
+        private ListTreeRow Pressed => plan.Pressed.Row;
 
         // The rows that the members before the pressed member show in the holder.
         private int CountBeforePressedIn(ListTreeCountedRow holder) => plan.Members.Take(plan.PressedIndex).Sum(member => InsertCountOf(holder, member));
 
-        // A holder that shows the list of the item already keeps the row that it has. Every other holder gets a closed row.
+        // Every other holder gets a closed row.
         private int InsertCountOf(ListTreeCountedRow holder, ListTreeMoveMember member) =>
-            tree.RowOfTheItemIn(holder, member.Item) is { } own && !own.Row.Key.Equals(member.Source.Key) ? own.Count : 1;
+            tree.RowOfTheItemIn(holder, member.Item) is { } own && ListTreeMovePlan.KeepsItsOwnRowOpen(member, own.Row) ? own.Count : 1;
 
         // Option E hides an empty list. The drop shows its group row with the source as its only row.
         private ListTreePlace? PlaceInHiddenList()
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         private ListTreePlace PlaceAt(ListTreeRowKey key, int index, int depth)
         {
             var sizes = tree.Sizes;
-            return new ListTreePlace(key, index * sizes.Pitch, sizes.RowHeight, 1 * sizes.Pitch - sizes.Gap, depth, depth * sizes.Indent, Pressed.Children.Count > 0);
+            return new ListTreePlace(key, index * sizes.Pitch, sizes.RowHeight, sizes.Pitch - sizes.Gap, depth, depth * sizes.Indent, Pressed.Children.Count > 0);
         }
 
         // The visible index of a kept row of the live tree, -1 for the root. Null when a closed row hides it.
@@ -167,7 +167,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return changes.HiddenListOwners.Contains(row) ? new Insert(GroupIndexIn(row), IsGroupOpen(row) ? 1 + plan.Members.Count : 1) : null;
         }
 
-
         // The group row goes after the kept rows of the lists before it.
         private int GroupIndexIn(ListTreeCountedRow owner)
         {
@@ -177,10 +176,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         private bool IsGroupOpen(ListTreeCountedRow owner) =>
-            (GroupNodeOf(owner)?.IsExpanded ?? false) || changes.IsOpened(changes.GroupKeyOf(owner));
-
-        private TreeNode? GroupNodeOf(ListTreeCountedRow owner) =>
-            owner.Row.Node?.Children.FirstOrDefault(child => ReferenceEquals(child.Group?.Manager, plan.To));
+            (plan.GroupNodeOf(owner.Row)?.IsExpanded ?? false) || changes.IsOpened(changes.GroupKeyOf(owner));
 
         private sealed record Insert(int Index, int Count);
     }

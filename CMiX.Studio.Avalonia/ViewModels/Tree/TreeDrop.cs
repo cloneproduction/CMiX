@@ -46,15 +46,15 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // Each row lands after the row before it, so the rows keep their tree order. A row that is in its place already does not move.
-        public DropBlockMove MoveBlock(TreeNode root, IReadOnlyList<TreeNode> sources, TreeNode target, DropPosition position)
+        public DropBlockMove MoveBlock(TreeNode root, IReadOnlyList<TreeNode> nodes, TreeNode target, DropPosition position)
         {
-            if (RefusalOf(sources, target, position) is { } refusal)
+            if (RefusalOf(nodes, target, position) is { } refusal)
                 return new DropBlockMove(Array.Empty<TreeNode>(), refusal);
 
             var moved = new List<TreeNode>();
             var anchor = target;
             var at = position;
-            foreach (var source in sources)
+            foreach (var source in nodes)
             {
                 var move = Move(root, source, anchor, at);
                 if ((move.MovedNode ?? StayingNodeOf(source, anchor, at, move.Outcome)) is not { } landed)
@@ -69,8 +69,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // Every row of the block lands in the list of the target, so each row is read against the target before any row moves.
-        private DropRefusal? RefusalOf(IReadOnlyList<TreeNode> sources, TreeNode target, DropPosition position) =>
-            sources
+        private DropRefusal? RefusalOf(IReadOnlyList<TreeNode> nodes, TreeNode target, DropPosition position) =>
+            nodes
                 .Select(source => dropService.RefusalOf(source, target, position) is { } outcome ? new DropRefusal(source, target, outcome) : null)
                 .FirstOrDefault(refusal => refusal != null);
 

@@ -50,11 +50,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             return rows;
         }
 
-        // In its own list, every holder keeps its own row.
         private static ListTreeRow MovedRowIn(ListTreeRow holder, ListTreeMoveMember member, ListTreeMovePlan plan)
         {
             if (holder.Children.FirstOrDefault(child => ReferenceEquals(child.Key.Model, member.Item)) is { } own)
-                return own.Key.Equals(member.Source.Key) ? Closed(own) : own;
+                return ListTreeMovePlan.KeepsItsOwnRowOpen(member, own) ? own : Closed(own);
 
             return NewRowUnder(holder.Key, holder.Depth + 1, member, plan);
         }
@@ -64,7 +63,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         {
             var key = new ListTreeRowKey(plan.To, parent.Key);
             holders.Add(key);
-            var group = GroupNodeOf(parent, plan);
+            var group = plan.GroupNodeOf(parent);
             var groupRow = new ListTreeRow(key, group, parent.Depth + 1, IsCard: true, IsGroup: true, group?.IsExpanded ?? false,
                 plan.Members.Select(member => NewRowUnder(key, parent.Depth + 2, member, plan)).ToArray());
             var lists = ListTreeRowLists.Of(parent);
@@ -77,15 +76,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         private static bool HasHiddenList(ListTreeRow row, IReadOnlyList<ListTreeRow> children, ListTreeMovePlan plan) =>
             !children.Any(child => ReferenceEquals(child.Key.Model, plan.To)) && ListTreeRowLists.IndexOf(ListTreeRowLists.Of(row), plan.To) >= 0;
 
-        // A second row of a shared card has no node, so its group row has none.
-        private static TreeNode? GroupNodeOf(ListTreeRow parent, ListTreeMovePlan plan) =>
-            parent.Node?.Children.FirstOrDefault(child => ReferenceEquals(child.Group?.Manager, plan.To));
-
         // The row in the holder of the slot keeps the source node. A second holder of the same list has no node.
         private static ListTreeRow NewRowUnder(ListTreeRowKey parent, int depth, ListTreeMoveMember member, ListTreeMovePlan plan) =>
             parent.Equals(plan.Holder)
-                ? Closed(Moved(member.Source, parent, depth))
-                : Closed(Mirrored(member.Source, parent, depth));
+                ? Closed(Moved(member.Row, parent, depth))
+                : Closed(Mirrored(member.Row, parent, depth));
 
         private static ListTreeRow Closed(ListTreeRow row) => row with { IsExpanded = false };
 

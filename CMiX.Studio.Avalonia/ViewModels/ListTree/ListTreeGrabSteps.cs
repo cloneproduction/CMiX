@@ -10,7 +10,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
     public static class ListTreeGrabSteps
     {
         // The candidate of the grabbed row itself. -1 when it has none.
-        public static int StartIndexOf(ListTreeDrag drag) => IndexOf(drag.Candidates, candidate => ReferenceEquals(candidate.Slot.Target, drag.Node));
+        public static int StartIndexOf(ListTreeDrag drag) => IndexOf(drag.Candidates, candidate => ReferenceEquals(candidate.Slot.Target, drag.Pressed));
 
         // The shown candidate, else the start.
         public static int ShownIndexOf(ListTreeDrag drag)

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -20,7 +21,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly FrameListTreeOutline outline = new() { IsHitTestVisible = false, IsVisible = false, ZIndex = ListTreeLayers.DropOutline };
 
         private TreeNode? selected;
-        private IReadOnlySet<TreeNode> alsoSelected = new HashSet<TreeNode>();
+        private IReadOnlySet<TreeNode> alsoSelected = ImmutableHashSet<TreeNode>.Empty;
         private TreeNode? dropTarget;
         private bool isDragging;
 

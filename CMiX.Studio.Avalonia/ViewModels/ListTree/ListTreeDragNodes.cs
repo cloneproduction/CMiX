@@ -8,6 +8,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
     // The nodes that one drag moves, in tree order, and the pressed node among them.
+    // ListTreeBlock holds the rows of these nodes in one snapshot.
     public sealed record ListTreeDragNodes(IReadOnlyList<TreeNode> Nodes, TreeNode Pressed)
     {
         public bool IsBlock => Nodes.Count > 1;

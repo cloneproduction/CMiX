@@ -77,7 +77,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         // The moves of the rows of a block and the selection of the moved rows are one undo step. The pressed row stays the selected node.
-        public async Task DropBlockAsync(IReadOnlyList<TreeNode> sources, TreeNode pressed, TreeNode target, DropPosition position)
+        public async Task DropBlockAsync(IReadOnlyList<TreeNode> nodes, TreeNode pressed, TreeNode target, DropPosition position)
         {
             DropBlockMove move;
             var pressedItem = pressed.Item;
@@ -85,8 +85,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             try
             {
                 // Read before the drop: the drop removes the source nodes, and NodeRemoved passes the inspector up.
-                var inspected = sources.FirstOrDefault(source => ReferenceEquals(inspectedNode, source))?.Item;
-                move = drop.MoveBlock(root, sources, target, position);
+                var inspected = nodes.FirstOrDefault(source => ReferenceEquals(inspectedNode, source))?.Item;
+                move = drop.MoveBlock(root, nodes, target, position);
                 if (move.MovedNodes.Count > 0)
                 {
                     SelectBlock(MovedNodeOf(move, pressedItem) ?? move.MovedNodes[^1], move.MovedNodes);

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
@@ -10,7 +11,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
     public sealed record ListTreeMarks(TreeNode? Selected, TreeNode? HoveredCard, TreeNode? DropTarget)
     {
         // The other selected rows, which look the same as the selected node.
-        public IReadOnlySet<TreeNode> AlsoSelected { get; init; } = new HashSet<TreeNode>();
+        public IReadOnlySet<TreeNode> AlsoSelected { get; init; } = ImmutableHashSet<TreeNode>.Empty;
 
         public bool IsSelected(TreeNode? node) => node != null && (ReferenceEquals(node, Selected) || AlsoSelected.Contains(node));
 

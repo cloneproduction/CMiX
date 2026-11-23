@@ -40,8 +40,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         public ListTreeDragNodes Nodes { get; }
 
-        // The pressed row.
-        public TreeNode Node => Nodes.Pressed;
+        public TreeNode Pressed => Nodes.Pressed;
 
         public ListTreePress Press { get; }
 
@@ -86,6 +85,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         // The slot of the row itself: a drop there moves nothing.
-        public bool IsAtItsOwnPlace() => Look is { } look && ReferenceEquals(look.Candidate.Slot.Target, Node);
+        public bool IsAtItsOwnPlace() => Look is { } look && ReferenceEquals(look.Candidate.Slot.Target, Pressed);
     }
 }

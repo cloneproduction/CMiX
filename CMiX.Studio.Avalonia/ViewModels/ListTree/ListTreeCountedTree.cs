@@ -13,11 +13,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
     {
         private readonly Builder built;
 
-        private ListTreeCountedTree(ListTreeCountedRow root, ListTreeBlock block, ListTreeCountedRow? countedSource, ListTreeSizes sizes, Builder built)
+        private ListTreeCountedTree(ListTreeCountedRow root, ListTreeBlock block, ListTreeCountedRow? countedPressed, ListTreeSizes sizes, Builder built)
         {
             Root = root;
             Block = block;
-            CountedSource = countedSource;
+            CountedPressed = countedPressed;
             Sizes = sizes;
             this.built = built;
         }
@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         public ListTreeBlock Block { get; }
 
         // The counted row of the pressed row of the block.
-        public ListTreeCountedRow? CountedSource { get; }
+        public ListTreeCountedRow? CountedPressed { get; }
 
         public ListTreeSizes Sizes { get; }
 

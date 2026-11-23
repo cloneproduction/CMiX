@@ -39,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var drag = DragOf(EntityAt(2));
 
             Assert.Equal(new[] { EntityAt(0), EntityAt(2) }, drag.Nodes.Nodes);
-            Assert.Same(EntityAt(2), drag.Node);
+            Assert.Same(EntityAt(2), drag.Pressed);
             Assert.Same(Press, drag.Press);
             Assert.NotEmpty(drag.Candidates);
             Assert.Null(drag.Look);

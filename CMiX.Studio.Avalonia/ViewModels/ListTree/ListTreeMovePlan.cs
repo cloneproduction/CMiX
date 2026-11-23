@@ -22,6 +22,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         public bool IsLeaving(object list, object item) =>
             Members.Any(member => ReferenceEquals(member.Item, item) && ReferenceEquals(member.From, list));
 
+        // A second row of a shared card has no node, so its group row has none.
+        public TreeNode? GroupNodeOf(ListTreeRow owner) =>
+            owner.Node?.Children.FirstOrDefault(child => ReferenceEquals(child.Group?.Manager, To));
+
+        // A holder that shows the list of the item already keeps the row that it has. The row of the member itself shows closed.
+        public static bool KeepsItsOwnRowOpen(ListTreeMoveMember member, ListTreeRow own) => !own.Key.Equals(member.Row.Key);
+
         public static ListTreeMovePlan Of(ListTreeRow source, ListTreeSlot slot) => Of(ListTreeBlock.Of(source), slot);
 
         public static ListTreeMovePlan Of(ListTreeBlock block, ListTreeSlot slot)

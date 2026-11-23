@@ -11,22 +11,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
     internal sealed class ListTreeMoveChanges
     {
         private readonly ListTreeMovePlan plan;
-        private readonly IReadOnlySet<ListTreeCountedRow> openedRows;
-        private readonly IReadOnlySet<ListTreeRowKey> openedKeys;
-        private readonly IReadOnlySet<ListTreeCountedRow> changed;
-        private readonly IReadOnlyDictionary<ListTreeCountedRow, List<ListTreeCountedRow>> changedChildren;
+        private readonly Opened opened;
+        private readonly Changed changed;
 
         private ListTreeMoveChanges(ListTreeMovePlan plan, IReadOnlySet<ListTreeCountedRow> holders, IReadOnlySet<ListTreeCountedRow> hiddenListOwners,
-            IReadOnlySet<ListTreeCountedRow> openedRows, IReadOnlySet<ListTreeRowKey> openedKeys, IReadOnlySet<ListTreeCountedRow> changed,
-            IReadOnlyDictionary<ListTreeCountedRow, List<ListTreeCountedRow>> changedChildren)
+            Opened opened, Changed changed)
         {
             this.plan = plan;
             Holders = holders;
             HiddenListOwners = hiddenListOwners;
-            this.openedRows = openedRows;
-            this.openedKeys = openedKeys;
+            this.opened = opened;
             this.changed = changed;
-            this.changedChildren = changedChildren;
         }
 
         // The kept rows that show the list of the slot. Each gets a row of the source.
@@ -35,17 +30,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // The kept rows that own the list of the slot when option E hides it. Each gets its group row.
         public IReadOnlySet<ListTreeCountedRow> HiddenListOwners { get; }
 
-        public bool IsChanged(ListTreeCountedRow row) => changed.Contains(row);
+        public bool IsChanged(ListTreeCountedRow row) => changed.Rows.Contains(row);
 
         // The drop opens every row on the path to a row that gets the source.
-        public bool IsOpened(ListTreeCountedRow row) => openedRows.Contains(row);
+        public bool IsOpened(ListTreeCountedRow row) => opened.Rows.Contains(row);
 
         // A key with no live row is the group row of a hidden list.
-        public bool IsOpened(ListTreeRowKey key) => openedKeys.Contains(key);
+        public bool IsOpened(ListTreeRowKey key) => opened.Keys.Contains(key);
 
         // In tree order: the changed children and the rows of the source that leave.
         public IReadOnlyList<ListTreeCountedRow> ChangedChildrenOf(ListTreeCountedRow row) =>
-            changedChildren.TryGetValue(row, out var children) ? children : Array.Empty<ListTreeCountedRow>();
+            changed.Children.TryGetValue(row, out var children) ? children : Array.Empty<ListTreeCountedRow>();
 
         public ListTreeRowKey GroupKeyOf(ListTreeCountedRow owner) => GroupKeyOf(owner, plan);
 
@@ -69,7 +64,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             foreach (var children in changedChildren.Values)
                 children.Sort((first, second) => first.Index.CompareTo(second.Index));
 
-            return new ListTreeMoveChanges(plan, holders, hiddenListOwners, openedRows, openedKeys, changed, changedChildren);
+            return new ListTreeMoveChanges(plan, holders, hiddenListOwners, new Opened(openedRows, openedKeys), new Changed(changed, changedChildren));
         }
 
         private static bool IsHiddenListOwner(ListTreeCountedRow owner, ListTreeMovePlan plan, IReadOnlySet<ListTreeCountedRow> holders) =>
@@ -147,5 +142,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
             list.Add(row);
         }
+
+        // The rows that the drop opens, and the keys of the group rows of hidden lists that it opens.
+        private sealed record Opened(IReadOnlySet<ListTreeCountedRow> Rows, IReadOnlySet<ListTreeRowKey> Keys);
+
+        // The rows that the move changes, and for each the changed children.
+        private sealed record Changed(IReadOnlySet<ListTreeCountedRow> Rows, IReadOnlyDictionary<ListTreeCountedRow, List<ListTreeCountedRow>> Children);
     }
 }
