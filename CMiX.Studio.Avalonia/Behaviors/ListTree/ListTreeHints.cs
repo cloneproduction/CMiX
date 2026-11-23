@@ -7,43 +7,28 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
-using CMiX.UI.Controls.Parts;
+using CMiX.Studio.Avalonia.Views;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // The key hint strip under the rows of the new tree, with the modes of TreeHints. The grab mode comes with the drag.
-    internal sealed class ListTreeHints
+    internal sealed class ListTreeHints : ListTreeBehavior
     {
-        private readonly Control owner;
-        private readonly KeyHintStrip strip;
-        private readonly ListTreeFocus focus;
-        private readonly ListTreeMenuOpen menuOpen;
-        private readonly TreeViewLifetime lifetime;
-
         private ProjectTree? tree;
         private TopLevel? window;
         private TreeHintMode? shownMode;
-
-        public ListTreeHints(Control owner, KeyHintStrip strip, ListTreeFocus focus, ListTreeMenuOpen menuOpen, TreeViewLifetime lifetime)
-        {
-            this.owner = owner;
-            this.strip = strip;
-            this.focus = focus;
-            this.menuOpen = menuOpen;
-            this.lifetime = lifetime;
-        }
 
         public TreeHintMode Mode
         {
             get
             {
-                if (menuOpen.IsMenuOpen())
+                if (Context.MenuOpen.IsMenuOpen())
                     return TreeHintMode.Menu;
 
-                if (focus.IsSearchFocused())
+                if (Context.Focus.IsSearchFocused())
                     return TreeHintMode.Search;
 
-                return tree?.IsSearchActive == true && owner.IsKeyboardFocusWithin ? TreeHintMode.Filter : TreeHintMode.Idle;
+                return tree?.IsSearchActive == true && Context.Owner.IsKeyboardFocusWithin ? TreeHintMode.Filter : TreeHintMode.Idle;
             }
         }
 
@@ -58,16 +43,16 @@ namespace CMiX.Studio.Avalonia.Views
                 Show(shown, mode);
         }
 
-        public void Watch(ProjectTree watched)
+        protected override void OnWatch(ProjectTree watched)
         {
             tree = watched;
             watched.PropertyChanged += OnTreeChanged;
             watched.Shortcuts.PropertyChanged += OnShortcutsChanged;
-            AttachWindow(TopLevel.GetTopLevel(owner));
+            AttachWindow(TopLevel.GetTopLevel(Context.Owner));
             Show(watched, Mode);
         }
 
-        public void Unwatch()
+        protected override void OnUnwatch()
         {
             AttachWindow(null);
             if (tree == null)
@@ -90,11 +75,11 @@ namespace CMiX.Studio.Avalonia.Views
         private void Show(ProjectTree shown, TreeHintMode mode)
         {
             shownMode = mode;
-            strip.Hints = TreeKeyHints.For(mode, shown.Shortcuts);
+            Context.HintStrip.Hints = TreeKeyHints.For(mode, shown.Shortcuts);
         }
 
         // The focus moves before the next control is known, so the check runs after the event.
-        private void OnWindowFocusChanged(object? sender, RoutedEventArgs e) => lifetime.Post(Update, DispatcherPriority.Input);
+        private void OnWindowFocusChanged(object? sender, RoutedEventArgs e) => Context.Lifetime.Post(Update, DispatcherPriority.Input);
 
         private void OnShortcutsChanged(object? sender, PropertyChangedEventArgs e)
         {

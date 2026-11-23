@@ -14,9 +14,6 @@ namespace CMiX.Studio.Avalonia.Views
     // The screen hub of the new tree. It builds its parts and attaches them to the tree while the view is in the visual tree.
     public partial class ListTreeProject : UserControl
     {
-        private readonly ListTreeAddBeside addBeside;
-        private readonly ListTreeHints hints;
-        private readonly ListTreeMenus menus;
         private readonly ListTreeKeyInput keyInput;
         private readonly ListTreeFileDropInput fileDrop;
         private readonly ListTreeScreenRequests requests;
@@ -32,13 +29,10 @@ namespace CMiX.Studio.Avalonia.Views
             Context = BuildContext();
             var lifetime = Context.Lifetime;
             var focusKeeper = Context.Part<ListTreeFocusKeeper>();
-            hints = new ListTreeHints(this, hintStrip, Context.Focus, Context.MenuOpen, lifetime);
-            addBeside = new ListTreeAddBeside(rows, focusKeeper, Context.AddPanel, hints.Update, lifetime);
-            var reveal = Context.Part<ListTreeRowReveal>();
-            menus = new ListTreeMenus(scroller, reveal, addBeside, Context.Part<ListTreeLastPointer>(), hints.Update);
-            keyInput = new ListTreeKeyInput(scroller, rows, focusKeeper, addBeside, lifetime);
+            keyInput = new ListTreeKeyInput(scroller, rows, focusKeeper, Context.Part<ListTreeAddBeside>(), lifetime);
             fileDrop = new ListTreeFileDropInput(scroller, rows);
-            requests = new ListTreeScreenRequests(rows, menus, reveal, Context.Part<ListTreeScrollAnchor>(), () => IsActiveView);
+            requests = new ListTreeScreenRequests(rows, Context.Part<ListTreeMenus>(), Context.Part<ListTreeRowReveal>(),
+                Context.Part<ListTreeScrollAnchor>(), () => IsActiveView);
             hooks = BuildHooks();
             KeyBindingTextGuard.Install(this);
             tooltips = new TreeTooltips(rows);
@@ -72,13 +66,13 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal TreeTooltips Tooltips => tooltips;
 
-        internal AddPanel MenuAddPanel => addBeside.AddPanel;
+        internal AddPanel MenuAddPanel => Context.AddPanel;
 
         internal ContextMenu? Menu => scroller.ContextMenu;
 
         internal KeyHintStrip HintStrip => hintStrip;
 
-        internal TreeHintMode HintMode => hints.Mode;
+        internal TreeHintMode HintMode => Context.Part<ListTreeHints>().Mode;
 
         protected override void OnDataContextChanged(EventArgs e)
         {
@@ -100,9 +94,6 @@ namespace CMiX.Studio.Avalonia.Views
             watched.AttachView(hooks);
             requests.Watch(watched);
             keyInput.Attach(watched);
-            addBeside.Attach(watched);
-            menus.Attach(watched);
-            hints.Watch(watched);
             fileDrop.Attach(watched);
         }
 
@@ -112,9 +103,6 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             fileDrop.Detach();
-            hints.Unwatch();
-            menus.Detach();
-            addBeside.Detach();
             keyInput.Detach();
             requests.Unwatch();
             watched.DetachView(hooks);

@@ -7,71 +7,56 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using CMiX.Studio.Avalonia.Behaviors.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Popups;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // The one Add panel of the new tree. Open puts it beside the cursor row, as TreeMenus.OpenAddBesideTheCursor does in the old tree.
-    internal sealed class ListTreeAddBeside
+    internal sealed class ListTreeAddBeside : ListTreeBehavior
     {
         private const string AddTitle = "Add";
-
-        private readonly PanelListTreeRows rows;
-        private readonly ListTreeFocusKeeper focusKeeper;
-        private readonly Action updateHints;
-        private readonly TreeViewLifetime lifetime;
-        private readonly AddPanel addPanel;
 
         private ProjectTree? tree;
 
         private bool openedBesideTheCursor;
 
-        public ListTreeAddBeside(PanelListTreeRows rows, ListTreeFocusKeeper focusKeeper, AddPanel addPanel, Action updateHints, TreeViewLifetime lifetime)
-        {
-            this.rows = rows;
-            this.focusKeeper = focusKeeper;
-            this.addPanel = addPanel;
-            this.updateHints = updateHints;
-            this.lifetime = lifetime;
-        }
-
-        public AddPanel AddPanel => addPanel;
-
-        public void Attach(ProjectTree attached)
+        protected override void OnWatch(ProjectTree attached)
         {
             tree = attached;
-            addPanel.Closed += OnAddPanelClosed;
+            Context.AddPanel.Closed += OnAddPanelClosed;
         }
 
-        public void Detach()
+        protected override void OnUnwatch()
         {
-            addPanel.Closed -= OnAddPanelClosed;
-            addPanel.Close();
+            Context.AddPanel.Closed -= OnAddPanelClosed;
+            Context.AddPanel.Close();
             openedBesideTheCursor = false;
             tree = null;
         }
 
         public void Open()
         {
-            if (tree?.CursorNode is not { } node || rows.RowOf(node) is not { } row || TopLevel.GetTopLevel(row) is not { } window)
+            var addPanel = Context.AddPanel;
+            if (tree?.CursorNode is not { } node || Context.Rows.RowOf(node) is not { } row || TopLevel.GetTopLevel(row) is not { } window)
                 return;
 
             var anchor = row.TranslatePoint(default, window) is { } topLeft ? new Rect(topLeft, row.Bounds.Size) : (Rect?)null;
             addPanel.OpenWithTip(row, PopupSide.Right, tree.GetAddGroups(node), AddTitle, anchor);
             openedBesideTheCursor = addPanel.IsOpen;
-            updateHints();
+            Part<ListTreeHints>().Update();
         }
 
         // A panel beside the cursor row is a leaf of the tree, so the cursor row takes the focus back.
         private void OnAddPanelClosed(object? sender, EventArgs e)
         {
-            updateHints();
+            Part<ListTreeHints>().Update();
             if (!openedBesideTheCursor)
                 return;
 
             openedBesideTheCursor = false;
             if (tree?.CursorNode is { } cursor)
-                lifetime.Post(() => focusKeeper.FocusRow(cursor), DispatcherPriority.Input);
+                Context.Lifetime.Post(() => Part<ListTreeFocusKeeper>().FocusRow(cursor), DispatcherPriority.Input);
         }
     }
 }
