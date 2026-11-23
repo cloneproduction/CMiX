@@ -6,10 +6,12 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 using Layer = CMiX.Core.Compositing.Layer;
@@ -340,6 +342,75 @@ namespace CMiX.Studio.Avalonia.Tests
             }
 
             Assert.True(count > 1, name);
+        }
+
+        private static IReadOnlyList<IControl> EntitiesOf(Layer layer) => layer.ModelEntityManager.ManagerData.Items;
+
+        // The second entity is shared with layer 2 of A, so it cannot go to B.
+        [Fact]
+        public async Task DropBlockAsync_ABlockWithASharedEntity_MovesNoRowAndShowsTheNotice()
+        {
+            var scene = CreateSharedScene();
+            var notice = scene.Provider.GetRequiredService<FakeMoveBlockedNotice>();
+            var nodes = new[] { Entity(scene, 0), Entity(scene, 1) };
+            var items = nodes.Select(node => node.Item!).ToArray();
+            var header = nodes[1].Header;
+            var other = EntityOfB(scene).Item!;
+
+            await scene.Tree.DropBlockAsync(nodes, nodes[0], EntityOfB(scene), DropPosition.Before);
+
+            Assert.Equal(items, EntitiesOf(scene.LayerOfA(0)));
+            Assert.Equal(new[] { other }, EntitiesOf(LayerOfB(scene, 1)));
+            Assert.Contains(header, Assert.Single(notice.Messages));
+        }
+
+        [Fact]
+        public void SlotsOf_ABlockWithASharedEntity_OffersNoSlotInTheOtherComposition()
+        {
+            var scene = CreateSharedScene();
+            var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+
+            var slots = SlotsOf(snapshot, BlockOf(snapshot, new BlockNodes(new[] { Entity(scene, 0), Entity(scene, 1) }, 0)));
+
+            Assert.NotEmpty(slots);
+            Assert.DoesNotContain(slots, slot => ReferenceEquals(TreeRowOrder.CompositionOf(slot.Target), scene.NodeB));
+        }
+
+        // A light takes the translate modifier and refuses the scale modifier.
+        private static TreeNode ModifiersOfALightOfB(Scene scene)
+        {
+            LayerOfB(scene, 1).LightManager.AddItem(typeof(LightEntity));
+            var light = Scene.Group<LightsGroup>(scene.LayerNodeOfB(1)).Children[0];
+            light.IsExpanded = true;
+            return Scene.Group<ModifiersGroup>(light);
+        }
+
+        [Fact]
+        public async Task DropBlockAsync_ABlockWithARowThatTheListRefuses_MovesNoRow()
+        {
+            var scene = CreateScene();
+            var modifiers = ModifiersOfALightOfB(scene);
+            var nodes = new[] { Modifier(scene, 0, 0), Modifier(scene, 0, 1) };
+            var items = nodes.Select(node => node.Item!).ToArray();
+            var entity = (Entity)EntitiesOf(scene.LayerOfA(0))[0];
+
+            await scene.Tree.DropBlockAsync(nodes, nodes[0], modifiers, DropPosition.Inside);
+
+            Assert.Equal(items, entity.ModifierManager.ManagerData.Items);
+            Assert.Empty(modifiers.ChildManager!.ManagerData.Items);
+        }
+
+        [Fact]
+        public void SlotsOf_ABlockWithARowThatTheListRefuses_OffersNoSlotOnTheLight()
+        {
+            var scene = CreateScene();
+            var modifiers = ModifiersOfALightOfB(scene);
+            var snapshot = ListTreeSnapshot.Of(scene.Tree.Roots);
+
+            var slots = SlotsOf(snapshot, BlockOf(snapshot, new BlockNodes(new[] { Modifier(scene, 0, 0), Modifier(scene, 0, 1) }, 0)));
+
+            Assert.NotEmpty(slots);
+            Assert.DoesNotContain(slots, slot => ReferenceEquals(slot.ListPlace.List, modifiers.ChildManager));
         }
 
         [Fact]

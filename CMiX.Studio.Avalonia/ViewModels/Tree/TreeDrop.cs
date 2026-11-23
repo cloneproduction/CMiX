@@ -1,7 +1,9 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CMiX.Studio.Avalonia.Services;
 
@@ -46,6 +48,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // Each row lands after the row before it, so the rows keep their tree order. A row that is in its place already does not move.
         public DropBlockMove MoveBlock(TreeNode root, IReadOnlyList<TreeNode> sources, TreeNode target, DropPosition position)
         {
+            if (RefusalOf(sources, target, position) is { } refusal)
+                return new DropBlockMove(Array.Empty<TreeNode>(), refusal);
+
             var moved = new List<TreeNode>();
             var anchor = target;
             var at = position;
@@ -62,6 +67,12 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
             return new DropBlockMove(moved, null);
         }
+
+        // Every row of the block lands in the list of the target, so each row is read against the target before any row moves.
+        private DropRefusal? RefusalOf(IReadOnlyList<TreeNode> sources, TreeNode target, DropPosition position) =>
+            sources
+                .Select(source => dropService.RefusalOf(source, target, position) is { } outcome ? new DropRefusal(source, target, outcome) : null)
+                .FirstOrDefault(refusal => refusal != null);
 
         // A drop in the list of the row that moves nothing and has no reason leaves the row in its place.
         private static TreeNode? StayingNodeOf(TreeNode source, TreeNode anchor, DropPosition position, DropOutcome outcome)

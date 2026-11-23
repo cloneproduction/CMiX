@@ -208,13 +208,40 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 return new DropOutcome(true, new List<IPrefab>());
             }
 
-            // An item of a layer goes to another composition only if no other layer of its composition uses it.
-            if (source.Item is not Layer && !ReferenceEquals(TreeRowOrder.CompositionOf(source), TreeRowOrder.CompositionOf(target))
-                && LayersSharing(source) is { Count: > 0 } sharing)
-                return new DropOutcome(false, sharing.Cast<IPrefab>().ToList());
+            if (SharingOf(source, target) is { Count: > 0 } sharing)
+                return new DropOutcome(false, sharing);
 
             return DropOutcome.From(list.MoveItemToManager(item, owner, index));
         }
+
+        // The outcome of a drop that the rules refuse, read before any move. Null when the item moves or stays in its own list.
+        public DropOutcome? RefusalOf(TreeNode source, TreeNode target, DropPosition position)
+        {
+            if (Resolve(source, target, position) is not { } place)
+                return ReferenceEquals(source.Owner, ListAt(source, target, position)) ? null : DropOutcome.None;
+
+            if (ReferenceEquals(place.List, source.Owner))
+                return null;
+
+            if (SharingOf(source, target) is { Count: > 0 } sharing)
+                return new DropOutcome(false, sharing);
+
+            if (place.List.CanAddExistingItem?.Invoke(source.Item!) == false)
+                return DropOutcome.None;
+
+            return source.Item is IMoveRestricted restricted && restricted.GetItemsBlockingMove(source.Owner!.ManagerData.Items) is { Count: > 0 } blocking
+                ? new DropOutcome(false, blocking)
+                : null;
+        }
+
+        private static PrefabManager? ListAt(TreeNode source, TreeNode target, DropPosition position) =>
+            position == DropPosition.Inside ? InsideOf(source, target).ChildManager : target.Owner;
+
+        // An item of a layer goes to another composition only if no other layer of its composition uses it.
+        private static IReadOnlyList<IPrefab> SharingOf(TreeNode source, TreeNode target) =>
+            source.Item is not Layer && !ReferenceEquals(TreeRowOrder.CompositionOf(source), TreeRowOrder.CompositionOf(target))
+                ? LayersSharing(source).Cast<IPrefab>().ToList()
+                : Array.Empty<IPrefab>();
 
         public string DescribeBlock(TreeNode source, TreeNode target, IReadOnlyList<IPrefab> blocking) =>
             TreeDropText.DescribeBlock(source, target, blocking);

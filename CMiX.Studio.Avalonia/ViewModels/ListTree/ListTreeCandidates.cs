@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         // The real drop refuses a move that shared items block, and a list can refuse an item.
         private bool IsTakenByTheDrop(TreeNode source, ListTreeSlot slot) =>
-            dropService.BlockReason(source, slot.Target) == null && IsFreeFor(source, slot);
+            dropService.RefusalOf(source, slot.Target, slot.Position) == null && IsFreeFor(source, slot);
 
         // A list that has the item already does not take it again, and a row does not land under itself.
         private static bool IsFreeFor(TreeNode source, ListTreeSlot slot)
