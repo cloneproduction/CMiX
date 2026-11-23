@@ -108,7 +108,8 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Contains(Key(scene.LayerNodeOfB(0)), light.PossibleTargets);
             Assert.Contains(Key(layerWithAFilter), light.PossibleTargets);
-            Assert.True(light.IsBright(Key(Scene.Group<FiltersGroup>(layerWithAFilter))));
+            Assert.True(light.IsBright(Key(layerWithAFilter)));
+            Assert.False(light.IsBright(Key(Scene.Group<FiltersGroup>(layerWithAFilter))));
         }
 
         [Fact]

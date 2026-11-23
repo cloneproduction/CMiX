@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             bright.UnionWith(CardsOfLists(targets));
             foreach (var target in targets)
                 if (rows.TryGetValue(target, out var row))
-                    bright.UnionWith(row.Children.Select(child => child.Key));
+                    bright.UnionWith(row.Children.Select(child => child.Key).Where(child => child.Model is not PrefabManager));
 
             return bright;
         }
