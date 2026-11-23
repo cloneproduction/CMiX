@@ -38,6 +38,13 @@
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=SelectionBorder}" />
         </Style>
+        <!-- The drop target: the surface of a hover and no left border. FrameListTreeOutline draws its outline. -->
+        <Style Selector="Views|FrameListTreeCard:droptarget Border#surface">
+            <Setter Property="Background" Value="{DynamicResource ListTreeCardDropTargetBrush}" />
+        </Style>
+        <Style Selector="Views|FrameListTreeCard:droptarget Border#mark">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
     </UserControl.Styles>
 
     <Panel>

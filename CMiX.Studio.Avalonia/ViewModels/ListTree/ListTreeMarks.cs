@@ -5,10 +5,12 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The selected node and the card under the pointer, and what they mean for each row and each card area.
-    public sealed record ListTreeMarks(TreeNode? Selected, TreeNode? HoveredCard)
+    // The selected node, the card under the pointer and the drop target, and what they mean for each row and each card area.
+    public sealed record ListTreeMarks(TreeNode? Selected, TreeNode? HoveredCard, TreeNode? DropTarget)
     {
         public bool IsSelected(TreeNode? node) => node != null && ReferenceEquals(node, Selected);
+
+        public bool IsDropTarget(TreeNode? node) => node != null && ReferenceEquals(node, DropTarget);
 
         public bool IsHoveredCard(TreeNode? node) => node != null && ReferenceEquals(node, HoveredCard);
 

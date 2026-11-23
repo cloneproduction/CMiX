@@ -22,6 +22,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeHints hints;
         private readonly ListTreeMenus menus;
         private readonly ListTreeKeyInput keyInput;
+        private readonly ListTreeFileDropInput fileDrop;
         private readonly ListTreeScreenRequests requests;
         private readonly TreeTooltips tooltips;
         private readonly TreeViewHooks hooks;
@@ -42,6 +43,7 @@ namespace CMiX.Studio.Avalonia.Views
             pointer = new ListTreeLastPointer(this, scroller);
             menus = new ListTreeMenus(scroller, reveal, addBeside, pointer, hints.Update);
             keyInput = new ListTreeKeyInput(scroller, rows, focusKeeper, addBeside, lifetime);
+            fileDrop = new ListTreeFileDropInput(scroller, rows);
             requests = new ListTreeScreenRequests(rows, menus, () => IsActiveView, lifetime);
             hooks = BuildHooks();
             KeyBindingTextGuard.Install(this);
@@ -98,6 +100,7 @@ namespace CMiX.Studio.Avalonia.Views
             pointer.Attach();
             menus.Attach(watched);
             hints.Watch(watched);
+            fileDrop.Attach(watched);
         }
 
         private void Unwatch()
@@ -105,6 +108,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (watched == null)
                 return;
 
+            fileDrop.Detach();
             hints.Unwatch();
             menus.Detach();
             pointer.Detach();

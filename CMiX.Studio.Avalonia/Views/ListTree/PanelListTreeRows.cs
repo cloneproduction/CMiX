@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
-using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
@@ -41,8 +40,8 @@ namespace CMiX.Studio.Avalonia.Views
             AvaloniaProperty.RegisterAttached<PanelListTreeRows, Control, double>("Top");
 
         private readonly ListTreeNodeWatch watch = new();
-        private readonly Dictionary<ListTreeRowKey, RowListTree> rowsByKey = new();
-        private readonly ListTreeCardAreas areas;
+        private readonly ListTreeSurfaces surfaces;
+        private readonly ListTreeRowControls rowControls;
 
         private ListTreeLayout layout = ListTreeLayout.Of(new ListTreeSnapshot(Array.Empty<ListTreeRow>()), ListTreeSizes.Default);
         private bool isAttached;
@@ -55,7 +54,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         public PanelListTreeRows()
         {
-            areas = new ListTreeCardAreas(this);
+            surfaces = new ListTreeSurfaces(this);
+            rowControls = new ListTreeRowControls(this, surfaces);
         }
 
         public IEnumerable<TreeNode>? Roots
@@ -100,11 +100,17 @@ namespace CMiX.Studio.Avalonia.Views
 
         public ListTreeLayout Layout => layout;
 
-        public RowListTree? RowOf(ListTreeRowKey key) => rowsByKey.GetValueOrDefault(key);
+        public RowListTree? RowOf(ListTreeRowKey key) => rowControls.RowOf(key);
 
-        public RowListTree? RowOf(TreeNode node) => rowsByKey.Values.FirstOrDefault(row => ReferenceEquals(row.DataContext, node));
+        public RowListTree? RowOf(TreeNode node) => rowControls.RowOf(node);
 
-        public FrameListTreeCard? CardAreaOf(ListTreeRowKey key) => areas.Areas.FirstOrDefault(area => area.Place?.Key == key);
+        public FrameListTreeCard? CardAreaOf(ListTreeRowKey key) => surfaces.Areas.FirstOrDefault(area => area.Place?.Key == key);
+
+        public FrameListTreeOutline DropOutline => surfaces.Outline;
+
+        public TreeNode? DropTarget => surfaces.DropTarget;
+
+        public void MarkDropTarget(TreeNode? node) => surfaces.MarkDropTarget(node);
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         {
@@ -132,7 +138,7 @@ namespace CMiX.Studio.Avalonia.Views
                 || change.Property == RowGapProperty || change.Property == IndentProperty))
                 Rebuild();
             else if (change.Property == SelectedNodeProperty)
-                ShowMarks();
+                surfaces.Select(SelectedNode);
         }
 
         // One rebuild for a burst of changes, such as a close of all cards.
@@ -157,70 +163,9 @@ namespace CMiX.Studio.Avalonia.Views
             var snapshot = ListTreeSnapshot.Of(roots);
             layout = ListTreeLayout.Of(snapshot, new ListTreeSizes(RowHeight, RowGap, Indent));
             var rows = snapshot.VisibleRows();
-            ShowRows(rows);
-            areas.Show(rows, layout);
-            ShowMarks();
+            rowControls.Show(rows, layout);
+            surfaces.Show(rows, layout);
             InvalidateMeasure();
-        }
-
-        private void ShowRows(IReadOnlyList<ListTreeRow> rows)
-        {
-            foreach (var row in rows)
-                ShowRow(row, layout.PlaceOf(row.Key)!);
-
-            foreach (var key in rowsByKey.Keys.Where(key => layout.PlaceOf(key) == null).ToArray())
-                RemoveRow(key);
-        }
-
-        private void ShowRow(ListTreeRow row, ListTreePlace place)
-        {
-            var control = rowsByKey.GetValueOrDefault(row.Key) ?? AddRow(row.Key, place);
-            control.DataContext = row.Node;
-            control.IconKey = ListTreeIcons.KeyOf(row);
-            control.ItemCount = row.Node.Children.Count;
-            control.Place = place;
-            SetTop(control, place.Y);
-        }
-
-        private void ShowMarks()
-        {
-            var marks = new ListTreeMarks(SelectedNode, HoveredCard());
-            foreach (var control in rowsByKey.Values)
-                control.ShowMarks(marks);
-            areas.ShowMarks(marks);
-        }
-
-        private TreeNode? HoveredCard() =>
-            rowsByKey.Values.FirstOrDefault(control => control.IsPointerOver && control.Place is { CanToggle: true })?.DataContext as TreeNode;
-
-        private void OnRowChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
-        {
-            if (e.Property == IsPointerOverProperty)
-                ShowMarks();
-        }
-
-        // A new row shows at its place at once. Only later moves slide.
-        private RowListTree AddRow(ListTreeRowKey key, ListTreePlace place)
-        {
-            var control = new RowListTree { ZIndex = ListTreeLayers.Row };
-            SetTop(control, place.Y);
-            if (MoveDuration > TimeSpan.Zero)
-                control.Transitions = new Transitions
-                {
-                    new DoubleTransition { Property = TopProperty, Duration = MoveDuration, Easing = Motion.Easing }
-                };
-
-            control.PropertyChanged += OnRowChanged;
-            rowsByKey[key] = control;
-            Children.Add(control);
-            return control;
-        }
-
-        private void RemoveRow(ListTreeRowKey key)
-        {
-            rowsByKey[key].PropertyChanged -= OnRowChanged;
-            Children.Remove(rowsByKey[key]);
-            rowsByKey.Remove(key);
         }
 
         protected override Size MeasureOverride(Size availableSize)
@@ -235,7 +180,7 @@ namespace CMiX.Studio.Avalonia.Views
         protected override Size ArrangeOverride(Size finalSize)
         {
             foreach (var child in Children)
-                child.Arrange(new Rect(0, TopOf(child), finalSize.Width, HeightOf(child)));
+                child.Arrange(child is FrameListTreeOutline outline ? outline.RectIn(finalSize.Width) : new Rect(0, TopOf(child), finalSize.Width, HeightOf(child)));
 
             return finalSize;
         }

@@ -14,6 +14,7 @@ namespace CMiX.Studio.Avalonia.Views
         public const string HoveredClass = ":hovered";
         public const string SelectedClass = ":selected";
         public const string InSelectionClass = ":inselection";
+        public const string DropTargetClass = ":droptarget";
 
         public FrameListTreeCard()
         {
@@ -34,6 +35,7 @@ namespace CMiX.Studio.Avalonia.Views
             PseudoClasses.Set(HoveredClass, marks.IsHoveredCard(node));
             PseudoClasses.Set(SelectedClass, marks.IsSelected(node));
             PseudoClasses.Set(InSelectionClass, marks.IsInSelection(node));
+            PseudoClasses.Set(DropTargetClass, marks.IsDropTarget(node));
         }
     }
 }

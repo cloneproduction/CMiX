@@ -16,6 +16,7 @@ namespace CMiX.Studio.Avalonia.Converters
     {
         public const string HoverBorder = nameof(ListTreeKindColors.HoverBorder);
         public const string SelectionBorder = nameof(ListTreeKindColors.SelectionBorder);
+        public const string DropOutline = nameof(ListTreeKindColors.DropOutline);
 
         private CategoryPalette? palette;
 
@@ -30,6 +31,7 @@ namespace CMiX.Studio.Avalonia.Converters
             {
                 HoverBorder => new ImmutableSolidColorBrush(colors.HoverBorder),
                 SelectionBorder => new ImmutableSolidColorBrush(colors.SelectionBorder),
+                DropOutline => new ImmutableSolidColorBrush(colors.DropOutline),
                 _ => Brushes.Transparent
             };
         }
