@@ -60,25 +60,6 @@ namespace CMiX.Studio.Avalonia.Tests
                 Assert.Equal(node.Item == null && node.Children.Count == 0 ? Grey("Grey300Brush") : ToneOf(node).Fill, FillOf(RowOf(view, node)));
         }
 
-        // A modulator is an item, not a group. It never has children, and it keeps the color of its kind.
-        [AvaloniaFact]
-        public void Show_AModulatorWithNoChildren_HasTheFillOfItsKind()
-        {
-            var scene = CreateScene([1], s => s.Layer.TextureModifierManager.AddItem(typeof(CMiX.Core.Texturing.Filters.Blur)));
-            var blur = (CMiX.Core.Texturing.Filters.Blur)scene.Layer.TextureModifierManager.ManagerData.Items[0];
-            blur.ModulatorManager.AddItem(typeof(CMiX.Core.Modulation.Modulators.RandomModulator));
-            var screen = TreeTestScreen.Show(scene.Tree, 400, 900, instant: false);
-            windows.Add(screen.Window);
-            var modulator = All(scene.Tree.Roots).Single(node => node.Category == TreeCategory.Modulator && node.Item != null);
-            for (var parent = modulator.Parent; parent != null; parent = parent.Parent)
-                parent.IsExpanded = true;
-            scene.Tree.SelectedNode = null;
-            Settle(screen.Window);
-
-            Assert.Empty(modulator.Children);
-            Assert.Equal(ToneOf(modulator).Fill, FillOf(RowOf(screen.View, modulator)));
-        }
-
         [AvaloniaFact]
         public void AddAndRemove_TheOnlyChild_ChangesTheFillBetweenGreyAndTheKind()
         {

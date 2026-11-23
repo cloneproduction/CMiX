@@ -77,10 +77,10 @@ namespace CMiX.Studio.Avalonia.Tests.Support
 
         public static Color FillOf(TreeViewProject view, TreeNode node) => FillOf(RowOf(view, node));
 
-        // The fill that the theme gives to the row of the node for a role: the tone of its kind, or a grey when the node has no children.
+        // The fill that the theme gives to the row of the node for a role: the tone of its kind, or a grey for a group with no children.
         public static Color ExpectedFill(TreeNode node, ToneRole role)
         {
-            if (node.Children.Count > 0)
+            if (node.Item != null || node.Children.Count > 0)
                 return CategoryPalette.FromApplication().For(node.Category!.Value, node.ComposableDepth, node.KindDepth).Of(role);
 
             var key = role switch

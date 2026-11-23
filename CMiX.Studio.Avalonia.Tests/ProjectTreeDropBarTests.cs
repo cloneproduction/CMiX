@@ -105,15 +105,21 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(SeenArea(LineOf(ItemOf(view, group))) > 0, "The bar before the first row is cut.");
         }
 
-        // The last row of the list has rows under it (its group of modulators): the bar after it is at the bottom of the item.
+        // The last entity of the list has rows under it (its modifiers): the bar after it is at the bottom of the item.
         [AvaloniaFact]
         public void DragOver_AfterTheLastRowOfAList_ShowsTheBar()
         {
-            var (view, _, _, group) = Show();
-            var source = group.Children[0];
-            var last = group.Children[2];
+            var (view, _, entity, group) = Show();
+            var entities = group.Parent!.Parent!;
+            var layer = (Layer)entities.Group!.Owner;
+            layer.ModelEntityManager.AddItem(typeof(Entity));
+            layer.ModelEntityManager.MoveItemTo(layer.ModelEntityManager.ManagerData.Items[1], 0);
+            Settle();
+            var source = entities.Children[0];
+            var last = entities.Children[1];
+            Assert.Same(entity, last.Item);
 
-            DragOver(view, source, last.Children[0], 0.9);
+            DragOver(view, source, TreeRowOrder.LastVisible(last), 0.9);
 
             var item = ItemOf(view, last);
             Assert.Same(item, view.Marker.Marked);

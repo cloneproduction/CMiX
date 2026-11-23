@@ -1,6 +1,5 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Modulation.Modifiers;
-using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +26,6 @@ namespace CMiX.Studio.Avalonia.Tests
             layer.TextureModifierManager.AddItem(typeof(Blur));
             var entity = (Entity)layer.ModelEntityManager.ManagerData.Items[0];
             entity.ModifierManager.AddItem(typeof(TranslateModifier));
-            ((CMiX.Core.Modulation.IModulatable)entity.ModifierManager.ManagerData.Items[0]).ModulatorManager.AddItem(typeof(LFOModulator));
             return TreeFixtures.CreateTree(provider);
         }
 
@@ -53,8 +51,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(TreeCategory.Texture, Child<TexturesGroup>(entity).Category);
             Assert.Equal(TreeCategory.Modifier, Child<ModifiersGroup>(entity).Category);
             Assert.Equal(TreeCategory.Modifier, modifier.Category);
-            Assert.Equal(TreeCategory.Modulator, Child<ModulatorsGroup>(modifier).Category);
-            Assert.Equal(TreeCategory.Modulator, Child<ModulatorsGroup>(modifier).Children[0].Category);
         }
 
         [Fact]
@@ -79,7 +75,6 @@ namespace CMiX.Studio.Avalonia.Tests
             var entity = entities.Children[0];
             var modifiers = Child<ModifiersGroup>(entity);
             var modifier = modifiers.Children[0];
-            var modulators = Child<ModulatorsGroup>(modifier);
 
             Assert.Equal(0, composition.KindDepth);
             Assert.Equal(0, layer.KindDepth);
@@ -87,8 +82,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(1, entity.KindDepth);
             Assert.Equal(2, modifiers.KindDepth);
             Assert.Equal(2, modifier.KindDepth);
-            Assert.Equal(3, modulators.KindDepth);
-            Assert.Equal(3, modulators.Children[0].KindDepth);
             Assert.Equal(1, Child<FiltersGroup>(layer).KindDepth);
             Assert.Equal(1, Child<FiltersGroup>(layer).Children[0].KindDepth);
         }

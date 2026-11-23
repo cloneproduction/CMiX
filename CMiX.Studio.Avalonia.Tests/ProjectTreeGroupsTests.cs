@@ -113,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var texture = Assert.Single(Scene.Group<TexturesGroup>(entityNode).Children);
             Assert.IsType<CMiX.Core.Texturing.Sources.Image>(texture.Item);
             Assert.Equal("Texture", texture.IconKey);
-            Assert.Equal(new[] { "Filters", "Modulators" }, Scene.Headers(texture));
+            Assert.Equal(new[] { "Filters" }, Scene.Headers(texture));
         }
 
         [Fact]
@@ -236,7 +236,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Build_AModifierFilterOrTexture_HasAModulatorsGroup()
+        public void Build_AModifierFilterOrTexture_HasNoModulatorChild()
         {
             var scene = CreateScene();
             scene.Layer.TextureModifierManager.AddItem(typeof(Blur));
@@ -254,33 +254,11 @@ namespace CMiX.Studio.Avalonia.Tests
 
             foreach (var node in nodes)
             {
-                var owner = (CMiX.Core.Modulation.IModulatable)node.Item!;
-                owner.ModulatorManager.AddItem(typeof(LFOModulator));
+                ((CMiX.Core.Modulation.IModulatable)node.Item!).ModulatorManager.AddItem(typeof(LFOModulator));
 
-                var group = Scene.Group<ModulatorsGroup>(node);
-                Assert.IsType<ModulatorsGroup>(group.Group);
-                Assert.Same(owner.ModulatorManager, group.ChildManager);
-                var modulator = Assert.Single(group.Children);
-                Assert.IsType<LFOModulator>(modulator.Item);
-                Assert.Equal("Modulator", modulator.IconKey);
-                Assert.Equal("Modulator", group.IconKey);
+                Assert.DoesNotContain(node.Children, child => child.Category == TreeCategory.Modulator || child.Item is IModulator);
+                Assert.DoesNotContain(scene.Tree.GetAddChoices(node), add => add.Header == "Add Modulator");
             }
-        }
-
-        [Fact]
-        public void GetAddChoices_TheGroupOfModulators_OffersAndAddsTheModulators()
-        {
-            var scene = CreateScene();
-            scene.Layer.TextureModifierManager.AddItem(typeof(Blur));
-            var filter = (Blur)scene.Layer.TextureModifierManager.ManagerData.Items[0];
-            var filterNode = Scene.Group<FiltersGroup>(scene.LayerNode).Children[0];
-
-            var adds = OwnChoicesOf(scene.Tree, Scene.Group<ModulatorsGroup>(filterNode));
-
-            Assert.Equal(AddableTypes.ForInterface(typeof(IModulator)).Select(AddableTypes.LabelOf), adds.Select(add => add.Header));
-            adds.Single(add => add.Header == AddableTypes.LabelOf(typeof(LFOModulator))).Execute!();
-            Assert.IsType<LFOModulator>(Assert.Single(filter.ModulatorManager.ManagerData.Items));
-            Assert.Contains(scene.Tree.GetAddChoices(filterNode), add => add.Header == "Add Modulator");
         }
 
         [Fact]
@@ -370,44 +348,14 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Drop_AModulator_MovesItToTheModulatorsOfAnotherItem()
-        {
-            var scene = CreateScene();
-            scene.Layer.TextureModifierManager.AddItem(typeof(Blur));
-            scene.Layer.TextureModifierManager.AddItem(typeof(Blur));
-            var filters = Scene.Group<FiltersGroup>(scene.LayerNode);
-            var first = (Blur)scene.Layer.TextureModifierManager.ManagerData.Items[0];
-            var second = (Blur)scene.Layer.TextureModifierManager.ManagerData.Items[1];
-            first.ModulatorManager.AddItem(typeof(LFOModulator));
-            first.ModulatorManager.AddItem(typeof(RandomModulator));
-            second.ModulatorManager.AddItem(typeof(LFOModulator));
-            var firstGroup = Scene.Group<ModulatorsGroup>(filters.Children[0]);
-            var secondGroup = Scene.Group<ModulatorsGroup>(filters.Children[1]);
-            var service = new TreeDropService();
-
-            // Inside the other group and next to its row.
-            Assert.True(service.CanDrop(firstGroup.Children[0], secondGroup, DropPosition.Inside));
-            Assert.True(service.CanDrop(firstGroup.Children[0], secondGroup.Children[0], DropPosition.Before));
-            Assert.False(service.CanDrop(firstGroup.Children[0], Scene.Group<FiltersGroup>(scene.LayerNode), DropPosition.Inside));
-
-            var moved = firstGroup.Children[0].Item;
-            Assert.True(service.Drop(firstGroup.Children[0], secondGroup.Children[0], DropPosition.Before).Moved);
-            Assert.Same(moved, second.ModulatorManager.ManagerData.Items[0]);
-            Assert.Single(first.ModulatorManager.ManagerData.Items);
-        }
-
-        [Fact]
         public void CanDrag_ARowOrAGroup_IsTrueForTheRowOnly()
         {
             var scene = CreateScene();
             scene.Layer.TextureModifierManager.AddItem(typeof(Blur));
-            var filter = (Blur)scene.Layer.TextureModifierManager.ManagerData.Items[0];
-            filter.ModulatorManager.AddItem(typeof(LFOModulator));
-            var filterNode = Scene.Group<FiltersGroup>(scene.LayerNode).Children[0];
+            var filters = Scene.Group<FiltersGroup>(scene.LayerNode);
 
-            Assert.True(scene.Tree.CanDrag(filterNode));
-            Assert.True(scene.Tree.CanDrag(Scene.Group<ModulatorsGroup>(filterNode).Children[0]));
-            Assert.False(scene.Tree.CanDrag(Scene.Group<ModulatorsGroup>(filterNode)));
+            Assert.True(scene.Tree.CanDrag(filters.Children[0]));
+            Assert.False(scene.Tree.CanDrag(filters));
         }
 
 

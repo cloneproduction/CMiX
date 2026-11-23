@@ -395,25 +395,23 @@ namespace CMiX.Studio.Avalonia.Tests
         public void DoubleClick_AwayFromTheNameOfARowWithoutChildren_DoesNothing()
         {
             var screen = Show();
-            // A row without children: a modulator of a modifier of an entity (the entity, the modifier and its groups have rows under them).
+            // A row without children: a modifier of an entity.
             var layer = screen.A.LayerManager.ManagerData.Items.OfType<Layer>().First();
             layer.ModelEntityManager.AddItem(typeof(Entity));
             var modifiers = ((Entity)layer.ModelEntityManager.ManagerData.Items[0]).ModifierManager;
             modifiers.AddItem(typeof(CMiX.Core.Modulation.Modifiers.TranslateModifier));
-            ((CMiX.Core.Modulation.IModulatable)modifiers.ManagerData.Items[0]).ModulatorManager.AddItem(typeof(CMiX.Core.Modulation.Modulators.LFOModulator));
             Dispatcher.UIThread.RunJobs();
-            var modifierNode = screen.Tree.CompositionNodes()[0].Children[0].Children[0].Children[0].Children[0].Children.Single(group => group.Group is ModifiersGroup).Children[0];
-            var entityNode = modifierNode.Children.Single(group => group.Group is ModulatorsGroup).Children[0];
-            for (var ancestor = entityNode.Parent; ancestor != null; ancestor = ancestor.Parent)
+            var node = screen.Tree.CompositionNodes()[0].Children[0].Children[0].Children[0].Children[0].Children.Single(group => group.Group is ModifiersGroup).Children[0];
+            for (var ancestor = node.Parent; ancestor != null; ancestor = ancestor.Parent)
                 ancestor.IsExpanded = true;
             Dispatcher.UIThread.RunJobs();
-            var entityRow = screen.RowOf(entityNode);
-            var before = entityNode.IsExpanded;
+            var row = screen.RowOf(node);
+            var before = node.IsExpanded;
 
-            DoubleClick(screen, AwayFromTheName(screen, entityRow));
+            DoubleClick(screen, AwayFromTheName(screen, row));
 
-            Assert.False(IsRenaming(NameBoxOf(entityRow)));
-            Assert.Equal(before, entityNode.IsExpanded);
+            Assert.False(IsRenaming(NameBoxOf(row)));
+            Assert.Equal(before, node.IsExpanded);
             Assert.True(screen.RowOf(screen.Tree.CompositionNodes()[0]).IsExpanded);
         }
 

@@ -343,7 +343,6 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 ## 7. Open questions for the owner (Phase 0)
 
 1. Is there more to simplify in the tree, beyond the category rows?
-3. Do the modulators stay in the tree, or move to a project pool first (see the modulation notes)?
 4. Saved projects: `.claude/CLAUDE.md` requires the compatibility test before a model change, an older memory note says old saves may break. Which rule applies to this port?
 5. The hover mark shows all around in the owner's Chrome but not in the browser pane. Check it together before Phase 3.
 6. Expand and collapse: keep an animation (the old `PanelCollapse`), or let the rows move with the same 160 ms row animation?
@@ -353,6 +352,7 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
 stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays; no halo around any icon.
 Decided on 2026-11-23 during Phase 5 (owner):
+- The modulators are not in the tree, in both trees. The inspector of their owner shows and adds them.
 - The kind count squares of both trees show the count in white, not the icon. A missing asset shows the orange Warning icon, not a drawn triangle.
 - An empty category row stays hidden. A new item of an empty list is added from the menu of its card (Add). Empty lists do not show when a card is selected.
 Decided on 2026-11-23 during Phase 4 (owner):

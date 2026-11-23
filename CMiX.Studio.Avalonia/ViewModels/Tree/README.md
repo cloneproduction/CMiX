@@ -1,6 +1,6 @@
 # The project tree
 
-The tree shows the project: compositions, layers, entities, cameras, lights, textures, filters, modifiers and modulators as rows. The user selects, searches, adds, removes, moves and drags rows. This page says how the code is organized. Read it before you change the tree.
+The tree shows the project: compositions, layers, entities, cameras, lights, textures, filters and modifiers as rows. The modulators are not rows: the inspector of their owner shows and adds them. The user selects, searches, adds, removes, moves and drags rows. This page says how the code is organized. Read it before you change the tree.
 
 ## The one pattern
 

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using CMiX.Core;
 using CMiX.Core.Compositing;
-using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Themes;
@@ -17,11 +16,11 @@ namespace CMiX.Studio.Avalonia.Tests
     // Each kind of group gives its header, its icon, its category and the types that its add menu offers.
     public class TreeGroupTests
     {
-        // A layer has the groups of a layer, the filters and the modifiers. An entity has textures. A modifier has modulators.
+        // A layer has the groups of a layer, the filters and the modifiers. An entity has textures.
         private static TreeGroup GroupOfKind(Type kind)
         {
             var factory = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
-            var owners = new IControl[] { factory.Create(typeof(Layer)), factory.Create(typeof(Entity)), factory.Create(typeof(TranslateModifier)) };
+            var owners = new IControl[] { factory.Create(typeof(Layer)), factory.Create(typeof(Entity)) };
             return owners.SelectMany(TreeGroup.GroupsOf).First(group => group.GetType() == kind);
         }
 
@@ -32,7 +31,6 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData(typeof(TexturesGroup))]
         [InlineData(typeof(FiltersGroup))]
         [InlineData(typeof(ModifiersGroup))]
-        [InlineData(typeof(ModulatorsGroup))]
         public void Members_EveryKind_GiveAHeaderAKnownIconACategoryAndTypesThatTheOwnerCanHold(Type kind)
         {
             StudioIcons.Register();

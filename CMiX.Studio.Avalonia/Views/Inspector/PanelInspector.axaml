@@ -7,7 +7,6 @@
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
-    xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Tree="clr-namespace:CMiX.Studio.Avalonia.ViewModels.Tree"
@@ -132,14 +131,6 @@
                         <Views:ModifierManager Caption="Add Filter" Margin="8" DataContext="{Binding Manager}">
                             <Views:ModifierManager.AddContent>
                                 <Managers:PanelAddTypes Interface="{x:Type Filters:ITextureFilter}" />
-                            </Views:ModifierManager.AddContent>
-                        </Views:ModifierManager>
-                    </DataTemplate>
-
-                    <DataTemplate DataType="{x:Type Tree:ModulatorsGroup}">
-                        <Views:ModifierManager Caption="Add Modulator" Margin="8" DataContext="{Binding Manager}">
-                            <Views:ModifierManager.AddContent>
-                                <Managers:PanelAddTypes Interface="{x:Type Modulators:IModulator}" />
                             </Views:ModifierManager.AddContent>
                         </Views:ModifierManager>
                     </DataTemplate>

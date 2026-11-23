@@ -54,7 +54,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(TreeCategory.Texture, new TexturesGroup(entity, entity.Texture.DiffuseTexture.TextureManager).Category);
             Assert.Equal(TreeCategory.Filter, new FiltersGroup(layer, layer.TextureModifierManager).Category);
             Assert.Equal(TreeCategory.Modifier, new ModifiersGroup(entity, entity.ModifierManager).Category);
-            Assert.Equal(TreeCategory.Modulator, new ModulatorsGroup(entity, entity.ModifierManager).Category);
         }
 
         [AvaloniaFact]

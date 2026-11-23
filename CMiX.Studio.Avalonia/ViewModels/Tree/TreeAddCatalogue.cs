@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CMiX.Core;
 using CMiX.Core.Compositing;
-using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
@@ -56,7 +55,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 Held(TreeCategory.Texture, AddableTypes.ForInterface(typeof(ITextureSource))),
                 Held(TreeCategory.Filter, AddableTypes.ForInterface(typeof(ITextureFilter))),
                 Held(TreeCategory.Modifier, AddableTypes.AllModifiers()),
-                Held(TreeCategory.Modulator, AddableTypes.ForInterface(typeof(IModulator))),
                 new TreeAddGroup("group.project", "Project", TreeCategory.Composable,
                     new[] { Entry(TreeAddIds.Composition, "Composition", TreeCategory.Composable) }),
             };

@@ -7,8 +7,6 @@ using System.Linq;
 using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Modulation;
-using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
@@ -60,9 +58,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
             if (owner is IModifiable modified && modified.ModifierManager is { } modifiers)
                 groups.Add(new ModifiersGroup(owner, modifiers));
-
-            if (owner is IModulatable modulated && modulated.ModulatorManager is { } modulators)
-                groups.Add(new ModulatorsGroup(owner, modulators));
 
             if (owner is Layer layer)
             {
@@ -193,17 +188,5 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public override string IconKey => TreeIcons.ModifierKey;
         public override TreeCategory Category => TreeCategory.Modifier;
         public override IReadOnlyList<Type> AddableTypes => Tree.AddableTypes.ForOwner(OwnerType);
-    }
-
-    public sealed class ModulatorsGroup : TreeGroup
-    {
-        public const string Title = "Modulators";
-
-        public ModulatorsGroup(IControl owner, PrefabManager manager) : base(owner, manager) { }
-
-        public override string Header => Title;
-        public override string IconKey => TreeIcons.ModulatorKey;
-        public override TreeCategory Category => TreeCategory.Modulator;
-        public override IReadOnlyList<Type> AddableTypes => Tree.AddableTypes.ForInterface(typeof(IModulator));
     }
 }

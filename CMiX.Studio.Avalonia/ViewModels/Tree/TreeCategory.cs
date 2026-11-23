@@ -57,7 +57,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             (TreeCategory.Modifier, true) => "Modifier",
             (TreeCategory.Modifier, false) => ModifiersGroup.Title,
             (TreeCategory.Modulator, true) => "Modulator",
-            _ => ModulatorsGroup.Title
+            _ => "Modulators"
         };
     }
 }

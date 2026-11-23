@@ -1,5 +1,4 @@
 using CMiX.Core.Compositing;
-using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing.Filters;
@@ -18,7 +17,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // cannot take is there, not enabled. What a node can take comes from the interfaces of the node.
     public class ProjectTreeAddGroupsTests
     {
-        private static readonly string[] AllGroups = { "Layer", "Content", "Texture", "Filter", "Modifier", "Modulator", "Project" };
+        private static readonly string[] AllGroups = { "Layer", "Content", "Texture", "Filter", "Modifier", "Project" };
 
         // A composition with two layers.
         private static Scene CreateScene() => TreeFixtures.CreateScene([2]);
@@ -87,7 +86,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Empty(Enabled(groups, "Texture"));
             Assert.Equal(AddableTypes.ForInterface(typeof(ITextureFilter)).Count, EnabledCount(groups, "Filter"));
             Assert.Equal(AddableTypes.ForOwner(typeof(Composition)).Count, EnabledCount(groups, "Modifier"));
-            Assert.Empty(Enabled(groups, "Modulator"));
             Assert.Equal(new[] { "Composition" }, Enabled(groups, "Project"));
         }
 
@@ -142,14 +140,14 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void GetAddGroups_AFilterNode_EnablesTheModulators()
+        public void GetAddGroups_AFilterNode_HasNoModulatorGroup()
         {
             var scene = SceneWithContent();
             var filter = Scene.Group<FiltersGroup>(scene.LayerNode).Children[0];
 
             var groups = scene.Tree.GetAddGroups(filter);
 
-            Assert.Equal(AddableTypes.ForInterface(typeof(IModulator)).Count, EnabledCount(groups, "Modulator"));
+            Assert.DoesNotContain(groups, group => group.Category == TreeCategory.Modulator || group.Header == "Modulator");
         }
 
         [Fact]
@@ -209,7 +207,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.All(GroupOf(groups, "Filter").Items, item => Assert.Equal(TreeCategory.Filter, item.Category));
             Assert.All(GroupOf(groups, "Modifier").Items, item => Assert.Equal(TreeCategory.Modifier, item.Category));
             Assert.All(GroupOf(groups, "Texture").Items, item => Assert.Equal(TreeCategory.Texture, item.Category));
-            Assert.All(GroupOf(groups, "Modulator").Items, item => Assert.Equal(TreeCategory.Modulator, item.Category));
         }
 
         [Fact]

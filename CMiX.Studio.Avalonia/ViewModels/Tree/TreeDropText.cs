@@ -62,7 +62,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private static string ItemName(IControl item)
         {
             var name = item.GetType().Name;
-            foreach (var suffix in new[] { "Modifier", "Modulator", "Filter" })
+            foreach (var suffix in new[] { "Modifier", "Filter" })
                 if (name.Length > suffix.Length && name.EndsWith(suffix, StringComparison.Ordinal))
                     return name[..^suffix.Length];
 
