@@ -71,6 +71,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal ListTreeRowDrag RowDrag => Context.Part<ListTreeRowDrag>();
 
+        internal ListTreeAutoScroll AutoScroll => Context.Part<ListTreeAutoScroll>();
+
         internal TreeHintMode HintMode => Context.Part<ListTreeHints>().Mode;
 
         protected override void OnDataContextChanged(EventArgs e)

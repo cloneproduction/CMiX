@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -29,6 +30,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private IPointer? pointer;
         private Cursor? cursorBefore;
         private ListTreePoint lastPoint = new(0, 0);
+        private Point lastInScroller;
         private TreeNode? resting;
 
         public bool IsDragging => drag != null;
@@ -43,6 +45,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         private ScrollViewer Scroller => Context.Scroller;
 
+        private ListTreeAutoScroll AutoScroll => Part<ListTreeAutoScroll>();
+
         protected override void OnWatch(ProjectTree attached)
         {
             tree = attached;
@@ -52,6 +56,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Scroller.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble, handledEventsToo: true);
             Scroller.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
             Scroller.AddHandler(InputElement.KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
+            Scroller.ScrollChanged += OnScrollChanged;
         }
 
         protected override void OnUnwatch()
@@ -62,6 +67,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Scroller.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
             Scroller.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
             Scroller.RemoveHandler(InputElement.KeyDownEvent, OnKeyDownTunnel);
+            Scroller.ScrollChanged -= OnScrollChanged;
             restTimer.Tick -= OnRested;
             tree = null;
         }
@@ -89,8 +95,12 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void OnPointerMoved(object? sender, PointerEventArgs e)
         {
             var point = PointOf(e);
+            lastInScroller = e.GetPosition(Scroller);
             if (drag != null)
+            {
                 Track(point);
+                AutoScroll.Track(lastInScroller.Y);
+            }
             else if (pressed is { } press && pick.HasPassedThreshold(press.Press, point))
                 Begin(press, e.Pointer, point);
         }
@@ -190,6 +200,13 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             }
         }
 
+        // A scroll moves the rows under a pointer that stays still.
+        private void OnScrollChanged(object? sender, ScrollChangedEventArgs e)
+        {
+            if (drag != null)
+                Track(new ListTreePoint(lastInScroller.X - Rows.Bounds.X, lastInScroller.Y + Scroller.Offset.Y - Rows.Bounds.Y));
+        }
+
         private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e) => Cancel();
 
         private void OnKeyDownTunnel(object? sender, KeyEventArgs e)
@@ -206,6 +223,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         {
             drag = null;
             Rest(null);
+            AutoScroll.Stop();
             Rows.ShowLiveTree();
             ShowNote(null);
             tree?.EndDrag();

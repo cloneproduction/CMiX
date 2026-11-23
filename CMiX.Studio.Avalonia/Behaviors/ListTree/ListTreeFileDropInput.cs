@@ -70,6 +70,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             e.Handled = true;
             e.DragEffects = DragDropEffects.None;
             Rows.MarkDropTarget(null);
+            Part<ListTreeAutoScroll>().Track(e.GetPosition(Host).Y);
             if (tree is not { } shown || FilesOf(e) is not { IsAccepted: true })
                 return;
 
@@ -82,8 +83,11 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void OnDragLeave(object? sender, DragEventArgs e)
         {
             Rows.MarkDropTarget(null);
-            if (DropFiles.LeavesControl(Host, e))
-                dropFiles = null;
+            if (!DropFiles.LeavesControl(Host, e))
+                return;
+
+            dropFiles = null;
+            Part<ListTreeAutoScroll>().Stop();
         }
 
         private void OnDrop(object? sender, DragEventArgs e)
@@ -93,6 +97,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
             e.Handled = true;
             Rows.MarkDropTarget(null);
+            Part<ListTreeAutoScroll>().Stop();
             var files = FilesOf(e);
             dropFiles = null;
             if (tree is { } shown && files != null)
