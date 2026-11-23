@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modulation chain</title>
+<!-- Mockup: a modulator chain with inputs and outputs, in the pool, the inspector and a parameter menu. Static. It links the kit and copies nothing. -->
+<link rel="stylesheet" href="../tokens.css">
+<style>
+    /* The fallbacks are the token values, for a viewer that cannot load tokens.css. */
+    :root {
+        --bg: var(--Grey100, #0F0F12); --p1: var(--Grey200, #212124); --p2: var(--Grey300, #2B2B2E); --p3: var(--Grey400, #363639);
+        --ink: var(--Text, #E0E0E0); --mute: var(--ShortcutText, #85858C);
+        --mod: var(--CategoryModulator, #AD8DFD); --ext: var(--ModulatorExternal, #DF8605);
+        --tfx: var(--CategoryTexture, #73BB43); --mdf: var(--CategoryModifier, #22B5E1);
+        --mono: var(--FontFamilyMono, Consolas, monospace); --sans: "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 400 12px/18px var(--sans); }
+    main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { margin: 0 0 4px; font: 700 20px/26px var(--sans); }
+    .lead { margin: 0 0 16px; color: var(--mute); max-width: 760px; font-size: 13px; }
+    .app { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 6px; }
+    @media (max-width: 900px) { .app { grid-template-columns: 1fr; } }
+    .panel { background: var(--p1); border-radius: 2px; min-height: 420px; }
+    .title { padding: 6px 10px; background: var(--p2); font-weight: 600; display: flex; justify-content: space-between; }
+    .title small { color: var(--mute); font-weight: 400; }
+    .sec { padding: 8px 10px 2px; color: var(--mute); text-transform: uppercase; font-size: 10px; letter-spacing: .08em; }
+    .item { padding: 4px 10px; display: flex; gap: 8px; align-items: center; }
+    .item.sel { background: var(--p3); box-shadow: inset 3px 0 var(--mod); }
+    .sub { padding: 2px 10px 2px 30px; color: var(--mute); display: flex; justify-content: space-between; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--mod); flex: none; }
+    .row { display: grid; grid-template-columns: 90px 70px 1fr; gap: 8px; align-items: center; padding: 4px 10px; position: relative; }
+    .row.o { grid-template-columns: 90px 1fr 1fr; }
+    .val { background: var(--p3); border-radius: 2px; padding: 1px 6px; font-family: var(--mono); text-align: right; }
+    .val.m { box-shadow: inset 0 -2px var(--mod); }
+    .val.x { box-shadow: inset 0 -2px var(--ext); }
+    .src { color: var(--mute); font-size: 11px; }
+    .src b { font-weight: 400; color: var(--mod); }
+    .src b.x { color: var(--ext); }
+    .meter { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+    .meter i { display: block; height: 100%; background: var(--mod); }
+    .tag { font-size: 11px; padding: 0 6px; border-radius: 2px; color: #111; }
+    .tag.t { background: var(--tfx); } .tag.d { background: var(--mdf); }
+    .btn { margin: 12px 10px; display: inline-block; padding: 3px 12px; background: var(--p3); border-radius: 2px; }
+    .hd { padding: 4px 10px; color: #111; font-weight: 600; }
+    .hd.d { background: var(--mdf); }
+    .menu { position: absolute; z-index: 2; background: var(--p2); border: 1px solid #000; border-radius: 2px; box-shadow: 0 6px 16px #0008; min-width: 150px; padding: 3px 0; }
+    .menu div { padding: 3px 12px; display: flex; justify-content: space-between; gap: 16px; }
+    .menu .on { background: var(--p3); }
+    .menu hr { border: 0; border-top: 1px solid var(--p3); margin: 3px 0; }
+    .menu .k { color: var(--mute); }
+    .notes { margin-top: 16px; color: var(--mute); max-width: 760px; font-size: 13px; line-height: 20px; padding-left: 18px; }
+    .notes b { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+<h1>Modulator chain: inputs and outputs</h1>
+<p class="lead">Static mockup. On the left is the pool, in the middle the inspector of the selected chain, and on the right a modifier where the user assigns an output.</p>
+
+<div class="app">
+  <!-- Pool -->
+  <div class="panel">
+    <div class="title">Modulation pool <small>3</small></div>
+    <div class="sec">Chains</div>
+    <div class="item sel"><span class="dot"></span>Beat FX</div>
+    <div class="sub"><span>Pulse</span><span>2 links</span></div>
+    <div class="sub"><span>Breath</span><span>1 link</span></div>
+    <div class="sub"><span>Jitter</span><span>-</span></div>
+    <div class="item"><span class="dot"></span>Slow Drift</div>
+    <div class="sub"><span>Out</span><span>1 link</span></div>
+    <div class="item"><span class="dot"></span>LFO 1</div>
+    <div class="sub"><span>Out</span><span>-</span></div>
+    <div class="sec">Sources</div>
+    <div class="item"><span class="dot" style="background:var(--ext)"></span>MIDI CC 21</div>
+    <div class="item"><span class="dot" style="background:var(--ext)"></span>Line In 1</div>
+  </div>
+
+  <!-- Chain inspector -->
+  <div class="panel">
+    <div class="title">Beat FX <small>modulator chain</small></div>
+    <div class="sec">Inputs</div>
+    <div class="row"><span>Speed</span><span class="val x">1.00</span><span class="src">driven by <b class="x">MIDI CC 21</b></span></div>
+    <div class="row"><span>Intensity</span><span class="val m">0.70</span><span class="src">driven by <b>Slow Drift</b> x 0.30</span></div>
+    <div class="row"><span>Swing</span><span class="val">0.20</span><span class="src">hand value</span></div>
+    <div class="row"><span>Audio</span><span class="val">Line In 1 ▾</span><span class="src"></span></div>
+    <div class="sec">Outputs</div>
+    <div class="row o"><span>Pulse</span><span class="meter"><i style="width:72%"></i></span><span class="src"><span class="tag t">Layer 1 . Blur</span> <span class="tag t">Layer 2 . Glow</span></span></div>
+    <div class="row o"><span>Breath</span><span class="meter"><i style="width:38%"></i></span><span class="src"><span class="tag d">Cube . Size</span></span></div>
+    <div class="row o"><span>Jitter</span><span class="meter"><i style="width:86%"></i></span><span class="src">no link</span></div>
+    <span class="btn">Open chain</span>
+  </div>
+
+  <!-- Modifier inspector with the open menu -->
+  <div class="panel" style="position:relative">
+    <div class="title">Cube <small>entity</small></div>
+    <div class="hd d">Modifier Scale</div>
+    <div class="row"><span>Size</span><span class="val m">1.00</span><span class="src">Beat FX . <b>Breath</b> x 0.50</span></div>
+    <div class="row"><span>Count</span><span class="val">8</span><span class="src"></span></div>
+    <div class="row"><span>Mode</span><span class="val">Spread ▾</span><span class="src"></span></div>
+    <div class="hd d" style="margin-top:8px">Modifier Rotate</div>
+    <div class="row"><span>Angle</span><span class="val" style="outline:1px solid var(--ink)">0.00</span><span class="src">right-click</span></div>
+
+    <div class="menu" style="left:96px; top:178px; min-width:130px">
+      <div class="on">Modulate with <span class="k">▸</span></div>
+      <div>MIDI learn</div>
+      <hr><div>Reset</div>
+    </div>
+    <div class="menu" style="left:228px; top:178px; min-width:130px">
+      <div class="on">Beat FX <span class="k">▸</span></div>
+      <div>Slow Drift <span class="k">▸</span></div>
+      <div>LFO 1 <span class="k">▸</span></div>
+      <hr><div>New LFO</div><div>New Envelope</div>
+    </div>
+    <div class="menu" style="left:360px; top:178px; min-width:96px">
+      <div>Pulse</div><div>Breath</div><div class="on">Jitter</div>
+    </div>
+  </div>
+</div>
+
+<ol class="notes">
+  <li><b>Pool.</b> Each chain shows its outputs and how many links each output has. External sources such as MIDI have their own colour.</li>
+  <li><b>Inputs.</b> They are normal parameters. A hand value, a MIDI fader or another chain can drive each one. The line under a value shows what drives it.</li>
+  <li><b>Outputs.</b> Each output shows its live level and the targets it drives, with the colour of the target kind.</li>
+  <li><b>Assign.</b> Right-click a parameter, then Modulate with, the chain, the output. Here the user links Beat FX . Jitter to the Angle of Modifier Rotate.</li>
+</ol>
+</main>
+</body>
+</html>

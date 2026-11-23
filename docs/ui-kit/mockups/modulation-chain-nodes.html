@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modulation chain nodes</title>
+<!-- Mockup: the graph of one modulator chain. Colour option A: one colour for each category of node (source, generator, shaper, math), after Bitwig Grid.
+     A cable has the colour of the node it comes from. A node has no colour at rest, hover and selection bring it to the outline, the icon and the pins.
+     Superseded by modulation-chain-depth.html. It links the kit and copies nothing. -->
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../cmix.css">
+<link rel="stylesheet" href="../canvas.css">
+<script src="../tokens.js"></script>
+<script src="../icons.js"></script>
+<script src="../cmix.js"></script>
+<script src="../canvas.js"></script>
+<style>
+    /* Proposed tokens, not in CMiX yet: GraphCanvas, GraphGrid, GraphPin. The state surfaces are the tree mixes over the node surface. */
+    :root {
+        --g: 24px;
+        --GraphCanvas: #17171A; --GraphGrid: var(--Grey200); --GraphPin: #808083;
+        /* Proposal, not tokens: one colour for each category of node, after Bitwig Grid. A graph has no indent, so the cables carry the structure:
+           they show their colour at rest. Blue stays for interaction and purple for "modulator", so no category uses them. Math is neutral. */
+        --cat-source: #EAD070; --cat-generator: #73DFDF; --cat-shaper: #D472AC; --cat-math: #A6A6AC;
+        --node: var(--PanelBackgroundLevel2Brush);
+        --node-hover: #363638;
+        --text-name: #B6B6BB;
+        --warn: var(--PopupCardWarning); --danger: var(--PopupCardDanger);
+    }
+    .bar { position: fixed; left: 0; right: 0; top: 0; height: 44px; display: flex; align-items: center; gap: 12px; padding: 0 12px; background: var(--PanelBackgroundLevel1Brush); }
+    .bar .ttl { display: flex; flex-direction: column; line-height: 17px; }
+    .bar .ttl b { font-size: 12px; font-weight: 600; color: var(--ActiveText); }
+    .bar .ttl b i { font-style: normal; font-weight: 400; color: var(--text-name); margin-right: 6px; }
+    .bar .ttl span { font-size: 11px; color: var(--text-name); }
+    .bar .tools { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+    .bar .tools .Button, .bar .tools .ToggleButtonCaptioned { width: auto; padding: 0 10px; height: 24px; }
+    main[data-canvas] { top: 44px; right: 230px; background: var(--GraphCanvas); }
+    [data-world] {
+        width: 864px; height: 456px;
+        background-image: linear-gradient(var(--GraphGrid) 1px, transparent 1px), linear-gradient(90deg, var(--GraphGrid) 1px, transparent 1px);
+        background-size: calc(var(--g) * 4) calc(var(--g) * 4);
+    }
+    .zone { position: absolute; font-size: 10px; font-weight: 600; letter-spacing: .08em; color: var(--text-name); }
+
+    /* A node: no edge and no shadow. The surface tells the state, as in the tree. */
+    .md { --c: var(--cat-generator); position: absolute; display: flex; flex-direction: column; background: var(--node); border-radius: var(--CornerRadiusAll, 2px); color: var(--text-name); }
+    .md.source { --c: var(--cat-source); } .md.shaper { --c: var(--cat-shaper); } .md.math { --c: var(--cat-math); }
+    /* Hover and selection draw a full outline 2 px outside the node, as the drop target of the tree: 70 % of the category colour on hover, full on selection. The surface does not change. */
+    .md.hover { outline: 1.5px solid color-mix(in srgb, var(--c) 70%, transparent); outline-offset: 2px; color: var(--TreeTextRest); }
+    .md.sel { outline: 1.5px solid var(--c); outline-offset: 2px; color: var(--ActiveText); }
+    /* A node is one surface: the header has no tint. At rest a node has no colour at all: the icon and the pins are grey.
+       As in the tree, hover and selection bring the category colour in fixed steps: the icon at 70 % and then full, with the outline and the pins. */
+    .md > .hd { color: var(--TreeTextRest); height: var(--g); display: flex; align-items: center; gap: 6px; padding: 0 8px 0 10px; font-size: 12px; font-weight: 600; cursor: grab; }
+    .md.sel > .hd { color: var(--ActiveText); }
+    .md { --ic: var(--text-name); } .md.hover { --ic: color-mix(in srgb, var(--c) 70%, var(--text-name)); } .md.sel { --ic: var(--c); }
+    .md > .hd .AppIcon { width: 14px; height: 14px; color: var(--ic); fill: var(--ic); }
+    .md > .hd small { margin-left: auto; font-size: 10px; font-weight: 400; color: var(--text-name); }
+    .drag { z-index: 2; }
+    .rw { position: relative; height: var(--g); display: flex; align-items: center; padding: 0 8px 0 10px; gap: 6px; font-size: 11px; }
+    .rw > div { flex: 1; }
+    /* Every control in a node is one cell high: the kit gives a ComboBox its height from outside, as in the gallery. */
+    .rw > .ComboBox { height: var(--g); }
+    .rw .lbl { color: var(--text-name); }
+    .md.sel .rw .lbl { color: var(--TreeTextRest); }
+    /* A port row: the input on the left and the output on the right of the same row, as in Bitwig Grid. The controls come below. */
+    .rw.disp { height: calc(var(--g) * 2); padding-top: 2px; padding-bottom: 6px; }
+    .scope { flex: 1; height: 100%; border-radius: var(--CornerRadiusAll, 2px); background: var(--Grey100Brush); }
+    .scope svg { display: block; width: 100%; height: 100%; }
+
+    /* A compact node: a symbol, a plain word, and short port names. */
+    .md.mini { justify-content: center; align-items: center; cursor: grab; }
+    .md.mini .sym { font-size: 18px; line-height: 1; color: var(--ic); }
+    .md.mini .cap { font-size: 10px; color: var(--text-name); margin-top: 3px; }
+    .md.mini .pl { position: absolute; font-size: 10px; color: var(--text-name); transform: translateY(-50%); }
+
+    /* A pin: the shape of its type. Number: circle. Count: square. On/off or hit: diamond. Sound: a pill.
+       A pin has always the exact colour of its cable, at the same strength: 65 % at rest, 82 % on hover, full on selection. An open pin is grey. */
+    .pt { --ty: var(--TreeTextRest); --t: var(--GraphPin); position: absolute; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--t); z-index: 1; }
+    .pt.i { left: -5px; } .pt.o { right: -5px; }
+    .pt.on { --t: color-mix(in srgb, var(--ty) 65%, var(--GraphCanvas)); }
+    .pt.half { --t: color-mix(in srgb, var(--ty) 82%, var(--GraphCanvas)); }
+    .pt.lit { --t: var(--ty); }
+    /* During a cable drag: the pins that can take the cable are white and larger, the others grey, and a node with no such pin dims its text. */
+    .wiring .pt.ok { --t: var(--ActiveText); transform: scale(1.25); }
+    .wiring .pt:not(.ok) { --t: var(--Grey700); }
+    .wiring .md:not(.has-ok) { color: #9A9A9F; }
+    /* A larger area under the pointer for the tooltip. */
+    .pt::after { content: ""; position: absolute; inset: -5px; }
+    .pt.int { border-radius: 1px; }
+    .pt.bool { border-radius: 1px; transform: rotate(45deg) scale(.85); }
+    .pt.audio { width: 12px; height: 6px; margin-top: -3px; border-radius: 3px; }
+    .pt.audio.i { left: -7px; } .pt.audio.o { right: -7px; }
+
+    /* A port node is a tree item: a coloured square with a white arrow at the outer end, then the name. No value.
+       The two colours are the ones CMiX already uses on a modulatable value: ModulatorExternal (orange) means "the outside drives this", ModulatorInternal (purple) means "a modulator drives this". An input is driven from outside, an output is a modulator for the rest of the project. */
+    .io { --k: var(--ModulatorExternal); position: absolute; height: var(--g); display: flex; align-items: center; gap: 6px; padding: 0 9px; border-radius: var(--CornerRadiusAll, 2px); background: var(--node-hover); font-size: 12px; font-weight: 600; color: var(--text-name); white-space: nowrap; cursor: grab; }
+    .io.out { --k: var(--ModulatorInternal); }
+    /* The square is one cell high. It steps up with the state: 55 %, 80 %, full. The surface of the node does not change. */
+    .io { --sq: color-mix(in srgb, var(--k) 55%, var(--node-hover)); }
+    .io.hover { --sq: color-mix(in srgb, var(--k) 80%, var(--node-hover)); color: var(--TreeTextRest); }
+    .io.sel { --sq: var(--k); color: var(--ActiveText); }
+    .io.in { padding-left: 0; }
+    .io.out { padding-right: 0; flex-direction: row-reverse; justify-content: flex-start; }
+    .io .AppIcon { flex: none; width: var(--g); height: var(--g); padding: 5px; border-radius: var(--CornerRadiusAll, 2px); background: var(--sq); color: var(--ActiveText); fill: var(--ActiveText); }
+    .io.in .AppIcon { margin-right: 3px; } .io.out .AppIcon { margin-left: 3px; }
+    .io.in > .pt { right: -5px; } .io.out > .pt { left: -5px; }
+    .io.in > .pt.audio { right: -7px; } .io.out > .pt.audio { left: -7px; }
+
+    /* Cables, after TiXL: flat runs that turn near the input with small bends. A cable has the colour of the node it comes from:
+       65 % at rest, 82 % for the hovered node, full and thicker for the selected node. A Math node passes on the colour of its first input. */
+    #wires { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+    #wires path { fill: none; stroke: color-mix(in srgb, var(--ty) 65%, var(--GraphCanvas)); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    #wires .half { stroke: color-mix(in srgb, var(--ty) 82%, var(--GraphCanvas)); }
+    #wires .sel { stroke: var(--ty); stroke-width: 3; }
+
+    /* The undo notice of the tree. */
+    /* The legend on the canvas: the graph colours are a local legend, so they explain themselves where they show. */
+    .legend { position: fixed; top: 52px; left: 12px; display: flex; gap: 12px; align-items: center; padding: 4px 10px; border-radius: var(--CornerRadiusAll, 2px); background: var(--PanelBackgroundLevel1Brush); font-size: 11px; color: var(--TreeTextRest); z-index: 5; }
+    .legend span { display: flex; align-items: center; gap: 5px; }
+    .legend .AppIcon { width: 12px; height: 12px; color: var(--c); fill: var(--c); }
+    .legend b { width: 12px; text-align: center; color: var(--c); }
+    .legend .AppIcon.sq { width: 14px; height: 14px; padding: 2px; border-radius: var(--CornerRadiusAll, 2px); background: var(--c); color: var(--ActiveText); fill: var(--ActiveText); }
+    .toast { position: fixed; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 10px; padding: 6px 8px 6px 12px; border-radius: var(--CornerRadiusAll, 2px); background: var(--PanelBackgroundLevel3Brush); font-size: 12px; color: var(--TreeTextRest); z-index: 5; }
+    .toast .Button { width: auto; padding: 0 10px; height: 22px; }
+
+    .side { position: fixed; top: 44px; right: 0; bottom: 0; width: 230px; padding: 10px; overflow-y: auto; background: var(--PanelBackgroundLevel1Brush); }
+    .side h3 { margin: 0 0 6px; font-size: 12px; font-weight: 600; color: var(--ActiveText); }
+    .side h4 { margin: 12px 0 4px; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-name); }
+    .side .row { position: relative; display: flex; align-items: center; gap: 6px; height: 24px; padding: 0 4px; border-radius: 2px; font-size: 12px; color: var(--TreeTextRest); }
+    .side .row .AppIcon { width: 12px; height: 12px; color: var(--text-name); fill: var(--text-name); }
+    .side .row .n { width: 12px; color: var(--text-name); text-align: right; }
+    .side .row .t { margin-left: auto; color: var(--text-name); font-size: 11px; }
+    .side .row .pt { position: static; margin: 0 4px 0 2px; flex: none; box-shadow: none; transform: none; }
+    .side .row .pt.bool { transform: rotate(45deg) scale(.85); }
+    .side .row small { color: var(--text-name); font-size: 11px; margin-left: 4px; }
+    .side p { margin: 12px 0 0; font-size: 11px; color: var(--text-name); line-height: 17px; }
+</style>
+</head>
+<body class="cmix">
+<div class="bar">
+  <div class="ttl"><b><i>Modulation</i>Beat FX</b><span>Pulses on the kick, breathes with Speed.</span></div>
+  <div class="tools">
+    <button class="Button">Back to saved</button>
+    <button class="ToggleButtonCaptioned checked" data-caption="Edit"></button>
+  </div>
+</div>
+
+<main data-canvas="auto">
+<div data-world>
+  <svg id="wires"></svg>
+  <span class="zone" style="left:24px;top:54px">IN</span>
+  <span class="zone" style="left:720px;top:54px">OUT</span>
+
+  <div class="io in" data-canvas-live data-x="1" data-y="4" data-w="5"><i class="AppIcon" data-icon-key="ArrowRight"></i>Speed<i class="pt" id="inSpeed" data-tooltip="Speed" data-tooltip-description="Number"></i></div>
+  <div class="io in" data-canvas-live data-x="1" data-y="10" data-w="5"><i class="AppIcon" data-icon-key="ArrowRight"></i>Audio<i class="pt audio" id="inAudio" data-tooltip="Audio" data-tooltip-description="Sound"></i></div>
+  <div class="io in" data-canvas-live data-x="1" data-y="12" data-w="5"><i class="AppIcon" data-icon-key="ArrowRight"></i>Intensity<i class="pt" id="inInt" data-tooltip="Intensity" data-tooltip-description="Number"></i></div>
+
+  <div class="md gen sel" data-canvas-live data-x="10" data-y="1" data-w="8">
+    <div class="hd"><i class="AppIcon" data-icon-key="Modulator"></i>LFO<small>generator</small></div>
+    <div class="rw disp"><div class="scope"><svg viewBox="0 0 160 40" preserveAspectRatio="none">
+      <path d="M0 20 C20 0 20 0 40 20 S60 40 80 20 S100 0 120 20 S140 40 160 20" fill="none" stroke="var(--TreeTextRest)" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+      <line x1="67" y1="2" x2="67" y2="38" stroke="var(--ActiveText)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+    </svg></div></div>
+    <div class="rw"><i class="pt i" id="lfoRate" data-tooltip="Rate" data-tooltip-description="Number"></i><div class="DragValueInlineCaption" data-caption="Rate" data-value="0.25"></div><i class="pt o" id="lfoOut" data-tooltip="Phase" data-tooltip-description="Number"></i></div>
+    <div class="rw"><div class="ComboBox"><div class="ComboBoxItem">Sine</div><div class="ComboBoxItem">Saw</div></div><i class="pt o int" id="lfoCycles" data-tooltip="Cycles" data-tooltip-description="Count"></i></div>
+    <div class="rw"><div class="DragValueInlineCaption" data-caption="Offset" data-value="0"></div><i class="pt o bool" id="lfoGate" data-tooltip="Gate" data-tooltip-description="On/off"></i></div>
+  </div>
+
+  <div class="md source" data-canvas-live data-x="10" data-y="9" data-w="8">
+    <div class="hd"><i class="AppIcon" data-icon-key="Beat"></i>Kick<small>source</small></div>
+    <div class="rw disp"><i class="pt i audio" id="kickIn" data-tooltip="Sound" data-tooltip-description="Sound"></i><div class="scope"><svg viewBox="0 0 160 40" preserveAspectRatio="none">
+      <path d="M0 38 L4 6 C14 30 24 36 40 38 L44 6 C54 30 64 36 80 38 L84 6 C94 30 104 36 120 38 L124 6 C134 30 144 36 160 38" fill="none" stroke="var(--TreeTextRest)" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+      <line x1="0" y1="14" x2="160" y2="14" stroke="var(--text-name)" stroke-dasharray="3 3" stroke-width="1" vector-effect="non-scaling-stroke"/>
+    </svg></div></div>
+    <div class="rw"><i class="pt i" id="kickGain" data-tooltip="Gain" data-tooltip-description="Number"></i><div class="DragValueInlineCaption" data-caption="Gain" data-value="0.7"></div><i class="pt o" id="kickOut" data-tooltip="Envelope" data-tooltip-description="Number"></i></div>
+    <div class="rw"><div class="DragValueInlineCaption" data-caption="Decay" data-value="0.12"></div><i class="pt o bool" id="kickHit" data-tooltip="Hit" data-tooltip-description="On/off"></i></div>
+  </div>
+
+  <div class="md math mini" data-canvas-live data-x="22" data-y="2" data-w="3" data-h="3">
+    <span class="sym">×</span><span class="cap">Multiply</span>
+    <i class="pt i" id="mulA" data-tooltip="A" data-tooltip-description="Number"></i>
+    <i class="pt i" id="mulB" data-tooltip="B" data-tooltip-description="Number"></i>
+    <i class="pt o" id="mulOut" data-tooltip="A x B" data-tooltip-description="Number"></i>
+  </div>
+
+  <div class="md shaper" data-canvas-live data-x="20" data-y="9" data-w="6">
+    <div class="hd"><i class="AppIcon" data-icon-key="Filter"></i>Smooth<small>shaper</small></div>
+    <div class="rw"><i class="pt i" id="smIn" data-tooltip="In" data-tooltip-description="Number"></i><div class="DragValueInlineCaption" data-caption="Time" data-value="0.08"></div><i class="pt o" id="smOut" data-tooltip="Out" data-tooltip-description="Number"></i></div>
+  </div>
+
+  <div class="md math mini" data-canvas-live data-x="22" data-y="11" data-w="3" data-h="3">
+    <span class="sym">#</span><span class="cap">Count to 4</span>
+    <i class="pt i bool" id="cntIn" data-tooltip="Trigger" data-tooltip-description="On/off"></i>
+    <i class="pt o int" id="cntOut" data-tooltip="Step" data-tooltip-description="Count"></i>
+  </div>
+
+  <div class="io out" data-canvas-live data-x="30" data-y="3" data-w="5"><i class="AppIcon" data-icon-key="ArrowRight"></i>Breath<i class="pt" id="outBreath" data-tooltip="Breath" data-tooltip-description="Number"></i></div>
+  <div class="io out" data-canvas-live data-x="30" data-y="10" data-w="5"><i class="AppIcon" data-icon-key="ArrowRight"></i>Pulse<i class="pt" id="outPulse" data-tooltip="Pulse" data-tooltip-description="Number"></i></div>
+  <div class="io out" data-canvas-live data-x="30" data-y="12" data-w="5"><i class="AppIcon" data-icon-key="ArrowRight"></i>Step<i class="pt int" id="outStep" data-tooltip="Step" data-tooltip-description="Count"></i></div>
+</div>
+</main>
+
+<div class="legend">
+  <span style="--c:var(--cat-source)"><i class="AppIcon" data-icon-key="Beat"></i>Source</span>
+  <span style="--c:var(--cat-generator)"><i class="AppIcon" data-icon-key="Modulator"></i>Generator</span>
+  <span style="--c:var(--cat-shaper)"><i class="AppIcon" data-icon-key="Filter"></i>Shaper</span>
+  <span style="--c:var(--cat-math)"><b>×</b>Math</span>
+  <span style="--c:var(--ModulatorExternal)"><i class="AppIcon sq" data-icon-key="ArrowRight"></i>In, from outside</span>
+  <span style="--c:var(--ModulatorInternal)"><i class="AppIcon sq" data-icon-key="ArrowRight"></i>Out, a modulator</span>
+</div>
+
+<div class="toast">Moved Kick.<button class="Button">Undo</button></div>
+
+<aside class="side">
+  <h3>Ports of Beat FX</h3>
+  <h4>In</h4>
+  <div class="row"><i class="AppIcon" data-icon-key="DragHandle"></i><span class="n">1</span>Speed<span class="t">Number</span></div>
+  <div class="row"><i class="AppIcon" data-icon-key="DragHandle"></i><span class="n">2</span>Audio<span class="t">Sound</span></div>
+  <div class="row"><i class="AppIcon" data-icon-key="DragHandle"></i><span class="n">3</span>Intensity<span class="t">Number</span></div>
+  <h4>Out</h4>
+  <div class="row"><i class="AppIcon" data-icon-key="DragHandle"></i><span class="n">1</span>Breath<span class="t">2 uses</span></div>
+  <div class="row"><i class="AppIcon" data-icon-key="DragHandle"></i><span class="n">2</span>Pulse<span class="t">1 use</span></div>
+  <div class="row"><i class="AppIcon" data-icon-key="DragHandle"></i><span class="n">3</span>Step<span class="t">no use</span></div>
+  <p>The order of this list is the order on the canvas and outside the chain.</p>
+  <p>A graph has no indent, so the cables carry the structure. Each cable has the colour of the node it comes from, as in Bitwig Grid: you follow the cyan of the LFO to Breath and the yellow of the Kick to Step. A Math node is neutral and passes on the colour of its first input. Blue stays for interaction.</p>
+  <p>Inputs and outputs use the two modulator colours of CMiX. An input is orange, the colour of "the outside drives this", and so are its cables: you follow a MIDI fader into the chain. An output is purple, the colour of "a modulator drives this": it leaves the chain as a modulator.</p>
+  <p>The states work as in the tree: point at a node or a port to hover it, press it to select it, press the empty canvas to clear. At rest a node has no colour: one grey surface and a grey icon. Its pins always have the exact colour of their cables. Hover and selection bring its category colour in fixed steps of brightness and saturation: icon and pins at 70 % then full, with the outline. Cables keep their colour at rest to show the flow: 65 %, 82 %, then full and thicker. Port nodes: the square at 55 %, 80 %, full. The surface of a node never changes: only the outline, the icon, the pins and the cables show the state.</p>
+  <p>Everything sits on the grid of 24: a control is one cell high, a display two, and a node is a whole number of cells. The pins of one side spread evenly from the top to the bottom of the node, each on the centre of a cell, so a cable between two pins at the same height is straight. A node has no port names: point at a pin to read them.</p>
+</aside>
+
+<script>
+(function () {
+    var G = 24;
+    var world = document.querySelector('[data-world]');
+    var svg = document.getElementById('wires');
+    // from, to, type
+    var links = [
+        ['inSpeed', 'lfoRate', 'float'], ['inAudio', 'kickIn', 'audio'], ['inInt', 'kickGain', 'float'], ['inInt', 'mulB', 'float'],
+        ['lfoOut', 'mulA', 'float'], ['mulOut', 'outBreath', 'float'], ['kickOut', 'smIn', 'float'], ['smOut', 'outPulse', 'float'],
+        ['kickHit', 'cntIn', 'bool'], ['cntOut', 'outStep', 'int']
+    ];
+    Array.prototype.forEach.call(document.querySelectorAll('.md, .io'), function (n) {
+        n.style.left = n.dataset.x * G + 'px';
+        n.style.top = n.dataset.y * G + 'px';
+        n.style.width = n.dataset.w * G + 'px';
+        if (n.dataset.h) n.style.height = n.dataset.h * G + 'px';
+    });
+    // A pin sits on the centre of a cell. The pins of one side spread evenly from the top to the bottom of the node.
+    Array.prototype.forEach.call(document.querySelectorAll('.md'), function (n) {
+        var cells = Math.round(n.offsetHeight / G);
+        ['i', 'o'].forEach(function (side) {
+            var pins = n.querySelectorAll('.pt.' + side);
+            Array.prototype.forEach.call(pins, function (p, k) {
+                var cell = Math.floor((k + 0.5) / pins.length * cells);
+                n.appendChild(p);
+                p.style.top = (cell + 0.5) * G + 'px';
+            });
+        });
+    });
+    function scale() { return world.getBoundingClientRect().width / world.offsetWidth || 1; }
+    function point(id) {
+        var w = world.getBoundingClientRect(), p = document.getElementById(id).getBoundingClientRect(), s = scale();
+        return { x: (p.left + p.width / 2 - w.left) / s, y: (p.top + p.height / 2 - w.top) / s };
+    }
+    // After TiXL: the cable runs flat from the output and turns near the input. The bends are small, as the corners of CMiX.
+    function route(a, b) {
+        var dy = b.y - a.y;
+        if (Math.abs(dy) < 1) return 'M' + a.x + ' ' + a.y + ' H' + b.x;
+        var s = dy > 0 ? 1 : -1, lead = 28;
+        var tx = Math.max(a.x + 4, b.x - lead), r = Math.max(2, Math.min(5, Math.abs(dy) / 2, tx - a.x, b.x - tx));
+        return 'M' + a.x + ' ' + a.y + ' H' + (tx - r) + ' C' + (tx - r * 0.45) + ' ' + a.y + ' ' + tx + ' ' + (a.y + s * r * 0.55) + ' ' + tx + ' ' + (a.y + s * r)
+            + ' V' + (b.y - s * r) + ' C' + tx + ' ' + (b.y - s * r * 0.55) + ' ' + (tx + r * 0.45) + ' ' + b.y + ' ' + (tx + r) + ' ' + b.y + ' H' + b.x;
+    }
+    // The colour of a cable: the category colour of the node it leaves. A Math node passes on the colour of the cable into its first input,
+    // as an untyped port in Bitwig. A cable from a chain input has the external colour: the outside drives it.
+    function colourFrom(pinId) {
+        var node = document.getElementById(pinId).closest('.md');
+        if (!node) return 'var(--ModulatorExternal)';
+        if (node.classList.contains('math')) {
+            var inputs = Array.prototype.map.call(node.querySelectorAll('.pt.i'), function (p) { return p.id; });
+            for (var i = 0; i < inputs.length; i++) {
+                var into = links.filter(function (l) { return l[1] === inputs[i]; })[0];
+                if (into) return colourFrom(into[0]);
+            }
+        }
+        return getComputedStyle(node).getPropertyValue('--c').trim();
+    }
+    var rank = { on: 1, half: 2, lit: 3 };
+    function draw() {
+        Array.prototype.forEach.call(world.querySelectorAll('.pt'), function (p) { p.classList.remove('on', 'half', 'lit'); });
+        svg.innerHTML = links.map(function (l) {
+            var d = route(point(l[0]), point(l[1]));
+            var a = document.getElementById(l[0]), b = document.getElementById(l[1]);
+            var st = a.closest('.sel') || b.closest('.sel') ? 'lit' : a.closest('.hover') || b.closest('.hover') ? 'half' : 'on';
+            var colour = colourFrom(l[0]);
+            // A connected pin has the colour of its cable at the same strength. The strongest cable wins.
+            [a, b].forEach(function (p) {
+                var now = ['lit', 'half', 'on'].filter(function (c) { return p.classList.contains(c); })[0];
+                if (now && rank[now] >= rank[st]) return;
+                p.classList.remove('on', 'half', 'lit'); p.classList.add(st); p.style.setProperty('--ty', colour);
+            });
+            return '<path class="' + (st === 'lit' ? 'sel' : st === 'half' ? 'half' : '') + '" style="--ty:' + colour + '" d="' + d + '"/>';
+        }).join('');
+    }
+    // Hover follows the pointer, as in the tree. A press on a node selects it. A press on the empty canvas clears the selection.
+    var hovered = null;
+    function setHover(n) {
+        if (n === hovered) return;
+        if (hovered) hovered.classList.remove('hover');
+        hovered = n;
+        if (n) n.classList.add('hover');
+        draw();
+    }
+    world.addEventListener('pointerover', function (e) { setHover(e.target.closest('.md, .io')); });
+    world.addEventListener('pointerleave', function () { setHover(null); });
+    document.querySelector('main').addEventListener('pointerdown', function (e) {
+        var n = e.target.closest('.md, .io');
+        Array.prototype.forEach.call(world.querySelectorAll('.sel'), function (s) { if (s !== n) s.classList.remove('sel'); });
+        if (n) n.classList.add('sel');
+        draw();
+    }, true);
+    document.addEventListener('pointerdown', function (e) {
+        var grip = e.target.closest('.md > .hd, .md.mini, .io');
+        if (!grip || e.target.closest('.DragValueInlineCaption, .ComboBox')) return;
+        var n = grip.classList.contains('io') || grip.classList.contains('mini') ? grip : grip.parentElement;
+        var s = scale(), x0 = e.clientX, y0 = e.clientY, l0 = n.offsetLeft, t0 = n.offsetTop;
+        grip.setPointerCapture(e.pointerId);
+        n.classList.add('drag');
+        function move(p) {
+            n.style.left = Math.max(0, Math.round((l0 + (p.clientX - x0) / s) / G)) * G + 'px';
+            n.style.top = Math.max(0, Math.round((t0 + (p.clientY - y0) / s) / G)) * G + 'px';
+            draw();
+        }
+        function up() { n.classList.remove('drag'); grip.removeEventListener('pointermove', move); grip.removeEventListener('pointerup', up); }
+        grip.addEventListener('pointermove', move);
+        grip.addEventListener('pointerup', up);
+    });
+    window.addEventListener('load', function () { draw(); requestAnimationFrame(draw); });
+    document.addEventListener('visibilitychange', draw);
+    addEventListener('resize', draw);
+    addEventListener('wheel', function () { requestAnimationFrame(draw); }, { passive: true });
+})();
+</script>
+</body>
+</html>
