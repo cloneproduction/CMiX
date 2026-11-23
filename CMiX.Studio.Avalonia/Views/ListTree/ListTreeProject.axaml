@@ -9,6 +9,7 @@
 
     <!-- The behaviors watch the tree in this order. -->
     <i:Interaction.Behaviors>
+        <tree:ListTreeViewStateInput />
         <tree:ListTreeLastPointer />
         <tree:ListTreeEndRoom />
     </i:Interaction.Behaviors>

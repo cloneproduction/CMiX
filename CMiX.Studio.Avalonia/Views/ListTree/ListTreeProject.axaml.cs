@@ -14,7 +14,6 @@ namespace CMiX.Studio.Avalonia.Views
     // The screen hub of the new tree. It builds its parts and attaches them to the tree while the view is in the visual tree.
     public partial class ListTreeProject : UserControl
     {
-        private readonly ListTreeViewStateInput stateInput;
         private readonly ListTreeFocusKeeper focusKeeper;
         private readonly ListTreePressFocus pressFocus;
         private readonly ListTreeRowClick rowClick;
@@ -39,7 +38,6 @@ namespace CMiX.Studio.Avalonia.Views
             var lifetime = Context.Lifetime;
             focusKeeper = new ListTreeFocusKeeper(this, rows, lifetime);
             pressFocus = new ListTreePressFocus(rows, Context.Focus, focusKeeper, lifetime);
-            stateInput = new ListTreeViewStateInput(this, Context.Focus, Context.State);
             rowClick = new ListTreeRowClick(scroller, rows, pressFocus);
             hints = new ListTreeHints(this, hintStrip, Context.Focus, Context.MenuOpen, lifetime);
             addBeside = new ListTreeAddBeside(rows, focusKeeper, Context.AddPanel, hints.Update, lifetime);
@@ -107,7 +105,6 @@ namespace CMiX.Studio.Avalonia.Views
             if (watched == null)
                 return;
 
-            stateInput.Attach();
             watched.AttachView(hooks);
             requests.Watch(watched);
             focusKeeper.Attach(watched);
@@ -137,7 +134,6 @@ namespace CMiX.Studio.Avalonia.Views
             focusKeeper.Detach();
             requests.Unwatch();
             watched.DetachView(hooks);
-            stateInput.Detach();
         }
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)

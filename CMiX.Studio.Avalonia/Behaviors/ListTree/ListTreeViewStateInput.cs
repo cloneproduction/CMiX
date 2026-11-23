@@ -5,36 +5,25 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using CMiX.Studio.Avalonia.ViewModels.ListTree;
+using CMiX.Studio.Avalonia.ViewModels.Tree;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // The new tree pushes its pointer and its focus into ListTreeViewState on its own events and on the focus events of its window.
-    internal sealed class ListTreeViewStateInput
+    internal sealed class ListTreeViewStateInput : ListTreeBehavior
     {
-        private readonly Control owner;
-        private readonly ListTreeFocus focus;
-        private readonly ListTreeViewState state;
-
         private TopLevel? window;
 
-        public ListTreeViewStateInput(Control owner, ListTreeFocus focus, ListTreeViewState state)
+        protected override void OnWatch(ProjectTree tree)
         {
-            this.owner = owner;
-            this.focus = focus;
-            this.state = state;
-        }
-
-        public void Attach()
-        {
-            owner.PropertyChanged += OnOwnerChanged;
-            AttachWindow(TopLevel.GetTopLevel(owner));
+            Context.Owner.PropertyChanged += OnOwnerChanged;
+            AttachWindow(TopLevel.GetTopLevel(Context.Owner));
             Push();
         }
 
-        public void Detach()
+        protected override void OnUnwatch()
         {
-            owner.PropertyChanged -= OnOwnerChanged;
+            Context.Owner.PropertyChanged -= OnOwnerChanged;
             AttachWindow(null);
         }
 
@@ -57,6 +46,9 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void Push()
         {
+            var owner = Context.Owner;
+            var focus = Context.Focus;
+            var state = Context.State;
             state.IsPointerOverTree = owner.IsPointerOver;
             state.IsTreeFocused = owner.IsKeyboardFocusWithin;
             state.IsTextBoxFocused = focus.IsTextBoxFocused();
