@@ -36,6 +36,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         public TreeNode? DropTarget => dropTarget;
 
+        public FrameListTreeCard? CardAreaOf(ListTreeRowKey key) => areas.FirstOrDefault(area => area.Place?.Key == key);
+
         public void Show(IReadOnlyList<ListTreeRow> rows, ListTreeLayout shown)
         {
             panel.Children.RemoveAll(areas);

@@ -37,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Host.RemoveHandler(DragDrop.DragOverEvent, OnDragOver);
             Host.RemoveHandler(DragDrop.DragLeaveEvent, OnDragLeave);
             Host.RemoveHandler(DragDrop.DropEvent, OnDrop);
-            Rows.MarkDropTarget(null);
+            Rows.Surfaces.MarkDropTarget(null);
             dropFiles = null;
             tree = null;
         }
@@ -69,20 +69,20 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
             e.Handled = true;
             e.DragEffects = DragDropEffects.None;
-            Rows.MarkDropTarget(null);
+            Rows.Surfaces.MarkDropTarget(null);
             Part<ListTreeAutoScroll>().Track(e.GetPosition(Host).Y);
             if (tree is not { } shown || FilesOf(e) is not { IsAccepted: true })
                 return;
 
             e.DragEffects = DragDropEffects.Copy;
             if (NodeOf(e.Source) is { } hovered && shown.IsPathTarget(hovered))
-                Rows.MarkDropTarget(hovered);
+                Rows.Surfaces.MarkDropTarget(hovered);
         }
 
         // A leave of one row inside the tree keeps the record.
         private void OnDragLeave(object? sender, DragEventArgs e)
         {
-            Rows.MarkDropTarget(null);
+            Rows.Surfaces.MarkDropTarget(null);
             if (!DropFiles.LeavesControl(Host, e))
                 return;
 
@@ -96,7 +96,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
 
             e.Handled = true;
-            Rows.MarkDropTarget(null);
+            Rows.Surfaces.MarkDropTarget(null);
             Part<ListTreeAutoScroll>().Stop();
             var files = FilesOf(e);
             dropFiles = null;

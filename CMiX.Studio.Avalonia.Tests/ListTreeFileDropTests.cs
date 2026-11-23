@@ -139,20 +139,20 @@ namespace CMiX.Studio.Avalonia.Tests
             var data = FilesOf(NewFile("one.png"));
 
             Drag(RowPoint(Shown.LayerNode), data, RawDragEventType.DragOver);
-            Assert.Same(Shown.LayerNode, Rows.DropTarget);
+            Assert.Same(Shown.LayerNode, Rows.Surfaces.DropTarget);
 
             Drag(RowPoint(Entities), data, RawDragEventType.DragOver);
-            Assert.Same(Entities, Rows.DropTarget);
+            Assert.Same(Entities, Rows.Surfaces.DropTarget);
 
             Drag(RowPoint(TextureModifiers), data, RawDragEventType.DragOver);
-            Assert.Null(Rows.DropTarget);
+            Assert.Null(Rows.Surfaces.DropTarget);
 
             Drag(RowPoint(Shown.CompositionNode), data, RawDragEventType.DragOver);
-            Assert.Same(Shown.CompositionNode, Rows.DropTarget);
+            Assert.Same(Shown.CompositionNode, Rows.Surfaces.DropTarget);
 
             Drag(UnderTheRows(), data, RawDragEventType.DragOver);
-            Assert.Null(Rows.DropTarget);
-            Assert.False(Rows.DropOutline.IsVisible);
+            Assert.Null(Rows.Surfaces.DropTarget);
+            Assert.False(Rows.Surfaces.Outline.IsVisible);
         }
 
         [AvaloniaFact]
@@ -164,13 +164,13 @@ namespace CMiX.Studio.Avalonia.Tests
             Drag(RowPoint(layer), FilesOf(NewFile("one.png")), RawDragEventType.DragOver);
 
             var place = Rows.Layout.PlaceOf(ListTreeKeys.Of(layer))!;
-            var outline = Rows.DropOutline;
+            var outline = Rows.Surfaces.Outline;
             Assert.True(outline.IsVisible);
             Assert.Equal(new Rect(place.Indent - 2, place.Y - 2, Rows.Bounds.Width - place.Indent + 4, place.AreaHeight + 4), outline.Bounds);
             Assert.Equal(new Thickness(1.5), outline.BorderThickness);
             var expected = CategoryPalette.FromApplication().ForListTree(layer.Category!.Value, layer.ComposableDepth).DropOutline;
             Assert.Equal(expected, ((ISolidColorBrush)outline.BorderBrush!).Color);
-            Assert.Contains(FrameListTreeCard.DropTargetClass, Rows.CardAreaOf(ListTreeKeys.Of(layer))!.Classes);
+            Assert.Contains(FrameListTreeCard.DropTargetClass, Rows.Surfaces.CardAreaOf(ListTreeKeys.Of(layer))!.Classes);
         }
 
         [AvaloniaFact]
@@ -183,8 +183,8 @@ namespace CMiX.Studio.Avalonia.Tests
             window!.DragDrop(new Point(-10, -10), RawDragEventType.DragLeave, data, DragDropEffects.Copy);
             Dispatcher.UIThread.RunJobs();
 
-            Assert.Null(Rows.DropTarget);
-            Assert.False(Rows.DropOutline.IsVisible);
+            Assert.Null(Rows.Surfaces.DropTarget);
+            Assert.False(Rows.Surfaces.Outline.IsVisible);
         }
 
         [AvaloniaFact]

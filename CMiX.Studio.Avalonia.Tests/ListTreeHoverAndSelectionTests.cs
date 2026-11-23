@@ -50,7 +50,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
 
-        private FrameListTreeCard AreaOf(TreeNode node) => Assert.IsType<FrameListTreeCard>(view.Rows.CardAreaOf(ListTreeKeys.Of(node)));
+        private FrameListTreeCard AreaOf(TreeNode node) => Assert.IsType<FrameListTreeCard>(view.Rows.Surfaces.CardAreaOf(ListTreeKeys.Of(node)));
 
         private static Border Named(Control root, string name) => root.GetVisualDescendants().OfType<Border>().First(border => border.Name == name);
 
@@ -149,7 +149,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.All(view.Rows.Layout.Places, place => Assert.False(view.Rows.RowOf(place.Key)!.IsPointerOver));
             Assert.Equal(Colors.Transparent, FillOf(row.Background));
             Assert.All(view.Rows.Layout.Places.Where(place => place.CanToggle),
-                place => Assert.Equal(Colors.Transparent, FillOf(view.Rows.CardAreaOf(place.Key)!.Surface.Background)));
+                place => Assert.Equal(Colors.Transparent, FillOf(view.Rows.Surfaces.CardAreaOf(place.Key)!.Surface.Background)));
         }
 
         [AvaloniaFact]

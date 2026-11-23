@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Threading;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.UI.Themes;
@@ -46,9 +45,9 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly ListTreeSurfaces surfaces;
         private readonly ListTreeRowControls rowControls;
         private readonly ListTreeShownLayout shown;
+        private readonly ListTreeRebuildQueue rebuildQueue;
 
         private bool isAttached;
-        private bool isRebuildPosted;
 
         static PanelListTreeRows()
         {
@@ -60,6 +59,7 @@ namespace CMiX.Studio.Avalonia.Views
             surfaces = new ListTreeSurfaces(this);
             rowControls = new ListTreeRowControls(this, surfaces);
             shown = new ListTreeShownLayout(rowControls, surfaces);
+            rebuildQueue = new ListTreeRebuildQueue(RebuildWhenAttached);
         }
 
         public IEnumerable<TreeNode>? Roots
@@ -116,13 +116,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         public RowListTree? RowOf(TreeNode node) => rowControls.RowOf(node);
 
-        public FrameListTreeCard? CardAreaOf(ListTreeRowKey key) => surfaces.Areas.FirstOrDefault(area => area.Place?.Key == key);
-
-        public FrameListTreeOutline DropOutline => surfaces.Outline;
-
-        public TreeNode? DropTarget => surfaces.DropTarget;
-
-        public void MarkDropTarget(TreeNode? node) => surfaces.MarkDropTarget(node);
+        internal ListTreeSurfaces Surfaces => surfaces;
 
         public void ShowDrag(ListTreeDragLook look)
         {
@@ -136,7 +130,7 @@ namespace CMiX.Studio.Avalonia.Views
                 return;
 
             shown.EndDrag();
-            if (isRebuildPosted)
+            if (rebuildQueue.IsPosted)
                 ApplyTreeChanges();
             else
                 ShowArrangement();
@@ -175,25 +169,14 @@ namespace CMiX.Studio.Avalonia.Views
                 surfaces.SelectAlso(SelectedNodes ?? Array.Empty<TreeNode>());
         }
 
-        // One rebuild for a burst of changes, such as a close of all cards.
-        private void OnTreeChanged(object? sender, EventArgs e)
-        {
-            if (isRebuildPosted)
-                return;
-
-            isRebuildPosted = true;
-            Dispatcher.UIThread.Post(ApplyTreeChanges);
-        }
+        private void OnTreeChanged(object? sender, EventArgs e) => rebuildQueue.Post();
 
         private void OnHiddenChanged(object? sender, EventArgs e) => surfaces.ShowMarks();
 
-        // A part that needs the new places at once, such as a reveal or a scroll anchor, runs the posted rebuild now.
-        public void ApplyTreeChanges()
-        {
-            if (!isRebuildPosted)
-                return;
+        public void ApplyTreeChanges() => rebuildQueue.Run();
 
-            isRebuildPosted = false;
+        private void RebuildWhenAttached()
+        {
             if (isAttached)
                 Rebuild();
         }

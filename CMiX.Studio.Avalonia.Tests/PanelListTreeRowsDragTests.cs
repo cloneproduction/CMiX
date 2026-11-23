@@ -180,9 +180,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var target = scene.LayerNodeOfA(1);
             Show(LookOf(Entity(0), candidate => IsInside(candidate, target)));
 
-            Assert.Same(target, Panel.DropTarget);
-            Assert.True(Panel.DropOutline.IsVisible);
-            Assert.Equal(ListTreeKeys.Of(target), Panel.DropOutline.Place!.Key);
+            Assert.Same(target, Panel.Surfaces.DropTarget);
+            Assert.True(Panel.Surfaces.Outline.IsVisible);
+            Assert.Equal(ListTreeKeys.Of(target), Panel.Surfaces.Outline.Place!.Key);
         }
 
         [AvaloniaFact]
@@ -191,8 +191,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var look = Show(LookOf(Entity(0), candidate => candidate.Slot.Position == DropPosition.After && ReferenceEquals(candidate.Slot.Target, Entity(1))));
 
             Assert.True(look.Holder.IsSameParent);
-            Assert.Null(Panel.DropTarget);
-            Assert.False(Panel.DropOutline.IsVisible);
+            Assert.Null(Panel.Surfaces.DropTarget);
+            Assert.False(Panel.Surfaces.Outline.IsVisible);
         }
 
         [AvaloniaFact]
@@ -218,7 +218,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.All(Panel.Layout.Places, place => Assert.Equal(place.Y, PanelListTreeRows.GetTop(RowOf(place.Key))));
             Assert.All(Panel.Layout.Places, place => Assert.DoesNotContain(RowListTree.DimmedClass, RowOf(place.Key).Classes));
-            Assert.Null(Panel.DropTarget);
+            Assert.Null(Panel.Surfaces.DropTarget);
             Assert.True(RowOf(ListTreeKeys.Of(selected)).IsSelected);
         }
     }
