@@ -323,7 +323,7 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 | Step | Work | Complexity |
 |---|---|---|
 | 5.1 | Option E in the snapshot of the new control (4.3). `ProjectTreeGroupsTests` stays as it is. | 3 |
-| 5.2 | The panel, Add and Hide jobs of a category row in the inspector of its owner (only after the owner answers question 2). | 4 |
+| 5.2 | Done with no code: the Add row of a card already lists every group the card can hold (`ProjectTreeAddGroupsTests`). A category row has no Hide or panel of its own. | - |
 
 ### Phase 6: compare and close the plan
 
@@ -343,7 +343,6 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 ## 7. Open questions for the owner (Phase 0)
 
 1. Is there more to simplify in the tree, beyond the category rows?
-2. Where do the panel, Add and Hide jobs of a category row go: sections in the inspector of the owner, or somewhere else? Is Hide for a whole list still needed?
 3. Do the modulators stay in the tree, or move to a project pool first (see the modulation notes)?
 4. Saved projects: `.claude/CLAUDE.md` requires the compatibility test before a model change, an older memory note says old saves may break. Which rule applies to this port?
 5. The hover mark shows all around in the owner's Chrome but not in the browser pane. Check it together before Phase 3.
@@ -353,6 +352,8 @@ owner), `docs/views-audit-2026-11-20.md` (theme 3 for the tree).
 
 Decided on 2026-11-23 and removed from this list: the rest delay is 500 ms; a drop selects the dropped item; the cards opened during a drag
 stay open; the click rules of 3.5; the UI kit is not updated during the port; the old view stays; no halo around any icon.
+Decided on 2026-11-23 during Phase 5 (owner):
+- An empty category row stays hidden. A new item of an empty list is added from the menu of its card (Add). Empty lists do not show when a card is selected.
 Decided on 2026-11-23 during Phase 4 (owner):
 - No undo notice in the new tree (owner): no message after a drop, a hide or a remove from the new tree. Step 4.4 is removed. The app's own notice of the shared commands (remove, Hide key) is not part of this plan and stays as it is.
 - Alt copy during a drag is skipped for now. The old tree never had it; a copy is Shift+D, then a drag. It needs a model operation "copy to a list place" as one undo step before it can come back.
