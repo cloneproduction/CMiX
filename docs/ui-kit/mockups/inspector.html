@@ -51,23 +51,30 @@
     .section { background: var(--level1); padding: 12px; display: flex; flex-direction: column; gap: 4px; margin-bottom: 3px; }
     .section .cap { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-rest); margin-bottom: 4px; }
     /* A group: one header of 32 px, as a tree row. The kind icon, the name, and a summary when it is closed. */
-    .group { margin-bottom: 3px; }
+    /* A group is one card, as in the tree: hover marks its full height, the header and the open body together, with a 3 px left bar at 45 %. */
+    .group { position: relative; margin-bottom: 3px; border-radius: 2px; }
+    .group::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 2px 0 0 2px; z-index: 1; pointer-events: none; }
+    .group:hover::before { background: color-mix(in srgb, var(--k) 45%, transparent); }
+    .group:hover > .gh { color: var(--TreeTextRest); }
     .gh { height: 32px; display: flex; align-items: center; gap: 8px; padding: 0 12px; background: color-mix(in srgb, #fff 5%, var(--level0)); color: var(--text-rest); font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 2px; }
     .gh .AppIcon { width: 14px; height: 14px; }
     .gh .sum { margin-left: auto; font-size: 11px; font-weight: 400; color: var(--text-rest); }
-    .gh:hover { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--k) 45%, transparent); color: var(--TreeTextRest); }
     .group.open > .gh { background: var(--level1); color: var(--TreeTextRest); }
     .group .body { display: none; background: var(--level1); padding: 0 12px 12px; flex-direction: column; gap: 4px; }
     .group.open .body { display: flex; }
     /* A card of a filter or a modifier: a header of 24 px with the kind icon, the name, a menu and the eye at the far right, as in the tree. No remove button here. */
     .card { background: var(--level2); border-radius: 2px; }
     .ch { height: 24px; display: flex; align-items: center; gap: 6px; padding: 0 0 0 8px; font-size: 12px; color: var(--TreeTextRest); }
-    .ch .AppIcon { width: 13px; height: 13px; color: var(--k); fill: var(--k); }
+    /* Only the type icon has the kind colour. The menu and the eye stay neutral: grey at rest, white on the selected card, as in the tree. */
+    .ch > .AppIcon { width: 13px; height: 13px; color: var(--k); fill: var(--k); }
+    .ch .ToggleButtonVisibility, .ch .ButtonIcon { opacity: 1; }
+    .ch button .AppIcon { color: var(--Grey800); fill: var(--Grey800); }
+    .card.selected .ch button .AppIcon { color: var(--ActiveText); fill: var(--ActiveText); }
     .ch .ButtonIcon, .ch .ToggleButtonVisibility { width: 24px; flex: none; }
     .ch .more { margin-left: auto; }
     .card .cb { padding: 4px 12px 12px; display: flex; flex-direction: column; gap: 4px; }
     .card.hidden .ch { color: var(--text-hidden); }
-    .card.hidden .ch .AppIcon { color: var(--icon-hidden); fill: var(--icon-hidden); }
+    .card.hidden .ch > .AppIcon { color: var(--icon-hidden); fill: var(--icon-hidden); }
     .card.selected { box-shadow: inset 3px 0 0 var(--k); }
     .menu { position: relative; }
     .menu .PopupFrame { position: absolute; right: 24px; top: 22px; z-index: 3; min-width: 150px; }
@@ -114,7 +121,7 @@
       </div>
 
       <div class="group open" style="--k:var(--CategoryFilter)">
-        <div class="gh"><i class="AppIcon" data-icon-key="Filter" style="color:var(--k);fill:var(--k)"></i>Texture filters<span class="sum">3</span></div>
+        <div class="gh"><i class="AppIcon" data-icon-key="Filter" style="color:var(--k);fill:var(--k)"></i>Texture filters<span class="sum stack"></span></div>
         <div class="body">
           <div class="card selected menu" style="--k:var(--CategoryFilter)">
             <div class="ch"><i class="AppIcon" data-icon-key="Filter"></i>Blur<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div>
@@ -130,16 +137,16 @@
       </div>
 
       <div class="group" style="--k:var(--CategoryModifier)">
-        <div class="gh"><i class="AppIcon" data-icon-key="Modifier" style="color:var(--k);fill:var(--k)"></i>Modifiers<span class="sum">2: Scale, Rotate</span></div>
-        <div class="body"><div class="card" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Scale<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div><div class="card" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Rotate<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div></div>
+        <div class="gh"><i class="AppIcon" data-icon-key="Modifier" style="color:var(--k);fill:var(--k)"></i>Modifiers<span class="sum stack"></span></div>
+        <div class="body"><div class="card" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Scale<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div><div class="card" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Rotate<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div><div class="card" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Translate<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div><div class="card" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Grid<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div><div class="card" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Color<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div><div class="card hidden" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Billboard, hidden<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility checked"></button></div></div><div class="card" style="--k:var(--CategoryModifier)"><div class="ch"><i class="AppIcon" data-icon-key="Modifier"></i>Visibility<button class="ButtonIcon more" data-icon-key="Menu"></button><button class="ToggleButtonVisibility"></button></div></div></div>
       </div>
 
-      <div class="group" style="--k:var(--CategoryComposable1)">
+      <div class="group" style="--k:var(--TreeTextRest)">
         <div class="gh"><i class="AppIcon" data-icon-key="Coloration" style="color:var(--text-rest);fill:var(--text-rest)"></i>Blend and background<span class="sum">Normal, black</span></div>
         <div class="body"><div class="ComboBoxCaptioned" data-caption="Blend"><div class="ComboBoxItem">Normal</div></div><div class="ComboBoxCaptioned" data-caption="Background"><div class="ComboBoxItem">Black</div></div></div>
       </div>
 
-      <div class="group" style="--k:var(--CategoryComposable1)">
+      <div class="group" style="--k:var(--TreeTextRest)">
         <div class="gh"><i class="AppIcon" data-icon-key="PostFX" style="color:var(--text-rest);fill:var(--text-rest)"></i>Ambient occlusion<span class="sum">Radius 0.3</span></div>
         <div class="body"><div class="SliderCMiX" data-caption="Radius" data-value="0.3"></div></div>
       </div>
@@ -152,13 +159,19 @@
       <li><b>Title.</b> The selected row of the tree, larger: a neutral surface, a 3 px left border and the icon in the kind colour, white text. The mask and the eye are plain white icons, as in the tree. The kind fill went out: white text on it fails contrast, and its hue meant two things. A status word, "Live", says the layer is on the wall.</li>
       <li><b>On the wall first.</b> Alpha and Speed come at the top, always open. Blend and background, a setup choice, move into a closed group.</li>
       <li><b>Modulated values.</b> The sliders and value fields stay as before, with their assign button.</li>
-      <li><b>Groups.</b> One header of 32 px, as a tree row: the kind icon, the name, and a summary when closed ("2: Scale, Rotate"). Setup groups start closed. Hover adds a 3 px left border at 45 %.</li>
-      <li><b>Cards.</b> A header of 24 px with the kind icon. The eye is at the far right, as in the tree. Remove moved into the menu, away from the eye. A hidden card has fixed grey text, never opacity. The selected card has the full left border.</li>
+      <li><b>Groups.</b> One header of 32 px, as a tree row: the kind icon, the name, and the count of the list, with the names in the tooltip. Setup groups start closed. A group that is not a kind of the tree, as Ambient occlusion, has no colour. A group is one card: hover adds a 3 px left bar at 45 % down its full height, the header and the open body together.</li>
+      <li><b>Cards.</b> A header of 24 px. Only the type icon has the kind colour. The menu and the eye stay grey, white on the selected card. The eye is at the far right, as in the tree. Remove moved into the menu, away from the eye. A hidden card has fixed grey text, never opacity. The selected card has the full left border.</li>
       <li><b>Surfaces.</b> Three levels only: the panel, the section and group, the card. Then the fields. Margins of 12 inside, gaps of 4 between controls, 3 between blocks.</li>
     </ol>
   </section>
 </main>
 <script>
+    // The summary of a list group is the count of its cards. The names are in the tooltip.
+    document.querySelectorAll('.after .gh .stack').forEach(function (s) {
+        var cards = s.closest('.group').querySelectorAll('.card');
+        s.textContent = cards.length;
+        s.setAttribute('data-tooltip', Array.prototype.map.call(cards, function (c) { return c.querySelector('.ch').textContent.trim().replace(', hidden', ' (hidden)'); }).join(', '));
+    });
     // A click on a group header opens or closes the group.
     document.querySelectorAll('.after .gh').forEach(function (h) {
         h.addEventListener('click', function () { h.parentElement.classList.toggle('open'); });
