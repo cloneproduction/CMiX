@@ -25,6 +25,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         // A right click asks for a menu on the release.
         private bool menuBlocked;
 
+        public event EventHandler? GrabbingChanged;
+
         public bool IsGrabbing => HoldsTheInput && Session.IsRunning;
 
         internal ListTreeDrag? Drag => IsGrabbing ? Session.Drag : null;
@@ -174,7 +176,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void ShowGrabbing()
         {
             Context.Owner.Classes.Set(GrabbingClass, IsGrabbing);
-            Part<ListTreeHints>().Update();
+            GrabbingChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

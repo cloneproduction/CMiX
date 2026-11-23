@@ -50,7 +50,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         // A panel beside the cursor row is a leaf of the tree, so the cursor row takes the focus back.
         private void OnAddPanelClosed(object? sender, EventArgs e)
         {
-            Part<ListTreeHints>().Update();
             if (!openedBesideTheCursor)
                 return;
 

@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System;
 using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -51,6 +52,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             tree = watched;
             watched.PropertyChanged += OnTreeChanged;
             watched.Shortcuts.PropertyChanged += OnShortcutsChanged;
+            Part<ListTreeGrab>().GrabbingChanged += OnModeSourceChanged;
+            Context.AddPanel.Closed += OnModeSourceChanged;
             AttachWindow(TopLevel.GetTopLevel(Context.Owner));
             Show(watched, Mode);
         }
@@ -63,6 +66,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
             tree.PropertyChanged -= OnTreeChanged;
             tree.Shortcuts.PropertyChanged -= OnShortcutsChanged;
+            Part<ListTreeGrab>().GrabbingChanged -= OnModeSourceChanged;
+            Context.AddPanel.Closed -= OnModeSourceChanged;
             tree = null;
         }
 
@@ -83,6 +88,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         // The focus moves before the next control is known, so the check runs after the event.
         private void OnWindowFocusChanged(object? sender, RoutedEventArgs e) => Context.Lifetime.Post(Update, DispatcherPriority.Input);
+
+        private void OnModeSourceChanged(object? sender, EventArgs e) => Update();
 
         private void OnShortcutsChanged(object? sender, PropertyChangedEventArgs e)
         {
