@@ -21,6 +21,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         private ListTreeGrab Grab => Part<ListTreeGrab>();
 
+        private ListTreeDragSession Session => Part<ListTreeDragSession>();
+
         protected override void OnUnwatch() => DetachFromWindow();
 
         public void AttachToWindow(TopLevel window)
@@ -130,8 +132,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             if (!Grab.IsGrabbing)
                 return;
 
-            Part<ListTreeAutoScroll>().ScrollByWheel(TreeRows.WheelSteps(e));
-            e.Handled = true;
+            Session.ScrollByWheel(e);
         }
 
         private void OnGotFocus(object? sender, GotFocusEventArgs e)

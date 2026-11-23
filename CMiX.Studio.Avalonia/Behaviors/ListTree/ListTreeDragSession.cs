@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Avalonia;
+using Avalonia.Input;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -87,6 +89,18 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Screen.ShowNote(NoteOf(look, near));
         }
 
+        public void TrackPointer(Point inScroller)
+        {
+            Track(Context.ToRows(inScroller));
+            Part<ListTreeAutoScroll>().Track(inScroller.Y);
+        }
+
+        public void ScrollByWheel(PointerWheelEventArgs e)
+        {
+            Part<ListTreeAutoScroll>().ScrollByWheel(TreeRows.WheelSteps(e));
+            e.Handled = true;
+        }
+
         // The near card of a key waits for the key Tree.Expand: a rest needs the pointer.
         public void ShowCandidate(ListTreeCandidate candidate)
         {
@@ -139,6 +153,14 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             var dropping = Part<ListTreeDrop>().Start(project, ended.Nodes, look.Candidate.Slot, openBefore);
             Finish();
             Part<ListTreeDrop>().Show(dropping);
+        }
+
+        public void DropOrCancel()
+        {
+            if (HasDropPlace)
+                Drop();
+            else
+                Cancel();
         }
 
         // Every row goes back to its place, and nothing moves.

@@ -80,20 +80,20 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             if (!IsDragging)
                 return;
 
-            Part<ListTreeAutoScroll>().ScrollByWheel(TreeRows.WheelSteps(e));
-            e.Handled = true;
+            Session.ScrollByWheel(e);
         }
 
         private void OnPointerMoved(object? sender, PointerEventArgs e)
         {
-            var point = PointOf(e);
             lastInScroller = e.GetPosition(Scroller);
             if (IsDragging)
             {
-                Session.Track(point);
-                Part<ListTreeAutoScroll>().Track(lastInScroller.Y);
+                Session.TrackPointer(lastInScroller);
+                return;
             }
-            else if (pressed is { } press && Session.Pick.HasPassedThreshold(press.Press, point))
+
+            var point = Context.ToRows(lastInScroller);
+            if (pressed is { } press && Session.Pick.HasPassedThreshold(press.Press, point))
                 Begin(press, e.Pointer, point);
         }
 
@@ -118,10 +118,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
 
             Session.Track(PointOf(e));
-            if (Session.HasDropPlace)
-                Session.Drop();
-            else
-                Session.Cancel();
+            Session.DropOrCancel();
         }
 
         // A scroll moves the rows under a pointer that stays still.

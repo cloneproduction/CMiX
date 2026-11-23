@@ -134,8 +134,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             if (!new Rect(Context.Scroller.Bounds.Size).Contains(inScroller))
                 return;
 
-            Session.Track(inRows);
-            Part<ListTreeAutoScroll>().Track(inScroller.Y);
+            Session.TrackPointer(inScroller);
         }
 
         private ListTreePlace? PlaceOf(TreeNode node)
