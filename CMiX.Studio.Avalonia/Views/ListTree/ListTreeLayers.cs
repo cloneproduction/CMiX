@@ -8,8 +8,6 @@ namespace CMiX.Studio.Avalonia.Views
     {
         public const int CardArea = 1;
         public const int Row = 2;
-        public const int Toggles = 3;
-        public const int Slot = 4;
         public const int DropOutline = 5;
         public const int DraggedRow = 6;
     }

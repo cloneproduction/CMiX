@@ -2,16 +2,19 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Styling;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
+using CMiX.UI.Themes;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 using Entity = CMiX.Core.Compositing.Entity;
@@ -110,7 +113,19 @@ namespace CMiX.Studio.Avalonia.Tests
             var row = Assert.IsType<RowListTree>(Panel.RowOf(scene.Tree.SelectedNode!));
             Assert.Contains(RowListTree.FlashClass, row.Classes);
             Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("AccentBrush")!).Color, ((ISolidColorBrush)row.FlashSurface.Background!).Color);
-            Assert.Equal(TimeSpan.FromSeconds(0.7), RowListTree.FlashDuration);
+        }
+
+        [AvaloniaFact]
+        public void Flash_TheStyleOfARow_FadesFromTheTokenInTheFlashTime()
+        {
+            Show(900);
+            var row = new RowListTree();
+
+            var animation = row.Styles.OfType<Style>().SelectMany(style => style.Animations).OfType<Animation>().Single();
+
+            Assert.Equal(TimeSpan.FromSeconds(0.7), Motion.FlashDuration);
+            Assert.Equal(Motion.FlashDuration, animation.Duration);
+            Assert.Equal(Application.Current!.FindResource("OpacityFlash"), ((Setter)animation.Children[0].Setters[0]).Value);
         }
 
         [AvaloniaFact]

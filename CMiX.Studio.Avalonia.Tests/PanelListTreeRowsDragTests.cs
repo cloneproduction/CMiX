@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
 using Avalonia.Controls.Primitives;
+using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.VisualTree;
@@ -124,6 +125,42 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.All(modifier.Toggles.GetVisualDescendants().OfType<ToggleButton>(),
                 toggle => Assert.Equal(Token("ListTreeTextDimmedBrush"), ColorOf(toggle.GetValue(TextElement.ForegroundProperty))));
             Assert.Equal(1, modifier.Opacity);
+        }
+
+        private void PointAt(RowListTree row)
+        {
+            TreeDrag.Render(window);
+            window.MouseMove(row.TranslatePoint(new Point(row.Bounds.Width - 100, row.Bounds.Height / 2), window)!.Value);
+            Settle();
+        }
+
+        private static Border Named(RowListTree row, string name) => row.GetVisualDescendants().OfType<Border>().First(border => border.Name == name);
+
+        [AvaloniaFact]
+        public void ShowDrag_TheDraggedRowUnderThePointer_HasTheDraggedSurface()
+        {
+            var look = Show(LookOf(Entity(0), candidate => IsInside(candidate, scene.LayerNodeOfA(1))));
+            var dragged = RowOf(look.Dragged);
+
+            PointAt(dragged);
+
+            Assert.True(dragged.IsPointerOver);
+            Assert.Equal(Token("ListTreeRowDraggedBrush"), ColorOf(dragged.Background));
+            Assert.False(Named(dragged, "mark").IsVisible);
+        }
+
+        [AvaloniaFact]
+        public void ShowDrag_ADimmedRowUnderThePointer_ShowsNoHover()
+        {
+            Show(LookOf(Entity(0), candidate => IsInside(candidate, scene.LayerNodeOfA(1))));
+            var modifier = RowOf(ListTreeKeys.Of(scene.Group<ModifiersGroup>(0).Children[0]));
+
+            PointAt(modifier);
+
+            Assert.True(modifier.IsPointerOver);
+            Assert.Equal(Colors.Transparent, ColorOf(modifier.Background));
+            Assert.Equal(Token("ListTreeRowDimmedBandBrush"), ColorOf(modifier.Band.Background));
+            Assert.False(Named(modifier, "mark").IsVisible);
         }
 
         [AvaloniaFact]

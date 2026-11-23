@@ -33,13 +33,13 @@
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextSelectedBrush}" />
         </Style>
 
-        <Style Selector="Views|RowListTree:pointerover:not(:card):not(:inselection)">
+        <Style Selector="Views|RowListTree:pointerover:not(:card):not(:inselection):not(:dimmed)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowHoverBrush}" />
         </Style>
         <Style Selector="Views|RowListTree:selected:not(:card)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedBrush}" />
         </Style>
-        <Style Selector="Views|RowListTree:selected:pointerover:not(:card)">
+        <Style Selector="Views|RowListTree:selected:pointerover:not(:card):not(:dimmed)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedHoverBrush}" />
         </Style>
 
@@ -61,7 +61,7 @@
         <Style Selector="Border#mark">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="Views|RowListTree:pointerover:not(:card) Border#mark">
+        <Style Selector="Views|RowListTree:pointerover:not(:card):not(:dimmed) Border#mark">
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=HoverBorder}" />
         </Style>
@@ -130,9 +130,9 @@
         <!-- After a drop: the accent colour over the surface of the row fades out once. -->
         <Style Selector="Views|RowListTree:flash Border#flash">
             <Style.Animations>
-                <Animation Duration="{x:Static Views:RowListTree.FlashDuration}" Easing="CubicEaseOut">
+                <Animation Duration="{x:Static ui:Motion.FlashDuration}" Easing="CubicEaseOut">
                     <KeyFrame Cue="0%">
-                        <Setter Property="Opacity" Value="0.55" />
+                        <Setter Property="Opacity" Value="{StaticResource OpacityFlash}" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">
                         <Setter Property="Opacity" Value="0" />
@@ -160,8 +160,7 @@
                 <Views:TogglesRow
                     x:Name="toggles"
                     VerticalAlignment="Center"
-                    DockPanel.Dock="Right"
-                    ZIndex="{x:Static Views:ListTreeLayers.Toggles}" />
+                    DockPanel.Dock="Right" />
 
                 <!-- Each click on the icon of a card opens or closes the card, also the second click of a double click. -->
                 <Border

@@ -10,6 +10,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
+using CMiX.UI.Themes;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -24,9 +25,6 @@ namespace CMiX.Studio.Avalonia.Views
         public const string DimmedClass = ":dimmed";
         public const string DraggedClass = ":dragged";
         public const string FlashClass = ":flash";
-
-        // The flash animation in the styles of the row and the timer that ends it use this time.
-        public static readonly TimeSpan FlashDuration = TimeSpan.FromSeconds(0.7);
 
         public static readonly StyledProperty<ListTreePlace?> PlaceProperty =
             AvaloniaProperty.Register<RowListTree, ListTreePlace?>(nameof(Place));
@@ -137,7 +135,7 @@ namespace CMiX.Studio.Avalonia.Views
         public void Flash()
         {
             PseudoClasses.Set(FlashClass, true);
-            DispatcherTimer.RunOnce(() => PseudoClasses.Set(FlashClass, false), FlashDuration);
+            DispatcherTimer.RunOnce(() => PseudoClasses.Set(FlashClass, false), Motion.FlashDuration);
         }
 
         internal bool IsCardIcon(object? source) =>

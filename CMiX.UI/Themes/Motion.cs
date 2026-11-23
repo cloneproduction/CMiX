@@ -15,6 +15,9 @@ namespace CMiX.UI.Themes
         // A fade of a mark, such as the dimming of a row during a drag. It is quick and soft.
         public static readonly TimeSpan FadeDuration = TimeSpan.FromMilliseconds(120);
 
+        // The flash of a row after a drop, and the timer that ends it.
+        public static readonly TimeSpan FlashDuration = TimeSpan.FromSeconds(0.7);
+
         // The time that a notification (see PanelNotification) shows before it hides itself.
         public static readonly TimeSpan NotificationDuration = TimeSpan.FromSeconds(3);
 
