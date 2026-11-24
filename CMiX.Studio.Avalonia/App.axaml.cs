@@ -14,17 +14,14 @@ using CMiX.Core.Compositing;
 using CMiX.Core.DependencyInjection;
 using CMiX.Core.Networking;
 using CMiX.Core.Persistence;
-using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Animations;
+using CMiX.Studio.Avalonia.DependencyInjection;
 using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels;
-using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.UI.Interaction;
-using HanumanInstitute.MvvmDialogs;
-using HanumanInstitute.MvvmDialogs.Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Studio.Avalonia
@@ -66,41 +63,7 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddLogging();
 
                 serviceCollection.AddCMiXCore();
-                serviceCollection.AddSingleton<Views.MainWindow>();
-                serviceCollection.AddSingleton<MainViewModel>();
-                serviceCollection.AddSingleton<MainWindowController>();
-                serviceCollection.AddSingleton<MainMenuViewModel>();
-                serviceCollection.AddSingleton<ProjectFileViewModel>();
-                serviceCollection.AddSingleton<SettingsSyncViewModel>();
-                serviceCollection.AddSingleton(ProjectSession.Create);
-                serviceCollection.AddSingleton<UnsavedChanges>();
-                serviceCollection.AddSingleton<IUnsavedChangesPrompt, UnsavedChangesPrompt>();
-                serviceCollection.AddSingleton<IMoveBlockedNotice, MoveBlockedNotice>();
-                serviceCollection.AddSingleton<IMessageNotice, Notices.MessageNotice>();
-                serviceCollection.AddSingleton<StatusNotice>();
-                serviceCollection.AddSingleton<IStatusNotice>(provider => provider.GetRequiredService<StatusNotice>());
-                serviceCollection.AddSingleton<PathDropRules>();
-                serviceCollection.AddSingleton<ProjectTree>();
-                serviceCollection.AddSingleton<Views.PanelFocusCycle>();
-                serviceCollection.AddSingleton(_ => new StudioSettingsFile(StudioSettings.DefaultPath));
-                serviceCollection.AddSingleton<ICredentialStore, WindowsCredentialStore>();
-                serviceCollection.AddSingleton(provider =>
-                {
-                    var state = new InterfaceState(provider.GetRequiredService<StudioSettingsFile>());
-                    state.Load();
-                    return state;
-                });
-                serviceCollection.AddSingleton(_ =>
-                {
-                    var shortcuts = new ShortcutMap();
-                    shortcuts.Load();
-                    return shortcuts;
-                });
-                serviceCollection.AddSingleton<IDialogService>(provider => new DialogService(
-                    new MainWindowDialogManager(new EmptyViewLocator(), new DialogFactory()),
-                    viewModelFactory: type => provider.GetService(type)));
-                serviceCollection.AddSingleton<ManagerReorderServiceFactory>(
-                    _ => (data, move) => new ManagerReorderService(data, move));
+                serviceCollection.AddCMiXStudio(StudioSettings.DefaultPath, ShortcutMap.DefaultPath);
 
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();

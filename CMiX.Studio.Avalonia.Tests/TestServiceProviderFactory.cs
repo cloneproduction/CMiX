@@ -3,21 +3,17 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.DependencyInjection;
 using CMiX.Core.Networking;
-using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Tests;
+using CMiX.Studio.Avalonia.DependencyInjection;
 using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.ViewModels;
-using CMiX.Studio.Avalonia.ViewModels.Tree;
-using HanumanInstitute.MvvmDialogs;
-using HanumanInstitute.MvvmDialogs.Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // Mirrors the registrations in App.OnFrameworkInitializationCompleted so tests resolve
-    // the same object graph the running app builds, minus the desktop lifetime plumbing.
+    // The object graph of the Studio, then the fakes that replace the types of the app.
     public static class TestServiceProviderFactory
     {
         public static IServiceProvider Create() => Create(_ => { });
@@ -29,37 +25,21 @@ namespace CMiX.Studio.Avalonia.Tests
             serviceCollection.AddLogging();
 
             serviceCollection.AddCMiXCore();
-            serviceCollection.AddSingleton<Views.MainWindow>();
-            serviceCollection.AddSingleton<MainViewModel>();
-            serviceCollection.AddSingleton<MainWindowController>();
-            serviceCollection.AddSingleton<MainMenuViewModel>();
-            serviceCollection.AddSingleton<ProjectFileViewModel>();
-            serviceCollection.AddSingleton<SettingsSyncViewModel>();
-            serviceCollection.AddSingleton(ProjectSession.Create);
-            serviceCollection.AddSingleton<UnsavedChanges>();
+            var settingsPath = Path.Combine(Path.GetTempPath(), $"cmix-studiosettings-{Guid.NewGuid():N}", StudioSettings.FileName);
+            // The defaults, with a file path in the temp folder. A test never reads or writes the file of the user.
+            var shortcutsPath = Path.Combine(Path.GetTempPath(), $"cmix-shortcuts-{Guid.NewGuid():N}", ShortcutMap.FileName);
+            serviceCollection.AddCMiXStudio(settingsPath, shortcutsPath);
             serviceCollection.AddSingleton<FakeUnsavedChangesPrompt>();
             serviceCollection.AddSingleton<IUnsavedChangesPrompt>(provider => provider.GetRequiredService<FakeUnsavedChangesPrompt>());
             serviceCollection.AddSingleton<FakeMoveBlockedNotice>();
             serviceCollection.AddSingleton<IMoveBlockedNotice>(provider => provider.GetRequiredService<FakeMoveBlockedNotice>());
             serviceCollection.AddSingleton<FakeMessageNotice>();
             serviceCollection.AddSingleton<IMessageNotice>(provider => provider.GetRequiredService<FakeMessageNotice>());
-            serviceCollection.AddSingleton<StatusNotice>();
-            serviceCollection.AddSingleton<IStatusNotice>(provider => provider.GetRequiredService<StatusNotice>());
-            serviceCollection.AddSingleton<PathDropRules>();
-            serviceCollection.AddSingleton<ProjectTree>();
-            serviceCollection.AddSingleton<Views.PanelFocusCycle>();
             // The defaults, with no file. A test never reads or writes the settings file of the Studio.
             serviceCollection.AddSingleton(_ => new InterfaceState());
-            serviceCollection.AddSingleton(_ => new StudioSettingsFile(Path.Combine(Path.GetTempPath(), $"cmix-studiosettings-{Guid.NewGuid():N}", StudioSettings.FileName)));
             serviceCollection.AddSingleton<ICredentialStore, FakeCredentialStore>();
-            // The defaults, with a file path in the temp folder. A test never reads or writes the file of the user.
-            serviceCollection.AddSingleton(_ => new ShortcutMap(Path.Combine(Path.GetTempPath(), $"cmix-shortcuts-{Guid.NewGuid():N}", ShortcutMap.FileName)));
-            // A test sets no mouse hook on the desktop.
-            serviceCollection.AddSingleton<IDialogService>(provider => new DialogService(
-                new MainWindowDialogManager(new EmptyViewLocator(), new DialogFactory()),
-                viewModelFactory: type => provider.GetService(type)));
-            serviceCollection.AddSingleton<ManagerReorderServiceFactory>(
-                _ => (data, move) => new ManagerReorderService(data, move));
+            // The shortcuts are not loaded, so no file is written.
+            serviceCollection.AddSingleton(_ => new ShortcutMap(shortcutsPath));
             replace(serviceCollection);
 
             return serviceCollection.BuildServiceProvider();
