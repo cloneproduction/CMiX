@@ -11,7 +11,7 @@ namespace CMiX.Core.Tests
     public class GenericValueTests
     {
         [Fact]
-        public void SetDefaults_CopiesTheValueToOriginalValue()
+        public void SetDefaults_OfAValue_CopiesItToOriginalValue()
         {
             var provider = TestServiceProviderFactory.Create();
             var value = provider.GetRequiredService<GenericValue<int>>();
@@ -24,7 +24,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Reset_AfterFromModel_ReturnsToTheDefaultValue_NotTheFromModelValue()
+        public void Reset_AfterFromModel_GivesTheDefaultNotTheLoadedValue()
         {
             var provider = TestServiceProviderFactory.Create();
             var value = provider.GetRequiredService<GenericValue<int>>();

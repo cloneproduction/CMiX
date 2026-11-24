@@ -35,7 +35,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Drain_RunsOnlyTheActionsThatWereQueuedBeforeIt()
+        public void Drain_WhileActionsAreQueued_RunsOnlyTheEarlierOnes()
         {
             var queue = new MainloopQueue();
             var secondRan = false;
@@ -50,7 +50,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AnActionThatThrows_DoesNotStopTheNextOne()
+        public void Drain_OfAnActionThatThrows_RunsTheNextOne()
         {
             var queue = new MainloopQueue();
             var thirdRan = false;

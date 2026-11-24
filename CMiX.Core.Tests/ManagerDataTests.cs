@@ -22,7 +22,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ANewList_HasNoSelection()
+        public void SelectedIndex_OfANewList_IsNoSelection()
         {
             var data = new ManagerData();
 
@@ -31,7 +31,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Insert_PutsTheItemAtTheIndexAndSelectsIt()
+        public void Insert_AtAnIndex_PutsTheItemThereAndSelectsIt()
         {
             var (data, items) = WithItems(2);
             var inserted = new Item();
@@ -47,7 +47,7 @@ namespace CMiX.Core.Tests
         [InlineData(0, 0)]
         [InlineData(1, 0)]
         [InlineData(2, 1)]
-        public void Remove_OfTheSelectedItem_SelectsTheItemBeforeIt_OrTheNewFirstItem(int removed, int expectedIndex)
+        public void Remove_OfTheSelectedItem_SelectsTheItemBeforeItOrTheNewFirstItem(int removed, int expectedIndex)
         {
             var (data, items) = WithItems(3);
             data.Select(items[removed]);
@@ -224,7 +224,7 @@ namespace CMiX.Core.Tests
         [Theory]
         [InlineData(0)]
         [InlineData(2)]
-        public void SelectAt_SelectsTheItemAtTheIndex(int index)
+        public void SelectAt_AnIndex_SelectsTheItemAtIt(int index)
         {
             var (data, items) = WithItems(3);
 
@@ -248,7 +248,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ClearSelection_LeavesTheItemsInTheList()
+        public void ClearSelection_OfAList_LeavesTheItemsInIt()
         {
             var (data, _) = WithItems(3);
 
@@ -260,7 +260,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ASelectionChange_RaisesTheItemBeforeTheIndex()
+        public void SelectAt_AnotherItem_RaisesTheItemBeforeTheIndex()
         {
             var (data, items) = WithItems(3);
             var raised = new List<string>();
@@ -272,7 +272,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void SelectingTheSelectedItemAgain_RaisesNothing()
+        public void SelectAt_TheSelectedItemAgain_RaisesNothing()
         {
             var (data, items) = WithItems(3);
             var raised = new List<string>();
@@ -284,7 +284,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AMoveOfAnotherItem_RaisesTheIndexOfTheSelection()
+        public void Move_OfAnotherItem_RaisesTheIndexOfTheSelection()
         {
             var (data, items) = WithItems(3);
             data.Select(items[1]);

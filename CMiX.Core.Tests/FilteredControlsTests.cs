@@ -40,7 +40,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AMatchingControlAddedToTheSource_IsAddedAtTheEndWithOneAddEvent()
+        public void Add_OfAMatchingControlToTheSource_AddsItAtTheEndWithOneEvent()
         {
             var source = Source(new Cat());
             var cats = new FilteredControls<Cat>(source);
@@ -55,7 +55,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AControlOfAnotherTypeAddedToTheSource_RaisesNoEvent()
+        public void Add_OfAControlOfAnotherTypeToTheSource_RaisesNoEvent()
         {
             var source = Source(new Cat());
             var cats = new FilteredControls<Cat>(source);
@@ -69,7 +69,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AControlRemovedFromTheSource_LeavesTheList()
+        public void Remove_OfAControlFromTheSource_TakesItOutOfTheList()
         {
             var cat1 = new Cat();
             var cat2 = new Cat();
@@ -82,7 +82,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AControlOfAnotherTypeRemovedFromTheSource_RaisesNoEvent()
+        public void Remove_OfAControlOfAnotherTypeFromTheSource_RaisesNoEvent()
         {
             var dog = new Dog();
             var source = Source(new Cat(), dog);
@@ -96,7 +96,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ClearingTheSource_EmptiesTheList()
+        public void Clear_OfTheSource_EmptiesTheList()
         {
             var source = Source(new Cat(), new Cat());
             var cats = new FilteredControls<Cat>(source);
@@ -107,7 +107,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AControlInsertedInTheMiddleOfTheSource_KeepsTheOrderOfTheSource()
+        public void Insert_OfAControlInTheMiddleOfTheSource_KeepsTheOrderOfTheSource()
         {
             var cat1 = new Cat();
             var cat2 = new Cat();
@@ -121,7 +121,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void MovingAControlInTheSource_KeepsTheOrderOfTheSource()
+        public void Move_OfAControlInTheSource_KeepsTheOrderOfTheSource()
         {
             var cat1 = new Cat();
             var cat2 = new Cat();
@@ -134,7 +134,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ReplacingAControlInTheSource_UpdatesTheList()
+        public void Replace_OfAControlInTheSource_UpdatesTheList()
         {
             var cat1 = new Cat();
             var replacement = new Cat();
@@ -148,7 +148,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TheRule_KeepsOutControlsThatFailItAtTheStartAndWhenAdded()
+        public void Rule_OfTheList_KeepsOutFailingControlsAtTheStartAndOnAdd()
         {
             var rested = new Cat { Lives = 9 };
             var tired = new Cat { Lives = 1 };
@@ -163,7 +163,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TheRule_AppliesAgainWhenTheListIsRebuilt()
+        public void Rule_OfTheList_AppliesAgainOnARebuild()
         {
             var rested = new Cat { Lives = 9 };
             var source = Source(rested, new Cat { Lives = 1 });
@@ -175,7 +175,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AnInterface_CollectsEveryClassThatImplementsIt()
+        public void FilteredControls_OfAnInterface_CollectEveryClassThatImplementsIt()
         {
             var cat = new Cat();
             var dog = new Dog();
@@ -187,7 +187,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TheList_CannotBeChangedFromOutside()
+        public void Add_FromOutsideTheList_Throws()
         {
             var cats = new FilteredControls<Cat>(Source(new Cat()));
 
