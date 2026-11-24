@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -9,7 +10,6 @@ using CMiX.UI.Controls.Vector;
 using CMiX.UI.Tests.Support;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Windows.Input;
 using Xunit;
 
 namespace CMiX.UI.Tests
