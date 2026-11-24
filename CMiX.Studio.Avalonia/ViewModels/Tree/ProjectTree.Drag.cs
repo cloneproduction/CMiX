@@ -51,9 +51,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 SyncSearchRows();
         }
 
-        public DropPlace? Locate(TreeNode source, TreeNode hovered, double fraction) =>
-            dropService.Locate(source, hovered, fraction);
-
         // The move and the selection of the moved item are one undo step.
         public async Task DropAsync(TreeNode source, TreeNode target, DropPosition position)
         {

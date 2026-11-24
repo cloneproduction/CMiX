@@ -32,37 +32,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     // A layer moves to another composition only if it shares no item with a layer that stays.
     public sealed class TreeDropService
     {
-        // The fraction is the height of the pointer on the row, from 0 at the top to 1 at the bottom.
-        // A row with rows under it is one block: a drop goes only before or after the block.
-        public DropPlace? Locate(TreeNode source, TreeNode hovered, double fraction)
-        {
-            if (source.Item == null || source.Owner == null || hovered.IsOrIsUnder(source))
-                return null;
-
-            if (GroupUnder(source, hovered) is { } forwarded && TakesDropOf(source, forwarded))
-                return new DropPlace(hovered, DropPosition.Inside);
-
-            var target = hovered;
-            while (target != null && !TakesDropOf(source, target))
-                target = target.Parent;
-
-            if (target == null)
-                return null;
-
-            if (ReferenceEquals(hovered, target))
-            {
-                if (target.Item == null)
-                    return new DropPlace(target, DropPosition.Inside);
-
-                if (fraction < 0.5)
-                    return new DropPlace(target, DropPosition.Before);
-
-                return ReferenceEquals(TreeRowOrder.LastVisible(target), target) ? new DropPlace(target, DropPosition.After) : null;
-            }
-
-            return ReferenceEquals(TreeRowOrder.LastVisible(target), hovered) && fraction >= 0.5 ? new DropPlace(target, DropPosition.After) : null;
-        }
-
         private static bool TakesDropOf(TreeNode source, TreeNode target) =>
             TakesDropOfByKind(source, target) && ListOfTargetAccepts(source, target);
 

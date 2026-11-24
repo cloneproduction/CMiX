@@ -46,7 +46,7 @@ The hub, `ProjectTree`, in six partial files:
 | `ProjectTree.Commands.cs` | Every command as a `[RelayCommand]` method with its `Can...` method, `CanRunTreeKey`, `RefreshCommands`. |
 | `ProjectTree.Cursor.cs` | `CursorNode`, `TargetNode`, `SelectedNode`, `InspectedNode`, the cursor moves, the selection, and the order rule: the selection raises first, then the cursor moves. |
 | `ProjectTree.Search.cs` | `SearchText`, `IsSearchActive`, `SearchMatches`, the calls into `TreeSearch`. |
-| `ProjectTree.Drag.cs` | `IsDragging`, `BeginDrag`, `EndDrag`, `CanDrag`, `CanDrop`, `Locate`, `DropAsync`. |
+| `ProjectTree.Drag.cs` | `IsDragging`, `BeginDrag`, `EndDrag`, `CanDrag`, `CanDrop`, `DropAsync`. |
 | `ProjectTree.Requests.cs` | The eight `...Requested` events, `FocusTree`, `FocusSearch`. |
 
 The parts, grouped by what the user does:

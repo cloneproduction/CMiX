@@ -3,8 +3,8 @@
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    public readonly record struct DragLook(bool IsSource, bool IsCandidate, bool IsNeighbor, bool HasTargetBelow, string? BlockReason)
+    public readonly record struct DragLook(bool IsSource, bool HasTargetBelow, string? BlockReason)
     {
-        public static readonly DragLook None = new(false, false, false, false, null);
+        public static readonly DragLook None = new(false, false, null);
     }
 }

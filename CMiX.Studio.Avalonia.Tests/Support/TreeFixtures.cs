@@ -47,8 +47,6 @@ namespace CMiX.Studio.Avalonia.Tests.Support
 
             // Every node of the tree, in tree order.
             public IEnumerable<TreeNode> All() => ListTreeTestScreen.All(Tree.Roots);
-            public IEnumerable<TreeNode> Candidates() => All().Where(node => node.IsDropCandidate);
-            public IEnumerable<TreeNode> Neighbors() => All().Where(node => node.IsDropNeighbor);
         }
 
         // Adds one composition per value of layers, with that number of layers. The default is A with two layers and B with one.

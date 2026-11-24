@@ -154,8 +154,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         [NotifyPropertyChangedFor(nameof(ShowsKindCounts))]
         [NotifyPropertyChangedFor(nameof(ShowsMissingSign))]
         [NotifyPropertyChangedFor(nameof(ShowsBadges))]
-        [NotifyPropertyChangedFor(nameof(IsDropHint))]
-        [NotifyPropertyChangedFor(nameof(IsDimmed))]
         private bool isExpanded = true;
 
         // A row that the user added after the load. It fades in.
@@ -179,67 +177,28 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 parent.IsOnCursorBranch = false;
         }
 
-        // A candidate takes the node inside. A neighbor takes it before or after.
-        // A blocked row takes the kind but refuses the node by a rule.
-        private bool isDragActive;
+        // A blocked row takes the kind but refuses the node by a rule. Its tooltip gives the reason.
         private bool isDragSource;
-        private bool isDropCandidate;
-        private bool isDropNeighbor;
         private bool hasDropTargetBelow;
         private string? dropBlockReason;
 
-        public bool IsDragActive { get => isDragActive; private set => SetProperty(ref isDragActive, value); }
         public bool IsDragSource { get => isDragSource; private set => SetProperty(ref isDragSource, value); }
-        public bool IsDropCandidate { get => isDropCandidate; private set => SetProperty(ref isDropCandidate, value); }
-        public bool IsDropNeighbor { get => isDropNeighbor; private set => SetProperty(ref isDropNeighbor, value); }
         public bool HasDropTargetBelow { get => hasDropTargetBelow; private set => SetProperty(ref hasDropTargetBelow, value); }
 
         public string? DropBlockReason { get => dropBlockReason; private set => SetProperty(ref dropBlockReason, value); }
         public bool IsDropBlocked => DropBlockReason != null;
-        public bool IsDropHint => IsDragActive && HasDropTargetBelow && !IsDropCandidate && !IsDropNeighbor && !IsDropBlocked && !IsExpanded;
-        // A blocked row is dimmed too. Its tooltip gives the reason.
-        public bool IsDimmed => IsDragActive && !IsDropCandidate && !IsDropNeighbor && !IsDropHint;
 
         internal void ShowDragLook(DragLook look)
         {
-            var before = CaptureDragCover();
-            IsDragActive = true;
-            ApplyDragLook(look);
-            RaiseDragCoverChanges(before);
-        }
-
-        internal void ClearDragLook()
-        {
-            var before = CaptureDragCover();
-            IsDragActive = false;
-            ApplyDragLook(DragLook.None);
-            RaiseDragCoverChanges(before);
-        }
-
-        private void ApplyDragLook(DragLook look)
-        {
+            var wasBlocked = IsDropBlocked;
             IsDragSource = look.IsSource;
-            IsDropCandidate = look.IsCandidate;
-            IsDropNeighbor = look.IsNeighbor;
             HasDropTargetBelow = look.HasTargetBelow;
             DropBlockReason = look.BlockReason;
-        }
-
-        private readonly record struct DragCover(bool IsDropBlocked, bool IsDropHint, bool IsDimmed);
-
-        private DragCover CaptureDragCover() => new(IsDropBlocked, IsDropHint, IsDimmed);
-
-        private void RaiseDragCoverChanges(DragCover before)
-        {
-            if (before.IsDropBlocked != IsDropBlocked)
+            if (wasBlocked != IsDropBlocked)
                 OnPropertyChanged(nameof(IsDropBlocked));
-
-            if (before.IsDropHint != IsDropHint)
-                OnPropertyChanged(nameof(IsDropHint));
-
-            if (before.IsDimmed != IsDimmed)
-                OnPropertyChanged(nameof(IsDimmed));
         }
+
+        internal void ClearDragLook() => ShowDragLook(DragLook.None);
 
         // The type name as the Add panel shows it, so a renamed item is found by its type.
         private readonly string? kindLabel;

@@ -200,139 +200,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.DoesNotContain((char)0x2014, text);
         }
 
-        // A block is a row and the rows under it. A drop is offered at its two ends only.
-        [Theory]
-        [InlineData(0.0)]
-        [InlineData(0.49)]
-        public void Locate_TheTopHalfOfARow_IsBeforeThatRow(double fraction)
-        {
-            var scene = CreateScene();
-
-            var place = service.Locate(scene.NodeA, scene.NodeB, fraction);
-
-            Assert.Equal(new DropPlace(scene.NodeB, DropPosition.Before), place);
-        }
-
-        [Theory]
-        [InlineData(0.5)]
-        [InlineData(1.0)]
-        public void Locate_TheBottomHalfOfARowWithNoRowsUnderIt_IsAfterThatRow(double fraction)
-        {
-            var scene = CreateScene();
-            scene.LayerNodeOfB(0).IsExpanded = false;
-            scene.NodeB.IsExpanded = true;
-            var collapsed = scene.LayerNodeOfB(0);
-
-            var place = service.Locate(scene.LayerNodeOfA(0), collapsed, fraction);
-
-            Assert.Equal(new DropPlace(collapsed, DropPosition.After), place);
-        }
-
-        [Fact]
-        public void Locate_TheBottomHalfOfARowWithRowsUnderIt_OffersNothing()
-        {
-            var scene = CreateScene();
-
-            Assert.Null(service.Locate(scene.LayerNodeOfA(0), scene.LayerNodeOfB(0), 0.9));
-            Assert.Null(service.Locate(scene.NodeA, scene.NodeB, 0.9));
-        }
-
-        [Theory]
-        [InlineData(0.5)]
-        [InlineData(0.95)]
-        public void Locate_TheBottomHalfOfTheLastRowOfABlock_IsAfterTheWholeBlock(double fraction)
-        {
-            var scene = CreateScene();
-            var lastRow = Scene.Group<LightsGroup>(scene.LayerNodeOfB(0));
-
-            var place = service.Locate(scene.LayerNodeOfA(0), lastRow, fraction);
-
-            Assert.Equal(new DropPlace(scene.LayerNodeOfB(0), DropPosition.After), place);
-        }
-
-        [Fact]
-        public void Locate_TheLastRowOfABlockWhenTheDraggedNodeIsAComposition_IsAfterTheCompositionBlock()
-        {
-            var scene = CreateScene();
-            // The last row of the block of a composition is the last group of the composition.
-            var lastRow = scene.NodeB.Children.Last();
-
-            var place = service.Locate(scene.NodeA, lastRow, 0.9);
-
-            Assert.Equal(new DropPlace(scene.NodeB, DropPosition.After), place);
-        }
-
-        [Fact]
-        public void Locate_TheTopHalfOfTheLastRowOfABlock_OffersNothing()
-        {
-            var scene = CreateScene();
-
-            Assert.Null(service.Locate(scene.LayerNodeOfA(0), Scene.Group<ModifiersGroup>(scene.LayerNodeOfB(0)), 0.2));
-        }
-
-        [Theory]
-        [InlineData(0.1)]
-        [InlineData(0.9)]
-        public void Locate_AMiddleRowOfABlock_OffersNothing(double fraction)
-        {
-            var scene = CreateScene();
-
-            Assert.Null(service.Locate(scene.LayerNodeOfA(0), Scene.Group<EntitiesGroup>(scene.LayerNodeOfB(0)), fraction));
-        }
-
-        [Theory]
-        [InlineData(0.0)]
-        [InlineData(0.5)]
-        [InlineData(1.0)]
-        public void Locate_ALayerOverACompositionRow_IsInsideWhereverThePointerIs(double fraction)
-        {
-            var scene = CreateScene();
-
-            Assert.Equal(new DropPlace(scene.NodeB, DropPosition.Inside), service.Locate(scene.LayerNodeOfA(0), scene.NodeB, fraction));
-        }
-
-        [Fact]
-        public void Locate_OverARowOfTheDraggedBlock_OffersNothing()
-        {
-            var scene = CreateScene();
-
-            Assert.Null(service.Locate(scene.LayerNodeOfA(0), scene.LayerNodeOfA(0), 0.2));
-            Assert.Null(service.Locate(scene.LayerNodeOfA(0), Scene.Group<LightsGroup>(scene.LayerNodeOfA(0)), 0.9));
-            Assert.Null(service.Locate(scene.NodeA, scene.LayerNodeOfA(1), 0.2));
-        }
-
-        [Fact]
-        public void Locate_ARowOfAnotherKind_OffersNothing()
-        {
-            var scene = CreateScene();
-            scene.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity));
-            var entity = Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(0)).Children[0];
-
-            Assert.Null(service.Locate(entity, Scene.Group<CamerasGroup>(scene.LayerNodeOfA(0)), 0.9));
-            Assert.Null(service.Locate(entity, Scene.Group<FiltersGroup>(scene.LayerNodeOfB(0)), 0.2));
-        }
-
-        [Fact]
-        public void Locate_TheBottomHalfOfTheLastEntity_IsAfterThatEntity()
-        {
-            var scene = CreateScene();
-            scene.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity));
-            scene.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity));
-            var group = Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(0));
-            TestServiceProviderFactory.ExpandAll(scene.Tree);
-
-            // An entity has groups under it (textures, filters, modifiers). The bottom half of the last row of its block is after it.
-            var lastRowOfTheEntity = group.Children[1].Children.Last();
-            var place = service.Locate(group.Children[0], lastRowOfTheEntity, 0.9);
-
-            Assert.Equal(new DropPlace(group.Children[1], DropPosition.After), place);
-            Assert.Null(service.Locate(group.Children[0], group.Children[1], 0.9));
-
-            // A closed entity is one row: its bottom half is after it.
-            group.Children[1].IsExpanded = false;
-            Assert.Equal(new DropPlace(group.Children[1], DropPosition.After), service.Locate(group.Children[0], group.Children[1], 0.9));
-        }
-
 
         [Fact]
         public void CanDrop_ACompositionInsideAComposition_IsFalse()
@@ -405,21 +272,6 @@ namespace CMiX.Studio.Avalonia.Tests
             service.Drop(Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(0)).Children[0], Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(1)), DropPosition.Inside);
 
             Assert.Same(moved, Assert.Single(scene.LayerOfA(1).ModelEntityManager.ManagerData.Items));
-        }
-
-        [Fact]
-        public void Locate_AnEntityOverTheEntitiesGroupOfAnotherLayer_IsInsideThatGroup()
-        {
-            var scene = CreateScene();
-            scene.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity));
-            var source = Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(0)).Children[0];
-            var group = Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(1));
-
-            var place = service.Locate(source, group, 0.9);
-
-            Assert.NotNull(place);
-            Assert.Same(group, place!.Target);
-            Assert.Equal(DropPosition.Inside, place.Position);
         }
 
         [Fact]
@@ -650,7 +502,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Locate_AnEntityOverALayerRow_GoesToTheEntitiesGroup()
+        public void Drop_AnEntityOnALayerRow_GoesToTheEntitiesGroup()
         {
             var scene = CreateScene();
             scene.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity));
@@ -658,8 +510,6 @@ namespace CMiX.Studio.Avalonia.Tests
             var source = Scene.Group<EntitiesGroup>(scene.LayerNodeOfA(0)).Children[0];
             var layerRow = scene.LayerNodeOfB(0);
 
-            Assert.Equal(new DropPlace(layerRow, DropPosition.Inside), service.Locate(source, layerRow, 0.2));
-            Assert.Equal(new DropPlace(layerRow, DropPosition.Inside), service.Locate(source, layerRow, 0.9));
             Assert.Same(Scene.Group<EntitiesGroup>(layerRow), TreeDropService.InsideOf(source, layerRow));
             Assert.True(service.IsInsideTarget(source, layerRow));
 
@@ -668,14 +518,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(outcome.Moved);
             Assert.Same(entity, Assert.Single(scene.LayerOfB().ModelEntityManager.ManagerData.Items));
             Assert.Empty(scene.LayerOfA(0).ModelEntityManager.ManagerData.Items);
-        }
-
-        [Fact]
-        public void Locate_ALayerOverALayerRow_StaysBeforeOrAfter()
-        {
-            var scene = CreateScene();
-
-            Assert.Equal(new DropPlace(scene.LayerNodeOfB(0), DropPosition.Before), service.Locate(scene.LayerNodeOfA(0), scene.LayerNodeOfB(0), 0.2));
         }
 
         [Fact]

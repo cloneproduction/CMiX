@@ -42,6 +42,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             marked.Clear();
         }
 
+        // Returns whether the row or a row under it takes the drop.
         private bool MarkRow(TreeNode root, TreeNode node, IReadOnlyList<TreeNode> sources)
         {
             var below = false;
@@ -49,15 +50,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 below |= MarkRow(root, child, sources);
 
             var isSource = sources.Any(source => ReferenceEquals(node, source));
-            var candidate = node != root && sources.All(source => dropService.IsInsideTarget(source, node));
-            var neighbor = node != root && sources.All(source => dropService.IsNeighbor(source, node));
-            var reason = node != root ? ReasonOf(node, sources, candidate || neighbor) : null;
-            if (reason != null)
-                candidate = neighbor = false;
+            var isTarget = node != root
+                && (sources.All(source => dropService.IsInsideTarget(source, node)) || sources.All(source => dropService.IsNeighbor(source, node)));
+            var reason = node != root ? ReasonOf(node, sources, isTarget) : null;
 
-            node.ShowDragLook(new DragLook(isSource, candidate, neighbor, below, reason));
+            node.ShowDragLook(new DragLook(isSource, below, reason));
             marked.Add(node);
-            return below || candidate || neighbor;
+            return below || (isTarget && reason == null);
         }
 
         private string? ReasonOf(TreeNode node, IReadOnlyList<TreeNode> sources, bool isTarget)
