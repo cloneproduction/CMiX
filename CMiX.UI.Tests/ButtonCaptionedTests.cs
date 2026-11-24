@@ -14,13 +14,13 @@ namespace CMiX.UI.Tests
     public class ButtonCaptionedTests
     {
         [AvaloniaFact]
-        public void IsARealButton()
+        public void Create_AButtonCaptioned_IsAButton()
         {
             Assert.IsAssignableFrom<Button>(new ButtonCaptioned());
         }
 
         [AvaloniaFact]
-        public void TheCaption_IsTheLabel()
+        public void Caption_ATextSet_IsTheLabel()
         {
             var button = new ButtonCaptioned { Caption = "Apply" };
 
@@ -28,7 +28,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ChangingTheCaption_ChangesTheLabel()
+        public void Caption_ANewText_ChangesTheLabel()
         {
             var button = new ButtonCaptioned { Caption = "Apply" };
 
@@ -38,7 +38,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AContentThatIsSet_IsNotReplacedByTheCaption()
+        public void Caption_AContentThatIsSet_IsNotReplaced()
         {
             var button = new ButtonCaptioned { Content = "Own label" };
 
@@ -48,7 +48,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ClickRunsTheCommand()
+        public void Click_TheButton_RunsTheCommand()
         {
             var ran = 0;
             var button = new ButtonCaptioned { Caption = "Apply", Command = new RelayCommand(() => ran++) };
@@ -60,7 +60,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ShowsTheCaptionOnScreen()
+        public void Show_ACaption_ShowsItOnScreen()
         {
             var button = new ButtonCaptioned { Caption = "Apply" };
             TestWindow.Show(button, 300, 100);

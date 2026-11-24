@@ -35,7 +35,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AChevronWithOtherAngles_UsesThem()
+        public void OpenAngle_OtherAngles_AreUsed()
         {
             var chevron = Show(new Chevron { ClosedAngle = 0, OpenAngle = 180, Duration = TimeSpan.Zero });
             Assert.Equal(0, chevron.Angle);
@@ -47,7 +47,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheIcon_IsReallyTurned()
+        public void IsOpen_AChange_TurnsTheIcon()
         {
             var chevron = Show(new Chevron { Duration = TimeSpan.Zero });
             var icon = chevron.GetVisualDescendants().OfType<AppIcon>().Single();
@@ -71,7 +71,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheFirstState_ShowsAtOnce()
+        public void Show_TheFirstState_AppearsAtOnce()
         {
             var chevron = Show(new Chevron { IsOpen = true });
 
@@ -79,7 +79,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AChevron_IsTheSameIconAndSizeAndOpacity()
+        public void Show_AnyChevron_HasTheSameIconSizeAndOpacity()
         {
             var chevron = Show(new Chevron());
             var icon = chevron.GetVisualDescendants().OfType<AppIcon>().Single();
@@ -115,7 +115,7 @@ namespace CMiX.UI.Tests
 
         [AvaloniaTheory]
         [MemberData(nameof(Expanders))]
-        public void TheChevronOfAnExpander_FollowsIsExpanded(string kind)
+        public void IsExpanded_OfAnExpander_TurnsItsChevron(string kind)
         {
             var view = Show(Expander(kind));
             var chevron = view.GetVisualDescendants().OfType<Chevron>().Single();

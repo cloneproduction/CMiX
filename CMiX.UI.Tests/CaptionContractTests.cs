@@ -10,7 +10,7 @@ namespace CMiX.UI.Tests
     public class CaptionContractTests
     {
         [Fact]
-        public void EveryControlWithACaption_IsACaptioned()
+        public void Scan_EveryControlWithACaption_IsACaptioned()
         {
             var violations = typeof(DragValue).Assembly.GetExportedTypes()
                 .Where(type => typeof(Control).IsAssignableFrom(type))
@@ -23,7 +23,7 @@ namespace CMiX.UI.Tests
         }
 
         [Fact]
-        public void TheScan_FindsTheControlsThatItShouldCheck()
+        public void Scan_TheLibrary_FindsTheControlsThatItShouldCheck()
         {
             var captioned = typeof(DragValue).Assembly.GetExportedTypes()
                 .Where(type => typeof(Control).IsAssignableFrom(type))
