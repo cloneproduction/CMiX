@@ -9,6 +9,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.Collection;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -28,13 +29,7 @@ namespace CMiX.UI.Tests
             public void Dropped(int sourceIndex, int insertIndex) { }
         }
 
-        private static (Window window, ListPanelItem list) Show(ListPanelItem list)
-        {
-            var window = new Window { Content = list, Width = 400, Height = 500 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, list);
-        }
+        private static (Window window, ListPanelItem list) Show(ListPanelItem list) => (TestWindow.Show(list, 400, 500), list);
 
         private static ListPanelItem NewList(IEnumerable<string>? items = null)
         {

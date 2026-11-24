@@ -15,8 +15,7 @@ namespace CMiX.UI.Tests
         {
             var model = new StringValue { Value = value };
             var selector = new SelectorColor { Caption = "Color", DataContext = model, Width = 200, Height = 40 };
-            new Window { Content = selector, Width = 300, Height = 100 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(selector, 300, 100);
             return (selector, model);
         }
 

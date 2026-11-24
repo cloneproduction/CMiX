@@ -9,6 +9,7 @@ using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
 using CMiX.UI.Panels;
+using CMiX.UI.Tests.Support;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 
@@ -29,10 +30,7 @@ namespace CMiX.UI.Tests
             var detail = new ListBoxRepository { ItemsSource = rows };
             detail.DataTemplates.Add(new FuncDataTemplate<Row>((row, _) => new TextBlock { Text = "row " + row.Name }));
             configure?.Invoke(detail);
-            var window = new Window { Content = detail, Width = 400, Height = 600 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, detail, rows);
+            return (TestWindow.Show(detail, 400, 600), detail, rows);
         }
 
         private static ListBoxCMiX ListOf(ListBoxRepository detail) => detail.GetVisualDescendants().OfType<ListBoxCMiX>().Single();

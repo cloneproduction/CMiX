@@ -8,6 +8,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -23,10 +24,7 @@ namespace CMiX.UI.Tests
             var area = new Grid();
             area.Children.Add(behind);
             area.Children.Add(strip);
-            var window = new Window { Content = area, Width = 600, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (strip, behind, window);
+            return (strip, behind, TestWindow.Show(area, 600, 200));
         }
 
         private static string?[] KeyTexts(Control strip) =>
@@ -104,7 +102,7 @@ namespace CMiX.UI.Tests
 
             var pressed = false;
             behind.PointerPressed += (_, _) => pressed = true;
-            AvaloniaHeadlessPlatform.ForceRenderTimerTick();
+            TestWindow.Render();
             var center = strip.TranslatePoint(new Point(strip.Bounds.Width / 2, strip.Bounds.Height / 2), window)!.Value;
             window.MouseDown(center, MouseButton.Left);
             window.MouseUp(center, MouseButton.Left);

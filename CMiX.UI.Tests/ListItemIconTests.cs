@@ -6,6 +6,7 @@ using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
 using CMiX.UI.Controls.String;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -15,8 +16,7 @@ namespace CMiX.UI.Tests
     {
         private static ListItemIcon Show(ListItemIcon item)
         {
-            new Window { Content = item, Width = 300, Height = 60 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(item, 300, 60);
             return item;
         }
 

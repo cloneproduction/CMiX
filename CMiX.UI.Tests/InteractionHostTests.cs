@@ -8,6 +8,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Number;
 using CMiX.UI.Interaction;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -50,28 +51,8 @@ namespace CMiX.UI.Tests
             return counter;
         }
 
-        // The headless renderer cannot hit test through a geometry clip, such as the rounded
-        // clip of a BorderMask. Without this the pointer is never over the editor.
-        private static Window Show(Control control)
-        {
-            var window = new Window { Content = control, Width = 300, Height = 100 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            foreach (var visual in window.GetVisualDescendants().Where(v => v.Clip != null))
-                visual.Clip = null;
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
-        private static void Press(Window window, Control target)
-        {
-            var center = target.TranslatePoint(new Point(target.Bounds.Width / 2, target.Bounds.Height / 2), window)!.Value;
-            window.MouseMove(center);
-            Dispatcher.UIThread.RunJobs();
-            window.MouseDown(center, MouseButton.Left);
-            window.MouseUp(center, MouseButton.Left);
-            Dispatcher.UIThread.RunJobs();
-        }
+        private static void Press(Window window, Control target) =>
+            PointerInput.Click(window, target.TranslatePoint(new Point(target.Bounds.Width / 2, target.Bounds.Height / 2), window)!.Value);
 
         [AvaloniaFact]
         public void WithoutAHandler_NoScopeIsOpened()
@@ -97,7 +78,7 @@ namespace CMiX.UI.Tests
             {
                 var counter = Install();
                 var drag = new DragValue { Minimum = 0, Maximum = 10 };
-                var window = Show(drag);
+                var window = TestWindow.ShowWithoutClips(drag, 300, 100);
                 var border = drag.GetVisualDescendants().OfType<Border>()
                     .Single(b => b.Name == "borderValueDisplay" && b.TemplatedParent == drag);
 
@@ -120,7 +101,7 @@ namespace CMiX.UI.Tests
             {
                 var counter = Install();
                 var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Width = 200, Height = 20 };
-                var window = Show(slider);
+                var window = TestWindow.ShowWithoutClips(slider, 300, 100);
 
                 Press(window, slider);
 

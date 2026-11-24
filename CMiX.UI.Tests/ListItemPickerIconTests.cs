@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -22,10 +23,7 @@ namespace CMiX.UI.Tests
                 IconPath = iconPath,
                 Width = 200
             };
-            var window = new Window { Content = list, Width = 300, Height = 300 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, list);
+            return (TestWindow.Show(list, 300, 300), list);
         }
 
         [AvaloniaFact]

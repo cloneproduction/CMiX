@@ -3,6 +3,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.Number;
+using CMiX.UI.Tests.Support;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 
@@ -14,8 +15,7 @@ namespace CMiX.UI.Tests
         private static DragValue Show(DragValue box)
         {
             box.ResetCommand = new RelayCommand(() => { });
-            new Window { Content = box, Width = 300, Height = 60 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(box, 300, 60);
             return box;
         }
 

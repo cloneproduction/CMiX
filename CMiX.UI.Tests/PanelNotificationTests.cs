@@ -9,6 +9,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Popups;
+using CMiX.UI.Tests.Support;
 using CMiX.UI.Themes;
 using Xunit;
 
@@ -26,10 +27,7 @@ namespace CMiX.UI.Tests
             var area = new Grid();
             area.Children.Add(behind);
             area.Children.Add(host);
-            var window = new Window { Content = area, Width = 600, Height = 400 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (host, behind, window, clock);
+            return (host, behind, TestWindow.Show(area, 600, 400), clock);
         }
 
         private static string? KeyText(Notification notification) =>
@@ -136,7 +134,7 @@ namespace CMiX.UI.Tests
             // A click in the middle of the notification goes to the area behind it.
             var pressed = false;
             behind.PointerPressed += (_, _) => pressed = true;
-            AvaloniaHeadlessPlatform.ForceRenderTimerTick();
+            TestWindow.Render();
             var center = host.Notification.TranslatePoint(new Point(host.Notification.Bounds.Width / 2, host.Notification.Bounds.Height / 2), window)!.Value;
             window.MouseDown(center, MouseButton.Left);
             window.MouseUp(center, MouseButton.Left);

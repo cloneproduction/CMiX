@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using CMiX.UI.Panels;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -28,8 +29,7 @@ namespace CMiX.UI.Tests
             var panel = new PanelCollapse { IsExpanded = isExpanded, Child = content };
             if (duration is { } time)
                 panel.Duration = time;
-            new Window { Content = new StackPanel { Children = { panel } }, Width = 300, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(new StackPanel { Children = { panel } }, 300, 400);
             return (panel, content);
         }
 
