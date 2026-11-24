@@ -48,15 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests.Support
 
         public void Settle() => Settle(Window);
 
-        // Runs the jobs, lets the animations end, runs the layout and renders.
-        public static void Settle(Window window)
-        {
-            Dispatcher.UIThread.RunJobs();
-            AvaloniaHeadlessPlatform.ForceRenderTimerTick(60);
-            window.UpdateLayout();
-            AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-            Dispatcher.UIThread.RunJobs();
-        }
+        public static void Settle(Window window) => ListTreeTestScreen.Settle(window);
 
         // Renders the window, so that the hit test sees the last change.
         public void Render() => TreeDrag.Render(Window);
@@ -92,8 +84,6 @@ namespace CMiX.Studio.Avalonia.Tests.Support
             return ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
         }
 
-        // The nodes and all the nodes under them, in tree order.
-        public static IEnumerable<TreeNode> All(IEnumerable<TreeNode> nodes) =>
-            nodes.SelectMany(node => new[] { node }.Concat(All(node.Children)));
+        public static IEnumerable<TreeNode> All(IEnumerable<TreeNode> nodes) => ListTreeTestScreen.All(nodes);
     }
 }

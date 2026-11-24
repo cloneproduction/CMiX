@@ -174,7 +174,7 @@ namespace CMiX.Studio.Avalonia.Tests
             MoveTo(InsideOf(scene.LayerNodeOfA(1)));
 
             window.KeyPressQwerty(PhysicalKey.Escape, RawInputModifiers.None);
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
 
             Assert.False(scene.Tree.IsDragging);
             Assert.False(view.DragNote.IsVisible);
@@ -190,7 +190,7 @@ namespace CMiX.Studio.Avalonia.Tests
             MoveTo(InsideOf(scene.LayerNodeOfA(1)));
 
             Release();
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
 
             Assert.False(scene.Tree.IsDragging);
             Assert.Contains(entity, scene.LayerOfA(1).ModelEntityManager.ManagerData.Items);

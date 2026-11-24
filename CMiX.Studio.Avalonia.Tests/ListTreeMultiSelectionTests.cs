@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private ProjectTree Tree => scene.Tree;
 
-        private void Settle() => TreeTestScreen.Settle(window);
+        private void Settle() => ListTreeTestScreen.Settle(window);
 
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
 

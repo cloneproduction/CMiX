@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Layer => scene.LayerNodeOfA(0);
 
-        private void Settle() => TreeTestScreen.Settle(window);
+        private void Settle() => ListTreeTestScreen.Settle(window);
 
         private Point CenterOf(Control control) =>
             control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;

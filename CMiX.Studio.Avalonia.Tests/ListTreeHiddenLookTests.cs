@@ -41,7 +41,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Entity => Entities.Children[0];
 
-        private void Settle() => TreeTestScreen.Settle(window);
+        private void Settle() => ListTreeTestScreen.Settle(window);
 
         private void HideTheLayer()
         {

@@ -66,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Entity => Entities.Children[0];
 
-        private void Settle() => TreeTestScreen.Settle(window);
+        private void Settle() => ListTreeTestScreen.Settle(window);
 
         private void Press(PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
         {
@@ -74,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle();
         }
 
-        private State Capture() => new(Tree.CursorNode, Tree.SelectedNode, Tree.InspectedNode, TreeTestScreen.All(Tree.Roots).Select(node => node.IsExpanded).ToArray());
+        private State Capture() => new(Tree.CursorNode, Tree.SelectedNode, Tree.InspectedNode, ListTreeTestScreen.All(Tree.Roots).Select(node => node.IsExpanded).ToArray());
 
         private static bool IsSame(State a, State b) =>
             a.Cursor == b.Cursor && a.Selected == b.Selected && a.Inspected == b.Inspected && a.Open.SequenceEqual(b.Open);
@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // Every card is closed but the path to the entities of the first layer. The first layer is selected, the cursor is on the start row.
         private void Begin(Start start)
         {
-            foreach (var node in TreeTestScreen.All(Tree.Roots))
+            foreach (var node in ListTreeTestScreen.All(Tree.Roots))
                 node.IsExpanded = false;
             foreach (var parent in TreeWalk.ParentsOf(Entity))
                 parent.IsExpanded = true;

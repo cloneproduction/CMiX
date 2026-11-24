@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -69,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         {
             if (IsEditor(e.Source))
             {
-                if (TreeRows.HasAncestor<ToggleButton>(e.Source))
+                if (HasAncestor<ToggleButton>(e.Source))
                     PressFocus.RememberFocusBeforeRowButton();
                 return;
             }
@@ -120,6 +122,10 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 PressFocus.FocusCursorRowAfterPress();
         }
 
-        internal static bool IsEditor(object? source) => TreeRows.HasAncestor<ToggleButton>(source) || TreeRows.HasAncestor<TextBox>(source);
+        internal static bool IsEditor(object? source) => HasAncestor<ToggleButton>(source) || HasAncestor<TextBox>(source);
+
+        // The source itself counts.
+        internal static bool HasAncestor<T>(object? source) where T : Visual =>
+            (source as Visual)?.FindAncestorOfType<T>(includeSelf: true) != null;
     }
 }

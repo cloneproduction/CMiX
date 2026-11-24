@@ -3,20 +3,32 @@
 
 using System;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Threading;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // Scrolls the new tree while a drag holds the pointer near its top or bottom edge, with the zone and the step of DragAutoScroller.
+    // Scrolls the new tree while a drag holds the pointer near its top or bottom edge.
     internal sealed class ListTreeAutoScroll : ListTreeBehavior
     {
+        // The zone at the top and at the bottom edge, and the biggest step of one tick, in pixels.
+        internal const double EdgeZone = 28.0;
+        internal const double MaxScrollStep = 18.0;
+
         private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(30) };
 
         private double? pointerY;
 
         public bool IsRunning => timer.IsEnabled;
+
+        // The steps of one turn of the wheel: at least one in the direction of the turn.
+        public static int WheelSteps(PointerWheelEventArgs e)
+        {
+            var steps = (int)Math.Round(e.Delta.Y);
+            return steps != 0 ? steps : Math.Sign(e.Delta.Y);
+        }
 
         private ScrollViewer Scroller => Context.Scroller;
 
@@ -42,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             pointerY = null;
         }
 
-        // Three rows for each step of the wheel, as DragAutoScroller.ScrollByWheel.
+        // Three rows for each step of the wheel.
         public void ScrollByWheel(int steps)
         {
             Context.ScrollTo(Scroller.Offset.Y - steps * 3 * Context.Rows.Sizes.Pitch);
@@ -68,8 +80,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         // Faster as the pointer goes deeper into the zone.
         private static double StepAt(double y, double height)
         {
-            const double edge = DragAutoScroller.EdgeZone;
-            const double maxStep = DragAutoScroller.MaxScrollStep;
+            const double edge = EdgeZone;
+            const double maxStep = MaxScrollStep;
             if (y < edge)
                 return -maxStep * Math.Min(1, (edge - y) / edge);
 

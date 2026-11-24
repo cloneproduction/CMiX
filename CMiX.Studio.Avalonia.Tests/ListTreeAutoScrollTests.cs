@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ScrollStep_ADragNearTheTopEdge_ScrollsUp()
         {
             Scroller.Offset = new Vector(0, 100);
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
             StartDrag();
 
             TreeDrag.MoveTo(window, InScroller(4));
@@ -105,7 +105,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TreeDrag.MoveTo(window, point);
 
             window.MouseWheel(point, new Vector(0, -1));
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
 
             Assert.True(Scroller.Offset.Y > 0);
             Assert.True(view.RowDrag.IsDragging);
@@ -130,7 +130,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             for (var i = 0; i < 20; i++)
                 view.AutoScroll.ScrollStep();
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
 
             Assert.True(view.RowDrag.Drag!.Look!.Candidate.Place.Y > before);
         }

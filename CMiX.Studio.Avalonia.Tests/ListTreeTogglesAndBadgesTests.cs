@@ -56,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private void Settle()
         {
             oldScreen.Settle();
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
         }
 
         private RowListTree NewRowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
@@ -111,7 +111,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             TreeDrag.Render(screen);
             screen.MouseMove(CenterOf(control, screen));
-            TreeTestScreen.Settle(screen);
+            ListTreeTestScreen.Settle(screen);
         }
 
         private static void Click(Window screen, Control control)
@@ -120,7 +120,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TreeDrag.Render(screen);
             screen.MouseDown(point, MouseButton.Left);
             screen.MouseUp(point, MouseButton.Left);
-            TreeTestScreen.Settle(screen);
+            ListTreeTestScreen.Settle(screen);
         }
 
         private static Point CenterOf(Control control, Window screen) =>

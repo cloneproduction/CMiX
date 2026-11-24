@@ -19,7 +19,9 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             this.owner = owner;
         }
 
-        public bool IsTextBoxFocused() => TreeFocusKeeper.IsInTextBox(TopLevel.GetTopLevel(owner)?.FocusManager?.GetFocusedElement());
+        public static bool IsInTextBox(object? source) => ListTreeRowClick.HasAncestor<TextBox>(source);
+
+        public bool IsTextBoxFocused() => IsInTextBox(TopLevel.GetTopLevel(owner)?.FocusManager?.GetFocusedElement());
 
         // The focus on the window itself, or on no control, is in no panel.
         public bool IsFocusInOtherPanel() => FocusedControl() is { } focused && !IsInPanel(focused);

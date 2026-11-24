@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Entity(int index) => scene.Group<EntitiesGroup>(0).Children[index];
 
-        private void Settle() => TreeTestScreen.Settle(window);
+        private void Settle() => ListTreeTestScreen.Settle(window);
 
         private ListTreeDragLook LookOf(TreeNode source, Func<ListTreeCandidate, bool> pick)
         {

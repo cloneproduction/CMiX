@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Input;
 using Avalonia.Threading;
-using CMiX.Studio.Avalonia.Views;
+using CMiX.Studio.Avalonia.ViewModels.ListTree;
 
 namespace CMiX.Studio.Avalonia.Tests.Support
 {
@@ -11,8 +11,8 @@ namespace CMiX.Studio.Avalonia.Tests.Support
     // threshold, moves to the target, then a release (the drop) or an Escape (the cancel). The points are in the window.
     internal static class TreeDrag
     {
-        // A move that starts the drag: longer than the threshold of TreeRowDrag.
-        private static readonly Vector Start = new(0, 2 * TreeRowDrag.Threshold);
+        // A move that starts the drag: longer than the threshold of the drag numbers.
+        private static readonly Vector Start = new(0, 2 * ListTreeDragNumbers.Default.Threshold);
 
         // The hit test of the window reads the last rendered scene. After a change of the rows it must be rendered first.
         public static void Render(Window window)

@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private void Settle()
         {
             for (var i = 0; i < 10; i++)
-                TreeTestScreen.Settle(window);
+                ListTreeTestScreen.Settle(window);
         }
 
         private TreeNode EchoOf(int layer) =>

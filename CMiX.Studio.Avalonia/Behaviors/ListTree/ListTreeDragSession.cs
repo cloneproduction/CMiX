@@ -97,7 +97,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         public void ScrollByWheel(PointerWheelEventArgs e)
         {
-            Part<ListTreeAutoScroll>().ScrollByWheel(TreeRows.WheelSteps(e));
+            Part<ListTreeAutoScroll>().ScrollByWheel(ListTreeAutoScroll.WheelSteps(e));
             e.Handled = true;
         }
 

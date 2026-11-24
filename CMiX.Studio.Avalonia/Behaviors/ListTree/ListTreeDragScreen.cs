@@ -3,14 +3,15 @@
 
 using Avalonia.Controls;
 using Avalonia.Input;
-using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
     // The cursor of the rows and the note under them during a drag of the new tree.
     internal sealed class ListTreeDragScreen
     {
-        private readonly Cursor moveCursor = new(TreeDragSession.MoveCursorType);
+        public const StandardCursorType MoveCursorType = StandardCursorType.DragMove;
+
+        private readonly Cursor moveCursor = new(MoveCursorType);
         private readonly ScrollViewer scroller;
         private readonly TextBlock note;
         private Cursor? cursorBefore;

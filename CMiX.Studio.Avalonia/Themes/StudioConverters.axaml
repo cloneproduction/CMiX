@@ -1,4 +1,4 @@
-﻿<ResourceDictionary
+<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters">
@@ -9,5 +9,11 @@
     <StudioConverters:SyncStatusIsConnectingConverter x:Key="SyncStatusIsConnecting" />
     <StudioConverters:SyncStatusConnectTextConverter x:Key="SyncStatusConnectText" />
     <StudioConverters:PeerSyncStateConverter x:Key="PeerSyncState" />
+
+    <!-- The tones of a row of the tree by its kind (see CategoryPalette). -->
+    <StudioConverters:TreeToneConverter x:Key="TreeTone" />
+
+    <!-- The brush of the icon and the text of a row of the tree (see TreeRowBrush). -->
+    <StudioConverters:KindIconBrushConverter x:Key="KindIconBrush" />
 
 </ResourceDictionary>

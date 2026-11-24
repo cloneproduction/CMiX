@@ -81,7 +81,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var target = Drag.Candidates.First(candidate => candidate.Slot.Position == DropPosition.Inside && ReferenceEquals(candidate.Slot.ShownTarget.Model, card.Item));
             MoveTo(PressX + (target.Place.Depth - Drag.Press.Depth) * 24, target.Place.Y + Drag.Press.GrabOffsetY);
             TreeDrag.Release(window, last);
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
         }
 
         [AvaloniaFact]
@@ -90,7 +90,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Show(900);
             var entity = Entity(0).Item!;
             ModifiersOf(Entity(0)).IsExpanded = false;
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
 
             DropInside(Entity(0), scene.LayerNodeOfA(1));
 

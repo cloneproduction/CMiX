@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private ListTreePlace LastPlace => Panel.Layout.Places[^1];
 
-        private void Settle() => TreeTestScreen.Settle(window);
+        private void Settle() => ListTreeTestScreen.Settle(window);
 
         // The window is the view and half a view above and below it.
         private int MostRowsInTheWindow => (int)Math.Ceiling(2 * Scroller.Viewport.Height / Panel.Sizes.Pitch) + 2;

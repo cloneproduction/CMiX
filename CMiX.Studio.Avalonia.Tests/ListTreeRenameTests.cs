@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static string NameOf(TreeNode node) => ((IPrefab)node.Item!).PrefabService.Name.Value;
 
-        private void Settle() => TreeTestScreen.Settle(window);
+        private void Settle() => ListTreeTestScreen.Settle(window);
 
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(node));
 

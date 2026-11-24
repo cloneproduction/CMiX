@@ -35,7 +35,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         private void OnKeyDownTunnel(object? sender, KeyEventArgs e)
         {
-            if (tree == null || cursor == null || TreeFocusKeeper.IsInTextBox(e.Source))
+            if (tree == null || cursor == null || ListTreeFocus.IsInTextBox(e.Source))
                 return;
 
             if (e.Key == Key.Escape && e.KeyModifiers == KeyModifiers.None && tree.IsSearchActive && !tree.IsDragging)

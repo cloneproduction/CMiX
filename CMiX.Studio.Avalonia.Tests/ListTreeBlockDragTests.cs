@@ -62,7 +62,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private IReadOnlyList<IControl> ItemsOfLayer(int index) => scene.LayerOfA(index).ModelEntityManager.ManagerData.Items;
 
-        private void Settle() => TreeTestScreen.Settle(window);
+        private void Settle() => ListTreeTestScreen.Settle(window);
 
         private Point InWindow(double x, double y) => Panel.TranslatePoint(new Point(x, y), window)!.Value;
 

@@ -41,7 +41,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Show();
             foreach (var panel in oldView.GetVisualDescendants().OfType<PanelCollapse>())
                 panel.Duration = TimeSpan.Zero;
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
         }
 
         public void Dispose() => window.Close();
@@ -59,7 +59,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private Point MiddleOf(Control control)
         {
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
             return control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
         }
 
@@ -107,7 +107,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheMaskOfEachRow_HasTheTooltipFillOfTheOldRow()
         {
-            var masked = TreeTestScreen.All(scene.Tree.Roots).Where(HasNewMask).ToList();
+            var masked = ListTreeTestScreen.All(scene.Tree.Roots).Where(HasNewMask).ToList();
             Assert.NotEmpty(masked);
             foreach (var node in masked)
             {

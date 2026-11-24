@@ -11,9 +11,12 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The grab of a row (Tree.Grab), with the keys and rules of TreeGrab: the keys step through the candidates, a pointer move past TreeGrab.MouseTakeOver takes the mark.
+    // The grab of a row (Tree.Grab): the keys step through the candidates, a pointer move past MouseTakeOver takes the mark.
     internal sealed class ListTreeGrab : ListTreeBehavior
     {
+        // The distance in pixels that the pointer moves before it takes the mark from the keys.
+        public const double MouseTakeOver = 14;
+
         // While a grab runs, the view shows the accent frame (grabFrame).
         public const string GrabbingClass = "grabbing";
 
@@ -128,7 +131,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         {
             var inRows = Context.ToRows(inScroller);
             lastPointer = inRows;
-            if (isMarkFromKey && ListTreePick.IsNearer(keyMovePoint, inRows, TreeGrab.MouseTakeOver))
+            if (isMarkFromKey && ListTreePick.IsNearer(keyMovePoint, inRows, MouseTakeOver))
                 return;
 
             isMarkFromKey = false;

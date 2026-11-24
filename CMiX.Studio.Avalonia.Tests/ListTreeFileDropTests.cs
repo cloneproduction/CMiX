@@ -81,7 +81,7 @@ namespace CMiX.Studio.Avalonia.Tests
             if (last != RawDragEventType.DragOver)
                 window.DragDrop(point, last, data, effects);
             Dispatcher.UIThread.RunJobs();
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
         }
 
         private Point RowPoint(TreeNode node)

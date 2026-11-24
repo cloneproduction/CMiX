@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private PanelListTreeRows Panel => view.Rows;
 
-        private void Settle() => TreeTestScreen.Settle(window);
+        private void Settle() => ListTreeTestScreen.Settle(window);
 
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(Panel.RowOf(ListTreeKeys.Of(node)));
 
@@ -200,7 +200,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var other = new ListTreeProject { DataContext = moved.Tree };
             var screen = new Window { Content = other, Width = 400, Height = 600 };
             screen.Show();
-            TreeTestScreen.Settle(screen);
+            ListTreeTestScreen.Settle(screen);
             var row = Assert.IsType<RowListTree>(other.Rows.RowOf(moved.Tree.CompositionNodes()[1]));
             var before = PanelListTreeRows.GetTop(row);
 
