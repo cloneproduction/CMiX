@@ -9,16 +9,18 @@ namespace CMiX.Core.BaseControls
     // it does not own. A default handle owns no scope and disposing it is always a no op.
     public readonly struct ValueInteractionScope : IDisposable
     {
-        internal ValueInteractionScope(long token)
+        internal ValueInteractionScope(ValueInteraction owner, long token)
         {
+            _owner = owner;
             _token = token;
         }
 
+        private readonly ValueInteraction _owner;
         private readonly long _token;
 
         public void Dispose()
         {
-            ValueInteraction.End(_token);
+            _owner?.End(_token);
         }
     }
 }

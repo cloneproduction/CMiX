@@ -3,35 +3,31 @@
 
 namespace CMiX.Core.BaseControls
 {
-    public static class ValueInteraction
+    // The one open drag of the Studio. The sliders open it, the value syncs enlist in it.
+    public sealed class ValueInteraction
     {
-        private static readonly List<IInteractiveValue> _participants = new();
-        private static long _openScopeToken;
-        private static long _lastToken;
+        private readonly List<IInteractiveValue> _participants = new();
+        private long _openScopeToken;
+        private long _lastToken;
 
-        public static bool IsActive { get; private set; }
+        public bool IsActive { get; private set; }
 
-        public static void Begin()
-        {
-            BeginScope();
-        }
-
-        public static ValueInteractionScope BeginScope()
+        public ValueInteractionScope BeginScope()
         {
             End();
             _openScopeToken = ++_lastToken;
             IsActive = true;
-            return new ValueInteractionScope(_openScopeToken);
+            return new ValueInteractionScope(this, _openScopeToken);
         }
 
-        public static void Enlist(IInteractiveValue participant)
+        public void Enlist(IInteractiveValue participant)
         {
             if (!IsActive || participant == null) return;
             if (!_participants.Contains(participant))
                 _participants.Add(participant);
         }
 
-        public static void End()
+        internal void End()
         {
             if (!IsActive) return;
             IsActive = false;
@@ -43,7 +39,7 @@ namespace CMiX.Core.BaseControls
             _participants.Clear();
         }
 
-        internal static void End(long token)
+        internal void End(long token)
         {
             if (token == 0 || token != _openScopeToken) return;
             End();

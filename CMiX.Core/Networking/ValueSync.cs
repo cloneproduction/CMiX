@@ -16,6 +16,7 @@ namespace CMiX.Core.Networking
         private readonly UndoManager _undoManager;
         private readonly MessageFactory _messageFactory;
         private readonly ControlMessenger _messenger;
+        private readonly ValueInteraction _interaction;
 
         private IControl _value;
         private bool _inInteraction;
@@ -23,11 +24,12 @@ namespace CMiX.Core.Networking
         private long _lastSendTicks;
         private bool _sendPending;
 
-        public ValueSync(UndoManager undoManager, MessageFactory messageFactory, ControlMessenger messenger)
+        public ValueSync(UndoManager undoManager, MessageFactory messageFactory, ControlMessenger messenger, ValueInteraction interaction)
         {
             _undoManager = undoManager;
             _messageFactory = messageFactory;
             _messenger = messenger;
+            _interaction = interaction;
         }
 
         // The tests drive the clock through this.
@@ -35,7 +37,7 @@ namespace CMiX.Core.Networking
 
         public void Changed(IControl value, IControlModel before, IControlModel after)
         {
-            if (ValueInteraction.IsActive)
+            if (_interaction.IsActive)
             {
                 ChangedInInteraction(value, before);
                 return;
@@ -56,7 +58,7 @@ namespace CMiX.Core.Networking
                 _interactionBefore = before;
                 _lastSendTicks = Timestamp() - SendIntervalTicks;
                 _sendPending = false;
-                ValueInteraction.Enlist(this);
+                _interaction.Enlist(this);
             }
 
             var now = Timestamp();

@@ -1,24 +1,36 @@
-using Avalonia.Headless.XUnit;
 using CMiX.Core.BaseControls;
+using CMiX.Studio.Avalonia.Drag;
 using CMiX.UI.Interaction;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The App connects the InteractionHost of the editors to the ValueInteraction of the model.
+    // Connect makes the InteractionHost of the editors open the ValueInteraction of the given provider.
     public class InteractionHostConnectionTests
     {
-        [AvaloniaFact]
-        public void Start_TheApp_ConnectsTheHostToTheValueInteraction()
+        [Fact]
+        public void Connect_OfAProvider_OpensTheValueInteractionOfThatProvider()
         {
-            var scope = InteractionHost.BeginScope();
+            var provider = TestServiceProviderFactory.Create();
+            try
+            {
+                InteractionHostConnection.Connect(provider);
+                var interaction = provider.GetRequiredService<ValueInteraction>();
 
-            Assert.NotNull(scope);
-            Assert.True(ValueInteraction.IsActive);
+                var scope = InteractionHost.BeginScope();
 
-            scope!.Dispose();
+                Assert.NotNull(scope);
+                Assert.True(interaction.IsActive);
 
-            Assert.False(ValueInteraction.IsActive);
+                scope!.Dispose();
+
+                Assert.False(interaction.IsActive);
+            }
+            finally
+            {
+                InteractionHost.BeginScopeHandler = null;
+            }
         }
     }
 }

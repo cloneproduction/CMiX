@@ -107,12 +107,13 @@ namespace CMiX.Core.Tests
         {
             var fixture = Create();
             var sync = (ValueSync)fixture.Sync;
+            var interaction = fixture.Provider.GetRequiredService<ValueInteraction>();
             long now = 1000;
             sync.Timestamp = () => now;
 
             try
             {
-                ValueInteraction.BeginScope();
+                interaction.BeginScope();
                 for (int i = 0; i < 100; i++)
                     sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
 
@@ -126,7 +127,7 @@ namespace CMiX.Core.Tests
             }
             finally
             {
-                ValueInteraction.End();
+                interaction.End();
             }
         }
 
@@ -135,12 +136,13 @@ namespace CMiX.Core.Tests
         {
             var fixture = Create();
             var sync = (ValueSync)fixture.Sync;
+            var interaction = fixture.Provider.GetRequiredService<ValueInteraction>();
             long now = 1000;
             sync.Timestamp = () => now;
 
             try
             {
-                using (ValueInteraction.BeginScope())
+                using (interaction.BeginScope())
                 {
                     sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
                     sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
@@ -151,7 +153,7 @@ namespace CMiX.Core.Tests
             }
             finally
             {
-                ValueInteraction.End();
+                interaction.End();
             }
         }
 
@@ -160,12 +162,13 @@ namespace CMiX.Core.Tests
         {
             var fixture = Create();
             var sync = (ValueSync)fixture.Sync;
+            var interaction = fixture.Provider.GetRequiredService<ValueInteraction>();
             long now = 1000;
             sync.Timestamp = () => now;
 
             try
             {
-                using (ValueInteraction.BeginScope())
+                using (interaction.BeginScope())
                     sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
 
                 Assert.Single(fixture.Sender.Sent);
@@ -173,7 +176,7 @@ namespace CMiX.Core.Tests
             }
             finally
             {
-                ValueInteraction.End();
+                interaction.End();
             }
         }
 
@@ -182,12 +185,13 @@ namespace CMiX.Core.Tests
         {
             var fixture = Create();
             var sync = (ValueSync)fixture.Sync;
+            var interaction = fixture.Provider.GetRequiredService<ValueInteraction>();
             long now = 1000;
             sync.Timestamp = () => now;
 
             try
             {
-                using (ValueInteraction.BeginScope())
+                using (interaction.BeginScope())
                 {
                     sync.Changed(fixture.Value, null, fixture.Value.ToModel());
                     sync.Changed(fixture.Value, null, fixture.Value.ToModel());
@@ -198,7 +202,7 @@ namespace CMiX.Core.Tests
             }
             finally
             {
-                ValueInteraction.End();
+                interaction.End();
             }
         }
 

@@ -8,7 +8,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using CMiX.Core;
-using CMiX.Core.BaseControls;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.DependencyInjection;
@@ -16,19 +15,19 @@ using CMiX.Core.Networking;
 using CMiX.Core.Persistence;
 using CMiX.Studio.Avalonia.Animations;
 using CMiX.Studio.Avalonia.DependencyInjection;
+using CMiX.Studio.Avalonia.Drag;
 using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels;
-using CMiX.UI.Interaction;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Studio.Avalonia
 {
     public partial class App : Application
     {
-        // The rule for ambient statics in this app, so the four that exist do not become a
+        // The rule for ambient statics in this app, so the three that exist do not become a
         // habit. A static is acceptable only when the consumer has no injection point at all:
         // either XAML constructs it and its code behind cannot take constructor arguments
         // (MessageNotice, reached from AssetManager, and InteractionHost, reached from the value
@@ -36,11 +35,7 @@ namespace CMiX.Studio.Avalonia
         // container is gone (_crashSaveProject, read by the unhandled exception handler).
         // Anything a container builds takes a constructor dependency instead, which is why the
         // view models, the managers and the messenger are all injected rather than reachable
-        // here. The one static outside both clauses is CMiX.Core.BaseControls.ValueInteraction,
-        // whose whole purpose is being ambient across controls that do not know each other; it
-        // is held to the rule by ownership instead, its BeginScope returns a handle and only
-        // that handle can end the scope it opened. The editors reach it only through
-        // InteractionHost, which App.Initialize connects to it.
+        // here.
         private static Project? _crashSaveProject;
         public static IMessageNotice? MessageNotice { get; private set; }
 
@@ -48,7 +43,6 @@ namespace CMiX.Studio.Avalonia
         {
             StudioIcons.Register();
             AvaloniaXamlLoader.Load(this);
-            InteractionHost.BeginScopeHandler = () => ValueInteraction.BeginScope();
             // A press outside the open popups only closes them (see OutsideClick).
             CMiX.UI.Popups.OutsideClick.Install();
             // Registered last so explicit templates declared in views win over the reflection locator.
@@ -66,6 +60,8 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddCMiXStudio(StudioSettings.DefaultPath, ShortcutMap.DefaultPath);
 
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+                // The value editors open the ValueInteraction of the container through the host.
+                InteractionHostConnection.Connect(serviceProvider);
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();
                 MessageNotice = serviceProvider.GetRequiredService<IMessageNotice>();
                 var settingsFile = serviceProvider.GetRequiredService<StudioSettingsFile>();

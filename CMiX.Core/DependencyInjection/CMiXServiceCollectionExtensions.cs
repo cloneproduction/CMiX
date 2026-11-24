@@ -29,6 +29,7 @@ namespace CMiX.Core.DependencyInjection
                 );
 
             services.AddSingleton<UndoManager>();
+            services.AddSingleton<ValueInteraction>();
 
             services.AddSingleton<Project>();
             services.AddSingleton<MasterBeat>();

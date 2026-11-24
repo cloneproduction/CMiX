@@ -82,25 +82,17 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Value_SetDuringAnInteraction_ChangesOnEveryWrite()
+        public void Value_SetManyTimes_ChangesOnEveryWrite()
         {
             var sync = new FakeValueSync();
             var value = CreateActiveFloat(sync);
             IControlModel firstBefore = null;
 
-            try
+            for (int i = 1; i <= 10; i++)
             {
-                ValueInteraction.BeginScope();
-                for (int i = 1; i <= 10; i++)
-                {
-                    value.Value = i;
-                    if (i == 1)
-                        firstBefore = sync.LastBefore;
-                }
-            }
-            finally
-            {
-                ValueInteraction.End();
+                value.Value = i;
+                if (i == 1)
+                    firstBefore = sync.LastBefore;
             }
 
             Assert.Equal(10, sync.Changes);

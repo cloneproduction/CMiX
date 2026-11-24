@@ -28,9 +28,10 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
+            var interaction = provider.GetRequiredService<ValueInteraction>();
             var control = CreateActiveDouble(provider);
 
-            using (ValueInteraction.BeginScope())
+            using (interaction.BeginScope())
             {
                 for (int i = 1; i <= 200; i++)
                     control.Value = i;
@@ -51,9 +52,10 @@ namespace CMiX.Core.Tests
             var messenger = provider.GetRequiredService<ControlMessenger>();
             var recorder = new RecordingSender();
             messenger.Register(recorder);
+            var interaction = provider.GetRequiredService<ValueInteraction>();
             var control = CreateActiveDouble(provider);
 
-            using (ValueInteraction.BeginScope())
+            using (interaction.BeginScope())
             {
                 for (int i = 1; i <= 500; i++)
                     control.Value = i;
@@ -84,12 +86,13 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
+            var interaction = provider.GetRequiredService<ValueInteraction>();
             var control = CreateActiveDouble(provider);
 
-            var abandoned = ValueInteraction.BeginScope();
+            var abandoned = interaction.BeginScope();
             abandoned.Dispose();
 
-            var current = ValueInteraction.BeginScope();
+            var current = interaction.BeginScope();
             control.Value = 1;
             control.Value = 2;
 
@@ -97,12 +100,12 @@ namespace CMiX.Core.Tests
             // over and one that never opened a scope at all. Neither may flush the open gesture.
             abandoned.Dispose();
             default(ValueInteractionScope).Dispose();
-            Assert.True(ValueInteraction.IsActive);
+            Assert.True(interaction.IsActive);
 
             control.Value = 3;
             current.Dispose();
 
-            Assert.False(ValueInteraction.IsActive);
+            Assert.False(interaction.IsActive);
             Assert.Equal(3d, control.Value);
 
             undoManager.Undo();
@@ -111,18 +114,19 @@ namespace CMiX.Core.Tests
             Assert.False(undoManager.CanUndo);
         }
 
-        // The unowned pair a host without a handle still uses, and the path Begin keeps for it.
+        // The scope ends through End, not through its handle.
         [Fact]
         public void Scope_WithoutAnOwner_CollapsesEveryWriteIntoOneUndoStep()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
+            var interaction = provider.GetRequiredService<ValueInteraction>();
             var control = CreateActiveDouble(provider);
 
-            ValueInteraction.Begin();
+            interaction.BeginScope();
             control.Value = 1;
             control.Value = 2;
-            ValueInteraction.End();
+            interaction.End();
 
             Assert.Equal(2d, control.Value);
 
@@ -137,13 +141,14 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
+            var interaction = provider.GetRequiredService<ValueInteraction>();
             var control = CreateActiveDouble(provider);
 
-            var scope = ValueInteraction.BeginScope();
+            var scope = interaction.BeginScope();
             control.Value = 7;
-            ValueInteraction.End();
+            interaction.End();
 
-            Assert.False(ValueInteraction.IsActive);
+            Assert.False(interaction.IsActive);
             Assert.True(undoManager.CanUndo);
 
             // The handle of a scope somebody else already ended closes nothing.

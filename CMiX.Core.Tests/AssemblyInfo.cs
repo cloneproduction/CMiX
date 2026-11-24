@@ -1,5 +1,4 @@
 ﻿using Xunit;
 
-// ValueInteraction is a process wide ambient scope, so a test class that opens one would change
-// what every other test class observes while xUnit runs them in parallel.
+// Some statics remain, so a test class that changes one would change what the other test classes see in a parallel run.
 [assembly: CollectionBehavior(DisableTestParallelization = true)]

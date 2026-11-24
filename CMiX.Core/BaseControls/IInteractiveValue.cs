@@ -3,8 +3,7 @@
 
 namespace CMiX.Core.BaseControls
 {
-    // Implemented by controls that coalesce their undo step and throttle their outgoing messages
-    // while a ValueInteraction scope is open. EndInteraction must always flush the final value.
+    // A value sync that takes part in the open drag. EndInteraction flushes the last value and records the undo step.
     public interface IInteractiveValue
     {
         void EndInteraction();
