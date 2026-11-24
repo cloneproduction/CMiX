@@ -16,8 +16,8 @@ namespace CMiX.Studio.Avalonia.Resources
 {
     public static class EnumProviders
     {
-        public static CMiX.Core.Modulation.Modulators.WaveTypeEnum[] WaveType { get; } =
-            Enum.GetValues<CMiX.Core.Modulation.Modulators.WaveTypeEnum>();
+        public static CMiX.Core.Modulation.Modulators.WaveType[] WaveType { get; } =
+            Enum.GetValues<CMiX.Core.Modulation.Modulators.WaveType>();
 
         public static CMiX.Core.Rendering.TexcoordSemantic[] TexcoordSemantic { get; } =
             Enum.GetValues<CMiX.Core.Rendering.TexcoordSemantic>();

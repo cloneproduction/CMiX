@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public enum WaveTypeEnum
+    public enum WaveType
     {
         Cosine,
         Sine,

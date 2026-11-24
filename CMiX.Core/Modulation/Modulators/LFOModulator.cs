@@ -13,7 +13,7 @@ namespace CMiX.Core.Modulation.Modulators
         public LFOModulator(PrefabService prefabService,
                             GenericValue<float> period,
                             FloatRange range,
-                            GenericValue<WaveTypeEnum> waveType,
+                            GenericValue<WaveType> waveType,
                             Quantize quantize,
                             UndoManager undoManager,
                             ControlActivationService activationService)
@@ -37,7 +37,7 @@ namespace CMiX.Core.Modulation.Modulators
 
         public GenericValue<float> Period { get; set; }
         public FloatRange Range { get; set; }
-        public GenericValue<WaveTypeEnum> WaveType { get; set; }
+        public GenericValue<WaveType> WaveType { get; set; }
         public Quantize Quantize { get; set; }
 
         public override IControlModel ToModel() => new LFOModulatorModel
@@ -46,7 +46,7 @@ namespace CMiX.Core.Modulation.Modulators
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Period = (GenericValueModel<float>)Period.ToModel(),
             Range = (FloatRangeModel)Range.ToModel(),
-            WaveType = (GenericValueModel<WaveTypeEnum>)WaveType.ToModel(),
+            WaveType = (GenericValueModel<WaveType>)WaveType.ToModel(),
             Quantize = (QuantizeModel)Quantize.ToModel()
         };
         public override void FromModel(IControlModel model)

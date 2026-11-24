@@ -38,7 +38,7 @@ namespace CMiX.Core.Tests
             { typeof(ModifierMode), ["PerInstance", "ToSpread"] },
             { typeof(ColorMode), ["RGB", "HSV", "HSL"] },
             { typeof(EntityType), ["Entity", "Camera", "Light"] },
-            { typeof(WaveTypeEnum), ["Cosine", "Sine", "Sawtooth", "Triangle", "Rectangle"] },
+            { typeof(WaveType), ["Cosine", "Sine", "Sawtooth", "Triangle", "Rectangle"] },
             { typeof(LightType), ["SpotLight", "PointLight", "AmbientLight", "DirectionalLight"] },
             { typeof(TexcoordSemantic), ["Texcoord0", "Texcoord1", "Texcoord2", "Texcoord3", "Texcoord4", "Texcoord5", "Texcoord6", "Texcoord7", "Texcoord8", "Texcoord9"] },
             { typeof(SplitType), ["Character", "Words", "Separator"] },
