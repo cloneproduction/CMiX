@@ -50,7 +50,7 @@ To add a value to a filter or a modifier:
 3. In a test, build the control with `ControlFactory.Create(typeof(X))`. Do not
    use `GetRequiredService<X>()`: a control that DI builds has no default.
 
-`FilterAndModifierRoundTripTests` fails when a value is missing in `ToModel` or
+`ControlRoundTripTests` fails when a value is missing in `ToModel` or
 `FromModel`. `ResetMenuTests` (Studio tests) fails when an editor in a view has no
 working Reset menu. `ValueResetMenuTests` (CMiX.UI.Tests) checks the editors alone.
 

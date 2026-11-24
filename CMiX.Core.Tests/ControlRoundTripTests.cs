@@ -8,7 +8,7 @@ namespace CMiX.Core.Tests
 {
     // Every value of a control with a model must survive a save and a load. A value that is
     // missing from ToModel or FromModel comes back with its default and fails here.
-    public class FilterAndModifierRoundTripTests
+    public class ControlRoundTripTests
     {
         public static IEnumerable<object[]> Types() =>
             typeof(ControlFactory).Assembly.GetTypes()
@@ -58,7 +58,7 @@ namespace CMiX.Core.Tests
 
         [Theory]
         [MemberData(nameof(Types))]
-        public void EveryValue_SurvivesSaveAndLoad(Type type)
+        public void FromModel_OfToModel_KeepsEveryValue(Type type)
         {
             var control = CreateFactory().Create(type);
             var before = ValueWalker.Collect(control);
