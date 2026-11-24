@@ -31,8 +31,8 @@ These rules apply to every task in this repository.
 
 ## Comments and documentation
 
-- Comments are brief and to the point. Say what a piece of code does when it
-  is not obvious. No narrative, no history, no comment on obvious code.
+- No comment when a name can carry the meaning. Else one line, in STE, that says
+  what the code does. No narrative, no history, no comment on obvious code.
 - Documentation goes into README.md. The Redis tests are described in
   CMiX.Core.Tests/README-redis.md.
 
@@ -74,6 +74,15 @@ These rules apply to every task in this repository.
   projects have it enabled.
 - The UI never waits for Redis. Every store call runs on a background task.
 - StackExchange.Redis stays on 2.8.31, the version the vvvv Redis package ships.
+- No boolean flag parameter: two named methods. No optional parameter that
+  changes what a method does.
+- Constructors only assign fields. No tuple across a method boundary.
+- A condition reads as plain text: an if block before a ternary, a switch
+  expression or a one-liner.
+- A size, a color or a margin comes from a token. A new hardcoded value is a
+  finding.
+- The SPDX header on every new .cs file. The files are CRLF: edit with the Edit
+  tool, never with sed -i.
 
 ## Folders and names of the Studio
 
