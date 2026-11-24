@@ -3,15 +3,20 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
+using CMiX.UI.Controls.Parts;
 using CMiX.UI.Panels;
 using CMiX.UI.Tests.Support;
+using CMiX.UI.Themes;
 using Xunit;
 
 namespace CMiX.UI.Tests
 {
     // A PanelCollapse opens and closes its content with an animation, and it does not lay the content out again for it.
+    // Its time comes from Motion, as the time of the chevron.
     public class PanelCollapseTests
     {
+        // A PanelCollapse opens and closes its content with an animation, and it does not lay the content out again for it.
+
         private sealed class Counted : Border
         {
             public int Measures { get; private set; }
@@ -34,7 +39,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AnOpenPanel_HasTheHeightOfItsContent()
+        public void Open_APanel_HasTheHeightOfItsContent()
         {
             var (panel, _) = Show(true);
 
@@ -51,7 +56,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheHeight_IsTheHeightOfTheContentTimesTheProgress()
+        public void Progress_AnyValue_GivesTheHeightOfTheContentTimesTheProgress()
         {
             var (panel, _) = Show(true, TimeSpan.Zero);
 
@@ -62,7 +67,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheFirstState_ShowsAtOnce()
+        public void Show_TheFirstState_AppearsAtOnce()
         {
             var (panel, content) = Show(true);
 
@@ -83,7 +88,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void Closing_KeepsTheContentVisibleWhileItShrinks()
+        public void Close_APanel_KeepsTheContentVisibleWhileItShrinks()
         {
             var (panel, content) = Show(true);
 
@@ -108,7 +113,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheContent_IsNotMeasuredAgainWhileTheProgressChanges()
+        public void Progress_AChange_DoesNotMeasureTheContentAgain()
         {
             var (panel, content) = Show(true, TimeSpan.Zero);
             var measures = content.Measures;
@@ -123,7 +128,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void WhileOpen_ThePanelFollowsTheHeightOfItsContent()
+        public void Open_ANewContentHeight_ResizesThePanel()
         {
             var (panel, content) = Show(true);
 
@@ -134,7 +139,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheContent_IsClippedOnlyWhileThePanelMoves()
+        public void Clip_OfTheContent_IsSetOnlyWhileThePanelMoves()
         {
             var (panel, _) = Show(true, TimeSpan.Zero);
             Assert.False(panel.ClipToBounds);
@@ -146,6 +151,15 @@ namespace CMiX.UI.Tests
             panel.Progress = 1;
             Dispatcher.UIThread.RunJobs();
             Assert.False(panel.ClipToBounds);
+        }
+
+        // Every expander moves the same way: the panel and the chevron take their time from Motion.
+
+        [AvaloniaFact]
+        public void Duration_APanelAndAChevron_AreTheDurationOfMotion()
+        {
+            Assert.Equal(Motion.Duration, new PanelCollapse().Duration);
+            Assert.Equal(Motion.Duration, new Chevron().Duration);
         }
     }
 }
