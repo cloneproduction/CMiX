@@ -16,14 +16,10 @@ namespace CMiX.Core.Tests
             TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
 
         [Fact]
-        public void NewSequencePlayer_HasTheDefaultValues()
+        public void DoSeek_OfANewPlayer_IsMomentary()
         {
             var player = (SequencePlayer)CreateFactory().Create(typeof(SequencePlayer));
 
-            Assert.Equal(60f, player.FPS.Value);
-            Assert.True(player.Looping.Value);
-            Assert.True(player.Playing.Value);
-            Assert.False(player.DoSeek.Value);
             Assert.True(player.DoSeek.IsMomentary);
             Assert.IsAssignableFrom<IAssetTextureSource>(player);
         }

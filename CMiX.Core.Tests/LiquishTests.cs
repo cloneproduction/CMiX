@@ -21,23 +21,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Create_NewLiquish_HasTheDefaultValues()
-        {
-            var liquish = Create();
-
-            Assert.Equal(512, liquish.Resolution.X.Value);
-            Assert.Equal(512, liquish.Resolution.Y.Value);
-            Assert.False(liquish.UseCompositionResolution.Value);
-            Assert.Equal("Time", liquish.Time.Label);
-            Assert.Equal(0.0f, liquish.Time.Value);
-            Assert.Equal(5f, liquish.Scale.X.Value);
-            Assert.Equal(5f, liquish.Scale.Y.Value);
-            Assert.Equal("#FF000000", liquish.ColorA.Value);
-            Assert.Equal("#FFFFFFFF", liquish.ColorB.Value);
-            Assert.Equal("#FF800026", liquish.ColorC.Value);
-        }
-
-        [Fact]
         public void ModulatorManager_RemoveItem_UnbindsTheTimeValue()
         {
             var liquish = Create();

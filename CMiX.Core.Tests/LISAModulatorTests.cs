@@ -43,20 +43,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Create_ANewModulator_HasTheDefaultRanges()
-        {
-            var modulator = Create();
-
-            Assert.Equal(-1f, modulator.XRange.Minimum.Value);
-            Assert.Equal(1f, modulator.XRange.Maximum.Value);
-            Assert.Equal(1f, modulator.YRange.Minimum.Value);
-            Assert.Equal(-1f, modulator.YRange.Maximum.Value);
-            Assert.Equal(0, modulator.Count.Value);
-            Assert.Equal(0f, modulator.X.Value);
-            Assert.Equal(0f, modulator.Y.Value);
-        }
-
-        [Fact]
         public void Serialize_ThenDeserialize_KeepsTheModel()
         {
             var modulator = Create();

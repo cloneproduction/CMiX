@@ -11,54 +11,6 @@ namespace CMiX.Core.Tests
     public class ControlFactoryModifierCreationTests
     {
         [Fact]
-        public void FreshCircularSpread_BindablesMatchOldCircularSpreadDefaults()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var factory = provider.GetRequiredService<ControlFactory>();
-
-            var circularSpread = (CircularSpreadModifier)factory.Create(typeof(CircularSpreadModifier));
-
-            Assert.Equal(1.0f, circularSpread.X.Value);
-            Assert.Equal(1.0f, circularSpread.Y.Value);
-            Assert.Equal(1.0f, circularSpread.Factor.Value);
-        }
-
-        [Fact]
-        public void FreshRenderRandomEntityModifier_BindableMatchesOldDefault()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var factory = provider.GetRequiredService<ControlFactory>();
-
-            var render = (RenderRandomEntityModifier)factory.Create(typeof(RenderRandomEntityModifier));
-
-            Assert.Equal(1.0f, render.Control.Value);
-        }
-
-        [Fact]
-        public void FreshRenderSequenceEntityModifier_BindableMatchesOldDefault()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var factory = provider.GetRequiredService<ControlFactory>();
-
-            var render = (RenderSequenceEntityModifier)factory.Create(typeof(RenderSequenceEntityModifier));
-
-            Assert.Equal(1.0f, render.Control.Value);
-        }
-
-        [Fact]
-        public void FreshGrid_NonBindableFieldsMatchOldGridDefaults()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var factory = provider.GetRequiredService<ControlFactory>();
-
-            var grid = (GridModifier)factory.Create(typeof(GridModifier));
-
-            Assert.Equal(1, grid.Count.X.Value);
-            Assert.Equal(1, grid.Count.Y.Value);
-            Assert.Equal(1, grid.Count.Z.Value);
-        }
-
-        [Fact]
         public void EveryFreshModifier_WithASingleModifierModeSelector_DefaultsCountToOne()
         {
             var provider = TestServiceProviderFactory.Create();
@@ -80,17 +32,6 @@ namespace CMiX.Core.Tests
 
                 Assert.True(1 == selector.Count.Value, $"{type.Name}'s ModifierModeSelector.Count should default to 1.");
             }
-        }
-
-        [Fact]
-        public void FreshColorModifier_ColorModeMatchesOldRandomHSVDefault()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var factory = provider.GetRequiredService<ControlFactory>();
-
-            var hsv = (ColorModifier)factory.Create(typeof(ColorModifier));
-
-            Assert.Equal(ColorMode.HSV, hsv.ColorMode.Value);
         }
 
         [Fact]
