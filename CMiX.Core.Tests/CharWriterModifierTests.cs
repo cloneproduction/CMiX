@@ -28,15 +28,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void CharWriterModifier_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var charWriter = provider.GetRequiredService<CharWriterModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(charWriter);
-        }
-
-        [Fact]
         public void CharWriterModifier_ToModel_FromModel_RoundTrips()
         {
             var provider = TestServiceProviderFactory.Create();

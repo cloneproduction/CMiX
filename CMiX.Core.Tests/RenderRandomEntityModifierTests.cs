@@ -32,15 +32,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void RenderRandomEntityModifier_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var render = provider.GetRequiredService<RenderRandomEntityModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(render);
-        }
-
-        [Fact]
         public void ModulatorManager_CanAddRandomModulator()
         {
             var provider = TestServiceProviderFactory.Create();

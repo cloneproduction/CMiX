@@ -16,6 +16,12 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Outputs_OfANewModulator_AreCountXAndY()
+        {
+            Assert.Equal(new[] { "Count", "X", "Y" }, Create().Outputs.Select(o => o.Name));
+        }
+
+        [Fact]
         public void FromModel_OfToModel_KeepsEveryValue()
         {
             var modulator = Create();

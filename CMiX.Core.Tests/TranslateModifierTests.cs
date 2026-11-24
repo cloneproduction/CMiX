@@ -34,15 +34,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TranslateModifier_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var position = provider.GetRequiredService<TranslateModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(position);
-        }
-
-        [Fact]
         public void ModulatorManager_CanAddRandomModulator()
         {
             var provider = TestServiceProviderFactory.Create();

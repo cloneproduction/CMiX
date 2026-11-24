@@ -15,6 +15,15 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Outputs_OfANewModulator_AreFourNamedFloatBands()
+        {
+            var modulator = Create();
+
+            Assert.Equal(new[] { "Bass", "LowerMid", "HigherMid", "High" }, modulator.Outputs.Select(o => o.Name));
+            Assert.All(modulator.Outputs, o => Assert.IsType<ModulatorOutput<float>>(o));
+        }
+
+        [Fact]
         public void Create_ANewModulator_HasEveryRangeAtZeroToOne()
         {
             var modulator = Create();

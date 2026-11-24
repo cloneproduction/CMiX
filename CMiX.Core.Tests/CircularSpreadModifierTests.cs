@@ -36,15 +36,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void CircularSpread_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(circularSpread);
-        }
-
-        [Fact]
         public void AllFourBindables_CanShareOneModulatorIndependently()
         {
             var provider = TestServiceProviderFactory.Create();

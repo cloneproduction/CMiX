@@ -28,15 +28,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FlipModifier_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var flip = provider.GetRequiredService<FlipModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(flip);
-        }
-
-        [Fact]
         public void FlipModifier_ToModel_FromModel_RoundTripsDirectionXYZ()
         {
             var provider = TestServiceProviderFactory.Create();

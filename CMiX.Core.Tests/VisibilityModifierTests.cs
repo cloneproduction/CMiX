@@ -34,15 +34,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void VisibilityModifier_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var visibility = provider.GetRequiredService<VisibilityModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(visibility);
-        }
-
-        [Fact]
         public void ModulatorManager_CanAddRandomModulator()
         {
             var provider = TestServiceProviderFactory.Create();

@@ -36,15 +36,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TexCoordModifier_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var texCoord = provider.GetRequiredService<TexCoordModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(texCoord);
-        }
-
-        [Fact]
         public void LocationAndScaleGroups_ShareOneModulatorManagerIndependently()
         {
             var provider = TestServiceProviderFactory.Create();

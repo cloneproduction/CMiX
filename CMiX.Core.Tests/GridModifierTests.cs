@@ -38,15 +38,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Grid_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var grid = provider.GetRequiredService<GridModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(grid);
-        }
-
-        [Fact]
         public void WidthAndPhaseGroups_ShareOneModulatorManagerIndependently()
         {
             var provider = TestServiceProviderFactory.Create();

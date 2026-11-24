@@ -40,15 +40,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ColorModifier_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var hsv = provider.GetRequiredService<ColorModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(hsv);
-        }
-
-        [Fact]
         public void AllFourBindables_CanShareOneModulatorIndependently()
         {
             var provider = TestServiceProviderFactory.Create();

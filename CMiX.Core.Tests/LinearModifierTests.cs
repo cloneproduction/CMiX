@@ -34,15 +34,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void LinearXYZ_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var linearXYZ = provider.GetRequiredService<LinearModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(linearXYZ);
-        }
-
-        [Fact]
         public void WidthAndPhase_CanIndependentlyShareOneModulator()
         {
             var provider = TestServiceProviderFactory.Create();

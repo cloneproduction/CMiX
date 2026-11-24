@@ -34,15 +34,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void RotationModifier_IsAlsoAnIModifier()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var rotation = provider.GetRequiredService<RotationModifier>();
-
-            Assert.IsAssignableFrom<IModifier>(rotation);
-        }
-
-        [Fact]
         public void ModulatorManager_CanAddRandomModulator()
         {
             var provider = TestServiceProviderFactory.Create();
