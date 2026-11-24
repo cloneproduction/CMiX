@@ -10,36 +10,18 @@ namespace CMiX.Core.Tests
     {
         public List<string> Calls { get; } = new();
 
-        public int Records { get; private set; }
-
-        public int Sends { get; private set; }
-
-        public int Commits { get; private set; }
+        public int Changes { get; private set; }
 
         public IControlModel LastBefore { get; private set; }
 
         public IControlModel LastAfter { get; private set; }
 
-        public void Record(IControl value, IControlModel before, IControlModel after)
+        public void Changed(IControl value, IControlModel before, IControlModel after)
         {
-            Calls.Add("Record");
-            Records++;
+            Calls.Add("Changed");
+            Changes++;
             LastBefore = before;
             LastAfter = after;
-        }
-
-        public void Commit(IControl value, IControlModel before, IControlModel after)
-        {
-            Calls.Add("Commit");
-            Commits++;
-            LastBefore = before;
-            LastAfter = after;
-        }
-
-        public void Send(IControl value)
-        {
-            Calls.Add("Send");
-            Sends++;
         }
     }
 }

@@ -51,8 +51,7 @@ namespace CMiX.Core.Tests
             control.Value = true;
             control.Value = false;
 
-            Assert.Equal(0, sync.Records);
-            Assert.Equal(0, sync.Commits);
+            Assert.Null(sync.LastBefore);
         }
 
         [Fact]
@@ -65,7 +64,8 @@ namespace CMiX.Core.Tests
             control.Value = true;
             control.Value = false;
 
-            Assert.Equal(2, sync.Sends);
+            Assert.Equal(2, sync.Changes);
+            Assert.Null(sync.LastBefore);
         }
 
         [Fact]
@@ -76,7 +76,8 @@ namespace CMiX.Core.Tests
 
             control.Value = true;
 
-            Assert.Equal(1, sync.Commits);
+            Assert.Equal(1, sync.Changes);
+            Assert.NotNull(sync.LastBefore);
         }
 
         private static GenericValue<double> CreateActiveDouble(FakeValueSync sync)
@@ -109,7 +110,7 @@ namespace CMiX.Core.Tests
                 control.Value = 5;
             control.Value = 6;
 
-            Assert.Equal(new[] { "Commit" }, sync.Calls);
+            Assert.Equal(new[] { "Changed" }, sync.Calls);
         }
 
         [Fact]

@@ -1,6 +1,7 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System.Diagnostics;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -52,11 +53,11 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Commit_OfAChange_PushesOneValueChangedCommandAndSendsOneMessage()
+        public void Changed_WithABefore_PushesOneValueChangedCommandAndSendsOneMessage()
         {
             var fixture = Create();
 
-            fixture.Sync.Commit(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+            fixture.Sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
 
             Assert.True(fixture.UndoManager.CanUndo);
             var message = Assert.IsType<MessageValueChanged>(Assert.Single(fixture.Sender.Sent));
@@ -64,11 +65,11 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Commit_WhileTheUndoManagerApplies_SendsButPushesNothing()
+        public void Changed_WhileTheUndoManagerApplies_SendsButPushesNothing()
         {
             var fixture = Create();
             fixture.UndoManager.Push(new ActionUndoCommand(() =>
-                fixture.Sync.Commit(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel())));
+                fixture.Sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel())));
 
             fixture.UndoManager.Undo();
 
@@ -79,36 +80,11 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Record_OfAChange_PushesOneValueChangedCommandAndSendsNothing()
+        public void Changed_WithANullBefore_SendsOneMessageAndPushesNothing()
         {
             var fixture = Create();
 
-            fixture.Sync.Record(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
-
-            Assert.True(fixture.UndoManager.CanUndo);
-            Assert.Empty(fixture.Sender.Sent);
-        }
-
-        [Fact]
-        public void Record_WhileTheUndoManagerApplies_PushesNothing()
-        {
-            var fixture = Create();
-            fixture.UndoManager.Push(new ActionUndoCommand(() =>
-                fixture.Sync.Record(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel())));
-
-            fixture.UndoManager.Undo();
-
-            Assert.False(fixture.UndoManager.CanUndo);
-            Assert.True(fixture.UndoManager.CanRedo);
-            Assert.Empty(fixture.Sender.Sent);
-        }
-
-        [Fact]
-        public void Send_OfAValue_SendsOneMessageAndPushesNothing()
-        {
-            var fixture = Create();
-
-            fixture.Sync.Send(fixture.Value);
+            fixture.Sync.Changed(fixture.Value, null, fixture.Value.ToModel());
 
             Assert.False(fixture.UndoManager.CanUndo);
             var message = Assert.IsType<MessageValueChanged>(Assert.Single(fixture.Sender.Sent));
@@ -116,14 +92,114 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Send_WhenTheMessengerIsBlocked_SendsNothing()
+        public void Changed_WhenTheMessengerIsBlocked_SendsNothing()
         {
             var fixture = Create();
             fixture.Messenger.IsSendingBlocked = true;
 
-            fixture.Sync.Send(fixture.Value);
+            fixture.Sync.Changed(fixture.Value, null, fixture.Value.ToModel());
 
             Assert.Empty(fixture.Sender.Sent);
+        }
+
+        [Fact]
+        public void Changed_DuringAScope_SendsAtMostOncePerIntervalAndRecordsNothingUntilTheEnd()
+        {
+            var fixture = Create();
+            var sync = (ValueSync)fixture.Sync;
+            long now = 1000;
+            sync.Timestamp = () => now;
+
+            try
+            {
+                ValueInteraction.BeginScope();
+                for (int i = 0; i < 100; i++)
+                    sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+
+                Assert.Single(fixture.Sender.Sent);
+                Assert.False(fixture.UndoManager.CanUndo);
+
+                now += Stopwatch.Frequency / 60;
+                sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+
+                Assert.Equal(2, fixture.Sender.Sent.Count);
+            }
+            finally
+            {
+                ValueInteraction.End();
+            }
+        }
+
+        [Fact]
+        public void EndInteraction_WithAPendingSend_SendsOnceThenRecordsOnce()
+        {
+            var fixture = Create();
+            var sync = (ValueSync)fixture.Sync;
+            long now = 1000;
+            sync.Timestamp = () => now;
+
+            try
+            {
+                using (ValueInteraction.BeginScope())
+                {
+                    sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+                    sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+                }
+
+                Assert.Equal(2, fixture.Sender.Sent.Count);
+                Assert.True(fixture.UndoManager.CanUndo);
+            }
+            finally
+            {
+                ValueInteraction.End();
+            }
+        }
+
+        [Fact]
+        public void EndInteraction_WithNothingPending_RecordsAndSendsNothingMore()
+        {
+            var fixture = Create();
+            var sync = (ValueSync)fixture.Sync;
+            long now = 1000;
+            sync.Timestamp = () => now;
+
+            try
+            {
+                using (ValueInteraction.BeginScope())
+                    sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+
+                Assert.Single(fixture.Sender.Sent);
+                Assert.True(fixture.UndoManager.CanUndo);
+            }
+            finally
+            {
+                ValueInteraction.End();
+            }
+        }
+
+        [Fact]
+        public void EndInteraction_OfAMomentaryValue_SendsThePendingValueAndRecordsNothing()
+        {
+            var fixture = Create();
+            var sync = (ValueSync)fixture.Sync;
+            long now = 1000;
+            sync.Timestamp = () => now;
+
+            try
+            {
+                using (ValueInteraction.BeginScope())
+                {
+                    sync.Changed(fixture.Value, null, fixture.Value.ToModel());
+                    sync.Changed(fixture.Value, null, fixture.Value.ToModel());
+                }
+
+                Assert.Equal(2, fixture.Sender.Sent.Count);
+                Assert.False(fixture.UndoManager.CanUndo);
+            }
+            finally
+            {
+                ValueInteraction.End();
+            }
         }
 
         [Fact]

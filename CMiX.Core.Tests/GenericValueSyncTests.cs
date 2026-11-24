@@ -18,15 +18,15 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Value_SetWhenActive_CommitsOnce()
+        public void Value_SetWhenActive_ChangesOnceWithBeforeAndAfter()
         {
             var sync = new FakeValueSync();
             var value = CreateActiveFloat(sync);
 
             value.Value = 2f;
 
-            Assert.Equal(new[] { "Commit" }, sync.Calls);
-            Assert.Equal(1, sync.Commits);
+            Assert.Equal(new[] { "Changed" }, sync.Calls);
+            Assert.Equal(1, sync.Changes);
             Assert.Equal(0f, ((GenericValueModel<float>)sync.LastBefore).Value);
             Assert.Equal(2f, ((GenericValueModel<float>)sync.LastAfter).Value);
         }
@@ -68,7 +68,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Value_SetWhenMomentary_SendsAndRecordsNothing()
+        public void Value_SetWhenMomentary_ChangesWithANullBefore()
         {
             var sync = new FakeValueSync();
             var value = CreateActiveFloat(sync);
@@ -76,35 +76,36 @@ namespace CMiX.Core.Tests
 
             value.Value = 1f;
 
-            Assert.Equal(1, sync.Sends);
-            Assert.Equal(0, sync.Records);
-            Assert.Equal(0, sync.Commits);
+            Assert.Equal(1, sync.Changes);
+            Assert.Null(sync.LastBefore);
+            Assert.Equal(1f, ((GenericValueModel<float>)sync.LastAfter).Value);
         }
 
         [Fact]
-        public void Value_SetDuringAnInteraction_SendsAtMostOnePerIntervalAndRecordsOnceAtTheEnd()
+        public void Value_SetDuringAnInteraction_ChangesOnEveryWrite()
         {
             var sync = new FakeValueSync();
             var value = CreateActiveFloat(sync);
+            IControlModel firstBefore = null;
 
             try
             {
                 ValueInteraction.BeginScope();
-                for (int i = 1; i <= 100; i++)
+                for (int i = 1; i <= 10; i++)
+                {
                     value.Value = i;
+                    if (i == 1)
+                        firstBefore = sync.LastBefore;
+                }
             }
             finally
             {
                 ValueInteraction.End();
             }
 
-            Assert.Equal(100f, value.Value);
-            Assert.Equal(1, sync.Records);
-            Assert.Equal(0, sync.Commits);
-            Assert.InRange(sync.Sends, 1, 100);
-            Assert.Equal("Record", sync.Calls[^1]);
-            Assert.Equal(0f, ((GenericValueModel<float>)sync.LastBefore).Value);
-            Assert.Equal(100f, ((GenericValueModel<float>)sync.LastAfter).Value);
+            Assert.Equal(10, sync.Changes);
+            Assert.Equal(0f, ((GenericValueModel<float>)firstBefore).Value);
+            Assert.Equal(10f, ((GenericValueModel<float>)sync.LastAfter).Value);
         }
 
         [Fact]

@@ -75,7 +75,8 @@ namespace CMiX.Core.Tests
             for (int i = 1; i <= 20; i++)
                 control.Value = i;
 
-            Assert.Equal(20, sync.Commits);
+            Assert.Equal(20, sync.Changes);
+            Assert.NotNull(sync.LastBefore);
         }
 
         [Fact]
@@ -134,15 +135,16 @@ namespace CMiX.Core.Tests
         [Fact]
         public void End_WithoutAHandle_StillEndsTheOpenScope()
         {
-            var sync = new FakeValueSync();
-            var control = CreateActiveDouble(sync);
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var control = CreateActiveDouble(provider);
 
             var scope = ValueInteraction.BeginScope();
             control.Value = 7;
             ValueInteraction.End();
 
             Assert.False(ValueInteraction.IsActive);
-            Assert.Equal(1, sync.Records);
+            Assert.True(undoManager.CanUndo);
 
             // The handle of a scope somebody else already ended closes nothing.
             control.Value = 8;
