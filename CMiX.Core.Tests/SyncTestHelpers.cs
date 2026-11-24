@@ -304,6 +304,90 @@ namespace CMiX.Core.Tests
         public void Dispose() => _queue.CompleteAdding();
     }
 
+    // A store that keeps its handlers after a remove, like the store of a run that subscribed
+    // after its own Stop. Only the sender tells such a store from the current one.
+    public sealed class LingeringSyncStore : ISyncStore
+    {
+        private readonly InMemorySyncStore _inner;
+        private Action<ISyncStore, bool> _handlers;
+
+        public LingeringSyncStore(InMemorySyncStore inner) => _inner = inner;
+
+        public bool IsConnected => _inner.IsConnected;
+        public string LastError { get; private set; } = string.Empty;
+
+        public event Action<ISyncStore, bool> ConnectionChanged
+        {
+            add => _handlers += value;
+            remove { }
+        }
+
+        public void SimulateDisconnect(string reason)
+        {
+            LastError = reason;
+            _handlers?.Invoke(this, false);
+        }
+
+        public Task ConnectAsync(CancellationToken ct) => _inner.ConnectAsync(ct);
+        public Task<Snapshot> ReadSnapshotAsync() => _inner.ReadSnapshotAsync();
+        public Task<StreamPosition> ReadSnapshotIdAsync() => _inner.ReadSnapshotIdAsync();
+        public Task WriteSnapshotAsync(Snapshot snapshot) => _inner.WriteSnapshotAsync(snapshot);
+        public Task<StreamPosition> AppendAsync(byte[] envelope) => _inner.AppendAsync(envelope);
+        public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) => _inner.ReadRangeAsync(afterExclusive, count);
+        public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, int count, TimeSpan timeout, CancellationToken ct) => _inner.ReadBlockingAsync(afterExclusive, count, timeout, ct);
+        public Task<StreamPosition> ReadTailAsync() => _inner.ReadTailAsync();
+        public Task TrimAsync(StreamPosition minId) => _inner.TrimAsync(minId);
+        public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) => _inner.HeartbeatAsync(peerId, fields, ttl);
+        public Task<IReadOnlyList<PeerInfo>> ListPeersAsync() => _inner.ListPeersAsync();
+        public ValueTask DisposeAsync() => _inner.DisposeAsync();
+    }
+
+    // A store that fails its data calls while it still reports the connection, like a Redis
+    // client whose commands time out. A test can also take the connection away.
+    public sealed class UnreliableSyncStore : ISyncStore
+    {
+        private readonly ISyncStore _inner;
+        private int _failedCalls;
+        private volatile bool _connected = true;
+        private volatile bool _fail;
+
+        public UnreliableSyncStore(ISyncStore inner) => _inner = inner;
+
+        public bool Fail { get => _fail; set => _fail = value; }
+        public int FailedCalls => Volatile.Read(ref _failedCalls);
+
+        public bool IsConnected => _connected;
+        public string LastError => _inner.LastError;
+        public event Action<ISyncStore, bool> ConnectionChanged;
+
+        public void SetConnected(bool connected)
+        {
+            _connected = connected;
+            ConnectionChanged?.Invoke(this, connected);
+        }
+
+        private void Enter()
+        {
+            if (!_fail && _connected) return;
+
+            Interlocked.Increment(ref _failedCalls);
+            throw new InvalidOperationException("The store is failing.");
+        }
+
+        public Task ConnectAsync(CancellationToken ct) => _inner.ConnectAsync(ct);
+        public Task<Snapshot> ReadSnapshotAsync() { Enter(); return _inner.ReadSnapshotAsync(); }
+        public Task<StreamPosition> ReadSnapshotIdAsync() { Enter(); return _inner.ReadSnapshotIdAsync(); }
+        public Task WriteSnapshotAsync(Snapshot snapshot) { Enter(); return _inner.WriteSnapshotAsync(snapshot); }
+        public Task<StreamPosition> AppendAsync(byte[] envelope) { Enter(); return _inner.AppendAsync(envelope); }
+        public Task<IReadOnlyList<StreamEntry>> ReadRangeAsync(StreamPosition afterExclusive, int count) { Enter(); return _inner.ReadRangeAsync(afterExclusive, count); }
+        public Task<IReadOnlyList<StreamEntry>> ReadBlockingAsync(StreamPosition afterExclusive, int count, TimeSpan timeout, CancellationToken ct) { Enter(); return _inner.ReadBlockingAsync(afterExclusive, count, timeout, ct); }
+        public Task<StreamPosition> ReadTailAsync() { Enter(); return _inner.ReadTailAsync(); }
+        public Task TrimAsync(StreamPosition minId) { Enter(); return _inner.TrimAsync(minId); }
+        public Task HeartbeatAsync(string peerId, IReadOnlyDictionary<string, string> fields, TimeSpan ttl) { Enter(); return _inner.HeartbeatAsync(peerId, fields, ttl); }
+        public Task<IReadOnlyList<PeerInfo>> ListPeersAsync() { Enter(); return _inner.ListPeersAsync(); }
+        public ValueTask DisposeAsync() => _inner.DisposeAsync();
+    }
+
     // Holds a store call of WrappingSyncStore until the test releases it.
     public sealed class StoreGate
     {
