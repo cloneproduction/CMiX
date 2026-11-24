@@ -11,6 +11,7 @@ using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
 using CMiX.UI.Panels;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -41,11 +42,7 @@ namespace CMiX.UI.Tests
             ItemTemplate = new FuncDataTemplate<string>((text, _) => new TextBlock { Text = text }),
         };
 
-        private static void Show(ListBoxEditable list)
-        {
-            new Window { Content = list, Width = 400, Height = 500 }.Show();
-            Dispatcher.UIThread.RunJobs();
-        }
+        private static void Show(ListBoxEditable list) => TestWindow.Show(list, 400, 500);
 
         // The add button has the icon Add ("+"), the remove button has the icon Remove ("-").
         private static Button ButtonWith(ListBoxEditable list, string? content) =>
@@ -233,7 +230,7 @@ namespace CMiX.UI.Tests
             var list = NewList("one", "two");
             Show(list);
             var box = list.GetVisualDescendants().OfType<ListBox>().Single();
-            var dark = (ISolidColorBrush)Application.Current!.FindResource("ListBoxBackground")!;
+            var dark = Tokens.Brush("ListBoxBackground");
 
             var background = (ISolidColorBrush)box.GetVisualChildren().OfType<Border>().Single().Background!;
 
@@ -250,7 +247,7 @@ namespace CMiX.UI.Tests
             var list = NewList("one", "two");
             Show(list);
             var box = list.GetVisualDescendants().OfType<ListBox>().Single();
-            var accent = (ISolidColorBrush)Application.Current!.FindResource("AccentInactiveBrush")!;
+            var accent = Tokens.Brush("AccentInactiveBrush");
 
             var rows = box.GetVisualDescendants().OfType<ListBoxItem>().OrderBy(r => r.Bounds.Y).ToList();
             ISolidColorBrush? RowBackground(ListBoxItem row) =>

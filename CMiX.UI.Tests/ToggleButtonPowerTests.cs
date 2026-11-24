@@ -19,18 +19,13 @@ namespace CMiX.UI.Tests
     {
         private static (Window window, ToggleButton toggle) Show(string theme = "ToggleButtonPower")
         {
-            var toggle = new ToggleButton { Theme = (ControlTheme)Application.Current!.FindResource(theme)! };
-            var window = new Window { Content = toggle, Width = 200, Height = 100 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, toggle);
+            var toggle = new ToggleButton { Theme = Tokens.Theme(theme) };
+            return (TestWindow.Show(toggle, 200, 100), toggle);
         }
 
         private static Border Box(Control toggle) => toggle.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "border");
 
         private static AppIcon Icon(Control toggle) => toggle.GetVisualDescendants().OfType<AppIcon>().Single();
-
-        private static Color BrushColor(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
 
         [AvaloniaFact]
         public void ShowsThePowerIcon()
@@ -71,7 +66,7 @@ namespace CMiX.UI.Tests
             var (_, toggle) = Show(theme);
 
             Assert.Equal(0.6, Box(toggle).Opacity);
-            Assert.Equal(BrushColor("ForegroundBrush"), ((ISolidColorBrush)Icon(toggle).Foreground!).Color);
+            Assert.Equal(Tokens.Color("ForegroundBrush"), ((ISolidColorBrush)Icon(toggle).Foreground!).Color);
         }
 
         [AvaloniaTheory]
@@ -85,7 +80,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
 
             Assert.Equal(1, Box(toggle).Opacity);
-            Assert.Equal(BrushColor("ForegroundBrush"), ((ISolidColorBrush)Icon(toggle).Foreground!).Color);
+            Assert.Equal(Tokens.Color("ForegroundBrush"), ((ISolidColorBrush)Icon(toggle).Foreground!).Color);
         }
 
         // A value on the template element would beat every style, so a style of the application could not change the opacity,
@@ -126,8 +121,7 @@ namespace CMiX.UI.Tests
         {
             var (window, toggle) = Show("ToggleButtonVisibility");
 
-            window.MouseMove(Box(toggle).TranslatePoint(new Point(4, 4), window)!.Value);
-            Dispatcher.UIThread.RunJobs();
+            PointerInput.Move(window, Box(toggle).TranslatePoint(new Point(4, 4), window)!.Value);
 
             Assert.Equal(1, Box(toggle).Opacity);
         }

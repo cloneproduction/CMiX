@@ -9,6 +9,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -42,10 +43,7 @@ namespace CMiX.UI.Tests
                 Width = 240,
             };
             list.Picked += (_, e) => picks.Add(e);
-            var window = new Window { Content = list, Width = 400, Height = 600 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, list, picks);
+            return (TestWindow.Show(list, 400, 600), list, picks);
         }
 
         private static TextBox Search(ListGroupedSearch list) =>
@@ -57,13 +55,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
         }
 
-        private static void Press(ListGroupedSearch list, Key key, int times = 1)
-        {
-            for (var i = 0; i < times; i++)
-                Search(list).RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = key });
-
-            Dispatcher.UIThread.RunJobs();
-        }
+        private static void Press(ListGroupedSearch list, Key key, int times = 1) => KeyInput.Press(Search(list), key, times);
 
         private static void Click(Window window, Control control)
         {
@@ -116,7 +108,7 @@ namespace CMiX.UI.Tests
         {
             var (_, list, _) = Show();
 
-            var height = (double)Application.Current!.FindResource("ControlHeightMD")!;
+            var height = Tokens.Get<double>("ControlHeightMD");
             Assert.All(list.RowVisuals, row => Assert.Equal(height, row.Bounds.Height));
         }
 
@@ -141,8 +133,7 @@ namespace CMiX.UI.Tests
                 Groups = new[] { new PickerGroup("Group", new[] { new PickerItem("No color") }) },
                 Width = 240,
             };
-            new Window { Content = list, Width = 400, Height = 600 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(list, 400, 600);
 
             Assert.All(list.RowVisuals.Skip(1), row => Assert.Single(((StackPanel)row.Child!).Children));
             Assert.Equal(new[] { "Group", "No color" }, list.VisibleTexts);
@@ -170,8 +161,7 @@ namespace CMiX.UI.Tests
                 Width = 240,
             };
             list.Picked += (_, e) => picked.Add(e);
-            new Window { Content = list, Width = 400, Height = 600 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(list, 400, 600);
             picks = picked;
             return list;
         }
@@ -244,7 +234,7 @@ namespace CMiX.UI.Tests
             var scroll = list.GetVisualDescendants().OfType<ScrollViewer>().Single(viewer => viewer.Name == "PART_Scroll");
 
             Assert.Equal(ScrollBarVisibility.Auto, scroll.VerticalScrollBarVisibility);
-            Assert.Same(Application.Current!.FindResource("ScrollViewerOverlay"), scroll.Theme);
+            Assert.Same(Tokens.Theme("ScrollViewerOverlay"), scroll.Theme);
         }
 
         [AvaloniaFact]

@@ -6,6 +6,7 @@ using Avalonia.Input;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -15,18 +16,16 @@ namespace CMiX.UI.Tests
     {
         private static (TabItem first, TabItem second) Show()
         {
-            var theme = (ControlTheme)Application.Current!.FindResource("TabItemHorizontal")!;
+            var theme = Tokens.Theme("TabItemHorizontal");
             var tabs = new TabControl();
             tabs.Items.Add(new TabItem { Theme = theme, Header = "A" });
             tabs.Items.Add(new TabItem { Theme = theme, Header = "B" });
-            new Window { Content = tabs, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(tabs, 300, 200);
             var items = tabs.GetVisualDescendants().OfType<TabItem>().ToList();
             return (items[0], items[1]);
         }
 
-        private static double IconOpacity(TabItem item) =>
-            item.GetVisualDescendants().OfType<ContentPresenter>().First(presenter => presenter.Name == "PART_ContentPresenter").Opacity;
+        private static double IconOpacity(TabItem item) => Parts.Find<ContentPresenter>(item, "PART_ContentPresenter").Opacity;
 
         [AvaloniaFact]
         public void TheSelectedTab_IsLit_AndTheOthersAreDim()
@@ -42,9 +41,7 @@ namespace CMiX.UI.Tests
         {
             var (_, second) = Show();
 
-            foreach (var part in second.GetSelfAndVisualDescendants().OfType<Control>())
-                ((IPseudoClasses)part.Classes).Set(":pointerover", true);
-            Dispatcher.UIThread.RunJobs();
+            PseudoClassInput.Force(second, ":pointerover");
 
             Assert.Equal(1.0, IconOpacity(second));
         }

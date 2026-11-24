@@ -23,10 +23,7 @@ namespace CMiX.UI.Tests
         private static (Window window, PanelItem item) Show(PanelItem? item = null)
         {
             item ??= new PanelItem { Title = "Grid", Content = new TextBlock { Text = "body" } };
-            var window = new Window { Content = new StackPanel { Children = { item } }, Width = 400, Height = 300 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, item);
+            return (TestWindow.Show(new StackPanel { Children = { item } }, 400, 300), item);
         }
 
         private static Expander ExpanderOf(PanelItem item) => item.GetVisualDescendants().OfType<Expander>().Single();
@@ -138,7 +135,7 @@ namespace CMiX.UI.Tests
         public void WithoutAPanelBackground_TheThemeBackgroundShows()
         {
             var (_, item) = Show();
-            var theme = ((ISolidColorBrush)Application.Current!.FindResource("Grey300Brush")!).Color;
+            var theme = Tokens.Color("Grey300Brush");
 
             Assert.Equal(theme, ((ISolidColorBrush)ExpanderOf(item).Background!).Color);
         }

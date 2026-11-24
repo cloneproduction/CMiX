@@ -18,15 +18,10 @@ namespace CMiX.UI.Tests
         private static (Window window, ToggleButtonCaptioned toggle) Show(string caption = "Antialiasing")
         {
             var toggle = new ToggleButtonCaptioned { Caption = caption };
-            var window = new Window { Content = toggle, Width = 400, Height = 100 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, toggle);
+            return (TestWindow.Show(toggle, 400, 100), toggle);
         }
 
         private static Border Box(Control toggle) => toggle.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "box");
-
-        private static Color Brush(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
 
         private static Color BackgroundOf(Border border) => ((ISolidColorBrush)border.Background!).Color;
 
@@ -95,13 +90,13 @@ namespace CMiX.UI.Tests
             var box = Box(toggle);
             var icon = toggle.GetVisualDescendants().OfType<CMiX.UI.Controls.AppIcon>().Single();
 
-            Assert.Equal(Brush("StateIdleBrush"), BackgroundOf(box));
+            Assert.Equal(Tokens.Color("StateIdleBrush"), BackgroundOf(box));
             Assert.Equal(0, icon.Opacity);
 
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
 
-            Assert.Equal(Brush("AccentInactiveBrush"), BackgroundOf(box));
+            Assert.Equal(Tokens.Color("AccentInactiveBrush"), BackgroundOf(box));
             Assert.Equal(1, icon.Opacity);
         }
 
@@ -109,8 +104,8 @@ namespace CMiX.UI.Tests
         public void TheBoxAndTheRowHaveTheOldSize()
         {
             var (_, toggle) = Show();
-            var xs = (double)Application.Current!.FindResource("ControlHeightXS")!;
-            var md = (double)Application.Current!.FindResource("ControlHeightMD")!;
+            var xs = Tokens.Get<double>("ControlHeightXS");
+            var md = Tokens.Get<double>("ControlHeightMD");
 
             Assert.Equal(xs, Box(toggle).Bounds.Width);
             Assert.Equal(xs, Box(toggle).Bounds.Height);
