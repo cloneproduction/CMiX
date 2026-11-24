@@ -58,7 +58,7 @@ namespace CMiX.Core.Tests.Undo
         }
 
         [Fact]
-        public void Undo_WithNothingSelectedBefore_SelectsNothing()
+        public void Undo_WithNothingSelectedBefore_KeepsTheRestoredItemSelected()
         {
             var a = new FakeControl();
             var b = new FakeControl();
@@ -69,8 +69,8 @@ namespace CMiX.Core.Tests.Undo
             command.Undo();
 
             Assert.Equal(new IControl[] { a, b }, list.Items);
-            Assert.Null(list.SelectedItem);
-            Assert.Equal(new[] { "Remove", "Insert 0", "SelectAt -1" }, list.Calls);
+            Assert.Same(a, list.SelectedItem);
+            Assert.Equal(new[] { "Remove", "Insert 0" }, list.Calls);
         }
 
         [Fact]
