@@ -160,7 +160,7 @@ namespace CMiX.Core.Tests
         }
 
         [Theory]
-        [MemberData(nameof(TextureSourceModulationTests.SourceTypes), MemberType = typeof(TextureSourceModulationTests))]
+        [MemberData(nameof(TextureSourceTests.SourceTypes), MemberType = typeof(TextureSourceTests))]
         public void AddItem_OfAModulatorInASource_GivesItTheCompositionID(Type type)
         {
             var source = (TextureSourceBase)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(type);
