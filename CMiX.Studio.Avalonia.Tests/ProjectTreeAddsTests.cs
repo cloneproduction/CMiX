@@ -146,21 +146,5 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(1, screen.Project.CompositionManager.ManagerData.Items.Count);
             Assert.True(screen.Panel.IsOpen);
         }
-
-        [Fact]
-        public void TargetAdds_SelectionChanges_FollowsTheAddsOfTheSelectedNode()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var project = provider.GetRequiredService<Project>();
-            project.CompositionManager.AddItem(typeof(Composition));
-            var tree = TreeFixtures.CreateTree(provider);
-
-            Assert.Equal(new[] { "Add Composition" }, tree.TargetAdds.Select(add => add.Header));
-
-            tree.SelectedNode = tree.CompositionNodes()[0];
-
-            Assert.Equal(tree.GetAddChoices(tree.CompositionNodes()[0]).Select(add => add.Header), tree.TargetAdds.Select(add => add.Header));
-            Assert.True(tree.AddItemCommand.CanExecute(null));
-        }
     }
 }

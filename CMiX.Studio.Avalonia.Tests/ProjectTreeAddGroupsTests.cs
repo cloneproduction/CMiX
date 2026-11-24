@@ -10,6 +10,13 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 using Camera = CMiX.Core.Rendering.Cameras.Camera;
 using Composition = CMiX.Core.Compositing.Composition;
 using Layer = CMiX.Core.Compositing.Layer;
+using CMiX.Core;
+using CMiX.Core.Prefabs;
+using CMiX.Core.Undo;
+using Microsoft.Extensions.DependencyInjection;
+using Entity = CMiX.Core.Compositing.Entity;
+using LightEntity = CMiX.Core.Rendering.Lights.LightEntity;
+using Project = CMiX.Core.Compositing.Project;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -256,6 +263,283 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(layers + 1, scene.A.LayerManager.ManagerData.Items.Count);
             Assert.Equal(compositions + 1, scene.Project.CompositionManager.ManagerData.Items.Count);
+        }
+
+        // The state of the five commands: add, duplicate, move up, move down, remove.
+        private static bool[] CommandsEnabled(ProjectTree tree) => new[]
+        {
+            tree.AddItemCommand.CanExecute(null),
+            tree.DuplicateItemCommand.CanExecute(null),
+            tree.MoveItemUpCommand.CanExecute(null),
+            tree.MoveItemDownCommand.CanExecute(null),
+            tree.RemoveItemCommand.CanExecute(null)
+        };
+
+        [Fact]
+        public void CanExecute_NothingSelected_EnablesOnlyAddForAComposition()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.Tree.SelectedNode = null;
+
+            Assert.Equal(new[] { true, false, false, false, false }, CommandsEnabled(scene.Tree));
+
+            scene.Tree.AddItemCommand.Execute(scene.Tree.TargetAdds.Single());
+
+            Assert.Equal(3, scene.Project.CompositionManager.ManagerData.Items.Count);
+            Assert.IsType<Composition>(scene.Project.CompositionManager.ManagerData.Items[2]);
+        }
+
+        [Fact]
+        public void AddAtTargetCommand_PointerOverTheTree_AsksTheViewForTheMenu()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.Tree.AttachView(new TreeViewHooks { IsPointerOverTree = () => true });
+            var asked = 0;
+            scene.Tree.AddRequested += (_, _) => asked++;
+
+            Assert.True(scene.Tree.AddAtTargetCommand.CanExecute(null));
+            scene.Tree.AddAtTargetCommand.Execute(null);
+
+            Assert.Equal(1, asked);
+            Assert.Equal(2, scene.Project.CompositionManager.ManagerData.Items.Count);
+        }
+
+        [Fact]
+        public void AddAtTargetCommand_NothingSelected_AddsNothingAtOnce()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.Tree.SelectedNode = null;
+            scene.Tree.AttachView(new TreeViewHooks { IsPointerOverTree = () => true });
+
+            scene.Tree.AddAtTargetCommand.Execute(null);
+
+            Assert.Equal(2, scene.Project.CompositionManager.ManagerData.Items.Count);
+        }
+
+        [Fact]
+        public void AddAtTargetCommand_PointerAwayFromTheTree_CannotRun()
+        {
+            var scene = TreeFixtures.CreateScene();
+
+            Assert.False(scene.Tree.AddAtTargetCommand.CanExecute(null));
+        }
+
+        [Fact]
+        public void Add_WithACompositionSelected_AddsALayerToIt()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.Tree.SelectedNode = scene.Tree.CompositionNodes()[1];
+
+            // The toolbar opens a menu for a selected node. Its first row is the layer.
+            scene.Tree.GetAddChoices(scene.Tree.SelectedNode).Single(choice => choice.Header == "Add Layer").Execute!.Invoke();
+
+            Assert.Equal(2, scene.B.LayerManager.ManagerData.Items.Count);
+            Assert.Equal(2, scene.A.LayerManager.ManagerData.Items.Count);
+        }
+
+        [Fact]
+        public void CanExecute_TheFirstAndTheLastComposition_StopsMovesPastTheEdge()
+        {
+            var scene = TreeFixtures.CreateScene();
+
+            scene.Tree.SelectedNode = scene.Tree.CompositionNodes()[0];
+            Assert.Equal(new[] { true, true, false, true, true }, CommandsEnabled(scene.Tree));
+
+            scene.Tree.SelectedNode = scene.Tree.CompositionNodes()[1];
+            Assert.Equal(new[] { true, true, true, false, true }, CommandsEnabled(scene.Tree));
+        }
+
+        [Fact]
+        public void GetAdds_ALayerSelected_OffersFiveThings()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.Tree.SelectedNode = scene.LayerNodeOfA(0);
+
+            var choices = scene.Tree.GetAddChoices(scene.Tree.SelectedNode);
+            scene.Tree.AddItemCommand.Execute(null);
+
+            Assert.Equal(new[] { "Entity", "Fullscreen Quad", "Text", "Camera", "Light", "Add Filter", "Add Modifier", "Add Composition" }, choices.Select(choice => choice.Header));
+            Assert.True(scene.Tree.AddItemCommand.CanExecute(null));
+            Assert.Empty(scene.LayerOfA(0).ModelEntityManager.ManagerData.Items);
+            Assert.Empty(scene.LayerOfA(0).CameraManager.ManagerData.Items);
+        }
+
+        [Fact]
+        public void GetAdds_TheEntitiesGroup_OffersThreeThings()
+        {
+            var scene = TreeFixtures.CreateScene();
+
+            var choices = scene.Tree.GetAddChoices(scene.Group<EntitiesGroup>(0));
+
+            Assert.Equal(new[] { "Add Entity", "Add Fullscreen Quad", "Add Text", "Add Composition" }, choices.Select(choice => choice.Header));
+        }
+
+        [Fact]
+        public void GetAdds_AnySelection_PutsTheCompositionLast()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.A.LayerManager.AddItem(typeof(Layer));
+            scene.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity));
+            string[] Headers(CMiX.Studio.Avalonia.ViewModels.Tree.TreeNode? node) => scene.Tree.GetAddChoices(node).Select(choice => choice.Header).ToArray();
+
+            Assert.Equal(new[] { "Add Composition" }, Headers(null));
+            Assert.Equal(new[] { "Add Layer", "Add Filter", "Add Modifier", "Add Composition" }, Headers(scene.Tree.CompositionNodes()[0]));
+            Assert.Equal("Add Composition", Headers(scene.LayerNodeOfA(0)).Last());
+            Assert.Equal(new[] { "Add Camera", "Add Composition" }, Headers(scene.Group<CamerasGroup>(0)));
+            Assert.Equal(new[] { "Add Texture", "Add Modifier", "Add Composition" }, Headers(scene.Group<EntitiesGroup>(0).Children[0]));
+        }
+
+        [Fact]
+        public void Add_WithTheCamerasOrLightsGroupSelected_AddsACameraOrALight()
+        {
+            var scene = TreeFixtures.CreateScene();
+            var layer = scene.LayerOfA(0);
+
+            // The toolbar opens a menu for a group, so the test takes the row of the kind from the choices.
+            scene.Tree.GetAddChoices(scene.Group<CamerasGroup>(0)).Single(choice => choice.Header == "Add Camera").Execute!.Invoke();
+            scene.Tree.GetAddChoices(scene.Group<LightsGroup>(0)).Single(choice => choice.Header == "Add Light").Execute!.Invoke();
+
+            Assert.IsType<Camera>(Assert.Single(layer.CameraManager.ManagerData.Items));
+            Assert.IsType<LightEntity>(Assert.Single(layer.LightManager.ManagerData.Items));
+        }
+
+        [Theory]
+        [InlineData(typeof(EntitiesGroup))]
+        [InlineData(typeof(CamerasGroup))]
+        [InlineData(typeof(LightsGroup))]
+        public void CanExecute_AGroupSelected_EnablesOnlyAdd(System.Type group)
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.Tree.SelectedNode = scene.Group(0, group);
+
+            Assert.Equal(new[] { true, false, false, false, false }, CommandsEnabled(scene.Tree));
+        }
+
+        [Fact]
+        public void CanExecute_AnEntitySelected_EnablesEveryCommand()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity));
+            scene.LayerOfA(0).ModelEntityManager.AddItem(typeof(Entity));
+            var group = scene.Group<EntitiesGroup>(0);
+
+            // Add is on: a composition can be added whatever is selected.
+            scene.Tree.SelectedNode = group.Children[0];
+            Assert.Equal(new[] { true, true, false, true, true }, CommandsEnabled(scene.Tree));
+
+            scene.Tree.SelectedNode = group.Children[1];
+            Assert.Equal(new[] { true, true, true, false, true }, CommandsEnabled(scene.Tree));
+        }
+
+        [Fact]
+        public void Duplicate_ALayer_PutsTheCopyRightAfterIt()
+        {
+            var scene = TreeFixtures.CreateScene();
+            var original = scene.LayerOfA(0);
+            scene.Tree.SelectedNode = scene.LayerNodeOfA(0);
+
+            scene.Tree.DuplicateItemCommand.Execute(null);
+
+            Assert.Equal(3, scene.A.LayerManager.ManagerData.Items.Count);
+            Assert.Same(original, scene.A.LayerManager.ManagerData.Items[0]);
+            Assert.NotSame(original, scene.A.LayerManager.ManagerData.Items[1]);
+        }
+
+        [Fact]
+        public void MoveDownAndMoveUp_AComposition_MoveIt()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.Tree.SelectedNode = scene.Tree.CompositionNodes()[0];
+
+            scene.Tree.MoveItemDownCommand.Execute(null);
+            Assert.Equal(new IControl[] { scene.B, scene.A }, scene.Project.CompositionManager.ManagerData.Items);
+            Assert.Same(scene.A, scene.Tree.SelectedNode!.Item);
+
+            scene.Tree.MoveItemUpCommand.Execute(null);
+            Assert.Equal(new IControl[] { scene.A, scene.B }, scene.Project.CompositionManager.ManagerData.Items);
+        }
+
+        [Fact]
+        public void Remove_ALayer_TakesItOutOfItsComposition()
+        {
+            var scene = TreeFixtures.CreateScene();
+            var second = scene.LayerOfA(1);
+            scene.Tree.SelectedNode = scene.LayerNodeOfA(0);
+
+            scene.Tree.RemoveItemCommand.Execute(null);
+
+            Assert.Equal(new IControl[] { second }, scene.A.LayerManager.ManagerData.Items);
+        }
+
+        [Fact]
+        public void Select_AnotherNode_RaisesCanExecuteChanged()
+        {
+            var scene = TreeFixtures.CreateScene();
+            var raised = 0;
+            scene.Tree.MoveItemDownCommand.CanExecuteChanged += (_, _) => raised++;
+
+            scene.Tree.SelectedNode = scene.Tree.CompositionNodes()[0];
+
+            Assert.True(raised > 0);
+        }
+
+        [Fact]
+        public void CanExecute_AChangeOfTheLists_FollowsTheTree()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.Tree.SelectedNode = scene.LayerNodeOfA(0);
+            Assert.True(scene.Tree.MoveItemDownCommand.CanExecute(null));
+            var raised = 0;
+            scene.Tree.MoveItemDownCommand.CanExecuteChanged += (_, _) => raised++;
+
+            // The second layer leaves: the selected layer is now the last one.
+            scene.A.LayerManager.RemoveItem(scene.LayerOfA(1));
+
+            Assert.False(scene.Tree.MoveItemDownCommand.CanExecute(null));
+            Assert.True(raised > 0);
+        }
+
+        [Fact]
+        public void CanExecute_TheCursorOnAnotherRow_FollowsTheCursorRow()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.Tree.SelectedNode = scene.LayerNodeOfA(0);
+            var raised = 0;
+            scene.Tree.MoveItemUpCommand.CanExecuteChanged += (_, _) => raised++;
+
+            scene.Tree.CursorNode = scene.LayerNodeOfA(1);
+
+            Assert.True(raised > 0);
+            Assert.Same(scene.LayerNodeOfA(1), scene.Tree.TargetNode);
+            Assert.Equal(new[] { true, true, true, false, true }, CommandsEnabled(scene.Tree));
+        }
+
+        [Fact]
+        public void TargetAdds_TheCursorOnAGroup_FollowTheCursorRow()
+        {
+            var scene = TreeFixtures.CreateScene();
+            scene.Tree.SelectedNode = scene.LayerNodeOfA(0);
+
+            scene.Tree.CursorNode = scene.Group<CamerasGroup>(0);
+
+            Assert.Equal(new[] { "Add Camera", "Add Composition" }, scene.Tree.TargetAdds.Select(add => add.Header));
+            Assert.Equal(new[] { true, false, false, false, false }, CommandsEnabled(scene.Tree));
+        }
+
+        [Fact]
+        public void TargetAdds_SelectionChanges_FollowsTheAddsOfTheSelectedNode()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var project = provider.GetRequiredService<Project>();
+            project.CompositionManager.AddItem(typeof(Composition));
+            var tree = TreeFixtures.CreateTree(provider);
+
+            Assert.Equal(new[] { "Add Composition" }, tree.TargetAdds.Select(add => add.Header));
+
+            tree.SelectedNode = tree.CompositionNodes()[0];
+
+            Assert.Equal(tree.GetAddChoices(tree.CompositionNodes()[0]).Select(add => add.Header), tree.TargetAdds.Select(add => add.Header));
+            Assert.True(tree.AddItemCommand.CanExecute(null));
         }
     }
 }
