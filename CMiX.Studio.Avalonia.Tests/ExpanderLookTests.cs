@@ -14,11 +14,14 @@ using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Color = Avalonia.Media.Color;
+using CMiX.UI.Controls;
+using CMiX.UI.Controls.Boolean;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The panels look the same everywhere: the expanders of the assets are the expanders of the entities, a panel inside a panel is
-    // one step brighter, and the blend of a filter is closed when the filter appears.
+    // one step brighter, and the blend of a filter is closed when the filter appears. The switch in the header of a panel that turns
+    // the panel on is the box of the captioned toggle, without the caption.
     public class ExpanderLookTests
     {
         private static Color Header(Expander expander) =>
@@ -121,6 +124,30 @@ namespace CMiX.Studio.Avalonia.Tests
                 var closed = inspector.GetVisualDescendants().OfType<Expander>().Where(expander => expander.IsEffectivelyVisible && !expander.IsExpanded).ToList();
                 Assert.True(closed.Count == 0, node.Header + " has a closed expander.");
             }
+        }
+
+        public static TheoryData<string> PanelsWithAToggle => new() { "AmbientOcclusion", "LocalReflection", "PanelFilter" };
+
+        private static Control Create(string panel) => panel switch
+        {
+            "AmbientOcclusion" => new Views.AmbientOcclusion(),
+            "LocalReflection" => new Views.LocalReflection(),
+            _ => new Views.PanelFilter()
+        };
+
+        [AvaloniaTheory]
+        [MemberData(nameof(PanelsWithAToggle))]
+        public void Show_TheHeaderToggleOfAPanel_IsTheBoxOfTheCaptionedToggle(string panel)
+        {
+            var view = Create(panel);
+            new Window { Content = view, Width = 400, Height = 400 }.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            var toggle = view.GetVisualDescendants().OfType<ToggleButtonCMiX>().First();
+
+            Assert.Equal("IsChecked", toggle.GetVisualDescendants().OfType<AppIcon>().Single().IconKey);
+            Assert.Contains(toggle.GetVisualDescendants().OfType<Border>(), border => border.Name == "box");
+            Assert.Equal((double)Application.Current!.FindResource("ControlHeightXS")!, toggle.Bounds.Height);
         }
     }
 }
