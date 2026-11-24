@@ -19,7 +19,7 @@ namespace CMiX.Core.Tests
                 .Select(t => new object[] { t });
 
         // Values that ToModel does not write today. The owner decides if they must.
-        private static readonly HashSet<string> UnsavedPaths = new(StringComparer.Ordinal)
+        internal static readonly HashSet<string> UnsavedPaths = new(StringComparer.Ordinal)
         {
             "BeatStepModulator.Center",
             "BeatStepModulator.Width",

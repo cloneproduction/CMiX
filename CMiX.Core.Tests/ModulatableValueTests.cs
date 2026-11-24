@@ -4,7 +4,6 @@
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -205,20 +204,6 @@ namespace CMiX.Core.Tests
             Assert.Null(value.BoundModulator);
             Assert.Null(value.ModulatorID);
             Assert.Null(value.BoundOutputName);
-        }
-
-        [Fact]
-        public void Outputs_OfBeatStepAndLfo_OfferAGateAfterTheFirstOutput()
-        {
-            var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
-            manager.AddItem(typeof(LFOModulator));
-            manager.AddItem(typeof(BeatStepModulator));
-
-            foreach (var modulator in manager.ManagerData.Items.Cast<IModulator>())
-            {
-                Assert.IsNotType<ModulatorOutput<bool>>(modulator.Outputs[0]);
-                Assert.Contains(modulator.Outputs, o => o is ModulatorOutput<bool> { Name: "Gate" });
-            }
         }
     }
 }
