@@ -10,7 +10,7 @@ using Entity = CMiX.Core.Compositing.Entity;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The set of selected rows of the new list tree, read and changed through the model.
+    // The set of selected rows of the list tree, read and changed through the model.
     public class ProjectTreeSelectionSetTests
     {
         private readonly Scene scene = CreateScene([2], AddEntities);

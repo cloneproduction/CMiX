@@ -9,7 +9,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // Where the keyboard focus is, seen from the new tree: in a text box, in its side panel, or in another panel.
+    // Where the keyboard focus is, seen from the tree: in a text box, in its side panel, or in another panel.
     internal sealed class ListTreeFocus
     {
         private readonly Control owner;

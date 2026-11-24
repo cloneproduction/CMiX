@@ -12,7 +12,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The key hint strip under the rows of the new tree, with the modes of TreeHints.
+    // The key hint strip under the rows of the tree, one set of hints per mode (TreeHintMode).
     internal sealed class ListTreeHints : ListTreeBehavior
     {
         private ProjectTree? tree;

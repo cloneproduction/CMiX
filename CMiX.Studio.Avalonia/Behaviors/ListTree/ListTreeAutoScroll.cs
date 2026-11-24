@@ -10,7 +10,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // Scrolls the new tree while a drag holds the pointer near its top or bottom edge.
+    // Scrolls the tree while a drag holds the pointer near its top or bottom edge.
     internal sealed class ListTreeAutoScroll : ListTreeBehavior
     {
         // The zone at the top and at the bottom edge, and the biggest step of one tick, in pixels.

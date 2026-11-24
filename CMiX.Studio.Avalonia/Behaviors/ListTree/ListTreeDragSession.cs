@@ -12,7 +12,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The running drag of a row of the new tree: its candidates, the look of the rows, the near card and the note.
+    // The running drag of a row of the tree: its candidates, the look of the rows, the near card and the note.
     internal sealed class ListTreeDragSession : ListTreeBehavior
     {
         private readonly ListTreePick pick = new(ListTreeDragNumbers.Default);

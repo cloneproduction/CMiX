@@ -11,12 +11,12 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // Brings a row of the new tree into view, as TreeRowReveal does in the old tree. The rows have known places, so a reveal needs no frame hold.
+    // Brings a row into view. The rows have known places, so a reveal needs no frame hold.
     internal sealed class ListTreeRowReveal : ListTreeBehavior
     {
         private ProjectTree? tree;
 
-        // A selection by a program or a peer shows its row, as in the old tree.
+        // A selection by a program or a peer shows its row.
         protected override void OnWatch(ProjectTree watched)
         {
             tree = watched;

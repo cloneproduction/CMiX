@@ -64,7 +64,7 @@ namespace CMiX.Studio.Avalonia.Themes
         public const double KindHoverStrength = 0.85;
         public const double KindSelectedStrength = 1.0;
 
-        // The alpha of the kind colour in the new list tree: the border of a hovered row and the outline of the current drop target.
+        // The alpha of the kind colour in the list tree: the border of a hovered row and the outline of the current drop target.
         public const double ListTreeHoverBorderStrength = 0.45;
         public const double ListTreeDropOutlineStrength = 0.70;
 
@@ -115,7 +115,7 @@ namespace CMiX.Studio.Avalonia.Themes
                 ColorMix.Over(color, background, KindSelectedStrength));
         }
 
-        // The kind colours of a row of the new list tree. The composable depth gives the hue of a composable.
+        // The kind colours of a row of the list tree. The composable depth gives the hue of a composable.
         public ListTreeKindColors ForListTree(TreeCategory category, int composableDepth)
         {
             var color = colorOf(ColorKey(category, composableDepth));

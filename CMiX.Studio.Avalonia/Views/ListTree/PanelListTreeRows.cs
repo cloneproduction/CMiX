@@ -12,7 +12,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The rows of the new tree, each one a direct child, placed by ListTreeLayout. Only the rows near the view of the scroller have a control.
+    // The rows of the tree, each one a direct child, placed by ListTreeLayout. Only the rows near the view of the scroller have a control.
     public sealed partial class PanelListTreeRows : Panel
     {
         private readonly ListTreeNodeWatch watch = new();

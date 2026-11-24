@@ -24,7 +24,7 @@ using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The new tree after a drop of a drag: the open cards, the flash and the scroll to the dropped row.
+    // The tree after a drop of a drag: the open cards, the flash and the scroll to the dropped row.
     public class ListTreeRowDragDropTests : IDisposable
     {
         private const double PressX = 120;

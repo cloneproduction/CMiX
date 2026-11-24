@@ -11,7 +11,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The drop of a drag of the new tree: one undo step that selects the moved items, the open states of before the drag, and a flash on each row.
+    // The drop of a drag of the tree: one undo step that selects the moved items, the open states of before the drag, and a flash on each row.
     internal sealed class ListTreeDrop : ListTreeBehavior
     {
         public Dropping Start(ProjectTree project, ListTreeDragNodes nodes, ListTreeSlot slot, IReadOnlyList<ListTreeOpenState> openBefore)

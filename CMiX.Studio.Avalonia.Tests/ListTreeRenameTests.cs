@@ -18,7 +18,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // A double click on the name or F2 renames a row of the new list tree in place. Enter or a click outside keeps the name, Escape cancels.
+    // A double click on the name or F2 renames a row of the list tree in place. Enter or a click outside keeps the name, Escape cancels.
     // A click selects only, a click on the icon of a card opens or closes it only, a double click away from the name opens or closes it.
     public class ListTreeRenameTests : IDisposable
     {

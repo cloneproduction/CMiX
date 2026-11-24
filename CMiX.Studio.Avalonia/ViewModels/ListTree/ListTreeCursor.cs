@@ -8,7 +8,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // The arrow keys of the new tree. They move the cursor of ProjectTree as in the old tree, but only over the rows that the new tree shows.
+    // The arrow keys of the tree. They move the cursor of ProjectTree, but only over the rows that the tree shows.
     public sealed class ListTreeCursor
     {
         private readonly ProjectTree tree;
@@ -65,7 +65,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
                 tree.CursorNode = children[0];
         }
 
-        // A row with no shown row under it is a leaf of the new tree, so Right opens the Add panel there.
+        // A row with no shown row under it is a leaf of the tree, so Right opens the Add panel there.
         public bool IsCursorOnLeaf() => tree.CursorNode is { } node && ShownChildrenOf(node).Count == 0;
 
         private IReadOnlyList<TreeNode> ShownNodes() =>

@@ -13,7 +13,7 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests.Support
 {
-    // The reads of the look of the new list tree: parts, colors and theme tokens.
+    // The reads of the look of the list tree: parts, colors and theme tokens.
     internal static class ListTreeLook
     {
         public static Border Named(Control root, string name) => root.GetVisualDescendants().OfType<Border>().First(border => border.Name == name);

@@ -11,7 +11,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The menus of the new tree: a right click, the Menu key, W and Shift+A, with the items and the places of TreeMenus in the old tree.
+    // The menus of the tree: a right click, the Menu key, W and Shift+A.
     internal sealed class ListTreeMenus : ListTreeBehavior
     {
         private const string AddTitle = "Add";

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
-    // The rows that Ctrl and Shift clicks of the new tree add to the selected node. The old view shows only SelectedNode.
+    // The rows that Ctrl and Shift clicks of the tree add to the selected node.
     public sealed partial class ProjectTree
     {
         private IReadOnlyList<TreeNode> selectedNodes = Array.Empty<TreeNode>();

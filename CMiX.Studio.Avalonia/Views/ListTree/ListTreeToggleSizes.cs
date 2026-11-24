@@ -5,7 +5,7 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // TogglesRow reads the sizes of the old tree. The new tree gives it the ListTree sizes under the same keys.
+    // TogglesRow reads the row sizes by key. The tree gives it the ListTree sizes under those keys.
     public sealed record ListTreeToggleSizes(double Size, double Gap, double ColumnWidth)
     {
         public static ListTreeToggleSizes Of(Control control) =>

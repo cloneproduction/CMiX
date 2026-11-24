@@ -9,7 +9,7 @@ using CMiX.UI.Behaviors;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // Files from disk over the rows of the new tree, with the rules of TreeFileDropRules, as TreeFileDropInput gives them to the old tree.
+    // Files from disk over the rows of the tree, with the rules of TreeFileDropRules.
     internal sealed class ListTreeFileDropInput : ListTreeBehavior
     {
         private ProjectTree? tree;

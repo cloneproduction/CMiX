@@ -6,7 +6,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The places of a row of the new tree where a popup opens, as TreeRowAnchor gives them for the old tree.
+    // The places of a row where a popup opens.
     internal static class ListTreeRowAnchor
     {
         public static Point? CenterOf(RowListTree row, Visual relativeTo)

@@ -43,14 +43,14 @@
         </Style>
     </UserControl.Styles>
 
-    <!-- Tree.Open, as in the old tree. The keys of the selected row are in the main window.
-         F2 is a fixed key: it renames in place in the new tree only. Tree.Rename keeps its own gesture in the main window. -->
+    <!-- Tree.Open. The keys of the selected row are in the main window.
+         F2 is a fixed key: it renames in place in the tree only. Tree.Rename keeps its own gesture in the main window. -->
     <UserControl.KeyBindings>
         <KeyBinding Command="{Binding OpenSelectedCommand}" Gesture="{Binding Shortcuts[Tree.Open]}" />
         <KeyBinding Command="{Binding RenameSelectedByKeyCommand}" Gesture="F2" />
     </UserControl.KeyBindings>
 
-    <!-- The new project tree. The DataContext is the ProjectTree, the same as the one of TreeViewProject. -->
+    <!-- The project tree. The DataContext is the ProjectTree. -->
     <DockPanel Background="{DynamicResource ListTreeBackgroundBrush}">
 
         <Views:ToolbarProjectTree

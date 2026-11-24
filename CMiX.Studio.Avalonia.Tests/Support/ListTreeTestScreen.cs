@@ -9,7 +9,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Tests.Support
 {
-    // A headless window that shows the new list tree. The rows move with no animation.
+    // A headless window that shows the list tree. The rows move with no animation.
     internal sealed record ListTreeTestScreen(Window Window, ListTreeProject View)
     {
         public static ListTreeTestScreen Show(ProjectTree tree, double width, double height)

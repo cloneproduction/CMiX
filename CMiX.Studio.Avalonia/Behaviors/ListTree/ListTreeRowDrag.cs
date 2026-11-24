@@ -12,7 +12,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The pointer drag of a row of the new tree. The scroller captures the pointer, so the moves and the release come on every platform.
+    // The pointer drag of a row of the tree. The scroller captures the pointer, so the moves and the release come on every platform.
     internal sealed class ListTreeRowDrag : ListTreeBehavior
     {
         private ProjectTree? tree;

@@ -7,7 +7,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // A rest of the pointer next to a closed card during a drag of the new tree. After the delay the session opens the card.
+    // A rest of the pointer next to a closed card during a drag of the tree. After the delay the session opens the card.
     internal sealed class ListTreeDragRest : ListTreeBehavior
     {
         public static readonly TimeSpan RestDelay = TimeSpan.FromMilliseconds(500);

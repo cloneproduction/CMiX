@@ -14,7 +14,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The Tree keys of the main window run through CanRunTreeKey. With the focus in the new list tree, its hooks let them run.
+    // The Tree keys of the main window run through CanRunTreeKey. With the focus in the list tree, its hooks let them run.
     public class ListTreeWindowKeysTests : IDisposable
     {
         private sealed record Screen : ListTreeMainScreen
@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public void Dispose() => window?.Close();
 
-        // The new tree is the only tree. One composition with three layers. The first layer is selected, and its row has the focus.
+        // One composition with three layers. The first layer is selected, and its row has the focus.
         private Screen Show()
         {
             var screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(PanelChoice.Tree));

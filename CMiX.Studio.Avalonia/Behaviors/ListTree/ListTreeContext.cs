@@ -12,7 +12,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // What the behaviors of the new tree share: the named controls of the view, its lifetime, its state and its Add panel.
+    // What the behaviors of the tree share: the named controls of the view, its lifetime, its state and its Add panel.
     internal sealed class ListTreeContext
     {
         public ListTreeContext(ListTreeProject owner)

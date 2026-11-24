@@ -13,7 +13,7 @@ using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests.Support
 {
-    // The scenes and the finders that the pure tests of the new list tree share.
+    // The scenes and the finders that the pure tests of the list tree share.
     internal static class ListTreeScenes
     {
         // Layer 1 of A gets two entities with modifiers, a camera and a filter. Layer 2 of A gets a filter. Layer 2 of B gets one entity.

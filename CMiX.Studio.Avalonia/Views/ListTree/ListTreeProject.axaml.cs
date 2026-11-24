@@ -12,7 +12,7 @@ using CMiX.UI.Controls.Parts;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The screen hub of the new tree. Its behaviors do the work. It gives them the context and attaches its hooks to the tree while the view is in the visual tree.
+    // The screen hub of the tree. Its behaviors do the work. It gives them the context and attaches its hooks to the tree while the view is in the visual tree.
     public partial class ListTreeProject : UserControl
     {
         private readonly TreeViewHooks hooks;

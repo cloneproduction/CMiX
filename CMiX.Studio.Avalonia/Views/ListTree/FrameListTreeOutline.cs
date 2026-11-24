@@ -11,7 +11,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The outline of the drop target of the new tree, in the kind colour, a little outside the card or the row of the target.
+    // The outline of the drop target of the tree, in the kind colour, a little outside the card or the row of the target.
     public sealed class FrameListTreeOutline : Border
     {
         public const string ThicknessKey = "ListTreeDropOutlineThickness";

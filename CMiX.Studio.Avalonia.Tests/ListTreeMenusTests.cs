@@ -20,8 +20,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The menus of the new list tree: a key opens at the cursor row, a right click at the pointer.
-    // The toolbar and the key hint strip show as in the old tree.
+    // The menus of the list tree: a key opens at the cursor row, a right click at the pointer.
     public class ListTreeMenusTests : IDisposable
     {
         private sealed record Screen : ListTreeMainScreen
@@ -45,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
         }
 
-        // The new tree is the only tree. One composition with three layers. The first layer is selected. The focus is on its row.
+        // One composition with three layers. The first layer is selected. The focus is on its row.
         private Screen Show()
         {
             screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(PanelChoice.Tree));

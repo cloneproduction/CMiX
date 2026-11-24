@@ -9,7 +9,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The new tree pushes its pointer and its focus into ListTreeViewState on its own events and on the focus events of its window.
+    // The tree pushes its pointer and its focus into ListTreeViewState on its own events and on the focus events of its window.
     internal sealed class ListTreeViewStateInput : ListTreeBehavior
     {
         private TopLevel? window;

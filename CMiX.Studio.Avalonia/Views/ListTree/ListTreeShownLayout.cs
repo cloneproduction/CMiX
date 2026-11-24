@@ -7,7 +7,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // What the rows of the new tree show: the arrangement of the live tree, or the look of a drag until the drag ends.
+    // What the rows of the tree show: the arrangement of the live tree, or the look of a drag until the drag ends.
     internal sealed class ListTreeShownLayout
     {
         private readonly ListTreeRowControls rowControls;

@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Views
         public static readonly StyledProperty<string?> IconKeyProperty =
             AvaloniaProperty.Register<RowListTree, string?>(nameof(IconKey));
 
-        // TreeRowBrush reads IsSelected and ItemCount, the same as on the TreeViewItem of the old tree.
+        // TreeRowBrush reads IsSelected and ItemCount.
         public static readonly StyledProperty<bool> IsSelectedProperty =
             AvaloniaProperty.Register<RowListTree, bool>(nameof(IsSelected));
 

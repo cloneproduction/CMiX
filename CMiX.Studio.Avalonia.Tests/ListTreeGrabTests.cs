@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 Press(screen, key == "Down" ? PhysicalKey.ArrowDown : key == "Up" ? PhysicalKey.ArrowUp : PhysicalKey.Enter);
         }
 
-        // The middle of the row of the node in the new tree, in the window.
+        // The middle of the row of the node in the tree, in the window.
         private Point On(Screen screen, TreeNode node)
         {
             TreeDrag.Render(screen.Window);
@@ -249,7 +249,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var marked = View.Grab.Drag!.Look!.Candidate.Slot;
             var start = On(screen, screen.CompositionNode);
 
-            screen.Window.MouseMove(start + new Vector(0, TreeGrab.MouseTakeOver / 2));
+            screen.Window.MouseMove(start + new Vector(0, ListTreeGrab.MouseTakeOver / 2));
             Settle(screen.Window);
 
             Assert.Equal(marked, View.Grab.Drag!.Look!.Candidate.Slot);

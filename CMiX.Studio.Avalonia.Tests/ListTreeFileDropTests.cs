@@ -21,7 +21,7 @@ using Composition = CMiX.Core.Compositing.Composition;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // Files from disk over the new list tree: the rules of TreeFileDropRules, the marks of the drop, the outline of the target.
+    // Files from disk over the list tree: the rules of TreeFileDropRules, the marks of the drop, the outline of the target.
     public class ListTreeFileDropTests : IDisposable
     {
         private readonly string folder = Path.Combine(Path.GetTempPath(), "cmix-list-tree-drop-" + Guid.NewGuid().ToString("N"));

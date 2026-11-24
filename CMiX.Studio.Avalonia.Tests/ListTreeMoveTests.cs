@@ -67,7 +67,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private sealed record Shown(ListTreeRowKey Key, int Depth);
 
-        // The real tree opens the rows of a moved card. The new view restores them after the drop.
+        // The real tree opens the rows of a moved card. The view restores them after the drop.
         private static Shown[] ShownRows(ListTreeSnapshot snapshot, IControl moved) =>
             snapshot.VisibleRows().Where(row => !IsUnder(row.Key.Parent, moved)).Select(row => new Shown(row.Key, row.Depth)).ToArray();
 
@@ -267,7 +267,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public static TheoryData<string> BlockNames => new(Blocks);
 
-        // The real tree opens the rows of a moved card. The new view restores them after the drop.
+        // The real tree opens the rows of a moved card. The view restores them after the drop.
         private static Shown[] ShownRowsOutsideTheBlock(ListTreeSnapshot snapshot, IReadOnlyList<IControl> block) =>
             snapshot.VisibleRows().Where(row => !block.Any(item => IsUnder(row.Key.Parent, item))).Select(row => new Shown(row.Key, row.Depth)).ToArray();
 

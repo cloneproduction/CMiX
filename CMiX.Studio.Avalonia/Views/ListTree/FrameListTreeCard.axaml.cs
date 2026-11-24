@@ -8,7 +8,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The area of a card of the new tree, under its rows: from the top of the header to the bottom of its last shown row.
+    // The area of a card of the tree, under its rows: from the top of the header to the bottom of its last shown row.
     public partial class FrameListTreeCard : UserControl
     {
         public const string HoveredClass = ":hovered";

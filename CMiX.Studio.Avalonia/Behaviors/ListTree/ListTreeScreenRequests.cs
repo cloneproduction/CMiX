@@ -10,7 +10,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The requests of the tree that the new tree answers while it is the active view, as TreeScreenRequests answers them for the old tree.
+    // The requests of the tree that the view answers while it is the active view.
     internal sealed class ListTreeScreenRequests : ListTreeBehavior
     {
         private ProjectTree? tree;

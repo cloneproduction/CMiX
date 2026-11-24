@@ -15,7 +15,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The pointer drag of a row of the new tree: the start, the pick, the cancel and the drop. The points are in the panel of the rows.
+    // The pointer drag of a row of the tree: the start, the pick, the cancel and the drop. The points are in the panel of the rows.
     public class ListTreeRowDragTests : IDisposable
     {
         private const double PressX = 120;

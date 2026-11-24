@@ -19,7 +19,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The focus of the new list tree stays in its rows after a click and a row button, as in the old tree. The cursor has a frame of its own.
+    // The focus of the list tree stays in its rows after a click and a row button. The cursor has a frame of its own.
     public class ListTreeFocusTests : IDisposable
     {
         private readonly Scene scene = CreateScene([2], s => AddKinds(s.Layer));

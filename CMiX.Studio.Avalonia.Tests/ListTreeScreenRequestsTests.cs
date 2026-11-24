@@ -15,7 +15,7 @@ using Echo = CMiX.Core.Texturing.Filters.Echo;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The screen requests of the tree in the new list tree: the reveal brings a row to the middle, a close keeps the anchor row still,
+    // The screen requests of the tree in the list tree: the reveal brings a row to the middle, a close keeps the anchor row still,
     // a selection by a program shows its row.
     public class ListTreeScreenRequestsTests : IDisposable
     {

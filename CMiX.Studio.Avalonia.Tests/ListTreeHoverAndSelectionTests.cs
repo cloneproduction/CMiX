@@ -20,7 +20,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The hover and the selection of the new list tree: surfaces, left borders and text, measured on the rows and the card areas.
+    // The hover and the selection of the list tree: surfaces, left borders and text, measured on the rows and the card areas.
     public class ListTreeHoverAndSelectionTests : IDisposable
     {
         private readonly Scene scene = CreateScene([2], s => AddKinds(s.Layer));

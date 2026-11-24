@@ -6,7 +6,7 @@ using Avalonia.Input;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The cursor of the rows and the note under them during a drag of the new tree.
+    // The cursor of the rows and the note under them during a drag of the tree.
     internal sealed class ListTreeDragScreen
     {
         public const StandardCursorType MoveCursorType = StandardCursorType.DragMove;

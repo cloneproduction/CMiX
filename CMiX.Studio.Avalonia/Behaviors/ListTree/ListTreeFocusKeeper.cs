@@ -13,7 +13,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The focus goes back to a row of the new tree after a rename or a move, as TreeFocusKeeper does. ListTreePressFocus keeps it after a press.
+    // The focus goes back to a row of the tree after a rename or a move. ListTreePressFocus keeps it after a press.
     internal sealed class ListTreeFocusKeeper : ListTreeBehavior
     {
         private ProjectTree? tree;

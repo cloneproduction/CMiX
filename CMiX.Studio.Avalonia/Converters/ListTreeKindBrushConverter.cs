@@ -11,7 +11,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Converters
 {
-    // The kind colour of a node of the new list tree for a mark, the name of a ListTreeKindColors member as the parameter.
+    // The kind colour of a node of the list tree for a mark, the name of a ListTreeKindColors member as the parameter.
     public sealed class ListTreeKindBrushConverter : IValueConverter
     {
         public const string HoverBorder = nameof(ListTreeKindColors.HoverBorder);

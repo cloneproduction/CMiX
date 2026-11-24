@@ -11,7 +11,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The input of the window during a grab of the new tree. It takes every click and every key, as TreeGrab does.
+    // The input of the window during a grab. It takes every click and every key.
     internal sealed class ListTreeGrabInput : ListTreeBehavior
     {
         private TopLevel? top;

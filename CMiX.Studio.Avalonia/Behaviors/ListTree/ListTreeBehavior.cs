@@ -7,7 +7,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // A behavior of the new tree. It watches the tree in the DataContext while the view is in the visual tree.
+    // A behavior of the tree. It watches the tree in the DataContext while the view is in the visual tree.
     internal abstract class ListTreeBehavior : Behavior<ListTreeProject>
     {
         private ProjectTree? watched;

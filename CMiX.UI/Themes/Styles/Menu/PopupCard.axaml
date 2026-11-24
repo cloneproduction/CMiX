@@ -5,7 +5,7 @@
 
     <!-- The surface is a PopupSurface. The tip lies on it, inside the room of the shadow. -->
     <ControlTheme x:Key="{x:Type ui:PopupCard}" TargetType="ui:PopupCard">
-        <!-- The fill of the card and of its tip. A tooltip of a row of the tree takes the colour of the row (see TreeViewProject). -->
+        <!-- The fill of the card and of its tip. A tooltip of a row of the tree takes the colour of the row (see RowListTree). -->
         <Setter Property="Background" Value="{DynamicResource PopupBackgroundBrush}" />
         <Setter Property="Padding" Value="{DynamicResource PopupCardPadding}" />
         <Setter Property="Template">

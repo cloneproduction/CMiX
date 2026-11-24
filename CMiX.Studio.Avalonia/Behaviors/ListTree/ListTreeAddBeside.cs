@@ -12,7 +12,7 @@ using CMiX.UI.Popups;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The one Add panel of the new tree. Open puts it beside the cursor row, as TreeMenus.OpenAddBesideTheCursor does in the old tree.
+    // The one Add panel of the tree. Open puts it beside the cursor row.
     internal sealed class ListTreeAddBeside : ListTreeBehavior
     {
         private const string AddTitle = "Add";

@@ -20,7 +20,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The panel of the new tree during a drag: the rows at the places of a candidate, the dragged row, the dimmed rows and the drop target.
+    // The panel of the tree during a drag: the rows at the places of a candidate, the dragged row, the dimmed rows and the drop target.
     public class PanelListTreeRowsDragTests : IDisposable
     {
         private readonly TreeDropService service = new();

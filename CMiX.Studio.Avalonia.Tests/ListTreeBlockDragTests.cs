@@ -17,7 +17,7 @@ using Entity = CMiX.Core.Compositing.Entity;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // A drag of several selected rows of the new list tree: the rows move as one block and one undo step.
+    // A drag of several selected rows of the list tree: the rows move as one block and one undo step.
     public class ListTreeBlockDragTests : IDisposable
     {
         private const double PressX = 120;

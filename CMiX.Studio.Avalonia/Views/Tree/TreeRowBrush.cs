@@ -72,18 +72,14 @@ namespace CMiX.Studio.Avalonia.Views
             {
                 ToRow(element, "DataContext"),
                 ToRow(element, "DataContext.IsCursor"),
-                ToRow(element, nameof(TreeViewItem.IsSelected)),
-                ToRow(element, nameof(TreeViewItem.ItemCount)),
+                ToRow(element, nameof(RowListTree.IsSelected)),
+                ToRow(element, nameof(RowListTree.ItemCount)),
             },
         };
 
         private static Binding ToRow(Control element, string path) => new(path)
         {
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor) { AncestorType = RowTypeOf(element) },
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor) { AncestorType = typeof(RowListTree) },
         };
-
-        // The row of the new list tree has the same properties as the TreeViewItem of the old tree.
-        private static Type RowTypeOf(Control element) =>
-            element.FindLogicalAncestorOfType<RowListTree>() != null ? typeof(RowListTree) : typeof(TreeViewItem);
     }
 }

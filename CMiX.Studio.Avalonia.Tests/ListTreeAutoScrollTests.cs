@@ -18,7 +18,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The scroll of the new tree at its top and bottom edges, during a drag of a row and during a drag of files.
+    // The scroll of the tree at its top and bottom edges, during a drag of a row and during a drag of files.
     public class ListTreeAutoScrollTests : IDisposable
     {
         private const double PressX = 120;

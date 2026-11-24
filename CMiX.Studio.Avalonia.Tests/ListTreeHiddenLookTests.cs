@@ -17,8 +17,8 @@ using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // A hidden row of the new list tree, and every row under a hidden card, show a fixed grey text and icon, never an opacity.
-    // ListTreeTogglesAndBadgesTests measures that the toggles of these rows keep the look of the old tree.
+    // A hidden row of the list tree, and every row under a hidden card, show a fixed grey text and icon, never an opacity.
+    // ListTreeTogglesAndBadgesTests measures the look of the toggles of these rows.
     public class ListTreeHiddenLookTests : IDisposable
     {
         private readonly Scene scene = CreateScene([2], s => AddKinds(s.Layer));

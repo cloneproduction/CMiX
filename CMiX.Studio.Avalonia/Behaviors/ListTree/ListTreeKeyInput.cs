@@ -13,7 +13,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The keys of the new tree that need the focus in its rows, as TreeKeyInput gives them to the old tree. They move the cursor and select nothing.
+    // The keys of the tree that need the focus in its rows. They move the cursor and select nothing.
     internal sealed class ListTreeKeyInput : ListTreeBehavior
     {
         private ProjectTree? tree;

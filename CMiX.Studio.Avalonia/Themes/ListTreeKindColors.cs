@@ -5,7 +5,7 @@ using Avalonia.Media;
 
 namespace CMiX.Studio.Avalonia.Themes
 {
-    // The kind colours of a row of the new list tree. The borders and the outline are the kind colour with alpha, over what is under them.
+    // The kind colours of a row of the list tree. The borders and the outline are the kind colour with alpha, over what is under them.
     public sealed record ListTreeKindColors(
         Color HoverBorder,
         Color DropOutline,

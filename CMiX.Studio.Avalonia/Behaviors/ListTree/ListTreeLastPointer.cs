@@ -8,7 +8,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The last place of the pointer over the new tree, in the control that holds its menus, as TreePointerInput.LastPointer.
+    // The last place of the pointer over the tree, in the control that holds its menus.
     internal sealed class ListTreeLastPointer : ListTreeBehavior
     {
         public Point Last { get; private set; }

@@ -18,7 +18,7 @@ using Entity = CMiX.Core.Compositing.Entity;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // Ctrl and Shift clicks of the new list tree: the selected rows, the selected node, and their look.
+    // Ctrl and Shift clicks of the list tree: the selected rows, the selected node, and their look.
     public class ListTreeMultiSelectionTests : IDisposable
     {
         private readonly Scene scene = CreateScene([2], AddEntities);

@@ -8,7 +8,7 @@
     FocusAdorner="{x:Null}"
     Focusable="True">
 
-    <!-- One row of the new tree, on the tree node. The band starts at the indent, the toggles stay at the right edge.
+    <!-- One row of the tree, on the tree node. The band starts at the indent, the toggles stay at the right edge.
          The Background is the surface of an item row, full width. A card shows its surface on its area, under the rows. -->
     <UserControl.Resources>
         <StudioConverters:TreeToneConverter x:Key="RowTone" />
@@ -74,7 +74,7 @@
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <!-- The cursor frame of the old tree: one pixel in the colour of the kind. A selected row shows no frame. -->
+        <!-- The cursor frame: one pixel in the colour of the kind. A selected row shows no frame. -->
         <Style Selector="Border#cursorFrame">
             <Setter Property="BorderBrush" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}" />
         </Style>
@@ -85,7 +85,7 @@
         <!-- AppIcon sets its own Foreground in its styles, so the state of the row reaches the icon through IconForeground. -->
         <Style Selector="Views|RowListTree">
             <Setter Property="IconForeground" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}" />
-            <!-- The tooltips of a row have the hover fill of the old row, as TreeViewItemCMiX gives them. -->
+            <!-- The tooltips of a row have the hover fill of the row. -->
             <Setter Property="ui:ToolTipCard.Fill" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=FillHover}" />
         </Style>
 
@@ -103,7 +103,7 @@
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextDimmedBrush}" />
         </Style>
 
-        <!-- A hidden row and every row under a hidden row have a fixed grey, never an opacity. The toggles keep the look of the old tree. -->
+        <!-- A hidden row and every row under a hidden row have a fixed grey, never an opacity. -->
         <Style Selector="Views|RowListTree:hiddenrow ui|TextBoxEditable#nameBox, Views|RowListTree:hiddenrow TextBlock#groupName">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextHiddenBrush}" />
         </Style>

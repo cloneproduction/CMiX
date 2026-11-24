@@ -10,7 +10,7 @@ using CMiX.UI.Themes;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // Slides a row of the new tree with a render offset: the row has its new top for the layout, and only the render moves, so a frame costs no layout.
+    // Slides a row of the tree with a render offset: the row has its new top for the layout, and only the render moves, so a frame costs no layout.
     internal static class ListTreeRowSlide
     {
         // The offset of the render from the top of the row, also while it slides.

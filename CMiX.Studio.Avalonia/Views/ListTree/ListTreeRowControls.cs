@@ -9,7 +9,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The row controls of the new tree by the key of their row. Only the rows in the row window of the panel have a control.
+    // The row controls of the tree by the key of their row. Only the rows in the row window of the panel have a control.
     internal sealed class ListTreeRowControls
     {
         private readonly PanelListTreeRows panel;

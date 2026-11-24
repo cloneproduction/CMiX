@@ -7,7 +7,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // Room under the rows of the new tree lets the view stay where it was when a close takes rows away, as TreeRowMetrics.SetEndRoom gives the old tree.
+    // Room under the rows lets the view stay where it was when a close takes rows away.
     internal sealed class ListTreeEndRoom : ListTreeBehavior
     {
         private const int RowsInView = 3;

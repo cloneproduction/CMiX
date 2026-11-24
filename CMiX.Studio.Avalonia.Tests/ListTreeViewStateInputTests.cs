@@ -14,7 +14,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The new list tree pushes its pointer and its focus into its view state, and the hooks of TreeViewSet read that state.
+    // The list tree pushes its pointer and its focus into its view state, and the hooks of TreeViewSet read that state.
     public class ListTreeViewStateInputTests : IDisposable
     {
         private readonly Scene scene = CreateScene([2], s => AddKinds(s.Layer));

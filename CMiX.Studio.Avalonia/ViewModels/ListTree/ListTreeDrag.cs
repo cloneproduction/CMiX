@@ -7,7 +7,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // One drag of a row or of a block of the new tree: the candidates of the live tree and the one that the pointer picks.
+    // One drag of a row or of a block of the tree: the candidates of the live tree and the one that the pointer picks.
     public sealed class ListTreeDrag
     {
         private readonly ListTreeCandidates candidates;

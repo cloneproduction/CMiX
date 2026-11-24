@@ -106,7 +106,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // The open state of every row of the tree.
         private static bool[] OpenStates(ProjectTree tree) => All(tree.Roots).Select(node => node.IsExpanded).ToArray();
 
-        // The keys that open or close rows in the TreeView of Avalonia. The tree does not use them. The focused row is open for
+        // The keys that open or close rows in a TreeView of Avalonia. The tree does not use them. The focused row is open for
         // the keys that close and closed for the keys that open, so a key that goes through changes it.
         [AvaloniaTheory]
         [InlineData(PhysicalKey.NumPadAdd, false)]

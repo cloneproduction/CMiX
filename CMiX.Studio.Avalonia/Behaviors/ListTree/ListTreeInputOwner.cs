@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The part of the new tree that holds the pointer and the keys. A grab holds them until the release of its last click.
+    // The part of the tree that holds the pointer and the keys. A grab holds them until the release of its last click.
     internal enum ListTreeInputOwner
     {
         None,

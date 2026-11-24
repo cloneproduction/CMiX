@@ -14,7 +14,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // A press selects the node of a row, as in the old tree: Ctrl toggles, Shift selects from the anchor, middle click also inspects, and a plain press in a selection waits for the release so a drag can take all.
+    // A press selects the node of a row: Ctrl toggles, Shift selects from the anchor, middle click also inspects, and a plain press in a selection waits for the release so a drag can take all.
     internal sealed class ListTreeRowClick : ListTreeBehavior
     {
         private ProjectTree? tree;

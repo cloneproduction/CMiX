@@ -10,7 +10,7 @@ using CMiX.Studio.Avalonia.Views;
 
 namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 {
-    // The focus after a press in the new tree: a press beside the rows focuses the cursor row, a row button gives the focus back.
+    // The focus after a press in the tree: a press beside the rows focuses the cursor row, a row button gives the focus back.
     internal sealed class ListTreePressFocus : ListTreeBehavior
     {
         private sealed record FocusBefore(IInputElement? Control);
