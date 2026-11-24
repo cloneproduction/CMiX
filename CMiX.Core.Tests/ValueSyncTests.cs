@@ -81,6 +81,31 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Record_OfAChange_PushesOneValueChangedCommandAndSendsNothing()
+        {
+            var fixture = Create();
+
+            fixture.Sync.Record(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+
+            Assert.True(fixture.UndoManager.CanUndo);
+            Assert.Empty(fixture.Sender.Sent);
+        }
+
+        [Fact]
+        public void Record_WhileTheUndoManagerApplies_PushesNothing()
+        {
+            var fixture = Create();
+            fixture.UndoManager.Push(new ActionUndoCommand(() =>
+                fixture.Sync.Record(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel())));
+
+            fixture.UndoManager.Undo();
+
+            Assert.False(fixture.UndoManager.CanUndo);
+            Assert.True(fixture.UndoManager.CanRedo);
+            Assert.Empty(fixture.Sender.Sent);
+        }
+
+        [Fact]
         public void Send_OfAValue_SendsOneMessageAndPushesNothing()
         {
             var fixture = Create();

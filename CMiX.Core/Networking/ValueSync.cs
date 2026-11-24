@@ -21,10 +21,15 @@ namespace CMiX.Core.Networking
             _messenger = messenger;
         }
 
-        public void Commit(IControl value, IControlModel before, IControlModel after)
+        public void Record(IControl value, IControlModel before, IControlModel after)
         {
             if (!_undoManager.IsApplying)
                 _undoManager.Push(new ValueChangedCommand(value, before, after));
+        }
+
+        public void Commit(IControl value, IControlModel before, IControlModel after)
+        {
+            Record(value, before, after);
             Send(value);
         }
 
