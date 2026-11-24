@@ -28,8 +28,8 @@ namespace CMiX.Studio.Avalonia.Resources
         public static CMiX.Core.Text.TextAnchor[] Anchor { get; } =
             Enum.GetValues<CMiX.Core.Text.TextAnchor>();
 
-        public static CMiX.Core.Text.TextAlignment[] TextHorizontalAlignment { get; } =
-            Enum.GetValues<CMiX.Core.Text.TextAlignment>();
+        public static CMiX.Core.Text.TextHorizontalAlignment[] TextHorizontalAlignment { get; } =
+            Enum.GetValues<CMiX.Core.Text.TextHorizontalAlignment>();
 
         public static CMiX.Core.Text.Modifiers.SplitType[] SplitType { get; } =
             Enum.GetValues<CMiX.Core.Text.Modifiers.SplitType>();

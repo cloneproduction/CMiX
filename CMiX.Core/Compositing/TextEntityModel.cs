@@ -24,7 +24,7 @@ namespace CMiX.Core.Compositing
         public GenericValueModel<string> FontFamily { get; set; } = new("Arial");
         public GenericValueModel<float> LineHeight { get; set; } = new(1.50f);
         public GenericValueModel<float> Width { get; set; } = new(9.0f);
-        public GenericValueModel<TextAlignment> HorizontalAlignment { get; set; } = new(TextAlignment.Left);
+        public GenericValueModel<TextHorizontalAlignment> HorizontalAlignment { get; set; } = new(TextHorizontalAlignment.Left);
         public GenericValueModel<TextAnchor> Anchor { get; set; } = new(TextAnchor.Center);
     }
 }

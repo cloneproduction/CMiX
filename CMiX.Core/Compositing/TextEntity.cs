@@ -25,7 +25,7 @@ namespace CMiX.Core.Compositing
                           GenericValue<string> fontFamily,
                           GenericValue<float> lineHeight,
                           GenericValue<float> width,
-                          GenericValue<TextAlignment> horizontalAlignment,
+                          GenericValue<TextHorizontalAlignment> horizontalAlignment,
                           GenericValue<TextAnchor> anchor)
         {
             PrefabService = prefabService;
@@ -53,7 +53,7 @@ namespace CMiX.Core.Compositing
         public GenericValue<string> FontFamily { get; set; }
         public GenericValue<float> LineHeight { get; set; }
         public GenericValue<float> Width { get; set; }
-        public GenericValue<TextAlignment> HorizontalAlignment { get; set; }
+        public GenericValue<TextHorizontalAlignment> HorizontalAlignment { get; set; }
         public GenericValue<TextAnchor> Anchor { get; set; }
 
         private Guid _compositionID;
@@ -88,7 +88,7 @@ namespace CMiX.Core.Compositing
             FontFamily = (GenericValueModel<string>)FontFamily.ToModel(),
             LineHeight = (GenericValueModel<float>)LineHeight.ToModel(),
             Width = (GenericValueModel<float>)Width.ToModel(),
-            HorizontalAlignment = (GenericValueModel<TextAlignment>)HorizontalAlignment.ToModel(),
+            HorizontalAlignment = (GenericValueModel<TextHorizontalAlignment>)HorizontalAlignment.ToModel(),
             Anchor = (GenericValueModel<TextAnchor>)Anchor.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel()
         };

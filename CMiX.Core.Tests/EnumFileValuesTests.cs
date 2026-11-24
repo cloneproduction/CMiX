@@ -34,7 +34,7 @@ namespace CMiX.Core.Tests
             { typeof(MaskChannel), ["Luma", "Value", "Saturation", "Alpha", "Hue", "Red", "Green", "Blue"] },
             { typeof(MaskMode), ["OneBelow", "AllBelow"] },
             { typeof(TextStyle), ["Normal", "Bold", "Italic", "BoldItalic"] },
-            { typeof(TextAlignment), ["Left", "Center", "Right"] },
+            { typeof(TextHorizontalAlignment), ["Left", "Center", "Right"] },
             { typeof(TextAnchor), ["TopLeft", "TopCenter", "TopRight", "MiddleLeft", "Center", "MiddleRight", "BottomLeft", "BottomCenter", "BottomRight"] },
             { typeof(ModifierMode), ["PerInstance", "ToSpread"] },
             { typeof(ColorMode), ["RGB", "HSV", "HSL"] },

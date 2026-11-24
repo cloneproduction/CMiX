@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Text
 {
-    public enum TextAlignment
+    public enum TextHorizontalAlignment
     {
         Left,
         Center,
