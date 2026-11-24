@@ -118,7 +118,7 @@ namespace CMiX.Core.Tests
             var writes = store.WriteSnapshotCalls;
 
             var push = peer.PushAsync();
-            await Task.Delay(300);
+            await SettleAsync();
             Assert.Equal(writes, store.WriteSnapshotCalls);
 
             store.BeforeAppend = null;

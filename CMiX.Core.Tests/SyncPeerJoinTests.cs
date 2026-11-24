@@ -180,7 +180,7 @@ namespace CMiX.Core.Tests
 
             peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined);
-            await Task.Delay(300);
+            await SettleAsync();
 
             Assert.Equal(1, Volatile.Read(ref events));
             Assert.Same(peer, sender);
@@ -201,7 +201,7 @@ namespace CMiX.Core.Tests
 
             await store.AppendAsync(Envelope("other", new MessageProjectSnapshot(Guid.NewGuid(), ModelWithOneComposition())));
             await WaitUntilAsync(() => target.SnapshotsApplied == 1);
-            await Task.Delay(300);
+            await SettleAsync();
 
             Assert.Equal(1, Volatile.Read(ref events));
         }
@@ -229,7 +229,7 @@ namespace CMiX.Core.Tests
             store.SetFail(false);
 
             await WaitUntilAsync(() => target.SnapshotsApplied == 1, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
-            await Task.Delay(300);
+            await SettleAsync();
 
             Assert.Equal(1, Volatile.Read(ref events));
         }
@@ -301,7 +301,7 @@ namespace CMiX.Core.Tests
             store.Fail = false;
 
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
-            await Task.Delay(200);
+            await SettleAsync();
 
             Assert.Equal(1, target.SnapshotsApplied);
             Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));

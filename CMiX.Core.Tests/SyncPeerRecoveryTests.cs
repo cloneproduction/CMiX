@@ -83,7 +83,7 @@ namespace CMiX.Core.Tests
             var composition = Assert.Single(project.CompositionManager.ManagerData.Items);
             Assert.Equal(model.CompositionManager.ManagerData.Items[0].ID, composition.ID);
 
-            await Task.Delay(300);
+            await SettleAsync();
             Assert.DoesNotContain(targetA.Applied, m => m is MessageRemoveItem || m is MessageAddItem);
             // A is not a writer, so an entry after the snapshot position could only come from B.
             Assert.DoesNotContain(inner.Entries, entry => entry.Id > tail);
@@ -143,7 +143,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.LastAppliedId == tail, 5000, () => $"status={peer.Status} last={peer.LastAppliedId}");
 
             // Gives a second apply the time to appear.
-            await Task.Delay(300);
+            await SettleAsync();
 
             Assert.Equal(1, target.SnapshotsApplied);
             Assert.Equal(tail, peer.LastAppliedId);
@@ -181,7 +181,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.LastAppliedId == tail, 5000, () => $"status={peer.Status} last={peer.LastAppliedId}");
 
             // Gives a second apply the time to appear.
-            await Task.Delay(300);
+            await SettleAsync();
 
             Assert.Equal(1, target.SnapshotsApplied);
             Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
@@ -215,7 +215,7 @@ namespace CMiX.Core.Tests
             gate.Release();
 
             await WaitUntilAsync(() => peer.LastAppliedId == tail, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
-            await Task.Delay(500);
+            await SettleAsync();
 
             Assert.Equal(0, target.SnapshotsApplied);
             Assert.Single(target.Applied);

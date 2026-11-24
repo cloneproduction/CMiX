@@ -16,6 +16,13 @@ namespace CMiX.Core.Tests
         private static readonly TimeSpan Delay = TimeSpan.FromMilliseconds(200);
         private static readonly TimeSpan NoTimer = TimeSpan.FromSeconds(30);
 
+        // One compaction delay and one settle tick. A compaction that the last change started has run after it.
+        private static async Task CompactionSettleAsync()
+        {
+            await Task.Delay(Delay);
+            await SettleAsync();
+        }
+
         private static MessageValueChanged ValueChange(float value)
         {
             var id = Guid.NewGuid();
@@ -88,7 +95,7 @@ namespace CMiX.Core.Tests
             peer.SendMessage(ValueChange(0.5f));
 
             await WaitUntilAsync(() => store.WriteSnapshotCalls == pushWrites + 1);
-            await Task.Delay(Delay * 4);
+            await CompactionSettleAsync();
             Assert.Equal(pushWrites + 1, store.WriteSnapshotCalls);
         }
 
@@ -187,7 +194,8 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsConnected && peer.Status == "Not in sync", detail: () => $"status={peer.Status}");
 
             peer.SendMessage(ValueChange(0.25f));
-            await Task.Delay(Delay * 4);
+            await WaitUntilAsync(() => peer.PendingMessages == 1);
+            await CompactionSettleAsync();
 
             Assert.Equal(0, store.WriteSnapshotCalls);
             var snapshot = await inner.ReadSnapshotAsync();
@@ -213,7 +221,8 @@ namespace CMiX.Core.Tests
             store.BeforeAppend = gate.Hold;
 
             peer.SendMessage(AddItem());
-            await Task.Delay(Delay * 4);
+            await WaitUntilAsync(() => gate.IsReached);
+            await CompactionSettleAsync();
             Assert.Equal(pushWrites, store.WriteSnapshotCalls);
 
             gate.Release();
@@ -243,7 +252,8 @@ namespace CMiX.Core.Tests
             store.BeforeAppend = gate.Hold;
 
             peer.SendMessage(AddItem());
-            await Task.Delay(Delay * 4);
+            await WaitUntilAsync(() => gate.IsReached);
+            await CompactionSettleAsync();
             gate.Release();
 
             await WaitUntilAsync(() => Current().StreamId > pushed, 5000, () => $"last={peer.LastAppliedId} sent={peer.LastSentId}");
@@ -277,7 +287,8 @@ namespace CMiX.Core.Tests
             store.BeforeAppend = gate.Hold;
 
             peer.SendMessage(ValueChange(0.25f));
-            await Task.Delay(Delay * 4);
+            await WaitUntilAsync(() => gate.IsReached);
+            await CompactionSettleAsync();
             Assert.Equal(pushWrites, store.WriteSnapshotCalls);
 
             gate.Release();
@@ -316,7 +327,7 @@ namespace CMiX.Core.Tests
             var last = inner.Entries[2].Id;
 
             await WaitUntilAsync(() => Current().StreamId >= last, 5000, () => $"snapshot={Current().StreamId} last={last}");
-            await Task.Delay(Delay * 4);
+            await CompactionSettleAsync();
 
             // The second add can arrive before or after the first capture.
             Assert.InRange(store.WriteSnapshotCalls - pushWrites, 1, 2);
@@ -349,7 +360,7 @@ namespace CMiX.Core.Tests
                 () => $"writes={store.WriteSnapshotCalls}");
 
             // Gives a further compaction the time to appear.
-            await Task.Delay(300);
+            await CompactionSettleAsync();
 
             Assert.Equal(pushWrites + 2, store.WriteSnapshotCalls);
             Assert.Equal(peer.LastAppliedId, (await inner.ReadSnapshotAsync()).StreamId);
@@ -408,7 +419,7 @@ namespace CMiX.Core.Tests
 
             var stopped = peer.Stopped;
             peer.Stop();
-            await Task.Delay(300);
+            await SettleAsync();
             Assert.False(stopped.IsCompleted);
 
             gate.Release();

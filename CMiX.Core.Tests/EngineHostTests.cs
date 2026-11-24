@@ -104,7 +104,8 @@ namespace CMiX.Core.Tests
             using var host = CreateHost(store);
 
             host.Start(EngineOptions);
-            await Task.Delay(300);
+            await WaitUntilAsync(() => host.MainloopQueue.Count > 0);
+            await SettleAsync();
             var peer = host.ServiceProvider.GetRequiredService<SyncPeer>();
 
             Assert.False(peer.IsJoined);

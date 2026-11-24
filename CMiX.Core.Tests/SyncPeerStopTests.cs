@@ -89,7 +89,7 @@ namespace CMiX.Core.Tests
             Assert.Same(stopped, await Task.WhenAny(stopped, Task.Delay(5000)));
 
             var calls = store.CallThreads.Count;
-            await Task.Delay(500);
+            await SettleAsync();
 
             Assert.Equal(calls, store.CallThreads.Count);
         }

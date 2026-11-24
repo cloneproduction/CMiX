@@ -480,6 +480,7 @@ namespace CMiX.Core.Tests
     {
         private readonly TaskCompletionSource<bool> _reached = new(TaskCreationOptions.RunContinuationsAsynchronously);
         private readonly TaskCompletionSource<bool> _release = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource<bool> _passed = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public bool IsReached => _reached.Task.IsCompleted;
 
@@ -487,9 +488,18 @@ namespace CMiX.Core.Tests
         {
             _reached.TrySetResult(true);
             await _release.Task;
+            _passed.TrySetResult(true);
         }
 
         public void Release() => _release.SetResult(true);
+
+        // Releases the held call, waits until the call goes on, and gives the peer one settle tick to act on its result.
+        public async Task ReleaseAndSettleAsync()
+        {
+            Release();
+            await _passed.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            await SyncTestHelpers.SettleAsync();
+        }
     }
 
     public static class SyncTestHelpers
@@ -507,6 +517,9 @@ namespace CMiX.Core.Tests
             MaxBackoff = TimeSpan.FromMilliseconds(200),
             StopTimeout = TimeSpan.FromMilliseconds(500)
         };
+
+        // One heartbeat and one blocking read of Fast. A peer that reacts to an earlier event has done it after this tick.
+        public static Task SettleAsync() => Task.Delay(Fast.HeartbeatInterval + Fast.ReadTimeout);
 
         public static async Task WaitUntilAsync(Func<bool> condition, int timeoutMs = 5000, Func<string> detail = null)
         {

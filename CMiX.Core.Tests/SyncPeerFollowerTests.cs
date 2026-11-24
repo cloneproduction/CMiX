@@ -78,7 +78,7 @@ namespace CMiX.Core.Tests
             var second = await store.AppendAsync(Envelope("other", new MessageOnClick(click)));
 
             await WaitUntilAsync(() => peer.LastAppliedId == second, detail: () => $"last={peer.LastAppliedId}");
-            await Task.Delay(300);
+            await SettleAsync();
 
             Assert.Equal(click, Assert.Single(target.Applied).ID);
             Assert.Equal(second, peer.LastAppliedId);
@@ -121,7 +121,7 @@ namespace CMiX.Core.Tests
             var second = await store.AppendAsync(envelope);
 
             await WaitUntilAsync(() => peer.LastAppliedId == second, detail: () => $"last={peer.LastAppliedId}");
-            await Task.Delay(300);
+            await SettleAsync();
 
             Assert.Single(target.Applied);
             Assert.Equal(1, peer.AppliedMessages);

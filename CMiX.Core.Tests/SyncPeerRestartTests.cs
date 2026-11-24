@@ -43,8 +43,7 @@ namespace CMiX.Core.Tests
                 peer.SendMessage(new MessageOnClick(Guid.NewGuid()));
             await WaitUntilAsync(() => peer.LastAppliedId > heldTail, 5000, () => $"last={peer.LastAppliedId} held={heldTail}");
 
-            gate.Release();
-            await Task.Delay(500);
+            await gate.ReleaseAndSettleAsync();
 
             Assert.Equal(snapshotsBefore, target.SnapshotsApplied);
             Assert.True(peer.IsJoined);
@@ -95,7 +94,7 @@ namespace CMiX.Core.Tests
             gate.Release();
 
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
-            await Task.Delay(200);
+            await SettleAsync();
 
             Assert.Equal(1, target.SnapshotsApplied);
             Assert.Equal(ProjectStateHash.Compute(modelB), ProjectStateHash.Compute(target.Model));
@@ -138,8 +137,7 @@ namespace CMiX.Core.Tests
 
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
-            gate.Release();
-            await Task.Delay(300);
+            await gate.ReleaseAndSettleAsync();
 
             Assert.Equal(0, target.SnapshotsApplied);
             Assert.False(peer.IsJoined);
@@ -178,7 +176,7 @@ namespace CMiX.Core.Tests
             gate.Release();
 
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
-            await Task.Delay(200);
+            await SettleAsync();
 
             var snapshot = await storeB.ReadSnapshotAsync();
             Assert.NotNull(snapshot);
@@ -233,7 +231,7 @@ namespace CMiX.Core.Tests
             // and nothing else lands on the new store.
             await WaitUntilAsync(() => peer.PendingMessages == 0, 15000,
                 () => $"pending={peer.PendingMessages} entries={storeB.Entries.Count}");
-            await Task.Delay(300);
+            await SettleAsync();
 
             Assert.Single(storeB.Entries);
             Assert.Equal(storeB.Entries[0].Id, peer.LastSentId);
@@ -275,7 +273,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.Status == "Not in sync", 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
 
             // Not joined, so the queue stays closed and the new store gets nothing.
-            await Task.Delay(300);
+            await SettleAsync();
             Assert.Single(storeB.Entries);
 
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
@@ -285,7 +283,7 @@ namespace CMiX.Core.Tests
             await peer.JoinAsync();
             await WaitUntilAsync(() => peer.IsJoined && peer.PendingMessages == 0, 15000,
                 () => $"status={peer.Status} pending={peer.PendingMessages}");
-            await Task.Delay(300);
+            await SettleAsync();
 
             Assert.Single(storeB.Entries);
             Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
@@ -340,8 +338,7 @@ namespace CMiX.Core.Tests
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
-            gate.Release();
-            await Task.Delay(300);
+            await gate.ReleaseAndSettleAsync();
 
             Assert.Equal(1, target.SnapshotsApplied);
             Assert.Equal(ProjectStateHash.Compute(modelB), ProjectStateHash.Compute(target.Model));
@@ -386,8 +383,7 @@ namespace CMiX.Core.Tests
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
-            gate.Release();
-            await Task.Delay(300);
+            await gate.ReleaseAndSettleAsync();
 
             Assert.DoesNotContain(target.Applied, message => message is MessageOnClick clicked && clicked.ID == click);
             Assert.Equal(tailB, peer.LastAppliedId);
@@ -427,8 +423,7 @@ namespace CMiX.Core.Tests
             await innerA.ConnectAsync(default);
             await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             await innerA.HeartbeatAsync("ghost", new Dictionary<string, string> { ["name"] = "Old" }, TimeSpan.FromMinutes(1));
-            gate.Release();
-            await Task.Delay(300);
+            await gate.ReleaseAndSettleAsync();
 
             Assert.Equal(StreamPosition.Zero, peer.TailId);
             Assert.DoesNotContain("ghost", PeerIds(peer));
@@ -483,7 +478,7 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => Volatile.Read(ref restarted) == 1, 15000, () => $"status={peer.Status} tail={peer.TailId}");
             await WaitUntilAsync(() => peer.Status == "Not in sync" || peer.IsJoined, 15000,
                 () => $"status={peer.Status} error={peer.ErrorMessage}");
-            await Task.Delay(300);
+            await SettleAsync();
             followerGate.Release();
 
             Assert.False(peer.IsJoined);
