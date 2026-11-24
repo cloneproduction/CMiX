@@ -1,6 +1,10 @@
-﻿using CMiX.Core.Compositing;
+﻿using System.Collections;
+using CMiX.Core.Colors.Modifiers;
+using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
@@ -9,6 +13,7 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
+    // The index by id, the typed lists, no class in two lists, and the collection managers that hold a control.
     public class ControlRepositoryTests
     {
         [Fact]
@@ -36,7 +41,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AddControl_IgnoresASecondControlWithAnAlreadyRegisteredId()
+        public void AddControl_OfASecondControlWithTheSameId_IgnoresIt()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -81,7 +86,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ModelEntities_HoldsEntitiesAndTextsInTheOrderTheyWereAdded()
+        public void ModelEntities_OfAddedEntitiesAndTexts_KeepTheOrderOfTheAdds()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -112,7 +117,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ModelEntities_EmptiesWhenControlsIsCleared()
+        public void ModelEntities_AfterControlsIsCleared_IsEmpty()
         {
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -134,7 +139,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ARemovedControl_IsNoLongerHeldByThatCollectionManager()
+        public void RemoveControl_OfAControl_ReleasesItFromThatCollectionManager()
         {
             var provider = TestServiceProviderFactory.Create();
             var repository = provider.GetRequiredService<ControlRepository>();
@@ -151,7 +156,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ADisposedManager_ReleasesEveryControlItHeld()
+        public void Dispose_OfACollectionManager_ReleasesEveryControlItHeld()
         {
             var provider = TestServiceProviderFactory.Create();
             var repository = provider.GetRequiredService<ControlRepository>();
@@ -214,7 +219,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DroppingATexture_TakesItsFilterModifiersWithIt()
+        public void Clear_OfTheUndoEntryOfARemovedTexture_TakesItsFiltersWithIt()
         {
             var provider = TestServiceProviderFactory.Create();
             var repository = provider.GetRequiredService<ControlRepository>();
@@ -261,6 +266,100 @@ namespace CMiX.Core.Tests
 
             Assert.Same(project, repository.GetControl(project.ID));
             Assert.Contains(project, repository.Controls);
+        }
+
+        public static TheoryData<Type, string> Lists => new()
+        {
+            { typeof(Composition), nameof(ControlRepository.Compositions) },
+            { typeof(Layer), nameof(ControlRepository.Layers) },
+            { typeof(CheckerBoard), nameof(ControlRepository.Textures) },
+            { typeof(Entity), nameof(ControlRepository.Entities) },
+            { typeof(Camera), nameof(ControlRepository.Cameras) },
+            { typeof(LightEntity), nameof(ControlRepository.Lights) },
+            { typeof(TextEntity), nameof(ControlRepository.Texts) },
+            { typeof(ColorPaletteModifier), nameof(ControlRepository.ColorPalettes) }
+        };
+
+        private static readonly string[] AllListNames =
+        {
+            nameof(ControlRepository.Compositions), nameof(ControlRepository.Layers), nameof(ControlRepository.Textures),
+            nameof(ControlRepository.Entities), nameof(ControlRepository.Cameras), nameof(ControlRepository.Lights),
+            nameof(ControlRepository.Texts), nameof(ControlRepository.ColorPalettes)
+        };
+
+        private static IReadOnlyList<IControl> ListOf(ControlRepository repository, string name) =>
+            ((IEnumerable)typeof(ControlRepository).GetProperty(name)!.GetValue(repository)!).Cast<IControl>().ToList();
+
+        private static (ControlRepository Repository, CollectionManager CollectionManager, List<IControl> Controls) Add(Type type, int count)
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var factory = provider.GetRequiredService<ControlFactory>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var collectionManager = provider.GetRequiredService<CollectionManager>();
+
+            var controls = new List<IControl>();
+            for (var i = 0; i < count; i++)
+            {
+                var control = factory.Create(type);
+                repository.AddControl(control, collectionManager);
+                controls.Add(control);
+            }
+            return (repository, collectionManager, controls);
+        }
+
+        [Theory]
+        [MemberData(nameof(Lists))]
+        public void AControl_IsInControlsAndInItsOwnList_InTheOrderItWasAdded(Type type, string listName)
+        {
+            var (repository, _, controls) = Add(type, 3);
+
+            Assert.Equal(controls, repository.Controls.Where(control => control is not Project));
+            Assert.Equal(controls, ListOf(repository, listName));
+        }
+
+        [Theory]
+        [MemberData(nameof(Lists))]
+        public void AddControl_OfAControl_PutsItInNoOtherList(Type type, string listName)
+        {
+            var (repository, _, _) = Add(type, 2);
+
+            foreach (var other in AllListNames.Where(name => name != listName))
+                Assert.Empty(ListOf(repository, other));
+        }
+
+        [Theory]
+        [MemberData(nameof(Lists))]
+        public void RemoveControl_OfAControl_TakesItOutOfControlsAndItsList(Type type, string listName)
+        {
+            var (repository, collectionManager, controls) = Add(type, 3);
+
+            repository.RemoveControl(controls[1], collectionManager);
+
+            Assert.Equal(new[] { controls[0], controls[2] }, repository.Controls.Where(control => control is not Project));
+            Assert.Equal(new[] { controls[0], controls[2] }, ListOf(repository, listName));
+        }
+
+        private static readonly Type[] ListTypes =
+        {
+            typeof(Composition), typeof(Layer), typeof(ITextureSource), typeof(Entity),
+            typeof(Camera), typeof(LightEntity), typeof(TextEntity), typeof(ColorPaletteModifier)
+        };
+
+        [Fact]
+        public void TypedLists_OfEveryControlClass_HoldItInOneListAtMost()
+        {
+            var controlClasses = typeof(IControl).Assembly.GetTypes()
+                .Where(type => type.IsClass && !type.IsAbstract && typeof(IControl).IsAssignableFrom(type))
+                .ToList();
+
+            var offenders = controlClasses
+                .Select(type => (Type: type, Lists: ListTypes.Where(list => list.IsAssignableFrom(type)).Select(list => list.Name).ToList()))
+                .Where(entry => entry.Lists.Count > 1)
+                .Select(entry => $"{entry.Type.Name} matches {string.Join(", ", entry.Lists)}")
+                .ToList();
+
+            Assert.True(controlClasses.Count > 50, $"The scan found only {controlClasses.Count} control classes. The scan is broken.");
+            Assert.True(offenders.Count == 0, string.Join(Environment.NewLine, offenders));
         }
     }
 }
