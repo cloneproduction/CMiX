@@ -43,39 +43,19 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Entity => Entities.Children[0];
 
-        private void Settle() => ListTreeTestScreen.Settle(window);
-
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
 
         private FrameListTreeCard AreaOf(TreeNode node) => Assert.IsType<FrameListTreeCard>(view.Rows.Surfaces.CardAreaOf(ListTreeKeys.Of(node)));
 
         private static double LeftIn(Visual part, Visual root) => part.TranslatePoint(new Point(0, 0), root)!.Value.X;
 
-        private Point CenterOf(Control control) =>
-            control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
-
         // A point of the row between the name and the toggles.
         private Point BlankOf(RowListTree row) => row.TranslatePoint(new Point(row.Bounds.Width - 100, row.Bounds.Height / 2), window)!.Value;
-
-        private void Hover(Point point)
-        {
-            TreeDrag.Render(window);
-            window.MouseMove(point);
-            Settle();
-        }
-
-        private void Click(Point point)
-        {
-            TreeDrag.Render(window);
-            window.MouseDown(point, MouseButton.Left);
-            window.MouseUp(point, MouseButton.Left);
-            Settle();
-        }
 
         private void Select(TreeNode node)
         {
             scene.Tree.SelectedNode = node;
-            Settle();
+            window.Settle();
         }
 
         private static void AssertMark(Border mark, Color color, double left, Visual root)
@@ -104,7 +84,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var row = RowOf(Entity);
 
-            Hover(BlankOf(row));
+            window.Hover(BlankOf(row));
 
             Assert.Equal(Token("ListTreeRowHoverBrush"), FillOf(row.Background));
             Assert.Equal(Colors.Transparent, FillOf(Named(row, "band").Background));
@@ -118,7 +98,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var row = RowOf(Entity);
 
-            Hover(CenterOf(row.Toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.IsEffectivelyVisible)));
+            window.Hover(row.Toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.IsEffectivelyVisible));
 
             Assert.Equal(Token("ListTreeRowHoverBrush"), FillOf(row.Background));
         }
@@ -129,7 +109,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var row = RowOf(Entity);
             var gap = row.TranslatePoint(new Point(row.Bounds.Width - 100, row.Bounds.Height + 1.5), window)!.Value;
 
-            Hover(gap);
+            window.Hover(gap);
 
             Assert.All(view.Rows.Layout.Places, place => Assert.False(view.Rows.RowOf(place.Key)!.IsPointerOver));
             Assert.Equal(Colors.Transparent, FillOf(row.Background));
@@ -142,7 +122,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var area = AreaOf(Layer);
 
-            Hover(BlankOf(RowOf(Layer)));
+            window.Hover(BlankOf(RowOf(Layer)));
 
             Assert.Equal(Token("ListTreeCardHoverBrush"), FillOf(area.Surface.Background));
             Assert.Equal(0, LeftIn(area.Surface, area));
@@ -188,7 +168,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Select(Entity);
             var row = RowOf(Entity);
 
-            Hover(BlankOf(row));
+            window.Hover(BlankOf(row));
 
             Assert.Equal(Token("ListTreeRowSelectedHoverBrush"), FillOf(row.Background));
             AssertMark(Named(row, "mark"), KindOf(Entity).SelectionBorder, 0, row);
@@ -201,7 +181,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Select(Layer);
             var area = AreaOf(Layer);
 
-            Hover(BlankOf(RowOf(Layer)));
+            window.Hover(BlankOf(RowOf(Layer)));
 
             Assert.Equal(Token("ListTreeRowSelectedHoverBrush"), FillOf(area.Surface.Background));
             AssertMark(area.Mark, KindOf(Layer).SelectionBorder, 0, area);
@@ -213,7 +193,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Select(Layer);
             var row = RowOf(Entity);
 
-            Hover(BlankOf(row));
+            window.Hover(BlankOf(row));
 
             Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(AreaOf(Layer).Surface.Background));
             AssertMark(AreaOf(Layer).Mark, KindOf(Layer).SelectionBorder, 0, AreaOf(Layer));
@@ -229,7 +209,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Select(Layer);
             var area = AreaOf(Entities);
 
-            Hover(BlankOf(RowOf(Entities)));
+            window.Hover(BlankOf(RowOf(Entities)));
 
             Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(AreaOf(Layer).Surface.Background));
             Assert.Equal(Token("ListTreeCardHoverInSelectionBandBrush"), FillOf(area.Surface.Background));
@@ -242,9 +222,9 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_NestedCardAreasAfterARebuild_DrawTheInnerAreaOverItsOuterArea()
         {
             Entities.IsExpanded = false;
-            Settle();
+            window.Settle();
             Entities.IsExpanded = true;
-            Settle();
+            window.Settle();
 
             var outer = AreaOf(Layer);
             var inner = AreaOf(Entities);
@@ -269,7 +249,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Click_ARow_SelectsItsNodeAndMovesTheCursor()
         {
-            Click(BlankOf(RowOf(Entity)));
+            window.Click(BlankOf(RowOf(Entity)));
 
             Assert.Same(Entity, scene.Tree.SelectedNode);
             Assert.Same(Entity, scene.Tree.CursorNode);
@@ -279,7 +259,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Click_TheIconOfAnItem_SelectsIt()
         {
-            Click(CenterOf(RowOf(Entity).IconHit));
+            window.Click(RowOf(Entity).IconHit);
 
             Assert.Same(Entity, scene.Tree.SelectedNode);
         }
@@ -287,7 +267,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Click_TheIconOfACard_OnlyOpensOrClosesIt()
         {
-            Click(CenterOf(RowOf(Layer).IconHit));
+            window.Click(RowOf(Layer).IconHit);
 
             Assert.False(Layer.IsExpanded);
             Assert.Null(scene.Tree.SelectedNode);
@@ -299,7 +279,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var visibility = RowOf(Entity).Toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.Name == "visibilityToggle");
             var before = visibility.IsChecked;
 
-            Click(CenterOf(visibility));
+            window.Click(visibility);
 
             Assert.NotEqual(before, visibility.IsChecked);
             Assert.Null(scene.Tree.SelectedNode);

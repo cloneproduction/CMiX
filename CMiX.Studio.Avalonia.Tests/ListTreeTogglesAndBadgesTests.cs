@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
             view.Rows.MoveDuration = TimeSpan.Zero;
             window = new Window { Content = view, Width = 500, Height = 800 };
             window.Show();
-            Settle();
+            window.Settle();
         }
 
         public void Dispose()
@@ -47,8 +47,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private TreeNode Layer => scene.LayerNodeOfA(0);
 
         private TreeNode Entity => scene.Group<EntitiesGroup>(0).Children[0];
-
-        private void Settle() => ListTreeTestScreen.Settle(window);
 
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
 
@@ -84,25 +82,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private static ToggleButton ToggleNamed(TogglesRow toggles, string name) =>
             toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.Name == name && toggle.IsEffectivelyVisible);
 
-        private static void Hover(Window screen, Control control)
-        {
-            TreeDrag.Render(screen);
-            screen.MouseMove(CenterOf(control, screen));
-            ListTreeTestScreen.Settle(screen);
-        }
-
-        private static void Click(Window screen, Control control)
-        {
-            var point = CenterOf(control, screen);
-            TreeDrag.Render(screen);
-            screen.MouseDown(point, MouseButton.Left);
-            screen.MouseUp(point, MouseButton.Left);
-            ListTreeTestScreen.Settle(screen);
-        }
-
-        private static Point CenterOf(Control control, Window screen) =>
-            control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), screen)!.Value;
-
         [AvaloniaFact]
         public void Toggles_OfAComposableRow_AreTheMaskAndTheEye()
         {
@@ -114,7 +93,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Toggles_OfAnItemRow_AreTheEyeOnly()
         {
             Layer.IsExpanded = true;
-            Settle();
+            window.Settle();
 
             Assert.Equal(new[] { "visibilityToggle" }, NamesOf(RowOf(Entity).Toggles));
         }
@@ -138,7 +117,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Badges_UnderThePointer_AreHovered()
         {
-            Hover(window, ToggleNamed(RowOf(Layer).Toggles, "visibilityToggle"));
+            window.Hover(ToggleNamed(RowOf(Layer).Toggles, "visibilityToggle"));
 
             Assert.True(BadgesOf(Layer).IsHovered);
         }
@@ -147,7 +126,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void TogglesAndBadges_OfASelectedRow_AreSelectedAndWhite()
         {
             scene.Tree.SelectedNode = Layer;
-            Settle();
+            window.Settle();
 
             Assert.True(BadgesOf(Layer).IsSelected);
             Assert.All(LookOf(RowOf(Layer).Toggles), look => Assert.Equal(Token("ActiveForegroundBrush"), look.Icon));
@@ -157,7 +136,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Toggles_OfAHiddenRow_ShowTheEyeChecked()
         {
             scene.Layer.PrefabService.Visibility.Value = true;
-            Settle();
+            window.Settle();
 
             Assert.True(ToggleNamed(RowOf(Layer).Toggles, "visibilityToggle").IsChecked);
         }
@@ -168,7 +147,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var before = LookOf(RowOf(Layer).Toggles).Single(look => look.Name == "visibilityToggle").Opacity;
 
             scene.A.PrefabService.Visibility.Value = true;
-            Settle();
+            window.Settle();
 
             var after = LookOf(RowOf(Layer).Toggles).Single(look => look.Name == "visibilityToggle").Opacity;
             Assert.True(Layer.IsUnderHiddenParent);
@@ -179,7 +158,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Toggles_OfAMaskedRow_ShowTheMaskChecked()
         {
             scene.Layer.Mask.IsMask.Value = true;
-            Settle();
+            window.Settle();
 
             Assert.True(ToggleNamed(RowOf(Layer).Toggles, "maskToggle").IsChecked);
         }
@@ -191,9 +170,9 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var before = ValueOf(name);
 
-            Click(window, ToggleNamed(RowOf(Layer).Toggles, name));
+            window.Click(ToggleNamed(RowOf(Layer).Toggles, name));
             var after = ValueOf(name);
-            Click(window, ToggleNamed(RowOf(Layer).Toggles, name));
+            window.Click(ToggleNamed(RowOf(Layer).Toggles, name));
 
             Assert.NotEqual(before, after);
             Assert.Equal(before, ValueOf(name));
@@ -205,9 +184,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var group = Scene.LayersOf(scene.NodeA);
             var before = group.Group!.Manager.Hidden.Value;
 
-            Click(window, ToggleNamed(RowOf(group).Toggles, "groupHideToggle"));
+            window.Click(ToggleNamed(RowOf(group).Toggles, "groupHideToggle"));
             var after = group.Group.Manager.Hidden.Value;
-            Click(window, ToggleNamed(RowOf(group).Toggles, "groupHideToggle"));
+            window.Click(ToggleNamed(RowOf(group).Toggles, "groupHideToggle"));
 
             Assert.NotEqual(before, after);
             Assert.Equal(before, group.Group.Manager.Hidden.Value);

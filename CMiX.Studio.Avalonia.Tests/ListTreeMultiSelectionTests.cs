@@ -52,26 +52,14 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private ProjectTree Tree => scene.Tree;
 
-        private void Settle() => ListTreeTestScreen.Settle(window);
-
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
 
         private FrameListTreeCard AreaOf(TreeNode node) => Assert.IsType<FrameListTreeCard>(view.Rows.Surfaces.CardAreaOf(ListTreeKeys.Of(node)));
 
         private Point BlankOf(RowListTree row) => row.TranslatePoint(new Point(row.Bounds.Width - 100, row.Bounds.Height / 2), window)!.Value;
 
-        private Point CenterOf(Control control) =>
-            control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
-
-        private void Click(TreeNode node, RawInputModifiers modifiers = RawInputModifiers.None) => ClickAt(BlankOf(RowOf(node)), modifiers);
-
-        private void ClickAt(Point point, RawInputModifiers modifiers)
-        {
-            TreeDrag.Render(window);
-            window.MouseDown(point, MouseButton.Left, modifiers);
-            window.MouseUp(point, MouseButton.Left, modifiers);
-            Settle();
-        }
+        private void Click(TreeNode node, RawInputModifiers modifiers = RawInputModifiers.None) =>
+            window.Click(BlankOf(RowOf(node)), modifiers: modifiers);
 
         [AvaloniaFact]
         public void Click_CtrlOnTwoMoreRows_SelectsAllThreeAndTheLastIsTheSelectedNode()
@@ -151,7 +139,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Click(EntityAt(0));
             Click(EntityAt(2), RawInputModifiers.Control);
 
-            ClickAt(CenterOf(RowOf(scene.LayerNodeOfA(1)).IconHit), RawInputModifiers.None);
+            window.Click(RowOf(scene.LayerNodeOfA(1)).IconHit);
 
             Assert.Equal(new[] { EntityAt(0), EntityAt(2) }, Tree.SelectedNodes);
         }
@@ -188,7 +176,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Click(EntityAt(2), RawInputModifiers.Control);
 
             Tree.SelectedNode = EntityAt(3);
-            Settle();
+            window.Settle();
 
             Assert.Equal(new[] { EntityAt(3) }, Tree.SelectedNodes);
             Assert.Equal(Colors.Transparent, FillOf(RowOf(EntityAt(0)).Background));

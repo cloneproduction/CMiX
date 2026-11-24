@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
             newView.Rows.MoveDuration = TimeSpan.Zero;
             window = new Window { Content = newView, Width = 900, Height = 900 };
             window.Show();
-            Settle();
+            window.Settle();
         }
 
         public void Dispose()
@@ -53,14 +53,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Entity => Entities.Children[0];
 
-        private void Settle() => ListTreeTestScreen.Settle(window);
-
-        private void Press(PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
-        {
-            window.KeyPressQwerty(key, modifiers);
-            Settle();
-        }
-
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(newView.Rows.RowOf(node));
 
         private IInputElement? Focused() => window.FocusManager!.GetFocusedElement();
@@ -76,7 +68,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Tree.SelectedNode = Layer;
             Tree.Inspect(null);
             Tree.CursorNode = start == Start.FirstEntity ? Entity : Entities;
-            Settle();
+            window.Settle();
         }
 
         public enum Row
@@ -118,9 +110,9 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             Begin(start);
             RowOf(Tree.CursorNode!).Focus();
-            Settle();
+            window.Settle();
 
-            Press(key);
+            window.Press(key);
 
             Assert.Same(NodeOf(cursor), Tree.CursorNode);
             Assert.Same(NodeOf(selected), Tree.SelectedNode);
@@ -134,9 +126,9 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             Begin(Start.OpenEntities);
             RowOf(Entities).Focus();
-            Settle();
+            window.Settle();
 
-            Press(PhysicalKey.ArrowDown);
+            window.Press(PhysicalKey.ArrowDown);
 
             Assert.Same(Entity, Tree.CursorNode);
             Assert.Same(RowOf(Entity), Focused());
@@ -147,9 +139,9 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             Begin(Start.OpenEntities);
             RowOf(Entities).Focus();
-            Settle();
+            window.Settle();
 
-            Press(PhysicalKey.End);
+            window.Press(PhysicalKey.End);
 
             var last = ListTreeSnapshot.Of(Tree.Roots).VisibleRows()[^1].Node;
             Assert.Same(last, Tree.CursorNode);
@@ -163,11 +155,11 @@ namespace CMiX.Studio.Avalonia.Tests
             Begin(Start.OpenEntities);
             var shown = ListTreeSnapshot.Of(Tree.Roots).VisibleRows().Select(row => row.Node).ToArray();
             RowOf(Entities).Focus();
-            Settle();
+            window.Settle();
 
             for (var i = 0; i < shown.Length; i++)
             {
-                Press(PhysicalKey.ArrowDown);
+                window.Press(PhysicalKey.ArrowDown);
                 Assert.Contains(Tree.CursorNode, shown);
             }
         }
@@ -177,9 +169,9 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             Begin(Start.FirstEntity);
             RowOf(Entity).Focus();
-            Settle();
+            window.Settle();
 
-            Press(PhysicalKey.ArrowRight);
+            window.Press(PhysicalKey.ArrowRight);
 
             Assert.True(newView.MenuAddPanel.IsOpen);
             Assert.Same(Entity, Tree.CursorNode);
@@ -191,10 +183,10 @@ namespace CMiX.Studio.Avalonia.Tests
             Begin(Start.OpenEntities);
             Tree.SearchText = "Entity";
             RowOf(Entities).Focus();
-            Settle();
+            window.Settle();
             Assert.True(Tree.IsSearchActive);
 
-            Press(PhysicalKey.Escape);
+            window.Press(PhysicalKey.Escape);
 
             Assert.False(Tree.IsSearchActive);
         }

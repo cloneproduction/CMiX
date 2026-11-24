@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window = new Window { Content = view, Width = 400, Height = 900 };
             window.Show();
             scene.Tree.SelectedNode = Entity;
-            Settle();
+            window.Settle();
         }
 
         public void Dispose() => window.Close();
@@ -45,8 +45,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private TreeNode Entity => scene.Group<EntitiesGroup>(0).Children[0];
 
         private static string NameOf(TreeNode node) => ((IPrefab)node.Item!).PrefabService.Name.Value;
-
-        private void Settle() => ListTreeTestScreen.Settle(window);
 
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(node));
 
@@ -64,40 +62,13 @@ namespace CMiX.Studio.Avalonia.Tests
             return box.TranslatePoint(new Point(10, box.Bounds.Height / 2), window)!.Value;
         }
 
-        private Point CenterOf(Control control) =>
-            control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
-
         private Point BlankOf(RowListTree row) => row.TranslatePoint(new Point(row.Bounds.Width - 100, row.Bounds.Height / 2), window)!.Value;
-
-        private void Click(Point point)
-        {
-            TreeDrag.Render(window);
-            window.MouseDown(point, MouseButton.Left);
-            window.MouseUp(point, MouseButton.Left);
-            Settle();
-        }
-
-        private void DoubleClick(Point point)
-        {
-            TreeDrag.Render(window);
-            window.MouseDown(point, MouseButton.Left);
-            window.MouseUp(point, MouseButton.Left);
-            window.MouseDown(point, MouseButton.Left);
-            window.MouseUp(point, MouseButton.Left);
-            Settle();
-        }
-
-        private void Press(PhysicalKey key)
-        {
-            window.KeyPressQwerty(key, RawInputModifiers.None);
-            Settle();
-        }
 
         private TextBox StartRenameByF2(TreeNode node)
         {
             RowOf(node).Focus();
-            Settle();
-            Press(PhysicalKey.F2);
+            window.Settle();
+            window.Press(PhysicalKey.F2);
             return Assert.IsType<TextBox>(InputOf(RowOf(node)));
         }
 
@@ -106,7 +77,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var before = Layer.IsExpanded;
 
-            DoubleClick(OnTheName(RowOf(Layer)));
+            window.DoubleClick(OnTheName(RowOf(Layer)));
 
             Assert.True(IsRenaming(RowOf(Layer)));
             Assert.True(InputOf(RowOf(Layer))!.IsFocused);
@@ -119,7 +90,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var before = Layer.IsExpanded;
 
-            DoubleClick(BlankOf(RowOf(Layer)));
+            window.DoubleClick(BlankOf(RowOf(Layer)));
 
             Assert.False(IsRenaming(RowOf(Layer)));
             Assert.Equal(!before, Layer.IsExpanded);
@@ -131,7 +102,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var before = Layer.IsExpanded;
 
-            DoubleClick(CenterOf(RowOf(Layer).IconHit));
+            window.DoubleClick(window.CenterOf(RowOf(Layer).IconHit));
 
             Assert.Equal(before, Layer.IsExpanded);
         }
@@ -142,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var before = Layer.IsExpanded;
             var toggle = RowOf(Layer).Toggles.GetVisualDescendants().OfType<ToggleButton>().First(button => button.IsEffectivelyVisible);
 
-            DoubleClick(CenterOf(toggle));
+            window.DoubleClick(window.CenterOf(toggle));
 
             Assert.Equal(before, Layer.IsExpanded);
         }
@@ -152,7 +123,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var before = Layer.IsExpanded;
 
-            Click(CenterOf(RowOf(Layer).IconHit));
+            window.Click(RowOf(Layer).IconHit);
 
             Assert.Equal(!before, Layer.IsExpanded);
             Assert.Same(Entity, Tree.SelectedNode);
@@ -172,7 +143,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void RenameSelected_TheNewViewIsActive_RenamesTheTargetRowInPlace()
         {
             Tree.RenameSelectedCommand.Execute(null);
-            Settle();
+            window.Settle();
 
             Assert.True(IsRenaming(RowOf(Entity)));
         }
@@ -183,7 +154,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var input = StartRenameByF2(Entity);
             input.Text = "Renamed";
 
-            Press(PhysicalKey.Enter);
+            window.Press(PhysicalKey.Enter);
 
             Assert.Equal("Renamed", NameOf(Entity));
             Assert.False(IsRenaming(RowOf(Entity)));
@@ -197,7 +168,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var input = StartRenameByF2(Entity);
             input.Text = "Renamed";
 
-            Press(PhysicalKey.Escape);
+            window.Press(PhysicalKey.Escape);
 
             Assert.Equal(before, NameOf(Entity));
             Assert.False(IsRenaming(RowOf(Entity)));
@@ -210,7 +181,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var input = StartRenameByF2(Entity);
             input.Text = "Renamed";
 
-            Click(BlankOf(RowOf(Layer)));
+            window.Click(BlankOf(RowOf(Layer)));
 
             Assert.Equal("Renamed", NameOf(Entity));
             Assert.False(IsRenaming(RowOf(Entity)));

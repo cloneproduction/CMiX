@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window = new Window { Content = panel, Width = 400, Height = 900 };
             window.Show();
             scene.Tree.SelectedNode = Layer;
-            Settle();
+            window.Settle();
         }
 
         public void Dispose() => window.Close();
@@ -51,8 +51,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Entity => Entities.Children[0];
 
-        private void Settle() => ListTreeTestScreen.Settle(window);
-
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(node));
 
         private IInputElement? Focused() => window.FocusManager!.GetFocusedElement();
@@ -60,28 +58,17 @@ namespace CMiX.Studio.Avalonia.Tests
         private static ToggleButton VisibilityToggleOf(RowListTree row) =>
             row.Toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.Name == "visibilityToggle" && toggle.IsEffectivelyVisible);
 
-        private Point CenterOf(Control control) =>
-            control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
-
-        private void Click(Point point, MouseButton button = MouseButton.Left)
-        {
-            TreeDrag.Render(window);
-            window.MouseDown(point, button);
-            window.MouseUp(point, button);
-            Settle();
-        }
-
         private void FocusRow(TreeNode node)
         {
             RowOf(node).Focus();
-            Settle();
+            window.Settle();
             Assert.Same(RowOf(node), Focused());
         }
 
         [AvaloniaFact]
         public void Click_ARow_SelectsItAndGivesItTheFocus()
         {
-            Click(CenterOf(Named(RowOf(Entity), "band")));
+            window.Click(Named(RowOf(Entity), "band"));
 
             Assert.Same(Entity, Tree.SelectedNode);
             Assert.Same(RowOf(Entity), Focused());
@@ -94,7 +81,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var toggle = VisibilityToggleOf(RowOf(Entity));
             var before = toggle.IsChecked;
 
-            Click(CenterOf(toggle));
+            window.Click(toggle);
 
             Assert.NotEqual(before, toggle.IsChecked);
             Assert.Same(RowOf(Entity), Focused());
@@ -106,7 +93,7 @@ namespace CMiX.Studio.Avalonia.Tests
             FocusRow(Entity);
             var other = RowOf(Entities.Children[1]);
 
-            Click(CenterOf(VisibilityToggleOf(other)));
+            window.Click(VisibilityToggleOf(other));
 
             Assert.Same(RowOf(Entity), Focused());
         }
@@ -115,11 +102,11 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Click_BesideTheRows_GivesTheFocusToTheCursorRow()
         {
             outside.Focus();
-            Settle();
+            window.Settle();
             var bottom = view.Rows.TranslatePoint(new Point(view.Rows.Bounds.Width / 2, view.Rows.Bounds.Height - 1), window)!.Value;
             var gap = new Point(bottom.X, bottom.Y + 2);
 
-            Click(gap);
+            window.Click(gap);
 
             Assert.Same(RowOf(Tree.CursorNode!), Focused());
         }
@@ -138,8 +125,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             FocusRow(Entity);
 
-            window.KeyPressQwerty(PhysicalKey.Tab, RawInputModifiers.None);
-            Settle();
+            window.Press(PhysicalKey.Tab);
 
             Assert.Same(outside, Focused());
         }
@@ -147,7 +133,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void MiddleClick_OnARow_SelectsAndInspectsIt()
         {
-            Click(CenterOf(Named(RowOf(Entity), "band")), MouseButton.Middle);
+            window.Click(Named(RowOf(Entity), "band"), MouseButton.Middle);
 
             Assert.Same(Entity, Tree.SelectedNode);
             Assert.Same(Entity, Tree.InspectedNode);
@@ -158,11 +144,11 @@ namespace CMiX.Studio.Avalonia.Tests
         public void TreeFocusRequested_TheNewViewIsActive_FocusesTheTargetRow()
         {
             outside.Focus();
-            Settle();
+            window.Settle();
             Tree.CursorNode = Entity;
 
             Tree.FocusTree();
-            Settle();
+            window.Settle();
 
             Assert.Same(RowOf(Entity), Focused());
         }
@@ -171,7 +157,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void CursorFrame_TheCursorRow_IsTheThinFrameOfTheOldTreeInTheColourOfTheKind()
         {
             Tree.CursorNode = Entity;
-            Settle();
+            window.Settle();
 
             var frame = Named(RowOf(Entity), "cursorFrame");
 
@@ -186,7 +172,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void CursorFrame_TheSelectedRow_ShowsNoFrame()
         {
             Tree.SelectByClick(Entity);
-            Settle();
+            window.Settle();
 
             Assert.Equal(0, Named(RowOf(Entity), "cursorFrame").Opacity);
         }
@@ -195,7 +181,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void CursorFrame_ARowThatIsNotTheCursor_IsHidden()
         {
             Tree.CursorNode = Entity;
-            Settle();
+            window.Settle();
 
             Assert.False(Named(RowOf(Entities.Children[1]), "cursorFrame").IsEffectivelyVisible);
         }
@@ -206,12 +192,12 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var panel = (DockPanel)window.Content!;
             RowOf(Entity).Focus();
-            Settle();
+            window.Settle();
 
             panel.Children.Remove(view);
-            Settle();
+            window.Settle();
             panel.Children.Add(view);
-            Settle();
+            window.Settle();
 
             Assert.False(Focused() is RowListTree, $"focused: {Focused()?.GetType().Name ?? "nothing"}");
         }

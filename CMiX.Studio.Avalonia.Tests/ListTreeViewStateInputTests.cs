@@ -35,7 +35,7 @@ namespace CMiX.Studio.Avalonia.Tests
             panel.Children.Add(view);
             window = new Window { Content = panel, Width = 400, Height = 900 };
             window.Show();
-            Settle();
+            window.Settle();
         }
 
         public void Dispose() => window.Close();
@@ -44,31 +44,19 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Layer => scene.LayerNodeOfA(0);
 
-        private void Settle() => ListTreeTestScreen.Settle(window);
-
-        private Point CenterOf(Control control) =>
-            control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
-
-        private void Hover(Control control)
-        {
-            TreeDrag.Render(window);
-            window.MouseMove(CenterOf(control));
-            Settle();
-        }
-
         private void Focus(Control control)
         {
             control.Focus();
-            Settle();
+            window.Settle();
         }
 
         [AvaloniaFact]
         public void PointerMove_OntoARowAndAway_SetsAndClearsPointerOverTree()
         {
-            Hover(view.Rows.RowOf(Layer)!);
+            window.Hover(view.Rows.RowOf(Layer)!);
             var over = State.IsPointerOverTree;
 
-            Hover(outside);
+            window.Hover(outside);
 
             Assert.True(over);
             Assert.False(State.IsPointerOverTree);
