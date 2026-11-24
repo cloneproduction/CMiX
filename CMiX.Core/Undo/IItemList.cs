@@ -29,6 +29,12 @@ namespace CMiX.Core.Undo
         // Clears the selection, then sends MessageClearSelection.
         void ClearSelection();
 
+        // Adds a control from its model at the end, selects it, then sends MessageAddItem.
+        void AddFromModel(IControlModel model);
+
+        // Removes every item, disposes the orphans, then sends one MessageRemoveItem per item with index -1.
+        void Clear();
+
         // Disposes the item when no list holds it.
         void Release(IControl item);
     }

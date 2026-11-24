@@ -27,68 +27,6 @@ namespace CMiX.Core.Tests
             return (new CollectionSync(collection, messenger, provider.GetRequiredService<MessageFactory>()), sender, item);
         }
 
-        [Fact]
-        public void SendAdd_OfAnItem_SendsTheItemAndItsIndexUnderTheIdOfTheCollection()
-        {
-            var (sync, sender, item) = Create();
-
-            sync.SendAdd(item, 3);
-
-            var message = Assert.IsType<MessageAddItem>(Assert.Single(sender.Sent));
-            Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
-            Assert.Equal(item.ID, message.Model.ID);
-            Assert.Equal(3, message.SelectedIndex);
-        }
-
-        [Fact]
-        public void SendRemove_OfAnItem_SendsItsIdAndTheSelectedIndex()
-        {
-            var (sync, sender, item) = Create();
-
-            sync.SendRemove(item, 2);
-
-            var message = Assert.IsType<MessageRemoveItem>(Assert.Single(sender.Sent));
-            Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
-            Assert.Equal(item.ID, message.ModelID);
-            Assert.Equal(2, message.SelectedIndex);
-        }
-
-        [Fact]
-        public void SendMove_OfTwoIndices_SendsBoth()
-        {
-            var (sync, sender, _) = Create();
-
-            sync.SendMove(1, 4);
-
-            var message = Assert.IsType<MessageMoveItem>(Assert.Single(sender.Sent));
-            Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
-            Assert.Equal((1, 4), (message.OldIndex, message.NewIndex));
-        }
-
-        [Fact]
-        public void SendSelect_OfAnItem_SendsTheItemAndTheIndex()
-        {
-            var (sync, sender, item) = Create();
-
-            sync.SendSelect(item, 0);
-
-            var message = Assert.IsType<MessageSelectItem>(Assert.Single(sender.Sent));
-            Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
-            Assert.Equal(item.ID, message.ControlID);
-            Assert.Equal(0, message.Index);
-        }
-
-        [Fact]
-        public void SendClearSelection_OfACollection_SendsItsId()
-        {
-            var (sync, sender, _) = Create();
-
-            sync.SendClearSelection();
-
-            var message = Assert.IsType<MessageClearSelection>(Assert.Single(sender.Sent));
-            Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
-        }
-
         private sealed class DisposableControl : IControl, IDisposable
         {
             public Guid ID { get; set; } = Guid.NewGuid();
@@ -169,6 +107,40 @@ namespace CMiX.Core.Tests
             Assert.Null(list.SelectedItem);
             var message = Assert.IsType<MessageClearSelection>(Assert.Single(sender.Sent));
             Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
+        }
+
+        [Fact]
+        public void AddFromModel_OfAModel_AddsSelectsAndSendsAdd()
+        {
+            var (sync, sender, _) = Create();
+            var model = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(CheckerBoard)).ToModel();
+            IItemList list = sync;
+
+            list.AddFromModel(model);
+
+            Assert.Equal(2, list.Count);
+            Assert.Equal(model.ID, list.SelectedItem.ID);
+            var message = Assert.IsType<MessageAddItem>(Assert.Single(sender.Sent));
+            Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
+            Assert.Equal(model.ID, message.Model.ID);
+            Assert.Equal(1, message.SelectedIndex);
+        }
+
+        [Fact]
+        public void Clear_OfAListWithItems_EmptiesItAndSendsOneRemovePerItemWithIndexMinusOne()
+        {
+            var (sync, sender, item) = Create();
+            var second = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(CheckerBoard));
+            sync.Collection.InsertItem(second, 1);
+            IItemList list = sync;
+
+            list.Clear();
+
+            Assert.Equal(0, list.Count);
+            var messages = sender.Sent.Select(sent => Assert.IsType<MessageRemoveItem>(sent)).ToList();
+            Assert.Equal(new[] { item.ID, second.ID }, messages.Select(message => message.ModelID));
+            Assert.All(messages, message => Assert.Equal(-1, message.SelectedIndex));
+            Assert.All(messages, message => Assert.Equal(sync.Collection.ManagerData.ID, message.ID));
         }
 
         [Fact]

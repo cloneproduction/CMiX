@@ -61,21 +61,36 @@ namespace CMiX.Core.Prefabs.Managers
             SendClearSelection();
         }
 
+        public void AddFromModel(IControlModel model)
+        {
+            Collection.AddItemFromModel(model);
+            var item = Collection.ManagerData.SelectedItem;
+            SendAdd(item, Collection.ManagerData.Items.IndexOf(item));
+        }
+
+        public void Clear()
+        {
+            var items = Collection.ManagerData.Items.ToList();
+            Collection.ClearAll();
+            foreach (var item in items)
+                SendRemove(item, -1);
+        }
+
         public void Release(IControl item) => OwnedControl.DisposeIfOrphaned(Collection.ControlRepository, item);
 
-        public void SendAdd(IControl item, int index) =>
+        private void SendAdd(IControl item, int index) =>
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageAddItem>(Collection.ManagerData.ID, item, index));
 
-        public void SendRemove(IControl item, int selectedIndex) =>
+        private void SendRemove(IControl item, int selectedIndex) =>
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageRemoveItem>(Collection.ManagerData.ID, item, selectedIndex));
 
-        public void SendMove(int oldIndex, int newIndex) =>
+        private void SendMove(int oldIndex, int newIndex) =>
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageMoveItem>(Collection.ManagerData.ID, oldIndex, newIndex));
 
-        public void SendSelect(IControl item, int index) =>
+        private void SendSelect(IControl item, int index) =>
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageSelectItem>(Collection.ManagerData.ID, item, index));
 
-        public void SendClearSelection() =>
+        private void SendClearSelection() =>
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageClearSelection>(Collection.ManagerData.ID));
     }
 }

@@ -64,6 +64,15 @@ namespace CMiX.Core.Tests
             SelectedItem = null;
         }
 
+        public void AddFromModel(IControlModel model) => throw new NotSupportedException();
+
+        public void Clear()
+        {
+            Calls.Add("Clear");
+            Items.Clear();
+            SelectedItem = null;
+        }
+
         public void Release(IControl item)
         {
             Calls.Add("Release");

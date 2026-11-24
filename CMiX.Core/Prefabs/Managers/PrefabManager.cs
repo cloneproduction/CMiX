@@ -32,7 +32,7 @@ namespace CMiX.Core.Prefabs.Managers
             collection.ManagerData.IdChanged += UpdateHiddenId;
             _messageHandler = messageHandler;
             _listFor = listFor;
-            _sync = listFor(collection);
+            _list = listFor(collection);
             Collection.ManagerData.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(ManagerData.SelectedItem))
@@ -53,7 +53,7 @@ namespace CMiX.Core.Prefabs.Managers
         private readonly ControlFactory _controlFactory;
         private readonly MessageCollectionManagerHandler _messageHandler;
         private readonly ItemListFactory _listFor;
-        private readonly CollectionSync _sync;
+        private readonly IItemList _list;
 
         public CollectionManager Collection { get; set; }
         public IManagerReorderService ManagerReorderService { get; }
@@ -121,31 +121,19 @@ namespace CMiX.Core.Prefabs.Managers
             if (Collection.ManagerData.Items.Contains(control)) return;
             if (CanAddExistingItem?.Invoke(control) == false) return;
 
-            Run(new AddItemUndoCommand(_sync, control, ManagerData.Items.Count));
+            Run(new AddItemUndoCommand(_list, control, ManagerData.Items.Count));
         }
 
-        public void ClearAll()
-        {
-            var items = Collection.ManagerData.Items.ToList();
-            Collection.ClearAll();
-            foreach (var item in items)
-                _sync.SendRemove(item, -1);
-        }
+        public void ClearAll() => _list.Clear();
 
         public void AddItem(Type type)
         {
             var item = _controlFactory.Create(type);
             if (item == null) return;
-            Run(new AddItemUndoCommand(_sync, item, ManagerData.Items.Count));
+            Run(new AddItemUndoCommand(_list, item, ManagerData.Items.Count));
         }
 
-        public void AddItemFromModel(IControlModel model)
-        {
-            Collection.AddItemFromModel(model);
-            var item = ManagerData.SelectedItem;
-            var index = Collection.ManagerData.Items.IndexOf(item);
-            _sync.SendAdd(item, index);
-        }
+        public void AddItemFromModel(IControlModel model) => _list.AddFromModel(model);
 
         // Adds a deep copy right after the source, with new ids and the next free name, as one undo step.
         // A source that is not in this list gives a copy at the end of the list.
@@ -167,7 +155,7 @@ namespace CMiX.Core.Prefabs.Managers
                     name.Value = newName;
             }
 
-            Run(new AddItemUndoCommand(_sync, copy, insertAt));
+            Run(new AddItemUndoCommand(_list, copy, insertAt));
             return copy;
         }
 
@@ -179,7 +167,7 @@ namespace CMiX.Core.Prefabs.Managers
             {
                 var item = _controlFactory.Create(type);
                 if (item == null) return;
-                Run(new AddItemUndoCommand(_sync, item, ManagerData.Items.Count));
+                Run(new AddItemUndoCommand(_list, item, ManagerData.Items.Count));
                 afterAdd(item);
             }
             finally { UndoManager?.EndCapture(); }
@@ -213,7 +201,7 @@ namespace CMiX.Core.Prefabs.Managers
             var replacement = _controlFactory.Create(control.GetType());
             if (replacement == null) return;
 
-            var command = new ReplaceItemUndoCommand(_sync, control, replacement, index);
+            var command = new ReplaceItemUndoCommand(_list, control, replacement, index);
             command.Execute();
             UndoManager?.Push(command);
         }
@@ -249,7 +237,7 @@ namespace CMiX.Core.Prefabs.Managers
             var count = ManagerData.Items.Count;
             if (oldIndex < 0 || oldIndex == newIndex || newIndex < 0 || newIndex >= count) return;
 
-            Run(new MoveItemUndoCommand(_sync, oldIndex, newIndex));
+            Run(new MoveItemUndoCommand(_list, oldIndex, newIndex));
         }
 
         // Moves an item from the source list into this list at an index, as one undo step that peers also see.
@@ -273,7 +261,7 @@ namespace CMiX.Core.Prefabs.Managers
             try
             {
                 // The item enters this list before it leaves the source, so it is never orphaned.
-                Run(new AddItemUndoCommand(_sync, item, Math.Clamp(index, 0, ManagerData.Items.Count)));
+                Run(new AddItemUndoCommand(_list, item, Math.Clamp(index, 0, ManagerData.Items.Count)));
                 source.RemoveItem(item);
             }
             finally
@@ -294,21 +282,20 @@ namespace CMiX.Core.Prefabs.Managers
         {
             var previousItem = ManagerData.SelectedItem;
             var previousIndex = ManagerData.Items.IndexOf(previousItem);
-            ManagerData.ClearSelection();
-            _sync.SendClearSelection();
+            _list.ClearSelection();
             if (previousIndex < 0) return;
-            UndoManager?.Push(new ClearSelectionUndoCommand(_sync, previousItem, previousIndex));
+            UndoManager?.Push(new ClearSelectionUndoCommand(_list, previousItem, previousIndex));
         }
 
         public void SelectAt(int index)
         {
             var previousItem = ManagerData.SelectedItem;
             var previousIndex = ManagerData.Items.IndexOf(previousItem);
-            ManagerData.SelectAt(index);
-            if (ReferenceEquals(previousItem, ManagerData.SelectedItem)) return;
-            _sync.SendSelect(ManagerData.SelectedItem, index);
+            var target = index >= 0 && index < ManagerData.Items.Count ? ManagerData.Items[index] : null;
+            if (ReferenceEquals(previousItem, target)) return;
+            _list.SelectAt(index);
             if (previousItem == null) return;
-            UndoManager?.Push(new SelectItemUndoCommand(_sync, previousItem, previousIndex, index));
+            UndoManager?.Push(new SelectItemUndoCommand(_list, previousItem, previousIndex, index));
         }
 
         public void LoadItem(IControlModel controlModel) => Collection.LoadItem(controlModel);
