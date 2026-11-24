@@ -15,7 +15,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class VideoPlayerViewTests
     {
         [AvaloniaFact]
-        public void PlayAndDoSeek_AreAboveTheComboBoxPath()
+        public void Show_PlayAndDoSeek_AreAboveTheComboBoxPath()
         {
             var provider = TestServiceProviderFactory.Create();
             var player = provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.VideoPlayer));
@@ -37,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // The user picks a video in the file dialog. The video must appear in the list and be selected.
         [AvaloniaFact]
-        public void ChoosingAVideoFile_AddsItToTheListAndSelectsIt()
+        public void Choose_AVideoFile_AddsItToTheListAndSelectsIt()
         {
             var provider = TestServiceProviderFactory.Create();
             var player = (CMiX.Core.Texturing.Sources.VideoPlayer)provider.GetRequiredService<ControlFactory>()

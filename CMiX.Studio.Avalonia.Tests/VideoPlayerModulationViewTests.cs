@@ -39,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests
             view.GetVisualDescendants().OfType<ButtonMomentary>().Single();
 
         [AvaloniaFact]
-        public void PlayToggle_HasAModulatorAssignButtonAtItsRight()
+        public void Show_PlayToggle_HasAModulatorAssignButtonAtItsRight()
         {
             var (player, view) = Show();
 
@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void PlayToggle_FollowsThePlayingValue()
+        public void PlayToggle_APlayingValue_FollowsIt()
         {
             var (player, view) = Show();
             var toggle = PlayToggle(view);
@@ -65,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void PlayToggle_IgnoresClicksWhileAModulatorIsBound()
+        public void Click_PlayToggleWhileAModulatorIsBound_ChangesNothing()
         {
             var (player, view) = Show();
             player.ModulatorManager.AddItem(typeof(LFOModulator));
@@ -81,7 +81,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void PlayAndDoSeek_KeepTheCaptionSpaceAndTheWidthOfAValueRow()
+        public void Show_PlayAndDoSeek_KeepTheCaptionSpaceAndTheWidthOfAValueRow()
         {
             var (_, view) = Show();
             var play = PlayToggle(view);
@@ -97,7 +97,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void PlayAndDoSeek_AreOnePanelWithRoundedTopAndBottom()
+        public void Show_PlayAndDoSeek_AreOnePanelWithRoundedTopAndBottom()
         {
             var (_, view) = Show();
             var play = PlayToggle(view);
@@ -112,7 +112,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void SeekFrame_IsAModulatableDragValueFromZero()
+        public void Show_SeekFrame_IsAModulatableDragValueFromZero()
         {
             var (player, view) = Show();
 
@@ -125,7 +125,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void DoSeek_HasAModulatorAssignButtonAtItsRight()
+        public void Show_DoSeek_HasAModulatorAssignButtonAtItsRight()
         {
             var (player, view) = Show();
 
@@ -138,7 +138,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void DoSeek_IgnoresPressesWhileAModulatorIsBound()
+        public void Press_DoSeekWhileAModulatorIsBound_ChangesNothing()
         {
             var (player, view) = Show();
             player.ModulatorManager.AddItem(typeof(LFOModulator));
@@ -154,7 +154,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void View_ShowsTheAddModulatorList()
+        public void Show_TheView_HasTheAddModulatorList()
         {
             var (_, view) = Show();
 

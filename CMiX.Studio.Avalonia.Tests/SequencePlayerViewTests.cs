@@ -39,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ComboBoxAssetPath_SelectsAFolderFromTheImageSequences()
+        public void Show_TheComboBoxAssetPath_SelectsAFolderFromTheImageSequences()
         {
             var (player, view, _) = ShowSequencePlayerView();
 
@@ -51,7 +51,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void View_ShowsTheFpsValueAndThePlayAndLoopToggles()
+        public void Show_TheView_HasTheFpsValueAndThePlayAndLoopToggles()
         {
             var (_, view, _) = ShowSequencePlayerView();
 
@@ -66,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
             view.GetVisualDescendants().OfType<ButtonMomentary>().Single();
 
         [AvaloniaFact]
-        public void PlayLoopAndDoSeek_AreThreeRowsOfOnePanelAtTheTop()
+        public void Show_PlayLoopAndDoSeek_AreThreeRowsOfOnePanelAtTheTop()
         {
             var (_, view, _) = ShowSequencePlayerView();
 
@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void PlayLoopDoSeekAndSeekFrame_EachHaveAModulatorAssignButton()
+        public void Show_PlayLoopDoSeekAndSeekFrame_EachHaveAModulatorAssignButton()
         {
             var (player, view, _) = ShowSequencePlayerView();
 
@@ -97,7 +97,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void DoSeek_IsGreyAndTurnsAccentOnlyWhilePressed()
+        public void Press_DoSeek_TurnsFromGreyToAccentOnlyWhilePressed()
         {
             var (_, view, _) = ShowSequencePlayerView();
             var doSeek = DoSeekButton(view);
@@ -118,7 +118,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void DoSeek_HoldsTheValueWhilePressed()
+        public void Press_DoSeek_HoldsTheValueWhilePressed()
         {
             var (player, view, window) = ShowSequencePlayerView();
             var doSeek = DoSeekButton(view);
@@ -131,7 +131,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ListRow_RealizesAsListItemIcon()
+        public void Build_TheListRow_RealizesAsListItemIcon()
         {
             var provider = TestServiceProviderFactory.Create();
             var player = provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.SequencePlayer));
