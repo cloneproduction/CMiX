@@ -1,3 +1,4 @@
+using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -6,40 +7,38 @@ namespace CMiX.Core.Tests
 {
     public class ProjectStateHashTests
     {
+        private static Project NewProject() => TestServiceProviderFactory.Create().GetRequiredService<Project>();
+
         [Fact]
-        public void ModelOverload_MatchesProjectOverload()
+        public void Compute_OfTheModelOfAProject_GivesTheHashOfTheProject()
         {
-            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            var project = NewProject();
             project.CompositionManager.AddItem(typeof(Composition));
 
             Assert.Equal(ProjectStateHash.Compute(project), ProjectStateHash.Compute((ProjectModel)project.ToModel()));
         }
 
         [Fact]
-        public void TwoFreshProjects_HashIdentically()
+        public void Compute_OfTwoNewProjects_GivesTheSameHash()
         {
-            var project1 = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            var project2 = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-
-            Assert.Equal(ProjectStateHash.Compute(project1), ProjectStateHash.Compute(project2));
+            Assert.Equal(ProjectStateHash.Compute(NewProject()), ProjectStateHash.Compute(NewProject()));
         }
 
         [Fact]
-        public void EditingOneSide_ChangesItsHash()
+        public void Compute_AfterAnEdit_GivesAnotherHash()
         {
-            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            var project = NewProject();
             var before = ProjectStateHash.Compute(project);
 
             project.OutputMappingManager.Items[0].Resolution.X.Value = 640;
 
-            var after = ProjectStateHash.Compute(project);
-            Assert.NotEqual(before, after);
+            Assert.NotEqual(before, ProjectStateHash.Compute(project));
         }
 
         [Fact]
         public void Compute_AProjectWithAnEntity_HashesTheSameTwice()
         {
-            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            var project = NewProject();
             project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)project.CompositionManager.SelectedItem;
             composition.LayerManager.AddItem(typeof(Layer));
@@ -50,11 +49,16 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void SameProject_HashesConsistently()
+        public void Compute_AfterARedisAddressIsAdded_GivesAnotherHash()
         {
-            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            var project = NewProject();
+            var before = ProjectStateHash.Compute(project);
 
-            Assert.Equal(ProjectStateHash.Compute(project), ProjectStateHash.Compute(project));
+            var manager = project.RedisAddressRegistry.AddressManager;
+            manager.AddItem(typeof(RedisAddress));
+            ((RedisAddress)manager.SelectedItem).Value = "cmix:a";
+
+            Assert.NotEqual(before, ProjectStateHash.Compute(project));
         }
     }
 }
