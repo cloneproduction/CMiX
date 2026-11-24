@@ -24,7 +24,7 @@ using Layer = CMiX.Core.Compositing.Layer;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A drag over the visibility or the mask buttons of the real window sets them all to one state, as one undo step.
-    public class MainWindowToggleDragTests
+    public class ToggleDragTests
     {
         private sealed class Screen
         {
