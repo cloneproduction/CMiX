@@ -23,29 +23,6 @@ namespace CMiX.Studio.Avalonia.Settings
     //     "PeerName": "Studio"
     //   }
     // }
-    //
-    // UseCredentialManager and CredentialName take the user name and the password from a generic
-    // credential of the Windows Credential Manager. The file values stay the fallback.
-    public class RedisSettings
-    {
-        public string Ip { get; set; } = "";
-        public int Port { get; set; } = 0;
-        public int Database { get; set; } = 0;
-        public bool UseCredentialManager { get; set; } = false;
-        public string CredentialName { get; set; } = "";
-        public string User { get; set; } = "";
-        public string Password { get; set; } = "";
-        public string KeyPrefix { get; set; } = "";
-        public string PeerName { get; set; } = "";
-    }
-
-    // The look of the Studio, in the same file: { "Interface": { "ShowKeyHints": true } }. InterfaceOptions reads and writes it.
-    public class InterfaceSettings
-    {
-        // The hint strip of the keys under the tree (KeyHintStrip).
-        public bool ShowKeyHints { get; set; } = true;
-    }
-
     public class StudioSettings
     {
         public const string FileName = "studio-settings.json";
