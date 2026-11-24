@@ -12,7 +12,7 @@ using CMiX.UI.Behaviors;
 namespace CMiX.Studio.Avalonia.Behaviors
 {
     // Files and folders dropped on the control become items of the prefab manager.
-    // PathDropService holds the rules. A drop of several paths is one undo step.
+    // PathDropRules holds the rules. A drop of several paths is one undo step.
     public abstract class PrefabFileDropBehavior : FileDropBehavior
     {
         static PrefabFileDropBehavior()
@@ -29,19 +29,19 @@ namespace CMiX.Studio.Avalonia.Behaviors
             set => SetValue(PrefabManagerProperty, value);
         }
 
-        public static readonly StyledProperty<PathDropService?> PathDropServiceProperty =
-            AvaloniaProperty.Register<PrefabFileDropBehavior, PathDropService?>(nameof(PathDropService));
+        public static readonly StyledProperty<PathDropRules?> PathDropRulesProperty =
+            AvaloniaProperty.Register<PrefabFileDropBehavior, PathDropRules?>(nameof(PathDropRules));
 
         // The rules. When this is not set, the behavior uses the service of the view model of the window.
-        public PathDropService? PathDropService
+        public PathDropRules? PathDropRules
         {
-            get => GetValue(PathDropServiceProperty);
-            set => SetValue(PathDropServiceProperty, value);
+            get => GetValue(PathDropRulesProperty);
+            set => SetValue(PathDropRulesProperty, value);
         }
 
-        protected PathDropService? Service =>
-            PathDropService
-            ?? (TopLevel.GetTopLevel(AssociatedObject)?.DataContext as MainViewModel)?.PathDropService;
+        protected PathDropRules? Service =>
+            PathDropRules
+            ?? (TopLevel.GetTopLevel(AssociatedObject)?.DataContext as MainViewModel)?.PathDropRules;
 
         // True when Add makes an item from this path. DragOver uses it, once per path and drag.
         protected abstract override bool Accepts(string path);

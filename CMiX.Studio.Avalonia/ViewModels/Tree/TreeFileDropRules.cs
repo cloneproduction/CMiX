@@ -12,11 +12,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
     public sealed class TreeFileDropRules
     {
-        private readonly PathDropService pathDrop;
+        private readonly PathDropRules pathDrop;
         private readonly PrefabManager compositions;
         private readonly UndoManager undoManager;
 
-        public TreeFileDropRules(PathDropService pathDrop, PrefabManager compositions, UndoManager undoManager)
+        public TreeFileDropRules(PathDropRules pathDrop, PrefabManager compositions, UndoManager undoManager)
         {
             this.pathDrop = pathDrop;
             this.compositions = compositions;

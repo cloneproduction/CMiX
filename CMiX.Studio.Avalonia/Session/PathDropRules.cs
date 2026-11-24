@@ -21,7 +21,7 @@ namespace CMiX.Studio.Avalonia.Session
     // A text file gives a TextEntity with the text of the file.
     // A texture list:
     // a folder with images gives a SequencePlayer, a video a VideoPlayer, an image an Image.
-    public sealed class PathDropService
+    public sealed class PathDropRules
     {
         // A larger text file is ignored: the text goes into a text field and over the wire.
         public const long MaxTextBytes = 100 * 1024;

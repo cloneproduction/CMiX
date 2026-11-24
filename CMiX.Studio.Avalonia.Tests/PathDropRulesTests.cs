@@ -9,10 +9,10 @@ using Image = CMiX.Core.Texturing.Sources.Image;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The rules of a dropped path for a texture list.
-    public class PathDropServiceTests : IDisposable
+    public class PathDropRulesTests : IDisposable
     {
         private readonly TempFolder temp = new("path-drop");
-        private readonly PathDropService service = new();
+        private readonly PathDropRules service = new();
 
         public void Dispose() => temp.Dispose();
 
@@ -50,7 +50,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var textures = provider.GetRequiredService<PrefabManager>();
             var path = temp.File("one.png");
 
-            provider.GetRequiredService<PathDropService>().AddTexture(textures, path);
+            provider.GetRequiredService<PathDropRules>().AddTexture(textures, path);
 
             var image = Assert.IsType<Image>(Assert.Single(textures.ManagerData.Items));
             Assert.Equal(path, image.AssetSelector.Asset.FilePath);

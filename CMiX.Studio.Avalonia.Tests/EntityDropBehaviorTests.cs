@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var provider = TestServiceProviderFactory.Create();
             var entities = provider.GetRequiredService<PrefabManager>();
             var undo = provider.GetRequiredService<UndoManager>();
-            return (entities, undo, new Dropper { PrefabManager = entities, PathDropService = provider.GetRequiredService<PathDropService>() });
+            return (entities, undo, new Dropper { PrefabManager = entities, PathDropRules = provider.GetRequiredService<PathDropRules>() });
         }
 
         private static IAssetTextureSource TextureOf(ITexturable textured) =>
@@ -185,7 +185,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Drop_ATextFileThatIsTooLarge_AddsNothing()
         {
             var (entities, _, dropper) = Show();
-            var path = temp.File("big.txt", new string('a', (int)Studio.Avalonia.Session.PathDropService.MaxTextBytes + 1));
+            var path = temp.File("big.txt", new string('a', (int)Studio.Avalonia.Session.PathDropRules.MaxTextBytes + 1));
 
             dropper.Drop(new[] { path });
 

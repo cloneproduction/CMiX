@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests.Support
                 provider.GetRequiredService<UndoManager>(),
                 provider.GetRequiredService<IMoveBlockedNotice>(),
                 provider.GetRequiredService<ShortcutMap>(),
-                provider.GetRequiredService<PathDropService>(),
+                provider.GetRequiredService<PathDropRules>(),
                 provider.GetRequiredService<INotificationService>(),
                 provider.GetRequiredService<InterfaceOptions>());
 

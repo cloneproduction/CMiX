@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests
             serviceCollection.AddSingleton<IMessageNotice>(provider => provider.GetRequiredService<FakeMessageNotice>());
             serviceCollection.AddSingleton<NotificationService>();
             serviceCollection.AddSingleton<INotificationService>(provider => provider.GetRequiredService<NotificationService>());
-            serviceCollection.AddSingleton<PathDropService>();
+            serviceCollection.AddSingleton<PathDropRules>();
             serviceCollection.AddSingleton<ProjectTree>();
             serviceCollection.AddSingleton<Views.PanelFocusCycle>();
             // The defaults, with no file. A test never reads or writes the settings file of the Studio.

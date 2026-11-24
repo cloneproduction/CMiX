@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              UndoManager undoManager,
                              ShortcutMap shortcuts,
                              InterfaceOptions interfaceOptions,
-                             PathDropService pathDropService,
+                             PathDropRules pathDropRules,
                              ProjectTree projectTree,
                              Views.PanelFocusCycle panelFocus)
         {
@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             RedoCommand = new RelayCommand(undoManager.Redo);
             BeginUndoCaptureCommand = new RelayCommand(undoManager.BeginCapture);
             EndUndoCaptureCommand = new RelayCommand(undoManager.EndCapture);
-            PathDropService = pathDropService;
+            PathDropRules = pathDropRules;
             ProjectTree = projectTree;
             Sync = sync;
             MainWindowController = mainWindowController;
@@ -84,7 +84,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ProjectTree ProjectTree { get; }
 
         // The rules of dropped files. The drop behaviors of the views take it from here.
-        public PathDropService PathDropService { get; }
+        public PathDropRules PathDropRules { get; }
 
         // The keyboard shortcuts. The key bindings of the window and of the tree read their gestures here.
         public ShortcutMap Shortcuts { get; }

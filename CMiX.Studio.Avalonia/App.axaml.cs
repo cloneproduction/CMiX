@@ -79,7 +79,7 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddSingleton<IMessageNotice, Notices.MessageNotice>();
                 serviceCollection.AddSingleton<NotificationService>();
                 serviceCollection.AddSingleton<INotificationService>(provider => provider.GetRequiredService<NotificationService>());
-                serviceCollection.AddSingleton<PathDropService>();
+                serviceCollection.AddSingleton<PathDropRules>();
                 serviceCollection.AddSingleton<ProjectTree>();
                 serviceCollection.AddSingleton<Views.PanelFocusCycle>();
                 serviceCollection.AddSingleton(_ => new StudioSettingsFile(StudioSettings.DefaultPath));

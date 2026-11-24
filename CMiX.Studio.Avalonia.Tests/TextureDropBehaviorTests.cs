@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var provider = TestServiceProviderFactory.Create();
             var textures = provider.GetRequiredService<PrefabManager>();
             var undo = provider.GetRequiredService<UndoManager>();
-            return (textures, undo, new Dropper { PrefabManager = textures, PathDropService = provider.GetRequiredService<PathDropService>() });
+            return (textures, undo, new Dropper { PrefabManager = textures, PathDropRules = provider.GetRequiredService<PathDropRules>() });
         }
 
         [AvaloniaFact]
