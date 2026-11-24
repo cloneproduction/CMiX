@@ -26,7 +26,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         }
 
         public IReadOnlyList<KindCount> KindCounts => kindCounts;
-        public int KindCountsComputations { get; private set; }
         public bool HasKindCounts => kindCounts.Count > 0;
 
         public IReadOnlyList<KindCount> ShownKindCounts =>
@@ -77,7 +76,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         private List<KindCount> ComputeKindCounts()
         {
-            KindCountsComputations++;
             var counts = new Dictionary<TreeCategory, int>();
             foreach (var child in row.Children)
             {

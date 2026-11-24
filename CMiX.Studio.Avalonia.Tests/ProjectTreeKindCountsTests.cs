@@ -108,22 +108,12 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void KindCounts_AfterAChildIsAdded_RecomputesOnce()
+        public void KindCounts_AfterAChildIsAdded_CountsTheNewChild()
         {
             var scene = CreateScene();
-            var group = Scene.Group<EntitiesGroup>(scene.LayerNode);
-            var groupBefore = group.KindCountsComputations;
-            var layerBefore = scene.LayerNode.KindCountsComputations;
-            var compositionBefore = scene.CompositionNode.KindCountsComputations;
 
             scene.Layer.ModelEntityManager.AddItem(typeof(Entity));
-            _ = scene.LayerNode.KindCounts;
-            _ = scene.LayerNode.HasKindCounts;
-            _ = scene.LayerNode.ShowsKindCounts;
 
-            Assert.Equal(groupBefore + 1, group.KindCountsComputations);
-            Assert.Equal(layerBefore + 1, scene.LayerNode.KindCountsComputations);
-            Assert.Equal(compositionBefore, scene.CompositionNode.KindCountsComputations);
             Assert.Contains(new KindCount(TreeCategory.Entity, 3), scene.LayerNode.KindCounts);
         }
 

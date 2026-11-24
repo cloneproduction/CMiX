@@ -100,8 +100,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public IReadOnlyList<KindCount> KindCounts => counts.KindCounts;
 
-        internal int KindCountsComputations => counts.KindCountsComputations;
-
         public bool HasKindCounts => counts.HasKindCounts;
 
         public const int MaxShownKindCounts = 3;
