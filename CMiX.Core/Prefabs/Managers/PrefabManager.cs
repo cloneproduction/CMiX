@@ -204,9 +204,7 @@ namespace CMiX.Core.Prefabs.Managers
             var replacement = _controlFactory.Create(control.GetType());
             if (replacement == null) return;
 
-            var command = new ReplaceItemUndoCommand(_list, control, replacement, index);
-            command.Execute();
-            UndoManager?.Push(command);
+            Run(new ReplaceItemUndoCommand(_list, control, replacement, index));
         }
 
         // Ends the manager's lifetime; called from the Dispose of the owning control.
