@@ -4,7 +4,7 @@
 using System;
 using System.Linq;
 using Avalonia.Media;
-using CoreColorMode = CMiX.Core.ColorMode;
+using CoreColorMode = CMiX.Core.Colors.ColorMode;
 using CoreMeshType = CMiX.Core.MeshType;
 
 namespace CMiX.Studio.Avalonia.Resources

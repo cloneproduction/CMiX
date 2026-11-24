@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Colors;
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
@@ -56,25 +57,25 @@ namespace CMiX.Core.Modulation.Modifiers
 
         public string FirstCaption => ColorMode.Value switch
         {
-            Core.ColorMode.RGB => "Red",
-            Core.ColorMode.HSL => "Hue",
-            Core.ColorMode.HSV => "Hue",
+            Colors.ColorMode.RGB => "Red",
+            Colors.ColorMode.HSL => "Hue",
+            Colors.ColorMode.HSV => "Hue",
             _ => "Hue",
         };
 
         public string SecondCaption => ColorMode.Value switch
         {
-            Core.ColorMode.RGB => "Green",
-            Core.ColorMode.HSL => "Saturation",
-            Core.ColorMode.HSV => "Saturation",
+            Colors.ColorMode.RGB => "Green",
+            Colors.ColorMode.HSL => "Saturation",
+            Colors.ColorMode.HSV => "Saturation",
             _ => "Saturation",
         };
 
         public string ThirdCaption => ColorMode.Value switch
         {
-            Core.ColorMode.RGB => "Blue",
-            Core.ColorMode.HSL => "Lightness",
-            Core.ColorMode.HSV => "Value",
+            Colors.ColorMode.RGB => "Blue",
+            Colors.ColorMode.HSL => "Lightness",
+            Colors.ColorMode.HSV => "Value",
             _ => "Value",
         };
 

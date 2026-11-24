@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Colors;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -19,6 +20,6 @@ namespace CMiX.Core.Modulation.Modifiers
         public ModulatableValueModel<float> Alpha { get; set; } = ModulatableValueModel<float>.Of("Alpha", 1f);
         public PrefabManagerModel ModulatorManager { get; set; } = new();
         public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new(ModifierMode.PerInstance, 1);
-        public GenericValueModel<ColorMode> ColorMode { get; set; } = new(Core.ColorMode.HSV);
+        public GenericValueModel<ColorMode> ColorMode { get; set; } = new(Colors.ColorMode.HSV);
     }
 }
