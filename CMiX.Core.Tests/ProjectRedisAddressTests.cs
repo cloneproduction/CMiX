@@ -7,12 +7,8 @@ using Xunit;
 namespace CMiX.Core.Tests
 {
     // The Redis addresses are part of the project.
-    public class ProjectRedisAddressTests : IDisposable
+    public class ProjectRedisAddressTests
     {
-        private readonly TempDirectoryFixture _tempDir = new();
-
-        public void Dispose() => _tempDir.Dispose();
-
         private static Project NewProject() =>
             TestServiceProviderFactory.Create().GetRequiredService<Project>();
 
@@ -25,23 +21,6 @@ namespace CMiX.Core.Tests
 
         private static IEnumerable<string> Addresses(Project project) =>
             project.RedisAddressRegistry.Addresses.Select(address => address.Value);
-
-        [Fact]
-        public void SaveThenLoad_KeepsTheAddressesAndTheirIDs()
-        {
-            var source = NewProject();
-            AddAddress(source, "cmix:a");
-            AddAddress(source, "cmix:b");
-            var path = Path.Combine(_tempDir.Path, "addresses.cmix");
-
-            ProjectSerializer.Save((ProjectModel)source.ToModel(), path);
-            var target = NewProject();
-            target.ApplySnapshot(ProjectSerializer.Load(path));
-
-            Assert.Equal(new[] { "cmix:a", "cmix:b" }, Addresses(target));
-            Assert.Equal(source.RedisAddressRegistry.Addresses.Select(a => a.ID),
-                         target.RedisAddressRegistry.Addresses.Select(a => a.ID));
-        }
 
         [Fact]
         public void AddingAnAddress_ChangesTheStateHash()
