@@ -141,86 +141,27 @@ namespace CMiX.Core.Tests
         private const string SkipReason = "Memurai is not installed at " + MemuraiPath;
 
         private readonly ITestOutputHelper _output;
-        private readonly string _prefix = "cmix:test:" + Guid.NewGuid().ToString("N").Substring(0, 8);
-        private readonly List<SyncPeer> _peers = new();
+        private readonly RedisPeerHarness _peers = new(
+            "cmix:test:" + Guid.NewGuid().ToString("N").Substring(0, 8), SyncOptions.Defaults with { Port = Port }, joinTimeoutMs: 15000);
 
         public SyncPeerRedisOutageTests(ITestOutputHelper output) => _output = output;
 
         public Task InitializeAsync() => Task.CompletedTask;
 
-        public Task DisposeAsync() => DisposePeersAsync();
-
-        // Waits for the loops of every peer, so no call reaches the server after the test.
-        private async Task DisposePeersAsync()
-        {
-            foreach (var peer in _peers)
-                peer.Dispose();
-
-            foreach (var peer in _peers)
-                await Task.WhenAny(peer.Stopped, Task.Delay(TimeSpan.FromSeconds(10)));
-
-            _peers.Clear();
-        }
+        public Task DisposeAsync() => _peers.StopPeersAsync();
 
         private static Guid OrderedGuid(int index) => new Guid(index, 0, 0, new byte[8]);
 
         private static List<Guid> Clicks(RecordingSyncTarget target) =>
             target.Applied.OfType<MessageOnClick>().Select(message => message.ID).ToList();
 
-        private SyncOptions Options(string name, string role) =>
-            SyncOptions.Defaults with { Port = Port, KeyPrefix = _prefix, PeerName = name, Role = role };
-
-        private SyncPeer NewPeer(ISyncTarget target, bool isWriter = true)
-        {
-            var peer = new SyncPeer(target, new ControlMessenger(), o => new RedisSyncStore(o)) { IsWriter = isWriter };
-            _peers.Add(peer);
-            return peer;
-        }
-
-        private async Task<SyncPeer> StartStudioAsync(ISyncTarget target)
-        {
-            var peer = NewPeer(target);
-            peer.ListPeersEnabled = true;
-            peer.CompactionEnabled = true;
-            peer.CompactionDelay = TimeSpan.FromMilliseconds(500);
-            peer.Start(Options("Studio", "studio"));
-            await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
-            return peer;
-        }
-
-        private async Task<SyncPeer> StartEngineAsync(string name, ISyncTarget target)
-        {
-            var peer = NewPeer(target, isWriter: false);
-            peer.StartAndJoin(Options(name, "engine"));
-            await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
-            return peer;
-        }
-
-        // A second writer, so the engine-to-Studio direction stays tested even though the engine
-        // peer itself no longer writes.
-        private async Task<SyncPeer> StartWriterAsync(string name, ISyncTarget target)
-        {
-            var peer = NewPeer(target);
-            peer.StartAndJoin(Options(name, "studio"));
-            await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
-            return peer;
-        }
-
-        private async Task<RedisSyncStore> ObserverStoreAsync()
-        {
-            var store = new RedisSyncStore(Options("observer", "test"));
-            await store.ConnectAsync(CancellationToken.None);
-            Assert.True(store.IsConnected);
-            return store;
-        }
-
         private async Task<(SyncPeer Studio, RecordingSyncTarget StudioTarget, SyncPeer Engine, RecordingSyncTarget EngineTarget)>
             StartPairAsync()
         {
             var studioTarget = new RecordingSyncTarget { Model = ModelWithOneComposition() };
-            var studio = await StartStudioAsync(studioTarget);
+            var studio = await _peers.StartStudioAsync(studioTarget, TimeSpan.FromMilliseconds(500));
             var engineTarget = new RecordingSyncTarget();
-            var engine = await StartEngineAsync("Engine1", engineTarget);
+            var engine = await _peers.StartEngineAsync("Engine1", engineTarget);
             await WaitUntilAsync(() => engine.LastAppliedId == studio.LastAppliedId, 15000,
                 () => $"studio={studio.LastAppliedId} engine={engine.LastAppliedId}");
 
@@ -273,7 +214,7 @@ namespace CMiX.Core.Tests
                 server.Start();
 
                 var (a, studioTarget, b, engineTarget) = await StartPairAsync();
-                var writer2 = await StartWriterAsync("Writer2", new RecordingSyncTarget());
+                var writer2 = await _peers.StartWriterAsync("Writer2", new RecordingSyncTarget());
 
                 var fromA = Send(a, 0, 5);
                 await WaitUntilAsync(() => Clicks(engineTarget).Count == 5, 15000, () => $"applied={Clicks(engineTarget).Count}");
@@ -319,7 +260,7 @@ namespace CMiX.Core.Tests
                 Assert.Equal(fromB, Clicks(studioTarget));
 
                 var lateTarget = new RecordingSyncTarget();
-                var c = await StartEngineAsync("Engine2", lateTarget);
+                var c = await _peers.StartEngineAsync("Engine2", lateTarget);
                 await WaitUntilAsync(() => c.LastAppliedId == a.LastAppliedId, 15000,
                     () => $"studio={a.LastAppliedId} late={c.LastAppliedId}");
 
@@ -329,7 +270,7 @@ namespace CMiX.Core.Tests
             }
             finally
             {
-                await DisposePeersAsync();
+                await _peers.StopPeersAsync();
                 server.Dispose();
             }
         }
@@ -346,7 +287,7 @@ namespace CMiX.Core.Tests
                 server.Start();
 
                 var (a, studioTarget, b, engineTarget) = await StartPairAsync();
-                var writer2 = await StartWriterAsync("Writer2", new RecordingSyncTarget());
+                var writer2 = await _peers.StartWriterAsync("Writer2", new RecordingSyncTarget());
 
                 Send(a, 0, 5);
                 await WaitUntilAsync(() => Clicks(engineTarget).Count == 5, 15000, () => $"applied={Clicks(engineTarget).Count}");
@@ -370,7 +311,7 @@ namespace CMiX.Core.Tests
 
                 await Task.Delay(15000);
 
-                await using var store = await ObserverStoreAsync();
+                await using var store = await _peers.ObserverStoreAsync();
                 var snapshot = await store.ReadSnapshotAsync();
                 var tail = await store.ReadTailAsync();
                 var entries = await store.ReadRangeAsync(StreamPosition.Zero, 1000);
@@ -392,7 +333,7 @@ namespace CMiX.Core.Tests
                     10000, () => "The store has no snapshot.");
 
                 var lateTarget = new RecordingSyncTarget();
-                var c = await StartEngineAsync("Engine2", lateTarget);
+                var c = await _peers.StartEngineAsync("Engine2", lateTarget);
                 await WaitUntilAsync(() => c.LastAppliedId == a.LastAppliedId, 15000,
                     () => $"studio={a.LastAppliedId} late={c.LastAppliedId}");
 
@@ -400,7 +341,7 @@ namespace CMiX.Core.Tests
             }
             finally
             {
-                await DisposePeersAsync();
+                await _peers.StopPeersAsync();
                 server.Dispose();
             }
         }
@@ -416,8 +357,8 @@ namespace CMiX.Core.Tests
             try
             {
                 var target = new RecordingSyncTarget();
-                var peer = NewPeer(target, isWriter: false);
-                peer.StartAndJoin(Options("Engine1", "engine"));
+                var peer = _peers.NewPeer(target, isWriter: false);
+                peer.StartAndJoin(_peers.Options("Engine1", "engine"));
 
                 await Task.Delay(3000);
                 Assert.Equal("Connecting", peer.Status);
@@ -433,7 +374,7 @@ namespace CMiX.Core.Tests
             }
             finally
             {
-                await DisposePeersAsync();
+                await _peers.StopPeersAsync();
                 server.Dispose();
             }
         }

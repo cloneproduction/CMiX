@@ -7,6 +7,7 @@ using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using Microsoft.Extensions.DependencyInjection;
 using VL.Serialization.MessagePack;
+using Xunit;
 
 namespace CMiX.Core.Tests
 {
@@ -388,6 +389,92 @@ namespace CMiX.Core.Tests
         public ValueTask DisposeAsync() => _inner.DisposeAsync();
     }
 
+    // Starts whole peers over Redis under one key prefix and stops them again.
+    public sealed class RedisPeerHarness
+    {
+        private readonly List<SyncPeer> _peers = new();
+        private readonly SyncOptions _defaults;
+        private readonly int _joinTimeoutMs;
+
+        public RedisPeerHarness(string prefix, SyncOptions defaults, int joinTimeoutMs)
+        {
+            Prefix = prefix;
+            _defaults = defaults;
+            _joinTimeoutMs = joinTimeoutMs;
+        }
+
+        public string Prefix { get; }
+
+        public SyncOptions Options(string name, string role) =>
+            _defaults with { KeyPrefix = Prefix, PeerName = name, Role = role };
+
+        public SyncPeer NewPeer(ISyncTarget target, bool isWriter = true)
+        {
+            var peer = new SyncPeer(target, new ControlMessenger(), o => new RedisSyncStore(o)) { IsWriter = isWriter };
+            _peers.Add(peer);
+            return peer;
+        }
+
+        public SyncPeer NewStudio(ISyncTarget target, TimeSpan? compactionDelay = null)
+        {
+            var peer = NewPeer(target);
+            peer.ListPeersEnabled = true;
+            peer.CompactionEnabled = true;
+            if (compactionDelay != null)
+                peer.CompactionDelay = compactionDelay.Value;
+
+            return peer;
+        }
+
+        public async Task<SyncPeer> StartStudioAsync(ISyncTarget target, TimeSpan? compactionDelay = null)
+        {
+            var peer = NewStudio(target, compactionDelay);
+            peer.Start(Options("Studio", "studio"));
+            await WaitForJoinAsync(peer);
+            return peer;
+        }
+
+        public async Task<SyncPeer> StartEngineAsync(string name, ISyncTarget target)
+        {
+            var peer = NewPeer(target, isWriter: false);
+            peer.StartAndJoin(Options(name, "engine"));
+            await WaitForJoinAsync(peer);
+            return peer;
+        }
+
+        // A second writer, for the engine-to-Studio direction. Only the wiring keeps engines from sending.
+        public async Task<SyncPeer> StartWriterAsync(string name, ISyncTarget target)
+        {
+            var peer = NewPeer(target);
+            peer.StartAndJoin(Options(name, "studio"));
+            await WaitForJoinAsync(peer);
+            return peer;
+        }
+
+        public async Task<RedisSyncStore> ObserverStoreAsync()
+        {
+            var store = new RedisSyncStore(Options("observer", "test"));
+            await store.ConnectAsync(CancellationToken.None);
+            Assert.True(store.IsConnected);
+            return store;
+        }
+
+        // Waits for the loops of every peer, so no call reaches the server after the test.
+        public async Task StopPeersAsync()
+        {
+            foreach (var peer in _peers)
+                peer.Dispose();
+
+            foreach (var peer in _peers)
+                await Task.WhenAny(peer.Stopped, Task.Delay(TimeSpan.FromSeconds(10)));
+
+            _peers.Clear();
+        }
+
+        private Task WaitForJoinAsync(SyncPeer peer) =>
+            SyncTestHelpers.WaitUntilAsync(() => peer.IsJoined, _joinTimeoutMs, () => $"status={peer.Status} error={peer.ErrorMessage}");
+    }
+
     // Holds a store call of WrappingSyncStore until the test releases it.
     public sealed class StoreGate
     {
@@ -441,6 +528,24 @@ namespace CMiX.Core.Tests
         }
 
         // A snapshot of the model at the stream position, as another peer writes it.
+        // The peer list changes on a background thread, because the tests set no dispatcher.
+        public static PeerInfo[] PeersOf(SyncPeer peer)
+        {
+            for (var attempt = 0; attempt < 20; attempt++)
+            {
+                try
+                {
+                    return peer.Peers.ToArray();
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(5);
+                }
+            }
+
+            return Array.Empty<PeerInfo>();
+        }
+
         public static Snapshot SnapshotOf(ProjectModel model, StreamPosition id) =>
             new Snapshot(MessagePackSerialization.Serialize(model), id, "other", DateTime.UtcNow);
 

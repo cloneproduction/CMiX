@@ -1418,21 +1418,7 @@ namespace CMiX.Core.Tests
         }
 
         // The presence tick replaces Peers on its own thread. Copy it again when the copy fails.
-        private static string[] PeerIds(SyncPeer peer)
-        {
-            for (var i = 0; i < 10; i++)
-            {
-                try
-                {
-                    return peer.Peers.Select(info => info.PeerId).ToArray();
-                }
-                catch (InvalidOperationException)
-                {
-                }
-            }
-
-            return Array.Empty<string>();
-        }
+        private static string[] PeerIds(SyncPeer peer) => PeersOf(peer).Select(info => info.PeerId).ToArray();
 
         // Stop cancels the follower source that a join can stop at the same time. A disposed source
         // would throw on the thread of the user.
