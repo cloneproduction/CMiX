@@ -221,9 +221,15 @@ The compiler does not check these names. Ask the owner before you change one.
 
 - Unit tests use xUnit, TestServiceProviderFactory.Create() for a real object
   graph, and the test doubles in CMiX.Core.Tests/SyncTestHelpers.cs.
-- Per Phase: build once, then run all tests that pertain to the code changes
-  plus the Redis class the Phase touches. At the end of a plan: the full Core
-  suite twice with details captured, and the Studio suite once.
+- Tests run in three tiers. Never the full suite inside a step.
+  1. Step: `--filter FullyQualifiedName~<Type>Tests` for every type the step changed,
+     plus the tests the brief names. Core: the Redis class the step touches.
+  2. Phase: the test project of each changed project, once.
+  3. End of a plan, or before a push: the three suites once. Twice only when a
+     test was flaky in this plan.
+- A change to a shared base (ObservableObject helpers, ControlFactory, the
+  serializer, a theme token) counts as a phase: run tier 2 at once.
+- Report the counts, not the log.
 - The Redis tests need a Memurai or Redis on 127.0.0.1:6379 and skip when it
   does not answer. The outage tests start their own Memurai on port 6380 and
   skip when the port is busy. Never touch the cmix:default keys from a test.
