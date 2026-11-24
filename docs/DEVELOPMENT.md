@@ -96,6 +96,19 @@ The names of the views and the controls follow the order rule in `.claude/CLAUDE
 The value editors start a drag through `InteractionHost`. The App connects it to
 `ValueInteraction` in `App.Initialize`.
 
+The folders of CMiX.Studio.Avalonia have the name of a job. The rules for a new type
+are in `.claude/CLAUDE.md`, section Folders and names of the Studio.
+
+- `Notices`: what the Studio tells or asks the user: the dialogs, the status message, the save prompt.
+- `Settings`: the files of the user: `studio-settings.json` and the shortcut file.
+- `Session`: the running project: load, save, unsaved changes, dropped files.
+- `ViewModels`: the classes that a view binds.
+- `Views`: the controls and the code that reads the visual tree.
+- `Behaviors`: the Avalonia behaviors.
+- `Converters`: the value converters.
+- `Themes`: the styles and the control themes.
+- `DependencyInjection`: `AddCMiXStudio`, the one registration of the Studio graph that the app and the tests call.
+
 ## The UI library
 
 `CMiX.UI` holds what does not need the model: the value editors, the color picker,

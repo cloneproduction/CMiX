@@ -56,6 +56,28 @@ These rules apply to every task in this repository.
 - The UI never waits for Redis. Every store call runs on a background task.
 - StackExchange.Redis stays on 2.8.31, the version the vvvv Redis package ships.
 
+## Folders and names of the Studio
+
+- A folder of CMiX.Studio.Avalonia has the name of the job of its types, not of their
+  technical kind. There is no Services, Helpers or Utils folder. `Notices` tells the user
+  something. `Settings` reads and writes the files of the user. `Session` holds the running
+  project. `ViewModels` holds the classes that a view binds. `Views` holds the controls and
+  the code that reads the visual tree. `DependencyInjection` holds `AddCMiXStudio`.
+- A new type goes into the folder of its job. When no folder fits, make a folder with the
+  name of the job. Do not put it into a folder because it is "a service".
+- One type per file. A file has the name of its type. A private nested type is allowed.
+- A class name says what the class does. Service, Helper and Util are not names. Manager
+  stays the word of the Core managers. A type that tells the user something is a `...Notice`.
+  A type that asks the user a question is a `...Prompt`. A type that holds the rules of one
+  action is `...Rules`. A live observable copy of a setting is `...State`. The shape of a
+  file is `...Settings` or `...File`.
+- A type gets an interface only when a test replaces it or when it hides Avalonia or the
+  platform. Else inject the concrete class.
+- Every registration of the Studio is in `AddCMiXStudio`. `App.axaml.cs` and the tests call
+  it. A test registers its fakes after the call.
+- A static class is allowed when it holds pure functions and no state, for example
+  `MainWindowOwner.Find()` and `JsonSettingsFile`.
+
 ## Names
 
 - One verb for one action, and the same word in every layer: the list

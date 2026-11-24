@@ -16,7 +16,7 @@ The analysis read the code on branch `fix/drag-capture-loss`. Paths are relative
 6. When both sides show the tree, the `Watch()` of each view overwrites the hooks of the model, and the `Unwatch()` of one view clears them for the other (`Views/Tree/ProjectTreeView.axaml.cs:324-330`).
 7. The cursor and the selection have the same frame (`Themes/Styles/ProjectTree.axaml:133-142, 210-213`). The cursor only shows on `:focus-visible`, so it goes away when the tree loses the focus.
 8. Hover uses the selection fill (`ProjectTree.axaml:203-206` and `214-217`). A row under a resting mouse looks selected. Drop inside also uses the selection fill (`:219-221`).
-9. `ShortcutMap.Conflicts` groups by scope only (`Services/ShortcutMap.cs:86`). A tree gesture on Ctrl+Z does not conflict with Edit.Undo.
+9. `ShortcutMap.Conflicts` groups by scope only (`Settings/ShortcutMap.cs:86`). A tree gesture on Ctrl+Z does not conflict with Edit.Undo.
 10. The context menu has no `:selected` style (`CMiX.UI` `ContextMenu.axaml:101-107`). The arrow keys in the W menu show nothing.
 11. The Studio has four focus looks (TextBox, TextBoxKeyGesture, tree, proposal) and three shortcut text looks (tooltip, menu, `MainMenu.axaml:55`). Opacities are numbers in place (0.5, 0.56, 0.6, 0.4, 0.8).
 12. Tooltips stay open while the user presses keys (`Views/Tree/TreeTooltips.cs:27-29`).
@@ -129,7 +129,7 @@ The consistency lead asks that the new looks go into CMiX.UI so the Inspector, t
 | Step | Work | Files | Tests | Cx |
 |---|---|---|---|---|
 | 4.1 | Row toggles get `Focusable=False`. The TreeView gets `KeyboardNavigation.TabNavigation="Once"`. | `RowToggles.axaml`, `ComposableToggles.axaml`, `ProjectTreeView.axaml` | Tab leaves the tree in one step; a toggle click still toggles | 1 |
-| 4.2 | Add `PanelFocusCycle`: `Window.NextPanel` (Ctrl+Tab), `Window.PreviousPanel` (Ctrl+Shift+Tab), `Tree.Focus` and `Window.FocusPanel1..4` (Ctrl+1 to 4). It remembers the last focused control of each panel. | new `Services/PanelFocusCycle.cs`, `ShortcutMap.cs`, `MainWindow.axaml(.cs)`, README | Focus moves and comes back to the last control | 3 |
+| 4.2 | Add `PanelFocusCycle`: `Window.NextPanel` (Ctrl+Tab), `Window.PreviousPanel` (Ctrl+Shift+Tab), `Tree.Focus` and `Window.FocusPanel1..4` (Ctrl+1 to 4). It remembers the last focused control of each panel. | new `Views/PanelFocusCycle.cs`, `ShortcutMap.cs`, `MainWindow.axaml(.cs)`, README | Focus moves and comes back to the last control | 3 |
 | 4.3 | Escape in another panel, when no editor takes it, goes back to the tree. A click moves the focus; the wheel never does. A click on a toggle of a row without the focus keeps the cursor and the selection (found in step 4.1). | `MainWindow.axaml.cs`, `ProjectTreeView.axaml.cs` | Escape, wheel and toggle click tests | 2 |
 | 4.4 | A gesture written by hand as `Ctrl+1` in the settings file works as `Ctrl+D1` (KeyGesture.Parse reads a bare digit as a key value). Found in step 4.2. | `ShortcutMap.cs` | Load `Ctrl+1` and `Ctrl+3`, get `Ctrl+D1` and `Ctrl+D3` | 2 |
 

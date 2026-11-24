@@ -20,7 +20,7 @@ Date of the survey: 2026-11-13. Sizes are lines of C# without AXAML.
 | Model | Domain data that owns its children. It knows nothing about UI, undo or messaging. |
 | ViewModel | State and commands for one piece of UI. It never references a view, never does I/O, and has no Avalonia type. |
 | View | XAML plus view-only behaviour (focus, pointer, drag). It holds no logic and no data. |
-| Service | One capability behind an interface. It holds no UI state. |
+| Service | `ShortcutMap`, `InterfaceState`, `StudioSettings`, `StudioSettingsFile`, `JsonSettingsFile`, `PathDropRules`, `StatusNotice`, `UnsavedChanges`, `UnsavedChangesPrompt`, `MessageNotice`, `MoveBlockedNotice`, `MainWindowDialogManager`, `MainWindowOwner`, `TreeDropService`. They live in the folders `Notices`, `Settings` and `Session`, named for their job. |
 | Message | A plain record sent between parts or to the engine. No behaviour. |
 
 In Part 1, a class counts as a Service when it is one capability with no UI state, with or without an interface. Most Core services have no interface.
@@ -83,7 +83,7 @@ Classes that are several shapes at once, or none:
 
 | Shape | Main classes |
 |---|---|
-| View | Everything in `Views/`: one view for each Core control with the same name (`Blur`, `Layer`, `ModelEntity`, ...), `MainWindow`, `ListTreeProject`, `PanelInspector`, `PanelSync`, `AssetManager`, `MainMenu` (the view), the tree parts (`AddPanel`, `PrefabRowMenu`, `TogglesRow`, ...), the converters and the behaviors, among them the behaviors of the tree in `Behaviors/ListTree`. |
+| View | Everything in `Views/`: one view for each Core control with the same name (`Blur`, `Layer`, `ModelEntity`, ...), `MainWindow`, `ListTreeProject`, `PanelInspector`, `PanelSync`, `AssetManager`, `MainMenu` (the view), `PanelFocusCycle` (moves the focus between the panels), the tree parts (`AddPanel`, `PrefabRowMenu`, `TogglesRow`, ...), the converters and the behaviors, among them the behaviors of the tree in `Behaviors/ListTree`. |
 | ViewModel | `MainViewModel`, `MainMenuViewModel`, `ProjectFileViewModel`, `MainWindowController`, `ShortcutSettings`, `PanelChoice`, and the tree: `ProjectTree`, `TreeNode`, `TreeGroup`, `TreeAdd`, `TreeViewHooks`. |
 | Service | `ShortcutMap`, `InterfaceOptions`, `StudioSettings`, `JsonSettingsFile`, `PathDropService`, `PanelFocusCycle`, `NotificationService`, `UnsavedChanges`, `UnsavedChangesPrompt`, `MessageNotice`, `MoveBlockedNotice`, `MainWindowDialogManager`, `TreeDropService`. |
 | Model, Message | None. |
@@ -92,7 +92,7 @@ Several at once, or none:
 
 | Class | What it is |
 |---|---|
-| `ManagerReorderService` | Named a service. It is a small ViewModel (observable, 2 commands), one for each list. |
+| `ManagerReorderService` | Named a service. It is a small ViewModel (observable, 2 commands), one for each list. It lives in `ViewModels` since 2026-11-24. |
 | `MainViewModel`, `MainWindowController` | ViewModels that also implement `IControl`. `ToModel` and `FromModel` throw. `MainMenuViewModel` dropped it on 2026-11-19. |
 | `ViewModelToViewTemplate` | The view locator. It finds the view by the type name of the control. |
 | `TreeViewHooks` | A set of callbacks, one per tree view. `TreeViewSet` in `ProjectTree` holds them and picks the active view. See `ViewModels/Tree/README.md`. |
@@ -309,7 +309,7 @@ For a feature of the Studio with no domain object (the tree, the sync panel, the
 |---|---|---|
 | `FeatureViewModel.cs` | `ViewModels/Feature/` | State and commands. One class for one job: the tree, the search and the Add catalogue are three classes. |
 | `FeatureView.axaml` | `Views/Feature/` | The view. |
-| `IFeatureXxx.cs` and its class | `Services/` | What the ViewModel needs from the window or the disk. |
+| `IFeatureXxx.cs` and its class | `Notices/`, `Settings/` or `Session/` | What the ViewModel needs from the window or the disk. |
 
 The namespace follows the folder, with the one known exception of the domain views.
 
