@@ -5,6 +5,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Enum;
@@ -16,12 +17,16 @@ using CoreMaskTexture = CMiX.Core.Texturing.MaskTexture;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The mask panel. Filter and Transform only make sense once the slot holds a texture.
-    public class MaskTextureViewTests
+    public class MaskTextureViewTests : IDisposable
     {
-        private static List<object?> VisibleHeaders(CoreMaskTexture mask)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private List<object?> VisibleHeaders(CoreMaskTexture mask)
         {
             var view = new Views.MaskTexture { DataContext = mask };
-            new Window { Content = view, Width = 400, Height = 800 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             return view.GetVisualDescendants().OfType<ExpanderIndented>()
@@ -36,12 +41,12 @@ namespace CMiX.Studio.Avalonia.Tests
         private static ExpanderIndented ExpanderWithHeader(Control view, string header) =>
             view.GetVisualDescendants().OfType<ExpanderIndented>().Single(expander => Equals(expander.Header, header));
 
-        private static (CoreMaskTexture Mask, Views.MaskTexture View) ShowWithATexture()
+        private (CoreMaskTexture Mask, Views.MaskTexture View) ShowWithATexture()
         {
             var mask = CreateMask();
             mask.TextureManager.AddItem(typeof(Gradient));
             var view = new Views.MaskTexture { DataContext = mask };
-            new Window { Content = view, Width = 400, Height = 800 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
             return (mask, view);
         }
@@ -70,7 +75,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var mask = CreateMask();
             var view = new Views.MaskTexture { DataContext = mask };
-            new Window { Content = view, Width = 400, Height = 800 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
             var (maskChannel, invert, slot) = SlotAndMaskControls(view);
 
@@ -107,7 +112,7 @@ namespace CMiX.Studio.Avalonia.Tests
             mask.TextureManager.AddItem(typeof(Gradient));
             mask.IsExpanded = true;
             var view = new Views.MaskTexture { DataContext = mask };
-            new Window { Content = view, Width = 400, Height = 800 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
             var transform = ExpanderWithHeader(view, "Transform");
 

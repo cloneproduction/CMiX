@@ -5,6 +5,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.String;
 using Xunit;
@@ -14,8 +15,12 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The text of a name is at the same place when it is shown and when it is edited. Every name of the app is a
     // TextBoxEditable: the rows of the tree and of the lists use the same control.
-    public class NameBoxPositionTests
+    public class NameBoxPositionTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private sealed class Measure
         {
             public Rect DisplayBox { get; init; }
@@ -70,7 +75,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_ANameBox_PutsTheTextAtTheSamePlaceInBothModes()
         {
             var box = new TextBoxEditable { Text = "Layer.001" };
-            var window = new Window { Content = box, Width = 300, Height = 100 };
+            var window = windows.Add(new Window { Content = box, Width = 300, Height = 100 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
@@ -96,7 +101,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_ANameInTheTree_PutsTheTextAtTheSamePlaceInBothModes()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             Support.ListTreeTestScreen.Settle(window);
@@ -109,7 +114,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_ANameInTheList_PutsTheTextAtTheSamePlaceInBothModes()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.SelectMainTab(window, "Composition");
             TestServiceProviderFactory.Pump();

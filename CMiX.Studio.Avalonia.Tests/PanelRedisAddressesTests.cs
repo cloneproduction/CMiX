@@ -6,6 +6,7 @@ using CMiX.Core.Animations;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls.Collection;
 using CMiX.UI.Controls.String;
@@ -16,14 +17,18 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The list of Redis addresses in the Settings tab.
-    public class PanelRedisAddressesTests
+    public class PanelRedisAddressesTests : IDisposable
     {
-        private static (RedisAddressRegistry Registry, PanelRedisAddresses Panel, IServiceProvider Provider) Show(int addressCount)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (RedisAddressRegistry Registry, PanelRedisAddresses Panel, IServiceProvider Provider) Show(int addressCount)
         {
             var provider = TestServiceProviderFactory.Create();
             var registry = provider.GetRequiredService<RedisAddressRegistry>();
             var panel = new PanelRedisAddresses { DataContext = registry };
-            new Window { Content = panel, Width = 400, Height = 400 }.Show();
+            windows.Add(new Window { Content = panel, Width = 400, Height = 400 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             for (var i = 0; i < addressCount; i++)

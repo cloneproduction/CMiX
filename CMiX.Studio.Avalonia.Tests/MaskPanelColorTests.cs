@@ -6,6 +6,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -13,8 +14,12 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The mask panel inside the texture panel has the color of the texture panel, and not the darker color of a deeper level.
-    public class MaskPanelColorTests
+    public class MaskPanelColorTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static AvaloniaColor ContentOf(ExpanderIndented expander) =>
             ((ISolidColorBrush)expander.GetVisualDescendants().OfType<Border>().First(border => border.Name == "contentBackground").Background!).Color;
 
@@ -35,7 +40,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Control view = kind == "ModelEntity"
                 ? new Views.ModelEntity { DataContext = factory.Create(typeof(Entity)) }
                 : new Views.FullscreenQuad { DataContext = factory.Create(typeof(FullscreenQuad)) };
-            new Window { Content = new ScrollViewer { Content = view }, Width = 400, Height = 1200 }.Show();
+            windows.Add(new Window { Content = new ScrollViewer { Content = view }, Width = 400, Height = 1200 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             var texture = Named(view, "Texture");

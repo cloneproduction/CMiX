@@ -7,6 +7,7 @@ using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.Behaviors;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Controls.Collection;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -14,13 +15,17 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The PanelItem of the library knows no modulator. This behavior tells the modulator when the pointer is over it.
-    public class ModulatorHoverBehaviorTests
+    public class ModulatorHoverBehaviorTests : IDisposable
     {
-        private static (Window window, PanelItem item) Show(object? model)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (Window window, PanelItem item) Show(object? model)
         {
             var item = new PanelItem { Title = "panel", DataContext = model, Width = 300, Height = 60 };
             global::Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(item).Add(new ModulatorHoverBehavior());
-            var window = new Window { Content = new StackPanel { Children = { item } }, Width = 400, Height = 200 };
+            var window = windows.Add(new Window { Content = new StackPanel { Children = { item } }, Width = 400, Height = 200 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (window, item);

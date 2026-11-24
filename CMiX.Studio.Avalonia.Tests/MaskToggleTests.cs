@@ -6,6 +6,7 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Controls;
 using Xunit;
 
@@ -13,12 +14,16 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The mask toggle is the power toggle of the library with two icons of the Studio.
     // It looks like the other icon toggles: a dim icon while off, a lit icon while on, in the same color.
-    public class MaskToggleTests
+    public class MaskToggleTests : IDisposable
     {
-        private static ToggleButton Show()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private ToggleButton Show()
         {
             var toggle = new ToggleButton { Theme = (ControlTheme)Application.Current!.FindResource("ToggleButtonMask")! };
-            new Window { Content = toggle, Width = 200, Height = 100 }.Show();
+            windows.Add(new Window { Content = toggle, Width = 200, Height = 100 }).Show();
             Dispatcher.UIThread.RunJobs();
             return toggle;
         }

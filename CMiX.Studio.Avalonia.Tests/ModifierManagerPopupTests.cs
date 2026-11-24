@@ -7,15 +7,20 @@ using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The add popup of a modifier panel does not close when the pointer goes away. Other popups do.
-    public class ModifierManagerPopupTests
+    public class ModifierManagerPopupTests : IDisposable
     {
-        private static (Window Window, ToggleButton Toggle, Popup Popup) ShowWithOpenPopup(Action<ModifierManager>? configure = null)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (Window Window, ToggleButton Toggle, Popup Popup) ShowWithOpenPopup(Action<ModifierManager>? configure = null)
         {
             var manager = new ModifierManager
             {
@@ -25,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 HorizontalAlignment = HorizontalAlignment.Left
             };
             configure?.Invoke(manager);
-            var window = new Window { Content = new StackPanel { Margin = new Thickness(0, 100, 0, 0), Children = { manager } }, Width = 1200, Height = 800 };
+            var window = windows.Add(new Window { Content = new StackPanel { Margin = new Thickness(0, 100, 0, 0), Children = { manager } }, Width = 1200, Height = 800 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

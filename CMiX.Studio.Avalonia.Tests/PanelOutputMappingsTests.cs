@@ -9,6 +9,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Rendering;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Enum;
@@ -18,16 +19,20 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The list of the outputs. The count of outputs is fixed, so the list shows all of them and has no resize handle.
-    public class PanelOutputMappingsTests
+    public class PanelOutputMappingsTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static PanelOutputMappings Panel() => new()
         {
             DataContext = TestServiceProviderFactory.Create().GetRequiredService<Project>().OutputMappingManager
         };
 
-        private static void Show(Control content, double windowHeight = 1200)
+        private void Show(Control content, double windowHeight = 1200)
         {
-            new Window { Content = content, Width = 500, Height = windowHeight }.Show();
+            windows.Add(new Window { Content = content, Width = 500, Height = windowHeight }).Show();
             Dispatcher.UIThread.RunJobs();
         }
 

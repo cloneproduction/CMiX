@@ -12,6 +12,7 @@ using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Transformation;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -21,8 +22,12 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The add panel puts its buttons in one, two or three equal columns. The add menus do not offer a type with HiddenInMenu,
     // nor the types that do not work yet. A project can still hold them.
-    public class PanelAddTypesTests
+    public class PanelAddTypesTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         public class HiddenMenuOwner
         {
         }
@@ -142,19 +147,19 @@ namespace CMiX.Studio.Avalonia.Tests
             this.output = output;
         }
 
-        private static PanelAddTypes ShowInWindow(Type interfaceType)
+        private PanelAddTypes ShowInWindow(Type interfaceType)
         {
             var panel = new PanelAddTypes { Interface = interfaceType };
-            new Window { Content = panel, Width = 400, Height = 400 }.Show();
+            windows.Add(new Window { Content = panel, Width = 400, Height = 400 }).Show();
             Dispatcher.UIThread.RunJobs();
             return panel;
         }
 
-        private static PanelAddTypes ShowInARow(Type interfaceType)
+        private PanelAddTypes ShowInARow(Type interfaceType)
         {
             var panel = new PanelAddTypes { Interface = interfaceType };
             var row = new StackPanel { Orientation = Orientation.Horizontal, Children = { panel } };
-            new Window { Content = row, Width = 400, Height = 400 }.Show();
+            windows.Add(new Window { Content = row, Width = 400, Height = 400 }).Show();
             Dispatcher.UIThread.RunJobs();
             return panel;
         }

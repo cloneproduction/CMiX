@@ -12,6 +12,7 @@ using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
 using CMiX.UI.Tests.Support;
@@ -21,16 +22,20 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The modifier list of the Studio shows one PanelItem for each item of its manager.
-    public class ModifierManagerTests
+    public class ModifierManagerTests : IDisposable
     {
-        private static (PrefabManager manager, Window window, Views.ModifierManager view) Show(int modulators = 2)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (PrefabManager manager, Window window, Views.ModifierManager view) Show(int modulators = 2)
         {
             var blur = (Blur)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Blur));
             for (var i = 0; i < modulators; i++)
                 blur.ModulatorManager.AddItem(typeof(FFTModulator));
 
             var view = new Views.ModifierManager { DataContext = blur.ModulatorManager, Caption = "Add Modulator" };
-            var window = new Window { Content = view, Width = 400, Height = 600 };
+            var window = windows.Add(new Window { Content = view, Width = 400, Height = 600 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (blur.ModulatorManager, window, view);
@@ -101,7 +106,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var composition = (Composition)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Composition));
             composition.TextureModifierManager.AddItem(typeof(Blur));
             var view = new Views.ModifierManager { DataContext = composition.TextureModifierManager, Caption = "Add Filter" };
-            new Window { Content = view, Width = 400, Height = 600 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 600 }).Show();
             Dispatcher.UIThread.RunJobs();
             var filter = (Blur)composition.TextureModifierManager.ManagerData.Items.Single();
             var panel = Items(view).Single();
@@ -140,7 +145,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var panel = new Button();
             panel.Bind(Button.CommandProperty, new Binding("AddItemCommand"));
             var view = new Views.ModifierManager { DataContext = blur.ModulatorManager, Caption = "Add Modulator", AddContent = panel };
-            new Window { Content = view, Width = 400, Height = 600 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 600 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             Assert.NotNull(panel.Command);
@@ -152,7 +157,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var blur = (Blur)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var panel = new Button { Content = "the panel" };
             var view = new Views.ModifierManager { DataContext = blur.ModulatorManager, Caption = "Add Modulator", AddContent = panel };
-            var window = new Window { Content = view, Width = 400, Height = 600 };
+            var window = windows.Add(new Window { Content = view, Width = 400, Height = 600 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             var toggle = view.GetVisualDescendants().OfType<ToggleButton>().Single(t => Equals(t.Content, "Add Modulator"));

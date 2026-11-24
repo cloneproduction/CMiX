@@ -13,6 +13,7 @@ using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.Parts;
@@ -24,8 +25,12 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The rows of the modulator assign menu, built on a real filter value and real modulators, and the assign popup of a real
     // filter view: its rows, its assigned row, and what a click does.
-    public class ModulatorOutputChoiceTests
+    public class ModulatorOutputChoiceTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         // A Blur filter with a Random modulator (one output) and an FFT modulator (five outputs).
         private static (Blur Blur, IModulator Random, IModulator Fft) CreateBlurWithModulators()
         {
@@ -231,7 +236,7 @@ namespace CMiX.Studio.Avalonia.Tests
             rows[^1].Command!.Execute(null);
         }
 
-        private static (Blur Blur, FFTModulator Fft, Window Window, ButtonModulatorAssign Button) Show()
+        private (Blur Blur, FFTModulator Fft, Window Window, ButtonModulatorAssign Button) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var blur = (Blur)provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
@@ -239,7 +244,7 @@ namespace CMiX.Studio.Avalonia.Tests
             blur.ModulatorManager.AddItem(typeof(FFTModulator));
 
             var view = new Views.Blur { DataContext = blur };
-            var window = new Window { Content = view, Width = 500, Height = 800 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 800 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

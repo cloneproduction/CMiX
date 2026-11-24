@@ -7,6 +7,7 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,9 +16,13 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Hosts real filter views and checks that a bound modulator makes the value editor read only.
-    public class ModulatedReadOnlyTests
+    public class ModulatedReadOnlyTests : IDisposable
     {
-        private static (TModel Model, TView View) Show<TModel, TView>()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (TModel Model, TView View) Show<TModel, TView>()
             where TModel : TextureFilterBase
             where TView : Control, new()
         {
@@ -25,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var model = (TModel)provider.GetRequiredService<ControlFactory>().Create(typeof(TModel));
 
             var view = new TView { DataContext = model };
-            var window = new Window { Content = view, Width = 500, Height = 800 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 800 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (model, view);
