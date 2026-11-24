@@ -26,16 +26,6 @@ namespace CMiX.UI.Tests
             return (drag, window, border, center);
         }
 
-        // Windows no longer gives the mouse to the window of the test. Avalonia does not see it, so its capture stays.
-        private sealed class MouseTakenByAnotherWindow : IDisposable
-        {
-            private readonly Func<Visual, bool> previous = Controls.Parts.DragEditHelper.HoldsMouse;
-
-            public MouseTakenByAnotherWindow() => Controls.Parts.DragEditHelper.HoldsMouse = _ => false;
-
-            public void Dispose() => Controls.Parts.DragEditHelper.HoldsMouse = previous;
-        }
-
         // The slider.
 
         [AvaloniaFact]

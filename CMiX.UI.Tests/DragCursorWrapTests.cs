@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
@@ -22,82 +21,6 @@ namespace CMiX.UI.Tests
     {
         private const double FineSpeed = DragEditHelper.FineSpeed;
 
-        // A screen as big as the window of the test.
-        private sealed class FakeScreen : IDisposable
-        {
-            private readonly Func<Visual, PixelPoint, PixelRect?> previous = DragEditHelper.ScreenBoundsAt;
-
-            public FakeScreen(PixelRect bounds) => DragEditHelper.ScreenBoundsAt = (_, _) => bounds;
-
-            public void Dispose() => DragEditHelper.ScreenBoundsAt = previous;
-        }
-
-        // A Windows that moves the cursor where the app places it.
-        private sealed class FakeMouse
-        {
-            private readonly Window window;
-            private readonly Control target;
-            private readonly IPointer pointer;
-            private readonly CursorSpy spy;
-
-            public FakeMouse(Window window, Control target, IPointer pointer, CursorSpy spy, PixelRect bounds, PixelPoint cursor)
-            {
-                this.window = window;
-                this.target = target;
-                this.pointer = pointer;
-                this.spy = spy;
-                Bounds = bounds;
-                Cursor = cursor;
-            }
-
-            public PixelRect Bounds { get; }
-            public IPointer Pointer => pointer;
-            public PixelPoint Cursor { get; private set; }
-
-            // How far the mouse really moved, without the jumps of the placements.
-            public double MovedX { get; private set; }
-            public double MovedY { get; private set; }
-
-            // Moves that were queued before a placement, and still come from the old side.
-            public int StaleMoves { get; set; }
-
-            // False: the placement does not work, and the cursor stays where it is.
-            public bool HonorsPlacement { get; set; } = true;
-
-            // False: Windows sends no move for the placement itself. The next move comes from the new place.
-            public bool ReportsPlacement { get; set; } = true;
-
-            public int Placements => spy.Placed.Count;
-
-            public void Move(int dx, int dy, KeyModifiers modifiers = KeyModifiers.Shift)
-            {
-                var old = Cursor;
-                var moved = new PixelPoint(
-                    Math.Clamp(old.X + dx, Bounds.X, Bounds.Right - 1),
-                    Math.Clamp(old.Y + dy, Bounds.Y, Bounds.Bottom - 1));
-                MovedX += moved.X - old.X;
-                MovedY += moved.Y - old.Y;
-                Cursor = moved;
-
-                var before = spy.Placed.Count;
-                Raise(moved, modifiers);
-
-                if (spy.Placed.Count > before && HonorsPlacement)
-                {
-                    for (var i = 0; i < StaleMoves; i++)
-                        Raise(moved, modifiers);
-
-                    var to = spy.Placed[^1];
-                    Cursor = new PixelPoint((int)to.X, (int)to.Y);
-                    if (ReportsPlacement)
-                        Raise(Cursor, modifiers);
-                }
-            }
-
-            private void Raise(PixelPoint screen, KeyModifiers modifiers) =>
-                PointerInput.Move(target, pointer, window.PointToClient(screen), window, modifiers, RawInputModifiers.LeftMouseButton);
-        }
-
         private static PixelRect ScreenOf(Window window)
         {
             var topLeft = window.PointToScreen(new Point(0, 0));
@@ -108,14 +31,7 @@ namespace CMiX.UI.Tests
         private static (ColorPickerWheel Wheel, FakeMouse Mouse, CursorSpy Spy, FakeScreen Screen) WheelDrag()
         {
             var spy = new CursorSpy();
-            var wheel = new ColorPickerWheel
-            {
-                Width = 200,
-                Height = 200,
-                Theme = Tokens.Theme("ColorPickerWheel"),
-                SelectedColor = Avalonia.Media.Colors.Red,
-            };
-            var window = TestWindow.ShowWithoutClips(wheel, 400, 400);
+            var (wheel, window, _) = ColorWheelHost.Show();
             var bounds = ScreenOf(window);
             var screen = new FakeScreen(bounds);
             var pointer = PointerInput.NewPointer();
@@ -242,14 +158,7 @@ namespace CMiX.UI.Tests
         public void AFastWheelWithShift_StaysOnTheScreenOfTheDragNextToAnotherScreen(int step)
         {
             var spy = new CursorSpy();
-            var wheel = new ColorPickerWheel
-            {
-                Width = 200,
-                Height = 200,
-                Theme = Tokens.Theme("ColorPickerWheel"),
-                SelectedColor = Avalonia.Media.Colors.Red,
-            };
-            var window = TestWindow.ShowWithoutClips(wheel, 400, 400);
+            var (wheel, window, _) = ColorWheelHost.Show();
             var first = ScreenOf(window);
             var second = new PixelRect(first.Right, first.Y, first.Width, first.Height);
             using var keepSpy = spy;
@@ -356,14 +265,13 @@ namespace CMiX.UI.Tests
             var window = TestWindow.ShowWithoutClips(slider, 400, 400);
             var bounds = ScreenOf(window);
             using var screen = new FakeScreen(bounds);
-            IPointer? real = null;
-            slider.AddHandler(InputElement.PointerPressedEvent, (s, e) => real = e.Pointer, RoutingStrategies.Tunnel, handledEventsToo: true);
+            var real = PointerInput.WatchPressedPointer(slider);
             var center = slider.TranslatePoint(new Point(150, 15), window)!.Value;
 
             window.MouseMove(center);
             window.MouseDown(center, MouseButton.Left);
             Dispatcher.UIThread.RunJobs();
-            var mouse = new FakeMouse(window, slider, real!, spy, bounds, window.PointToScreen(center)) { StaleMoves = 2 };
+            var mouse = new FakeMouse(window, slider, real()!, spy, bounds, window.PointToScreen(center)) { StaleMoves = 2 };
 
             // The first move after the press only starts the drag.
             mouse.Move(2, 0);
@@ -389,14 +297,13 @@ namespace CMiX.UI.Tests
             var bounds = ScreenOf(window);
             using var screen = new FakeScreen(bounds);
             var border = drag.GetVisualDescendants().OfType<Border>().First(b => b.Name == "borderValueDisplay");
-            IPointer? real = null;
-            border.AddHandler(InputElement.PointerPressedEvent, (s, e) => real = e.Pointer, RoutingStrategies.Tunnel, handledEventsToo: true);
+            var real = PointerInput.WatchPressedPointer(border);
             var center = border.TranslatePoint(new Point(border.Bounds.Width / 2, border.Bounds.Height / 2), window)!.Value;
 
             window.MouseMove(center);
             window.MouseDown(center, MouseButton.Left);
             Dispatcher.UIThread.RunJobs();
-            var mouse = new FakeMouse(window, border, real!, spy, bounds, window.PointToScreen(center)) { ReportsPlacement = false };
+            var mouse = new FakeMouse(window, border, real()!, spy, bounds, window.PointToScreen(center)) { ReportsPlacement = false };
 
             // The first moves only pass the click threshold.
             mouse.Move(10, 0);
