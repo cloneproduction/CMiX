@@ -53,7 +53,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void APointerFarFromThePopupAndTheSwatch_ClosesThePopup()
+        public void PointerAway_FarFromThePopupAndTheSwatch_ClosesThePopup()
         {
             var (window, _, popup) = ShowWideSelectorWithOpenPopup();
 
@@ -63,13 +63,13 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheDistance_IsSixtyFourByDefault()
+        public void PointerAwayDistance_ByDefault_IsSixtyFour()
         {
             Assert.Equal(64, new ClosePopupBehavior().PointerAwayDistance);
         }
 
         [AvaloniaFact]
-        public void ABiggerDistance_KeepsThePopupOpenFartherAway()
+        public void PointerAway_ABiggerDistance_KeepsThePopupOpenFartherAway()
         {
             var (window, _, popup) = ShowWideSelectorWithOpenPopup();
             var behavior = AvaloniaInteraction.GetBehaviors(popup).OfType<ClosePopupBehavior>().Single();

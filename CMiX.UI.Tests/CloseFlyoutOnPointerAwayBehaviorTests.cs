@@ -42,7 +42,7 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData("flyout")]
         [InlineData("menu")]
-        public void APointerFarFromTheFlyoutAndTheButton_ClosesTheFlyout(string kind)
+        public void PointerAway_FarFromTheFlyoutAndTheButton_ClosesTheFlyout(string kind)
         {
             var (window, _, flyout) = ShowWithOpenFlyout(kind);
 
@@ -54,7 +54,7 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData("flyout")]
         [InlineData("menu")]
-        public void APointerOnTheFarEndOfAWideButton_KeepsTheFlyoutOpen(string kind)
+        public void PointerAway_OnTheFarEndOfAWideButton_KeepsTheFlyoutOpen(string kind)
         {
             var (window, _, flyout) = ShowWithOpenFlyout(kind);
 
@@ -66,7 +66,7 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData("flyout")]
         [InlineData("menu")]
-        public void ABiggerDistance_KeepsTheFlyoutOpenFartherAway(string kind)
+        public void PointerAway_ABiggerDistance_KeepsTheFlyoutOpenFartherAway(string kind)
         {
             var (window, _, flyout) = ShowWithOpenFlyout(kind);
             AvaloniaInteraction.GetBehaviors(flyout).OfType<CloseFlyoutOnPointerAwayBehavior>().Single().PointerAwayDistance = 2000;
@@ -79,7 +79,7 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData("flyout")]
         [InlineData("menu")]
-        public void WithoutClosesOnPointerAway_TheFlyoutStaysOpen(string kind)
+        public void PointerAway_WithoutClosesOnPointerAway_KeepsTheFlyoutOpen(string kind)
         {
             var (window, _, flyout) = ShowWithOpenFlyout(kind, configure: behavior => behavior.ClosesOnPointerAway = false);
 
@@ -91,7 +91,7 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData("flyout")]
         [InlineData("menu")]
-        public void TheSwitch_CanChangeWhileTheFlyoutIsOpen(string kind)
+        public void ClosesOnPointerAway_WhileTheFlyoutIsOpen_TakesEffect(string kind)
         {
             var (window, _, flyout) = ShowWithOpenFlyout(kind);
 
@@ -102,7 +102,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ClosesOnPointerAway_IsOnByDefault()
+        public void ClosesOnPointerAway_ByDefault_IsOn()
         {
             Assert.True(new CloseFlyoutOnPointerAwayBehavior().ClosesOnPointerAway);
         }

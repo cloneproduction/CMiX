@@ -39,7 +39,7 @@ namespace CMiX.UI.Tests
         [InlineData("drag-leading")]
         [InlineData("slider-trailing")]
         [InlineData("combo-trailing")]
-        public void ARightClickOnTheSideContent_OpensNoMenu(string kind)
+        public void RightClick_OnTheSideContent_OpensNoMenu(string kind)
         {
             var side = new Button { Content = "side", Width = 30 };
             var editor = Show(kind, side);
@@ -54,7 +54,7 @@ namespace CMiX.UI.Tests
         [InlineData("drag-leading")]
         [InlineData("slider-trailing")]
         [InlineData("combo-trailing")]
-        public void ARightClickOnTheEditorItself_StillOpensTheMenu(string kind)
+        public void RightClick_OnTheEditorItself_OpensTheMenu(string kind)
         {
             var editor = Show(kind, new Button { Content = "side", Width = 30 });
 
