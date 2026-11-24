@@ -352,5 +352,17 @@ namespace CMiX.Studio.Avalonia.Tests
             // The Compositions row is the top of the tree: it is not selected for the inspector, so the selection is empty.
             Assert.Null(scene.Tree.SelectedNode);
         }
+
+        [Fact]
+        public void MaskOwner_EachKind_IsSetForACompositionAndALayerOnly()
+        {
+            var scene = TreeFixtures.CreateScene([1], s => s.Layer.ModelEntityManager.AddItem(typeof(Entity)));
+            var entities = Scene.Group<EntitiesGroup>(scene.LayerNode);
+
+            Assert.Same(scene.A, scene.CompositionNode.MaskOwner);
+            Assert.Same(scene.Layer, scene.LayerNode.MaskOwner);
+            Assert.Null(entities.MaskOwner);
+            Assert.Null(entities.Children[0].MaskOwner);
+        }
     }
 }

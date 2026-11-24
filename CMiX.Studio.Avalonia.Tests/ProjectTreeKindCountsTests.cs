@@ -126,5 +126,27 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(compositionBefore, scene.CompositionNode.KindCountsComputations);
             Assert.Contains(new KindCount(TreeCategory.Entity, 3), scene.LayerNode.KindCounts);
         }
+
+        [Theory]
+        [InlineData(TreeCategory.Composable, 1, "1 Composable")]
+        [InlineData(TreeCategory.Composable, 4, "4 Composables")]
+        [InlineData(TreeCategory.Entity, 1, "1 Entity")]
+        [InlineData(TreeCategory.Entity, 2, "2 Entities")]
+        [InlineData(TreeCategory.Camera, 1, "1 Camera")]
+        [InlineData(TreeCategory.Camera, 3, "3 Cameras")]
+        [InlineData(TreeCategory.Light, 1, "1 Light")]
+        [InlineData(TreeCategory.Light, 2, "2 Lights")]
+        [InlineData(TreeCategory.Texture, 1, "1 Texture")]
+        [InlineData(TreeCategory.Texture, 2, "2 Textures")]
+        [InlineData(TreeCategory.Filter, 1, "1 Filter")]
+        [InlineData(TreeCategory.Filter, 5, "5 Filters")]
+        [InlineData(TreeCategory.Modifier, 1, "1 Modifier")]
+        [InlineData(TreeCategory.Modifier, 3, "3 Modifiers")]
+        [InlineData(TreeCategory.Modulator, 1, "1 Modulator")]
+        [InlineData(TreeCategory.Modulator, 2, "2 Modulators")]
+        public void Describe_ACount_GivesTheNumberAndTheNameOfTheKind(TreeCategory category, int count, string expected)
+        {
+            Assert.Equal(expected, new KindCount(category, count).Description);
+        }
     }
 }
