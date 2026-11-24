@@ -1,4 +1,6 @@
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -23,6 +25,9 @@ namespace CMiX.Core.Tests
             "BeatStepModulator.Width",
         };
 
+        // OutputMappingManager gives a mapping its fixed slot ID. PrefabManager keeps the ID of its ManagerData.
+        private static readonly HashSet<Type> IdNotLoaded = new() { typeof(OutputMapping), typeof(PrefabManager) };
+
         private static ControlFactory CreateFactory() =>
             TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
 
@@ -32,7 +37,7 @@ namespace CMiX.Core.Tests
             int i => i + 3,
             bool b => !b,
             string s => s + "x",
-            Guid => new Guid(n + 1, 0, 0, new byte[8]),
+            Guid when value.ValueType == typeof(Guid?) => new Guid(n + 1, 0, 0, new byte[8]),
             Enum e => NextValue(e),
             null when value.ValueType == typeof(string) => "x",
             null when value.ValueType == typeof(Guid?) => new Guid(n + 1, 0, 0, new byte[8]),
@@ -64,11 +69,14 @@ namespace CMiX.Core.Tests
             var loaded = CreateFactory().Create(control.ToModel());
             var after = ValueWalker.Collect(loaded);
 
+            if (!IdNotLoaded.Contains(type))
+                Assert.Equal(control.ID, loaded.ID);
             foreach (var (path, value) in before.Where(entry => !UnsavedPaths.Contains(entry.Key)))
             {
                 Assert.True(after.ContainsKey(path), $"{path} is missing after the load.");
                 Assert.True(Equals(value.Value, after[path].Value),
                     $"{path} was {value.Value} before the save and {after[path].Value} after the load.");
+                Assert.True(value.ID == after[path].ID, $"{path} has another ID after the load.");
             }
         }
     }

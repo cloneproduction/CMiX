@@ -13,6 +13,8 @@ namespace CMiX.Core.Tests
 
         public Type ValueType => _instance.GetType().GetGenericArguments()[0];
 
+        public Guid ID => ((IControl)_instance).ID;
+
         public object Value
         {
             get => _instance.GetType().GetProperty("Value")!.GetValue(_instance);
