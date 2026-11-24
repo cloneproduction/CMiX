@@ -22,7 +22,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ItStaysOnOneLine_AndEndsWithEllipsis()
+        public void Show_ALongText_StaysOnOneLineAndEndsWithEllipsis()
         {
             var block = new TextBlockTrimmed();
 
@@ -31,7 +31,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ANameThatDoesNotFit_ShowsItsFullTextOnHover()
+        public void Hover_ANameThatDoesNotFit_ShowsItsFullText()
         {
             var block = Show(LongName, 60);
 
@@ -39,7 +39,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ANameThatFits_HasNoToolTip()
+        public void Hover_ANameThatFits_ShowsNoToolTip()
         {
             var block = Show("short", 400);
 
@@ -55,7 +55,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheStylesOfTheTextBlock_ApplyToIt()
+        public void Show_TheStylesOfTextBlock_ApplyToIt()
         {
             var block = Show("short", 400);
 

@@ -20,7 +20,7 @@ namespace CMiX.UI.Tests
         private static ControlPosition PositionOf(Control control) => PositionedControl.GetPosition(control);
 
         [AvaloniaFact]
-        public void OneChild_IsRoundedOnAllCorners()
+        public void Position_OneChild_IsRoundedOnAllCorners()
         {
             var panel = new DockPanelPositioned();
             var only = new Button();
@@ -30,7 +30,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void LeftFillAndRight_AreLeftNoneRight()
+        public void Position_LeftFillAndRight_AreLeftNoneRight()
         {
             var panel = new DockPanelPositioned();
             var left = Docked(Dock.Left);
@@ -46,7 +46,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void RightSide_IsReadFromTheRightEdge()
+        public void Position_ARightChild_IsReadFromTheRightEdge()
         {
             var panel = new DockPanelPositioned();
             var outer = Docked(Dock.Right);
@@ -62,7 +62,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void APopup_IsNotPartOfTheRow()
+        public void Position_APopup_IsNotPartOfTheRow()
         {
             var panel = new DockPanelPositioned();
             var left = Docked(Dock.Left);
@@ -77,7 +77,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void RemovingAChild_GivesTheNewEndTheCorner()
+        public void Position_AfterARemovedChild_GivesTheNewEndTheCorner()
         {
             var panel = new DockPanelPositioned();
             var left = Docked(Dock.Left);

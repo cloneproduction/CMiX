@@ -54,7 +54,7 @@ namespace CMiX.UI.Tests
         private static ComboBox Inner(ComboBoxCaptioned combo) => combo.GetVisualDescendants().OfType<ComboBox>().Single();
 
         [AvaloniaFact]
-        public void ASelectionThatComesBeforeTheItems_IsShownWhenTheItemsArrive()
+        public void SelectedItem_SetBeforeTheItems_IsShownWhenTheItemsArrive()
         {
             var model = new Model { Selected = "B" };
             model.Writes.Clear();
@@ -69,7 +69,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ReplacingTheItems_NeverSendsAnEmptySelectionToTheModel()
+        public void ItemsSource_Replaced_SendsNoEmptySelectionToTheModel()
         {
             var model = new Model { Selected = "B" };
             model.Writes.Clear();
@@ -103,7 +103,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ARealPick_ReachesTheModel()
+        public void Select_AnItem_ReachesTheModel()
         {
             var model = new Model { Selected = "B" };
             model.Writes.Clear();
@@ -117,7 +117,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AChangeOfTheModel_IsShown()
+        public void SelectedItem_ChangedInTheModel_IsShown()
         {
             var model = new Model { Selected = "B" };
             var combo = Show(model, new[] { "A", "B" });

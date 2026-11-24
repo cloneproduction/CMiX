@@ -15,7 +15,7 @@ namespace CMiX.UI.Tests
     public class ColorPickerSlidersTests
     {
         [AvaloniaFact]
-        public void SwitchingColorModes_DoesNotChangePickerHeight()
+        public void ColorMode_EachMode_KeepsTheHeightOfThePicker()
         {
             var picker = new ColorPickerSliders
             {
