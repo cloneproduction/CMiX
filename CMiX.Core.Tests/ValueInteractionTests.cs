@@ -16,6 +16,13 @@ namespace CMiX.Core.Tests
             return control;
         }
 
+        private static GenericValue<double> CreateActiveDouble(FakeValueSync sync)
+        {
+            var control = new GenericValue<double>(sync, new ControlActivationService());
+            control.Activate();
+            return control;
+        }
+
         [Fact]
         public void Scope_OfManyWrites_CollapsesThemIntoOneUndoStep()
         {
@@ -62,18 +69,13 @@ namespace CMiX.Core.Tests
         [Fact]
         public void Value_WithoutAScope_SendsEveryWrite()
         {
-            var provider = TestServiceProviderFactory.Create();
-            var messenger = provider.GetRequiredService<ControlMessenger>();
-            var recorder = new RecordingSender();
-            messenger.Register(recorder);
-            var control = CreateActiveDouble(provider);
+            var sync = new FakeValueSync();
+            var control = CreateActiveDouble(sync);
 
             for (int i = 1; i <= 20; i++)
                 control.Value = i;
 
-            messenger.Unregister(recorder);
-
-            Assert.Equal(20, recorder.Values.Count);
+            Assert.Equal(20, sync.Commits);
         }
 
         [Fact]
@@ -132,16 +134,15 @@ namespace CMiX.Core.Tests
         [Fact]
         public void End_WithoutAHandle_StillEndsTheOpenScope()
         {
-            var provider = TestServiceProviderFactory.Create();
-            var undoManager = provider.GetRequiredService<UndoManager>();
-            var control = CreateActiveDouble(provider);
+            var sync = new FakeValueSync();
+            var control = CreateActiveDouble(sync);
 
             var scope = ValueInteraction.BeginScope();
             control.Value = 7;
             ValueInteraction.End();
 
             Assert.False(ValueInteraction.IsActive);
-            Assert.True(undoManager.CanUndo);
+            Assert.Equal(1, sync.Records);
 
             // The handle of a scope somebody else already ended closes nothing.
             control.Value = 8;
