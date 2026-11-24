@@ -1,4 +1,4 @@
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Notices;
 
 namespace CMiX.Studio.Avalonia.Tests
 {

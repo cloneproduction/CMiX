@@ -8,6 +8,7 @@ using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 

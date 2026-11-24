@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CMiX.Core.Undo;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Notices;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {

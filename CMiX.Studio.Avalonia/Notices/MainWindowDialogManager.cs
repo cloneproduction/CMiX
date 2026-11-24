@@ -5,7 +5,7 @@ using System.ComponentModel;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Notices
 {
     // Falls back to the main window when the owner view model isn't a window's own
     // DataContext, instead of throwing.

@@ -3,7 +3,7 @@
 
 using HanumanInstitute.MvvmDialogs.Avalonia;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Notices
 {
     // StrongViewLocator is abstract, so MainWindowDialogManager needs a concrete instance even
     // though nothing currently needs a view registered - popups are Flyouts declared directly in

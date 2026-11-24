@@ -18,7 +18,7 @@ using Avalonia.Controls.Presenters;
 using Avalonia.Media;
 using CMiX.UI.Panels;
 using Avalonia.Controls.Primitives;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Notices;
 using CMiX.UI.Popups;
 using Microsoft.Extensions.DependencyInjection;
 using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;

@@ -3,7 +3,7 @@
 
 using System.Threading.Tasks;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Notices
 {
     // Tells the user that an operation failed. The title names the operation, for example "Open Project".
     public interface IMessageNotice

@@ -5,7 +5,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Views.Dialogs;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Parts;

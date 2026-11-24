@@ -3,7 +3,7 @@
 
 using System.Threading.Tasks;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Notices
 {
     // Tells the user that a move in the project tree is not possible, and why.
     public interface IMoveBlockedNotice

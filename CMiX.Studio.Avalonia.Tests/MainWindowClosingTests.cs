@@ -1,6 +1,7 @@
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using CMiX.Core.Compositing;
+using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Tests.Integration;
 using CMiX.Studio.Avalonia.Tests.Support;

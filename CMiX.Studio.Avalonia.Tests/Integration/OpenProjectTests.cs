@@ -10,7 +10,7 @@ using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Persistence;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering;

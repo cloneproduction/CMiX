@@ -6,7 +6,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using CMiX.Studio.Avalonia.Views.Dialogs;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Notices
 {
     // Shows the question in a dialog over the main window. Enter is Save. Escape is Cancel.
     public sealed class UnsavedChangesPrompt : IUnsavedChangesPrompt

@@ -3,7 +3,7 @@
 
 using System.Threading.Tasks;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Notices
 {
     // What the user chose when asked about unsaved changes. Cancel is the first value, so a dialog
     // that is closed without an answer means Cancel.
