@@ -7,6 +7,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using CMiX.UI.Behaviors;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -16,9 +17,8 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Theme_OnAScrollViewerInAWindow_AttachesOneScrollViewerBehavior()
         {
-            var viewer = new ScrollViewer { Theme = (ControlTheme)Application.Current!.FindResource("ScrollViewerOverlayKeepOffset")! };
-            new Window { Content = viewer, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            var viewer = new ScrollViewer { Theme = Tokens.Theme("ScrollViewerOverlayKeepOffset") };
+            TestWindow.Show(viewer, 300, 200);
 
             Assert.IsType<ScrollViewerBehavior>(Assert.Single(Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(viewer)));
         }

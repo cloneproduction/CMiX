@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using CMiX.UI.Controls;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -21,10 +22,7 @@ namespace CMiX.UI.Tests
             if (bringIntoView.HasValue)
                 scroll.BringIntoViewOnFocusChange = bringIntoView.Value;
 
-            var window = new Window { Content = scroll, Width = 300, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, scroll, buttons);
+            return (TestWindow.Show(scroll, 300, 200), scroll, buttons);
         }
 
         [AvaloniaFact]
@@ -55,8 +53,7 @@ namespace CMiX.UI.Tests
         {
             var list = new ListBoxCMiX { Height = 120, ItemsSource = Enumerable.Range(0, 30).Select(i => "item " + i).ToList() };
             var outer = new ScrollViewer { Content = new StackPanel { Children = { new Button { Height = 300 }, list, new Button { Height = 300 } } } };
-            new Window { Content = outer, Width = 300, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(outer, 300, 400);
 
             list.SelectedIndex = 29;
             Dispatcher.UIThread.RunJobs();
@@ -69,8 +66,7 @@ namespace CMiX.UI.Tests
         public void ThePlainListBox_DoesNotAutoScrollEither()
         {
             var list = new ListBox { Height = 120, ItemsSource = new[] { "a", "b" } };
-            new Window { Content = list, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(list, 300, 200);
 
             Assert.False(list.AutoScrollToSelectedItem);
         }
@@ -79,8 +75,7 @@ namespace CMiX.UI.Tests
         public void ATextBox_KeepsScrollingToItsFocus()
         {
             var box = new TextBox();
-            new Window { Content = box, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(box, 300, 200);
 
             // The template of a text box binds its own setting, so the theme does not change it.
             Assert.True(ScrollViewer.GetBringIntoViewOnFocusChange(box));

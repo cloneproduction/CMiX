@@ -9,6 +9,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -22,8 +23,7 @@ namespace CMiX.UI.Tests
         {
             list.ItemsSource = Enumerable.Range(1, itemCount).Select(i => "Item " + i).ToList();
             list.ItemTemplate = new FuncDataTemplate<string>((text, _) => new TextBlock { Text = text });
-            new Window { Content = list, Width = 400, Height = 800 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(list, 400, 800);
             return list;
         }
 
@@ -71,8 +71,7 @@ namespace CMiX.UI.Tests
             {
                 ItemsSource = Enumerable.Range(1, 30).Select(i => "Item " + i).ToList(),
             };
-            new Window { Content = detail, Width = 400, Height = 800 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(detail, 400, 800);
 
             Assert.Equal(Tokens.ListHeight(Tokens.ListVisibleItems) - Tokens.ListMargin, ScrollOf(detail).Viewport.Height);
         }
@@ -139,8 +138,7 @@ namespace CMiX.UI.Tests
             {
                 Content = new StackPanel { Children = { new Border { Height = 1500 }, list } },
             };
-            new Window { Content = around, Width = 400, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(around, 400, 400);
             var scroll = ScrollOf(list);
 
             for (var i = 0; i < 40; i++)
@@ -161,9 +159,7 @@ namespace CMiX.UI.Tests
             var list = new ListBoxCMiX { MinItemCount = Tokens.ListVisibleItems };
             list.ItemsSource = Enumerable.Range(1, 30).Select(i => "Item " + i).ToList();
             list.ItemTemplate = new FuncDataTemplate<string>((text, _) => new TextBlock { Text = text });
-            var window = new Window { Content = list, Width = 400, Height = 1500 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(list, 400, 1500);
 
             var strip = list.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "resizeBorder");
             var start = strip.TranslatePoint(new Point(strip.Bounds.Width / 2, strip.Bounds.Height / 2), window)!.Value;

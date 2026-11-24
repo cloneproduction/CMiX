@@ -7,6 +7,7 @@ using CMiX.UI.AttachedProperties;
 using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -24,8 +25,7 @@ namespace CMiX.UI.Tests
                 SelectedIndex = selectedIndex,
                 Width = 200,
             };
-            new Window { Content = combo, Width = 400, Height = 600 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(combo, 400, 600);
 
             combo.IsDropDownOpen = true;
             Dispatcher.UIThread.RunJobs();

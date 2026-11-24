@@ -3,6 +3,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.Threading;
 using CMiX.UI.Controls.String;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -16,9 +17,7 @@ namespace CMiX.UI.Tests
         {
             var block = new TextBlockTrimmed { Text = text, ToolTipText = toolTipText };
             var host = new Border { Width = width, Child = block };
-            var window = new Window { Content = new StackPanel { Children = { host } }, Width = 600, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(new StackPanel { Children = { host } }, 600, 200);
             return block;
         }
 

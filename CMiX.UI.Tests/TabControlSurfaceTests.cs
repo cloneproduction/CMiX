@@ -3,6 +3,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -14,8 +15,7 @@ namespace CMiX.UI.Tests
         public void TheContentAreaOfTheDefaultTabControl_IsTransparent()
         {
             var tabs = new TabControl { ItemsSource = new[] { new TabItem { Header = "one", Content = new TextBlock { Text = "page" } } } };
-            new Window { Content = tabs, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(tabs, 300, 200);
 
             var content = tabs.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "contentPanel");
 
