@@ -2,7 +2,7 @@
 
 The tree shows the project: compositions, layers, entities, cameras, lights, textures, filters and modifiers as rows. The modulators are not rows: the inspector of their owner shows and adds them. The user selects, searches, adds, removes, moves and drags rows. This page says how the code is organized. Read it before you change the tree.
 
-Two views show the tree: `TreeViewProject`, the old view that this page describes, and `ListTreeProject`, the new view. The model half below is shared. The new view is described in `../ListTree/README.md`.
+The view is `ListTreeProject`, described in `../ListTree/README.md`. This page describes the model half and the parts of the folder `Views/Tree` that the view shares.
 
 ## The one pattern
 
@@ -13,22 +13,22 @@ The tree has two halves. Each half is a hub that owns small parts. A part has on
             |  bind to
             v
  +------------------------------+     requests (8 events)     +------------------------------+
- |  ProjectTree  (model hub)    | --------------------------> |  TreeViewProject (screen hub)|
- |  ViewModels/Tree             | <-------------------------- |  Views/Tree                  |
+ |  ProjectTree  (model hub)    | --------------------------> |  ListTreeProject (screen hub)|
+ |  ViewModels/Tree             | <-------------------------- |  Views/ListTree              |
  |  one ObservableObject,       |     hooks (TreeViewHooks,   |  one UserControl,            |
- |  six partial files           |      one set per view)      |  one part per concern        |
+ |  six partial files           |      one set per view)      |  parts in Behaviors/ListTree |
  +------------------------------+                             +------------------------------+
             |  owns                                                       |  owns
             v                                                             v
-   TreeSearch, TreeEdit, TreeOpenState, ...                 TreeKeyInput, TreePointerInput, TreeMenus, ...
+   TreeSearch, TreeEdit, TreeOpenState, ...                 ListTreeKeyInput, ListTreeRowClick, ListTreeMenus, ...
             |  read and write                                             |  read
             v                                                             v
-   Project, PrefabManager lists, UndoManager (CMiX.Core)      TreeView, TreeViewItem rows (Avalonia)
+   Project, PrefabManager lists, UndoManager (CMiX.Core)      PanelListTreeRows, RowListTree rows
 ```
 
 - `ProjectTree` is the model hub. It is the one object that XAML binds. Its surface is split into partial files, one per concern. It holds the bound state and the commands. The logic is in the parts.
-- `TreeViewProject` is the screen hub. Its constructor builds the parts and connects them. It holds no logic.
-- The model never touches the screen. When it needs the screen to do something (reveal a row, open a menu, start a rename, start a grab) it raises a request event. `TreeScreenRequests` answers them, in the active view only.
+- `ListTreeProject` is the screen hub. It builds one `ListTreeContext`, and its XAML declares the behaviors that do the work. It holds no logic.
+- The model never touches the screen. When it needs the screen to do something (reveal a row, open a menu, start a rename, start a grab) it raises a request event. `ListTreeScreenRequests` answers them, in the active view only.
 - The screen tells the model facts (is the pointer over the tree, is the tree focused, is a text box focused) through `TreeViewHooks`. Each view gives its own set. `TreeViewSet` holds them and picks the active view. Two views can show one tree.
 - Every key command goes through one gate, `CanRunTreeKey`, in `ProjectTree.Commands.cs`.
 
@@ -70,42 +70,32 @@ The parts, grouped by what the user does:
 
 A row, `TreeNode`, with its small types: `RowCounts` (the kind counts, the hidden count, the missing count, each bubbling to the parent) and `DragLook` (how a row looks during a drag). The row computes its own search look. The row reports to the hub through the six methods of `TreeNodeHost`, so the row never holds the whole tree.
 
-## The screen half, folder `Views/Tree`
+## The shared parts, folder `Views/Tree`
 
-The hub, `TreeViewProject.axaml.cs`: builds the parts, attaches and detaches them with the visual tree, subscribes once to the tree, and keeps the one-line accessors the tests read.
+The view and its rows are in `Views/ListTree` and `Behaviors/ListTree` (see `../ListTree/README.md`). These parts of `Views/Tree` serve the rows and the panels around them:
 
 | Group | Part | One job |
 |---|---|---|
-| Input | `TreeKeyInput` | Keys while the tree has the focus: Escape, the navigation keys, Right opens Add. |
-| Input | `TreePointerInput` | Press, move, release, wheel, double tap, middle click, Ctrl click, the chosen row. |
-| Input | `TreeFocusKeeper` | Keeps the focus in the tree and gives it back after a layout or a row button. |
-| Input | `TreeFileDropInput` | Files dragged from disk over the rows. |
-| Input | `TreeScreenRequests` | Answers the eight requests of the model, in the active view only. |
-| Menus | `TreeMenus` | The context menu and the Add panel (`AddPanel`). |
-| Menus | `TreeHints`, `TreeKeyHints` | The key hint strip under the rows: the driver, and the keys of each mode. |
-| Menus | `TreeTooltips` | The tooltips of the rows. |
-| Drag | `TreeDragSession` | One drag from start to drop: the ghost, the marks, the rest timer, the auto scroll. |
-| Drag | `TreeRowDrag`, `TreeGrab` | The two starters: the pointer, and the keyboard grab. |
-| Drag | `TreeDragGhost`, `TreeDropMarker`, `TreeDropMark`, `DragAutoScroller` | The label under the pointer, the white marks, the scroll at the edges. |
-| Rows | `TreeRowIndex`, `TreeRows`, `TreeRowAnchor` | Finds the item of a row and its place on screen. |
-| Rows | `TreeRowMetrics`, `TreeRowResources`, `TreeScrollAnchor`, `TreeRowReveal`, `TreeRowShadow` | Row sizes in whole pixels, keeping a row still while rows close, scrolling a row into view, the shadow. |
-| Rows | `TreeRowBrush`, `TogglesRow`, `BadgesKindCount`, `BadgeCategory` | The colours and the small controls inside a row. |
-| Rows | `TreeViewContext` | What every part needs from the view: the tree view, the row index, the tree, the scroller. Its getters read live values. |
+| Rows | `TogglesRow`, `BadgesKindCount`, `BadgeCategory`, `TreeRowBrush`, `TreeRowResources` | The toggles, the kind squares and the colours inside a row. |
+| Rows | `AnchoredRow`, `FrameHold` | A row kept still while rows close, over a few frames. |
+| Menus | `AddPanel`, `TreeKeyHints`, `TreeTooltips` | The Add panel, the keys of each mode of the hint strip, the tooltips of the rows. |
+| Panel | `ToolbarProjectTree`, `TextBoxSearchTree` | The toolbar over the rows and the search field of the side panel. |
+| Lifetime | `TreeViewLifetime` | Runs a posted action only while the view is attached. |
 
-The look of a row is in `Themes/Styles/ProjectTree.axaml` (the item theme) and in the styles block of `TreeViewProject.axaml` (the cursor frame). The tokens of the tree are in `CMiX.UI/Themes/Tokens/Geometry.axaml`.
+The look of a row is in `Views/ListTree/RowListTree.axaml`. The tokens of the tree are the `ListTree...` tokens in `CMiX.UI/Themes/Tokens`. The converters `TreeTone` and `KindIconBrush` are resources of `Themes/StudioConverters.axaml`.
 
 ## Where to go
 
 | To change | Open |
 |---|---|
-| What a key does | `ProjectTree.Commands.cs`, then the part the one-line method calls. Keys with the focus in the rows: `TreeKeyInput`. |
+| What a key does | `ProjectTree.Commands.cs`, then the part the one-line method calls. Keys with the focus in the rows: `ListTreeKeyInput`. |
 | The search | `TreeSearch`. Nothing else holds search state. |
 | Which row may drop where | `TreeDropService`. The words of a refusal: `TreeDropText`. |
-| How a row looks during a drag | `DragLook` and `ProjectTree.axaml`. |
+| How a row looks during a drag | `DragLook` and `ListTreeDragLook`, then `RowListTree.axaml`. |
 | What the Add menu offers | `TreeAddCatalogue` and `TreeAddIds`. |
-| Where a menu or the Add panel opens | `TreeMenus`. |
-| The focus after a click or a layout | `TreeFocusKeeper`. |
-| The size or the pitch of the rows | `TreeRowMetrics` and the Tree tokens in `Geometry.axaml`. |
+| Where a menu or the Add panel opens | `ListTreeMenus` and `ListTreeAddBeside`. |
+| The focus after a click or a layout | `ListTreeFocusKeeper` and `ListTreePressFocus`. |
+| The size or the pitch of the rows | `ListTreeSizes` and the `ListTree...` tokens in `Geometry.axaml`. |
 
 ## Rules of this folder
 

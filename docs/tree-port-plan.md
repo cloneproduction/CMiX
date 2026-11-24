@@ -2,7 +2,7 @@
 
 This document is for a Claude Code session, or a person, that builds the tree of the mockup
 `docs/ui-kit/mockups/nested-boxes.html` (version 55) as a NEW control in CMiX.Studio.Avalonia.
-The current tree view stays as it is, next to the new one, so that the owner can compare them (decided, 2026-11-23).
+The current tree view stays as it is, next to the new one, so that the owner can compare them (decided, 2026-11-23). Update of 2026-11-24: the old view `TreeViewProject` is removed, and `ListTreeProject` is the one view, in the entry Tree. The rest of this document is the history of the port.
 Read it all before you change code. Audit the code against it first, then execute the plan phase by phase.
 
 Status: phases 0 to 5 done, Phase 6 open (see the state at the top of Phase 6). Date: 2026-11-23, updated the same day after versions 54 and 55. Owner decisions are marked "decided".
