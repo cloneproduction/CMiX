@@ -27,7 +27,7 @@ namespace CMiX.Core.Tests
             { typeof(CullModeType), ["None", "Back", "Front"] },
             { typeof(TransparencyType), ["Blend", "CutOff"] },
             { typeof(MeshType), ["Plane", "Box", "Sphere", "Torus", "Cone", "Cylinder", "FromFile", "Text"] },
-            { typeof(Assets.Mesh.HorizontalAlignment), ["Leading", "Trailing", "Center", "Justified"] },
+            { typeof(Assets.Mesh.Text3DHorizontalAlignment), ["Leading", "Trailing", "Center", "Justified"] },
             { typeof(Assets.Mesh.ParagraphAlignment), ["Leading", "Trailing", "Center", "Justified"] },
             { typeof(ResamplingMethod), ["Repeat", "Point", "Linear"] },
             { typeof(BlendMode), ["Normal", "Average", "GeometricMean", "Darken", "Multiply", "ColorBurn", "LinearBurn", "DarkerColor", "Lighten", "Screen", "Add", "LighterColor", "Glow", "Overlay", "Softlight", "ColorDodge", "Reflect", "HardMix", "Freeze", "Pinlight", "Hardlight", "VividLight", "LinearLight", "Difference", "Exclusion", "Subtract", "Divide", "Negation", "AdditiveSubstractive", "Heat", "Phoenix", "GrainExtract", "GrainMerge", "Hue", "Saturation", "Color", "Lightness", "Value", "Red", "Green", "Blue"] },

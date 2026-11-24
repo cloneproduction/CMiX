@@ -6,8 +6,6 @@ using System.Linq;
 using Avalonia.Media;
 using CoreColorMode = CMiX.Core.ColorMode;
 using CoreMeshType = CMiX.Core.MeshType;
-using MeshHorizontalAlignment = CMiX.Core.Assets.Mesh.HorizontalAlignment;
-using MeshParagraphAlignment = CMiX.Core.Assets.Mesh.ParagraphAlignment;
 
 namespace CMiX.Studio.Avalonia.Resources
 {
@@ -34,11 +32,11 @@ namespace CMiX.Studio.Avalonia.Resources
         public static CMiX.Core.Text.Modifiers.SplitType[] SplitType { get; } =
             Enum.GetValues<CMiX.Core.Text.Modifiers.SplitType>();
 
-        public static MeshHorizontalAlignment[] HorizontalAlignment { get; } =
-            Enum.GetValues<MeshHorizontalAlignment>();
+        public static CMiX.Core.Assets.Mesh.Text3DHorizontalAlignment[] HorizontalAlignment { get; } =
+            Enum.GetValues<CMiX.Core.Assets.Mesh.Text3DHorizontalAlignment>();
 
-        public static MeshParagraphAlignment[] ParagraphAlignment { get; } =
-            Enum.GetValues<MeshParagraphAlignment>();
+        public static CMiX.Core.Assets.Mesh.ParagraphAlignment[] ParagraphAlignment { get; } =
+            Enum.GetValues<CMiX.Core.Assets.Mesh.ParagraphAlignment>();
 
         public static CMiX.Core.Layering.Modifiers.EntityType[] EntityType { get; } =
             Enum.GetValues<CMiX.Core.Layering.Modifiers.EntityType>();

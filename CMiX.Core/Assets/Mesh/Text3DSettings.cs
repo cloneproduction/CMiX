@@ -13,7 +13,7 @@ namespace CMiX.Core.Assets.Mesh
                               GenericValue<int> fontSize,
                               GenericValue<float> extrudeAmount,
                               GenericValue<string> fontFamily, 
-                              GenericValue<HorizontalAlignment> horizontalAlignment, 
+                              GenericValue<Text3DHorizontalAlignment> horizontalAlignment, 
                               GenericValue<ParagraphAlignment> paragraphAlignment)
         {
             PrefabService = prefabService;
@@ -31,7 +31,7 @@ namespace CMiX.Core.Assets.Mesh
         public GenericValue<int> FontSize { get; set; }
         public GenericValue<float> ExtrudeAmount { get; set; }
         public GenericValue<string> FontFamily { get; set; }
-        public GenericValue<HorizontalAlignment> HorizontalAlignment { get; set; }
+        public GenericValue<Text3DHorizontalAlignment> HorizontalAlignment { get; set; }
         public GenericValue<ParagraphAlignment> ParagraphAlignment { get; set; }
 
         public IControlModel ToModel() => new Text3DSettingsModel
@@ -42,7 +42,7 @@ namespace CMiX.Core.Assets.Mesh
             FontSize = (GenericValueModel<int>)FontSize.ToModel(),
             ExtrudeAmount = (GenericValueModel<float>)ExtrudeAmount.ToModel(),
             FontFamily = (GenericValueModel<string>)FontFamily.ToModel(),
-            HorizontalAlignment = (GenericValueModel<HorizontalAlignment>)HorizontalAlignment.ToModel(),
+            HorizontalAlignment = (GenericValueModel<Text3DHorizontalAlignment>)HorizontalAlignment.ToModel(),
             ParagraphAlignment = (GenericValueModel<ParagraphAlignment>)ParagraphAlignment.ToModel()
         };
 

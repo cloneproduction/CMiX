@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CMiX.Core.Assets.Mesh
 {
-    public enum HorizontalAlignment
+    public enum Text3DHorizontalAlignment
     {
         Leading,
         Trailing,
