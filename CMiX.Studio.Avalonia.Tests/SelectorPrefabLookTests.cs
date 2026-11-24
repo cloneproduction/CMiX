@@ -12,7 +12,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class SelectorPrefabLookTests
     {
         [AvaloniaFact]
-        public void TheClearButton_IsRoundedOnTheRightOnly()
+        public void Show_TheClearButton_IsRoundedOnTheRightOnly()
         {
             var outliner = new SelectorPrefab();
             new Window { Content = outliner, Width = 400, Height = 100 }.Show();

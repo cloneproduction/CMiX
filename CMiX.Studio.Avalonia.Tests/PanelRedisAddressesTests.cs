@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void EachAddress_IsAClickToEditText()
+        public void Show_EachAddress_IsAClickToEditText()
         {
             var (_, panel, _) = Show(2);
 
@@ -41,7 +41,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheListHasAddRemoveAndMoveCommands()
+        public void Show_TheList_HasAddRemoveAndMoveCommands()
         {
             var (_, panel, _) = Show(2);
             var list = panel.GetVisualDescendants().OfType<ListBoxEditable>().Single();
@@ -53,7 +53,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void MovingAnAddressDown_ChangesTheOrderOfTheAddresses()
+        public void MoveItemDown_AnAddress_ChangesTheOrderOfTheAddresses()
         {
             var (registry, panel, provider) = Show(0);
             foreach (var text in new[] { "cmix:a", "cmix:b" })
@@ -69,7 +69,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void RemovingAnAddress_UnbindsTheValuesBoundToIt()
+        public void RemoveItem_AnAddress_UnbindsTheValuesBoundToIt()
         {
             var (registry, panel, provider) = Show(1);
             var factory = provider.GetRequiredService<ControlFactory>();

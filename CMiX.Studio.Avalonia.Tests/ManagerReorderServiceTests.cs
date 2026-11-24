@@ -68,7 +68,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void CanDrop_RejectsOnlyTheTwoNoOpInsertPositions()
+        public void CanDrop_TheTwoInsertPositionsThatMoveNothing_IsFalseForThemOnly()
         {
             var manager = CreateManagerWithItems(out _);
             var service = ServiceFor(manager);
@@ -108,7 +108,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Dropped_ReportsTheResultingIndexToTheMoveCallback()
+        public void Dropped_AnyDrop_ReportsTheNewIndexToTheMoveCallback()
         {
             var expected = new List<string>();
             var actual = new List<string>();
@@ -161,7 +161,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Dropped_ClearsTheDragHandleFlag()
+        public void Dropped_AnyDrop_ClearsTheDragHandleFlag()
         {
             var manager = CreateManagerWithItems(out _);
             var service = ServiceFor(manager);

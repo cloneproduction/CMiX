@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
             view.GetVisualDescendants().OfType<Button>().Single(button => button.Name == "removeButton");
 
         [AvaloniaFact]
-        public void SlotRemoveButton_ShowsTheTrashCan()
+        public void Show_TheRemoveButtonOfASlot_HasTheTrashCan()
         {
             var view = new ListPrefabSlot { DataContext = CreateManager() };
             Show(view);
@@ -42,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void RepositoryRemoveButton_ShowsTheTrashCan()
+        public void Show_TheRemoveButtonOfTheRepository_HasTheTrashCan()
         {
             var manager = CreateManager();
             var view = new ListRepository { DataContext = manager, ItemsSource = manager.ManagerData.Items };
@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ToolbarRemoveButton_ShowsTheTrashCan()
+        public void Show_TheRemoveButtonOfTheToolbar_HasTheTrashCan()
         {
             var view = new Views.ToolbarComposable { DataContext = CreateManager() };
             Show(view);
@@ -80,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Tests
             popup.GetVisualDescendants().OfType<ToggleButton>().Single(toggle => toggle.Name == "popupToggle");
 
         [AvaloniaFact]
-        public void AButtonPopupOutsideTheSlot_StaysRounded()
+        public void Show_AButtonPopupOutsideTheSlot_StaysRounded()
         {
             var popup = new ButtonPopup { Caption = "Add Filter" };
             Show(popup);

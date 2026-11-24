@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ToolbarDuplicateButton_SitsRightNextToTheAddButton()
+        public void Show_TheDuplicateButtonOfTheToolbar_SitsRightNextToTheAddButton()
         {
             var manager = CreateManager();
             manager.AddItem(typeof(Layer));
@@ -64,7 +64,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ToolbarDuplicateButton_DuplicatesTheSelectedItem()
+        public void Click_TheDuplicateButtonOfTheToolbar_DuplicatesTheSelectedItem()
         {
             var manager = CreateManager();
             manager.AddItem(typeof(Layer));
@@ -95,7 +95,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void SlotDuplicateButton_SitsBeforeTheRemoveButton()
+        public void Show_TheDuplicateButtonOfASlot_SitsBeforeTheRemoveButton()
         {
             var manager = CreateManager();
             var view = new ListPrefabSlot { DataContext = manager };
@@ -110,7 +110,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void SlotDuplicateButton_DuplicatesTheSelectedItem()
+        public void Click_TheDuplicateButtonOfASlot_DuplicatesTheSelectedItem()
         {
             var manager = CreateManager();
             var view = new ListPrefabSlot { DataContext = manager };

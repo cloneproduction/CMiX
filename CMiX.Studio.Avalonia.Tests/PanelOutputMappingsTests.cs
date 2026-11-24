@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheRowsOfTheList_HaveNoVisibilityToggle()
+        public void Show_TheRowsOfTheList_HaveNoVisibilityToggle()
         {
             var panel = Panel();
             Show(panel);
@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheOutputMappingOfAComposition_CanBeAnyOfTheOutputs()
+        public void Show_TheOutputMappingOfAComposition_OffersEveryOutput()
         {
             var provider = TestServiceProviderFactory.Create();
             var project = provider.GetRequiredService<Project>();
@@ -68,7 +68,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheList_HasNoResizeHandle()
+        public void Show_TheList_HasNoResizeHandle()
         {
             var panel = Panel();
             Show(panel);
@@ -78,7 +78,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheWheelOverTheList_ScrollsThePanelAround()
+        public void Wheel_OverTheList_ScrollsThePanelAround()
         {
             var panel = Panel();
             var outer = new ScrollViewer { Content = panel };

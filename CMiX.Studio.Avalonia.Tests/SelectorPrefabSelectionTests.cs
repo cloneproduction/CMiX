@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // Create an item, clear the selection, create a second item, then pick the first from the dropdown.
         [AvaloniaFact]
-        public void PickingAClearedItemFromTheDropdownSelectsItAgain()
+        public void Pick_AClearedItemFromTheDropdown_SelectsItAgain()
         {
             var (comboBox, selector) = ShowDisplaceSelectorPrefab();
 
@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // Two selections before the posts run must not make stale posts flip the selection forever.
         [AvaloniaFact]
-        public void PickingAnItemFromTheDropdownAfterTwoQuickAddsSelectsItWithoutLooping()
+        public void Pick_AnItemAfterTwoQuickAdds_SelectsItWithoutLooping()
         {
             var (comboBox, selector) = ShowDisplaceSelectorPrefab();
 

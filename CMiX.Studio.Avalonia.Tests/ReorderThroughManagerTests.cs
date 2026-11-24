@@ -56,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void AMoveDownFromTheButton_MovesTheItemSendsOneMessageAndIsOneUndoStep()
+        public void MoveItemDown_FromTheButton_MovesTheItemSendsOneMessageAndIsOneUndoStep()
         {
             var setup = FourItems();
 
@@ -76,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void AMoveUpFromTheButton_MovesTheItemSendsOneMessageAndIsOneUndoStep()
+        public void MoveItemUp_FromTheButton_MovesTheItemSendsOneMessageAndIsOneUndoStep()
         {
             var setup = FourItems();
 
@@ -92,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void ADrop_MovesTheItemSendsOneMessageAndIsOneUndoStep()
+        public void Drop_AnItem_MovesItSendsOneMessageAndIsOneUndoStep()
         {
             var setup = FourItems();
 
@@ -108,7 +108,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void RedoingAMove_MovesTheItemAgain()
+        public void Redo_AMove_MovesTheItemAgain()
         {
             var setup = FourItems();
             setup.Service.MoveItemDown(setup.Items[0]);
@@ -120,7 +120,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void MovingTheSelectedItem_KeepsItSelected()
+        public void Move_TheSelectedItem_KeepsItSelected()
         {
             var setup = FourItems();
             setup.Manager.SelectAt(0);
