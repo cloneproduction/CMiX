@@ -4,10 +4,11 @@
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Undo;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public class CollectionSync
+    public class CollectionSync : IItemList
     {
         private readonly ControlMessenger _messenger;
         private readonly MessageFactory _messageFactory;
@@ -20,6 +21,47 @@ namespace CMiX.Core.Prefabs.Managers
         }
 
         public CollectionManager Collection { get; }
+
+        public int Count => Collection.ManagerData.Items.Count;
+
+        public IControl SelectedItem => Collection.ManagerData.SelectedItem;
+
+        public int SelectedIndex => Collection.ManagerData.SelectedIndex;
+
+        public int IndexOf(IControl item) => Collection.ManagerData.Items.IndexOf(item);
+
+        public void Insert(IControl item, int index)
+        {
+            Collection.InsertItem(item, index);
+            SendAdd(item, IndexOf(item));
+        }
+
+        public int Remove(IControl item)
+        {
+            var index = Collection.RemoveItem(item);
+            SendRemove(item, Collection.ManagerData.SelectedIndex);
+            return index;
+        }
+
+        public void Move(int oldIndex, int newIndex)
+        {
+            Collection.ManagerData.Move(oldIndex, newIndex);
+            SendMove(oldIndex, newIndex);
+        }
+
+        public void SelectAt(int index)
+        {
+            Collection.ManagerData.SelectAt(index);
+            SendSelect(Collection.ManagerData.SelectedItem, index);
+        }
+
+        public void ClearSelection()
+        {
+            Collection.ManagerData.ClearSelection();
+            SendClearSelection();
+        }
+
+        public void Release(IControl item) => OwnedControl.DisposeIfOrphaned(Collection.ControlRepository, item);
 
         public void SendAdd(IControl item, int index) =>
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageAddItem>(Collection.ManagerData.ID, item, index));

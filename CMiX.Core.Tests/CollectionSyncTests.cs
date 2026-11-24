@@ -5,6 +5,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using VL.Serialization.MessagePack;
 using Xunit;
@@ -86,6 +87,101 @@ namespace CMiX.Core.Tests
 
             var message = Assert.IsType<MessageClearSelection>(Assert.Single(sender.Sent));
             Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
+        }
+
+        private sealed class DisposableControl : IControl, IDisposable
+        {
+            public Guid ID { get; set; } = Guid.NewGuid();
+            public bool IsDisposed { get; private set; }
+            public IControlModel ToModel() => throw new NotSupportedException();
+            public void FromModel(IControlModel model) => throw new NotSupportedException();
+            public void Dispose() => IsDisposed = true;
+        }
+
+        [Fact]
+        public void Insert_OfAnItem_PutsItInTheListAndSendsAdd()
+        {
+            var (sync, sender, item) = Create();
+            sync.Collection.RemoveItem(item);
+            IItemList list = sync;
+
+            list.Insert(item, 0);
+
+            Assert.Same(item, Assert.Single(sync.Collection.ManagerData.Items));
+            var message = Assert.IsType<MessageAddItem>(Assert.Single(sender.Sent));
+            Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
+            Assert.Equal(item.ID, message.Model.ID);
+            Assert.Equal(0, message.SelectedIndex);
+        }
+
+        [Fact]
+        public void Remove_OfAnItem_TakesItOutAndSendsRemoveWithTheSelectedIndex()
+        {
+            var (sync, sender, item) = Create();
+            IItemList list = sync;
+
+            var index = list.Remove(item);
+
+            Assert.Equal(0, index);
+            Assert.Equal(0, list.Count);
+            var message = Assert.IsType<MessageRemoveItem>(Assert.Single(sender.Sent));
+            Assert.Equal(item.ID, message.ModelID);
+            Assert.Equal(list.SelectedIndex, message.SelectedIndex);
+        }
+
+        [Fact]
+        public void Move_OfTwoIndices_MovesTheItemAndSendsMove()
+        {
+            var (sync, sender, item) = Create();
+            sync.Collection.InsertItem(new DisposableControl(), 1);
+            IItemList list = sync;
+
+            list.Move(0, 1);
+
+            Assert.Equal(1, list.IndexOf(item));
+            var message = Assert.IsType<MessageMoveItem>(Assert.Single(sender.Sent));
+            Assert.Equal((0, 1), (message.OldIndex, message.NewIndex));
+        }
+
+        [Fact]
+        public void SelectAt_OfAnIndex_SelectsTheItemAndSendsSelect()
+        {
+            var (sync, sender, item) = Create();
+            IItemList list = sync;
+
+            list.SelectAt(0);
+
+            Assert.Same(item, list.SelectedItem);
+            var message = Assert.IsType<MessageSelectItem>(Assert.Single(sender.Sent));
+            Assert.Equal(item.ID, message.ControlID);
+            Assert.Equal(0, message.Index);
+        }
+
+        [Fact]
+        public void ClearSelection_OfASelectedList_ClearsAndSendsClearSelection()
+        {
+            var (sync, sender, _) = Create();
+            sync.Collection.ManagerData.SelectAt(0);
+            IItemList list = sync;
+
+            list.ClearSelection();
+
+            Assert.Null(list.SelectedItem);
+            var message = Assert.IsType<MessageClearSelection>(Assert.Single(sender.Sent));
+            Assert.Equal(sync.Collection.ManagerData.ID, message.ID);
+        }
+
+        [Fact]
+        public void Release_OfAnItemInNoList_DisposesIt()
+        {
+            var (sync, sender, _) = Create();
+            var item = new DisposableControl();
+            IItemList list = sync;
+
+            list.Release(item);
+
+            Assert.True(item.IsDisposed);
+            Assert.Empty(sender.Sent);
         }
 
         private static MessageEnvelope Roundtrip(IMessage message) =>
