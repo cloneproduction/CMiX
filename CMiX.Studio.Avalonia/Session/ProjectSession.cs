@@ -70,6 +70,8 @@ namespace CMiX.Studio.Avalonia.Session
             SetupList(Beats, ManagerIDs.BeatManager);
             SetupList(ColorPalettes, ManagerIDs.ColorPaletteManager);
             _sync.SnapshotApplied += OnSnapshotApplied;
+            // The construction of the project writes default values. They are not undo steps.
+            _undoManager.Clear();
         }
 
         // The ids are on the wire and in the saved files. The lists are activated by hand, so ActivateAll never runs for them.

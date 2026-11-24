@@ -1,5 +1,6 @@
 using Avalonia.Headless.XUnit;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Tests.Support;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,17 @@ namespace CMiX.Studio.Avalonia.Tests
         private readonly TestWindows windows = new();
 
         public void Dispose() => windows.Dispose();
+
+        [AvaloniaFact]
+        public void Create_ANewSession_LeavesTheUndoStackEmpty()
+        {
+            var (provider, _, _) = windows.ShowMainWindow();
+
+            var undoManager = provider.GetRequiredService<UndoManager>();
+
+            Assert.Equal(0, undoManager.StepCount);
+            Assert.False(undoManager.CanUndo);
+        }
 
         [AvaloniaFact]
         public void ClearAll_AFullProject_EmptiesTheListsAndTheRepository()
