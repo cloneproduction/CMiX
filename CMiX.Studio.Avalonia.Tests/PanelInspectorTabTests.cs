@@ -192,5 +192,51 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             Assert.Equal(50, screen.Scroller.Offset.Y, 1);
         }
+
+        // Each change of the kind of the selected item builds one editor view, also on a large composition.
+        [AvaloniaFact]
+        public void SelectedNode_OnALargeComposition_BuildsOneViewForEachSelection()
+        {
+            const int layers = 20;
+            const int entitiesPerLayer = 100;
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
+            var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
+            for (var i = 0; i < layers; i++)
+            {
+                composition.LayerManager.AddItem(typeof(Layer));
+                var layer = (Layer)composition.LayerManager.ManagerData.Items[i];
+                for (var j = 0; j < entitiesPerLayer; j++)
+                    layer.ModelEntityManager.AddItem(typeof(Entity));
+            }
+
+            var tree = viewModel.ProjectTree;
+            tree.SelectedNode = null;
+            TestServiceProviderFactory.SelectMainTab(window, "Inspector");
+            var inspector = window.GetVisualDescendants().OfType<PanelInspector>().Single();
+            TestServiceProviderFactory.Pump();
+
+            var compositionNode = tree.CompositionNodes()[0];
+            TreeNode EntityOf(int layer, int index) =>
+                compositionNode.Children[0].Children[layer].Children.Single(child => child.Group is EntitiesGroup).Children[index];
+            var steps = new (string Name, TreeNode Node)[]
+            {
+                ("entity", EntityOf(0, 0)),
+                ("layer", compositionNode.Children[0].Children[layers / 2]),
+                ("composition", compositionNode),
+                ("entity again", EntityOf(layers - 1, entitiesPerLayer - 1)),
+            };
+
+            foreach (var step in steps)
+            {
+                var before = inspector.EditorViewsBuilt;
+                tree.SelectedNode = step.Node;
+                TestServiceProviderFactory.Pump();
+                window.UpdateLayout();
+                TestServiceProviderFactory.Pump();
+
+                Assert.True(inspector.EditorViewsBuilt - before <= 1, $"The {step.Name} builds more than one view.");
+            }
+        }
     }
 }

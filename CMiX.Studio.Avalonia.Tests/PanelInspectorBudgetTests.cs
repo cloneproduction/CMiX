@@ -11,7 +11,8 @@ using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The work of the inspector for one selection stays in a budget for a large composition.
+    // The time of the inspector for one selection stays in a budget for a large composition.
+    // PanelInspectorTabTests counts the views that a selection builds.
     // The bounds of time are about three times the measured values, so a slow machine passes.
     // Measured on the headless renderer (2026-11-06), in ms: entity 370 to 440 (the first build), layer 120 to 180,
     // composition 45 to 95, entity again 230 to 370. Each change of the kind of the item builds one view.
@@ -25,7 +26,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public PanelInspectorBudgetTests(ITestOutputHelper output) => this.output = output;
 
         [AvaloniaFact]
-        public void SelectedNode_OnALargeComposition_BuildsOneViewAndStaysInTheTimeBudget()
+        public void SelectedNode_OnALargeComposition_StaysInTheTimeBudget()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
@@ -73,7 +74,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
             for (var i = 0; i < steps.Length; i++)
             {
-                Assert.True(results[i].Views <= steps[i].Views, $"The {steps[i].Name} builds more than {steps[i].Views} views. {report}");
                 Assert.True(results[i].Milliseconds < steps[i].Bound, $"The {steps[i].Name} takes more than {steps[i].Bound} ms. {report}");
             }
         }
