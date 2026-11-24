@@ -11,12 +11,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Studio.Avalonia.Settings
 {
-    // The model of the shortcut file. A value is a gesture string, for example "Ctrl+Shift+Z". An empty string means no gesture.
-    public class ShortcutFile
-    {
-        public Dictionary<string, string> Shortcuts { get; set; } = new();
-    }
-
     // The keyboard shortcuts of the Studio: a command name with its gesture. The part of the name before the first dot is the scope.
     // The XAML binds a gesture with the indexer, for example {Binding Shortcuts[Tree.Rename]}.
     public sealed class ShortcutMap : ObservableObject
