@@ -61,9 +61,6 @@ namespace CMiX.Studio.Avalonia.Resources
         public static VL.Lib.Mathematics.TweenerMode[] TweenerMode { get; } =
             Enum.GetValues<VL.Lib.Mathematics.TweenerMode>();
 
-        public static CMiX.Core.Transformation.TransformType[] TransformType { get; } =
-            Enum.GetValues<CMiX.Core.Transformation.TransformType>();
-
         public static CMiX.Core.Modifiers.ModifierMode[] ModifierMode { get; } =
             Enum.GetValues<CMiX.Core.Modifiers.ModifierMode>();
 
