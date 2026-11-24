@@ -6,7 +6,13 @@ namespace CMiX.Core
     // Carries a value change to the undo stack and to the engine.
     public interface IValueSync
     {
-        // A write of the value. A null before means no undo step.
-        void Changed(IControl value, IControlModel before, IControlModel after);
+        // Before the value changes. The sync keeps the model when it will record an undo step.
+        void Changing(IControl value);
+
+        // After the value changed. Records the undo step, then sends the value.
+        void Changed(IControl value);
+
+        // Sends the value. No undo step. For a momentary value.
+        void Send(IControl value);
     }
 }

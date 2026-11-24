@@ -51,7 +51,8 @@ namespace CMiX.Core.Tests
             control.Value = true;
             control.Value = false;
 
-            Assert.Null(sync.LastBefore);
+            Assert.DoesNotContain("Changing", sync.Calls);
+            Assert.DoesNotContain("Changed", sync.Calls);
         }
 
         [Fact]
@@ -64,8 +65,7 @@ namespace CMiX.Core.Tests
             control.Value = true;
             control.Value = false;
 
-            Assert.Equal(2, sync.Changes);
-            Assert.Null(sync.LastBefore);
+            Assert.Equal(new[] { "Send", "Send" }, sync.Calls);
         }
 
         [Fact]
@@ -76,8 +76,7 @@ namespace CMiX.Core.Tests
 
             control.Value = true;
 
-            Assert.Equal(1, sync.Changes);
-            Assert.NotNull(sync.LastBefore);
+            Assert.Equal(new[] { "Changing", "Changed" }, sync.Calls);
         }
 
         private static GenericValue<double> CreateActiveDouble(FakeValueSync sync)
@@ -110,7 +109,7 @@ namespace CMiX.Core.Tests
                 control.Value = 5;
             control.Value = 6;
 
-            Assert.Equal(new[] { "Changed" }, sync.Calls);
+            Assert.Equal(new[] { "Changing", "Changed" }, sync.Calls);
         }
 
         [Fact]

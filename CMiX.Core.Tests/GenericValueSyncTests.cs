@@ -18,17 +18,15 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Value_SetWhenActive_ChangesOnceWithBeforeAndAfter()
+        public void Value_SetWhenActive_ChangingThenChanged()
         {
             var sync = new FakeValueSync();
             var value = CreateActiveFloat(sync);
 
             value.Value = 2f;
 
-            Assert.Equal(new[] { "Changed" }, sync.Calls);
-            Assert.Equal(1, sync.Changes);
-            Assert.Equal(0f, ((GenericValueModel<float>)sync.LastBefore).Value);
-            Assert.Equal(2f, ((GenericValueModel<float>)sync.LastAfter).Value);
+            Assert.Equal(new[] { "Changing", "Changed" }, sync.Calls);
+            Assert.Equal(2f, value.Value);
         }
 
         [Fact]
@@ -68,7 +66,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Value_SetWhenMomentary_ChangesWithANullBefore()
+        public void Value_SetWhenMomentary_SendsOnly()
         {
             var sync = new FakeValueSync();
             var value = CreateActiveFloat(sync);
@@ -76,9 +74,8 @@ namespace CMiX.Core.Tests
 
             value.Value = 1f;
 
-            Assert.Equal(1, sync.Changes);
-            Assert.Null(sync.LastBefore);
-            Assert.Equal(1f, ((GenericValueModel<float>)sync.LastAfter).Value);
+            Assert.Equal(new[] { "Send" }, sync.Calls);
+            Assert.Equal(1f, value.Value);
         }
 
         [Fact]
@@ -86,18 +83,12 @@ namespace CMiX.Core.Tests
         {
             var sync = new FakeValueSync();
             var value = CreateActiveFloat(sync);
-            IControlModel firstBefore = null;
 
             for (int i = 1; i <= 10; i++)
-            {
                 value.Value = i;
-                if (i == 1)
-                    firstBefore = sync.LastBefore;
-            }
 
-            Assert.Equal(10, sync.Changes);
-            Assert.Equal(0f, ((GenericValueModel<float>)firstBefore).Value);
-            Assert.Equal(10f, ((GenericValueModel<float>)sync.LastAfter).Value);
+            Assert.Equal(Enumerable.Repeat(new[] { "Changing", "Changed" }, 10).SelectMany(pair => pair), sync.Calls);
+            Assert.Equal(10f, value.Value);
         }
 
         [Fact]

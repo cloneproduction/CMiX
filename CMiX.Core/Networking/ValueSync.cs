@@ -1,7 +1,6 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System.Diagnostics;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
@@ -11,62 +10,81 @@ namespace CMiX.Core.Networking
 {
     public sealed class ValueSync : IValueSync, IInteractiveValue
     {
-        private static readonly long SendIntervalTicks = Stopwatch.Frequency / 60;
-
         private readonly UndoManager _undoManager;
         private readonly MessageFactory _messageFactory;
         private readonly ControlMessenger _messenger;
         private readonly ValueInteraction _interaction;
+        private readonly TimeProvider _time;
+        private readonly long _sendIntervalTicks;
 
         private IControl _value;
+        private IControlModel _before;
         private bool _inInteraction;
-        private IControlModel _interactionBefore;
         private long _lastSendTicks;
         private bool _sendPending;
 
-        public ValueSync(UndoManager undoManager, MessageFactory messageFactory, ControlMessenger messenger, ValueInteraction interaction)
+        public ValueSync(UndoManager undoManager, MessageFactory messageFactory, ControlMessenger messenger, ValueInteraction interaction, TimeProvider time)
         {
             _undoManager = undoManager;
             _messageFactory = messageFactory;
             _messenger = messenger;
             _interaction = interaction;
+            _time = time;
+            _sendIntervalTicks = time.TimestampFrequency / 60;
         }
 
-        // The tests drive the clock through this.
-        internal Func<long> Timestamp { get; set; } = Stopwatch.GetTimestamp;
-
-        public void Changed(IControl value, IControlModel before, IControlModel after)
+        public void Changing(IControl value)
         {
+            _value = value;
+            // In a drag the model before the first write is the before of the undo step.
+            if (_interaction.IsActive && _inInteraction) return;
+            _before = _value.ToModel();
+        }
+
+        public void Changed(IControl value)
+        {
+            _value = value;
             if (_interaction.IsActive)
             {
-                ChangedInInteraction(value, before);
+                WriteInInteraction();
                 return;
             }
 
-            if (before != null)
-                Record(value, before, after);
-            Send(value);
+            Record(_before, _value.ToModel());
+            _before = null;
+            SendNow();
         }
 
-        // A write in a ValueInteraction scope keeps the undo model once and rate limits the messages.
-        private void ChangedInInteraction(IControl value, IControlModel before)
+        public void Send(IControl value)
         {
+            _value = value;
+            if (_interaction.IsActive)
+            {
+                _before = null;
+                WriteInInteraction();
+                return;
+            }
+
+            SendNow();
+        }
+
+        // A write in a ValueInteraction scope rate limits the messages. EndInteraction records the undo step.
+        private void WriteInInteraction()
+        {
+            var now = _time.GetTimestamp();
             if (!_inInteraction)
             {
                 _inInteraction = true;
-                _value = value;
-                _interactionBefore = before;
-                _lastSendTicks = Timestamp() - SendIntervalTicks;
+                _lastSendTicks = now - _sendIntervalTicks;
                 _sendPending = false;
                 _interaction.Enlist(this);
             }
 
-            var now = Timestamp();
-            if (now - _lastSendTicks >= SendIntervalTicks)
+            if (now - _lastSendTicks >= _sendIntervalTicks)
             {
                 _lastSendTicks = now;
                 _sendPending = false;
-                Send(value);
+                SendNow();
             }
             else
                 _sendPending = true;
@@ -81,24 +99,24 @@ namespace CMiX.Core.Networking
             if (_sendPending)
             {
                 _sendPending = false;
-                Send(_value);
+                SendNow();
             }
 
-            if (_interactionBefore != null)
+            if (_before != null)
             {
-                var before = _interactionBefore;
-                _interactionBefore = null;
-                Record(_value, before, _value.ToModel());
+                var before = _before;
+                _before = null;
+                Record(before, _value.ToModel());
             }
         }
 
-        private void Record(IControl value, IControlModel before, IControlModel after)
+        private void Record(IControlModel before, IControlModel after)
         {
             if (!_undoManager.IsApplying)
-                _undoManager.Push(new ValueChangedCommand(value, before, after));
+                _undoManager.Push(new ValueChangedCommand(_value, before, after));
         }
 
-        private void Send(IControl value) =>
-            _messenger.SendMessage(_messageFactory.CreateMessage<MessageValueChanged>(value.ID, value));
+        private void SendNow() =>
+            _messenger.SendMessage(_messageFactory.CreateMessage<MessageValueChanged>(_value.ID, _value));
     }
 }

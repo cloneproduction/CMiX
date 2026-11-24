@@ -28,19 +28,27 @@ namespace CMiX.Core.BaseControls
             get => _value;
             set
             {
-                if (IsActive && !IsSendingSuppressed)
+                if (!IsActive || IsSendingSuppressed)
                 {
-                    // A write of the same value is a no-op: no undo step, no message.
-                    if (EqualityComparer<T>.Default.Equals(_value, value))
-                        return;
-
-                    // A momentary value is a pulse. It writes no undo step but it goes on the wire.
-                    var before = IsMomentary ? null : CaptureModel();
                     SetProperty(ref _value, value);
-                    _sync.Changed(this, before, CaptureModel());
+                    return;
                 }
-                else
+
+                // A write of the same value is a no-op: no undo step, no message.
+                if (EqualityComparer<T>.Default.Equals(_value, value))
+                    return;
+
+                // A momentary value is a pulse. It writes no undo step but it goes on the wire.
+                if (IsMomentary)
+                {
                     SetProperty(ref _value, value);
+                    _sync.Send(this);
+                    return;
+                }
+
+                _sync.Changing(this);
+                SetProperty(ref _value, value);
+                _sync.Changed(this);
             }
         }
 
@@ -62,8 +70,6 @@ namespace CMiX.Core.BaseControls
         }
 
         public ICommand ResetCommand { get; }
-
-        protected virtual IControlModel CaptureModel() => ToModel();
 
         public void Receive(IMessage message)
         {

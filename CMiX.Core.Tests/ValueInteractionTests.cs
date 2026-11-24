@@ -77,8 +77,8 @@ namespace CMiX.Core.Tests
             for (int i = 1; i <= 20; i++)
                 control.Value = i;
 
-            Assert.Equal(20, sync.Changes);
-            Assert.NotNull(sync.LastBefore);
+            Assert.Equal(20, sync.Calls.Count(call => call == "Changing"));
+            Assert.Equal(20, sync.Calls.Count(call => call == "Changed"));
         }
 
         [Fact]

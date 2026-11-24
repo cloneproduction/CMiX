@@ -1,7 +1,6 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System.Diagnostics;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -20,8 +19,9 @@ namespace CMiX.Core.Tests
             public UndoManager UndoManager { get; init; }
             public ControlMessenger Messenger { get; init; }
             public RecordingMessageSender Sender { get; init; }
+            public FakeTimeProvider Time { get; init; }
             public GenericValue<float> Value { get; init; }
-            public IValueSync Sync { get; init; }
+            public ValueSync Sync { get; init; }
         }
 
         private sealed class ActionUndoCommand : IUndoCommand
@@ -39,25 +39,33 @@ namespace CMiX.Core.Tests
             var messenger = provider.GetRequiredService<ControlMessenger>();
             var sender = new RecordingMessageSender();
             messenger.Register(sender);
-            var value = new GenericValue<float>(provider.GetRequiredService<IValueSync>(),
-                                                provider.GetRequiredService<ControlActivationService>());
+            var time = new FakeTimeProvider { Now = 1000 };
+            var sync = new ValueSync(undoManager,
+                                     provider.GetRequiredService<MessageFactory>(),
+                                     messenger,
+                                     provider.GetRequiredService<ValueInteraction>(),
+                                     time);
+            var value = new GenericValue<float>(sync, provider.GetRequiredService<ControlActivationService>());
+            value.Activate();
             return new Fixture
             {
                 Provider = provider,
                 UndoManager = undoManager,
                 Messenger = messenger,
                 Sender = sender,
+                Time = time,
                 Value = value,
-                Sync = provider.GetRequiredService<IValueSync>(),
+                Sync = sync,
             };
         }
 
         [Fact]
-        public void Changed_WithABefore_PushesOneValueChangedCommandAndSendsOneMessage()
+        public void Changing_ThenChanged_PushesOneValueChangedCommandAndSendsOneMessage()
         {
             var fixture = Create();
 
-            fixture.Sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+            fixture.Sync.Changing(fixture.Value);
+            fixture.Sync.Changed(fixture.Value);
 
             Assert.True(fixture.UndoManager.CanUndo);
             var message = Assert.IsType<MessageValueChanged>(Assert.Single(fixture.Sender.Sent));
@@ -65,11 +73,14 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Changed_WhileTheUndoManagerApplies_SendsButPushesNothing()
+        public void Changing_ThenChangedWhileTheUndoManagerApplies_SendsButPushesNothing()
         {
             var fixture = Create();
             fixture.UndoManager.Push(new ActionUndoCommand(() =>
-                fixture.Sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel())));
+            {
+                fixture.Sync.Changing(fixture.Value);
+                fixture.Sync.Changed(fixture.Value);
+            }));
 
             fixture.UndoManager.Undo();
 
@@ -80,11 +91,11 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Changed_WithANullBefore_SendsOneMessageAndPushesNothing()
+        public void Send_OutsideADrag_SendsOneMessageAndPushesNothing()
         {
             var fixture = Create();
 
-            fixture.Sync.Changed(fixture.Value, null, fixture.Value.ToModel());
+            fixture.Sync.Send(fixture.Value);
 
             Assert.False(fixture.UndoManager.CanUndo);
             var message = Assert.IsType<MessageValueChanged>(Assert.Single(fixture.Sender.Sent));
@@ -92,12 +103,12 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Changed_WhenTheMessengerIsBlocked_SendsNothing()
+        public void Send_WhenTheMessengerIsBlocked_SendsNothing()
         {
             var fixture = Create();
             fixture.Messenger.IsSendingBlocked = true;
 
-            fixture.Sync.Changed(fixture.Value, null, fixture.Value.ToModel());
+            fixture.Sync.Send(fixture.Value);
 
             Assert.Empty(fixture.Sender.Sent);
         }
@@ -106,22 +117,23 @@ namespace CMiX.Core.Tests
         public void Changed_DuringAScope_SendsAtMostOncePerIntervalAndRecordsNothingUntilTheEnd()
         {
             var fixture = Create();
-            var sync = (ValueSync)fixture.Sync;
             var interaction = fixture.Provider.GetRequiredService<ValueInteraction>();
-            long now = 1000;
-            sync.Timestamp = () => now;
 
             try
             {
                 interaction.BeginScope();
                 for (int i = 0; i < 100; i++)
-                    sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+                {
+                    fixture.Sync.Changing(fixture.Value);
+                    fixture.Sync.Changed(fixture.Value);
+                }
 
                 Assert.Single(fixture.Sender.Sent);
                 Assert.False(fixture.UndoManager.CanUndo);
 
-                now += Stopwatch.Frequency / 60;
-                sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+                fixture.Time.Now += 1000;
+                fixture.Sync.Changing(fixture.Value);
+                fixture.Sync.Changed(fixture.Value);
 
                 Assert.Equal(2, fixture.Sender.Sent.Count);
             }
@@ -135,17 +147,16 @@ namespace CMiX.Core.Tests
         public void EndInteraction_WithAPendingSend_SendsOnceThenRecordsOnce()
         {
             var fixture = Create();
-            var sync = (ValueSync)fixture.Sync;
             var interaction = fixture.Provider.GetRequiredService<ValueInteraction>();
-            long now = 1000;
-            sync.Timestamp = () => now;
 
             try
             {
                 using (interaction.BeginScope())
                 {
-                    sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
-                    sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+                    fixture.Sync.Changing(fixture.Value);
+                    fixture.Sync.Changed(fixture.Value);
+                    fixture.Sync.Changing(fixture.Value);
+                    fixture.Sync.Changed(fixture.Value);
                 }
 
                 Assert.Equal(2, fixture.Sender.Sent.Count);
@@ -161,15 +172,15 @@ namespace CMiX.Core.Tests
         public void EndInteraction_WithNothingPending_RecordsAndSendsNothingMore()
         {
             var fixture = Create();
-            var sync = (ValueSync)fixture.Sync;
             var interaction = fixture.Provider.GetRequiredService<ValueInteraction>();
-            long now = 1000;
-            sync.Timestamp = () => now;
 
             try
             {
                 using (interaction.BeginScope())
-                    sync.Changed(fixture.Value, fixture.Value.ToModel(), fixture.Value.ToModel());
+                {
+                    fixture.Sync.Changing(fixture.Value);
+                    fixture.Sync.Changed(fixture.Value);
+                }
 
                 Assert.Single(fixture.Sender.Sent);
                 Assert.True(fixture.UndoManager.CanUndo);
@@ -184,17 +195,14 @@ namespace CMiX.Core.Tests
         public void EndInteraction_OfAMomentaryValue_SendsThePendingValueAndRecordsNothing()
         {
             var fixture = Create();
-            var sync = (ValueSync)fixture.Sync;
             var interaction = fixture.Provider.GetRequiredService<ValueInteraction>();
-            long now = 1000;
-            sync.Timestamp = () => now;
 
             try
             {
                 using (interaction.BeginScope())
                 {
-                    sync.Changed(fixture.Value, null, fixture.Value.ToModel());
-                    sync.Changed(fixture.Value, null, fixture.Value.ToModel());
+                    fixture.Sync.Send(fixture.Value);
+                    fixture.Sync.Send(fixture.Value);
                 }
 
                 Assert.Equal(2, fixture.Sender.Sent.Count);
@@ -209,7 +217,7 @@ namespace CMiX.Core.Tests
         [Fact]
         public void ValueSyncFactory_Called_GivesANewSyncEachTime()
         {
-            var factory = Create().Provider.GetRequiredService<ValueSyncFactory>();
+            var factory = TestServiceProviderFactory.Create().GetRequiredService<ValueSyncFactory>();
 
             var first = factory();
             var second = factory();
