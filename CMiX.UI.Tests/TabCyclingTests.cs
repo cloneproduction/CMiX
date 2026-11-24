@@ -66,7 +66,7 @@ namespace CMiX.UI.Tests
             editor.GetVisualDescendants().OfType<TextBox>().First(box => box.Name == "PART_TextBox");
 
         [AvaloniaFact]
-        public void Tab_MovesTheEditMode_ToTheNextEditor_AndWrapsAtTheEnd()
+        public void Tab_InALoop_MovesTheEditModeToTheNextEditorAndWraps()
         {
             var (a, b, c) = (Drag(1), Drag(2), Drag(3));
             var window = Show(Loop(a, b, c));
@@ -81,7 +81,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ShiftTab_MovesTheEditMode_Backwards_AndWrapsAtTheStart()
+        public void ShiftTab_InALoop_MovesTheEditModeBackAndWraps()
         {
             var (a, b, c) = (Drag(1), Drag(2), Drag(3));
             var window = Show(Loop(a, b, c));
@@ -96,7 +96,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void Tab_KeepsTheValueThatWasTyped()
+        public void Tab_AfterATypedValue_KeepsTheValue()
         {
             var (a, b) = (Drag(1), Drag(2));
             var window = Show(Loop(a, b));
@@ -110,7 +110,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void Tab_SkipsAValueThatCannotBeEdited_AHiddenOne_AndADisabledOne()
+        public void Tab_PastHiddenAndDisabledEditors_SkipsThem()
         {
             var (a, modulated, hidden, disabled, last) = (Drag(1), Drag(2, readOnly: true), Drag(3), Drag(4), Drag(5));
             hidden.IsVisible = false;
@@ -124,7 +124,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void Tab_IgnoresControlsThatAreNotEditors()
+        public void Tab_PastControlsThatAreNotEditors_IgnoresThem()
         {
             var (a, b) = (Drag(1), Drag(2));
             var window = Show(Loop(a, new Button { Content = "button" }, new ToggleButton { Content = "toggle" }, new TextBox(), b));
@@ -136,7 +136,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void Tab_CyclesThroughSlidersAndDragValuesTogether()
+        public void Tab_OverSlidersAndDragValues_CyclesThroughBoth()
         {
             var a = Drag(1);
             var slider = new SliderCMiX { Minimum = 0, Maximum = 10, Value = 5 };
@@ -167,7 +167,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheNearestLoopWins_TabWrapsInsideIt()
+        public void Tab_InANestedLoop_WrapsInsideTheNearestLoop()
         {
             var (a, b, c, d) = (Drag(1), Drag(2), Drag(3), Drag(4));
             var window = Show(Stack(Loop(a, b), Loop(c, d)));
@@ -179,7 +179,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void WithoutALoop_TabOnlyCommitsTheValue()
+        public void Tab_WithoutALoop_OnlyCommitsTheValue()
         {
             var (a, b) = (Drag(1), Drag(2));
             var window = Show(Stack(a, b));
@@ -193,7 +193,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ALoop_DoesNotReachTheEditorsOfALoopInsideIt()
+        public void Tab_InAnOuterLoop_SkipsTheEditorsOfALoopInsideIt()
         {
             var (outer, inner) = (Drag(1), Drag(2));
             var other = Drag(3);
@@ -207,7 +207,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheBodyOfAnExpander_IsALoop()
+        public void Tab_InTheBodyOfAnExpander_WrapsInsideIt()
         {
             var (a, b) = (Drag(1), Drag(2));
             var outside = Drag(3);
@@ -221,7 +221,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheTwoValuesOfAVector_CycleOnlyBetweenThemselves()
+        public void Tab_InAVector_CyclesOnlyBetweenItsValues()
         {
             var resolution = new Integer2 { Caption = "Resolution" };
             var other = Drag(3);
@@ -285,7 +285,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheContentOfATabPage_IsALoop()
+        public void Tab_InTheContentOfATabPage_WrapsInsideIt()
         {
             var (a, b) = (Drag(1), Drag(2));
             var outside = Drag(3);
