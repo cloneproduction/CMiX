@@ -6,13 +6,16 @@ using Avalonia.Input;
 using Avalonia.Input.Raw;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Controls.Path;
+using CMiX.UI.Panels;
 using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
 {
+    // A path selector: the caption, the browse button, the chosen path and the dropped files.
     public class ComboBoxPathTests : IDisposable
     {
         private readonly string _folder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "cmix-path-" + Guid.NewGuid().ToString("N"));
@@ -48,7 +51,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void DefaultsToTheFilenameCaptionAndSelectsAFile()
+        public void Show_ByDefault_HasTheFilenameCaptionAndSelectsAFile()
         {
             var (_, selector) = Show();
 
@@ -57,7 +60,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ShowsItsCaptionInTheLabel()
+        public void Show_ACaption_ShowsItInTheLabel()
         {
             var (_, selector) = Show();
             var label = selector.GetVisualDescendants().OfType<ContentCaptioned>().Single();
@@ -70,7 +73,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ChoosingAPath_RaisesPathChosen()
+        public void ChoosePath_APath_RaisesPathChosen()
         {
             var (_, selector) = Show();
             string? chosen = null;
@@ -82,7 +85,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ADroppedFile_RaisesPathsDropped()
+        public void Drop_AFile_RaisesPathsDropped()
         {
             var (window, selector) = Show();
             IReadOnlyList<string>? dropped = null;
@@ -106,6 +109,17 @@ namespace CMiX.UI.Tests
             selector.SelectsFolder = true;
             DropOnTheList(window, selector, FakeStorageItem.Drag(window, _subFolder));
             Assert.Equal(new[] { _subFolder }, dropped!);
+        }
+
+        [AvaloniaFact]
+        public void Show_TheBrowseButton_IsRoundedOnTheRightOnly()
+        {
+            var selector = new ComboBoxPath();
+            TestWindow.Show(selector, 400, 100);
+
+            var browse = selector.GetVisualDescendants().OfType<Button>().First();
+
+            Assert.Equal(ControlPosition.Right, PositionedControl.GetPosition(browse));
         }
     }
 }
