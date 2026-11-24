@@ -38,7 +38,7 @@ namespace CMiX.UI.Tests
         private static double LeftOf(Control control, Control relativeTo) => control.TranslatePoint(new Point(0, 0), relativeTo)!.Value.X;
 
         [AvaloniaFact]
-        public void ShowsItsTitle()
+        public void Show_ATitle_ShowsItInTheHeader()
         {
             var (_, item) = Show();
 
@@ -46,7 +46,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheBody_IsShownOnlyWhileExpanded()
+        public void IsExpanded_OnAndOff_ShowsAndHidesTheBody()
         {
             var (_, item) = Show();
             bool BodyIsVisible() => item.GetVisualDescendants().OfType<TextBlock>().Any(t => t.Text == "body" && t.IsEffectivelyVisible);
@@ -88,7 +88,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheCloseButton_RunsTheCommandWithItsParameter()
+        public void CloseButton_Click_RunsTheCommandWithItsParameter()
         {
             object? received = null;
             var item = new PanelItem
@@ -105,7 +105,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheDragHandle_ShareItsPressedStateWithThePanel()
+        public void DragHandle_Press_SharesThePressedStateWithThePanel()
         {
             var (_, item) = Show();
             var handle = ButtonWithIcon(item, "DragHandle");
@@ -132,7 +132,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void WithoutAPanelBackground_TheThemeBackgroundShows()
+        public void PanelBackground_NotSet_ShowsTheThemeBackground()
         {
             var (_, item) = Show();
             var theme = Tokens.Color("Grey300Brush");
@@ -141,7 +141,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void APanelBackground_ReplacesTheThemeBackground()
+        public void PanelBackground_Set_ReplacesTheThemeBackground()
         {
             var (_, item) = Show();
 
@@ -152,7 +152,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void IsHovered_FollowsThePointer()
+        public void IsHovered_PointerInAndOut_FollowsThePointer()
         {
             var (window, item) = Show();
             var inside = item.TranslatePoint(new Point(item.Bounds.Width / 2, item.Bounds.Height / 2), window)!.Value;
