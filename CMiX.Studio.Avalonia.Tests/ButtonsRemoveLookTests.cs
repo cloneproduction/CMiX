@@ -15,7 +15,7 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Every button that removes an item shows the same trash can, and the Add button of a slot is not rounded.
-    public class DeleteButtonLookTests
+    public class ButtonsRemoveLookTests
     {
         private const string TrashCan = "Remove";
 
