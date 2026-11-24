@@ -37,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Tests
             item.TranslatePoint(new Point(item.Bounds.Width / 2, item.Bounds.Height / 2), window)!.Value;
 
         [AvaloniaFact]
-        public void WhileThePointerIsOverThePanel_TheModulatorIsHovered()
+        public void MouseMove_OverAndOffThePanel_HoversTheModulatorOnlyWhileOver()
         {
             var modulator = NewModulator();
             var (window, item) = Show(modulator);
@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void APanelWithAnotherModel_IsLeftAlone()
+        public void MouseMove_OverAPanelWithAnotherModel_HoversOnlyThePanel()
         {
             var (window, item) = Show(new object());
 

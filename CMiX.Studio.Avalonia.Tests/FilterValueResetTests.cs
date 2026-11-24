@@ -14,7 +14,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class FilterValueResetTests
     {
         [AvaloniaFact]
-        public void DragValueResetMenu_RestoresTheDefault()
+        public void Reset_TheMenuOfADragValue_RestoresTheDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var hscb = (HSCB)provider.GetRequiredService<ControlFactory>().Create(typeof(HSCB));

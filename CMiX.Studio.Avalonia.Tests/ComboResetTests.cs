@@ -114,7 +114,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void SetAlphaChannelCombo_ResetRestoresTheModelDefault()
+        public void Reset_TheSetAlphaChannelCombo_RestoresTheModelDefault()
         {
             var filter = (SetAlpha)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(SetAlpha));
             var view = new Views.SetAlpha { DataContext = filter };

@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ThresholdAntialiasingToggle_ResetRestoresTheModelDefault()
+        public void Reset_TheThresholdAntialiasingToggle_RestoresTheModelDefault()
         {
             var threshold = (Threshold)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Threshold));
             var view = new Views.Threshold { DataContext = threshold };
@@ -103,7 +103,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void SequencePlayerToggles_ResetRestoresTheModelDefault()
+        public void Reset_TheTogglesOfASequencePlayer_RestoresTheModelDefault()
         {
             var player = (SequencePlayer)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(SequencePlayer));
             var view = new Views.SequencePlayer { DataContext = player };

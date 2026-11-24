@@ -102,7 +102,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void FloatValue_IsReadOnlyFollowsTheModulatorBinding()
+        public void FloatValue_AModulatorBinding_SetsIsReadOnly()
         {
             var (kaleidoscope, view) = Show<Kaleidoscope, Views.Kaleidoscope>();
             var dragValue = Find<DragValue>(view, kaleidoscope.Rotation);
@@ -130,7 +130,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // Halftone sets Minimum="1" on Tile Count and Minimum="0" on the other three values.
         [AvaloniaFact]
-        public void FloatValue_PassesItsMinimumToTheDragValue()
+        public void FloatValue_AMinimum_GoesToTheDragValue()
         {
             var (halftone, view) = Show<Halftone, Views.Halftone>();
 

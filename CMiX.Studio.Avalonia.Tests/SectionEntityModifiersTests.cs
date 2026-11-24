@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void AClickOnAModifierButton_AddsItToTheEntity()
+        public void Click_AModifierButton_AddsItToTheEntity()
         {
             var (entity, _, add, popup) = Show();
             add.IsChecked = true;

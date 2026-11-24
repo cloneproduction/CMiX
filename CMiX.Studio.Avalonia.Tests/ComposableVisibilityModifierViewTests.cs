@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void View_ShowsTheVisibleToggleWithAnAssignButton()
+        public void Show_TheView_HasTheVisibleToggleWithAnAssignButton()
         {
             var (modifier, view) = Open();
 
@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Toggle_WritesTheVisibleValue()
+        public void Click_TheToggle_WritesTheVisibleValue()
         {
             var (modifier, view) = Open();
             var toggle = view.GetVisualDescendants().OfType<ToggleButtonCMiX>().Single(t => (t.Content as string) == "Visible");
@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void View_ShowsTheAddModulatorList()
+        public void Show_TheView_HasTheAddModulatorList()
         {
             var (_, view) = Open();
 
@@ -58,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaTheory]
         [InlineData(typeof(CMiX.Core.Compositing.Composition))]
         [InlineData(typeof(CMiX.Core.Compositing.Layer))]
-        public void AddList_OffersAlphaAndVisibility(System.Type owner)
+        public void Show_TheAddList_OffersAlphaAndVisibility(System.Type owner)
         {
             var panel = new Views.Managers.PanelAddTypes { PanelOwner = owner };
             var window = new Window { Content = panel, Width = 400, Height = 400 };

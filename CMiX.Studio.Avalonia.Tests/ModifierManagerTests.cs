@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 .GetVisualAncestors().OfType<ToggleButton>().First();
 
         [AvaloniaFact]
-        public void ShowsOnePanelItemForEachItem_WithTheNameOfTheItem()
+        public void Show_TheItems_GivesOnePanelItemWithItsNameForEachItem()
         {
             var (manager, _, view) = Show(2);
 
@@ -57,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheEye_WritesTheVisibilityOfTheItem()
+        public void Click_TheEye_WritesTheVisibilityOfTheItem()
         {
             var (manager, window, view) = Show(1);
             var modulator = manager.ManagerData.Items.Cast<IModulator>().Single();
@@ -69,7 +69,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheCloseButton_RemovesTheItem()
+        public void Click_TheCloseButton_RemovesTheItem()
         {
             var (manager, window, view) = Show(2);
 
@@ -81,7 +81,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ThePointerOverAPanel_HoversItsModulator()
+        public void MouseMove_OverAPanel_HoversItsModulator()
         {
             var (manager, window, view) = Show(2);
             var panels = Items(view);
@@ -147,7 +147,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheAddButton_OpensThePopupThatHoldsThePanel()
+        public void Click_TheAddButton_OpensThePopupThatHoldsThePanel()
         {
             var blur = (Blur)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var panel = new Button { Content = "the panel" };

@@ -58,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheAddPopup_ClosesOnAPressOutsideIt()
+        public void Press_OutsideTheAddPopup_ClosesIt()
         {
             var (window, toggle, popup) = ShowWithOpenPopup();
             var left = toggle.TranslatePoint(new Point(0, 0), window)!.Value;
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void WithAddClosesOnPointerAway_TheAddPopupClosesLikeTheOthers()
+        public void MouseMove_AwayFromTheAddPopupWithAddClosesOnPointerAway_ClosesItLikeTheOthers()
         {
             var (window, toggle, popup) = ShowWithOpenPopup(manager => manager.AddClosesOnPointerAway = true);
 
