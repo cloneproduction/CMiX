@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Settings
 {
     // Reads and writes a settings file as indented JSON. It holds no state.
     public static class JsonSettingsFile

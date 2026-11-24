@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Settings
 {
     // The interface settings of the Studio (StudioSettings.Interface), for the views and the Settings tab. A change is saved at once.
     // The save keeps the other parts of the file. With no file path, nothing is read or saved.

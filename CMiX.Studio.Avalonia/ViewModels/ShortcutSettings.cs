@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Avalonia.Input;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 

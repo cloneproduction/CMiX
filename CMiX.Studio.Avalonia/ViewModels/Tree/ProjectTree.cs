@@ -10,6 +10,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree

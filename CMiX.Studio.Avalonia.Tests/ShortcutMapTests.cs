@@ -1,6 +1,6 @@
 using System.IO;
 using Avalonia.Input;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.Tests.Support;
 using Xunit;
 

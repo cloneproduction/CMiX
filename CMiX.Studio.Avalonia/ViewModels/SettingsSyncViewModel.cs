@@ -5,7 +5,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using CMiX.Core.Networking;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 

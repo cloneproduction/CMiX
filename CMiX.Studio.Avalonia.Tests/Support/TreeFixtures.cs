@@ -4,6 +4,7 @@ using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Microsoft.Extensions.DependencyInjection;
 

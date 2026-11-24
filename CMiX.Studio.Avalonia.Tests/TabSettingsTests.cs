@@ -5,7 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Panels;

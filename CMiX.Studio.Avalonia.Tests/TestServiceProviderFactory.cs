@@ -7,6 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Tests;
 using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using HanumanInstitute.MvvmDialogs;

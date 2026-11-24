@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using CMiX.Core.Networking;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Settings
 {
     // Redis connection settings for Studio. Studio reads this file from studio-settings.json,
     // next to the executable. Example file content:

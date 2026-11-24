@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Input;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Settings;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Converters;
 

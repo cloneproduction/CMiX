@@ -9,7 +9,7 @@ using Avalonia.Input;
 using CMiX.UI.Converters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Settings
 {
     // The model of the shortcut file. A value is a gesture string, for example "Ctrl+Shift+Z". An empty string means no gesture.
     public class ShortcutFile
