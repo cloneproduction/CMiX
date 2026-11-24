@@ -72,7 +72,7 @@ Classes that are several shapes at once, or none:
 | `GenericValue<T>`, `CMiXButton` | One value. Also the undo source, the message sender and the message receiver. |
 | `ModulatableValue<T>` | Three `GenericValue` in one: the value, the id of the modulator, the name of the output. Also commands. |
 | `PrefabManager` | A list of controls. ViewModel (7 commands), undo source, message sender and receiver, model converter. The VL patches use it by name. |
-| `ManagerData`, `CollectionManager`, `CollectionSync` | The three inner parts of a list: the items and the selection, the add and remove with the repository, the sender. Not a shape of their own. |
+| `ManagerData`, `CollectionManager`, `CollectionSync`, `IItemList` | The inner parts of a list: the items and the selection, the add and remove with the repository, and the sender. `CollectionSync` implements `IItemList`, the list that sends every change. The undo steps and `PrefabManager` see only `IItemList`. Not a shape of their own. |
 | `SyncPeer` | Service (the sync state machine) and ViewModel (the sync panel binds its properties and its `PushCommand` and `PullCommand`). One partial class in nine files, one job per file: `SyncPeer.cs` (hub: start, stop, run), `SyncPeer.Panel.cs`, `SyncPeer.Send.cs`, `SyncPeer.Connection.cs`, `SyncPeer.StartCheck.cs`, `SyncPeer.Presence.cs`, `SyncPeer.Follower.cs`, `SyncPeer.Apply.cs`, `SyncPeer.Join.cs`. `SyncRun` holds the resources of one Start. |
 | `MasterBeat`, `AssetManager`, `OutputMappingManager`, `RedisAddressRegistry` | Singleton and control at once. |
 | `PrefabService` | Not a service. It is the name and the visibility of a prefab. |
@@ -119,7 +119,7 @@ Three static entry points connect it to an application: `InteractionHost`, `Icon
 
 ### A list changes (add, remove, move, select)
 
-The view calls a command of `PrefabManager`, for example `AddItemCommand`. `PrefabManager` makes an undo step (`AddItemUndoCommand`), runs it and pushes it. The step changes the list through `CollectionManager` (which also updates `ControlRepository`) and sends `MessageAddItem` through `CollectionSync`. On the engine, `PrefabManager.Receive` compares the id of the list and gives the message to `MessageCollectionManagerHandler`.
+The view calls a command of `PrefabManager`, for example `AddItemCommand`. `PrefabManager` makes an undo step (`AddItemUndoCommand`) with its `IItemList`, runs it and pushes it. The step calls one verb, `Insert`. `CollectionSync` implements the verb: it changes the list through `CollectionManager` (which also updates `ControlRepository`) and then sends `MessageAddItem`. `PrefabManager` gets its `IItemList` from `ItemListFactory`, which the DI binds to the messenger. On the engine, `PrefabManager.Receive` compares the id of the list and gives the message to `MessageCollectionManagerHandler`.
 
 ### The way back
 
