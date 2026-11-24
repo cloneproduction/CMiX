@@ -58,23 +58,13 @@ namespace CMiX.Studio.Avalonia.Tests
         // Down moves the cursor away from the selected row. The pointer rests on the last layer, away from the cursor row.
         private static TreeNode MoveCursorDown(Screen screen)
         {
-            screen.Window.MouseMove(CenterOf(screen, screen.RowOf(screen.LayerNode(2))));
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.MouseMove(screen.Window.CenterOf(screen.RowOf(screen.LayerNode(2))));
+            screen.Window.Press(PhysicalKey.ArrowDown);
             var cursor = screen.Tree.CursorNode!;
             Assert.NotSame(screen.Tree.SelectedNode, cursor);
             Assert.NotSame(screen.LayerNode(2), cursor);
             return cursor;
         }
-
-        private static void Press(Screen screen, PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
-        {
-            screen.Window.KeyPressQwerty(key, modifiers);
-            screen.Window.KeyReleaseQwerty(key, modifiers);
-            Settle(screen.Window);
-        }
-
-        private static Point CenterOf(Screen screen, Control control) =>
-            control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), screen.Window)!.Value;
 
         // The left edge of the name and the bottom of the row, in the window.
         private static Point BelowNameOf(Screen screen, TreeNode node)
@@ -106,27 +96,19 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(below.Y, box.Y, 0.51);
         }
 
-        private static void RightClick(Screen screen, Point point)
-        {
-            screen.Window.MouseMove(point);
-            screen.Window.MouseDown(point, MouseButton.Right);
-            screen.Window.MouseUp(point, MouseButton.Right);
-            Settle(screen.Window);
-        }
-
         [AvaloniaFact]
         public void ShiftA_AfterDown_OpensTheAddPanelAtTheCursorRow()
         {
             var screen = Show();
             var cursor = MoveCursorDown(screen);
 
-            Press(screen, PhysicalKey.A, RawInputModifiers.Shift);
+            screen.Window.Press(PhysicalKey.A, RawInputModifiers.Shift);
 
             var panel = screen.View.MenuAddPanel;
             Assert.True(panel.IsOpen);
             var search = panel.List.GetVisualDescendants().OfType<TextBox>().Single(box => box.Name == "PART_Search");
-            var row = CenterOf(screen, screen.RowOf(cursor).Band);
-            var field = CenterOf(screen, search);
+            var row = screen.Window.CenterOf(screen.RowOf(cursor).Band);
+            var field = screen.Window.CenterOf(search);
             Assert.Equal(row.X, field.X, 1.5);
             Assert.Equal(row.Y, field.Y, 1.5);
         }
@@ -137,7 +119,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             var cursor = MoveCursorDown(screen);
 
-            Press(screen, PhysicalKey.W);
+            screen.Window.Press(PhysicalKey.W);
 
             AssertMenuUnderRow(screen, cursor);
         }
@@ -149,7 +131,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var cursor = MoveCursorDown(screen);
             Assert.True(screen.RowOf(cursor).IsFocused);
 
-            Press(screen, PhysicalKey.ContextMenu);
+            screen.Window.Press(PhysicalKey.ContextMenu);
 
             AssertMenuUnderRow(screen, cursor);
         }
@@ -160,9 +142,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             var selected = screen.Tree.SelectedNode!;
             MoveCursorDown(screen);
-            var point = CenterOf(screen, screen.RowOf(selected));
+            var point = screen.Window.CenterOf(screen.RowOf(selected));
 
-            RightClick(screen, point);
+            screen.Window.RightClick(point);
 
             Assert.Same(selected, screen.Tree.CursorNode);
             Assert.Same(selected, screen.Tree.SelectedNode);
@@ -178,7 +160,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var last = screen.RowOf(screen.LayerNode(2));
             var under = last.TranslatePoint(new Point(last.Bounds.Width / 2, last.Bounds.Height * 3), screen.Window)!.Value;
 
-            RightClick(screen, under);
+            screen.Window.RightClick(under);
 
             Assert.True(screen.Menu?.IsOpen);
             Assert.Equal("Project", MenuTitle(screen));
@@ -188,7 +170,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Click_TheAddRowOfTheMenu_OpensTheAddPanelOfTheView()
         {
             var screen = Show();
-            Press(screen, PhysicalKey.W);
+            screen.Window.Press(PhysicalKey.W);
             var addRow = screen.Menu!.Items.OfType<MenuItem>().Single(item => Equals(item.Header, "Add"));
             addRow.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
             Settle(screen.Window);
@@ -202,7 +184,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             var cursor = screen.Tree.CursorNode!;
-            Press(screen, PhysicalKey.ArrowRight, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.ArrowRight, RawInputModifiers.Control);
             Assert.True(screen.View.MenuAddPanel.IsOpen);
 
             screen.View.MenuAddPanel.Close();
@@ -232,7 +214,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
 
-            Press(screen, PhysicalKey.W);
+            screen.Window.Press(PhysicalKey.W);
             Assert.Equal(TreeHintMode.Menu, screen.View.HintMode);
             Assert.Equal(new[] { "close" }, screen.View.HintStrip.Hints!.Select(hint => hint.Words).ToArray());
 

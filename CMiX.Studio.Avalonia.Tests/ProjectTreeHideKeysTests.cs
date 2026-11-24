@@ -79,23 +79,9 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(screen.View.IsKeyboardFocusWithin);
         }
 
-        private static void Press(Screen screen, PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
-        {
-            screen.Window.KeyPressQwerty(key, modifiers);
-            Settle(screen.Window);
-        }
-
         private static ToggleButton EyeOf(Screen screen, TreeNode node) =>
             screen.View.Rows.RowOf(node)!.Toggles.GetVisualDescendants().OfType<ToggleButton>()
                 .First(button => button.Name is "visibilityToggle" or "groupHideToggle" && button.IsEffectivelyVisible);
-
-        private static void Click(Screen screen, Control control)
-        {
-            var point = control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), screen.Window)!.Value;
-            screen.Window.MouseDown(point, MouseButton.Left);
-            screen.Window.MouseUp(point, MouseButton.Left);
-            Settle(screen.Window);
-        }
 
         // ---------------------------------------------------------------- Tree.Hide
 
@@ -106,9 +92,9 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.LayerNode(0).IsExpanded = false;
             Focus(screen, screen.LayerNode(0));
 
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
             Assert.Same(screen.LayerNode(1), screen.Tree.CursorNode);
-            Press(screen, PhysicalKey.H);
+            screen.Window.Press(PhysicalKey.H);
 
             Assert.True(screen.LayerNode(1).IsHidden);
             Assert.False(screen.LayerNode(0).IsHidden);
@@ -127,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var group = screen.LayersNode;
             Focus(screen, group);
 
-            Press(screen, PhysicalKey.H);
+            screen.Window.Press(PhysicalKey.H);
 
             Assert.True(group.Group!.Manager.Hidden.Value);
             Assert.All(group.Children, layer => Assert.False(layer.IsHidden));
@@ -150,11 +136,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var clicked = screen.LayerNode(1);
             var pressed = screen.LayerNode(2);
 
-            Click(screen, EyeOf(screen, clicked));
+            screen.Window.Click(EyeOf(screen, clicked));
             var clickStep = screen.UndoStack.Last!.Value;
             var clickMessage = recorder.Sent.Last();
             Focus(screen, pressed);
-            Press(screen, PhysicalKey.H);
+            screen.Window.Press(PhysicalKey.H);
             var keyStep = screen.UndoStack.Last!.Value;
             var keyMessage = recorder.Sent.Last();
 
@@ -183,13 +169,13 @@ namespace CMiX.Studio.Avalonia.Tests
             var node = screen.LayerNode(1);
             Focus(screen, node);
 
-            Press(screen, PhysicalKey.H);
+            screen.Window.Press(PhysicalKey.H);
 
             Assert.True(screen.Host.IsShowing);
             Assert.Equal($"Hidden: {node.Header}", screen.Host.Notification.Text);
             Assert.Equal("Ctrl+Z", screen.Host.Notification.UndoGesture);
 
-            Press(screen, PhysicalKey.H);
+            screen.Window.Press(PhysicalKey.H);
 
             Assert.False(node.IsHidden);
             Assert.Equal($"Shown: {node.Header}", screen.Host.Notification.Text);
@@ -212,7 +198,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var before = screen.UndoSteps;
             Focus(screen, screen.LayerNode(1));
 
-            Press(screen, PhysicalKey.H, RawInputModifiers.Alt);
+            screen.Window.Press(PhysicalKey.H, RawInputModifiers.Alt);
 
             Assert.False(group.IsHidden);
             Assert.False(screen.LayerNode(1).IsHidden);
@@ -234,7 +220,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             Focus(screen, screen.LayerNode(1));
 
-            Press(screen, PhysicalKey.H, RawInputModifiers.Alt);
+            screen.Window.Press(PhysicalKey.H, RawInputModifiers.Alt);
 
             Assert.Equal(0, screen.UndoSteps);
             Assert.False(screen.Host.IsShowing);
@@ -260,8 +246,8 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(box.IsFocused);
             var before = screen.UndoSteps;
 
-            Press(screen, PhysicalKey.H);
-            Press(screen, PhysicalKey.H, RawInputModifiers.Alt);
+            screen.Window.Press(PhysicalKey.H);
+            screen.Window.Press(PhysicalKey.H, RawInputModifiers.Alt);
 
             Assert.False(screen.LayerNode(1).IsHidden);
             Assert.True(screen.LayerNode(2).IsHidden);

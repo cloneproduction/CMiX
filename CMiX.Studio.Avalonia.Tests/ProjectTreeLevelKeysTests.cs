@@ -213,12 +213,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(view.IsKeyboardFocusWithin);
         }
 
-        private static void Press(Views.MainWindow mainWindow, PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
-        {
-            mainWindow.KeyPressQwerty(key, modifiers);
-            Settle(mainWindow);
-        }
-
         private static IEnumerable<TreeNode> RowsWithChildren(ProjectTree tree) => WithChildren(ListTreeTestScreen.All(tree.Roots));
 
         [AvaloniaFact]
@@ -232,7 +226,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle(mainWindow);
             FocusTheCursorRow(mainWindow, view, tree);
 
-            Press(mainWindow, PhysicalKey.E, RawInputModifiers.Shift);
+            mainWindow.Press(PhysicalKey.E, RawInputModifiers.Shift);
 
             Assert.All(WithChildren(ListTreeTestScreen.All(new[] { composition })), node => Assert.True(node.IsExpanded));
         }
@@ -245,7 +239,7 @@ namespace CMiX.Studio.Avalonia.Tests
             FocusTheCursorRow(mainWindow, view, tree);
             var before = RowsWithChildren(tree).Count(node => node.IsExpanded);
 
-            Press(mainWindow, PhysicalKey.Q);
+            mainWindow.Press(PhysicalKey.Q);
 
             Assert.True(RowsWithChildren(tree).Count(node => node.IsExpanded) < before);
             Assert.True(tree.CompositionNodes()[0].IsExpanded);
@@ -262,7 +256,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle(mainWindow);
             FocusTheCursorRow(mainWindow, view, tree);
 
-            Press(mainWindow, PhysicalKey.Q, RawInputModifiers.Shift);
+            mainWindow.Press(PhysicalKey.Q, RawInputModifiers.Shift);
 
             Assert.True(layers.IsExpanded);
         }
@@ -274,7 +268,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var tree = viewModel.ProjectTree;
             FocusTheCursorRow(mainWindow, view, tree);
 
-            Press(mainWindow, PhysicalKey.E, RawInputModifiers.Shift | RawInputModifiers.Alt);
+            mainWindow.Press(PhysicalKey.E, RawInputModifiers.Shift | RawInputModifiers.Alt);
 
             Assert.All(RowsWithChildren(tree), node => Assert.False(node.IsExpanded));
             AssertCursorShows(tree);
@@ -293,10 +287,10 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(box.IsFocused);
             var before = RowsWithChildren(tree).Select(node => node.IsExpanded).ToList();
 
-            Press(mainWindow, PhysicalKey.E, RawInputModifiers.Shift | RawInputModifiers.Alt);
-            Press(mainWindow, PhysicalKey.E, RawInputModifiers.Shift);
-            Press(mainWindow, PhysicalKey.Q, RawInputModifiers.Shift);
-            Press(mainWindow, PhysicalKey.Q);
+            mainWindow.Press(PhysicalKey.E, RawInputModifiers.Shift | RawInputModifiers.Alt);
+            mainWindow.Press(PhysicalKey.E, RawInputModifiers.Shift);
+            mainWindow.Press(PhysicalKey.Q, RawInputModifiers.Shift);
+            mainWindow.Press(PhysicalKey.Q);
 
             Assert.Equal(before, RowsWithChildren(tree).Select(node => node.IsExpanded).ToList());
         }

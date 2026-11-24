@@ -74,16 +74,10 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private ListTreeProject View => view!;
 
-        private static void Press(Screen screen, PhysicalKey key)
-        {
-            screen.Window.KeyPressQwerty(key, RawInputModifiers.None);
-            Settle(screen.Window);
-        }
-
         private static void Press(Screen screen, string keys)
         {
             foreach (var key in keys.Split(' '))
-                Press(screen, key == "Down" ? PhysicalKey.ArrowDown : key == "Up" ? PhysicalKey.ArrowUp : PhysicalKey.Enter);
+                screen.Window.Press(key == "Down" ? PhysicalKey.ArrowDown : key == "Up" ? PhysicalKey.ArrowUp : PhysicalKey.Enter);
         }
 
         // The middle of the row of the node in the tree, in the window.
@@ -102,7 +96,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle(screen.Window);
             View.Rows.RowOf(screen.LayerNode(0))!.Focus();
             Settle(screen.Window);
-            Press(screen, PhysicalKey.G);
+            screen.Window.Press(PhysicalKey.G);
             Assert.True(View.Grab.IsGrabbing);
         }
 
@@ -157,9 +151,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = ShowNewTree();
             var before = screen.Layers;
             GrabFirstLayer(screen);
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.False(View.Grab.IsGrabbing);
             Assert.False(screen.Tree.IsDragging);
@@ -178,7 +172,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var drag = View.Grab.Drag!;
             var start = drag.Candidates.ToList().FindIndex(candidate => ReferenceEquals(candidate.Slot.Target, screen.LayerNode(0)));
 
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
 
             Assert.Equal(drag.Candidates[start + 1].Slot, drag.Look!.Candidate.Slot);
             Assert.Equal(drag.Candidates[start + 1].Place.Y, PanelListTreeRows.GetTop(View.Rows.RowOf(screen.LayerNode(0))!));
@@ -191,10 +185,10 @@ namespace CMiX.Studio.Avalonia.Tests
             var before = screen.Layers;
             var grabbed = screen.LayerNode(0).Item;
             GrabFirstLayer(screen);
-            Press(screen, PhysicalKey.ArrowDown);
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
 
-            Press(screen, PhysicalKey.Enter);
+            screen.Window.Press(PhysicalKey.Enter);
 
             Assert.False(View.Grab.IsGrabbing);
             Assert.NotEqual(before, screen.Layers);
@@ -211,7 +205,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var before = screen.Layers;
             GrabFirstLayer(screen);
 
-            Press(screen, PhysicalKey.Enter);
+            screen.Window.Press(PhysicalKey.Enter);
 
             Assert.False(View.Grab.IsGrabbing);
             Assert.Equal(before, screen.Layers);
@@ -245,7 +239,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = ShowNewTree();
             GrabFirstLayer(screen);
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
             var marked = View.Grab.Drag!.Look!.Candidate.Slot;
             var start = On(screen, screen.CompositionNode);
 

@@ -6,6 +6,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -64,13 +65,6 @@ namespace CMiX.Studio.Avalonia.Tests
             return screen;
         }
 
-        private static void Press(Screen screen, PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
-        {
-            screen.Window.KeyPressQwerty(key, modifiers);
-            screen.Window.KeyReleaseQwerty(key, modifiers);
-            Settle(screen.Window);
-        }
-
         private static bool IsIn(PanelSide panel, object? focused) =>
             focused is Visual visual && panel.IsVisualAncestorOf(visual);
 
@@ -89,13 +83,13 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
 
-            Press(screen, PhysicalKey.Tab, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Tab, RawInputModifiers.Control);
 
             Assert.True(IsIn(screen.Right, screen.Focused));
             Assert.True(IsLineOn(screen.Right));
             Assert.False(IsLineOn(screen.Left));
 
-            Press(screen, PhysicalKey.Tab, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Tab, RawInputModifiers.Control);
 
             Assert.Same(screen.LayerItem, screen.Focused);
             Assert.True(IsLineOn(screen.Left));
@@ -108,10 +102,10 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
 
             // The left panel is the first panel, so the previous panel is the last panel.
-            Press(screen, PhysicalKey.Tab, RawInputModifiers.Control | RawInputModifiers.Shift);
+            screen.Window.Press(PhysicalKey.Tab, RawInputModifiers.Control | RawInputModifiers.Shift);
             Assert.True(IsIn(screen.Right, screen.Focused));
 
-            Press(screen, PhysicalKey.Tab, RawInputModifiers.Control | RawInputModifiers.Shift);
+            screen.Window.Press(PhysicalKey.Tab, RawInputModifiers.Control | RawInputModifiers.Shift);
             Assert.Same(screen.LayerItem, screen.Focused);
         }
 
@@ -122,10 +116,10 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.RightPicker.Focus();
             Settle(screen.Window);
 
-            Press(screen, PhysicalKey.Tab, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Tab, RawInputModifiers.Control);
             Assert.Same(screen.LayerItem, screen.Focused);
 
-            Press(screen, PhysicalKey.Tab, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Tab, RawInputModifiers.Control);
             Assert.Same(screen.RightPicker, screen.Focused);
         }
 
@@ -134,18 +128,18 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
 
-            Press(screen, PhysicalKey.Digit2, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Digit2, RawInputModifiers.Control);
             Assert.True(IsIn(screen.Right, screen.Focused));
             Assert.True(IsLineOn(screen.Right));
 
-            Press(screen, PhysicalKey.Digit1, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Digit1, RawInputModifiers.Control);
             Assert.Same(screen.LayerItem, screen.Focused);
             Assert.True(IsLineOn(screen.Left));
 
             // There are two panels: Ctrl+3 and Ctrl+4 do nothing.
-            Press(screen, PhysicalKey.Digit3, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Digit3, RawInputModifiers.Control);
             Assert.Same(screen.LayerItem, screen.Focused);
-            Press(screen, PhysicalKey.Digit4, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Digit4, RawInputModifiers.Control);
             Assert.Same(screen.LayerItem, screen.Focused);
         }
 
@@ -157,7 +151,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.RightPicker.Focus();
             Settle(screen.Window);
 
-            Press(screen, PhysicalKey.Digit1, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Digit1, RawInputModifiers.Control);
 
             Assert.Same(screen.LayerItem, screen.Focused);
         }
@@ -172,13 +166,13 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle(screen.Window);
             var text = box.Text;
 
-            Press(screen, PhysicalKey.Tab, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Tab, RawInputModifiers.Control);
 
             Assert.True(IsIn(screen.Right, screen.Focused));
             Assert.Equal(text, box.Text);
 
             // The text box is the last focused control of the left panel.
-            Press(screen, PhysicalKey.Tab, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.Tab, RawInputModifiers.Control);
             Assert.Same(box, screen.Focused);
         }
 
@@ -205,7 +199,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.RightPicker.Focus();
             Settle(screen.Window);
 
-            Press(screen, PhysicalKey.T, RawInputModifiers.Control);
+            screen.Window.Press(PhysicalKey.T, RawInputModifiers.Control);
 
             Assert.Same(screen.LayerItem, screen.Focused);
         }
@@ -217,7 +211,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.RightPicker.Focus();
             Settle(screen.Window);
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.Same(screen.LayerItem, screen.Focused);
         }
@@ -233,12 +227,12 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle(screen.Window);
             Assert.IsType<TextBox>(screen.Focused);
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.False(editable.IsEditing);
             Assert.False(IsIn(screen.Left, screen.Focused));
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.Same(screen.LayerItem, screen.Focused);
         }
@@ -252,7 +246,7 @@ namespace CMiX.Studio.Avalonia.Tests
             box.Focus();
             Settle(screen.Window);
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.Same(box, screen.Focused);
         }
@@ -271,7 +265,7 @@ namespace CMiX.Studio.Avalonia.Tests
             box.Focus();
             Settle(screen.Window);
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.Same(screen.RightPicker, screen.Focused);
         }
@@ -284,7 +278,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.RightPicker.Focus();
             Settle(screen.Window);
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.Same(screen.RightPicker, screen.Focused);
         }
@@ -295,7 +289,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             var cursor = screen.Tree.CursorNode;
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.Same(screen.LayerItem, screen.Focused);
             Assert.Same(cursor, screen.Tree.CursorNode);

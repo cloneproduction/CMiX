@@ -41,8 +41,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private sealed record Screen(ListTreeProject View, ProjectTree Tree, UndoManager Undo, Composition Composition, ShortcutMap Shortcuts);
 
-        private void Settle() => ListTreeTestScreen.Settle(window!);
-
         // One composition with three layers. The first layer is selected, the undo history is empty.
         private Screen Show()
         {
@@ -56,21 +54,14 @@ namespace CMiX.Studio.Avalonia.Tests
             tree.CompositionNodes()[0].Children[0].IsExpanded = true;
             foreach (var layer in tree.CompositionNodes()[0].Children[0].Children)
                 layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
 
             tree.SelectedNode = tree.CompositionNodes()[0].Children[0].Children[0];
-            Settle();
+            window!.Settle();
             view.Rows.RowOf(tree.CompositionNodes()[0].Children[0].Children[0])!.Focus();
-            Settle();
+            window!.Settle();
             undo.Clear();
             return new Screen(view, tree, undo, composition, shortcuts);
-        }
-
-
-        private void Press(PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
-        {
-            window!.KeyPressQwerty(key, modifiers);
-            Settle();
         }
 
         [AvaloniaFact]
@@ -81,7 +72,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var second = screen.Tree.CompositionNodes()[0].Children[0].Children[1];
             var selectedLayer = screen.Composition.LayerManager.SelectedItem;
 
-            Press(PhysicalKey.ArrowDown);
+            window!.Press(PhysicalKey.ArrowDown);
 
             Assert.Same(second, screen.Tree.CursorNode);
             Assert.Same(first, screen.Tree.SelectedNode);
@@ -94,9 +85,9 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             var second = screen.Tree.CompositionNodes()[0].Children[0].Children[1];
-            Press(PhysicalKey.ArrowDown);
+            window!.Press(PhysicalKey.ArrowDown);
 
-            Press(PhysicalKey.Enter);
+            window!.Press(PhysicalKey.Enter);
 
             Assert.Same(second, screen.Tree.SelectedNode);
             Assert.Equal(SelectionOrigin.Keyboard, screen.Tree.Origin);
@@ -110,12 +101,12 @@ namespace CMiX.Studio.Avalonia.Tests
 
             // The key of the rename is a binding of the main window (see ListTreeWindowKeysTests), so the test starts the rename itself.
             screen.Tree.RenameSelectedCommand.Execute(null);
-            Settle();
+            window!.Settle();
             Assert.Empty(screen.View.KeyBindings);
 
-            Press(PhysicalKey.Escape);
+            window!.Press(PhysicalKey.Escape);
             screen.View.Rows.RowOf(screen.Tree.CompositionNodes()[0].Children[0].Children[0])!.Focus();
-            Settle();
+            window!.Settle();
             Assert.Equal(2, screen.View.KeyBindings.Count);
         }
 
@@ -125,10 +116,10 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ShiftTab_FromOutsideTheTree_ComesBackToTheTreeInOneStep()
         {
             var screen = Show();
-            Press(PhysicalKey.Tab);
+            window!.Press(PhysicalKey.Tab);
             Assert.False(InTree(window!.FocusManager!.GetFocusedElement(), screen.View));
 
-            Press(PhysicalKey.Tab, RawInputModifiers.Shift);
+            window!.Press(PhysicalKey.Tab, RawInputModifiers.Shift);
 
             Assert.IsType<RowListTree>(window.FocusManager!.GetFocusedElement());
         }

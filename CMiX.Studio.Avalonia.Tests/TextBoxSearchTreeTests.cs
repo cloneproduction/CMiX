@@ -44,38 +44,18 @@ namespace CMiX.Studio.Avalonia.Tests
             window = new Window { Content = new DockPanel { Children = { box, view } }, Width = 400, Height = 700 };
             window.Show();
             var screen = new Screen(window, box, view);
-            Pump(screen);
+            screen.Window.Settle();
             return (screen, scene);
         }
 
-        private static void Pump(Screen screen)
-        {
-            Dispatcher.UIThread.RunJobs();
-            ListTreeTestScreen.Settle(screen.Window);
-        }
-
-        private static void Click(Window window, Control control)
-        {
-            var point = control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
-            window.MouseMove(point);
-            window.MouseDown(point, MouseButton.Left);
-            window.MouseUp(point, MouseButton.Left);
-            Dispatcher.UIThread.RunJobs();
-        }
-
-        private static void Press(Screen screen, PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
-        {
-            screen.Window.KeyPressQwerty(key, modifiers);
-            Pump(screen);
-        }
 
         // Focuses the field and types a text.
         private static void Search(Screen screen, string text)
         {
             screen.Box.Field.FocusInput();
-            Pump(screen);
+            screen.Window.Settle();
             screen.Box.Field.Text = text;
-            Pump(screen);
+            screen.Window.Settle();
         }
 
         [AvaloniaFact]
@@ -114,10 +94,10 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (screen, scene) = Show();
             scene.Tree.SearchText = "Layer";
-            Pump(screen);
+            screen.Window.Settle();
 
             scene.Tree.FocusSearch();
-            Pump(screen);
+            screen.Window.Settle();
 
             Assert.True(screen.Input.IsFocused);
             Assert.Equal(0, screen.Input.SelectionStart);
@@ -130,13 +110,13 @@ namespace CMiX.Studio.Avalonia.Tests
             var (screen, scene) = Show();
             Search(screen, "Layer");
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.Equal(string.Empty, scene.Tree.SearchText);
             Assert.True(screen.Input.IsFocused);
             Assert.False(screen.Box.Clear.IsVisible);
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.False(screen.Input.IsFocused);
             Assert.True(screen.View.IsKeyboardFocusWithin);
@@ -154,14 +134,14 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(matches.Count >= 3);
             Assert.DoesNotContain(scene.NodeA, matches);
 
-            Press(screen, PhysicalKey.Enter);
+            screen.Window.Press(PhysicalKey.Enter);
             Assert.Same(matches[0], scene.Tree.CursorNode);
 
             for (var i = 1; i < matches.Count; i++)
-                Press(screen, PhysicalKey.Enter);
+                screen.Window.Press(PhysicalKey.Enter);
             Assert.Same(matches[^1], scene.Tree.CursorNode);
 
-            Press(screen, PhysicalKey.Enter);
+            screen.Window.Press(PhysicalKey.Enter);
             Assert.Same(matches[0], scene.Tree.CursorNode);
         }
 
@@ -173,10 +153,10 @@ namespace CMiX.Studio.Avalonia.Tests
             Search(screen, "Layer");
             var matches = scene.Tree.SearchMatches.ToList();
 
-            Press(screen, PhysicalKey.Enter, RawInputModifiers.Shift);
+            screen.Window.Press(PhysicalKey.Enter, RawInputModifiers.Shift);
             Assert.Same(matches[^1], scene.Tree.CursorNode);
 
-            Press(screen, PhysicalKey.Enter, RawInputModifiers.Shift);
+            screen.Window.Press(PhysicalKey.Enter, RawInputModifiers.Shift);
             Assert.Same(matches[^2], scene.Tree.CursorNode);
         }
 
@@ -192,8 +172,8 @@ namespace CMiX.Studio.Avalonia.Tests
             Search(screen, "Layer");
             var before = scene.Undo.CanUndo;
 
-            Press(screen, PhysicalKey.Enter, modifiers);
-            Press(screen, PhysicalKey.Enter, modifiers);
+            screen.Window.Press(PhysicalKey.Enter, modifiers);
+            screen.Window.Press(PhysicalKey.Enter, modifiers);
 
             Assert.NotSame(scene.NodeA, scene.Tree.CursorNode);
             Assert.Contains(scene.Tree.CursorNode!, scene.Tree.SearchMatches);
@@ -210,12 +190,12 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.SelectedNode = null;
             var layer = scene.LayerNodeOfA(2);
             layer.Parent!.IsExpanded = false;
-            Pump(screen);
+            screen.Window.Settle();
             Search(screen, layer.Header);
             Assert.Contains(layer, scene.Tree.SearchMatches);
 
             while (!ReferenceEquals(scene.Tree.CursorNode, layer))
-                Press(screen, PhysicalKey.Enter);
+                screen.Window.Press(PhysicalKey.Enter);
 
             Assert.True(layer.Parent!.IsExpanded);
             Assert.NotNull(screen.View.Rows.RowOf(layer));
@@ -231,7 +211,7 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.SelectedNode = scene.NodeA;
             Search(screen, "Layer");
 
-            Press(screen, PhysicalKey.F3, modifiers);
+            screen.Window.Press(PhysicalKey.F3, modifiers);
 
             Assert.Same(scene.NodeA, scene.Tree.CursorNode);
             Assert.Same(scene.NodeA, scene.Tree.SelectedNode);
@@ -244,11 +224,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var (screen, scene) = Show();
             scene.Tree.SelectedNode = scene.NodeA;
             Search(screen, "Layer");
-            Press(screen, PhysicalKey.Enter);
-            Press(screen, PhysicalKey.Enter);
+            screen.Window.Press(PhysicalKey.Enter);
+            screen.Window.Press(PhysicalKey.Enter);
             var match = scene.Tree.CursorNode!;
 
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
 
             Assert.False(screen.Input.IsFocused);
             Assert.Same(screen.View.Rows.RowOf(match), screen.Window.FocusManager!.GetFocusedElement());
@@ -265,8 +245,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var (screen, scene) = Show();
             Search(screen, "Layer");
 
-            Click(screen.Window, screen.Box.Clear);
-            Pump(screen);
+            screen.Window.Click(screen.Box.Clear);
+            screen.Window.Settle();
 
             Assert.Equal(string.Empty, scene.Tree.SearchText);
             Assert.True(screen.Input.IsFocused);
@@ -280,12 +260,12 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.SelectedNode = null;
             var layers = scene.LayerNodeOfA(0).Parent!;
             layers.IsExpanded = false;
-            Pump(screen);
+            screen.Window.Settle();
             Search(screen, scene.LayerNodeOfA(2).Header);
             Assert.True(layers.IsExpanded);
 
-            Click(screen.Window, screen.Box.Clear);
-            Pump(screen);
+            screen.Window.Click(screen.Box.Clear);
+            screen.Window.Settle();
 
             Assert.False(layers.IsExpanded);
         }
@@ -300,18 +280,18 @@ namespace CMiX.Studio.Avalonia.Tests
             var layers = scene.LayerNodeOfA(0).Parent!;
             var layer = scene.LayerNodeOfA(2);
             layers.IsExpanded = false;
-            Pump(screen);
+            screen.Window.Settle();
             Search(screen, layer.Header);
             scene.Tree.SelectedNode = layer;
-            Pump(screen);
+            screen.Window.Settle();
             screen.Box.Field.FocusInput();
-            Pump(screen);
+            screen.Window.Settle();
 
             if (byButton)
-                Click(screen.Window, screen.Box.Clear);
+                screen.Window.Click(screen.Box.Clear);
             else
-                Press(screen, PhysicalKey.Escape);
-            Pump(screen);
+                screen.Window.Press(PhysicalKey.Escape);
+            screen.Window.Settle();
 
             Assert.Equal(string.Empty, scene.Tree.SearchText);
             Assert.True(layers.IsExpanded);
@@ -329,7 +309,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Search(screen, "Layer");
 
             screen.View.Rows.RowOf(scene.LayerNodeOfA(0))!.Focus();
-            Pump(screen);
+            screen.Window.Settle();
 
             Assert.False(screen.Input.IsFocused);
             Assert.Equal("Layer", scene.Tree.SearchText);
@@ -347,7 +327,7 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.FocusSearchCommand.CanExecuteChanged += (_, _) => changes++;
 
             scene.Tree.BeginDrag(scene.LayerNodeOfA(0));
-            Pump(screen);
+            screen.Window.Settle();
 
             Assert.True(changes > 0);
             Assert.False(scene.Tree.FocusSearchCommand.CanExecute(null));
@@ -355,7 +335,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(screen.Box.Clear.IsEffectivelyEnabled);
             screen.Input.Focus();
             screen.Window.KeyTextInput("x");
-            Pump(screen);
+            screen.Window.Settle();
             Assert.Equal("Layer", scene.Tree.SearchText);
             scene.Tree.EndDrag();
         }
@@ -367,9 +347,9 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.SelectedNode = scene.NodeA;
             Search(screen, "Layer");
             scene.Tree.BeginDrag(scene.LayerNodeOfA(0));
-            Pump(screen);
+            screen.Window.Settle();
 
-            Press(screen, PhysicalKey.Enter);
+            screen.Window.Press(PhysicalKey.Enter);
             scene.Tree.MoveCursorToNextMatch();
 
             Assert.Same(scene.NodeA, scene.Tree.CursorNode);
@@ -382,10 +362,10 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (screen, scene) = Show();
             scene.Tree.BeginDrag(scene.LayerNodeOfA(0));
-            Pump(screen);
+            screen.Window.Settle();
 
             scene.Tree.FocusSearch();
-            Pump(screen);
+            screen.Window.Settle();
 
             Assert.False(screen.Input.IsFocused);
             scene.Tree.EndDrag();
@@ -397,17 +377,17 @@ namespace CMiX.Studio.Avalonia.Tests
             var (screen, scene) = Show();
             Search(screen, "Layer");
             scene.Tree.BeginDrag(scene.LayerNodeOfA(0));
-            Pump(screen);
+            screen.Window.Settle();
 
             scene.Tree.EndDrag();
-            Pump(screen);
+            screen.Window.Settle();
 
             Assert.Equal("Layer", scene.Tree.SearchText);
             Assert.False(screen.Input.IsReadOnly);
             screen.Input.Focus();
             screen.Input.CaretIndex = screen.Input.Text!.Length;
             screen.Window.KeyTextInput(" 0");
-            Pump(screen);
+            screen.Window.Settle();
             Assert.Equal("Layer 0", scene.Tree.SearchText);
         }
 
@@ -425,10 +405,10 @@ namespace CMiX.Studio.Avalonia.Tests
             TreeDrag.Over(screen.Window, Middle(RowOf(rows[0])), Middle(RowOf(rows[2])));
             Assert.True(screen.View.RowDrag.IsDragging);
             screen.Input.Focus();
-            Pump(screen);
+            screen.Window.Settle();
 
             screen.Input.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = Key.Escape });
-            Pump(screen);
+            screen.Window.Settle();
 
             Assert.False(screen.View.RowDrag.IsDragging);
             Assert.False(scene.Tree.IsDragging);

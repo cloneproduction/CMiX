@@ -5,6 +5,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -61,12 +62,6 @@ namespace CMiX.Studio.Avalonia.Tests
             return screen;
         }
 
-        private static void Press(Screen screen, PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
-        {
-            screen.Window.KeyPressQwerty(key, modifiers);
-            Settle(screen.Window);
-        }
-
         // Focuses the field and types the name of the second layer: one row matches.
         private static TreeNode SearchOneLayer(Screen screen)
         {
@@ -78,16 +73,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(new[] { layer }, screen.Tree.SearchMatches);
             Assert.True(screen.Tree.IsSearchActive);
             return layer;
-        }
-
-        private static void Click(Screen screen, TreeNode node)
-        {
-            var row = screen.View.Rows.RowOf(node)!;
-            var point = row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), screen.Window)!.Value;
-            screen.Window.MouseMove(point);
-            screen.Window.MouseDown(point, MouseButton.Left);
-            screen.Window.MouseUp(point, MouseButton.Left);
-            Settle(screen.Window);
         }
 
         // The search is off: no text, no dimmed row and no dimmed cover.
@@ -118,12 +103,12 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             SearchOneLayer(screen);
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
             Assert.False(screen.Input.IsFocused);
             var cursor = screen.Tree.CursorNode;
             Assert.Contains(screen.Tree.Roots, root => root.IsSearchDimmed);
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             AssertNoSearch(screen);
             Assert.Same(cursor, screen.Tree.CursorNode);
@@ -141,11 +126,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var layer = SearchOneLayer(screen);
             Assert.True(layers.IsExpanded);
 
-            Click(screen, layer);
+            screen.Window.Click(screen.View.Rows.RowOf(layer)!);
             Assert.Same(layer, screen.Tree.CursorNode);
             Assert.Equal(layer.Header, screen.Tree.SearchText);
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             AssertNoSearch(screen);
             Assert.True(layers.IsExpanded);
@@ -165,7 +150,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var expanded = All(screen.Tree.Roots).Select(node => node.IsExpanded).ToList();
             var selected = screen.Tree.SelectedNode;
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.Same(layer, screen.Tree.CursorNode);
             Assert.Same(selected, screen.Tree.SelectedNode);
@@ -183,7 +168,7 @@ namespace CMiX.Studio.Avalonia.Tests
             SearchOneLayer(screen);
             Assert.True(screen.Input.IsFocused);
 
-            Press(screen, PhysicalKey.F, RawInputModifiers.Alt);
+            screen.Window.Press(PhysicalKey.F, RawInputModifiers.Alt);
 
             AssertNoSearch(screen);
             Assert.False(screen.Input.IsFocused);
@@ -201,7 +186,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle(screen.Window);
             Assert.True(other.IsKeyboardFocusWithin);
 
-            Press(screen, PhysicalKey.F, RawInputModifiers.Alt);
+            screen.Window.Press(PhysicalKey.F, RawInputModifiers.Alt);
 
             AssertNoSearch(screen);
             Assert.True(screen.View.IsKeyboardFocusWithin);
@@ -217,11 +202,11 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle(screen.Window);
             screen.View.Rows.RowOf(screen.LayerNode(0))!.Focus(NavigationMethod.Tab);
             Settle(screen.Window);
-            Press(screen, PhysicalKey.G);
+            screen.Window.Press(PhysicalKey.G);
             Assert.True(screen.View.Grab.IsGrabbing);
             Assert.False(screen.Tree.ClearSearchCommand.CanExecute(null));
 
-            Press(screen, PhysicalKey.F, RawInputModifiers.Alt);
+            screen.Window.Press(PhysicalKey.F, RawInputModifiers.Alt);
 
             Assert.True(screen.View.Grab.IsGrabbing);
             Assert.Equal(screen.LayerNode(1).Header, screen.Tree.SearchText);
@@ -275,12 +260,12 @@ namespace CMiX.Studio.Avalonia.Tests
             SearchOneLayer(screen);
             Assert.DoesNotContain(TextBoxSearchTree.FilteringClass, screen.Box.Field.Classes);
 
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
 
             Assert.Contains(TextBoxSearchTree.FilteringClass, screen.Box.Field.Classes);
             Assert.Equal(AccentColor, BorderColorOf(screen));
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.DoesNotContain(TextBoxSearchTree.FilteringClass, screen.Box.Field.Classes);
             Assert.NotEqual(AccentColor, BorderColorOf(screen));
@@ -293,7 +278,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Box.Field.FocusInput();
             Settle(screen.Window);
 
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
 
             Assert.True(screen.View.IsKeyboardFocusWithin);
             Assert.DoesNotContain(TextBoxSearchTree.FilteringClass, screen.Box.Field.Classes);
@@ -307,7 +292,7 @@ namespace CMiX.Studio.Avalonia.Tests
             SearchOneLayer(screen);
             Assert.Equal(TreeHintMode.Search, screen.View.HintMode);
 
-            Press(screen, PhysicalKey.ArrowDown);
+            screen.Window.Press(PhysicalKey.ArrowDown);
 
             Assert.Equal(TreeHintMode.Filter, screen.View.HintMode);
             var hints = screen.View.HintStrip.Hints!;
@@ -315,7 +300,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(TreeKeyHints.Escape, hints[0].Keys.Single());
             Assert.Equal("Ctrl+F", hints[1].Keys.Single());
 
-            Press(screen, PhysicalKey.Escape);
+            screen.Window.Press(PhysicalKey.Escape);
 
             Assert.Equal(TreeHintMode.Idle, screen.View.HintMode);
             Assert.Equal("move", screen.View.HintStrip.Hints![0].Words);

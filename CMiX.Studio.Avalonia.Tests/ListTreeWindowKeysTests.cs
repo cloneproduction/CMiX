@@ -42,18 +42,12 @@ namespace CMiX.Studio.Avalonia.Tests
             return screen;
         }
 
-        private static void Press(Screen screen, PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
-        {
-            screen.Window.KeyPressQwerty(key, modifiers);
-            Settle(screen.Window);
-        }
-
         [AvaloniaFact]
         public void Press_ShiftDWithTheFocusInTheNewView_DuplicatesTheSelectedRow()
         {
             var screen = Show();
 
-            Press(screen, PhysicalKey.D, RawInputModifiers.Shift);
+            screen.Window.Press(PhysicalKey.D, RawInputModifiers.Shift);
 
             Assert.Equal(4, screen.Layers.Count);
         }
@@ -64,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             var first = screen.Layers[0];
 
-            Press(screen, PhysicalKey.ArrowDown, RawInputModifiers.Alt);
+            screen.Window.Press(PhysicalKey.ArrowDown, RawInputModifiers.Alt);
 
             Assert.Same(first, screen.Layers[1]);
             Assert.Same(screen.View.Rows.RowOf(screen.Tree.SelectedNode!), screen.Window.FocusManager!.GetFocusedElement());
@@ -77,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var composition = screen.Tree.CompositionNodes()[0];
             screen.Tree.CursorNode = composition;
 
-            Press(screen, PhysicalKey.E);
+            screen.Window.Press(PhysicalKey.E);
 
             Assert.False(composition.IsExpanded);
         }
@@ -90,7 +84,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var other = screen.LayerNode(1);
             Assert.True(other.IsExpanded);
 
-            Press(screen, PhysicalKey.E, RawInputModifiers.Alt);
+            screen.Window.Press(PhysicalKey.E, RawInputModifiers.Alt);
 
             Assert.False(other.IsExpanded);
             Assert.True(target.IsExpanded);

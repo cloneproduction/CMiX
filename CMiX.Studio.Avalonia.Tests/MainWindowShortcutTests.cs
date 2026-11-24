@@ -6,6 +6,7 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
 using Composition = CMiX.Core.Compositing.Composition;
@@ -16,12 +17,6 @@ namespace CMiX.Studio.Avalonia.Tests
     // The undo and redo keys of the main window. The gestures come from the shortcut map.
     public class MainWindowShortcutTests
     {
-        private static void Press(Views.MainWindow window, PhysicalKey key, RawInputModifiers modifiers)
-        {
-            window.KeyPressQwerty(key, modifiers);
-            TestServiceProviderFactory.Pump();
-        }
-
         [AvaloniaFact]
         public void Press_CtrlZThenCtrlShiftZ_UndoesAndRedoesTheStep()
         {
@@ -32,10 +27,10 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Focus();
             Assert.Single(items);
 
-            Press(window, PhysicalKey.Z, RawInputModifiers.Control);
+            window.Press(PhysicalKey.Z, RawInputModifiers.Control);
             Assert.Empty(items);
 
-            Press(window, PhysicalKey.Z, RawInputModifiers.Control | RawInputModifiers.Shift);
+            window.Press(PhysicalKey.Z, RawInputModifiers.Control | RawInputModifiers.Shift);
             Assert.Single(items);
         }
 
@@ -129,7 +124,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Focus();
             PointOnTree(window);
 
-            Press(window, PhysicalKey.A, RawInputModifiers.Shift);
+            window.Press(PhysicalKey.A, RawInputModifiers.Shift);
 
             // The panel opens at once, with no context menu first.
             var view = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
@@ -155,7 +150,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Focus();
             PointBesideTree(window);
 
-            Press(window, PhysicalKey.A, RawInputModifiers.Shift);
+            window.Press(PhysicalKey.A, RawInputModifiers.Shift);
 
             Assert.Equal(before, viewModel.Project.CompositionManager.ManagerData.Items.Count);
             Assert.False(window.GetVisualDescendants().OfType<ListTreeProject>().Single().MenuAddPanel.IsOpen);
@@ -171,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Focus();
             PointOnTree(window);
 
-            Press(window, PhysicalKey.A, RawInputModifiers.Shift);
+            window.Press(PhysicalKey.A, RawInputModifiers.Shift);
             TestServiceProviderFactory.Pump();
 
             var view = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
@@ -226,7 +221,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Focus();
             PointOnTree(window);
 
-            Press(window, PhysicalKey.W, RawInputModifiers.None);
+            window.Press(PhysicalKey.W, RawInputModifiers.None);
             TestServiceProviderFactory.Pump();
 
             var (menu, texts) = MenuOf(window);
@@ -244,7 +239,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Focus();
             PointOnTree(window);
 
-            Press(window, PhysicalKey.W, RawInputModifiers.None);
+            window.Press(PhysicalKey.W, RawInputModifiers.None);
             TestServiceProviderFactory.Pump();
 
             var (menu, texts) = MenuOf(window);
@@ -261,7 +256,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Focus();
             PointBesideTree(window);
 
-            Press(window, PhysicalKey.W, RawInputModifiers.None);
+            window.Press(PhysicalKey.W, RawInputModifiers.None);
             TestServiceProviderFactory.Pump();
 
             Assert.NotEqual(true, MenuOf(window).Menu?.IsOpen);
@@ -282,7 +277,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             Assert.IsAssignableFrom<TextBox>(window.FocusManager!.GetFocusedElement());
 
-            Press(window, PhysicalKey.W, RawInputModifiers.None);
+            window.Press(PhysicalKey.W, RawInputModifiers.None);
             TestServiceProviderFactory.Pump();
 
             Assert.NotEqual(true, MenuOf(window).Menu?.IsOpen);
@@ -302,10 +297,10 @@ namespace CMiX.Studio.Avalonia.Tests
             PointOnTree(window);
             Assert.True(node.IsExpanded);
 
-            Press(window, PhysicalKey.E, RawInputModifiers.None);
+            window.Press(PhysicalKey.E, RawInputModifiers.None);
             Assert.False(node.IsExpanded);
 
-            Press(window, PhysicalKey.E, RawInputModifiers.None);
+            window.Press(PhysicalKey.E, RawInputModifiers.None);
             Assert.True(node.IsExpanded);
         }
 
@@ -322,7 +317,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.Focus();
             PointBesideTree(window);
 
-            Press(window, PhysicalKey.E, RawInputModifiers.None);
+            window.Press(PhysicalKey.E, RawInputModifiers.None);
 
             Assert.True(node.IsExpanded);
         }
@@ -343,8 +338,8 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             Assert.IsAssignableFrom<TextBox>(window.FocusManager!.GetFocusedElement());
 
-            Press(window, PhysicalKey.E, RawInputModifiers.None);
-            Press(window, PhysicalKey.A, RawInputModifiers.Shift);
+            window.Press(PhysicalKey.E, RawInputModifiers.None);
+            window.Press(PhysicalKey.A, RawInputModifiers.Shift);
 
             Assert.True(node.IsExpanded);
             Assert.False(window.GetVisualDescendants().OfType<ListTreeProject>().Single().MenuAddPanel.IsOpen);
@@ -375,7 +370,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var menu = window.GetVisualDescendants().OfType<Menu>().First();
             var file = menu.Items.OfType<MenuItem>().First();
 
-            Press(window, PhysicalKey.AltLeft, RawInputModifiers.None);
+            window.Press(PhysicalKey.AltLeft, RawInputModifiers.None);
 
             // Avalonia shows the access keys at the press of Alt, and opens the menu at its release when they show.
             Assert.False(window.GetValue(global::Avalonia.Controls.Primitives.AccessText.ShowAccessKeyProperty));
@@ -397,11 +392,11 @@ namespace CMiX.Studio.Avalonia.Tests
             PointOnTree(window);
             var view = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
 
-            Press(window, PhysicalKey.A, RawInputModifiers.Shift);
+            window.Press(PhysicalKey.A, RawInputModifiers.Shift);
             TestServiceProviderFactory.Pump();
             Assert.False(view.MenuAddPanel.IsOpen);
 
-            Press(window, PhysicalKey.N, RawInputModifiers.Control);
+            window.Press(PhysicalKey.N, RawInputModifiers.Control);
             TestServiceProviderFactory.Pump();
             Assert.True(view.MenuAddPanel.IsOpen);
             view.MenuAddPanel.Close();

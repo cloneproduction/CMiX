@@ -7,6 +7,7 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -63,13 +64,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static Border LineOf(PanelSide host) => host.FindControl<Border>("focusLine")!;
 
-        private static void Press(Screen screen, PhysicalKey key, RawInputModifiers modifiers = RawInputModifiers.None)
-        {
-            screen.Window.KeyPressQwerty(key, modifiers);
-            screen.Window.KeyReleaseQwerty(key, modifiers);
-            Settle(screen.Window);
-        }
-
         // The line is shown, as thick as SplitterIndicatorSize, in AccentBrush, and at the bottom of the bar.
         private static void AssertLineOn(PanelSide host)
         {
@@ -112,7 +106,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
 
-            Press(screen, PhysicalKey.W);
+            screen.Window.Press(PhysicalKey.W);
 
             Assert.True(screen.View.Menu?.IsOpen);
             AssertLineOn(screen.Left);
@@ -131,7 +125,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
 
-            Press(screen, PhysicalKey.A, RawInputModifiers.Shift);
+            screen.Window.Press(PhysicalKey.A, RawInputModifiers.Shift);
 
             Assert.True(screen.View.MenuAddPanel.IsOpen);
             AssertLineOn(screen.Left);
