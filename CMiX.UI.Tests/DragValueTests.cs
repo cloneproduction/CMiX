@@ -9,9 +9,12 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // DragValueInteger is a DragValue that starts as a whole number editor. It takes the same bindings.
-    public class DragValueIntegerTests
+    // The defaults and the steps of DragValue and DragValueInteger, the two way binding and Reset All.
+    // The drag steps have one source, and Shift stays slower than the normal drag.
+    public class DragValueTests
     {
+        // DragValueInteger is a DragValue that starts as a whole number editor. It takes the same bindings.
+
         [AvaloniaFact]
         public void DragValueInteger_StartsAsWholeNumbers_WithStepsOfOne()
         {
@@ -34,7 +37,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void DragValueInteger_FollowsItsModelBothWays()
+        public void DragValueInteger_BoundToAModel_FollowsItBothWays()
         {
             var model = new NumberValue(4);
             var box = new DragValueInteger { DataContext = model };
@@ -71,6 +74,27 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
 
             Assert.Equal(new object?[] { "Reset" }, box.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Select(i => i.Header).ToList());
+        }
+
+        // The drag steps have one source. Shift must stay slower than the normal drag.
+
+        [AvaloniaFact]
+        public void DragValue_ShiftStep_IsSmallerThanTheNormalStep()
+        {
+            var drag = new DragValue();
+
+            Assert.Equal(DragValue.DefaultLargeChange, drag.LargeChange);
+            Assert.Equal(DragValue.DefaultSmallChange, drag.SmallChange);
+            Assert.True(drag.SmallChange < drag.LargeChange);
+        }
+
+        [AvaloniaFact]
+        public void RangeValue_Steps_AreTheDragValueSteps()
+        {
+            var range = new RangeValue();
+
+            Assert.Equal(DragValue.DefaultLargeChange, range.LargeChange);
+            Assert.Equal(DragValue.DefaultSmallChange, range.SmallChange);
         }
     }
 }
