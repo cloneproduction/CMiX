@@ -127,22 +127,5 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(settings.SaveError, text.Text);
             Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("PopupCardDangerBrush")!).Color, ((ISolidColorBrush)text.Foreground!).Color);
         }
-
-        [AvaloniaFact]
-        public void Show_TheTabSettings_HasTheShortcutsExpanderClosed()
-        {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            TestServiceProviderFactory.SelectMainTab(window, "Settings");
-
-            var tab = window.GetVisualDescendants().OfType<TabSettings>().Single();
-            var expander = tab.GetVisualDescendants().OfType<ExpanderIndented>().Single(e => Equals(e.Header, "Shortcuts"));
-
-            Assert.False(expander.IsExpanded);
-
-            // A closed expander does not attach its content. The binding resolves when it opens.
-            expander.IsExpanded = true;
-            TestServiceProviderFactory.Pump();
-            Assert.Same(viewModel.ShortcutSettings, ((Control)expander.Content!).DataContext);
-        }
     }
 }

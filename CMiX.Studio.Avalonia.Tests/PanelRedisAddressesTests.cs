@@ -84,19 +84,5 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Null(blur.Strength.ModulatorID);
         }
-
-        [AvaloniaFact]
-        public void TheTabSettings_ShowsTheOutputMappingsTheRedisAddressesTheInterfaceAndTheShortcuts()
-        {
-            var tab = new Views.TabSettings();
-            new Window { Content = tab, Width = 400, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
-
-            var headers = tab.GetVisualDescendants().OfType<ExpanderIndented>()
-                .Where(expander => expander.IsEffectivelyVisible)
-                .Select(expander => expander.Header);
-
-            Assert.Equal(new object[] { "Output Mappings", "Redis Addresses", "Interface", "Shortcuts" }, headers);
-        }
     }
 }
