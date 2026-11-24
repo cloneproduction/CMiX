@@ -10,7 +10,7 @@ namespace CMiX.Core.Tests
         private static IServiceProvider Build() => new ServiceCollection().AddCMiXCore().BuildServiceProvider();
 
         [Fact]
-        public void SyncPeer_ResolvesAsSingleton()
+        public void GetRequiredService_OfSyncPeer_GivesOneInstance()
         {
             var provider = Build();
 
@@ -30,7 +30,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ISyncTarget_ResolvesToProjectSyncTarget()
+        public void GetRequiredService_OfISyncTarget_GivesTheProjectSyncTarget()
         {
             var target = Build().GetRequiredService<ISyncTarget>();
 
@@ -38,7 +38,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task SyncStoreFactory_ResolvesAndCreatesRedisSyncStore()
+        public async Task GetRequiredService_OfTheStoreFactory_CreatesARedisSyncStore()
         {
             var factory = Build().GetRequiredService<Func<SyncOptions, ISyncStore>>();
             var store = factory(SyncOptions.Defaults);
@@ -49,7 +49,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AddCMiXCore_ReturnsTheCollection()
+        public void AddCMiXCore_OfACollection_ReturnsTheSameCollection()
         {
             var services = new ServiceCollection();
 

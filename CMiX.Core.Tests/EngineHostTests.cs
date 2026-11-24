@@ -44,7 +44,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Start_GivesTheProviderAndTheQueue()
+        public void Start_OfAHost_GivesTheProviderAndTheQueue()
         {
             using var host = CreateHost(new InMemorySyncStore());
 
@@ -55,7 +55,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Start_ResolvesPrefabManagerWithoutAReorderService()
+        public void Start_OfAHost_ResolvesPrefabManagerWithoutAReorderService()
         {
             using var host = CreateHost(new InMemorySyncStore());
 
@@ -65,7 +65,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Start_StartsThePeerWithTheGivenOptions()
+        public void Start_OfAHost_StartsThePeerWithTheGivenOptions()
         {
             using var host = CreateHost(new InMemorySyncStore());
 
@@ -84,7 +84,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Start_SetsTheReadBatch()
+        public void Start_WithAReadBatch_SetsTheReadBatchOfThePeer()
         {
             using var custom = CreateHost(new InMemorySyncStore());
             using var standard = CreateHost(new InMemorySyncStore());
@@ -97,7 +97,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task Start_AppliesNothingUntilTheQueueDrains()
+        public async Task Start_WithAQueue_AppliesNothingUntilTheQueueDrains()
         {
             var store = new InMemorySyncStore();
             await WriteProjectSnapshotAsync(store);

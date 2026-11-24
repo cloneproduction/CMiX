@@ -23,7 +23,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Controls_IsAnObservableCollectionOfIControl()
+        public void Controls_OfTheRepository_IsAnObservableCollectionOfIControl()
         {
             var (_, repository, _, _) = Create();
 

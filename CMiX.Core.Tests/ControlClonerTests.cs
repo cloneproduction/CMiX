@@ -51,7 +51,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ADuplicatedComposition_HasNoControlIdOfTheOriginal()
+        public void CloneWithNewGuids_OfAComposition_SharesNoControlIdWithTheOriginal()
         {
             var (_, compositions, composition) = NewComposition();
             composition.LayerManager.AddItem(typeof(Layer));
@@ -74,7 +74,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ChangingTheOutputOfTheCopy_DoesNotReachTheOriginal()
+        public void CloneWithNewGuids_ThenAChangeOfTheOutputOfTheCopy_LeavesTheOriginal()
         {
             var (_, compositions, composition) = NewComposition();
             var copy = (Composition)compositions.DuplicateItem(composition);
@@ -87,7 +87,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TwoClonesOfTheSameModel_HaveDifferentIds()
+        public void CloneWithNewGuids_TwiceOfOneModel_GivesDifferentIds()
         {
             var (_, _, composition) = NewComposition();
             var model = composition.ToModel();

@@ -148,7 +148,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void InsertItem_FromModel_WithIndexOutOfRange_AddsAtTheEnd()
+        public void InsertItem_FromModelAtAnIndexOutOfRange_AddsAtTheEnd()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = CreateManagerWithItems(provider, 2, out var items);

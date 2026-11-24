@@ -9,7 +9,7 @@ namespace CMiX.Core.Tests
         private const string ShaderPath = "CMiX.Engine/shaders/CMiXBlendOperations.sdsl";
 
         [Fact]
-        public void BlendMode_HasTheSameNamesAndNumbersAsTheShaderSwitch()
+        public void BlendMode_ComparedWithTheShaderSwitch_HasTheSameNamesAndNumbers()
         {
             var shaderCases = ReadShaderCases();
             var mismatches = new List<string>();

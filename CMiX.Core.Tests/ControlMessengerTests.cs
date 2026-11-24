@@ -8,7 +8,7 @@ namespace CMiX.Core.Tests
     public class ControlMessengerTests
     {
         [Fact]
-        public void WhileBlocked_EverythingIsDropped()
+        public void SendMessage_WhileSendingIsBlocked_DropsEverything()
         {
             var messenger = new ControlMessenger();
             var sender = new RecordingMessageSender();
@@ -22,7 +22,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void WhileNotBlocked_EverythingSends()
+        public void SendMessage_WhileSendingIsNotBlocked_SendsEverything()
         {
             var messenger = new ControlMessenger();
             var sender = new RecordingMessageSender();
