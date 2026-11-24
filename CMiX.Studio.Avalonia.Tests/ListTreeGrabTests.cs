@@ -16,16 +16,15 @@ using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Layer = CMiX.Core.Compositing.Layer;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // Tree.Grab (G) in the new tree has the keys and the rules of the grab of the old tree, on the candidates of the pointer drag.
+    // Tree.Grab (G) steps through the candidates of the pointer drag with the arrow keys and drops with Enter.
     public class ListTreeGrabTests : IDisposable
     {
         private Views.MainWindow? window;
         private ListTreeProject? view;
-        private TreeViewProject? oldView;
 
         // A grab that a test leaves running would take the input of the next tests, so it ends here first.
         public void Dispose() => CloseWindow();
@@ -33,11 +32,9 @@ namespace CMiX.Studio.Avalonia.Tests
         private void CloseWindow()
         {
             view?.Grab.DetachFromWindow();
-            oldView?.Grab.Detach();
             window?.Close();
             window = null;
             view = null;
-            oldView = null;
         }
 
         private sealed record Screen : ListTreeMainScreen
@@ -49,13 +46,13 @@ namespace CMiX.Studio.Avalonia.Tests
             public int UndoSteps => UndoCounts.StepsOf(Undo);
         }
 
-        // The places of the grab and the order of the layers after the keys, as the original indices of the layers.
-        private sealed record Outcome(int Places, int[] Order, int UndoSteps);
+        // The order of the layers after the keys, as the original indices of the layers.
+        private sealed record Outcome(int[] Order, int UndoSteps);
 
-        // One composition with three empty layers, in the tree of the panel. The layer rows are closed. The composition is selected.
-        private Screen Show(PanelChoice panel)
+        // One composition with three empty layers, in the tree of the left panel. The layer rows are closed. The composition is selected.
+        private Screen Show()
         {
-            var screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(panel));
+            var screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(PanelChoice.Tree));
             window = screen.Window;
             foreach (var panelCollapse in screen.Window.GetVisualDescendants().OfType<CMiX.UI.Panels.PanelCollapse>())
                 panelCollapse.Duration = TimeSpan.Zero;
@@ -69,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private Screen ShowNewTree()
         {
-            var screen = Show(PanelChoice.ListTree);
+            var screen = Show();
             view = screen.View;
             Settle(screen.Window);
             return screen;
@@ -109,60 +106,34 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(View.Grab.IsGrabbing);
         }
 
-        private Outcome OldGrab(string keys)
-        {
-            var screen = Show(PanelChoice.Tree);
-            oldView = screen.Window.GetVisualDescendants().OfType<TreeViewProject>().Single();
-            oldView.DragSession.RestDelay = TimeSpan.FromHours(1);
-            var before = screen.Layers;
-            TreeDrag.Render(screen.Window);
-            var composition = RowOf(oldView, screen.CompositionNode);
-            screen.Window.MouseMove(composition.TranslatePoint(new Point(composition.Bounds.Width / 2, composition.Bounds.Height / 2), screen.Window)!.Value);
-            screen.Tree.CursorNode = screen.LayerNode(0);
-            Settle(screen.Window);
-            ItemOf(oldView, screen.LayerNode(0)).Focus();
-            Settle(screen.Window);
-            Press(screen, PhysicalKey.G);
-            Assert.True(oldView.Grab.IsGrabbing);
-            var places = new TreeDropSlots(screen.Tree, screen.LayerNode(0)).Slots.Count;
-
-            Press(screen, keys);
-
-            return OutcomeOf(screen, before, places);
-        }
-
         private Outcome NewGrab(string keys)
         {
             var screen = ShowNewTree();
             var before = screen.Layers;
             GrabFirstLayer(screen);
-            var places = View.Grab.Drag!.Candidates.Count;
 
             Press(screen, keys);
 
-            return OutcomeOf(screen, before, places);
+            return OutcomeOf(screen, before);
         }
 
-        private static Outcome OutcomeOf(Screen screen, Layer[] before, int places) =>
-            new(places, screen.Layers.Select(layer => Array.IndexOf(before, layer)).ToArray(), screen.UndoSteps);
+        private static Outcome OutcomeOf(Screen screen, Layer[] before) =>
+            new(screen.Layers.Select(layer => Array.IndexOf(before, layer)).ToArray(), screen.UndoSteps);
 
+        // The own place of the layer and the places that leave it where it is are no candidates. The candidates are the start, the place before the last layer and the end.
         [AvaloniaTheory]
-        [InlineData("Down Enter")]
-        [InlineData("Down Down Enter")]
-        [InlineData("Down Down Down Enter")]
-        [InlineData("Down Down Down Up Enter")]
-        [InlineData("Down Down Down Down Down Enter")]
-        [InlineData("Up Enter")]
-        public void Enter_AfterTheKeysOfTheOldGrab_GivesTheLayerOrderOfTheOldGrab(string keys)
+        [InlineData("Down Enter", new[] { 1, 0, 2 }, 1)]
+        [InlineData("Down Down Enter", new[] { 1, 2, 0 }, 1)]
+        [InlineData("Down Down Down Enter", new[] { 1, 2, 0 }, 1)]
+        [InlineData("Down Down Down Up Enter", new[] { 1, 0, 2 }, 1)]
+        [InlineData("Down Down Down Down Down Enter", new[] { 1, 2, 0 }, 1)]
+        [InlineData("Up Enter", new[] { 0, 1, 2 }, 0)]
+        public void Enter_AfterTheKeys_GivesTheLayerOrderOfTheShownPlace(string keys, int[] order, int undoSteps)
         {
-            var old = OldGrab(keys);
-            CloseWindow();
+            var outcome = NewGrab(keys);
 
-            var mine = NewGrab(keys);
-
-            Assert.Equal(old.Places, mine.Places);
-            Assert.Equal(old.Order, mine.Order);
-            Assert.Equal(old.UndoSteps, mine.UndoSteps);
+            Assert.Equal(order, outcome.Order);
+            Assert.Equal(undoSteps, outcome.UndoSteps);
         }
 
         [AvaloniaFact]

@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Tests.Support
             public static string[] Headers(TreeNode node) => node.Children.Where(child => child.Item == null).Select(child => child.Header).ToArray();
 
             // Every node of the tree, in tree order.
-            public IEnumerable<TreeNode> All() => TreeTestScreen.All(Tree.Roots);
+            public IEnumerable<TreeNode> All() => ListTreeTestScreen.All(Tree.Roots);
             public IEnumerable<TreeNode> Candidates() => All().Where(node => node.IsDropCandidate);
             public IEnumerable<TreeNode> Neighbors() => All().Where(node => node.IsDropNeighbor);
         }

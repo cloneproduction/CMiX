@@ -19,11 +19,10 @@ using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The toggles and the badges of the new list tree look and click as the ones of the old tree view, for the same node of one tree.
+    // The toggles and the badges of the list tree show the right buttons and squares for each kind of row, and the buttons change the model.
     public class ListTreeTogglesAndBadgesTests : IDisposable
     {
         private readonly Scene scene = CreateScene([2], s => AddKinds(s.Layer));
-        private readonly TreeTestScreen oldScreen;
         private readonly Window window;
         private readonly ListTreeProject view;
 
@@ -31,7 +30,6 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             scene.Tree.SelectedNode = null;
             scene.LayerNodeOfA(0).IsExpanded = false;
-            oldScreen = TreeTestScreen.Show(scene.Tree, 500, 800);
             view = new ListTreeProject { DataContext = scene.Tree };
             view.Rows.MoveDuration = TimeSpan.Zero;
             window = new Window { Content = view, Width = 500, Height = 800 };
@@ -42,33 +40,20 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose()
         {
             window.Close();
-            oldScreen.Dispose();
         }
 
         private sealed record ToggleLook(string? Name, bool? IsChecked, string? IconKey, Color Icon, double Opacity);
 
-        private sealed record BadgesLook(bool IsVisible, bool IsHovered, bool IsSelected, string Squares, bool HasMoreKinds, bool HasMissingSign);
-
         private TreeNode Layer => scene.LayerNodeOfA(0);
 
-        private IEnumerable<TreeNode> Measured => [scene.NodeA, Scene.LayersOf(scene.NodeA), scene.LayerNodeOfA(0), scene.LayerNodeOfA(1)];
+        private TreeNode Entity => scene.Group<EntitiesGroup>(0).Children[0];
 
-        private void Settle()
-        {
-            oldScreen.Settle();
-            ListTreeTestScreen.Settle(window);
-        }
+        private void Settle() => ListTreeTestScreen.Settle(window);
 
-        private RowListTree NewRowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
+        private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
 
-        private TogglesRow OldTogglesOf(TreeNode node) =>
-            TreeTestScreen.ItemOf(oldScreen.View, node).GetVisualDescendants().OfType<TogglesRow>().First();
-
-        private BadgesKindCount OldBadgesOf(TreeNode node) =>
-            TreeTestScreen.ItemOf(oldScreen.View, node).GetVisualDescendants().OfType<BadgesKindCount>().First(badges => badges.IsVisible);
-
-        private BadgesKindCount NewBadgesOf(TreeNode node) =>
-            NewRowOf(node).GetVisualDescendants().OfType<BadgesKindCount>().First(badges => badges.IsVisible);
+        private BadgesKindCount BadgesOf(TreeNode node) =>
+            RowOf(node).GetVisualDescendants().OfType<BadgesKindCount>().First(badges => badges.IsVisible);
 
         private static IReadOnlyList<ToggleLook> LookOf(TogglesRow toggles) =>
             toggles.GetVisualDescendants().OfType<ToggleButton>().Where(toggle => toggle.IsEffectivelyVisible)
@@ -88,24 +73,16 @@ namespace CMiX.Studio.Avalonia.Tests
             return opacity;
         }
 
-        private static BadgesLook LookOf(BadgesKindCount badges)
-        {
-            var squares = badges.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount"))
-                .Select(square => $"{ColorOf(square.Background)} {CountOf(square).Text} {ColorOf(CountOf(square).Foreground)}");
-            return new BadgesLook(badges.IsEffectivelyVisible, badges.IsHovered, badges.IsSelected, string.Join(";", squares),
-                Named(badges, "MoreKinds").IsEffectivelyVisible, Named(badges, "MissingSign").IsEffectivelyVisible);
-        }
+        private static string[] NamesOf(TogglesRow toggles) =>
+            LookOf(toggles).Select(look => look.Name!).ToArray();
+
+        private static IEnumerable<string> SquareCountsOf(BadgesKindCount badges) =>
+            badges.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).Select(square => CountOf(square).Text!);
 
         private static TextBlock CountOf(Border square) => square.GetVisualDescendants().OfType<TextBlock>().Single();
 
         private static ToggleButton ToggleNamed(TogglesRow toggles, string name) =>
             toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.Name == name && toggle.IsEffectivelyVisible);
-
-        private void AssertTogglesAndBadgesMatch()
-        {
-            Assert.All(Measured, node => Assert.Equal(LookOf(OldTogglesOf(node)), LookOf(NewRowOf(node).Toggles)));
-            Assert.Equal(LookOf(OldBadgesOf(Layer)), LookOf(NewBadgesOf(Layer)));
-        }
 
         private static void Hover(Window screen, Control control)
         {
@@ -127,96 +104,116 @@ namespace CMiX.Studio.Avalonia.Tests
             control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), screen)!.Value;
 
         [AvaloniaFact]
-        public void TogglesAndBadges_AtRest_MatchTheOldTree()
+        public void Toggles_OfAComposableRow_AreTheMaskAndTheEye()
         {
-            Assert.True(NewBadgesOf(Layer).IsEffectivelyVisible);
-
-            AssertTogglesAndBadgesMatch();
+            Assert.Equal(new[] { "maskToggle", "visibilityToggle" }, NamesOf(RowOf(scene.NodeA).Toggles));
+            Assert.Equal(new[] { "maskToggle", "visibilityToggle" }, NamesOf(RowOf(Layer).Toggles));
         }
 
         [AvaloniaFact]
-        public void TogglesAndBadges_UnderThePointer_MatchTheOldTree()
+        public void Toggles_OfAnItemRow_AreTheEyeOnly()
         {
-            Hover(oldScreen.Window, ToggleNamed(OldTogglesOf(Layer), "visibilityToggle"));
-            Hover(window, ToggleNamed(NewRowOf(Layer).Toggles, "visibilityToggle"));
+            Layer.IsExpanded = true;
+            Settle();
 
-            Assert.True(NewBadgesOf(Layer).IsHovered);
-            AssertTogglesAndBadgesMatch();
+            Assert.Equal(new[] { "visibilityToggle" }, NamesOf(RowOf(Entity).Toggles));
         }
 
         [AvaloniaFact]
-        public void TogglesAndBadges_OfASelectedRow_MatchTheOldTreeAndAreWhite()
+        public void Toggles_OfAGroupRow_AreTheHideButtonOnly()
+        {
+            Assert.Equal(new[] { "groupHideToggle" }, NamesOf(RowOf(Scene.LayersOf(scene.NodeA)).Toggles));
+        }
+
+        [AvaloniaFact]
+        public void Badges_OfAClosedLayerRow_ShowTheSquaresOfItsKinds()
+        {
+            var squares = SquareCountsOf(BadgesOf(Layer)).ToList();
+
+            Assert.True(BadgesOf(Layer).IsEffectivelyVisible);
+            Assert.NotEmpty(squares);
+            Assert.All(squares, text => Assert.True(int.Parse(text) > 0));
+        }
+
+        [AvaloniaFact]
+        public void Badges_UnderThePointer_AreHovered()
+        {
+            Hover(window, ToggleNamed(RowOf(Layer).Toggles, "visibilityToggle"));
+
+            Assert.True(BadgesOf(Layer).IsHovered);
+        }
+
+        [AvaloniaFact]
+        public void TogglesAndBadges_OfASelectedRow_AreSelectedAndWhite()
         {
             scene.Tree.SelectedNode = Layer;
             Settle();
 
-            Assert.True(NewBadgesOf(Layer).IsSelected);
-            Assert.All(LookOf(NewRowOf(Layer).Toggles), look => Assert.Equal(Token("ActiveForegroundBrush"), look.Icon));
-            AssertTogglesAndBadgesMatch();
+            Assert.True(BadgesOf(Layer).IsSelected);
+            Assert.All(LookOf(RowOf(Layer).Toggles), look => Assert.Equal(Token("ActiveForegroundBrush"), look.Icon));
         }
 
         [AvaloniaFact]
-        public void TogglesAndBadges_OfAHiddenRow_MatchTheOldTree()
+        public void Toggles_OfAHiddenRow_ShowTheEyeChecked()
         {
             scene.Layer.PrefabService.Visibility.Value = true;
             Settle();
 
-            AssertTogglesAndBadgesMatch();
+            Assert.True(ToggleNamed(RowOf(Layer).Toggles, "visibilityToggle").IsChecked);
         }
 
         [AvaloniaFact]
-        public void TogglesAndBadges_UnderAHiddenParent_MatchTheOldTree()
+        public void Toggles_UnderAHiddenParent_ShowTheEyeDimmed()
         {
+            var before = LookOf(RowOf(Layer).Toggles).Single(look => look.Name == "visibilityToggle").Opacity;
+
             scene.A.PrefabService.Visibility.Value = true;
             Settle();
 
+            var after = LookOf(RowOf(Layer).Toggles).Single(look => look.Name == "visibilityToggle").Opacity;
             Assert.True(Layer.IsUnderHiddenParent);
-            AssertTogglesAndBadgesMatch();
+            Assert.True(after < before);
         }
 
         [AvaloniaFact]
-        public void TogglesAndBadges_OfAMaskedRow_MatchTheOldTree()
+        public void Toggles_OfAMaskedRow_ShowTheMaskChecked()
         {
             scene.Layer.Mask.IsMask.Value = true;
             Settle();
 
-            AssertTogglesAndBadgesMatch();
+            Assert.True(ToggleNamed(RowOf(Layer).Toggles, "maskToggle").IsChecked);
         }
 
         [AvaloniaTheory]
         [InlineData("visibilityToggle")]
         [InlineData("maskToggle")]
-        public void Click_AToggleOfALayer_DoesWhatTheOldTreeDoes(string name)
+        public void Click_AToggleOfALayer_ChangesTheModelAndBack(string name)
         {
-            var before = Outcome();
-            Click(oldScreen.Window, ToggleNamed(OldTogglesOf(Layer), name));
-            var oldOutcome = Outcome();
-            Click(oldScreen.Window, ToggleNamed(OldTogglesOf(Layer), name));
-            Assert.Equal(before, Outcome());
+            var before = ValueOf(name);
 
-            Click(window, ToggleNamed(NewRowOf(Layer).Toggles, name));
+            Click(window, ToggleNamed(RowOf(Layer).Toggles, name));
+            var after = ValueOf(name);
+            Click(window, ToggleNamed(RowOf(Layer).Toggles, name));
 
-            Assert.NotEqual(before, oldOutcome);
-            Assert.Equal(oldOutcome, Outcome());
+            Assert.NotEqual(before, after);
+            Assert.Equal(before, ValueOf(name));
         }
 
         [AvaloniaFact]
-        public void Click_TheHideButtonOfAGroup_DoesWhatTheOldTreeDoes()
+        public void Click_TheHideButtonOfAGroup_SetsHiddenOnTheListAndBack()
         {
             var group = Scene.LayersOf(scene.NodeA);
             var before = group.Group!.Manager.Hidden.Value;
-            Click(oldScreen.Window, ToggleNamed(OldTogglesOf(group), "groupHideToggle"));
-            var oldOutcome = (group.Group.Manager.Hidden.Value, scene.Tree.SelectedNode);
-            Click(oldScreen.Window, ToggleNamed(OldTogglesOf(group), "groupHideToggle"));
+
+            Click(window, ToggleNamed(RowOf(group).Toggles, "groupHideToggle"));
+            var after = group.Group.Manager.Hidden.Value;
+            Click(window, ToggleNamed(RowOf(group).Toggles, "groupHideToggle"));
+
+            Assert.NotEqual(before, after);
             Assert.Equal(before, group.Group.Manager.Hidden.Value);
-
-            Click(window, ToggleNamed(NewRowOf(group).Toggles, "groupHideToggle"));
-
-            Assert.NotEqual(before, oldOutcome.Value);
-            Assert.Equal(oldOutcome, (group.Group.Manager.Hidden.Value, scene.Tree.SelectedNode));
         }
 
-        private string Outcome() =>
-            $"{scene.Layer.PrefabService.Visibility.Value} {scene.Layer.Mask.IsMask.Value} {scene.Tree.SelectedNode?.Header} {Layer.IsExpanded}";
+        private bool ValueOf(string name) =>
+            name == "maskToggle" ? scene.Layer.Mask.IsMask.Value : scene.Layer.PrefabService.Visibility.Value;
     }
 }

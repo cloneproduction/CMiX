@@ -11,7 +11,6 @@ using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
-using CMiX.UI.Panels;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 using Composition = CMiX.Core.Compositing.Composition;
@@ -24,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // row. There is no search during a drag.
     public class TextBoxSearchTreeTests : IDisposable
     {
-        private sealed record Screen(Window Window, TextBoxSearchTree Box, TreeViewProject View)
+        private sealed record Screen(Window Window, TextBoxSearchTree Box, ListTreeProject View)
         {
             // The text box inside the search field.
             public TextBox Input => Box.Field.GetVisualDescendants().OfType<TextBox>().First();
@@ -39,12 +38,11 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var scene = CreateScene([3]);
             var box = new TextBoxSearchTree { DataContext = scene.Tree };
-            var view = new TreeViewProject { DataContext = scene.Tree };
+            var view = new ListTreeProject { DataContext = scene.Tree };
+            view.Rows.MoveDuration = TimeSpan.Zero;
             DockPanel.SetDock(box, Dock.Top);
             window = new Window { Content = new DockPanel { Children = { box, view } }, Width = 400, Height = 700 };
             window.Show();
-            foreach (var panel in view.GetVisualDescendants().OfType<PanelCollapse>())
-                panel.Duration = TimeSpan.Zero;
             var screen = new Screen(window, box, view);
             Pump(screen);
             return (screen, scene);
@@ -53,7 +51,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static void Pump(Screen screen)
         {
             Dispatcher.UIThread.RunJobs();
-            TreeTestScreen.Settle(screen.Window);
+            ListTreeTestScreen.Settle(screen.Window);
         }
 
         private static void Click(Window window, Control control)
@@ -220,7 +218,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 Press(screen, PhysicalKey.Enter);
 
             Assert.True(layer.Parent!.IsExpanded);
-            Assert.NotNull(screen.View.RowIndex.FindItem(layer));
+            Assert.NotNull(screen.View.Rows.RowOf(layer));
             Assert.Null(scene.Tree.SelectedNode);
         }
 
@@ -253,7 +251,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Press(screen, PhysicalKey.ArrowDown);
 
             Assert.False(screen.Input.IsFocused);
-            Assert.Same(screen.View.RowIndex.FindItem(match), screen.Window.FocusManager!.GetFocusedElement());
+            Assert.Same(screen.View.Rows.RowOf(match), screen.Window.FocusManager!.GetFocusedElement());
             Assert.Same(match, scene.Tree.CursorNode);
             Assert.Same(scene.NodeA, scene.Tree.SelectedNode);
 
@@ -317,8 +315,8 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(string.Empty, scene.Tree.SearchText);
             Assert.True(layers.IsExpanded);
-            var row = TreeTestScreen.RowOf(screen.View, layer);
-            var scroller = screen.View.GetVisualDescendants().OfType<ScrollViewer>().First();
+            var row = screen.View.Rows.RowOf(layer)!;
+            var scroller = screen.View.Scroller;
             var top = row.TranslatePoint(new Point(0, 0), scroller)!.Value.Y;
             Assert.InRange(top, 0, scroller.Viewport.Height - row.Bounds.Height);
         }
@@ -330,7 +328,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (screen, scene) = Show();
             Search(screen, "Layer");
 
-            screen.View.RowIndex.FindItem(scene.LayerNodeOfA(0))!.Focus();
+            screen.View.Rows.RowOf(scene.LayerNodeOfA(0))!.Focus();
             Pump(screen);
 
             Assert.False(screen.Input.IsFocused);
@@ -421,8 +419,8 @@ namespace CMiX.Studio.Avalonia.Tests
             Search(screen, "Layer");
             var rows = scene.Tree.CompositionNodes()[0].Children[0].Children;
             var before = rows.Select(node => node.Item).ToList();
-            Border RowOf(TreeNode node) => TreeTestScreen.RowOf(screen.View, node);
-            Point Middle(Border row) => row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), screen.Window)!.Value;
+            RowListTree RowOf(TreeNode node) => screen.View.Rows.RowOf(node)!;
+            Point Middle(RowListTree row) => row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), screen.Window)!.Value;
 
             TreeDrag.Over(screen.Window, Middle(RowOf(rows[0])), Middle(RowOf(rows[2])));
             Assert.True(screen.View.RowDrag.IsDragging);
@@ -472,7 +470,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             var (host, _) = TreeHostOf(window);
 
-            host.Choice = host.Choices!.Cast<PanelChoice>().First(choice => choice is not TreePanelChoice and not ListTreePanelChoice);
+            host.Choice = host.Choices!.Cast<PanelChoice>().First(choice => choice is not TreePanelChoice);
             TestServiceProviderFactory.Pump();
 
             Assert.Empty(host.GetVisualDescendants().OfType<TextBoxSearchTree>());
@@ -496,7 +494,7 @@ namespace CMiX.Studio.Avalonia.Tests
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             window.Focus();
-            var view = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var view = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             window.MouseMove(view.TranslatePoint(new Point(view.Bounds.Width / 2, view.Bounds.Height / 2), window)!.Value);
             Dispatcher.UIThread.RunJobs();
 
@@ -514,7 +512,7 @@ namespace CMiX.Studio.Avalonia.Tests
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             window.Focus();
-            var view = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var view = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             window.MouseMove(view.TranslatePoint(new Point(view.Bounds.Width / 2, view.Bounds.Height / 2), window)!.Value);
             Dispatcher.UIThread.RunJobs();
             viewModel.ProjectTree.BeginDrag(viewModel.ProjectTree.CompositionNodes()[0]);

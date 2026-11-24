@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Views
         // With two panels, only the box of the panel of the active view answers.
         private void OnSearchFocusRequested(object? sender, EventArgs e)
         {
-            if (TreeViewOfPanel() is { IsActiveView: false })
+            if (TreeOfPanel() is { IsActiveView: false })
                 return;
 
             Dispatcher.UIThread.Post(() =>
@@ -57,8 +57,8 @@ namespace CMiX.Studio.Avalonia.Views
             }, DispatcherPriority.Loaded);
         }
 
-        private TreeViewProject? TreeViewOfPanel() =>
-            this.FindAncestorOfType<PanelSide>()?.GetVisualDescendants().OfType<TreeViewProject>().FirstOrDefault();
+        private ListTreeProject? TreeOfPanel() =>
+            this.FindAncestorOfType<PanelSide>()?.GetVisualDescendants().OfType<ListTreeProject>().FirstOrDefault();
 
         private void OnFieldKeyDown(object? sender, KeyEventArgs e)
         {

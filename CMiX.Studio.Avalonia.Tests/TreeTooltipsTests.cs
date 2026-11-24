@@ -11,7 +11,6 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -22,22 +21,22 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public void Dispose() => window?.Close();
 
-        private (TreeViewProject View, ProjectTree Tree) Show()
+        private (ListTreeProject View, ProjectTree Tree) Show()
         {
             var scene = CreateScene([1], s => AddKinds(s.Layer));
-            var screen = TreeTestScreen.Show(scene.Tree, 500, 600);
+            var screen = ListTreeTestScreen.Show(scene.Tree, 500, 600);
             window = screen.Window;
             return (screen.View, scene.Tree);
         }
 
-        private static ToggleButton MaskOf(TreeViewProject view, TreeNode node) =>
-            ItemOf(view, node).GetVisualDescendants().OfType<ToggleButton>().First(toggle => Equals(ToolTip.GetTip(toggle), "Mask") && toggle.IsEffectivelyVisible);
+        private static ToggleButton MaskOf(ListTreeProject view, TreeNode node) =>
+            view.Rows.RowOf(node)!.Toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => Equals(ToolTip.GetTip(toggle), "Mask") && toggle.IsEffectivelyVisible);
 
         [AvaloniaFact]
         public void Create_TheTree_SwitchesTheTooltipServiceOffForItsRows()
         {
             var (view, _) = Show();
-            var rows = view.GetVisualDescendants().OfType<TreeView>().Single();
+            var rows = view.Rows;
 
             Assert.False(ToolTip.GetServiceEnabled(rows));
             Assert.False(ToolTip.GetServiceEnabled(MaskOf(view, view.DataContext is ProjectTree tree ? tree.CompositionNodes()[0] : null!)));
@@ -75,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, tree) = Show();
             var first = MaskOf(view, tree.CompositionNodes()[0]);
-            var second = ItemOf(view, tree.CompositionNodes()[0].Children[0]).GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle != first && ToolTip.GetTip(toggle) != null && toggle.IsEffectivelyVisible);
+            var second = view.Rows.RowOf(tree.CompositionNodes()[0].Children[0])!.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle != first && ToolTip.GetTip(toggle) != null && toggle.IsEffectivelyVisible);
             ToolTip.SetShowDelay(first, 0);
             ToolTip.SetShowDelay(second, 0);
             view.Tooltips.Hover(first);

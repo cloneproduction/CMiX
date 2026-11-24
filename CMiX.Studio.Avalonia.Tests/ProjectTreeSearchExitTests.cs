@@ -12,7 +12,7 @@ using CMiX.UI.Panels;
 using Xunit;
 using Composition = CMiX.Core.Compositing.Composition;
 using Layer = CMiX.Core.Compositing.Layer;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class ProjectTreeSearchExitTests : IDisposable
     {
         private Views.MainWindow? window;
-        private TreeViewProject? view;
+        private ListTreeProject? view;
 
         // A grab that a test leaves running would take the input of the next tests, so it ends here first.
         public void Dispose()
@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window?.Close();
         }
 
-        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, TreeViewProject View, TextBoxSearchTree Box)
+        private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, ListTreeProject View, TextBoxSearchTree Box)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public TreeNode LayerNode(int index) => Tree.CompositionNodes()[0].Children[0].Children[index];
@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var treeView = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var treeView = mainWindow.GetVisualDescendants().OfType<ListTreeProject>().Single();
             view = treeView;
             var box = mainWindow.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
             var screen = new Screen(mainWindow, viewModel, treeView, box);
@@ -82,7 +82,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static void Click(Screen screen, TreeNode node)
         {
-            var row = RowOf(screen.View, node);
+            var row = screen.View.Rows.RowOf(node)!;
             var point = row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), screen.Window)!.Value;
             screen.Window.MouseMove(point);
             screen.Window.MouseDown(point, MouseButton.Left);
@@ -96,17 +96,14 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(string.Empty, screen.Tree.SearchText);
             Assert.False(screen.Tree.IsSearchActive);
             foreach (var node in All(screen.Tree.Roots))
-            {
                 Assert.False(node.IsSearchDimmed, $"{node.Header} is dimmed.");
-                if (screen.View.RowIndex.FindItem(node) != null)
-                    Assert.DoesNotContain("dimmed", Part(screen.View, node, "DimLayer").Classes);
-            }
+            Assert.All(screen.View.Rows.RealizedRows, row => Assert.DoesNotContain(RowListTree.DimmedClass, row.Classes));
         }
 
         private static void AssertFocusOnCursorRow(Screen screen)
         {
             Assert.NotNull(screen.Tree.CursorNode);
-            Assert.Same(screen.View.RowIndex.FindItem(screen.Tree.CursorNode!), screen.Focused);
+            Assert.Same(screen.View.Rows.RowOf(screen.Tree.CursorNode!), screen.Focused);
         }
 
         private static Color BorderColorOf(Screen screen) =>
@@ -163,7 +160,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var layer = screen.LayerNode(1);
             screen.Tree.CursorNode = layer;
             Settle(screen.Window);
-            ItemOf(screen.View, layer).Focus(NavigationMethod.Tab);
+            screen.View.Rows.RowOf(layer)!.Focus(NavigationMethod.Tab);
             Settle(screen.Window);
             var expanded = All(screen.Tree.Roots).Select(node => node.IsExpanded).ToList();
             var selected = screen.Tree.SelectedNode;
@@ -199,7 +196,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             SearchOneLayer(screen);
             var other = screen.Window.GetVisualDescendants().OfType<PanelSide>()
-                .First(host => host.IsEffectivelyVisible && !host.GetVisualDescendants().OfType<TreeViewProject>().Any());
+                .First(host => host.IsEffectivelyVisible && !host.GetVisualDescendants().OfType<ListTreeProject>().Any());
             screen.ViewModel.PanelFocus.FocusPanel(other);
             Settle(screen.Window);
             Assert.True(other.IsKeyboardFocusWithin);
@@ -216,10 +213,9 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             screen.Tree.SearchText = screen.LayerNode(1).Header;
-            screen.View.DragSession.RestDelay = TimeSpan.FromHours(1);
             screen.Tree.CursorNode = screen.LayerNode(0);
             Settle(screen.Window);
-            ItemOf(screen.View, screen.LayerNode(0)).Focus(NavigationMethod.Tab);
+            screen.View.Rows.RowOf(screen.LayerNode(0))!.Focus(NavigationMethod.Tab);
             Settle(screen.Window);
             Press(screen, PhysicalKey.G);
             Assert.True(screen.View.Grab.IsGrabbing);

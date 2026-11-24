@@ -19,7 +19,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var tabs = TestServiceProviderFactory.MainTabControl(window);
 
             Assert.Same(viewModel.ProjectTree, tree.DataContext);
@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheTreeAndTheTabs_HaveTheSameWidth()
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
-            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var columns = tree.GetVisualAncestors().OfType<Grid>().First(grid => grid.ColumnDefinitions.Count == 2).ColumnDefinitions;
 
             Assert.True(columns[0].ActualWidth > 0);
@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheMasterBeat_IsUnderTheTabsOnly()
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
-            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var tabs = TestServiceProviderFactory.MainTabControl(window);
             var beat = window.GetVisualDescendants().OfType<PanelMasterBeat>().Single();
 
@@ -70,29 +70,6 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_TheTreeRows_HaveTheSameSpaceOnAllSides()
-        {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            TestServiceProviderFactory.Pump();
-            var row = tree.GetVisualDescendants().OfType<TreeViewItem>().First();
-            var rowOrigin = row.TranslatePoint(new(0, 0), tree)!.Value;
-
-            Assert.Equal(8, rowOrigin.X, 0.5);
-            Assert.Equal(8, tree.Bounds.Width - (rowOrigin.X + row.Bounds.Width), 0.5);
-            // The toolbar is over the tree, so the space above the first row is counted from the bottom of the toolbar.
-            var toolbar = tree.GetVisualDescendants().OfType<ToolbarProjectTree>().Single();
-            Assert.Equal(8, rowOrigin.Y - toolbar.Bounds.Bottom, 0.5);
-
-            // The right space of 8 is the room that the scroll bar has (ScrollBarGutter), so the list has no margin on the right.
-            // The bottom is 8 as the left and the top, and the list has no padding of its own.
-            var treeView = tree.GetVisualDescendants().OfType<TreeView>().First();
-            Assert.Equal(new Thickness(8, 8, 0, 8), treeView.Margin);
-            Assert.Equal(new Thickness(0), treeView.Padding);
-        }
-
-        [AvaloniaFact]
         public void Show_TheTabs_KeepTheirWidthOfBefore()
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
@@ -106,39 +83,18 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Add_ACompositionAndALayer_ShowsThemInTheTree()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
-            var before = tree.GetVisualDescendants().OfType<TreeViewItem>().Count();
+            var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
+            var before = tree.Rows.RealizedRows.Count();
 
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
             composition.LayerManager.AddItem(typeof(Layer));
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
+            Support.ListTreeTestScreen.Settle(window);
 
-            // A composition and its three groups (layers, filters and modifiers), a layer and its five groups.
-            Assert.Equal(before + 10, tree.GetVisualDescendants().OfType<TreeViewItem>().Count());
-        }
-
-        [AvaloniaFact]
-        public void NodeChosen_Raised_KeepsTheTabThatIsSelected()
-        {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            TestServiceProviderFactory.Pump();
-            var leftBefore = viewModel.LeftPanel;
-            var rightBefore = viewModel.RightPanel;
-            TestServiceProviderFactory.SelectMainTab(window, "Settings");
-            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
-
-            tree.RaiseEvent(new NodeChosenEventArgs(TreeViewProject.NodeChosenEvent, tree, viewModel.ProjectTree.CompositionNodes()[0]));
-            TestServiceProviderFactory.Pump();
-
-            // Each side keeps its content, and the tab that the user picked stays picked.
-            Assert.Same(leftBefore, viewModel.LeftPanel);
-            Assert.Same(rightBefore, viewModel.RightPanel);
-            Assert.Same(tree, window.GetVisualDescendants().OfType<TreeViewProject>().Single());
-            var selected = TestServiceProviderFactory.MainTabControl(window).SelectedItem as TabItem;
-            Assert.Equal("Settings", (selected?.Header as CMiX.UI.Controls.AppIcon)?.IconKey);
+            // The group Compositions, the composition, its group Layers and the layer. The tree does not show an empty group.
+            Assert.Equal(before + 4, tree.Rows.RealizedRows.Count());
         }
     }
 }

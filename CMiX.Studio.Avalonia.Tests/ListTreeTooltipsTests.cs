@@ -11,36 +11,28 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Tests.Support;
+using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.Parts;
-using CMiX.UI.Panels;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The tooltips of the rows of the new list tree open and close as in the old tree (TreeTooltipsTests), with the fill of the old row.
+    // The tooltips of the rows of the list tree open on the buttons of a row and close on a key. They have the hover fill of the kind of the row.
     public class ListTreeTooltipsTests : IDisposable
     {
         private readonly Scene scene = CreateScene([1], s => AddKinds(s.Layer));
         private readonly Window window;
-        private readonly TreeViewProject oldView;
         private readonly ListTreeProject newView;
 
         public ListTreeTooltipsTests()
         {
-            oldView = new TreeViewProject { DataContext = scene.Tree };
             newView = new ListTreeProject { DataContext = scene.Tree };
             newView.Rows.MoveDuration = TimeSpan.Zero;
-            var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("*,*") };
-            Grid.SetColumn(newView, 1);
-            grid.Children.Add(oldView);
-            grid.Children.Add(newView);
-            window = new Window { Content = grid, Width = 900, Height = 700 };
+            window = new Window { Content = newView, Width = 900, Height = 700 };
             window.Show();
-            foreach (var panel in oldView.GetVisualDescendants().OfType<PanelCollapse>())
-                panel.Duration = TimeSpan.Zero;
             ListTreeTestScreen.Settle(window);
         }
 
@@ -105,17 +97,18 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_TheMaskOfEachRow_HasTheTooltipFillOfTheOldRow()
+        public void Show_TheMaskOfEachRow_HasTheHoverFillOfTheKindOfItsNode()
         {
             var masked = ListTreeTestScreen.All(scene.Tree.Roots).Where(HasNewMask).ToList();
             Assert.NotEmpty(masked);
+            var palette = CategoryPalette.FromApplication();
             foreach (var node in masked)
             {
-                var oldFill = ToolTipCard.GetFill(MaskIn(TreeTestScreen.ItemOf(oldView, node)));
-                var newFill = ToolTipCard.GetFill(NewMaskOf(node));
+                var expected = palette.For(node.Category!.Value, node.ComposableDepth, node.KindDepth).Of(ToneRole.FillHover);
 
-                Assert.NotNull(newFill);
-                Assert.Equal(((ISolidColorBrush)oldFill!).Color, ((ISolidColorBrush)newFill!).Color);
+                var fill = ToolTipCard.GetFill(NewMaskOf(node));
+
+                Assert.Equal(expected, Assert.IsAssignableFrom<ISolidColorBrush>(fill).Color);
             }
         }
     }

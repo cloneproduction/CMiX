@@ -12,11 +12,10 @@ using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls;
-using CMiX.UI.Panels;
+using CMiX.UI.Controls.String;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
 using AvaloniaColor = Avalonia.Media.Color;
 using Composition = CMiX.Core.Compositing.Composition;
 using Layer = CMiX.Core.Compositing.Layer;
@@ -33,10 +32,10 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // A composition with two layers. The first layer has two entities, one filter and three modifiers.
-        private (TreeViewProject View, ProjectTree Tree, TreeNode Layer, TreeNode Empty) Show()
+        private (ListTreeProject View, ProjectTree Tree, TreeNode Layer, TreeNode Empty) Show()
         {
             var tree = CreateScene([2], s => AddKinds(s.Layer)).Tree;
-            var screen = TreeTestScreen.Show(tree, 500, 600);
+            var screen = ListTreeTestScreen.Show(tree, 500, 600);
             window = screen.Window;
             var view = screen.View;
             tree.SelectedNode = null;
@@ -44,10 +43,14 @@ namespace CMiX.Studio.Avalonia.Tests
             return (view, tree, tree.CompositionNodes()[0].Children[0].Children[0], tree.CompositionNodes()[0].Children[0].Children[1]);
         }
 
-        private void Settle() => TreeTestScreen.Settle(window!);
+        private void Settle() => ListTreeTestScreen.Settle(window!);
 
-        private static BadgesKindCount BadgesOf(TreeViewProject view, TreeNode node) =>
-            ItemOf(view, node).GetVisualDescendants().OfType<BadgesKindCount>().First(badges => ReferenceEquals(badges.DataContext, node));
+        // A row has two badges: one after the name box of an item, one after the name of a group. This gets the one for the node.
+        private static BadgesKindCount BadgesOf(ListTreeProject view, TreeNode node) =>
+            view.Rows.RowOf(node)!.GetVisualDescendants().OfType<BadgesKindCount>()
+                .First(badges => (badges.FindAncestorOfType<TextBoxEditable>() != null) == (node.Item != null));
+
+        private static AvaloniaColor FillOf(Border border) => ((ISolidColorBrush)border.Background!).Color;
 
         private static List<Border> SquaresOf(BadgesKindCount badges) =>
             badges.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).ToList();
@@ -166,7 +169,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
             Settle();
-            var row = ItemOf(view, layer).GetVisualDescendants().OfType<Border>().First(border => border.Name == "RowBorder");
+            var row = view.Rows.RowOf(layer)!.Band;
             var square = SquaresOf(BadgesOf(view, layer)).First();
 
             var top = square.TranslatePoint(new Point(0, 0), row)!.Value.Y;
@@ -189,7 +192,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 s.Layer.CameraManager.AddItem(typeof(CMiX.Core.Rendering.Cameras.Camera));
                 s.Layer.LightManager.AddItem(typeof(CMiX.Core.Rendering.Lights.LightEntity));
             }).Tree;
-            var screen = TreeTestScreen.Show(tree, 500, 600);
+            var screen = ListTreeTestScreen.Show(tree, 500, 600);
             window = screen.Window;
             var layer = tree.CompositionNodes()[0].Children[0].Children[0];
             layer.IsExpanded = false;
@@ -248,8 +251,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
             Settle();
-            var item = ItemOf(view, layer);
-            var name = item.GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "textDisplay");
+            var row = view.Rows.RowOf(layer)!;
+            var name = row.GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "textDisplay");
             var badges = BadgesOf(view, layer);
 
             var nameRight = name.TranslatePoint(new Point(name.Bounds.Width, 0), window!)!.Value.X;

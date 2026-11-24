@@ -12,7 +12,6 @@ using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Parts;
-using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
@@ -23,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // The setting InterfaceOptions.ShowKeyHints hides it. It takes no click and no focus.
     public class TreeKeyHintStripTests : IDisposable
     {
-        private sealed record Screen(Window Window, TextBoxSearchTree Box, TreeViewProject View);
+        private sealed record Screen(Window Window, TextBoxSearchTree Box, ListTreeProject View);
 
         private Window? window;
         private readonly string folder = Path.Combine(Path.GetTempPath(), $"cmix-interface-{Guid.NewGuid():N}");
@@ -40,12 +39,11 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var scene = CreateScene([3]);
             var box = new TextBoxSearchTree { DataContext = scene.Tree };
-            var view = new TreeViewProject { DataContext = scene.Tree };
+            var view = new ListTreeProject { DataContext = scene.Tree };
+            view.Rows.MoveDuration = TimeSpan.Zero;
             DockPanel.SetDock(box, Dock.Top);
             window = new Window { Content = new DockPanel { Children = { box, view } }, Width = PanelWidth, Height = 500 };
             window.Show();
-            foreach (var panel in view.GetVisualDescendants().OfType<PanelCollapse>())
-                panel.Duration = TimeSpan.Zero;
             var screen = new Screen(window, box, view);
             Pump(screen);
             return (screen, scene);
@@ -57,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static void Pump(Screen screen)
         {
             Dispatcher.UIThread.RunJobs();
-            TreeTestScreen.Settle(screen.Window);
+            ListTreeTestScreen.Settle(screen.Window);
         }
 
         private static string[] Words(Screen screen) => screen.View.HintStrip.Hints!.Select(hint => hint.Words).ToArray();
@@ -66,7 +64,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static void FocusRow(Screen screen, CMiX.Studio.Avalonia.ViewModels.Tree.TreeNode node)
         {
-            Assert.True(TreeTestScreen.ItemOf(screen.View, node).Focus(NavigationMethod.Tab));
+            Assert.True(screen.View.Rows.RowOf(node)!.Focus(NavigationMethod.Tab));
             Pump(screen);
         }
 
@@ -82,9 +80,9 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(strip.IsEffectivelyVisible);
 
             // The strip is at the bottom of the view, under the rows.
-            var tree = screen.View.GetVisualDescendants().OfType<TreeView>().First();
+            var rowsArea = screen.View.Scroller;
             var stripTop = strip.TranslatePoint(default, screen.View)!.Value.Y;
-            Assert.True(stripTop >= tree.TranslatePoint(new Point(0, tree.Bounds.Height), screen.View)!.Value.Y - 0.5);
+            Assert.True(stripTop >= rowsArea.TranslatePoint(new Point(0, rowsArea.Bounds.Height), screen.View)!.Value.Y - 0.5);
             Assert.Equal(screen.View.Bounds.Height, stripTop + strip.Bounds.Height, 0.5);
         }
 
@@ -127,7 +125,7 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.OpenMenuAtTargetCommand.Execute(null);
             Pump(screen);
 
-            var menu = screen.View.GetVisualDescendants().OfType<TreeView>().First().ContextMenu!;
+            var menu = screen.View.Menu!;
             Assert.True(menu.IsOpen);
             Assert.Equal(TreeHintMode.Menu, screen.View.HintMode);
             Assert.Equal(new[] { "close" }, Words(screen));
@@ -182,8 +180,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             // The rows take the room of the strip.
             Assert.False(screen.View.HintStrip.IsVisible);
-            var tree = screen.View.GetVisualDescendants().OfType<TreeView>().First();
-            var rowsArea = (Visual)tree.GetVisualParent()!;
+            var rowsArea = screen.View.Scroller;
             Assert.Equal(screen.View.Bounds.Height, rowsArea.TranslatePoint(new Point(0, rowsArea.Bounds.Height), screen.View)!.Value.Y, 0.5);
 
             scene.Tree.Interface.ShowKeyHints = true;
@@ -264,7 +261,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
 
             Assert.False(viewModel.Interface.ShowKeyHints);
-            Assert.False(mainWindow.GetVisualDescendants().OfType<TreeViewProject>().First().HintStrip.IsVisible);
+            Assert.False(mainWindow.GetVisualDescendants().OfType<ListTreeProject>().First().HintStrip.IsVisible);
         }
     }
 }

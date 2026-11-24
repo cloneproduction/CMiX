@@ -8,11 +8,9 @@ using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
-using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
 using Composition = CMiX.Core.Compositing.Composition;
 using Entity = CMiX.Core.Compositing.Entity;
 using Layer = CMiX.Core.Compositing.Layer;
@@ -29,15 +27,15 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // A composition with a layer that has two entities, a filter and three modifiers.
-        private (TreeViewProject View, ProjectTree Tree) Show()
+        private (ListTreeProject View, ProjectTree Tree) Show()
         {
             var scene = CreateScene([1], s => AddKinds(s.Layer));
-            var screen = TreeTestScreen.Show(scene.Tree, 500, 600);
+            var screen = ListTreeTestScreen.Show(scene.Tree, 500, 600);
             window = screen.Window;
             return (screen.View, scene.Tree);
         }
 
-        private void Settle() => TreeTestScreen.Settle(window!);
+        private void Settle() => ListTreeTestScreen.Settle(window!);
 
         // Opens the tooltip of a control and returns the texts that it shows. The tooltip control is an internal value of the control,
         // so it is read by its property: the test needs what the user would see.
@@ -54,9 +52,25 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
 
-        private static List<Border> SquaresOf(TreeViewProject view, TreeNode node) =>
-            ItemOf(view, node).GetVisualDescendants().OfType<BadgesKindCount>().First()
-                .GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).ToList();
+        private static RowListTree RowOf(ListTreeProject view, TreeNode node) => view.Rows.RowOf(node)!;
+
+        // A row has two badges: one after the name box of an item, one after the name of a group. Only one shows.
+        private static BadgesKindCount BadgesOf(ListTreeProject view, TreeNode node) =>
+            RowOf(view, node).GetVisualDescendants().OfType<BadgesKindCount>().First(badges => badges.IsEffectivelyVisible);
+
+        private static List<Border> SquaresOf(ListTreeProject view, TreeNode node) =>
+            BadgesOf(view, node).GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).ToList();
+
+        private static ToggleButton MaskOf(ListTreeProject view, TreeNode node) =>
+            RowOf(view, node).Toggles.GetVisualDescendants().OfType<ToggleButton>().Single(button => Equals(ToolTip.GetTip(button), "Mask"));
+
+        // Moves the pointer to the middle of the row.
+        private void Hover(RowListTree row)
+        {
+            TreeDrag.Render(window!);
+            window!.MouseMove(row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), window)!.Value);
+            Settle();
+        }
 
         [AvaloniaFact]
         public void Show_TheMaskToggle_HasItsTooltipForACompositionAndALayer()
@@ -65,8 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             foreach (var node in new[] { tree.CompositionNodes()[0], tree.CompositionNodes()[0].Children[0].Children[0] })
             {
-                var toggle = ItemOf(view, node).GetVisualDescendants().OfType<TogglesRow>().First()
-                    .GetVisualDescendants().OfType<ToggleButton>().Single(button => Equals(ToolTip.GetTip(button), "Mask"));
+                var toggle = MaskOf(view, node);
 
                 Assert.Equal(new[] { "Mask" }, TextOfTooltip(toggle));
             }
@@ -76,8 +89,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheMaskToggle_OpensItsTooltipBelowIt()
         {
             var (view, tree) = Show();
-            var toggle = ItemOf(view, tree.CompositionNodes()[0]).GetVisualDescendants().OfType<TogglesRow>().First()
-                .GetVisualDescendants().OfType<ToggleButton>().Single(button => Equals(ToolTip.GetTip(button), "Mask"));
+            var toggle = MaskOf(view, tree.CompositionNodes()[0]);
 
             Assert.Equal(PlacementMode.Custom, ToolTip.GetPlacement(toggle));
             Assert.Equal(CMiX.UI.Popups.PopupSide.Bottom, CMiX.UI.AttachedProperties.ToolTipDefaults.GetSide(toggle));
@@ -87,8 +99,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void VisibilityToggle_Show_HasTheVisibleTip()
         {
             var (view, tree) = Show();
-            var toggle = ItemOf(view, tree.CompositionNodes()[0]).GetVisualDescendants().OfType<TogglesRow>().First()
-                .GetVisualDescendants().OfType<ToggleButton>()
+            var toggle = RowOf(view, tree.CompositionNodes()[0]).Toggles.GetVisualDescendants().OfType<ToggleButton>()
                 .First(button => ReferenceEquals(button.Theme, Application.Current!.FindResource("ToggleButtonVisibility")));
 
             Assert.Equal("Visible", ToolTip.GetTip(toggle));
@@ -119,9 +130,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var layer = tree.CompositionNodes()[0].Children[0].Children[0];
             layer.IsExpanded = false;
             Settle();
-            var badges = ItemOf(view, layer).GetVisualDescendants().OfType<BadgesKindCount>().First();
-            badges.IsHovered = true;
-            Settle();
+            Hover(RowOf(view, layer));
+            Assert.True(BadgesOf(view, layer).IsHovered);
             var square = SquaresOf(view, layer).First();
 
             ToolTip.SetIsOpen(square, true);
@@ -183,7 +193,7 @@ namespace CMiX.Studio.Avalonia.Tests
             ((Entity)entity.Item!).ModifierManager.AddItem(typeof(CMiX.Core.Modulation.Modifiers.TranslateModifier));
             Settle();
             var modifier = entity.Children.Single(child => child.Group is ModifiersGroup).Children[0];
-            var row = ItemOf(view, layer).GetVisualDescendants().OfType<Border>().First(border => border.Name == "RowBorder");
+            var row = RowOf(view, layer).Band;
             Assert.Null(ToolTip.GetTip(row));
 
             tree.BeginDrag(modifier);

@@ -11,7 +11,6 @@ using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.String;
-using CMiX.UI.Panels;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 using Echo = CMiX.Core.Texturing.Filters.Echo;
@@ -28,36 +27,34 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose() => window?.Close();
 
         // Two views of the tree side by side. Each view has its own height.
-        private (TreeViewProject First, TreeViewProject Second) Show(Scene scene, double firstHeight = 600, double secondHeight = 600)
+        private (ListTreeProject First, ListTreeProject Second) Show(Scene scene, double firstHeight = 600, double secondHeight = 600)
         {
-            var first = new TreeViewProject { DataContext = scene.Tree, Height = firstHeight, VerticalAlignment = VerticalAlignment.Top };
-            var second = new TreeViewProject { DataContext = scene.Tree, Height = secondHeight, VerticalAlignment = VerticalAlignment.Top };
+            var first = new ListTreeProject { DataContext = scene.Tree, Height = firstHeight, VerticalAlignment = VerticalAlignment.Top };
+            var second = new ListTreeProject { DataContext = scene.Tree, Height = secondHeight, VerticalAlignment = VerticalAlignment.Top };
+            first.Rows.MoveDuration = TimeSpan.Zero;
+            second.Rows.MoveDuration = TimeSpan.Zero;
             var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("*,*") };
             Grid.SetColumn(second, 1);
             grid.Children.Add(first);
             grid.Children.Add(second);
             window = new Window { Content = grid, Width = 800, Height = 900 };
             window.Show();
-            foreach (var panel in window.GetVisualDescendants().OfType<PanelCollapse>())
-                panel.Duration = TimeSpan.Zero;
-            TreeTestScreen.Settle(window);
+            ListTreeTestScreen.Settle(window);
             return (first, second);
         }
 
-        private static TreeViewProject Pick(TreeViewProject first, TreeViewProject second, int index) => index == 0 ? first : second;
+        private static ListTreeProject Pick(ListTreeProject first, ListTreeProject second, int index) => index == 0 ? first : second;
 
         // The focus goes to a row of the view, so the view is the active view.
-        private void FocusView(TreeViewProject view, TreeNode node)
+        private void FocusView(ListTreeProject view, TreeNode node)
         {
-            Assert.True(TreeTestScreen.ItemOf(view, node).Focus(NavigationMethod.Tab));
+            Assert.True(view.Rows.RowOf(node)!.Focus(NavigationMethod.Tab));
             Dispatcher.UIThread.RunJobs();
             Assert.True(view.IsActiveView);
         }
 
-        private static TreeView TreeViewOf(TreeViewProject view) => view.GetVisualDescendants().OfType<TreeView>().First();
-
-        private static TextBoxEditable NameBoxOf(TreeViewProject view, TreeNode node) =>
-            TreeTestScreen.RowOf(view, node).GetVisualDescendants().OfType<TextBoxEditable>().First();
+        private static TextBoxEditable NameBoxOf(ListTreeProject view, TreeNode node) =>
+            view.Rows.RowOf(node)!.GetVisualDescendants().OfType<TextBoxEditable>().First();
 
         [AvaloniaTheory]
         [InlineData(0)]
@@ -82,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
             FocusView(Pick(first, second, active), scene.NodeA);
 
             scene.Tree.AddAtTargetCommand.Execute(null);
-            TreeTestScreen.Settle(window!);
+            ListTreeTestScreen.Settle(window!);
 
             Assert.True(Pick(first, second, active).MenuAddPanel.IsOpen);
             Assert.False(Pick(first, second, 1 - active).MenuAddPanel.IsOpen);
@@ -97,15 +94,15 @@ namespace CMiX.Studio.Avalonia.Tests
             var scene = CreateScene();
             var (first, second) = Show(scene);
             scene.Tree.SelectedNode = scene.NodeA;
-            TreeTestScreen.Settle(window!);
+            ListTreeTestScreen.Settle(window!);
             FocusView(Pick(first, second, active), scene.NodeA);
 
             scene.Tree.OpenMenuAtTargetCommand.Execute(null);
-            TreeTestScreen.Settle(window!);
+            ListTreeTestScreen.Settle(window!);
 
-            var menu = TreeViewOf(Pick(first, second, active)).ContextMenu;
+            var menu = Pick(first, second, active).Menu;
             Assert.True(menu?.IsOpen);
-            Assert.NotEqual(true, TreeViewOf(Pick(first, second, 1 - active)).ContextMenu?.IsOpen);
+            Assert.NotEqual(true, Pick(first, second, 1 - active).Menu?.IsOpen);
             menu!.Close();
         }
 
@@ -117,11 +114,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var scene = CreateScene();
             var (first, second) = Show(scene);
             scene.Tree.SelectedNode = scene.NodeA;
-            TreeTestScreen.Settle(window!);
+            ListTreeTestScreen.Settle(window!);
             FocusView(Pick(first, second, active), scene.NodeA);
 
             scene.Tree.RenameSelectedCommand.Execute(null);
-            TreeTestScreen.Settle(window!);
+            ListTreeTestScreen.Settle(window!);
 
             Assert.True(NameBoxOf(Pick(first, second, active), scene.NodeA).IsEditing);
             Assert.False(NameBoxOf(Pick(first, second, 1 - active), scene.NodeA).IsEditing);
@@ -155,16 +152,16 @@ namespace CMiX.Studio.Avalonia.Tests
             var (first, second) = Show(scene, firstHeight: 150, secondHeight: 880);
             var target = scene.All().Last(node => node.Item is Echo);
             scene.Tree.SelectedNode = target;
-            TreeTestScreen.Settle(window!);
-            var scroller = first.GetVisualDescendants().OfType<ScrollViewer>().First();
+            ListTreeTestScreen.Settle(window!);
+            var scroller = first.Scroller;
             scroller.Offset = scroller.Offset.WithY(0);
-            TreeTestScreen.Settle(window!);
+            ListTreeTestScreen.Settle(window!);
             FocusView(second, scene.NodeA);
 
             scene.Tree.CollapseOthersCommand.Execute(null);
             Dispatcher.UIThread.RunJobs();
             for (var i = 0; i < 10; i++)
-                TreeTestScreen.Settle(window!);
+                ListTreeTestScreen.Settle(window!);
 
             Assert.False(scene.LayerNodeOfA(0).IsExpanded);
             Assert.Equal(0, scroller.Offset.Y);
@@ -183,8 +180,8 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             var hosts = mainWindow.GetVisualDescendants().OfType<PanelSide>().ToList();
             Assert.Equal(2, hosts.Count);
-            var view = hosts[active].GetVisualDescendants().OfType<TreeViewProject>().Single();
-            Assert.True(TreeTestScreen.ItemOf(view, viewModel.ProjectTree.Roots[0]).Focus(NavigationMethod.Tab));
+            var view = hosts[active].GetVisualDescendants().OfType<ListTreeProject>().Single();
+            Assert.True(view.Rows.RowOf(viewModel.ProjectTree.Roots[0])!.Focus(NavigationMethod.Tab));
             Dispatcher.UIThread.RunJobs();
 
             viewModel.ProjectTree.FocusSearch();
@@ -207,7 +204,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var hosts = mainWindow.GetVisualDescendants().OfType<PanelSide>().ToList();
             Assert.Equal(2, hosts.Count);
             var firstView = ViewOf(hosts[0]);
-            mainWindow.MouseMove(firstView.TranslatePoint(new Point(firstView.Bounds.Width / 2, firstView.Bounds.Height / 2), mainWindow)!.Value);
+            var row = firstView.Rows.RowOf(viewModel.ProjectTree.Roots[0])!;
+            mainWindow.MouseMove(row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), mainWindow)!.Value);
             Dispatcher.UIThread.RunJobs();
             Assert.True(firstView.IsPointerOver);
             BoxOf(hosts[1]).Field.FocusInput();
@@ -216,7 +214,7 @@ namespace CMiX.Studio.Avalonia.Tests
             return (mainWindow, hosts, viewModel);
         }
 
-        private static TreeViewProject ViewOf(PanelSide host) => host.GetVisualDescendants().OfType<TreeViewProject>().Single();
+        private static ListTreeProject ViewOf(PanelSide host) => host.GetVisualDescendants().OfType<ListTreeProject>().Single();
 
         private static TextBoxSearchTree BoxOf(PanelSide host) => host.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
 

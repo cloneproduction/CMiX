@@ -9,13 +9,14 @@ namespace CMiX.Studio.Avalonia.Tests
     public class PanelChoiceTests
     {
         [Fact]
-        public void All_TheListTree_ComesRightAfterTheTree()
+        public void All_TheChoices_StartWithTheTree()
         {
             var all = PanelChoice.All.ToList();
 
-            Assert.IsType<ListTreePanelChoice>(PanelChoice.ListTree);
-            Assert.Equal(all.IndexOf(PanelChoice.Tree) + 1, all.IndexOf(PanelChoice.ListTree));
-            Assert.Equal("List tree", PanelChoice.ListTree.Name);
+            Assert.IsType<TreePanelChoice>(PanelChoice.Tree);
+            Assert.Equal(0, all.IndexOf(PanelChoice.Tree));
+            Assert.Equal("Tree", PanelChoice.Tree.Name);
+            Assert.Equal(new[] { PanelChoice.Tree, PanelChoice.Tabs, PanelChoice.Assets }, all);
         }
     }
 }

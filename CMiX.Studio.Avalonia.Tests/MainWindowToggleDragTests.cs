@@ -30,17 +30,14 @@ namespace CMiX.Studio.Avalonia.Tests
             public MainWindow Window { get; init; } = null!;
             public MainViewModel ViewModel { get; init; } = null!;
             public UndoManager Undo { get; init; } = null!;
-            public TreeViewProject TreeView { get; init; } = null!;
+            public ListTreeProject View { get; init; } = null!;
             public List<Layer> Layers { get; } = new();
 
             public TreeNode LayerNode(int index) => ViewModel.ProjectTree.CompositionNodes()[0].Children[0].Children[index];
 
-            private TreeViewItem ItemOf(TreeNode node) =>
-                TreeView.GetVisualDescendants().OfType<TreeViewItem>().First(item => ReferenceEquals(item.DataContext, node));
-
             // The buttons in the toggle column of a node, not the buttons in the rows below it.
             public ToggleButton ButtonOf(TreeNode node, string group) =>
-                ItemOf(node).GetVisualDescendants().OfType<TogglesRow>().First()
+                View.Rows.RowOf(node)!.Toggles
                     .GetVisualDescendants().OfType<ToggleButton>().First(button => ToggleDrag.GetGroup(button) == group);
 
             public Point CenterOf(ToggleButton button)
@@ -61,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public List<ToggleButton> ListButtons() =>
                 Window.GetVisualDescendants().OfType<ToggleButton>()
                     .Where(button => ToggleDrag.GetGroup(button) == "visibility" && button.IsEffectivelyVisible && button.Bounds.Width > 0
-                                     && !TreeView.IsVisualAncestorOf(button))
+                                     && !View.IsVisualAncestorOf(button))
                     .ToList();
         }
 
@@ -76,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 Window = window,
                 ViewModel = viewModel,
                 Undo = provider.GetRequiredService<UndoManager>(),
-                TreeView = window.GetVisualDescendants().OfType<TreeViewProject>().Single()
+                View = window.GetVisualDescendants().OfType<ListTreeProject>().Single()
             };
             for (var i = 0; i < 4; i++)
             {
@@ -86,6 +83,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
+            Support.ListTreeTestScreen.Settle(window);
             screen.CenterOf(screen.ButtonOf(screen.LayerNode(0), "visibility"));
             return screen;
         }
@@ -238,7 +236,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Press_AVisibilityButton_EndsTheRenameOfARow()
         {
             var screen = Show();
-            var box = screen.TreeView.GetVisualDescendants().OfType<TextBoxEditable>().First(row => row.Text == screen.LayerNode(0).Header);
+            var box = screen.View.Rows.RowOf(screen.LayerNode(0))!.GetVisualDescendants().OfType<TextBoxEditable>().First(row => row.Text == screen.LayerNode(0).Header);
             var input = box.GetVisualDescendants().OfType<TextBox>().First();
             box.IsEditing = true;
             TestServiceProviderFactory.Pump();

@@ -99,8 +99,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
-            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
-            var box = tree.GetVisualDescendants().OfType<TextBoxEditable>().First(name => name.IsEffectivelyVisible);
+            Support.ListTreeTestScreen.Settle(window);
+            var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
+            var box = tree.Rows.GetVisualDescendants().OfType<TextBoxEditable>().First(name => name.IsEffectivelyVisible);
 
             AssertSamePlace(Take(window, box));
         }
@@ -112,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.SelectMainTab(window, "Composition");
             TestServiceProviderFactory.Pump();
-            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var box = window.GetVisualDescendants().OfType<RowComposable>().First()
                 .GetVisualDescendants().OfType<TextBoxEditable>().First();
             Assert.False(tree.IsVisualAncestorOf(box));

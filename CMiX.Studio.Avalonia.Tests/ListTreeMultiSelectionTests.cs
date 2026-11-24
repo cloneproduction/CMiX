@@ -195,20 +195,6 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void AddToSelection_TwoRows_LeavesTheOldViewWithOnlyTheSelectedNode()
-        {
-            using var old = TreeTestScreen.Show(Tree, 400, 900);
-            Click(EntityAt(0));
-
-            Tree.AddToSelection(EntityAt(2));
-            old.Settle();
-
-            var selected = old.View.GetVisualDescendants().OfType<TreeViewItem>().Where(item => item.IsSelected).Select(item => item.DataContext);
-            Assert.Equal(new object[] { EntityAt(2) }, selected);
-            Assert.Equal(2, Tree.SelectedNodes.Count);
-        }
-
-        [AvaloniaFact]
         public void SelectedNode_SetByThePeerThroughTheList_LeavesOnlyTheSelectedNode()
         {
             Click(EntityAt(0));

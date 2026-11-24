@@ -11,7 +11,7 @@ using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 using Composition = CMiX.Core.Compositing.Composition;
 using Layer = CMiX.Core.Compositing.Layer;
 
@@ -23,8 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, PanelSide Left, PanelSide Right)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
-            public TreeViewProject View => Left.GetVisualDescendants().OfType<TreeViewProject>().Single();
-            public TreeView TreeView => View.GetVisualDescendants().OfType<TreeView>().First();
+            public ListTreeProject View => Left.GetVisualDescendants().OfType<ListTreeProject>().Single();
             public TreeNode LayerNode => Tree.CompositionNodes()[0].Children[0].Children[0];
         }
 
@@ -35,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
             if (screen == null)
                 return;
 
-            screen.TreeView.ContextMenu?.Close();
+            screen.View.Menu?.Close();
             screen.View.MenuAddPanel.Close();
             screen.Window.Close();
             Dispatcher.UIThread.RunJobs();
@@ -57,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen = new Screen(window, viewModel, hosts[0], hosts[1]);
             screen.Tree.SelectedNode = screen.LayerNode;
             Settle(window);
-            ItemOf(screen.View, screen.LayerNode).Focus();
+            screen.View.Rows.RowOf(screen.LayerNode)!.Focus();
             Settle(window);
             return screen;
         }
@@ -115,11 +114,11 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Press(screen, PhysicalKey.W);
 
-            Assert.True(screen.TreeView.ContextMenu?.IsOpen);
+            Assert.True(screen.View.Menu?.IsOpen);
             AssertLineOn(screen.Left);
             AssertLineOff(screen.Right);
 
-            screen.TreeView.ContextMenu!.Close();
+            screen.View.Menu!.Close();
             screen.Right.FindControl<ToggleButton>("pickerToggle")!.Focus();
             Settle(screen.Window);
 

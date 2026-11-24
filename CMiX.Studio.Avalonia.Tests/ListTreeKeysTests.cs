@@ -11,14 +11,12 @@ using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
-using CMiX.UI.Panels;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The keys of the new list tree give the cursor, the selection and the open state that the keys of the old tree give, on one tree.
-    // The two views stand side by side. Each key runs once in each view from the same start.
+    // The keys of the list tree move the cursor and the focus, and open the add panel, on one tree.
     public class ListTreeKeysTests : IDisposable
     {
         public enum Start
@@ -28,32 +26,21 @@ namespace CMiX.Studio.Avalonia.Tests
             FirstEntity
         }
 
-        private sealed record State(TreeNode? Cursor, TreeNode? Selected, TreeNode? Inspected, bool[] Open);
-
         private readonly Scene scene = CreateScene([2], s => AddKinds(s.Layer));
         private readonly Window window;
-        private readonly TreeViewProject oldView;
         private readonly ListTreeProject newView;
 
         public ListTreeKeysTests()
         {
-            oldView = new TreeViewProject { DataContext = scene.Tree };
             newView = new ListTreeProject { DataContext = scene.Tree };
             newView.Rows.MoveDuration = TimeSpan.Zero;
-            var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("*,*") };
-            Grid.SetColumn(newView, 1);
-            grid.Children.Add(oldView);
-            grid.Children.Add(newView);
-            window = new Window { Content = grid, Width = 900, Height = 900 };
+            window = new Window { Content = newView, Width = 900, Height = 900 };
             window.Show();
-            foreach (var panel in oldView.GetVisualDescendants().OfType<PanelCollapse>())
-                panel.Duration = TimeSpan.Zero;
             Settle();
         }
 
         public void Dispose()
         {
-            oldView.MenuAddPanel.Close();
             newView.MenuAddPanel.Close();
             window.Close();
         }
@@ -74,11 +61,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle();
         }
 
-        private State Capture() => new(Tree.CursorNode, Tree.SelectedNode, Tree.InspectedNode, ListTreeTestScreen.All(Tree.Roots).Select(node => node.IsExpanded).ToArray());
-
-        private static bool IsSame(State a, State b) =>
-            a.Cursor == b.Cursor && a.Selected == b.Selected && a.Inspected == b.Inspected && a.Open.SequenceEqual(b.Open);
-
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(newView.Rows.RowOf(node));
 
         private IInputElement? Focused() => window.FocusManager!.GetFocusedElement();
@@ -97,55 +79,58 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle();
         }
 
-        private State PressInTheOldView(Start start, PhysicalKey key)
+        public enum Row
         {
-            Begin(start);
-            TreeTestScreen.ItemOf(oldView, Tree.CursorNode!).Focus();
-            Settle();
-            Press(key);
-            return Capture();
+            Compositions,
+            Layer,
+            Entities,
+            Entity,
+            SecondEntity,
+            None
         }
 
-        private State PressInTheNewView(Start start, PhysicalKey key)
+        private TreeNode? NodeOf(Row row) => row switch
+        {
+            Row.Compositions => Tree.Roots[0],
+            Row.Layer => Layer,
+            Row.Entities => Entities,
+            Row.Entity => Entity,
+            Row.SecondEntity => Entities.Children[1],
+            _ => null
+        };
+
+        // The state after a key: the cursor, the selection, the inspected row and whether the entities are open. The rest stays open.
+        [AvaloniaTheory]
+        [InlineData(Start.OpenEntities, PhysicalKey.ArrowUp, Row.Layer, Row.Layer, Row.None, true)]
+        [InlineData(Start.OpenEntities, PhysicalKey.ArrowDown, Row.Entity, Row.Layer, Row.None, true)]
+        [InlineData(Start.OpenEntities, PhysicalKey.ArrowLeft, Row.Entities, Row.Layer, Row.None, false)]
+        [InlineData(Start.OpenEntities, PhysicalKey.ArrowRight, Row.Entity, Row.Layer, Row.None, true)]
+        [InlineData(Start.OpenEntities, PhysicalKey.Home, Row.Compositions, Row.Layer, Row.None, true)]
+        [InlineData(Start.OpenEntities, PhysicalKey.Enter, Row.Entities, Row.Entities, Row.None, true)]
+        [InlineData(Start.OpenEntities, PhysicalKey.Space, Row.Entities, Row.Layer, Row.Entities, true)]
+        [InlineData(Start.ClosedEntities, PhysicalKey.ArrowLeft, Row.Layer, Row.Layer, Row.None, false)]
+        [InlineData(Start.ClosedEntities, PhysicalKey.ArrowRight, Row.Entities, Row.Layer, Row.None, true)]
+        [InlineData(Start.FirstEntity, PhysicalKey.ArrowUp, Row.Entities, Row.Layer, Row.None, true)]
+        [InlineData(Start.FirstEntity, PhysicalKey.ArrowDown, Row.SecondEntity, Row.Layer, Row.None, true)]
+        [InlineData(Start.FirstEntity, PhysicalKey.ArrowLeft, Row.Entities, Row.Layer, Row.None, true)]
+        [InlineData(Start.FirstEntity, PhysicalKey.Enter, Row.Entity, Row.Entity, Row.None, true)]
+        public void Press_AKey_GivesTheCursorTheSelectionAndTheOpenRows(Start start, PhysicalKey key, Row cursor, Row selected, Row inspected, bool entitiesOpen)
         {
             Begin(start);
             RowOf(Tree.CursorNode!).Focus();
             Settle();
+
             Press(key);
-            return Capture();
-        }
 
-        [AvaloniaTheory]
-        [InlineData(Start.OpenEntities, PhysicalKey.ArrowUp)]
-        [InlineData(Start.OpenEntities, PhysicalKey.ArrowDown)]
-        [InlineData(Start.OpenEntities, PhysicalKey.ArrowLeft)]
-        [InlineData(Start.OpenEntities, PhysicalKey.ArrowRight)]
-        [InlineData(Start.OpenEntities, PhysicalKey.Home)]
-        [InlineData(Start.OpenEntities, PhysicalKey.Enter)]
-        [InlineData(Start.OpenEntities, PhysicalKey.Space)]
-        [InlineData(Start.ClosedEntities, PhysicalKey.ArrowLeft)]
-        [InlineData(Start.ClosedEntities, PhysicalKey.ArrowRight)]
-        [InlineData(Start.FirstEntity, PhysicalKey.ArrowUp)]
-        [InlineData(Start.FirstEntity, PhysicalKey.ArrowDown)]
-        [InlineData(Start.FirstEntity, PhysicalKey.ArrowLeft)]
-        [InlineData(Start.FirstEntity, PhysicalKey.Enter)]
-        public void Press_AKeyInTheNewView_GivesTheStateOfTheOldView(Start start, PhysicalKey key)
-        {
-            Begin(start);
-            var before = Capture();
-            var expected = PressInTheOldView(start, key);
-
-            var actual = PressInTheNewView(start, key);
-
-            Assert.False(IsSame(before, actual));
-            Assert.Same(expected.Cursor, actual.Cursor);
-            Assert.Same(expected.Selected, actual.Selected);
-            Assert.Same(expected.Inspected, actual.Inspected);
-            Assert.Equal(expected.Open, actual.Open);
+            Assert.Same(NodeOf(cursor), Tree.CursorNode);
+            Assert.Same(NodeOf(selected), Tree.SelectedNode);
+            Assert.Same(NodeOf(inspected), Tree.InspectedNode);
+            Assert.Equal(entitiesOpen, Entities.IsExpanded);
+            Assert.All(TreeWalk.ParentsOf(Entities), parent => Assert.True(parent.IsExpanded));
         }
 
         [AvaloniaFact]
-        public void Press_AKeyInTheNewView_LeavesTheFocusOnTheCursorRow()
+        public void Press_AKey_LeavesTheFocusOnTheCursorRow()
         {
             Begin(Start.OpenEntities);
             RowOf(Entities).Focus();
@@ -158,7 +143,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Press_EndInTheNewView_PutsTheCursorOnTheLastShownRow()
+        public void Press_End_PutsTheCursorOnTheLastShownRow()
         {
             Begin(Start.OpenEntities);
             RowOf(Entities).Focus();
@@ -171,9 +156,9 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.NotNull(newView.Rows.RowOf(last!));
         }
 
-        // The old tree shows the empty lists of a row, the new tree does not. So the cursor never goes to a row that the new tree does not show.
+        // The tree does not show the empty lists of a row. So the cursor never goes to a row that the tree does not show.
         [AvaloniaFact]
-        public void Press_DownInTheNewView_SkipsTheEmptyListsThatItDoesNotShow()
+        public void Press_Down_SkipsTheEmptyListsThatItDoesNotShow()
         {
             Begin(Start.OpenEntities);
             var shown = ListTreeSnapshot.Of(Tree.Roots).VisibleRows().Select(row => row.Node).ToArray();
@@ -188,7 +173,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Press_RightOnARowWithNoShownRowInTheNewView_OpensTheAddPanelBesideIt()
+        public void Press_RightOnARowWithNoShownRow_OpensTheAddPanelBesideIt()
         {
             Begin(Start.FirstEntity);
             RowOf(Entity).Focus();
@@ -201,7 +186,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Press_EscapeInTheNewViewDuringASearch_ClearsTheSearch()
+        public void Press_EscapeDuringASearch_ClearsTheSearch()
         {
             Begin(Start.OpenEntities);
             Tree.SearchText = "Entity";

@@ -125,12 +125,11 @@ namespace CMiX.Studio.Avalonia.Tests
                 composition.LayerManager.AddItem(typeof(Layer));
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            window.UpdateLayout();
+            Support.ListTreeTestScreen.Settle(window);
 
-            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
-            var treeView = tree.GetVisualDescendants().OfType<TreeView>().First();
-            var row = tree.GetVisualDescendants().OfType<TreeViewItem>().First();
-            var result = (row.Bounds.Width, VerticalBarOf(treeView).IsVisible);
+            var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
+            var row = tree.Rows.RealizedRows.First();
+            var result = (row.Bounds.Width, VerticalBarOf(tree.Scroller).IsVisible);
             window.Close();
             return result;
         }

@@ -19,7 +19,7 @@ using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 using Composition = CMiX.Core.Compositing.Composition;
 using Layer = CMiX.Core.Compositing.Layer;
 using Project = CMiX.Core.Compositing.Project;
@@ -33,15 +33,15 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public void Dispose()
         {
-            foreach (var view in window?.GetVisualDescendants().OfType<TreeViewProject>() ?? Enumerable.Empty<TreeViewProject>())
+            foreach (var view in window?.GetVisualDescendants().OfType<ListTreeProject>() ?? Enumerable.Empty<ListTreeProject>())
                 view.MenuAddPanel.Close();
 
             window?.Close();
         }
 
-        private sealed record Screen(TreeViewProject View, ProjectTree Tree, UndoManager Undo, Composition Composition, ShortcutMap Shortcuts);
+        private sealed record Screen(ListTreeProject View, ProjectTree Tree, UndoManager Undo, Composition Composition, ShortcutMap Shortcuts);
 
-        private void Settle() => TreeTestScreen.Settle(window!);
+        private void Settle() => ListTreeTestScreen.Settle(window!);
 
         // One composition with three layers. The first layer is selected, the undo history is empty.
         private Screen Show()
@@ -49,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var scene = CreateScene([3]);
             var (tree, undo, composition) = (scene.Tree, scene.Undo, scene.A);
             var shortcuts = scene.Provider.GetRequiredService<ShortcutMap>();
-            var screen = TreeTestScreen.Show(tree, 500, 700, settle: false);
+            var screen = ListTreeTestScreen.Show(tree, 500, 700);
             window = screen.Window;
             var view = screen.View;
             tree.CompositionNodes()[0].IsExpanded = true;
@@ -60,7 +60,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             tree.SelectedNode = tree.CompositionNodes()[0].Children[0].Children[0];
             Settle();
-            ItemOf(view, tree.CompositionNodes()[0].Children[0].Children[0]).Focus();
+            view.Rows.RowOf(tree.CompositionNodes()[0].Children[0].Children[0])!.Focus();
             Settle();
             undo.Clear();
             return new Screen(view, tree, undo, composition, shortcuts);
@@ -106,8 +106,8 @@ namespace CMiX.Studio.Avalonia.Tests
         // The open state of every row of the tree.
         private static bool[] OpenStates(ProjectTree tree) => All(tree.Roots).Select(node => node.IsExpanded).ToArray();
 
-        // The keys of the tree view of Avalonia that open or close rows. The focused row is open for the keys that close
-        // and closed for the keys that open, so a key that goes through changes it.
+        // The keys that open or close rows in the TreeView of Avalonia. The tree does not use them. The focused row is open for
+        // the keys that close and closed for the keys that open, so a key that goes through changes it.
         [AvaloniaTheory]
         [InlineData(PhysicalKey.NumPadAdd, false)]
         [InlineData(PhysicalKey.NumPadMultiply, false)]
@@ -120,7 +120,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.NotEmpty(layer.Children);
             layer.IsExpanded = open;
             Settle();
-            ItemOf(screen.View, layer).Focus();
+            screen.View.Rows.RowOf(layer)!.Focus();
             Settle();
             var before = OpenStates(screen.Tree);
 
@@ -141,9 +141,9 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Empty(screen.View.KeyBindings);
 
             Press(PhysicalKey.Escape);
-            ItemOf(screen.View, screen.Tree.CompositionNodes()[0].Children[0].Children[0]).Focus();
+            screen.View.Rows.RowOf(screen.Tree.CompositionNodes()[0].Children[0].Children[0])!.Focus();
             Settle();
-            Assert.Single(screen.View.KeyBindings);
+            Assert.Equal(2, screen.View.KeyBindings.Count);
         }
 
         [AvaloniaFact]
@@ -155,17 +155,15 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Press(PhysicalKey.ArrowDown);
 
-            // The cursor row is lifted (TreeRowShadow) and framed in the colour of its kind.
-            Assert.Contains(CursorRow.CursorPseudoClass, ItemOf(screen.View, second).Classes);
-            Assert.True(Part(screen.View, second, "CursorFrame").IsVisible);
+            // The cursor row shows the cursor frame.
+            Assert.True(ListTreeLook.Named(screen.View.Rows.RowOf(second)!, "cursorFrame").IsEffectivelyVisible);
 
-            // The first row stays selected: it keeps the selected fill and has no frame.
-            Assert.False(Part(screen.View, first, "CursorFrame").IsVisible);
-            Assert.Equal(ExpectedFill(first, ToneRole.FillSelected), FillOf(screen.View, first));
-            Assert.All(ItemOf(screen.View, first).GetVisualDescendants().OfType<Border>(), border => Assert.False(border.Name is "SelectionFrame" or "FocusFrame"));
+            // The first row stays selected and has no frame.
+            Assert.False(ListTreeLook.Named(screen.View.Rows.RowOf(first)!, "cursorFrame").IsEffectivelyVisible);
+            Assert.True(screen.View.Rows.RowOf(first)!.IsSelected);
         }
 
-        private static bool InTree(IInputElement? element, TreeViewProject view) => element is Visual visual && view.GetVisualDescendants().OfType<TreeView>().First().GetVisualDescendants().Contains(visual);
+        private static bool InTree(IInputElement? element, ListTreeProject view) => element is Visual visual && view.Rows.GetVisualDescendants().Contains(visual);
 
         [AvaloniaFact]
         public void Tab_FromARow_LeavesTheTreeInOneStep()
@@ -187,7 +185,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Press(PhysicalKey.Tab, RawInputModifiers.Shift);
 
-            Assert.IsType<TreeViewItem>(window.FocusManager!.GetFocusedElement());
+            Assert.IsType<RowListTree>(window.FocusManager!.GetFocusedElement());
         }
 
         [AvaloniaFact]
@@ -195,8 +193,8 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             var node = screen.Tree.CompositionNodes()[0].Children[0].Children[0];
-            var row = ItemOf(screen.View, node);
-            var toggle = row.GetVisualDescendants().OfType<ToggleButton>().First(button => button.Name == "visibilityToggle" && button.IsEffectivelyVisible);
+            var row = screen.View.Rows.RowOf(node)!;
+            var toggle = row.Toggles.GetVisualDescendants().OfType<ToggleButton>().First(button => button.Name == "visibilityToggle" && button.IsEffectivelyVisible);
             Assert.False(toggle.Focusable);
             var before = toggle.IsChecked;
             var point = toggle.TranslatePoint(new Point(toggle.Bounds.Width / 2, toggle.Bounds.Height / 2), window!)!.Value;

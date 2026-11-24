@@ -26,8 +26,6 @@ namespace CMiX.Studio.Avalonia.Tests
         // The other files keep their layout numbers: a scan of all of them would list hundreds of values.
         private static readonly string[] SpaceFiles =
         {
-            "CMiX.Studio.Avalonia/Themes/Styles/ProjectTree.axaml",
-            "CMiX.Studio.Avalonia/Views/Tree/TreeViewProject.axaml",
             "CMiX.UI/Themes/Styles/ScrollViewer.axaml",
             "CMiX.UI/Themes/Styles/GridSplitter.axaml",
         };

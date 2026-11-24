@@ -312,7 +312,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private sealed class Screen
         {
             public Window Window { get; init; } = null!;
-            public TreeViewProject View { get; init; } = null!;
+            public ListTreeProject View { get; init; } = null!;
             public Scene Scene { get; init; } = null!;
 
             public Button ButtonOf(string name) => View.GetVisualDescendants().OfType<Button>().First(button => button.Name == name);
@@ -366,8 +366,9 @@ namespace CMiX.Studio.Avalonia.Tests
         private Screen Show(double leftRoom = 0)
         {
             var scene = CreateScene();
-            var view = new TreeViewProject { DataContext = scene.Tree, Margin = new Thickness(leftRoom, 0, 0, 0) };
-            var window = TreeTestScreen.Show(view, 400, 900, instant: false, settle: false).Window;
+            var view = new ListTreeProject { DataContext = scene.Tree, Margin = new Thickness(leftRoom, 0, 0, 0) };
+            var window = new Window { Content = view, Width = 400, Height = 900 };
+            window.Show();
             windows.Add(window);
             Dispatcher.UIThread.RunJobs();
             return new Screen { Window = window, View = view, Scene = scene };
@@ -377,7 +378,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheToolbar_IsOverTheTreeWithFiveButtons()
         {
             var screen = Show();
-            var tree = screen.View.GetVisualDescendants().OfType<TreeView>().First();
+            var tree = screen.View.Scroller;
             var buttons = new[] { "addButton", "duplicateButton", "moveUpButton", "moveDownButton", "removeButton" }.Select(screen.ButtonOf).ToList();
             var height = Convert.ToDouble(Application.Current!.FindResource("ControlHeightMD"));
 

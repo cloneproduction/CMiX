@@ -23,29 +23,27 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void LeftPanel_TheListTree_ShowsAListTreeProjectOfTheProjectTree()
+        public void LeftPanel_ByDefault_ShowsOneListTreeProjectOfTheProjectTree()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-
-            viewModel.LeftPanel = PanelChoice.ListTree;
             TestServiceProviderFactory.Pump();
 
+            Assert.Equal(PanelChoice.Tree, viewModel.LeftPanel);
             var view = Assert.Single(window.GetVisualDescendants().OfType<ListTreeProject>());
             Assert.Same(viewModel.ProjectTree, view.DataContext);
-            Assert.Empty(window.GetVisualDescendants().OfType<TreeViewProject>());
         }
 
         [AvaloniaFact]
-        public void RightPanel_TheListTreeBesideTheTree_ShowsBothViewsOfOneProjectTree()
+        public void RightPanel_TheTree_ShowsTwoListTreeProjectsOfOneProjectTree()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-            viewModel.RightPanel = PanelChoice.ListTree;
+            viewModel.RightPanel = PanelChoice.Tree;
             TestServiceProviderFactory.Pump();
 
-            var listTree = Assert.Single(window.GetVisualDescendants().OfType<ListTreeProject>());
-            var tree = Assert.Single(window.GetVisualDescendants().OfType<TreeViewProject>());
-            Assert.Same(tree.DataContext, listTree.DataContext);
+            var views = window.GetVisualDescendants().OfType<ListTreeProject>().ToList();
+            Assert.Equal(2, views.Count);
+            Assert.All(views, view => Assert.Same(viewModel.ProjectTree, view.DataContext));
         }
 
         [AvaloniaFact]
@@ -75,20 +73,20 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void IsActiveView_BesideTheOldViewWithNoFocusAndNoPointer_TheFirstAttachedViewIsActive()
+        public void IsActiveView_TwoViewsWithNoFocusAndNoPointer_TheFirstAttachedViewIsActive()
         {
             var scene = CreateScene();
-            var tree = new TreeViewProject { DataContext = scene.Tree };
-            var listTree = new ListTreeProject { DataContext = scene.Tree };
+            var first = new ListTreeProject { DataContext = scene.Tree };
+            var second = new ListTreeProject { DataContext = scene.Tree };
             var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("*,*") };
-            Grid.SetColumn(listTree, 1);
-            grid.Children.Add(tree);
-            grid.Children.Add(listTree);
+            Grid.SetColumn(second, 1);
+            grid.Children.Add(first);
+            grid.Children.Add(second);
 
             Show(grid);
 
-            Assert.True(tree.IsActiveView);
-            Assert.False(listTree.IsActiveView);
+            Assert.True(first.IsActiveView);
+            Assert.False(second.IsActiveView);
         }
     }
 }

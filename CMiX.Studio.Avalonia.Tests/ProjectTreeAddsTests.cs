@@ -30,8 +30,8 @@ namespace CMiX.Studio.Avalonia.Tests
                 foreach (var toolbar in window.GetVisualDescendants().OfType<ToolbarProjectTree>())
                     toolbar.Panel.Close();
 
-                if (window.GetVisualDescendants().OfType<TreeViewProject>().FirstOrDefault() is { } treeView)
-                    treeView.MenuAddPanel.Close();
+                if (window.GetVisualDescendants().OfType<ListTreeProject>().FirstOrDefault() is { } view)
+                    view.MenuAddPanel.Close();
 
                 foreach (var control in window.GetVisualDescendants().OfType<Control>())
                     control.ContextMenu?.Close();
@@ -43,18 +43,16 @@ namespace CMiX.Studio.Avalonia.Tests
         private sealed class Screen
         {
             public Window Window { get; init; } = null!;
-            public TreeViewProject View { get; init; } = null!;
+            public ListTreeProject View { get; init; } = null!;
             public ProjectTree Tree { get; init; } = null!;
             public Project Project { get; init; } = null!;
             public Composition A { get; init; } = null!;
 
-            public TreeView TreeView => View.GetVisualDescendants().OfType<TreeView>().First();
             public Button AddButton => View.GetVisualDescendants().OfType<Button>().First(button => button.Name == "addButton");
             public AddPanel Panel => View.GetVisualDescendants().OfType<ToolbarProjectTree>().First().Panel;
             public TreeNode LayerNode => Tree.CompositionNodes()[0].Children[0].Children[0];
 
-            public TreeViewItem RowOf(TreeNode node) =>
-                View.GetVisualDescendants().OfType<TreeViewItem>().First(item => ReferenceEquals(item.DataContext, node));
+            public RowListTree RowOf(TreeNode node) => View.Rows.RowOf(node)!;
 
             public void Click(Control control)
             {
@@ -79,7 +77,8 @@ namespace CMiX.Studio.Avalonia.Tests
             ((Layer)a.LayerManager.ManagerData.Items[0]).ModelEntityManager.AddItem(typeof(Entity));
 
             var tree = TreeFixtures.CreateTree(provider);
-            var view = new TreeViewProject { DataContext = tree };
+            var view = new ListTreeProject { DataContext = tree };
+            view.Rows.MoveDuration = TimeSpan.Zero;
             var window = new Window { Content = view, Width = 400, Height = 900 };
             windows.Add(window);
             window.Show();
@@ -103,7 +102,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var row = screen.RowOf(node);
             row.RaiseEvent(new ContextRequestedEventArgs { Source = row });
             Dispatcher.UIThread.RunJobs();
-            var menu = screen.TreeView.ContextMenu!;
+            var menu = screen.View.Menu!;
             menu.Items.OfType<MenuItem>().Single(item => Equals(item.Header, "Add")).RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
             Dispatcher.UIThread.RunJobs();
             var rowGroups = screen.View.MenuAddPanel.List.Groups!.Select(group => group.Header).ToList();
@@ -127,11 +126,11 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(new[] { "Add Composition" }, screen.Tree.GetAddChoices(null).Select(add => add.Header));
 
-            screen.TreeView.RaiseEvent(new ContextRequestedEventArgs { Source = screen.TreeView });
+            screen.View.Scroller.RaiseEvent(new ContextRequestedEventArgs { Source = screen.View.Scroller });
             Dispatcher.UIThread.RunJobs();
 
             // The menu of the space has the Add row, which opens the panel of the project. Nothing is added by the menu itself.
-            Assert.Equal(new[] { "Add" }, screen.TreeView.ContextMenu!.Items.OfType<MenuItem>().Skip(2).Take(1).Select(item => item.Header?.ToString()));
+            Assert.Equal(new[] { "Add" }, screen.View.Menu!.Items.OfType<MenuItem>().Skip(2).Take(1).Select(item => item.Header?.ToString()));
             var entries = screen.Tree.GetAddGroups(null).SelectMany(group => group.Items).Where(item => item.Enabled).Select(item => item.Header);
             Assert.Equal(new[] { "Composition" }, entries);
         }

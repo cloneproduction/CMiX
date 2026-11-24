@@ -1,11 +1,4 @@
-using Avalonia.Controls;
-using Avalonia.Headless;
-using Avalonia.Headless.XUnit;
-using Avalonia.Threading;
-using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
-using CMiX.Studio.Avalonia.Views;
-using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Composition = CMiX.Core.Compositing.Composition;
@@ -17,14 +10,10 @@ using CMiX.Studio.Avalonia.Tests.Support;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The work of the tree stays in a budget for a large composition. These tests count the work. They do not measure time.
-    public class ProjectTreeBudgetTests : IDisposable
+    public class ProjectTreeBudgetTests
     {
         private const int Layers = 20;
         private const int EntitiesPerLayer = 100;
-
-        private Window? window;
-
-        public void Dispose() => window?.Close();
 
         private static (ProjectTree Tree, Layer FirstLayer) CreateTree()
         {
@@ -85,35 +74,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(before.Group + 1, group.KindCountsComputations);
             Assert.Equal(before.Layer + 1, layer.KindCountsComputations);
             Assert.Equal(before.Composition, composition.KindCountsComputations);
-        }
-
-        [AvaloniaFact]
-        public void FindItem_OfTheLastRowAfterTheFirstLookup_ReadsTheIndex()
-        {
-            // The other layers are collapsed, so the window lays out fewer rows. The last layer is open.
-            var (tree, _) = CreateTree();
-            foreach (var layer in tree.CompositionNodes()[0].Children[0].Children.Take(Layers - 1))
-                layer.IsExpanded = false;
-
-            var view = new TreeViewProject { DataContext = tree };
-            window = new Window { Content = view, Width = 500, Height = 500 };
-            window.Show();
-            foreach (var panel in view.GetVisualDescendants().OfType<PanelCollapse>())
-                panel.Duration = TimeSpan.Zero;
-            Dispatcher.UIThread.RunJobs();
-            AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-            window.UpdateLayout();
-            Dispatcher.UIThread.RunJobs();
-            var last = EntitiesOf(tree.CompositionNodes()[0].Children[0].Children[Layers - 1]).Children[EntitiesPerLayer - 1];
-
-            var first = view.RowIndex.FindItem(last);
-            var walks = view.RowIndex.FallbackWalks;
-            var second = view.RowIndex.FindItem(last);
-
-            Assert.NotNull(first);
-            Assert.Same(first, second);
-            Assert.Equal(walks, view.RowIndex.FallbackWalks);
-            Assert.Equal(0, walks);
         }
     }
 }

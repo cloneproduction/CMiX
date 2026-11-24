@@ -10,7 +10,7 @@ using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 using Composition = CMiX.Core.Compositing.Composition;
 using Layer = CMiX.Core.Compositing.Layer;
 
@@ -23,9 +23,9 @@ namespace CMiX.Studio.Avalonia.Tests
         private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, PanelSide Left, PanelSide Right)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
-            public TreeViewProject View => Left.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            public ListTreeProject View => Left.GetVisualDescendants().OfType<ListTreeProject>().Single();
             public TreeNode LayerNode => Tree.CompositionNodes()[0].Children[0].Children[0];
-            public TreeViewItem LayerItem => ItemOf(View, LayerNode);
+            public RowListTree LayerItem => View.Rows.RowOf(LayerNode)!;
             public ToggleButton RightPicker => Right.FindControl<ToggleButton>("pickerToggle")!;
             public object? Focused => Window.FocusManager!.GetFocusedElement();
         }
@@ -350,8 +350,8 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Tree.CursorNode = screen.LayerNode;
             Settle(screen.Window);
             var other = screen.Tree.CompositionNodes()[0];
-            var toggle = ItemOf(screen.View, other).GetVisualDescendants().OfType<ToggleButton>()
-                .First(button => button.Name == "visibilityToggle" && button.IsEffectivelyVisible && button.FindAncestorOfType<TreeViewItem>() == ItemOf(screen.View, other));
+            var toggle = screen.View.Rows.RowOf(other)!.Toggles.GetVisualDescendants().OfType<ToggleButton>()
+                .First(button => button.Name == "visibilityToggle" && button.IsEffectivelyVisible);
             var before = toggle.IsChecked;
             var point = toggle.TranslatePoint(new Point(toggle.Bounds.Width / 2, toggle.Bounds.Height / 2), screen.Window)!.Value;
 
@@ -374,8 +374,8 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.RightPicker.Focus();
             Settle(screen.Window);
             var other = screen.Tree.CompositionNodes()[0];
-            var toggle = ItemOf(screen.View, other).GetVisualDescendants().OfType<ToggleButton>()
-                .First(button => button.Name == "visibilityToggle" && button.IsEffectivelyVisible && button.FindAncestorOfType<TreeViewItem>() == ItemOf(screen.View, other));
+            var toggle = screen.View.Rows.RowOf(other)!.Toggles.GetVisualDescendants().OfType<ToggleButton>()
+                .First(button => button.Name == "visibilityToggle" && button.IsEffectivelyVisible);
             var point = toggle.TranslatePoint(new Point(toggle.Bounds.Width / 2, toggle.Bounds.Height / 2), screen.Window)!.Value;
 
             screen.Window.MouseDown(point, MouseButton.Left);

@@ -10,7 +10,7 @@ using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // The new tree is the only tree. One composition with three layers. The first layer is selected, and its row has the focus.
         private Screen Show()
         {
-            var screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(PanelChoice.ListTree));
+            var screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(PanelChoice.Tree));
             window = screen.Window;
             screen.Tree.SelectedNode = screen.LayerNode(0);
             Settle(screen.Window);

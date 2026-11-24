@@ -203,22 +203,23 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_TheToggles_HaveTheSquaresOfTheToggleColumnOfTheTree()
+        public void Show_TheToggles_HaveTheSlotsOfTheToggleColumnOfTheTree()
         {
             var screen = Show();
             Select(screen, screen.LayerNode);
 
-            var tree = screen.Window.GetVisualDescendants().OfType<TreeViewProject>().Single();
-            var treeItem = tree.GetVisualDescendants().OfType<TreeViewItem>().First(item => ReferenceEquals(item.DataContext, screen.LayerNode));
-            var treeToggles = treeItem.GetVisualDescendants().OfType<TogglesRow>().First();
+            var tree = screen.Window.GetVisualDescendants().OfType<ListTreeProject>().Single();
+            var treeToggles = tree.Rows.RowOf(screen.LayerNode)!.Toggles;
             var treeSlots = treeToggles.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("slot") && border.IsEffectivelyVisible).ToList();
             var treeButtons = treeToggles.GetVisualDescendants().OfType<ToggleButton>().Where(button => button.IsEffectivelyVisible).ToList();
 
             var slots = screen.Header.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("slot")).ToList();
             var buttons = screen.Header.GetVisualDescendants().OfType<ToggleButton>().ToList();
 
-            Assert.Equal(treeSlots.Select(slot => slot.Bounds.Size), slots.Select(slot => slot.Bounds.Size));
-            Assert.Equal(treeButtons.Select(button => button.Bounds.Size), buttons.Select(button => button.Bounds.Size));
+            // The header has one slot and one button for each of the tree. The tree row is 24 high, the header keeps its own size.
+            Assert.Equal(treeSlots.Count, slots.Count);
+            Assert.Equal(treeButtons.Count, buttons.Count);
+            Assert.Equal(treeButtons.Select(button => button.Name), buttons.Select(button => button.Name));
             Assert.Equal(2, slots.Count);
         }
 
@@ -661,14 +662,12 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static Point CenterOfRow(Screen screen, TreeNode node)
         {
-            var tree = screen.Window.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var tree = screen.Window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             screen.Window.UpdateLayout();
             AvaloniaHeadlessPlatform.ForceRenderTimerTick();
             Dispatcher.UIThread.RunJobs();
-            var item = tree.GetVisualDescendants().OfType<TreeViewItem>().First(row => ReferenceEquals(row.DataContext, node));
-            var rowBorder = item.GetVisualDescendants().OfType<Border>().First(border => border.Name == "RowBorder");
-            // Right of the name and left of the buttons: on the row, on nothing else.
-            return rowBorder.TranslatePoint(new Point(rowBorder.Bounds.Width * 0.5, rowBorder.Bounds.Height / 2), screen.Window)!.Value;
+            var row = tree.Rows.RowOf(node)!;
+            return row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), screen.Window)!.Value;
         }
 
         private static void Click(Screen screen, Point point)
@@ -693,15 +692,15 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Click_BesideTheRows_FocusesTheCursorRow()
         {
             var screen = Show();
-            var tree = screen.Window.GetVisualDescendants().OfType<TreeViewProject>().Single();
-            var treeView = tree.GetVisualDescendants().OfType<TreeView>().First();
+            var tree = screen.Window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             screen.Window.UpdateLayout();
-            var point = treeView.TranslatePoint(new Point(treeView.Bounds.Width / 2, treeView.Bounds.Height - 4), screen.Window)!.Value;
+            var point = tree.Rows.TranslatePoint(new Point(tree.Rows.Bounds.Width / 2, tree.Rows.Bounds.Height + 4), screen.Window)!.Value;
+            Assert.True(point.Y < tree.Scroller.TranslatePoint(new Point(0, tree.Scroller.Bounds.Height), screen.Window)!.Value.Y, "The point is in the scroller.");
 
             Click(screen, point);
 
             var focused = screen.Window.FocusManager?.GetFocusedElement() as Visual;
-            Assert.True(focused is TreeViewItem, $"focused: {focused?.GetType().Name ?? "nothing"}");
+            Assert.True(focused is RowListTree, $"focused: {focused?.GetType().Name ?? "nothing"}");
         }
 
         [AvaloniaFact]
@@ -735,9 +734,8 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
-            var tree = screen.Window.GetVisualDescendants().OfType<TreeViewProject>().Single();
-            var item = tree.GetVisualDescendants().OfType<TreeViewItem>().First(row => ReferenceEquals(row.DataContext, screen.LayerNode));
-            var toggle = item.GetVisualDescendants().OfType<TogglesRow>().First()
+            var tree = screen.Window.GetVisualDescendants().OfType<ListTreeProject>().Single();
+            var toggle = tree.Rows.RowOf(screen.LayerNode)!.Toggles
                 .GetVisualDescendants().OfType<ToggleButton>().First(button => CMiX.UI.AttachedProperties.ToggleDrag.GetGroup(button) == "visibility");
             var point = toggle.TranslatePoint(new Point(toggle.Bounds.Width / 2, toggle.Bounds.Height / 2), screen.Window)!.Value;
 

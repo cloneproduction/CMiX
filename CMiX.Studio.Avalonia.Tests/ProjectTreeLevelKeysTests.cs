@@ -12,7 +12,7 @@ using Composition = CMiX.Core.Compositing.Composition;
 using Echo = CMiX.Core.Texturing.Filters.Echo;
 using Layer = CMiX.Core.Compositing.Layer;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -71,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             scene.Tree.ExpandBranch();
 
-            Assert.All(WithChildren(TreeTestScreen.All(new[] { scene.NodeA })), node => Assert.True(node.IsExpanded));
+            Assert.All(WithChildren(ListTreeTestScreen.All(new[] { scene.NodeA })), node => Assert.True(node.IsExpanded));
             Assert.False(scene.NodeB.IsExpanded);
             AssertCursorShows(scene.Tree);
         }
@@ -90,7 +90,7 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.ExpandBranch();
             scene.Tree.SearchText = string.Empty;
 
-            Assert.All(WithChildren(TreeTestScreen.All(new[] { target })), node => Assert.True(node.IsExpanded));
+            Assert.All(WithChildren(ListTreeTestScreen.All(new[] { target })), node => Assert.True(node.IsExpanded));
         }
 
         // ---------------------------------------------------------------- Tree.CloseLevel
@@ -185,7 +185,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // ---------------------------------------------------------------- the keys of the main window
 
         // One composition with three layers, each with an Echo filter. Every row is open. The composition is selected.
-        private (Views.MainWindow Window, MainViewModel ViewModel, TreeViewProject View) Show()
+        private (Views.MainWindow Window, MainViewModel ViewModel, ListTreeProject View) Show()
         {
             var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             window = mainWindow;
@@ -200,15 +200,15 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var view = mainWindow.GetVisualDescendants().OfType<ListTreeProject>().Single();
             viewModel.ProjectTree.SelectedNode = viewModel.ProjectTree.CompositionNodes()[0];
             Settle(mainWindow);
             return (mainWindow, viewModel, view);
         }
 
-        private static void FocusTheCursorRow(Views.MainWindow mainWindow, TreeViewProject view, ProjectTree tree)
+        private static void FocusTheCursorRow(Views.MainWindow mainWindow, ListTreeProject view, ProjectTree tree)
         {
-            ItemOf(view, tree.CursorNode!).Focus();
+            view.Rows.RowOf(tree.CursorNode!)!.Focus();
             Settle(mainWindow);
             Assert.True(view.IsKeyboardFocusWithin);
         }
@@ -219,7 +219,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Settle(mainWindow);
         }
 
-        private static IEnumerable<TreeNode> RowsWithChildren(ProjectTree tree) => WithChildren(TreeTestScreen.All(tree.Roots));
+        private static IEnumerable<TreeNode> RowsWithChildren(ProjectTree tree) => WithChildren(ListTreeTestScreen.All(tree.Roots));
 
         [AvaloniaFact]
         public void Press_ShiftEInTheTree_OpensTheBranchOfTheCursorRow()
@@ -234,7 +234,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Press(mainWindow, PhysicalKey.E, RawInputModifiers.Shift);
 
-            Assert.All(WithChildren(TreeTestScreen.All(new[] { composition })), node => Assert.True(node.IsExpanded));
+            Assert.All(WithChildren(ListTreeTestScreen.All(new[] { composition })), node => Assert.True(node.IsExpanded));
         }
 
         [AvaloniaFact]

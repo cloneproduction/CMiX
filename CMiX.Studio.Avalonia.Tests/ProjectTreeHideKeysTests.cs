@@ -18,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Composition = CMiX.Core.Compositing.Composition;
 using Layer = CMiX.Core.Compositing.Layer;
-using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public void SendMessage(IMessage message) => Sent.Add(message);
         }
 
-        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, TreeViewProject View, PanelNotification Host)
+        private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, ListTreeProject View, PanelNotification Host)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
             public UndoManager Undo => Provider.GetRequiredService<UndoManager>();
@@ -61,7 +61,7 @@ namespace CMiX.Studio.Avalonia.Tests
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
             TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var view = mainWindow.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var host = mainWindow.GetVisualDescendants().OfType<PanelNotification>().Single();
             var screen = new Screen(provider, mainWindow, viewModel, view, host);
             screen.Tree.SelectedNode = screen.LayerNode(0);
@@ -74,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             screen.Tree.CursorNode = node;
             Settle(screen.Window);
-            ItemOf(screen.View, node).Focus();
+            screen.View.Rows.RowOf(node)!.Focus();
             Settle(screen.Window);
             Assert.True(screen.View.IsKeyboardFocusWithin);
         }
@@ -86,9 +86,8 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         private static ToggleButton EyeOf(Screen screen, TreeNode node) =>
-            ItemOf(screen.View, node).GetVisualDescendants().OfType<ToggleButton>()
-                .First(button => button.Name is "visibilityToggle" or "groupHideToggle" && button.IsEffectivelyVisible
-                    && button.FindAncestorOfType<TreeViewItem>() == ItemOf(screen.View, node));
+            screen.View.Rows.RowOf(node)!.Toggles.GetVisualDescendants().OfType<ToggleButton>()
+                .First(button => button.Name is "visibilityToggle" or "groupHideToggle" && button.IsEffectivelyVisible);
 
         private static void Click(Screen screen, Control control)
         {

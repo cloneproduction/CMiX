@@ -66,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
             // tree and it stays open, so the compositions are in view.
             Assert.NotEmpty(scene.Tree.CompositionNodes());
             Assert.True(scene.Tree.CompositionsNode().IsExpanded);
-            Assert.All(TreeTestScreen.All(scene.Tree.CompositionNodes()), node => Assert.False(node.IsExpanded, node.Header));
+            Assert.All(ListTreeTestScreen.All(scene.Tree.CompositionNodes()), node => Assert.False(node.IsExpanded, node.Header));
 
             // An item that the user adds after the load is expanded again, and so are the rows above it.
             var loaded = (Composition)scene.Project.CompositionManager.ManagerData.Items[0];

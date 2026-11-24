@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public List<PanelSide> Hosts => Window.GetVisualDescendants().OfType<PanelSide>().OrderBy(host => host.TranslatePoint(new Point(0, 0), Window)!.Value.X).ToList();
             public PanelSide Left => Hosts[0];
             public PanelSide Right => Hosts[1];
-            public List<TreeViewProject> Trees => Window.GetVisualDescendants().OfType<TreeViewProject>().ToList();
+            public List<ListTreeProject> Trees => Window.GetVisualDescendants().OfType<ListTreeProject>().ToList();
             public List<PanelMainTabs> Tabs => Window.GetVisualDescendants().OfType<PanelMainTabs>().ToList();
             public List<AssetManager> Assets => Window.GetVisualDescendants().OfType<AssetManager>().ToList();
 
@@ -174,9 +174,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var rows = Screen.RowsOf(screen.Left);
 
-            Assert.Equal(new[] { "Tree", "List tree", "Tabs", "Assets" }, rows.Select(row => ((PanelChoice)row.CommandParameter!).Name));
-            Assert.Equal(new[] { "Tree", "Tree", "Tabs", "Resources" }, rows.Select(row => row.GetVisualDescendants().OfType<AppIcon>().Single().IconKey));
-            Assert.Equal(new[] { "Tree", "List tree", "Tabs", "Assets" }, rows.Select(row => row.GetVisualDescendants().OfType<TextBlock>().Single().Text));
+            Assert.Equal(new[] { "Tree", "Tabs", "Assets" }, rows.Select(row => ((PanelChoice)row.CommandParameter!).Name));
+            Assert.Equal(new[] { "Tree", "Tabs", "Resources" }, rows.Select(row => row.GetVisualDescendants().OfType<AppIcon>().Single().IconKey));
+            Assert.Equal(new[] { "Tree", "Tabs", "Assets" }, rows.Select(row => row.GetVisualDescendants().OfType<TextBlock>().Single().Text));
         }
 
         [AvaloniaFact]
@@ -242,7 +242,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.All(screen.Trees, tree =>
             {
-                var selected = tree.GetVisualDescendants().OfType<TreeViewItem>().Single(item => item.IsSelected);
+                var selected = tree.Rows.RealizedRows.Single(row => row.IsSelected);
                 Assert.Same(screen.ViewModel.ProjectTree.SelectedNode, selected.DataContext);
             });
         }
@@ -326,11 +326,8 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var tree = Assert.Single(screen.Trees);
             var layerNode = screen.ViewModel.ProjectTree.CompositionNodes()[0].Children[0].Children[0];
-            var item = tree.GetVisualDescendants().OfType<TreeViewItem>().First(row => ReferenceEquals(row.DataContext, layerNode));
-            var row = item.GetVisualDescendants().OfType<Border>().First(border => border.Name == "RowBorder");
-            screen.Window.UpdateLayout();
-            AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-            Dispatcher.UIThread.RunJobs();
+            var row = tree.Rows.RowOf(layerNode)!;
+            Support.ListTreeTestScreen.Settle(screen.Window);
             var point = row.TranslatePoint(new Point(row.Bounds.Width * 0.5, row.Bounds.Height / 2), screen.Window)!.Value;
             screen.Window.MouseDown(point, MouseButton.Left);
             screen.Window.MouseUp(point, MouseButton.Left);
@@ -347,11 +344,8 @@ namespace CMiX.Studio.Avalonia.Tests
             Pick(screen, left: false, PanelChoice.Tree);
             var layerNode = screen.ViewModel.ProjectTree.CompositionNodes()[0].Children[0].Children[0];
             var tree = screen.Trees[1];
-            var item = tree.GetVisualDescendants().OfType<TreeViewItem>().First(row => ReferenceEquals(row.DataContext, layerNode));
-            var row = item.GetVisualDescendants().OfType<Border>().First(border => border.Name == "RowBorder");
-            screen.Window.UpdateLayout();
-            AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-            Dispatcher.UIThread.RunJobs();
+            var row = tree.Rows.RowOf(layerNode)!;
+            Support.ListTreeTestScreen.Settle(screen.Window);
             var point = row.TranslatePoint(new Point(row.Bounds.Width * 0.5, row.Bounds.Height / 2), screen.Window)!.Value;
 
             screen.Window.MouseDown(point, MouseButton.Left);
@@ -377,7 +371,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var host = new PanelSide { Choices = PanelChoice.All, Choice = PanelChoice.Tabs };
 
             Assert.Same(PanelChoice.Tabs, host.Choice);
-            Assert.Equal(4, host.Choices!.Cast<object>().Count());
+            Assert.Equal(3, host.Choices!.Cast<object>().Count());
             Assert.NotNull(host.PickCommand);
             host.PickCommand.Execute(PanelChoice.Assets);
             Assert.Same(PanelChoice.Assets, host.Choice);

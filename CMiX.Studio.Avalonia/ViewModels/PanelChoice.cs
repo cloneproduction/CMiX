@@ -23,25 +23,18 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public string IconKey { get; }
 
         public static PanelChoice Tree { get; } = new TreePanelChoice();
-        public static PanelChoice ListTree { get; } = new ListTreePanelChoice();
         public static PanelChoice Tabs { get; } = new TabsPanelChoice();
         public static PanelChoice Assets { get; } = new AssetsPanelChoice();
 
-        public static IReadOnlyList<PanelChoice> All { get; } = new[] { Tree, ListTree, Tabs, Assets };
+        public static IReadOnlyList<PanelChoice> All { get; } = new[] { Tree, Tabs, Assets };
 
         public override string ToString() => Name;
     }
 
-    // The project tree.
+    // The project tree: one flat list of rows.
     public sealed class TreePanelChoice : PanelChoice
     {
         public TreePanelChoice() : base("Tree", "Tree") { }
-    }
-
-    // The new project tree: one flat list of rows. It shows the same project tree as the choice Tree.
-    public sealed class ListTreePanelChoice : PanelChoice
-    {
-        public ListTreePanelChoice() : base("List tree", "Tree") { }
     }
 
     // The tabs of the app, with the master beat under them.

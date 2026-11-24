@@ -15,10 +15,10 @@ namespace CMiX.Studio.Avalonia.Tests
     // and shows the same bar as the splitters of the rows (GridSplitterCMiX).
     public class MainWindowSplitterTests
     {
-        private static (Window Window, GridSplitter Splitter, Grid Grid, TreeViewProject Tree, TabControl Tabs) Show()
+        private static (Window Window, GridSplitter Splitter, Grid Grid, ListTreeProject Tree, TabControl Tabs) Show()
         {
             var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
-            var tree = window.GetVisualDescendants().OfType<TreeViewProject>().Single();
+            var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var grid = tree.GetVisualAncestors().OfType<Grid>().First(g => g.ColumnDefinitions.Count == 2);
             var splitter = grid.Children.OfType<GridSplitter>().Single();
             return (window, splitter, grid, tree, TestServiceProviderFactory.MainTabControl(window));
