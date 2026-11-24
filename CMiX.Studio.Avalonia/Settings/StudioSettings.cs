@@ -33,16 +33,6 @@ namespace CMiX.Studio.Avalonia.Settings
 
         public InterfaceSettings Interface { get; set; } = new();
 
-        public static StudioSettings Load() => Load(DefaultPath);
-
-        // A missing, empty, broken or locked file falls back to defaults. The Studio must start
-        // in every case.
-        public static StudioSettings Load(string path) => JsonSettingsFile.Load<StudioSettings>(path);
-
-        public void Save() => Save(DefaultPath);
-
-        public void Save(string path) => JsonSettingsFile.Save(path, this);
-
         // The file values with fallbacks. Resolve adds the Credential Manager.
         // WithFallbacks would give the machine name, so the Studio sets its own default first.
         public SyncOptions ToSyncOptions()

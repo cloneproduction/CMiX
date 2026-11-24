@@ -8,14 +8,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace CMiX.Studio.Avalonia.Settings
 {
     // The interface settings of the Studio (StudioSettings.Interface), live, for the views and the Settings tab. A change is saved at once.
-    // The save keeps the other parts of the file. With no file path, nothing is read or saved.
+    // The save keeps the other parts of the file. With no file, nothing is read or saved.
     public sealed partial class InterfaceState : ObservableObject
     {
         private bool loading;
 
-        public InterfaceState(string? filePath = null) => FilePath = filePath;
+        private readonly StudioSettingsFile? file;
 
-        public string? FilePath { get; }
+        public InterfaceState(StudioSettingsFile? file = null) => this.file = file;
 
         // The hint strip of the keys under the tree. On by default.
         [ObservableProperty]
@@ -24,10 +24,10 @@ namespace CMiX.Studio.Avalonia.Settings
         // A missing or broken file gives the defaults.
         public void Load()
         {
-            if (FilePath == null)
+            if (file == null)
                 return;
 
-            var settings = StudioSettings.Load(FilePath).Interface ?? new InterfaceSettings();
+            var settings = file.Load().Interface ?? new InterfaceSettings();
             loading = true;
             try
             {
@@ -41,14 +41,14 @@ namespace CMiX.Studio.Avalonia.Settings
 
         partial void OnShowKeyHintsChanged(bool value)
         {
-            if (loading || FilePath == null)
+            if (loading || file == null)
                 return;
 
-            var settings = StudioSettings.Load(FilePath);
+            var settings = file.Load();
             settings.Interface = new InterfaceSettings { ShowKeyHints = value };
             try
             {
-                settings.Save(FilePath);
+                file.Save(settings);
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {

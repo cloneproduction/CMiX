@@ -84,11 +84,11 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddSingleton<Views.PanelFocusCycle>();
                 serviceCollection.AddSingleton(_ => new StudioSettingsFile(StudioSettings.DefaultPath));
                 serviceCollection.AddSingleton<ICredentialStore, WindowsCredentialStore>();
-                serviceCollection.AddSingleton(_ =>
+                serviceCollection.AddSingleton(provider =>
                 {
-                    var options = new InterfaceState(StudioSettings.DefaultPath);
-                    options.Load();
-                    return options;
+                    var state = new InterfaceState(provider.GetRequiredService<StudioSettingsFile>());
+                    state.Load();
+                    return state;
                 });
                 serviceCollection.AddSingleton(_ =>
                 {

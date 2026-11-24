@@ -10,8 +10,9 @@ namespace CMiX.Studio.Avalonia.Settings
 
         public string FilePath { get; }
 
-        public StudioSettings Load() => StudioSettings.Load(FilePath);
+        // A missing, empty, broken or locked file falls back to defaults. The Studio must start in every case.
+        public StudioSettings Load() => JsonSettingsFile.Load<StudioSettings>(FilePath);
 
-        public void Save(StudioSettings settings) => settings.Save(FilePath);
+        public void Save(StudioSettings settings) => JsonSettingsFile.Save(FilePath, settings);
     }
 }

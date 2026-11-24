@@ -207,19 +207,19 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void ShowKeyHints_Changed_IsSavedAndKeepsTheRedisSettings()
         {
-            var path = temp.PathOf(StudioSettings.FileName);
-            new StudioSettings { Redis = new RedisSettings { Ip = "10.0.0.2", Port = 6390 } }.Save(path);
-            var options = new InterfaceState(path);
+            var file = new StudioSettingsFile(temp.PathOf(StudioSettings.FileName));
+            file.Save(new StudioSettings { Redis = new RedisSettings { Ip = "10.0.0.2", Port = 6390 } });
+            var options = new InterfaceState(file);
             options.Load();
             Assert.True(options.ShowKeyHints);
 
             options.ShowKeyHints = false;
 
-            var saved = StudioSettings.Load(path);
+            var saved = file.Load();
             Assert.False(saved.Interface.ShowKeyHints);
             Assert.Equal("10.0.0.2", saved.Redis.Ip);
             Assert.Equal(6390, saved.Redis.Port);
-            var loaded = new InterfaceState(path);
+            var loaded = new InterfaceState(file);
             loaded.Load();
             Assert.False(loaded.ShowKeyHints);
         }
@@ -229,7 +229,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var path = temp.File(StudioSettings.FileName, JsonSerializer.Serialize(new { Redis = new { Ip = "127.0.0.1" } }));
 
-            var options = new InterfaceState(path);
+            var options = new InterfaceState(new StudioSettingsFile(path));
             options.Load();
 
             Assert.True(options.ShowKeyHints);

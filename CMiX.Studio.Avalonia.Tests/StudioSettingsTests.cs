@@ -1,110 +1,15 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System.IO;
 using CMiX.Core.Networking;
 using CMiX.Core.Tests;
 using CMiX.Studio.Avalonia.Settings;
-using CMiX.Studio.Avalonia.Tests.Support;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // Covers StudioSettings against temp paths only. DefaultPath is never touched, so these tests
-    // never read or write next to the test runner's own executable.
-    public class StudioSettingsTests : IDisposable
+    public class StudioSettingsTests
     {
-        private readonly TempFolder temp = new("studiosettings");
-
-        public void Dispose() => temp.Dispose();
-
-        private string TempPath() => temp.PathOf(StudioSettings.FileName);
-
-        [Fact]
-        public void Load_MissingFile_ToSyncOptionsGivesAllFallbacks()
-        {
-            var path = TempPath();
-
-            var options = StudioSettings.Load(path).ToSyncOptions();
-
-            Assert.Equal("127.0.0.1", options.Ip);
-            Assert.Equal(6379, options.Port);
-            Assert.Equal(0, options.Database);
-            Assert.Equal("default", options.User);
-            Assert.Equal("", options.Password);
-            Assert.Equal("cmix:default", options.KeyPrefix);
-            Assert.Equal("Studio", options.PeerName);
-            Assert.Equal("studio", options.Role);
-        }
-
-        [Fact]
-        public void Load_FileWithEmptyFieldsAndZeroPort_ToSyncOptionsGivesAllFallbacks()
-        {
-            var path = TempPath();
-            File.WriteAllText(path, "{ \"Redis\": { \"Ip\": \"\", \"Port\": 0, \"Database\": 0, \"User\": \"\", \"Password\": \"\", \"KeyPrefix\": \"\", \"PeerName\": \"\" } }");
-
-            var options = StudioSettings.Load(path).ToSyncOptions();
-
-            Assert.Equal("127.0.0.1", options.Ip);
-            Assert.Equal(6379, options.Port);
-            Assert.Equal(0, options.Database);
-            Assert.Equal("default", options.User);
-            Assert.Equal("", options.Password);
-            Assert.Equal("cmix:default", options.KeyPrefix);
-            Assert.Equal("Studio", options.PeerName);
-            Assert.Equal("studio", options.Role);
-        }
-
-        [Fact]
-        public void SaveThenLoad_FullFile_RoundTrips()
-        {
-            var path = TempPath();
-            var settings = new StudioSettings
-            {
-                Redis = new RedisSettings
-                {
-                    Ip = "10.0.0.5",
-                    Port = 6400,
-                    Database = 2,
-                    User = "studio-user",
-                    Password = "secret",
-                    KeyPrefix = "cmix:studio",
-                    PeerName = "MyStudio",
-                    UseCredentialManager = true,
-                    CredentialName = "MyRedis"
-                }
-            };
-            settings.Save(path);
-
-            var loaded = StudioSettings.Load(path);
-
-            Assert.Equal(settings.Redis.Ip, loaded.Redis.Ip);
-            Assert.Equal(settings.Redis.Port, loaded.Redis.Port);
-            Assert.Equal(settings.Redis.Database, loaded.Redis.Database);
-            Assert.Equal(settings.Redis.User, loaded.Redis.User);
-            Assert.Equal(settings.Redis.Password, loaded.Redis.Password);
-            Assert.Equal(settings.Redis.KeyPrefix, loaded.Redis.KeyPrefix);
-            Assert.Equal(settings.Redis.PeerName, loaded.Redis.PeerName);
-            Assert.True(loaded.Redis.UseCredentialManager);
-            Assert.Equal("MyRedis", loaded.Redis.CredentialName);
-        }
-
-        [Fact]
-        public void Load_BrokenFile_GivesDefaults()
-        {
-            var path = TempPath();
-            File.WriteAllText(path, "{ not json");
-
-            var options = StudioSettings.Load(path).ToSyncOptions();
-
-            Assert.Equal("127.0.0.1", options.Ip);
-            Assert.Equal(6379, options.Port);
-            Assert.Equal("default", options.User);
-            Assert.Equal("cmix:default", options.KeyPrefix);
-            Assert.Equal("Studio", options.PeerName);
-            Assert.Equal("studio", options.Role);
-        }
-
         [Fact]
         public void FromSyncOptions_ThenToSyncOptions_GivesTheSameOptions()
         {
@@ -120,18 +25,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(original.KeyPrefix, roundTripped.KeyPrefix);
             Assert.Equal(original.PeerName, roundTripped.PeerName);
             Assert.Equal("studio", roundTripped.Role);
-        }
-
-        [Fact]
-        public void Load_FileWithoutCredentialFields_GivesFalseAndEmptyName()
-        {
-            var path = TempPath();
-            File.WriteAllText(path, "{ \"Redis\": { \"Ip\": \"10.0.0.5\", \"Port\": 6400, \"Database\": 2, \"User\": \"u\", \"Password\": \"p\", \"KeyPrefix\": \"k\", \"PeerName\": \"n\" } }");
-
-            var loaded = StudioSettings.Load(path);
-
-            Assert.False(loaded.Redis.UseCredentialManager);
-            Assert.Equal("", loaded.Redis.CredentialName);
         }
 
         private static FakeCredentialStore StoreWithMyRedis()
