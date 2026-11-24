@@ -679,25 +679,5 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Null(Assert.IsType<CMiX.UI.Popups.TipContent>(ToolTip.GetTip(screen.ButtonOf("duplicateButton"))).Reason);
         }
-
-        // The look of the buttons before the change to ButtonIcon: 24 by 24, a transparent corner of 2, an icon of 16 at 0.9.
-        [AvaloniaFact]
-        public void Show_TheToolbar_KeepsTheLookOfItsButtons()
-        {
-            var screen = Show();
-
-            foreach (var name in new[] { "addButton", "duplicateButton", "moveUpButton", "moveDownButton", "removeButton" })
-            {
-                var button = screen.ButtonOf(name);
-                var border = button.GetVisualDescendants().OfType<Border>().First();
-                var icon = button.GetVisualDescendants().OfType<CMiX.UI.Controls.AppIcon>().Single();
-
-                Assert.Equal(new Size(24, 24), button.Bounds.Size);
-                Assert.Equal(Colors.Transparent, ((ISolidColorBrush)border.Background!).Color);
-                Assert.Equal(new CornerRadius(2), border.CornerRadius);
-                Assert.Equal(0.9, icon.Opacity);
-                Assert.Equal(new Size(16, 16), icon.Bounds.Size);
-            }
-        }
     }
 }

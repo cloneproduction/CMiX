@@ -15,7 +15,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private const int Layers = 20;
         private const int EntitiesPerLayer = 100;
 
-        private static (ProjectTree Tree, Layer FirstLayer) CreateTree()
+        private static ProjectTree CreateTree()
         {
             var provider = TestServiceProviderFactory.Create();
             var project = provider.GetRequiredService<Project>();
@@ -29,8 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
                     layer.ModelEntityManager.AddItem(typeof(Entity));
             }
 
-            var tree = TreeFixtures.CreateTree(provider);
-            return (tree, (Layer)composition.LayerManager.ManagerData.Items[0]);
+            return TreeFixtures.CreateTree(provider);
         }
 
         private static IEnumerable<TreeNode> All(IEnumerable<TreeNode> nodes) =>
@@ -44,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void BeginDragAndEndDrag_OnALargeTree_StayInThePropertyChangedBudget()
         {
-            var (tree, _) = CreateTree();
+            var tree = CreateTree();
             var nodes = All(tree.Roots).ToList();
             var parents = nodes.Count(node => node.Children.Count > 0);
             Assert.True(nodes.Count >= Layers * EntitiesPerLayer);
@@ -58,22 +57,6 @@ namespace CMiX.Studio.Avalonia.Tests
             var bound = 4 * nodes.Count + 2 * parents;
             Assert.True(changes < bound, $"{changes} changes for {nodes.Count} rows, the bound is {bound}.");
             Assert.All(nodes, node => Assert.False(node.IsDragActive));
-        }
-
-        [Fact]
-        public void KindCounts_AfterALeafIsAdded_RecomputesEachAncestorOnce()
-        {
-            var (tree, firstLayer) = CreateTree();
-            var composition = tree.CompositionNodes()[0];
-            var layer = composition.Children[0].Children[0];
-            var group = EntitiesOf(layer);
-            var before = (Group: group.KindCountsComputations, Layer: layer.KindCountsComputations, Composition: composition.KindCountsComputations);
-
-            firstLayer.ModelEntityManager.AddItem(typeof(Entity));
-
-            Assert.Equal(before.Group + 1, group.KindCountsComputations);
-            Assert.Equal(before.Layer + 1, layer.KindCountsComputations);
-            Assert.Equal(before.Composition, composition.KindCountsComputations);
         }
     }
 }

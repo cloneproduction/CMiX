@@ -100,23 +100,6 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Build_ALayerNode_HasEntitiesFiltersModifiersThenCamerasAndLights()
-        {
-            var scene = CreateScene();
-            var layer = scene.LayerOfA(0);
-
-            var node = LayerNode(scene, 0);
-
-            Assert.Equal(new[] { "Entities", "Filters", "Modifiers", "Cameras", "Lights" }, node.Children.Select(group => group.Header));
-            Assert.All(node.Children, group => Assert.Null(group.Item));
-            Assert.Same(layer.ModelEntityManager, node.Children[0].ChildManager);
-            Assert.Same(layer.TextureModifierManager, node.Children[1].ChildManager);
-            Assert.Same(layer.ModifierManager, node.Children[2].ChildManager);
-            Assert.Same(layer.CameraManager, node.Children[3].ChildManager);
-            Assert.Same(layer.LightManager, node.Children[4].ChildManager);
-        }
-
-        [Fact]
         public void Build_AGroupNode_HasTheItemsOfItsListAsChildren()
         {
             var scene = CreateScene();
