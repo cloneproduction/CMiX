@@ -35,15 +35,26 @@ namespace CMiX.Core.Tests
             Assert.NotEqual(before, ProjectStateHash.Compute(project));
         }
 
-        [Fact]
-        public void Compute_AProjectWithAnEntity_HashesTheSameTwice()
+        // A model property that nothing writes gets new IDs on every save, and the project then always counts as changed.
+        [Theory]
+        [InlineData(typeof(Entity))]
+        [InlineData(typeof(FullscreenQuad))]
+        [InlineData(typeof(TextEntity))]
+        [InlineData(typeof(CMiX.Core.Rendering.Cameras.Camera))]
+        [InlineData(typeof(CMiX.Core.Rendering.Lights.LightEntity))]
+        public void Compute_AProjectWithAnItemOfEachKind_HashesTheSameTwice(Type kind)
         {
             var project = NewProject();
             project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)project.CompositionManager.SelectedItem;
             composition.LayerManager.AddItem(typeof(Layer));
             var layer = (Layer)composition.LayerManager.SelectedItem;
-            layer.ModelEntityManager.AddItem(typeof(Entity));
+            if (kind == typeof(CMiX.Core.Rendering.Cameras.Camera))
+                layer.CameraManager.AddItem(kind);
+            else if (kind == typeof(CMiX.Core.Rendering.Lights.LightEntity))
+                layer.LightManager.AddItem(kind);
+            else
+                layer.ModelEntityManager.AddItem(kind);
 
             Assert.Equal(ProjectStateHash.Compute(project), ProjectStateHash.Compute(project));
         }
