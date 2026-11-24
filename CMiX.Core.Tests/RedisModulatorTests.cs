@@ -4,12 +4,14 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Texturing.Sources;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // The behaviour that the three Redis modulators share: one selected address, one output named Value.
+    // The behaviour that the three Redis modulators share: one selected address, one output named Value, the values it binds.
     public class RedisModulatorTests
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
@@ -173,6 +175,20 @@ namespace CMiX.Core.Tests
 
             Assert.True(NewValue(valueType).CanBind(output));
             Assert.False(NewValue(otherType).CanBind(output));
+        }
+
+        [Theory]
+        [InlineData(typeof(RedisBoolModulator), typeof(SequencePlayer), nameof(SequencePlayer.Playing), true)]
+        [InlineData(typeof(RedisBoolModulator), typeof(VideoPlayer), nameof(VideoPlayer.DoSeek), true)]
+        [InlineData(typeof(RedisBoolModulator), typeof(Blur), nameof(Blur.Strength), false)]
+        [InlineData(typeof(RedisIntModulator), typeof(SequencePlayer), nameof(SequencePlayer.SeekTarget), true)]
+        [InlineData(typeof(RedisIntModulator), typeof(Blur), nameof(Blur.Strength), false)]
+        public void CanBind_AValueOfARealControl_FollowsTheOutputType(Type modulatorType, Type controlType, string valueName, bool expected)
+        {
+            var control = _provider.GetRequiredService<ControlFactory>().Create(controlType);
+            var value = (IModulatorBindable)controlType.GetProperty(valueName)!.GetValue(control)!;
+
+            Assert.Equal(expected, value.CanBind(NewModulator(modulatorType).Outputs.Single()));
         }
 
         [Theory]
