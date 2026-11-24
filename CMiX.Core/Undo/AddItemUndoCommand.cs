@@ -1,51 +1,40 @@
-﻿using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
-
-namespace CMiX.Core.Undo
+﻿namespace CMiX.Core.Undo
 {
     // Undo takes the added item back out of the collection, so from that point on this command
     // owns the instance and disposes it when UndoManager drops the command.
     public class AddItemUndoCommand : IUndoCommand, IDisposable
     {
-        private readonly CollectionSync _sync;
+        private readonly IItemList _list;
         private readonly IControl _item;
         private readonly int _index;
         private IControl _previousItem;
         private int _previousIndex;
 
-        public AddItemUndoCommand(CollectionSync sync, IControl item, int index)
+        public AddItemUndoCommand(IItemList list, IControl item, int index)
         {
-            _sync = sync;
+            _list = list;
             _item = item;
             _index = index;
         }
 
         public void Execute()
         {
-            var collection = _sync.Collection;
-            _previousItem = collection.ManagerData.SelectedItem;
-            _previousIndex = collection.ManagerData.Items.IndexOf(_previousItem);
-
-            collection.InsertItem(_item, Math.Min(_index, collection.ManagerData.Items.Count));
-            _sync.SendAdd(_item, collection.ManagerData.Items.IndexOf(_item));
+            _previousItem = _list.SelectedItem;
+            _previousIndex = _list.IndexOf(_previousItem);
+            _list.Insert(_item, Math.Min(_index, _list.Count));
         }
 
         public void Undo()
         {
-            var collection = _sync.Collection;
-            collection.RemoveItem(_item);
-            _sync.SendRemove(_item, collection.ManagerData.SelectedIndex);
+            _list.Remove(_item);
 
-            if (_previousItem != null && collection.ManagerData.Items.Contains(_previousItem))
-            {
-                collection.ManagerData.SelectAt(_previousIndex);
-                _sync.SendSelect(_previousItem, _previousIndex);
-            }
+            if (_previousItem != null && _list.IndexOf(_previousItem) >= 0)
+                _list.SelectAt(_previousIndex);
         }
 
         public void Dispose()
         {
-            OwnedControl.DisposeIfOrphaned(_sync.Collection.ControlRepository, _item);
+            _list.Release(_item);
         }
     }
 }

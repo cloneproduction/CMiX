@@ -1,9 +1,6 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
-
 namespace CMiX.Core.Undo
 {
     // Owns the removed item while this command sits on a stack, so the item keeps its nested
@@ -11,38 +8,34 @@ namespace CMiX.Core.Undo
     // drops it, which is the only point where the removal becomes permanent.
     public class RemoveItemUndoCommand : IUndoCommand, IDisposable
     {
-        private readonly CollectionSync _sync;
+        private readonly IItemList _list;
         private readonly IControl _item;
         private int _index;
         private IControl _selectedBefore;
 
-        public RemoveItemUndoCommand(CollectionSync sync, IControl item)
+        public RemoveItemUndoCommand(IItemList list, IControl item)
         {
-            _sync = sync;
+            _list = list;
             _item = item;
         }
 
         public void Execute()
         {
-            _selectedBefore = _sync.Collection.ManagerData.SelectedItem;
-            _index = _sync.Collection.RemoveItem(_item);
-            _sync.SendRemove(_item, _sync.Collection.ManagerData.SelectedIndex);
+            _selectedBefore = _list.SelectedItem;
+            _index = _list.Remove(_item);
         }
 
         public void Undo()
         {
-            var data = _sync.Collection.ManagerData;
-            _sync.Collection.InsertItem(_item, _index);
-            _sync.SendAdd(_item, _index);
+            _list.Insert(_item, _index);
 
             if (ReferenceEquals(_selectedBefore, _item)) return;
-            data.Select(_selectedBefore);
-            _sync.SendSelect(_selectedBefore, data.SelectedIndex);
+            _list.SelectAt(_list.IndexOf(_selectedBefore));
         }
 
         public void Dispose()
         {
-            OwnedControl.DisposeIfOrphaned(_sync.Collection.ControlRepository, _item);
+            _list.Release(_item);
         }
     }
 }

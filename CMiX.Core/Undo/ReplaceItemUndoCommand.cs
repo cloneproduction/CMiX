@@ -1,9 +1,6 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
-
 namespace CMiX.Core.Undo
 {
     // Backs the reset item path, which swaps a fresh instance in for one already in a collection.
@@ -18,17 +15,17 @@ namespace CMiX.Core.Undo
     // does there.
     public class ReplaceItemUndoCommand : IUndoCommand, IDisposable
     {
-        private readonly CollectionSync _sync;
+        private readonly IItemList _list;
         private readonly IControl _previousItem;
         private readonly IControl _newItem;
         private readonly int _index;
 
-        public ReplaceItemUndoCommand(CollectionSync sync,
+        public ReplaceItemUndoCommand(IItemList list,
                                   IControl previousItem,
                                   IControl newItem,
                                   int index)
         {
-            _sync = sync;
+            _list = list;
             _previousItem = previousItem;
             _newItem = newItem;
             _index = index;
@@ -40,24 +37,21 @@ namespace CMiX.Core.Undo
 
         private void Replace(IControl outgoing, IControl incoming)
         {
-            var collection = _sync.Collection;
-            var index = collection.ManagerData.Items.IndexOf(outgoing);
+            var index = _list.IndexOf(outgoing);
             if (index < 0) index = _index;
 
-            collection.RemoveItem(outgoing);
-            _sync.SendRemove(outgoing, collection.ManagerData.SelectedIndex);
+            _list.Remove(outgoing);
 
-            if (index > collection.ManagerData.Items.Count)
-                index = collection.ManagerData.Items.Count;
+            if (index > _list.Count)
+                index = _list.Count;
 
-            collection.InsertItem(incoming, index);
-            _sync.SendAdd(incoming, index);
+            _list.Insert(incoming, index);
         }
 
         public void Dispose()
         {
-            OwnedControl.DisposeIfOrphaned(_sync.Collection.ControlRepository, _previousItem);
-            OwnedControl.DisposeIfOrphaned(_sync.Collection.ControlRepository, _newItem);
+            _list.Release(_previousItem);
+            _list.Release(_newItem);
         }
     }
 }
