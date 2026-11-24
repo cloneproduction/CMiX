@@ -118,25 +118,6 @@ namespace CMiX.UI.Tests
             AssertShortcutLook(tip.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Text == "Shift+A"));
         }
 
-        [AvaloniaFact]
-        public void Open_TheShortcutOfAContextMenuRow_HasTheShortcutLook()
-        {
-            var menu = new ContextMenu
-            {
-                Theme = Tokens.Theme("ContextMenuDefault"),
-                ItemsSource = new object[] { new MenuItem { Header = "Duplicate", InputGesture = new KeyGesture(Key.D, KeyModifiers.Control) } },
-            };
-            var owner = new Border { Width = 200, Height = 30, ContextMenu = menu };
-            TestWindow.Show(owner, 500, 400);
-            menu.Open(owner);
-            Dispatcher.UIThread.RunJobs();
-
-            var gesture = menu.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Name == "PART_InputGestureText");
-
-            Assert.Equal("Ctrl+D", gesture.Text);
-            AssertShortcutLook(gesture);
-        }
-
         // A row of the main menu has the default MenuItem theme. Its shortcut comes from InputGesture, as in a context menu.
         [AvaloniaFact]
         public void Open_TheShortcutOfAMainMenuRow_HasTheShortcutLook()

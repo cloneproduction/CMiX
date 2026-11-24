@@ -10,7 +10,8 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // Every row starts its content 8 from its left edge and has the round corners of the theme: a list row, a combo row and a menu row.
+    // Every row starts its content 8 from its left edge and has the round corners of the theme: a list row and a combo row.
+    // ContextMenuLookTests tests the menu row.
     public class RowInsetTests
     {
         private static T Show<T>(T control) where T : Control
@@ -43,17 +44,6 @@ namespace CMiX.UI.Tests
 
             Assert.Equal(8, presenter.Margin.Left);
             Assert.Equal(Round, border.CornerRadius);
-        }
-
-        [AvaloniaFact]
-        public void Show_ARowOfAMenu_StartsItsContentAtEight()
-        {
-            var row = Show(new MenuItem { Header = "Duplicate", Theme = Tokens.Theme("MenuItemContext"), Width = 140 });
-
-            var root = Parts.Find<Border>(row, "root");
-
-            Assert.Equal(8, root.Padding.Left);
-            Assert.Equal(Round, root.CornerRadius);
         }
     }
 }

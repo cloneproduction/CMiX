@@ -33,20 +33,6 @@ namespace CMiX.UI.Tests
             return (window, file, open, save);
         }
 
-        private static ContextMenu OpenContextMenu(params MenuItem[] rows)
-        {
-            var menu = new ContextMenu
-            {
-                Theme = Tokens.Theme("ContextMenuDefault"),
-                ItemsSource = rows,
-            };
-            var owner = new Border { Width = 200, Height = 30, ContextMenu = menu };
-            TestWindow.Show(owner, 500, 400);
-            menu.Open(owner);
-            Dispatcher.UIThread.RunJobs();
-            return menu;
-        }
-
         // The menu selects a row when the pointer enters it.
         private static void Hover(MenuItem row) => RaisePointer(row, InputElement.PointerEnteredEvent);
 
@@ -124,22 +110,6 @@ namespace CMiX.UI.Tests
             Assert.True(ContrastRatio(ShortcutOf(open), FillOf(open)!.Value) >= 4.5);
             Assert.Equal(Tokens.Get<Color>("ShortcutText"), ShortcutOf(save));
             Assert.True(ContrastRatio(ShortcutOf(save), Tokens.Get<Color>("PopupCardBackground")) >= 4.5);
-        }
-
-        [AvaloniaFact]
-        public void Down_InAContextMenu_MakesTheShortcutLighterAndReadable()
-        {
-            var first = new MenuItem { Header = "Duplicate", InputGesture = new KeyGesture(Key.D, KeyModifiers.Control) };
-            var second = new MenuItem { Header = "Rename", InputGesture = new KeyGesture(Key.R, KeyModifiers.Control) };
-            var menu = OpenContextMenu(first, second);
-
-            KeyInput.PressOnFocus(menu, Key.Down);
-
-            Assert.True(first.IsSelected);
-            Assert.Equal(Tokens.Get<Color>("Grey900"), ShortcutOf(first));
-            Assert.True(ContrastRatio(ShortcutOf(first), FillOf(first)!.Value) >= 4.5);
-            Assert.Equal(Tokens.Get<Color>("ShortcutText"), ShortcutOf(second));
-            Assert.True(ContrastRatio(ShortcutOf(second), Tokens.Get<Color>("PopupCardBackground")) >= 4.5);
         }
 
         [AvaloniaFact]
