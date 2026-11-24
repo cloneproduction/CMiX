@@ -7,6 +7,7 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -18,31 +19,19 @@ namespace CMiX.UI.Tests
         {
             var menu = new ContextMenu
             {
-                Theme = (ControlTheme)Application.Current!.FindResource("ContextMenuDefault")!,
+                Theme = Tokens.Theme("ContextMenuDefault"),
                 ItemsSource = rows,
             };
             var owner = new Border { Width = 200, Height = 30, ContextMenu = menu };
-            new Window { Content = owner, Width = 500, Height = 400 }.Show();
+            TestWindow.Show(owner, 500, 400);
             menu.Open(owner);
             Dispatcher.UIThread.RunJobs();
             return menu;
         }
 
-        private static void Press(Control target, Key key, int times = 1)
-        {
-            for (var i = 0; i < times; i++)
-            {
-                var focused = TopLevel.GetTopLevel(target)?.FocusManager?.GetFocusedElement() as Interactive;
-                (focused ?? target).RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = key });
-                Dispatcher.UIThread.RunJobs();
-            }
-        }
+        private static IBrush? FillOf(MenuItem row) => Parts.Find<Border>(row, "root").Background;
 
-        private static IBrush? FillOf(MenuItem row) =>
-            row.GetVisualDescendants().OfType<Border>().First(border => border.Name == "root").Background;
-
-        private static Color HoverColor =>
-            ((ISolidColorBrush)Application.Current!.FindResource("RowHoverBrush")!).Color;
+        private static Color HoverColor => Tokens.Color("RowHoverBrush");
 
         private static bool HasHoverFill(MenuItem row) =>
             FillOf(row) is ISolidColorBrush brush && brush.Color == HoverColor;
@@ -54,7 +43,7 @@ namespace CMiX.UI.Tests
             var second = new MenuItem { Header = "Two" };
             var menu = Open(first, second);
 
-            Press(menu, Key.Down);
+            KeyInput.PressOnFocus(menu,Key.Down);
 
             Assert.True(first.IsSelected);
             Assert.True(HasHoverFill(first));
@@ -69,7 +58,7 @@ namespace CMiX.UI.Tests
             var last = new MenuItem { Header = "Two" };
             var menu = Open(first, off, last);
 
-            Press(menu, Key.Down, 2);
+            KeyInput.PressOnFocus(menu,Key.Down, 2);
 
             Assert.True(last.IsSelected);
             Assert.False(off.IsSelected);
@@ -84,8 +73,8 @@ namespace CMiX.UI.Tests
             var more = new MenuItem { Header = "More", Items = { inner, new MenuItem { Header = "Other" } } };
             var menu = Open(more);
 
-            Press(menu, Key.Down);
-            Press(menu, Key.Right);
+            KeyInput.PressOnFocus(menu,Key.Down);
+            KeyInput.PressOnFocus(menu,Key.Right);
 
             Assert.True(more.IsSubMenuOpen);
             Assert.True(inner.IsSelected);

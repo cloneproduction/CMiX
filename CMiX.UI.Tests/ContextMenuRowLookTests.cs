@@ -9,6 +9,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -27,7 +28,7 @@ namespace CMiX.UI.Tests
             var submenu = new MenuItem { Header = "More", Items = { new MenuItem { Header = "One" } } };
             var menu = new ContextMenu
             {
-                Theme = (ControlTheme)Application.Current!.FindResource("ContextMenuDefault")!,
+                Theme = Tokens.Theme("ContextMenuDefault"),
                 ItemsSource = new object[]
                 {
                     title,
@@ -40,7 +41,7 @@ namespace CMiX.UI.Tests
                 },
             };
             var owner = new Border { Width = 200, Height = 30, ContextMenu = menu };
-            new Window { Content = owner, Width = 500, Height = 400 }.Show();
+            TestWindow.Show(owner, 500, 400);
             menu.Open(owner);
             Dispatcher.UIThread.RunJobs();
 
@@ -48,9 +49,6 @@ namespace CMiX.UI.Tests
                 .ToDictionary(item => (string)item.Header!);
             return (menu, rows);
         }
-
-        private static T Part<T>(MenuItem row, string name) where T : Control =>
-            row.GetVisualDescendants().OfType<T>().First(part => part.Name == name);
 
         [AvaloniaFact]
         public void Open_AMenu_ShowsItsRowsOnTheCard()
@@ -60,7 +58,7 @@ namespace CMiX.UI.Tests
             var frame = menu.GetVisualDescendants().OfType<PopupFrame>().First();
             var card = frame.GetVisualDescendants().OfType<Border>().First(border => border.CornerRadius != default && border.Background is ISolidColorBrush);
 
-            var fill = ((ISolidColorBrush)Application.Current!.FindResource("PopupBackgroundBrush")!).Color;
+            var fill = Tokens.Color("PopupBackgroundBrush");
             Assert.Equal(fill, ((ISolidColorBrush)card.Background!).Color);
             Assert.Equal(new Thickness(0), card.BorderThickness);
             Assert.Equal(1, card.Opacity);
@@ -71,11 +69,11 @@ namespace CMiX.UI.Tests
         {
             var (_, rows) = Open();
 
-            var gesture = Part<TextBlock>(rows["Duplicate"], "PART_InputGestureText");
+            var gesture = Parts.Find<TextBlock>(rows["Duplicate"], "PART_InputGestureText");
 
             Assert.True(gesture.IsEffectivelyVisible);
             Assert.Equal("Ctrl+D", gesture.Text);
-            Assert.Equal((FontFamily)Application.Current!.FindResource("FontFamilyMono")!, gesture.FontFamily);
+            Assert.Equal(Tokens.Get<FontFamily>("FontFamilyMono"), gesture.FontFamily);
         }
 
         [AvaloniaFact]
@@ -83,7 +81,7 @@ namespace CMiX.UI.Tests
         {
             var (_, rows) = Open();
 
-            Assert.False(Part<TextBlock>(rows["Rename"], "PART_InputGestureText").IsEffectivelyVisible);
+            Assert.False(Parts.Find<TextBlock>(rows["Rename"], "PART_InputGestureText").IsEffectivelyVisible);
         }
 
         [AvaloniaFact]
@@ -91,7 +89,7 @@ namespace CMiX.UI.Tests
         {
             var (menu, rows) = Open();
 
-            double LeftOf(string header) => Part<TextBlock>(rows[header], "PART_InputGestureText").TranslatePoint(default, menu)!.Value.X;
+            double LeftOf(string header) => Parts.Find<TextBlock>(rows[header], "PART_InputGestureText").TranslatePoint(default, menu)!.Value.X;
 
             Assert.Equal(LeftOf("Add"), LeftOf("Duplicate"), 0.51);
             Assert.Equal(LeftOf("Add"), LeftOf("Delete"), 0.51);
@@ -102,8 +100,8 @@ namespace CMiX.UI.Tests
         {
             var (_, rows) = Open();
 
-            Assert.True(Part<AppIcon>(rows["More"], "PART_Arrow").IsEffectivelyVisible);
-            Assert.False(Part<AppIcon>(rows["Rename"], "PART_Arrow").IsEffectivelyVisible);
+            Assert.True(Parts.Find<AppIcon>(rows["More"], "PART_Arrow").IsEffectivelyVisible);
+            Assert.False(Parts.Find<AppIcon>(rows["Rename"], "PART_Arrow").IsEffectivelyVisible);
         }
 
         [AvaloniaFact]
@@ -111,7 +109,7 @@ namespace CMiX.UI.Tests
         {
             var (_, rows) = Open();
 
-            Assert.True(Part<AppIcon>(rows["Add"], "PART_Arrow").IsEffectivelyVisible);
+            Assert.True(Parts.Find<AppIcon>(rows["Add"], "PART_Arrow").IsEffectivelyVisible);
         }
 
         [AvaloniaFact]
@@ -119,9 +117,9 @@ namespace CMiX.UI.Tests
         {
             var (_, rows) = Open();
 
-            var root = Part<Border>(rows["Layer 02"], "root");
-            var header = Part<ContentPresenter>(rows["Layer 02"], "PART_HeaderPresenter");
-            var quiet = ((ISolidColorBrush)Application.Current!.FindResource("TextMutedBrush")!).Color;
+            var root = Parts.Find<Border>(rows["Layer 02"], "root");
+            var header = Parts.Find<ContentPresenter>(rows["Layer 02"], "PART_HeaderPresenter");
+            var quiet = Tokens.Color("TextMutedBrush");
             Assert.Equal(1, root.Opacity);
             Assert.Equal(quiet, ((ISolidColorBrush)header.Foreground!).Color);
             Assert.Equal(FontWeight.Medium, header.FontWeight);
@@ -132,9 +130,9 @@ namespace CMiX.UI.Tests
         {
             var (_, rows) = Open();
 
-            var header = Part<ContentPresenter>(rows["Delete"], "PART_HeaderPresenter");
+            var header = Parts.Find<ContentPresenter>(rows["Delete"], "PART_HeaderPresenter");
 
-            var danger = ((ISolidColorBrush)Application.Current!.FindResource("PopupCardDangerBrush")!).Color;
+            var danger = Tokens.Color("PopupCardDangerBrush");
             Assert.Equal(danger, ((ISolidColorBrush)header.Foreground!).Color);
         }
 
@@ -143,17 +141,17 @@ namespace CMiX.UI.Tests
         {
             var menu = new ContextMenu
             {
-                Theme = (ControlTheme)Application.Current!.FindResource("ContextMenuDefault")!,
+                Theme = Tokens.Theme("ContextMenuDefault"),
                 ItemsSource = new object[] { new MenuItem { Header = "Off", IsEnabled = false } },
             };
             var owner = new Border { Width = 200, Height = 30, ContextMenu = menu };
-            new Window { Content = owner, Width = 500, Height = 400 }.Show();
+            TestWindow.Show(owner, 500, 400);
             menu.Open(owner);
             Dispatcher.UIThread.RunJobs();
 
             var row = menu.Items.OfType<MenuItem>().Single();
 
-            Assert.Equal(0.5, Part<Border>(row, "root").Opacity);
+            Assert.Equal(0.5, Parts.Find<Border>(row, "root").Opacity);
         }
     }
 }

@@ -6,6 +6,7 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -20,20 +21,19 @@ namespace CMiX.UI.Tests
             var file = new MenuItem
             {
                 Header = "File",
-                Theme = (ControlTheme)Application.Current!.FindResource("MenuItemTop")!,
+                Theme = Tokens.Theme("MenuItemTop"),
                 ItemsSource = new object[] { open },
             };
-            var menu = new Menu { Theme = (ControlTheme)Application.Current!.FindResource("MenuDefault")!, ItemsSource = new object[] { file } };
-            new Window { Content = menu, Width = 500, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            var menu = new Menu { Theme = Tokens.Theme("MenuDefault"), ItemsSource = new object[] { file } };
+            TestWindow.Show(menu, 500, 400);
 
             file.Open();
             Dispatcher.UIThread.RunJobs();
 
             var popup = file.GetVisualDescendants().OfType<Popup>().Single(part => part.Name == "PART_Popup");
             Assert.IsType<PopupFrame>(popup.Child);
-            Assert.Same(Application.Current!.FindResource("MenuItemContext"), open.Theme);
-            Assert.Equal((double)Application.Current!.FindResource("ControlHeightMD")!, open.Bounds.Height);
+            Assert.Same(Tokens.Theme("MenuItemContext"), open.Theme);
+            Assert.Equal(Tokens.Get<double>("ControlHeightMD"), open.Bounds.Height);
         }
     }
 }

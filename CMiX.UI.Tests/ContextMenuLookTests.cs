@@ -16,19 +16,11 @@ namespace CMiX.UI.Tests
     // The context menu theme shows its rows in a PopupFrame, gives the separator row a thin line, and opens with its middle on the click.
     public class ContextMenuLookTests
     {
-        private static Window Host(Control content)
-        {
-            var window = new Window { Content = content, Width = 400, Height = 300 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
         [AvaloniaFact]
         public void ResetMenuOfASlider_WhenOpen_ShowsItsItemInAPopupFrame()
         {
             var slider = new SliderCMiX { Width = 200, Height = 30, ResetCommand = new RelayCommand(() => { }) };
-            Host(slider);
+            TestWindow.Show(slider, 400, 300);
 
             slider.ContextMenu!.Open(slider);
             Dispatcher.UIThread.RunJobs();
@@ -42,7 +34,7 @@ namespace CMiX.UI.Tests
         {
             var menu = new ContextMenu
             {
-                Theme = (ControlTheme)Application.Current!.FindResource("ContextMenuDefault")!,
+                Theme = Tokens.Theme("ContextMenuDefault"),
                 ItemsSource = new[]
                 {
                     new MenuItem { Header = "A" },
@@ -51,7 +43,7 @@ namespace CMiX.UI.Tests
                 }
             };
             var owner = new Border { Width = 200, Height = 30, ContextMenu = menu };
-            Host(owner);
+            TestWindow.Show(owner, 400, 300);
 
             menu.Open(owner);
             Dispatcher.UIThread.RunJobs();
@@ -64,7 +56,7 @@ namespace CMiX.UI.Tests
 
         private static ContextMenu NewMenu(params string[] headers) => new()
         {
-            Theme = (ControlTheme)Application.Current!.FindResource("ContextMenuDefault")!,
+            Theme = Tokens.Theme("ContextMenuDefault"),
             ItemsSource = headers.Select(h => new MenuItem { Header = h }).ToArray()
         };
 
@@ -84,10 +76,7 @@ namespace CMiX.UI.Tests
         private static (Window Window, Border Owner) HostOwner(ContextMenu menu)
         {
             var owner = new Border { Width = 600, Height = 400, Background = global::Avalonia.Media.Brushes.Gray, ContextMenu = menu };
-            var window = new Window { Content = owner, Width = 800, Height = 600 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, owner);
+            return (TestWindow.Show(owner, 800, 600), owner);
         }
 
         [AvaloniaTheory]

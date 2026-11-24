@@ -7,6 +7,7 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -22,13 +23,11 @@ namespace CMiX.UI.Tests
             var file = new MenuItem
             {
                 Header = "File",
-                Theme = (ControlTheme)Application.Current!.FindResource("MenuItemTop")!,
+                Theme = Tokens.Theme("MenuItemTop"),
                 ItemsSource = new object[] { open, save },
             };
-            var menu = new Menu { Theme = (ControlTheme)Application.Current!.FindResource("MenuDefault")!, ItemsSource = new object[] { file } };
-            var window = new Window { Content = menu, Width = 500, Height = 400 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var menu = new Menu { Theme = Tokens.Theme("MenuDefault"), ItemsSource = new object[] { file } };
+            var window = TestWindow.Show(menu, 500, 400);
             file.Open();
             Dispatcher.UIThread.RunJobs();
             return (window, file, open, save);
@@ -38,21 +37,14 @@ namespace CMiX.UI.Tests
         {
             var menu = new ContextMenu
             {
-                Theme = (ControlTheme)Application.Current!.FindResource("ContextMenuDefault")!,
+                Theme = Tokens.Theme("ContextMenuDefault"),
                 ItemsSource = rows,
             };
             var owner = new Border { Width = 200, Height = 30, ContextMenu = menu };
-            new Window { Content = owner, Width = 500, Height = 400 }.Show();
+            TestWindow.Show(owner, 500, 400);
             menu.Open(owner);
             Dispatcher.UIThread.RunJobs();
             return menu;
-        }
-
-        private static void Press(Control target, Key key)
-        {
-            var focused = TopLevel.GetTopLevel(target)?.FocusManager?.GetFocusedElement() as Interactive;
-            (focused ?? target).RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = key });
-            Dispatcher.UIThread.RunJobs();
         }
 
         // The menu selects a row when the pointer enters it.
@@ -70,7 +62,7 @@ namespace CMiX.UI.Tests
         }
 
         private static Color? FillOf(MenuItem row) =>
-            (row.GetVisualDescendants().OfType<Border>().First(border => border.Name == "root").Background as ISolidColorBrush)?.Color;
+            (Parts.Find<Border>(row, "root").Background as ISolidColorBrush)?.Color;
 
         private static Color ShortcutOf(MenuItem row) =>
             ((ISolidColorBrush)row.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Name == "PART_InputGestureText").Foreground!).Color;
@@ -102,7 +94,7 @@ namespace CMiX.UI.Tests
             Hover(open);
 
             Assert.True(open.IsSelected);
-            Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("RowHoverBrush")!).Color, FillOf(open));
+            Assert.Equal(Tokens.Color("RowHoverBrush"), FillOf(open));
             Assert.NotEqual(HoverFill, FillOf(save));
         }
 
@@ -113,11 +105,11 @@ namespace CMiX.UI.Tests
             Hover(open);
             Leave(open);
 
-            Press(open, Key.Down);
+            KeyInput.PressOnFocus(open, Key.Down);
 
             Assert.True(save.IsSelected);
             Assert.False(open.IsSelected);
-            Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("RowHoverBrush")!).Color, FillOf(save));
+            Assert.Equal(Tokens.Color("RowHoverBrush"), FillOf(save));
             Assert.NotEqual(HoverFill, FillOf(open));
         }
 
@@ -141,7 +133,7 @@ namespace CMiX.UI.Tests
             var second = new MenuItem { Header = "Rename", InputGesture = new KeyGesture(Key.R, KeyModifiers.Control) };
             var menu = OpenContextMenu(first, second);
 
-            Press(menu, Key.Down);
+            KeyInput.PressOnFocus(menu, Key.Down);
 
             Assert.True(first.IsSelected);
             Assert.Equal(Tokens.Get<Color>("Grey900"), ShortcutOf(first));

@@ -6,6 +6,7 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -14,18 +15,15 @@ namespace CMiX.UI.Tests
     // and the rows of the submenu have the theme of the rows of the menu.
     public class ContextMenuSubmenuLookTests
     {
-        private static ControlTheme Theme(string key) => (ControlTheme)Application.Current!.FindResource(key)!;
-
         private static (MenuItem Submenu, MenuItem Row) Open()
         {
             var row = new MenuItem { Header = "One" };
             var submenu = new MenuItem { Header = "Add" };
             submenu.Items.Add(row);
 
-            var menu = new ContextMenu { Theme = Theme("ContextMenuDefault"), ItemsSource = new object[] { submenu } };
+            var menu = new ContextMenu { Theme = Tokens.Theme("ContextMenuDefault"), ItemsSource = new object[] { submenu } };
             var button = new Button { Content = "Owner", Width = 100, Height = 30, ContextMenu = menu };
-            new Window { Content = button, Width = 400, Height = 300 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(button, 400, 300);
 
             menu.Open(button);
             Dispatcher.UIThread.RunJobs();
@@ -49,8 +47,8 @@ namespace CMiX.UI.Tests
         {
             var (submenu, row) = Open();
 
-            Assert.Same(Theme("MenuItemContext"), submenu.Theme);
-            Assert.Same(Theme("MenuItemContext"), row.Theme);
+            Assert.Same(Tokens.Theme("MenuItemContext"), submenu.Theme);
+            Assert.Same(Tokens.Theme("MenuItemContext"), row.Theme);
         }
     }
 }

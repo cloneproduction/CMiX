@@ -25,12 +25,10 @@ namespace CMiX.UI.Tests
             public ICommand? Command { get; init; }
         }
 
-        private static ControlTheme Theme(string key) => (ControlTheme)Application.Current!.FindResource(key)!;
-
         // The same shape as the item theme of the assign popup: the row theme plus bindings to the item.
         private static ControlTheme ChoiceRowTheme()
         {
-            var theme = new ControlTheme(typeof(MenuItem)) { BasedOn = Theme("MenuItemContext") };
+            var theme = new ControlTheme(typeof(MenuItem)) { BasedOn = Tokens.Theme("MenuItemContext") };
             theme.Setters.Add(new Setter(MenuItem.HeaderProperty, new Binding("Label")));
             theme.Setters.Add(new Setter(MenuItem.IsCheckedProperty, new Binding("IsAssigned")));
             theme.Setters.Add(new Setter(MenuItem.CommandProperty, new Binding("Command")));
@@ -41,14 +39,12 @@ namespace CMiX.UI.Tests
         {
             var flyout = new MenuFlyout
             {
-                FlyoutPresenterTheme = Theme("MenuFlyoutPresenterDefault"),
+                FlyoutPresenterTheme = Tokens.Theme("MenuFlyoutPresenterDefault"),
                 ItemContainerTheme = ChoiceRowTheme(),
                 ItemsSource = choices,
             };
             var button = new Button { Content = "Assign", Width = 100, Height = 30, Flyout = flyout };
-            var window = new Window { Content = button, Width = 600, Height = 400 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(button, 600, 400);
 
             flyout.ShowAt(button);
             Dispatcher.UIThread.RunJobs();
@@ -57,7 +53,7 @@ namespace CMiX.UI.Tests
             return (window, flyout, presenter);
         }
 
-        private static Border RootOf(MenuItem row) => row.GetVisualDescendants().OfType<Border>().First(b => b.Name == "root");
+        private static Border RootOf(MenuItem row) => Parts.Find<Border>(row, "root");
 
         private static IEnumerable<MenuItem> Rows(Control presenter) => presenter.GetVisualDescendants().OfType<MenuItem>();
 
@@ -86,8 +82,8 @@ namespace CMiX.UI.Tests
             var rows = Rows(presenter).ToList();
             Assert.True(rows[0].Classes.Contains(":checked"));
             Assert.False(rows[1].Classes.Contains(":checked"));
-            Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("AccentInactiveBrush")!).Color, ((ISolidColorBrush)RootOf(rows[0]).Background!).Color);
-            Assert.NotEqual(((ISolidColorBrush)Application.Current!.FindResource("AccentInactiveBrush")!).Color, ((ISolidColorBrush)RootOf(rows[1]).Background!).Color);
+            Assert.Equal(Tokens.Color("AccentInactiveBrush"), ((ISolidColorBrush)RootOf(rows[0]).Background!).Color);
+            Assert.NotEqual(Tokens.Color("AccentInactiveBrush"), ((ISolidColorBrush)RootOf(rows[1]).Background!).Color);
         }
 
         [AvaloniaFact]

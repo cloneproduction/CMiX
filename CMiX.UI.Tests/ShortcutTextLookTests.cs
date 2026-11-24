@@ -8,6 +8,7 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Popups;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -63,12 +64,11 @@ namespace CMiX.UI.Tests
             var file = new MenuItem
             {
                 Header = "File",
-                Theme = (ControlTheme)Application.Current!.FindResource("MenuItemTop")!,
+                Theme = Tokens.Theme("MenuItemTop"),
                 ItemsSource = new object[] { nested },
             };
-            var menu = new Menu { Theme = (ControlTheme)Application.Current!.FindResource("MenuDefault")!, ItemsSource = new object[] { file } };
-            new Window { Content = menu, Width = 500, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            var menu = new Menu { Theme = Tokens.Theme("MenuDefault"), ItemsSource = new object[] { file } };
+            TestWindow.Show(menu, 500, 400);
             file.Open();
             Dispatcher.UIThread.RunJobs();
             nested.Open();
@@ -94,12 +94,11 @@ namespace CMiX.UI.Tests
             var file = new MenuItem
             {
                 Header = "File",
-                Theme = (ControlTheme)Application.Current!.FindResource("MenuItemTop")!,
+                Theme = Tokens.Theme("MenuItemTop"),
                 ItemsSource = new object[] { new MenuItem { Header = "Open" } },
             };
-            var menu = new Menu { Theme = (ControlTheme)Application.Current!.FindResource("MenuDefault")!, ItemsSource = new object[] { file } };
-            new Window { Content = menu, Width = 500, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            var menu = new Menu { Theme = Tokens.Theme("MenuDefault"), ItemsSource = new object[] { file } };
+            TestWindow.Show(menu, 500, 400);
             file.Open();
             Dispatcher.UIThread.RunJobs();
 
@@ -114,8 +113,7 @@ namespace CMiX.UI.Tests
         public void Show_TheShortcutOfATooltip_HasTheShortcutLook()
         {
             var tip = new ToolTip { Content = new TipContent("Add", "Shift+A") };
-            new Window { Content = tip, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(tip, 300, 200);
 
             AssertShortcutLook(tip.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Text == "Shift+A"));
         }
@@ -125,11 +123,11 @@ namespace CMiX.UI.Tests
         {
             var menu = new ContextMenu
             {
-                Theme = (ControlTheme)Application.Current!.FindResource("ContextMenuDefault")!,
+                Theme = Tokens.Theme("ContextMenuDefault"),
                 ItemsSource = new object[] { new MenuItem { Header = "Duplicate", InputGesture = new KeyGesture(Key.D, KeyModifiers.Control) } },
             };
             var owner = new Border { Width = 200, Height = 30, ContextMenu = menu };
-            new Window { Content = owner, Width = 500, Height = 400 }.Show();
+            TestWindow.Show(owner, 500, 400);
             menu.Open(owner);
             Dispatcher.UIThread.RunJobs();
 
@@ -148,12 +146,11 @@ namespace CMiX.UI.Tests
             var edit = new MenuItem
             {
                 Header = "Edit",
-                Theme = (ControlTheme)Application.Current!.FindResource("MenuItemTop")!,
+                Theme = Tokens.Theme("MenuItemTop"),
                 ItemsSource = new object[] { undo, plain },
             };
-            var menu = new Menu { Theme = (ControlTheme)Application.Current!.FindResource("MenuDefault")!, ItemsSource = new object[] { edit } };
-            new Window { Content = menu, Width = 500, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            var menu = new Menu { Theme = Tokens.Theme("MenuDefault"), ItemsSource = new object[] { edit } };
+            TestWindow.Show(menu, 500, 400);
             edit.Open();
             Dispatcher.UIThread.RunJobs();
 
@@ -169,8 +166,7 @@ namespace CMiX.UI.Tests
         public void Show_AKeyCap_HasTheShortcutLookInARoundedFrame()
         {
             var cap = new ContentControl { Theme = Tokens.Get<ControlTheme>("ContentControlKeyCap"), Content = "G" };
-            new Window { Content = cap, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(cap, 300, 200);
 
             var frame = cap.GetVisualDescendants().OfType<Border>().Single(part => part.Name == "PART_Cap");
             var text = cap.GetVisualDescendants().OfType<TextBlock>().Single(part => part.Name == "PART_KeyText");
