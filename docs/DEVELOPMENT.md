@@ -341,7 +341,6 @@ A toggle shows that it is on in the way that fits its look. There are two famili
   the others. They build on the base `ToggleButton` theme.
 - A toggle that is only an icon has no surface. `ToggleButtonIcon` is the base of this family: the icon is dim
   at rest (opacity 0.6) and lit under the pointer (1.0). `ToggleButtonPower` is also lit while it is on.
-  `ToggleButtonPlayPause` is dim at rest, and its icon changes when it is on.
 - A theme for one more icon toggle builds on `ToggleButtonIcon` (or on `ToggleButtonPower` when it is lit while
   on) and only sets the icon with `IconKey` in a style. A second icon for the on state is the same style under
   `:checked`. `ToggleButtonVisibility` (eye) and the mask toggle of the Studio do this. `ToggleButtonUpdate` sets one icon.

@@ -89,7 +89,6 @@ namespace CMiX.UI.Tests
         [InlineData("ToggleButtonPower")]
         [InlineData("ToggleButtonUpdate")]
         [InlineData("ToggleButtonVisibility")]
-        [InlineData("ToggleButtonPlayPause")]
         public void TheOpacityOfAnIconToggle_IsAStyle_NotALocalValue(string theme)
         {
             var (_, toggle) = Show(theme);
@@ -101,19 +100,6 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
 
             Assert.Equal(0.123, Box(toggle).Opacity);
-        }
-
-        [AvaloniaFact]
-        public void ThePlayPauseToggle_IsDimAtRest_AndShowsStopWhenOn()
-        {
-            var (_, toggle) = Show("ToggleButtonPlayPause");
-            Assert.Equal(Tokens.Get<double>("OpacityIconIdle"), Box(toggle).Opacity);
-            Assert.Equal("Play", Icon(toggle).IconKey);
-
-            toggle.IsChecked = true;
-            Dispatcher.UIThread.RunJobs();
-
-            Assert.Equal("Stop", Icon(toggle).IconKey);
         }
 
         [AvaloniaFact]

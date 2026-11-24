@@ -93,33 +93,6 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ToggleButtonPlayPause" TargetType="ToggleButton">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="3" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border
-                    Name="border"
-                    Margin="0"
-                    Padding="1"
-                    Background="Transparent">
-                    <ui:AppIcon Name="image" IconKey="Play" Size="{DynamicResource IconSizeXS}" />
-                </Border>
-            </ControlTemplate>
-        </Setter>
-
-        <!-- A style, not a value on the template. A value there would beat every style. -->
-        <Style Selector="^ /template/ Border#border">
-            <Setter Property="Opacity" Value="{DynamicResource OpacityIconIdle}" />
-        </Style>
-
-        <Style Selector="^:checked /template/ ui|AppIcon#image">
-            <Setter Property="IconKey" Value="Stop" />
-        </Style>
-    </ControlTheme>
-
     <ControlTheme x:Key="ToggleButtonPopup" TargetType="ToggleButton">
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
