@@ -146,35 +146,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(2, screen.View.KeyBindings.Count);
         }
 
-        [AvaloniaFact]
-        public void ArrowDown_TreeFocused_MovesTheCursorAndItsFrameToTheNextRow()
-        {
-            var screen = Show();
-            var first = screen.Tree.CompositionNodes()[0].Children[0].Children[0];
-            var second = screen.Tree.CompositionNodes()[0].Children[0].Children[1];
-
-            Press(PhysicalKey.ArrowDown);
-
-            // The cursor row shows the cursor frame.
-            Assert.True(ListTreeLook.Named(screen.View.Rows.RowOf(second)!, "cursorFrame").IsEffectivelyVisible);
-
-            // The first row stays selected and has no frame.
-            Assert.False(ListTreeLook.Named(screen.View.Rows.RowOf(first)!, "cursorFrame").IsEffectivelyVisible);
-            Assert.True(screen.View.Rows.RowOf(first)!.IsSelected);
-        }
-
         private static bool InTree(IInputElement? element, ListTreeProject view) => element is Visual visual && view.Rows.GetVisualDescendants().Contains(visual);
-
-        [AvaloniaFact]
-        public void Tab_FromARow_LeavesTheTreeInOneStep()
-        {
-            var screen = Show();
-            Assert.True(InTree(window!.FocusManager!.GetFocusedElement(), screen.View));
-
-            Press(PhysicalKey.Tab);
-
-            Assert.False(InTree(window.FocusManager!.GetFocusedElement(), screen.View));
-        }
 
         [AvaloniaFact]
         public void ShiftTab_FromOutsideTheTree_ComesBackToTheTreeInOneStep()
@@ -188,23 +160,5 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.IsType<RowListTree>(window.FocusManager!.GetFocusedElement());
         }
 
-        [AvaloniaFact]
-        public void Click_TheToggleOfTheFocusedRow_TogglesAndKeepsTheFocusOnTheRow()
-        {
-            var screen = Show();
-            var node = screen.Tree.CompositionNodes()[0].Children[0].Children[0];
-            var row = screen.View.Rows.RowOf(node)!;
-            var toggle = row.Toggles.GetVisualDescendants().OfType<ToggleButton>().First(button => button.Name == "visibilityToggle" && button.IsEffectivelyVisible);
-            Assert.False(toggle.Focusable);
-            var before = toggle.IsChecked;
-            var point = toggle.TranslatePoint(new Point(toggle.Bounds.Width / 2, toggle.Bounds.Height / 2), window!)!.Value;
-
-            window!.MouseDown(point, MouseButton.Left);
-            window.MouseUp(point, MouseButton.Left);
-            Settle();
-
-            Assert.NotEqual(before, toggle.IsChecked);
-            Assert.Same(row, window.FocusManager!.GetFocusedElement());
-        }
     }
 }

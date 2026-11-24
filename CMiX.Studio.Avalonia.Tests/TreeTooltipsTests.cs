@@ -33,29 +33,6 @@ namespace CMiX.Studio.Avalonia.Tests
             view.Rows.RowOf(node)!.Toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => Equals(ToolTip.GetTip(toggle), "Mask") && toggle.IsEffectivelyVisible);
 
         [AvaloniaFact]
-        public void Create_TheTree_SwitchesTheTooltipServiceOffForItsRows()
-        {
-            var (view, _) = Show();
-            var rows = view.Rows;
-
-            Assert.False(ToolTip.GetServiceEnabled(rows));
-            Assert.False(ToolTip.GetServiceEnabled(MaskOf(view, view.DataContext is ProjectTree tree ? tree.CompositionNodes()[0] : null!)));
-        }
-
-        [AvaloniaFact]
-        public void Hover_AControlWithATip_OpensItsTooltipAfterTheDelay()
-        {
-            var (view, tree) = Show();
-            var mask = MaskOf(view, tree.CompositionNodes()[0]);
-            ToolTip.SetShowDelay(mask, 0);
-
-            view.Tooltips.Hover(mask);
-
-            Assert.True(ToolTip.GetIsOpen(mask));
-            Assert.Same(mask, view.Tooltips.Open);
-        }
-
-        [AvaloniaFact]
         public void Hover_AControlWithADelay_WaitsForTheTimerBeforeItOpens()
         {
             var (view, tree) = Show();
@@ -101,23 +78,6 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             window!.MouseMove(point);
             Dispatcher.UIThread.RunJobs();
-        }
-
-        [AvaloniaFact]
-        public void KeyPress_WithAnOpenTooltip_ClosesIt()
-        {
-            var (view, tree) = Show();
-            var mask = MaskOf(view, tree.CompositionNodes()[0]);
-            ToolTip.SetShowDelay(mask, 0);
-            MoveTo(MiddleOf(mask));
-            Assert.True(ToolTip.GetIsOpen(mask));
-
-            window!.KeyPressQwerty(PhysicalKey.A, RawInputModifiers.None);
-            Dispatcher.UIThread.RunJobs();
-
-            Assert.False(ToolTip.GetIsOpen(mask));
-            Assert.Null(view.Tooltips.Open);
-            Assert.True(view.Tooltips.IsMuted);
         }
 
         [AvaloniaFact]

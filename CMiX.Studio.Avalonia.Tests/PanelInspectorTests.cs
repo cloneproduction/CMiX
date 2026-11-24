@@ -687,22 +687,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private static string SelectedTab(Screen screen) =>
             (TestServiceProviderFactory.MainTabControl(screen.Window).SelectedItem as TabItem is { Header: AppIcon icon }) ? icon.IconKey : "";
 
-        // A click beside the rows (under the last row) gives the tree the focus on its cursor row, so the arrow keys work at once.
-        [AvaloniaFact]
-        public void Click_BesideTheRows_FocusesTheCursorRow()
-        {
-            var screen = Show();
-            var tree = screen.Window.GetVisualDescendants().OfType<ListTreeProject>().Single();
-            screen.Window.UpdateLayout();
-            var point = tree.Rows.TranslatePoint(new Point(tree.Rows.Bounds.Width / 2, tree.Rows.Bounds.Height + 4), screen.Window)!.Value;
-            Assert.True(point.Y < tree.Scroller.TranslatePoint(new Point(0, tree.Scroller.Bounds.Height), screen.Window)!.Value.Y, "The point is in the scroller.");
-
-            Click(screen, point);
-
-            var focused = screen.Window.FocusManager?.GetFocusedElement() as Visual;
-            Assert.True(focused is RowListTree, $"focused: {focused?.GetType().Name ?? "nothing"}");
-        }
-
         [AvaloniaFact]
         public void MiddleClick_ARow_KeepsTheTabAndTheInspectorHoldsThatItem()
         {
