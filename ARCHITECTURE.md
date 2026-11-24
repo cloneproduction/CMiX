@@ -224,7 +224,6 @@ Core has no Avalonia reference.
 ### Optional and hidden dependencies
 
 - `ProjectTree`: fixed on 2026-11-19, all seven constructor parameters are required.
-- `UndoManager` is optional in practice. `ReceivableControl.UndoManager` is a settable property, the owner sets it after construction (`Project`, `MainViewModel`, `RedisAddressRegistry`), and 24 call sites use `UndoManager?.`.
 - `PrefabManager(..., reorderServiceFactory = null)` and `Modifier(..., nestedBindables = null)`.
 - `GenericValue<T>` has an empty public constructor that leaves the sync null.
 - `ControlFactory` takes `IServiceProvider` and resolves types by name. A control from the container and a control from the factory are not the same.
@@ -342,7 +341,7 @@ The order goes from low risk to high risk. First the classes that only the Studi
 | 6 | `ControlFactory` | Move the naming of prefabs into its own service. | Core, and no name on the wire or in a patch changes. | 2 |
 | 7 | `GenericValue<T>` | Done on 2026-11-25: `ValueInteraction` is injected, the drag lives in `ValueSync`, the empty constructor is gone. | Every value depends on it, so do it before the lists. | 4 |
 | 8 | `SyncPeer` | Split the state for the panel from the peer. | Well tested and isolated. The Redis tests need a server. | 4 |
-| 9 | `PrefabManager` | Make `UndoManager` required. Separate the commands for XAML from the list logic. | VL pins its names. Needs step 7. | 5 |
+| 9 | `PrefabManager` | Separate the commands for XAML from the list logic. | VL pins its names. Needs step 7. | 5 |
 | 10 | `Layer` and all controls | Depends on the open questions 1 and 2. | The largest change. It touches every saved file and both peers. | 5 |
 
 ## 5. Parked: the split of the domain objects

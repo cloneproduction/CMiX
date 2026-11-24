@@ -34,7 +34,7 @@ namespace CMiX.Core.Modulation.Modulators
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);
 
-            UndoManager = undoManager;
+            _undoManager = undoManager;
             IsActive = false;
             activationService.Register(this);
 
@@ -52,6 +52,7 @@ namespace CMiX.Core.Modulation.Modulators
         }
 
         private readonly System.ComponentModel.PropertyChangedEventHandler _onBPMChanged;
+        private readonly UndoManager _undoManager;
 
         public ICommand ResetCommand { get; set; }
         public ICommand MultiplyCommand { get; set; }
@@ -155,17 +156,17 @@ namespace CMiX.Core.Modulation.Modulators
         {
             var before = ToModel();
 
-            UndoManager?.SuppressUndo();
+            _undoManager.SuppressUndo();
             try
             {
                 action();
             }
             finally
             {
-                UndoManager?.ResumeUndo();
+                _undoManager.ResumeUndo();
             }
 
-            UndoManager?.Push(new ValueChangedUndoCommand(this, before, ToModel()));
+            _undoManager.Push(new ValueChangedUndoCommand(this, before, ToModel()));
         }
 
         public void Reset() => WithUndo(() => BeatIndex.Value = 0);

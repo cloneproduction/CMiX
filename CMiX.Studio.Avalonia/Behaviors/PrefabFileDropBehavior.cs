@@ -57,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Behaviors
                 return;
 
             var undoManager = PrefabManager.UndoManager;
-            undoManager?.BeginCapture();
+            undoManager.BeginCapture();
             try
             {
                 foreach (var path in paths)
@@ -65,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Behaviors
             }
             finally
             {
-                undoManager?.EndCapture();
+                undoManager.EndCapture();
             }
         }
     }

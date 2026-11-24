@@ -4,7 +4,6 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Undo;
 
 namespace CMiX.Core.Modulation.Modulators
 {
@@ -15,7 +14,6 @@ namespace CMiX.Core.Modulation.Modulators
                             FloatRange range,
                             GenericValue<WaveType> waveType,
                             Quantize quantize,
-                            UndoManager undoManager,
                             ControlActivationService activationService)
             : base(prefabService)
         {
@@ -24,7 +22,6 @@ namespace CMiX.Core.Modulation.Modulators
             WaveType = waveType;
             Quantize = quantize;
 
-            UndoManager = undoManager;
             IsActive = false;
             activationService.Register(this);
         }

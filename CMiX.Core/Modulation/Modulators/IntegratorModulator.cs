@@ -3,7 +3,6 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Undo;
 
 namespace CMiX.Core.Modulation.Modulators
 {
@@ -16,7 +15,6 @@ namespace CMiX.Core.Modulation.Modulators
                                    GenericValue<bool> step,
                                    GenericValue<float> resetValue,
                                    CMiXButton reset,
-                                   UndoManager undoManager,
                                    ControlActivationService activationService)
             : base(prefabService)
         {
@@ -25,7 +23,6 @@ namespace CMiX.Core.Modulation.Modulators
             ResetValue = resetValue;
             Reset = reset;
 
-            UndoManager = undoManager;
             IsActive = false;
             activationService.Register(this);
         }

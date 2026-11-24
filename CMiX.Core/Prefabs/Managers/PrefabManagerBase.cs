@@ -21,6 +21,7 @@ namespace CMiX.Core.Prefabs.Managers
         }
 
         public ControlRepository ControlRepository { get; }
+        public UndoManager UndoManager { get; }
 
         public abstract ICommand AddItemCommand { get; }
         public abstract ICommand ClearSelectionCommand { get; }

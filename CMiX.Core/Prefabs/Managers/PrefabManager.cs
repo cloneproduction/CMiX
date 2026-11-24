@@ -142,7 +142,7 @@ namespace CMiX.Core.Prefabs.Managers
         // A source that is not in this list gives a copy at the end of the list.
         public IControl DuplicateItem(IControl source)
         {
-            if (source == null || UndoManager?.IsApplying == true) return null;
+            if (source == null || UndoManager.IsApplying) return null;
 
             var index = ManagerData.Items.IndexOf(source);
             var insertAt = index < 0 ? ManagerData.Items.Count : index + 1;
@@ -165,7 +165,7 @@ namespace CMiX.Core.Prefabs.Managers
         // The add and the action are one undo step.
         public void AddItem(Type type, Action<IControl> afterAdd)
         {
-            UndoManager?.BeginCapture();
+            UndoManager.BeginCapture();
             try
             {
                 var item = _controlFactory.Create(type);
@@ -173,7 +173,7 @@ namespace CMiX.Core.Prefabs.Managers
                 Run(new AddItemUndoCommand(_list, item, ManagerData.Items.Count));
                 afterAdd(item);
             }
-            finally { UndoManager?.EndCapture(); }
+            finally { UndoManager.EndCapture(); }
         }
 
         public void AddExistingItem(IControl control)
@@ -196,7 +196,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void ResetItem(IControl control)
         {
             if (control == null) return;
-            if (UndoManager?.IsApplying == true) return;
+            if (UndoManager.IsApplying) return;
 
             var index = Collection.ManagerData.Items.IndexOf(control);
             if (index < 0) return;
@@ -217,7 +217,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void RemoveEverywhere(IControl control)
         {
             control ??= SelectedItem;
-            UndoManager?.BeginCapture();
+            UndoManager.BeginCapture();
             try
             {
                 foreach (var collectionManager in Collection.ControlRepository.GetCollectionManagers(control))
@@ -225,7 +225,7 @@ namespace CMiX.Core.Prefabs.Managers
             }
             finally
             {
-                UndoManager?.EndCapture();
+                UndoManager.EndCapture();
             }
         }
 
@@ -246,7 +246,7 @@ namespace CMiX.Core.Prefabs.Managers
         // An item that other items block stays in the source list, and the result gives the items that block it.
         public MoveResult MoveItemToManager(IControl item, PrefabManager source, int index)
         {
-            if (item == null || source == null || ReferenceEquals(source, this) || UndoManager?.IsApplying == true
+            if (item == null || source == null || ReferenceEquals(source, this) || UndoManager.IsApplying
                 || !source.ManagerData.Items.Contains(item)
                 || CanAddExistingItem?.Invoke(item) == false)
                 return MoveResult.None;
@@ -258,7 +258,7 @@ namespace CMiX.Core.Prefabs.Managers
                     return MoveResult.BlockedBy(blocking);
             }
 
-            UndoManager?.BeginCapture();
+            UndoManager.BeginCapture();
             try
             {
                 // The item enters this list before it leaves the source, so it is never orphaned.
@@ -267,7 +267,7 @@ namespace CMiX.Core.Prefabs.Managers
             }
             finally
             {
-                UndoManager?.EndCapture();
+                UndoManager.EndCapture();
             }
 
             return MoveResult.Done;
@@ -276,7 +276,7 @@ namespace CMiX.Core.Prefabs.Managers
         private void Run(IUndoCommand command)
         {
             command.Execute();
-            UndoManager?.Push(command);
+            UndoManager.Push(command);
         }
 
         public void ClearSelection()
@@ -285,7 +285,7 @@ namespace CMiX.Core.Prefabs.Managers
             var previousIndex = ManagerData.Items.IndexOf(previousItem);
             _list.ClearSelection();
             if (previousIndex < 0) return;
-            UndoManager?.Push(new ClearSelectionUndoCommand(_list, previousIndex));
+            UndoManager.Push(new ClearSelectionUndoCommand(_list, previousIndex));
         }
 
         public void SelectAt(int index)
@@ -296,7 +296,7 @@ namespace CMiX.Core.Prefabs.Managers
             if (ReferenceEquals(previousItem, target)) return;
             _list.SelectAt(index);
             if (previousItem == null) return;
-            UndoManager?.Push(new SelectItemUndoCommand(_list, previousIndex, index));
+            UndoManager.Push(new SelectItemUndoCommand(_list, previousIndex, index));
         }
 
         public void LoadItem(IControlModel controlModel) => Collection.LoadItem(controlModel);

@@ -3,7 +3,6 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Undo;
 
 namespace CMiX.Core.Modulation.Modulators
 {
@@ -13,7 +12,6 @@ namespace CMiX.Core.Modulation.Modulators
                                GenericValue<float> center,
                                GenericValue<float> width,
                                GenericValue<int> seed,
-                               UndoManager undoManager,
                                ControlActivationService activationService)
             : base(prefabService)
         {
@@ -21,7 +19,6 @@ namespace CMiX.Core.Modulation.Modulators
             Width = width;
             Seed = seed;
 
-            UndoManager = undoManager;
             IsActive = false;
             activationService.Register(this);
         }

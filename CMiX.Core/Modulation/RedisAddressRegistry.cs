@@ -62,14 +62,14 @@ namespace CMiX.Core.Modulation
 
         private void InOneUndoStep(Action change)
         {
-            _undoManager?.BeginCapture();
+            _undoManager.BeginCapture();
             try
             {
                 change();
             }
             finally
             {
-                _undoManager?.EndCapture();
+                _undoManager.EndCapture();
             }
         }
 

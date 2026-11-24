@@ -37,7 +37,7 @@ namespace CMiX.Core.Animations
 
             ID = ManagerIDs.MasterBeat;
             IsActive = false;
-            UndoManager = undoManager;
+            _undoManager = undoManager;
 
             Period.PropertyChanged += (s, e) =>
             {
@@ -57,6 +57,8 @@ namespace CMiX.Core.Animations
             Pause.ID = ManagerIDs.Pause;
             Resync.ID = ManagerIDs.Resync;
         }
+
+        private readonly UndoManager _undoManager;
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<bool> Pause { get; set; }
@@ -203,17 +205,17 @@ namespace CMiX.Core.Animations
             var before = ToModel();
 
             // Suppression is global, so a throwing action must not leave undo recording off.
-            UndoManager?.SuppressUndo();
+            _undoManager.SuppressUndo();
             try
             {
                 action();
             }
             finally
             {
-                UndoManager?.ResumeUndo();
+                _undoManager.ResumeUndo();
             }
 
-            UndoManager?.Push(new ValueChangedUndoCommand(this, before, ToModel()));
+            _undoManager.Push(new ValueChangedUndoCommand(this, before, ToModel()));
         }
 
         public IControlModel ToModel() => new MasterBeatModel
