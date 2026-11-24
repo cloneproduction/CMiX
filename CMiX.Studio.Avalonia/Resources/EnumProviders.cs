@@ -4,8 +4,6 @@
 using System;
 using System.Linq;
 using Avalonia.Media;
-using CoreColorMode = CMiX.Core.Colors.ColorMode;
-using CoreMeshType = CMiX.Core.MeshType;
 
 namespace CMiX.Studio.Avalonia.Resources
 {
@@ -47,8 +45,8 @@ namespace CMiX.Studio.Avalonia.Resources
         public static CMiX.Core.Rendering.Cameras.CameraAxis[] CameraAxis { get; } =
             Enum.GetValues<CMiX.Core.Rendering.Cameras.CameraAxis>();
 
-        public static CoreMeshType[] MeshType { get; } =
-            Enum.GetValues<CoreMeshType>();
+        public static CMiX.Core.MeshType[] MeshType { get; } =
+            Enum.GetValues<CMiX.Core.MeshType>();
 
         public static VL.Lib.Mathematics.TweenerTransition[] TweenerTransition { get; } =
             Enum.GetValues<VL.Lib.Mathematics.TweenerTransition>();
@@ -59,8 +57,8 @@ namespace CMiX.Studio.Avalonia.Resources
         public static CMiX.Core.Modifiers.ModifierMode[] ModifierMode { get; } =
             Enum.GetValues<CMiX.Core.Modifiers.ModifierMode>();
 
-        public static CoreColorMode[] ColorMode { get; } =
-            Enum.GetValues<CoreColorMode>();
+        public static CMiX.Core.Colors.ColorMode[] ColorMode { get; } =
+            Enum.GetValues<CMiX.Core.Colors.ColorMode>();
 
         public static CMiX.Core.Texturing.TextureAddressMode[] TextureAddressMode { get; } =
             Enum.GetValues<CMiX.Core.Texturing.TextureAddressMode>();
