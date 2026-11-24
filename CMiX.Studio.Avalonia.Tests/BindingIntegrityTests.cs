@@ -1,12 +1,17 @@
 ﻿using Avalonia.Headless.XUnit;
 using Avalonia.Logging;
 using Avalonia.Threading;
+using CMiX.Studio.Avalonia.Tests.Support;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class BindingIntegrityTests
+    public class BindingIntegrityTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         // Measured on 2026-11-24: MainWindow gives 4 "Could not find a matching property accessor" warnings. Each one is a binding
         // of a view (Texture, Camera, LightEntity, ModelEntity, TextEntity) that runs once against the PrefabManager of the
         // parent before the view gets its own item. A new wrong binding adds one more and fails the test. The number only goes down.
@@ -24,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
             try
             {
                 var provider = TestServiceProviderFactory.Create();
-                var window = TestServiceProviderFactory.CreateMainWindow(provider);
+                var window = windows.Add(TestServiceProviderFactory.CreateMainWindow(provider));
                 window.Show();
 
                 // Several passes let deferred bindings finish settling before the count is read.
