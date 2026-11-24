@@ -175,6 +175,29 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Send_DuringADrag_IsThrottledAndRecordsNothing()
+        {
+            var fixture = Create();
+
+            using (fixture.Interaction.BeginScope())
+            {
+                for (int i = 0; i < 50; i++)
+                    fixture.Sync.Send(fixture.Value);
+
+                Assert.Single(fixture.Sender.Sent);
+                Assert.False(fixture.UndoManager.CanUndo);
+
+                fixture.Time.Now += 1000;
+                fixture.Sync.Send(fixture.Value);
+
+                Assert.Equal(2, fixture.Sender.Sent.Count);
+            }
+
+            Assert.Equal(2, fixture.Sender.Sent.Count);
+            Assert.False(fixture.UndoManager.CanUndo);
+        }
+
+        [Fact]
         public void ValueSyncFactory_Called_GivesANewSyncEachTime()
         {
             var factory = TestServiceProviderFactory.Create().GetRequiredService<ValueSyncFactory>();

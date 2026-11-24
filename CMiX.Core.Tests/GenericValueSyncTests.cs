@@ -34,6 +34,25 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Value_SetToTheSameValueDuringADrag_CallsNothing()
+        {
+            var sync = new FakeValueSync();
+            var value = sync.CreateActive<float>();
+            value.Value = 1f;
+            sync.Calls.Clear();
+
+            using (new ValueInteraction().BeginScope())
+            {
+                value.Value = 1f;
+
+                Assert.Empty(sync.Calls);
+                value.Value = 2f;
+            }
+
+            Assert.Equal(new[] { "Changing", "Changed" }, sync.Calls);
+        }
+
+        [Fact]
         public void Value_SetWhenInactive_CallsNothing()
         {
             var sync = new FakeValueSync();
