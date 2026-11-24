@@ -209,14 +209,14 @@ namespace CMiX.Core.Tests
             var pushWrites = store.WriteSnapshotCalls;
             var pushed = Current().StreamId;
 
-            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeAppend = () => gate.Task;
+            var gate = new StoreGate();
+            store.BeforeAppend = gate.Hold;
 
             peer.SendMessage(AddItem());
             await Task.Delay(Delay * 4);
             Assert.Equal(pushWrites, store.WriteSnapshotCalls);
 
-            gate.SetResult(true);
+            gate.Release();
             await WaitUntilAsync(() => inner.Entries.Count == 2);
             var added = inner.Entries[1].Id;
 
@@ -239,12 +239,12 @@ namespace CMiX.Core.Tests
             Snapshot Current() => inner.ReadSnapshotAsync().GetAwaiter().GetResult();
             var pushed = Current().StreamId;
 
-            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeAppend = () => gate.Task;
+            var gate = new StoreGate();
+            store.BeforeAppend = gate.Hold;
 
             peer.SendMessage(AddItem());
             await Task.Delay(Delay * 4);
-            gate.SetResult(true);
+            gate.Release();
 
             await WaitUntilAsync(() => Current().StreamId > pushed, 5000, () => $"last={peer.LastAppliedId} sent={peer.LastSentId}");
 
@@ -273,14 +273,14 @@ namespace CMiX.Core.Tests
             var pushWrites = store.WriteSnapshotCalls;
             var pushed = Current().StreamId;
 
-            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeAppend = () => gate.Task;
+            var gate = new StoreGate();
+            store.BeforeAppend = gate.Hold;
 
             peer.SendMessage(ValueChange(0.25f));
             await Task.Delay(Delay * 4);
             Assert.Equal(pushWrites, store.WriteSnapshotCalls);
 
-            gate.SetResult(true);
+            gate.Release();
             await WaitUntilAsync(() => inner.Entries.Count == 2);
             var changed = inner.Entries[1].Id;
 
@@ -303,15 +303,15 @@ namespace CMiX.Core.Tests
             Snapshot Current() => inner.ReadSnapshotAsync().GetAwaiter().GetResult();
             var pushWrites = store.WriteSnapshotCalls;
 
-            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeAppend = () => gate.Task;
+            var gate = new StoreGate();
+            store.BeforeAppend = gate.Hold;
 
             peer.SendMessage(AddItem());
             await Task.Delay(Delay);
             peer.SendMessage(AddItem());
             Assert.Equal(pushWrites, store.WriteSnapshotCalls);
 
-            gate.SetResult(true);
+            gate.Release();
             await WaitUntilAsync(() => inner.Entries.Count == 3);
             var last = inner.Entries[2].Id;
 
@@ -334,8 +334,8 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined);
             var pushWrites = store.WriteSnapshotCalls;
 
-            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeWriteSnapshot = () => gate.Task;
+            var gate = new StoreGate();
+            store.BeforeWriteSnapshot = gate.Hold;
 
             await inner.AppendAsync(Envelope("other", AddItem()));
             await WaitUntilAsync(() => store.WriteSnapshotCalls == pushWrites + 1);
@@ -344,7 +344,7 @@ namespace CMiX.Core.Tests
             await inner.AppendAsync(Envelope("other", AddItem()));
             await WaitUntilAsync(() => target.Applied.Count == 3);
 
-            gate.SetResult(true);
+            gate.Release();
             await WaitUntilAsync(() => store.WriteSnapshotCalls >= pushWrites + 2, 5000,
                 () => $"writes={store.WriteSnapshotCalls}");
 
@@ -368,15 +368,15 @@ namespace CMiX.Core.Tests
             var failed = store.FailedCalls;
 
             // The store goes down while the compaction runs, so the trim after the write throws.
-            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeWriteSnapshot = () => gate.Task;
+            var gate = new StoreGate();
+            store.BeforeWriteSnapshot = gate.Hold;
 
             peer.SendMessage(AddItem());
             await WaitUntilAsync(() => store.WriteSnapshotCalls >= pushWrites + 1);
 
             store.BeforeWriteSnapshot = null;
             store.SetFail(true);
-            gate.SetResult(true);
+            gate.Release();
             await WaitUntilAsync(() => store.FailedCalls > failed, 5000, () => $"failed={store.FailedCalls}");
 
             // Gives the compactor the time to record the failure.
@@ -400,8 +400,8 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined);
             var pushWrites = store.WriteSnapshotCalls;
 
-            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeWriteSnapshot = () => gate.Task;
+            var gate = new StoreGate();
+            store.BeforeWriteSnapshot = gate.Hold;
 
             peer.SendMessage(AddItem());
             await WaitUntilAsync(() => store.WriteSnapshotCalls == pushWrites + 1);
@@ -411,7 +411,7 @@ namespace CMiX.Core.Tests
             await Task.Delay(300);
             Assert.False(stopped.IsCompleted);
 
-            gate.SetResult(true);
+            gate.Release();
             Assert.Same(stopped, await Task.WhenAny(stopped, Task.Delay(1000)));
         }
 

@@ -369,18 +369,13 @@ namespace CMiX.Core.Tests
             await inner.TrimAsync(tail);
 
             // Holds the recovery open over two heartbeat intervals.
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeReadSnapshot = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
+            var gate = new StoreGate();
+            store.BeforeReadSnapshot = gate.Hold;
             store.SetFail(false);
-            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            await WaitUntilAsync(() => gate.IsReached, 15000, () => $"status={peer.Status}");
 
             await Task.Delay(300);
-            release.SetResult(true);
+            gate.Release();
             await WaitUntilAsync(() => peer.LastAppliedId == tail, 5000, () => $"status={peer.Status} last={peer.LastAppliedId}");
 
             // Gives a second apply the time to appear.
@@ -411,19 +406,14 @@ namespace CMiX.Core.Tests
             await inner.TrimAsync(tail);
 
             // Holds the recovery in its snapshot read, so a heartbeat tick can see the same gap.
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeReadSnapshot = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
+            var gate = new StoreGate();
+            store.BeforeReadSnapshot = gate.Hold;
             store.SetFail(false);
-            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000,
+            await WaitUntilAsync(() => gate.IsReached, 15000,
                 () => $"status={peer.Status} last={peer.LastAppliedId} tail={tail} failed=[{store.FailedSummary}] snapshotsApplied={target.SnapshotsApplied}");
 
             await Task.Delay(300);
-            release.SetResult(true);
+            gate.Release();
             await WaitUntilAsync(() => peer.LastAppliedId == tail, 5000, () => $"status={peer.Status} last={peer.LastAppliedId}");
 
             // Gives a second apply the time to appear.
@@ -448,8 +438,8 @@ namespace CMiX.Core.Tests
 
             // Holds the entry that the follower found. The peer stays behind the snapshot, so the
             // heartbeat sees a gap and starts the re-join.
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.AfterReadBlocking = () => release.Task;
+            var gate = new StoreGate();
+            store.AfterReadBlocking = gate.Hold;
 
             var model = ModelWithOneComposition();
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
@@ -458,7 +448,7 @@ namespace CMiX.Core.Tests
             // The tick reads the oldest entry only for a gap check. The join starts right after it.
             await WaitUntilAsync(() => store.OldestReadCalls > 0, 15000, () => $"status={peer.Status}");
             await Task.Delay(300);
-            release.SetResult(true);
+            gate.Release();
 
             await WaitUntilAsync(() => peer.LastAppliedId == tail, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
             await Task.Delay(500);
@@ -480,17 +470,12 @@ namespace CMiX.Core.Tests
             using var peer = CreatePeer(target, store, isWriter: false);
             peer.FollowerStalePause = TimeSpan.FromMilliseconds(300);
 
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeReadBlocking = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
+            var gate = new StoreGate();
+            store.BeforeReadBlocking = gate.Hold;
 
             peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
-            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            await WaitUntilAsync(() => gate.IsReached, 15000, () => $"status={peer.Status}");
 
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
@@ -500,7 +485,7 @@ namespace CMiX.Core.Tests
 
             // Longer than the stale pause of the follower.
             await Task.Delay(500);
-            release.SetResult(true);
+            gate.Release();
 
             await WaitUntilAsync(() => target.SnapshotsApplied == 1, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
             Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
@@ -525,14 +510,9 @@ namespace CMiX.Core.Tests
             Assert.Equal(0, store.OldestReadCalls);
 
             // The follower waits here, so only a tick can read the oldest entry of the gap.
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeReadBlocking = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
-            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            var gate = new StoreGate();
+            store.BeforeReadBlocking = gate.Hold;
+            await WaitUntilAsync(() => gate.IsReached, 15000, () => $"status={peer.Status}");
 
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
@@ -540,7 +520,7 @@ namespace CMiX.Core.Tests
             await inner.TrimAsync(tail);
 
             await WaitUntilAsync(() => store.OldestReadCalls > 0, 15000, () => $"status={peer.Status}");
-            release.SetResult(true);
+            gate.Release();
 
             await WaitUntilAsync(() => target.SnapshotsApplied == 1, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
             Assert.Equal(ProjectStateHash.Compute(model), ProjectStateHash.Compute(target.Model));
@@ -689,14 +669,9 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined);
             var snapshotsBefore = target.SnapshotsApplied;
 
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.AfterReadTail = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
-            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            var gate = new StoreGate();
+            store.AfterReadTail = gate.Hold;
+            await WaitUntilAsync(() => gate.IsReached, 15000, () => $"status={peer.Status}");
             store.AfterReadTail = null;
 
             var heldTail = await inner.ReadTailAsync();
@@ -704,7 +679,7 @@ namespace CMiX.Core.Tests
                 peer.SendMessage(new MessageOnClick(Guid.NewGuid()));
             await WaitUntilAsync(() => peer.LastAppliedId > heldTail, 5000, () => $"last={peer.LastAppliedId} held={heldTail}");
 
-            release.SetResult(true);
+            gate.Release();
             await Task.Delay(500);
 
             Assert.Equal(snapshotsBefore, target.SnapshotsApplied);
@@ -980,14 +955,12 @@ namespace CMiX.Core.Tests
             await storeB.WriteSnapshotAsync(SnapshotOf(modelB, tailB));
             Assert.NotEqual(ProjectStateHash.Compute(modelA), ProjectStateHash.Compute(modelB));
 
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var gate = new StoreGate();
             var reads = 0;
-            storeA.BeforeReadSnapshot = async () =>
+            storeA.BeforeReadSnapshot = () =>
             {
                 Interlocked.Increment(ref reads);
-                reached.TrySetResult(true);
-                await release.Task;
+                return gate.Hold();
             };
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
@@ -995,7 +968,7 @@ namespace CMiX.Core.Tests
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false, Timings = Fast };
 
             peer.StartAndJoin(Options("Engine"));
-            await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
+            await WaitUntilAsync(() => gate.IsReached, detail: () => $"status={peer.Status}");
 
             peer.Stop();
             peer.StartAndJoin(Options("Engine"));
@@ -1005,7 +978,7 @@ namespace CMiX.Core.Tests
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
-            release.SetResult(true);
+            gate.Release();
 
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
             await Task.Delay(200);
@@ -1035,20 +1008,15 @@ namespace CMiX.Core.Tests
             await storeB.WriteSnapshotAsync(SnapshotOf(ModelWithOneComposition(), snapshotB));
             var tailB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
 
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            storeA.BeforeReadSnapshot = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
+            var gate = new StoreGate();
+            storeA.BeforeReadSnapshot = gate.Hold;
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget();
             using var peer = new SyncPeer(target, new ControlMessenger(), _ => stores.Dequeue()) { IsWriter = false, Timings = Fast };
 
             peer.StartAndJoin(Options("Engine"));
-            await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
+            await WaitUntilAsync(() => gate.IsReached, detail: () => $"status={peer.Status}");
 
             peer.Start(Options("Studio"));
             await WaitUntilAsync(() => peer.Status == "Not in sync" && peer.TailId == tailB, 15000,
@@ -1056,7 +1024,7 @@ namespace CMiX.Core.Tests
 
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
-            release.SetResult(true);
+            gate.Release();
             await Task.Delay(300);
 
             Assert.Equal(0, target.SnapshotsApplied);
@@ -1076,13 +1044,8 @@ namespace CMiX.Core.Tests
             var storeA = new WrappingSyncStore(innerA);
             var storeB = new InMemorySyncStore();
 
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            storeA.BeforeAppend = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
+            var gate = new StoreGate();
+            storeA.BeforeAppend = gate.Hold;
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
@@ -1090,7 +1053,7 @@ namespace CMiX.Core.Tests
 
             // Both stores are empty, so the start check pushes the local state.
             peer.Start(Options("Studio"));
-            await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
+            await WaitUntilAsync(() => gate.IsReached, detail: () => $"status={peer.Status}");
 
             peer.Stop();
             peer.Start(Options("Studio"));
@@ -1098,7 +1061,7 @@ namespace CMiX.Core.Tests
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
-            release.SetResult(true);
+            gate.Release();
 
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status} error={peer.ErrorMessage}");
             await Task.Delay(200);
@@ -1132,19 +1095,14 @@ namespace CMiX.Core.Tests
             peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            storeA.BeforeAppend = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
+            var gate = new StoreGate();
+            storeA.BeforeAppend = gate.Hold;
 
             var first = Guid.NewGuid();
             var second = Guid.NewGuid();
             peer.SendMessage(new MessageOnClick(first));
             peer.SendMessage(new MessageOnClick(second));
-            await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
+            await WaitUntilAsync(() => gate.IsReached, detail: () => $"status={peer.Status}");
 
             peer.Stop();
             peer.StartAndJoin(Options("Studio"));
@@ -1153,7 +1111,7 @@ namespace CMiX.Core.Tests
             // The push of the second start waits for that append, so the release comes first.
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
-            release.SetResult(true);
+            gate.Release();
             await WaitUntilAsync(() => peer.IsJoined, 15000, () => $"status={peer.Status} error={peer.ErrorMessage}");
             var sent = peer.SentMessages;
 
@@ -1190,18 +1148,13 @@ namespace CMiX.Core.Tests
             peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            storeA.BeforeAppend = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
+            var gate = new StoreGate();
+            storeA.BeforeAppend = gate.Hold;
 
             var ids = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
             foreach (var id in ids)
                 peer.SendMessage(new MessageOnClick(id));
-            await WaitUntilAsync(() => reached.Task.IsCompleted, detail: () => $"status={peer.Status}");
+            await WaitUntilAsync(() => gate.IsReached, detail: () => $"status={peer.Status}");
 
             peer.Stop();
             peer.Start(Options("Studio"));
@@ -1213,7 +1166,7 @@ namespace CMiX.Core.Tests
 
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
-            release.SetResult(true);
+            gate.Release();
 
             await peer.JoinAsync();
             await WaitUntilAsync(() => peer.IsJoined && peer.PendingMessages == 0, 15000,
@@ -1235,18 +1188,13 @@ namespace CMiX.Core.Tests
             peer.StartAndJoin(Options("Studio"));
             await WaitUntilAsync(() => peer.IsJoined);
 
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            store.BeforeAppend = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
+            var gate = new StoreGate();
+            store.BeforeAppend = gate.Hold;
 
             var ids = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
             foreach (var id in ids)
                 peer.SendMessage(new MessageOnClick(id));
-            await WaitUntilAsync(() => reached.Task.IsCompleted);
+            await WaitUntilAsync(() => gate.IsReached);
             var writes = store.WriteSnapshotCalls;
 
             var push = peer.PushAsync();
@@ -1254,7 +1202,7 @@ namespace CMiX.Core.Tests
             Assert.Equal(writes, store.WriteSnapshotCalls);
 
             store.BeforeAppend = null;
-            release.SetResult(true);
+            gate.Release();
             await push;
             await WaitUntilAsync(() => peer.PendingMessages == 0, 15000, () => $"pending={peer.PendingMessages}");
 
@@ -1303,15 +1251,10 @@ namespace CMiX.Core.Tests
             await innerA.WriteSnapshotAsync(SnapshotOf(modelA, tailA));
             await innerA.TrimAsync(tailA);
 
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            storeA.BeforeReadSnapshot = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
+            var gate = new StoreGate();
+            storeA.BeforeReadSnapshot = gate.Hold;
             storeA.SetFail(false);
-            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000,
+            await WaitUntilAsync(() => gate.IsReached, 15000,
                 () => $"status={peer.Status} last={peer.LastAppliedId} tailA={tailA} failed=[{storeA.FailedSummary}] snapshotsApplied={target.SnapshotsApplied}");
 
             peer.Stop();
@@ -1323,7 +1266,7 @@ namespace CMiX.Core.Tests
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
-            release.SetResult(true);
+            gate.Release();
             await Task.Delay(300);
 
             Assert.Equal(1, target.SnapshotsApplied);
@@ -1346,13 +1289,8 @@ namespace CMiX.Core.Tests
             var tailB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             await storeB.WriteSnapshotAsync(SnapshotOf(modelB, tailB));
 
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            storeA.AfterReadBlocking = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
+            var gate = new StoreGate();
+            storeA.AfterReadBlocking = gate.Hold;
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget();
@@ -1363,7 +1301,7 @@ namespace CMiX.Core.Tests
 
             var click = Guid.NewGuid();
             await innerA.AppendAsync(Envelope("other", new MessageOnClick(click)));
-            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            await WaitUntilAsync(() => gate.IsReached, 15000, () => $"status={peer.Status}");
 
             peer.Stop();
             peer.StartAndJoin(Options("Engine"));
@@ -1374,7 +1312,7 @@ namespace CMiX.Core.Tests
             // The call that waits keeps the old run alive, so the store closes after the stop timeout.
             await WaitUntilAsync(() => !innerA.IsConnected, 3000);
             await innerA.ConnectAsync(default);
-            release.SetResult(true);
+            gate.Release();
             await Task.Delay(300);
 
             Assert.DoesNotContain(target.Applied, message => message is MessageOnClick clicked && clicked.ID == click);
@@ -1401,14 +1339,9 @@ namespace CMiX.Core.Tests
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
             // The join read the tail already. From here only a presence tick reads it.
-            var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            storeA.BeforeReadTail = async () =>
-            {
-                reached.TrySetResult(true);
-                await release.Task;
-            };
-            await WaitUntilAsync(() => reached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            var gate = new StoreGate();
+            storeA.BeforeReadTail = gate.Hold;
+            await WaitUntilAsync(() => gate.IsReached, 15000, () => $"status={peer.Status}");
 
             peer.Stop();
             peer.StartAndJoin(Options("Engine"));
@@ -1420,7 +1353,7 @@ namespace CMiX.Core.Tests
             await innerA.ConnectAsync(default);
             await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             await innerA.HeartbeatAsync("ghost", new Dictionary<string, string> { ["name"] = "Old" }, TimeSpan.FromMinutes(1));
-            release.SetResult(true);
+            gate.Release();
             await Task.Delay(300);
 
             Assert.Equal(StreamPosition.Zero, peer.TailId);
@@ -1449,23 +1382,13 @@ namespace CMiX.Core.Tests
             peer.StartAndJoin(Options("Engine"));
             await WaitUntilAsync(() => peer.IsJoined, detail: () => $"status={peer.Status}");
 
-            var followerReached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var followerRelease = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            storeA.BeforeReadBlocking = async () =>
-            {
-                followerReached.TrySetResult(true);
-                await followerRelease.Task;
-            };
-            await WaitUntilAsync(() => followerReached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            var followerGate = new StoreGate();
+            storeA.BeforeReadBlocking = followerGate.Hold;
+            await WaitUntilAsync(() => followerGate.IsReached, 15000, () => $"status={peer.Status}");
 
-            var tickReached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var tickRelease = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            storeA.BeforeReadTail = async () =>
-            {
-                tickReached.TrySetResult(true);
-                await tickRelease.Task;
-            };
-            await WaitUntilAsync(() => tickReached.Task.IsCompleted, 15000, () => $"status={peer.Status}");
+            var tickGate = new StoreGate();
+            storeA.BeforeReadTail = tickGate.Hold;
+            await WaitUntilAsync(() => tickGate.IsReached, 15000, () => $"status={peer.Status}");
             storeA.BeforeReadTail = null;
 
             var tailA = await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
@@ -1481,13 +1404,13 @@ namespace CMiX.Core.Tests
                 peer.Stop();
                 peer.Start(Options("Studio"));
             };
-            tickRelease.SetResult(true);
+            tickGate.Release();
 
             await WaitUntilAsync(() => Volatile.Read(ref restarted) == 1, 15000, () => $"status={peer.Status} tail={peer.TailId}");
             await WaitUntilAsync(() => peer.Status == "Not in sync" || peer.IsJoined, 15000,
                 () => $"status={peer.Status} error={peer.ErrorMessage}");
             await Task.Delay(300);
-            followerRelease.SetResult(true);
+            followerGate.Release();
 
             Assert.False(peer.IsJoined);
             Assert.Equal(0, target.SnapshotsApplied);

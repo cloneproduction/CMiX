@@ -304,6 +304,23 @@ namespace CMiX.Core.Tests
         public void Dispose() => _queue.CompleteAdding();
     }
 
+    // Holds a store call of WrappingSyncStore until the test releases it.
+    public sealed class StoreGate
+    {
+        private readonly TaskCompletionSource<bool> _reached = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource<bool> _release = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public bool IsReached => _reached.Task.IsCompleted;
+
+        public async Task Hold()
+        {
+            _reached.TrySetResult(true);
+            await _release.Task;
+        }
+
+        public void Release() => _release.SetResult(true);
+    }
+
     public static class SyncTestHelpers
     {
         // The unit tests drive an in-memory store, so they do not need the real waits. Retention and
