@@ -19,7 +19,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The hint strip under the tree: the keys of the mode of the tree (idle, search, menu), with the gestures of the shortcut map.
-    // The setting InterfaceOptions.ShowKeyHints hides it. It takes no click and no focus.
+    // The setting InterfaceState.ShowKeyHints hides it. It takes no click and no focus.
     public class TreeKeyHintStripTests : IDisposable
     {
         private sealed record Screen(Window Window, TextBoxSearchTree Box, ListTreeProject View);
@@ -209,7 +209,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var path = temp.PathOf(StudioSettings.FileName);
             new StudioSettings { Redis = new RedisSettings { Ip = "10.0.0.2", Port = 6390 } }.Save(path);
-            var options = new InterfaceOptions(path);
+            var options = new InterfaceState(path);
             options.Load();
             Assert.True(options.ShowKeyHints);
 
@@ -219,7 +219,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(saved.Interface.ShowKeyHints);
             Assert.Equal("10.0.0.2", saved.Redis.Ip);
             Assert.Equal(6390, saved.Redis.Port);
-            var loaded = new InterfaceOptions(path);
+            var loaded = new InterfaceState(path);
             loaded.Load();
             Assert.False(loaded.ShowKeyHints);
         }
@@ -229,7 +229,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var path = temp.File(StudioSettings.FileName, JsonSerializer.Serialize(new { Redis = new { Ip = "127.0.0.1" } }));
 
-            var options = new InterfaceOptions(path);
+            var options = new InterfaceState(path);
             options.Load();
 
             Assert.True(options.ShowKeyHints);

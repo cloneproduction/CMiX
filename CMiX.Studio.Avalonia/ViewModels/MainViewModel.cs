@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              ControlActivationService activationService,
                              UndoManager undoManager,
                              ShortcutMap shortcuts,
-                             InterfaceOptions interfaceOptions,
+                             InterfaceState interfaceState,
                              PathDropRules pathDropRules,
                              ProjectTree projectTree,
                              Views.PanelFocusCycle panelFocus)
@@ -40,7 +40,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             _session = session;
             Project = project;
             Shortcuts = shortcuts;
-            Interface = interfaceOptions;
+            Interface = interfaceState;
             ShortcutSettings = new ShortcutSettings(shortcuts);
             UndoCommand = new RelayCommand(undoManager.Undo);
             RedoCommand = new RelayCommand(undoManager.Redo);
@@ -96,7 +96,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ShortcutSettings ShortcutSettings { get; }
 
         // The settings tab edits the interface settings with this. The tree uses the same object.
-        public InterfaceOptions Interface { get; }
+        public InterfaceState Interface { get; }
 
         public IRelayCommand UndoCommand { get; }
         public IRelayCommand RedoCommand { get; }

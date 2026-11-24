@@ -3,7 +3,7 @@
 
 namespace CMiX.Studio.Avalonia.Settings
 {
-    // The look of the Studio, in the same file: { "Interface": { "ShowKeyHints": true } }. InterfaceOptions reads and writes it.
+    // The look of the Studio, in the same file: { "Interface": { "ShowKeyHints": true } }. InterfaceState reads and writes it.
     public class InterfaceSettings
     {
         // The hint strip of the keys under the tree (KeyHintStrip).

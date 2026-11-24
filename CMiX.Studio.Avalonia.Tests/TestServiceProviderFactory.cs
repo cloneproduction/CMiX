@@ -49,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
             serviceCollection.AddSingleton<ProjectTree>();
             serviceCollection.AddSingleton<Views.PanelFocusCycle>();
             // The defaults, with no file. A test never reads or writes the settings file of the Studio.
-            serviceCollection.AddSingleton(_ => new InterfaceOptions());
+            serviceCollection.AddSingleton(_ => new InterfaceState());
             serviceCollection.AddSingleton(_ => new StudioSettingsFile(Path.Combine(Path.GetTempPath(), $"cmix-studiosettings-{Guid.NewGuid():N}", StudioSettings.FileName)));
             serviceCollection.AddSingleton<ICredentialStore, FakeCredentialStore>();
             // The defaults, with a file path in the temp folder. A test never reads or writes the file of the user.

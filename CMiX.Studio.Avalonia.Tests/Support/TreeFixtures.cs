@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests.Support
                 provider.GetRequiredService<ShortcutMap>(),
                 provider.GetRequiredService<PathDropRules>(),
                 provider.GetRequiredService<IStatusNotice>(),
-                provider.GetRequiredService<InterfaceOptions>());
+                provider.GetRequiredService<InterfaceState>());
 
         // Adds two entities, one filter and three modifiers to the layer.
         public static void AddKinds(Layer layer)

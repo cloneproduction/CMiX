@@ -7,13 +7,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Studio.Avalonia.Settings
 {
-    // The interface settings of the Studio (StudioSettings.Interface), for the views and the Settings tab. A change is saved at once.
+    // The interface settings of the Studio (StudioSettings.Interface), live, for the views and the Settings tab. A change is saved at once.
     // The save keeps the other parts of the file. With no file path, nothing is read or saved.
-    public sealed partial class InterfaceOptions : ObservableObject
+    public sealed partial class InterfaceState : ObservableObject
     {
         private bool loading;
 
-        public InterfaceOptions(string? filePath = null) => FilePath = filePath;
+        public InterfaceState(string? filePath = null) => FilePath = filePath;
 
         public string? FilePath { get; }
 

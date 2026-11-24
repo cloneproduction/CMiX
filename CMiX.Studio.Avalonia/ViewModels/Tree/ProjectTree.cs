@@ -32,11 +32,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private IReadOnlyList<TreeAdd> targetAdds;
 
         public ProjectTree(Project project, UndoManager undoManager, IMoveBlockedNotice notice,
-            ShortcutMap shortcuts, PathDropRules pathDrop, IStatusNotice notifications, InterfaceOptions interfaceOptions)
+            ShortcutMap shortcuts, PathDropRules pathDrop, IStatusNotice notifications, InterfaceState interfaceState)
         {
             this.undoManager = undoManager;
             Shortcuts = shortcuts;
-            Interface = interfaceOptions;
+            Interface = interfaceState;
             this.project = project;
             compositions = project.CompositionManager;
             Views = new TreeViewSet();
@@ -74,7 +74,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public ShortcutMap Shortcuts { get; }
 
-        public InterfaceOptions Interface { get; }
+        public InterfaceState Interface { get; }
 
         public ObservableCollection<TreeNode> Roots => root.Children;
 

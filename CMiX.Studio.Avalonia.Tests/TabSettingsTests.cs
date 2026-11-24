@@ -63,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var tab = mainWindow.GetVisualDescendants().OfType<TabSettings>().Single();
             var toggle = tab.GetVisualDescendants().OfType<ToggleButtonCaptioned>().Single(t => t.Name == "showKeyHintsToggle");
 
-            Assert.Same(provider.GetRequiredService<InterfaceOptions>(), viewModel.Interface);
+            Assert.Same(provider.GetRequiredService<InterfaceState>(), viewModel.Interface);
             Assert.True(toggle.IsChecked);
 
             toggle.IsChecked = false;

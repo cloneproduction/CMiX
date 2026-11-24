@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddSingleton<ICredentialStore, WindowsCredentialStore>();
                 serviceCollection.AddSingleton(_ =>
                 {
-                    var options = new InterfaceOptions(StudioSettings.DefaultPath);
+                    var options = new InterfaceState(StudioSettings.DefaultPath);
                     options.Load();
                     return options;
                 });
