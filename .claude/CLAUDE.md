@@ -127,6 +127,9 @@ These rules apply to every task in this repository.
 - A wire message has the name of its action: `MessageAddItem`, `MessageRemoveItem`,
   `MessageMoveItem`, `MessageSelectItem`, `MessageClearSelection`.
 - A local that holds an `IControl` is `control` or `item`. Use `prefab` only for an `IPrefab`.
+- Before a new name, search the project for the pattern of its family and follow it.
+  Propose two or three candidates. A word that CMiX does not use yet is a question
+  for the owner. The vocabulary of ARCHITECTURE.md section 4 wins.
 - A test class ends with `Tests`. A test method is `Method_Scenario_Result`, for example
   `Move_Rows_MoveTheItemAndStopAtTheEdges`. A file has the name of its type.
   When a member gets a new name, the tests that carry the old name get the new one.
