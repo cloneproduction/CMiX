@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void CheckerBoard_TouchBlob_ColorPaletteModifier_RealizeAsListItemIcon()
+        public void Build_CheckerBoardTouchBlobAndColorPaletteModifier_RealizeAsListItemIcon()
         {
             var provider = TestServiceProviderFactory.Create();
             var controlFactory = provider.GetRequiredService<ControlFactory>();

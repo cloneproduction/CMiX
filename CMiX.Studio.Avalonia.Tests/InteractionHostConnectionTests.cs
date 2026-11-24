@@ -9,7 +9,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class InteractionHostConnectionTests
     {
         [AvaloniaFact]
-        public void App_ConnectsTheHostToTheValueInteraction()
+        public void Start_TheApp_ConnectsTheHostToTheValueInteraction()
         {
             var scope = InteractionHost.BeginScope();
 

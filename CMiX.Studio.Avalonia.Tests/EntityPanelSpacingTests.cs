@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheCardsOfAModelEntity_AreAsFarApartAsTheCardsOfACamera()
+        public void Show_TheCardsOfAModelEntity_AreAsFarApartAsTheCardsOfACamera()
         {
             var camera = Gaps(new Views.Camera { DataContext = Factory().Create(typeof(CMiX.Core.Rendering.Cameras.Camera)) });
             var entity = Gaps(new ModelEntity { DataContext = Factory().Create(typeof(Entity)) });

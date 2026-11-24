@@ -15,7 +15,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class SettingsSyncTests
     {
         [AvaloniaFact]
-        public void CredentialNameAndToggle_DisableUserAndPassword()
+        public void Show_TheCredentialNameAndToggle_DisableUserAndPassword()
         {
             var provider = TestServiceProviderFactory.Create();
             var peer = provider.GetRequiredService<SyncPeer>();
@@ -62,7 +62,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaTheory]
         [InlineData("syncButton")]
         [InlineData("editConnectionButton")]
-        public void TheFlyouts_CloseOnEscape(string buttonName)
+        public void Press_EscapeInAFlyout_ClosesTheFlyout(string buttonName)
         {
             var provider = TestServiceProviderFactory.Create();
             var peer = provider.GetRequiredService<SyncPeer>();

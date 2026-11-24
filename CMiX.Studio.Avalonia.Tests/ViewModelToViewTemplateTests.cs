@@ -19,25 +19,25 @@ namespace CMiX.Studio.Avalonia.Tests
             new(typeof(ViewModelToViewTemplateTests).Assembly, Root, "Controls");
 
         [Fact]
-        public void ViewInTheRootNamespace_IsFound()
+        public void Scan_AViewInTheRootNamespace_FindsIt()
         {
             Assert.True(Fixture().Match(new Alpha()));
         }
 
         [Fact]
-        public void ViewInAChildNamespace_IsFound()
+        public void Scan_AViewInAChildNamespace_FindsIt()
         {
             Assert.True(Fixture().Match(new Beta()));
         }
 
         [Fact]
-        public void ViewInAnExcludedNamespace_IsIgnored()
+        public void Scan_AViewInAnExcludedNamespace_IgnoresIt()
         {
             Assert.False(Fixture().Match(new Gamma()));
         }
 
         [Fact]
-        public void TypesThatAreNotConcreteControls_AreIgnored()
+        public void Scan_TypesThatAreNotConcreteControls_IgnoresThem()
         {
             var template = Fixture();
 
@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Build_CreatesTheViewOfTheModel()
+        public void Build_AModel_CreatesItsView()
         {
             var template = Fixture();
 
@@ -64,7 +64,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void TwoViewsWithTheSameName_AreReported()
+        public void Scan_TwoViewsWithTheSameName_ReportsThem()
         {
             var template = new ViewModelToViewTemplate(
                 typeof(ViewModelToViewTemplateTests).Assembly,
@@ -76,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void StudioViews_AreFoundByTheirModel()
+        public void Match_TheStudioViews_FindsEachByItsModel()
         {
             var provider = TestServiceProviderFactory.Create();
             var blur = provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Filters.Blur));

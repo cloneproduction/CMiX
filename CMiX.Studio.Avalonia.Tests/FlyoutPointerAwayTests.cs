@@ -26,7 +26,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaTheory]
         [InlineData("syncButton")]
         [InlineData("editConnectionButton")]
-        public void TheSettingsSyncFlyouts_CloseWhenThePointerGoesFarAway(string buttonName)
+        public void MouseMove_FarFromAFlyoutOfTheSyncSettings_ClosesTheFlyout(string buttonName)
         {
             var provider = TestServiceProviderFactory.Create();
             var peer = provider.GetRequiredService<SyncPeer>();
