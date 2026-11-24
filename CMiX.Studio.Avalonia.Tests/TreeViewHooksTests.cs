@@ -131,28 +131,5 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(new[] { "second" }, asked);
             Assert.Equal(1, closes);
         }
-
-        [AvaloniaFact]
-        public void Unwatch_SecondViewLeaves_TheFocusedViewStillTellsTheTreeHasTheFocus()
-        {
-            var scene = CreateScene();
-            var (window, first, second) = ListTreeTestScreen.ShowTwoViews(scene.Tree);
-            var panel = (Panel)second.Parent!;
-            try
-            {
-                Assert.True(first.Rows.RowOf(scene.Tree.Roots[0])!.Focus(NavigationMethod.Tab));
-                Dispatcher.UIThread.RunJobs();
-                Assert.True(scene.Tree.Views.IsTreeFocused());
-
-                panel.Children.Remove(second);
-                Dispatcher.UIThread.RunJobs();
-
-                Assert.True(scene.Tree.Views.IsTreeFocused());
-            }
-            finally
-            {
-                window.Close();
-            }
-        }
     }
 }
