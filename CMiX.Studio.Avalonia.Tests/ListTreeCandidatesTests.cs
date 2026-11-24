@@ -12,6 +12,7 @@ using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
+    // The candidates of a drag and the near card of a candidate.
     public class ListTreeCandidatesTests
     {
         private readonly TreeDropService service = new();
@@ -162,6 +163,35 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Contains(SlotsOf(scene, source), slot => IsInComposition(slot, scene.B));
             Assert.DoesNotContain(candidates, candidate => IsInComposition(candidate.Slot, scene.B));
             Assert.Contains(candidates, candidate => IsInComposition(candidate.Slot, scene.A));
+        }
+
+        // Layer 1 of A has three entities, layer 2 of A is a closed card, every other card is open.
+        private static ListTreeDrag NearCardDrag(ListTreePress press)
+        {
+            var scene = TreeFixtures.CreateScene([2], s =>
+            {
+                for (var index = 0; index < 3; index++)
+                    s.Layer.ModelEntityManager.AddItem(typeof(Entity));
+            });
+            TestServiceProviderFactory.ExpandAll(scene.Tree);
+            scene.LayerNodeOfA(1).IsExpanded = false;
+            var entity = scene.Group<EntitiesGroup>(0).Children[1];
+            return ListTreeDrag.Start(scene.Tree, entity, press, new ListTreePick(ListTreeDragNumbers.Default), ListTreeSizes.Default);
+        }
+
+        [Fact]
+        public void OfKey_EveryCandidate_IsTheNearCardOfAPointerAtThePlaceOfTheCandidate()
+        {
+            var press = new ListTreePress(new ListTreePoint(120, 0), 16, 3);
+            var drag = NearCardDrag(press);
+
+            foreach (var candidate in drag.Candidates)
+            {
+                var look = drag.PickCandidate(candidate)!;
+                var atPlace = new ListTreePoint(press.Pointer.X, candidate.Place.Y + press.GrabOffsetY);
+
+                Assert.Same(ListTreeNearCard.Of(look, press, atPlace), ListTreeNearCard.OfKey(look, press));
+            }
         }
     }
 }
