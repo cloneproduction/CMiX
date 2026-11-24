@@ -59,8 +59,8 @@ The view `Blur.axaml` in the Studio binds straight to the Core `Blur`. There is 
 | Shape | Main classes |
 |---|---|
 | Model | All 125 `...Model` records: `ProjectModel`, `CompositionModel`, `LayerModel`, `EntityModel`, `GenericValueModel<T>`, `ModulatableValueModel<T>`, `PrefabManagerModel`, `ManagerDataModel`, each filter, source, modifier and modulator model. Also `SyncOptions`, `SyncTimings`, `StreamPosition`, `PeerInfo`. |
-| Message | `MessageValueChanged`, `MessageAddItem`, `MessageRemoveItem`, `MessageMoveItem`, `MessageSelectItem`, `MessageClearSelection`, `MessageOnClick`, `MessageProjectSnapshot`, and the wrapper `MessageEnvelope` (all in `Networking/Messages/Messages.cs`). |
-| Service | `UndoManager`, `ControlFactory`, `ControlRepository`, `ControlMessenger`, `MessageFactory`, `ValueSync`, `MessageCollectionManagerHandler`, `ControlActivationService`, `AssetRepository`, the five processors (`VisibilityProcessor`, `VisibleItemsProcessor`, `UpdateOrderProcessor`, `RenderListProcessor`, `AssetListProcessor`), `ProjectSyncTarget`, `RedisSyncStore`, `OutgoingQueue`, `StreamFollower`, `SnapshotCompactor`, `Presence`, `MainloopQueue`, `EngineHost`, `WindowsCredentialStore`. |
+| Message | `MessageValueChanged`, `MessageAddItem`, `MessageRemoveItem`, `MessageMoveItem`, `MessageSelectItem`, `MessageClearSelection`, `MessageOnClick` (tests only), `MessageProjectSnapshot`, and the wrapper `MessageEnvelope` (all in `Networking/Messages/Messages.cs`). |
+| Service | `UndoManager`, `ControlFactory`, `ControlRepository`, `ControlMessenger`, `MessageFactory`, `ValueSync`, `ModulatorHost` (the modulator list of one control, with the lookup and the unbinding), `MessageCollectionManagerHandler`, `ControlActivationService`, `AssetRepository`, the five processors (`VisibilityProcessor`, `VisibleItemsProcessor`, `UpdateOrderProcessor`, `RenderListProcessor`, `AssetListProcessor`), `ProjectSyncTarget`, `RedisSyncStore`, `OutgoingQueue`, `StreamFollower`, `SnapshotCompactor`, `Presence`, `MainloopQueue`, `EngineHost`, `WindowsCredentialStore`. |
 | ViewModel | None that is only a ViewModel. |
 | View | None. |
 
@@ -70,7 +70,7 @@ Classes that are several shapes at once, or none:
 |---|---|
 | Every control: `Project`, `Composition`, `Layer`, `Entity`, `TextEntity`, `FullscreenQuad`, `Camera`, `LightEntity`, `Texture`, the 22 filters, the 11 texture sources, the 20 modifiers, the 13 modulators, the settings objects | Domain state, ViewModel (commands, `IsExpanded`) and model converter in one class. |
 | `GenericValue<T>` | One value. It receives its message itself. The undo step, the send and the drag go through `IValueSync`. |
-| `CMiXButton` | One click. Also the message sender and the message receiver. |
+| `CMiXButton` | One click. It sends through `IValueSync` and receives its message itself. |
 | `ModulatableValue<T>` | Three `GenericValue` in one: the value, the id of the modulator, the name of the output. Also commands. |
 | `PrefabManager` | A list of controls. ViewModel (7 commands), undo source, message sender and receiver, model converter. The VL patches use it by name. |
 | `ManagerData`, `CollectionManager`, `CollectionSync`, `IItemList` | The inner parts of a list: the items and the selection, the add and remove with the repository, and the sender. `CollectionSync` implements `IItemList`, the list that sends every change. The undo steps and `PrefabManager` see only `IItemList`. Not a shape of their own. |
@@ -117,6 +117,7 @@ Three static entry points connect it to an application: `InteractionHost`, `Icon
 6. **Engine.** `StreamFollower` reads the new entries. `SyncPeer` (`SyncPeer.Apply.cs`) posts each batch to its dispatcher. In vvvv that is `MainloopQueue`, which the patch drains once for each frame. In `CMiX.Console` the apply runs inline.
 7. **Apply.** `ProjectSyncTarget.Apply` sends the message on `WeakReferenceMessenger.Default`. Every active control receives every message. `GenericValue.Receive` compares the id and, on a match, sets the value inside `SuppressSending()`, so it sends nothing and records no undo step.
 8. **Render.** The patch reads the state through `EngineHost.ServiceProvider`: `Project`, `ControlRepository`, `PrefabManager`, `ManagerData` and the processors. I did not open the patches in vvvv. I only searched them for type names.
+A click of a `CMiXButton` follows the same path: `Send` puts a `MessageValueChanged` with the `ButtonModel` on the wire, and the button on the other peer raises `Click`.
 
 ### A list changes (add, remove, move, select)
 
