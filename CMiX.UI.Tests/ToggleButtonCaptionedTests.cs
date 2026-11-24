@@ -26,13 +26,13 @@ namespace CMiX.UI.Tests
         private static Color BackgroundOf(Border border) => ((ISolidColorBrush)border.Background!).Color;
 
         [AvaloniaFact]
-        public void IsARealToggleButton()
+        public void Create_AToggleButtonCaptioned_IsAToggleButton()
         {
             Assert.IsAssignableFrom<ToggleButton>(new ToggleButtonCaptioned());
         }
 
         [AvaloniaFact]
-        public void ShowsItsCaption_BesideTheBox()
+        public void Show_ACaption_ShowsItBesideTheBox()
         {
             var (_, toggle) = Show("Antialiasing");
 
@@ -43,7 +43,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheBoxSitsInTheValueColumn_ToTheRightOfTheMiddle()
+        public void Show_TheBox_SitsInTheValueColumnRightOfTheMiddle()
         {
             var (_, toggle) = Show();
 
@@ -53,7 +53,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ClickOnTheBox_TogglesIt()
+        public void Click_OnTheBox_TogglesIt()
         {
             var (window, toggle) = Show();
 
@@ -63,7 +63,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ClickOnTheCaption_TogglesIt()
+        public void Click_OnTheCaption_TogglesIt()
         {
             var (window, toggle) = Show();
             var text = toggle.GetVisualDescendants().OfType<TextBlock>().Single(block => block.Text == toggle.Caption);
@@ -74,7 +74,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ClickInTheEmptyCaptionColumn_DoesNotToggle()
+        public void Click_InTheEmptyCaptionColumn_DoesNotToggle()
         {
             var (window, toggle) = Show();
 
@@ -84,7 +84,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheBoxLooksLikeTheOldCheckBox_WhenOffAndWhenOn()
+        public void Show_TheBoxOffAndOn_HasTheLookOfACheckBox()
         {
             var (_, toggle) = Show();
             var box = Box(toggle);
@@ -101,7 +101,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheBoxAndTheRowHaveTheOldSize()
+        public void Show_TheBoxAndTheRow_HaveTheSizeOfACheckBoxRow()
         {
             var (_, toggle) = Show();
             var xs = Tokens.Get<double>("ControlHeightXS");
@@ -113,7 +113,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ADisabledToggle_DimsTheBox()
+        public void IsEnabled_Off_DimsTheBox()
         {
             var (_, toggle) = Show();
 
@@ -124,7 +124,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void KeepsTheToggleButtonEvents()
+        public void Click_OnTheBox_RaisesIsCheckedChanged()
         {
             var (window, toggle) = Show();
             var checkedRaised = 0;
