@@ -167,7 +167,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DeletingLayersRepeatedly_DoesNotGrowTheCollectionManagersTheRepositoryHolds()
+        public void RemoveItem_OfLayersRepeatedly_DoesNotGrowTheHeldCollectionManagers()
         {
             var provider = TestServiceProviderFactory.Create();
             var repository = provider.GetRequiredService<ControlRepository>();
@@ -187,7 +187,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DroppingTheUndoEntryOfADeletedLayer_ReleasesItsNestedManagers()
+        public void Clear_OfTheUndoEntryOfARemovedLayer_ReleasesItsNestedManagers()
         {
             var provider = TestServiceProviderFactory.Create();
             var repository = provider.GetRequiredService<ControlRepository>();
