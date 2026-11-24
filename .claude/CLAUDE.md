@@ -10,6 +10,15 @@ These rules apply to every task in this repository.
 - Never use an em dash or an en dash. Use a comma, a colon, or a new sentence.
 - A running process in the sync is a peer. The word node means a vvvv patch node.
 
+## Answers
+
+- Lead with the answer or the action. Name the file, the class or the node first.
+- One recommendation and the reason. Options only when the owner asks for them,
+  then as a table of pro and cons.
+- One question at a time. Wait for the answer.
+- No analogy. Use the words of CMiX.
+- After a step that changes the UI, list three to five things to look at in the Studio.
+
 ## Commits
 
 - One atomic commit per step. The build and the tests pass at every commit.
