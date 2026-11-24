@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using CMiX.Studio.Avalonia.Views.Dialogs;
 
 namespace CMiX.Studio.Avalonia.Notices
@@ -13,7 +11,7 @@ namespace CMiX.Studio.Avalonia.Notices
     {
         public async Task ShowErrorAsync(string text, string title)
         {
-            if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime { MainWindow: { } owner })
+            if (MainWindowOwner.Find() is not { } owner)
                 return;
 
             await DialogMessage.ShowAsync(owner, Options(text, title));

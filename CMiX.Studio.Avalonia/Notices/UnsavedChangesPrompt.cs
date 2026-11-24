@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using CMiX.Studio.Avalonia.Views.Dialogs;
 
 namespace CMiX.Studio.Avalonia.Notices
@@ -25,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Notices
 
         public async Task<UnsavedChangesChoice> AskAsync()
         {
-            if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime { MainWindow: { } owner })
+            if (MainWindowOwner.Find() is not { } owner)
                 return UnsavedChangesChoice.Cancel;
 
             return ToChoice(await DialogMessage.ShowAsync(owner, Options));

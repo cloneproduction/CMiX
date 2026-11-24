@@ -3,10 +3,9 @@
 
 using System;
 using System.Windows.Input;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using CMiX.Core;
+using CMiX.Studio.Avalonia.Notices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -26,11 +25,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ICommand MaximizeWindowCommand { get; }
         public Guid ID { get; set; }
 
-        private static void CloseMainWindow()
-        {
-            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                desktop.MainWindow?.Close();
-        }
+        private static void CloseMainWindow() => MainWindowOwner.Find()?.Close();
 
         public void MaximizeWindow(Window? window)
         {
