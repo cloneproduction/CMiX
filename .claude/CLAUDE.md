@@ -50,6 +50,16 @@ These rules apply to every task in this repository.
   form, no trailer, only the files of the step, no em or en dash, comments in
   STE.
 
+## Approval
+
+- A plan, an audit or a proposal is a report. No edit before the owner says go.
+- Each step of a plan and each finding of an audit carries a short before and
+  after sample.
+- For a UX decision, say first how Blender does it. For modulation, Bitwig.
+  For a node graph, vvvv and TiXL. Then propose.
+- For an architecture decision, name the pattern and one reference. Say when
+  the simplest option is good enough.
+
 ## Code patterns
 
 - State objects use CommunityToolkit.Mvvm (ObservableObject, [ObservableProperty],
