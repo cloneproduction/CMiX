@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Templates;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
@@ -11,10 +12,13 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // Every row of a list has the same states: transparent, grey with the pointer over, blue when selected.
+    // The look of a row in every list: the fill states, the height, the inset of the content and the corners.
     // The rows of the standard list and of the editable list share one base theme, ListBoxItemBasic.
-    public class ListRowLookTests
+    public class RowLookTests
     {
+        // Every row of a list has the same states: transparent, grey with the pointer over, blue when selected.
+        // The rows of the standard list and of the editable list share one base theme, ListBoxItemBasic.
+
         private static ListBoxItem FirstRow(ListBox list)
         {
             list.ItemsSource = new[] { "One", "Two" };
@@ -48,7 +52,7 @@ namespace CMiX.UI.Tests
 
         [AvaloniaTheory]
         [MemberData(nameof(Lists))]
-        public void ARowWithThePointerOver_IsGrey(string kind)
+        public void Hover_ARow_MakesItGrey(string kind)
         {
             var row = FirstRow(ListOf(kind));
 
@@ -59,7 +63,7 @@ namespace CMiX.UI.Tests
 
         [AvaloniaTheory]
         [MemberData(nameof(Lists))]
-        public void ASelectedRow_IsInactiveBlue(string kind)
+        public void Select_ARow_MakesItInactiveBlue(string kind)
         {
             var row = FirstRow(ListOf(kind));
 
@@ -71,7 +75,7 @@ namespace CMiX.UI.Tests
 
         [AvaloniaTheory]
         [MemberData(nameof(Lists))]
-        public void ASelectedRowWithThePointerOver_IsBlue(string kind)
+        public void Hover_ASelectedRow_MakesItBlue(string kind)
         {
             var row = FirstRow(ListOf(kind));
 
@@ -89,6 +93,41 @@ namespace CMiX.UI.Tests
 
             Assert.Equal(Tokens.RowHeight, standard.Bounds.Height);
             Assert.True(editable.Bounds.Height < Tokens.RowHeight);
+        }
+
+        // Every row starts its content 8 from its left edge and has the round corners of the theme: a list row and a combo row.
+        // ContextMenuLookTests tests the menu row.
+
+        private static T Show<T>(T control) where T : Control
+        {
+            TestWindow.Show(control, 300, 200);
+            return control;
+        }
+
+        private static CornerRadius Round => Tokens.Get<CornerRadius>("CornerRadiusAll");
+
+        [AvaloniaFact]
+        public void Show_ARowOfAList_StartsItsContentAtEight()
+        {
+            var list = Show(new ListBox { ItemsSource = new[] { "Row" }, Width = 140, Height = 40 });
+
+            var row = list.GetVisualDescendants().OfType<ListBoxItem>().First();
+            var border = Parts.Find<Border>(row, "Bd");
+
+            Assert.Equal(8, border.Padding.Left);
+            Assert.Equal(Round, border.CornerRadius);
+        }
+
+        [AvaloniaFact]
+        public void Show_ARowOfAComboBox_StartsItsContentAtEight()
+        {
+            var item = Show(new ComboBoxItem { Content = "Item", Width = 140 });
+
+            var presenter = Parts.Find<ContentPresenter>(item, "PART_ContentPresenter");
+            var border = Parts.Find<Border>(item, "border");
+
+            Assert.Equal(8, presenter.Margin.Left);
+            Assert.Equal(Round, border.CornerRadius);
         }
     }
 }
