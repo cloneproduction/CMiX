@@ -11,6 +11,8 @@ namespace CMiX.Core.Tests
 
         public WalkedValue(object instance) => _instance = instance;
 
+        public Type ValueType => _instance.GetType().GetGenericArguments()[0];
+
         public object Value
         {
             get => _instance.GetType().GetProperty("Value")!.GetValue(_instance);
@@ -44,6 +46,8 @@ namespace CMiX.Core.Tests
             if (t.IsGenericType && t.GetGenericTypeDefinition().Name.StartsWith("ModulatableValue"))
             {
                 Walk(t.GetProperty("ValueSource")!.GetValue(o), path + ".Value", seen, depth + 1, found);
+                Walk(t.GetProperty("ModulatorIDSource")!.GetValue(o), path + ".ModulatorID", seen, depth + 1, found);
+                Walk(t.GetProperty("BoundOutputNameSource")!.GetValue(o), path + ".BoundOutputName", seen, depth + 1, found);
                 return;
             }
 
@@ -62,6 +66,8 @@ namespace CMiX.Core.Tests
             {
                 if (p.GetIndexParameters().Length > 0 || !p.CanRead) continue;
                 if (p.Name is "PrefabService" or "ControlRepository" or "UndoManager" or "ControlMessenger" or "MessageFactory") continue;
+                // A control points to these objects of the project, but does not own their values.
+                if (p.Name is "Project" or "MasterBeat" or "SelectedOutputMapping") continue;
                 object value;
                 try { value = p.GetValue(o); } catch { continue; }
                 if (value == null || value is string || value.GetType().IsPrimitive || value.GetType().IsEnum || value is Guid) continue;
