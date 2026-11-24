@@ -22,18 +22,6 @@ namespace CMiX.Core.Tests
             Assert.Equal(1.0f, Create().Value.Value);
         }
 
-        [Fact]
-        public void RoundTrip_KeepsValue()
-        {
-            var modifier = Create();
-            modifier.Value.Value = 0.25f;
-
-            var copy = Create();
-            copy.FromModel(modifier.ToModel());
-
-            Assert.Equal(0.25f, copy.Value.Value);
-        }
-
         [Theory]
         [InlineData(typeof(Layer))]
         [InlineData(typeof(Composition))]

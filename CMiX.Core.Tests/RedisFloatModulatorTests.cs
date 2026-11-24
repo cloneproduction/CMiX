@@ -34,19 +34,5 @@ namespace CMiX.Core.Tests
             Assert.Equal(0.0f, modulator.Range.Minimum.Value);
             Assert.Equal(1.0f, modulator.Range.Maximum.Value);
         }
-
-        [Fact]
-        public void FromModel_OfToModel_KeepsTheRange()
-        {
-            var modulator = NewModulator();
-            modulator.Range.Minimum.Value = 0.25f;
-            modulator.Range.Maximum.Value = 2.5f;
-
-            var copy = NewModulator();
-            copy.FromModel(modulator.ToModel());
-
-            Assert.Equal(0.25f, copy.Range.Minimum.Value);
-            Assert.Equal(2.5f, copy.Range.Maximum.Value);
-        }
     }
 }

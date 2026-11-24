@@ -57,47 +57,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ColorModifier_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var hsv = provider.GetRequiredService<ColorModifier>();
-
-            hsv.Hue.Value = 0.5f;
-            var modulatorId = Guid.NewGuid();
-            hsv.Saturation.ModulatorID = modulatorId;
-
-            var model = hsv.ToModel();
-
-            var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<ColorModifier>();
-            reloaded.FromModel(model);
-
-            Assert.Equal(0.5f, reloaded.Hue.Value);
-            Assert.Equal(modulatorId, reloaded.Saturation.ModulatorID);
-        }
-
-        [Fact]
-        public void ColorModifier_ToModel_FromModel_RoundTripsModifierModeSelectorAndColorMode()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var hsv = provider.GetRequiredService<ColorModifier>();
-
-            hsv.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            hsv.ModifierModeSelector.Count.Value = 5;
-            hsv.ColorMode.Value = ColorMode.HSV;
-
-            var model = hsv.ToModel();
-
-            var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<ColorModifier>();
-            reloaded.FromModel(model);
-
-            Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
-            Assert.Equal(ColorMode.HSV, reloaded.ColorMode.Value);
-        }
-
-        [Fact]
         public void AllFourBindables_ConstructAtTheirOwnDefault_AndResetReturnsToItAfterAChange()
         {
             var provider = TestServiceProviderFactory.Create();

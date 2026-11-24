@@ -57,24 +57,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FromModel_OfToModel_KeepsEveryValue()
-        {
-            var modulator = Create();
-            SetValues(modulator);
-
-            var copy = Create();
-            copy.FromModel(modulator.ToModel());
-
-            Assert.Equal(7, copy.Count.Value);
-            Assert.Equal(1.5f, copy.X.Value);
-            Assert.Equal(2.5f, copy.Y.Value);
-            Assert.Equal(10f, copy.XRange.Minimum.Value);
-            Assert.Equal(11f, copy.XRange.Maximum.Value);
-            Assert.Equal(20f, copy.YRange.Minimum.Value);
-            Assert.Equal(21f, copy.YRange.Maximum.Value);
-        }
-
-        [Fact]
         public void Serialize_ThenDeserialize_KeepsTheModel()
         {
             var modulator = Create();

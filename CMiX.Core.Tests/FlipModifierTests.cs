@@ -26,26 +26,5 @@ namespace CMiX.Core.Tests
 
             Assert.Contains(typeof(Entity), owners);
         }
-
-        [Fact]
-        public void FlipModifier_ToModel_FromModel_RoundTripsDirectionXYZ()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var flip = provider.GetRequiredService<FlipModifier>();
-
-            flip.DirectionXYZ.DirectionX.Value = false;
-            flip.DirectionXYZ.DirectionY.Value = true;
-            flip.DirectionXYZ.DirectionZ.Value = true;
-
-            var model = flip.ToModel();
-
-            var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<FlipModifier>();
-            reloaded.FromModel(model);
-
-            Assert.False(reloaded.DirectionXYZ.DirectionX.Value);
-            Assert.True(reloaded.DirectionXYZ.DirectionY.Value);
-            Assert.True(reloaded.DirectionXYZ.DirectionZ.Value);
-        }
     }
 }

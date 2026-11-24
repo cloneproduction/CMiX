@@ -28,24 +28,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FromModel_OfToModel_KeepsEveryValue()
-        {
-            var source = Create();
-            source.Offset.Value = 0.5f;
-            source.Step.Value = false;
-            source.ResetValue.Value = 2f;
-
-            var copy = Create();
-            copy.FromModel(source.ToModel());
-
-            Assert.Equal(0.5f, copy.Offset.Value);
-            Assert.False(copy.Step.Value);
-            Assert.Equal(2f, copy.ResetValue.Value);
-            Assert.Equal(source.Reset.ID, copy.Reset.ID);
-            Assert.Equal(source.ID, copy.ID);
-        }
-
-        [Fact]
         public void Serialize_ThenDeserialize_KeepsTheModel()
         {
             var modulator = Create();

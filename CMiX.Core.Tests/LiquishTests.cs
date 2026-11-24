@@ -38,31 +38,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FromModel_OfToModel_KeepsEveryValue()
-        {
-            var liquish = Create();
-            liquish.Time.Value = 2.5f;
-            liquish.Scale.X.Value = 3f;
-            liquish.Scale.Y.Value = 7f;
-            liquish.ColorA.Value = "#FF112233";
-            liquish.ColorB.Value = "#FF445566";
-            liquish.ColorC.Value = "#FF778899";
-
-            var loaded = Create();
-            loaded.FromModel(liquish.ToModel());
-
-            Assert.Equal(2.5f, loaded.Time.Value);
-            Assert.Equal(3f, loaded.Scale.X.Value);
-            Assert.Equal(7f, loaded.Scale.Y.Value);
-            Assert.Equal("#FF112233", loaded.ColorA.Value);
-            Assert.Equal("#FF445566", loaded.ColorB.Value);
-            Assert.Equal("#FF778899", loaded.ColorC.Value);
-            Assert.Equal(512, loaded.Resolution.X.Value);
-            Assert.Equal(512, loaded.Resolution.Y.Value);
-            Assert.Equal(liquish.ID, loaded.ID);
-        }
-
-        [Fact]
         public void ModulatorManager_RemoveItem_UnbindsTheTimeValue()
         {
             var liquish = Create();

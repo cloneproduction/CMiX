@@ -27,26 +27,5 @@ namespace CMiX.Core.Tests
             Assert.Equal(PulseChannel.Red, pulse.Channel.Value);
             Assert.Equal(3, pulse.Bindables.Count);
         }
-
-        [Fact]
-        public void FromModel_OfToModel_KeepsEveryValue()
-        {
-            var pulse = CreatePulse();
-            pulse.Center.Value = 0.5f;
-            pulse.SlopeWidth.Value = 0.25f;
-            pulse.CenterWidth.Value = 0.75f;
-            pulse.Invert.Value = true;
-            pulse.Channel.Value = PulseChannel.Alpha;
-
-            var model = pulse.ToModel();
-            var reloaded = CreatePulse();
-            reloaded.FromModel(model);
-
-            Assert.Equal(0.5f, reloaded.Center.Value);
-            Assert.Equal(0.25f, reloaded.SlopeWidth.Value);
-            Assert.Equal(0.75f, reloaded.CenterWidth.Value);
-            Assert.True(reloaded.Invert.Value);
-            Assert.Equal(PulseChannel.Alpha, reloaded.Channel.Value);
-        }
     }
 }

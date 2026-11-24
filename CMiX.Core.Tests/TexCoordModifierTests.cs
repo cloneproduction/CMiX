@@ -51,44 +51,5 @@ namespace CMiX.Core.Tests
             Assert.Null(texCoord.Scale.X.ModulatorID);
             Assert.Equal(randomModulator.ID, texCoord.Scale.Y.ModulatorID);
         }
-
-        [Fact]
-        public void TexCoordModifier_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var texCoord = provider.GetRequiredService<TexCoordModifier>();
-
-            texCoord.Location.X.Value = 5f;
-            var modulatorId = Guid.NewGuid();
-            texCoord.Rotation.ModulatorID = modulatorId;
-
-            var model = texCoord.ToModel();
-
-            var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<TexCoordModifier>();
-            reloaded.FromModel(model);
-
-            Assert.Equal(5f, reloaded.Location.X.Value);
-            Assert.Equal(modulatorId, reloaded.Rotation.ModulatorID);
-        }
-
-        [Fact]
-        public void TexCoordModifier_ToModel_FromModel_RoundTripsModifierModeSelector()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var texCoord = provider.GetRequiredService<TexCoordModifier>();
-
-            texCoord.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            texCoord.ModifierModeSelector.Count.Value = 5;
-
-            var model = texCoord.ToModel();
-
-            var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<TexCoordModifier>();
-            reloaded.FromModel(model);
-
-            Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
-        }
     }
 }

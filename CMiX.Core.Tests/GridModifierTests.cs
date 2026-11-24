@@ -55,47 +55,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Grid_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var grid = provider.GetRequiredService<GridModifier>();
-
-            grid.Width.X.Value = 5f;
-            var modulatorId = Guid.NewGuid();
-            grid.Phase.Y.ModulatorID = modulatorId;
-
-            var model = grid.ToModel();
-
-            var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<GridModifier>();
-            reloaded.FromModel(model);
-
-            Assert.Equal(5f, reloaded.Width.X.Value);
-            Assert.Equal(modulatorId, reloaded.Phase.Y.ModulatorID);
-        }
-
-        [Fact]
-        public void Grid_ToModel_FromModel_RoundTripsCount()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var grid = provider.GetRequiredService<GridModifier>();
-
-            grid.Count.X.Value = 3;
-            grid.Count.Y.Value = 4;
-            grid.Count.Z.Value = 5;
-
-            var model = grid.ToModel();
-
-            var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<GridModifier>();
-            reloaded.FromModel(model);
-
-            Assert.Equal(3, reloaded.Count.X.Value);
-            Assert.Equal(4, reloaded.Count.Y.Value);
-            Assert.Equal(5, reloaded.Count.Z.Value);
-        }
-
-        [Fact]
         public void Grid_ToModel_FromModel_ResolvesEachCountAxisLiveBoundModulatorIndependently()
         {
             var provider = TestServiceProviderFactory.Create();

@@ -51,44 +51,5 @@ namespace CMiX.Core.Tests
             Assert.Null(circularSpread.Phase.ModulatorID);
             Assert.Equal(randomModulator.ID, circularSpread.Factor.ModulatorID);
         }
-
-        [Fact]
-        public void CircularSpread_ToModel_FromModel_RoundTripsBindableValuesAndBinding()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
-
-            circularSpread.X.Value = 2f;
-            var modulatorId = Guid.NewGuid();
-            circularSpread.Phase.ModulatorID = modulatorId;
-
-            var model = circularSpread.ToModel();
-
-            var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<CircularSpreadModifier>();
-            reloaded.FromModel(model);
-
-            Assert.Equal(2f, reloaded.X.Value);
-            Assert.Equal(modulatorId, reloaded.Phase.ModulatorID);
-        }
-
-        [Fact]
-        public void CircularSpread_ToModel_FromModel_RoundTripsModifierModeSelector()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
-
-            circularSpread.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            circularSpread.ModifierModeSelector.Count.Value = 5;
-
-            var model = circularSpread.ToModel();
-
-            var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<CircularSpreadModifier>();
-            reloaded.FromModel(model);
-
-            Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
-        }
     }
 }

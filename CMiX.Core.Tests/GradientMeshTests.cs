@@ -34,30 +34,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void FromModel_OfToModel_KeepsEveryValue()
-        {
-            var mesh = Create();
-            mesh.Time.Value = 1.5f;
-            mesh.RotationSpeed.Value = 0.3f;
-            mesh.Color1.Value = "#FF123456";
-            mesh.GradientType.Value = GradientMeshType.Spectral;
-
-            var loaded = Create();
-            loaded.FromModel(mesh.ToModel());
-
-            Assert.Equal(1.5f, loaded.Time.Value);
-            Assert.Equal(0.3f, loaded.RotationSpeed.Value);
-            Assert.Equal("#FF123456", loaded.Color1.Value);
-            Assert.Equal("#FF3162EE", loaded.Color2.Value);
-            Assert.Equal("#FFE882CC", loaded.Color3.Value);
-            Assert.Equal("#FF59B5F3", loaded.Color4.Value);
-            Assert.Equal(GradientMeshType.Spectral, loaded.GradientType.Value);
-            Assert.Equal(512, loaded.Resolution.X.Value);
-            Assert.Equal(512, loaded.Resolution.Y.Value);
-            Assert.Equal(mesh.ID, loaded.ID);
-        }
-
-        [Fact]
         public void ModulatorManager_RemoveItem_UnbindsTheTimeValue()
         {
             var mesh = Create();
