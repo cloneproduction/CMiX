@@ -2,7 +2,6 @@
 using System.Collections.Specialized;
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Undo;
@@ -16,13 +15,12 @@ namespace CMiX.Core.Prefabs.Managers
         public PrefabManager(CollectionManager collection,
                              ControlFactory controlFactory,
                              MessageCollectionManagerHandler messageHandler,
-                             ControlMessenger controlMessenger,
-                             MessageFactory messageFactory,
+                             ItemListFactory listFor,
                              ControlActivationService activationService,
                              GenericValue<bool> hidden,
                              UndoManager undoManager,
                              ManagerReorderServiceFactory reorderServiceFactory = null)
-            : base(collection.ControlRepository, controlMessenger, messageFactory, activationService, undoManager)
+            : base(collection.ControlRepository, activationService, undoManager)
         {
             ID = collection.ManagerData.ID;
 
@@ -33,7 +31,8 @@ namespace CMiX.Core.Prefabs.Managers
             UpdateHiddenId();
             collection.ManagerData.IdChanged += UpdateHiddenId;
             _messageHandler = messageHandler;
-            _sync = new CollectionSync(collection, controlMessenger, messageFactory);
+            _listFor = listFor;
+            _sync = listFor(collection);
             Collection.ManagerData.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(ManagerData.SelectedItem))
@@ -53,6 +52,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         private readonly ControlFactory _controlFactory;
         private readonly MessageCollectionManagerHandler _messageHandler;
+        private readonly ItemListFactory _listFor;
         private readonly CollectionSync _sync;
 
         public CollectionManager Collection { get; set; }
@@ -198,7 +198,7 @@ namespace CMiX.Core.Prefabs.Managers
         private void RemoveFrom(CollectionManager collectionManager, IControl control)
         {
             if (!collectionManager.ManagerData.Items.Contains(control)) return;
-            Run(new RemoveItemUndoCommand(new CollectionSync(collectionManager, ControlMessenger, MessageFactory), control));
+            Run(new RemoveItemUndoCommand(_listFor(collectionManager), control));
         }
 
         // Swaps in a fresh instance at the same position as one undoable remove and add.

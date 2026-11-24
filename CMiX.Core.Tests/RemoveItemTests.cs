@@ -260,7 +260,7 @@ namespace CMiX.Core.Tests
             var items = layers.ManagerData.Items.ToList();
 
             var added = provider.GetRequiredService<ControlFactory>().Create(typeof(Layer));
-            var sync = new CollectionSync(layers.Collection, layers.ControlMessenger, layers.MessageFactory);
+            var sync = provider.GetRequiredService<ItemListFactory>()(layers.Collection);
             var command = new AddItemUndoCommand(sync, added, 1);
 
             command.Execute();

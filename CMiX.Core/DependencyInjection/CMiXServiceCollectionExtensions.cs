@@ -47,6 +47,8 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<MessageCollectionManagerHandler>();
             services.AddTransient<ManagerData>();
             services.AddTransient<CollectionManager>();
+            services.AddSingleton<ItemListFactory>(sp => collection =>
+                new CollectionSync(collection, sp.GetRequiredService<ControlMessenger>(), sp.GetRequiredService<MessageFactory>()));
 
             services.AddSingleton<ISyncTarget, ProjectSyncTarget>();
             services.AddSingleton<Func<SyncOptions, ISyncStore>>(_ => options => new RedisSyncStore(options));
