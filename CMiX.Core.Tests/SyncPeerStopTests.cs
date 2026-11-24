@@ -19,14 +19,16 @@ namespace CMiX.Core.Tests
     // Stop and the connection state: no wait, no late store call, no store call on the dispatcher thread. The store is in memory. Peers apply inline, because no dispatcher is set.
     public class SyncPeerStopTests
     {
+        // A call that returns at once returns before this delay ends. A call that waits for the store returns after the stop timeout.
+        private static readonly TimeSpan AtOnce = TimeSpan.FromMilliseconds(50);
+
         [Fact]
         public void StartAndStop_WhenTheStoreNeverConnects_ReturnAtOnce()
         {
             var messenger = new ControlMessenger();
             using var peer = CreatePeer(new RecordingSyncTarget(), new HangingSyncStore(), messenger);
 
-            // Each call must return before the stop timeout ends. A call that waits for the store would return after it.
-            var timeout = Task.Delay(Fast.StopTimeout);
+            var timeout = Task.Delay(AtOnce);
             peer.StartAndJoin(Options("A"));
             peer.SendMessage(new MessageOnClick(Guid.NewGuid()));
             Assert.False(timeout.IsCompleted);
@@ -34,7 +36,7 @@ namespace CMiX.Core.Tests
             Assert.True(messenger.IsSendingBlocked);
             Assert.Equal(1, peer.PendingMessages);
 
-            timeout = Task.Delay(Fast.StopTimeout);
+            timeout = Task.Delay(AtOnce);
             peer.Stop();
             Assert.False(timeout.IsCompleted);
             Assert.Equal("Not started", peer.Status);
@@ -56,7 +58,7 @@ namespace CMiX.Core.Tests
             peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
-            var timeout = Task.Delay(Fast.StopTimeout);
+            var timeout = Task.Delay(AtOnce);
             peer.Stop();
             var returnedBeforeTheTimeout = !timeout.IsCompleted;
 
@@ -64,7 +66,7 @@ namespace CMiX.Core.Tests
             dispatcher.Post(() => probe.SetResult(true));
             Assert.Same(probe.Task, await Task.WhenAny(probe.Task, Task.Delay(5000)));
 
-            Assert.True(returnedBeforeTheTimeout, "Stop waited for the stop timeout.");
+            Assert.True(returnedBeforeTheTimeout, "Stop did not return at once.");
             Assert.Equal(StreamPosition.Zero, peer.LastSentId);
             Assert.Equal(StreamPosition.Zero, peer.LastAppliedId);
             Assert.Equal(StreamPosition.Zero, peer.TailId);
