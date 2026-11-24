@@ -5,6 +5,7 @@ using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Popups;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -12,19 +13,11 @@ namespace CMiX.UI.Tests
     // ButtonIcon is a Button with one icon. Its Tip is its tooltip.
     public class ButtonIconTests
     {
-        private static Window Show(Control content)
-        {
-            var window = new Window { Content = content, Width = 100, Height = 100 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
         [AvaloniaFact]
         public void IconKey_Set_ShowsTheIcon()
         {
             var button = new ButtonIcon { IconKey = "Add" };
-            Show(button);
+            TestWindow.Show(button, 100, 100);
 
             var icon = button.GetVisualDescendants().OfType<AppIcon>().Single();
             Assert.Equal("Add", icon.IconKey);
@@ -92,7 +85,7 @@ namespace CMiX.UI.Tests
         {
             var command = new CommunityToolkit.Mvvm.Input.RelayCommand(() => { }, () => false);
             var button = new ButtonIcon { IconKey = "Remove", Tip = "Remove", DisabledReason = "Nothing to remove.", Command = command };
-            Show(button);
+            TestWindow.Show(button, 100, 100);
 
             Assert.False(button.IsEffectivelyEnabled);
             Assert.Equal(new TipContent("Remove", Reason: "Nothing to remove."), ToolTip.GetTip(button));

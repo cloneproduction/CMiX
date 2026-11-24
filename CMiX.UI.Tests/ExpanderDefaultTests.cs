@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using CMiX.UI.Panels;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -19,9 +20,7 @@ namespace CMiX.UI.Tests
         public void Show_AnExpanderInTheTheme_IsOpenByDefault()
         {
             var expander = new Expander { Header = "Peers", Content = new Border() };
-            var window = new Window { Content = expander, Width = 200, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(expander, 200, 200);
 
             Assert.True(expander.IsExpanded);
         }

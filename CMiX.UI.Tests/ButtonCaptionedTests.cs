@@ -13,14 +13,6 @@ namespace CMiX.UI.Tests
     // ButtonCaptioned is a real Button. Its Caption is the label, unless a Content is set.
     public class ButtonCaptionedTests
     {
-        private static Window Show(Control content)
-        {
-            var window = new Window { Content = content, Width = 300, Height = 100 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
         [AvaloniaFact]
         public void IsARealButton()
         {
@@ -60,7 +52,7 @@ namespace CMiX.UI.Tests
         {
             var ran = 0;
             var button = new ButtonCaptioned { Caption = "Apply", Command = new RelayCommand(() => ran++) };
-            var window = Show(button);
+            var window = TestWindow.Show(button, 300, 100);
 
             PointerInput.Click(window, button, MouseButton.Left);
 
@@ -71,7 +63,7 @@ namespace CMiX.UI.Tests
         public void ShowsTheCaptionOnScreen()
         {
             var button = new ButtonCaptioned { Caption = "Apply" };
-            Show(button);
+            TestWindow.Show(button, 300, 100);
 
             var text = button.GetVisualDescendants().OfType<TextBlock>().Single();
 

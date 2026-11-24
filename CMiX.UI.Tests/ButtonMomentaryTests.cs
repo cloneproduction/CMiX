@@ -15,14 +15,6 @@ namespace CMiX.UI.Tests
     // ButtonMomentary is a real Button. Its Value is true only while the pointer holds it down.
     public class ButtonMomentaryTests
     {
-        private static Window Show(Control content)
-        {
-            var window = new Window { Content = content, Width = 300, Height = 100 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
         [AvaloniaFact]
         public void Create_TheMomentaryButton_IsAButton()
         {
@@ -33,7 +25,7 @@ namespace CMiX.UI.Tests
         public void Press_SetsTheValueTrue_AndReleaseSetsItFalse()
         {
             var button = new ButtonMomentary();
-            var window = Show(button);
+            var window = TestWindow.Show(button, 300, 100);
 
             PointerInput.Press(window, button, MouseButton.Left);
             Assert.True(button.Value);
@@ -46,7 +38,7 @@ namespace CMiX.UI.Tests
         public void Value_SetFromOutside_ShowsTheHeldState()
         {
             var button = new ButtonMomentary();
-            Show(button);
+            TestWindow.Show(button, 300, 100);
             var border = button.GetVisualDescendants().OfType<Border>().First(b => b.Name == "border");
             Color Current() => ((ISolidColorBrush)border.Background!).Color;
 
@@ -63,7 +55,7 @@ namespace CMiX.UI.Tests
         public void Button_WithoutResetCommand_HasNoMenu()
         {
             var button = new ButtonMomentary();
-            Show(button);
+            TestWindow.Show(button, 300, 100);
 
             Assert.Null(button.ContextMenu);
         }
@@ -73,7 +65,7 @@ namespace CMiX.UI.Tests
         {
             var ran = false;
             var button = new ButtonMomentary { ResetCommand = new RelayCommand(() => ran = true) };
-            Show(button);
+            TestWindow.Show(button, 300, 100);
 
             button.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, "Reset")).Command!.Execute(null);
 

@@ -6,6 +6,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Enum;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -46,8 +47,7 @@ namespace CMiX.UI.Tests
             combo.Bind(ComboBoxCaptioned.SelectedItemProperty, new Binding("Selected", BindingMode.TwoWay) { Source = model });
             if (items != null)
                 combo.ItemsSource = items;
-            new Window { Content = combo, Width = 400, Height = 100 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(combo, 400, 100);
             return combo;
         }
 

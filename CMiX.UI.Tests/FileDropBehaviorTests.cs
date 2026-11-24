@@ -34,10 +34,7 @@ namespace CMiX.UI.Tests
             var target = new Border { Background = Avalonia.Media.Brushes.Gray, Width = 200, Height = 100 };
             var drop = new FileDropBehavior { Mode = mode };
             Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(target).Add(drop);
-            var window = new Window { Content = target, Width = 300, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, target, drop);
+            return (TestWindow.Show(target, 300, 200), target, drop);
         }
 
         private static void Drag(Window window, Border target, RawDragEventType type, IDataObject data)
@@ -131,9 +128,7 @@ namespace CMiX.UI.Tests
             var target = new Border { Background = Avalonia.Media.Brushes.Gray, Width = 200, Height = 100 };
             var drop = new CountingDrop();
             Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(target).Add(drop);
-            var window = new Window { Content = target, Width = 300, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(target, 300, 200);
             IReadOnlyList<string>? received = null;
             drop.PathsDropped += (s, e) => received = e.Paths;
             var data = FakeStorageItem.Drag(window, _file);

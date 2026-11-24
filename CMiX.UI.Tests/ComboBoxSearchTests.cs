@@ -6,6 +6,7 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -19,8 +20,7 @@ namespace CMiX.UI.Tests
         {
             var combo = new ComboBox { ItemsSource = Modes, Width = 200 };
             ComboBoxSearch.SetIsSearchable(combo, searchable);
-            var window = new Window { Content = combo, Width = 400, Height = 400 };
-            window.Show();
+            var window = TestWindow.Show(combo, 400, 400);
             combo.IsDropDownOpen = true;
             Dispatcher.UIThread.RunJobs();
             window.UpdateLayout();
@@ -80,11 +80,7 @@ namespace CMiX.UI.Tests
         }
 
 
-        private static void Press(ComboBox combo, Key key)
-        {
-            BoxOf(combo).RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = key });
-            Dispatcher.UIThread.RunJobs();
-        }
+        private static void Press(ComboBox combo, Key key) => KeyInput.Press(BoxOf(combo), key);
 
         [AvaloniaFact]
         public void Press_DownAfterASearch_MovesTheHighlightAndEnterPicksThatRow()

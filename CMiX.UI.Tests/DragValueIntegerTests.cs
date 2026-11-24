@@ -12,14 +12,6 @@ namespace CMiX.UI.Tests
     // DragValueInteger is a DragValue that starts as a whole number editor. It takes the same bindings.
     public class DragValueIntegerTests
     {
-        private static Window Host(Control content)
-        {
-            var window = new Window { Content = content, Width = 300, Height = 100 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
         [AvaloniaFact]
         public void DragValueInteger_StartsAsWholeNumbers_WithStepsOfOne()
         {
@@ -47,7 +39,7 @@ namespace CMiX.UI.Tests
             var model = new NumberValue(4);
             var box = new DragValueInteger { DataContext = model };
             box.Bind(DragValue.ValueProperty, new Binding("Value", BindingMode.TwoWay));
-            Host(box);
+            TestWindow.Show(box, 300, 100);
 
             model.Value += 7;
             Dispatcher.UIThread.RunJobs();
@@ -67,7 +59,7 @@ namespace CMiX.UI.Tests
                 ResetCommand = new RelayCommand(() => ran += "reset"),
                 ResetAllCommand = new RelayCommand(() => ran += "all")
             };
-            Host(box);
+            TestWindow.Show(box, 300, 100);
 
             var headers = box.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Select(i => i.Header).ToList();
             Assert.Equal(new object?[] { "Reset", "Reset All" }, headers);

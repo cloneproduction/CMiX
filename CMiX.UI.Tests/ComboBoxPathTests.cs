@@ -33,15 +33,7 @@ namespace CMiX.UI.Tests
         private static (Window Window, ComboBoxPath Selector) Show()
         {
             var selector = new ComboBoxPath();
-            var window = new Window { Content = selector, Width = 400, Height = 100 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-
-            // The headless renderer cannot hit test through a geometry clip, such as the rounded clip of a BorderMask.
-            foreach (var visual in window.GetVisualDescendants().Where(v => v.Clip != null))
-                visual.Clip = null;
-            Dispatcher.UIThread.RunJobs();
-            return (window, selector);
+            return (TestWindow.ShowWithoutClips(selector, 400, 100), selector);
         }
 
         private static void DropOnTheList(Window window, ComboBoxPath selector, IDataObject data)
