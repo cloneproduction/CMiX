@@ -64,10 +64,12 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 Session.Cancel();
         }
 
+        // A press that ListTreeRowClick stopped, or a Ctrl or Shift press that changes the selection, starts no drag.
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             pressed = null;
-            if (tree is not { } pressedTree || Session.IsRunning || Context.InputOwner != ListTreeInputOwner.None || !e.GetCurrentPoint(Rows).Properties.IsLeftButtonPressed || ListTreeRowClick.IsEditor(e.Source))
+            if (e.Handled || tree is not { } pressedTree || Session.IsRunning || Context.InputOwner != ListTreeInputOwner.None || !e.GetCurrentPoint(Rows).Properties.IsLeftButtonPressed
+                || ChangesTheSelection(e.KeyModifiers) || ListTreeRowClick.IsEditor(e.Source))
                 return;
 
             if (RowListTree.Of(e.Source) is { DataContext: TreeNode node, Place: { } place } && pressedTree.CanDrag(node))
@@ -149,6 +151,8 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             if (ReferenceEquals(captured?.Captured, Scroller))
                 captured.Capture(null);
         }
+
+        private static bool ChangesTheSelection(KeyModifiers modifiers) => modifiers.HasFlag(KeyModifiers.Control) || modifiers.HasFlag(KeyModifiers.Shift);
 
         private ListTreePoint PointOf(PointerEventArgs e) => Context.ToRows(e.GetPosition(Scroller));
 

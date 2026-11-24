@@ -237,5 +237,32 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(view.RowDrag.IsDragging);
             Assert.False(scene.Tree.IsDragging);
         }
+
+        [AvaloniaTheory]
+        [InlineData(RawInputModifiers.Control)]
+        [InlineData(RawInputModifiers.Shift)]
+        public void Press_WithCtrlOrShiftThenMove_StartsNoDrag(RawInputModifiers modifiers)
+        {
+            TreeDrag.Render(window);
+            pressY = Panel.Layout.PlaceOf(ListTreeKeys.Of(Entity(0)))!.Y + 16;
+            window.MouseDown(InWindow(PressX, pressY), MouseButton.Left, modifiers);
+
+            MoveTo(PressX, pressY + 8);
+
+            Assert.False(view.RowDrag.IsDragging);
+        }
+
+        [AvaloniaFact]
+        public void Press_WithCtrlOnTheIconOfACardThenMove_StartsNoDrag()
+        {
+            TreeDrag.Render(window);
+            var row = Assert.IsType<RowListTree>(Panel.RowOf(scene.LayerNodeOfA(0)));
+            var icon = row.IconHit.TranslatePoint(new Point(row.IconHit.Bounds.Width / 2, row.IconHit.Bounds.Height / 2), window)!.Value;
+            window.MouseDown(icon, MouseButton.Left, RawInputModifiers.Control);
+
+            TreeDrag.MoveTo(window, new Point(icon.X, icon.Y + 8));
+
+            Assert.False(view.RowDrag.IsDragging);
+        }
     }
 }
