@@ -2,7 +2,7 @@
 
 Goal: the folder `CMiX.Studio.Avalonia/Services` goes away. Its types move into folders that carry the name of their job. Each file holds one type. The names of one family use one word. The startup registration is written once. The rules of this plan go into `.claude/CLAUDE.md`, so the next type lands in the right place without a discussion.
 
-The analysis read the code on branch `refactor/tree-structure` on 2026-11-24. Nothing in this file is built yet.
+The analysis read the code on branch `refactor/tree-structure` on 2026-11-24. The plan was built on the same day. The folder is gone and the rules are in `.claude/CLAUDE.md`, section "Folders and names of the Studio".
 
 ## 1. Findings
 
