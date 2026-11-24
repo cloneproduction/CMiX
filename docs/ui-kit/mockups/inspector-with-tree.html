@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inspector with the tree</title>
+<!-- Mockup: the tree in the look of version 55 of nested-boxes.html at the left, the new inspector at the right, as in the app.
+     Layer 1 is selected in the tree and the inspector shows it. The inspector is inspector.html#after in a frame, so it has one source.
+     Values follow docs/tree-port-plan.md section 3. It links the kit and copies nothing. -->
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../cmix.css">
+<script src="../tokens.js"></script>
+<script src="../icons.js"></script>
+<script src="../cmix.js"></script>
+<style>
+    body { margin: 0; height: 100vh; display: flex; background: var(--Grey100Brush); }
+    .tree { width: 320px; flex: none; padding: 8px 0 8px 8px; background: var(--TreeBackground); overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
+    .split { width: 4px; flex: none; background: var(--Grey200); }
+    .inspector { width: 340px; flex: none; border: 0; background: var(--Grey100); }
+    .rest { flex: 1; }
+
+    /* A row: 32 px, full width; the indent moves only the content. The band is white 5 % from the content indent. */
+    .r { --d: 0; position: relative; height: 32px; flex: none; }
+    .b { position: absolute; top: 0; bottom: 0; left: calc(var(--d) * 16px + 2px); right: 0; display: flex; align-items: center; border-radius: 2px; background: rgba(255, 255, 255, .05); color: #B6B6BB; font-size: 12px; }
+    .b .AppIcon { width: 16px; height: 16px; margin: 0 8px; color: var(--k); fill: var(--k); }
+    .b .nm { padding: 0 6px 0 0; }
+    .card > .r .nm, .r.card-h .nm { font-weight: 600; }
+    /* Count squares of a closed card: the kind icon and the number, on white 7 %. */
+    .cs { display: flex; gap: 3px; margin-left: 4px; }
+    .cs span { display: flex; align-items: center; gap: 2px; height: 16px; padding: 0 4px 0 2px; border-radius: 2px; background: rgba(255, 255, 255, .07); color: var(--TreeTextRest); font-size: 10px; }
+    .cs .AppIcon { width: 12px; height: 12px; margin: 0; }
+    /* The toggles: inside the row at the right, mask then eye, 8 px apart, a column of 72 px. */
+    .tg { position: absolute; right: 4px; top: 0; height: 32px; width: 72px; display: flex; justify-content: flex-end; align-items: center; gap: 8px; z-index: 1; }
+    .tg .AppIcon { width: 16px; height: 16px; margin: 0; color: var(--TreeTextRest); fill: var(--TreeTextRest); opacity: .9; }
+    .tg i.off { visibility: hidden; }
+
+    /* A card: its header and its children. The selected card: area white 12 %, a 3 px left border in the full kind colour down its full height, white text. */
+    .card { display: flex; flex-direction: column; gap: 3px; }
+    .card.sel { position: relative; }
+    .card.sel::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--d) * 16px + 2px); right: 0; border-radius: 2px; background: rgba(255, 255, 255, .12); box-shadow: inset 3px 0 0 var(--k); }
+    .card.sel > .r:first-child .b { background: none; }
+    .card.sel .b { color: var(--ActiveText); }
+    .card.sel .tg .AppIcon { color: var(--ActiveText); fill: var(--ActiveText); opacity: 1; }
+</style>
+</head>
+<body class="cmix">
+<div class="tree">
+  <div class="card" style="--k:var(--CategoryComposable0)">
+    <div class="r" style="--d:0"><div class="b"><i class="AppIcon" data-icon-key="Composition"></i><span class="nm">Composition 1</span></div><div class="tg"><i class="AppIcon" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+
+    <div class="card sel" style="--d:1;--k:var(--CategoryComposable1)">
+      <div class="r" style="--d:1"><div class="b"><i class="AppIcon" data-icon-key="LayerScene"></i><span class="nm">Layer 1</span></div><div class="tg"><i class="AppIcon" data-icon-key="MaskOff"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+      <div class="r" style="--d:2;--k:var(--CategoryEntity)"><div class="b"><i class="AppIcon" data-icon-key="Cube"></i><span class="nm">Cube</span></div><div class="tg"><i class="AppIcon off" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+      <div class="r" style="--d:2;--k:var(--CategoryEntity)"><div class="b"><i class="AppIcon" data-icon-key="TextIcon"></i><span class="nm">Title</span></div><div class="tg"><i class="AppIcon off" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+      <div class="r" style="--d:2;--k:var(--CategoryCamera)"><div class="b"><i class="AppIcon" data-icon-key="Camera"></i><span class="nm">Camera 1</span></div><div class="tg"><i class="AppIcon off" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+      <div class="r" style="--d:2;--k:var(--CategoryLight)"><div class="b"><i class="AppIcon" data-icon-key="MeshLight"></i><span class="nm">Key light</span></div><div class="tg"><i class="AppIcon off" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+    </div>
+
+    <div class="r" style="--d:1;--k:var(--CategoryComposable1)"><div class="b"><i class="AppIcon" data-icon-key="LayerScene"></i><span class="nm" style="font-weight:600">Layer 2</span><span class="cs"><span style="--k:var(--CategoryEntity)"><i class="AppIcon" data-icon-key="Cube"></i>3</span><span style="--k:var(--CategoryCamera)"><i class="AppIcon" data-icon-key="Camera"></i>1</span></span></div><div class="tg"><i class="AppIcon" data-icon-key="MaskOff"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+    <div class="r" style="--d:1;--k:var(--CategoryComposable1)"><div class="b"><i class="AppIcon" data-icon-key="LayerScene"></i><span class="nm" style="font-weight:600">Background</span><span class="cs"><span style="--k:var(--CategoryEntity)"><i class="AppIcon" data-icon-key="Cube"></i>1</span></span></div><div class="tg"><i class="AppIcon" data-icon-key="MaskOff"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+  </div>
+
+  <div class="r" style="--d:0;--k:var(--CategoryComposable0)"><div class="b"><i class="AppIcon" data-icon-key="Composition"></i><span class="nm" style="font-weight:600">Composition 2</span><span class="cs"><span style="--k:var(--CategoryComposable1)"><i class="AppIcon" data-icon-key="LayerScene"></i>2</span></span></div><div class="tg"><i class="AppIcon" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+</div>
+<div class="split"></div>
+<iframe class="inspector" src="inspector.html#after" title="Inspector"></iframe>
+<div class="rest"></div>
+</body>
+</html>
