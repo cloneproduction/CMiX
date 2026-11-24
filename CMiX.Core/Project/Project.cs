@@ -16,14 +16,12 @@ namespace CMiX.Core.Compositing
     {
         public Project(PrefabManager compositionManager,
                        PrefabService prefabService,
-                       UndoManager undoManager,
                        MasterBeat masterBeat,
                        OutputMappingManager outputMappingManager,
                        RedisAddressRegistry redisAddressRegistry,
                        ControlRepository controlRepository)
         {
             compositionManager.ManagerData.ID = ManagerIDs.CompositionManager;
-            compositionManager.UndoManager = undoManager;  // ← set here
             ID = ManagerIDs.CompositionManager;
             CompositionManager = compositionManager;
             PrefabService = prefabService;

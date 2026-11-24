@@ -76,7 +76,6 @@ namespace CMiX.Studio.Avalonia.Session
         private void SetupList(PrefabManager list, Guid id)
         {
             list.ManagerData.ID = id;
-            list.UndoManager = _undoManager;
             list.Activate();
         }
 

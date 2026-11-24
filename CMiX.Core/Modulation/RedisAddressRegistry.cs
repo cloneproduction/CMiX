@@ -21,7 +21,6 @@ namespace CMiX.Core.Modulation
         public RedisAddressRegistry(PrefabManager addressManager, UndoManager undoManager, ControlRepository controlRepository)
         {
             addressManager.ManagerData.ID = ManagerIDs.RedisAddressManager;
-            addressManager.UndoManager = undoManager;
             _undoManager = undoManager;
             _controlRepository = controlRepository;
             AddressManager = addressManager;
