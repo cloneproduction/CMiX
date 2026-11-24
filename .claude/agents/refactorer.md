@@ -51,8 +51,9 @@ say which it is, is the problem to fix.
   view, never does I/O, no Avalonia types.
 - View: XAML plus view-only behaviour (focus, pointer, drag). Holds no
   logic and no data.
-- Service: one capability behind an interface (toasts, dialogs, sync).
-  Holds no UI state.
+- Service: one capability, a concrete class (notices, dialogs, sync).
+  Holds no UI state. An interface only by the rule of CLAUDE.md: a test
+  replaces it, or it hides Avalonia or the platform.
 - Message: a plain record sent between parts or to the engine. No behaviour.
 
 ## Classes
@@ -77,7 +78,8 @@ say which it is, is the problem to fix.
   ARCHITECTURE.md. If it needs a comment to be understood, rename it.
 - No tuples across method boundaries: use a small named record.
 - Methods are verbs. Bool members read as questions (CanMoveUp, IsDragging).
-- Comments explain why, never what.
+- Comments: the rule of CLAUDE.md. No comment when a name can carry the
+  meaning.
 
 ## Patterns
 - Use a pattern only when it removes duplication or deletes more code than
