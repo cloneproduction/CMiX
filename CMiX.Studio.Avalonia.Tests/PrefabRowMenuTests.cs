@@ -5,6 +5,7 @@ using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -12,11 +13,15 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The menu of a row in the lists of prefabs. Each kind of list gets its own rows.
-    public class PrefabRowMenuTests
+    public class PrefabRowMenuTests : IDisposable
     {
-        private static (PrefabManager Manager, ListBox List) Show(Control view, PrefabManager manager, int itemCount)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (PrefabManager Manager, ListBox List) Show(Control view, PrefabManager manager, int itemCount)
         {
-            new Window { Content = view, Width = 500, Height = 800 }.Show();
+            windows.Add(new Window { Content = view, Width = 500, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
             for (var i = 0; i < itemCount; i++)
                 manager.AddItem(typeof(Entity));
@@ -24,13 +29,13 @@ namespace CMiX.Studio.Avalonia.Tests
             return (manager, view.GetVisualDescendants().OfType<ListBox>().First());
         }
 
-        private static (PrefabManager Manager, ListBox List) ShowSlotList(RowMenuKind kind, int itemCount)
+        private (PrefabManager Manager, ListBox List) ShowSlotList(RowMenuKind kind, int itemCount)
         {
             var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
             return Show(new ListPrefabSlot { DataContext = manager, RowMenu = kind }, manager, itemCount);
         }
 
-        private static (PrefabManager Manager, ListBox List) ShowRepositoryList(RowMenuKind kind, int itemCount)
+        private (PrefabManager Manager, ListBox List) ShowRepositoryList(RowMenuKind kind, int itemCount)
         {
             var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
             return Show(new ListRepository { DataContext = manager, ItemsSource = manager.ManagerData.Items, RowMenu = kind }, manager, itemCount);

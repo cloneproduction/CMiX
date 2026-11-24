@@ -12,6 +12,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Controls.Enum;
 using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,9 +24,13 @@ using ViewRedisIntModulator = CMiX.Studio.Avalonia.Views.RedisIntModulator;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The address combo box that the views of the three Redis modulators share, and the range of the float modulator.
-    public class RedisModulatorViewTests
+    public class RedisModulatorViewTests : IDisposable
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
+
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
 
         private RedisAddressRegistry Registry => _provider.GetRequiredService<RedisAddressRegistry>();
 
@@ -46,11 +51,11 @@ namespace CMiX.Studio.Avalonia.Tests
             return address;
         }
 
-        private static Control Show(Type viewType, RedisModulatorBase modulator)
+        private Control Show(Type viewType, RedisModulatorBase modulator)
         {
             var view = (Control)Activator.CreateInstance(viewType)!;
             view.DataContext = modulator;
-            new Window { Content = view, Width = 400, Height = 400 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 400 }).Show();
             Dispatcher.UIThread.RunJobs();
             return view;
         }

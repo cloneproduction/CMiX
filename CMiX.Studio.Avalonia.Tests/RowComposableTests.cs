@@ -30,11 +30,15 @@ namespace CMiX.Studio.Avalonia.Tests
     // A row of the layer and composition list has the same colors as every other row of a list.
     // A double click on the text of the name renames it. A double click on the rest of the row does nothing.
     // A right click on a row selects it and opens its menu, as in the outliner of Blender. The menu acts on the row that owns it.
-    public class RowComposableTests
+    public class RowComposableTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static Color Brush(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
 
-        private static ListBoxItem FirstRow()
+        private ListBoxItem FirstRow()
         {
             var list = new ListBox
             {
@@ -42,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 ItemsSource = new[] { "One", "Two" },
                 ItemTemplate = new FuncDataTemplate<string>((text, _) => new TextBlock { Text = text })
             };
-            new Window { Content = list, Width = 300, Height = 300 }.Show();
+            windows.Add(new Window { Content = list, Width = 300, Height = 300 }).Show();
             Dispatcher.UIThread.RunJobs();
             return list.GetVisualDescendants().OfType<ListBoxItem>().First();
         }
@@ -88,11 +92,11 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(Brush("StateOnHoverBrush"), Background(row));
         }
 
-        private static (Window Window, TextBoxEditable Name) ShowName()
+        private (Window Window, TextBoxEditable Name) ShowName()
         {
             var layer = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Layer));
             var row = new Views.RowComposable { DataContext = layer };
-            var window = new Window { Content = row, Width = 400, Height = 60 };
+            var window = windows.Add(new Window { Content = row, Width = 400, Height = 60 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (window, row.GetVisualDescendants().OfType<TextBoxEditable>().First());
@@ -161,7 +165,7 @@ namespace CMiX.Studio.Avalonia.Tests
             }
         }
 
-        private static Screen ShowForRightClick()
+        private Screen ShowForRightClick()
         {
             var provider = TestServiceProviderFactory.Create();
             var compositions = provider.GetRequiredService<PrefabManager>();
@@ -171,7 +175,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 layers.AddItem(typeof(Layer));
 
             var view = new ListComposable { ItemType = typeof(Layer), DataContext = layers };
-            var window = new Window { Content = view, Width = 400, Height = 300 };
+            var window = windows.Add(new Window { Content = view, Width = 400, Height = 300 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
@@ -229,7 +233,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(screen.Rows[2].ContextMenu!.IsOpen);
         }
 
-        private static (PrefabManager Manager, List<RowComposable> Rows, Window Window) ShowRows(int layerCount = 3)
+        private (PrefabManager Manager, List<RowComposable> Rows, Window Window) ShowRows(int layerCount = 3)
         {
             var provider = TestServiceProviderFactory.Create();
             var compositions = provider.GetRequiredService<PrefabManager>();
@@ -239,7 +243,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 manager.AddItem(typeof(Layer));
 
             var view = new ListComposable { ItemType = typeof(Layer), DataContext = manager };
-            var window = new Window { Content = view, Width = 500, Height = 800 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 800 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

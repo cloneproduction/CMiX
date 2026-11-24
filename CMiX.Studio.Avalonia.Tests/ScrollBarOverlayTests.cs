@@ -6,6 +6,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -15,8 +16,12 @@ using Layer = CMiX.Core.Compositing.Layer;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The scroll bar of a list or of the tree lies in a room on the right of the content. The content has the same width with a bar and without one.
-    public class ScrollBarOverlayTests
+    public class ScrollBarOverlayTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static ScrollBar VerticalBarOf(Control control) =>
             control.GetVisualDescendants().OfType<ScrollBar>().First(bar => bar.Orientation == global::Avalonia.Layout.Orientation.Vertical);
 
@@ -116,9 +121,9 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // The tree with a composition and the number of layers: many layers need a bar.
-        private static (double RowWidth, bool BarShown) FirstRowOfTheTree(int layers)
+        private (double RowWidth, bool BarShown) FirstRowOfTheTree(int layers)
         {
-            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
             for (var i = 0; i < layers; i++)

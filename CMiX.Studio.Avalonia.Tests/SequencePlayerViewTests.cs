@@ -8,6 +8,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.AttachedProperties;
@@ -23,16 +24,20 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The SequencePlayer view is the VideoPlayer view with a folder picker, an FPS value and a Loop toggle.
-    public class SequencePlayerViewTests
+    public class SequencePlayerViewTests : IDisposable
     {
-        private static (CMiX.Core.Texturing.Sources.SequencePlayer Player, Views.SequencePlayer View, Window Window) ShowSequencePlayerView()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (CMiX.Core.Texturing.Sources.SequencePlayer Player, Views.SequencePlayer View, Window Window) ShowSequencePlayerView()
         {
             var provider = TestServiceProviderFactory.Create();
             var player = (CMiX.Core.Texturing.Sources.SequencePlayer)provider.GetRequiredService<ControlFactory>()
                 .Create(typeof(CMiX.Core.Texturing.Sources.SequencePlayer));
 
             var view = new Views.SequencePlayer { DataContext = player };
-            var window = new Window { Content = view, Width = 500, Height = 600 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 600 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (player, view, window);
@@ -137,7 +142,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var player = provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.SequencePlayer));
 
             var repositoryManager = new ListRepository();
-            var window = new Window { Content = repositoryManager, Width = 400, Height = 600 };
+            var window = windows.Add(new Window { Content = repositoryManager, Width = 400, Height = 600 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

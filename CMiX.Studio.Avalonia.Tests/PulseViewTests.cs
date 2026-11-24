@@ -7,6 +7,7 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Enum;
@@ -17,15 +18,19 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The Pulse filter view: three modulatable values, a channel combo and an invert toggle.
-    public class PulseViewTests
+    public class PulseViewTests : IDisposable
     {
-        private static (Pulse Pulse, Views.Pulse View) Show()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (Pulse Pulse, Views.Pulse View) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var pulse = (Pulse)provider.GetRequiredService<ControlFactory>().Create(typeof(Pulse));
 
             var view = new Views.Pulse { DataContext = pulse };
-            var window = new Window { Content = view, Width = 500, Height = 700 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 700 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (pulse, view);

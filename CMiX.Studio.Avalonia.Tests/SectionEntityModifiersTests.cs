@@ -5,6 +5,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -13,13 +14,17 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The Modifiers section of an entity: its add button opens a popup with one button for each modifier
     // that fits the entity, and a click on one adds that modifier to the entity.
-    public class SectionEntityModifiersTests
+    public class SectionEntityModifiersTests : IDisposable
     {
-        private static (Entity entity, SectionEntityModifiers section, ToggleButton add, Popup popup) Show()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (Entity entity, SectionEntityModifiers section, ToggleButton add, Popup popup) Show()
         {
             var entity = (Entity)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Entity));
             var section = new SectionEntityModifiers { PanelOwner = typeof(Entity), DataContext = entity };
-            var window = new Window { Content = section, Width = 400, Height = 800 };
+            var window = windows.Add(new Window { Content = section, Width = 400, Height = 800 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

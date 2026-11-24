@@ -6,6 +6,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,11 +14,15 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class SectionEntityTextureTests
+    public class SectionEntityTextureTests : IDisposable
     {
-        private static SectionEntityTexture SectionOf(Control view)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private SectionEntityTexture SectionOf(Control view)
         {
-            new Window { Content = view, Width = 400, Height = 1200 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 1200 }).Show();
             Dispatcher.UIThread.RunJobs();
             return view.GetVisualDescendants().OfType<SectionEntityTexture>().Single();
         }

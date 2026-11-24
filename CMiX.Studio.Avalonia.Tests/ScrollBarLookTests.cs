@@ -5,6 +5,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
 using Avalonia.Layout;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
 using Composition = CMiX.Core.Compositing.Composition;
@@ -14,14 +15,18 @@ using Layer = CMiX.Core.Compositing.Layer;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Every scrolling panel shows the overlay bar of the tree and the lists. The bar lies in the gutter on the right of the content.
-    public class ScrollBarLookTests
+    public class ScrollBarLookTests : IDisposable
     {
         public static TheoryData<string> Panels => new() { "Inspector", "Settings", "Entities", "Composition", "LayerPostFX", "LayerLight" };
 
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         // The panel in a window that is lower than its content, and the scroll viewer of the panel.
-        private static (Window Window, ScrollViewer Viewer) ShowPanel(string name)
+        private (Window Window, ScrollViewer Viewer) ShowPanel(string name)
         {
-            var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, mainWindow, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
             composition.LayerManager.AddItem(typeof(Layer));

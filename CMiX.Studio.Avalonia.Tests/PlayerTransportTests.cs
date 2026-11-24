@@ -5,6 +5,7 @@ using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
 using PlayerTransport = CMiX.Studio.Avalonia.Views.PlayerTransport;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Panels;
@@ -14,14 +15,18 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The Play, Loop and Do Seek rows that the two players share.
-    public class PlayerTransportTests
+    public class PlayerTransportTests : IDisposable
     {
-        private static PlayerTransport Show(Type playerType, bool hasLoop, Action<PlayerTransport, object>? setUp = null)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private PlayerTransport Show(Type playerType, bool hasLoop, Action<PlayerTransport, object>? setUp = null)
         {
             var player = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(playerType);
             var transport = new PlayerTransport { DataContext = player, HasLoop = hasLoop };
             setUp?.Invoke(transport, player);
-            var window = new Window { Content = transport, Width = 500, Height = 300 };
+            var window = windows.Add(new Window { Content = transport, Width = 500, Height = 300 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return transport;

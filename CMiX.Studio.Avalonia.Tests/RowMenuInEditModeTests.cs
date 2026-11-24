@@ -6,6 +6,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls.String;
@@ -17,13 +18,17 @@ using Layer = CMiX.Core.Compositing.Layer;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The menu of a row never opens while the name of the row is in the edit mode. This holds for every kind of list.
-    public class RowMenuInEditModeTests
+    public class RowMenuInEditModeTests : IDisposable
     {
         public enum RowKind { LayerList, SlotList, RepositoryList }
 
         public static TheoryData<RowKind> Kinds => new() { RowKind.LayerList, RowKind.SlotList, RowKind.RepositoryList };
 
-        private static Control FirstRow(RowKind kind)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private Control FirstRow(RowKind kind)
         {
             var provider = TestServiceProviderFactory.Create();
             Control view;
@@ -44,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 view = kind == RowKind.SlotList
                     ? new ListPrefabSlot { DataContext = manager, RowMenu = RowMenuKind.Slot }
                     : new ListRepository { DataContext = manager, ItemsSource = manager.ManagerData.Items, RowMenu = RowMenuKind.Repository };
-                new Window { Content = view, Width = 500, Height = 600 }.Show();
+                windows.Add(new Window { Content = view, Width = 500, Height = 600 }).Show();
                 Dispatcher.UIThread.RunJobs();
                 manager.AddItem(typeof(Entity));
                 Dispatcher.UIThread.RunJobs();
@@ -53,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             if (kind == RowKind.LayerList)
             {
-                new Window { Content = view, Width = 500, Height = 600 }.Show();
+                windows.Add(new Window { Content = view, Width = 500, Height = 600 }).Show();
                 Dispatcher.UIThread.RunJobs();
             }
 
