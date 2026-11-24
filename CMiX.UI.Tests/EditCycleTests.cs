@@ -16,7 +16,7 @@ namespace CMiX.UI.Tests
 {
     // Tab and Shift+Tab in an edit box move the edit mode from one value editor to the next one.
     // The loop is the nearest parent with EditCycle.IsLoop, or the window.
-    public class TabCyclingTests
+    public class EditCycleTests
     {
         private static DragValue Drag(double value, bool readOnly = false) =>
             new() { Value = value, Minimum = 0, Maximum = 100, IsReadOnly = readOnly };
