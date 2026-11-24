@@ -43,7 +43,7 @@ namespace CMiX.UI.Tests
             var second = new MenuItem { Header = "Two" };
             var menu = Open(first, second);
 
-            KeyInput.PressOnFocus(menu,Key.Down);
+            KeyInput.PressOnFocus(menu, Key.Down);
 
             Assert.True(first.IsSelected);
             Assert.True(HasHoverFill(first));
@@ -58,7 +58,7 @@ namespace CMiX.UI.Tests
             var last = new MenuItem { Header = "Two" };
             var menu = Open(first, off, last);
 
-            KeyInput.PressOnFocus(menu,Key.Down, 2);
+            KeyInput.PressOnFocus(menu, Key.Down, 2);
 
             Assert.True(last.IsSelected);
             Assert.False(off.IsSelected);
@@ -73,8 +73,8 @@ namespace CMiX.UI.Tests
             var more = new MenuItem { Header = "More", Items = { inner, new MenuItem { Header = "Other" } } };
             var menu = Open(more);
 
-            KeyInput.PressOnFocus(menu,Key.Down);
-            KeyInput.PressOnFocus(menu,Key.Right);
+            KeyInput.PressOnFocus(menu, Key.Down);
+            KeyInput.PressOnFocus(menu, Key.Right);
 
             Assert.True(more.IsSubMenuOpen);
             Assert.True(inner.IsSelected);
