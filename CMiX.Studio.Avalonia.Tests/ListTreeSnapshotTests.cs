@@ -9,9 +9,11 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 using Entity = CMiX.Core.Compositing.Entity;
+using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
+    // The snapshot of the tree, the keys of its rows, the hidden marks and the watch of the nodes.
     public class ListTreeSnapshotTests
     {
         // A composition with two layers. Every row is open.
@@ -182,6 +184,87 @@ namespace CMiX.Studio.Avalonia.Tests
             var layer = AllRows(ListTreeSnapshot.Of(again.Roots).Roots).Single(row => ReferenceEquals(row.Key.Model, scene.LayerOfA(1)));
             Assert.NotSame(scene.LayerNodeOfA(1), layer.Node);
             Assert.Equal(before, layer.Key);
+        }
+
+        [Fact]
+        public void IsHidden_ARowAtRest_IsFalse()
+        {
+            var scene = CreateScene([2], s => AddKinds(s.Layer));
+            var marks = new ListTreeMarks(null, null, null);
+
+            Assert.False(marks.IsHidden(scene.LayerNodeOfA(0)));
+            Assert.False(marks.IsHidden(scene.Group<EntitiesGroup>(0).Children[0]));
+            Assert.False(marks.IsHidden(null));
+        }
+
+        [Fact]
+        public void IsHidden_AHiddenLayer_IsTrueForTheLayerAndEveryRowUnderIt()
+        {
+            var scene = CreateScene([2], s => AddKinds(s.Layer));
+            var marks = new ListTreeMarks(null, null, null);
+
+            scene.Layer.PrefabService.Visibility.Value = true;
+
+            Assert.True(marks.IsHidden(scene.LayerNodeOfA(0)));
+            Assert.True(marks.IsHidden(scene.Group<EntitiesGroup>(0).Children[0]));
+            Assert.False(marks.IsHidden(scene.LayerNodeOfA(1)));
+        }
+
+        // A watch of the default scene. Changes gives the number of its Changed events.
+        private static (Scene Scene, ListTreeNodeWatch Watch, Func<int> Changes) Watched()
+        {
+            var scene = CreateScene();
+            var watch = new ListTreeNodeWatch();
+            var changes = 0;
+            watch.Changed += (_, _) => changes++;
+            watch.Watch(scene.Tree.Roots);
+            return (scene, watch, () => changes);
+        }
+
+        [Fact]
+        public void Watch_ADeepCardCloses_RaisesChanged()
+        {
+            var (scene, _, changes) = Watched();
+
+            scene.LayerNodeOfA(0).IsExpanded = !scene.LayerNodeOfA(0).IsExpanded;
+
+            Assert.Equal(1, changes());
+        }
+
+        [Fact]
+        public void Watch_ARowComes_RaisesChanged()
+        {
+            var (scene, _, changes) = Watched();
+
+            scene.A.LayerManager.AddItem(typeof(Layer));
+
+            Assert.True(changes() > 0);
+        }
+
+        [Fact]
+        public void Watch_ALayerIsHidden_RaisesHiddenChangedOnceAndNotChanged()
+        {
+            var (scene, watch, changes) = Watched();
+            var hiddenChanges = 0;
+            watch.HiddenChanged += (_, _) => hiddenChanges++;
+
+            scene.Layer.PrefabService.Visibility.Value = true;
+
+            Assert.Equal(1, hiddenChanges);
+            Assert.Equal(0, changes());
+        }
+
+        [Fact]
+        public void Unwatch_ACardCloses_RaisesNothing()
+        {
+            var (scene, watch, changes) = Watched();
+
+            watch.Unwatch();
+
+            scene.NodeA.IsExpanded = false;
+            scene.A.LayerManager.AddItem(typeof(Layer));
+
+            Assert.Equal(0, changes());
         }
     }
 }
