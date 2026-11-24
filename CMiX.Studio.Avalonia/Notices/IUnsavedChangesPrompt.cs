@@ -5,15 +5,6 @@ using System.Threading.Tasks;
 
 namespace CMiX.Studio.Avalonia.Notices
 {
-    // What the user chose when asked about unsaved changes. Cancel is the first value, so a dialog
-    // that is closed without an answer means Cancel.
-    public enum UnsavedChangesChoice
-    {
-        Cancel,
-        Save,
-        DontSave
-    }
-
     // Asks the user what to do with the unsaved changes of the project before the window closes.
     public interface IUnsavedChangesPrompt
     {
