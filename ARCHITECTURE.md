@@ -69,7 +69,7 @@ Classes that are several shapes at once, or none:
 | Class | What it is |
 |---|---|
 | Every control: `Project`, `Composition`, `Layer`, `Entity`, `TextEntity`, `FullscreenQuad`, `Camera`, `LightEntity`, `Texture`, the 22 filters, the 11 texture sources, the 20 modifiers, the 13 modulators, the settings objects | Domain state, ViewModel (commands, `IsExpanded`) and model converter in one class. |
-| `GenericValue<T>` | One value. It receives its message itself. The undo step and the send go through `IValueSync`. |
+| `GenericValue<T>` | One value. It receives its message itself. The undo step, the send and the drag go through `IValueSync`. |
 | `CMiXButton` | One click. Also the message sender and the message receiver. |
 | `ModulatableValue<T>` | Three `GenericValue` in one: the value, the id of the modulator, the name of the output. Also commands. |
 | `PrefabManager` | A list of controls. ViewModel (7 commands), undo source, message sender and receiver, model converter. The VL patches use it by name. |
@@ -77,7 +77,7 @@ Classes that are several shapes at once, or none:
 | `SyncPeer` | Service (the sync state machine) and ViewModel (the sync panel binds its properties and its `PushCommand` and `PullCommand`). One partial class in nine files, one job per file: `SyncPeer.cs` (hub: start, stop, run), `SyncPeer.Panel.cs`, `SyncPeer.Send.cs`, `SyncPeer.Connection.cs`, `SyncPeer.StartCheck.cs`, `SyncPeer.Presence.cs`, `SyncPeer.Follower.cs`, `SyncPeer.Apply.cs`, `SyncPeer.Join.cs`. `SyncRun` holds the resources of one Start. |
 | `MasterBeat`, `AssetManager`, `OutputMappingManager`, `RedisAddressRegistry` | Singleton and control at once. |
 | `PrefabService` | Not a service. It is the name and the visibility of a prefab. |
-| `ValueInteraction`, `ControlCloner`, `ListRules`, `DerivedId`, `ManagerIDs`, `ProjectSerializer`, `ProjectStateHash`, `ProjectModelBuilder`, `SyncPeerStartup`, `ControlExtensions` | Static helpers. `ValueInteraction` holds state. |
+| `ControlCloner`, `ListRules`, `DerivedId`, `ManagerIDs`, `ProjectSerializer`, `ProjectStateHash`, `ProjectModelBuilder`, `SyncPeerStartup`, `ControlExtensions` | Static helpers. |
 | The undo steps (`AddItemUndoCommand`, `ValueChangedCommand`, `CompositeCommand`, ...) | None of the five shapes. They are small objects with `Execute` and `Undo`. |
 
 ### CMiX.Studio.Avalonia
@@ -109,9 +109,9 @@ Three static entry points connect it to an application: `InteractionHost`, `Icon
 
 ### A value changes (the user drags a slider)
 
-1. **View.** `SliderModulatable` binds to `ModulatableValue<float>.Value`. The CMiX.UI editor opens a drag scope through `InteractionHost`, which `App.Initialize` connects to `ValueInteraction.BeginScope`.
-2. **Value.** `ModulatableValue.Value` passes the write to `GenericValue<T>.Value`. The setter stores the value and calls `IValueSync.Commit` with the model before and after. During a drag it calls `Send` at most 60 times each second and calls `Record` once at the end.
-3. **Message.** `ValueSync` implements `IValueSync`: it pushes the `ValueChangedCommand` unless the undo stack is applying, then `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
+1. **View.** `SliderModulatable` binds to `ModulatableValue<float>.Value`. The CMiX.UI editor opens a drag scope through `InteractionHost`, which `InteractionHostConnection.Connect` binds to the `ValueInteraction` of the container when the App builds it.
+2. **Value.** `ModulatableValue.Value` passes the write to `GenericValue<T>.Value`. The setter stores the value and calls `IValueSync.Changed` with the model before and after, and a null before for a momentary value. The value has no drag code.
+3. **Message.** `ValueSync` implements `IValueSync`. Outside a drag it records the `ValueChangedCommand` unless the undo stack is applying, then `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. During a drag it sends at most 60 times each second and records one undo step when the drag ends. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
 4. **Peer.** `SyncPeer.SendMessage` (`SyncPeer.Send.cs`) drops the message if the peer is not the writer. Else it wraps it in a `MessageEnvelope`, serializes it with MessagePack and puts it in `OutgoingQueue`.
 5. **Redis.** One task appends the entry to the stream `{prefix}:updates` through `RedisSyncStore`, sets the tail key and publishes a wake signal. `SnapshotCompactor` writes a new snapshot later.
 6. **Engine.** `StreamFollower` reads the new entries. `SyncPeer` (`SyncPeer.Apply.cs`) posts each batch to its dispatcher. In vvvv that is `MainloopQueue`, which the patch drains once for each frame. In `CMiX.Console` the apply runs inline.
@@ -217,7 +217,6 @@ Core has no Avalonia reference.
 
 | Static | Where | Note |
 |---|---|---|
-| `ValueInteraction` | Core | Static state: the open drag scope and its values. `GenericValue` reads it in its setter. |
 | `WeakReferenceMessenger.Default` | Core, `ProjectSyncTarget.Apply` | Every `ReceivableControl` listens on this global messenger. `ControlMessenger` (injected) is only the way out. |
 | `App.MessageNotice`, `App._crashSaveProject` | Studio | A comment in `App.axaml.cs` gives the reason for each. |
 | `InteractionHost.BeginScopeHandler`, `Icons.Register`, `OutsideClick.Install` | CMiX.UI | The library has no container. |
@@ -255,7 +254,7 @@ Core has no Avalonia reference.
 | 2 | `SyncPeer` (Core) | 316, nine partial files, 1216 in all | 3 | 2 | Done on 2026-11-20: one job per file (connect, join and push, start check, gap check, send, apply, follower, panel state). `SyncRun` holds the resources of one Start. Still a service and a ViewModel at once. |
 | 3 | `TreeViewProject` code-behind (Studio) | 233 | 0 | 0 | Done on 2026-11-19: the hub builds the parts (`TreeKeyInput`, `TreePointerInput`, `TreeFocusKeeper`, `TreeScreenRequests`, `TreeMenus`, `TreeRowReveal`, `TreeFileDropInput`, `TreeHints`). The view was removed on 2026-11-24, `ListTreeProject` replaces it. |
 | 4 | `PrefabManager` (Core) | 350 | 9, 1 optional | 7 | List ViewModel, undo, send, receive, model converter. Every domain object has several. VL uses its names. |
-| 5 | `GenericValue<T>` (Core) | 190 | 2 or 0 | 1 | Value, undo, throttle, send and receive in one setter. It reads a static. |
+| 5 | `GenericValue<T>` (Core) | 190 | 2 or 0 | 1 | Value, undo, send and receive. The drag and the send go through `IValueSync`. |
 | 6 | `MainViewModel` (Studio) | 160 | 18 | 2 | A bag of everything for the bindings. It also sets ids and activates lists. A false `IControl`. |
 | 7 | `MainMenu` (Studio) | 68, as `MainMenuViewModel`, plus `ProjectFileViewModel` 148 and `ProjectSession` 130 | 1 | 7 | Done on 2026-11-19: the project file is a ViewModel of its own, the session and the six lists are one service, the dispatcher and `Application.Current` are gone, Quit is a request event. |
 | 8 | `TreeNode` (Studio) | 430 | 7 | 0 | Done in part on 2026-11-19: the counts are in `RowCounts`, the drag look in `DragLook`, the search look computed by the row itself, and the row reports to the tree through `TreeNodeHost`. It still knows many Core types by name. |
@@ -342,7 +341,7 @@ The order goes from low risk to high risk. First the classes that only the Studi
 | 4 | `TreeNode` | Done on 2026-11-19: `DragLook`, `RowCounts`, `TreeNodeHost`, and the row computes its own search look. | The row keeps its identity and its list mirroring. | 3 |
 | 5 | `TreeViewProject` | Done on 2026-11-19, with one deviation: `TreeViewHooks` stays, one set per view, because two views can show one tree and the tree must know which view answers. The next step is a per-view state object that `TreeViewSet` reads. Done with `ListTreeViewState`. The old view was removed on 2026-11-24. | After steps 3 and 4. | 4 |
 | 6 | `ControlFactory` | Move the naming of prefabs into its own service. | Core, and no name on the wire or in a patch changes. | 2 |
-| 7 | `GenericValue<T>` | Make `ValueInteraction` an injected object. Remove the empty constructor. | Every value depends on it, so do it before the lists. | 4 |
+| 7 | `GenericValue<T>` | Done on 2026-11-25: `ValueInteraction` is injected, the drag lives in `ValueSync`, the empty constructor is gone. | Every value depends on it, so do it before the lists. | 4 |
 | 8 | `SyncPeer` | Split the state for the panel from the peer. | Well tested and isolated. The Redis tests need a server. | 4 |
 | 9 | `PrefabManager` | Make `UndoManager` required. Separate the commands for XAML from the list logic. | VL pins its names. Needs step 7. | 5 |
 | 10 | `Layer` and all controls | Depends on the open questions 1 and 2. | The largest change. It touches every saved file and both peers. | 5 |
@@ -378,7 +377,7 @@ Only the owner can decide these. Question 1 is parked: see section 5.
 2. **Is view state part of the show?** `IsExpanded` of a modifier is saved and sent. The tab of a layer is not. Which view state belongs in the file, and does any of it belong on the wire?
 3. **Is the selection of a list show state or editor state?** It is in the file, on the wire and in undo, and the patches read it. Does the engine need it, and must a selection be an undo step?
 4. **Can pinned names change?** `PrefabService`, `PrefabManager`, `ManagerData` and `TextureModifierManager` are misleading, and the patches, the saved files and the wire use them. Is a rename worth a change of the patches and an entry in `LegacyTypeNames`?
-5. **The global messenger.** Receive goes through the static `WeakReferenceMessenger.Default`, and each message visits each control. Accept it as `ValueInteraction` is accepted, or replace it with a lookup by id in `ControlRepository`?
+5. **The global messenger.** Receive goes through the static `WeakReferenceMessenger.Default`, and each message visits each control. Accept it as the one remaining static of Core, or replace it with a lookup by id in `ControlRepository`?
 6. **The six lists of the main window.** They are not in `ProjectModel`, and a snapshot empties them. Is that intended?
 7. **Will an engine write again?** `DEVELOPMENT.md` describes how. The answer changes how strict "one writer" can be in the design.
 8. **The old name in the patch.** Is `CMiX.Core.Presentation.ViewModels.Beat.MasterBeat` in `CMiX_ENGINE.vl` a dead text or a red node?

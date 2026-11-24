@@ -93,8 +93,8 @@ folder. A view can move to another folder without a change to its namespace or i
 
 The names of the views and the controls follow the order rule in `.claude/CLAUDE.md`, section Names: the kind first, then the thing.
 
-The value editors start a drag through `InteractionHost`. The App connects it to
-`ValueInteraction` in `App.Initialize`.
+The value editors start a drag through `InteractionHost`. `InteractionHostConnection.Connect` binds it to the `ValueInteraction` of the
+container, right after the App builds the container.
 
 The folders of CMiX.Studio.Avalonia have the name of a job. The rules for a new type
 are in `.claude/CLAUDE.md`, section Folders and names of the Studio.
@@ -372,7 +372,7 @@ restores the offset when the height grows. The theme `ScrollViewerOverlayKeepOff
 
 The application connects three things to the library:
 
-- `InteractionHost.BeginScopeHandler`, set in `App.Initialize`. See above.
+- `InteractionHost.BeginScopeHandler`, set by `InteractionHostConnection.Connect` after the container is built. See above.
 - `Icons.Register`. The library has the generic icon keys. The Studio adds its
   own in `StudioIcons.Register`, also in `App.Initialize`, before the XAML loads.
   `IconKeyTests` fails when an `IconKey` in the AXAML is not registered.
