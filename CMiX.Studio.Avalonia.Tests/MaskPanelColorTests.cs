@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         [AvaloniaTheory]
         [MemberData(nameof(Panels))]
-        public void TheMaskPanel_HasTheColorOfTheTexturePanel(string kind)
+        public void Show_TheMaskPanel_HasTheColorOfTheTexturePanel(string kind)
         {
             var factory = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
             Control view = kind == "ModelEntity"

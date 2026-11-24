@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TransformTexturePanel_ShowsTheTransformOfTheDiffuseTexture()
+        public void Show_TheTransformTexturePanel_HasTheTransformOfTheDiffuseTexture()
         {
             var (quad, expander) = ShowTransformTexture();
 
@@ -39,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TransformTexturePanel_ShowsTheSamplerStateOfTheDiffuseTexture()
+        public void Show_TheTransformTexturePanel_HasTheSamplerStateOfTheDiffuseTexture()
         {
             var (quad, expander) = ShowTransformTexture();
 

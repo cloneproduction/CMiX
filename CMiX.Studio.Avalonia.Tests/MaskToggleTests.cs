@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static Color BrushColor(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
 
         [AvaloniaFact]
-        public void WhileOff_ShowsTheOutlinedIcon_AndWhileOn_TheFilledOne()
+        public void Show_TheToggleOffAndOn_ShowsTheOutlinedThenTheFilledIcon()
         {
             var toggle = Show();
             Assert.Equal("MaskOff", Icon(toggle).IconKey);
@@ -42,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void WhileOff_TheIconIsDim()
+        public void Show_TheToggleOff_HasADimIcon()
         {
             var toggle = Show();
 

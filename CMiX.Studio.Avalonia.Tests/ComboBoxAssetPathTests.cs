@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 .GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.Image));
 
         [AvaloniaFact]
-        public void ItAsksForTheAssetFileTypes()
+        public void Browse_AnyAsset_AsksForTheAssetFileTypes()
         {
             var selector = new ComboBoxAssetPath();
 
@@ -58,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void AChosenPath_BecomesTheSelectedAsset()
+        public void Choose_APath_SelectsItsAsset()
         {
             var image = NewImage();
             var path = temp.File("one.png");
@@ -71,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void DroppedFiles_AreAddedAndTheFirstIsSelected()
+        public void Drop_SeveralFiles_AddsThemAndSelectsTheFirst()
         {
             var image = NewImage();
             var first = temp.File("first.png");
@@ -87,7 +87,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void BrowsingToAFolder_AddsAnImageSequenceAndSelectsIt()
+        public void Browse_ToAFolder_AddsAnImageSequenceAndSelectsIt()
         {
             var player = (CMiX.Core.Texturing.Sources.SequencePlayer)TestServiceProviderFactory.Create()
                 .GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.SequencePlayer));
@@ -101,7 +101,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void BrowsingToAFile_AddsTheAssetAndSelectsIt()
+        public void Browse_ToAFile_AddsTheAssetAndSelectsIt()
         {
             var image = NewImage();
             var path = temp.File("browsed.png");
@@ -114,7 +114,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void CancellingTheDialog_ChangesNothing()
+        public void Browse_ACancelledDialog_ChangesNothing()
         {
             var image = NewImage();
             var selector = new BrowsingTo(null) { DataContext = image.AssetSelector };
@@ -125,7 +125,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ADroppedFileOfAnUnknownType_IsIgnored()
+        public void Drop_AFileOfAnUnknownTypeOnTheBox_AddsNothing()
         {
             var image = NewImage();
             var text = temp.File("notes.txt");

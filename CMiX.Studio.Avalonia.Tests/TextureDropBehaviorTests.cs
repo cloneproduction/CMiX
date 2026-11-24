@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ADroppedImage_BecomesAnImageTextureThatPointsToTheFile()
+        public void Drop_AnImage_AddsAnImageTextureThatPointsToTheFile()
         {
             var (textures, _, dropper) = Show();
             var path = temp.File("one.png");
@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ADroppedImage_IsOneUndoStep()
+        public void Drop_AnImage_IsOneUndoStep()
         {
             var (textures, undo, dropper) = Show();
             undo.Clear();
@@ -72,13 +72,13 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheBehavior_AcceptsFilesAndFoldersByDefault()
+        public void Create_TheBehavior_AcceptsFilesAndFoldersByDefault()
         {
             Assert.Equal(FileDropMode.FilesAndFolders, new TextureDropBehavior().Mode);
         }
 
         [AvaloniaFact]
-        public void ADroppedFolderWithImages_BecomesASequencePlayerThatPointsToTheFolder()
+        public void Drop_AFolderWithImages_AddsASequencePlayerThatPointsToTheFolder()
         {
             var (textures, _, dropper) = Show();
             var folder = temp.Folder("frames", "frame_0001.png", "frame_0002.png");
@@ -91,7 +91,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ADroppedFolderWithoutImages_AddsNothing()
+        public void Drop_AFolderWithoutImages_AddsNothing()
         {
             var (textures, _, dropper) = Show();
 
@@ -101,7 +101,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ADroppedFolderWithImages_IsOneUndoStep()
+        public void Drop_AFolderWithImages_IsOneUndoStep()
         {
             var (textures, undo, dropper) = Show();
             undo.Clear();
@@ -113,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ADroppedFileOfAnUnknownType_AddsNothing()
+        public void Drop_AFileOfAnUnknownType_AddsNothing()
         {
             var (textures, _, dropper) = Show();
 

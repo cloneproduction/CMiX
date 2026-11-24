@@ -66,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void EmptySlot_StillShowsMaskChannelAndInvertUnderTheSlot()
+        public void Show_AnEmptySlot_ShowsMaskChannelAndInvertUnderTheSlot()
         {
             var mask = CreateMask();
             var view = new Views.MaskTexture { DataContext = mask };
@@ -80,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TextureSettings_AreNotInAnExpander()
+        public void Show_TheTextureSettings_AreNotInAnExpander()
         {
             var (_, view) = ShowWithATexture();
 
@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void FilterAndTransform_HaveTheSameIndentation()
+        public void Show_FilterAndTransform_HaveTheSameIndentation()
         {
             var (_, view) = ShowWithATexture();
 
@@ -128,7 +128,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void EmptySlot_HidesFilterAndTransform()
+        public void Show_AnEmptySlot_HidesFilterAndTransform()
         {
             var headers = VisibleHeaders(CreateMask());
 
@@ -137,7 +137,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void SlotWithATexture_ShowsFilterAndTransform()
+        public void Show_ASlotWithATexture_ShowsFilterAndTransform()
         {
             var mask = CreateMask();
             mask.TextureManager.AddItem(typeof(Gradient));

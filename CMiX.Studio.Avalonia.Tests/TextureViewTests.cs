@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheView_HasOnlyTheFilterExpander()
+        public void Show_TheView_HasOnlyTheFilterExpander()
         {
             var expander = Assert.Single(Show().GetVisualDescendants().OfType<ExpanderIndented>());
 
@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheFilterExpander_HasATransparentBackground()
+        public void Show_TheFilterExpander_HasATransparentBackground()
         {
             var expander = Show().GetVisualDescendants().OfType<ExpanderIndented>().Single();
 
