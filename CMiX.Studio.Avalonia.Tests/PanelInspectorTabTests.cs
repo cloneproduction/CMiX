@@ -38,12 +38,16 @@ using TextEntityView = CMiX.Studio.Avalonia.Views.TextEntity;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The inspector is the first tab. A click in the tree keeps the tab that shows, and the inspector scrolls on its own.
-    public class PanelInspectorTabTests
+    public class PanelInspectorTabTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         [AvaloniaFact]
         public void Show_TheTabs_PutTheInspectorFirstAndKeepTheOtherTabs()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
             var keys = TestServiceProviderFactory.MainTabControl(window).Items.OfType<TabItem>()
                 .Select(item => (item.Header as AppIcon)?.IconKey).ToList();
 
@@ -57,7 +61,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_EveryTab_HasATooltipOnItsIcon()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
             var tabs = TestServiceProviderFactory.MainTabControl(window).Items.OfType<TabItem>().ToList();
 
             Assert.NotEmpty(tabs);
@@ -72,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_AfterAnotherTab_ShowsTheCurrentSelection()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             screen.Select(screen.LayerNode);
 
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
@@ -101,7 +105,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void MiddleClick_ARow_KeepsTheTabAndTheInspectorHoldsThatItem()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
 
             screen.Window.Click(CenterOfRow(screen, screen.Group<CamerasGroup>().Children[0]), MouseButton.Middle);
@@ -114,7 +118,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void MiddleClick_AGroup_KeepsTheTabAndTheInspectorHoldsTheGroup()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
 
             screen.Window.Click(CenterOfRow(screen, screen.Group<LightsGroup>()), MouseButton.Middle);
@@ -127,7 +131,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Click_TheVisibilityButton_KeepsTheTab()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
             var tree = screen.Window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var toggle = tree.Rows.RowOf(screen.LayerNode)!.Toggles
@@ -142,7 +146,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_FromAProgramOrAList_KeepsTheTab()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
 
             screen.Select(screen.LayerNode);
@@ -159,7 +163,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Click_OnARow_KeepsTheTab()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
 
             screen.Window.Click(CenterOfRow(screen, screen.LayerNode));
@@ -172,7 +176,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void HostedView_Show_DoesNotScrollOnItsOwn()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             screen.Select(screen.LayerNode);
             screen.Window.Height = 300;
             TestServiceProviderFactory.Pump();
@@ -199,7 +203,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             const int layers = 20;
             const int entitiesPerLayer = 100;
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
             for (var i = 0; i < layers; i++)

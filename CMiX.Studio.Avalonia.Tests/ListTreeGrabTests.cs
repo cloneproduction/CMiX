@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
     // Tree.Grab (G) steps through the candidates of the pointer drag with the arrow keys and drops with Enter.
     public class ListTreeGrabTests : IDisposable
     {
-        private Views.MainWindow? window;
+        private readonly TestWindows windows = new();
         private ListTreeProject? view;
 
         // A grab that a test leaves running would take the input of the next tests, so it ends here first.
@@ -32,8 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private void CloseWindow()
         {
             view?.Grab.DetachFromWindow();
-            window?.Close();
-            window = null;
+            windows.Dispose();
             view = null;
         }
 
@@ -51,8 +50,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with three empty layers, in the tree of the left panel. The layer rows are closed. The composition is selected.
         private Screen Show()
         {
-            var screen = new Screen(ListTreeMainScreen.Show(panel: PanelChoice.Tree));
-            window = screen.Window;
+            var screen = new Screen(ListTreeMainScreen.Show(windows, panel: PanelChoice.Tree));
             foreach (var panelCollapse in screen.Window.GetVisualDescendants().OfType<CMiX.UI.Panels.PanelCollapse>())
                 panelCollapse.Duration = TimeSpan.Zero;
             for (var i = 0; i < 3; i++)

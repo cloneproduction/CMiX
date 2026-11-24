@@ -30,8 +30,13 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         private Window? window;
+        private readonly TestWindows windows = new();
 
-        public void Dispose() => window?.Close();
+        public void Dispose()
+        {
+            window?.Close();
+            windows.Dispose();
+        }
 
         // A composition with three layers, the search field over the tree, as in the bar of the panel.
         private (Screen Screen, Scene Scene) Show()
@@ -421,7 +426,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheMainWindow_PutsTheFieldAtTheRightOfTheBarOfTheTreePanel()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
             TestServiceProviderFactory.Pump();
             var (host, box) = TreeHostOf(window);
             var bar = host.GetVisualDescendants().OfType<Border>().First(border => border.Name == "bar");
@@ -440,7 +445,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Pick_AnotherPanelChoice_TakesTheFieldOutOfTheBar()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
             TestServiceProviderFactory.Pump();
             var (host, _) = TreeHostOf(window);
 
@@ -453,7 +458,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void KeyBindings_OfTheWindow_HoldTheSearchCommandOfTheTreeOnCtrlF()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
 
             var binding = window.KeyBindings.Single(candidate => Equals(candidate.Gesture, viewModel.Shortcuts["Tree.Search"]));
 
@@ -464,7 +469,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_CtrlFOverTheTree_FocusesTheField()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             window.Focus();
@@ -482,7 +487,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_CtrlFOverTheTreeDuringADrag_LeavesTheFieldWithoutTheFocus()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             window.Focus();

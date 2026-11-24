@@ -65,9 +65,9 @@ namespace CMiX.Studio.Avalonia.Tests.Support
         public T? Find<T>() where T : class => Editor.GetVisualDescendants().OfType<T>().FirstOrDefault();
 
         // A composition with a layer. The layer has one of each kind of item. The inspector tab is shown.
-        public static PanelInspectorScreen Show()
+        public static PanelInspectorScreen Show(TestWindows windows)
         {
-            var main = ListTreeMainScreen.Show(layers: 1, fill: composition =>
+            var main = ListTreeMainScreen.Show(windows, layers: 1, fill: composition =>
             {
                 var first = (Layer)composition.LayerManager.ManagerData.Items[0];
                 first.ModelEntityManager.AddItem(typeof(Entity));

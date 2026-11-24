@@ -26,13 +26,18 @@ namespace CMiX.Studio.Avalonia.Tests
     public class ListTreeProjectTests : IDisposable
     {
         private Window? window;
+        private readonly TestWindows windows = new();
 
-        public void Dispose() => window?.Close();
+        public void Dispose()
+        {
+            window?.Close();
+            windows.Dispose();
+        }
 
         [AvaloniaFact]
         public void LeftPanel_ByDefault_ShowsOneListTreeProjectOfTheProjectTree()
         {
-            (_, var mainWindow, var viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            (_, var mainWindow, var viewModel) = windows.ShowMainWindow();
             window = mainWindow;
             TestServiceProviderFactory.Pump();
 
@@ -44,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void RightPanel_TheTree_ShowsTwoListTreeProjectsOfOneProjectTree()
         {
-            (_, var mainWindow, var viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            (_, var mainWindow, var viewModel) = windows.ShowMainWindow();
             window = mainWindow;
 
             viewModel.RightPanel = PanelChoice.Tree;
@@ -227,7 +232,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData(1)]
         public void SearchFocusRequested_TreeInBothPanels_FocusesTheBoxOfTheActivePanel(int active)
         {
-            var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, mainWindow, viewModel) = windows.ShowMainWindow();
             window = mainWindow;
             viewModel.Project.CompositionManager.AddItem(typeof(CMiX.Core.Compositing.Composition));
             viewModel.RightPanel = PanelChoice.Tree;
@@ -250,7 +255,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // the second panel has the focus.
         private (Window Window, List<PanelSide> Hosts, MainViewModel ViewModel) ShowFocusInSecondTextBoxSearchTree()
         {
-            var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, mainWindow, viewModel) = windows.ShowMainWindow();
             window = mainWindow;
             viewModel.Project.CompositionManager.AddItem(typeof(CMiX.Core.Compositing.Composition));
             viewModel.RightPanel = PanelChoice.Tree;

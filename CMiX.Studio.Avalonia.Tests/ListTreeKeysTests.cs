@@ -34,12 +34,14 @@ namespace CMiX.Studio.Avalonia.Tests
         private readonly Scene scene = CreateScene([2], s => AddKinds(s.Layer));
         private Window? window;
         private ListTreeProject? newView;
+        private readonly TestWindows windows = new();
 
         public void Dispose()
         {
             foreach (var view in window?.GetVisualDescendants().OfType<ListTreeProject>() ?? Enumerable.Empty<ListTreeProject>())
                 view.MenuAddPanel.Close();
             window?.Close();
+            windows.Dispose();
         }
 
         private ProjectTree Tree => scene.Tree;
@@ -275,7 +277,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // The Tree keys of the window run through CanRunTreeKey: with the focus in the list tree, its hooks let them run.
         private WindowScreen ShowMainWindow()
         {
-            var screen = new WindowScreen(ListTreeMainScreen.Show(panel: PanelChoice.Tree));
+            var screen = new WindowScreen(ListTreeMainScreen.Show(windows, panel: PanelChoice.Tree));
             window = screen.Window;
             screen.Tree.SelectedNode = screen.LayerNode(0);
             screen.Window.Settle();

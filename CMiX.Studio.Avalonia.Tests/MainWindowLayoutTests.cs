@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
 using Composition = CMiX.Core.Compositing.Composition;
@@ -36,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheTree_StandsLeftOfTheTabsAtTheirTop()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
 
             var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var tabs = TestServiceProviderFactory.MainTabControl(window);
@@ -54,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheTreeAndTheTabs_HaveTheSameWidth()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
             var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var columns = tree.GetVisualAncestors().OfType<Grid>().First(grid => grid.ColumnDefinitions.Count == 2).ColumnDefinitions;
 
@@ -65,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheMasterBeat_IsUnderTheTabsOnly()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
             var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var tabs = TestServiceProviderFactory.MainTabControl(window);
             var beat = window.GetVisualDescendants().OfType<PanelMasterBeat>().Single();
@@ -91,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheTabs_KeepTheirWidthOfBefore()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
 
             var tabs = TestServiceProviderFactory.MainTabControl(window);
 
@@ -101,7 +102,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Add_ACompositionAndALayer_ShowsThemInTheTree()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var before = tree.Rows.RealizedRows.Count();
 
@@ -116,9 +117,9 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(before + 4, tree.Rows.RealizedRows.Count());
         }
 
-        private static (Window Window, GridSplitter Splitter, Grid Grid, ListTreeProject Tree, TabControl Tabs) Show()
+        private (Window Window, GridSplitter Splitter, Grid Grid, ListTreeProject Tree, TabControl Tabs) Show()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
             var tree = window.GetVisualDescendants().OfType<ListTreeProject>().Single();
             var grid = tree.GetVisualAncestors().OfType<Grid>().First(g => g.ColumnDefinitions.Count == 2);
             var splitter = grid.Children.OfType<GridSplitter>().Single();
@@ -220,7 +221,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheWindowSurface_IsDarkerThanTheCards()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
             var cards = Brightness((IBrush)Application.Current!.FindResource("PanelBackgroundLevel1Brush")!);
 
             Assert.True(Brightness(window.Background) < cards, "The window is not darker than the cards.");
@@ -235,7 +236,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData("TabLayers")]
         public void Show_NothingBehindTheCards_IsLighterThanTheWindow(string tabName)
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.EntityManager.AddItem(typeof(Entity));
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
@@ -268,7 +269,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheTabStripOfALayer_IsLighterThanTheWindowAndFillsTheHeight()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
             composition.LayerManager.AddItem(typeof(Layer));
@@ -288,7 +289,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData("Network", "PanelSync")]
         public void Show_TheNetworkTab_SitsOnTheSurfaceOfTheWindow(string icon, string viewName)
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
             var tabs = TestServiceProviderFactory.MainTabControl(window);
             tabs.SelectedItem = tabs.Items.OfType<TabItem>().First(tab => tab.Header is CMiX.UI.Controls.AppIcon appIcon && appIcon.IconKey == icon);
             TestServiceProviderFactory.Pump();
@@ -306,7 +307,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheAssetsPanel_SitsOnTheSurfaceOfTheWindow()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.RightPanel = CMiX.Studio.Avalonia.ViewModels.PanelChoice.Assets;
             TestServiceProviderFactory.Pump();
 
@@ -320,17 +321,18 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         private Views.MainWindow? window;
+        private readonly TestWindows windows = new();
 
         public void Dispose()
         {
-            window?.Close();
+            windows.Dispose();
             Dispatcher.UIThread.RunJobs();
         }
 
         [AvaloniaFact]
         public void Show_TheMainWindow_AttachesThePanelFocusAndTheNotification()
         {
-            var (provider, shown, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, shown, viewModel) = windows.ShowMainWindow();
             window = shown;
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];

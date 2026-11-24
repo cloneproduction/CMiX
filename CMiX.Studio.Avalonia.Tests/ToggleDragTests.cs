@@ -24,8 +24,12 @@ using Layer = CMiX.Core.Compositing.Layer;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A drag over the visibility or the mask buttons of the real window sets them all to one state, as one undo step.
-    public class ToggleDragTests
+    public class ToggleDragTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private sealed class Screen
         {
             public MainWindow Window { get; init; } = null!;
@@ -62,9 +66,9 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // One composition with four layers.
-        private static Screen Show()
+        private Screen Show()
         {
-            var main = ListTreeMainScreen.Show(layers: 4);
+            var main = ListTreeMainScreen.Show(windows, layers: 4);
             var screen = new Screen { Window = main.Window, ViewModel = main.ViewModel, Undo = main.Undo, View = main.View };
             screen.Layers.AddRange(main.Composition.LayerManager.ManagerData.Items.Cast<Layer>());
             main.Window.Settle();
@@ -75,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheMainWindow_HasTheToggleDragBehavior()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
 
             Assert.Single(global::Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(window).OfType<ToggleDragBehavior>());
         }

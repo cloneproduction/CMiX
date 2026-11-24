@@ -35,6 +35,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         private Screen? screen;
+        private readonly TestWindows windows = new();
 
         public void Dispose()
         {
@@ -43,14 +44,14 @@ namespace CMiX.Studio.Avalonia.Tests
 
             screen.Menu?.Close();
             screen.View.MenuAddPanel.Close();
-            screen.Window.Close();
+            windows.Dispose();
             Dispatcher.UIThread.RunJobs();
         }
 
         // One composition with three layers. The first layer is selected. The focus is on its row.
         private Screen Show()
         {
-            screen = new Screen(ListTreeMainScreen.Show(panel: PanelChoice.Tree));
+            screen = new Screen(ListTreeMainScreen.Show(windows, panel: PanelChoice.Tree));
             screen.Tree.SelectedNode = screen.LayerNode(0);
             Settle(screen.Window);
             screen.RowOf(screen.LayerNode(0)).Focus();

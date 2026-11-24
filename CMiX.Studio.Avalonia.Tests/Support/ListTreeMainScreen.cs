@@ -24,9 +24,9 @@ namespace CMiX.Studio.Avalonia.Tests.Support
         public UndoManager Undo => Provider.GetRequiredService<UndoManager>();
 
         // The fill adds items to the composition before the rows open. The panel replaces the left panel.
-        public static ListTreeMainScreen Show(int layers = 3, Action<Composition>? fill = null, PanelChoice? panel = null)
+        public static ListTreeMainScreen Show(TestWindows windows, int layers = 3, Action<Composition>? fill = null, PanelChoice? panel = null)
         {
-            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, window, viewModel) = windows.ShowMainWindow();
             if (panel != null)
                 viewModel.LeftPanel = panel;
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));

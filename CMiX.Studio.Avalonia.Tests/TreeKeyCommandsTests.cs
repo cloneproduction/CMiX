@@ -35,9 +35,9 @@ namespace CMiX.Studio.Avalonia.Tests
     // Tree.Add (Shift+A), Tree.Menu (W) and Tree.Expand (E) act on the target row when the pointer or the focus is in the tree.
     public class TreeKeyCommandsTests : IDisposable
     {
-        private Views.MainWindow? window;
+        private readonly TestWindows windows = new();
 
-        public void Dispose() => window?.Close();
+        public void Dispose() => windows.Dispose();
 
         private sealed record HideScreen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, ListTreeProject View, PanelNotification Host)
         {
@@ -52,8 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with three layers. Every row is open. The first layer is selected. The undo history is empty.
         private HideScreen ShowHide()
         {
-            var main = ListTreeMainScreen.Show();
-            window = main.Window;
+            var main = ListTreeMainScreen.Show(windows);
             var host = main.Window.GetVisualDescendants().OfType<PanelNotification>().Single();
             var screen = new HideScreen(main.Provider, main.Window, main.ViewModel, main.View, host);
             screen.Tree.SelectedNode = screen.LayerNode(0);
@@ -263,8 +262,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with three layers, each with an Echo filter. Every row is open. The composition is selected.
         private (Views.MainWindow Window, MainViewModel ViewModel, ListTreeProject View) ShowLevels()
         {
-            var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            window = mainWindow;
+            var (_, mainWindow, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
             for (var i = 0; i < 3; i++)
@@ -405,7 +403,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void KeyBindings_OfTheWindow_HoldTheAddCommandOfTheTree()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
 
             var add = window.KeyBindings.Single(binding => Equals(binding.Gesture, viewModel.Shortcuts["Tree.Add"]));
 
@@ -415,7 +413,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_ShiftAWithTheFocusOutsideTheTree_OpensTheAddPanelOfTheSelectedRow()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
             composition.LayerManager.AddItem(typeof(Layer));
@@ -447,7 +445,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_ShiftAWithThePointerBesideTheTree_DoesNothing()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             TestServiceProviderFactory.Pump();
             viewModel.ProjectTree.SelectedNode = null;
             var before = viewModel.Project.CompositionManager.ManagerData.Items.Count;
@@ -463,7 +461,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_ShiftAOverAnEmptyTree_OpensThePanelOfTheProjectAndAddsNothing()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             TestServiceProviderFactory.Pump();
             viewModel.ProjectTree.SelectedNode = null;
             var before = viewModel.Project.CompositionManager.ManagerData.Items.Count;
@@ -491,7 +489,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void KeyBindings_OfTheWindow_HoldTheMenuCommandOfTheTreeOnW()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
 
             var menu = window.KeyBindings.Single(binding => Equals(binding.Gesture, viewModel.Shortcuts["Tree.Menu"]));
 
@@ -502,7 +500,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void KeyBindings_OfTheWindow_HoldTheExpandCommandOfTheTree()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
 
             var expand = window.KeyBindings.Single(binding => Equals(binding.Gesture, viewModel.Shortcuts["Tree.Expand"]));
 
@@ -512,7 +510,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_WOverTheTree_OpensTheMenuOfTheSelectedRow()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
             composition.LayerManager.AddItem(typeof(Layer));
@@ -537,7 +535,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_WOverTheTreeWithNothingSelected_OpensTheMenuOfTheProject()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             TestServiceProviderFactory.Pump();
             viewModel.ProjectTree.SelectedNode = null;
             window.Focus();
@@ -555,7 +553,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_WBesideTheTree_OpensNoMenu()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             TestServiceProviderFactory.Pump();
             window.Focus();
             PointBesideTree(window);
@@ -570,7 +568,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_WInANameBoxOverTheTree_OpensNoMenu()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             var node = viewModel.ProjectTree.CompositionNodes()[0];
@@ -590,7 +588,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_EOverTheTree_CollapsesAndExpandsTheSelectedRow()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
@@ -611,7 +609,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_EBesideTheTree_ChangesNothing()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
@@ -630,7 +628,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_EOrShiftAInANameBoxOverTheTree_DoesNothingElse()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
@@ -652,7 +650,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Set_AnotherGestureForTreeAdd_ReplacesShiftA()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
             viewModel.ProjectTree.SelectedNode = viewModel.ProjectTree.CompositionNodes()[0];

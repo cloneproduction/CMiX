@@ -38,12 +38,16 @@ using TextEntityView = CMiX.Studio.Avalonia.Views.TextEntity;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The inspector shows the editor of the item that is selected in the project tree, and follows what happens to the item.
-    public class PanelInspectorSelectionTests
+    public class PanelInspectorSelectionTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         [AvaloniaFact]
         public void Show_NothingSelected_ShowsOnlyTheHint()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             Assert.True(screen.Placeholder.IsEffectivelyVisible);
             Assert.False(screen.Header.IsVisible);
             Assert.False(screen.Scroller.IsVisible);
@@ -52,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_AComposition_ShowsItsSettingsAndItsEditor()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
 
             screen.Select(screen.CompositionNode);
 
@@ -69,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_TheModifiersGroupOfAnEntity_ShowsTheModifiersOfThatEntity()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             var entityNode = screen.Group<EntitiesGroup>().Children[0];
 
             screen.Select(entityNode.Children.Single(group => group.Group is ModifiersGroup));
@@ -88,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_TheFiltersGroupOfALayerOrAComposition_ShowsTheListOfFilters()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
 
             screen.Select(screen.LayerNode.Children.Single(group => group.Group is FiltersGroup));
             var layerPanel = screen.Find<ModifierManager>()!;
@@ -103,7 +107,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_TheModifiersGroupOfALayerOrAComposition_ListsWhatCanBeAdded()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
 
             screen.Select(screen.LayerNode.Children.Single(group => group.Group is ModifiersGroup));
             Assert.Equal(typeof(Layer), ((PanelAddTypes)screen.Find<ModifierManager>()!.AddContent!).PanelOwner);
@@ -115,7 +119,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_TheTexturesGroupOfAnEntity_ShowsItsDiffuseTexture()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             var entityNode = screen.Group<EntitiesGroup>().Children[0];
 
             screen.Select(entityNode.Children.Single(group => group.Group is TexturesGroup));
@@ -127,7 +131,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_AModifierRow_ShowsTheEditorOfThatModifier()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             EntityOf(screen).ModifierManager.AddItem(typeof(CMiX.Core.Modulation.Modifiers.TranslateModifier));
             TestServiceProviderFactory.Pump();
             var node = screen.Group<EntitiesGroup>().Children[0].Children.Single(group => group.Group is ModifiersGroup).Children[0];
@@ -144,7 +148,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_AModifierRow_ShowsAndAddsTheModulatorsOfThatModifier()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             EntityOf(screen).ModifierManager.AddItem(typeof(CMiX.Core.Modulation.Modifiers.TranslateModifier));
             var modifier = (CMiX.Core.Modulation.IModulatable)EntityOf(screen).ModifierManager.ManagerData.Items[0];
             modifier.ModulatorManager.AddItem(typeof(CMiX.Core.Modulation.Modulators.LFOModulator));
@@ -162,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_AFilterRow_ShowsTheEditorOfThatFilter()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             screen.Layer.TextureModifierManager.AddItem(typeof(CMiX.Core.Texturing.Filters.Blur));
             TestServiceProviderFactory.Pump();
             var node = screen.LayerNode.Children.Single(group => group.Group is FiltersGroup).Children[0];
@@ -177,7 +181,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_ATextureRow_ShowsTheEditorOfThatTexture()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             EntityOf(screen).Texture.DiffuseTexture.TextureManager.AddItem(typeof(CMiX.Core.Texturing.Sources.Image));
             TestServiceProviderFactory.Pump();
             var node = screen.Group<EntitiesGroup>().Children[0].Children.Single(group => group.Group is TexturesGroup).Children[0];
@@ -192,7 +196,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_AModifierInTheInspectorList_SelectsItInTheTree()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             EntityOf(screen).ModifierManager.AddItem(typeof(CMiX.Core.Modulation.Modifiers.TranslateModifier));
             EntityOf(screen).ModifierManager.AddItem(typeof(CMiX.Core.Modulation.Modifiers.ScaleModifier));
             TestServiceProviderFactory.Pump();
@@ -207,7 +211,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_ALayer_ShowsItsSettingsAndEffectsButNotItsItemLists()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
 
             screen.Select(screen.LayerNode);
 
@@ -226,7 +230,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData(2, typeof(TextEntityView))]
         public void Select_AnEntity_ShowsTheEditorOfItsKind(int index, Type editor)
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             var node = screen.Group<EntitiesGroup>().Children[index];
 
             screen.Select(node);
@@ -239,7 +243,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_ACameraOrALight_ShowsItsEditor()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
 
             screen.Select(screen.Group<CamerasGroup>().Children[0]);
             Assert.NotNull(screen.Find<CameraView>());
@@ -253,7 +257,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_AGroup_ShowsItsNameAndTheListPanelOfItsKind()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
 
             screen.Select(screen.Group<CamerasGroup>());
             Assert.True(screen.Header.IsVisible);
@@ -278,7 +282,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_AnotherItemOrRename_UpdatesTheInspector()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             var entity = screen.Group<EntitiesGroup>().Children[0];
 
             screen.Select(screen.LayerNode);
@@ -296,7 +300,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Remove_TheSelectedItem_ClosesTheEditor()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             // The only camera: when it goes, the selection falls back to the group of cameras.
             var camera = screen.Group<CamerasGroup>().Children[0];
             screen.Select(camera);
@@ -314,7 +318,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_AnItemInAList_SelectsItsRowAndLeavesTheInspector()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             // Selecting the first camera in its list moves the selection of the tree and not the inspector.
             screen.Layer.CameraManager.AddItem(typeof(CameraModel));
             TestServiceProviderFactory.Pump();
@@ -341,7 +345,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData("lights group")]
         public void Show_AnEditor_OpensEveryPanel(string kind)
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             var node = kind switch
             {
                 "composition" => screen.CompositionNode,
@@ -366,7 +370,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public async Task Move_AnEntityToAnotherLayer_KeepsItInTheInspector()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             var composition = (Composition)screen.CompositionNode.Item!;
             composition.LayerManager.AddItem(typeof(Layer));
             TestServiceProviderFactory.Pump();
@@ -386,7 +390,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Remove_TheCompositionOfTheSelectedLayer_ShowsTheHint()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             screen.Select(screen.LayerNode);
             Assert.NotNull(screen.Find<TabLayerPostFX>());
 
@@ -402,7 +406,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void UndoAndRedo_OfARemoval_KeepTheInspectorWorking()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             var camera = screen.Group<CamerasGroup>().Children[0];
             screen.Select(camera);
 

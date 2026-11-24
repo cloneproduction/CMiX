@@ -21,14 +21,14 @@ namespace CMiX.Studio.Avalonia.Tests
     // and with the focus in the tree the hint strip shows the keys of the filter.
     public class ProjectTreeSearchExitTests : IDisposable
     {
-        private Views.MainWindow? window;
+        private readonly TestWindows windows = new();
         private ListTreeProject? view;
 
-        // A grab that a test leaves running would take the input of the next tests, so it ends here first.
+        // A grab that a test leaves running would take the input of the next tests, so it ends here.
         public void Dispose()
         {
+            windows.Dispose();
             view?.Grab.Detach();
-            window?.Close();
         }
 
         private sealed record Screen(Views.MainWindow Window, MainViewModel ViewModel, ListTreeProject View, TextBoxSearchTree Box)
@@ -42,8 +42,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with three layers. Every row is open. The composition is selected.
         private Screen Show()
         {
-            var main = ListTreeMainScreen.Show();
-            window = main.Window;
+            var main = ListTreeMainScreen.Show(windows);
             view = main.View;
             var box = main.Window.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
             var screen = new Screen(main.Window, main.ViewModel, main.View, box);

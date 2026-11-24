@@ -15,9 +15,9 @@ namespace CMiX.Studio.Avalonia.Tests
     // A remove in the tree shows a notification in the main window: "Removed" and the name, with the key of Edit.Undo as a key cap.
     public class RemoveNotificationTests : IDisposable
     {
-        private Views.MainWindow? window;
+        private readonly TestWindows windows = new();
 
-        public void Dispose() => window?.Close();
+        public void Dispose() => windows.Dispose();
 
         private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, PanelNotification Host)
         {
@@ -28,8 +28,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with two layers. The first layer is selected.
         private Screen Show()
         {
-            var main = ListTreeMainScreen.Show(layers: 2);
-            window = main.Window;
+            var main = ListTreeMainScreen.Show(windows, layers: 2);
             var host = main.Window.GetVisualDescendants().OfType<PanelNotification>().Single();
             var screen = new Screen(main.Provider, main.Window, main.ViewModel, host);
             screen.Tree.SelectedNode = screen.LayerNode(0);

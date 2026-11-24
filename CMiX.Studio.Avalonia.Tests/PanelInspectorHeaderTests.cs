@@ -38,13 +38,17 @@ using TextEntityView = CMiX.Studio.Avalonia.Views.TextEntity;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The title bar of the inspector: its height, the kind color, the badge, the name and the toggles of the item.
-    public class PanelInspectorHeaderTests
+    public class PanelInspectorHeaderTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         // The title bar has the height of the headers of the panels under it (the headers of the expanders).
         [AvaloniaFact]
         public void Show_TheHeader_HasTheHeightOfThePanelHeaders()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             screen.Select(screen.CompositionNode);
             var expander = screen.Editor.GetVisualDescendants().OfType<ExpanderIndented>().First();
             var expanderHeader = expander.GetVisualDescendants().OfType<ToggleButton>().First();
@@ -63,7 +67,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_AnItem_ColorsTheWholeHeaderWithTheKindColor()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             var palette = CMiX.Studio.Avalonia.Themes.CategoryPalette.FromApplication();
             foreach (var node in new[] { screen.CompositionNode, screen.LayerNode, screen.Group<EntitiesGroup>(), screen.Group<LightsGroup>() })
             {
@@ -80,7 +84,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheBadgeOfTheHeader_IsARowHighSquareWithAWhiteIconInTheBar()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             screen.Select(screen.CompositionNode);
             var square = screen.Header.GetVisualDescendants().OfType<BadgeCategory>().Single().GetVisualDescendants().OfType<Border>().First();
 
@@ -99,7 +103,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheHeaderOfAnItem_HasTheEditableNameAndTheTogglesAtTheRight()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             screen.Select(screen.LayerNode);
 
             var visibility = screen.VisibilityToggle!;
@@ -123,7 +127,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheToggles_HaveTheSlotsOfTheToggleColumnOfTheTree()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             screen.Select(screen.LayerNode);
 
             var tree = screen.Window.GetVisualDescendants().OfType<ListTreeProject>().Single();
@@ -144,7 +148,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Edit_TheTogglesAndTheName_ChangeTheItem()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             screen.Select(screen.LayerNode);
             var layer = (Layer)screen.LayerNode.Item!;
 
@@ -162,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_EachKindOfItem_GivesTheMaskToggleToACompositionAndALayerOnly()
         {
-            var screen = PanelInspectorScreen.Show();
+            var screen = PanelInspectorScreen.Show(windows);
             var entity = screen.Group<EntitiesGroup>().Children[0];
 
             screen.Select(screen.CompositionNode);

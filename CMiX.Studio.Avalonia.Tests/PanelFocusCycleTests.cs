@@ -30,10 +30,11 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         private Screen? screen;
+        private readonly TestWindows windows = new();
 
         public void Dispose()
         {
-            screen?.Window.Close();
+            windows.Dispose();
             Dispatcher.UIThread.RunJobs();
         }
 
@@ -41,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // the focus is on the layer row.
         private Screen Show(bool focusTree = true)
         {
-            var (_, window, viewModel) = ListTreeMainScreen.Show(layers: 1);
+            var (_, window, viewModel) = ListTreeMainScreen.Show(windows, layers: 1);
 
             var hosts = window.GetVisualDescendants().OfType<PanelSide>()
                 .OrderBy(host => host.TranslatePoint(default, window)!.Value.X).ToList();

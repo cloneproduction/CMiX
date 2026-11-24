@@ -27,6 +27,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         private Screen? screen;
+        private readonly TestWindows windows = new();
 
         public void Dispose()
         {
@@ -35,14 +36,14 @@ namespace CMiX.Studio.Avalonia.Tests
 
             screen.View.Menu?.Close();
             screen.View.MenuAddPanel.Close();
-            screen.Window.Close();
+            windows.Dispose();
             Dispatcher.UIThread.RunJobs();
         }
 
         // The tree on the left, the tabs on the right. One composition with one layer. The focus is on the layer row.
         private Screen Show()
         {
-            var (_, window, viewModel) = ListTreeMainScreen.Show(layers: 1);
+            var (_, window, viewModel) = ListTreeMainScreen.Show(windows, layers: 1);
 
             var hosts = window.GetVisualDescendants().OfType<PanelSide>()
                 .OrderBy(host => host.TranslatePoint(default, window)!.Value.X).ToList();
