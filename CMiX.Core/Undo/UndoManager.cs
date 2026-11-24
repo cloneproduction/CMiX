@@ -33,9 +33,9 @@ namespace CMiX.Core.Undo
                 return;
             }
 
-            if (command is ValueChangedCommand vc
+            if (command is ValueChangedUndoCommand vc
                 && _undoStack.Last is { } lastNode
-                && lastNode.Value is ValueChangedCommand lastVc
+                && lastNode.Value is ValueChangedUndoCommand lastVc
                 && lastVc.ControlID == vc.ControlID
                 && (vc.Timestamp - lastVc.Timestamp).TotalMilliseconds < MergeWindowMs)
             {

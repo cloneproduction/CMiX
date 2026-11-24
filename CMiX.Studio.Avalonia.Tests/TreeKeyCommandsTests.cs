@@ -137,8 +137,8 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(pressed.IsHidden);
             Assert.Equal(2, screen.UndoSteps);
             Assert.Equal(clickStep.GetType(), keyStep.GetType());
-            Assert.Equal(clicked.HiddenValue!.ID, ((ValueChangedCommand)clickStep).ControlID);
-            Assert.Equal(pressed.HiddenValue!.ID, ((ValueChangedCommand)keyStep).ControlID);
+            Assert.Equal(clicked.HiddenValue!.ID, ((ValueChangedUndoCommand)clickStep).ControlID);
+            Assert.Equal(pressed.HiddenValue!.ID, ((ValueChangedUndoCommand)keyStep).ControlID);
             Assert.Equal(clickMessage.GetType(), keyMessage.GetType());
             Assert.Equal(clicked.HiddenValue.ID, ((MessageValueChanged)clickMessage).ID);
             Assert.Equal(pressed.HiddenValue.ID, ((MessageValueChanged)keyMessage).ID);

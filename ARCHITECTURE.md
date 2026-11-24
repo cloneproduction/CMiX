@@ -78,7 +78,7 @@ Classes that are several shapes at once, or none:
 | `MasterBeat`, `AssetManager`, `OutputMappingManager`, `RedisAddressRegistry` | Singleton and control at once. |
 | `PrefabService` | Not a service. It is the name and the visibility of a prefab. |
 | `ControlCloner`, `ListRules`, `DerivedId`, `ManagerIDs`, `ProjectSerializer`, `ProjectStateHash`, `ProjectModelBuilder`, `SyncPeerStartup`, `ControlExtensions` | Static helpers. |
-| The undo steps (`AddItemUndoCommand`, `ValueChangedCommand`, `CompositeCommand`, ...) | None of the five shapes. They are small objects with `Execute` and `Undo`. |
+| The undo steps (`AddItemUndoCommand`, `ValueChangedUndoCommand`, `CompositeCommand`, ...) | None of the five shapes. They are small objects with `Execute` and `Undo`. |
 
 ### CMiX.Studio.Avalonia
 
@@ -111,7 +111,7 @@ Three static entry points connect it to an application: `InteractionHost`, `Icon
 
 1. **View.** `SliderModulatable` binds to `ModulatableValue<float>.Value`. The CMiX.UI editor opens a drag scope through `InteractionHost`, which `InteractionHostConnection.Connect` binds to the `ValueInteraction` of the container when the App builds it.
 2. **Value.** `ModulatableValue.Value` passes the write to `GenericValue<T>.Value`. The setter calls `IValueSync.Changing`, stores the value and calls `IValueSync.Changed`. A momentary value calls `IValueSync.Send` instead. The value builds no model and has no drag code.
-3. **Message.** `ValueSync` implements `IValueSync`. Outside a drag it records the `ValueChangedCommand` unless the undo stack is applying, then `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. During a drag it sends at most 60 times each second and records one undo step when the drag ends. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
+3. **Message.** `ValueSync` implements `IValueSync`. Outside a drag it records the `ValueChangedUndoCommand` unless the undo stack is applying, then `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. During a drag it sends at most 60 times each second and records one undo step when the drag ends. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
 4. **Peer.** `SyncPeer.SendMessage` (`SyncPeer.Send.cs`) drops the message if the peer is not the writer. Else it wraps it in a `MessageEnvelope`, serializes it with MessagePack and puts it in `OutgoingQueue`.
 5. **Redis.** One task appends the entry to the stream `{prefix}:updates` through `RedisSyncStore`, sets the tail key and publishes a wake signal. `SnapshotCompactor` writes a new snapshot later.
 6. **Engine.** `StreamFollower` reads the new entries. `SyncPeer` (`SyncPeer.Apply.cs`) posts each batch to its dispatcher. In vvvv that is `MainloopQueue`, which the patch drains once for each frame. In `CMiX.Console` the apply runs inline.
@@ -191,7 +191,7 @@ Names that collide:
 | **Texture** | `Texture` is the pair of diffuse and mask. `ControlRepository.Textures` and `MainViewModel.TextureManager` hold texture sources. |
 | **Filter = texture modifier** | The classes are filters (`ITextureFilter`, folder `Filters`). The list is `TextureModifierManager` and the interface is `ITextureModifiable`. A texture modifier is not a `Modifier`. |
 | **Message** | A wire message (`IMessage`) and a notice to the user (`MessageNotice`, `DialogMessage`). The sync views are in `Views/Messenger`, the code is in `Networking`, the classes say `Sync`. |
-| **Command** | `...Command` is for XAML and `...UndoCommand` is an undo step. `ValueChangedCommand` and `CompositeCommand` are undo steps without the `Undo` word. |
+| **Command** | `...Command` is for XAML and `...UndoCommand` is an undo step. `ValueChangedUndoCommand` and `CompositeCommand` are undo steps without the `Undo` word. |
 | **Visible, Visibility, Hidden** | `PrefabService.Visibility`, `PrefabManager.Hidden`, and `VisibilityComponent.IsVisible => !Visible.Value`, where true means hidden. |
 | **Repository** | `ControlRepository` is the index. `ListRepository` and `TabRepository` are views of the six lists that `MainViewModel` owns. |
 | **Tree, SelectorPrefab** | `ProjectTree` is the tree. `Views/Controls/SelectorPrefab` is another control, used in the `Mesh` view. |

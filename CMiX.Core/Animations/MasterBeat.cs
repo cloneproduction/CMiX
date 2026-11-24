@@ -213,7 +213,7 @@ namespace CMiX.Core.Animations
                 UndoManager?.ResumeUndo();
             }
 
-            UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
+            UndoManager?.Push(new ValueChangedUndoCommand(this, before, ToModel()));
         }
 
         public IControlModel ToModel() => new MasterBeatModel

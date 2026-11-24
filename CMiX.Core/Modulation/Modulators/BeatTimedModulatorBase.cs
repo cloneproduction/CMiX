@@ -165,7 +165,7 @@ namespace CMiX.Core.Modulation.Modulators
                 UndoManager?.ResumeUndo();
             }
 
-            UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
+            UndoManager?.Push(new ValueChangedUndoCommand(this, before, ToModel()));
         }
 
         public void Reset() => WithUndo(() => BeatIndex.Value = 0);

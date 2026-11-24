@@ -69,7 +69,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Changing_ThenChanged_PushesOneValueChangedCommandAndSendsOneMessage()
+        public void Changing_ThenChanged_PushesOneValueChangedUndoCommandAndSendsOneMessage()
         {
             var fixture = Create();
 

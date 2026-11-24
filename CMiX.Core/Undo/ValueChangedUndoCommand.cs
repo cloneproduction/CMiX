@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Undo
 {
-    public class ValueChangedCommand : IUndoCommand
+    public class ValueChangedUndoCommand : IUndoCommand
     {
         private readonly IControl _control;
         private IControlModel _before;
@@ -13,7 +13,7 @@ namespace CMiX.Core.Undo
         public DateTime Timestamp { get; }
         public IControlModel Before => _before;
 
-        public ValueChangedCommand(IControl control, IControlModel before, IControlModel after)
+        public ValueChangedUndoCommand(IControl control, IControlModel before, IControlModel after)
         {
             _control = control;
             _before = before;
@@ -22,7 +22,7 @@ namespace CMiX.Core.Undo
             Timestamp = DateTime.Now;
         }
 
-        public ValueChangedCommand WithBefore(IControlModel before)
+        public ValueChangedUndoCommand WithBefore(IControlModel before)
         {
             _before = before;
             return this;
