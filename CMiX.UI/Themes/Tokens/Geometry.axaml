@@ -88,23 +88,11 @@
     <x:Double x:Key="AddPanelWidth">200</x:Double>
 
     <!-- The project tree. Tests pin the numbers that the code also holds. -->
-    <!-- The indent of one level, and the width of the chevron. -->
-    <x:Double x:Key="TreeIndent">16</x:Double>
-    <!-- TreeIndent at the left: the drop line starts after the chevron. -->
-    <Thickness x:Key="TreeIndentMargin">16,0,0,0</Thickness>
     <!-- The space between two rows at a screen of 100%. The view sets it again in whole pixels. -->
     <x:Double x:Key="TreeRowGap">3</x:Double>
-    <!-- The space around the tree: SpacingMD at the left, top and bottom. The scroll bar gutter is at the right. -->
-    <Thickness x:Key="TreeMargin">8,8,0,8</Thickness>
-    <!-- The space before the content of a row: SpacingXS. -->
-    <Thickness x:Key="TreeRowContentMargin">2,0,0,0</Thickness>
     <!-- The square of a kind after the name of a collapsed row, and the sign of a missing asset: the icon (IconSizeXS) sits in it with
          the same margin on every side, so every kind shows the same way. -->
     <x:Double x:Key="TreeKindSquareSize">16</x:Double>
-    <!-- The space at the two sides of the icon and the name of a row: SpacingSM. -->
-    <Thickness x:Key="TreeHeaderMargin">4,0</Thickness>
-    <!-- The space inside the toolbar of the tree: SpacingSM. -->
-    <Thickness x:Key="TreeToolbarPadding">4</Thickness>
     <!-- The width of the search field of the tree, in the bar of the panel, at the right. -->
     <x:Double x:Key="TreeSearchWidth">160</x:Double>
     <!-- The row of the tree at a screen of 100%. ListTreeToggleSizes sets these again per view, in whole pixels of the screen. -->

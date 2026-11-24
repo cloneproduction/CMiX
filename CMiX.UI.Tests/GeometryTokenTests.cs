@@ -26,24 +26,6 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TreeIndentMargin_Token_IsTheTreeIndentAtTheLeft()
-        {
-            Assert.Equal(new Thickness(Size("TreeIndent"), 0, 0, 0), Space("TreeIndentMargin"));
-        }
-
-        [AvaloniaFact]
-        public void TreeSpaces_Tokens_AreSpacingTokens()
-        {
-            var md = Size("SpacingMD");
-            var sm = Size("SpacingSM");
-
-            Assert.Equal(new Thickness(md, md, 0, md), Space("TreeMargin"));
-            Assert.Equal(new Thickness(Size("SpacingXS"), 0, 0, 0), Space("TreeRowContentMargin"));
-            Assert.Equal(new Thickness(sm, 0), Space("TreeHeaderMargin"));
-            Assert.Equal(new Thickness(sm), Space("TreeToolbarPadding"));
-        }
-
-        [AvaloniaFact]
         public void SplitterRowOverlap_Token_IsMinusHalfTheSplitterSize()
         {
             Assert.Equal(new Thickness(0, -Size("SplitterSize") / 2), Space("SplitterRowOverlap"));
