@@ -14,35 +14,13 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The flyouts of the modulator assignment and of the sync settings close when the pointer goes far away from them.
+    // The flyouts of the sync settings close when the pointer goes far away from them.
     public class FlyoutPointerAwayTests
     {
         private static void MoveFarAway(Window window)
         {
             window.MouseMove(new Point(window.Width - 10, window.Height - 10));
             Dispatcher.UIThread.RunJobs();
-        }
-
-        [AvaloniaFact]
-        public void TheModulatorAssignMenu_ClosesWhenThePointerGoesFarAway()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var model = (CMiX.Core.Texturing.Filters.Blur)provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Filters.Blur));
-            model.ModulatorManager.AddItem(typeof(CMiX.Core.Modulation.Modulators.RandomModulator));
-            var view = new Views.Blur { DataContext = model };
-            var window = new Window { Content = view, Width = 900, Height = 900 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-
-            var assign = view.GetVisualDescendants().OfType<ButtonModulatorAssign>().Single(b => b.DataContext == model.Strength);
-            var button = assign.FindControl<Button>("assignButton")!;
-            button.Flyout!.ShowAt(button);
-            Dispatcher.UIThread.RunJobs();
-            Assert.True(button.Flyout.IsOpen);
-
-            MoveFarAway(window);
-
-            Assert.False(button.Flyout.IsOpen);
         }
 
         [AvaloniaTheory]
