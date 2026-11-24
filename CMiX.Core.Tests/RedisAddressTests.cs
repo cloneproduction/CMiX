@@ -1,4 +1,8 @@
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 using CMiX.Core.Animations;
+using CMiX.Core.Compositing;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
@@ -12,8 +16,8 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Removing a global address takes the values bound to the modulators that select it back to normal.
-    public class RedisAddressRemoveTests
+    // The one global list of Redis addresses: its fixed id, the default name, and a remove that takes the bound values back to normal.
+    public class RedisAddressTests
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
 
@@ -51,6 +55,15 @@ namespace CMiX.Core.Tests
             modulator.SelectedAddress = address;
             bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs.Single()));
         }
+
+        private static (Project Project, UndoManager Undo) NewProject()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            return (provider.GetRequiredService<Project>(), provider.GetRequiredService<UndoManager>());
+        }
+
+        private static List<string> Names(Project project) =>
+            project.RedisAddressRegistry.Addresses.Select(address => address.Value).ToList();
 
         [Fact]
         public void RemoveAddress_TheSelectedAddressOfAFilter_TakesTheValueBackToNormal()
@@ -142,7 +155,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void EditingOrMovingTheAddress_KeepsTheBinding()
+        public void ValueAndMoveItemTo_OfASelectedAddress_KeepTheBinding()
         {
             var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var modulator = AddModulator(blur.ModulatorManager);
@@ -159,7 +172,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ChangingTheSelection_KeepsTheBinding()
+        public void SelectedAddress_ChangedToAnotherAddress_KeepsTheBinding()
         {
             var blur = (Blur)_provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
             var modulator = AddModulator(blur.ModulatorManager);
@@ -206,6 +219,49 @@ namespace CMiX.Core.Tests
             Assert.NotNull(modulator.SelectedAddress);
             Assert.Equal(modulator.ID, blur.Strength.ModulatorID);
             Assert.Equal("Value", blur.Strength.BoundOutputName);
+        }
+
+        [Fact]
+        public void AddressManager_OfTheRegistry_HasTheFixedID()
+        {
+            Assert.Equal(ManagerIDs.RedisAddressManager, Registry.AddressManager.ManagerData.ID);
+        }
+
+        [Fact]
+        public void Add_AnAddress_NamesItAddressWithANumber()
+        {
+            var (project, _) = NewProject();
+
+            project.RedisAddressRegistry.AddAddress();
+            project.RedisAddressRegistry.AddAddress();
+
+            Assert.Equal(new[] { "Address.001", "Address.002" }, Names(project));
+        }
+
+        [Fact]
+        public void Add_AnAddressAfterOthers_TakesTheFirstFreeNumber()
+        {
+            var (project, _) = NewProject();
+            project.RedisAddressRegistry.AddAddress();
+            project.RedisAddressRegistry.AddAddress();
+            project.RedisAddressRegistry.AddAddress();
+            project.RedisAddressRegistry.RemoveAddress(project.RedisAddressRegistry.Addresses.ElementAt(1));
+
+            project.RedisAddressRegistry.AddAddress();
+
+            Assert.Equal(new[] { "Address.001", "Address.003", "Address.002" }, Names(project));
+        }
+
+        [Fact]
+        public void Add_AnAddress_IsOneUndoStepWithItsName()
+        {
+            var (project, undo) = NewProject();
+            undo.Clear();
+
+            project.RedisAddressRegistry.AddAddress();
+            undo.Undo();
+
+            Assert.Empty(Names(project));
         }
     }
 }
