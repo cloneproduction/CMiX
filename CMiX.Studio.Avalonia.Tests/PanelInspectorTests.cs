@@ -9,6 +9,7 @@ using Avalonia.VisualTree;
 using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -670,19 +671,6 @@ namespace CMiX.Studio.Avalonia.Tests
             return row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), screen.Window)!.Value;
         }
 
-        private static void Click(Screen screen, Point point)
-        {
-            screen.Window.MouseDown(point, MouseButton.Left);
-            screen.Window.MouseUp(point, MouseButton.Left);
-            TestServiceProviderFactory.Pump();
-        }
-
-        private static void MiddleClick(Screen screen, Point point)
-        {
-            screen.Window.MouseDown(point, MouseButton.Middle);
-            screen.Window.MouseUp(point, MouseButton.Middle);
-            TestServiceProviderFactory.Pump();
-        }
 
         private static string SelectedTab(Screen screen) =>
             (TestServiceProviderFactory.MainTabControl(screen.Window).SelectedItem as TabItem is { Header: AppIcon icon }) ? icon.IconKey : "";
@@ -693,7 +681,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
 
-            MiddleClick(screen, CenterOfRow(screen, screen.Group<CamerasGroup>().Children[0]));
+            screen.Window.Click(CenterOfRow(screen, screen.Group<CamerasGroup>().Children[0]), MouseButton.Middle);
 
             Assert.Equal("Settings", SelectedTab(screen));
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Inspector");
@@ -706,7 +694,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
 
-            MiddleClick(screen, CenterOfRow(screen, screen.Group<LightsGroup>()));
+            screen.Window.Click(CenterOfRow(screen, screen.Group<LightsGroup>()), MouseButton.Middle);
 
             Assert.Equal("Settings", SelectedTab(screen));
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Inspector");
@@ -723,7 +711,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 .GetVisualDescendants().OfType<ToggleButton>().First(button => CMiX.UI.AttachedProperties.ToggleDrag.GetGroup(button) == "visibility");
             var point = toggle.TranslatePoint(new Point(toggle.Bounds.Width / 2, toggle.Bounds.Height / 2), screen.Window)!.Value;
 
-            Click(screen, point);
+            screen.Window.Click(point);
 
             Assert.Equal("Settings", SelectedTab(screen));
         }
@@ -751,7 +739,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show();
             TestServiceProviderFactory.SelectMainTab(screen.Window, "Settings");
 
-            Click(screen, CenterOfRow(screen, screen.LayerNode));
+            screen.Window.Click(CenterOfRow(screen, screen.LayerNode));
 
             Assert.Equal("Settings", SelectedTab(screen));
             Assert.Same(screen.Layer, screen.Tree.SelectedNode!.Item);

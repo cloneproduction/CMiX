@@ -351,16 +351,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 Dispatcher.UIThread.RunJobs();
             }
 
-            public void Click(Control control)
-            {
-                Window.UpdateLayout();
-                AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-                Dispatcher.UIThread.RunJobs();
-                var point = control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), Window)!.Value;
-                Window.MouseDown(point, MouseButton.Left);
-                Window.MouseUp(point, MouseButton.Left);
-                Dispatcher.UIThread.RunJobs();
-            }
+            public void Click(Control control) => Window.Click(control);
         }
 
         private Screen Show(double leftRoom = 0)

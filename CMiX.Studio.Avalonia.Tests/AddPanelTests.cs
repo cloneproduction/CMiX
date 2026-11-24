@@ -74,17 +74,6 @@ namespace CMiX.Studio.Avalonia.Tests
             return new Rect(search.TranslatePoint(default, setup.Window)!.Value, search.Bounds.Size);
         }
 
-        private static void Click(Setup setup, Control control)
-        {
-            setup.Window.UpdateLayout();
-            var point = control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), setup.Window)!.Value;
-            setup.Window.MouseMove(point);
-            Dispatcher.UIThread.RunJobs();
-            setup.Window.MouseDown(point, MouseButton.Left);
-            setup.Window.MouseUp(point, MouseButton.Left);
-            Dispatcher.UIThread.RunJobs();
-        }
-
         [AvaloniaFact]
         public void OpenAtPoint_APoint_PutsTheMiddleOfTheSearchFieldUnderIt()
         {
@@ -241,7 +230,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Open(setup, PopupSide.Right);
             var index = setup.Panel.List.VisibleTexts.ToList().IndexOf("Camera");
 
-            Click(setup, setup.Panel.List.RowVisuals[index]);
+            setup.Window.Click(setup.Panel.List.RowVisuals[index]);
             Dispatcher.UIThread.RunJobs();
 
             Assert.False(setup.Panel.IsOpen);

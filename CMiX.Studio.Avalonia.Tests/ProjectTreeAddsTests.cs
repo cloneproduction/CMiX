@@ -54,16 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             public RowListTree RowOf(TreeNode node) => View.Rows.RowOf(node)!;
 
-            public void Click(Control control)
-            {
-                Window.UpdateLayout();
-                AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-                Dispatcher.UIThread.RunJobs();
-                var point = control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), Window)!.Value;
-                Window.MouseDown(point, MouseButton.Left);
-                Window.MouseUp(point, MouseButton.Left);
-                Dispatcher.UIThread.RunJobs();
-            }
+            public void Click(Control control) => Window.Click(control);
         }
 
         // One composition with one layer, and one entity in the layer.
