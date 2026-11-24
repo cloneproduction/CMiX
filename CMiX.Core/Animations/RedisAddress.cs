@@ -6,22 +6,20 @@ using CMiX.Core.BaseControls;
 namespace CMiX.Core.Animations
 {
     // One Redis address of the list. A Redis modulator selects one of them.
-    public class RedisAddress : GenericValue<string>, IControl
+    public class RedisAddress : GenericValue<string>
     {
         public RedisAddress(IValueSync sync, ControlActivationService activationService)
             : base(sync, activationService)
         {
         }
 
-        protected override IControlModel CaptureModel() => ToModel();
-
-        public new IControlModel ToModel() => new RedisAddressModel
+        public override IControlModel ToModel() => new RedisAddressModel
         {
             ID = ID,
             Value = Value
         };
 
-        public new void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (RedisAddressModel)model;
             ID = m.ID;

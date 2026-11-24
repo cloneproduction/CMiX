@@ -16,16 +16,15 @@ namespace CMiX.Core.Compositing
             PrefabService = prefabService;
         }
         public PrefabService PrefabService { get; set; }
-        protected override IControlModel CaptureModel() => ToModel();
 
-        public IControlModel ToModel() => new ColorModel
+        public override IControlModel ToModel() => new ColorModel
         {
             ID = ID,
             Value = Value,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel()
         };
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (ColorModel)model;
             ID = m.ID;

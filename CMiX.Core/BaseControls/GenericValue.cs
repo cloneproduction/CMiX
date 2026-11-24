@@ -73,13 +73,13 @@ namespace CMiX.Core.BaseControls
                 Value = ((GenericValueModel<T>)change.Value).Value;
         }
 
-        public IControlModel ToModel() => new GenericValueModel<T>
+        public virtual IControlModel ToModel() => new GenericValueModel<T>
         {
             ID = ID,
             Value = Value
         };
 
-        public void FromModel(IControlModel model)
+        public virtual void FromModel(IControlModel model)
         {
             var m = (GenericValueModel<T>)model;
             ID = m.ID;

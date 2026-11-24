@@ -6,22 +6,20 @@ using CMiX.Core.BaseControls;
 namespace CMiX.Core.Animations
 {
     // One value of the list of a BeatStepModulator.
-    public class BeatStep : GenericValue<float>, IControl
+    public class BeatStep : GenericValue<float>
     {
         public BeatStep(IValueSync sync, ControlActivationService activationService)
             : base(sync, activationService)
         {
         }
 
-        protected override IControlModel CaptureModel() => ToModel();
-
-        public new IControlModel ToModel() => new BeatStepModel
+        public override IControlModel ToModel() => new BeatStepModel
         {
             ID = ID,
             Value = Value
         };
 
-        public new void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (BeatStepModel)model;
             ID = m.ID;
