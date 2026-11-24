@@ -6,6 +6,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -15,11 +16,15 @@ using CMiX.UI.Tests.Support;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A combo shows a Reset menu only when it has a reset command, and the menu restores the default.
-    public class ComboResetTests
+    public class ComboResetTests : IDisposable
     {
-        private static Window Host(Control content)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private Window Host(Control content)
         {
-            var window = new Window { Content = content, Width = 400, Height = 300 };
+            var window = windows.Add(new Window { Content = content, Width = 400, Height = 300 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return window;

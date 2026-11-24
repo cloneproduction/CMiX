@@ -5,6 +5,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,13 +14,17 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The Duplicate button sits next to the Add button of the layer and composition list, and before the Remove button of a slot.
-    public class DuplicateButtonTests
+    public class DuplicateButtonTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static PrefabManager CreateManager() => TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
 
-        private static void Show(Control view)
+        private void Show(Control view)
         {
-            new Window { Content = view, Width = 500, Height = 500 }.Show();
+            windows.Add(new Window { Content = view, Width = 500, Height = 500 }).Show();
             Dispatcher.UIThread.RunJobs();
         }
 

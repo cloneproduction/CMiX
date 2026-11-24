@@ -7,6 +7,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Managers;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,8 +17,12 @@ using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class EditorPrefabSlotTests
+    public class EditorPrefabSlotTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static Layer LayerWithACamera()
         {
             var layer = (Layer)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Layer));
@@ -25,9 +30,9 @@ namespace CMiX.Studio.Avalonia.Tests
             return layer;
         }
 
-        private static void Show(Control view)
+        private void Show(Control view)
         {
-            var window = new Window { Content = view, Width = 400, Height = 900 };
+            var window = windows.Add(new Window { Content = view, Width = 400, Height = 900 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             window.UpdateLayout();

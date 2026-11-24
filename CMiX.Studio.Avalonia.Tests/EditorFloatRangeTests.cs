@@ -6,6 +6,7 @@ using Avalonia.VisualTree;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.Controls.Number;
 using CMiX.UI.Controls.Parts;
@@ -15,9 +16,13 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The Min and Max editor of a FloatRange, with and without a caption.
-    public class EditorFloatRangeTests
+    public class EditorFloatRangeTests : IDisposable
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
+
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
 
         private LFOModulator NewModulator()
         {
@@ -26,10 +31,10 @@ namespace CMiX.Studio.Avalonia.Tests
             return (LFOModulator)blur.ModulatorManager.SelectedItem;
         }
 
-        private static EditorFloatRange Show(LFOModulator modulator, string caption)
+        private EditorFloatRange Show(LFOModulator modulator, string caption)
         {
             var editor = new EditorFloatRange { DataContext = modulator.Range, Caption = caption };
-            new Window { Content = editor, Width = 400, Height = 200 }.Show();
+            windows.Add(new Window { Content = editor, Width = 400, Height = 200 }).Show();
             Dispatcher.UIThread.RunJobs();
             return editor;
         }

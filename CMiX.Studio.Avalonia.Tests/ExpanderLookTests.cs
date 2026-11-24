@@ -9,6 +9,7 @@ using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,8 +23,12 @@ namespace CMiX.Studio.Avalonia.Tests
     // The panels look the same everywhere: the expanders of the assets are the expanders of the entities, a panel inside a panel is
     // one step brighter, and the blend of a filter is closed when the filter appears. The switch in the header of a panel that turns
     // the panel on is the box of the captioned toggle, without the caption.
-    public class ExpanderLookTests
+    public class ExpanderLookTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static Color Header(Expander expander) =>
             ((ISolidColorBrush)expander.GetVisualDescendants().OfType<Border>().First(border => border.Name == "mainBorder").Background!).Color;
 
@@ -35,7 +40,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheAssetPanel_HasTheOpenExpandersOfTheOtherPanels()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.RightPanel = CMiX.Studio.Avalonia.ViewModels.PanelChoice.Assets;
             TestServiceProviderFactory.Pump();
             var assets = window.GetVisualDescendants().OfType<AssetManager>().Single();
@@ -50,11 +55,11 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheAssetExpanders_HaveTheLookOfTheEntityExpanders()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             var provider = TestServiceProviderFactory.Create();
             var entity = (Entity)provider.GetRequiredService<ControlFactory>().Create(typeof(Entity));
             var entityView = new ModelEntity { DataContext = entity };
-            new Window { Content = entityView, Width = 500, Height = 1600 }.Show();
+            windows.Add(new Window { Content = entityView, Width = 500, Height = 1600 }).Show();
             Dispatcher.UIThread.RunJobs();
             var transform = ExpanderWith(entityView, "Transform");
 
@@ -73,7 +78,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var provider = TestServiceProviderFactory.Create();
             var entity = (Entity)provider.GetRequiredService<ControlFactory>().Create(typeof(Entity));
             var view = new ModelEntity { DataContext = entity };
-            new Window { Content = view, Width = 500, Height = 2000 }.Show();
+            windows.Add(new Window { Content = view, Width = 500, Height = 2000 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             var geometry = Header(ExpanderWith(view, "Geometry"));
@@ -91,7 +96,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var provider = TestServiceProviderFactory.Create();
             var blur = (CMiX.Core.Texturing.Filters.Blur)provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Filters.Blur));
             var view = new CMiX.Studio.Avalonia.Views.Blur { DataContext = blur };
-            new Window { Content = view, Width = 500, Height = 800 }.Show();
+            windows.Add(new Window { Content = view, Width = 500, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             Assert.All(view.GetVisualDescendants().OfType<ExpanderIndented>(), expander => Assert.True(expander.IsExpanded, "Closed panel: " + expander.Header));
@@ -100,7 +105,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_EveryKindOfNode_ShowsOnlyOpenExpandersInTheInspector()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(CMiX.Core.Compositing.Composition));
             var composition = (CMiX.Core.Compositing.Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
             composition.LayerManager.AddItem(typeof(CMiX.Core.Compositing.Layer));
@@ -140,7 +145,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheHeaderToggleOfAPanel_IsTheBoxOfTheCaptionedToggle(string panel)
         {
             var view = Create(panel);
-            new Window { Content = view, Width = 400, Height = 400 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 400 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             var toggle = view.GetVisualDescendants().OfType<ToggleButtonCMiX>().First();

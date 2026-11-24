@@ -33,7 +33,13 @@ namespace CMiX.Studio.Avalonia.Tests
     {
         private readonly TempFolder temp = new("entity-drop");
 
-        public void Dispose() => temp.Dispose();
+        private readonly TestWindows windows = new();
+
+        public void Dispose()
+        {
+            windows.Dispose();
+            temp.Dispose();
+        }
 
         private sealed class Dropper : EntityDropBehavior
         {
@@ -65,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var provider = TestServiceProviderFactory.Create();
             var layer = (Layer)provider.GetRequiredService<ControlFactory>().Create(typeof(Layer));
             var tab = new TabLayerEntity { DataContext = layer };
-            var window = new Window { Content = tab, Width = 500, Height = 900 };
+            var window = windows.Add(new Window { Content = tab, Width = 500, Height = 900 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

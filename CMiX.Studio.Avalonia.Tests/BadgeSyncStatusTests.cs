@@ -10,6 +10,7 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Networking;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +20,12 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The bottom bar of the main window shows the state of the connection and the state of the sync, as the Network tab does.
     // The sync dots have the same colors in the main window and in the sync settings.
-    public class BadgeSyncStatusTests
+    public class BadgeSyncStatusTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static IEnumerable<TextBlock> VisibleTexts(Control view) =>
             view.GetVisualDescendants().OfType<TextBlock>().Where(text => text.IsEffectivelyVisible);
 
@@ -31,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var peer = provider.GetRequiredService<SyncPeer>();
             var indicator = new BadgeSyncStatus { DataContext = peer };
             var network = new SettingsSync { DataContext = provider.GetRequiredService<SettingsSyncViewModel>() };
-            new Window { Content = new StackPanel { Children = { indicator, network } }, Width = 400, Height = 600 }.Show();
+            windows.Add(new Window { Content = new StackPanel { Children = { indicator, network } }, Width = 400, Height = 600 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             var texts = VisibleTexts(indicator).Select(text => text.Text).ToList();
@@ -47,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheBottomBar_HasOneStatusText()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             var bar = window.GetVisualDescendants().OfType<BadgeSyncStatus>().Single();
 
             var shown = VisibleTexts(bar).Select(text => text.Text).ToList();
@@ -58,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void TheBottomBarOfTheMainWindow_ShowsTheIndicators_AndNoNameOfTheProgramOrTheCompany()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
 
             Assert.Single(window.GetVisualDescendants().OfType<BadgeSyncStatus>());
             var texts = window.GetVisualDescendants().OfType<TextBlock>().Select(text => text.Text).ToList();
@@ -71,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var peer = TestServiceProviderFactory.Create().GetRequiredService<SyncPeer>();
             var indicator = new BadgeSyncStatus { DataContext = peer };
-            new Window { Content = indicator, Width = 300, Height = 100 }.Show();
+            windows.Add(new Window { Content = indicator, Width = 300, Height = 100 }).Show();
             Dispatcher.UIThread.RunJobs();
             var dot = indicator.GetVisualDescendants().OfType<Ellipse>().Single();
 
@@ -81,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests
             peer.Dispose();
         }
 
-        private static Ellipse Dot(string themeKey)
+        private Ellipse Dot(string themeKey)
         {
             var dot = new Ellipse
             {
@@ -89,7 +94,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 Height = 10,
                 Theme = (ControlTheme)Application.Current!.FindResource(themeKey)!
             };
-            var window = new Window { Content = dot, Width = 50, Height = 50 };
+            var window = windows.Add(new Window { Content = dot, Width = 50, Height = 50 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return dot;

@@ -13,6 +13,7 @@ using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.Converters;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -21,11 +22,15 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The dot of the assign button has one color for each state and each modulator category. The tooltip names what is assigned:
     // the modulator and the output, as the menu names them. The menu closes when the pointer goes far away.
-    public class ButtonModulatorAssignTests
+    public class ButtonModulatorAssignTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static Color Token(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
 
-        private static (Blur Blur, ButtonModulatorAssign Button) Show(params Type[] modulatorTypes)
+        private (Blur Blur, ButtonModulatorAssign Button) Show(params Type[] modulatorTypes)
         {
             var provider = TestServiceProviderFactory.Create();
             var blur = (Blur)provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
@@ -33,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 blur.ModulatorManager.AddItem(type);
 
             var view = new Views.Blur { DataContext = blur };
-            new Window { Content = view, Width = 500, Height = 800 }.Show();
+            windows.Add(new Window { Content = view, Width = 500, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             var button = view.GetVisualDescendants().OfType<ButtonModulatorAssign>().Single(b => b.DataContext == blur.Strength);
@@ -107,7 +112,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(Token("ModulatorUnassignedBrush"), DotColor(button));
         }
 
-        private static (Blur Blur, ButtonModulatorAssign Button, Button Inner) ShowForTooltip()
+        private (Blur Blur, ButtonModulatorAssign Button, Button Inner) ShowForTooltip()
         {
             var provider = TestServiceProviderFactory.Create();
             var blur = (Blur)provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
@@ -115,7 +120,7 @@ namespace CMiX.Studio.Avalonia.Tests
             blur.ModulatorManager.AddItem(typeof(FFTModulator));
 
             var view = new Views.Blur { DataContext = blur };
-            new Window { Content = view, Width = 500, Height = 800 }.Show();
+            windows.Add(new Window { Content = view, Width = 500, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             var button = view.GetVisualDescendants().OfType<ButtonModulatorAssign>().Single(b => b.DataContext == blur.Strength);
@@ -192,7 +197,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var model = (CMiX.Core.Texturing.Filters.Blur)provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Filters.Blur));
             model.ModulatorManager.AddItem(typeof(CMiX.Core.Modulation.Modulators.RandomModulator));
             var view = new Views.Blur { DataContext = model };
-            var window = new Window { Content = view, Width = 900, Height = 900 };
+            var window = windows.Add(new Window { Content = view, Width = 900, Height = 900 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

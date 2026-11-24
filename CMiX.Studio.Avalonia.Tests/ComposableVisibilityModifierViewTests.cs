@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.Controls.Boolean;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,13 +12,17 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class ComposableVisibilityModifierViewTests
+    public class ComposableVisibilityModifierViewTests : IDisposable
     {
-        private static (ComposableVisibilityModifier Modifier, Views.ComposableVisibilityModifier View) Open()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (ComposableVisibilityModifier Modifier, Views.ComposableVisibilityModifier View) Open()
         {
             var modifier = (ComposableVisibilityModifier)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(ComposableVisibilityModifier));
             var view = new Views.ComposableVisibilityModifier { DataContext = modifier };
-            var window = new Window { Content = view, Width = 500, Height = 400 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 400 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (modifier, view);
@@ -61,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheAddList_OffersAlphaAndVisibility(System.Type owner)
         {
             var panel = new Views.Managers.PanelAddTypes { PanelOwner = owner };
-            var window = new Window { Content = panel, Width = 400, Height = 400 };
+            var window = windows.Add(new Window { Content = panel, Width = 400, Height = 400 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

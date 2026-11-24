@@ -17,7 +17,13 @@ namespace CMiX.Studio.Avalonia.Tests
     {
         private readonly TempFolder temp = new("assets");
 
-        public void Dispose() => temp.Dispose();
+        private readonly TestWindows windows = new();
+
+        public void Dispose()
+        {
+            windows.Dispose();
+            temp.Dispose();
+        }
 
         private sealed class Dropper : ComboBoxAssetPath
         {
@@ -34,9 +40,9 @@ namespace CMiX.Studio.Avalonia.Tests
             protected override Task<string?> BrowseAsync() => Task.FromResult(_picked);
         }
 
-        private static void ClickBrowse(Control selector)
+        private void ClickBrowse(Control selector)
         {
-            var window = new Window { Content = selector, Width = 400, Height = 100 };
+            var window = windows.Add(new Window { Content = selector, Width = 400, Height = 100 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             selector.GetVisualDescendants().OfType<Button>().Single(b => b.GetType() == typeof(Button)).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));

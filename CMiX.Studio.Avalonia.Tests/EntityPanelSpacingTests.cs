@@ -6,6 +6,7 @@ using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.UI.Panels;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -14,14 +15,18 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The expanders of every entity panel are cards one under the other, and the space between two cards
     // is the same in all the panels: the margins of the cards, and nothing more.
-    public class EntityPanelSpacingTests
+    public class EntityPanelSpacingTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static ControlFactory Factory() => TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
 
         // The space between each expander and the next one, for the expanders that are not inside another expander.
-        private static List<double> Gaps(Control view)
+        private List<double> Gaps(Control view)
         {
-            new Window { Content = view, Width = 400, Height = 1200 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 1200 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             var cards = view.GetVisualDescendants().OfType<ExpanderIndented>()

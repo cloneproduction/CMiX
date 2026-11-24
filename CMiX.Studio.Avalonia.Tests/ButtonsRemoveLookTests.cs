@@ -5,6 +5,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls;
@@ -15,15 +16,19 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Every button that removes an item shows the same trash can, and the Add button of a slot is not rounded.
-    public class ButtonsRemoveLookTests
+    public class ButtonsRemoveLookTests : IDisposable
     {
         private const string TrashCan = "Remove";
 
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static PrefabManager CreateManager() => TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
 
-        private static void Show(Control view)
+        private void Show(Control view)
         {
-            new Window { Content = view, Width = 500, Height = 500 }.Show();
+            windows.Add(new Window { Content = view, Width = 500, Height = 500 }).Show();
             Dispatcher.UIThread.RunJobs();
         }
 

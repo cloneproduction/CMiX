@@ -10,6 +10,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.UI.Controls.Collection;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,8 +21,12 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // A binding of a command to a wrong name gives no build error and no exception. The control
     // just has no command. These tests show each view and check that its controls hold the commands of the manager.
-    public class CommandBindingTests
+    public class CommandBindingTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static PrefabManager LayerManagerWithItems(int count)
         {
             var provider = TestServiceProviderFactory.Create();
@@ -33,9 +38,9 @@ namespace CMiX.Studio.Avalonia.Tests
             return layers;
         }
 
-        private static void Show(Control view)
+        private void Show(Control view)
         {
-            new Window { Content = view, Width = 400, Height = 400 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 400 }).Show();
             Dispatcher.UIThread.RunJobs();
         }
 

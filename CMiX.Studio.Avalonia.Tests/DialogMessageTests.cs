@@ -6,6 +6,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Notices;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Dialogs;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Parts;
@@ -14,8 +15,12 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The one message window of the app: the frame of the menus, an icon, a text and a row of buttons.
-    public class DialogMessageTests
+    public class DialogMessageTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static readonly MessageDialogOptions ThreeButtons = new(
             "Three buttons.",
             "Info",
@@ -26,15 +31,15 @@ namespace CMiX.Studio.Avalonia.Tests
                 new MessageDialogButton("Cancel", MessageDialogResult.Cancel, IsCancel: true)
             });
 
-        private static Window Owner()
+        private Window Owner()
         {
-            var owner = new Window { Width = 600, Height = 400 };
+            var owner = windows.Add(new Window { Width = 600, Height = 400 });
             owner.Show();
             Dispatcher.UIThread.RunJobs();
             return owner;
         }
 
-        private static (DialogMessage Dialog, Task<MessageDialogResult> Result) Show(MessageDialogOptions options)
+        private (DialogMessage Dialog, Task<MessageDialogResult> Result) Show(MessageDialogOptions options)
         {
             var dialog = new DialogMessage(options);
             var result = dialog.ShowDialog<MessageDialogResult>(Owner());
