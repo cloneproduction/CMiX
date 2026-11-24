@@ -4,6 +4,9 @@ using CMiX.Core.Compositing;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Tests.Integration;
 using CMiX.Studio.Avalonia.Tests.Support;
+using CommunityToolkit.Mvvm.Input;
+using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Composition = CMiX.Core.Compositing.Composition;
@@ -11,6 +14,7 @@ using Composition = CMiX.Core.Compositing.Composition;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The cross button, Alt+F4 and the close command all close the window. With unsaved changes the user is asked first.
+    // The New and the Open commands ask in the same way.
     public class MainWindowClosingTests
     {
         private static Task<bool> ClosesWithin(Views.MainWindow window, TimeSpan time) => ClosesWithin(window, window.Close, time);
@@ -41,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public async Task WithoutChanges_TheWindowClosesAtOnce_WithoutAsking()
+        public async Task Close_WithoutChanges_ClosesAtOnceWithoutAsking()
         {
             var (provider, window, _) = TestServiceProviderFactory.ShowMainWindow();
 
@@ -52,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public async Task WithChanges_Cancel_KeepsTheWindowOpen()
+        public async Task Close_WithChangesAndCancel_KeepsTheWindowOpen()
         {
             var (window, prompt, _) = ShowWithChanges(UnsavedChangesChoice.Cancel);
 
@@ -64,7 +68,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public async Task WithChanges_DontSave_ClosesTheWindow()
+        public async Task Close_WithChangesAndDontSave_ClosesTheWindow()
         {
             var (window, prompt, _) = ShowWithChanges(UnsavedChangesChoice.DontSave);
 
@@ -75,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public async Task WithChanges_Save_WritesTheFile_ThenClosesTheWindow()
+        public async Task Close_WithChangesAndSave_WritesTheFileThenClosesTheWindow()
         {
             using var temp = new TempFolder("closing");
             var path = temp.PathOf("project.cmix");
@@ -101,6 +105,47 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.True(closed);
             Assert.Equal(1, prompt.TimesAsked);
+        }
+
+        [AvaloniaFact]
+        public void NewProjectCommand_WithUnsavedChangesAndCancel_KeepsTheProject()
+        {
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
+            var prompt = provider.GetRequiredService<FakeUnsavedChangesPrompt>();
+
+            viewModel.ProjectFile.NewProjectCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
+
+            Assert.Equal(1, prompt.TimesAsked);
+            Assert.Single(viewModel.Project.CompositionManager.ManagerData.Items);
+            Assert.True(provider.GetRequiredService<UnsavedChanges>().HasChanges);
+        }
+
+        [AvaloniaFact]
+        public void NewProjectCommand_WithoutChanges_DoesNotAsk()
+        {
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+
+            viewModel.ProjectFile.NewProjectCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
+
+            Assert.Equal(0, provider.GetRequiredService<FakeUnsavedChangesPrompt>().TimesAsked);
+        }
+
+        [AvaloniaFact]
+        public async Task OpenProjectCommand_WithUnsavedChangesAndCancel_DoesNotShowTheFileDialog()
+        {
+            var dialogs = new FakeFileDialogManager("never.cmix");
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
+                services.AddSingleton<IDialogService>(provider => new DialogService(dialogs, viewModelFactory: type => provider.GetService(type))));
+            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
+
+            await ((IAsyncRelayCommand)viewModel.ProjectFile.OpenProjectCommand).ExecuteAsync(null);
+
+            Assert.Equal(1, provider.GetRequiredService<FakeUnsavedChangesPrompt>().TimesAsked);
+            Assert.Equal(0, dialogs.TimesShown);
+            Assert.Single(viewModel.Project.CompositionManager.ManagerData.Items);
         }
     }
 }
