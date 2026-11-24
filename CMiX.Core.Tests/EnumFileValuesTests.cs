@@ -8,6 +8,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Rendering;
 using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Text;
 using CMiX.Core.Text.Modifiers;
 using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Filters;
@@ -32,9 +33,9 @@ namespace CMiX.Core.Tests
             { typeof(BlendMode), ["Normal", "Average", "GeometricMean", "Darken", "Multiply", "ColorBurn", "LinearBurn", "DarkerColor", "Lighten", "Screen", "Add", "LighterColor", "Glow", "Overlay", "Softlight", "ColorDodge", "Reflect", "HardMix", "Freeze", "Pinlight", "Hardlight", "VividLight", "LinearLight", "Difference", "Exclusion", "Subtract", "Divide", "Negation", "AdditiveSubstractive", "Heat", "Phoenix", "GrainExtract", "GrainMerge", "Hue", "Saturation", "Color", "Lightness", "Value", "Red", "Green", "Blue"] },
             { typeof(MaskChannel), ["Luma", "Value", "Saturation", "Alpha", "Hue", "Red", "Green", "Blue"] },
             { typeof(MaskMode), ["OneBelow", "AllBelow"] },
-            { typeof(FontStyle), ["Normal", "Bold", "Italic", "BoldItalic"] },
-            { typeof(Text.HorizontalAlignment), ["Left", "Center", "Right"] },
-            { typeof(Text.Anchor), ["TopLeft", "TopCenter", "TopRight", "MiddleLeft", "Center", "MiddleRight", "BottomLeft", "BottomCenter", "BottomRight"] },
+            { typeof(TextStyle), ["Normal", "Bold", "Italic", "BoldItalic"] },
+            { typeof(TextAlignment), ["Left", "Center", "Right"] },
+            { typeof(TextAnchor), ["TopLeft", "TopCenter", "TopRight", "MiddleLeft", "Center", "MiddleRight", "BottomLeft", "BottomCenter", "BottomRight"] },
             { typeof(ModifierMode), ["PerInstance", "ToSpread"] },
             { typeof(ColorMode), ["RGB", "HSV", "HSL"] },
             { typeof(EntityType), ["Entity", "Camera", "Light"] },

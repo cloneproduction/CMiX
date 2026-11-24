@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Text
 {
-    public enum Anchor
+    public enum TextAnchor
     {
         TopLeft,
         TopCenter,

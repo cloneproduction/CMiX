@@ -18,7 +18,7 @@ namespace CMiX.Core.Texturing.Sources
         public Vector2Model Position { get; set; } = new();
         public GenericValueModel<float> FontSize { get; set; } = new(0.45f);
         public GenericValueModel<string> FontFamily { get; set; } = new("Arial");
-        public GenericValueModel<FontStyle> Style { get; set; } = new(FontStyle.Normal);
+        public GenericValueModel<TextStyle> Style { get; set; } = new(TextStyle.Normal);
         public PrefabServiceModel PrefabService { get; set; } = new();
         public PrefabManagerModel TextureModifierManager { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();

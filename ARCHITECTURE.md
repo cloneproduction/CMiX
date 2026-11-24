@@ -196,7 +196,6 @@ Names that collide:
 | **Repository** | `ControlRepository` is the index. `ListRepository` and `TabRepository` are views of the six lists that `MainViewModel` owns. |
 | **Tree, SelectorPrefab** | `ProjectTree` is the tree. `Views/Controls/SelectorPrefab` is another control, used in the `Mesh` view. |
 | **Delete** | The rule says no `Delete` in code. Fixed on 2026-11-19: the menu has `RemoveCompositionCommand` and `RemoveLayerCommand`, and only the menu headers say Delete. |
-| Two enums with one name | `HorizontalAlignment` in `Assets.Mesh` and in `Text`. |
 
 ## 5. Rule violations
 

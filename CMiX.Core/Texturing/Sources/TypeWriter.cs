@@ -17,7 +17,7 @@ namespace CMiX.Core.Texturing.Sources
                           GenericValue<string> stringControl,
                           GenericValue<string> fontFamily,
                           GenericValue<float> fontSize,
-                          GenericValue<FontStyle> fontStyle,
+                          GenericValue<TextStyle> fontStyle,
                           GenericValue<string> fontColor,
                           GenericValue<string> backgroundColor,
                           Integer2 resolution,
@@ -36,7 +36,7 @@ namespace CMiX.Core.Texturing.Sources
         }
 
         public GenericValue<string> StringControl { get; set; }
-        public GenericValue<FontStyle> Style { get; set; }
+        public GenericValue<TextStyle> Style { get; set; }
         public GenericValue<string> FontFamily { get; set; }
         public GenericValue<float> FontSize { get; set; }
         public GenericValue<string> FontColor { get; set; }
@@ -55,7 +55,7 @@ namespace CMiX.Core.Texturing.Sources
                 Position = (Vector2Model)Position.ToModel(),
                 FontSize = (GenericValueModel<float>)FontSize.ToModel(),
                 FontFamily = (GenericValueModel<string>)FontFamily.ToModel(),
-                Style = (GenericValueModel<FontStyle>)Style.ToModel()
+                Style = (GenericValueModel<TextStyle>)Style.ToModel()
             };
             PopulateBaseModel(model);
             return model;

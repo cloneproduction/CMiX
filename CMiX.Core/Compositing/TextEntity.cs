@@ -21,12 +21,12 @@ namespace CMiX.Core.Compositing
                           GenericValue<string> text,
                           GenericValue<float> size,
                           GenericValue<string> color,
-                          GenericValue<FontStyle> style,
+                          GenericValue<TextStyle> style,
                           GenericValue<string> fontFamily,
                           GenericValue<float> lineHeight,
                           GenericValue<float> width,
-                          GenericValue<HorizontalAlignment> horizontalAlignment,
-                          GenericValue<Anchor> anchor)
+                          GenericValue<TextAlignment> horizontalAlignment,
+                          GenericValue<TextAnchor> anchor)
         {
             PrefabService = prefabService;
             ModifierManager = prefabManager;
@@ -49,12 +49,12 @@ namespace CMiX.Core.Compositing
         public GenericValue<string> Text { get; set; }
         public GenericValue<float> Size { get; set; }
         public GenericValue<string> Color { get; set; }
-        public GenericValue<FontStyle> Style { get; set; }
+        public GenericValue<TextStyle> Style { get; set; }
         public GenericValue<string> FontFamily { get; set; }
         public GenericValue<float> LineHeight { get; set; }
         public GenericValue<float> Width { get; set; }
-        public GenericValue<HorizontalAlignment> HorizontalAlignment { get; set; }
-        public GenericValue<Anchor> Anchor { get; set; }
+        public GenericValue<TextAlignment> HorizontalAlignment { get; set; }
+        public GenericValue<TextAnchor> Anchor { get; set; }
 
         private Guid _compositionID;
         public Guid CompositionID
@@ -84,12 +84,12 @@ namespace CMiX.Core.Compositing
             Text = (GenericValueModel<string>)Text.ToModel(),
             Size = (GenericValueModel<float>)Size.ToModel(),
             Color = (GenericValueModel<string>)Color.ToModel(),
-            Style = (GenericValueModel<FontStyle>)Style.ToModel(),
+            Style = (GenericValueModel<TextStyle>)Style.ToModel(),
             FontFamily = (GenericValueModel<string>)FontFamily.ToModel(),
             LineHeight = (GenericValueModel<float>)LineHeight.ToModel(),
             Width = (GenericValueModel<float>)Width.ToModel(),
-            HorizontalAlignment = (GenericValueModel<HorizontalAlignment>)HorizontalAlignment.ToModel(),
-            Anchor = (GenericValueModel<Anchor>)Anchor.ToModel(),
+            HorizontalAlignment = (GenericValueModel<TextAlignment>)HorizontalAlignment.ToModel(),
+            Anchor = (GenericValueModel<TextAnchor>)Anchor.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel()
         };
 

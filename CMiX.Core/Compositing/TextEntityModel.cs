@@ -20,11 +20,11 @@ namespace CMiX.Core.Compositing
         public GenericValueModel<string> Text { get; set; } = new("CMiX");
         public GenericValueModel<float> Size { get; set; } = new(0.8f);
         public GenericValueModel<string> Color { get; set; } = new("#ffffffff");
-        public GenericValueModel<FontStyle> Style { get; set; } = new(FontStyle.Normal);
+        public GenericValueModel<TextStyle> Style { get; set; } = new(TextStyle.Normal);
         public GenericValueModel<string> FontFamily { get; set; } = new("Arial");
         public GenericValueModel<float> LineHeight { get; set; } = new(1.50f);
         public GenericValueModel<float> Width { get; set; } = new(9.0f);
-        public GenericValueModel<HorizontalAlignment> HorizontalAlignment { get; set; } = new(Core.Text.HorizontalAlignment.Left);
-        public GenericValueModel<Anchor> Anchor { get; set; } = new(Core.Text.Anchor.Center);
+        public GenericValueModel<TextAlignment> HorizontalAlignment { get; set; } = new(TextAlignment.Left);
+        public GenericValueModel<TextAnchor> Anchor { get; set; } = new(TextAnchor.Center);
     }
 }

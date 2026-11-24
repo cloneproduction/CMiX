@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public enum FontStyle
+    public enum TextStyle
     {
         Normal,
         Bold,

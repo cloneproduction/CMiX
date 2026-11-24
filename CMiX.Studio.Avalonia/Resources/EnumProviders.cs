@@ -8,9 +8,6 @@ using CoreColorMode = CMiX.Core.ColorMode;
 using CoreMeshType = CMiX.Core.MeshType;
 using MeshHorizontalAlignment = CMiX.Core.Assets.Mesh.HorizontalAlignment;
 using MeshParagraphAlignment = CMiX.Core.Assets.Mesh.ParagraphAlignment;
-using SourceFontStyle = CMiX.Core.Texturing.Sources.FontStyle;
-using TextAnchor = CMiX.Core.Text.Anchor;
-using TextHorizontalAlignmentEnum = CMiX.Core.Text.HorizontalAlignment;
 
 namespace CMiX.Studio.Avalonia.Resources
 {
@@ -28,11 +25,11 @@ namespace CMiX.Studio.Avalonia.Resources
         public static CMiX.Core.Compositing.ResamplingMethod[] ResamplingMethod { get; } =
             Enum.GetValues<CMiX.Core.Compositing.ResamplingMethod>();
 
-        public static TextAnchor[] Anchor { get; } =
-            Enum.GetValues<TextAnchor>();
+        public static CMiX.Core.Text.TextAnchor[] Anchor { get; } =
+            Enum.GetValues<CMiX.Core.Text.TextAnchor>();
 
-        public static TextHorizontalAlignmentEnum[] TextHorizontalAlignment { get; } =
-            Enum.GetValues<TextHorizontalAlignmentEnum>();
+        public static CMiX.Core.Text.TextAlignment[] TextHorizontalAlignment { get; } =
+            Enum.GetValues<CMiX.Core.Text.TextAlignment>();
 
         public static CMiX.Core.Text.Modifiers.SplitType[] SplitType { get; } =
             Enum.GetValues<CMiX.Core.Text.Modifiers.SplitType>();
@@ -76,8 +73,8 @@ namespace CMiX.Studio.Avalonia.Resources
         public static CMiX.Core.Texturing.Filters.PulseChannel[] PulseChannel { get; } =
             Enum.GetValues<CMiX.Core.Texturing.Filters.PulseChannel>();
 
-        public static SourceFontStyle[] FontStyle { get; } =
-            Enum.GetValues<SourceFontStyle>();
+        public static CMiX.Core.Texturing.Sources.TextStyle[] FontStyle { get; } =
+            Enum.GetValues<CMiX.Core.Texturing.Sources.TextStyle>();
 
         public static CMiX.Core.Materials.PipelineType[] PipelineType { get; } =
             Enum.GetValues<CMiX.Core.Materials.PipelineType>();
