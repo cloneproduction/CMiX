@@ -100,6 +100,9 @@ namespace CMiX.UI.Tests
             window.MouseDown(center, MouseButton.Left);
             Dispatcher.UIThread.RunJobs();
             Assert.NotNull(pointer()!.Captured);
+            window.MouseMove(new Point(center.X + 15, center.Y));
+            Dispatcher.UIThread.RunJobs();
+            Assert.Equal(StandardCursorType.None.ToString(), slider.Cursor?.ToString());
 
             // The popup of the slider closes: the pointer is taken away, and no release arrives.
             pointer()!.Capture(null);
@@ -114,7 +117,7 @@ namespace CMiX.UI.Tests
 
             Assert.Equal(value, slider.Value);
             Assert.False(slider.Classes.Contains(":pressed"));
-            Assert.NotEqual(StandardCursorType.None, slider.Cursor?.GetType() == typeof(Cursor) ? StandardCursorType.Arrow : StandardCursorType.Arrow);
+            Assert.NotEqual(StandardCursorType.None.ToString(), slider.Cursor?.ToString());
         }
 
         // ---------------------------------------------------------------- the drag value
