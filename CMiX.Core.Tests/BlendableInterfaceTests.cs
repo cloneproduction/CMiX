@@ -16,15 +16,6 @@ namespace CMiX.Core.Tests
         private static ControlFactory CreateFactory() =>
             TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
 
-        [Theory]
-        [InlineData(typeof(CompositingSettings))]
-        [InlineData(typeof(Blend))]
-        public void Type_ImplementsIBlendable(Type type)
-        {
-            Assert.True(typeof(IBlendable).IsAssignableFrom(type),
-                $"{type.Name} must implement IBlendable so the VL side can use one blend node.");
-        }
-
         [Fact]
         public void LayerCompositionAndFilter_ShareTheBlendableValues()
         {

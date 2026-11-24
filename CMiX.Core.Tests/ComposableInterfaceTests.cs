@@ -11,15 +11,6 @@ namespace CMiX.Core.Tests
         private static ControlFactory CreateFactory() =>
             TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
 
-        [Theory]
-        [InlineData(typeof(Layer))]
-        [InlineData(typeof(Composition))]
-        public void Type_ImplementsIComposable(Type type)
-        {
-            Assert.True(typeof(IComposable).IsAssignableFrom(type),
-                $"{type.Name} must implement IComposable so the VL side can use one set of nodes.");
-        }
-
         [Fact]
         public void Layer_ExposesItsSettingsThroughIComposable()
         {

@@ -14,15 +14,6 @@ namespace CMiX.Core.Tests
         private static ControlFactory CreateFactory() =>
             TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
 
-        [Theory]
-        [InlineData(typeof(MaskSettings))]
-        [InlineData(typeof(MaskTexture))]
-        public void Type_ImplementsIMaskable(Type type)
-        {
-            Assert.True(typeof(IMaskable).IsAssignableFrom(type),
-                $"{type.Name} must implement IMaskable so the VL side can use one mask node.");
-        }
-
         [Fact]
         public void LayerCompositionAndMaskTexture_ShareTheMaskableValues()
         {
