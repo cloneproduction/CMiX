@@ -55,7 +55,7 @@ namespace CMiX.UI.Tests
             PointerInput.Click(window, target.TranslatePoint(new Point(target.Bounds.Width / 2, target.Bounds.Height / 2), window)!.Value);
 
         [AvaloniaFact]
-        public void WithoutAHandler_NoScopeIsOpened()
+        public void Drag_WithoutAHandler_OpensNoScope()
         {
             var saved = InteractionHost.BeginScopeHandler;
             try
@@ -71,7 +71,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void DragValue_OpensOneScopeAndEndsItOnRelease()
+        public void DragValue_Drag_OpensOneScopeAndEndsItOnRelease()
         {
             var saved = InteractionHost.BeginScopeHandler;
             try
@@ -94,7 +94,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void SliderCMiX_OpensOneScopeAndEndsItOnRelease()
+        public void SliderCMiX_Drag_OpensOneScopeAndEndsItOnRelease()
         {
             var saved = InteractionHost.BeginScopeHandler;
             try

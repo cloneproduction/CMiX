@@ -11,7 +11,7 @@ namespace CMiX.UI.Tests
         private static double Size(string key) => Tokens.Get<double>(key);
 
         [AvaloniaFact]
-        public void TheControlHeights_AreOffsetsOfControlHeightMD()
+        public void ControlHeights_EachToken_IsAnOffsetOfControlHeightMD()
         {
             var md = Size("ControlHeightMD");
 
@@ -21,7 +21,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheIconSizes_FollowTheControlHeights()
+        public void IconSizes_EachToken_FollowsTheControlHeights()
         {
             var md = Size("ControlHeightMD");
 
@@ -33,7 +33,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheTextAreas_AreWholeLinesOfARow()
+        public void TextAreas_EachToken_IsWholeLinesOfARow()
         {
             var line = Size("ControlHeightMD") - 2;
 
@@ -42,7 +42,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheFontSize_IsInProportionToTheRow()
+        public void FontSize_TheToken_IsInProportionToTheRow()
         {
             // About half a row, rounded: 12 in a row of 24.
             Assert.InRange(Size("FontSizeMD"), Size("ControlHeightMD") / 2 - 0.5, Size("ControlHeightMD") / 2 + 0.5);

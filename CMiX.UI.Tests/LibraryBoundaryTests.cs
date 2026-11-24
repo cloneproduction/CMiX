@@ -25,7 +25,7 @@ namespace CMiX.UI.Tests
         }
 
         [Fact]
-        public void TheAssembly_ReferencesNoCoreOrStudioAssembly()
+        public void References_OfTheAssembly_NameNoCoreOrStudioAssembly()
         {
             var references = typeof(CMiXTheme).Assembly.GetReferencedAssemblies().Select(a => a.Name!).ToList();
 
@@ -34,7 +34,7 @@ namespace CMiX.UI.Tests
         }
 
         [Fact]
-        public void TheProject_HasNoProjectReference()
+        public void ProjectFile_OfTheLibrary_HasNoProjectReference()
         {
             var project = File.ReadAllText(Path.Combine(LibraryFolder(), "CMiX.UI.csproj"));
 
@@ -42,7 +42,7 @@ namespace CMiX.UI.Tests
         }
 
         [Fact]
-        public void TheSourceFiles_NameNoCoreOrStudioNamespace()
+        public void SourceFiles_OfTheLibrary_NameNoCoreOrStudioNamespace()
         {
             var folder = LibraryFolder();
             var files = Directory.EnumerateFiles(folder, "*.*", SearchOption.AllDirectories)

@@ -16,7 +16,7 @@ namespace CMiX.UI.Tests
                          && t.GetConstructor(Type.EmptyTypes) != null);
 
         [AvaloniaFact]
-        public void EveryControl_LoadsWithOnlyTheCMiXTheme()
+        public void Load_EveryControl_NeedsOnlyTheCMiXTheme()
         {
             var types = ControlTypes().ToList();
             var failures = new List<string>();
@@ -42,7 +42,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheTokens_AreResolvedFromTheTheme()
+        public void Tokens_OfTheTheme_AreResolved()
         {
             var app = Avalonia.Application.Current!;
 

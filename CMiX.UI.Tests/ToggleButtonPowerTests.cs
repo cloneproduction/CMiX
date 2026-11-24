@@ -28,7 +28,7 @@ namespace CMiX.UI.Tests
         private static AppIcon Icon(Control toggle) => toggle.GetVisualDescendants().OfType<AppIcon>().Single();
 
         [AvaloniaFact]
-        public void ShowsThePowerIcon()
+        public void Show_ThePowerTheme_ShowsThePowerIcon()
         {
             var (_, toggle) = Show();
 
@@ -51,7 +51,7 @@ namespace CMiX.UI.Tests
         [InlineData("ToggleButtonIcon")]
         [InlineData("ToggleButtonPower")]
         [InlineData("ToggleButtonVisibility")]
-        public void WhileOff_TheIconIsDim(string theme)
+        public void Show_AnIconToggleThatIsOff_DimsTheIcon(string theme)
         {
             var (_, toggle) = Show(theme);
 
@@ -91,7 +91,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheEye_IsLitUnderThePointer()
+        public void Hover_TheEye_LightsTheIcon()
         {
             var (window, toggle) = Show("ToggleButtonVisibility");
 

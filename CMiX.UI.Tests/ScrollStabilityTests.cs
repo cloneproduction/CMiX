@@ -38,7 +38,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ASingleScrollViewer_CanTurnTheScrollOnFocusBackOn()
+        public void BringIntoViewOnFocusChange_OnASingleScrollViewer_CanBeTurnedBackOn()
         {
             var (_, scroll, buttons) = ShowButtons(bringIntoView: true);
 
@@ -49,7 +49,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void APickInAListBox_DoesNotScrollTheListOrTheViewAroundIt()
+        public void Select_InAListBox_ScrollsNeitherTheListNorTheViewAround()
         {
             var list = new ListBoxCMiX { Height = 120, ItemsSource = Enumerable.Range(0, 30).Select(i => "item " + i).ToList() };
             var outer = new ScrollViewer { Content = new StackPanel { Children = { new Button { Height = 300 }, list, new Button { Height = 300 } } } };
@@ -63,7 +63,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ThePlainListBox_DoesNotAutoScrollEither()
+        public void Select_InAPlainListBox_DoesNotScroll()
         {
             var list = new ListBox { Height = 120, ItemsSource = new[] { "a", "b" } };
             TestWindow.Show(list, 300, 200);
@@ -72,7 +72,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ATextBox_KeepsScrollingToItsFocus()
+        public void Focus_ATextBox_StillScrollsItIntoView()
         {
             var box = new TextBox();
             TestWindow.Show(box, 300, 200);
