@@ -8,6 +8,7 @@ using Avalonia.VisualTree;
 using CMiX.Core.Networking;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Tests.Integration;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.String;
@@ -42,8 +43,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static TextBlockTrimmed TitleBarText(Window window) =>
             window.FindControl<Border>("titleBar")!.GetVisualDescendants().OfType<TextBlockTrimmed>().Single();
-
-        private static string TempProjectPath() => Path.Combine(Path.GetTempPath(), $"cmix-mainmenu-{Guid.NewGuid():N}.cmix");
 
         [AvaloniaTheory]
         [InlineData("File", "New")]
@@ -99,132 +98,101 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public async Task OpenProjectFromPath_AFile_ShowsItsNameInTheTitleBarAndItsPathInTheToolTip()
         {
-            var path = TempProjectPath();
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
-                var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                Assert.Equal("CMiX - (Unsaved)", TitleBarText(window).Text);
+            using var temp = new TempFolder("mainmenu");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            Assert.Equal("CMiX - (Unsaved)", TitleBarText(window).Text);
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                Assert.Equal($"CMiX - {Path.GetFileName(path)}", TitleBarText(window).Text);
-                Assert.Equal(path, TitleBarText(window).ToolTipText);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.Equal($"CMiX - {Path.GetFileName(path)}", TitleBarText(window).Text);
+            Assert.Equal(path, TitleBarText(window).ToolTipText);
         }
 
         [AvaloniaFact]
         public async Task SaveAsProjectCommand_ANewPath_ShowsItsNameInTheTitleBarAndItsPathInTheToolTip()
         {
-            var path = TempProjectPath();
-            var newPath = TempProjectPath();
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
-                var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
-                    services.AddSingleton<IDialogService>(provider => new DialogService(
-                        new FakeFileDialogManager(newPath),
-                        viewModelFactory: type => provider.GetService(type))));
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            using var temp = new TempFolder("mainmenu");
+            var path = temp.PathOf("project.cmix");
+            var newPath = temp.PathOf("saved.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
+                services.AddSingleton<IDialogService>(provider => new DialogService(
+                    new FakeFileDialogManager(newPath),
+                    viewModelFactory: type => provider.GetService(type))));
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                await ((IAsyncRelayCommand)viewModel.ProjectFile.SaveAsProjectCommand).ExecuteAsync(null);
-                TestServiceProviderFactory.Pump();
+            await ((IAsyncRelayCommand)viewModel.ProjectFile.SaveAsProjectCommand).ExecuteAsync(null);
+            TestServiceProviderFactory.Pump();
 
-                Assert.True(File.Exists(newPath));
-                Assert.Equal($"CMiX - {Path.GetFileName(newPath)}", TitleBarText(window).Text);
-                Assert.Equal(newPath, TitleBarText(window).ToolTipText);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-                if (File.Exists(newPath)) File.Delete(newPath);
-            }
+            Assert.True(File.Exists(newPath));
+            Assert.Equal($"CMiX - {Path.GetFileName(newPath)}", TitleBarText(window).Text);
+            Assert.Equal(newPath, TitleBarText(window).ToolTipText);
         }
 
         [AvaloniaFact]
         public async Task SaveAsProjectCommand_AWriteFailure_KeepsTheOldPathAndShowsTheNotice()
         {
-            var path = TempProjectPath();
-            var badPath = Path.Combine(Path.GetTempPath(), $"cmix-missing-{Guid.NewGuid():N}", "project.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
-                var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
-                    services.AddSingleton<IDialogService>(provider => new DialogService(
-                        new FakeFileDialogManager(badPath),
-                        viewModelFactory: type => provider.GetService(type))));
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            using var temp = new TempFolder("mainmenu");
+            var path = temp.PathOf("project.cmix");
+            var badPath = temp.PathOf(Path.Combine("missing", "project.cmix"));
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
+                services.AddSingleton<IDialogService>(provider => new DialogService(
+                    new FakeFileDialogManager(badPath),
+                    viewModelFactory: type => provider.GetService(type))));
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                await ((IAsyncRelayCommand)viewModel.ProjectFile.SaveAsProjectCommand).ExecuteAsync(null);
-                TestServiceProviderFactory.Pump();
+            await ((IAsyncRelayCommand)viewModel.ProjectFile.SaveAsProjectCommand).ExecuteAsync(null);
+            TestServiceProviderFactory.Pump();
 
-                var (_, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
-                Assert.Equal("Save Project", title);
-                Assert.Equal(path, viewModel.ProjectFile.ProjectPath);
-                Assert.Equal($"CMiX - {Path.GetFileName(path)}", TitleBarText(window).Text);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            var (_, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
+            Assert.Equal("Save Project", title);
+            Assert.Equal(path, viewModel.ProjectFile.ProjectPath);
+            Assert.Equal($"CMiX - {Path.GetFileName(path)}", TitleBarText(window).Text);
         }
 
         [AvaloniaFact]
         public async Task OpenProjectFromPath_AnApplyFailureAfterAGoodParse_LeavesThePathNullAndShowsTheNotice()
         {
-            var path = TempProjectPath();
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
-                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
-                    services.AddSingleton<ISyncTarget, ThrowingSyncTarget>());
-                viewModel.ProjectFile.ProjectPath = "earlier.cmix";
+            using var temp = new TempFolder("mainmenu");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
+                services.AddSingleton<ISyncTarget, ThrowingSyncTarget>());
+            viewModel.ProjectFile.ProjectPath = "earlier.cmix";
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
 
-                var (text, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
-                Assert.Equal("Open Project", title);
-                Assert.Equal($"{Path.GetFileName(path)}: The apply failed.", text);
-                Assert.Null(viewModel.ProjectFile.ProjectPath);
-                Assert.Empty(viewModel.Project.CompositionManager.ManagerData.Items);
-                Assert.False(viewModel.ProjectFile.HasUnsavedChanges);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            var (text, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
+            Assert.Equal("Open Project", title);
+            Assert.Equal($"{Path.GetFileName(path)}: The apply failed.", text);
+            Assert.Null(viewModel.ProjectFile.ProjectPath);
+            Assert.Empty(viewModel.Project.CompositionManager.ManagerData.Items);
+            Assert.False(viewModel.ProjectFile.HasUnsavedChanges);
         }
 
         [AvaloniaFact]
         public async Task OpenProjectFromPath_AfterATextureOfTheTexturesTab_RemovesTheTexture()
         {
-            var path = TempProjectPath();
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
-                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                viewModel.TextureManager.AddItem(typeof(CheckerBoard));
-                var texture = Assert.Single(viewModel.TextureManager.ManagerData.Items);
-                TestServiceProviderFactory.Pump();
-                Assert.Contains(viewModel.ControlRepository.Textures, item => ReferenceEquals(item, texture));
+            using var temp = new TempFolder("mainmenu");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            viewModel.TextureManager.AddItem(typeof(CheckerBoard));
+            var texture = Assert.Single(viewModel.TextureManager.ManagerData.Items);
+            TestServiceProviderFactory.Pump();
+            Assert.Contains(viewModel.ControlRepository.Textures, item => ReferenceEquals(item, texture));
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                Assert.Empty(viewModel.TextureManager.ManagerData.Items);
-                Assert.DoesNotContain(viewModel.ControlRepository.Textures, item => ReferenceEquals(item, texture));
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.Empty(viewModel.TextureManager.ManagerData.Items);
+            Assert.DoesNotContain(viewModel.ControlRepository.Textures, item => ReferenceEquals(item, texture));
         }
     }
 }

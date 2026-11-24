@@ -11,6 +11,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Persistence;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering;
 using CMiX.Core.Texturing.Sources;
@@ -37,36 +38,30 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task OpenProject_OpenedTwice_ReplacesTheFirstLoadInsteadOfAccumulating()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                var repository = viewModel.ControlRepository;
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var repository = viewModel.ControlRepository;
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                var afterFirstLoad = Counts(repository);
-                Assert.Equal((1, 1, 1, 2, 5), afterFirstLoad);
-                // Held by reference rather than by count, so the second load has to be shown to
-                // have released these very instances and not merely to hold the same number.
-                var firstLoadControls = repository.Controls.Where(control => control is not Project).ToList();
+            var afterFirstLoad = Counts(repository);
+            Assert.Equal((1, 1, 1, 2, 5), afterFirstLoad);
+            // Held by reference rather than by count, so the second load has to be shown to
+            // have released these very instances and not merely to hold the same number.
+            var firstLoadControls = repository.Controls.Where(control => control is not Project).ToList();
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                Assert.Equal(afterFirstLoad, Counts(repository));
-                foreach (var control in firstLoadControls)
-                    Assert.DoesNotContain(repository.Controls, item => ReferenceEquals(item, control));
+            Assert.Equal(afterFirstLoad, Counts(repository));
+            foreach (var control in firstLoadControls)
+                Assert.DoesNotContain(repository.Controls, item => ReferenceEquals(item, control));
 
-                Assert.Equal(path, viewModel.ProjectFile.ProjectPath);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.Equal(path, viewModel.ProjectFile.ProjectPath);
         }
 
         // The session is only swept once the file has been parsed and has yielded a composition, so
@@ -75,39 +70,32 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task OpenProject_OnAFileThatFailsToParse_LeavesTheOpenSessionIntact()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            var corruptPath = Path.Combine(Path.GetTempPath(), $"cmix-corrupt-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
-                File.WriteAllText(corruptPath, "{ this is not a project");
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            var corruptPath = temp.PathOf("corrupt.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            File.WriteAllText(corruptPath, "{ this is not a project");
 
-                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                var repository = viewModel.ControlRepository;
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var repository = viewModel.ControlRepository;
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                var afterFirstLoad = Counts(repository);
-                var loadedControls = repository.Controls.ToList();
+            var afterFirstLoad = Counts(repository);
+            var loadedControls = repository.Controls.ToList();
 
-                // The failure goes to the message notice. The fake keeps it without a window.
-                await viewModel.ProjectFile.OpenProjectFromPath(corruptPath);
-                TestServiceProviderFactory.Pump();
+            // The failure goes to the message notice. The fake keeps it without a window.
+            await viewModel.ProjectFile.OpenProjectFromPath(corruptPath);
+            TestServiceProviderFactory.Pump();
 
-                Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
+            Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
 
-                Assert.Equal(afterFirstLoad, Counts(repository));
-                foreach (var control in loadedControls)
-                    Assert.Contains(repository.Controls, item => ReferenceEquals(item, control));
+            Assert.Equal(afterFirstLoad, Counts(repository));
+            foreach (var control in loadedControls)
+                Assert.Contains(repository.Controls, item => ReferenceEquals(item, control));
 
-                Assert.Equal(path, viewModel.ProjectFile.ProjectPath);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-                if (File.Exists(corruptPath)) File.Delete(corruptPath);
-            }
+            Assert.Equal(path, viewModel.ProjectFile.ProjectPath);
         }
 
         // The undo stack of the replaced session refers to instances the open released, so it goes
@@ -118,20 +106,14 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task OpenProject_DropsTheUndoHistoryOfTheSessionItReplaced()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var fromAnUntouchedSession = await CountUndoStepsLeftByAnOpen(path, withEditsBeforeTheOpen: false);
-                var fromAnEditedSession = await CountUndoStepsLeftByAnOpen(path, withEditsBeforeTheOpen: true);
+            var fromAnUntouchedSession = await CountUndoStepsLeftByAnOpen(path, withEditsBeforeTheOpen: false);
+            var fromAnEditedSession = await CountUndoStepsLeftByAnOpen(path, withEditsBeforeTheOpen: true);
 
-                Assert.Equal(fromAnUntouchedSession, fromAnEditedSession);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.Equal(fromAnUntouchedSession, fromAnEditedSession);
         }
 
         // Opens the file in a fresh session, optionally after an add and a delete that leave two
@@ -176,24 +158,18 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task OpenProject_LeavesNothingOnTheUndoStack()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                var undoManager = provider.GetRequiredService<UndoManager>();
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var undoManager = provider.GetRequiredService<UndoManager>();
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                Assert.False(undoManager.CanUndo);
-                Assert.False(undoManager.CanRedo);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.False(undoManager.CanUndo);
+            Assert.False(undoManager.CanRedo);
         }
 
         // Recording is only off for the duration of the load, so the first thing the user does after
@@ -201,40 +177,34 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task OpenProject_ThenAUserAction_RecordsOneStepAndUndoesItCleanly()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                var undoManager = provider.GetRequiredService<UndoManager>();
-                var repository = viewModel.ControlRepository;
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var repository = viewModel.ControlRepository;
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                var loaded = repository.Controls.ToList();
+            var loaded = repository.Controls.ToList();
 
-                viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-                var added = (Composition)viewModel.Project.CompositionManager.SelectedItem;
-                TestServiceProviderFactory.Pump();
+            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
+            var added = (Composition)viewModel.Project.CompositionManager.SelectedItem;
+            TestServiceProviderFactory.Pump();
 
-                Assert.True(undoManager.CanUndo);
+            Assert.True(undoManager.CanUndo);
 
-                var steps = 0;
-                for (; steps < 256 && undoManager.CanUndo; steps++)
-                    viewModel.UndoCommand.Execute(null);
-                TestServiceProviderFactory.Pump();
+            var steps = 0;
+            for (; steps < 256 && undoManager.CanUndo; steps++)
+                viewModel.UndoCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
 
-                Assert.Equal(1, steps);
-                Assert.DoesNotContain(repository.Compositions, item => ReferenceEquals(item, added));
-                foreach (var control in loaded)
-                    Assert.Contains(repository.Controls, item => ReferenceEquals(item, control));
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.Equal(1, steps);
+            Assert.DoesNotContain(repository.Compositions, item => ReferenceEquals(item, added));
+            foreach (var control in loaded)
+                Assert.Contains(repository.Controls, item => ReferenceEquals(item, control));
         }
 
         // File > New still has to empty a session that came from an open rather than from the
@@ -242,28 +212,22 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task NewProject_AfterAnOpen_StillClearsEverything()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                viewModel.ProjectFile.NewProjectCommand.Execute(null);
-                TestServiceProviderFactory.Pump();
+            viewModel.ProjectFile.NewProjectCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
 
-                Assert.Equal((0, 0, 0, 0, 0), Counts(viewModel.ControlRepository));
-                Assert.Null(viewModel.ProjectFile.ProjectPath);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.Equal((0, 0, 0, 0, 0), Counts(viewModel.ControlRepository));
+            Assert.Null(viewModel.ProjectFile.ProjectPath);
         }
 
         // File > New gives the output mappings and the project name the values
@@ -271,42 +235,36 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task NewProject_ResetsTheOutputMappingsAndTheName()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
 
-                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                var undoManager = provider.GetRequiredService<UndoManager>();
-                var project = viewModel.Project;
-                var slots = project.OutputMappingManager.Items;
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var project = viewModel.Project;
+            var slots = project.OutputMappingManager.Items;
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
-                project.PrefabService.Name.Value = "Saved Project";
-                project.MasterBeat.Period.Value = 437.5f;
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
+            project.PrefabService.Name.Value = "Saved Project";
+            project.MasterBeat.Period.Value = 437.5f;
+            TestServiceProviderFactory.Pump();
 
-                Assert.Equal("LeftWall", slots[3].Name.Value);
-                Assert.Equal("Saved Project", project.PrefabService.Name.Value);
-                var period = project.MasterBeat.Period.Value;
-                provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.DontSave;
+            Assert.Equal("LeftWall", slots[3].Name.Value);
+            Assert.Equal("Saved Project", project.PrefabService.Name.Value);
+            var period = project.MasterBeat.Period.Value;
+            provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.DontSave;
 
-                viewModel.ProjectFile.NewProjectCommand.Execute(null);
-                TestServiceProviderFactory.Pump();
+            viewModel.ProjectFile.NewProjectCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
 
-                Assert.Equal("Output 4", slots[3].Name.Value);
-                Assert.Equal(1920, slots[3].Resolution.X.Value);
-                Assert.Equal(1080, slots[3].Resolution.Y.Value);
-                Assert.Null(project.PrefabService.Name.Value);
-                Assert.Equal(period, project.MasterBeat.Period.Value);
-                Assert.False(undoManager.CanUndo);
-                Assert.False(undoManager.CanRedo);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.Equal("Output 4", slots[3].Name.Value);
+            Assert.Equal(1920, slots[3].Resolution.X.Value);
+            Assert.Equal(1080, slots[3].Resolution.Y.Value);
+            Assert.Null(project.PrefabService.Name.Value);
+            Assert.Equal(period, project.MasterBeat.Period.Value);
+            Assert.False(undoManager.CanUndo);
+            Assert.False(undoManager.CanRedo);
         }
 
         // An open loads every composition of the file in file order. Each one keeps its own layer
@@ -315,46 +273,40 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task OpenProject_WithThreeCompositions_OpensEachOneAndRestoresTheSavedSelection()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            try
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithThreeCompositions(path);
+
+            var saved = ProjectSerializer.Load(path).CompositionManager.ManagerData;
+            Assert.Equal(1, saved.SelectedIndex);
+            var savedIDs = saved.Items.Select(item => item.ID).ToList();
+            Assert.Equal(3, savedIDs.Count);
+
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var compositionManager = viewModel.Project.CompositionManager;
+
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
+
+            var compositions = compositionManager.ManagerData.Items.Cast<Composition>().ToList();
+            Assert.Equal(3, compositions.Count);
+
+            var suffixes = new[] { "A", "B", "C" };
+            for (var i = 0; i < suffixes.Length; i++)
             {
-                ProjectFixtures.WriteProjectWithThreeCompositions(path);
-
-                var saved = ProjectSerializer.Load(path).CompositionManager.ManagerData;
-                Assert.Equal(1, saved.SelectedIndex);
-                var savedIDs = saved.Items.Select(item => item.ID).ToList();
-                Assert.Equal(3, savedIDs.Count);
-
-                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                var compositionManager = viewModel.Project.CompositionManager;
-
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
-
-                var compositions = compositionManager.ManagerData.Items.Cast<Composition>().ToList();
-                Assert.Equal(3, compositions.Count);
-
-                var suffixes = new[] { "A", "B", "C" };
-                for (var i = 0; i < suffixes.Length; i++)
-                {
-                    Assert.Equal("Composition" + suffixes[i], compositions[i].PrefabService.Name.Value);
-                    var layer = (Layer)Assert.Single(compositions[i].LayerManager.ManagerData.Items);
-                    Assert.Equal("Layer" + suffixes[i], layer.PrefabService.Name.Value);
-                }
-
-                // The file is loaded as it is, so every composition keeps the id it has in the file.
-                var loadedIDs = compositions.Select(composition => composition.ID).ToList();
-                Assert.DoesNotContain(Guid.Empty, loadedIDs);
-                Assert.Equal(3, loadedIDs.Distinct().Count());
-                Assert.Equal(savedIDs, loadedIDs);
-
-                Assert.Same(compositions[1], compositionManager.SelectedItem);
-                Assert.Equal(1, compositionManager.ManagerData.SelectedIndex);
+                Assert.Equal("Composition" + suffixes[i], compositions[i].PrefabService.Name.Value);
+                var layer = (Layer)Assert.Single(compositions[i].LayerManager.ManagerData.Items);
+                Assert.Equal("Layer" + suffixes[i], layer.PrefabService.Name.Value);
             }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+
+            // The file is loaded as it is, so every composition keeps the id it has in the file.
+            var loadedIDs = compositions.Select(composition => composition.ID).ToList();
+            Assert.DoesNotContain(Guid.Empty, loadedIDs);
+            Assert.Equal(3, loadedIDs.Distinct().Count());
+            Assert.Equal(savedIDs, loadedIDs);
+
+            Assert.Same(compositions[1], compositionManager.SelectedItem);
+            Assert.Equal(1, compositionManager.ManagerData.SelectedIndex);
         }
 
         // The project name is not part of a composition. An open restores it from the file too.
@@ -362,24 +314,18 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         public async Task OpenProject_RestoresTheProjectName()
         {
             const string projectName = "Saved Project";
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithName(path, projectName);
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithName(path, projectName);
 
-                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                var project = viewModel.Project;
-                Assert.NotEqual(projectName, project.PrefabService.Name.Value);
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var project = viewModel.Project;
+            Assert.NotEqual(projectName, project.PrefabService.Name.Value);
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                Assert.Equal(projectName, project.PrefabService.Name.Value);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.Equal(projectName, project.PrefabService.Name.Value);
         }
 
         // A project folder copied to another place still finds its assets. The file stores the
@@ -388,47 +334,41 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task OpenProject_FromACopiedTree_FindsTheAssetsNextToIt()
         {
-            var rootA = Path.Combine(Path.GetTempPath(), $"cmix-tree-a-{Guid.NewGuid():N}");
-            var rootB = Path.Combine(Path.GetTempPath(), $"cmix-tree-b-{Guid.NewGuid():N}");
-            try
+            using var treeA = new TempFolder("tree-a", create: false);
+            var rootA = treeA.Path;
+            using var treeB = new TempFolder("tree-b", create: false);
+            var rootB = treeB.Path;
+            var imagePathA = Path.Combine(rootA, "VJ", "textures", "foo.png");
+            var projectPathA = Path.Combine(rootA, "VJ", "compositions", "bar.cmix");
+            Directory.CreateDirectory(Path.GetDirectoryName(imagePathA)!);
+            Directory.CreateDirectory(Path.GetDirectoryName(projectPathA)!);
+            // The asset selector makes an asset only for a file that exists.
+            File.WriteAllText(imagePathA, string.Empty);
+            ProjectFixtures.WriteProjectWithImage(projectPathA, imagePathA);
+
+            // In the JSON text each backslash of the path is escaped.
+            var json = File.ReadAllText(projectPathA);
+            Assert.Contains(@"..\\textures\\foo.png", json);
+
+            foreach (var file in Directory.GetFiles(Path.Combine(rootA, "VJ"), "*", SearchOption.AllDirectories))
             {
-                var imagePathA = Path.Combine(rootA, "VJ", "textures", "foo.png");
-                var projectPathA = Path.Combine(rootA, "VJ", "compositions", "bar.cmix");
-                Directory.CreateDirectory(Path.GetDirectoryName(imagePathA)!);
-                Directory.CreateDirectory(Path.GetDirectoryName(projectPathA)!);
-                // The asset selector makes an asset only for a file that exists.
-                File.WriteAllText(imagePathA, string.Empty);
-                ProjectFixtures.WriteProjectWithImage(projectPathA, imagePathA);
-
-                // In the JSON text each backslash of the path is escaped.
-                var json = File.ReadAllText(projectPathA);
-                Assert.Contains(@"..\\textures\\foo.png", json);
-
-                foreach (var file in Directory.GetFiles(Path.Combine(rootA, "VJ"), "*", SearchOption.AllDirectories))
-                {
-                    var copy = Path.Combine(rootB, Path.GetRelativePath(rootA, file));
-                    Directory.CreateDirectory(Path.GetDirectoryName(copy)!);
-                    File.Copy(file, copy);
-                }
-
-                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                await viewModel.ProjectFile.OpenProjectFromPath(Path.Combine(rootB, "VJ", "compositions", "bar.cmix"));
-                TestServiceProviderFactory.Pump();
-
-                var project = viewModel.Project;
-
-                var composition = (Composition)Assert.Single(project.CompositionManager.ManagerData.Items);
-                var layer = (Layer)Assert.Single(composition.LayerManager.ManagerData.Items);
-                var entity = (Entity)Assert.Single(layer.ModelEntityManager.ManagerData.Items);
-                var image = (Image)Assert.Single(entity.Material.DiffuseTexture.TextureManager.ManagerData.Items);
-                Assert.Equal(Path.Combine(rootB, "VJ", "textures", "foo.png"), image.AssetSelector.FilePath.Value);
-                Assert.IsType<ImageAsset>(image.AssetSelector.Asset);
+                var copy = Path.Combine(rootB, Path.GetRelativePath(rootA, file));
+                Directory.CreateDirectory(Path.GetDirectoryName(copy)!);
+                File.Copy(file, copy);
             }
-            finally
-            {
-                if (Directory.Exists(rootA)) Directory.Delete(rootA, true);
-                if (Directory.Exists(rootB)) Directory.Delete(rootB, true);
-            }
+
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            await viewModel.ProjectFile.OpenProjectFromPath(Path.Combine(rootB, "VJ", "compositions", "bar.cmix"));
+            TestServiceProviderFactory.Pump();
+
+            var project = viewModel.Project;
+
+            var composition = (Composition)Assert.Single(project.CompositionManager.ManagerData.Items);
+            var layer = (Layer)Assert.Single(composition.LayerManager.ManagerData.Items);
+            var entity = (Entity)Assert.Single(layer.ModelEntityManager.ManagerData.Items);
+            var image = (Image)Assert.Single(entity.Material.DiffuseTexture.TextureManager.ManagerData.Items);
+            Assert.Equal(Path.Combine(rootB, "VJ", "textures", "foo.png"), image.AssetSelector.FilePath.Value);
+            Assert.IsType<ImageAsset>(image.AssetSelector.Asset);
         }
 
         // SelectedOutputMappingID is a pointer into the project's fixed output slots, not an
@@ -438,27 +378,21 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task OpenProject_WithDifferentOutputMappingsPerComposition_KeepsEachOnesSelection()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithDifferentOutputMappings(path);
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithDifferentOutputMappings(path);
 
-                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                var slots = viewModel.Project.OutputMappingManager.Items;
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var slots = viewModel.Project.OutputMappingManager.Items;
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
 
-                var compositions = viewModel.Project.CompositionManager.ManagerData.Items
-                    .Cast<Composition>().ToList();
-                Assert.Equal(2, compositions.Count);
-                Assert.Same(slots[1], compositions[0].SelectedOutputMapping);
-                Assert.Same(slots[2], compositions[1].SelectedOutputMapping);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            var compositions = viewModel.Project.CompositionManager.ManagerData.Items
+                .Cast<Composition>().ToList();
+            Assert.Equal(2, compositions.Count);
+            Assert.Same(slots[1], compositions[0].SelectedOutputMapping);
+            Assert.Same(slots[2], compositions[1].SelectedOutputMapping);
         }
 
         // The output mappings are project data, not composition data. An open restores their
@@ -467,35 +401,29 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task OpenProject_RestoresTheOutputMappingNamesAndResolutions()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
-            try
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
+
+            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var outputMappingManager = viewModel.Project.OutputMappingManager;
+            var slots = outputMappingManager.Items;
+            Assert.Equal("Output 4", slots[3].Name.Value);
+
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
+
+            Assert.Equal("LeftWall", slots[3].Name.Value);
+            Assert.Equal(3840, slots[3].Resolution.X.Value);
+            Assert.Equal(1200, slots[3].Resolution.Y.Value);
+
+            var composition = (Composition)Assert.Single(viewModel.Project.CompositionManager.ManagerData.Items);
+            Assert.Same(slots[3], composition.SelectedOutputMapping);
+
+            for (var i = 0; i < OutputMappingManager.SlotCount; i++)
             {
-                ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
-
-                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                var outputMappingManager = viewModel.Project.OutputMappingManager;
-                var slots = outputMappingManager.Items;
-                Assert.Equal("Output 4", slots[3].Name.Value);
-
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
-
-                Assert.Equal("LeftWall", slots[3].Name.Value);
-                Assert.Equal(3840, slots[3].Resolution.X.Value);
-                Assert.Equal(1200, slots[3].Resolution.Y.Value);
-
-                var composition = (Composition)Assert.Single(viewModel.Project.CompositionManager.ManagerData.Items);
-                Assert.Same(slots[3], composition.SelectedOutputMapping);
-
-                for (var i = 0; i < OutputMappingManager.SlotCount; i++)
-                {
-                    Assert.Equal(ManagerIDs.OutputMappingSlots[i], slots[i].ID);
-                    Assert.Equal(ManagerIDs.OutputMappingSlotFields[i].Name, slots[i].Name.ID);
-                }
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
+                Assert.Equal(ManagerIDs.OutputMappingSlots[i], slots[i].ID);
+                Assert.Equal(ManagerIDs.OutputMappingSlotFields[i].Name, slots[i].Name.ID);
             }
         }
 
@@ -526,7 +454,8 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public async Task OpenProjectFromPath_WhenThePushFails_KeepsTheOpenAndReportsTheSyncError()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
+            using var temp = new TempFolder("openproject");
+            var path = temp.PathOf("project.cmix");
             var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             var peer = provider.GetRequiredService<SyncPeer>();
             try
@@ -549,30 +478,23 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             {
                 peer.SetDispatcher(action => action());
                 peer.Dispose();
-                if (File.Exists(path)) File.Delete(path);
             }
         }
 
         [AvaloniaFact]
         public async Task OpenProjectFromPath_ABrokenFile_ShowsTheMessage()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-broken-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                File.WriteAllText(path, "{ this is not a project");
-                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            using var temp = new TempFolder("broken");
+            var path = temp.PathOf("project.cmix");
+            File.WriteAllText(path, "{ this is not a project");
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
 
-                var (text, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
-                Assert.Equal("Open Project", title);
-                Assert.StartsWith($"{Path.GetFileName(path)}: ", text);
-                Assert.Null(viewModel.ProjectFile.ProjectPath);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            var (text, title) = Assert.Single(provider.GetRequiredService<FakeMessageNotice>().Messages);
+            Assert.Equal("Open Project", title);
+            Assert.StartsWith($"{Path.GetFileName(path)}: ", text);
+            Assert.Null(viewModel.ProjectFile.ProjectPath);
         }
     }
 }

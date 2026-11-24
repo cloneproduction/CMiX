@@ -5,6 +5,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -45,24 +46,17 @@ namespace CMiX.Studio.Avalonia.Tests
             var window = new Window { Content = view, Width = 500, Height = 600 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
-            var file = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "cmix-test-" + Guid.NewGuid().ToString("N") + ".mp4");
-            File.WriteAllText(file, "x");
-            try
-            {
-                var pathSelector = view.GetVisualDescendants().OfType<ComboBoxAssetPath>().Single();
-                var combo = pathSelector.GetVisualDescendants().OfType<ComboBox>().Single();
+            using var temp = new TempFolder("test");
+            var file = temp.File("clip.mp4");
+            var pathSelector = view.GetVisualDescendants().OfType<ComboBoxAssetPath>().Single();
+            var combo = pathSelector.GetVisualDescendants().OfType<ComboBox>().Single();
 
-                pathSelector.ChoosePath(file);
-                Dispatcher.UIThread.RunJobs();
+            pathSelector.ChoosePath(file);
+            Dispatcher.UIThread.RunJobs();
 
-                Assert.Equal(file, player.AssetSelector.Asset?.FilePath);
-                Assert.Contains(player.AssetSelector.AssetRepository.Videos, v => v.FilePath == file);
-                Assert.Equal(file, (combo.SelectedItem as CMiX.Core.Assets.IAsset)?.FilePath);
-            }
-            finally
-            {
-                File.Delete(file);
-            }
+            Assert.Equal(file, player.AssetSelector.Asset?.FilePath);
+            Assert.Contains(player.AssetSelector.AssetRepository.Videos, v => v.FilePath == file);
+            Assert.Equal(file, (combo.SelectedItem as CMiX.Core.Assets.IAsset)?.FilePath);
         }
     }
 }

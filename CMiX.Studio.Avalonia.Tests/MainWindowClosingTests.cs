@@ -3,6 +3,7 @@ using Avalonia.Threading;
 using CMiX.Core.Compositing;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Tests.Integration;
+using CMiX.Studio.Avalonia.Tests.Support;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Composition = CMiX.Core.Compositing.Composition;
@@ -76,25 +77,19 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public async Task WithChanges_Save_WritesTheFile_ThenClosesTheWindow()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-closing-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
-                var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
-                provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.Save;
-                viewModel.Project.OutputMappingManager.Items[0].Name.Value = "Saved on close";
+            using var temp = new TempFolder("closing");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
+            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
+            provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.Save;
+            viewModel.Project.OutputMappingManager.Items[0].Name.Value = "Saved on close";
 
-                var closed = await ClosesWithin(window, TimeSpan.FromSeconds(5));
+            var closed = await ClosesWithin(window, TimeSpan.FromSeconds(5));
 
-                Assert.True(closed);
-                Assert.Contains("Saved on close", File.ReadAllText(path));
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.True(closed);
+            Assert.Contains("Saved on close", File.ReadAllText(path));
         }
 
         [AvaloniaFact]

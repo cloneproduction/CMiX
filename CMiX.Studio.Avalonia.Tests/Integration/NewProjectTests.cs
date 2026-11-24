@@ -9,6 +9,7 @@ using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -74,34 +75,28 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public void NewProject_ClearsTheTexturesOfALoadedProject()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-newproject-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithMaterialTextures(path);
+            using var temp = new TempFolder("newproject");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-                // A composition of the file, loaded the way ProjectSession.LoadProject loads it.
-                var projectModel = ProjectSerializer.Load(path);
-                var compositionModel = (CompositionModel)projectModel.CompositionManager.ManagerData.Items.First();
-                viewModel.Project.CompositionManager.AddItemFromModel(compositionModel);
-                TestServiceProviderFactory.Pump();
+            // A composition of the file, loaded the way ProjectSession.LoadProject loads it.
+            var projectModel = ProjectSerializer.Load(path);
+            var compositionModel = (CompositionModel)projectModel.CompositionManager.ManagerData.Items.First();
+            viewModel.Project.CompositionManager.AddItemFromModel(compositionModel);
+            TestServiceProviderFactory.Pump();
 
-                Assert.Equal(2, viewModel.ControlRepository.Textures.Count);
-                provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.DontSave;
+            Assert.Equal(2, viewModel.ControlRepository.Textures.Count);
+            provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.DontSave;
 
-                viewModel.ProjectFile.NewProjectCommand.Execute(null);
-                TestServiceProviderFactory.Pump();
+            viewModel.ProjectFile.NewProjectCommand.Execute(null);
+            TestServiceProviderFactory.Pump();
 
-                Assert.Empty(viewModel.ControlRepository.Compositions);
-                Assert.Empty(viewModel.ControlRepository.Textures);
-                // Only the project is left, and it is the same object as before.
-                Assert.Same(viewModel.Project, Assert.Single(viewModel.ControlRepository.Controls));
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            Assert.Empty(viewModel.ControlRepository.Compositions);
+            Assert.Empty(viewModel.ControlRepository.Textures);
+            // Only the project is left, and it is the same object as before.
+            Assert.Same(viewModel.Project, Assert.Single(viewModel.ControlRepository.Controls));
         }
     }
 }

@@ -4,6 +4,7 @@
 using System.IO;
 using CMiX.Core.Networking;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -14,28 +15,21 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void Save_ThenLoad_KeepsTheRedisAndTheInterfaceParts()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-studiosettingsfile-{Guid.NewGuid():N}.json");
-            var file = new StudioSettingsFile(path);
+            using var temp = new TempFolder("studiosettingsfile");
+            var file = new StudioSettingsFile(temp.PathOf(StudioSettings.FileName));
             var settings = new StudioSettings
             {
                 Redis = new RedisSettings { Ip = "10.0.0.5", Port = 6390, CredentialName = "cmix-redis" },
                 Interface = new InterfaceSettings { ShowKeyHints = false }
             };
 
-            try
-            {
-                file.Save(settings);
-                var loaded = file.Load();
+            file.Save(settings);
+            var loaded = file.Load();
 
-                Assert.Equal("10.0.0.5", loaded.Redis.Ip);
-                Assert.Equal(6390, loaded.Redis.Port);
-                Assert.Equal("cmix-redis", loaded.Redis.CredentialName);
-                Assert.False(loaded.Interface.ShowKeyHints);
-            }
-            finally
-            {
-                File.Delete(path);
-            }
+            Assert.Equal("10.0.0.5", loaded.Redis.Ip);
+            Assert.Equal(6390, loaded.Redis.Port);
+            Assert.Equal("cmix-redis", loaded.Redis.CredentialName);
+            Assert.False(loaded.Interface.ShowKeyHints);
         }
 
         [Fact]

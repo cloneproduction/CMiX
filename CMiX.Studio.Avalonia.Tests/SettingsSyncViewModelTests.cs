@@ -4,6 +4,7 @@
 using System.IO;
 using CMiX.Core.Networking;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -64,26 +65,20 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void Connect_ASaveFailure_ShowsTheMessage()
         {
-            var blocker = Path.Combine(Path.GetTempPath(), $"cmix-settingssync-blocker-{Guid.NewGuid():N}");
-            File.WriteAllText(blocker, string.Empty);
+            // A file in the place of the folder makes the save fail.
+            using var blocker = new TempFolder("settingssync-blocker", create: false);
+            File.WriteAllText(blocker.Path, string.Empty);
             var provider = TestServiceProviderFactory.Create(services =>
-                services.AddSingleton(_ => new StudioSettingsFile(Path.Combine(blocker, StudioSettings.FileName))));
+                services.AddSingleton(_ => new StudioSettingsFile(blocker.PathOf(StudioSettings.FileName))));
             var viewModel = provider.GetRequiredService<SettingsSyncViewModel>();
             var applied = false;
             viewModel.ConnectionApplied += (_, _) => applied = true;
             FillGoodValues(viewModel);
 
-            try
-            {
-                viewModel.ConnectCommand.Execute(null);
+            viewModel.ConnectCommand.Execute(null);
 
-                Assert.NotEqual(string.Empty, viewModel.ErrorText);
-                Assert.False(applied);
-            }
-            finally
-            {
-                File.Delete(blocker);
-            }
+            Assert.NotEqual(string.Empty, viewModel.ErrorText);
+            Assert.False(applied);
         }
 
         [Fact]

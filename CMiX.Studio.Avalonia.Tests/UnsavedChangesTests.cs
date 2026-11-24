@@ -3,6 +3,7 @@ using Avalonia.Threading;
 using CMiX.Core.Compositing;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Tests.Integration;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CommunityToolkit.Mvvm.Input;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
@@ -73,27 +74,21 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public async Task OpeningAFile_IsNoChange_AndSavingAfterAnEditClearsTheChange()
         {
-            var path = Path.Combine(Path.GetTempPath(), $"cmix-unsaved-{Guid.NewGuid():N}.cmix");
-            try
-            {
-                ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
-                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-                var unsaved = provider.GetRequiredService<UnsavedChanges>();
+            using var temp = new TempFolder("unsaved");
+            var path = temp.PathOf("project.cmix");
+            ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var unsaved = provider.GetRequiredService<UnsavedChanges>();
 
-                await viewModel.ProjectFile.OpenProjectFromPath(path);
-                TestServiceProviderFactory.Pump();
-                Assert.False(unsaved.HasChanges);
+            await viewModel.ProjectFile.OpenProjectFromPath(path);
+            TestServiceProviderFactory.Pump();
+            Assert.False(unsaved.HasChanges);
 
-                viewModel.Project.OutputMappingManager.Items[0].Name.Value = "Changed";
-                Assert.True(unsaved.HasChanges);
+            viewModel.Project.OutputMappingManager.Items[0].Name.Value = "Changed";
+            Assert.True(unsaved.HasChanges);
 
-                await ((CommunityToolkit.Mvvm.Input.IAsyncRelayCommand)viewModel.ProjectFile.SaveProjectCommand).ExecuteAsync(null);
-                Assert.False(unsaved.HasChanges);
-            }
-            finally
-            {
-                if (File.Exists(path)) File.Delete(path);
-            }
+            await ((CommunityToolkit.Mvvm.Input.IAsyncRelayCommand)viewModel.ProjectFile.SaveProjectCommand).ExecuteAsync(null);
+            Assert.False(unsaved.HasChanges);
         }
 
         [AvaloniaFact]
