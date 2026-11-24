@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -14,14 +15,18 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests.Integration
 {
     // The flow in the real window: pick an entity in the swap list with the keyboard, then undo and redo with the keys of the window.
-    public class SwapListUndoTests
+    public class SwapListUndoTests : IDisposable
     {
         private sealed record Setup(Views.MainWindow Window, Layer Layer, Entity Entity, ListPrefabSlot Slot, UndoManager Undo);
 
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         // The entity "Torus" is in a slot of the first layer. The window shows the entity slot of the second layer.
-        private static Setup Show()
+        private Setup Show()
         {
-            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, window, viewModel) = windows.ShowMainWindow();
 
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;

@@ -3,6 +3,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using Xunit;
 
@@ -15,12 +16,16 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     // repository manager on the window DataContext, where every manager binding silently
     // resolves to nothing. The second test covers the layer view, which reaches the same
     // repository through the manager of each slot.
-    public class TabRepositoryTests
+    public class TabRepositoryTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         [AvaloniaFact]
         public void Show_TheTexturesTab_PresentsItsManagerAndThePanelOfTheSelectedTexture()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
 
             var tabControl = TestServiceProviderFactory.MainTabControl(window);
             var texturesTab = tabControl.Items.OfType<TabRepository>()
@@ -52,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public void TheDeleteButton_HasTheRemoveEverywhereCommandOfTheManager_AndTheSelectedTexture()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             var tabControl = TestServiceProviderFactory.MainTabControl(window);
             tabControl.SelectedItem = tabControl.Items.OfType<TabRepository>()
                 .Single(tab => ReferenceEquals(tab.DataContext, viewModel.TextureManager));
@@ -72,7 +77,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public void Show_TheLayerView_BindsTheEntitySlotsToTheModelEntitiesOfTheRepository()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
 
             viewModel.Project.CompositionManager.AddItem(typeof(CMiX.Core.Compositing.Composition));
             var composition = (CMiX.Core.Compositing.Composition)viewModel.Project.CompositionManager.SelectedItem;

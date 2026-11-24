@@ -7,28 +7,33 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
+using CMiX.Studio.Avalonia.Tests.Support;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A top item of the main menu opens its menu on every click: also after a click outside the menu closed it (see OutsideClick).
-    public class MenuMainClickTests
+    public class MenuMainClickTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static void Click(Window window, Control control) =>
             ClickAt(window, control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value);
 
         private static Popup PopupOf(MenuItem item) =>
             item.GetVisualDescendants().OfType<Popup>().First(popup => popup.Name == "PART_Popup");
 
-        private static (Window Window, MenuItem File) Show()
+        private (Window Window, MenuItem File) Show()
         {
             var (window, _) = ShowWithViewModel();
             return (window, MenuMainRows.TopItem(window, "File"));
         }
 
-        private static (Window Window, ViewModels.MainViewModel ViewModel) ShowWithViewModel()
+        private (Window Window, ViewModels.MainViewModel ViewModel) ShowWithViewModel()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             TestServiceProviderFactory.Pump();
             return (window, viewModel);
         }

@@ -25,8 +25,12 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     // composition to whatever was already open, so opening the same file twice left the first
     // load's compositions, entities, materials and textures in the repository next to the second
     // load's, and every reopen grew the session by another copy.
-    public class OpenProjectTests
+    public class OpenProjectTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         // The counts the reported symptom is visible in, plus the layers and the total, which
         // catch anything the per type collections would miss. The project is not counted:
         // it stays in the repository for the whole session.
@@ -42,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             var repository = viewModel.ControlRepository;
 
             await viewModel.ProjectFile.OpenProjectFromPath(path);
@@ -76,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
             File.WriteAllText(corruptPath, "{ this is not a project");
 
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             var repository = viewModel.ControlRepository;
 
             await viewModel.ProjectFile.OpenProjectFromPath(path);
@@ -118,9 +122,9 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
         // Opens the file in a fresh session, optionally after an add and a delete that leave two
         // entries on the stack, and reports how many undo steps the open left behind.
-        private static async Task<int> CountUndoStepsLeftByAnOpen(string path, bool withEditsBeforeTheOpen)
+        private async Task<int> CountUndoStepsLeftByAnOpen(string path, bool withEditsBeforeTheOpen)
         {
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             var undoManager = provider.GetRequiredService<UndoManager>();
             var compositionManager = viewModel.Project.CompositionManager;
             Composition? discarded = null;
@@ -162,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             var undoManager = provider.GetRequiredService<UndoManager>();
 
             await viewModel.ProjectFile.OpenProjectFromPath(path);
@@ -181,7 +185,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             var undoManager = provider.GetRequiredService<UndoManager>();
             var repository = viewModel.ControlRepository;
 
@@ -216,7 +220,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, _, viewModel) = windows.ShowMainWindow();
 
             await viewModel.ProjectFile.OpenProjectFromPath(path);
             TestServiceProviderFactory.Pump();
@@ -239,7 +243,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
 
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             var undoManager = provider.GetRequiredService<UndoManager>();
             var project = viewModel.Project;
             var slots = project.OutputMappingManager.Items;
@@ -282,7 +286,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var savedIDs = saved.Items.Select(item => item.ID).ToList();
             Assert.Equal(3, savedIDs.Count);
 
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             var compositionManager = viewModel.Project.CompositionManager;
 
             await viewModel.ProjectFile.OpenProjectFromPath(path);
@@ -318,7 +322,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithName(path, projectName);
 
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             var project = viewModel.Project;
             Assert.NotEqual(projectName, project.PrefabService.Name.Value);
 
@@ -357,7 +361,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
                 File.Copy(file, copy);
             }
 
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             await viewModel.ProjectFile.OpenProjectFromPath(Path.Combine(rootB, "VJ", "compositions", "bar.cmix"));
             TestServiceProviderFactory.Pump();
 
@@ -382,7 +386,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithDifferentOutputMappings(path);
 
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             var slots = viewModel.Project.OutputMappingManager.Items;
 
             await viewModel.ProjectFile.OpenProjectFromPath(path);
@@ -405,7 +409,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
 
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             var outputMappingManager = viewModel.Project.OutputMappingManager;
             var slots = outputMappingManager.Items;
             Assert.Equal("Output 4", slots[3].Name.Value);
@@ -432,7 +436,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public void DuplicateComposition_WithANonDefaultOutputMapping_KeepsItOnTheDuplicate()
         {
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             var compositionManager = viewModel.Project.CompositionManager;
             var slots = viewModel.Project.OutputMappingManager.Items;
 
@@ -456,7 +460,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         {
             using var temp = new TempFolder("openproject");
             var path = temp.PathOf("project.cmix");
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             var peer = provider.GetRequiredService<SyncPeer>();
             try
             {
@@ -487,7 +491,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             using var temp = new TempFolder("broken");
             var path = temp.PathOf("project.cmix");
             File.WriteAllText(path, "{ this is not a project");
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
 
             await viewModel.ProjectFile.OpenProjectFromPath(path);
 

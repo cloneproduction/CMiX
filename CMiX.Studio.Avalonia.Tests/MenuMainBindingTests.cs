@@ -21,8 +21,12 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A row of the main menu holds the command of its source. The title bar shows the open project.
-    public class MenuMainBindingTests
+    public class MenuMainBindingTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static ICommand ExpectedCommand(MainViewModel viewModel, string top, string row) => (top, row) switch
         {
             ("File", "New") => viewModel.ProjectFile.NewProjectCommand,
@@ -60,7 +64,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData("Layer", "Duplicate")]
         public void Open_AMenuMainRow_HoldsTheCommandOfItsSource(string top, string row)
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
 
             var rowItem = MenuMainRows.OpenRow(window, top, row);
 
@@ -76,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData("Layer", "Duplicate")]
         public void Open_ACompositionOrLayerRow_RunsItsCommandAfterTheMenuCloses(string top, string row)
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
 
             var rowItem = MenuMainRows.OpenRow(window, top, row);
 
@@ -101,7 +105,7 @@ namespace CMiX.Studio.Avalonia.Tests
             using var temp = new TempFolder("mainmenu");
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             Assert.Equal("CMiX - (Unsaved)", TitleBarText(window).Text);
 
             await viewModel.ProjectFile.OpenProjectFromPath(path);
@@ -118,7 +122,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var path = temp.PathOf("project.cmix");
             var newPath = temp.PathOf("saved.cmix");
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
+            var (_, window, viewModel) = windows.ShowMainWindow(services =>
                 services.AddSingleton<IDialogService>(provider => new DialogService(
                     new FakeFileDialogManager(newPath),
                     viewModelFactory: type => provider.GetService(type))));
@@ -140,7 +144,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var path = temp.PathOf("project.cmix");
             var badPath = temp.PathOf(Path.Combine("missing", "project.cmix"));
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
-            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
+            var (provider, window, viewModel) = windows.ShowMainWindow(services =>
                 services.AddSingleton<IDialogService>(provider => new DialogService(
                     new FakeFileDialogManager(badPath),
                     viewModelFactory: type => provider.GetService(type))));
@@ -162,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Tests
             using var temp = new TempFolder("mainmenu");
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
+            var (provider, _, viewModel) = windows.ShowMainWindow(services =>
                 services.AddSingleton<ISyncTarget, ThrowingSyncTarget>());
             viewModel.ProjectFile.ProjectPath = "earlier.cmix";
 
@@ -182,7 +186,7 @@ namespace CMiX.Studio.Avalonia.Tests
             using var temp = new TempFolder("mainmenu");
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             viewModel.TextureManager.AddItem(typeof(CheckerBoard));
             var texture = Assert.Single(viewModel.TextureManager.ManagerData.Items);
             TestServiceProviderFactory.Pump();

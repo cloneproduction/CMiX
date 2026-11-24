@@ -6,6 +6,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls;
@@ -20,8 +21,12 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // Each side of the window has an icon button at its top. A click opens the list of what the side can show, each with its icon
     // and its name. The user picks the tree or the tabs or the assets, on either side, or the same on both sides.
-    public class SidePanelTests
+    public class SidePanelTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private sealed class Screen
         {
             public MainWindow Window { get; init; } = null!;
@@ -43,9 +48,9 @@ namespace CMiX.Studio.Avalonia.Tests
                 ListOf(host).GetVisualDescendants().OfType<Button>().ToList();
         }
 
-        private static Screen Show()
+        private Screen Show()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
             composition.LayerManager.AddItem(typeof(Layer));

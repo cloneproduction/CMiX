@@ -27,10 +27,14 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The context menu of a row in the lists of the project: its entities, its cameras and its lights.
     // An item of these lists can be in a layer and not in the list of the manager of the tab.
-    public class RepositoryRowMenuTests
+    public class RepositoryRowMenuTests : IDisposable
     {
         public static IEnumerable<object[]> Kinds() =>
             new[] { typeof(Entity), typeof(Camera), typeof(LightEntity) }.Select(kind => new object[] { kind });
+
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
 
         private sealed class Screen
         {
@@ -57,9 +61,9 @@ namespace CMiX.Studio.Avalonia.Tests
             : kind == typeof(LightEntity) ? layer.LightManager
             : layer.ModelEntityManager;
 
-        private static Screen Show(Type kind, int count = 3)
+        private Screen Show(Type kind, int count = 3)
         {
-            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, window, viewModel) = windows.ShowMainWindow();
             var manager = kind == typeof(Camera) ? viewModel.CameraManager
                 : kind == typeof(LightEntity) ? viewModel.LightManager
                 : viewModel.EntityManager;

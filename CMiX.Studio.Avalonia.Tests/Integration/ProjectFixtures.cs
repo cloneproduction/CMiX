@@ -1,6 +1,7 @@
 ﻿using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Tests.Support;
 
 namespace CMiX.Studio.Avalonia.Tests.Integration
 {
@@ -10,7 +11,8 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // Saves a project with a composition, a layer, an entity, and a material with a texture in each slot.
         public static void WriteProjectWithMaterialTextures(string path)
         {
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            using var windows = new TestWindows();
+            var (_, _, viewModel) = windows.ShowMainWindow();
 
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
@@ -29,7 +31,8 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // Saves compositions A to C, each with one layer, with the middle one selected.
         public static void WriteProjectWithThreeCompositions(string path)
         {
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            using var windows = new TestWindows();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             var compositionManager = viewModel.Project.CompositionManager;
 
             foreach (var suffix in new[] { "A", "B", "C" })
@@ -51,7 +54,8 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // Saves a project with a name.
         public static void WriteProjectWithName(string path, string projectName)
         {
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            using var windows = new TestWindows();
+            var (_, _, viewModel) = windows.ShowMainWindow();
 
             viewModel.Project.PrefabService.Name.Value = projectName;
             TestServiceProviderFactory.Pump();
@@ -62,7 +66,8 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // Saves a project with a material with an image texture; the path must be an existing file.
         public static void WriteProjectWithImage(string path, string imagePath)
         {
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            using var windows = new TestWindows();
+            var (_, _, viewModel) = windows.ShowMainWindow();
 
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
@@ -81,7 +86,8 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // Saves two compositions on different output slots, neither of them slot 0.
         public static void WriteProjectWithDifferentOutputMappings(string path)
         {
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            using var windows = new TestWindows();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             var compositionManager = viewModel.Project.CompositionManager;
             var slots = viewModel.Project.OutputMappingManager.Items;
 
@@ -99,7 +105,8 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // Saves slot 3 renamed with a new resolution, and one composition on slot 3.
         public static void WriteProjectWithRenamedOutputMappings(string path)
         {
-            var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            using var windows = new TestWindows();
+            var (_, _, viewModel) = windows.ShowMainWindow();
             var compositionManager = viewModel.Project.CompositionManager;
             var slots = viewModel.Project.OutputMappingManager.Items;
 

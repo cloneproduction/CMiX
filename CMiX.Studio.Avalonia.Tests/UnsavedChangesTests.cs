@@ -16,12 +16,16 @@ using Composition = CMiX.Core.Compositing.Composition;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The project has unsaved changes when it differs from the last time it was saved, opened or started new.
-    public class UnsavedChangesTests
+    public class UnsavedChangesTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         [AvaloniaFact]
         public void ARunningSession_HasNoChanges_UntilSomethingIsEdited()
         {
-            var (provider, _, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, _) = windows.ShowMainWindow();
 
             Assert.False(provider.GetRequiredService<UnsavedChanges>().HasChanges);
         }
@@ -29,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void HasChanges_AnEdit_IsTrue()
         {
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
 
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
 
@@ -39,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void HasChanges_AnEditThatIsUndone_IsFalse()
         {
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
 
             provider.GetRequiredService<CMiX.Core.Undo.UndoManager>().Undo();
@@ -50,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void MarkSaved_AfterAnEdit_TakesTheCurrentStateAsTheSavedOne()
         {
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             var unsaved = provider.GetRequiredService<UnsavedChanges>();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
 
@@ -62,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void HasChanges_ARunningSessionOverTenFrames_StaysFalse()
         {
-            var (provider, _, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, _) = windows.ShowMainWindow();
             var unsaved = provider.GetRequiredService<UnsavedChanges>();
 
             for (var i = 0; i < 10; i++)
@@ -79,7 +83,7 @@ namespace CMiX.Studio.Avalonia.Tests
             using var temp = new TempFolder("unsaved");
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             var unsaved = provider.GetRequiredService<UnsavedChanges>();
 
             await viewModel.ProjectFile.OpenProjectFromPath(path);
@@ -96,7 +100,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void NewProject_WithChanges_IsTheSavedState()
         {
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             Assert.True(provider.GetRequiredService<UnsavedChanges>().HasChanges);
             provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.DontSave;

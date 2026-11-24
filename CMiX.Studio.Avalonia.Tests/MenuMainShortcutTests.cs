@@ -2,16 +2,21 @@
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A row of the main menu shows the gesture of the shortcut map through InputGesture, with the shortcut look of every menu.
-    public class MenuMainShortcutTests
+    public class MenuMainShortcutTests : IDisposable
     {
-        private static (TextBlock Gesture, ViewModels.MainViewModel ViewModel) OpenAndFindGesture(string top, string row)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (TextBlock Gesture, ViewModels.MainViewModel ViewModel) OpenAndFindGesture(string top, string row)
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             TestServiceProviderFactory.Pump();
             var rowItem = MenuMainRows.OpenRow(window, top, row);
             return (rowItem.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Name == "PART_InputGestureText"), viewModel);

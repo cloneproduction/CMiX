@@ -15,12 +15,16 @@ using Layer = CMiX.Core.Compositing.Layer;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The undo and redo keys of the main window. The gestures come from the shortcut map.
-    public class MainWindowShortcutTests
+    public class MainWindowShortcutTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         [AvaloniaFact]
         public void Press_CtrlZThenCtrlShiftZ_UndoesAndRedoesTheStep()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             var items = viewModel.Project.CompositionManager.ManagerData.Items;
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.Pump();
@@ -37,7 +41,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void KeyBindings_OfTheWindow_FollowTheMap()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             var undo = window.KeyBindings.Single(binding => Equals(binding.Gesture, new KeyGesture(Key.Z, KeyModifiers.Control)));
             var gesture = new KeyGesture(Key.U, KeyModifiers.Control | KeyModifiers.Alt);
 
@@ -50,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void KeyBindings_OfTheWindow_HoldTheUndoAndRedoCommands()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
 
             KeyBinding For(string name) => window.KeyBindings.Single(binding => Equals(binding.Gesture, viewModel.Shortcuts[name]));
 
@@ -62,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void KeyBindings_OfTheWindow_HoldThePanelCommands()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             var panelFocus = viewModel.PanelFocus;
 
             KeyBinding For(string name) => window.KeyBindings.Single(binding => Equals(binding.Gesture, viewModel.Shortcuts[name]));
@@ -84,7 +88,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void KeyBindings_OfTheWindow_HoldTheOpenCommandOfTheMenuOnCtrlO()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             TestServiceProviderFactory.Pump();
 
             var open = window.KeyBindings.Single(binding => Equals(binding.Gesture, viewModel.Shortcuts["File.Open"]));
@@ -100,7 +104,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Press_AltAlone_LeavesTheMainMenuAsItWas()
         {
-            var (_, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, _) = windows.ShowMainWindow();
             TestServiceProviderFactory.Pump();
             window.Focus();
             var menu = window.GetVisualDescendants().OfType<Menu>().First();

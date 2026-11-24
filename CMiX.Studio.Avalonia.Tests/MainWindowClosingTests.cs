@@ -16,8 +16,12 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The cross button, Alt+F4 and the close command all close the window. With unsaved changes the user is asked first.
     // The New and the Open commands ask in the same way.
-    public class MainWindowClosingTests
+    public class MainWindowClosingTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static Task<bool> ClosesWithin(Views.MainWindow window, TimeSpan time) => ClosesWithin(window, window.Close, time);
 
         private static async Task<bool> ClosesWithin(Views.MainWindow window, Action close, TimeSpan time)
@@ -36,9 +40,9 @@ namespace CMiX.Studio.Avalonia.Tests
             return closed;
         }
 
-        private static (Views.MainWindow Window, FakeUnsavedChangesPrompt Prompt, ViewModels.MainViewModel ViewModel) ShowWithChanges(UnsavedChangesChoice answer)
+        private (Views.MainWindow Window, FakeUnsavedChangesPrompt Prompt, ViewModels.MainViewModel ViewModel) ShowWithChanges(UnsavedChangesChoice answer)
         {
-            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, window, viewModel) = windows.ShowMainWindow();
             var prompt = provider.GetRequiredService<FakeUnsavedChangesPrompt>();
             prompt.Answer = answer;
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
@@ -48,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public async Task Close_WithoutChanges_ClosesAtOnceWithoutAsking()
         {
-            var (provider, window, _) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, window, _) = windows.ShowMainWindow();
 
             var closed = await ClosesWithin(window, TimeSpan.FromSeconds(2));
 
@@ -85,7 +89,7 @@ namespace CMiX.Studio.Avalonia.Tests
             using var temp = new TempFolder("closing");
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithRenamedOutputMappings(path);
-            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, window, viewModel) = windows.ShowMainWindow();
             await viewModel.ProjectFile.OpenProjectFromPath(path);
             TestServiceProviderFactory.Pump();
             provider.GetRequiredService<FakeUnsavedChangesPrompt>().Answer = UnsavedChangesChoice.Save;
@@ -111,7 +115,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void NewProjectCommand_WithUnsavedChangesAndCancel_KeepsTheProject()
         {
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             var prompt = provider.GetRequiredService<FakeUnsavedChangesPrompt>();
 
@@ -126,7 +130,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void NewProjectCommand_WithoutChanges_DoesNotAsk()
         {
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
 
             viewModel.ProjectFile.NewProjectCommand.Execute(null);
             TestServiceProviderFactory.Pump();
@@ -138,7 +142,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public async Task OpenProjectCommand_WithUnsavedChangesAndCancel_DoesNotShowTheFileDialog()
         {
             var dialogs = new FakeFileDialogManager("never.cmix");
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow(services =>
+            var (provider, _, viewModel) = windows.ShowMainWindow(services =>
                 services.AddSingleton<IDialogService>(provider => new DialogService(dialogs, viewModelFactory: type => provider.GetService(type))));
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
 

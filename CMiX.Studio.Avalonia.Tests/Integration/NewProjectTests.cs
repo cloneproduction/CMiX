@@ -23,8 +23,12 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     // owns managers of its own, a material with its two texture slots for instance, therefore kept
     // its contents registered in the repository after a new project, and since the textures tab
     // lists the whole repository rather than one manager's items, those textures stayed on screen.
-    public class NewProjectTests
+    public class NewProjectTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static TabRepository SelectTab(Views.MainWindow window, string toolTipText)
         {
             var tabControl = TestServiceProviderFactory.MainTabControl(window);
@@ -54,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         [AvaloniaFact]
         public void NewProject_ATextureOfTheTexturesTab_ClearsIt()
         {
-            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, window, viewModel) = windows.ShowMainWindow();
             SelectTab(window, "Textures");
 
             CreateThroughPopup(window, viewModel.TextureManager, "New Texture", typeof(CheckerBoard));
@@ -80,7 +84,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var path = temp.PathOf("project.cmix");
             ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (provider, _, viewModel) = windows.ShowMainWindow();
 
             // A composition of the file, loaded the way ProjectSession.LoadProject loads it.
             var projectModel = ProjectSerializer.Load(path);
