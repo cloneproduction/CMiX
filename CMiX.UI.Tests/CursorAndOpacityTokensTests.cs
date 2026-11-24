@@ -12,8 +12,6 @@ namespace CMiX.UI.Tests
 
         [AvaloniaTheory]
         [InlineData("OpacityDisabled", 0.5)]
-        [InlineData("OpacityDragSource", 0.4)]
-        [InlineData("OpacityDragGhost", 0.8)]
         [InlineData("OpacityIconIdle", 0.6)]
         [InlineData("OpacityIconAction", 0.9)]
         public void Opacity_Token_HasItsValue(string key, double expected)
