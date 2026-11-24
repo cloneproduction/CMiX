@@ -20,7 +20,7 @@ Date of the survey: 2026-11-13. Sizes are lines of C# without AXAML.
 | Model | Domain data that owns its children. It knows nothing about UI, undo or messaging. |
 | ViewModel | State and commands for one piece of UI. It never references a view, never does I/O, and has no Avalonia type. |
 | View | XAML plus view-only behaviour (focus, pointer, drag). It holds no logic and no data. |
-| Service | `ShortcutMap`, `InterfaceState`, `StudioSettings`, `StudioSettingsFile`, `JsonSettingsFile`, `PathDropRules`, `StatusNotice`, `UnsavedChanges`, `UnsavedChangesPrompt`, `MessageNotice`, `MoveBlockedNotice`, `MainWindowDialogManager`, `MainWindowOwner`, `TreeDropService`. They live in the folders `Notices`, `Settings` and `Session`, named for their job. |
+| Service | One capability behind an interface. It holds no UI state. |
 | Message | A plain record sent between parts or to the engine. No behaviour. |
 
 In Part 1, a class counts as a Service when it is one capability with no UI state, with or without an interface. Most Core services have no interface.
@@ -85,7 +85,7 @@ Classes that are several shapes at once, or none:
 |---|---|
 | View | Everything in `Views/`: one view for each Core control with the same name (`Blur`, `Layer`, `ModelEntity`, ...), `MainWindow`, `ListTreeProject`, `PanelInspector`, `PanelSync`, `AssetManager`, `MainMenu` (the view), `PanelFocusCycle` (moves the focus between the panels), the tree parts (`AddPanel`, `PrefabRowMenu`, `TogglesRow`, ...), the converters and the behaviors, among them the behaviors of the tree in `Behaviors/ListTree`. |
 | ViewModel | `MainViewModel`, `MainMenuViewModel`, `ProjectFileViewModel`, `MainWindowController`, `ShortcutSettings`, `PanelChoice`, and the tree: `ProjectTree`, `TreeNode`, `TreeGroup`, `TreeAdd`, `TreeViewHooks`. |
-| Service | `ShortcutMap`, `InterfaceOptions`, `StudioSettings`, `JsonSettingsFile`, `PathDropService`, `PanelFocusCycle`, `NotificationService`, `UnsavedChanges`, `UnsavedChangesPrompt`, `MessageNotice`, `MoveBlockedNotice`, `MainWindowDialogManager`, `TreeDropService`. |
+| Service | `ShortcutMap`, `InterfaceState`, `StudioSettings`, `StudioSettingsFile`, `JsonSettingsFile`, `PathDropRules`, `StatusNotice`, `UnsavedChanges`, `UnsavedChangesPrompt`, `MessageNotice`, `MoveBlockedNotice`, `MainWindowDialogManager`, `MainWindowOwner`, `TreeDropService`. They live in the folders `Notices`, `Settings` and `Session`, named for their job. |
 | Model, Message | None. |
 
 Several at once, or none:
