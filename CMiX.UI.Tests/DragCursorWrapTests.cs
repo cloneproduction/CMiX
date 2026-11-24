@@ -408,5 +408,28 @@ namespace CMiX.UI.Tests
             var expected = (mouse.MovedX - movedBefore) * drag.SmallChange;
             Assert.InRange(drag.Value, expected * 0.98, expected * 1.02);
         }
+
+        // The cursor of a drag in the popup wraps at the edges of the window that shows the control. For a popup with
+        // its own window, that is the popup: the popup holds the mouse, and over the window that opened it the drag can
+        // lose the mouse. The headless platform shows a popup in the window itself, so this cannot check a popup with
+        // its own window: it checks that the bounds come from the top level of the control itself.
+        [AvaloniaFact]
+        public void WindowBoundsAt_ControlsInThePopup_IsTheClientAreaOfTheirOwnTopLevel()
+        {
+            var (_, _, _, popup) = SelectorColorHost.ShowOpen(300, 1000, 600);
+
+            foreach (var control in new Control[]
+                     {
+                         popup.Child!.GetVisualDescendants().OfType<SliderCMiX>().First(),
+                         popup.Child!.GetVisualDescendants().OfType<ColorPickerWheel>().Single()
+                     })
+            {
+                var topLevel = TopLevel.GetTopLevel(control)!;
+                var topLeft = topLevel.PointToScreen(new Point(0, 0));
+                var size = topLevel.ClientSize;
+
+                Assert.Equal(new PixelRect(topLeft.X, topLeft.Y, (int)size.Width, (int)size.Height), DragEditHelper.WindowBoundsAt(control));
+            }
+        }
     }
 }

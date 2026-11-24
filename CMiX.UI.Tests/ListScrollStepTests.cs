@@ -214,5 +214,29 @@ namespace CMiX.UI.Tests
 
             Assert.True(height > Tokens.ListHeight(Tokens.ListVisibleItems) + 900);
         }
+
+        [AvaloniaFact]
+        public void CaptureLost_DuringAResize_StopsResizing()
+        {
+            var list = new ListBoxCMiX { MinItemCount = Tokens.ListVisibleItems, ItemsSource = Enumerable.Range(1, 30).Select(i => "Item " + i).ToList() };
+            var window = TestWindow.ShowWithoutClips(list, 400, 1500);
+            var strip = Parts.Find<Border>(list, "resizeBorder");
+            var pointer = PointerInput.WatchPressedPointer(strip);
+            var start = strip.TranslatePoint(new Point(strip.Bounds.Width / 2, strip.Bounds.Height / 2), window)!.Value;
+            var before = HeightBorderOf(list).Height;
+
+            window.MouseMove(start);
+            window.MouseDown(start, MouseButton.Left);
+            Dispatcher.UIThread.RunJobs();
+            Assert.NotNull(pointer()!.Captured);
+
+            pointer()!.Capture(null);
+            Dispatcher.UIThread.RunJobs();
+
+            // A move over the strip, as when the mouse comes back to it.
+            PointerInput.Move(strip, PointerInput.NewPointer(), new Point(start.X, start.Y + 200), window);
+
+            Assert.Equal(before, HeightBorderOf(list).Height);
+        }
     }
 }

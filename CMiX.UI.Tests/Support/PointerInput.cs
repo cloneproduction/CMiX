@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Threading;
 
 namespace CMiX.UI.Tests.Support
@@ -62,6 +63,14 @@ namespace CMiX.UI.Tests.Support
 
         // A pointer of its own, for a test that captures it or takes the capture away.
         public static Pointer NewPointer() => new(Pointer.GetNextFreeId(), PointerType.Mouse, true);
+
+        // The real pointer of the headless mouse, taken from the press that reaches the control.
+        public static Func<IPointer?> WatchPressedPointer(Control control)
+        {
+            IPointer? pointer = null;
+            control.AddHandler(InputElement.PointerPressedEvent, (_, e) => pointer = e.Pointer, RoutingStrategies.Tunnel, handledEventsToo: true);
+            return () => pointer;
+        }
 
         public static void Press(Control target, IPointer pointer, Point inWindow, Window window)
         {
