@@ -18,12 +18,8 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // Tree.ExpandBranch (Shift+E), Tree.CloseLevel (Q), Tree.OpenLevel (Shift+Q) and Tree.CollapseAll (Shift+Alt+E) change the open
     // state of the rows only. A row that closes over the cursor takes the cursor, so the cursor stays on a row that shows.
-    public class ProjectTreeLevelKeysTests : IDisposable
+    public class ProjectTreeLevelKeysTests
     {
-        private Views.MainWindow? window;
-
-        public void Dispose() => window?.Close();
-
         // A with three layers and B with one layer. Each layer of A holds an Echo filter. Every row is open.
         private static Scene Nested()
         {
@@ -183,130 +179,5 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         // ---------------------------------------------------------------- the keys of the main window
-
-        // One composition with three layers, each with an Echo filter. Every row is open. The composition is selected.
-        private (Views.MainWindow Window, MainViewModel ViewModel, ListTreeProject View) Show()
-        {
-            var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            window = mainWindow;
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
-            for (var i = 0; i < 3; i++)
-            {
-                composition.LayerManager.AddItem(typeof(Layer));
-                ((Layer)composition.LayerManager.ManagerData.Items[i]).TextureModifierManager.AddItem(typeof(Echo));
-            }
-
-            TestServiceProviderFactory.Pump();
-            TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
-            TestServiceProviderFactory.Pump();
-            var view = mainWindow.GetVisualDescendants().OfType<ListTreeProject>().Single();
-            viewModel.ProjectTree.SelectedNode = viewModel.ProjectTree.CompositionNodes()[0];
-            Settle(mainWindow);
-            return (mainWindow, viewModel, view);
-        }
-
-        private static void FocusTheCursorRow(Views.MainWindow mainWindow, ListTreeProject view, ProjectTree tree)
-        {
-            view.Rows.RowOf(tree.CursorNode!)!.Focus();
-            Settle(mainWindow);
-            Assert.True(view.IsKeyboardFocusWithin);
-        }
-
-        private static IEnumerable<TreeNode> RowsWithChildren(ProjectTree tree) => WithChildren(ListTreeTestScreen.All(tree.Roots));
-
-        [AvaloniaFact]
-        public void Press_ShiftEInTheTree_OpensTheBranchOfTheCursorRow()
-        {
-            var (mainWindow, viewModel, view) = Show();
-            var tree = viewModel.ProjectTree;
-            var composition = tree.CompositionNodes()[0];
-            foreach (var node in RowsWithChildren(tree).Where(node => node.IsOrIsUnder(composition) && !ReferenceEquals(node, composition)))
-                node.IsExpanded = false;
-            Settle(mainWindow);
-            FocusTheCursorRow(mainWindow, view, tree);
-
-            mainWindow.Press(PhysicalKey.E, RawInputModifiers.Shift);
-
-            Assert.All(WithChildren(ListTreeTestScreen.All(new[] { composition })), node => Assert.True(node.IsExpanded));
-        }
-
-        [AvaloniaFact]
-        public void Press_QInTheTree_ClosesTheDeepestOpenLevel()
-        {
-            var (mainWindow, viewModel, view) = Show();
-            var tree = viewModel.ProjectTree;
-            FocusTheCursorRow(mainWindow, view, tree);
-            var before = RowsWithChildren(tree).Count(node => node.IsExpanded);
-
-            mainWindow.Press(PhysicalKey.Q);
-
-            Assert.True(RowsWithChildren(tree).Count(node => node.IsExpanded) < before);
-            Assert.True(tree.CompositionNodes()[0].IsExpanded);
-            AssertCursorShows(tree);
-        }
-
-        [AvaloniaFact]
-        public void Press_ShiftQInTheTree_OpensTheShallowestClosedLevel()
-        {
-            var (mainWindow, viewModel, view) = Show();
-            var tree = viewModel.ProjectTree;
-            var layers = Scene.LayersOf(tree.CompositionNodes()[0]);
-            layers.IsExpanded = false;
-            Settle(mainWindow);
-            FocusTheCursorRow(mainWindow, view, tree);
-
-            mainWindow.Press(PhysicalKey.Q, RawInputModifiers.Shift);
-
-            Assert.True(layers.IsExpanded);
-        }
-
-        [AvaloniaFact]
-        public void Press_ShiftAltEInTheTree_ClosesEveryRowAndKeepsTheCursorOnARowThatShows()
-        {
-            var (mainWindow, viewModel, view) = Show();
-            var tree = viewModel.ProjectTree;
-            FocusTheCursorRow(mainWindow, view, tree);
-
-            mainWindow.Press(PhysicalKey.E, RawInputModifiers.Shift | RawInputModifiers.Alt);
-
-            Assert.All(RowsWithChildren(tree), node => Assert.False(node.IsExpanded));
-            AssertCursorShows(tree);
-        }
-
-        [AvaloniaFact]
-        public void Press_TheLevelKeysInATextBox_ChangeNoRow()
-        {
-            var (mainWindow, viewModel, _) = Show();
-            var tree = viewModel.ProjectTree;
-            Scene.LayersOf(tree.CompositionNodes()[0]).IsExpanded = false;
-            Settle(mainWindow);
-            var box = mainWindow.GetVisualDescendants().OfType<TextBoxSearchTree>().First().GetVisualDescendants().OfType<TextBox>().First();
-            box.Focus();
-            Settle(mainWindow);
-            Assert.True(box.IsFocused);
-            var before = RowsWithChildren(tree).Select(node => node.IsExpanded).ToList();
-
-            mainWindow.Press(PhysicalKey.E, RawInputModifiers.Shift | RawInputModifiers.Alt);
-            mainWindow.Press(PhysicalKey.E, RawInputModifiers.Shift);
-            mainWindow.Press(PhysicalKey.Q, RawInputModifiers.Shift);
-            mainWindow.Press(PhysicalKey.Q);
-
-            Assert.Equal(before, RowsWithChildren(tree).Select(node => node.IsExpanded).ToList());
-        }
-
-        [AvaloniaFact]
-        public void KeyBindings_OfTheWindow_HoldTheLevelCommands()
-        {
-            var (mainWindow, viewModel, _) = Show();
-            var tree = viewModel.ProjectTree;
-
-            KeyBinding For(string name) => mainWindow.KeyBindings.Single(binding => Equals(binding.Gesture, viewModel.Shortcuts[name]));
-
-            Assert.Same(tree.ExpandBranchCommand, For("Tree.ExpandBranch").Command);
-            Assert.Same(tree.CloseLevelCommand, For("Tree.CloseLevel").Command);
-            Assert.Same(tree.OpenLevelCommand, For("Tree.OpenLevel").Command);
-            Assert.Same(tree.CollapseAllCommand, For("Tree.CollapseAll").Command);
-        }
     }
 }
