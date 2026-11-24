@@ -24,6 +24,8 @@ namespace CMiX.Studio.Avalonia.Views
 
         public ListTreeLayout LiveLayout => arrangement.Layout;
 
+        public IReadOnlyList<ListTreeRow> LiveRows => arrangement.Rows;
+
         public ListTreeLayout Layout => dragLook?.Layout ?? arrangement.Layout;
 
         public bool IsDragShown => dragLook != null;

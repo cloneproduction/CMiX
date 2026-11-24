@@ -39,6 +39,9 @@ namespace CMiX.Studio.Avalonia.Views
 
         public ListTreeLayout Layout => shown.LiveLayout;
 
+        // The shown rows of the live tree, in tree order, with their children.
+        public IReadOnlyList<ListTreeRow> LiveRows => shown.LiveRows;
+
         public ListTreeSizes Sizes => new(RowHeight, RowGap, Indent);
 
         public RowListTree? RowOf(ListTreeRowKey key) => rowControls.RowOf(key);

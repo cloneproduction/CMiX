@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -22,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         protected override void OnWatch(ProjectTree attached)
         {
             tree = attached;
-            cursor = new ListTreeCursor(attached);
+            cursor = new ListTreeCursor(attached, ShownRows);
             Context.Scroller.AddHandler(InputElement.KeyDownEvent, OnKeyDownTunnel, RoutingStrategies.Tunnel);
         }
 
@@ -72,6 +73,13 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             MoveCursor(cursor, e.Key);
             if (tree.CursorNode is { } node)
                 Part<ListTreeFocusKeeper>().FocusRowLater(node, DispatcherPriority.Loaded);
+        }
+
+        // The rows of the panel are the shown rows, after a posted rebuild.
+        private IReadOnlyList<ListTreeRow> ShownRows()
+        {
+            Context.Rows.ApplyTreeChanges();
+            return Context.Rows.LiveRows;
         }
 
         private static bool IsNavigationKey(Key key) =>

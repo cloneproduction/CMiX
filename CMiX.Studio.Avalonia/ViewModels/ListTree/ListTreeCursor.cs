@@ -12,10 +12,19 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
     public sealed class ListTreeCursor
     {
         private readonly ProjectTree tree;
+        private readonly Func<IReadOnlyList<ListTreeRow>> shownRows;
 
+        // With no view, the shown rows come from a snapshot of the tree.
         public ListTreeCursor(ProjectTree tree)
+            : this(tree, () => ListTreeSnapshot.Of(tree.Roots).VisibleRows())
+        {
+        }
+
+        // The view gives its shown rows, so a key builds no snapshot.
+        public ListTreeCursor(ProjectTree tree, Func<IReadOnlyList<ListTreeRow>> shownRows)
         {
             this.tree = tree;
+            this.shownRows = shownRows;
         }
 
         public void Move(int rows)
@@ -68,11 +77,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         // A row with no shown row under it is a leaf of the tree, so Right opens the Add panel there.
         public bool IsCursorOnLeaf() => tree.CursorNode is { } node && ShownChildrenOf(node).Count == 0;
 
-        private IReadOnlyList<TreeNode> ShownNodes() =>
-            ListTreeSnapshot.Of(tree.Roots).VisibleRows().Select(row => row.Node).OfType<TreeNode>().ToArray();
+        private IReadOnlyList<TreeNode> ShownNodes() => shownRows().Select(row => row.Node).OfType<TreeNode>().ToArray();
 
-        private IReadOnlyList<TreeNode> ShownChildrenOf(TreeNode node) =>
-            ListTreeSnapshot.Of(tree.Roots).RowOf(node)?.Children.Select(row => row.Node).OfType<TreeNode>().ToArray()
-            ?? Array.Empty<TreeNode>();
+        // A cursor row under a closed card is not shown, so its row comes from a snapshot.
+        private IReadOnlyList<TreeNode> ShownChildrenOf(TreeNode node)
+        {
+            var row = shownRows().FirstOrDefault(shown => ReferenceEquals(shown.Node, node)) ?? ListTreeSnapshot.Of(tree.Roots).RowOf(node);
+            return row?.Children.Select(child => child.Node).OfType<TreeNode>().ToArray() ?? Array.Empty<TreeNode>();
+        }
     }
 }
