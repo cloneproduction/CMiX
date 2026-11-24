@@ -14,7 +14,7 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // The icon toggles (power, update, eye) look the same: a dim icon while off, a lit icon while on.
+    // The icon toggles (power, eye) look the same: a dim icon while off, a lit icon while on.
     public class ToggleButtonPowerTests
     {
         private static (Window window, ToggleButton toggle) Show(string theme = "ToggleButtonPower")
@@ -48,18 +48,8 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaTheory]
-        [InlineData("ToggleButtonUpdate", "Update")]
-        public void AThemeBasedOnPower_ShowsItsOwnIcon(string theme, string iconKey)
-        {
-            var (_, toggle) = Show(theme);
-
-            Assert.Equal(iconKey, Icon(toggle).IconKey);
-        }
-
-        [AvaloniaTheory]
         [InlineData("ToggleButtonIcon")]
         [InlineData("ToggleButtonPower")]
-        [InlineData("ToggleButtonUpdate")]
         [InlineData("ToggleButtonVisibility")]
         public void WhileOff_TheIconIsDim(string theme)
         {
@@ -71,7 +61,6 @@ namespace CMiX.UI.Tests
 
         [AvaloniaTheory]
         [InlineData("ToggleButtonPower")]
-        [InlineData("ToggleButtonUpdate")]
         public void WhileOn_TheIconIsLit_InTheSameColorAsWhileOff(string theme)
         {
             var (_, toggle) = Show(theme);
@@ -87,7 +76,6 @@ namespace CMiX.UI.Tests
         // and the on and hover states of the theme would not show either.
         [AvaloniaTheory]
         [InlineData("ToggleButtonPower")]
-        [InlineData("ToggleButtonUpdate")]
         [InlineData("ToggleButtonVisibility")]
         public void TheOpacityOfAnIconToggle_IsAStyle_NotALocalValue(string theme)
         {

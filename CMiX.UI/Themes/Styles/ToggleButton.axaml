@@ -83,16 +83,6 @@
         </Style>
     </ControlTheme>
 
-    <!-- The switch that tells that an object runs its update. -->
-    <ControlTheme
-        x:Key="ToggleButtonUpdate"
-        BasedOn="{StaticResource ToggleButtonPower}"
-        TargetType="ToggleButton">
-        <Style Selector="^ /template/ ui|AppIcon#icon">
-            <Setter Property="IconKey" Value="Update" />
-        </Style>
-    </ControlTheme>
-
     <ControlTheme x:Key="ToggleButtonPopup" TargetType="ToggleButton">
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
