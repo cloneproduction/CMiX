@@ -5,6 +5,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -14,12 +15,11 @@ namespace CMiX.UI.Tests
     {
         private static T Show<T>(T control) where T : Control
         {
-            new Window { Content = control, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(control, 300, 200);
             return control;
         }
 
-        private static CornerRadius Round => (CornerRadius)Application.Current!.FindResource("CornerRadiusAll")!;
+        private static CornerRadius Round => Tokens.Get<CornerRadius>("CornerRadiusAll");
 
         [AvaloniaFact]
         public void Show_ARowOfAList_StartsItsContentAtEight()
@@ -27,7 +27,7 @@ namespace CMiX.UI.Tests
             var list = Show(new ListBox { ItemsSource = new[] { "Row" }, Width = 140, Height = 40 });
 
             var row = list.GetVisualDescendants().OfType<ListBoxItem>().First();
-            var border = row.GetVisualDescendants().OfType<Border>().First(part => part.Name == "Bd");
+            var border = Parts.Find<Border>(row, "Bd");
 
             Assert.Equal(8, border.Padding.Left);
             Assert.Equal(Round, border.CornerRadius);
@@ -38,8 +38,8 @@ namespace CMiX.UI.Tests
         {
             var item = Show(new ComboBoxItem { Content = "Item", Width = 140 });
 
-            var presenter = item.GetVisualDescendants().OfType<ContentPresenter>().First(part => part.Name == "PART_ContentPresenter");
-            var border = item.GetVisualDescendants().OfType<Border>().First(part => part.Name == "border");
+            var presenter = Parts.Find<ContentPresenter>(item, "PART_ContentPresenter");
+            var border = Parts.Find<Border>(item, "border");
 
             Assert.Equal(8, presenter.Margin.Left);
             Assert.Equal(Round, border.CornerRadius);
@@ -48,9 +48,9 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Show_ARowOfAMenu_StartsItsContentAtEight()
         {
-            var row = Show(new MenuItem { Header = "Duplicate", Theme = (ControlTheme)Application.Current!.FindResource("MenuItemContext")!, Width = 140 });
+            var row = Show(new MenuItem { Header = "Duplicate", Theme = Tokens.Theme("MenuItemContext"), Width = 140 });
 
-            var root = row.GetVisualDescendants().OfType<Border>().First(part => part.Name == "root");
+            var root = Parts.Find<Border>(row, "root");
 
             Assert.Equal(8, root.Padding.Left);
             Assert.Equal(Round, root.CornerRadius);

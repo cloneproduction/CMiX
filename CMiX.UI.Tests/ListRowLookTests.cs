@@ -6,6 +6,7 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -14,31 +15,23 @@ namespace CMiX.UI.Tests
     // The rows of the standard list and of the editable list share one base theme, ListBoxItemBasic.
     public class ListRowLookTests
     {
-        private static Color Brush(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
-
         private static ListBoxItem FirstRow(ListBox list)
         {
             list.ItemsSource = new[] { "One", "Two" };
             list.ItemTemplate = new FuncDataTemplate<string>((text, _) => new TextBlock { Text = text });
-            new Window { Content = list, Width = 300, Height = 300 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(list, 300, 300);
             return list.GetVisualDescendants().OfType<ListBoxItem>().First();
         }
 
-        private static Color? Background(ListBoxItem row)
-        {
-            var border = row.GetVisualDescendants().OfType<Border>().First(b => b.Name == "Bd");
-            return (border.Background as ISolidColorBrush)?.Color;
-        }
+        private static Color? Background(ListBoxItem row) => (Parts.Find<Border>(row, "Bd").Background as ISolidColorBrush)?.Color;
 
         private static void Pointer(ListBoxItem row, bool over)
         {
-            ((IPseudoClasses)row.Classes).Set(":pointerover", over);
+            PseudoClassInput.Set(row, ":pointerover", over);
             Dispatcher.UIThread.RunJobs();
         }
 
-        private static ListBox EditableList() =>
-            new() { Theme = (ControlTheme)Application.Current!.FindResource("ListBoxEditableList")! };
+        private static ListBox EditableList() => new() { Theme = Tokens.Theme("ListBoxEditableList") };
 
         public static TheoryData<string> Lists => new() { "standard", "editable" };
 
@@ -61,7 +54,7 @@ namespace CMiX.UI.Tests
 
             Pointer(row, true);
 
-            Assert.Equal(Brush("RowHoverBrush"), Background(row));
+            Assert.Equal(Tokens.Color("RowHoverBrush"), Background(row));
         }
 
         [AvaloniaTheory]
@@ -73,7 +66,7 @@ namespace CMiX.UI.Tests
             row.IsSelected = true;
             Dispatcher.UIThread.RunJobs();
 
-            Assert.Equal(Brush("AccentInactiveBrush"), Background(row));
+            Assert.Equal(Tokens.Color("AccentInactiveBrush"), Background(row));
         }
 
         [AvaloniaTheory]
@@ -85,7 +78,7 @@ namespace CMiX.UI.Tests
             row.IsSelected = true;
             Pointer(row, true);
 
-            Assert.Equal(Brush("StateOnHoverBrush"), Background(row));
+            Assert.Equal(Tokens.Color("StateOnHoverBrush"), Background(row));
         }
 
         [AvaloniaFact]

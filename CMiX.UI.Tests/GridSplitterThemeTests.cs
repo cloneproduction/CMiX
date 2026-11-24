@@ -5,6 +5,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.UI.Tests.Support;
 using Xunit;
 using Avalonia.Headless;
 using Avalonia.Input;
@@ -19,9 +20,9 @@ namespace CMiX.UI.Tests
 
         private sealed class ResourceDictionaryHelper
         {
-            public ControlTheme Splitter => (ControlTheme)Application.Current!.FindResource("GridSplitterCMiX")!;
-            public double IndicatorSize => Convert.ToDouble(Application.Current!.FindResource("SplitterIndicatorSize"));
-            public double Size => Convert.ToDouble(Application.Current!.FindResource("SplitterSize"));
+            public ControlTheme Splitter => Tokens.Theme("GridSplitterCMiX");
+            public double IndicatorSize => Tokens.Get<double>("SplitterIndicatorSize");
+            public double Size => Tokens.Get<double>("SplitterSize");
         }
 
         private static (Window Window, GridSplitter Splitter) ShowColumns()
@@ -37,10 +38,7 @@ namespace CMiX.UI.Tests
                 ResizeDirection = GridResizeDirection.Columns
             };
             grid.Children.Add(splitter);
-            var window = new Window { Content = grid, Width = 400, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, splitter);
+            return (TestWindow.Show(grid, 400, 200), splitter);
         }
 
         private static (Window Window, GridSplitter Splitter) ShowRows()
@@ -55,10 +53,7 @@ namespace CMiX.UI.Tests
                 VerticalAlignment = Avalonia.Layout.VerticalAlignment.Bottom
             };
             grid.Children.Add(splitter);
-            var window = new Window { Content = grid, Width = 400, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, splitter);
+            return (TestWindow.Show(grid, 400, 200), splitter);
         }
 
         private static Border Indicator(GridSplitter splitter) =>
@@ -101,8 +96,8 @@ namespace CMiX.UI.Tests
             window.MouseMove(splitter.TranslatePoint(new Point(splitter.Bounds.Width / 2, splitter.Bounds.Height / 2), window)!.Value);
             Dispatcher.UIThread.RunJobs();
 
-            var grey600 = Assert.IsAssignableFrom<ISolidColorBrush>(Application.Current!.FindResource("Grey600Brush")).Color;
-            var grey100 = Assert.IsAssignableFrom<ISolidColorBrush>(Application.Current!.FindResource("Grey100Brush")).Color;
+            var grey600 = Tokens.Color("Grey600Brush");
+            var grey100 = Tokens.Color("Grey100Brush");
             Assert.Equal(grey600, Assert.IsAssignableFrom<ISolidColorBrush>(Indicator(splitter).Background).Color);
             Assert.Equal(grey100, Assert.IsAssignableFrom<ISolidColorBrush>(Backdrop(splitter).Background).Color);
         }

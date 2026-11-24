@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.Threading;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -22,8 +23,7 @@ namespace CMiX.UI.Tests
             var root = new StackPanel();
             root.Children.Add(panel);
             root.Children.Add(outside);
-            new Window { Content = root, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(root, 300, 200);
             return (line, inside, outside);
         }
 
@@ -39,10 +39,8 @@ namespace CMiX.UI.Tests
             inside.Focus();
             Dispatcher.UIThread.RunJobs();
             Assert.True(line.IsEffectivelyVisible);
-            Assert.Equal((double)Application.Current!.FindResource("SplitterIndicatorSize")!, line.Bounds.Height);
-            Assert.Equal(
-                ((ISolidColorBrush)Application.Current!.FindResource("AccentBrush")!).Color,
-                ((ISolidColorBrush)line.Background!).Color);
+            Assert.Equal(Tokens.Get<double>("SplitterIndicatorSize"), line.Bounds.Height);
+            Assert.Equal(Tokens.Color("AccentBrush"), ((ISolidColorBrush)line.Background!).Color);
         }
     }
 }

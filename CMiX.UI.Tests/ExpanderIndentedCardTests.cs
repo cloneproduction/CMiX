@@ -6,6 +6,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Panels;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -19,14 +20,11 @@ namespace CMiX.UI.Tests
             var first = new ExpanderIndented { Header = "Transform", Content = new TextBlock { Text = "first body", Height = 40 } };
             var second = new ExpanderIndented { Header = "Texture", Content = new TextBlock { Text = "second body", Height = 40 } };
             var stack = new StackPanel { Children = { first, second } };
-            new Window { Content = stack, Width = 400, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(stack, 400, 400);
             return (stack, first, second);
         }
 
         private static Border Outline(Control expander) => expander.GetVisualDescendants().OfType<Border>().First();
-
-        private static T Token<T>(string key) => (T)Application.Current!.FindResource(key)!;
 
         [AvaloniaFact]
         public void TheCard_HasTheBaseRoundedCorners_AndClipsItsContentToThem()
@@ -34,8 +32,8 @@ namespace CMiX.UI.Tests
             var (_, first, _) = Show();
             var outline = Outline(first);
 
-            Assert.Equal(Token<CornerRadius>("CornerRadiusAll"), outline.CornerRadius);
-            Assert.Equal(Token<CornerRadius>("CornerRadiusAll"), RoundedClip.GetCornerRadius(outline));
+            Assert.Equal(Tokens.Get<CornerRadius>("CornerRadiusAll"), outline.CornerRadius);
+            Assert.Equal(Tokens.Get<CornerRadius>("CornerRadiusAll"), RoundedClip.GetCornerRadius(outline));
             Assert.NotNull(outline.Clip);
         }
 
@@ -44,14 +42,14 @@ namespace CMiX.UI.Tests
         {
             var (_, first, _) = Show();
 
-            Assert.Equal(Token<Thickness>("MarginCard"), first.Margin);
+            Assert.Equal(Tokens.Get<Thickness>("MarginCard"), first.Margin);
         }
 
         [AvaloniaFact]
         public void TwoCardsInAStack_DoNotTouch()
         {
             var (_, first, second) = Show();
-            var margin = Token<Thickness>("MarginCard");
+            var margin = Tokens.Get<Thickness>("MarginCard");
 
             var gap = second.Bounds.Top - first.Bounds.Bottom;
 
@@ -62,7 +60,7 @@ namespace CMiX.UI.Tests
         public void FoldedAndOpen_TheCardKeepsItsRoundedOutline()
         {
             var (_, first, _) = Show();
-            var radius = Token<CornerRadius>("CornerRadiusAll");
+            var radius = Tokens.Get<CornerRadius>("CornerRadiusAll");
 
             first.IsExpanded = false;
             Dispatcher.UIThread.RunJobs();
@@ -78,8 +76,7 @@ namespace CMiX.UI.Tests
         public void AMarginSetByTheApplication_StillWins()
         {
             var expander = new ExpanderIndented { Header = "x", Margin = new Thickness(0) };
-            new Window { Content = expander, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(expander, 300, 200);
 
             Assert.Equal(new Thickness(0), expander.Margin);
         }
@@ -91,7 +88,7 @@ namespace CMiX.UI.Tests
             var header = first.GetVisualDescendants().OfType<Border>().First(b => b.Name == "mainBorder");
 
             var color = ((Avalonia.Media.ISolidColorBrush)header.Background!).Color;
-            var level1 = ((Avalonia.Media.ISolidColorBrush)Application.Current!.FindResource("PanelBackgroundLevel1Brush")!).Color;
+            var level1 = Tokens.Color("PanelBackgroundLevel1Brush");
 
             Assert.Equal(level1, color);
         }
@@ -100,8 +97,7 @@ namespace CMiX.UI.Tests
         public void Indentation_SetToFour_GivesTheToggleAMarginOfFour()
         {
             var expander = new ExpanderIndented { Header = "x", Indentation = 4 };
-            new Window { Content = expander, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(expander, 300, 200);
 
             var toggle = expander.GetVisualDescendants().OfType<ToggleButton>().First(t => t.Name == "PART_toggle");
 
@@ -111,12 +107,12 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void TheCardMargin_IsMadeOfTheSpacingScale()
         {
-            var margin = Token<Thickness>("MarginCard");
+            var margin = Tokens.Get<Thickness>("MarginCard");
 
-            Assert.Equal(Token<double>("SpacingXS"), margin.Left);
-            Assert.Equal(Token<double>("SpacingXS"), margin.Right);
-            Assert.Equal(Token<double>("SpacingXXS"), margin.Top);
-            Assert.Equal(Token<double>("SpacingXXS"), margin.Bottom);
+            Assert.Equal(Tokens.Get<double>("SpacingXS"), margin.Left);
+            Assert.Equal(Tokens.Get<double>("SpacingXS"), margin.Right);
+            Assert.Equal(Tokens.Get<double>("SpacingXXS"), margin.Top);
+            Assert.Equal(Tokens.Get<double>("SpacingXXS"), margin.Bottom);
         }
     }
 }

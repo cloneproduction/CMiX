@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Panels;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -12,16 +13,14 @@ namespace CMiX.UI.Tests
     // Expanders on top of each other take the colors of their level: the outer one level 1, the next one level 2, and the innermost level 3.
     public class ExpanderDepthTests
     {
-        private static Color Level(int level) =>
-            ((ISolidColorBrush)Application.Current!.FindResource($"PanelBackgroundLevel{level}Brush")!).Color;
+        private static Color Level(int level) => Tokens.Color($"PanelBackgroundLevel{level}Brush");
 
         private static (ExpanderIndented outer, ExpanderIndented inner2, ExpanderIndented inner3) Show()
         {
             var inner3 = new ExpanderIndented { Header = "3", IsExpanded = true, Content = new TextBlock { Text = "x" } };
             var inner2 = new ExpanderIndented { Header = "2", IsExpanded = true, Content = inner3 };
             var outer = new ExpanderIndented { Header = "1", IsExpanded = true, Content = inner2 };
-            new Window { Content = outer, Width = 400, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(outer, 400, 400);
             return (outer, inner2, inner3);
         }
 
@@ -66,8 +65,7 @@ namespace CMiX.UI.Tests
         {
             var grey = Colors.Orange;
             var expander = new ExpanderIndented { Header = "1", IsExpanded = true, Background = new SolidColorBrush(grey), Content = new TextBlock { Text = "x" } };
-            new Window { Content = expander, Width = 400, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(expander, 400, 400);
 
             Assert.Equal(grey, Content(expander));
             Assert.Equal(grey, Header(expander));
@@ -79,8 +77,7 @@ namespace CMiX.UI.Tests
             var orange = Colors.Orange;
             var inner = new ExpanderIndented { Header = "2", IsExpanded = true, Background = new SolidColorBrush(orange), Content = new TextBlock { Text = "x" } };
             var outer = new ExpanderIndented { Header = "1", IsExpanded = true, Content = inner };
-            new Window { Content = outer, Width = 400, Height = 400 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(outer, 400, 400);
 
             Assert.Equal(orange, Content(inner));
             Assert.Equal(orange, Header(inner));

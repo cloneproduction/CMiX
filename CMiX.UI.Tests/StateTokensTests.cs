@@ -16,76 +16,66 @@ namespace CMiX.UI.Tests
     // The surface controls read their greys from the state tokens: idle, one step up under the pointer, one step under idle while pressed.
     public class StateTokensTests
     {
-        private static Color Token(string key) => ((ISolidColorBrush)Application.Current!.FindResource(key)!).Color;
-
-        private static Color Grey(int step) => Token($"Grey{step}Brush");
+        private static Color Grey(int step) => Tokens.Color($"Grey{step}Brush");
 
         [AvaloniaFact]
         public void TheTokens_AreOneStepApart()
         {
-            Assert.Equal(Grey(600), Token("StateIdleBrush"));
-            Assert.Equal(Grey(700), Token("StateHoverBrush"));
-            Assert.Equal(Grey(500), Token("StatePressedBrush"));
-            Assert.Equal(Grey(500), Token("RowHoverBrush"));
+            Assert.Equal(Grey(600), Tokens.Color("StateIdleBrush"));
+            Assert.Equal(Grey(700), Tokens.Color("StateHoverBrush"));
+            Assert.Equal(Grey(500), Tokens.Color("StatePressedBrush"));
+            Assert.Equal(Grey(500), Tokens.Color("RowHoverBrush"));
         }
 
         private static (Control control, Border border) Show(Control control, string part)
         {
-            new Window { Content = control, Width = 300, Height = 100 }.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (control, control.GetVisualDescendants().OfType<Border>().First(border => border.Name == part));
+            TestWindow.Show(control, 300, 100);
+            return (control, Parts.Find<Border>(control, part));
         }
 
         private static Color Background(Border border) => ((ISolidColorBrush)border.Background!).Color;
-
-        private static void Force(Control control, string pseudoClass)
-        {
-            foreach (var part in control.GetSelfAndVisualDescendants().OfType<Control>())
-                ((IPseudoClasses)part.Classes).Set(pseudoClass, true);
-            Dispatcher.UIThread.RunJobs();
-        }
 
         [AvaloniaFact]
         public void AButton_GoesThroughTheThreeSteps()
         {
             var (button, border) = Show(new Button { Content = "Button", Width = 100 }, "border");
-            Assert.Equal(Token("StateIdleBrush"), Background(border));
+            Assert.Equal(Tokens.Color("StateIdleBrush"), Background(border));
 
-            Force(button, ":pointerover");
-            Assert.Equal(Token("StateHoverBrush"), Background(border));
+            PseudoClassInput.Force(button, ":pointerover");
+            Assert.Equal(Tokens.Color("StateHoverBrush"), Background(border));
 
-            Force(button, ":pressed");
-            Assert.Equal(Token("StatePressedBrush"), Background(border));
+            PseudoClassInput.Force(button, ":pressed");
+            Assert.Equal(Tokens.Color("StatePressedBrush"), Background(border));
         }
 
         [AvaloniaFact]
         public void AToggleButton_GoesThroughTheThreeSteps_WhileOff()
         {
             var (toggle, border) = Show(new ToggleButton { Content = "Toggle", Width = 100 }, "border");
-            Assert.Equal(Token("StateIdleBrush"), Background(border));
+            Assert.Equal(Tokens.Color("StateIdleBrush"), Background(border));
 
-            Force(toggle, ":pointerover");
-            Assert.Equal(Token("StateHoverBrush"), Background(border));
+            PseudoClassInput.Force(toggle, ":pointerover");
+            Assert.Equal(Tokens.Color("StateHoverBrush"), Background(border));
         }
 
         [AvaloniaFact]
         public void ADragValue_StartsAtIdle_AndGoesOneStepUpUnderThePointer()
         {
             var (drag, border) = Show(new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Width = 160 }, "borderValueDisplay");
-            Assert.Equal(Token("StateIdleBrush"), Background(border));
+            Assert.Equal(Tokens.Color("StateIdleBrush"), Background(border));
 
-            Force(drag, ":pointerover");
-            Assert.Equal(Token("StateHoverBrush"), Background(border));
+            PseudoClassInput.Force(drag, ":pointerover");
+            Assert.Equal(Tokens.Color("StateHoverBrush"), Background(border));
 
-            Force(drag, ":pressed");
-            Assert.Equal(Token("StatePressedBrush"), Background(border));
+            PseudoClassInput.Force(drag, ":pressed");
+            Assert.Equal(Tokens.Color("StatePressedBrush"), Background(border));
         }
 
         [AvaloniaFact]
         public void APressedState_IsDarkerThanIdle()
         {
-            var idle = Token("StateIdleBrush");
-            var pressed = Token("StatePressedBrush");
+            var idle = Tokens.Color("StateIdleBrush");
+            var pressed = Tokens.Color("StatePressedBrush");
 
             Assert.True(pressed.R < idle.R);
         }
@@ -98,7 +88,7 @@ namespace CMiX.UI.Tests
         [InlineData(400)]
         public void Press_AControl_IsNotTheGreyOfASurface(int surface)
         {
-            Assert.NotEqual(Grey(surface), Token("StatePressedBrush"));
+            Assert.NotEqual(Grey(surface), Tokens.Color("StatePressedBrush"));
         }
 
         // The thumb of a scroll bar is Grey500 at rest, the pressed grey of a control. A thumb that is dragged stays lit.
@@ -106,15 +96,14 @@ namespace CMiX.UI.Tests
         public void AScrollThumb_ThatIsPressed_IsNotAtItsIdleGrey()
         {
             var viewer = new ScrollViewer { Width = 100, Height = 60, Content = new Border { Height = 400 } };
-            new Window { Content = viewer, Width = 300, Height = 100 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(viewer, 300, 100);
             var thumb = viewer.GetVisualDescendants().OfType<Thumb>().First(part => part.Name == "thumb" && part.IsEffectivelyVisible);
             var idle = ((ISolidColorBrush)thumb.Background!).Color;
 
-            ((IPseudoClasses)thumb.Classes).Set(":pressed", true);
+            PseudoClassInput.Set(thumb, ":pressed");
             Dispatcher.UIThread.RunJobs();
 
-            Assert.Equal(Token("StateHoverBrush"), ((ISolidColorBrush)thumb.Background!).Color);
+            Assert.Equal(Tokens.Color("StateHoverBrush"), ((ISolidColorBrush)thumb.Background!).Color);
             Assert.NotEqual(idle, ((ISolidColorBrush)thumb.Background!).Color);
         }
 
@@ -123,20 +112,15 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var drag = new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Width = 160, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left };
-            var window = new Window { Content = drag, Width = 300, Height = 100 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            foreach (var visual in window.GetVisualDescendants().Where(v => v.Clip != null))
-                visual.Clip = null;
-            Dispatcher.UIThread.RunJobs();
-            var border = drag.GetVisualDescendants().OfType<Border>().First(part => part.Name == "borderValueDisplay");
+            var window = TestWindow.ShowWithoutClips(drag, 300, 100);
+            var border = Parts.Find<Border>(drag, "borderValueDisplay");
             var at = border.TranslatePoint(new Point(border.Bounds.Width / 2, border.Bounds.Height / 2), window)!.Value;
 
             window.MouseMove(at);
             window.MouseDown(at, MouseButton.Left);
             Dispatcher.UIThread.RunJobs();
             Assert.Contains(":pressed", drag.Classes);
-            Assert.Equal(Token("StatePressedBrush"), Background(border));
+            Assert.Equal(Tokens.Color("StatePressedBrush"), Background(border));
 
             window.MouseUp(at, MouseButton.Left);
             Dispatcher.UIThread.RunJobs();
@@ -164,7 +148,7 @@ namespace CMiX.UI.Tests
             var (drag, _) = Show(new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Width = 160 }, "borderValueDisplay");
 
             foreach (var part in drag.GetVisualDescendants().OfType<Border>().Where(border => border.Name == "mainBorder"))
-                ((IPseudoClasses)part.Classes).Set(":pointerover", true);
+                PseudoClassInput.Set(part, ":pointerover");
             Dispatcher.UIThread.RunJobs();
 
             Assert.True(Side(drag, name).IsVisible);
@@ -177,33 +161,32 @@ namespace CMiX.UI.Tests
         {
             var (drag, border) = Show(new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Width = 160 }, "borderValueDisplay");
 
-            ((IPseudoClasses)drag.Classes).Set(":pressed", true);
+            PseudoClassInput.Set(drag, ":pressed");
             Dispatcher.UIThread.RunJobs();
 
             var button = Side(drag, name);
             Assert.True(button.IsVisible);
             var buttonBorder = button.GetVisualDescendants().OfType<Border>().First(part => part.Name == "border");
             Assert.Equal(Background(border), Background(buttonBorder));
-            Assert.Equal(Token("StatePressedBrush"), Background(buttonBorder));
+            Assert.Equal(Tokens.Color("StatePressedBrush"), Background(buttonBorder));
         }
 
         [AvaloniaFact]
         public void TheButton_TheDragValue_AndTheSlider_HaveTheSamePressedColor()
         {
             var (button, buttonBorder) = Show(new Button { Content = "Button", Width = 100 }, "border");
-            Force(button, ":pressed");
+            PseudoClassInput.Force(button, ":pressed");
 
             var (drag, dragBorder) = Show(new DragValue { Minimum = 0, Maximum = 1, Value = 0.5, Width = 160 }, "borderValueDisplay");
-            Force(drag, ":pressed");
+            PseudoClassInput.Force(drag, ":pressed");
 
             var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.4, Width = 160 };
-            new Window { Content = slider, Width = 300, Height = 100 }.Show();
-            Dispatcher.UIThread.RunJobs();
-            ((IPseudoClasses)slider.Classes).Set(":pressed", true);
+            TestWindow.Show(slider, 300, 100);
+            PseudoClassInput.Set(slider, ":pressed");
             Dispatcher.UIThread.RunJobs();
             var increase = slider.GetVisualDescendants().OfType<RepeatButton>().First(part => part.Name == "PART_IncreaseButton");
 
-            var pressed = Token("StatePressedBrush");
+            var pressed = Tokens.Color("StatePressedBrush");
             Assert.Equal(pressed, Background(buttonBorder));
             Assert.Equal(pressed, Background(dragBorder));
             Assert.Equal(pressed, ((ISolidColorBrush)increase.Background!).Color);

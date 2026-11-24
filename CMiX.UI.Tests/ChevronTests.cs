@@ -8,6 +8,7 @@ using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Panels;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -17,12 +18,9 @@ namespace CMiX.UI.Tests
     {
         private static T Show<T>(T control) where T : Control
         {
-            new Window { Content = control, Width = 400, Height = 300 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(control, 400, 300);
             return control;
         }
-
-        private static double Token(string key) => (double)Application.Current!.FindResource(key)!;
 
         [AvaloniaFact]
         public void AChevron_PointsRightWhenClosed_AndDownWhenOpen()
@@ -87,18 +85,16 @@ namespace CMiX.UI.Tests
             var icon = chevron.GetVisualDescendants().OfType<AppIcon>().Single();
 
             Assert.Equal("ChevronDown", icon.IconKey);
-            Assert.Equal(Token("IconSizeXS"), icon.Size);
+            Assert.Equal(Tokens.Get<double>("IconSizeXS"), icon.Size);
             Assert.Equal(Tokens.Get<double>("OpacityIconIdle"), chevron.Opacity);
         }
-
-        private static ControlTheme Theme(string key) => (ControlTheme)Application.Current!.FindResource(key)!;
 
         public static TheoryData<string> Expanders => new() { "default", "ExpanderItem", "indented" };
 
         private static Control Expander(string kind) => kind switch
         {
             "indented" => new ExpanderIndented { Header = "Header", Content = new TextBlock { Text = "Content" } },
-            "ExpanderItem" => new Expander { Theme = Theme("ExpanderItem"), Header = "Header", Content = new TextBlock { Text = "Content" } },
+            "ExpanderItem" => new Expander { Theme = Tokens.Theme("ExpanderItem"), Header = "Header", Content = new TextBlock { Text = "Content" } },
             _ => new Expander { Header = "Header", Content = new TextBlock { Text = "Content" } }
         };
 
