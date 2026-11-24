@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading.Tasks;
 using CMiX.Core.Compositing;
 using CMiX.Studio.Avalonia.Notices;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Session;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HanumanInstitute.MvvmDialogs;

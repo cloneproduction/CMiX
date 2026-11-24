@@ -4,7 +4,7 @@
 using CMiX.Core;
 using CMiX.Core.Compositing;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Session
 {
     // Tells whether the project differs from the last time it was saved, opened or started new.
     // It compares the fingerprint of the whole project, so any change that a file would keep counts.

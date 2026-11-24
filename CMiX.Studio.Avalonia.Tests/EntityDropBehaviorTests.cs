@@ -12,7 +12,7 @@ using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Behaviors;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Managers;
@@ -179,7 +179,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Drop_ATextFileThatIsTooLarge_AddsNothing()
         {
             var (entities, _, dropper) = Show();
-            var path = temp.File("big.txt", new string('a', (int)Studio.Avalonia.Services.PathDropService.MaxTextBytes + 1));
+            var path = temp.File("big.txt", new string('a', (int)Studio.Avalonia.Session.PathDropService.MaxTextBytes + 1));
 
             dropper.Drop(new[] { path });
 

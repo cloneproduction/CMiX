@@ -18,6 +18,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Animations;
 using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels;

@@ -4,7 +4,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Behaviors;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Behaviors;
 using Microsoft.Extensions.DependencyInjection;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.UI.Behaviors;
 

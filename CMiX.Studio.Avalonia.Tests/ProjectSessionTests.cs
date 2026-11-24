@@ -1,6 +1,6 @@
 using Avalonia.Headless.XUnit;
 using CMiX.Core.Texturing.Sources;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Session;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

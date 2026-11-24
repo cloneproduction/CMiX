@@ -10,7 +10,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Sources;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Session
 {
     // Turns a dropped file or folder into an item of a list. The entity slot, the texture slot and the project tree
     // use these rules.

@@ -11,7 +11,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Session
 {
     // The running session: the project, its six repository lists, and the way a file replaces them.
     public sealed class ProjectSession
