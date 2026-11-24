@@ -1,17 +1,40 @@
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 using CMiX.Core.Compositing;
+using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // A layer moves from the layer list of one composition into the layer list of another.
-    public class MoveItemToManagerTests
+    // MoveItemTo moves in one list, MoveItemToManager moves a layer to another composition. An item that another layer shares blocks the move.
+    public class MoveItemTests
     {
+        private static (IServiceProvider provider, PrefabManager layers, List<Layer> items) ThreeLayers()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var compositions = provider.GetRequiredService<PrefabManager>();
+            compositions.AddItem(typeof(Composition));
+            var layers = ((Composition)compositions.SelectedItem).LayerManager;
+            for (var i = 0; i < 3; i++)
+                layers.AddItem(typeof(Layer));
+            return (provider, layers, layers.ManagerData.Items.Cast<Layer>().ToList());
+        }
+
+        private static (Layer First, Layer Second, Layer Third) ThreeLayersAsTuple()
+        {
+            var items = ThreeLayers().items;
+            return (items[0], items[1], items[2]);
+        }
+
         private sealed class Scene
         {
             public Composition A { get; init; } = null!;
@@ -40,6 +63,63 @@ namespace CMiX.Core.Tests
             var undo = provider.GetRequiredService<UndoManager>();
             undo.Clear();
             return new Scene { A = a, B = b, Undo = undo, Provider = provider };
+        }
+
+        [Fact]
+        public void MoveItemTo_AnotherIndex_MovesTheItemAndUndoPutsItBack()
+        {
+            var (provider, layers, items) = ThreeLayers();
+            var undo = provider.GetRequiredService<UndoManager>();
+
+            layers.MoveItemTo(items[0], 2);
+            Assert.Equal(new[] { items[1], items[2], items[0] }, layers.ManagerData.Items);
+
+            undo.Undo();
+            Assert.Equal(items, layers.ManagerData.Items);
+
+            undo.Redo();
+            Assert.Equal(new[] { items[1], items[2], items[0] }, layers.ManagerData.Items);
+        }
+
+        [Fact]
+        public void MoveItemTo_AnotherIndex_SendsOneMoveMessage()
+        {
+            var (provider, layers, items) = ThreeLayers();
+            var sender = new RecordingMessageSender();
+            provider.GetRequiredService<ControlMessenger>().Register(sender);
+
+            layers.MoveItemTo(items[2], 0);
+
+            var message = Assert.Single(sender.Sent.OfType<MessageMoveItem>());
+            Assert.Equal(2, message.OldIndex);
+            Assert.Equal(0, message.NewIndex);
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(0)]
+        [InlineData(3)]
+        public void MoveItemTo_WithTheSameOrABadIndex_DoesNothing(int newIndex)
+        {
+            var (provider, layers, items) = ThreeLayers();
+            var sender = new RecordingMessageSender();
+            provider.GetRequiredService<ControlMessenger>().Register(sender);
+
+            layers.MoveItemTo(items[0], newIndex);
+
+            Assert.Equal(items, layers.ManagerData.Items);
+            Assert.Empty(sender.Sent.OfType<MessageMoveItem>());
+        }
+
+        [Fact]
+        public void MoveItemTo_ForAnItemOfAnotherList_DoesNothing()
+        {
+            var (_, layers, items) = ThreeLayers();
+            var other = ThreeLayers().items[0];
+
+            layers.MoveItemTo(other, 1);
+
+            Assert.Equal(items, layers.ManagerData.Items);
         }
 
         [Fact]
@@ -235,6 +315,100 @@ namespace CMiX.Core.Tests
             Assert.Same(received, Assert.Single(b.ManagerData.Items));
             Assert.Same(received, repository.GetControl(layer.ID));
             Assert.Single(repository.Entities);
+        }
+
+        [Fact]
+        public void GetSharedItems_NothingIsShared_IsEmpty()
+        {
+            var (first, second, _) = ThreeLayersAsTuple();
+            first.ModelEntityManager.AddItem(typeof(Entity));
+            second.ModelEntityManager.AddItem(typeof(Entity));
+
+            Assert.Empty(first.GetSharedItems(new[] { first, second }));
+        }
+
+        [Fact]
+        public void GetSharedItems_AnEntityHeldByAnotherLayer_IsListed()
+        {
+            var (first, second, _) = ThreeLayersAsTuple();
+            first.ModelEntityManager.AddItem(typeof(Entity));
+            var entity = (IPrefab)first.ModelEntityManager.SelectedItem;
+            second.ModelEntityManager.AddExistingItem(entity);
+
+            var shared = first.GetSharedItems(new[] { first, second });
+
+            Assert.Same(entity, Assert.Single(shared));
+        }
+
+        [Fact]
+        public void GetSharedItems_ACameraAndALightHeldByAnotherLayer_AreListed()
+        {
+            var (first, second, _) = ThreeLayersAsTuple();
+            first.CameraManager.AddItem(typeof(Camera));
+            first.LightManager.AddItem(typeof(LightEntity));
+            var camera = (IPrefab)first.CameraManager.SelectedItem;
+            var light = (IPrefab)first.LightManager.SelectedItem;
+            second.CameraManager.AddExistingItem(camera);
+            second.LightManager.AddExistingItem(light);
+
+            var shared = first.GetSharedItems(new[] { second });
+
+            Assert.Equal(new[] { camera, light }, shared);
+        }
+
+        [Fact]
+        public void GetSharedItems_ALayerOutsideTheList_IsNotCounted()
+        {
+            var (first, second, third) = ThreeLayersAsTuple();
+            first.ModelEntityManager.AddItem(typeof(Entity));
+            var entity = (IPrefab)first.ModelEntityManager.SelectedItem;
+            second.ModelEntityManager.AddExistingItem(entity);
+
+            Assert.Empty(first.GetSharedItems(new[] { third }));
+        }
+
+        [Fact]
+        public void GetSharedItems_TheLayerItselfInTheList_IsIgnored()
+        {
+            var (first, _, _) = ThreeLayersAsTuple();
+            first.ModelEntityManager.AddItem(typeof(Entity));
+
+            Assert.Empty(first.GetSharedItems(new[] { first }));
+        }
+
+        [Fact]
+        public void GetLayersHolding_AnEntityHeldByTwoOtherLayers_ListsBoth()
+        {
+            var (first, second, third) = ThreeLayersAsTuple();
+            first.ModelEntityManager.AddItem(typeof(Entity));
+            var entity = (IPrefab)first.ModelEntityManager.SelectedItem;
+            second.ModelEntityManager.AddExistingItem(entity);
+            third.ModelEntityManager.AddExistingItem(entity);
+
+            var layers = first.GetLayersHolding(entity, new[] { first, second, third });
+
+            Assert.Equal(new[] { second, third }, layers);
+        }
+
+        [Fact]
+        public void GetLayersHolding_TheLayerItselfInTheList_IsIgnored()
+        {
+            var (first, _, _) = ThreeLayersAsTuple();
+            first.ModelEntityManager.AddItem(typeof(Entity));
+            var entity = (IPrefab)first.ModelEntityManager.SelectedItem;
+
+            Assert.Empty(first.GetLayersHolding(entity, new[] { first }));
+        }
+
+        [Fact]
+        public void GetLayersHolding_AnItemNobodyElseHolds_IsEmpty()
+        {
+            var (first, second, third) = ThreeLayersAsTuple();
+            first.ModelEntityManager.AddItem(typeof(Entity));
+            second.ModelEntityManager.AddItem(typeof(Entity));
+            var entity = (IPrefab)first.ModelEntityManager.ManagerData.Items[0];
+
+            Assert.Empty(first.GetLayersHolding(entity, new[] { first, second, third }));
         }
     }
 }
