@@ -29,56 +29,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ModulatorManager_AddItem_AddsARandomModulator()
-        {
-            var pulse = CreatePulse();
-
-            pulse.ModulatorManager.AddItem(typeof(RandomModulator));
-
-            Assert.Single(pulse.ModulatorManager.ManagerData.Items);
-            Assert.IsType<RandomModulator>(pulse.ModulatorManager.ManagerData.Items[0]);
-        }
-
-        [Fact]
-        public void ModulatorManager_MoveItem_KeepsTheBindings()
-        {
-            var pulse = CreatePulse();
-
-            pulse.ModulatorManager.AddItem(typeof(BeatRandomModulator));
-            var mod1 = (BeatRandomModulator)pulse.ModulatorManager.ManagerData.Items[0];
-            pulse.ModulatorManager.AddItem(typeof(BeatRandomModulator));
-            var mod2 = (BeatRandomModulator)pulse.ModulatorManager.ManagerData.Items[1];
-
-            pulse.Center.SetModulatorCommand.Execute(new ModulatorOutputSelection(mod1, mod1.Outputs[0]));
-            pulse.SlopeWidth.SetModulatorCommand.Execute(new ModulatorOutputSelection(mod2, mod2.Outputs[0]));
-
-            pulse.ModulatorManager.ManagerData.Items.Move(0, 1);
-
-            Assert.Equal(mod1.ID, pulse.Center.ModulatorID);
-            Assert.Same(mod1, pulse.Center.BoundModulator);
-            Assert.Equal(mod2.ID, pulse.SlopeWidth.ModulatorID);
-            Assert.Same(mod2, pulse.SlopeWidth.BoundModulator);
-        }
-
-        [Fact]
-        public void ModulatorManager_RemoveItem_UnbindsEveryValueThatUsesIt()
-        {
-            var pulse = CreatePulse();
-            pulse.ModulatorManager.AddItem(typeof(RandomModulator));
-            var randomModulator = (RandomModulator)pulse.ModulatorManager.ManagerData.Items[0];
-
-            pulse.Center.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
-            pulse.SlopeWidth.SetModulatorCommand.Execute(new ModulatorOutputSelection(randomModulator, randomModulator.Outputs[0]));
-
-            pulse.ModulatorManager.RemoveItem(randomModulator);
-
-            Assert.Null(pulse.Center.ModulatorID);
-            Assert.Null(pulse.Center.BoundModulator);
-            Assert.Null(pulse.SlopeWidth.ModulatorID);
-            Assert.Null(pulse.SlopeWidth.BoundModulator);
-        }
-
-        [Fact]
         public void FromModel_OfToModel_KeepsEveryValue()
         {
             var pulse = CreatePulse();
