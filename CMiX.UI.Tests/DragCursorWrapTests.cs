@@ -50,7 +50,7 @@ namespace CMiX.UI.Tests
         [InlineData(0)]
         [InlineData(2)]
         [InlineData(5)]
-        public void AWheelWithShift_KeepsMovingPastTheRightEdge(int staleMoves)
+        public void Drag_AWheelWithShiftPastTheRightEdge_KeepsMoving(int staleMoves)
         {
             var (wheel, mouse, spy, screen) = WheelDrag();
             using var keepSpy = spy;
@@ -72,7 +72,7 @@ namespace CMiX.UI.Tests
         [InlineData(90, 3, true)]
         [InlineData(90, 0, false)]
         [InlineData(150, 2, false)]
-        public void AFastWheelWithShift_DoesNotStutterAtTheEdge(int step, int staleMoves, bool reportsPlacement)
+        public void Drag_AFastWheelWithShiftAtTheEdge_DoesNotStutter(int step, int staleMoves, bool reportsPlacement)
         {
             var (wheel, mouse, spy, screen) = WheelDrag();
             using var keepSpy = spy;
@@ -97,7 +97,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AWheelWithShift_KeepsMovingPastTheLeftEdge()
+        public void Drag_AWheelWithShiftPastTheLeftEdge_KeepsMoving()
         {
             var (wheel, mouse, spy, screen) = WheelDrag();
             using var keepSpy = spy;
@@ -114,7 +114,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AWheelWithShift_KeepsMovingPastTheTopAndTheBottomEdges()
+        public void Drag_AWheelWithShiftPastTheTopAndTheBottomEdges_KeepsMoving()
         {
             var (wheel, mouse, spy, screen) = WheelDrag();
             using var keepSpy = spy;
@@ -136,7 +136,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AWheelWithShift_KeepsMovingOnBothAxesAtOnce()
+        public void Drag_AWheelWithShiftOnBothAxes_KeepsMoving()
         {
             var (wheel, mouse, spy, screen) = WheelDrag();
             using var keepSpy = spy;
@@ -155,7 +155,7 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData(90)]
         [InlineData(150)]
-        public void AFastWheelWithShift_StaysOnTheScreenOfTheDragNextToAnotherScreen(int step)
+        public void Drag_AFastWheelWithShiftNextToAnotherScreen_StaysOnTheScreenOfTheDrag(int step)
         {
             var spy = new CursorSpy();
             var (wheel, window, _) = ColorWheelHost.Show();
@@ -212,7 +212,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ACursorFarFromTheEdges_IsNotMoved()
+        public void Drag_FarFromTheEdges_LeavesTheCursorInPlace()
         {
             var (_, mouse, spy, screen) = WheelDrag();
             using var keepSpy = spy;
@@ -225,7 +225,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void WithoutKnownScreens_NothingIsMoved()
+        public void Drag_WithoutKnownScreens_LeavesTheCursorInPlace()
         {
             var (_, mouse, spy, screen) = WheelDrag();
             using var keepSpy = spy;
@@ -239,7 +239,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void WhenThePlacementDoesNotWork_TheDragDoesNotJump()
+        public void Drag_WhenThePlacementDoesNotWork_DoesNotJump()
         {
             var (wheel, mouse, spy, screen) = WheelDrag();
             using var keepSpy = spy;
@@ -258,7 +258,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ASliderWithShift_KeepsMovingPastTheRightEdge()
+        public void Drag_ASliderWithShiftPastTheRightEdge_KeepsMoving()
         {
             using var spy = new CursorSpy();
             var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.1, Width = 300, Height = 30, IsEditable = false };
@@ -289,7 +289,7 @@ namespace CMiX.UI.Tests
         [AvaloniaTheory]
         [InlineData(20)]
         [InlineData(90)]
-        public void ADragValueWithShift_KeepsMovingPastTheRightEdge(int step)
+        public void Drag_ADragValueWithShiftPastTheRightEdge_KeepsMoving(int step)
         {
             using var spy = new CursorSpy();
             var drag = new DragValue { Width = 300, Height = 30, Value = 0 };
