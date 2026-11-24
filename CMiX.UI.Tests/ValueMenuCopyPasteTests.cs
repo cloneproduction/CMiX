@@ -3,6 +3,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using CMiX.UI.Controls.Boolean;
+using CMiX.UI.Controls.ColorPicker;
 using CMiX.UI.Controls.Enum;
 using CMiX.UI.Controls.Number;
 using CMiX.UI.Controls.Parts;
@@ -12,9 +13,12 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // Copy and Paste in the menu of a value editor use the clipboard of the system.
+    // Copy and Paste in the menu of a value editor go through IValueText: a drag value, an integer, a slider,
+    // a toggle, a combo box and the color selector.
     public class ValueMenuCopyPasteTests
     {
+        // Copy and Paste in the menu of a value editor use the clipboard of the system.
+
         private enum Mode { Add, Multiply }
 
         private static T Show<T>(T editor) where T : Control
@@ -39,16 +43,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheMenu_HasCopyAndPaste_AfterTheTitle()
-        {
-            var box = Drag();
-
-            Assert.Equal(new object?[] { "Position X", "-", "Copy", "Paste", "-", "Reset" },
-                box.ContextMenu!.Items.OfType<MenuItem>().Select(item => item.Header).ToArray());
-        }
-
-        [AvaloniaFact]
-        public async Task CopyOnOneValue_AndPasteOnAnother_MovesTheValue()
+        public async Task Copy_OnOneValueThenPasteOnAnother_MovesTheValue()
         {
             var source = Drag(2.5);
             var target = Drag(9);
@@ -60,7 +55,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ADragValue_KeepsThePastedValueInItsRange()
+        public void Paste_OnADragValue_KeepsTheValueInItsRange()
         {
             var box = Drag();
 
@@ -72,7 +67,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ADragValueInteger_RoundsThePastedValue()
+        public void Paste_OnADragValueInteger_RoundsTheValue()
         {
             var box = Show(new DragValueInteger { Value = 0, Minimum = 0, Maximum = 10 });
 
@@ -82,7 +77,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ANumber_IsCopiedWithoutTheCulture()
+        public void Copy_ANumber_WritesItWithoutTheCulture()
         {
             var box = Drag(1.5);
 
@@ -93,7 +88,7 @@ namespace CMiX.UI.Tests
         [InlineData("")]
         [InlineData("abc")]
         [InlineData("NaN")]
-        public void ATextThatIsNotANumber_CannotBePasted(string text)
+        public void Paste_ATextThatIsNotANumber_IsRefused(string text)
         {
             var box = Drag(3);
 
@@ -103,7 +98,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AReadOnlyDragValue_CannotBePastedInto()
+        public void Paste_OnAReadOnlyDragValue_IsRefused()
         {
             var box = Drag(3);
             box.IsReadOnly = true;
@@ -114,7 +109,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ASlider_CopiesAndPastesItsValue()
+        public void CopyAndPaste_OnASlider_KeepTheValue()
         {
             var slider = Show(new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.25 });
 
@@ -124,7 +119,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AToggle_CopiesAndPastesItsState()
+        public void CopyAndPaste_OnAToggle_KeepTheState()
         {
             var toggle = Show(new ToggleButtonCMiX { IsChecked = true });
 
@@ -135,7 +130,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ACombo_CopiesTheNameOfTheItem_AndPastesItByName()
+        public void CopyAndPaste_OnACombo_UseTheNameOfTheItem()
         {
             var combo = Show(new ComboBoxCaptioned { ItemsSource = new[] { Mode.Add, Mode.Multiply }, SelectedItem = Mode.Add });
 
@@ -148,13 +143,83 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ACombo_OfObjects_HasNothingToCopy()
+        public void Copy_OnAComboOfObjects_HasNothing()
         {
             var combo = Show(new ComboBoxCaptioned { ItemsSource = new[] { new object(), new object() } });
             combo.SelectedItem = ((object[])combo.ItemsSource)[0];
 
             Assert.False(Text(combo).CanCopyValueText());
             Assert.False(Text(combo).CanPasteValueText("System.Object"));
+        }
+
+        // The SelectorColor has the same menu as the other value editors.
+
+        private static (SelectorColor Selector, StringValue Model) ShowSelector(string value = "#FF336699")
+        {
+            var model = new StringValue { Value = value };
+            var selector = new SelectorColor { Caption = "Color", DataContext = model, Width = 200, Height = 40 };
+            TestWindow.Show(selector, 300, 100);
+            return (selector, model);
+        }
+
+        [AvaloniaFact]
+        public void Open_TheMenuOfASelectorColor_HasTheTitleCopyPasteAndReset()
+        {
+            var (selector, _) = ShowSelector();
+
+            Assert.Equal(new object?[] { "Color", "-", "Copy", "Paste", "-", "Reset" },
+                selector.ContextMenu!.Items.OfType<MenuItem>().Select(item => item.Header).ToArray());
+        }
+
+        [AvaloniaFact]
+        public void SelectedColor_OfASelectorColor_FollowsTheModelBothWays()
+        {
+            var (selector, model) = ShowSelector();
+
+            Assert.Equal("#FF336699", Text(selector).CopyValueText());
+
+            model.Value = "#80FF0000";
+            Assert.Equal("#80FF0000", Text(selector).CopyValueText());
+        }
+
+        [AvaloniaTheory]
+        [InlineData("#FF00FF00", "#FF00FF00")]
+        [InlineData("#00FF00", "#FF00FF00")]
+        [InlineData("  red ", "#FFFF0000")]
+        public void Paste_OnASelectorColor_SetsTheModel(string text, string expected)
+        {
+            var (selector, model) = ShowSelector();
+
+            Assert.True(Text(selector).CanPasteValueText(text));
+            Text(selector).PasteValueText(text);
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(expected, model.Value);
+        }
+
+        [AvaloniaTheory]
+        [InlineData("")]
+        [InlineData("not a color")]
+        [InlineData("12.5")]
+        public void Paste_ATextThatIsNotAColor_IsRefused(string text)
+        {
+            var (selector, model) = ShowSelector();
+
+            Assert.False(Text(selector).CanPasteValueText(text));
+            Text(selector).PasteValueText(text);
+
+            Assert.Equal("#FF336699", model.Value);
+        }
+
+        [AvaloniaFact]
+        public void Reset_OnASelectorColor_RestoresTheModel()
+        {
+            var (selector, model) = ShowSelector();
+
+            selector.ContextMenu!.Items.OfType<MenuItem>().Single(item => Equals(item.Header, "Reset"))
+                .Command!.Execute(null);
+
+            Assert.Equal("#FF000000", model.Value);
         }
     }
 }
