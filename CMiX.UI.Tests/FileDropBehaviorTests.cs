@@ -49,7 +49,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void DroppedFiles_AreReportedAsPaths()
+        public void Drop_Files_ReportsThemAsPaths()
         {
             var (window, target, drop) = Show(FileDropMode.Files);
             IReadOnlyList<string>? received = null;
@@ -62,7 +62,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void InFilesMode_AFolderIsIgnored()
+        public void Drop_AFolderInFilesMode_IsIgnored()
         {
             var (window, target, drop) = Show(FileDropMode.Files);
             var calls = 0;
@@ -74,7 +74,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void InFoldersMode_OnlyTheFoldersAreReported()
+        public void Drop_InFoldersMode_ReportsOnlyTheFolders()
         {
             var (window, target, drop) = Show(FileDropMode.Folders);
             IReadOnlyList<string>? received = null;
@@ -86,7 +86,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void InFilesAndFoldersMode_FilesAndFoldersAreReported()
+        public void Drop_InFilesAndFoldersMode_ReportsFilesAndFolders()
         {
             var (window, target, drop) = Show(FileDropMode.FilesAndFolders);
             IReadOnlyList<string>? received = null;
@@ -98,7 +98,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ADropWithoutFiles_IsIgnored()
+        public void Drop_WithoutFiles_IsIgnored()
         {
             var (window, target, drop) = Show(FileDropMode.Files);
             var calls = 0;
@@ -146,7 +146,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheBehavior_AllowsTheDropOnItsControl()
+        public void Attach_TheBehavior_AllowsTheDropOnItsControl()
         {
             var (_, target, _) = Show(FileDropMode.Files);
 

@@ -36,7 +36,7 @@ namespace CMiX.UI.Tests
         private static ListBoxCMiX ListOf(ListBoxRepository detail) => detail.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
 
         [AvaloniaFact]
-        public void TheRemoveButton_IsRoundedOnTheRightOnly()
+        public void Show_TheRemoveButton_IsRoundedOnTheRightOnly()
         {
             var (_, detail, _) = Show();
 
@@ -56,7 +56,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ShowsTheItems_WithTheTemplatesOfTheApplication()
+        public void Show_TheItems_UsesTheTemplatesOfTheApplication()
         {
             var (_, detail, _) = Show();
 
@@ -81,7 +81,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheDeleteButton_HasTheCommandAndTheSelectedItemAsItsParameter()
+        public void RemoveButton_ACommand_GetsTheSelectedItemAsItsParameter()
         {
             object? received = null;
             var command = new RelayCommand<object?>(p => received = p);
@@ -98,7 +98,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheAddContent_IsShownUnderTheList()
+        public void Show_TheAddContent_IsUnderTheList()
         {
             var add = new Button { Content = "add here" };
             var (_, detail, _) = Show(d => d.AddContent = add);

@@ -42,7 +42,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ShowsOneItemForEachItemOfTheSource_WithTheTemplateOfTheApplication()
+        public void Show_TheSource_ShowsOneItemForEachItemWithTheTemplate()
         {
             var (_, list) = Show(NewList());
 
@@ -52,7 +52,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void FollowsTheChangesOfTheSource()
+        public void ItemsSource_AChange_IsShown()
         {
             var source = new ObservableCollection<string> { "one" };
             var (_, list) = Show(NewList(source));
@@ -75,7 +75,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheAddButton_OpensThePopupThatHoldsTheAddContent()
+        public void AddButton_Click_OpensThePopupWithTheAddContent()
         {
             var panel = new Button { Content = "the panel" };
             var list = NewList();
@@ -106,7 +106,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheReorderService_ReachesTheListOfItems()
+        public void ReorderService_Set_ReachesTheListOfItems()
         {
             var service = new FakeReorder();
             var list = NewList();
@@ -119,7 +119,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void WithoutAReorderService_TheListOfItemsHasNone()
+        public void ReorderService_NotSet_LeavesTheListWithoutOne()
         {
             var (_, list) = Show(NewList());
 

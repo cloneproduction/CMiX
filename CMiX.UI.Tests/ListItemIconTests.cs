@@ -21,7 +21,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ShowsItsIcon()
+        public void Show_AnIconKey_ShowsTheIcon()
         {
             var item = Show(new ListItemIcon { Icon = "Folder" });
 
