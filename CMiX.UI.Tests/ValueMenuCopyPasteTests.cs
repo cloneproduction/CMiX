@@ -17,9 +17,21 @@ namespace CMiX.UI.Tests
     // a toggle, a combo box and the color selector.
     public class ValueMenuCopyPasteTests
     {
-        // Copy and Paste in the menu of a value editor use the clipboard of the system.
-
         private enum Mode { Add, Multiply }
+
+        // A clipboard in memory, so a test does not touch the clipboard of the system and does not wait for it.
+        private sealed class MemoryClipboard : IValueClipboard
+        {
+            private string? text;
+
+            public Task<string?> GetTextAsync() => Task.FromResult(text);
+
+            public Task SetTextAsync(string value)
+            {
+                text = value;
+                return Task.CompletedTask;
+            }
+        }
 
         private static T Show<T>(T editor) where T : Control
         {
@@ -35,21 +47,23 @@ namespace CMiX.UI.Tests
         private static MenuItem Row(Control editor, string header) =>
             editor.ContextMenu!.Items.OfType<MenuItem>().Single(item => Equals(item.Header, header));
 
-        private static async Task Click(MenuItem row)
+        private static void Click(MenuItem row)
         {
             row.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
-            await Task.Delay(50);
             Dispatcher.UIThread.RunJobs();
         }
 
         [AvaloniaFact]
-        public async Task Copy_OnOneValueThenPasteOnAnother_MovesTheValue()
+        public void Copy_OnOneValueThenPasteOnAnother_MovesTheValue()
         {
+            var clipboard = new MemoryClipboard();
             var source = Drag(2.5);
             var target = Drag(9);
+            ValueMenu.SetClipboard(TopLevel.GetTopLevel(source)!, clipboard);
+            ValueMenu.SetClipboard(TopLevel.GetTopLevel(target)!, clipboard);
 
-            await Click(Row(source, "Copy"));
-            await Click(Row(target, "Paste"));
+            Click(Row(source, "Copy"));
+            Click(Row(target, "Paste"));
 
             Assert.Equal(2.5, target.Value);
         }

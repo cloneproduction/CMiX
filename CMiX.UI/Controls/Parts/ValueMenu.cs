@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
+using Avalonia.Input.Platform;
 using Avalonia.Styling;
 using CMiX.UI.AttachedProperties;
 
@@ -13,7 +15,7 @@ namespace CMiX.UI.Controls.Parts
 {
     // The menu of a value editor. The owner must have a ResetCommand property.
     // The menu starts with the title of the owner (see ControlTitle) and a line (see ContextMenuTitled).
-    // An owner that is an IValueText also gets the rows Copy and Paste. They use the clipboard of the system.
+    // An owner that is an IValueText also gets the rows Copy and Paste. They use the clipboard of the system (see ClipboardProperty).
     // An owner with a ResetAllCommand also gets a Reset All row while that command is set.
     // The menu opens with the row that the user used last under the pointer. The first time, it is Copy.
     // The binding has an explicit Source because a menu popup cannot reach back to its owner through TemplatedParent.
@@ -63,23 +65,44 @@ namespace CMiX.UI.Controls.Parts
             return menu;
         }
 
-        private static async System.Threading.Tasks.Task CopyAsync(Control owner, IValueText valueText)
+        // A clipboard set on a top level takes the place of the clipboard of the system for the menus in it.
+        public static readonly AttachedProperty<IValueClipboard?> ClipboardProperty =
+            AvaloniaProperty.RegisterAttached<TopLevel, IValueClipboard?>("Clipboard", typeof(ValueMenu));
+
+        public static void SetClipboard(TopLevel topLevel, IValueClipboard? clipboard) => topLevel.SetValue(ClipboardProperty, clipboard);
+
+        private static IValueClipboard? ClipboardOf(Control owner)
         {
-            var clipboard = TopLevel.GetTopLevel(owner)?.Clipboard;
+            var topLevel = TopLevel.GetTopLevel(owner);
+            if (topLevel?.GetValue(ClipboardProperty) is { } clipboard)
+                return clipboard;
+            return topLevel?.Clipboard is { } system ? new SystemClipboard(system) : null;
+        }
+
+        private sealed class SystemClipboard(IClipboard clipboard) : IValueClipboard
+        {
+            public Task<string?> GetTextAsync() => clipboard.GetTextAsync();
+
+            public Task SetTextAsync(string text) => clipboard.SetTextAsync(text);
+        }
+
+        private static async Task CopyAsync(Control owner, IValueText valueText)
+        {
+            var clipboard = ClipboardOf(owner);
             if (clipboard != null)
                 await clipboard.SetTextAsync(valueText.CopyValueText());
         }
 
-        private static async System.Threading.Tasks.Task PasteAsync(Control owner, IValueText valueText)
+        private static async Task PasteAsync(Control owner, IValueText valueText)
         {
             var text = await ReadClipboardAsync(owner);
             if (valueText.CanPasteValueText(text))
                 valueText.PasteValueText(text);
         }
 
-        private static async System.Threading.Tasks.Task<string?> ReadClipboardAsync(Control owner)
+        private static async Task<string?> ReadClipboardAsync(Control owner)
         {
-            var clipboard = TopLevel.GetTopLevel(owner)?.Clipboard;
+            var clipboard = ClipboardOf(owner);
             return clipboard == null ? null : await clipboard.GetTextAsync();
         }
 
