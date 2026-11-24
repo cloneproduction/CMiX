@@ -89,8 +89,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
 
-            const int maxSteps = 128;
-            const int pushedCount = maxSteps + 2;
+            const int pushedCount = UndoManager.MaxSteps + 2;
             var executed = new List<int>();
 
             for (int i = 0; i < pushedCount; i++)
@@ -99,9 +98,9 @@ namespace CMiX.Core.Tests
             while (undoManager.CanUndo)
                 undoManager.Undo();
 
-            // Only the last maxSteps pushes (ids 2..129) should have survived the trim, most
+            // Only the last MaxSteps pushes (ids 2..129) should have survived the trim, most
             // recently pushed first since Undo pops the stack from the top.
-            var expected = Enumerable.Range(pushedCount - maxSteps, maxSteps).Reverse().ToList();
+            var expected = Enumerable.Range(pushedCount - UndoManager.MaxSteps, UndoManager.MaxSteps).Reverse().ToList();
             Assert.Equal(expected, executed);
         }
 

@@ -5,7 +5,7 @@ namespace CMiX.Core.Undo
 {
     public class UndoManager
     {
-        private const int MaxSteps = 128;
+        public const int MaxSteps = 128;
         private const int MergeWindowMs = 500;
 
         // A linked list rather than a stack because the cap is enforced by dropping the oldest
@@ -16,9 +16,10 @@ namespace CMiX.Core.Undo
         private int _groupDepth = 0;
 
         public bool IsApplying { get; private set; }
-        public bool IsSuppressed => _groupDepth > 0;
         public bool CanUndo => _undoStack.Count > 0;
         public bool CanRedo => _redoStack.Count > 0;
+        public int StepCount => _undoStack.Count;
+        public int RedoStepCount => _redoStack.Count;
 
         public void SuppressUndo() => _groupDepth++;
         public void ResumeUndo() => _groupDepth = Math.Max(0, _groupDepth - 1);

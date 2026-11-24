@@ -6,13 +6,12 @@ using CMiX.Core.Undo;
 
 namespace CMiX.Studio.Avalonia.Tests.Support
 {
-    // UndoManager gives no count of its steps, so the tests read its private stacks.
+    // UndoManager gives no access to its last step, so LastStepOf reads its private stack.
     internal static class UndoCounts
     {
-        public static int StepsOf(UndoManager undo) => UndoStackOf(undo).Count;
+        public static int StepsOf(UndoManager undo) => undo.StepCount;
 
-        public static int RedoStepsOf(UndoManager undo) =>
-            ((Stack<IUndoCommand>)FieldOf("_redoStack").GetValue(undo)!).Count;
+        public static int RedoStepsOf(UndoManager undo) => undo.RedoStepCount;
 
         public static IUndoCommand LastStepOf(UndoManager undo) => UndoStackOf(undo).Last!.Value;
 

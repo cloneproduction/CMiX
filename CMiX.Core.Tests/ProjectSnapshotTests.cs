@@ -57,6 +57,19 @@ namespace CMiX.Core.Tests
             public PrefabManager CompositionManager => Project.CompositionManager;
         }
 
+        private static void AssertRecordsAgain(UndoManager undoManager)
+        {
+            var before = undoManager.StepCount;
+            undoManager.Push(new EmptyUndoCommand());
+            Assert.Equal(before + 1, undoManager.StepCount);
+        }
+
+        private sealed class EmptyUndoCommand : IUndoCommand
+        {
+            public void Execute() { }
+            public void Undo() { }
+        }
+
         private static Guid FirstCompositionId(ProjectModel model)
             => model.CompositionManager.ManagerData.Items[0].ID;
 
@@ -188,7 +201,7 @@ namespace CMiX.Core.Tests
             Assert.Empty(fixture.Sender.Sent);
             Assert.False(fixture.Messenger.IsSendingBlocked);
             Assert.False(fixture.UndoManager.CanUndo);
-            Assert.False(fixture.UndoManager.IsSuppressed);
+            AssertRecordsAgain(fixture.UndoManager);
             var item = Assert.Single(fixture.CompositionManager.ManagerData.Items);
             Assert.Equal(FirstCompositionId(model), item.ID);
         }
@@ -232,7 +245,7 @@ namespace CMiX.Core.Tests
             Assert.ThrowsAny<Exception>(() => fixture.Target.ApplySnapshot(null));
 
             Assert.False(fixture.Messenger.IsSendingBlocked);
-            Assert.False(fixture.UndoManager.IsSuppressed);
+            AssertRecordsAgain(fixture.UndoManager);
             Assert.Empty(fixture.Sender.Sent);
         }
 
