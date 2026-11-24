@@ -60,7 +60,7 @@ namespace CMiX.UI.Tests
             visual.TranslatePoint(new Point(0, 0), relativeTo)!.Value;
 
         [AvaloniaFact]
-        public void TheItems_AreShownWithTheTemplate()
+        public void Show_TheItems_UsesTheTemplate()
         {
             var list = NewList("one", "two", "three");
 
@@ -73,7 +73,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void AButton_ShowsOnlyWhenItsCommandIsSet()
+        public void Show_AButton_AppearsOnlyWhenItsCommandIsSet()
         {
             var list = NewList("one");
             Show(list);
@@ -95,7 +95,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheAddButton_GetsItsCommandAndItsParameter()
+        public void AddButton_ACommand_GetsItsCommandAndItsParameter()
         {
             var list = NewList("one");
             var add = new RecordingCommand();
@@ -109,7 +109,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheRemoveButton_GetsItsCommandAndTheSelectedItem()
+        public void RemoveButton_ACommand_GetsItsCommandAndTheSelectedItem()
         {
             var list = NewList("one", "two");
             var remove = new RecordingCommand();
@@ -125,7 +125,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheButtons_AreInAColumnOnTheRightOfTheList()
+        public void Show_TheButtons_AreInAColumnOnTheRightOfTheList()
         {
             var list = NewList("one");
             list.AddCommand = new RecordingCommand();
@@ -145,7 +145,7 @@ namespace CMiX.UI.Tests
             button.GetVisualDescendants().OfType<Border>().First(b => b.Name == "border").CornerRadius;
 
         [AvaloniaFact]
-        public void TheButtons_AreRoundedAtTheEndsOfTheirGroup()
+        public void Show_TheButtons_AreRoundedAtTheEndsOfTheirGroup()
         {
             var list = NewList("one");
             list.AddCommand = new RecordingCommand();
@@ -192,7 +192,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheSelection_IsTwoWay()
+        public void SelectedItem_Bound_IsTwoWay()
         {
             var list = NewList("one", "two", "three");
             Show(list);
@@ -210,7 +210,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ADragHandle_ShowsOnEachRowOnlyWhenAReorderServiceIsSet()
+        public void ReorderService_Set_ShowsADragHandleOnEachRow()
         {
             var list = NewList("one", "two");
             Show(list);
@@ -324,7 +324,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheList_GrowsWithItsItems()
+        public void Show_MoreItems_MakeTheListGrow()
         {
             var list = NewList("one");
             // Rows of the height of a CMiX control, as a DragValue has.
@@ -366,7 +366,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheDragHandle_IsAtTheEndOfTheRow()
+        public void Show_TheDragHandle_IsAtTheEndOfTheRow()
         {
             var list = NewList("one");
             list.ReorderService = new FakeReorder();
