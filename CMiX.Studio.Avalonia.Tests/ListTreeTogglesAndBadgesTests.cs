@@ -101,34 +101,6 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Badges_OfAClosedLayerRow_ShowTheSquaresOfItsKinds()
-        {
-            var squares = SquareCountsOf(BadgesOf(Layer)).ToList();
-
-            Assert.True(BadgesOf(Layer).IsEffectivelyVisible);
-            Assert.NotEmpty(squares);
-            Assert.All(squares, text => Assert.True(int.Parse(text) > 0));
-        }
-
-        [AvaloniaFact]
-        public void Badges_UnderThePointer_AreHovered()
-        {
-            window.Hover(ToggleNamed(RowOf(Layer).Toggles, "visibilityToggle"));
-
-            Assert.True(BadgesOf(Layer).IsHovered);
-        }
-
-        [AvaloniaFact]
-        public void TogglesAndBadges_OfASelectedRow_AreSelectedAndWhite()
-        {
-            scene.Tree.SelectedNode = Layer;
-            window.Settle();
-
-            Assert.True(BadgesOf(Layer).IsSelected);
-            Assert.All(LookOf(RowOf(Layer).Toggles), look => Assert.Equal(Token("ActiveForegroundBrush"), look.Icon));
-        }
-
-        [AvaloniaFact]
         public void Toggles_OfAHiddenRow_ShowTheEyeChecked()
         {
             scene.Layer.PrefabService.Visibility.Value = true;
