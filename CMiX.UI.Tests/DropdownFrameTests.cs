@@ -130,22 +130,6 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ThePanelOfAComboBox_StartsAtTheLeftEdgeOfTheComboBox_AndIsAsWide()
-        {
-            var combo = new ComboBox { ItemsSource = new[] { "One", "Two", "Three" }, SelectedIndex = 0, Width = 220, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(100, 40, 0, 0) };
-            new Window { Content = combo, Width = 900, Height = 500 }.Show();
-            Dispatcher.UIThread.RunJobs();
-
-            combo.IsDropDownOpen = true;
-            Dispatcher.UIThread.RunJobs();
-
-            var panel = OnScreen(PanelOf(combo.GetVisualDescendants().OfType<Popup>().Single()));
-            var target = OnScreen(combo);
-            Assert.Equal(target.Left, panel.Left);
-            Assert.Equal(target.Width, panel.Width);
-        }
-
-        [AvaloniaFact]
         public void OpeningThePopupAgain_DoesNotMoveItAgain()
         {
             var (_, toggle, popup) = ShowButtonPopup();
@@ -172,6 +156,7 @@ namespace CMiX.UI.Tests
             var popup = combo.GetVisualDescendants().OfType<Popup>().Single();
             Assert.IsType<DropdownFrame>(popup.Child);
             Assert.Equal(220, PanelOf(popup).Bounds.Width);
+            Assert.Equal(OnScreen(combo).Left, OnScreen(PanelOf(popup)).Left);
             Assert.Equal(2 - ShadowRoom, popup.VerticalOffset);
         }
     }

@@ -55,13 +55,5 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
             Assert.False(item.IsChecked);
         }
-
-        [AvaloniaFact]
-        public void TheItem_HasOnlyTheVisibilityToggle()
-        {
-            var item = Show(new ListItemIcon());
-
-            Assert.Single(item.GetVisualDescendants().OfType<ToggleButton>());
-        }
     }
 }

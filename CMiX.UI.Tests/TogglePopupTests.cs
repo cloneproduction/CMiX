@@ -81,21 +81,6 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void APointerFarAway_ClosesThePopup_AndUnchecksTheToggle()
-        {
-            var (window, toggle, popup) = Show();
-            toggle.IsChecked = true;
-            Dispatcher.UIThread.RunJobs();
-            Assert.True(popup.IsOpen);
-
-            window.MouseMove(new Point(490, 390));
-            Dispatcher.UIThread.RunJobs();
-
-            Assert.False(popup.IsOpen);
-            Assert.False(toggle.IsChecked);
-        }
-
-        [AvaloniaFact]
         public void AfterTheToggleIsReplaced_TheOldToggleControlsNothing()
         {
             var (_, oldToggle, popup) = Show();

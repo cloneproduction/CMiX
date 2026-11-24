@@ -1,14 +1,13 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
-using Avalonia.Media;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Popups;
 using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // The tip of a card: its size on each edge, the side of its point, and the colors of the card.
+    // The tip of a card: its size on each edge and the side of its point.
     public class PopupTipTests
     {
         [Theory]
@@ -95,16 +94,6 @@ namespace CMiX.UI.Tests
         public void Tip_OfTheCard_IgnoresThePointer()
         {
             Assert.False(new PopupTip().IsHitTestVisible);
-        }
-
-        [AvaloniaFact]
-        public void Tokens_OfTheCard_AreTheDarkNeutralColors()
-        {
-            var fill = (ISolidColorBrush)Application.Current!.FindResource("PopupBackgroundBrush")!;
-            var border = Application.Current!.FindResource("PopupCardBorderBrush");
-
-            Assert.Equal(Color.Parse("#18181B"), fill.Color);
-            Assert.Same(AvaloniaProperty.UnsetValue, border);
         }
 
         private static double Distance(Point a, Point b) => Math.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y));

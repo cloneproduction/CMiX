@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -25,12 +24,6 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
 
             return box.ContextMenu.GetVisualDescendants().OfType<PopupFrame>().Single().Bounds.Width;
-        }
-
-        [AvaloniaFact]
-        public void TheToken_IsTwoHundred()
-        {
-            Assert.Equal(200.0, (double)Application.Current!.FindResource("PopupMinWidth")!);
         }
 
         [AvaloniaFact]

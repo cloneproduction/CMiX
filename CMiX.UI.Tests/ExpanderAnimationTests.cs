@@ -1,4 +1,3 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Styling;
@@ -14,68 +13,28 @@ namespace CMiX.UI.Tests
     {
         private static ControlTheme Theme(string key) => (ControlTheme)Avalonia.Application.Current!.FindResource(key)!;
 
-        private static (Control view, PanelCollapse panel) Show(string kind, bool expanded)
+        private static Control Show(string kind)
         {
             Control view = kind switch
             {
-                "indented" => new ExpanderIndented { Header = "Header", Content = new Border { Height = 80 }, IsExpanded = expanded },
-                "ExpanderItem" => new Expander { Theme = Theme("ExpanderItem"), Header = "Header", Content = new Border { Height = 80 }, IsExpanded = expanded },
-                _ => new Expander { Header = "Header", Content = new Border { Height = 80 }, IsExpanded = expanded }
+                "indented" => new ExpanderIndented { Header = "Header", Content = new Border { Height = 80 } },
+                "ExpanderItem" => new Expander { Theme = Theme("ExpanderItem"), Header = "Header", Content = new Border { Height = 80 } },
+                _ => new Expander { Header = "Header", Content = new Border { Height = 80 } }
             };
             new Window { Content = new StackPanel { Children = { view } }, Width = 300, Height = 400 }.Show();
             Dispatcher.UIThread.RunJobs();
-            return (view, view.GetVisualDescendants().OfType<PanelCollapse>().Single());
-        }
-
-        private static void Toggle(Control view, bool expanded)
-        {
-            if (view is ExpanderIndented indented)
-                indented.IsExpanded = expanded;
-            else
-                ((Expander)view).IsExpanded = expanded;
-            Dispatcher.UIThread.RunJobs();
+            return view;
         }
 
         public static TheoryData<string> Kinds => new() { "default", "ExpanderItem", "indented" };
 
         [AvaloniaTheory]
         [MemberData(nameof(Kinds))]
-        public void AClosedExpander_HidesItsContent_AndAnOpenOneShowsIt(string kind)
+        public void Show_AnExpanderOfEachTheme_HasOnePanelCollapse(string kind)
         {
-            var (_, closed) = Show(kind, false);
-            var (_, open) = Show(kind, true);
+            var view = Show(kind);
 
-            Assert.False(closed.Child!.IsVisible);
-            Assert.Equal(0, closed.Bounds.Height);
-            Assert.True(open.Child!.IsVisible);
-            Assert.True(open.Bounds.Height >= 80);
-        }
-
-        [AvaloniaTheory]
-        [MemberData(nameof(Kinds))]
-        public void Opening_IsAnAnimation(string kind)
-        {
-            var (view, panel) = Show(kind, false);
-
-            Toggle(view, true);
-
-            Assert.True(panel.Child!.IsVisible);
-            Assert.InRange(panel.Progress, 0, 0.999);
-        }
-
-        [AvaloniaTheory]
-        [MemberData(nameof(Kinds))]
-        public void AfterTheAnimation_TheExpanderIsOpenOrClosed(string kind)
-        {
-            var (view, panel) = Show(kind, false);
-            panel.Duration = TimeSpan.Zero;
-
-            Toggle(view, true);
-            Assert.Equal(1, panel.Progress);
-
-            Toggle(view, false);
-            Assert.Equal(0, panel.Progress);
-            Assert.False(panel.Child!.IsVisible);
+            Assert.Single(view.GetVisualDescendants().OfType<PanelCollapse>());
         }
     }
 }

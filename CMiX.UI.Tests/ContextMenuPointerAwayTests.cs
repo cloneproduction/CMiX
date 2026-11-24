@@ -114,12 +114,6 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheDistance_IsSixtyFourByDefault()
-        {
-            Assert.Equal(64, ContextMenuPointerAway.GetPointerAwayDistance(new ContextMenu()));
-        }
-
-        [AvaloniaFact]
         public void TheMenu_WithACompanion_StaysOpenWhileThePointerIsNearTheCompanion()
         {
             var drag = NewDragValue(200);

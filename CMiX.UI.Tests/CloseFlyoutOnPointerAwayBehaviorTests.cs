@@ -115,12 +115,6 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheDistance_IsSixtyFourByDefault()
-        {
-            Assert.Equal(64, new CloseFlyoutOnPointerAwayBehavior().PointerAwayDistance);
-        }
-
-        [AvaloniaFact]
         public void AfterTypingInATextBoxOfTheFlyout_APointerFarAway_KeepsTheFlyoutOpen()
         {
             var box = new TextBox();

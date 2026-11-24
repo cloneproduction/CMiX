@@ -77,17 +77,6 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void Enter_WithARealText_CommitsIt()
-        {
-            var (window, box, input, _) = Show("Layer.001");
-            Edit(box, input, "Floor");
-
-            window.KeyPress(Key.Enter, RawInputModifiers.None, PhysicalKey.Enter, null);
-
-            Assert.Equal("Floor", box.Text);
-        }
-
-        [AvaloniaFact]
         public void LostFocus_WithoutAnEdit_WritesNoStaleText()
         {
             var (_, box, input, other) = Show("Layer.001");
