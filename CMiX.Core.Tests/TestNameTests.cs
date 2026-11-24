@@ -5,14 +5,11 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Xunit;
 
-namespace CMiX.Core.Tests
+namespace CMiX.Tests
 {
-    // A test method is Method_Scenario_Result. This test finds the names that break the rule.
+    // A test method is Method_Scenario_Result. The three test projects link this one file.
     public class TestNameTests
     {
-        // Every test follows the rule. The number stays at 0.
-        private const int PinnedBadNameCount = 0;
-
         private static readonly Regex NameRule = new Regex("^[A-Z][A-Za-z0-9]*_[A-Z][A-Za-z0-9]*_[A-Z][A-Za-z0-9]*$");
 
         private static readonly HashSet<string> TestAttributeNames = new HashSet<string>
@@ -33,7 +30,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Scan_TheTestAssembly_FindsNoMoreBadNamesThanPinned()
+        public void Scan_TheTestAssembly_FindsNoBadNames()
         {
             var badNames = typeof(TestNameTests).Assembly.GetTypes()
                 .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
@@ -43,8 +40,8 @@ namespace CMiX.Core.Tests
                 .OrderBy(n => n, StringComparer.Ordinal)
                 .ToList();
 
-            Assert.True(badNames.Count <= PinnedBadNameCount,
-                $"{badNames.Count} test names break Method_Scenario_Result, the pinned number is {PinnedBadNameCount}:"
+            Assert.True(badNames.Count == 0,
+                $"{badNames.Count} test names break Method_Scenario_Result:"
                 + Environment.NewLine + string.Join(Environment.NewLine, badNames));
         }
     }
