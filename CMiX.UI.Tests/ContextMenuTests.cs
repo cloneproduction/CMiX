@@ -1,12 +1,14 @@
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Headless;
+using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.Headless;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using Avalonia;
+using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.ColorPicker;
 using CMiX.UI.Controls.Number;
 using CMiX.UI.Tests.Support;
@@ -15,10 +17,13 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // The Reset menu opens on a context request, but never in edit mode or for a request from a popup below the editor.
-    // The headless mouse raises a context request only in edit mode. So the normal case and the popup case raise it by hand.
+    // The Reset menu of a value editor: it opens on a context request, but never in edit mode or for a request
+    // from a popup below the editor, and it closes when the pointer goes far from it and from its owner.
     public class ContextMenuTests
     {
+        // The Reset menu opens on a context request, but never in edit mode or for a request from a popup below the editor.
+        // The headless mouse raises a context request only in edit mode. So the normal case and the popup case raise it by hand.
+
         // Presses and releases the right button on the center of the control. Returns how many context requests it raised.
         private static int RightClick(Window window, Control control)
         {
@@ -48,7 +53,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void Slider_RightClickInEditMode_EndsEditing_AndTheMenuStaysClosed()
+        public void Slider_RightClickInEditMode_EndsTheEditAndKeepsTheMenuClosed()
         {
             var slider = NewSlider();
             var window = TestWindow.Show(slider, 300, 200);
@@ -141,6 +146,107 @@ namespace CMiX.UI.Tests
             ContextMenuInput.Request(insidePopup);
 
             Assert.False(selector.ContextMenu!.IsOpen);
+        }
+
+        // A context menu with the default theme, such as the Reset menu of a value editor, closes when the pointer
+        // goes far from it and from the control that owns it.
+
+        private static DragValue NewDragValueAtTheTop(double width) => new()
+        {
+            Width = width,
+            Height = 30,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top,
+            ResetCommand = new RelayCommand(() => { }),
+        };
+
+        [AvaloniaFact]
+        public void PointerAway_FromTheResetMenuOfADragValue_ClosesTheMenu()
+        {
+            var drag = NewDragValueAtTheTop(200);
+            var window = TestWindow.Show(drag, 800, 500);
+            ContextMenuInput.Request(drag);
+            Assert.True(drag.ContextMenu!.IsOpen);
+
+            PointerInput.Move(window, new Point(790, 490));
+
+            Assert.False(drag.ContextMenu.IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void PointerAway_FromAMenuWrittenInXaml_ClosesTheMenu()
+        {
+            var selector = new SelectorColor { DataContext = new StringValue(), Width = 200, Height = 40, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+            var window = TestWindow.Show(selector, 800, 500);
+            ContextMenuInput.Request(selector.FindControl<Control>("popupToggle")!);
+            Assert.True(selector.ContextMenu!.IsOpen);
+
+            PointerInput.Move(window, new Point(790, 490));
+
+            Assert.False(selector.ContextMenu.IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void PointerAway_OnTheFarEndOfAWideOwner_KeepsTheMenuOpen()
+        {
+            var drag = NewDragValueAtTheTop(700);
+            var window = TestWindow.Show(drag, 800, 500);
+            ContextMenuInput.Request(drag);
+            Assert.True(drag.ContextMenu!.IsOpen);
+
+            PointerInput.Move(window, new Point(690, 15));
+
+            Assert.True(drag.ContextMenu.IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void PointerAway_ABiggerDistance_KeepsTheMenuOpenFartherAway()
+        {
+            var drag = NewDragValueAtTheTop(200);
+            var window = TestWindow.Show(drag, 800, 500);
+            ContextMenuInput.Request(drag);
+            ContextMenuPointerAway.SetPointerAwayDistance(drag.ContextMenu!, 2000);
+
+            PointerInput.Move(window, new Point(790, 490));
+
+            Assert.True(drag.ContextMenu.IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void PointerAway_WithTheRuleSwitchedOff_KeepsTheMenuOpen()
+        {
+            var drag = NewDragValueAtTheTop(200);
+            var window = TestWindow.Show(drag, 800, 500);
+            ContextMenuPointerAway.SetClosesOnPointerAway(drag.ContextMenu!, false);
+            ContextMenuInput.Request(drag);
+            Assert.True(drag.ContextMenu.IsOpen);
+
+            PointerInput.Move(window, new Point(790, 490));
+
+            Assert.True(drag.ContextMenu.IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void TheMenu_WithACompanion_StaysOpenWhileThePointerIsNearTheCompanion()
+        {
+            var drag = NewDragValueAtTheTop(200);
+            var companion = new Border
+            {
+                Width = 100, Height = 100,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Background = Avalonia.Media.Brushes.Transparent,
+            };
+            var window = TestWindow.Show(new Panel { Children = { drag, companion } }, 800, 500);
+            ContextMenuInput.Request(drag);
+            ContextMenuPointerAway.SetCompanion(drag.ContextMenu!, companion);
+
+            PointerInput.Move(window, new Point(790, 490));
+            Assert.True(drag.ContextMenu.IsOpen);
+
+            ContextMenuPointerAway.SetCompanion(drag.ContextMenu, null);
+            PointerInput.Move(window, new Point(789, 489));
+            Assert.False(drag.ContextMenu.IsOpen);
         }
     }
 }
