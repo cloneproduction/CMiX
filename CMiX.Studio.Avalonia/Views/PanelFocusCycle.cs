@@ -9,10 +9,9 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
-using CMiX.Studio.Avalonia.Views;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.Views
 {
     // Moves the keyboard focus between the panels of the main window (Window.NextPanel, Window.PreviousPanel, Window.FocusPanel1 to 4)
     // and to the tree (Tree.Focus). The panels are the visible side panels (PanelSide), from left to right. Each panel keeps its

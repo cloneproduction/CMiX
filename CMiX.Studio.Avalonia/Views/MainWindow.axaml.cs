@@ -12,7 +12,6 @@ using Avalonia.Xaml.Interactivity;
 using CMiX.UI.Behaviors;
 using Avalonia.LogicalTree;
 using CMiX.Studio.Avalonia.Notices;
-using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.ViewModels;
 
 namespace CMiX.Studio.Avalonia.Views

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using Avalonia.Controls;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 

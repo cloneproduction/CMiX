@@ -2,7 +2,7 @@
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

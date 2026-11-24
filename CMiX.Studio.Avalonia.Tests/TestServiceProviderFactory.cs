@@ -6,7 +6,6 @@ using CMiX.Core.Networking;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Tests;
 using CMiX.Studio.Avalonia.Notices;
-using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.ViewModels;
@@ -48,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
             serviceCollection.AddSingleton<INotificationService>(provider => provider.GetRequiredService<NotificationService>());
             serviceCollection.AddSingleton<PathDropService>();
             serviceCollection.AddSingleton<ProjectTree>();
-            serviceCollection.AddSingleton<PanelFocusCycle>();
+            serviceCollection.AddSingleton<Views.PanelFocusCycle>();
             // The defaults, with no file. A test never reads or writes the settings file of the Studio.
             serviceCollection.AddSingleton(_ => new InterfaceOptions());
             serviceCollection.AddSingleton(_ => new StudioSettingsFile(Path.Combine(Path.GetTempPath(), $"cmix-studiosettings-{Guid.NewGuid():N}", StudioSettings.FileName)));

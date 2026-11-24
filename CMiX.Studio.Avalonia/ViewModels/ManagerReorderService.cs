@@ -8,7 +8,7 @@ using CMiX.UI.AttachedProperties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Studio.Avalonia.Services
+namespace CMiX.Studio.Avalonia.ViewModels
 {
     public partial class ManagerReorderService : ObservableObject, IManagerReorderService, IReorderService
     {

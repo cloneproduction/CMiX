@@ -4,7 +4,7 @@ using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
-using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

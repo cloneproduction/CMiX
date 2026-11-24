@@ -17,7 +17,6 @@ using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Animations;
 using CMiX.Studio.Avalonia.Notices;
-using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.Themes;
@@ -82,7 +81,7 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddSingleton<INotificationService>(provider => provider.GetRequiredService<NotificationService>());
                 serviceCollection.AddSingleton<PathDropService>();
                 serviceCollection.AddSingleton<ProjectTree>();
-                serviceCollection.AddSingleton<PanelFocusCycle>();
+                serviceCollection.AddSingleton<Views.PanelFocusCycle>();
                 serviceCollection.AddSingleton(_ => new StudioSettingsFile(StudioSettings.DefaultPath));
                 serviceCollection.AddSingleton<ICredentialStore, WindowsCredentialStore>();
                 serviceCollection.AddSingleton(_ =>

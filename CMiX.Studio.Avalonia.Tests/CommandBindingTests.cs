@@ -9,7 +9,6 @@ using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.UI.Controls.Collection;

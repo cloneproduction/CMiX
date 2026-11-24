@@ -9,7 +9,6 @@ using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
-using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
@@ -35,7 +34,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              InterfaceOptions interfaceOptions,
                              PathDropService pathDropService,
                              ProjectTree projectTree,
-                             PanelFocusCycle panelFocus)
+                             Views.PanelFocusCycle panelFocus)
         {
             PanelFocus = panelFocus;
             _session = session;
@@ -91,7 +90,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ShortcutMap Shortcuts { get; }
 
         // The panel keys of the window (Window.*, Tree.Focus) run its commands.
-        public PanelFocusCycle PanelFocus { get; }
+        public Views.PanelFocusCycle PanelFocus { get; }
 
         // The settings tab edits the shortcuts with this.
         public ShortcutSettings ShortcutSettings { get; }
