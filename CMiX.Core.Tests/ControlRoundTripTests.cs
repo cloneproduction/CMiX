@@ -18,11 +18,13 @@ namespace CMiX.Core.Tests
                 .OrderBy(t => t.Name, StringComparer.Ordinal)
                 .Select(t => new object[] { t });
 
-        // Values that ToModel does not write today. The owner decides if they must.
+        // Values that ToModel does not write today, or that a load resolves to another value. The owner decides if they must.
         internal static readonly HashSet<string> UnsavedPaths = new(StringComparer.Ordinal)
         {
             "BeatStepModulator.Center",
             "BeatStepModulator.Width",
+            // A load gives the default mapping when the saved ID is not a mapping of the project.
+            "Composition.SelectedOutputMappingID",
         };
 
         // OutputMappingManager gives a mapping its fixed slot ID. PrefabManager keeps the ID of its ManagerData.

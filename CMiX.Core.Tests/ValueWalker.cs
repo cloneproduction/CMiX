@@ -18,18 +18,30 @@ namespace CMiX.Core.Tests
         public void Reset() => _instance.GetType().GetMethod("Reset", Type.EmptyTypes)!.Invoke(_instance, null);
 
         // Sets a value that differs from the current one. The number n keeps two values of one control apart.
-        public void Change(int n) => Value = Value switch
+        // A value that cannot change throws, so a theory never passes on a value it did not test.
+        public void Change(int n)
         {
-            float f => f + 0.37f + n * 0.001f,
-            int i => i + 3,
-            bool b => !b,
-            string s => s + "x",
-            Guid when ValueType == typeof(Guid?) => new Guid(n + 1, 0, 0, new byte[8]),
-            Enum e => NextValue(e),
-            null when ValueType == typeof(string) => "x",
-            null when ValueType == typeof(Guid?) => new Guid(n + 1, 0, 0, new byte[8]),
-            _ => Value
-        };
+            var before = Value;
+            Value = before switch
+            {
+                float f => f + 0.37f + n * 0.001f,
+                int i => i + 3,
+                bool b => !b,
+                string s => s + "x",
+                Guid => new Guid(n + 1, 0, 0, new byte[8]),
+                Enum e => NextValue(e),
+                null when ValueType == typeof(string) => "x",
+                null when ValueType == typeof(Guid?) => new Guid(n + 1, 0, 0, new byte[8]),
+                _ => throw new InvalidOperationException($"ValueWalker cannot change a value of type {ValueType.Name}.")
+            };
+
+            // A float at its maximum is clamped back, so it goes the other way.
+            if (before is float && Equals(Value, before))
+                Value = (float)before - 0.37f - n * 0.001f;
+
+            if (Equals(Value, before))
+                throw new InvalidOperationException($"ValueWalker could not change a {ValueType.Name} value of {before}.");
+        }
 
         private static object NextValue(Enum value)
         {
