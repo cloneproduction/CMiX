@@ -7,6 +7,7 @@ using Avalonia.Layout;
 using Avalonia.Threading;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Behaviors;
+using CMiX.UI.Tests.Support;
 using Xunit;
 using AvaloniaInteraction = Avalonia.Xaml.Interactivity.Interaction;
 
@@ -24,10 +25,7 @@ namespace CMiX.UI.Tests
                 Child = new Border { Width = 100, Height = 80, Child = new TextBlock { Text = "content" } },
             };
             TogglePopup.SetToggle(popup, toggle);
-            var window = new Window { Content = new Panel { Children = { toggle, popup } }, Width = 500, Height = 400 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, toggle, popup);
+            return (TestWindow.Show(new Panel { Children = { toggle, popup } }, 500, 400), toggle, popup);
         }
 
         [AvaloniaFact]

@@ -4,6 +4,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
 using CMiX.UI.Controls;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -15,9 +16,7 @@ namespace CMiX.UI.Tests
         {
             var content = new TextBlock { Text = "choice" };
             var panel = new ButtonPopup { Caption = "Add", PopupContent = content, Width = 200 };
-            var window = new Window { Content = panel, Width = 300, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(panel, 300, 200);
             return (panel, content);
         }
 

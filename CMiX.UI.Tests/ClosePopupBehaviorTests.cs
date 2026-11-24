@@ -30,13 +30,11 @@ namespace CMiX.UI.Tests
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Bottom,
             };
-            var window = new Window { Content = selector, Width = 1000, Height = 500 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(selector, 1000, 500);
 
             var swatch = selector.FindControl<ToggleButton>("popupToggle")!;
             var popup = selector.FindControl<Popup>("colorPickerPopup")!;
-            Click(window, OnSwatch(window, swatch, 0.05));
+            PointerInput.Click(window, OnSwatch(window, swatch, 0.05));
             Assert.True(popup.IsOpen);
             return (window, swatch, popup);
         }
@@ -45,20 +43,6 @@ namespace CMiX.UI.Tests
         {
             var top = swatch.TranslatePoint(new Point(0, 0), window)!.Value;
             return new Point(top.X + swatch.Bounds.Width * fraction, top.Y + swatch.Bounds.Height / 2);
-        }
-
-        private static void Click(Window window, Point point)
-        {
-            window.MouseMove(point);
-            window.MouseDown(point, MouseButton.Left);
-            window.MouseUp(point, MouseButton.Left);
-            Dispatcher.UIThread.RunJobs();
-        }
-
-        private static void Move(Window window, Point point)
-        {
-            window.MouseMove(point);
-            Dispatcher.UIThread.RunJobs();
         }
 
         [AvaloniaTheory]
@@ -73,8 +57,8 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
 
             var click = OnSwatch(window, swatch, clickAt);
-            Click(window, click);
-            Move(window, new Point(click.X + 2, click.Y + 1));
+            PointerInput.Click(window, click);
+            PointerInput.Move(window, new Point(click.X + 2, click.Y + 1));
 
             Assert.True(popup.IsOpen);
         }
@@ -84,7 +68,7 @@ namespace CMiX.UI.Tests
         {
             var (window, _, popup) = ShowWideSelectorWithOpenPopup();
 
-            Move(window, new Point(5, 5));
+            PointerInput.Move(window, new Point(5, 5));
 
             Assert.False(popup.IsOpen);
         }
@@ -102,7 +86,7 @@ namespace CMiX.UI.Tests
             var behavior = AvaloniaInteraction.GetBehaviors(popup).OfType<ClosePopupBehavior>().Single();
 
             behavior.PointerAwayDistance = 2000;
-            Move(window, new Point(5, 5));
+            PointerInput.Move(window, new Point(5, 5));
 
             Assert.True(popup.IsOpen);
         }
@@ -114,9 +98,7 @@ namespace CMiX.UI.Tests
             var box = new TextBox { Width = 150 };
             var popup = new Popup { PlacementTarget = button, Placement = PlacementMode.Top, IsLightDismissEnabled = false, Child = new Border { Child = box } };
             AvaloniaInteraction.SetBehaviors(popup, new BehaviorCollection { new ClosePopupBehavior() });
-            var window = new Window { Content = new Panel { Children = { button, popup } }, Width = 800, Height = 500 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(new Panel { Children = { button, popup } }, 800, 500);
 
             popup.IsOpen = true;
             Dispatcher.UIThread.RunJobs();
@@ -128,7 +110,7 @@ namespace CMiX.UI.Tests
         {
             var (window, popup, _) = ShowPopupWithTextBox();
 
-            Move(window, new Point(790, 5));
+            PointerInput.Move(window, new Point(790, 5));
 
             Assert.False(popup.IsOpen);
         }
@@ -141,7 +123,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
             Assert.True(box.IsFocused);
 
-            Move(window, new Point(790, 5));
+            PointerInput.Move(window, new Point(790, 5));
 
             Assert.False(popup.IsOpen);
         }
@@ -154,7 +136,7 @@ namespace CMiX.UI.Tests
             window.KeyPress(Key.A, RawInputModifiers.None, PhysicalKey.A, "a");
             Dispatcher.UIThread.RunJobs();
 
-            Move(window, new Point(790, 5));
+            PointerInput.Move(window, new Point(790, 5));
 
             Assert.True(popup.IsOpen);
         }

@@ -7,26 +7,19 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Xunit;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 
 namespace CMiX.UI.Tests
 {
     // The PopupFrame theme gives the frame its template.
     public class PopupFrameTests
     {
-        private static Window Host(Control content)
-        {
-            var window = new Window { Content = content, Width = 400, Height = 300 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
         [AvaloniaFact]
         public void PopupFrame_InAWindow_PresentsItsContentInTheThemedTemplate()
         {
             var text = new TextBlock { Text = "Item" };
             var frame = new PopupFrame { Content = text };
-            Host(frame);
+            TestWindow.Show(frame, 400, 300);
             frame.ApplyTemplate();
 
             var surface = Assert.IsType<PopupSurface>(frame.GetVisualChildren().Single());
@@ -42,10 +35,10 @@ namespace CMiX.UI.Tests
             var text = new TextBlock { Text = "Item" };
             var presenter = new FlyoutPresenter
             {
-                Theme = (ControlTheme)Application.Current!.FindResource("FlyoutPresenterPanel")!,
+                Theme = Tokens.Theme("FlyoutPresenterPanel"),
                 Content = text
             };
-            Host(presenter);
+            TestWindow.Show(presenter, 400, 300);
 
             var frame = presenter.GetVisualDescendants().OfType<PopupFrame>().Single();
             Assert.Equal(300, presenter.Width);
@@ -57,11 +50,11 @@ namespace CMiX.UI.Tests
         {
             var presenter = new FlyoutPresenter
             {
-                Theme = (ControlTheme)Application.Current!.FindResource("FlyoutPresenterPanel")!,
+                Theme = Tokens.Theme("FlyoutPresenterPanel"),
                 Content = new TextBlock { Text = "Item" },
                 Width = 420
             };
-            Host(presenter);
+            TestWindow.Show(presenter, 400, 300);
 
             var frame = presenter.GetVisualDescendants().OfType<PopupFrame>().Single();
             Assert.True(frame.CentersOnPointer);

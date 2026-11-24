@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Popups;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -22,9 +23,7 @@ namespace CMiX.UI.Tests
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
             };
-            var window = new Window { Content = card, Width = 400, Height = 300 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(card, 400, 300);
             card.ApplyTemplate();
             Dispatcher.UIThread.RunJobs();
 
@@ -40,10 +39,9 @@ namespace CMiX.UI.Tests
         {
             var (_, box, _) = Show();
 
-            var fill = (ISolidColorBrush)Application.Current!.FindResource("PopupBackgroundBrush")!;
-            Assert.Equal(fill.Color, ((ISolidColorBrush)box.Background!).Color);
+            Assert.Equal(Tokens.Color("PopupBackgroundBrush"), ((ISolidColorBrush)box.Background!).Color);
             Assert.Equal(new Thickness(0), box.BorderThickness);
-            Assert.Equal((CornerRadius)Application.Current!.FindResource("CornerRadiusAll")!, box.CornerRadius);
+            Assert.Equal(Tokens.Get<CornerRadius>("CornerRadiusAll"), box.CornerRadius);
         }
 
         [AvaloniaFact]

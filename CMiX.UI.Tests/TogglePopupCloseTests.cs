@@ -10,6 +10,7 @@ using Avalonia.Threading;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -23,15 +24,12 @@ namespace CMiX.UI.Tests
             var popup = new Popup { Child = new Border { Child = new TextBlock { Text = "Content" } } };
             TogglePopup.SetToggle(popup, toggle);
             configure?.Invoke(popup);
-            var window = new Window { Content = new StackPanel { Margin = new Thickness(0, 100, 0, 0), Children = { toggle, popup } }, Width = 1200, Height = 800 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(new StackPanel { Margin = new Thickness(0, 100, 0, 0), Children = { toggle, popup } }, 1200, 800);
 
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
             Assert.True(popup.IsOpen);
-            window.MouseMove(Middle(window, toggle));
-            Dispatcher.UIThread.RunJobs();
+            PointerInput.Move(window, Middle(window, toggle));
             return (window, toggle, popup);
         }
 
@@ -45,18 +43,12 @@ namespace CMiX.UI.Tests
             return new Point(left.X + toggle.Bounds.Width + away, left.Y + 5);
         }
 
-        private static void MoveTo(Window window, Point point)
-        {
-            window.MouseMove(point);
-            Dispatcher.UIThread.RunJobs();
-        }
-
         [AvaloniaFact]
         public void ByDefault_ThePopupClosesWhenThePointerGoesAway()
         {
             var (window, toggle, popup) = Show();
 
-            MoveTo(window, Away(window, toggle, 200));
+            PointerInput.Move(window, Away(window, toggle, 200));
 
             Assert.False(popup.IsOpen);
         }
@@ -66,7 +58,7 @@ namespace CMiX.UI.Tests
         {
             var (window, toggle, popup) = Show(p => TogglePopup.SetClosesOnPointerAway(p, false));
 
-            MoveTo(window, Away(window, toggle, 600));
+            PointerInput.Move(window, Away(window, toggle, 600));
 
             Assert.True(popup.IsOpen);
         }
@@ -77,10 +69,7 @@ namespace CMiX.UI.Tests
             var (window, toggle, popup) = Show(p => TogglePopup.SetClosesOnPointerAway(p, false));
             var outside = Away(window, toggle, 600);
 
-            window.MouseMove(outside);
-            window.MouseDown(outside, MouseButton.Left);
-            window.MouseUp(outside, MouseButton.Left);
-            Dispatcher.UIThread.RunJobs();
+            PointerInput.Click(window, outside);
 
             Assert.False(popup.IsOpen);
         }
@@ -90,10 +79,10 @@ namespace CMiX.UI.Tests
         {
             var (window, toggle, popup) = Show(p => TogglePopup.SetPointerAwayDistance(p, 400));
 
-            MoveTo(window, Away(window, toggle, 300));
+            PointerInput.Move(window, Away(window, toggle, 300));
             Assert.True(popup.IsOpen);
 
-            MoveTo(window, Away(window, toggle, 700));
+            PointerInput.Move(window, Away(window, toggle, 700));
             Assert.False(popup.IsOpen);
         }
 
@@ -103,7 +92,7 @@ namespace CMiX.UI.Tests
             var (window, toggle, popup) = Show();
 
             TogglePopup.SetClosesOnPointerAway(popup, false);
-            MoveTo(window, Away(window, toggle, 600));
+            PointerInput.Move(window, Away(window, toggle, 600));
 
             Assert.True(popup.IsOpen);
         }
@@ -121,16 +110,13 @@ namespace CMiX.UI.Tests
                 Width = 300,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
-            var window = new Window { Content = new StackPanel { Margin = new Thickness(0, 100, 0, 0), Children = { list } }, Width = 1200, Height = 800 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(new StackPanel { Margin = new Thickness(0, 100, 0, 0), Children = { list } }, 1200, 800);
             var toggle = list.FindControl<ToggleButton>("addToggle")!;
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
-            window.MouseMove(Middle(window, toggle));
-            Dispatcher.UIThread.RunJobs();
+            PointerInput.Move(window, Middle(window, toggle));
 
-            MoveTo(window, Away(window, toggle, 600));
+            PointerInput.Move(window, Away(window, toggle, 600));
 
             Assert.Equal(expectedOpen, list.GetLogicalDescendants().OfType<Popup>().Single().IsOpen);
         }
@@ -148,16 +134,13 @@ namespace CMiX.UI.Tests
                 Width = 300,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
-            var window = new Window { Content = new StackPanel { Margin = new Thickness(0, 100, 0, 0), Children = { button } }, Width = 1200, Height = 800 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(new StackPanel { Margin = new Thickness(0, 100, 0, 0), Children = { button } }, 1200, 800);
             var toggle = button.FindControl<ToggleButton>("popupToggle")!;
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
-            window.MouseMove(Middle(window, toggle));
-            Dispatcher.UIThread.RunJobs();
+            PointerInput.Move(window, Middle(window, toggle));
 
-            MoveTo(window, Away(window, toggle, 600));
+            PointerInput.Move(window, Away(window, toggle, 600));
 
             Assert.Equal(expectedOpen, button.GetLogicalDescendants().OfType<Popup>().Single().IsOpen);
         }

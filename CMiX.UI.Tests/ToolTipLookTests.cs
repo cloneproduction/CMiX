@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Popups;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -16,8 +17,7 @@ namespace CMiX.UI.Tests
         private static ToolTip Show(object content)
         {
             var tip = new ToolTip { Content = content };
-            new Window { Content = tip, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(tip, 300, 200);
             return tip;
         }
 
@@ -31,7 +31,7 @@ namespace CMiX.UI.Tests
 
             var card = tip.GetVisualDescendants().OfType<Border>().First(part => part.Name == "PART_Surface");
 
-            var fill = ((ISolidColorBrush)Application.Current!.FindResource("PopupBackgroundBrush")!).Color;
+            var fill = Tokens.Color("PopupBackgroundBrush");
             Assert.Equal(fill, ((ISolidColorBrush)card.Background!).Color);
             Assert.Equal(new Thickness(0), card.BorderThickness);
         }
@@ -68,7 +68,7 @@ namespace CMiX.UI.Tests
             var tip = Show(new TipContent("Remove", Reason: "Select a row first."));
 
             var reason = tip.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Text == "Select a row first.");
-            var warning = ((ISolidColorBrush)Application.Current!.FindResource("PopupCardWarningBrush")!).Color;
+            var warning = Tokens.Color("PopupCardWarningBrush");
             Assert.Equal(warning, ((ISolidColorBrush)reason.Foreground!).Color);
         }
 
@@ -77,7 +77,7 @@ namespace CMiX.UI.Tests
         {
             var tip = Show(new TipContent("Add", "Shift+A", Footer: "Tree.Add"));
 
-            var mono = (FontFamily)Application.Current!.FindResource("FontFamilyMono")!;
+            var mono = Tokens.Get<FontFamily>("FontFamilyMono");
             Assert.All(new[] { "Shift+A", "Tree.Add" }, text =>
                 Assert.Equal(mono, tip.GetVisualDescendants().OfType<TextBlock>().Single(block => block.Text == text).FontFamily));
         }
@@ -89,8 +89,8 @@ namespace CMiX.UI.Tests
             var tip = Show(new TipContent("Add", "Shift+A", Footer: "Tree.Add"));
 
             var footer = tip.GetVisualDescendants().OfType<TextBlock>().Single(block => block.Text == "Tree.Add");
-            var muted = ((ISolidColorBrush)Application.Current!.FindResource("TextMutedBrush")!).Color;
-            var card = ((ISolidColorBrush)Application.Current!.FindResource("PopupBackgroundBrush")!).Color;
+            var muted = Tokens.Color("TextMutedBrush");
+            var card = Tokens.Color("PopupBackgroundBrush");
 
             Assert.Equal(muted, ((ISolidColorBrush)footer.Foreground!).Color);
             Assert.True(CMiX.UI.Mathematics.ColorMix.Contrast(muted, card) >= 4.5);

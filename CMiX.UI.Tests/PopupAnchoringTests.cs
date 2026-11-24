@@ -6,6 +6,7 @@ using Avalonia.Layout;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Popups;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -28,10 +29,7 @@ namespace CMiX.UI.Tests
             if (extra != null)
                 panel.Children.Add(extra);
 
-            var window = new Window { Content = panel, Width = 300, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, button);
+            return (TestWindow.Show(panel, 300, 200), button);
         }
 
         // The box of the tooltip is the first border of its template. It has the room of the shadow around it.

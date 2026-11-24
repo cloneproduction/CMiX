@@ -8,6 +8,7 @@ using Avalonia.Layout;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 using CMiX.UI.Behaviors;
+using CMiX.UI.Tests.Support;
 using Xunit;
 using AvaloniaInteraction = Avalonia.Xaml.Interactivity.Interaction;
 
@@ -30,20 +31,12 @@ namespace CMiX.UI.Tests
             configure?.Invoke(behavior);
             AvaloniaInteraction.SetBehaviors(flyout, new BehaviorCollection { behavior });
             var button = new Button { Content = "open", Width = 700, Height = 30, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
-            var window = new Window { Content = button, Width = 800, Height = 500 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(button, 800, 500);
 
             flyout.ShowAt(button);
             Dispatcher.UIThread.RunJobs();
             Assert.True(flyout.IsOpen);
             return (window, button, flyout);
-        }
-
-        private static void Move(Window window, Point point)
-        {
-            window.MouseMove(point);
-            Dispatcher.UIThread.RunJobs();
         }
 
         [AvaloniaTheory]
@@ -53,7 +46,7 @@ namespace CMiX.UI.Tests
         {
             var (window, _, flyout) = ShowWithOpenFlyout(kind);
 
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
 
             Assert.False(flyout.IsOpen);
         }
@@ -65,7 +58,7 @@ namespace CMiX.UI.Tests
         {
             var (window, _, flyout) = ShowWithOpenFlyout(kind);
 
-            Move(window, new Point(680, 15));
+            PointerInput.Move(window, new Point(680, 15));
 
             Assert.True(flyout.IsOpen);
         }
@@ -78,7 +71,7 @@ namespace CMiX.UI.Tests
             var (window, _, flyout) = ShowWithOpenFlyout(kind);
             AvaloniaInteraction.GetBehaviors(flyout).OfType<CloseFlyoutOnPointerAwayBehavior>().Single().PointerAwayDistance = 2000;
 
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
 
             Assert.True(flyout.IsOpen);
         }
@@ -90,7 +83,7 @@ namespace CMiX.UI.Tests
         {
             var (window, _, flyout) = ShowWithOpenFlyout(kind, configure: behavior => behavior.ClosesOnPointerAway = false);
 
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
 
             Assert.True(flyout.IsOpen);
         }
@@ -103,7 +96,7 @@ namespace CMiX.UI.Tests
             var (window, _, flyout) = ShowWithOpenFlyout(kind);
 
             AvaloniaInteraction.GetBehaviors(flyout).OfType<CloseFlyoutOnPointerAwayBehavior>().Single().ClosesOnPointerAway = false;
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
 
             Assert.True(flyout.IsOpen);
         }
@@ -124,7 +117,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
             Assert.True(box.IsFocused);
 
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
 
             Assert.True(flyout.IsOpen);
         }
@@ -137,12 +130,12 @@ namespace CMiX.UI.Tests
             var (window, button, flyout) = ShowWithOpenFlyout(kind);
             flyout.Hide();
             Dispatcher.UIThread.RunJobs();
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
 
             flyout.ShowAt(button);
             Dispatcher.UIThread.RunJobs();
             Assert.True(flyout.IsOpen);
-            Move(window, new Point(780, 480));
+            PointerInput.Move(window, new Point(780, 480));
 
             Assert.False(flyout.IsOpen);
         }

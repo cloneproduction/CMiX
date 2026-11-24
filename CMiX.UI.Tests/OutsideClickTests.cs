@@ -9,6 +9,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.String;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -37,9 +38,7 @@ namespace CMiX.UI.Tests
             TogglePopup.SetToggle(popup, toggle);
             TogglePopup.SetClosesOnPointerAway(popup, false);
             var below = new Button { Content = "Below", Width = 200, Height = 40, Margin = new Thickness(600, 300, 0, 0), HorizontalAlignment = HorizontalAlignment.Left };
-            var window = new Window { Content = new StackPanel { Children = { toggle, popup, below } }, Width = 1200, Height = 800 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(new StackPanel { Children = { toggle, popup, below } }, 1200, 800);
 
             var screen = new Screen { Window = window, Toggle = toggle, Popup = popup, Inside = inside, Below = below };
             below.Click += (_, _) => screen.BelowClicks++;
@@ -53,28 +52,20 @@ namespace CMiX.UI.Tests
         private static Point Middle(Window window, Control control) =>
             control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
 
-        private static void Click(Window window, Point point, MouseButton button = MouseButton.Left)
-        {
-            window.MouseMove(point);
-            window.MouseDown(point, button);
-            window.MouseUp(point, button);
-            Dispatcher.UIThread.RunJobs();
-        }
-
         [AvaloniaFact]
         public void Click_OutsideAnOpenPopup_ClosesItAndClicksNothingElse()
         {
             var screen = Show();
             Assert.True(screen.Popup.IsOpen);
 
-            Click(screen.Window, Middle(screen.Window, screen.Below));
+            PointerInput.Click(screen.Window, Middle(screen.Window, screen.Below));
 
             Assert.False(screen.Popup.IsOpen);
             Assert.False(screen.Toggle.IsChecked);
             Assert.Equal(0, screen.BelowClicks);
 
             // The popup is closed: the next click reaches the button.
-            Click(screen.Window, Middle(screen.Window, screen.Below));
+            PointerInput.Click(screen.Window, Middle(screen.Window, screen.Below));
             Assert.Equal(1, screen.BelowClicks);
         }
 
@@ -83,7 +74,7 @@ namespace CMiX.UI.Tests
         {
             var screen = Show();
 
-            Click(screen.Window, Middle(screen.Window, screen.Below), MouseButton.Right);
+            PointerInput.Click(screen.Window, Middle(screen.Window, screen.Below), MouseButton.Right);
 
             Assert.False(screen.Popup.IsOpen);
             Assert.Equal(0, screen.MenuRequests);
@@ -94,7 +85,7 @@ namespace CMiX.UI.Tests
         {
             var screen = Show();
 
-            Click(screen.Window, Middle(screen.Window, screen.Inside));
+            PointerInput.Click(screen.Window, Middle(screen.Window, screen.Inside));
 
             Assert.Equal(1, screen.InsideClicks);
         }
@@ -104,7 +95,7 @@ namespace CMiX.UI.Tests
         {
             var screen = Show();
 
-            Click(screen.Window, Middle(screen.Window, screen.Toggle));
+            PointerInput.Click(screen.Window, Middle(screen.Window, screen.Toggle));
 
             Assert.False(screen.Popup.IsOpen);
             Assert.False(screen.Toggle.IsChecked);
@@ -122,7 +113,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
             Assert.True(menu.IsOpen);
 
-            Click(screen.Window, Middle(screen.Window, screen.Below));
+            PointerInput.Click(screen.Window, Middle(screen.Window, screen.Below));
 
             Assert.False(menu.IsOpen);
             Assert.Equal(0, screen.BelowClicks);
@@ -134,18 +125,16 @@ namespace CMiX.UI.Tests
         public void Click_AComboBoxAfterAClickOutside_OpensItsDropDownAgain()
         {
             var combo = new ComboBox { ItemsSource = new[] { "One", "Two", "Three" }, Width = 150, HorizontalAlignment = HorizontalAlignment.Left };
-            var window = new Window { Content = new StackPanel { Children = { combo } }, Width = 800, Height = 600 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(new StackPanel { Children = { combo } }, 800, 600);
             Popup DropDown() => combo.GetVisualDescendants().OfType<Popup>().First(popup => popup.Name == "PART_Popup");
             var outside = new Point(600, 500);
 
             for (var round = 1; round <= 3; round++)
             {
-                Click(window, Middle(window, combo));
+                PointerInput.Click(window, Middle(window, combo));
                 Assert.True(DropDown().IsOpen, "open, round " + round);
 
-                Click(window, outside);
+                PointerInput.Click(window, outside);
                 Assert.False(DropDown().IsOpen, "closed, round " + round);
                 Assert.False(combo.IsDropDownOpen, "combo closed, round " + round);
             }
@@ -161,7 +150,7 @@ namespace CMiX.UI.Tests
             ToolTip.SetIsOpen(screen.Toggle, true);
             Dispatcher.UIThread.RunJobs();
 
-            Click(screen.Window, Middle(screen.Window, screen.Below));
+            PointerInput.Click(screen.Window, Middle(screen.Window, screen.Below));
 
             Assert.Equal(1, screen.BelowClicks);
             ToolTip.SetIsOpen(screen.Toggle, false);
@@ -175,9 +164,7 @@ namespace CMiX.UI.Tests
             var other = new Button { Content = "Other", Width = 200, Height = 40, Margin = new Thickness(0, 200, 0, 0), HorizontalAlignment = HorizontalAlignment.Left };
             var requests = 0;
             other.ContextRequested += (_, e) => { requests++; e.Handled = true; };
-            var window = new Window { Content = new StackPanel { Children = { name, other } }, Width = 800, Height = 600 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(new StackPanel { Children = { name, other } }, 800, 600);
             name.IsEditing = true;
             Dispatcher.UIThread.RunJobs();
             return (window, name, other, () => requests);
@@ -192,14 +179,14 @@ namespace CMiX.UI.Tests
             var (window, name, other, menuRequests) = ShowName();
             InputOf(name).Text = "Typed";
 
-            Click(window, Middle(window, other), MouseButton.Right);
+            PointerInput.Click(window, Middle(window, other), MouseButton.Right);
 
             Assert.False(name.IsEditing);
             Assert.Equal("Layer", name.Text);
             Assert.Equal(0, menuRequests());
 
             // The edit is over: the next right click opens the menu.
-            Click(window, Middle(window, other), MouseButton.Right);
+            PointerInput.Click(window, Middle(window, other), MouseButton.Right);
             Assert.Equal(1, menuRequests());
         }
 
@@ -209,7 +196,7 @@ namespace CMiX.UI.Tests
             var (window, name, other, _) = ShowName();
             InputOf(name).Text = "Typed";
 
-            Click(window, Middle(window, other));
+            PointerInput.Click(window, Middle(window, other));
 
             Assert.False(name.IsEditing);
             Assert.Equal("Typed", name.Text);

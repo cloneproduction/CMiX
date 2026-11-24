@@ -9,6 +9,7 @@ using Avalonia.VisualTree;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Popups;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -26,9 +27,7 @@ namespace CMiX.UI.Tests
                 Margin = new Thickness(left, top, 0, 0),
             };
             ToolTip.SetTip(button, "A tip");
-            var window = new Window { Content = button, Width = 400, Height = 300 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(button, 400, 300);
             ToolTipDefaults.AnchoringOf(button)!.Bounds = new Rect(0, 0, 400, 300);
             return (window, button);
         }
@@ -45,12 +44,6 @@ namespace CMiX.UI.Tests
             var card = window.GetVisualDescendants().OfType<ToolTipCard>().First();
             var box = card.GetVisualDescendants().OfType<Border>().First(border => border.Name == "PART_Surface");
             return (card, new Rect(box.TranslatePoint(default, window)!.Value, box.Bounds.Size));
-        }
-
-        private static void Move(Window window, Point point)
-        {
-            window.MouseMove(point);
-            Dispatcher.UIThread.RunJobs();
         }
 
         [AvaloniaFact]
@@ -124,7 +117,7 @@ namespace CMiX.UI.Tests
         public void Open_WithThePointerOnTheControl_PutsTheCardAndTheTipOnThePointer()
         {
             var (window, button) = Show(width: 300);
-            Move(window, new Point(150, 110));
+            PointerInput.Move(window, new Point(150, 110));
 
             var (card, box) = Open(window, button);
 
@@ -136,10 +129,10 @@ namespace CMiX.UI.Tests
         public void Move_ThePointerWhileTheTooltipIsOpen_KeepsTheCardWhereItOpened()
         {
             var (window, button) = Show(width: 300);
-            Move(window, new Point(150, 110));
+            PointerInput.Move(window, new Point(150, 110));
             Open(window, button);
 
-            Move(window, new Point(220, 110));
+            PointerInput.Move(window, new Point(220, 110));
 
             var (card, box) = Read(window);
             Assert.Equal(150 - ToolTipDefaults.PointerAlign, box.X, 0.51);
@@ -150,7 +143,7 @@ namespace CMiX.UI.Tests
         public void Open_WithThePointerNearTheRightEdge_StopsAtTheMarginAndKeepsTheTipOnThePointer()
         {
             var (window, button) = Show(left: 20, width: 360);
-            Move(window, new Point(370, 110));
+            PointerInput.Move(window, new Point(370, 110));
 
             var (card, box) = Open(window, button);
 
@@ -176,7 +169,7 @@ namespace CMiX.UI.Tests
         {
             var (window, button) = Show(left: 150, top: 100, width: 80);
             ToolTipDefaults.SetSide(button, side);
-            Move(window, new Point(190, 110));
+            PointerInput.Move(window, new Point(190, 110));
 
             var (card, box) = Open(window, button);
 

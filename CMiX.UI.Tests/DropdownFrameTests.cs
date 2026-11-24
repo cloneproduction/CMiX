@@ -10,6 +10,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -22,8 +23,7 @@ namespace CMiX.UI.Tests
         private static (ButtonPopup Button, ToggleButton Toggle, Popup Popup) ShowButtonPopup()
         {
             var button = new ButtonPopup { Caption = "Add", PopupContent = new TextBlock { Text = "Short" }, Width = 300, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(100, 40, 0, 0) };
-            new Window { Content = button, Width = 900, Height = 500 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(button, 900, 500);
             var toggle = button.FindControl<ToggleButton>("popupToggle")!;
             return (button, toggle, button.GetLogicalDescendants().OfType<Popup>().Single());
         }
@@ -54,8 +54,7 @@ namespace CMiX.UI.Tests
 
             Open(toggle);
 
-            var expected = (ISolidColorBrush)Application.Current!.FindResource("PopupBackgroundBrush")!;
-            Assert.Equal(expected.Color, ((ISolidColorBrush)PanelOf(popup).Background!).Color);
+            Assert.Equal(Tokens.Color("PopupBackgroundBrush"), ((ISolidColorBrush)PanelOf(popup).Background!).Color);
         }
 
         [AvaloniaFact]
@@ -67,7 +66,7 @@ namespace CMiX.UI.Tests
 
             var shadowed = popup.Child!.GetVisualDescendants().OfType<Border>().Where(border => border.Effect != null).ToList();
             Assert.Single(shadowed);
-            Assert.Same(Application.Current!.FindResource("DropShadowWindow"), shadowed[0].Effect);
+            Assert.Same(Tokens.Get<object>("DropShadowWindow"), shadowed[0].Effect);
         }
 
         [AvaloniaFact]
@@ -96,10 +95,9 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void ThePanelOfAnEdgeAlignedComboBox_StartsAtTheLeftEdgeOfTheComboBox()
         {
-            var theme = (ControlTheme)Application.Current!.FindResource("ComboBoxWithButton")!;
+            var theme = Tokens.Theme("ComboBoxWithButton");
             var combo = new ComboBox { Theme = theme, ItemsSource = new[] { "One", "Two" }, SelectedIndex = 0, Width = 120, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(100, 40, 0, 0) };
-            new Window { Content = combo, Width = 900, Height = 500 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(combo, 900, 500);
 
             combo.IsDropDownOpen = true;
             Dispatcher.UIThread.RunJobs();
@@ -147,8 +145,7 @@ namespace CMiX.UI.Tests
         public void TheComboBoxDropdown_HasTheSameFrame_AndItsPanelIsAsWideAsTheComboBox()
         {
             var combo = new ComboBox { ItemsSource = new[] { "One", "Two", "Three" }, SelectedIndex = 0, Width = 220, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(100, 40, 0, 0) };
-            new Window { Content = combo, Width = 900, Height = 500 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(combo, 900, 500);
 
             combo.IsDropDownOpen = true;
             Dispatcher.UIThread.RunJobs();

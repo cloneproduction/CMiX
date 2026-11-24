@@ -8,6 +8,7 @@ using Avalonia.VisualTree;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -22,8 +23,7 @@ namespace CMiX.UI.Tests
             TogglePopup.SetToggle(popup, toggle);
             TogglePopup.SetMatchesToggleWidth(popup, matchesToggle);
             var panel = new StackPanel { Children = { toggle, popup } };
-            new Window { Content = panel, Width = 900, Height = 500 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(panel, 900, 500);
 
             toggle.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
@@ -72,8 +72,7 @@ namespace CMiX.UI.Tests
         public void TheAddPanel_IsAsWideAsItsAddToggle()
         {
             var list = new ListPanelItem { AddCaption = "Add", AddContent = new TextBlock { Text = "Short" }, Width = 400, HorizontalAlignment = HorizontalAlignment.Left };
-            new Window { Content = list, Width = 900, Height = 500 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(list, 900, 500);
 
             var toggle = list.FindControl<ToggleButton>("addToggle")!;
             toggle.IsChecked = true;
@@ -91,8 +90,7 @@ namespace CMiX.UI.Tests
         public void TheButtonPopup_IsAsWideAsItsToggle()
         {
             var button = new ButtonPopup { Caption = "Pick", PopupContent = new TextBlock { Text = "Short" }, Width = 320, HorizontalAlignment = HorizontalAlignment.Left };
-            new Window { Content = button, Width = 900, Height = 500 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(button, 900, 500);
 
             var toggle = button.FindControl<ToggleButton>("popupToggle")!;
             toggle.IsChecked = true;
