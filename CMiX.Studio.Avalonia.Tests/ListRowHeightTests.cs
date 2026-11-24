@@ -6,6 +6,7 @@ using Avalonia.VisualTree;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Controls.ColorPicker;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -13,8 +14,12 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Every control is as high as a row, so a row fits its content and the rows are apart by the token ListSpacing.
-    public class ListRowHeightTests
+    public class ListRowHeightTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static double Token(string key) => (double)Application.Current!.FindResource(key)!;
 
         [AvaloniaFact]
@@ -25,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Tests
             palette.ColorManager.AddItem(typeof(Color));
             palette.ColorManager.AddItem(typeof(Color));
             var view = new Views.ColorPaletteModifier { DataContext = palette };
-            new Window { Content = view, Width = 600, Height = 900 }.Show();
+            windows.Add(new Window { Content = view, Width = 600, Height = 900 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             var rows = view.GetVisualDescendants().OfType<ListBoxItem>().ToList();

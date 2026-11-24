@@ -6,6 +6,7 @@ using CMiX.Core;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
@@ -21,12 +22,16 @@ namespace CMiX.Studio.Avalonia.Tests
     // which resolves by exact type name to the full settings editing view (for example
     // Views.CheckerBoard, the heavy editor panel) instead of the small ListItemIcon row used
     // by every other prefab type.
-    public class ListTemplateRegressionTests
+    public class ListTemplateRegressionTests : IDisposable
     {
-        private static ListRepository CreateShownListRepository()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private ListRepository CreateShownListRepository()
         {
             var repositoryManager = new ListRepository();
-            var window = new Window { Content = repositoryManager, Width = 400, Height = 600 };
+            var window = windows.Add(new Window { Content = repositoryManager, Width = 400, Height = 600 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return repositoryManager;

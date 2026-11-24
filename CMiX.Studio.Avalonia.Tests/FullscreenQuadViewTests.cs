@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Panels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -11,14 +12,18 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The engine applies the transform of the diffuse texture, so the Transform Texture panel of the quad shows that one.
-    public class FullscreenQuadViewTests
+    public class FullscreenQuadViewTests : IDisposable
     {
-        private static (FullscreenQuad Quad, ExpanderIndented Expander) ShowTransformTexture()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (FullscreenQuad Quad, ExpanderIndented Expander) ShowTransformTexture()
         {
             var factory = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
             var quad = (FullscreenQuad)factory.Create(typeof(FullscreenQuad));
             var view = new Views.FullscreenQuad { DataContext = quad };
-            new Window { Content = new ScrollViewer { Content = view }, Width = 400, Height = 1200 }.Show();
+            windows.Add(new Window { Content = new ScrollViewer { Content = view }, Width = 400, Height = 1200 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             var expander = view.GetVisualDescendants().OfType<ExpanderIndented>()

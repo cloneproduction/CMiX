@@ -12,6 +12,7 @@ using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls.Collection;
 using CMiX.UI.Controls.Parts;
@@ -21,15 +22,19 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The toggle of the slot that opens the list of the items of the repository.
-    public class ListPrefabSlotSwapToggleTests
+    public class ListPrefabSlotSwapToggleTests : IDisposable
     {
-        private static (ListPrefabSlot View, ObservableCollection<IControl> Repository, IServiceProvider Provider) Show()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (ListPrefabSlot View, ObservableCollection<IControl> Repository, IServiceProvider Provider) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = provider.GetRequiredService<PrefabManager>();
             var repository = new ObservableCollection<IControl>();
             var view = new ListPrefabSlot { DataContext = manager, ItemsSource = repository };
-            new Window { Content = view, Width = 400, Height = 400 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 400 }).Show();
             Dispatcher.UIThread.RunJobs();
             return (view, repository, provider);
         }
@@ -115,7 +120,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(1, list.HighlightedIndex);
         }
 
-        private static (ListPrefabSlot View, PrefabManager Manager, Popup Popup, ListSearchableItemPicker List) ShowWithOpenPopup(int repositoryItems)
+        private (ListPrefabSlot View, PrefabManager Manager, Popup Popup, ListSearchableItemPicker List) ShowWithOpenPopup(int repositoryItems)
         {
             var (view, repository, provider) = Show();
             var factory = provider.GetRequiredService<ControlFactory>();

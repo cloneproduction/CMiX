@@ -9,6 +9,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Controls.Collection;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
@@ -16,13 +17,17 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The list with a search field. The rows are the items whose text holds the text of the field.
-    public class ListSearchableItemPickerTests
+    public class ListSearchableItemPickerTests : IDisposable
     {
         private sealed record Item(string Name);
 
         private static readonly string[] Names = { "Cube", "Camera Rig", "Sphere", "Cylinder", "Plane" };
 
-        private static (Window Window, ListSearchableItemPicker List, ObservableCollection<Item> Items) Show(Action<object?>? onPick = null)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (Window Window, ListSearchableItemPicker List, ObservableCollection<Item> Items) Show(Action<object?>? onPick = null)
         {
             var items = new ObservableCollection<Item>(Names.Select(name => new Item(name)));
             var list = new ListSearchableItemPicker
@@ -32,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 ItemCommand = onPick == null ? null : new RelayCommand<object>(item => onPick(item)),
                 Width = 200
             };
-            var window = new Window { Content = list, Width = 400, Height = 600 };
+            var window = windows.Add(new Window { Content = list, Width = 400, Height = 600 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (window, list, items);
@@ -274,7 +279,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var items = new ObservableCollection<Item>(Enumerable.Range(1, 40).Select(i => new Item($"Entity {i}")));
             var list = new ListSearchableItemPicker { ItemsSource = items, TextPath = nameof(Item.Name), Width = 200 };
-            new Window { Content = list, Width = 400, Height = 800 }.Show();
+            windows.Add(new Window { Content = list, Width = 400, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             for (var i = 0; i < 15; i++)
@@ -466,7 +471,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var source = new CountingSource();
             var list = new ListSearchableItemPicker { ItemsSource = source, TextPath = nameof(Item.Name) };
-            var window = new Window { Content = list, Width = 400, Height = 600 };
+            var window = windows.Add(new Window { Content = list, Width = 400, Height = 600 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             Assert.Equal(1, source.HandlerCount);
@@ -484,7 +489,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var source = new CountingSource();
             var list = new ListSearchableItemPicker { ItemsSource = source, TextPath = nameof(Item.Name) };
-            var window = new Window { Content = list, Width = 400, Height = 600 };
+            var window = windows.Add(new Window { Content = list, Width = 400, Height = 600 });
             window.Show();
             window.Content = null;
             Dispatcher.UIThread.RunJobs();

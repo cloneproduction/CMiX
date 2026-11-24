@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Controls.Collection;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
@@ -12,17 +13,21 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The list of rows in a popup. A long list scrolls inside the popup and does not leave the screen.
-    public class ListItemPickerTests
+    public class ListItemPickerTests : IDisposable
     {
         private sealed record Item(string Name);
 
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static double Token(string key) => System.Convert.ToDouble(Application.Current!.FindResource(key)!);
 
-        private static (ListItemPicker List, ObservableCollection<Item> Items) Show(int count, ICommand? command = null)
+        private (ListItemPicker List, ObservableCollection<Item> Items) Show(int count, ICommand? command = null)
         {
             var items = new ObservableCollection<Item>(Enumerable.Range(1, count).Select(i => new Item($"Entity {i}")));
             var list = new ListItemPicker { ItemsSource = items, TextPath = nameof(Item.Name), ItemCommand = command, Width = 200 };
-            new Window { Content = list, Width = 400, Height = 1000 }.Show();
+            windows.Add(new Window { Content = list, Width = 400, Height = 1000 }).Show();
             Dispatcher.UIThread.RunJobs();
             return (list, items);
         }

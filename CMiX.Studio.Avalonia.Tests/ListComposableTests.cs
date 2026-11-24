@@ -11,6 +11,7 @@ using Avalonia.VisualTree;
 using CMiX.Core;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -22,9 +23,13 @@ namespace CMiX.Studio.Avalonia.Tests
     // The list box of Avalonia can lose its selection when the selected item moves (Avalonia issue 16279).
     // Whatever repairs it, the selection of the model and the selection shown must stay on the moved item.
     // A list box of Avalonia clears its selection on a click with the Ctrl key. The list and the model must not disagree afterwards.
-    public class ListComposableTests
+    public class ListComposableTests : IDisposable
     {
-        private static (PrefabManager Layers, ListBox List, List<IControl> Items) Show()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (PrefabManager Layers, ListBox List, List<IControl> Items) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var compositions = provider.GetRequiredService<PrefabManager>();
@@ -34,7 +39,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 layers.AddItem(typeof(Layer));
 
             var view = new ListComposable { ItemType = typeof(Layer), DataContext = layers };
-            new Window { Content = view, Width = 400, Height = 300 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 300 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             return (layers, view.GetVisualDescendants().OfType<ListBox>().First(), layers.ManagerData.Items.ToList());
@@ -93,7 +98,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 layers.AddItem(typeof(Layer));
 
             var view = new ListComposable { ItemType = typeof(Layer), DataContext = layers };
-            var window = new Window { Content = view, Width = 400, Height = 300 };
+            var window = windows.Add(new Window { Content = view, Width = 400, Height = 300 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             var list = view.GetVisualDescendants().OfType<ListBox>().First();

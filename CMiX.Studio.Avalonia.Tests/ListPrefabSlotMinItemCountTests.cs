@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls;
@@ -12,8 +13,12 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The list of a ListPrefabSlot shows the number of rows that the application asks for, and the
     // token ListVisibleItems when it asks for none.
-    public class ListPrefabSlotMinItemCountTests
+    public class ListPrefabSlotMinItemCountTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static T Token<T>(string key)
         {
             var application = Application.Current!;
@@ -29,9 +34,9 @@ namespace CMiX.Studio.Avalonia.Tests
             return rows * (Token<double>("ControlHeightMD") + spacing) - spacing + margin.Top + margin.Bottom;
         }
 
-        private static ListBoxCMiX Show(ListPrefabSlot manager)
+        private ListBoxCMiX Show(ListPrefabSlot manager)
         {
-            new Window { Content = manager, Width = 400, Height = 600 }.Show();
+            windows.Add(new Window { Content = manager, Width = 400, Height = 600 }).Show();
             Dispatcher.UIThread.RunJobs();
             return manager.GetVisualDescendants().OfType<ListBoxCMiX>().Single();
         }
@@ -58,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheTextureList_HasTwoRows()
         {
             var texture = new DiffuseTexture();
-            new Window { Content = texture, Width = 400, Height = 800 }.Show();
+            windows.Add(new Window { Content = texture, Width = 400, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
             var list = texture.GetVisualDescendants().OfType<ListBoxCMiX>().First();
 
@@ -70,7 +75,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheTextureListInTheMask_IsOneMarginFromTheEdge()
         {
             var mask = new MaskTexture();
-            new Window { Content = mask, Width = 400, Height = 800 }.Show();
+            windows.Add(new Window { Content = mask, Width = 400, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
 
             var manager = mask.GetVisualDescendants().OfType<ListPrefabSlot>().First();

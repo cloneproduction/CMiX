@@ -5,6 +5,7 @@ using Avalonia.VisualTree;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,9 +15,13 @@ using ViewIntegratorModulator = CMiX.Studio.Avalonia.Views.IntegratorModulator;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The values and the Reset button of an IntegratorModulator in the window.
-    public class IntegratorModulatorViewTests
+    public class IntegratorModulatorViewTests : IDisposable
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
+
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
 
         private IntegratorModulator NewModulator()
         {
@@ -25,10 +30,10 @@ namespace CMiX.Studio.Avalonia.Tests
             return (IntegratorModulator)blur.ModulatorManager.SelectedItem;
         }
 
-        private static ViewIntegratorModulator Show(IntegratorModulator modulator)
+        private ViewIntegratorModulator Show(IntegratorModulator modulator)
         {
             var view = new ViewIntegratorModulator { DataContext = modulator };
-            new Window { Content = view, Width = 400, Height = 400 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 400 }).Show();
             Dispatcher.UIThread.RunJobs();
             return view;
         }

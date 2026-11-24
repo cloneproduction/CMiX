@@ -3,6 +3,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -10,15 +11,19 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The remove, move up and move down buttons of the slot act on the items inside it.
-    public class ListPrefabSlotItemButtonsTests
+    public class ListPrefabSlotItemButtonsTests : IDisposable
     {
         private static readonly string[] ButtonNames = { "removeButton", "moveUpButton", "moveDownButton" };
 
-        private static (ListPrefabSlot View, PrefabManager Manager) Show()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (ListPrefabSlot View, PrefabManager Manager) Show()
         {
             var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
             var view = new ListPrefabSlot { DataContext = manager };
-            new Window { Content = view, Width = 400, Height = 400 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 400 }).Show();
             Dispatcher.UIThread.RunJobs();
             return (view, manager);
         }

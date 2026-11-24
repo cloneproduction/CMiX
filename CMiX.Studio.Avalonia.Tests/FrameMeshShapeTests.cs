@@ -6,6 +6,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,12 +14,16 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class FrameMeshShapeTests
+    public class FrameMeshShapeTests : IDisposable
     {
-        private static Control Show(Control view)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private Control Show(Control view)
         {
             view.DataContext = TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Mesh));
-            new Window { Content = view, Width = 400, Height = 900 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 900 }).Show();
             Dispatcher.UIThread.RunJobs();
             return view;
         }

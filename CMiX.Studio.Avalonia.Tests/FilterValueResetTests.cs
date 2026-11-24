@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Controls.Number;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -11,15 +12,19 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The right-click menu of a filter value must reset it to its default.
-    public class FilterValueResetTests
+    public class FilterValueResetTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         [AvaloniaFact]
         public void Reset_TheMenuOfADragValue_RestoresTheDefault()
         {
             var provider = TestServiceProviderFactory.Create();
             var hscb = (HSCB)provider.GetRequiredService<ControlFactory>().Create(typeof(HSCB));
             var view = new Views.HSCB { DataContext = hscb };
-            var window = new Window { Content = view, Width = 500, Height = 800 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 800 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

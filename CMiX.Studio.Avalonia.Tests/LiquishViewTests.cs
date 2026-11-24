@@ -7,6 +7,7 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.Controls.ColorPicker;
 using CMiX.UI.Controls.Number;
@@ -16,15 +17,19 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // Liquish view: the time row, the scale, three colors and the resolution.
-    public class LiquishViewTests
+    public class LiquishViewTests : IDisposable
     {
-        private static (Liquish Source, Views.Liquish View) Show()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (Liquish Source, Views.Liquish View) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var source = (Liquish)provider.GetRequiredService<ControlFactory>().Create(typeof(Liquish));
 
             var view = new Views.Liquish { DataContext = source };
-            var window = new Window { Content = view, Width = 500, Height = 900 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 900 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (source, view);

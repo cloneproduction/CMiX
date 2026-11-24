@@ -7,6 +7,7 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.Controls.ColorPicker;
 using CMiX.UI.Controls.Number;
@@ -17,15 +18,19 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // GradientMesh view: the time and rotation rows, four colors, the type and the resolution.
-    public class GradientMeshViewTests
+    public class GradientMeshViewTests : IDisposable
     {
-        private static (GradientMesh Source, Views.GradientMesh View) Show()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (GradientMesh Source, Views.GradientMesh View) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var source = (GradientMesh)provider.GetRequiredService<ControlFactory>().Create(typeof(GradientMesh));
 
             var view = new Views.GradientMesh { DataContext = source };
-            var window = new Window { Content = view, Width = 500, Height = 900 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 900 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (source, view);
