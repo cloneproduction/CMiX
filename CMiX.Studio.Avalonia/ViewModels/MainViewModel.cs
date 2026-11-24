@@ -42,8 +42,13 @@ namespace CMiX.Studio.Avalonia.ViewModels
             Shortcuts = shortcuts;
             Interface = interfaceState;
             ShortcutSettings = new ShortcutSettings(shortcuts);
-            UndoCommand = new RelayCommand(undoManager.Undo);
-            RedoCommand = new RelayCommand(undoManager.Redo);
+            UndoCommand = new RelayCommand(undoManager.Undo, () => undoManager.CanUndo);
+            RedoCommand = new RelayCommand(undoManager.Redo, () => undoManager.CanRedo);
+            undoManager.Changed += () =>
+            {
+                UndoCommand.NotifyCanExecuteChanged();
+                RedoCommand.NotifyCanExecuteChanged();
+            };
             BeginUndoCaptureCommand = new RelayCommand(undoManager.BeginCapture);
             EndUndoCaptureCommand = new RelayCommand(undoManager.EndCapture);
             PathDropRules = pathDropRules;

@@ -21,6 +21,9 @@ namespace CMiX.Core.Undo
         public int StepCount => _undoStack.Count;
         public int RedoStepCount => _redoStack.Count;
 
+        // Fires once after each public operation that changes the undo or the redo stack.
+        public event Action Changed;
+
         public void SuppressUndo() => _groupDepth++;
         public void ResumeUndo() => _groupDepth = Math.Max(0, _groupDepth - 1);
 
@@ -42,12 +45,14 @@ namespace CMiX.Core.Undo
             {
                 lastNode.Value = vc.WithBefore(lastVc.Before);
                 DropRedoStack();
+                RaiseChanged();
                 return;
             }
 
             _undoStack.AddLast(command);
             DropRedoStack();
             TrimStack();
+            RaiseChanged();
         }
 
         private List<IUndoCommand> _captureList = null;
@@ -80,6 +85,7 @@ namespace CMiX.Core.Undo
             _undoStack.AddLast(new CompositeUndoCommand(commands));
             DropRedoStack();
             TrimStack();
+            RaiseChanged();
         }
 
         // Ends the capture and undoes, newest first, what it captured since its BeginCapture. Nothing goes on the undo stack.
@@ -127,6 +133,7 @@ namespace CMiX.Core.Undo
             }
 
             _redoStack.Push(command);
+            RaiseChanged();
         }
 
         public void Redo()
@@ -145,6 +152,7 @@ namespace CMiX.Core.Undo
             }
 
             _undoStack.AddLast(command);
+            RaiseChanged();
         }
 
         public void Clear()
@@ -153,7 +161,10 @@ namespace CMiX.Core.Undo
                 DropCommand(command);
             _undoStack.Clear();
             DropRedoStack();
+            RaiseChanged();
         }
+
+        private void RaiseChanged() => Changed?.Invoke();
 
         private void TrimStack()
         {

@@ -88,6 +88,22 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void UndoItem_WithAnEmptyStack_IsDisabledUntilAStepIsPushed()
+        {
+            var (_, window, viewModel) = windows.ShowMainWindow();
+
+            // The command sets IsEffectivelyEnabled. IsEnabled stays true.
+            Assert.False(MenuMainRows.OpenRow(window, "Edit", "Undo").IsEffectivelyEnabled);
+            Assert.False(MenuMainRows.OpenRow(window, "Edit", "Redo").IsEffectivelyEnabled);
+
+            viewModel.TextureManager.AddItem(typeof(CheckerBoard));
+            TestServiceProviderFactory.Pump();
+
+            Assert.True(MenuMainRows.OpenRow(window, "Edit", "Undo").IsEffectivelyEnabled);
+            Assert.False(MenuMainRows.OpenRow(window, "Edit", "Redo").IsEffectivelyEnabled);
+        }
+
+        [AvaloniaFact]
         public void QuitCommand_Execute_RaisesQuitRequested()
         {
             var menu = TestServiceProviderFactory.Create().GetRequiredService<MainMenuViewModel>();

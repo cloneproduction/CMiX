@@ -84,6 +84,40 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Changed_OnPushUndoRedoAndClear_FiresOncePerOperation()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var count = 0;
+            undoManager.Changed += () => count++;
+
+            undoManager.Push(new RecordingUndoCommand(1, new List<int>()));
+            Assert.Equal(1, count);
+            undoManager.Undo();
+            Assert.Equal(2, count);
+            undoManager.Redo();
+            Assert.Equal(3, count);
+            undoManager.Clear();
+            Assert.Equal(4, count);
+        }
+
+        [Fact]
+        public void Changed_OnAMergedPush_FiresOnce()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var control = CreateActiveDouble(provider);
+            control.Value = 1d;
+            var count = 0;
+            undoManager.Changed += () => count++;
+
+            control.Value = 2d;
+
+            Assert.Equal(1, count);
+            Assert.Equal(1, undoManager.StepCount);
+        }
+
+        [Fact]
         public void TrimStack_OverMaxSteps_DropsTheOldestEntriesFirst()
         {
             var provider = TestServiceProviderFactory.Create();
