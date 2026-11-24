@@ -24,20 +24,15 @@ namespace CMiX.Studio.Avalonia.Tests
     // Files from disk over the list tree: the rules of TreeFileDropRules, the marks of the drop, the outline of the target.
     public class ListTreeFileDropTests : IDisposable
     {
-        private readonly string folder = Path.Combine(Path.GetTempPath(), "cmix-list-tree-drop-" + Guid.NewGuid().ToString("N"));
+        private readonly TempFolder temp = new("list-tree-drop");
         private Window? window;
         private ListTreeProject? view;
         private Scene? scene;
 
-        public ListTreeFileDropTests()
-        {
-            Directory.CreateDirectory(folder);
-        }
-
         public void Dispose()
         {
             window?.Close();
-            Directory.Delete(folder, true);
+            temp.Dispose();
         }
 
         private ListTreeProject View => view!;
@@ -55,13 +50,6 @@ namespace CMiX.Studio.Avalonia.Tests
             view = screen.View;
             window = screen.Window;
             scene.ClearUndo();
-        }
-
-        private string NewFile(string name)
-        {
-            var path = Path.Combine(folder, name);
-            File.WriteAllText(path, "x");
-            return path;
         }
 
         private DataObject FilesOf(params string[] paths)
@@ -103,7 +91,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             Show([]);
 
-            Drag(UnderTheRows(), FilesOf(NewFile("one.png")), RawDragEventType.Drop);
+            Drag(UnderTheRows(), FilesOf(temp.File("one.png")), RawDragEventType.Drop);
 
             var layer = (CMiX.Core.Compositing.Layer)CompositionAt(0).LayerManager.ManagerData.Items[0];
             Assert.Single(layer.ModelEntityManager.ManagerData.Items);
@@ -114,7 +102,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             Show([1]);
 
-            Drag(RowPoint(Shown.CompositionNode), FilesOf(NewFile("one.png")), RawDragEventType.Drop);
+            Drag(RowPoint(Shown.CompositionNode), FilesOf(temp.File("one.png")), RawDragEventType.Drop);
 
             Assert.Equal(2, CompositionAt(0).LayerManager.ManagerData.Items.Count);
         }
@@ -125,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Show([1]);
             var before = Shown.Layer.ModelEntityManager.ManagerData.Items.Count;
 
-            Drag(RowPoint(TextureModifiers), FilesOf(NewFile("one.png")), RawDragEventType.Drop);
+            Drag(RowPoint(TextureModifiers), FilesOf(temp.File("one.png")), RawDragEventType.Drop);
 
             Assert.Equal(before + 1, Shown.Layer.ModelEntityManager.ManagerData.Items.Count);
         }
@@ -134,7 +122,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void DragOver_FilesOverEachRow_MarksOnlyTheRowThatTakesThem()
         {
             Show([1]);
-            var data = FilesOf(NewFile("one.png"));
+            var data = FilesOf(temp.File("one.png"));
 
             Drag(RowPoint(Shown.LayerNode), data, RawDragEventType.DragOver);
             Assert.Same(Shown.LayerNode, Rows.Surfaces.DropTarget);
@@ -159,7 +147,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Show([1]);
             var layer = Shown.LayerNode;
 
-            Drag(RowPoint(layer), FilesOf(NewFile("one.png")), RawDragEventType.DragOver);
+            Drag(RowPoint(layer), FilesOf(temp.File("one.png")), RawDragEventType.DragOver);
 
             var place = Rows.Layout.PlaceOf(ListTreeKeys.Of(layer))!;
             var outline = Rows.Surfaces.Outline;
@@ -175,7 +163,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void DragLeave_AfterADragOverARow_TakesTheMarkAway()
         {
             Show([1]);
-            var data = FilesOf(NewFile("one.png"));
+            var data = FilesOf(temp.File("one.png"));
             Drag(RowPoint(Shown.LayerNode), data, RawDragEventType.DragOver);
 
             window!.DragDrop(new Point(-10, -10), RawDragEventType.DragLeave, data, DragDropEffects.Copy);
@@ -190,7 +178,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             Show([]);
 
-            Drag(UnderTheRows(), FilesOf(NewFile("notes.xyz")), RawDragEventType.Drop);
+            Drag(UnderTheRows(), FilesOf(temp.File("notes.xyz")), RawDragEventType.Drop);
 
             Assert.Empty(Shown.Project.CompositionManager.ManagerData.Items);
         }
@@ -201,7 +189,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Show([3]);
             var edge = View.Scroller.TranslatePoint(new Point(200, View.Scroller.Bounds.Height - 4), window!)!.Value;
 
-            Drag(edge, FilesOf(NewFile("notes.xyz")), RawDragEventType.DragOver);
+            Drag(edge, FilesOf(temp.File("notes.xyz")), RawDragEventType.DragOver);
 
             Assert.False(View.AutoScroll.IsRunning);
         }

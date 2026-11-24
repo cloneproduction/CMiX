@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Tests
     {
         private const double PressX = 120;
 
-        private readonly string folder = Path.Combine(Path.GetTempPath(), "cmix-list-tree-scroll-" + Guid.NewGuid().ToString("N"));
+        private readonly TempFolder temp = new("list-tree-scroll");
         private readonly Scene scene;
         private readonly Window window;
         private readonly ListTreeProject view;
@@ -31,7 +31,6 @@ namespace CMiX.Studio.Avalonia.Tests
         // Every card is open, and the window shows only a part of the rows.
         public ListTreeAutoScrollTests()
         {
-            Directory.CreateDirectory(folder);
             scene = CreateScene([2, 1], s => AddKinds(s.Layer));
             TestServiceProviderFactory.ExpandAll(scene.Tree);
             var screen = ListTreeTestScreen.Show(scene.Tree, 400, 300);
@@ -42,7 +41,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Dispose()
         {
             window.Close();
-            Directory.Delete(folder, true);
+            temp.Dispose();
         }
 
         private PanelListTreeRows Panel => view.Rows;
@@ -64,8 +63,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private DataObject FileData()
         {
-            var path = Path.Combine(folder, "one.png");
-            File.WriteAllText(path, "x");
+            var path = temp.File("one.png");
             var data = new DataObject();
             data.Set(DataFormats.Files, new[] { (IStorageItem)window.StorageProvider.TryGetFileFromPathAsync(new Uri(path)).GetAwaiter().GetResult()! });
             return data;

@@ -25,13 +25,12 @@ namespace CMiX.Studio.Avalonia.Tests
         private sealed record Screen(Window Window, TextBoxSearchTree Box, ListTreeProject View);
 
         private Window? window;
-        private readonly string folder = Path.Combine(Path.GetTempPath(), $"cmix-interface-{Guid.NewGuid():N}");
+        private readonly TempFolder temp = new("interface", create: false);
 
         public void Dispose()
         {
             window?.Close();
-            if (Directory.Exists(folder))
-                Directory.Delete(folder, true);
+            temp.Dispose();
         }
 
         // The search field over the tree, as in the bar of the panel. The width is the width of one side panel of the main window.
@@ -214,7 +213,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void ShowKeyHints_Changed_IsSavedAndKeepsTheRedisSettings()
         {
-            var path = Path.Combine(folder, StudioSettings.FileName);
+            var path = temp.PathOf(StudioSettings.FileName);
             new StudioSettings { Redis = new RedisSettings { Ip = "10.0.0.2", Port = 6390 } }.Save(path);
             var options = new InterfaceOptions(path);
             options.Load();
@@ -234,9 +233,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void Load_AFileWithNoInterface_ShowsTheKeyHints()
         {
-            var path = Path.Combine(folder, StudioSettings.FileName);
-            Directory.CreateDirectory(folder);
-            File.WriteAllText(path, JsonSerializer.Serialize(new { Redis = new { Ip = "127.0.0.1" } }));
+            var path = temp.File(StudioSettings.FileName, JsonSerializer.Serialize(new { Redis = new { Ip = "127.0.0.1" } }));
 
             var options = new InterfaceOptions(path);
             options.Load();

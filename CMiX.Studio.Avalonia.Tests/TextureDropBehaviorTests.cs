@@ -5,6 +5,7 @@ using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Behaviors;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -15,25 +16,13 @@ namespace CMiX.Studio.Avalonia.Tests
     // Files dropped on a texture list become textures that point to the files.
     public class TextureDropBehaviorTests : IDisposable
     {
-        private readonly string _folder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "cmix-drop-" + Guid.NewGuid().ToString("N"));
+        private readonly TempFolder temp = new("drop");
 
-        public TextureDropBehaviorTests()
-        {
-            Directory.CreateDirectory(_folder);
-        }
-
-        public void Dispose() => Directory.Delete(_folder, true);
+        public void Dispose() => temp.Dispose();
 
         private sealed class Dropper : TextureDropBehavior
         {
             public void Drop(IReadOnlyList<string> paths) => OnPathsDropped(paths);
-        }
-
-        private string NewFile(string name)
-        {
-            var path = System.IO.Path.Combine(_folder, name);
-            File.WriteAllText(path, "x");
-            return path;
         }
 
         private static (PrefabManager Textures, UndoManager Undo, Dropper Dropper) Show()
@@ -48,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ADroppedImage_BecomesAnImageTextureThatPointsToTheFile()
         {
             var (textures, _, dropper) = Show();
-            var path = NewFile("one.png");
+            var path = temp.File("one.png");
 
             dropper.Drop(new[] { path });
 
@@ -63,7 +52,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (textures, undo, dropper) = Show();
             undo.Clear();
 
-            dropper.Drop(new[] { NewFile("one.png") });
+            dropper.Drop(new[] { temp.File("one.png") });
             undo.Undo();
 
             Assert.Empty(textures.ManagerData.Items);
@@ -75,20 +64,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var (textures, undo, dropper) = Show();
             undo.Clear();
 
-            dropper.Drop(new[] { NewFile("one.png"), NewFile("two.png"), NewFile("clip.mp4") });
+            dropper.Drop(new[] { temp.File("one.png"), temp.File("two.png"), temp.File("clip.mp4") });
             Assert.Equal(3, textures.ManagerData.Items.Count);
             undo.Undo();
 
             Assert.Empty(textures.ManagerData.Items);
-        }
-
-        private string NewFolder(string name, params string[] files)
-        {
-            var folder = System.IO.Path.Combine(_folder, name);
-            Directory.CreateDirectory(folder);
-            foreach (var file in files)
-                File.WriteAllText(System.IO.Path.Combine(folder, file), "x");
-            return folder;
         }
 
         [AvaloniaFact]
@@ -101,7 +81,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ADroppedFolderWithImages_BecomesASequencePlayerThatPointsToTheFolder()
         {
             var (textures, _, dropper) = Show();
-            var folder = NewFolder("frames", "frame_0001.png", "frame_0002.png");
+            var folder = temp.Folder("frames", "frame_0001.png", "frame_0002.png");
 
             dropper.Drop(new[] { folder });
 
@@ -115,7 +95,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (textures, _, dropper) = Show();
 
-            dropper.Drop(new[] { NewFolder("docs", "notes.txt") });
+            dropper.Drop(new[] { temp.Folder("docs", "notes.txt") });
 
             Assert.Empty(textures.ManagerData.Items);
         }
@@ -126,7 +106,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (textures, undo, dropper) = Show();
             undo.Clear();
 
-            dropper.Drop(new[] { NewFolder("frames", "frame_0001.png") });
+            dropper.Drop(new[] { temp.Folder("frames", "frame_0001.png") });
             undo.Undo();
 
             Assert.Empty(textures.ManagerData.Items);
@@ -137,7 +117,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (textures, _, dropper) = Show();
 
-            dropper.Drop(new[] { NewFile("notes.txt") });
+            dropper.Drop(new[] { temp.File("notes.txt") });
 
             Assert.Empty(textures.ManagerData.Items);
         }

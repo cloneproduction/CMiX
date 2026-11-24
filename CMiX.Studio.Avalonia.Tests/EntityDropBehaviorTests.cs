@@ -13,6 +13,7 @@ using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.Behaviors;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Behaviors;
@@ -30,35 +31,15 @@ namespace CMiX.Studio.Avalonia.Tests
     // Files and folders dropped on an entity list become entities that point to them.
     public class EntityDropBehaviorTests : IDisposable
     {
-        private readonly string _folder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "cmix-entity-drop-" + Guid.NewGuid().ToString("N"));
+        private readonly TempFolder temp = new("entity-drop");
 
-        public EntityDropBehaviorTests()
-        {
-            Directory.CreateDirectory(_folder);
-        }
-
-        public void Dispose() => Directory.Delete(_folder, true);
+        public void Dispose() => temp.Dispose();
 
         private sealed class Dropper : EntityDropBehavior
         {
             public void Drop(IReadOnlyList<string> paths) => OnPathsDropped(paths);
         }
 
-        private string NewFile(string name)
-        {
-            var path = System.IO.Path.Combine(_folder, name);
-            File.WriteAllText(path, "x");
-            return path;
-        }
-
-        private string NewFolder(string name, params string[] files)
-        {
-            var folder = System.IO.Path.Combine(_folder, name);
-            Directory.CreateDirectory(folder);
-            foreach (var file in files)
-                File.WriteAllText(System.IO.Path.Combine(folder, file), "x");
-            return folder;
-        }
 
         private static (PrefabManager Entities, UndoManager Undo, Dropper Dropper) Show()
         {
@@ -98,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Drop_AFolderWithImages_AddsAQuadWithASequencePlayer()
         {
             var (entities, _, dropper) = Show();
-            var folder = NewFolder("frames", "frame_0001.png");
+            var folder = temp.Folder("frames", "frame_0001.png");
 
             dropper.Drop(new[] { folder });
 
@@ -113,7 +94,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (entities, _, dropper) = Show();
 
-            dropper.Drop(new[] { NewFolder("docs", "notes.txt") });
+            dropper.Drop(new[] { temp.Folder("docs", "notes.txt") });
 
             Assert.Empty(entities.ManagerData.Items);
         }
@@ -122,7 +103,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Drop_AnImage_AddsAnEntityWithTheImage()
         {
             var (entities, _, dropper) = Show();
-            var path = NewFile("one.png");
+            var path = temp.File("one.png");
 
             dropper.Drop(new[] { path });
 
@@ -136,7 +117,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Drop_AVideo_AddsAnEntityWithAVideoPlayer()
         {
             var (entities, _, dropper) = Show();
-            var path = NewFile("clip.mp4");
+            var path = temp.File("clip.mp4");
 
             dropper.Drop(new[] { path });
 
@@ -150,7 +131,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Drop_AGeometryFile_AddsAnEntityWithThatMesh()
         {
             var (entities, _, dropper) = Show();
-            var path = NewFile("model.obj");
+            var path = temp.File("model.obj");
 
             dropper.Drop(new[] { path });
 
@@ -165,7 +146,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (entities, _, dropper) = Show();
 
-            dropper.Drop(new[] { NewFile("notes.xyz") });
+            dropper.Drop(new[] { temp.File("notes.xyz") });
 
             Assert.Empty(entities.ManagerData.Items);
         }
@@ -174,8 +155,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Drop_ATextFile_AddsATextEntityWithTheTextOfTheFile()
         {
             var (entities, _, dropper) = Show();
-            var path = System.IO.Path.Combine(_folder, "notes.txt");
-            File.WriteAllText(path, "Hello\nWorld");
+            var path = temp.File("notes.txt", "Hello\nWorld");
 
             dropper.Drop(new[] { path });
 
@@ -189,7 +169,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (entities, undo, dropper) = Show();
             undo.Clear();
 
-            dropper.Drop(new[] { NewFile("notes.txt") });
+            dropper.Drop(new[] { temp.File("notes.txt") });
             undo.Undo();
 
             Assert.Empty(entities.ManagerData.Items);
@@ -199,8 +179,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Drop_ATextFileThatIsTooLarge_AddsNothing()
         {
             var (entities, _, dropper) = Show();
-            var path = System.IO.Path.Combine(_folder, "big.txt");
-            File.WriteAllText(path, new string('a', (int)Studio.Avalonia.Services.PathDropService.MaxTextBytes + 1));
+            var path = temp.File("big.txt", new string('a', (int)Studio.Avalonia.Services.PathDropService.MaxTextBytes + 1));
 
             dropper.Drop(new[] { path });
 
@@ -213,7 +192,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (entities, undo, dropper) = Show();
             undo.Clear();
 
-            dropper.Drop(new[] { NewFile("one.png") });
+            dropper.Drop(new[] { temp.File("one.png") });
             undo.Undo();
 
             Assert.Empty(entities.ManagerData.Items);
@@ -225,7 +204,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (entities, undo, dropper) = Show();
             undo.Clear();
 
-            dropper.Drop(new[] { NewFolder("frames", "frame_0001.png") });
+            dropper.Drop(new[] { temp.Folder("frames", "frame_0001.png") });
             undo.Undo();
 
             Assert.Empty(entities.ManagerData.Items);
@@ -237,7 +216,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (entities, undo, dropper) = Show();
             undo.Clear();
 
-            dropper.Drop(new[] { NewFile("model.obj") });
+            dropper.Drop(new[] { temp.File("model.obj") });
             undo.Undo();
 
             Assert.Empty(entities.ManagerData.Items);
@@ -249,7 +228,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (entities, undo, dropper) = Show();
             undo.Clear();
 
-            dropper.Drop(new[] { NewFile("one.png"), NewFile("model.obj"), NewFile("notes.txt") });
+            dropper.Drop(new[] { temp.File("one.png"), temp.File("model.obj"), temp.File("notes.txt") });
             Assert.Equal(3, entities.ManagerData.Items.Count);
             undo.Undo();
 

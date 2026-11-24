@@ -1,6 +1,7 @@
 using System.IO;
 using Avalonia.Input;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using Xunit;
 
@@ -9,15 +10,11 @@ namespace CMiX.Studio.Avalonia.Tests
     // The view model of the Shortcuts section, against files in a temp folder only.
     public class ShortcutSettingsTests : IDisposable
     {
-        private readonly string folder = Path.Combine(Path.GetTempPath(), $"cmix-shortcuts-{Guid.NewGuid():N}");
+        private readonly TempFolder temp = new("shortcuts", create: false);
 
-        private string FilePath => Path.Combine(folder, ShortcutMap.FileName);
+        private string FilePath => temp.PathOf(ShortcutMap.FileName);
 
-        public void Dispose()
-        {
-            if (Directory.Exists(folder))
-                Directory.Delete(folder, true);
-        }
+        public void Dispose() => temp.Dispose();
 
         private (ShortcutMap Map, ShortcutSettings Settings) Create()
         {

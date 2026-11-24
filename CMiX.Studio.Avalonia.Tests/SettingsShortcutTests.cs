@@ -8,6 +8,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -20,17 +21,13 @@ namespace CMiX.Studio.Avalonia.Tests
     // The Shortcuts section of the Settings tab.
     public class SettingsShortcutTests : IDisposable
     {
-        private readonly string folder = Path.Combine(Path.GetTempPath(), $"cmix-shortcuts-{Guid.NewGuid():N}");
+        private readonly TempFolder temp = new("shortcuts", create: false);
 
-        public void Dispose()
-        {
-            if (Directory.Exists(folder))
-                Directory.Delete(folder, true);
-        }
+        public void Dispose() => temp.Dispose();
 
         private (ShortcutMap Map, ShortcutSettings Settings, SettingsShortcut View) Show()
         {
-            var map = new ShortcutMap(Path.Combine(folder, ShortcutMap.FileName));
+            var map = new ShortcutMap(temp.PathOf(ShortcutMap.FileName));
             var settings = new ShortcutSettings(map);
             var view = new SettingsShortcut { DataContext = settings };
             new Window { Content = view, Width = 400, Height = 600 }.Show();
@@ -120,22 +117,15 @@ namespace CMiX.Studio.Avalonia.Tests
             var text = view.GetVisualDescendants().OfType<TextBlock>().Single(t => t.Name == "saveErrorText");
             Assert.False(text.IsVisible);
             // A file in the place of the folder makes each save fail.
-            File.WriteAllText(folder, string.Empty);
+            File.WriteAllText(temp.Path, string.Empty);
 
-            try
-            {
-                Box(view, "Tree.Open").Gesture = new KeyGesture(Key.O);
-                Dispatcher.UIThread.RunJobs();
+            Box(view, "Tree.Open").Gesture = new KeyGesture(Key.O);
+            Dispatcher.UIThread.RunJobs();
 
-                Assert.NotNull(settings.SaveError);
-                Assert.True(text.IsVisible);
-                Assert.Equal(settings.SaveError, text.Text);
-                Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("PopupCardDangerBrush")!).Color, ((ISolidColorBrush)text.Foreground!).Color);
-            }
-            finally
-            {
-                File.Delete(folder);
-            }
+            Assert.NotNull(settings.SaveError);
+            Assert.True(text.IsVisible);
+            Assert.Equal(settings.SaveError, text.Text);
+            Assert.Equal(((ISolidColorBrush)Application.Current!.FindResource("PopupCardDangerBrush")!).Color, ((ISolidColorBrush)text.Foreground!).Color);
         }
 
         [AvaloniaFact]

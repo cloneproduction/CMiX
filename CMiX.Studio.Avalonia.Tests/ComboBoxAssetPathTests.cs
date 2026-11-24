@@ -5,6 +5,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Assets;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -14,14 +15,9 @@ namespace CMiX.Studio.Avalonia.Tests
     // The path a user chooses or drops becomes an asset of the repository.
     public class ComboBoxAssetPathTests : IDisposable
     {
-        private readonly string _folder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "cmix-assets-" + Guid.NewGuid().ToString("N"));
+        private readonly TempFolder temp = new("assets");
 
-        public ComboBoxAssetPathTests()
-        {
-            Directory.CreateDirectory(_folder);
-        }
-
-        public void Dispose() => Directory.Delete(_folder, true);
+        public void Dispose() => temp.Dispose();
 
         private sealed class Dropper : ComboBoxAssetPath
         {
@@ -47,13 +43,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Dispatcher.UIThread.RunJobs();
         }
 
-        private string NewFile(string name)
-        {
-            var path = System.IO.Path.Combine(_folder, name);
-            File.WriteAllText(path, "x");
-            return path;
-        }
-
         private static CMiX.Core.Texturing.Sources.Image NewImage() =>
             (CMiX.Core.Texturing.Sources.Image)TestServiceProviderFactory.Create()
                 .GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.Image));
@@ -72,7 +61,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void AChosenPath_BecomesTheSelectedAsset()
         {
             var image = NewImage();
-            var path = NewFile("one.png");
+            var path = temp.File("one.png");
             var selector = new ComboBoxAssetPath { DataContext = image.AssetSelector };
 
             selector.ChoosePath(path);
@@ -85,8 +74,8 @@ namespace CMiX.Studio.Avalonia.Tests
         public void DroppedFiles_AreAddedAndTheFirstIsSelected()
         {
             var image = NewImage();
-            var first = NewFile("first.png");
-            var second = NewFile("second.png");
+            var first = temp.File("first.png");
+            var second = temp.File("second.png");
             var selector = new Dropper { DataContext = image.AssetSelector };
 
             selector.Drop(new[] { first, second });
@@ -102,8 +91,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var player = (CMiX.Core.Texturing.Sources.SequencePlayer)TestServiceProviderFactory.Create()
                 .GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.SequencePlayer));
-            var frames = System.IO.Path.Combine(_folder, "frames");
-            Directory.CreateDirectory(frames);
+            var frames = temp.Folder("frames");
             var selector = new BrowsingTo(frames) { DataContext = player.AssetSelector, SelectsFolder = true };
 
             ClickBrowse(selector);
@@ -116,7 +104,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void BrowsingToAFile_AddsTheAssetAndSelectsIt()
         {
             var image = NewImage();
-            var path = NewFile("browsed.png");
+            var path = temp.File("browsed.png");
             var selector = new BrowsingTo(path) { DataContext = image.AssetSelector };
 
             ClickBrowse(selector);
@@ -140,7 +128,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ADroppedFileOfAnUnknownType_IsIgnored()
         {
             var image = NewImage();
-            var text = NewFile("notes.txt");
+            var text = temp.File("notes.txt");
             var selector = new Dropper { DataContext = image.AssetSelector };
 
             selector.Drop(new[] { text });

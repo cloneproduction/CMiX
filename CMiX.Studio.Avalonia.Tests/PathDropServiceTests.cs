@@ -2,6 +2,7 @@ using Avalonia.Headless.XUnit;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Image = CMiX.Core.Texturing.Sources.Image;
@@ -11,29 +12,15 @@ namespace CMiX.Studio.Avalonia.Tests
     // The rules of a dropped path for a texture list.
     public class PathDropServiceTests : IDisposable
     {
-        private readonly string folder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "cmix-path-drop-" + Guid.NewGuid().ToString("N"));
+        private readonly TempFolder temp = new("path-drop");
         private readonly PathDropService service = new();
 
-        public PathDropServiceTests()
-        {
-            Directory.CreateDirectory(folder);
-        }
-
-        public void Dispose() => Directory.Delete(folder, true);
-
-        private string NewFile(string name)
-        {
-            var path = System.IO.Path.Combine(folder, name);
-            File.WriteAllText(path, "x");
-            return path;
-        }
+        public void Dispose() => temp.Dispose();
 
         [AvaloniaFact]
         public void TextureTypeOf_AFolderWithImages_IsSequencePlayer()
         {
-            var frames = System.IO.Path.Combine(folder, "frames");
-            Directory.CreateDirectory(frames);
-            File.WriteAllText(System.IO.Path.Combine(frames, "frame_0001.png"), "x");
+            var frames = temp.Folder("frames", "frame_0001.png");
 
             Assert.Equal(typeof(SequencePlayer), service.TextureTypeOf(frames));
         }
@@ -41,20 +28,20 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void TextureTypeOf_AVideo_IsVideoPlayer()
         {
-            Assert.Equal(typeof(VideoPlayer), service.TextureTypeOf(NewFile("clip.mp4")));
+            Assert.Equal(typeof(VideoPlayer), service.TextureTypeOf(temp.File("clip.mp4")));
         }
 
         [AvaloniaFact]
         public void TextureTypeOf_AnImage_IsImage()
         {
-            Assert.Equal(typeof(Image), service.TextureTypeOf(NewFile("one.png")));
+            Assert.Equal(typeof(Image), service.TextureTypeOf(temp.File("one.png")));
         }
 
         [AvaloniaFact]
         public void TextureTypeOf_AnUnknownFile_IsNull()
         {
-            Assert.Null(service.TextureTypeOf(NewFile("notes.xyz")));
-            Assert.False(service.AcceptsTexture(NewFile("notes.txt")));
+            Assert.Null(service.TextureTypeOf(temp.File("notes.xyz")));
+            Assert.False(service.AcceptsTexture(temp.File("notes.txt")));
         }
 
         [AvaloniaFact]
@@ -62,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var textures = provider.GetRequiredService<PrefabManager>();
-            var path = NewFile("one.png");
+            var path = temp.File("one.png");
 
             provider.GetRequiredService<PathDropService>().AddTexture(textures, path);
 

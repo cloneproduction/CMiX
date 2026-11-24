@@ -1,6 +1,7 @@
 using System.IO;
 using Avalonia.Input;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
@@ -8,21 +9,13 @@ namespace CMiX.Studio.Avalonia.Tests
     // The shortcut map against files in a temp folder only. The file of the user is never touched.
     public class ShortcutMapTests : IDisposable
     {
-        private readonly string folder = Path.Combine(Path.GetTempPath(), $"cmix-shortcuts-{Guid.NewGuid():N}");
+        private readonly TempFolder temp = new("shortcuts", create: false);
 
-        private string FilePath => Path.Combine(folder, ShortcutMap.FileName);
+        private string FilePath => temp.PathOf(ShortcutMap.FileName);
 
-        public void Dispose()
-        {
-            if (Directory.Exists(folder))
-                Directory.Delete(folder, true);
-        }
+        public void Dispose() => temp.Dispose();
 
-        private void WriteFile(string json)
-        {
-            Directory.CreateDirectory(folder);
-            File.WriteAllText(FilePath, json);
-        }
+        private void WriteFile(string json) => temp.File(ShortcutMap.FileName, json);
 
         [Fact]
         public void Names_ByDefault_ListEveryNameWithAGesture()
