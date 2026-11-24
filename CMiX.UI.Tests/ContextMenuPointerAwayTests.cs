@@ -35,7 +35,7 @@ namespace CMiX.UI.Tests
             ContextMenuInput.Request(drag);
             Assert.True(drag.ContextMenu!.IsOpen);
 
-            PointerInput.Move(window, newPoint(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
 
             Assert.False(drag.ContextMenu.IsOpen);
         }
@@ -48,7 +48,7 @@ namespace CMiX.UI.Tests
             ContextMenuInput.Request(selector.FindControl<Control>("popupToggle")!);
             Assert.True(selector.ContextMenu!.IsOpen);
 
-            PointerInput.Move(window, newPoint(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
 
             Assert.False(selector.ContextMenu.IsOpen);
         }
@@ -61,7 +61,7 @@ namespace CMiX.UI.Tests
             ContextMenuInput.Request(drag);
             Assert.True(drag.ContextMenu!.IsOpen);
 
-            PointerInput.Move(window, newPoint(690, 15));
+            PointerInput.Move(window, new Point(690, 15));
 
             Assert.True(drag.ContextMenu.IsOpen);
         }
@@ -74,7 +74,7 @@ namespace CMiX.UI.Tests
             ContextMenuInput.Request(drag);
             ContextMenuPointerAway.SetPointerAwayDistance(drag.ContextMenu!, 2000);
 
-            PointerInput.Move(window, newPoint(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
 
             Assert.True(drag.ContextMenu.IsOpen);
         }
@@ -88,7 +88,7 @@ namespace CMiX.UI.Tests
             ContextMenuInput.Request(drag);
             Assert.True(drag.ContextMenu.IsOpen);
 
-            PointerInput.Move(window, newPoint(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
 
             Assert.True(drag.ContextMenu.IsOpen);
         }
@@ -108,11 +108,11 @@ namespace CMiX.UI.Tests
             ContextMenuInput.Request(drag);
             ContextMenuPointerAway.SetCompanion(drag.ContextMenu!, companion);
 
-            PointerInput.Move(window, newPoint(790, 490));
+            PointerInput.Move(window, new Point(790, 490));
             Assert.True(drag.ContextMenu.IsOpen);
 
             ContextMenuPointerAway.SetCompanion(drag.ContextMenu, null);
-            PointerInput.Move(window, newPoint(789, 489));
+            PointerInput.Move(window, new Point(789, 489));
             Assert.False(drag.ContextMenu.IsOpen);
         }
     }
