@@ -12,7 +12,7 @@ using Xunit;
 namespace CMiX.UI.Tests
 {
     // A shortcut has one look in a tooltip, in a context menu, in the main menu and in a key cap: the mono font and ShortcutTextBrush.
-    // The menus test their shortcut in ContextMenuLookTests and MenuLookTests.
+    // The menus test their shortcut in ContextMenuLookTests and MenuLookTests, the tooltip in ToolTipTests.
     public class ShortcutTextLookTests
     {
         private static void AssertShortcutLook(TextBlock text)
@@ -25,15 +25,6 @@ namespace CMiX.UI.Tests
         public void ContrastRatio_ShortcutTextOnThePopupCard_ReachesWcagAA()
         {
             Assert.True(ColorMix.Contrast(Tokens.Get<Color>("ShortcutText"), Tokens.Get<Color>("PopupCardBackground")) >= 4.5);
-        }
-
-        [AvaloniaFact]
-        public void Show_TheShortcutOfATooltip_HasTheShortcutLook()
-        {
-            var tip = new ToolTip { Content = new TipContent("Add", "Shift+A") };
-            TestWindow.Show(tip, 300, 200);
-
-            AssertShortcutLook(tip.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Text == "Shift+A"));
         }
 
         [AvaloniaFact]
