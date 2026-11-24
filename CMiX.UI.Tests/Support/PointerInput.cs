@@ -45,9 +45,48 @@ namespace CMiX.UI.Tests.Support
             Dispatcher.UIThread.RunJobs();
         }
 
+        // The headless mouse of the window: a move, a press and a release at one point.
+        public static void Click(Window window, Point at, MouseButton button = MouseButton.Left)
+        {
+            window.MouseMove(at);
+            window.MouseDown(at, button);
+            window.MouseUp(at, button);
+            Dispatcher.UIThread.RunJobs();
+        }
+
+        public static void Move(Window window, Point to)
+        {
+            window.MouseMove(to);
+            Dispatcher.UIThread.RunJobs();
+        }
+
+        // A pointer of its own, for a test that captures it or takes the capture away.
+        public static Pointer NewPointer() => new(Pointer.GetNextFreeId(), PointerType.Mouse, true);
+
+        public static void Press(Control target, IPointer pointer, Point inWindow, Window window)
+        {
+            target.RaiseEvent(new PointerPressedEventArgs(target, pointer, window, inWindow, 0,
+                new PointerPointProperties(RawInputModifiers.LeftMouseButton, PointerUpdateKind.LeftButtonPressed), KeyModifiers.None)
+            { RoutedEvent = InputElement.PointerPressedEvent });
+            Dispatcher.UIThread.RunJobs();
+        }
+
+        public static void Move(Control target, IPointer pointer, Point inWindow, Window window,
+            KeyModifiers modifiers = KeyModifiers.None, RawInputModifiers buttons = RawInputModifiers.None)
+        {
+            target.RaiseEvent(new PointerEventArgs(InputElement.PointerMovedEvent, target, pointer, window, inWindow, 0,
+                new PointerPointProperties(buttons, PointerUpdateKind.Other), modifiers));
+            Dispatcher.UIThread.RunJobs();
+        }
+
+        public static void Release(Control target, IPointer pointer, Point inWindow, Window window)
+        {
+            target.RaiseEvent(new PointerReleasedEventArgs(target, pointer, window, inWindow, 0,
+                new PointerPointProperties(RawInputModifiers.None, PointerUpdateKind.LeftButtonReleased), KeyModifiers.None, MouseButton.Left));
+            Dispatcher.UIThread.RunJobs();
+        }
+
         private static Point Position(Window window, Control target, Point? at) =>
             at ?? target.TranslatePoint(new Point(target.Bounds.Width / 2, target.Bounds.Height / 2), window)!.Value;
-
-        private static Pointer NewPointer() => new(Pointer.GetNextFreeId(), PointerType.Mouse, true);
     }
 }

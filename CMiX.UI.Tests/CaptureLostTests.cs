@@ -21,42 +21,6 @@ namespace CMiX.UI.Tests
     // closes. The control must not go on following the mouse, and a popup must not close under a drag.
     public class CaptureLostTests
     {
-        private static Window Show(Control control, double width = 400, double height = 200)
-        {
-            var window = new Window { Content = control, Width = width, Height = height };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            // The headless renderer cannot hit-test through a geometry clip.
-            foreach (var visual in window.GetVisualDescendants().Where(v => v.Clip != null))
-                visual.Clip = null;
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
-        private static Pointer NewPointer() => new(Pointer.GetNextFreeId(), PointerType.Mouse, true);
-
-        private static void Press(Control target, Pointer pointer, Point inWindow, Window window)
-        {
-            target.RaiseEvent(new PointerPressedEventArgs(target, pointer, window, inWindow, 0,
-                new PointerPointProperties(RawInputModifiers.LeftMouseButton, PointerUpdateKind.LeftButtonPressed), KeyModifiers.None)
-            { RoutedEvent = InputElement.PointerPressedEvent });
-            Dispatcher.UIThread.RunJobs();
-        }
-
-        private static void Move(Control target, Pointer pointer, Point inWindow, Window window, KeyModifiers modifiers = KeyModifiers.None)
-        {
-            target.RaiseEvent(new PointerEventArgs(InputElement.PointerMovedEvent, target, pointer, window, inWindow, 0,
-                new PointerPointProperties(RawInputModifiers.None, PointerUpdateKind.Other), modifiers));
-            Dispatcher.UIThread.RunJobs();
-        }
-
-        private static void Release(Control target, Pointer pointer, Point inWindow, Window window)
-        {
-            target.RaiseEvent(new PointerReleasedEventArgs(target, pointer, window, inWindow, 0,
-                new PointerPointProperties(RawInputModifiers.None, PointerUpdateKind.LeftButtonReleased), KeyModifiers.None, MouseButton.Left));
-            Dispatcher.UIThread.RunJobs();
-        }
-
         // The real pointer of the headless mouse, taken from the press that reaches the control.
         private static Func<IPointer?> WatchPointer(Control control)
         {
@@ -71,7 +35,7 @@ namespace CMiX.UI.Tests
         public void ASlider_DraggedWithTheButtonDown_ChangesTheValue()
         {
             var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.5, Width = 300, Height = 30, IsEditable = false };
-            var window = Show(slider);
+            var window = TestWindow.ShowWithoutClips(slider, 400, 200);
             var center = slider.TranslatePoint(new Point(150, 15), window)!.Value;
 
             window.MouseMove(center);
@@ -91,7 +55,7 @@ namespace CMiX.UI.Tests
         public void ASlider_WhoseCaptureIsLost_NoLongerFollowsTheMouse()
         {
             var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.5, Width = 300, Height = 30, IsEditable = false };
-            var window = Show(slider);
+            var window = TestWindow.ShowWithoutClips(slider, 400, 200);
             var pointer = WatchPointer(slider);
             var center = slider.TranslatePoint(new Point(150, 15), window)!.Value;
 
@@ -127,7 +91,7 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var drag = new DragValue { Width = 300, Height = 30, Value = 0 };
-            var window = Show(drag);
+            var window = TestWindow.ShowWithoutClips(drag, 400, 200);
             var border = drag.GetVisualDescendants().OfType<Border>().First(b => b.Name == "borderValueDisplay");
             var pointer = WatchPointer(border);
             var center = border.TranslatePoint(new Point(border.Bounds.Width / 2, border.Bounds.Height / 2), window)!.Value;
@@ -165,7 +129,7 @@ namespace CMiX.UI.Tests
         public void ADragValue_ClickedWithoutAMove_StartsTheEdit()
         {
             var drag = new DragValue { Width = 300, Height = 30, Value = 0 };
-            var window = Show(drag);
+            var window = TestWindow.ShowWithoutClips(drag, 400, 200);
             var border = drag.GetVisualDescendants().OfType<Border>().First(b => b.Name == "borderValueDisplay");
             var center = border.TranslatePoint(new Point(border.Bounds.Width / 2, border.Bounds.Height / 2), window)!.Value;
 
@@ -182,7 +146,7 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var drag = new DragValue { Width = 300, Height = 30, Value = 0 };
-            var window = Show(drag);
+            var window = TestWindow.ShowWithoutClips(drag, 400, 200);
             var border = drag.GetVisualDescendants().OfType<Border>().First(b => b.Name == "borderValueDisplay");
             var center = border.TranslatePoint(new Point(border.Bounds.Width / 2, border.Bounds.Height / 2), window)!.Value;
 
@@ -215,7 +179,7 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.5, Width = 300, Height = 30, IsEditable = false };
-            var window = Show(slider);
+            var window = TestWindow.ShowWithoutClips(slider, 400, 200);
             var pointer = WatchPointer(slider);
             var center = slider.TranslatePoint(new Point(150, 15), window)!.Value;
 
@@ -244,7 +208,7 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var drag = new DragValue { Width = 300, Height = 30, Value = 0 };
-            var window = Show(drag);
+            var window = TestWindow.ShowWithoutClips(drag, 400, 200);
             var border = drag.GetVisualDescendants().OfType<Border>().First(b => b.Name == "borderValueDisplay");
             var pointer = WatchPointer(border);
             var center = border.TranslatePoint(new Point(border.Bounds.Width / 2, border.Bounds.Height / 2), window)!.Value;
@@ -275,15 +239,15 @@ namespace CMiX.UI.Tests
         public void AWheel_WhoseWindowLostTheMouse_EndsTheDragOnTheNextMove()
         {
             var (wheel, window, colors) = ShowWheel();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             var at = wheel.TranslatePoint(new Point(150, 100), window)!.Value;
 
-            Press(wheel, pointer, at, window);
+            PointerInput.Press(wheel, pointer, at, window);
             var count = colors.Count;
 
             using (new MouseTakenByAnotherWindow())
-                Move(wheel, pointer, new Point(at.X - 60, at.Y + 40), window);
-            Move(wheel, pointer, new Point(at.X - 100, at.Y - 40), window);
+                PointerInput.Move(wheel, pointer, new Point(at.X - 60, at.Y + 40), window);
+            PointerInput.Move(wheel, pointer, new Point(at.X - 100, at.Y - 40), window);
 
             Assert.Null(pointer.Captured);
             Assert.Equal(count, colors.Count);
@@ -299,10 +263,10 @@ namespace CMiX.UI.Tests
             {
                 Width = 200,
                 Height = 200,
-                Theme = (ControlTheme)Application.Current!.FindResource("ColorPickerWheel")!,
+                Theme = Tokens.Theme("ColorPickerWheel"),
                 SelectedColor = Avalonia.Media.Colors.Red,
             };
-            var window = Show(wheel, 400, 400);
+            var window = TestWindow.ShowWithoutClips(wheel, 400, 400);
             var colors = new List<Avalonia.Media.Color>();
             wheel.ColorChanged += (s, e) => colors.Add(e.Color);
             return (wheel, window, colors);
@@ -312,12 +276,12 @@ namespace CMiX.UI.Tests
         public void AWheel_DraggedWithTheButtonDown_ChangesTheColor()
         {
             var (wheel, window, colors) = ShowWheel();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             var at = wheel.TranslatePoint(new Point(150, 100), window)!.Value;
 
-            Press(wheel, pointer, at, window);
-            Move(wheel, pointer, new Point(at.X - 60, at.Y + 40), window);
-            Move(wheel, pointer, new Point(at.X - 100, at.Y - 40), window);
+            PointerInput.Press(wheel, pointer, at, window);
+            PointerInput.Move(wheel, pointer, new Point(at.X - 60, at.Y + 40), window);
+            PointerInput.Move(wheel, pointer, new Point(at.X - 100, at.Y - 40), window);
 
             Assert.NotEmpty(colors);
         }
@@ -326,16 +290,16 @@ namespace CMiX.UI.Tests
         public void AWheel_WhoseCaptureIsLost_NoLongerFollowsTheMouse()
         {
             var (wheel, window, colors) = ShowWheel();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             var at = wheel.TranslatePoint(new Point(150, 100), window)!.Value;
 
-            Press(wheel, pointer, at, window);
+            PointerInput.Press(wheel, pointer, at, window);
             pointer.Capture(null);
             Dispatcher.UIThread.RunJobs();
             var count = colors.Count;
 
-            Move(wheel, pointer, new Point(at.X - 60, at.Y + 40), window);
-            Move(wheel, pointer, new Point(at.X - 100, at.Y - 40), window);
+            PointerInput.Move(wheel, pointer, new Point(at.X - 60, at.Y + 40), window);
+            PointerInput.Move(wheel, pointer, new Point(at.X - 100, at.Y - 40), window);
 
             Assert.Equal(count, colors.Count);
         }
@@ -349,7 +313,7 @@ namespace CMiX.UI.Tests
         public void AListBoxCMiX_WhoseCaptureIsLost_StopsResizing()
         {
             var list = new ListBoxCMiX { MinItemCount = Tokens.ListVisibleItems, ItemsSource = Enumerable.Range(1, 30).Select(i => "Item " + i).ToList() };
-            var window = Show(list, 400, 1500);
+            var window = TestWindow.ShowWithoutClips(list, 400, 1500);
             var strip = list.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "resizeBorder");
             var pointer = WatchPointer(strip);
             var start = strip.TranslatePoint(new Point(strip.Bounds.Width / 2, strip.Bounds.Height / 2), window)!.Value;
@@ -364,7 +328,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
 
             // A move over the strip, as when the mouse comes back to it.
-            Move(strip, NewPointer(), new Point(start.X, start.Y + 200), window);
+            PointerInput.Move(strip, PointerInput.NewPointer(), new Point(start.X, start.Y + 200), window);
 
             Assert.Equal(before, ListHeight(list));
         }
@@ -381,18 +345,12 @@ namespace CMiX.UI.Tests
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Bottom,
             };
-            var window = new Window { Content = selector, Width = 1000, Height = 600 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(selector, 1000, 600);
 
             var swatch = selector.FindControl<ToggleButton>("popupToggle")!;
             var popup = selector.FindControl<Popup>("colorPickerPopup")!;
             var top = swatch.TranslatePoint(new Point(0, 0), window)!.Value;
-            var click = new Point(top.X + swatch.Bounds.Width * 0.05, top.Y + swatch.Bounds.Height / 2);
-            window.MouseMove(click);
-            window.MouseDown(click, MouseButton.Left);
-            window.MouseUp(click, MouseButton.Left);
-            Dispatcher.UIThread.RunJobs();
+            PointerInput.Click(window, new Point(top.X + swatch.Bounds.Width * 0.05, top.Y + swatch.Bounds.Height / 2));
             Assert.True(popup.IsOpen);
             return (window, selector, popup);
         }
@@ -403,10 +361,10 @@ namespace CMiX.UI.Tests
         public void WhileAControlOfThePopupHoldsThePointer_ThePopupStaysOpenFarAway()
         {
             var (window, _, popup) = ShowSelectorWithOpenPopup();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             pointer.Capture(popup.Child);
 
-            Move(window, pointer, Far, window);
+            PointerInput.Move(window, pointer, Far, window);
 
             Assert.True(popup.IsOpen);
         }
@@ -415,16 +373,16 @@ namespace CMiX.UI.Tests
         public void WhenTheButtonIsReleasedFarAway_ThePopupClosesOnTheNextMove()
         {
             var (window, _, popup) = ShowSelectorWithOpenPopup();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             pointer.Capture(popup.Child);
-            Move(window, pointer, Far, window);
+            PointerInput.Move(window, pointer, Far, window);
 
             // The release itself closes nothing: the control that held the pointer ends its drag first.
             pointer.Capture(null);
-            Release(window, pointer, Far, window);
+            PointerInput.Release(window, pointer, Far, window);
             Assert.True(popup.IsOpen);
 
-            Move(window, pointer, new Point(Far.X - 5, Far.Y), window);
+            PointerInput.Move(window, pointer, new Point(Far.X - 5, Far.Y), window);
             Assert.False(popup.IsOpen);
         }
 
@@ -432,14 +390,14 @@ namespace CMiX.UI.Tests
         public void WhenTheButtonIsReleasedNearThePopup_ThePopupStaysOpen()
         {
             var (window, selector, popup) = ShowSelectorWithOpenPopup();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             pointer.Capture(popup.Child);
             var swatch = selector.FindControl<ToggleButton>("popupToggle")!;
             var near = swatch.TranslatePoint(new Point(swatch.Bounds.Width / 2, swatch.Bounds.Height / 2), window)!.Value;
-            Move(window, pointer, Far, window);
+            PointerInput.Move(window, pointer, Far, window);
 
             pointer.Capture(null);
-            Release(window, pointer, near, window);
+            PointerInput.Release(window, pointer, near, window);
 
             Assert.True(popup.IsOpen);
         }
@@ -472,7 +430,7 @@ namespace CMiX.UI.Tests
         {
             var (window, _, popup) = ShowSelectorWithOpenPopup();
 
-            Move(window, NewPointer(), Far, window);
+            PointerInput.Move(window, PointerInput.NewPointer(), Far, window);
 
             Assert.False(popup.IsOpen);
         }
@@ -511,7 +469,7 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.5, Width = 300, Height = 30, IsEditable = false };
-            var window = Show(slider, 700, 400);
+            var window = TestWindow.ShowWithoutClips(slider, 700, 400);
             var center = slider.TranslatePoint(new Point(150, 15), window)!.Value;
 
             DragAndRelease(window, slider, new Point(center.X + dx, center.Y + dy));
@@ -578,7 +536,7 @@ namespace CMiX.UI.Tests
         // The slider next to the color wheel: vertical, the maximum at the top.
         private static SliderCMiX BrightnessSlider() => new()
         {
-            Theme = (ControlTheme)Application.Current!.FindResource("SliderCMiXBrightness")!,
+            Theme = Tokens.Theme("SliderCMiXBrightness"),
             Minimum = 0, Maximum = 100, Value = 50, Width = 16, Height = 200, IsEditable = false, LargeChange = 1,
         };
 
@@ -589,7 +547,7 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var slider = HorizontalSlider();
-            var window = Show(slider, 1500, 1200);
+            var window = TestWindow.ShowWithoutClips(slider, 1500, 1200);
             var center = slider.TranslatePoint(new Point(150, 15), window)!.Value;
 
             DragAndRelease(window, slider, new Point(center.X + (toMaximum ? 600 : -600), center.Y));
@@ -618,7 +576,7 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var slider = BrightnessSlider();
-            var window = Show(slider, 1500, 1200);
+            var window = TestWindow.ShowWithoutClips(slider, 1500, 1200);
             var center = slider.TranslatePoint(new Point(8, 100), window)!.Value;
 
             // The maximum is at the top.
@@ -632,7 +590,7 @@ namespace CMiX.UI.Tests
         public void TheValueOfASlider_DoesNotTakeThePress()
         {
             var slider = HorizontalSlider();
-            var window = Show(slider, 1500, 1200);
+            var window = TestWindow.ShowWithoutClips(slider, 1500, 1200);
             var label = slider.GetVisualDescendants().OfType<Label>().First(l => l.Name == "textDisplay");
             var onTheLabel = label.TranslatePoint(new Point(label.Bounds.Width - 12, label.Bounds.Height / 2), window)!.Value;
 
@@ -742,10 +700,10 @@ namespace CMiX.UI.Tests
         public void APressExactlyAtTheCenterOfAWheel_KeepsAValidHue()
         {
             var (wheel, window, _) = ShowWheel();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             var center = wheel.TranslatePoint(new Point(wheel.Width / 2, wheel.Height / 2), window)!.Value;
 
-            Press(wheel, pointer, center, window);
+            PointerInput.Press(wheel, pointer, center, window);
 
             Assert.True(double.IsFinite(wheel.Color.HSV_H));
             Assert.Equal(0, wheel.Color.HSV_S);
@@ -756,10 +714,10 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var (wheel, window, _) = ShowWheel();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             var at = wheel.TranslatePoint(new Point(150, 100), window)!.Value;
 
-            Press(wheel, pointer, at, window);
+            PointerInput.Press(wheel, pointer, at, window);
             pointer.Capture(null);
             Dispatcher.UIThread.RunJobs();
 
@@ -788,7 +746,7 @@ namespace CMiX.UI.Tests
 
             // The pointer leaves the wheel and the control says so, while the drag goes on.
             window.MouseMove(outside);
-            wheel.RaiseEvent(new PointerEventArgs(InputElement.PointerExitedEvent, wheel, NewPointer(), window, outside, 0,
+            wheel.RaiseEvent(new PointerEventArgs(InputElement.PointerExitedEvent, wheel, PointerInput.NewPointer(), window, outside, 0,
                 new PointerPointProperties(RawInputModifiers.LeftMouseButton, PointerUpdateKind.Other), KeyModifiers.None));
             Dispatcher.UIThread.RunJobs();
             Assert.Equal(StandardCursorType.None.ToString(), CursorName(wheel));
@@ -806,10 +764,10 @@ namespace CMiX.UI.Tests
         public void AWheel_ShowsTheCursorAgain_WhenItsCaptureIsLost()
         {
             var (wheel, window, _) = ShowWheel();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             var before = CursorName(wheel);
 
-            Press(wheel, pointer, wheel.TranslatePoint(new Point(150, 100), window)!.Value, window);
+            PointerInput.Press(wheel, pointer, wheel.TranslatePoint(new Point(150, 100), window)!.Value, window);
             Assert.Equal(StandardCursorType.None.ToString(), CursorName(wheel));
 
             pointer.Capture(null);
@@ -825,13 +783,13 @@ namespace CMiX.UI.Tests
         private static double SaturationAfter(Point pressAt, params (Point At, KeyModifiers Modifiers)[] moves)
         {
             var (wheel, window, _) = ShowWheel();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             var origin = wheel.TranslatePoint(new Point(0, 0), window)!.Value;
             Point InWindow(Point local) => new(origin.X + local.X, origin.Y + local.Y);
 
-            Press(wheel, pointer, InWindow(pressAt), window);
+            PointerInput.Press(wheel, pointer, InWindow(pressAt), window);
             foreach (var move in moves)
-                Move(wheel, pointer, InWindow(move.At), window, move.Modifiers);
+                PointerInput.Move(wheel, pointer, InWindow(move.At), window, move.Modifiers);
 
             return wheel.Color.HSV_S;
         }
@@ -854,22 +812,22 @@ namespace CMiX.UI.Tests
         public void AWheel_DoesNotJump_WhenShiftIsLetGo()
         {
             var (wheel, window, _) = ShowWheel();
-            var pointer = NewPointer();
+            var pointer = PointerInput.NewPointer();
             var origin = wheel.TranslatePoint(new Point(0, 0), window)!.Value;
             Point InWindow(double x, double y) => new(origin.X + x, origin.Y + y);
 
-            Press(wheel, pointer, InWindow(130, 100), window);
+            PointerInput.Press(wheel, pointer, InWindow(130, 100), window);
             var start = wheel.Color.HSV_S;
-            Move(wheel, pointer, InWindow(170, 100), window, KeyModifiers.Shift);
+            PointerInput.Move(wheel, pointer, InWindow(170, 100), window, KeyModifiers.Shift);
             var slowed = wheel.Color.HSV_S;
             Assert.InRange(slowed - start, 0, 0.01);
 
             // Shift is let go and the mouse has not moved: the indicator stays where it is.
-            Move(wheel, pointer, InWindow(170, 100), window);
+            PointerInput.Move(wheel, pointer, InWindow(170, 100), window);
             Assert.Equal(slowed, wheel.Color.HSV_S, 9);
 
             // And it follows the mouse at full speed again.
-            Move(wheel, pointer, InWindow(180, 100), window);
+            PointerInput.Move(wheel, pointer, InWindow(180, 100), window);
             Assert.Equal(slowed + 10 / ((wheel.Height - 12) / 2), wheel.Color.HSV_S, 3);
         }
 
@@ -878,7 +836,7 @@ namespace CMiX.UI.Tests
         private static double SliderGainWith(RawInputModifiers modifiers)
         {
             var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.5, Width = 300, Height = 30, IsEditable = false };
-            var window = Show(slider, 1500, 400);
+            var window = TestWindow.ShowWithoutClips(slider, 1500, 400);
             var center = slider.TranslatePoint(new Point(150, 15), window)!.Value;
 
             window.MouseMove(center);

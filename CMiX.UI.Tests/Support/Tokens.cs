@@ -1,4 +1,6 @@
 using Avalonia;
+using Avalonia.Media;
+using Avalonia.Styling;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -13,6 +15,12 @@ namespace CMiX.UI.Tests
             Assert.True(application.TryGetResource(key, application.ActualThemeVariant, out var value), $"The token {key} is missing.");
             return (T)value!;
         }
+
+        public static ISolidColorBrush Brush(string key) => Get<ISolidColorBrush>(key);
+
+        public static Color Color(string key) => Brush(key).Color;
+
+        public static ControlTheme Theme(string key) => Get<ControlTheme>(key);
 
         public static double RowHeight => Get<double>("ControlHeightMD");
 

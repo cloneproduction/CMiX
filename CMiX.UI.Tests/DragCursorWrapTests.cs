@@ -94,23 +94,8 @@ namespace CMiX.UI.Tests
                 }
             }
 
-            private void Raise(PixelPoint screen, KeyModifiers modifiers)
-            {
-                target.RaiseEvent(new PointerEventArgs(InputElement.PointerMovedEvent, target, pointer, window, window.PointToClient(screen), 0,
-                    new PointerPointProperties(RawInputModifiers.LeftMouseButton, PointerUpdateKind.Other), modifiers));
-                Dispatcher.UIThread.RunJobs();
-            }
-        }
-
-        private static Window Show(Control control)
-        {
-            var window = new Window { Content = control, Width = 400, Height = 400 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            foreach (var visual in window.GetVisualDescendants().Where(v => v.Clip != null))
-                visual.Clip = null;
-            Dispatcher.UIThread.RunJobs();
-            return window;
+            private void Raise(PixelPoint screen, KeyModifiers modifiers) =>
+                PointerInput.Move(target, pointer, window.PointToClient(screen), window, modifiers, RawInputModifiers.LeftMouseButton);
         }
 
         private static PixelRect ScreenOf(Window window)
@@ -127,20 +112,17 @@ namespace CMiX.UI.Tests
             {
                 Width = 200,
                 Height = 200,
-                Theme = (ControlTheme)Application.Current!.FindResource("ColorPickerWheel")!,
+                Theme = Tokens.Theme("ColorPickerWheel"),
                 SelectedColor = Avalonia.Media.Colors.Red,
             };
-            var window = Show(wheel);
+            var window = TestWindow.ShowWithoutClips(wheel, 400, 400);
             var bounds = ScreenOf(window);
             var screen = new FakeScreen(bounds);
-            var pointer = new Avalonia.Input.Pointer(Avalonia.Input.Pointer.GetNextFreeId(), PointerType.Mouse, true);
+            var pointer = PointerInput.NewPointer();
             var origin = wheel.TranslatePoint(new Point(0, 0), window)!.Value;
             var press = new Point(origin.X + 101, origin.Y + 100);
 
-            wheel.RaiseEvent(new PointerPressedEventArgs(wheel, pointer, window, press, 0,
-                new PointerPointProperties(RawInputModifiers.LeftMouseButton, PointerUpdateKind.LeftButtonPressed), KeyModifiers.None)
-            { RoutedEvent = InputElement.PointerPressedEvent });
-            Dispatcher.UIThread.RunJobs();
+            PointerInput.Press(wheel, pointer, press, window);
 
             var cursor = window.PointToScreen(press);
             return (wheel, new FakeMouse(window, wheel, pointer, spy, bounds, cursor), spy, screen);
@@ -264,23 +246,20 @@ namespace CMiX.UI.Tests
             {
                 Width = 200,
                 Height = 200,
-                Theme = (ControlTheme)Application.Current!.FindResource("ColorPickerWheel")!,
+                Theme = Tokens.Theme("ColorPickerWheel"),
                 SelectedColor = Avalonia.Media.Colors.Red,
             };
-            var window = Show(wheel);
+            var window = TestWindow.ShowWithoutClips(wheel, 400, 400);
             var first = ScreenOf(window);
             var second = new PixelRect(first.Right, first.Y, first.Width, first.Height);
             using var keepSpy = spy;
             using var screen = new FakeScreen(first);
             DragEditHelper.ScreenBoundsAt = (_, point) => first.Contains(point) ? first : second;
 
-            var pointer = new Avalonia.Input.Pointer(Avalonia.Input.Pointer.GetNextFreeId(), PointerType.Mouse, true);
+            var pointer = PointerInput.NewPointer();
             var origin = wheel.TranslatePoint(new Point(0, 0), window)!.Value;
             var press = new Point(origin.X + 101, origin.Y + 100);
-            wheel.RaiseEvent(new PointerPressedEventArgs(wheel, pointer, window, press, 0,
-                new PointerPointProperties(RawInputModifiers.LeftMouseButton, PointerUpdateKind.LeftButtonPressed), KeyModifiers.None)
-            { RoutedEvent = InputElement.PointerPressedEvent });
-            Dispatcher.UIThread.RunJobs();
+            PointerInput.Press(wheel, pointer, press, window);
 
             var both = new PixelRect(first.X, first.Y, first.Width * 2, first.Height);
             var mouse = new FakeMouse(window, wheel, pointer, spy, both, window.PointToScreen(press)) { ReportsPlacement = false };
@@ -374,7 +353,7 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var slider = new SliderCMiX { Minimum = 0, Maximum = 1, Value = 0.1, Width = 300, Height = 30, IsEditable = false };
-            var window = Show(slider);
+            var window = TestWindow.ShowWithoutClips(slider, 400, 400);
             var bounds = ScreenOf(window);
             using var screen = new FakeScreen(bounds);
             IPointer? real = null;
@@ -406,7 +385,7 @@ namespace CMiX.UI.Tests
         {
             using var spy = new CursorSpy();
             var drag = new DragValue { Width = 300, Height = 30, Value = 0 };
-            var window = Show(drag);
+            var window = TestWindow.ShowWithoutClips(drag, 400, 400);
             var bounds = ScreenOf(window);
             using var screen = new FakeScreen(bounds);
             var border = drag.GetVisualDescendants().OfType<Border>().First(b => b.Name == "borderValueDisplay");
