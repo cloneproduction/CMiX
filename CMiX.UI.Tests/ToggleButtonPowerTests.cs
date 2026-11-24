@@ -65,7 +65,7 @@ namespace CMiX.UI.Tests
         {
             var (_, toggle) = Show(theme);
 
-            Assert.Equal(0.6, Box(toggle).Opacity);
+            Assert.Equal(Tokens.Get<double>("OpacityIconIdle"), Box(toggle).Opacity);
             Assert.Equal(Tokens.Color("ForegroundBrush"), ((ISolidColorBrush)Icon(toggle).Foreground!).Color);
         }
 
@@ -107,7 +107,7 @@ namespace CMiX.UI.Tests
         public void ThePlayPauseToggle_IsDimAtRest_AndShowsStopWhenOn()
         {
             var (_, toggle) = Show("ToggleButtonPlayPause");
-            Assert.Equal(0.6, Box(toggle).Opacity);
+            Assert.Equal(Tokens.Get<double>("OpacityIconIdle"), Box(toggle).Opacity);
             Assert.Equal("Play", Icon(toggle).IconKey);
 
             toggle.IsChecked = true;

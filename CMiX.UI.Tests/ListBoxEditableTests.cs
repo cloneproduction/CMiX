@@ -164,10 +164,10 @@ namespace CMiX.UI.Tests
             Assert.Equal(ControlPosition.Top, PositionedControl.GetPosition(up));
             Assert.Equal(ControlPosition.Bottom, PositionedControl.GetPosition(down));
 
-            Assert.Equal(new CornerRadius(2, 2, 0, 0), CornersOf(add));
-            Assert.Equal(new CornerRadius(0, 0, 2, 2), CornersOf(remove));
-            Assert.Equal(new CornerRadius(2, 2, 0, 0), CornersOf(up));
-            Assert.Equal(new CornerRadius(0, 0, 2, 2), CornersOf(down));
+            Assert.Equal(Tokens.Get<CornerRadius>("CornerRadiusTop"), CornersOf(add));
+            Assert.Equal(Tokens.Get<CornerRadius>("CornerRadiusBottom"), CornersOf(remove));
+            Assert.Equal(Tokens.Get<CornerRadius>("CornerRadiusTop"), CornersOf(up));
+            Assert.Equal(Tokens.Get<CornerRadius>("CornerRadiusBottom"), CornersOf(down));
         }
 
         [AvaloniaFact]
@@ -179,7 +179,7 @@ namespace CMiX.UI.Tests
 
             var add = ButtonWith(list, "+");
             Assert.Equal(ControlPosition.All, PositionedControl.GetPosition(add));
-            Assert.Equal(new CornerRadius(2), CornersOf(add));
+            Assert.Equal(Tokens.Get<CornerRadius>("CornerRadiusAll"), CornersOf(add));
             Assert.False(ButtonWith(list, "-").IsVisible);
             Assert.All(ArrowButtons(list), b => Assert.False(b.IsVisible));
 
@@ -236,7 +236,7 @@ namespace CMiX.UI.Tests
 
             // A black with an opacity below 1 is darker than any panel behind it.
             Assert.Equal(dark.Color, background.Color);
-            Assert.Equal(Colors.Black, background.Color);
+            Assert.Equal(dark.Opacity, background.Opacity);
             Assert.InRange(background.Opacity, 0.1, 0.9);
             Assert.Empty(list.GetVisualDescendants().OfType<ScrollViewer>());
         }

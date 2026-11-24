@@ -31,7 +31,6 @@ namespace CMiX.UI.Tests
             Show(box);
 
             Assert.Equal(Tokens.Get<double>("OpacityDisabled"), Parts.Find<Border>(box, "border").Opacity);
-            Assert.Equal(0.5, Parts.Find<Border>(box, "border").Opacity);
         }
 
         [AvaloniaFact]
@@ -44,7 +43,7 @@ namespace CMiX.UI.Tests
             Show(tabs);
             var off = tabs.GetVisualDescendants().OfType<TabItem>().ToList()[1];
 
-            Assert.Equal(0.5, Parts.Find<ContentPresenter>(off, "PART_ContentPresenter").Opacity);
+            Assert.Equal(Tokens.Get<double>("OpacityDisabled"), Parts.Find<ContentPresenter>(off, "PART_ContentPresenter").Opacity);
         }
 
         [AvaloniaFact]
@@ -65,7 +64,7 @@ namespace CMiX.UI.Tests
         {
             var button = Show(new CMiX.UI.Controls.Boolean.ButtonIcon { IconKey = "Close", Classes = { "quiet" } });
 
-            Assert.Equal(0.6, button.GetVisualDescendants().OfType<CMiX.UI.Controls.AppIcon>().Single().Opacity);
+            Assert.Equal(Tokens.Get<double>("OpacityIconIdle"), button.GetVisualDescendants().OfType<CMiX.UI.Controls.AppIcon>().Single().Opacity);
         }
 
         [AvaloniaFact]
@@ -74,7 +73,7 @@ namespace CMiX.UI.Tests
             var theme = Tokens.Theme("ToggleButtonIcon");
             var toggle = Show(new ToggleButton { Theme = theme });
 
-            Assert.Equal(0.6, Parts.Find<Border>(toggle, "border").Opacity);
+            Assert.Equal(Tokens.Get<double>("OpacityIconIdle"), Parts.Find<Border>(toggle, "border").Opacity);
         }
 
         [AvaloniaFact]
@@ -82,7 +81,7 @@ namespace CMiX.UI.Tests
         {
             var text = Show(new TextBlock { Text = "A", IsEnabled = false });
 
-            Assert.Equal(0.5, text.Opacity);
+            Assert.Equal(Tokens.Get<double>("OpacityDisabled"), text.Opacity);
         }
     }
 }

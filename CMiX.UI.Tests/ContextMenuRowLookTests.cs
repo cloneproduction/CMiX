@@ -151,7 +151,7 @@ namespace CMiX.UI.Tests
 
             var row = menu.Items.OfType<MenuItem>().Single();
 
-            Assert.Equal(0.5, Parts.Find<Border>(row, "root").Opacity);
+            Assert.Equal(Tokens.Get<double>("OpacityDisabled"), Parts.Find<Border>(row, "root").Opacity);
         }
     }
 }

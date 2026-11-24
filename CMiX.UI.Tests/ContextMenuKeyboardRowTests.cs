@@ -63,7 +63,7 @@ namespace CMiX.UI.Tests
             Assert.True(last.IsSelected);
             Assert.False(off.IsSelected);
             Assert.False(HasHoverFill(off));
-            Assert.Equal(0.5, off.GetVisualDescendants().OfType<Border>().First(border => border.Name == "root").Opacity);
+            Assert.Equal(Tokens.Get<double>("OpacityDisabled"), Parts.Find<Border>(off, "root").Opacity);
         }
 
         [AvaloniaFact]

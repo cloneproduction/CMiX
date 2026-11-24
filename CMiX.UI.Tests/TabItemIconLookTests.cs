@@ -33,7 +33,7 @@ namespace CMiX.UI.Tests
             var (first, second) = Show();
 
             Assert.Equal(1.0, IconOpacity(first));
-            Assert.Equal(0.6, IconOpacity(second));
+            Assert.Equal(Tokens.Get<double>("OpacityIconIdle"), IconOpacity(second));
         }
 
         [AvaloniaFact]
