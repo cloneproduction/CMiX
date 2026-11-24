@@ -70,7 +70,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var gesture = new KeyGesture(Key.R, KeyModifiers.Control | KeyModifiers.Shift);
             Assert.Equal(gesture, viewModel.Shortcuts["Tree.Rename"]);
-            // The key of the rename is a binding of the main window (see TreeRowKeysTests).
+            // The key of the rename is a binding of the main window (see ListTreeWindowKeysTests).
             var rename = window.KeyBindings.Single(binding => ReferenceEquals(binding.Command, viewModel.ProjectTree.RenameSelectedByKeyCommand));
             Assert.Equal(gesture, rename.Gesture);
         }

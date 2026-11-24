@@ -20,7 +20,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeTestScreen;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The menus of the new list tree open at the places of TreeMenuAtCursorTests: a key at the cursor row, a right click at the pointer.
+    // The menus of the new list tree: a key opens at the cursor row, a right click at the pointer.
     // The toolbar and the key hint strip show as in the old tree.
     public class ListTreeMenusTests : IDisposable
     {

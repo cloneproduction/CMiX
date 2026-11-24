@@ -135,7 +135,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
 
-            // The key of the rename is a binding of the main window (see TreeRowKeysTests), so the test starts the rename itself.
+            // The key of the rename is a binding of the main window (see ListTreeWindowKeysTests), so the test starts the rename itself.
             screen.Tree.RenameSelectedCommand.Execute(null);
             Settle();
             Assert.Empty(screen.View.KeyBindings);
