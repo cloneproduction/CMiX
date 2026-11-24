@@ -25,7 +25,7 @@ namespace CMiX.Core.Undo
 
         public void Push(IUndoCommand command)
         {
-            if (_groupDepth > 0) return;
+            if (IsApplying || _groupDepth > 0) return;
 
             if (_captureList != null)
             {

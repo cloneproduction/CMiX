@@ -231,6 +231,35 @@ namespace CMiX.Core.Tests
             Assert.False(undoManager.IsApplying);
         }
 
+        [Fact]
+        public void Push_WhileApplying_RecordsNothing()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            undoManager.Push(new PushingUndoCommand(undoManager, new RecordingUndoCommand(2, executed)));
+            undoManager.Undo();
+
+            Assert.False(undoManager.CanUndo);
+            Assert.True(undoManager.CanRedo);
+        }
+
+        private sealed class PushingUndoCommand : IUndoCommand
+        {
+            private readonly UndoManager _undoManager;
+            private readonly IUndoCommand _pushed;
+
+            public PushingUndoCommand(UndoManager undoManager, IUndoCommand pushed)
+            {
+                _undoManager = undoManager;
+                _pushed = pushed;
+            }
+
+            public void Execute() { }
+            public void Undo() => _undoManager.Push(_pushed);
+        }
+
         private sealed class ThrowingUndoCommand : IUndoCommand
         {
             private readonly bool _throwOnUndo;

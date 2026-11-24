@@ -110,11 +110,8 @@ namespace CMiX.Core.Networking
             }
         }
 
-        private void Record(IControlModel before, IControlModel after)
-        {
-            if (!_undoManager.IsApplying)
-                _undoManager.Push(new ValueChangedUndoCommand(_value, before, after));
-        }
+        private void Record(IControlModel before, IControlModel after) =>
+            _undoManager.Push(new ValueChangedUndoCommand(_value, before, after));
 
         private void SendNow() =>
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageValueChanged>(_value.ID, _value));
