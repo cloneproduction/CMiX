@@ -8,14 +8,19 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace CMiX.Studio.Avalonia.Settings
 {
     // The interface settings of the Studio (StudioSettings.Interface), live, for the views and the Settings tab. A change is saved at once.
-    // The save keeps the other parts of the file. With no file, nothing is read or saved.
+    // The save keeps the other parts of the file.
     public sealed partial class InterfaceState : ObservableObject
     {
         private bool loading;
 
         private readonly StudioSettingsFile? file;
 
-        public InterfaceState(StudioSettingsFile? file = null) => this.file = file;
+        // With no file, nothing is read or saved.
+        public InterfaceState()
+        {
+        }
+
+        public InterfaceState(StudioSettingsFile file) => this.file = file;
 
         // The hint strip of the keys under the tree. On by default.
         [ObservableProperty]
