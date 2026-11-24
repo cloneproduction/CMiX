@@ -4,7 +4,7 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // A GenericValue: its defaults, a momentary value, and a write that sends nothing.
+    // A GenericValue: its defaults and a write that sends nothing.
     public class GenericValueTests
     {
         [Fact]
@@ -34,63 +34,11 @@ namespace CMiX.Core.Tests
             Assert.Equal(5, value.Value);
         }
 
-        private static GenericValue<bool> CreateActiveBool(FakeValueSync sync)
-        {
-            var control = new GenericValue<bool>(sync, new ControlActivationService());
-            control.Activate();
-            return control;
-        }
-
-        [Fact]
-        public void Value_OfAMomentaryValue_WritesNoUndoStep()
-        {
-            var sync = new FakeValueSync();
-            var control = CreateActiveBool(sync);
-            control.IsMomentary = true;
-
-            control.Value = true;
-            control.Value = false;
-
-            Assert.DoesNotContain("Changing", sync.Calls);
-            Assert.DoesNotContain("Changed", sync.Calls);
-        }
-
-        [Fact]
-        public void Value_OfAMomentaryValue_StillSendsTheWireMessage()
-        {
-            var sync = new FakeValueSync();
-            var control = CreateActiveBool(sync);
-            control.IsMomentary = true;
-
-            control.Value = true;
-            control.Value = false;
-
-            Assert.Equal(new[] { "Send", "Send" }, sync.Calls);
-        }
-
-        [Fact]
-        public void Value_OfANormalValue_StillWritesAnUndoStep()
-        {
-            var sync = new FakeValueSync();
-            var control = CreateActiveBool(sync);
-
-            control.Value = true;
-
-            Assert.Equal(new[] { "Changing", "Changed" }, sync.Calls);
-        }
-
-        private static GenericValue<double> CreateActiveDouble(FakeValueSync sync)
-        {
-            var control = new GenericValue<double>(sync, new ControlActivationService());
-            control.Activate();
-            return control;
-        }
-
         [Fact]
         public void SuppressSending_Write_SendsNothingAndLeavesNoUndoStep()
         {
             var sync = new FakeValueSync();
-            var control = CreateActiveDouble(sync);
+            var control = sync.CreateActive<double>();
 
             using (control.SuppressSending())
                 control.Value = 5;
@@ -103,7 +51,7 @@ namespace CMiX.Core.Tests
         public void SuppressSending_WriteAfterScope_SendsAgain()
         {
             var sync = new FakeValueSync();
-            var control = CreateActiveDouble(sync);
+            var control = sync.CreateActive<double>();
 
             using (control.SuppressSending())
                 control.Value = 5;
@@ -116,7 +64,7 @@ namespace CMiX.Core.Tests
         public void SuppressSending_WriteAfterInnerScopeEnds_StaysSuppressedUntilTheOuterScopeEnds()
         {
             var sync = new FakeValueSync();
-            var control = CreateActiveDouble(sync);
+            var control = sync.CreateActive<double>();
 
             using (control.SuppressSending())
             {

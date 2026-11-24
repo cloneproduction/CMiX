@@ -15,5 +15,13 @@ namespace CMiX.Core.Tests
         public void Changed(IControl value) => Calls.Add("Changed");
 
         public void Send(IControl value) => Calls.Add("Send");
+
+        // An active value that writes to this sync.
+        public GenericValue<T> CreateActive<T>()
+        {
+            var value = new GenericValue<T>(this, new ControlActivationService());
+            value.Activate();
+            return value;
+        }
     }
 }

@@ -1,4 +1,4 @@
 ﻿using Xunit;
 
-// Some statics remain, so a test class that changes one would change what the other test classes see in a parallel run.
+// WeakReferenceMessenger.Default is shared by every control, so the tests run one at a time.
 [assembly: CollectionBehavior(DisableTestParallelization = true)]

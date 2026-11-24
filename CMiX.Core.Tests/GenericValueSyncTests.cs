@@ -10,18 +10,11 @@ namespace CMiX.Core.Tests
     // What a GenericValue asks its sync to do.
     public class GenericValueSyncTests
     {
-        private static GenericValue<float> CreateActiveFloat(FakeValueSync sync)
-        {
-            var value = new GenericValue<float>(sync, new ControlActivationService());
-            value.Activate();
-            return value;
-        }
-
         [Fact]
         public void Value_SetWhenActive_ChangingThenChanged()
         {
             var sync = new FakeValueSync();
-            var value = CreateActiveFloat(sync);
+            var value = sync.CreateActive<float>();
 
             value.Value = 2f;
 
@@ -33,7 +26,7 @@ namespace CMiX.Core.Tests
         public void Value_SetToTheSameValue_CallsNothing()
         {
             var sync = new FakeValueSync();
-            var value = CreateActiveFloat(sync);
+            var value = sync.CreateActive<float>();
 
             value.Value = 0f;
 
@@ -53,23 +46,10 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Value_SetUnderSuppressSending_CallsNothing()
-        {
-            var sync = new FakeValueSync();
-            var value = CreateActiveFloat(sync);
-
-            using (value.SuppressSending())
-                value.Value = 2f;
-
-            Assert.Equal(2f, value.Value);
-            Assert.Empty(sync.Calls);
-        }
-
-        [Fact]
         public void Value_SetWhenMomentary_SendsOnly()
         {
             var sync = new FakeValueSync();
-            var value = CreateActiveFloat(sync);
+            var value = sync.CreateActive<float>();
             value.IsMomentary = true;
 
             value.Value = 1f;
@@ -79,23 +59,10 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Value_SetManyTimes_ChangesOnEveryWrite()
-        {
-            var sync = new FakeValueSync();
-            var value = CreateActiveFloat(sync);
-
-            for (int i = 1; i <= 10; i++)
-                value.Value = i;
-
-            Assert.Equal(Enumerable.Repeat(new[] { "Changing", "Changed" }, 10).SelectMany(pair => pair), sync.Calls);
-            Assert.Equal(10f, value.Value);
-        }
-
-        [Fact]
         public void Receive_OfAMessageWithItsId_SetsTheValueAndCallsNothing()
         {
             var sync = new FakeValueSync();
-            var value = CreateActiveFloat(sync);
+            var value = sync.CreateActive<float>();
             var message = new MessageValueChanged(value.ID, new GenericValueModel<float> { ID = value.ID, Value = 3f });
 
             value.Receive(message);

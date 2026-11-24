@@ -16,13 +16,6 @@ namespace CMiX.Core.Tests
             return control;
         }
 
-        private static GenericValue<double> CreateActiveDouble(FakeValueSync sync)
-        {
-            var control = new GenericValue<double>(sync, new ControlActivationService());
-            control.Activate();
-            return control;
-        }
-
         [Fact]
         public void Scope_OfManyWrites_CollapsesThemIntoOneUndoStep()
         {
@@ -50,7 +43,7 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var messenger = provider.GetRequiredService<ControlMessenger>();
-            var recorder = new RecordingSender();
+            var recorder = new RecordingMessageSender();
             messenger.Register(recorder);
             var interaction = provider.GetRequiredService<ValueInteraction>();
             var control = CreateActiveDouble(provider);
@@ -62,23 +55,23 @@ namespace CMiX.Core.Tests
             }
 
             messenger.Unregister(recorder);
+            var values = recorder.Sent.Select(message => ((GenericValueModel<double>)((MessageValueChanged)message).Value).Value).ToList();
 
-            Assert.NotEmpty(recorder.Values);
-            Assert.True(recorder.Values.Count < 500, $"expected throttled sends, got {recorder.Values.Count}");
-            Assert.Equal(500d, recorder.Values[^1]);
+            Assert.NotEmpty(values);
+            Assert.True(values.Count < 500, $"expected throttled sends, got {values.Count}");
+            Assert.Equal(500d, values[^1]);
         }
 
         [Fact]
         public void Value_WithoutAScope_SendsEveryWrite()
         {
             var sync = new FakeValueSync();
-            var control = CreateActiveDouble(sync);
+            var control = sync.CreateActive<double>();
 
             for (int i = 1; i <= 20; i++)
                 control.Value = i;
 
-            Assert.Equal(20, sync.Calls.Count(call => call == "Changing"));
-            Assert.Equal(20, sync.Calls.Count(call => call == "Changed"));
+            Assert.Equal(Enumerable.Repeat(new[] { "Changing", "Changed" }, 20).SelectMany(pair => pair), sync.Calls);
         }
 
         [Fact]
@@ -114,9 +107,8 @@ namespace CMiX.Core.Tests
             Assert.False(undoManager.CanUndo);
         }
 
-        // The scope ends through End, not through its handle.
         [Fact]
-        public void Scope_WithoutAnOwner_CollapsesEveryWriteIntoOneUndoStep()
+        public void End_WithoutAHandle_CollapsesEveryWriteIntoOneUndoStep()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
@@ -156,17 +148,6 @@ namespace CMiX.Core.Tests
             scope.Dispose();
 
             Assert.Equal(8d, control.Value);
-        }
-
-        private sealed class RecordingSender : IMessageSender
-        {
-            public List<double> Values { get; } = new();
-
-            public void SendMessage(IMessage message)
-            {
-                if (message is MessageValueChanged changed && changed.Value is GenericValueModel<double> model)
-                    Values.Add(model.Value);
-            }
         }
     }
 }
