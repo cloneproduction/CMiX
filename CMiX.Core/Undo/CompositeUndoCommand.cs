@@ -3,11 +3,11 @@
 
 namespace CMiX.Core.Undo
 {
-    public class CompositeCommand : IUndoCommand, IDisposable
+    public class CompositeUndoCommand : IUndoCommand, IDisposable
     {
         private readonly List<IUndoCommand> _commands;
 
-        public CompositeCommand(List<IUndoCommand> commands)
+        public CompositeUndoCommand(List<IUndoCommand> commands)
         {
             _commands = commands;
         }

@@ -78,7 +78,7 @@ Classes that are several shapes at once, or none:
 | `MasterBeat`, `AssetManager`, `OutputMappingManager`, `RedisAddressRegistry` | Singleton and control at once. |
 | `PrefabService` | Not a service. It is the name and the visibility of a prefab. |
 | `ControlCloner`, `ListRules`, `DerivedId`, `ManagerIDs`, `ProjectSerializer`, `ProjectStateHash`, `ProjectModelBuilder`, `SyncPeerStartup`, `ControlExtensions` | Static helpers. |
-| The undo steps (`AddItemUndoCommand`, `ValueChangedUndoCommand`, `CompositeCommand`, ...) | None of the five shapes. They are small objects with `Execute` and `Undo`. |
+| The undo steps (`AddItemUndoCommand`, `ValueChangedUndoCommand`, `CompositeUndoCommand`, ...) | None of the five shapes. They are small objects with `Execute` and `Undo`. |
 
 ### CMiX.Studio.Avalonia
 
@@ -134,7 +134,7 @@ The engine does not write to the stream. Three things come back to the Studio:
 
 `UndoManager` is one singleton with two stacks and a limit of 128 steps. `MainViewModel.UndoCommand` calls it; the menu binds that command through the window since 2026-11-19.
 A step undoes itself through the same code as a normal edit, so the undo also sends messages to the engine. `UndoManager.IsApplying` stops the edit from recording a new step.
-Two value steps on the same control within 500 ms merge. `BeginCapture` and `EndCapture` group several steps into one `CompositeCommand`.
+Two value steps on the same control within 500 ms merge. `BeginCapture` and `EndCapture` group several steps into one `CompositeUndoCommand`.
 A removed control stays alive inside its step. It is disposed when the step leaves the stack.
 A snapshot apply (join, pull, File Open) clears both stacks.
 
@@ -191,7 +191,7 @@ Names that collide:
 | **Texture** | `Texture` is the pair of diffuse and mask. `ControlRepository.Textures` and `MainViewModel.TextureManager` hold texture sources. |
 | **Filter = texture modifier** | The classes are filters (`ITextureFilter`, folder `Filters`). The list is `TextureModifierManager` and the interface is `ITextureModifiable`. A texture modifier is not a `Modifier`. |
 | **Message** | A wire message (`IMessage`) and a notice to the user (`MessageNotice`, `DialogMessage`). The sync views are in `Views/Messenger`, the code is in `Networking`, the classes say `Sync`. |
-| **Command** | `...Command` is for XAML and `...UndoCommand` is an undo step. `ValueChangedUndoCommand` and `CompositeCommand` are undo steps without the `Undo` word. |
+| **Command** | `...Command` is for XAML and `...UndoCommand` is an undo step. |
 | **Visible, Visibility, Hidden** | `PrefabService.Visibility`, `PrefabManager.Hidden`, and `VisibilityComponent.IsVisible => !Visible.Value`, where true means hidden. |
 | **Repository** | `ControlRepository` is the index. `ListRepository` and `TabRepository` are views of the six lists that `MainViewModel` owns. |
 | **Tree, SelectorPrefab** | `ProjectTree` is the tree. `Views/Controls/SelectorPrefab` is another control, used in the `Mesh` view. |

@@ -76,7 +76,7 @@ namespace CMiX.Core.Undo
             _captureList = null;
             if (commands.Count == 0) return;
             if (commands.Count == 1) { Push(commands[0]); return; }
-            _undoStack.AddLast(new CompositeCommand(commands));
+            _undoStack.AddLast(new CompositeUndoCommand(commands));
             DropRedoStack();
             TrimStack();
         }
