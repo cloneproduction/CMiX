@@ -37,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void WithoutAnyCount_TheListTakesTheToken()
+        public void Show_AListWithoutACount_TakesTheToken()
         {
             var list = Show(new ListPrefabSlot());
 
@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void WithACount_TheListShowsThatNumberOfRows()
+        public void Show_AListWithACount_HasThatNumberOfRows()
         {
             var list = Show(new ListPrefabSlot { MinItemCount = 2 });
 
@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheTextureList_ShowsTwoRows()
+        public void Show_TheTextureList_HasTwoRows()
         {
             var texture = new DiffuseTexture();
             new Window { Content = texture, Width = 400, Height = 800 }.Show();
@@ -67,7 +67,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void InsideTheMask_TheTextureListIsOneMarginFromTheEdge()
+        public void Show_TheTextureListInTheMask_IsOneMarginFromTheEdge()
         {
             var mask = new MaskTexture();
             new Window { Content = mask, Width = 400, Height = 800 }.Show();

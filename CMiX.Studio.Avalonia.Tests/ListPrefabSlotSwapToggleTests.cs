@@ -53,7 +53,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ThePanelOfTheToggle_StartsAtTheLeftEdgeAndTheBottomEdgeOfTheToggle()
+        public void Open_ThePanelOfTheToggle_StartsAtTheLeftAndTheBottomEdgeOfTheToggle()
         {
             var (view, repository, provider) = Show();
             view.Margin = new Thickness(100, 40, 0, 0);
@@ -71,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ALongRepository_ScrollsInThePopup()
+        public void Open_ThePopupOfALongRepository_Scrolls()
         {
             var (view, repository, provider) = Show();
             var factory = provider.GetRequiredService<ControlFactory>();
@@ -89,7 +89,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ThePopup_ShowsTheListWithASearchField()
+        public void Open_ThePopup_ShowsTheListWithASearchField()
         {
             var (view, repository, provider) = Show();
             repository.Add(provider.GetRequiredService<ControlFactory>().Create(typeof(Entity)));
@@ -106,7 +106,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
 
         [AvaloniaFact]
-        public void InTheOpenPopup_TheArrowKeysMoveTheHighlight()
+        public void Press_TheArrowKeysInTheOpenPopup_MoveTheHighlight()
         {
             var (_, _, _, list) = ShowWithOpenPopup(5);
 
@@ -182,7 +182,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void RepositoryWithoutItems_DisablesTheToggle()
+        public void Show_AnEmptyRepository_DisablesTheToggle()
         {
             var (view, _, _) = Show();
 
@@ -190,7 +190,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void RepositoryWithAnItem_EnablesTheToggle()
+        public void AddItem_ToAnEmptyRepository_EnablesTheToggle()
         {
             var (view, repository, provider) = Show();
 
@@ -201,7 +201,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void RepositoryEmptiedAgain_DisablesTheToggleAgain()
+        public void RemoveItem_TheLastItemOfTheRepository_DisablesTheToggleAgain()
         {
             var (view, repository, provider) = Show();
             var item = provider.GetRequiredService<ControlFactory>().Create(typeof(Entity));

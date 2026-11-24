@@ -74,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void AnAddContentThatIsReplaced_IsSquareToo()
+        public void Show_AnAddContentThatIsReplaced_IsSquareToo()
         {
             var slot = new ListPrefabSlot { DataContext = Manager(), AddContent = new Button { Content = "First" } };
             Show(slot);
@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheButtonsOfTheRow_TakeTheirCornersFromTheirPlace()
+        public void Show_TheButtonsOfTheRow_TakeTheirCornersFromTheirPlace()
         {
             var slot = new ListPrefabSlot { DataContext = Manager(), AddContent = new Button { Content = "New Camera" } };
             Show(slot);

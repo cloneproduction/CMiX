@@ -111,7 +111,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Menu_UsesTheSharedPopupTheme()
+        public void Open_TheMenu_UsesTheSharedPopupTheme()
         {
             var screen = Show(typeof(Entity), 1);
             var row = screen.Rows.Single();
@@ -192,7 +192,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         [AvaloniaTheory]
         [MemberData(nameof(Kinds))]
-        public void Rename_StartsTheEditModeOfTheNameBox(Type kind)
+        public void Rename_FromTheMenu_StartsTheEditModeOfTheNameBox(Type kind)
         {
             var screen = Show(kind, 1);
             var row = screen.Rows.Single();
@@ -218,7 +218,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ARightClickBelowTheRows_OpensNoMenu()
+        public void RightClick_BelowTheRows_OpensNoMenu()
         {
             var screen = Show(typeof(Entity), 1);
             var row = screen.Rows.Single();

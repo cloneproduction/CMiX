@@ -27,7 +27,7 @@ namespace CMiX.Studio.Avalonia.Tests
             ButtonNames.Select(name => view.FindControl<Button>(name)!.IsEnabled).ToList();
 
         [AvaloniaFact]
-        public void SlotWithoutItems_DisablesRemoveMoveUpAndMoveDown()
+        public void Show_AnEmptySlot_DisablesRemoveMoveUpAndMoveDown()
         {
             var (view, _) = Show();
 
@@ -35,7 +35,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void SlotWithAnItem_EnablesRemoveMoveUpAndMoveDown()
+        public void AddItem_ToAnEmptySlot_EnablesRemoveMoveUpAndMoveDown()
         {
             var (view, manager) = Show();
 
@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void SlotEmptiedAgain_DisablesTheButtonsAgain()
+        public void RemoveItem_TheLastItemOfASlot_DisablesTheButtonsAgain()
         {
             var (view, manager) = Show();
             manager.AddItem(typeof(Entity));

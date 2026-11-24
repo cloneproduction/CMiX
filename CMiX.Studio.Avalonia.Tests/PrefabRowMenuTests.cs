@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static string? NameOfTitle(MenuItem row) => row.Classes.Contains("title") ? row.Header as string : null;
 
         [AvaloniaFact]
-        public void SlotMenu_StartsWithTheNameAndListsDuplicateRenameMovesAndRemove()
+        public void Open_TheSlotMenu_StartsWithTheNameAndListsDuplicateRenameMovesAndRemove()
         {
             var (manager, list) = ShowSlotList(RowMenuKind.Slot, 2);
 
@@ -85,7 +85,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void SlotMenu_DisablesTheMovesThatCannotMoveTheItem()
+        public void Open_TheSlotMenu_DisablesTheMovesThatCannotMoveTheItem()
         {
             var (_, list) = ShowSlotList(RowMenuKind.Slot, 3);
 
@@ -123,7 +123,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void RepositoryMenu_StartsWithTheNameAndListsDuplicateRenameAndRemoveEverywhere()
+        public void Open_TheRepositoryMenu_StartsWithTheNameAndListsDuplicateRenameAndRemoveEverywhere()
         {
             var (manager, list) = ShowRepositoryList(RowMenuKind.Repository, 2);
 
@@ -135,7 +135,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void RowMenuNone_GivesTheRowsNoMenu()
+        public void Show_RowMenuNone_GivesTheRowsNoMenu()
         {
             var (_, slotList) = ShowSlotList(RowMenuKind.None, 1);
             var (_, repositoryList) = ShowRepositoryList(RowMenuKind.None, 1);
