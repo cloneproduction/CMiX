@@ -7,20 +7,10 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     public class BindingIntegrityTests
     {
-        // Measured against the current, known good binding graph: constructing MainWindow and
-        // pumping the dispatcher settles at exactly 14 "Could not find a matching property
-        // accessor" warnings, all against CMiX.Core.Prefabs.Managers.PrefabManager (properties
-        // like MaterialSettings, ModifierManagerIsExpanded, TextureModifierManager and so on).
-        // These are the known startup accessor transients documented in the Avalonia migration
-        // memory: while DataContext propagates top down, a nested view's binding evaluates once
-        // against the shared PrefabManager ancestor context before its own local context
-        // attaches, then never fires again once the real context is in place. The count
-        // reproduced identically across repeated local runs, so the ceiling is pinned to that
-        // exact measured value rather than padded. A newly introduced broken binding, such as a
-        // typo in a property name, adds a distinct accessor error this graph does not produce
-        // today, pushing the total past the ceiling and failing the test, while the known
-        // transient noise stays at exactly that number.
-        private const int BaselineMaxAccessorErrors = 14;
+        // Measured on 2026-11-24: MainWindow gives 4 "Could not find a matching property accessor" warnings. Each one is a binding
+        // of a view (Texture, Camera, LightEntity, ModelEntity, TextEntity) that runs once against the PrefabManager of the
+        // parent before the view gets its own item. A new wrong binding adds one more and fails the test. The number only goes down.
+        private const int BaselineMaxAccessorErrors = 4;
 
         private const string AccessorErrorFragment = "Could not find a matching property accessor";
 
