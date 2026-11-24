@@ -51,7 +51,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         }
 
         [AvaloniaFact]
-        public void NewProject_ClearsATextureCreatedThroughTheTexturesTab()
+        public void NewProject_ATextureOfTheTexturesTab_ClearsIt()
         {
             var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             SelectTab(window, "Textures");
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // is the case the reported symptom came from: the slot textures sit in the entity's material
         // rather than in any of the swept managers, and they have to come down with the composition.
         [AvaloniaFact]
-        public void NewProject_ClearsTheTexturesOfALoadedProject()
+        public void NewProject_ALoadedProject_ClearsItsTextures()
         {
             using var temp = new TempFolder("newproject");
             var path = temp.PathOf("project.cmix");

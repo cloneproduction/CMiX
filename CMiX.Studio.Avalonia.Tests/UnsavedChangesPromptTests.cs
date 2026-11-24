@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
             dialog.GetVisualDescendants().OfType<Button>().Single(button => button.Name == name);
 
         [AvaloniaFact]
-        public void TheDialog_ShowsTheWarningTheQuestionAndThreeButtons()
+        public void Show_TheDialog_HasTheWarningTheQuestionAndThreeButtons()
         {
             var dialog = Dialog();
             dialog.Show(Owner());
@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheDialog_UsesTheFrameOfTheMenusAndFlyouts()
+        public void Show_TheDialog_UsesTheFrameOfTheMenusAndFlyouts()
         {
             var dialog = Dialog();
             dialog.Show(Owner());
@@ -60,7 +60,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [InlineData("SaveButton", UnsavedChangesChoice.Save)]
         [InlineData("DontSaveButton", UnsavedChangesChoice.DontSave)]
         [InlineData("CancelButton", UnsavedChangesChoice.Cancel)]
-        public async Task EachButton_ClosesTheDialogWithItsChoice(string buttonName, UnsavedChangesChoice expected)
+        public async Task Click_EachButton_ClosesTheDialogWithItsChoice(string buttonName, UnsavedChangesChoice expected)
         {
             var dialog = Dialog();
             var answer = Answer(dialog.ShowDialog<MessageDialogResult>(Owner()));
@@ -73,7 +73,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public async Task Escape_IsCancel()
+        public async Task Press_Escape_IsCancel()
         {
             var dialog = Dialog();
             var answer = Answer(dialog.ShowDialog<MessageDialogResult>(Owner()));
@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public async Task Enter_IsSave()
+        public async Task Press_Enter_IsSave()
         {
             var dialog = Dialog();
             var answer = Answer(dialog.ShowDialog<MessageDialogResult>(Owner()));
@@ -99,7 +99,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public async Task ClosingTheDialogWithoutAnAnswer_IsCancel()
+        public async Task Close_TheDialogWithoutAnAnswer_IsCancel()
         {
             var dialog = Dialog();
             var answer = Answer(dialog.ShowDialog<MessageDialogResult>(Owner()));

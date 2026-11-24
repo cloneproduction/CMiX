@@ -26,7 +26,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void AnEdit_IsAChange()
+        public void HasChanges_AnEdit_IsTrue()
         {
             var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void AnEditThatIsUndone_IsNoChangeAnymore()
+        public void HasChanges_AnEditThatIsUndone_IsFalse()
         {
             var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
@@ -47,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void MarkSaved_TakesTheCurrentStateAsTheSavedOne()
+        public void MarkSaved_AfterAnEdit_TakesTheCurrentStateAsTheSavedOne()
         {
             var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             var unsaved = provider.GetRequiredService<UnsavedChanges>();
@@ -93,7 +93,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ANewProject_IsTheSavedState()
+        public void NewProject_WithChanges_IsTheSavedState()
         {
             var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));

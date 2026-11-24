@@ -104,7 +104,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // leaves the same number of steps behind whether or not the session it replaced had a
         // history of its own, which since the load stopped recording is none either way.
         [AvaloniaFact]
-        public async Task OpenProject_DropsTheUndoHistoryOfTheSessionItReplaced()
+        public async Task OpenProject_AfterEdits_DropsTheUndoHistoryOfTheSessionItReplaces()
         {
             using var temp = new TempFolder("openproject");
             var path = temp.PathOf("project.cmix");
@@ -156,7 +156,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // select entries deep. A Ctrl+Z on a freshly opened file stepped backwards into the load and
         // started taking the file apart instead of doing nothing.
         [AvaloniaFact]
-        public async Task OpenProject_LeavesNothingOnTheUndoStack()
+        public async Task OpenProject_AFile_LeavesNothingOnTheUndoStack()
         {
             using var temp = new TempFolder("openproject");
             var path = temp.PathOf("project.cmix");
@@ -233,7 +233,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // File > New gives the output mappings and the project name the values
         // of a new project. The master beat keeps its tempo, and the undo stack stays empty.
         [AvaloniaFact]
-        public async Task NewProject_ResetsTheOutputMappingsAndTheName()
+        public async Task NewProject_AfterAnOpen_ResetsTheOutputMappingsAndTheName()
         {
             using var temp = new TempFolder("openproject");
             var path = temp.PathOf("project.cmix");
@@ -311,7 +311,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
         // The project name is not part of a composition. An open restores it from the file too.
         [AvaloniaFact]
-        public async Task OpenProject_RestoresTheProjectName()
+        public async Task OpenProject_AFile_RestoresTheProjectName()
         {
             const string projectName = "Saved Project";
             using var temp = new TempFolder("openproject");
@@ -399,7 +399,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         // names and resolutions from the file into the same nine slot instances.
         // The slots keep their fixed ids, and a composition keeps its saved slot.
         [AvaloniaFact]
-        public async Task OpenProject_RestoresTheOutputMappingNamesAndResolutions()
+        public async Task OpenProject_AFile_RestoresTheOutputMappingNamesAndResolutions()
         {
             using var temp = new TempFolder("openproject");
             var path = temp.PathOf("project.cmix");

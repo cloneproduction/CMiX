@@ -11,7 +11,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class ProjectSessionTests
     {
         [AvaloniaFact]
-        public void ClearAll_EmptiesTheListsAndTheRepository()
+        public void ClearAll_AFullProject_EmptiesTheListsAndTheRepository()
         {
             var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 

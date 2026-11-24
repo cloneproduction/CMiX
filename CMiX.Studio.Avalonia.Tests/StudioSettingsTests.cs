@@ -105,7 +105,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void FromSyncOptionsThenToSyncOptions_RoundTrips()
+        public void FromSyncOptions_ThenToSyncOptions_GivesTheSameOptions()
         {
             var original = new SyncOptions("10.0.0.5", 6400, 2, "studio-user", "secret", "cmix:studio", "MyStudio", "engine");
 

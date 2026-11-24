@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         }
 
         [AvaloniaFact]
-        public async Task OpenProject_RestoresTheMasterBeatOfTheFile()
+        public async Task OpenProject_AFileWithAMasterBeat_RestoresTheMasterBeat()
         {
             using var temp = new TempFolder("openrestore");
             var path = temp.PathOf("project.cmix");

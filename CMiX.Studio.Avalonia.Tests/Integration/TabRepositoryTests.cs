@@ -18,7 +18,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
     public class TabRepositoryTests
     {
         [AvaloniaFact]
-        public void TexturesTab_PresentsItsManagerAndTheEditingPanelOfTheSelectedTexture()
+        public void Show_TheTexturesTab_PresentsItsManagerAndThePanelOfTheSelectedTexture()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
@@ -70,7 +70,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
         }
 
         [AvaloniaFact]
-        public void LayerView_BindsTheEntitySlotsToTheModelEntitiesOfTheRepository()
+        public void Show_TheLayerView_BindsTheEntitySlotsToTheModelEntitiesOfTheRepository()
         {
             var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
