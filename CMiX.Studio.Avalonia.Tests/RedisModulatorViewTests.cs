@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -19,7 +22,7 @@ using ViewRedisIntModulator = CMiX.Studio.Avalonia.Views.RedisIntModulator;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The address combo box that the views of the three Redis modulators share.
+    // The address combo box that the views of the three Redis modulators share, and the range of the float modulator.
     public class RedisModulatorViewTests
     {
         private readonly IServiceProvider _provider = TestServiceProviderFactory.Create();
@@ -146,6 +149,32 @@ namespace CMiX.Studio.Avalonia.Tests
             var view = Show(viewType, NewModulator(modulatorType));
 
             Assert.Empty(view.GetVisualDescendants().OfType<DragValue>());
+        }
+
+        private static RangeValue RangeOf(Control view) => view.GetVisualDescendants().OfType<RangeValue>().Single();
+
+        [AvaloniaFact]
+        public void LeftValue_TheRangeValueOfAFloatModulator_ChangesTheMinimum()
+        {
+            var modulator = (RedisFloatModulator)NewModulator(typeof(RedisFloatModulator));
+            var view = Show(typeof(ViewRedisFloatModulator), modulator);
+
+            RangeOf(view).LeftValue = -2.0;
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(-2.0f, modulator.Range.Minimum.Value);
+        }
+
+        [AvaloniaFact]
+        public void RightValue_TheRangeValueOfAFloatModulator_ChangesTheMaximum()
+        {
+            var modulator = (RedisFloatModulator)NewModulator(typeof(RedisFloatModulator));
+            var view = Show(typeof(ViewRedisFloatModulator), modulator);
+
+            RangeOf(view).RightValue = 3.0;
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(3.0f, modulator.Range.Maximum.Value);
         }
     }
 }
