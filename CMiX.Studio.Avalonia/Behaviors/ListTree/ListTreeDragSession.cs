@@ -23,6 +23,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private ListTreePoint lastPoint = new(0, 0);
         private IReadOnlyList<ListTreeOpenState> openBefore = Array.Empty<ListTreeOpenState>();
         private ListTreeSlot? keyedSlot;
+        private readonly List<TreeNode> openedByDrag = new();
 
         public event EventHandler? Began;
 
@@ -128,13 +129,47 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         public void OpenNearCard()
         {
             var card = Rest.TakeResting() ?? KeyNearCard();
-            if (drag == null || tree is not { } opened || card == null)
+            if (drag == null || card == null)
                 return;
 
-            card.IsExpanded = true;
+            openedByDrag.Add(card);
+            SetOpen(card, true);
+        }
+
+        // The key Tree.Expand: it opens the near card, else it closes the card of the landing place when this drag opened it.
+        public void ToggleNearCard()
+        {
+            if (Rest.RestingNode != null || KeyNearCard() != null)
+            {
+                OpenNearCard();
+                return;
+            }
+
+            if (OpenedCardOfTheLandingPlace() is not { } card)
+                return;
+
+            openedByDrag.Remove(card);
+            SetOpen(card, false);
+        }
+
+        // The innermost card on the path of the holder that this drag opened. A card open before the drag stays open.
+        private TreeNode? OpenedCardOfTheLandingPlace()
+        {
+            for (var node = drag?.Look?.HolderNode; node != null; node = node.Parent)
+                if (openedByDrag.Contains(node))
+                    return node;
+            return null;
+        }
+
+        private void SetOpen(TreeNode card, bool isOpen)
+        {
+            if (drag is not { } running || tree is not { } opened)
+                return;
+
+            card.IsExpanded = isOpen;
             Rows.ApplyTreeChanges();
-            drag.MakeCandidates(ListTreeSnapshot.Of(opened.Roots));
-            ShowAgain(drag);
+            running.MakeCandidates(ListTreeSnapshot.Of(opened.Roots));
+            ShowAgain(running);
         }
 
         private void ShowAgain(ListTreeDrag made)
@@ -175,6 +210,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             drag = null;
             openBefore = Array.Empty<ListTreeOpenState>();
             keyedSlot = null;
+            openedByDrag.Clear();
             Rest.Rest(null);
             Part<ListTreeAutoScroll>().Stop();
             Rows.ShowLiveTree();
