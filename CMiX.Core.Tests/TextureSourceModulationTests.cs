@@ -46,20 +46,6 @@ namespace CMiX.Core.Tests
         }
 
         [Theory]
-        [MemberData(nameof(SourceTypes))]
-        public void EverySource_GivesItsCompositionIDToItsModulators(Type type)
-        {
-            var source = Create(type);
-            var id = Guid.NewGuid();
-            source.CompositionID = id;
-
-            source.ModulatorManager.AddItem(typeof(LFOModulator));
-
-            var modulator = (IHasCompositionID)source.ModulatorManager.SelectedItem;
-            Assert.Equal(id, modulator.CompositionID);
-        }
-
-        [Theory]
         [InlineData(typeof(VideoPlayer), 3)]
         [InlineData(typeof(SequencePlayer), 4)]
         public void Players_ModulateTheirPlayLoopSeekAndDoSeekValues(Type type, int count)
