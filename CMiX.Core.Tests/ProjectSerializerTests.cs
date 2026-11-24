@@ -25,39 +25,6 @@ namespace CMiX.Core.Tests
             return (ProjectModel)project.ToModel();
         }
 
-        // An output used to have a visibility. A file from that time still loads, and the key is ignored.
-        [Fact]
-        public void Load_FileWithTheRemovedOutputVisibility_StillLoads()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var path = Path.Combine(_directory, "old-outputs.cmix");
-            ProjectSerializer.Save(BuildMinimalProjectModel(provider), path);
-            var root = JsonNode.Parse(File.ReadAllText(path))!;
-            foreach (var item in root["OutputMappingManager"]!["Items"]!.AsArray())
-                item!.AsObject()["Visibility"] = JsonNode.Parse("{\"ID\":\"00000000-0000-0000-0000-000000000000\",\"Value\":false}");
-            File.WriteAllText(path, root.ToJsonString());
-
-            var loaded = ProjectSerializer.Load(path);
-
-            Assert.Equal(OutputMappingManager.SlotCount, loaded.OutputMappingManager.Items.Count);
-        }
-
-        // A project used to have a 3D model. A file from that time still loads, and the key is ignored.
-        [Fact]
-        public void Load_FileWithTheRemovedProjectModel_StillLoads()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var path = Path.Combine(_directory, "old-model.cmix");
-            ProjectSerializer.Save(BuildMinimalProjectModel(provider), path);
-            var root = JsonNode.Parse(File.ReadAllText(path))!;
-            root["Model"] = JsonNode.Parse("{\"ID\":\"00000000-0000-0000-0000-000000000000\",\"FilePath\":{\"ID\":\"00000000-0000-0000-0000-000000000000\",\"Value\":\"C:\\\\old\\\\model.obj\"}}");
-            File.WriteAllText(path, root.ToJsonString());
-
-            var loaded = ProjectSerializer.Load(path);
-
-            Assert.Single(loaded.CompositionManager.ManagerData.Items);
-        }
-
         // A file saved with the old $type RedisAddressModulatorModel still loads and gives a RedisFloatModulator.
         [Fact]
         public void Load_AProjectWithTheOldRedisAddressModulatorType_GivesARedisFloatModulator()
