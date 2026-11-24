@@ -88,7 +88,7 @@ namespace CMiX.Core.Tests
             await store.ConnectAsync(default);
             var model = ModelWithOneComposition();
             var tail = await store.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await store.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await store.WriteSnapshotAsync(SnapshotOf(model, tail));
 
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
@@ -110,7 +110,7 @@ namespace CMiX.Core.Tests
             var afterId = Guid.NewGuid();
             var after = await store.AppendAsync(Envelope("other", new MessageOnClick(afterId)));
             var model = ModelWithOneComposition();
-            await store.WriteSnapshotAsync(SnapshotOf(model,atSnapshot));
+            await store.WriteSnapshotAsync(SnapshotOf(model, atSnapshot));
 
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store);
@@ -270,7 +270,7 @@ namespace CMiX.Core.Tests
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
-            await inner.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await inner.WriteSnapshotAsync(SnapshotOf(model, tail));
             await inner.TrimAsync(tail);
             store.SetFail(false);
 
@@ -311,7 +311,7 @@ namespace CMiX.Core.Tests
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
-            await inner.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await inner.WriteSnapshotAsync(SnapshotOf(model, tail));
             await inner.TrimAsync(tail);
             storeB.SetFail(false);
 
@@ -340,7 +340,7 @@ namespace CMiX.Core.Tests
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
-            await inner.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await inner.WriteSnapshotAsync(SnapshotOf(model, tail));
             store.SetFail(false);
 
             await WaitUntilAsync(() => target.Applied.Count == 2, 15000, () => $"status={peer.Status} last={peer.LastAppliedId}");
@@ -365,7 +365,7 @@ namespace CMiX.Core.Tests
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
-            await inner.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await inner.WriteSnapshotAsync(SnapshotOf(model, tail));
             await inner.TrimAsync(tail);
 
             // Holds the recovery open over two heartbeat intervals.
@@ -407,7 +407,7 @@ namespace CMiX.Core.Tests
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
-            await inner.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await inner.WriteSnapshotAsync(SnapshotOf(model, tail));
             await inner.TrimAsync(tail);
 
             // Holds the recovery in its snapshot read, so a heartbeat tick can see the same gap.
@@ -453,7 +453,7 @@ namespace CMiX.Core.Tests
 
             var model = ModelWithOneComposition();
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await inner.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await inner.WriteSnapshotAsync(SnapshotOf(model, tail));
 
             // The tick reads the oldest entry only for a gap check. The join starts right after it.
             await WaitUntilAsync(() => store.OldestReadCalls > 0, 15000, () => $"status={peer.Status}");
@@ -495,7 +495,7 @@ namespace CMiX.Core.Tests
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
-            await inner.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await inner.WriteSnapshotAsync(SnapshotOf(model, tail));
             await inner.TrimAsync(tail);
 
             // Longer than the stale pause of the follower.
@@ -536,7 +536,7 @@ namespace CMiX.Core.Tests
 
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
-            await inner.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await inner.WriteSnapshotAsync(SnapshotOf(model, tail));
             await inner.TrimAsync(tail);
 
             await WaitUntilAsync(() => store.OldestReadCalls > 0, 15000, () => $"status={peer.Status}");
@@ -578,7 +578,7 @@ namespace CMiX.Core.Tests
             await store.ConnectAsync(default);
             var model = ModelWithOneComposition();
             var tail = await store.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await store.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await store.WriteSnapshotAsync(SnapshotOf(model, tail));
 
             var target = new RecordingSyncTarget();
             using var peer = CreatePeer(target, store, isWriter: false);
@@ -636,7 +636,7 @@ namespace CMiX.Core.Tests
             await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
-            await inner.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await inner.WriteSnapshotAsync(SnapshotOf(model, tail));
             await inner.TrimAsync(tail);
             store.SetFail(false);
 
@@ -663,7 +663,7 @@ namespace CMiX.Core.Tests
             await replacement.ConnectAsync(default);
             var model = ModelWithOneComposition();
             var snapshotId = await replacement.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await replacement.WriteSnapshotAsync(SnapshotOf(model,snapshotId));
+            await replacement.WriteSnapshotAsync(SnapshotOf(model, snapshotId));
             var afterId = Guid.NewGuid();
             var tail = await replacement.AppendAsync(Envelope("other", new MessageOnClick(afterId)));
             store.Replace(replacement);
@@ -916,7 +916,7 @@ namespace CMiX.Core.Tests
             await inner.ConnectAsync(default);
             var model = ModelWithOneComposition();
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await inner.WriteSnapshotAsync(SnapshotOf(model,tail));
+            await inner.WriteSnapshotAsync(SnapshotOf(model, tail));
 
             var store = new UnreliableSyncStore(inner) { Fail = true };
             var target = new RecordingSyncTarget();
@@ -970,14 +970,14 @@ namespace CMiX.Core.Tests
             await innerA.ConnectAsync(default);
             var modelA = ModelWithOneComposition();
             var tailA = await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await innerA.WriteSnapshotAsync(SnapshotOf(modelA,tailA));
+            await innerA.WriteSnapshotAsync(SnapshotOf(modelA, tailA));
             var storeA = new WrappingSyncStore(innerA);
 
             var storeB = new InMemorySyncStore();
             await storeB.ConnectAsync(default);
             var modelB = ModelWithOneComposition();
             var tailB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await storeB.WriteSnapshotAsync(SnapshotOf(modelB,tailB));
+            await storeB.WriteSnapshotAsync(SnapshotOf(modelB, tailB));
             Assert.NotEqual(ProjectStateHash.Compute(modelA), ProjectStateHash.Compute(modelB));
 
             var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -1026,13 +1026,13 @@ namespace CMiX.Core.Tests
             var innerA = new InMemorySyncStore();
             await innerA.ConnectAsync(default);
             var tailA = await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await innerA.WriteSnapshotAsync(SnapshotOf(ModelWithOneComposition(),tailA));
+            await innerA.WriteSnapshotAsync(SnapshotOf(ModelWithOneComposition(), tailA));
             var storeA = new WrappingSyncStore(innerA);
 
             var storeB = new InMemorySyncStore();
             await storeB.ConnectAsync(default);
             var snapshotB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await storeB.WriteSnapshotAsync(SnapshotOf(ModelWithOneComposition(),snapshotB));
+            await storeB.WriteSnapshotAsync(SnapshotOf(ModelWithOneComposition(), snapshotB));
             var tailB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
 
             var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -1181,7 +1181,7 @@ namespace CMiX.Core.Tests
             await storeB.ConnectAsync(default);
             var foreign = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var model = ModelWithOneComposition();
-            await storeB.WriteSnapshotAsync(SnapshotOf(model,foreign));
+            await storeB.WriteSnapshotAsync(SnapshotOf(model, foreign));
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget();
@@ -1284,7 +1284,7 @@ namespace CMiX.Core.Tests
             await storeB.ConnectAsync(default);
             var modelB = ModelWithOneComposition();
             var tailB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await storeB.WriteSnapshotAsync(SnapshotOf(modelB,tailB));
+            await storeB.WriteSnapshotAsync(SnapshotOf(modelB, tailB));
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
             var target = new RecordingSyncTarget();
@@ -1300,7 +1300,7 @@ namespace CMiX.Core.Tests
             await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var tailA = await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var modelA = ModelWithOneComposition();
-            await innerA.WriteSnapshotAsync(SnapshotOf(modelA,tailA));
+            await innerA.WriteSnapshotAsync(SnapshotOf(modelA, tailA));
             await innerA.TrimAsync(tailA);
 
             var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -1344,7 +1344,7 @@ namespace CMiX.Core.Tests
             await storeB.ConnectAsync(default);
             var modelB = ModelWithOneComposition();
             var tailB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await storeB.WriteSnapshotAsync(SnapshotOf(modelB,tailB));
+            await storeB.WriteSnapshotAsync(SnapshotOf(modelB, tailB));
 
             var reached = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -1438,7 +1438,7 @@ namespace CMiX.Core.Tests
             var storeB = new InMemorySyncStore();
             await storeB.ConnectAsync(default);
             var snapshotB = await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await storeB.WriteSnapshotAsync(SnapshotOf(ModelWithOneComposition(),snapshotB));
+            await storeB.WriteSnapshotAsync(SnapshotOf(ModelWithOneComposition(), snapshotB));
             await storeB.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
 
             var stores = new Queue<ISyncStore>(new ISyncStore[] { storeA, storeB });
@@ -1469,7 +1469,7 @@ namespace CMiX.Core.Tests
             storeA.BeforeReadTail = null;
 
             var tailA = await innerA.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
-            await innerA.WriteSnapshotAsync(SnapshotOf(ModelWithOneComposition(),tailA));
+            await innerA.WriteSnapshotAsync(SnapshotOf(ModelWithOneComposition(), tailA));
             await innerA.TrimAsync(tailA);
 
             var restarted = 0;
