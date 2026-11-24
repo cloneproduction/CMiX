@@ -12,7 +12,8 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    public class ScrollViewerOverlayKeepOffsetTests
+    // The theme ScrollViewerOverlayKeepOffset attaches ScrollViewerBehavior, which keeps the offset when the content grows.
+    public class ScrollViewerBehaviorTests
     {
         [AvaloniaFact]
         public void Theme_OnAScrollViewerInAWindow_AttachesOneScrollViewerBehavior()
