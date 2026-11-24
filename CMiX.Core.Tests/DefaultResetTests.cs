@@ -25,6 +25,37 @@ namespace CMiX.Core.Tests
             Assert.Equal(expected, value.Value);
         }
 
+        // Values whose Reset does not give the value of a new control today. The owner decides.
+        private static readonly HashSet<string> ResetGaps = new(StringComparer.Ordinal)
+        {
+            "Composition.Compositing.BackgroundColor",
+            "Composition.Compositing.Opacity",
+            "Composition.SelectedOutputMappingID",
+        };
+
+        // A value whose default the factory did not take goes back to zero on Reset and fails here.
+        [Theory]
+        [MemberData(nameof(ControlRoundTripTests.Types), MemberType = typeof(ControlRoundTripTests))]
+        public void Reset_OfEveryChangedValue_GivesTheValueOfANewControl(Type type)
+        {
+            var fresh = ValueWalker.Collect(CreateFactory().Create(type));
+            var changed = ValueWalker.Collect(CreateFactory().Create(type));
+            var n = 0;
+            foreach (var value in changed.Values)
+                value.Change(n++);
+
+            foreach (var value in changed.Values)
+                value.Reset();
+
+            var wrong = fresh
+                .Where(entry => !ResetGaps.Contains(entry.Key))
+                .Where(entry => !changed.ContainsKey(entry.Key) || !Equals(entry.Value.Value, changed[entry.Key].Value))
+                .Select(entry => $"{entry.Key} is {(changed.TryGetValue(entry.Key, out var after) ? after.Value : "missing")} after the reset and {entry.Value.Value} on a new control.")
+                .ToList();
+
+            Assert.True(wrong.Count == 0, string.Join(Environment.NewLine, wrong));
+        }
+
         [Fact]
         public void CreateFromType_ResetRestoresTheModelDefault()
         {

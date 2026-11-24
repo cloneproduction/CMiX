@@ -15,6 +15,28 @@ namespace CMiX.Core.Tests
 
         public Guid ID => ((IControl)_instance).ID;
 
+        public void Reset() => _instance.GetType().GetMethod("Reset", Type.EmptyTypes)!.Invoke(_instance, null);
+
+        // Sets a value that differs from the current one. The number n keeps two values of one control apart.
+        public void Change(int n) => Value = Value switch
+        {
+            float f => f + 0.37f + n * 0.001f,
+            int i => i + 3,
+            bool b => !b,
+            string s => s + "x",
+            Guid when ValueType == typeof(Guid?) => new Guid(n + 1, 0, 0, new byte[8]),
+            Enum e => NextValue(e),
+            null when ValueType == typeof(string) => "x",
+            null when ValueType == typeof(Guid?) => new Guid(n + 1, 0, 0, new byte[8]),
+            _ => Value
+        };
+
+        private static object NextValue(Enum value)
+        {
+            var values = Enum.GetValues(value.GetType());
+            return values.GetValue((Array.IndexOf(values, value) + 1) % values.Length);
+        }
+
         public object Value
         {
             get => _instance.GetType().GetProperty("Value")!.GetValue(_instance);

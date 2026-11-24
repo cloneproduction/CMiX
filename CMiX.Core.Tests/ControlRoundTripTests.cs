@@ -31,25 +31,6 @@ namespace CMiX.Core.Tests
         private static ControlFactory CreateFactory() =>
             TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
 
-        private static object Changed(WalkedValue value, int n) => value.Value switch
-        {
-            float f => f + 0.37f + n * 0.001f,
-            int i => i + 3,
-            bool b => !b,
-            string s => s + "x",
-            Guid when value.ValueType == typeof(Guid?) => new Guid(n + 1, 0, 0, new byte[8]),
-            Enum e => NextValue(e),
-            null when value.ValueType == typeof(string) => "x",
-            null when value.ValueType == typeof(Guid?) => new Guid(n + 1, 0, 0, new byte[8]),
-            _ => value.Value
-        };
-
-        private static object NextValue(Enum value)
-        {
-            var values = Enum.GetValues(value.GetType());
-            return values.GetValue((Array.IndexOf(values, value) + 1) % values.Length);
-        }
-
         [Fact]
         public void Types_OfTheCoreAssembly_HoldEveryControlWithAModel()
         {
@@ -64,7 +45,7 @@ namespace CMiX.Core.Tests
             var before = ValueWalker.Collect(control);
             var n = 0;
             foreach (var value in before.Values)
-                value.Value = Changed(value, n++);
+                value.Change(n++);
 
             var loaded = CreateFactory().Create(control.ToModel());
             var after = ValueWalker.Collect(loaded);
