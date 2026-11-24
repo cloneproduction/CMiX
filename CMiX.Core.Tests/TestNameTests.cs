@@ -11,7 +11,7 @@ namespace CMiX.Core.Tests
     public class TestNameTests
     {
         // The tests from before 2026-11-01 keep their names. New tests follow the rule, so this number only goes down.
-        private const int PinnedBadNameCount = 201;
+        private const int PinnedBadNameCount = 194;
 
         private static readonly Regex NameRule = new Regex("^[A-Z][A-Za-z0-9]*_[A-Z][A-Za-z0-9]*_[A-Z][A-Za-z0-9]*$");
 
