@@ -3,6 +3,7 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.Assets;
+using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Modulation;
 using CMiX.Core.Networking;
@@ -49,6 +50,8 @@ namespace CMiX.Core.DependencyInjection
             services.AddTransient<CollectionManager>();
             services.AddSingleton<ItemListFactory>(sp => collection =>
                 new CollectionSync(collection, sp.GetRequiredService<ControlMessenger>(), sp.GetRequiredService<MessageFactory>()));
+            services.AddTransient<IValueSync, ValueSync>();
+            services.AddSingleton<ValueSyncFactory>(sp => () => sp.GetRequiredService<IValueSync>());
 
             services.AddSingleton<ISyncTarget, ProjectSyncTarget>();
             services.AddSingleton<Func<SyncOptions, ISyncStore>>(_ => options => new RedisSyncStore(options));
