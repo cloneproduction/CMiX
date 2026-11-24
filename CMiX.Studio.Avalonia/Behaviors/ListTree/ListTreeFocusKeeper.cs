@@ -37,6 +37,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Context.Owner.RemoveHandler(InputElement.LostFocusEvent, OnLostFocusInTree);
             Context.Rows.LayoutUpdated -= OnLayoutUpdated;
             focusCheckPosted = false;
+            focusIsInTree = false;
             tree = null;
         }
 

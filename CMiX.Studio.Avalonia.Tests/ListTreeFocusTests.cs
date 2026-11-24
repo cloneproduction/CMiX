@@ -199,5 +199,21 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.False(Named(RowOf(Entities.Children[1]), "cursorFrame").IsEffectivelyVisible);
         }
+
+        // The view leaves the window with the focus in a row and comes back: the focus does not jump back into the rows.
+        [AvaloniaFact]
+        public void Attach_AgainAfterADetachWithTheFocusInARow_TakesNoFocus()
+        {
+            var panel = (DockPanel)window.Content!;
+            RowOf(Entity).Focus();
+            Settle();
+
+            panel.Children.Remove(view);
+            Settle();
+            panel.Children.Add(view);
+            Settle();
+
+            Assert.False(Focused() is RowListTree, $"focused: {Focused()?.GetType().Name ?? "nothing"}");
+        }
     }
 }
