@@ -60,12 +60,5 @@ namespace CMiX.Studio.Avalonia.Tests.Support
             Dispatcher.UIThread.RunJobs();
             Release(window, point);
         }
-
-        // Turns the wheel at the point during the drag. Positive steps turn it away from the user (scroll up).
-        public static void Wheel(Window window, Point point, int steps)
-        {
-            window.MouseWheel(point, new Vector(0, steps), RawInputModifiers.LeftMouseButton);
-            Dispatcher.UIThread.RunJobs();
-        }
     }
 }
