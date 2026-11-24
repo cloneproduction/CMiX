@@ -62,7 +62,7 @@ Avoid the shapes that the owner rejected: version 56 of the mockup, "fewer rules
    - Studio and Visual Studio may lock the outputs of the repository. If a build fails on a locked file, build and test in a scratch copy of the repository.
    - Run `dotnet test CMiX.Studio.Avalonia.Tests --filter "FullyQualifiedName~ListTree|FullyQualifiedName~ProjectTree|FullyQualifiedName~TreeView"`.
    - Do not run the full Studio suite: it has a known memory growth.
-   - The known failure `PanelInspectorBudgetTests.SelectedNode_OnALargeComposition_BuildsOneViewAndStaysInTheTimeBudget` does not count.
+   - The test `PanelInspectorBudgetTests` is removed. There is no known failure now.
    - Leave no testhost process behind.
 4. **Speed must not get worse.** The row window, the kept card areas, the kept rows in the moved snapshot and the render slide are speed fixes, so keep them. Judge any lag in a Release build, not in Debug.
 5. **Commits:**
