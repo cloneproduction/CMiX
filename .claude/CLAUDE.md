@@ -18,6 +18,11 @@ These rules apply to every task in this repository.
 - One question at a time. Wait for the answer.
 - No analogy. Use the words of CMiX.
 - After a step that changes the UI, list three to five things to look at in the Studio.
+- An answer is short: the answer, the reason, the next step. Under ten lines unless
+  the owner asks for more. Do not write a long report on your own. Say that one is
+  possible and ask. The owner asks for more when needed.
+- Code is shown, not described. When a change, a shape or a bug can be shown as
+  code, show the code and write one sentence.
 
 ## Commits
 
