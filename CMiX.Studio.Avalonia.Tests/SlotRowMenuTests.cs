@@ -26,10 +26,14 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The context menu of a row in the lists of entities, cameras and lights of a layer.
     // It acts on the row that owns it, as the menu of the layer list does.
-    public class SlotRowMenuTests
+    public class SlotRowMenuTests : IDisposable
     {
         public static IEnumerable<object[]> Kinds() =>
             new[] { typeof(Entity), typeof(Camera), typeof(LightEntity) }.Select(kind => new object[] { kind });
+
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
 
         private sealed class Screen
         {
@@ -47,7 +51,7 @@ namespace CMiX.Studio.Avalonia.Tests
             : kind == typeof(LightEntity) ? layer.LightManager
             : layer.ModelEntityManager;
 
-        private static Screen Show(Type kind, int count = 3, IServiceProvider? provider = null)
+        private Screen Show(Type kind, int count = 3, IServiceProvider? provider = null)
         {
             provider ??= TestServiceProviderFactory.Create();
             var layer = (Layer)provider.GetRequiredService<ControlFactory>().Create(typeof(Layer));
@@ -58,7 +62,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Control tab = kind == typeof(Camera) ? new TabLayerCamera { DataContext = layer }
                 : kind == typeof(LightEntity) ? new TabLayerLight { DataContext = layer }
                 : new TabLayerEntity { DataContext = layer };
-            var window = new Window { Content = tab, Width = 500, Height = 900 };
+            var window = windows.Add(new Window { Content = tab, Width = 500, Height = 900 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

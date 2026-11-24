@@ -4,6 +4,7 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Vector;
@@ -14,15 +15,19 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The Use Composition Resolution toggle and the Resolution that every texture source shows.
-    public class TextureResolutionTests
+    public class TextureResolutionTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         [AvaloniaFact]
         public void Toggle_UseCompositionResolution_DisablesTheResolution()
         {
             var source = (CMiX.Core.Texturing.Sources.Image)TestServiceProviderFactory.Create()
                 .GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.Image));
             var view = new TextureResolution { DataContext = source };
-            var window = new Window { Content = view, Width = 500, Height = 300 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 300 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

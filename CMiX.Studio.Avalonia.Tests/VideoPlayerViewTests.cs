@@ -12,15 +12,19 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class VideoPlayerViewTests
+    public class VideoPlayerViewTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         [AvaloniaFact]
         public void Show_PlayAndDoSeek_AreAboveTheComboBoxPath()
         {
             var provider = TestServiceProviderFactory.Create();
             var player = provider.GetRequiredService<ControlFactory>().Create(typeof(CMiX.Core.Texturing.Sources.VideoPlayer));
             var view = new Views.VideoPlayer { DataContext = player };
-            var window = new Window { Content = view, Width = 500, Height = 600 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 600 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
@@ -43,7 +47,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var player = (CMiX.Core.Texturing.Sources.VideoPlayer)provider.GetRequiredService<ControlFactory>()
                 .Create(typeof(CMiX.Core.Texturing.Sources.VideoPlayer));
             var view = new Views.VideoPlayer { DataContext = player };
-            var window = new Window { Content = view, Width = 500, Height = 600 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 600 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             using var temp = new TempFolder("test");

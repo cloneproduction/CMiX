@@ -23,14 +23,20 @@ namespace CMiX.Studio.Avalonia.Tests
     {
         private readonly TempFolder temp = new("shortcuts", create: false);
 
-        public void Dispose() => temp.Dispose();
+        private readonly TestWindows windows = new();
+
+        public void Dispose()
+        {
+            windows.Dispose();
+            temp.Dispose();
+        }
 
         private (ShortcutMap Map, ShortcutSettings Settings, SettingsShortcut View) Show()
         {
             var map = new ShortcutMap(temp.PathOf(ShortcutMap.FileName));
             var settings = new ShortcutSettings(map);
             var view = new SettingsShortcut { DataContext = settings };
-            new Window { Content = view, Width = 400, Height = 600 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 600 }).Show();
             Dispatcher.UIThread.RunJobs();
             return (map, settings, view);
         }
@@ -52,7 +58,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Chord_PressedInABox_ChangesTheTreeBinding()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             TestServiceProviderFactory.SelectMainTab(window, "Settings");
             var expander = window.GetVisualDescendants().OfType<ExpanderIndented>().Single(e => Equals(e.Header, "Shortcuts"));
             expander.IsExpanded = true;

@@ -8,6 +8,7 @@ using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Panels;
@@ -18,15 +19,19 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class VideoPlayerModulationViewTests
+    public class VideoPlayerModulationViewTests : IDisposable
     {
-        private static (VideoPlayer Player, Views.VideoPlayer View) Show()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (VideoPlayer Player, Views.VideoPlayer View) Show()
         {
             var provider = TestServiceProviderFactory.Create();
             var player = (VideoPlayer)provider.GetRequiredService<ControlFactory>().Create(typeof(VideoPlayer));
 
             var view = new Views.VideoPlayer { DataContext = player };
-            var window = new Window { Content = view, Width = 500, Height = 700 };
+            var window = windows.Add(new Window { Content = view, Width = 500, Height = 700 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (player, view);

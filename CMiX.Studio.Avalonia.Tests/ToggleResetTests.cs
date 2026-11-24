@@ -5,6 +5,7 @@ using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.UI.Controls.Boolean;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,11 +14,15 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // A toggle shows a Reset menu only when it has a reset command, and the menu restores the default.
-    public class ToggleResetTests
+    public class ToggleResetTests : IDisposable
     {
-        private static void Host(Control content)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private void Host(Control content)
         {
-            new Window { Content = content, Width = 400, Height = 300 }.Show();
+            windows.Add(new Window { Content = content, Width = 400, Height = 300 }).Show();
             Dispatcher.UIThread.RunJobs();
         }
 

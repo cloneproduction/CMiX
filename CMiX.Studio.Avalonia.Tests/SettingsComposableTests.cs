@@ -9,6 +9,7 @@ using Avalonia.VisualTree;
 using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Number;
@@ -21,14 +22,18 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The settings of a composition or of a layer are one view. The lists and the inspector show it.
     // The settings panels bind a Layer and a Composition by the same property names. A wrong name fails only at run time.
-    public class SettingsComposableTests
+    public class SettingsComposableTests : IDisposable
     {
-        private static (Window Window, SettingsComposable View, IControl Item) Show(Type itemType)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private (Window Window, SettingsComposable View, IControl Item) Show(Type itemType)
         {
             var provider = TestServiceProviderFactory.Create();
             var item = provider.GetRequiredService<ControlFactory>().Create(itemType);
             var view = new SettingsComposable { DataContext = item };
-            var window = new Window { Content = view, Width = 400, Height = 600 };
+            var window = windows.Add(new Window { Content = view, Width = 400, Height = 600 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return (window, view, item);
@@ -54,7 +59,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Select_AnItemInTheLists_ShowsThisView()
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
+            var (_, window, viewModel) = windows.ShowMainWindow();
             viewModel.Project.CompositionManager.AddItem(typeof(Composition));
             TestServiceProviderFactory.SelectMainTab(window, "Composition");
             TestServiceProviderFactory.Pump();
@@ -88,7 +93,7 @@ namespace CMiX.Studio.Avalonia.Tests
                         new Views.SettingsComposableMask { DataContext = item }
                     }
                 };
-                new Window { Content = panels, Width = 400, Height = 600 }.Show();
+                windows.Add(new Window { Content = panels, Width = 400, Height = 600 }).Show();
                 for (var i = 0; i < 5; i++)
                     Dispatcher.UIThread.RunJobs();
 

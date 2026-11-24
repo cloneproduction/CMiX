@@ -10,6 +10,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls;
@@ -22,11 +23,15 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The button that adds an item sits in the middle of the row of its slot: the swap toggle is on its left and the
     // arrows are on its right. So it has no rounded corner, whatever the kind of control that the caller gives to the slot.
-    public class SlotAddContentLookTests
+    public class SlotAddContentLookTests : IDisposable
     {
-        private static void Show(Control view)
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private void Show(Control view)
         {
-            new Window { Content = view, Width = 600, Height = 800 }.Show();
+            windows.Add(new Window { Content = view, Width = 600, Height = 800 }).Show();
             Dispatcher.UIThread.RunJobs();
         }
 

@@ -3,6 +3,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Panels;
 using Xunit;
@@ -11,12 +12,16 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     // The settings of a texture sit directly in the view. Only the Filter section is an expander,
     // and its background is transparent, so it shows the color of the parent.
-    public class TextureViewTests
+    public class TextureViewTests : IDisposable
     {
-        private static Texture Show()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private Texture Show()
         {
             var view = new Texture();
-            new Window { Content = view, Width = 400, Height = 600 }.Show();
+            windows.Add(new Window { Content = view, Width = 400, Height = 600 }).Show();
             Dispatcher.UIThread.RunJobs();
             return view;
         }

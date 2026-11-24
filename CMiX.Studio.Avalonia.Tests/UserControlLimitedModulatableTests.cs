@@ -6,18 +6,23 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Modulation;
 using CMiX.UI.Controls.Number;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    public class UserControlLimitedModulatableTests
+    public class UserControlLimitedModulatableTests : IDisposable
     {
-        private static TView Show<TView>() where TView : Control, new()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private TView Show<TView>() where TView : Control, new()
         {
             var view = new TView();
-            var window = new Window { Content = view, Width = 400, Height = 100 };
+            var window = windows.Add(new Window { Content = view, Width = 400, Height = 100 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return view;

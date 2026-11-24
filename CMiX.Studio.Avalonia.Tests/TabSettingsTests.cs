@@ -6,6 +6,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Settings;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Panels;
@@ -17,15 +18,15 @@ namespace CMiX.Studio.Avalonia.Tests
     // The Settings tab: its panels, the closed Shortcuts panel and the key hints toggle.
     public class TabSettingsTests : IDisposable
     {
-        private Window? window;
+        private readonly TestWindows windows = new();
 
-        public void Dispose() => window?.Close();
+        public void Dispose() => windows.Dispose();
 
         [AvaloniaFact]
         public void Show_TheTab_HasTheOutputMappingsTheRedisAddressesTheInterfaceAndTheShortcuts()
         {
             var tab = new TabSettings();
-            window = new Window { Content = tab, Width = 400, Height = 400 };
+            var window = windows.Add(new Window { Content = tab, Width = 400, Height = 400 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
@@ -39,8 +40,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheTab_HasTheShortcutsExpanderClosed()
         {
-            (_, var mainWindow, var viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            window = mainWindow;
+            (_, var mainWindow, var viewModel) = windows.ShowMainWindow();
             TestServiceProviderFactory.SelectMainTab(mainWindow, "Settings");
 
             var tab = mainWindow.GetVisualDescendants().OfType<TabSettings>().Single();
@@ -57,8 +57,7 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void Show_TheTab_HasTheKeyHintsToggleOnTheInterfaceOptions()
         {
-            var (provider, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            window = mainWindow;
+            var (provider, mainWindow, viewModel) = windows.ShowMainWindow();
             TestServiceProviderFactory.SelectMainTab(mainWindow, "Settings");
 
             var tab = mainWindow.GetVisualDescendants().OfType<TabSettings>().Single();

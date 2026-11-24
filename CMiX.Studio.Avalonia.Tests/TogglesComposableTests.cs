@@ -8,6 +8,7 @@ using Avalonia.VisualTree;
 using Entity = CMiX.Core.Compositing.Entity;
 using Layer = CMiX.Core.Compositing.Layer;
 using CMiX.Core.Prefabs;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -15,17 +16,21 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The visibility and mask toggles of an item, on their squares.
-    public class TogglesComposableTests
+    public class TogglesComposableTests : IDisposable
     {
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
         private static object Create(Type type) =>
             TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(type);
 
-        private static TogglesComposable Show(object? item, string? size = null, Action<Window>? setup = null)
+        private TogglesComposable Show(object? item, string? size = null, Action<Window>? setup = null)
         {
             var toggles = new TogglesComposable { DataContext = item };
             if (size != null)
                 toggles.Classes.Add(size);
-            var window = new Window { Width = 300, Height = 100 };
+            var window = windows.Add(new Window { Width = 300, Height = 100 });
             setup?.Invoke(window);
             window.Content = toggles;
             window.Show();
@@ -141,7 +146,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Show_TheRowOfALayer_PutsTheVisibilityAtTheFarRightAndTheMaskLeftOfIt()
         {
             var row = new RowComposable { DataContext = Create(typeof(Layer)) };
-            var window = new Window { Content = row, Width = 400, Height = 60 };
+            var window = windows.Add(new Window { Content = row, Width = 400, Height = 60 });
             window.Show();
             Dispatcher.UIThread.RunJobs();
 

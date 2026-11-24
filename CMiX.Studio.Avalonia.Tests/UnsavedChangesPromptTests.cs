@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Notices;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Dialogs;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Parts;
@@ -13,11 +14,15 @@ using Xunit;
 namespace CMiX.Studio.Avalonia.Tests
 {
     // The question about the unsaved changes: the frame of the menus, a warning, the text, and three buttons.
-    public class UnsavedChangesPromptTests
+    public class UnsavedChangesPromptTests : IDisposable
     {
-        private static Window Owner()
+        private readonly TestWindows windows = new();
+
+        public void Dispose() => windows.Dispose();
+
+        private Window Owner()
         {
-            var owner = new Window { Width = 600, Height = 400 };
+            var owner = windows.Add(new Window { Width = 600, Height = 400 });
             owner.Show();
             Dispatcher.UIThread.RunJobs();
             return owner;
