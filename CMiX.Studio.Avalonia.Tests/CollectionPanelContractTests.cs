@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Tests
             });
 
         [Fact]
-        public void NoBindingOfACollectionPanel_ReadsTheDataContext()
+        public void Scan_TheBindingsOfEveryCollectionPanel_ReadNoDataContext()
         {
             var files = PanelFiles().ToList();
             var checkedCount = 0;

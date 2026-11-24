@@ -13,7 +13,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static readonly Regex Tag = new(@"<Popup(?![.\w])((?:""[^""]*""|[^>""])*)>");
 
         [Fact]
-        public void EveryPopupInTheAxaml_IsOpenedWithTogglePopup()
+        public void Scan_EveryPopupInTheAxaml_IsOpenedWithTogglePopup()
         {
             var violations = new List<string>();
             var tagCount = 0;

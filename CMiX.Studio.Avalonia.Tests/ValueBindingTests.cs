@@ -11,7 +11,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static readonly Regex ValueBinding = new(@"\bValue\s*=\s*""\{", RegexOptions.Compiled);
 
         [Fact]
-        public void EveryDragValueAndDragValueIntegerInTheAxaml_BindsItsValue()
+        public void Scan_EveryDragValueAndDragValueIntegerInTheAxaml_BindsItsValue()
         {
             var found = 0;
             var violations = new List<string>();

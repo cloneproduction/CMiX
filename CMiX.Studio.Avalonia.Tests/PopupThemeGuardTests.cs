@@ -14,7 +14,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static readonly Regex FlyoutPresenterTheme = new(@"FlyoutPresenterTheme\s*=\s*""[^""]*(FlyoutPresenterPanel|MenuFlyoutPresenterDefault)[^""]*""");
 
         [Fact]
-        public void EveryContextMenuAndFlyoutInTheAxaml_UsesASharedPopupTheme()
+        public void Scan_EveryContextMenuAndFlyoutInTheAxaml_UsesASharedPopupTheme()
         {
             var violations = new List<string>();
             var tagCount = 0;
@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // The frame of FlyoutPresenterPanel centers the flyout on the pointer. An offset in the AXAML would move it off the center.
         [Fact]
-        public void AFlyoutWithThePanelTheme_SetsNoOffset()
+        public void Scan_AFlyoutWithThePanelTheme_SetsNoOffset()
         {
             var violations = new List<string>();
             var flyoutsWithTheme = 0;

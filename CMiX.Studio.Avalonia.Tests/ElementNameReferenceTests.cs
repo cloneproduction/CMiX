@@ -14,7 +14,7 @@ namespace CMiX.Studio.Avalonia.Tests
             RegexOptions.Compiled);
 
         [Fact]
-        public void EveryElementNameInTheAxaml_PointsToANameOfTheSameFile()
+        public void Scan_EveryElementNameInTheAxaml_PointsToANameOfTheSameFile()
         {
             var checkedCount = 0;
             var missing = new List<string>();

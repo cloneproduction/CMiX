@@ -12,7 +12,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static readonly Regex Reference = new(@"\{(?:Static|Dynamic)Resource\s+([A-Za-z0-9_.]+)\s*\}", RegexOptions.Compiled);
 
         [Fact]
-        public void EveryResourceReferenceInTheAxaml_HasADefinition()
+        public void Scan_EveryResourceReferenceInTheAxaml_HasADefinition()
         {
             var defined = new HashSet<string>();
             var references = new Dictionary<string, List<string>>();

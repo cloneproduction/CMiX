@@ -34,7 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void EveryPrefix_MeansOneNamespace()
+        public void Scan_EveryPrefix_MeansOneNamespace()
         {
             var (byPrefix, _) = Scan();
 
@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void EveryNamespace_HasOnePrefix()
+        public void Scan_EveryNamespace_HasOnePrefix()
         {
             var (_, byNamespace) = Scan();
 

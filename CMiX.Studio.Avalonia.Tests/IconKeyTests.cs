@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void EveryIconKeyInTheAxaml_IsRegistered()
+        public void Scan_EveryIconKeyInTheAxaml_IsRegistered()
         {
             var found = 0;
             var unknown = new List<string>();

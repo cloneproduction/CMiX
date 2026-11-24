@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheComposableToolbar_HoldsTheAddMoveAndDeleteCommands()
+        public void Scan_TheComposableToolbar_HoldsTheAddMoveAndRemoveCommands()
         {
             var manager = LayerManagerWithItems(2);
             var view = new Views.ToolbarComposable { DataContext = manager };
@@ -71,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheListPrefabSlot_HoldsTheMoveAndDeleteCommands()
+        public void Scan_TheListPrefabSlot_HoldsTheMoveAndRemoveCommands()
         {
             var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
             var view = new Views.Managers.ListPrefabSlot { DataContext = manager };
@@ -86,7 +86,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void EachRowOfTheModifierManager_ClosesWithTheDeleteCommandOfTheManager()
+        public void Scan_EachRowOfTheModifierManager_ClosesWithTheRemoveCommandOfTheManager()
         {
             var blur = (Blur)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(Blur));
             blur.ModulatorManager.AddItem(typeof(FFTModulator));
@@ -101,7 +101,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheBeatStepList_HoldsTheRemoveAndMoveCommands()
+        public void Scan_TheBeatStepList_HoldsTheRemoveAndMoveCommands()
         {
             var modulator = (BeatStepModulator)TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>().Create(typeof(BeatStepModulator));
             var view = new ViewBeatStepModulator { DataContext = modulator };
@@ -116,7 +116,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void TheRepositoryList_HoldsTheCommandThatDeletesEverywhere()
+        public void Scan_TheRepositoryList_HoldsTheRemoveEverywhereCommand()
         {
             var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
             var view = new Views.Managers.ListRepository { DataContext = manager, ItemsSource = manager.ManagerData.Items };

@@ -11,7 +11,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private static readonly Regex Path = new(@"ControlRepository\.([A-Za-z]+)");
 
         [Fact]
-        public void EveryBindingToTheRepository_NamesAMemberThatExists()
+        public void Scan_EveryBindingToTheRepository_NamesAMemberThatExists()
         {
             var members = typeof(ControlRepository).GetMembers().Select(member => member.Name).ToHashSet();
             var violations = new List<string>();
