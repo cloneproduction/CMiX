@@ -124,7 +124,7 @@ namespace CMiX.UI.Tests
         private static double OpenFrameWidth(string caption)
         {
             var box = new DragValue { Caption = caption, ResetCommand = new RelayCommand(() => { }) };
-            new Window { Content = box, Width = 800, Height = 300, FontSize = 12.5 }.Show();
+            new Window { Content = box, Width = 800, Height = 300 }.Show();
             Dispatcher.UIThread.RunJobs();
 
             box.ContextMenu!.Open(box);

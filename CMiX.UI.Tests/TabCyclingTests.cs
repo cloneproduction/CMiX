@@ -23,7 +23,7 @@ namespace CMiX.UI.Tests
 
         private static Window Show(Control content)
         {
-            var window = new Window { Content = content, Width = 400, Height = 400, FontSize = 12.5 };
+            var window = new Window { Content = content, Width = 400, Height = 400 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return window;
@@ -45,22 +45,16 @@ namespace CMiX.UI.Tests
             return panel;
         }
 
-        private static void Pump()
-        {
-            for (var i = 0; i < 10; i++)
-                Dispatcher.UIThread.RunJobs();
-        }
-
         private static void StartEdit(Control editor)
         {
             ((IEditableValue)editor).IsEditing = true;
-            Pump();
+            Dispatcher.UIThread.RunJobs();
         }
 
         private static void Press(Window window, Key key, bool shift = false)
         {
             window.KeyPress(key, shift ? RawInputModifiers.Shift : RawInputModifiers.None, PhysicalKey.None, null);
-            Pump();
+            Dispatcher.UIThread.RunJobs();
         }
 
         private static void Tab(Window window, bool shift = false) => Press(window, Key.Tab, shift);

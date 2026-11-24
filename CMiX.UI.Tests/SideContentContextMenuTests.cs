@@ -29,7 +29,7 @@ namespace CMiX.UI.Tests
             editor.Width = 400;
             editor.HorizontalAlignment = HorizontalAlignment.Left;
             editor.VerticalAlignment = VerticalAlignment.Top;
-            new Window { Content = editor, Width = 600, Height = 200, FontSize = 12.5 }.Show();
+            new Window { Content = editor, Width = 600, Height = 200 }.Show();
             Dispatcher.UIThread.RunJobs();
             return editor;
         }

@@ -24,7 +24,7 @@ namespace CMiX.UI.Tests
             control.Width = 400;
             control.HorizontalAlignment = HorizontalAlignment.Left;
             control.VerticalAlignment = VerticalAlignment.Top;
-            var window = new Window { Content = control, Width = 600, Height = 200, FontSize = 12.5 };
+            var window = new Window { Content = control, Width = 600, Height = 200 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
             PointerInput.Move(window, new Point(500, 150));

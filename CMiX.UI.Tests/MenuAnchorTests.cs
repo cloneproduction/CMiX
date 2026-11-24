@@ -29,7 +29,7 @@ namespace CMiX.UI.Tests
             foreach (var editor in editors)
                 panel.Children.Add(editor);
 
-            var window = new Window { Content = panel, Width = 600, Height = 400, FontSize = 12.5 };
+            var window = new Window { Content = panel, Width = 600, Height = 400 };
             window.Show();
             Dispatcher.UIThread.RunJobs();
             return window;
@@ -108,7 +108,7 @@ namespace CMiX.UI.Tests
             var first = Box();
             var second = Box();
             ShowIn(first);
-            var otherWindow = new Window { Content = second, Width = 300, Height = 200, FontSize = 12.5 };
+            var otherWindow = new Window { Content = second, Width = 300, Height = 200 };
             otherWindow.Show();
             Dispatcher.UIThread.RunJobs();
             Open(first);
