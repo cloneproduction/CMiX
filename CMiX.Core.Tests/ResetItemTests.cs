@@ -1,41 +1,36 @@
-﻿using CMiX.Core.Compositing;
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Covers the deferred disposal of a deleted control: the delete path no longer disposes, the
-    // undo command that holds the removed instance does, and only once it is dropped. Reset item
-    // follows the same ownership rule since it routes through ReplaceItemUndoCommand, so its tests
-    // live here too.
-    public class DeleteUndoTests
+    // ResetItem swaps a fresh instance in. The undo command owns the replaced instance and tears it down when it is dropped.
+    public class ResetItemTests
     {
-        private static (Composition composition, Layer layer, Entity entity) CreateGraph(
-            IServiceProvider provider, PrefabManager compositionManager)
+        private static (Composition composition, Layer layer, Entity entity) CompositionWithALayerAndAnEntity(PrefabManager compositionManager)
         {
             compositionManager.AddItem(typeof(Composition));
             var composition = (Composition)compositionManager.SelectedItem;
-
             composition.LayerManager.AddItem(typeof(Layer));
             var layer = (Layer)composition.LayerManager.SelectedItem;
-
             layer.ModelEntityManager.AddItem(typeof(Entity));
             var entity = (Entity)layer.ModelEntityManager.SelectedItem;
-
             return (composition, layer, entity);
         }
 
         [Fact]
-        public void ResetItem_SwapsAFreshInstanceInAtTheSameIndex()
+        public void ResetItem_OfALayer_SwapsAFreshInstanceInAtTheSameIndex()
         {
             var provider = TestServiceProviderFactory.Create();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var compositionManager = provider.GetRequiredService<PrefabManager>();
-
-            var (composition, layer, _) = CreateGraph(provider, compositionManager);
+            var (composition, layer, _) = CompositionWithALayerAndAnEntity(provider.GetRequiredService<PrefabManager>());
             composition.LayerManager.AddItem(typeof(Layer));
             var secondLayer = (Layer)composition.LayerManager.SelectedItem;
 
@@ -52,14 +47,12 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ResetThenUndo_RestoresTheReplacedInstanceWithItsContents()
+        public void Undo_OfAResetItem_RestoresTheReplacedInstanceWithItsContents()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var compositionManager = provider.GetRequiredService<PrefabManager>();
-
-            var (composition, layer, entity) = CreateGraph(provider, compositionManager);
+            var (composition, layer, entity) = CompositionWithALayerAndAnEntity(provider.GetRequiredService<PrefabManager>());
 
             composition.LayerManager.ResetItem(layer);
             var replacement = composition.LayerManager.ManagerData.Items[0];
@@ -73,14 +66,12 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ResetThenDropTheUndoEntry_TearsTheReplacedInstanceDown()
+        public void Clear_OfTheUndoEntryOfAResetItem_TearsTheReplacedInstanceDown()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
             var repository = provider.GetRequiredService<ControlRepository>();
-            var compositionManager = provider.GetRequiredService<PrefabManager>();
-
-            var (composition, layer, entity) = CreateGraph(provider, compositionManager);
+            var (composition, layer, entity) = CompositionWithALayerAndAnEntity(provider.GetRequiredService<PrefabManager>());
 
             composition.LayerManager.ResetItem(layer);
             var replacement = composition.LayerManager.ManagerData.Items[0];
@@ -91,6 +82,36 @@ namespace CMiX.Core.Tests
             Assert.Null(repository.GetControl(layer.ID));
             Assert.Same(replacement, composition.LayerManager.ManagerData.Items[0]);
             Assert.NotNull(repository.GetControl(replacement.ID));
+        }
+
+        [Fact]
+        public void ResetItem_OfNull_DoesNothing()
+        {
+            var manager = TestServiceProviderFactory.Create().GetRequiredService<PrefabManager>();
+            manager.AddItem(typeof(TouchBlob));
+            var item = manager.ManagerData.Items[0];
+
+            var exception = Record.Exception(() => manager.ResetItem(null));
+
+            Assert.Null(exception);
+            Assert.Same(item, manager.ManagerData.Items[0]);
+        }
+
+        [Fact]
+        public void ResetItem_OfAControlOfAnotherList_DoesNothing()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = provider.GetRequiredService<PrefabManager>();
+            manager.AddItem(typeof(TouchBlob));
+            var item = manager.ManagerData.Items[0];
+            var otherManager = provider.GetRequiredService<PrefabManager>();
+            otherManager.AddItem(typeof(TouchBlob));
+            var foreignControl = otherManager.ManagerData.Items[0];
+
+            var exception = Record.Exception(() => manager.ResetItem(foreignControl));
+
+            Assert.Null(exception);
+            Assert.Same(item, manager.ManagerData.Items[0]);
         }
     }
 }
