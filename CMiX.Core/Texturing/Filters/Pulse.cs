@@ -17,8 +17,8 @@ namespace CMiX.Core.Texturing.Filters
                      GenericValue<bool> invert,
                      GenericValue<PulseChannel> channel,
                      Blend blend,
-                     PrefabManager modulatorManager)
-            : base(prefabService, blend, modulatorManager)
+                     ModulatorHost modulators)
+            : base(prefabService, blend, modulators)
         {
             Invert = invert;
             Channel = channel;

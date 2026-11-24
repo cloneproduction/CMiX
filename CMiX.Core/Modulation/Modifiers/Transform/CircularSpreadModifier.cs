@@ -15,14 +15,14 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class CircularSpreadModifier : Modifier, ISpreadableModifier
     {
         public CircularSpreadModifier(PrefabService prefabService,
-                                      PrefabManager modulatorManager,
+                                      ModulatorHost modulators,
                                       ControlRepository controlRepository,
                                       ModifierModeSelector modifierModeSelector,
                                       ModulatableValue<float> widthX,
                                       ModulatableValue<float> widthY,
                                       ModulatableValue<float> phase,
                                       ModulatableValue<float> factor)
-            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
+            : base(prefabService, modulators, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             Bindables = new List<ModulatableValue<float>> { widthX, widthY, phase, factor };
@@ -58,7 +58,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Phase.FromModel(m.Phase);
             Factor.FromModel(m.Factor);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveNestedBindables();
+            Modulators.Rebind();
         }
     }
 }

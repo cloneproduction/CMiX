@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,7 +13,7 @@ namespace CMiX.Core.Texturing.Sources
     public partial class TypeWriter : TextureSourceBase, ITextureSource
     {
         public TypeWriter(PrefabManager textureModifierManager,
-                          PrefabManager modulatorManager,
+                          ModulatorHost modulators,
                           PrefabService prefabService,
                           GenericValue<string> stringControl,
                           GenericValue<string> fontFamily,
@@ -23,7 +24,7 @@ namespace CMiX.Core.Texturing.Sources
                           Integer2 resolution,
                           GenericValue<bool> useCompositionResolution,
                           Vector2 position)
-            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulators, useCompositionResolution)
         {
             StringControl = stringControl;
             FontFamily = fontFamily;

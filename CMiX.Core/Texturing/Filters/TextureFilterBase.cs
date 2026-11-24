@@ -13,33 +13,14 @@ namespace CMiX.Core.Texturing.Filters
 {
     public abstract partial class TextureFilterBase : ObservableObject, IPrefab, ITextureFilter, IModulatable, IHasCompositionID, IDisposable
     {
-        protected TextureFilterBase(PrefabService prefabService, Blend blend, PrefabManager modulatorManager)
+        protected TextureFilterBase(PrefabService prefabService, Blend blend, ModulatorHost modulators)
         {
             PrefabService = prefabService;
             Blend = blend;
-            ModulatorManager = modulatorManager;
-            ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
-            _outputWatcher = new ModulatorOutputWatcher(modulatorManager, () => Bindables.Cast<IModulatorBindable>());
+            Modulators = modulators;
         }
 
-        private readonly ModulatorOutputWatcher _outputWatcher;
-
-        private void OnModulatorManagerItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action != NotifyCollectionChangedAction.Remove) return;
-            if (e.OldItems == null) return;
-
-            foreach (IControl removed in e.OldItems)
-                foreach (var bindable in Bindables.Cast<IModulatorBindable>().Where(b => b.ModulatorID == removed.ID))
-                    bindable.SetModulatorCommand.Execute(null);
-        }
-
-        public virtual void Dispose()
-        {
-            ModulatorManager.ManagerData.Items.CollectionChanged -= OnModulatorManagerItemsChanged;
-            _outputWatcher.Dispose();
-            ModulatorManager.Dispose();
-        }
+        public virtual void Dispose() => Modulators.Dispose();
 
         public Guid ID { get; set; } = Guid.NewGuid();
 
@@ -56,7 +37,8 @@ namespace CMiX.Core.Texturing.Filters
 
         public PrefabService PrefabService { get; set; }
         public Blend Blend { get; set; }
-        public PrefabManager ModulatorManager { get; set; }
+        public ModulatorHost Modulators { get; }
+        public PrefabManager ModulatorManager => Modulators.Manager;
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -77,12 +59,9 @@ namespace CMiX.Core.Texturing.Filters
             PrefabService.FromModel(model.PrefabService);
             Blend.FromModel(model.Blend);
 
-            LoadManager(ModulatorManager, model.ModulatorManager);
-
-            foreach (var bindable in Bindables.Cast<IModulatorBindable>())
-                bindable.ModulatorLookup = id => ModulatorManager.ManagerData.Items
-                    .OfType<IModulator>()
-                    .FirstOrDefault(m => m.ID == id);
+            // The subclass makes its own bindables after the base constructor runs.
+            Modulators.Add(Bindables);
+            Modulators.Load(model.ModulatorManager);
         }
 
         public abstract IControlModel ToModel();

@@ -13,14 +13,14 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class ScaleModifier : Modifier, ISpreadableModifier
     {
         public ScaleModifier(PrefabService prefabService,
-                             PrefabManager modulatorManager,
+                             ModulatorHost modulators,
                              ControlRepository controlRepository,
                              ModifierModeSelector modifierModeSelector,
                              ModulatableValue<float> bindableX,
                              ModulatableValue<float> bindableY,
                              ModulatableValue<float> bindableZ,
                              ModulatableValue<float> bindableUniform)
-            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
+            : base(prefabService, modulators, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             Bindables = new List<ModulatableValue<float>> { bindableX, bindableY, bindableZ, bindableUniform };
@@ -57,7 +57,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Z.FromModel(m.Z);
             Uniform.FromModel(m.Uniform);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveNestedBindables();
+            Modulators.Rebind();
         }
     }
 }

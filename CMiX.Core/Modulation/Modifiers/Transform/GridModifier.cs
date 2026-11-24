@@ -14,12 +14,12 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class GridModifier : Modifier, ISpreadableModifier3
     {
         public GridModifier(PrefabService prefabService,
-                            PrefabManager modulatorManager,
+                            ModulatorHost modulators,
                             ControlRepository controlRepository,
                             ModulatableValue<int> countX, ModulatableValue<int> countY, ModulatableValue<int> countZ,
                             ModulatableValue<float> widthX, ModulatableValue<float> widthY, ModulatableValue<float> widthZ,
                             ModulatableValue<float> phaseX, ModulatableValue<float> phaseY, ModulatableValue<float> phaseZ)
-            : base(prefabService, modulatorManager, controlRepository, new IModulatorBindable[] { countX, countY, countZ })
+            : base(prefabService, modulators, controlRepository, new IModulatorBindable[] { countX, countY, countZ })
         {
             Count = new ModulatableInteger3(countX, countY, countZ);
             Width = new ModulatableVector3(widthX, widthY, widthZ);
@@ -54,7 +54,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Count.X.FromModel(m.CountX);
             Count.Y.FromModel(m.CountY);
             Count.Z.FromModel(m.CountZ);
-            ResolveNestedBindables();
+            Modulators.Rebind();
         }
     }
 }

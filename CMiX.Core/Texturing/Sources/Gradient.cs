@@ -13,14 +13,14 @@ namespace CMiX.Core.Texturing.Sources
     {
         public Gradient(PrefabService prefabService,
                         PrefabManager textureModifierManager,
-                        PrefabManager modulatorManager,
+                        ModulatorHost modulators,
                         Integer2 resolution,
                         GenericValue<bool> useCompositionResolution,
                         GenericValue<string> from,
                         GenericValue<string> to,
                         ModulatableValue<float> gamma,
                         GenericValue<bool> horizontal)
-            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulators, useCompositionResolution)
         {
             Resolution = resolution;
             From = from;

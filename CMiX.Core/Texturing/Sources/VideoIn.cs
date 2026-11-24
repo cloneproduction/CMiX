@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using static CMiX.Core.ControlExtensions;
@@ -12,11 +13,11 @@ namespace CMiX.Core.Texturing.Sources
     {
         public VideoIn(PrefabService prefabService,
                        PrefabManager textureModifierManager,
-                       PrefabManager modulatorManager,
+                       ModulatorHost modulators,
                        GenericValue<int> sizeX,
                        GenericValue<int> sizeZ,
                        GenericValue<bool> useCompositionResolution)
-            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulators, useCompositionResolution)
         {
             SizeX = sizeX;
             SizeY = sizeZ;

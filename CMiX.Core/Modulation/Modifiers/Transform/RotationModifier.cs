@@ -15,13 +15,13 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class RotationModifier : Modifier, ISpreadableModifier
     {
         public RotationModifier(PrefabService prefabService,
-                                PrefabManager modulatorManager,
+                                ModulatorHost modulators,
                                 ControlRepository controlRepository,
                                 ModifierModeSelector modifierModeSelector,
                                 ModulatableValue<float> bindableX,
                                 ModulatableValue<float> bindableY,
                                 ModulatableValue<float> bindableZ)
-            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
+            : base(prefabService, modulators, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             Bindables = new List<ModulatableValue<float>> { bindableX, bindableY, bindableZ };
@@ -54,7 +54,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Y.FromModel(m.Y);
             Z.FromModel(m.Z);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveNestedBindables();
+            Modulators.Rebind();
         }
     }
 }

@@ -13,12 +13,12 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class LinearModifier : Modifier, ISpreadableModifier
     {
         public LinearModifier(PrefabService prefabService,
-                                 PrefabManager modulatorManager,
+                                 ModulatorHost modulators,
                                  ControlRepository controlRepository,
                                  ModifierModeSelector modifierModeSelector,
                                  ModulatableValue<float> width,
                                  ModulatableValue<float> phase)
-            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
+            : base(prefabService, modulators, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             Bindables = new List<ModulatableValue<float>> { width, phase };
@@ -48,7 +48,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Width.FromModel(m.Width);
             Phase.FromModel(m.Phase);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveNestedBindables();
+            Modulators.Rebind();
         }
     }
 }

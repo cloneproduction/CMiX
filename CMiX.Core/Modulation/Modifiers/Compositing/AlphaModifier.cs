@@ -13,10 +13,10 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class AlphaModifier : Modifier
     {
         public AlphaModifier(PrefabService prefabService,
-                             PrefabManager modulatorManager,
+                             ModulatorHost modulators,
                              ControlRepository controlRepository,
                              ModulatableValue<float> bindableValue)
-            : base(prefabService, modulatorManager, controlRepository)
+            : base(prefabService, modulators, controlRepository)
         {
             Bindables = new List<ModulatableValue<float>> { bindableValue };
         }

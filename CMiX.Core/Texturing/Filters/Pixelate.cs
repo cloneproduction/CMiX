@@ -13,8 +13,8 @@ namespace CMiX.Core.Texturing.Filters
                         ModulatableValue<float> factorX,
                         ModulatableValue<float> factorY,
                         Blend blend,
-                        PrefabManager modulatorManager)
-            : base(prefabService, blend, modulatorManager)
+                        ModulatorHost modulators)
+            : base(prefabService, blend, modulators)
         {
             Bindables = new List<ModulatableValue<float>> { factorX, factorY };
         }

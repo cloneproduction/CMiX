@@ -12,52 +12,15 @@ namespace CMiX.Core.Modulation
 {
     public abstract partial class Modifier : ObservableObject, IPrefab, IModifier, IModulatable, IHasCompositionID, IDisposable
     {
-        protected Modifier(PrefabService prefabService, PrefabManager modulatorManager, ControlRepository controlRepository, IEnumerable<IModulatorBindable> nestedBindables = null)
+        protected Modifier(PrefabService prefabService, ModulatorHost modulators, ControlRepository controlRepository, IEnumerable<IModulatorBindable> nestedBindables = null)
         {
             PrefabService = prefabService;
-            ModulatorManager = modulatorManager;
+            Modulators = modulators;
             ControlRepository = controlRepository;
-            _nestedBindables = nestedBindables ?? Enumerable.Empty<IModulatorBindable>();
-            ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
-            _outputWatcher = new ModulatorOutputWatcher(modulatorManager, () => Bindables.Cast<IModulatorBindable>().Concat(_nestedBindables));
+            Modulators.Add(nestedBindables ?? Enumerable.Empty<IModulatorBindable>());
         }
 
-        private readonly ModulatorOutputWatcher _outputWatcher;
-        private readonly IEnumerable<IModulatorBindable> _nestedBindables;
-
-        private void OnModulatorManagerItemsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            // A reorder is a Move action. Move also fills OldItems, with the same item Move
-            // put back into NewItems, not a removed one. Only a real removal should unassign.
-            if (e.Action != System.Collections.Specialized.NotifyCollectionChangedAction.Remove) return;
-            if (e.OldItems == null) return;
-
-            var bindables = Bindables.Cast<IModulatorBindable>().Concat(_nestedBindables);
-            foreach (IControl removed in e.OldItems)
-                foreach (var bindable in bindables.Where(b => b.ModulatorID == removed.ID))
-                    bindable.SetModulatorCommand.Execute(null);
-        }
-
-        protected void ResolveNestedBindables()
-        {
-            foreach (var bindable in _nestedBindables)
-            {
-                if (bindable.ModulatorID is not { } modulatorId) continue;
-
-                var modulator = ModulatorManager.ManagerData.Items.OfType<IModulator>().FirstOrDefault(m => m.ID == modulatorId);
-                var output = modulator?.Outputs.FirstOrDefault(o => o.Name == bindable.BoundOutputName);
-                if (output != null)
-                    bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, output));
-            }
-
-        }
-
-        public void Dispose()
-        {
-            ModulatorManager.ManagerData.Items.CollectionChanged -= OnModulatorManagerItemsChanged;
-            _outputWatcher.Dispose();
-            ModulatorManager.Dispose();
-        }
+        public void Dispose() => Modulators.Dispose();
 
         public Guid ID { get; set; } = Guid.NewGuid();
         private Guid _compositionID;
@@ -72,7 +35,8 @@ namespace CMiX.Core.Modulation
         }
 
         public PrefabService PrefabService { get; set; }
-        public PrefabManager ModulatorManager { get; set; }
+        public ModulatorHost Modulators { get; }
+        public PrefabManager ModulatorManager => Modulators.Manager;
         public ControlRepository ControlRepository { get; set; }
 
         [ObservableProperty]
@@ -94,12 +58,9 @@ namespace CMiX.Core.Modulation
             PrefabService.FromModel(model.PrefabService);
             IsExpanded = model.IsExpanded;
 
-            LoadManager(ModulatorManager, model.ModulatorManager);
-
-            foreach (var bindable in Bindables.Cast<IModulatorBindable>().Concat(_nestedBindables))
-                bindable.ModulatorLookup = id => ModulatorManager.ManagerData.Items
-                    .OfType<IModulator>()
-                    .FirstOrDefault(m => m.ID == id);
+            // The subclass makes its own bindables after the base constructor runs.
+            Modulators.Add(Bindables);
+            Modulators.Load(model.ModulatorManager);
         }
 
         public abstract IControlModel ToModel();

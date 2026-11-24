@@ -14,11 +14,11 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class RenderSequenceEntityModifier : Modifier
     {
         public RenderSequenceEntityModifier(PrefabService prefabService,
-                                            PrefabManager modulatorManager,
+                                            ModulatorHost modulators,
                                             ControlRepository controlRepository,
                                             GenericValue<EntityType> entityType,
                                             ModulatableValue<float> control)
-            : base(prefabService, modulatorManager, controlRepository)
+            : base(prefabService, modulators, controlRepository)
         {
             EntityType = entityType;
             Bindables = new List<ModulatableValue<float>> { control };

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.Animations;
@@ -50,6 +50,7 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<MessageCollectionManagerHandler>();
             services.AddTransient<ManagerData>();
             services.AddTransient<CollectionManager>();
+            services.AddTransient<ModulatorHost>();
             services.AddSingleton<ItemListFactory>(sp => collection =>
                 new CollectionSync(collection, sp.GetRequiredService<ControlMessenger>(), sp.GetRequiredService<MessageFactory>()));
             services.AddTransient<IValueSync, ValueSync>();

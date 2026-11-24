@@ -14,7 +14,7 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class TexCoordModifier : Modifier, ISpreadableModifier
     {
         public TexCoordModifier(PrefabService prefabService,
-                                PrefabManager modulatorManager,
+                                ModulatorHost modulators,
                                 ControlRepository controlRepository,
                                 ModifierModeSelector modifierModeSelector,
                                 ModulatableValue<float> locationX, 
@@ -23,7 +23,7 @@ namespace CMiX.Core.Modulation.Modifiers
                                 ModulatableValue<float> scaleY,
                                 ModulatableValue<float> rotation,
                                 ModulatableValue<float> uniform)
-            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
+            : base(prefabService, modulators, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             Transform = new TexCoordTransform(locationX, locationY, scaleX, scaleY, rotation, uniform);
@@ -76,7 +76,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Rotation.FromModel(m.Rotation);
             Uniform.FromModel(m.Uniform);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveNestedBindables();
+            Modulators.Rebind();
         }
     }
 }

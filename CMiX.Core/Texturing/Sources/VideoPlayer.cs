@@ -12,14 +12,14 @@ namespace CMiX.Core.Texturing.Sources
     {
         public VideoPlayer(PrefabService prefabService,
                            PrefabManager textureModifierManager,
-                           PrefabManager modulatorManager,
+                           ModulatorHost modulators,
                            Integer2 resolution,
                            GenericValue<bool> useCompositionResolution,
                            ModulatableValue<int> seekTarget,
                            ModulatableValue<bool> playing,
                            ModulatableValue<bool> doSeek,
                            AssetSelector assetSelector)
-            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulators, useCompositionResolution)
         {
             Resolution = resolution;
             SeekTarget = seekTarget;

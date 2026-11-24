@@ -13,13 +13,13 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class RandomModifier : Modifier, ISpreadableModifier
     {
         public RandomModifier(PrefabService prefabService,
-                              PrefabManager modulatorManager,
+                              ModulatorHost modulators,
                               ControlRepository controlRepository,
                               ModifierModeSelector modifierModeSelector,
                               ModulatableValue<float> seed,
                               ModulatableValue<float> center,
                               ModulatableValue<float> width)
-            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
+            : base(prefabService, modulators, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             Bindables = new List<ModulatableValue<float>> { seed, center, width };
@@ -52,7 +52,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Center.FromModel(m.Center);
             Width.FromModel(m.Width);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveNestedBindables();
+            Modulators.Rebind();
         }
     }
 }

@@ -27,16 +27,34 @@ namespace CMiX.Core.Modulation
 
         public IReadOnlyList<IModulatorBindable> Bindables => _bindables;
 
-        public void Add(params IModulatorBindable[] bindables)
+        public void Add(params IModulatorBindable[] bindables) => Add((IEnumerable<IModulatorBindable>)bindables);
+
+        // Skips a bindable that the host holds already.
+        public void Add(IEnumerable<IModulatorBindable> bindables)
         {
             foreach (var bindable in bindables)
             {
+                if (_bindables.Contains(bindable)) continue;
                 bindable.ModulatorLookup = Find;
                 _bindables.Add(bindable);
             }
         }
 
         public void Load(PrefabManagerModel model) => LoadManager(Manager, model);
+
+        // Binds every value again to its modulator after a load.
+        public void Rebind()
+        {
+            foreach (var bindable in _bindables)
+            {
+                if (bindable.ModulatorID is not { } modulatorId) continue;
+
+                var modulator = Find(modulatorId);
+                var output = modulator?.Outputs.FirstOrDefault(o => o.Name == bindable.BoundOutputName);
+                if (output != null)
+                    bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, output));
+            }
+        }
 
         private IModulator Find(Guid id) =>
             Manager.ManagerData.Items.OfType<IModulator>().FirstOrDefault(m => m.ID == id);

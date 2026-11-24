@@ -19,8 +19,8 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<bool> singleChannel,
                         GenericValue<bool> clampColor,
                         Blend blend,
-                        PrefabManager modulatorManager)
-            : base(prefabService, blend, modulatorManager)
+                        ModulatorHost modulators)
+            : base(prefabService, blend, modulators)
         {
             ColorA = colorA;
             ColorB = colorB;

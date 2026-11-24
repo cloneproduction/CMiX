@@ -17,7 +17,7 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class ColorModifier : Modifier, ISpreadableModifier
     {
         public ColorModifier(PrefabService prefabService,
-                           PrefabManager modulatorManager,
+                           ModulatorHost modulators,
                            ControlRepository controlRepository,
                            ModifierModeSelector modifierModeSelector,
                            GenericValue<ColorMode> colorMode,
@@ -25,7 +25,7 @@ namespace CMiX.Core.Modulation.Modifiers
                            ModulatableValue<float> saturation,
                            ModulatableValue<float> value,
                            ModulatableValue<float> alpha)
-            : base(prefabService, modulatorManager, controlRepository, modifierModeSelector.Bindables)
+            : base(prefabService, modulators, controlRepository, modifierModeSelector.Bindables)
         {
             ModifierModeSelector = modifierModeSelector;
             ColorMode = colorMode;
@@ -103,7 +103,7 @@ namespace CMiX.Core.Modulation.Modifiers
             Value.FromModel(m.Value);
             Alpha.FromModel(m.Alpha);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            ResolveNestedBindables();
+            Modulators.Rebind();
             ColorMode.FromModel(m.ColorMode);
         }
     }

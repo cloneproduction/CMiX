@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using static CMiX.Core.ControlExtensions;
@@ -12,13 +13,13 @@ namespace CMiX.Core.Texturing.Sources
     {
         public TouchBlob(PrefabService prefabService,
                          PrefabManager textureModifierManager,
-                         PrefabManager modulatorManager,
+                         ModulatorHost modulators,
                          Integer2 resolution,
                          GenericValue<bool> useCompositionResolution,
                          GenericValue<float> size,
                          GenericValue<string> color,
                          GenericValue<string> background)
-            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulators, useCompositionResolution)
         {
             Resolution = resolution;
             Size = size;

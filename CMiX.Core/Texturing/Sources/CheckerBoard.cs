@@ -15,14 +15,14 @@ namespace CMiX.Core.Texturing.Sources
     {
         public CheckerBoard(PrefabService prefabService,
                             PrefabManager textureModifierManager,
-                            PrefabManager modulatorManager,
+                            ModulatorHost modulators,
                             Integer2 resolution,
                             GenericValue<bool> useCompositionResolution,
                             ModulatableVector2 cellCount,
                             GenericValue<string> colorA,
                             GenericValue<string> colorB,
                             Transform2D transform2D)
-            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulators, useCompositionResolution)
         {
             Resolution = resolution;
             ColorA = colorA;

@@ -14,12 +14,12 @@ namespace CMiX.Core.Texturing.Sources
     {
         protected TextureSourceBase(PrefabService prefabService,
                                     PrefabManager textureModifierManager,
-                                    PrefabManager modulatorManager,
+                                    ModulatorHost modulators,
                                     GenericValue<bool> useCompositionResolution)
         {
             PrefabService = prefabService;
             TextureModifierManager = textureModifierManager;
-            Modulators = new ModulatorHost(modulatorManager);
+            Modulators = modulators;
             UseCompositionResolution = useCompositionResolution;
         }
 

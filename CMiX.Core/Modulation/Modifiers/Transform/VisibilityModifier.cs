@@ -13,10 +13,10 @@ namespace CMiX.Core.Modulation.Modifiers
     public partial class VisibilityModifier : Modifier
     {
         public VisibilityModifier(PrefabService prefabService,
-                                  PrefabManager modulatorManager,
+                                  ModulatorHost modulators,
                                   ControlRepository controlRepository,
                                   ModulatableValue<bool> visible)
-            : base(prefabService, modulatorManager, controlRepository, new IModulatorBindable[] { visible })
+            : base(prefabService, modulators, controlRepository, new IModulatorBindable[] { visible })
         {
             Visible = visible;
         }
@@ -38,7 +38,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (VisibilityModifierModel)model;
             LoadBaseModel(m);
             Visible.FromModel(m.Visible);
-            ResolveNestedBindables();
+            Modulators.Rebind();
         }
     }
 }

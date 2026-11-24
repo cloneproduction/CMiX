@@ -18,8 +18,8 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<bool> antialiasing,
                         GenericValue<bool> invert,
                         Blend blend,
-                        PrefabManager modulatorManager)
-            : base(prefabService, blend, modulatorManager)
+                        ModulatorHost modulators)
+            : base(prefabService, blend, modulators)
         {
             Foreground = foreground;
             Background = background;

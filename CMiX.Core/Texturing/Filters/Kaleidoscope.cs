@@ -21,8 +21,8 @@ namespace CMiX.Core.Texturing.Filters
                             ModulatableVector2 cellOffset,
                             ModulatableVector2 cellScale,
                             Blend blend,
-                            PrefabManager modulatorManager)
-            : base(prefabService, blend, modulatorManager)
+                            ModulatorHost modulators)
+            : base(prefabService, blend, modulators)
         {
             Divisions = divisions;
             Iterations = iterations;

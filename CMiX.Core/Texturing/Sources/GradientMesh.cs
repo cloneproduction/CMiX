@@ -12,7 +12,7 @@ namespace CMiX.Core.Texturing.Sources
     {
         public GradientMesh(PrefabService prefabService,
                             PrefabManager textureModifierManager,
-                            PrefabManager modulatorManager,
+                            ModulatorHost modulators,
                             Integer2 resolution,
                             GenericValue<bool> useCompositionResolution,
                             ModulatableValue<float> time,
@@ -22,7 +22,7 @@ namespace CMiX.Core.Texturing.Sources
                             GenericValue<string> color3,
                             GenericValue<string> color4,
                             GenericValue<GradientMeshType> gradientType)
-            : base(prefabService, textureModifierManager, modulatorManager, useCompositionResolution)
+            : base(prefabService, textureModifierManager, modulators, useCompositionResolution)
         {
             Resolution = resolution;
             Time = time;
