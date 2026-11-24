@@ -8,10 +8,8 @@ using CMiX.UI.Controls.ColorPicker;
 
 namespace CMiX.UI.Tests
 {
-    // Reproduces the layout regression fixed in commit fc493d82: the HSV, RGB and HEX mode
-    // panels used to be swapped in with IsVisible, which collapses layout space, so the whole
-    // picker resized every time the mode changed. The fix hides the inactive panels with the
-    // hiddenMode class (opacity, not IsVisible) so they keep their layout space.
+    // The picker hides the inactive mode panels (HSV, RGB, HEX) with the class hiddenMode, an opacity and not IsVisible,
+    // so each panel keeps its room and the picker keeps its height when the mode changes.
     public class ColorPickerSlidersTests
     {
         [AvaloniaFact]
