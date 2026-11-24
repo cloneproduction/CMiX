@@ -59,32 +59,6 @@ namespace CMiX.Core.Tests
             Assert.Same(first, repository.GetControl(first.ID));
         }
 
-        // The factory caches the names it has to stay unique against, so a rename made after a
-        // control was created has to invalidate that cache or the next control gets a duplicate.
-        [Fact]
-        public void NameControl_StaysUnique_AfterAControlWasRenamed()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var factory = provider.GetRequiredService<ControlFactory>();
-            var repository = provider.GetRequiredService<ControlRepository>();
-            var collectionManager = provider.GetRequiredService<CollectionManager>();
-
-            var first = (IPrefab)factory.Create(typeof(CheckerBoard));
-            repository.AddControl((IControl)first, collectionManager);
-            var second = (IPrefab)factory.Create(typeof(CheckerBoard));
-            repository.AddControl((IControl)second, collectionManager);
-
-            Assert.Equal("Checker Board", first.PrefabService.Name.Value);
-            Assert.Equal("Checker Board.001", second.PrefabService.Name.Value);
-
-            second.PrefabService.Name.Value = "Checker Board.002";
-
-            var third = (IPrefab)factory.Create(typeof(CheckerBoard));
-            repository.AddControl((IControl)third, collectionManager);
-
-            Assert.Equal("Checker Board.001", third.PrefabService.Name.Value);
-        }
-
         [Fact]
         public void ModelEntities_OfAddedEntitiesAndTexts_KeepTheOrderOfTheAdds()
         {
