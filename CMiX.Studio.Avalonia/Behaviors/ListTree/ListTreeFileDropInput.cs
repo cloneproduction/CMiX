@@ -68,10 +68,13 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             e.Handled = true;
             e.DragEffects = DragDropEffects.None;
             Rows.Surfaces.MarkDropTarget(null);
-            Part<ListTreeAutoScroll>().Track(e.GetPosition(Host).Y);
             if (tree is not { } shown || FilesOf(e) is not { IsAccepted: true })
+            {
+                Part<ListTreeAutoScroll>().Stop();
                 return;
+            }
 
+            Part<ListTreeAutoScroll>().Track(e.GetPosition(Host).Y);
             e.DragEffects = DragDropEffects.Copy;
             if (RowListTree.Of(e.Source)?.DataContext is TreeNode hovered && shown.IsPathTarget(hovered))
                 Rows.Surfaces.MarkDropTarget(hovered);

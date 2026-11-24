@@ -194,5 +194,16 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Empty(Shown.Project.CompositionManager.ManagerData.Items);
         }
+
+        [AvaloniaFact]
+        public void DragOver_FilesThatTheTreeRefusesAtTheBottomEdge_ScrollsNot()
+        {
+            Show([3]);
+            var edge = View.Scroller.TranslatePoint(new Point(200, View.Scroller.Bounds.Height - 4), window!)!.Value;
+
+            Drag(edge, FilesOf(NewFile("notes.xyz")), RawDragEventType.DragOver);
+
+            Assert.False(View.AutoScroll.IsRunning);
+        }
     }
 }
