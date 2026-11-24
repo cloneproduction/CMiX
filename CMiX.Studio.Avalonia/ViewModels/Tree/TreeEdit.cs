@@ -11,9 +11,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     public sealed class TreeEdit
     {
         private readonly UndoManager undoManager;
-        private readonly INotificationService notifications;
+        private readonly IStatusNotice notifications;
 
-        public TreeEdit(UndoManager undoManager, INotificationService notifications)
+        public TreeEdit(UndoManager undoManager, IStatusNotice notifications)
         {
             this.undoManager = undoManager;
             this.notifications = notifications;

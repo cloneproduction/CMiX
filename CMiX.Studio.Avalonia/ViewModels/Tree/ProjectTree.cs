@@ -32,7 +32,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private IReadOnlyList<TreeAdd> targetAdds;
 
         public ProjectTree(Project project, UndoManager undoManager, IMoveBlockedNotice notice,
-            ShortcutMap shortcuts, PathDropRules pathDrop, INotificationService notifications, InterfaceOptions interfaceOptions)
+            ShortcutMap shortcuts, PathDropRules pathDrop, IStatusNotice notifications, InterfaceOptions interfaceOptions)
         {
             this.undoManager = undoManager;
             Shortcuts = shortcuts;

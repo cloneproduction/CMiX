@@ -36,9 +36,9 @@ namespace CMiX.Studio.Avalonia.Views
         private void OnKeyDownAfterTextBox(KeyEventArgs e) => textGuard.RunPausedBinding(e);
 
         private readonly PanelFocusCycle? panelFocus;
-        private readonly NotificationService? notifications;
+        private readonly StatusNotice? notifications;
 
-        public MainWindow(PanelFocusCycle panelFocus, NotificationService notifications) : this()
+        public MainWindow(PanelFocusCycle panelFocus, StatusNotice notifications) : this()
         {
             this.panelFocus = panelFocus;
             this.notifications = notifications;

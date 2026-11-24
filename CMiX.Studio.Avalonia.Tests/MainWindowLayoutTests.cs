@@ -354,7 +354,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window.KeyPressQwerty(PhysicalKey.Escape, RawInputModifiers.None);
             window.KeyReleaseQwerty(PhysicalKey.Escape, RawInputModifiers.None);
             Settle(window);
-            provider.GetRequiredService<NotificationService>().Show("Opened");
+            provider.GetRequiredService<StatusNotice>().Show("Opened");
 
             Assert.Same(layerItem, window.FocusManager!.GetFocusedElement());
             Assert.Equal("Opened", window.FindControl<PanelNotification>("panelNotification")!.Notification.Text);

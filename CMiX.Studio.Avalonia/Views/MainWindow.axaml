@@ -136,7 +136,7 @@
             ResizeDirection="Columns"
             Theme="{StaticResource GridSplitterCMiX}" />
 
-        <!-- The one notification of the window, at the bottom center over both panels (see INotificationService). It takes no click and no focus. -->
+        <!-- The one notification of the window, at the bottom center over both panels (see IStatusNotice). It takes no click and no focus. -->
         <ui:PanelNotification x:Name="panelNotification" Grid.ColumnSpan="2" />
 
         </Grid>

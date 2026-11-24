@@ -5,7 +5,7 @@ namespace CMiX.Studio.Avalonia.Notices
 {
     // Shows a short message at the bottom of the main window. The message hides itself and does not stop the work of the user.
     // A new message replaces the message that shows.
-    public interface INotificationService
+    public interface IStatusNotice
     {
         void Show(string text);
 

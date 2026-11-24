@@ -9,12 +9,12 @@ namespace CMiX.Studio.Avalonia.Notices
 {
     // Shows the messages in the PanelNotification of the main window. The main window attaches its host.
     // The undo key comes from the ShortcutMap when the message shows, so a changed key shows correctly.
-    public sealed class NotificationService : INotificationService
+    public sealed class StatusNotice : IStatusNotice
     {
         private readonly ShortcutMap shortcuts;
         private PanelNotification? host;
 
-        public NotificationService(ShortcutMap shortcuts) => this.shortcuts = shortcuts;
+        public StatusNotice(ShortcutMap shortcuts) => this.shortcuts = shortcuts;
 
         public void Attach(PanelNotification host) => this.host = host;
 

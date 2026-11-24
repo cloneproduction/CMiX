@@ -87,7 +87,7 @@ namespace CMiX.Studio.Avalonia.Tests.Support
                 provider.GetRequiredService<IMoveBlockedNotice>(),
                 provider.GetRequiredService<ShortcutMap>(),
                 provider.GetRequiredService<PathDropRules>(),
-                provider.GetRequiredService<INotificationService>(),
+                provider.GetRequiredService<IStatusNotice>(),
                 provider.GetRequiredService<InterfaceOptions>());
 
         // Adds two entities, one filter and three modifiers to the layer.
