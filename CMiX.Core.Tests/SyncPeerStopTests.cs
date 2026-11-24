@@ -20,7 +20,7 @@ namespace CMiX.Core.Tests
     public class SyncPeerStopTests
     {
         [Fact]
-        public void Start_AndStop_ReturnAtOnce_WhenTheStoreNeverConnects()
+        public void StartAndStop_WhenTheStoreNeverConnects_ReturnAtOnce()
         {
             var messenger = new ControlMessenger();
             using var peer = CreatePeer(new RecordingSyncTarget(), new HangingSyncStore(), messenger);
@@ -46,7 +46,7 @@ namespace CMiX.Core.Tests
         // The loops write the positions through the dispatcher. The reset of Stop must go the same
         // way, or a queued write of a loop lands after it.
         [Fact]
-        public async Task Stop_ResetsThePositionsThroughTheDispatcher()
+        public async Task Stop_WithADispatcher_ResetsThePositionsThroughIt()
         {
             using var dispatcher = new SingleThreadDispatcher();
             var store = new WrappingSyncStore(new InMemorySyncStore());
@@ -74,7 +74,7 @@ namespace CMiX.Core.Tests
 
         // A test on a real server deletes its keys after Stopped, so no late call may write one.
         [Fact]
-        public async Task Stopped_CompletesAfterTheLastStoreCall()
+        public async Task Stopped_OfAStop_CompletesAfterTheLastStoreCall()
         {
             var store = new WrappingSyncStore(new InMemorySyncStore());
             using var peer = CreatePeer(new RecordingSyncTarget(), store);
@@ -93,7 +93,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task StoreCalls_NeverRunOnTheDispatcherThread()
+        public async Task StoreCalls_WithADispatcher_NeverRunOnItsThread()
         {
             using var dispatcher = new SingleThreadDispatcher();
             var store = new WrappingSyncStore(new InMemorySyncStore());

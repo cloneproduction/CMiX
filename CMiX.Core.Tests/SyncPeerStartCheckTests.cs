@@ -185,7 +185,7 @@ namespace CMiX.Core.Tests
             Assert.Equal("Connected", peer.Status);
         }
         [Fact]
-        public async Task ConnectionEventsDuringTheStartCheck_PushOnce()
+        public async Task Start_WithConnectionEventsDuringTheStartCheck_PushesOnce()
         {
             for (var i = 0; i < 10; i++)
             {

@@ -196,7 +196,7 @@ namespace CMiX.Core.Tests
         }
 
         [SkippableFact]
-        public async Task ThePeerList_ShowsTheStudioAndBothEngines()
+        public async Task Peers_OfAStudioAndTwoEngines_ListAllThree()
         {
             Skip.IfNot(_fixture.Available, SkipReason);
 

@@ -226,7 +226,7 @@ namespace CMiX.Core.Tests
         // sleeps with a socket that survives. Its read then returns the entries after the trim
         // point. An apply of those entries would move the peer past the gap and hide it.
         [Fact]
-        public async Task AfterALongPauseOfTheFollower_ThePeerChecksTheGap()
+        public async Task Follower_AfterALongPause_ChecksTheGap()
         {
             var inner = new InMemorySyncStore();
             var store = new WrappingSyncStore(inner);
@@ -260,7 +260,7 @@ namespace CMiX.Core.Tests
         // The oldest entry tells a gap from a lag. A joined peer is at or above the snapshot, so an
         // idle tick must not read it. Every read of it costs one payload on every engine.
         [Fact]
-        public async Task AnIdleTick_ReadsTheOldestEntryOnlyWhenTheSnapshotIsAhead()
+        public async Task Tick_WhileIdle_ReadsTheOldestEntryOnlyWhenTheSnapshotIsAhead()
         {
             var inner = new InMemorySyncStore();
             var store = new WrappingSyncStore(inner);

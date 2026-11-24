@@ -194,7 +194,7 @@ namespace CMiX.Core.Tests
         // An append that already runs is not cancellable. The loop of the old run must not confirm
         // its entry, and must not take an entry out of the queue that only the new loop can append.
         [Fact]
-        public async Task RestartDuringAnAppend_SendsBothMessagesToTheNewStore()
+        public async Task Restart_DuringAnAppend_SendsBothMessagesToTheNewStore()
         {
             var innerA = new InMemorySyncStore();
             var storeA = new WrappingSyncStore(innerA);
@@ -293,7 +293,7 @@ namespace CMiX.Core.Tests
         // The follower recovery reads the snapshot of the store it follows. A restart while it reads
         // must not put that snapshot into the peer.
         [Fact]
-        public async Task RestartDuringAFollowerRecovery_KeepsTheStateOfTheNewStore()
+        public async Task Restart_DuringAFollowerRecovery_KeepsTheStateOfTheNewStore()
         {
             // The IDs of the old store are above the IDs of the new one. An unguarded recovery would
             // therefore find its snapshot newer than the position of the new store.
@@ -349,7 +349,7 @@ namespace CMiX.Core.Tests
         // The follower of the old store can hold an entry it read before the restart. That entry
         // belongs to another stream, so it must not reach the target or the position.
         [Fact]
-        public async Task RestartWhileAnEntryWaits_LeavesTheEntryOfTheOldStoreUnapplied()
+        public async Task Restart_WhileAnEntryWaits_LeavesTheEntryOfTheOldStoreUnapplied()
         {
             var innerA = new InMemorySyncStore();
             var storeA = new WrappingSyncStore(innerA);
@@ -393,7 +393,7 @@ namespace CMiX.Core.Tests
         // A presence tick of the store that the restart left behind must not move the tail or the
         // peer list.
         [Fact]
-        public async Task RestartDuringAPresenceTick_KeepsTheTailAndThePeersOfTheNewStore()
+        public async Task Restart_DuringAPresenceTick_KeepsTheTailAndThePeersOfTheNewStore()
         {
             var innerA = new InMemorySyncStore(1000000);
             var storeA = new WrappingSyncStore(innerA);

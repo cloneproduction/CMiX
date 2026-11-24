@@ -348,7 +348,7 @@ namespace CMiX.Core.Tests
 
         // A peer that starts before its server must join soon after the server comes up.
         [SkippableFact]
-        public async Task PeerStartedBeforeTheServer_JoinsSoonAfterItComesUp()
+        public async Task Start_BeforeTheServerIsUp_JoinsSoonAfterItComesUp()
         {
             Skip.IfNot(File.Exists(MemuraiPath), SkipReason);
             Skip.If(PortIsBusy(Port), $"Port {Port} is busy. Stop the process that uses it.");

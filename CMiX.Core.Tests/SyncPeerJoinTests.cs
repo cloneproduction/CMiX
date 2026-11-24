@@ -55,7 +55,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task EngineOnStoreWithSnapshot_JoinsFromItAsBefore()
+        public async Task StartAndJoin_OfAnEngineOnAStoreWithASnapshot_JoinsFromIt()
         {
             var store = new InMemorySyncStore();
             await store.ConnectAsync(default);
@@ -160,7 +160,7 @@ namespace CMiX.Core.Tests
         // The Studio empties its repository managers when it gets a snapshot, so every snapshot
         // apply must tell it. There are three: the join, a snapshot entry, and the recovery.
         [Fact]
-        public async Task SnapshotApplied_ComesOnceOnAJoinFromASnapshot()
+        public async Task SnapshotApplied_OnAJoinFromASnapshot_ComesOnce()
         {
             var store = new InMemorySyncStore();
             await store.ConnectAsync(default);
@@ -187,7 +187,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task SnapshotApplied_ComesOnceOnASnapshotEntry()
+        public async Task SnapshotApplied_OnASnapshotEntry_ComesOnce()
         {
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget();
@@ -207,7 +207,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task SnapshotApplied_ComesOnceOnARecoveryAfterAGap()
+        public async Task SnapshotApplied_OnARecoveryAfterAGap_ComesOnce()
         {
             var inner = new InMemorySyncStore();
             var store = new WrappingSyncStore(inner);
@@ -237,7 +237,7 @@ namespace CMiX.Core.Tests
         // A replacement host with an earlier clock gives entry IDs below the position the peer
         // holds. Without a re-join the reader waits for entries that never come.
         [Fact]
-        public async Task WhenTheTailIsBelowTheOwnPosition_ThePeerJoinsTheNewStore()
+        public async Task Tick_WithTheTailBelowTheOwnPosition_JoinsTheNewStore()
         {
             var inner = new InMemorySyncStore(1000000);
             var store = new WrappingSyncStore(inner);

@@ -20,7 +20,7 @@ namespace CMiX.Core.Tests
     public class SyncPeerFollowerTests
     {
         [Fact]
-        public async Task OwnEntries_AdvancePositionWithoutApply()
+        public async Task Follower_OfOwnEntries_AdvancesThePositionWithoutApply()
         {
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget();
@@ -85,7 +85,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task RemoveThenAdd_ArriveInOrder()
+        public async Task Follower_OfARemoveThenAnAdd_AppliesThemInOrder()
         {
             var store = new InMemorySyncStore();
             var targetA = new RecordingSyncTarget();
@@ -108,7 +108,7 @@ namespace CMiX.Core.Tests
 
         // A retry of an append that timed out puts the same envelope into the stream a second time.
         [Fact]
-        public async Task TheSameEntryTwice_IsAppliedOnce()
+        public async Task Follower_OfTheSameEntryTwice_AppliesItOnce()
         {
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget();
@@ -131,7 +131,7 @@ namespace CMiX.Core.Tests
         // Two clicks on the same control are two messages with one payload ID. Only the message ID
         // tells a repeat from a second edit.
         [Fact]
-        public async Task TwoEntriesWithTheSamePayloadId_AreBothApplied()
+        public async Task Follower_OfTwoEntriesWithOnePayloadId_AppliesBoth()
         {
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget();
@@ -150,7 +150,7 @@ namespace CMiX.Core.Tests
         // The engine drains its queue once per frame. One action per entry would apply one entry
         // per frame, so a replay hands every read batch to one action.
         [Fact]
-        public async Task AReplay_DispatchesOneActionPerReadBatch()
+        public async Task Replay_OfManyEntries_DispatchesOneActionPerReadBatch()
         {
             var store = new InMemorySyncStore();
             await store.ConnectAsync(default);
@@ -176,7 +176,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task AReplay_UsesTheReadBatchOfTheTimings()
+        public async Task Replay_OfManyEntries_UsesTheReadBatchOfTheTimings()
         {
             var store = new InMemorySyncStore();
             await store.ConnectAsync(default);
@@ -203,7 +203,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task TheFollower_AppliesABatchInOneAction()
+        public async Task Follower_OfABatch_AppliesItInOneAction()
         {
             var store = new InMemorySyncStore();
             var queue = new MainloopQueue();
@@ -229,7 +229,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task ADuplicateInsideABatch_IsAppliedOnce()
+        public async Task Follower_OfADuplicateInsideABatch_AppliesItOnce()
         {
             var store = new InMemorySyncStore();
             await store.ConnectAsync(default);
@@ -247,7 +247,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task ACorruptEntryInsideABatch_AdvancesThePosition()
+        public async Task Follower_OfACorruptEntryInsideABatch_AdvancesThePosition()
         {
             var store = new InMemorySyncStore();
             await store.ConnectAsync(default);

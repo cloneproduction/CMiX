@@ -78,7 +78,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task Outgoing_KeepsOrder()
+        public async Task SendMessage_OfManyEdits_KeepsTheOrder()
         {
             var store = new InMemorySyncStore();
             var targetA = new RecordingSyncTarget();
@@ -99,7 +99,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task Push_WhileEditsAreQueued_LandsAfterTheEntryInFlight_AndDropsTheRest()
+        public async Task Push_WhileEditsAreQueued_LandsAfterTheEntryInFlightAndDropsTheRest()
         {
             var inner = new InMemorySyncStore();
             var store = new WrappingSyncStore(inner);

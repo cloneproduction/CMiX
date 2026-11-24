@@ -41,7 +41,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task ValueChange_CompactsAfterTheDelayAndNotBefore()
+        public async Task SendMessage_OfAValueChange_CompactsAfterTheDelayAndNotBefore()
         {
             var store = new InMemorySyncStore();
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
@@ -134,7 +134,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TrimPosition_TakesTheLowerOfTheOwnPositionAndTheRetentionBound()
+        public void TrimPosition_OfACompaction_IsTheLowerOfTheOwnPositionAndTheRetentionBound()
         {
             var retention = SyncTimings.Default.Retention;
             var bound = (long)retention.TotalMilliseconds;
@@ -179,7 +179,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task NotJoined_WritesNothing()
+        public async Task SendMessage_WhileNotJoined_WritesNoSnapshot()
         {
             var inner = new InMemorySyncStore();
             await inner.ConnectAsync(default);
@@ -335,7 +335,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task MessageDuringACompaction_CompactsOnceMoreAfterIt()
+        public async Task SendMessage_DuringACompaction_CompactsOnceMoreAfterIt()
         {
             var inner = new InMemorySyncStore();
             var store = new WrappingSyncStore(inner);
@@ -367,7 +367,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task FailedCompaction_RunsAgainAfterTheReconnect()
+        public async Task Compaction_AfterAFailure_RunsAgainAfterTheReconnect()
         {
             var inner = new InMemorySyncStore();
             var store = new WrappingSyncStore(inner);
@@ -401,7 +401,7 @@ namespace CMiX.Core.Tests
 
         // Stopped says that the store is quiet. A compaction that still writes would break that.
         [Fact]
-        public async Task Stop_WaitsForTheRunningCompaction()
+        public async Task Stop_DuringACompaction_WaitsForIt()
         {
             var inner = new InMemorySyncStore();
             var store = new WrappingSyncStore(inner);
@@ -429,7 +429,7 @@ namespace CMiX.Core.Tests
         // The compactor reads the count in the notification. A notification before the entry left
         // the queue shows one pending message, and the deferred capture waits for the next message.
         [Fact]
-        public async Task PendingCount_IsNotifiedAfterTheEntryLeftTheQueue()
+        public async Task PendingMessages_AfterAnAppend_IsNotifiedWhenTheEntryLeftTheQueue()
         {
             using var dispatcher = new SingleThreadDispatcher();
             var inner = new InMemorySyncStore();
@@ -465,7 +465,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public async Task LostSnapshot_IsWrittenAgainOnTheNextTick()
+        public async Task Compaction_OfALostSnapshot_WritesItAgainOnTheNextTick()
         {
             var inner = new InMemorySyncStore();
             var store = new WrappingSyncStore(inner);
