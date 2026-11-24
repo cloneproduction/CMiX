@@ -31,10 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 scene.LayerOfA(i).TextureModifierManager.AddItem(typeof(Echo));
             foreach (var node in scene.All())
                 node.IsExpanded = true;
-            view = new ListTreeProject { DataContext = scene.Tree };
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            window = new Window { Content = view, Width = 400, Height = 400 };
-            window.Show();
+            (window, view) = ListTreeTestScreen.Show(scene.Tree, 400, 400);
             Settle();
         }
 

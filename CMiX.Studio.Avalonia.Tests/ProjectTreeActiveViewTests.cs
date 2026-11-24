@@ -29,17 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // Two views of the tree side by side. Each view has its own height.
         private (ListTreeProject First, ListTreeProject Second) Show(Scene scene, double firstHeight = 600, double secondHeight = 600)
         {
-            var first = new ListTreeProject { DataContext = scene.Tree, Height = firstHeight, VerticalAlignment = VerticalAlignment.Top };
-            var second = new ListTreeProject { DataContext = scene.Tree, Height = secondHeight, VerticalAlignment = VerticalAlignment.Top };
-            first.Rows.MoveDuration = TimeSpan.Zero;
-            second.Rows.MoveDuration = TimeSpan.Zero;
-            var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("*,*") };
-            Grid.SetColumn(second, 1);
-            grid.Children.Add(first);
-            grid.Children.Add(second);
-            window = new Window { Content = grid, Width = 800, Height = 900 };
-            window.Show();
-            ListTreeTestScreen.Settle(window);
+            (window, var first, var second) = ListTreeTestScreen.ShowTwoViews(scene.Tree, firstHeight, secondHeight);
             return (first, second);
         }
 

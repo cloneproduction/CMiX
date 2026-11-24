@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
@@ -14,14 +15,6 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     public class ListTreeProjectTests
     {
-        private static Window Show(Control content)
-        {
-            var window = new Window { Content = content, Width = 400, Height = 600 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
         [AvaloniaFact]
         public void LeftPanel_ByDefault_ShowsOneListTreeProjectOfTheProjectTree()
         {
@@ -50,9 +43,8 @@ namespace CMiX.Studio.Avalonia.Tests
         public void OnAttachedToVisualTree_TheOnlyView_IsTheActiveViewOfTheTree()
         {
             var scene = CreateScene();
-            var view = new ListTreeProject { DataContext = scene.Tree };
 
-            Show(view);
+            var view = ListTreeTestScreen.Show(scene.Tree, 400, 600).View;
 
             Assert.True(view.IsActiveView);
             Assert.NotNull(scene.Tree.Views.ActiveView());
@@ -62,8 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void OnDetachedFromVisualTree_TheOnlyView_LeavesTheTreeWithNoView()
         {
             var scene = CreateScene();
-            var view = new ListTreeProject { DataContext = scene.Tree };
-            var window = Show(view);
+            var (window, view) = ListTreeTestScreen.Show(scene.Tree, 400, 600);
 
             window.Content = null;
             Dispatcher.UIThread.RunJobs();
@@ -76,14 +67,8 @@ namespace CMiX.Studio.Avalonia.Tests
         public void IsActiveView_TwoViewsWithNoFocusAndNoPointer_TheFirstAttachedViewIsActive()
         {
             var scene = CreateScene();
-            var first = new ListTreeProject { DataContext = scene.Tree };
-            var second = new ListTreeProject { DataContext = scene.Tree };
-            var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("*,*") };
-            Grid.SetColumn(second, 1);
-            grid.Children.Add(first);
-            grid.Children.Add(second);
 
-            Show(grid);
+            var (_, first, second) = ListTreeTestScreen.ShowTwoViews(scene.Tree);
 
             Assert.True(first.IsActiveView);
             Assert.False(second.IsActiveView);

@@ -25,17 +25,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public ListTreeViewStateInputTests()
         {
-            view = new ListTreeProject { DataContext = scene.Tree };
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            var panel = new DockPanel();
-            DockPanel.SetDock(outside, Dock.Bottom);
-            DockPanel.SetDock(outsideText, Dock.Bottom);
-            panel.Children.Add(outside);
-            panel.Children.Add(outsideText);
-            panel.Children.Add(view);
-            window = new Window { Content = panel, Width = 400, Height = 900 };
-            window.Show();
-            window.Settle();
+            (window, view) = ListTreeTestScreen.Show(scene.Tree, 400, 900, outside, outsideText);
         }
 
         public void Dispose() => window.Close();

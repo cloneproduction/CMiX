@@ -68,12 +68,8 @@ namespace CMiX.Studio.Avalonia.Tests
             ((Layer)a.LayerManager.ManagerData.Items[0]).ModelEntityManager.AddItem(typeof(Entity));
 
             var tree = TreeFixtures.CreateTree(provider);
-            var view = new ListTreeProject { DataContext = tree };
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            var window = new Window { Content = view, Width = 400, Height = 900 };
+            var (window, view) = ListTreeTestScreen.Show(tree, 400, 900);
             windows.Add(window);
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
             return new Screen { Window = window, View = view, Tree = tree, Project = project, A = a };
         }
 

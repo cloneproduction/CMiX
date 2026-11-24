@@ -136,14 +136,8 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Unwatch_SecondViewLeaves_TheFocusedViewStillTellsTheTreeHasTheFocus()
         {
             var scene = CreateScene();
-            var first = new ListTreeProject { DataContext = scene.Tree };
-            var second = new ListTreeProject { DataContext = scene.Tree };
-            first.Rows.MoveDuration = TimeSpan.Zero;
-            second.Rows.MoveDuration = TimeSpan.Zero;
-            var panel = new StackPanel { Children = { first, second } };
-            var window = new Window { Content = panel, Width = 400, Height = 1100 };
-            window.Show();
-            ListTreeTestScreen.Settle(window);
+            var (window, first, second) = ListTreeTestScreen.ShowTwoViews(scene.Tree);
+            var panel = (Panel)second.Parent!;
             try
             {
                 Assert.True(first.Rows.RowOf(scene.Tree.Roots[0])!.Focus(NavigationMethod.Tab));

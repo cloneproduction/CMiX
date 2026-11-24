@@ -37,15 +37,9 @@ namespace CMiX.Studio.Avalonia.Tests
         private (Screen Screen, Scene Scene) Show()
         {
             var scene = CreateScene([3]);
-            var box = new TextBoxSearchTree { DataContext = scene.Tree };
-            var view = new ListTreeProject { DataContext = scene.Tree };
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            DockPanel.SetDock(box, Dock.Top);
-            window = new Window { Content = new DockPanel { Children = { box, view } }, Width = 400, Height = 700 };
-            window.Show();
-            var screen = new Screen(window, box, view);
-            screen.Window.Settle();
-            return (screen, scene);
+            var (shown, box) = ListTreeTestScreen.ShowWithSearch(scene.Tree, 400, 700);
+            window = shown.Window;
+            return (new Screen(shown.Window, box, shown.View), scene);
         }
 
 

@@ -32,11 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public ListTreeKeysTests()
         {
-            newView = new ListTreeProject { DataContext = scene.Tree };
-            newView.Rows.MoveDuration = TimeSpan.Zero;
-            window = new Window { Content = newView, Width = 900, Height = 900 };
-            window.Show();
-            window.Settle();
+            (window, newView) = ListTreeTestScreen.Show(scene.Tree, 900, 900);
         }
 
         public void Dispose()

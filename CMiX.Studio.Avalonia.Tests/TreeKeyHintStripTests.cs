@@ -37,15 +37,9 @@ namespace CMiX.Studio.Avalonia.Tests
         private (Screen Screen, Scene Scene) Show()
         {
             var scene = CreateScene([3]);
-            var box = new TextBoxSearchTree { DataContext = scene.Tree };
-            var view = new ListTreeProject { DataContext = scene.Tree };
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            DockPanel.SetDock(box, Dock.Top);
-            window = new Window { Content = new DockPanel { Children = { box, view } }, Width = PanelWidth, Height = 500 };
-            window.Show();
-            var screen = new Screen(window, box, view);
-            Pump(screen);
-            return (screen, scene);
+            var (shown, box) = ListTreeTestScreen.ShowWithSearch(scene.Tree, PanelWidth, 500);
+            window = shown.Window;
+            return (new Screen(shown.Window, box, shown.View), scene);
         }
 
         // About one half of the main window (908 wide, two side panels).

@@ -28,10 +28,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public ListTreeRenameTests()
         {
-            view = new ListTreeProject { DataContext = scene.Tree };
-            view.Rows.MoveDuration = TimeSpan.Zero;
-            window = new Window { Content = view, Width = 400, Height = 900 };
-            window.Show();
+            (window, view) = ListTreeTestScreen.Show(scene.Tree, 400, 900);
             scene.Tree.SelectedNode = Entity;
             window.Settle();
         }
