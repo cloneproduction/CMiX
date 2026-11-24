@@ -1,4 +1,3 @@
-using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -11,6 +10,7 @@ using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -24,12 +24,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public static TheoryData<ListKind> Kinds => new() { ListKind.PrefabSlot, ListKind.Repository, ListKind.BeatStep };
 
-        private sealed class MessageRecorder : IMessageSender
-        {
-            public List<IMessage> Sent { get; } = new();
-            public void SendMessage(IMessage message) => Sent.Add(message);
-        }
-
         private sealed class ListHarness
         {
             private ListHarness() { }
@@ -40,8 +34,8 @@ namespace CMiX.Studio.Avalonia.Tests
             public Type ItemType { get; private init; } = null!;
             public MessageRecorder Recorder { get; } = new();
 
-            public int UndoSteps => StackSize("_undoStack");
-            public int RedoSteps => StackSize("_redoStack");
+            public int UndoSteps => UndoCounts.StepsOf(Undo);
+            public int RedoSteps => UndoCounts.RedoStepsOf(Undo);
             public IReadOnlyList<Guid> Ids => Manager.ManagerData.Items.Select(item => item.ID).ToList();
 
             public static ListHarness Create(ListKind kind, int itemCount)
@@ -98,11 +92,6 @@ namespace CMiX.Studio.Avalonia.Tests
             public void UserSelects(int index) => List.SelectedItem = Manager.ManagerData.Items[index];
 
             public IReadOnlyList<T> Sent<T>() => Recorder.Sent.OfType<T>().ToList();
-
-            private int StackSize(string field) =>
-                ((System.Collections.ICollection)typeof(UndoManager)
-                    .GetField(field, BindingFlags.NonPublic | BindingFlags.Instance)!
-                    .GetValue(Undo)!).Count;
         }
 
         [AvaloniaTheory]

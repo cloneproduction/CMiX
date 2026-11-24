@@ -1,4 +1,3 @@
-using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -28,12 +27,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public void Dispose() => window?.Close();
 
-        private sealed class MessageRecorder : IMessageSender
-        {
-            public List<IMessage> Sent { get; } = new();
-            public void SendMessage(IMessage message) => Sent.Add(message);
-        }
-
         private sealed record Screen(IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel, ListTreeProject View, PanelNotification Host)
         {
             public ProjectTree Tree => ViewModel.ProjectTree;
@@ -41,10 +34,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public TreeNode LayersNode => Tree.CompositionNodes()[0].Children[0];
             public TreeNode LayerNode(int index) => LayersNode.Children[index];
 
-            public LinkedList<IUndoCommand> UndoStack =>
-                (LinkedList<IUndoCommand>)typeof(UndoManager).GetField("_undoStack", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(Undo)!;
-
-            public int UndoSteps => UndoStack.Count;
+            public int UndoSteps => UndoCounts.StepsOf(Undo);
         }
 
         // One composition with three layers. Every row is open. The first layer is selected. The undo history is empty.
@@ -127,11 +117,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var pressed = screen.LayerNode(2);
 
             screen.Window.Click(EyeOf(screen, clicked));
-            var clickStep = screen.UndoStack.Last!.Value;
+            var clickStep = UndoCounts.LastStepOf(screen.Undo);
             var clickMessage = recorder.Sent.Last();
             Focus(screen, pressed);
             screen.Window.Press(PhysicalKey.H);
-            var keyStep = screen.UndoStack.Last!.Value;
+            var keyStep = UndoCounts.LastStepOf(screen.Undo);
             var keyMessage = recorder.Sent.Last();
 
             Assert.True(clicked.IsHidden);

@@ -1,4 +1,3 @@
-using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -7,6 +6,7 @@ using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -17,12 +17,6 @@ namespace CMiX.Studio.Avalonia.Tests
 {
     public class SelectionEchoTests
     {
-        private sealed class MessageRecorder : IMessageSender
-        {
-            public List<IMessage> Sent { get; } = new();
-            public void SendMessage(IMessage message) => Sent.Add(message);
-        }
-
         private sealed class Harness
         {
             private Harness() { }
@@ -33,8 +27,8 @@ namespace CMiX.Studio.Avalonia.Tests
             public ListBox List { get; private init; } = null!;
             public MessageRecorder Recorder { get; } = new();
 
-            public int UndoSteps => StackSize("_undoStack");
-            public int RedoSteps => StackSize("_redoStack");
+            public int UndoSteps => UndoCounts.StepsOf(Undo);
+            public int RedoSteps => UndoCounts.RedoStepsOf(Undo);
             public int Selected => Layers.ManagerData.SelectedIndex;
             public IReadOnlyList<Guid> Ids => Layers.ManagerData.Items.Select(item => item.ID).ToList();
 
@@ -80,11 +74,6 @@ namespace CMiX.Studio.Avalonia.Tests
             }
 
             public IReadOnlyList<T> Sent<T>() => Recorder.Sent.OfType<T>().ToList();
-
-            private int StackSize(string field) =>
-                ((System.Collections.ICollection)typeof(UndoManager)
-                    .GetField(field, BindingFlags.NonPublic | BindingFlags.Instance)!
-                    .GetValue(Undo)!).Count;
         }
 
         [AvaloniaFact]

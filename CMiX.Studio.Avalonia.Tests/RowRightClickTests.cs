@@ -1,4 +1,3 @@
-using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -28,9 +27,7 @@ namespace CMiX.Studio.Avalonia.Tests
             public List<RowComposable> Rows { get; init; } = null!;
             public UndoManager Undo { get; init; } = null!;
 
-            public int UndoSteps =>
-                ((System.Collections.ICollection)typeof(UndoManager)
-                    .GetField("_undoStack", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(Undo)!).Count;
+            public int UndoSteps => UndoCounts.StepsOf(Undo);
 
             public bool AMenuIsOpen => Rows.Any(row => row.ContextMenu?.IsOpen == true);
 
