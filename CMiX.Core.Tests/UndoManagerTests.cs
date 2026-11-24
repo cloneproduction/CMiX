@@ -63,9 +63,7 @@ namespace CMiX.Core.Tests
         [Fact]
         public void Regression_MergedPushAfterUndo_ClearsRedoStack()
         {
-            // Reproduces the bug fixed in commit 56258859: without clearing the redo stack
-            // inside the merge branch, undoing B then merging a new change into A left the
-            // undone B sitting redoable on top of a stack whose bottom entry had just moved.
+            // A change of A that merges into the top entry after an undo of B must clear the redo of B.
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
             var controlA = CreateActiveDouble(provider);

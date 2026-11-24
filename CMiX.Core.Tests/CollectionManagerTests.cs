@@ -6,8 +6,7 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // Covers the guards added in commit 59a147eb: MoveItem used to trust their
-    // arguments and would throw or corrupt state on stale or absent controls.
+    // A move, a select or a remove with a bad index or a foreign control changes nothing.
     public class CollectionManagerTests
     {
         private static CollectionManager CreateManagerWithItems(IServiceProvider provider, int count, out List<TouchBlob> items)
