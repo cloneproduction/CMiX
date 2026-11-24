@@ -26,22 +26,13 @@ namespace CMiX.UI.Tests
             public VectorModel() => ResetAllCommand = new RelayCommand(() => ResetAllRuns++);
         }
 
-        private static Window Host(Control content)
-        {
-            var window = new Window { Content = content, Width = 600, Height = 400 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
         private static List<DragValue> DragValuesOf(Control control) =>
             control.GetVisualDescendants().OfType<DragValue>().ToList();
 
         // The menu is opened like a right-click does, because the commands of a menu written in XAML bind when it opens.
         private static void Run(DragValue drag, string header)
         {
-            drag.RaiseEvent(new ContextRequestedEventArgs { Source = drag });
-            Dispatcher.UIThread.RunJobs();
+            ContextMenuInput.Request(drag);
             var row = drag.ContextMenu!.Items.OfType<MenuItem>().Single(i => Equals(i.Header, header));
             row.Command!.Execute(row.CommandParameter);
             drag.ContextMenu.Close();
@@ -53,7 +44,7 @@ namespace CMiX.UI.Tests
         {
             var model = new VectorModel();
             var vector = new Vector2 { DataContext = model };
-            Host(vector);
+            TestWindow.Show(vector, 600, 400);
             var drags = DragValuesOf(vector);
 
             Assert.Equal(2, drags.Count);
@@ -74,7 +65,7 @@ namespace CMiX.UI.Tests
         {
             var model = new VectorModel();
             var vector = new Vector3 { DataContext = model };
-            Host(vector);
+            TestWindow.Show(vector, 600, 400);
             var drags = DragValuesOf(vector);
 
             Assert.Equal(3, drags.Count);
@@ -100,7 +91,7 @@ namespace CMiX.UI.Tests
                 LeftResetCommand = new RelayCommand(() => left++),
                 RightResetCommand = new RelayCommand(() => right++),
             };
-            Host(range);
+            TestWindow.Show(range, 600, 400);
             var drags = DragValuesOf(range);
 
             Assert.Equal(2, drags.Count);

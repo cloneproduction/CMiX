@@ -7,6 +7,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.String;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -25,35 +26,19 @@ namespace CMiX.UI.Tests
                 Child = box,
                 ContextMenu = new ContextMenu { ItemsSource = new[] { new MenuItem { Header = "Rename" } } }
             };
-            var window = new Window { Content = row, Width = 300, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(row, 300, 200);
             return (window, row, box, box.GetVisualDescendants().OfType<TextBox>().Single());
         }
 
-        // A right-click reaches the control under the pointer: the text box inside the editable text.
-        private static void RequestMenu(Control source)
-        {
-            source.RaiseEvent(new ContextRequestedEventArgs { Source = source });
-            Dispatcher.UIThread.RunJobs();
-        }
-
-        private static void RightClick(Window window, Control control)
-        {
-            var center = control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
-            window.MouseMove(center);
-            Dispatcher.UIThread.RunJobs();
-            window.MouseDown(center, MouseButton.Right);
-            window.MouseUp(center, MouseButton.Right);
-            Dispatcher.UIThread.RunJobs();
-        }
+        private static void RightClick(Window window, Control control) =>
+            PointerInput.Click(window, control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value, MouseButton.Right);
 
         [AvaloniaFact]
         public void ContextRequest_OutsideTheEditMode_OpensTheMenuOfTheRow()
         {
             var (_, row, _, input) = Show();
 
-            RequestMenu(input);
+            ContextMenuInput.Request(input);
 
             Assert.True(row.ContextMenu!.IsOpen);
         }
@@ -65,7 +50,7 @@ namespace CMiX.UI.Tests
             box.IsEditing = true;
             Dispatcher.UIThread.RunJobs();
 
-            RequestMenu(input);
+            ContextMenuInput.Request(input);
 
             Assert.False(row.ContextMenu!.IsOpen);
         }
@@ -81,7 +66,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
             Assert.True(input.IsVisible);
 
-            RequestMenu(input);
+            ContextMenuInput.Request(input);
 
             Assert.False(row.ContextMenu!.IsOpen);
         }
@@ -108,7 +93,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
             RightClick(window, box);
 
-            RequestMenu(input);
+            ContextMenuInput.Request(input);
 
             Assert.True(row.ContextMenu!.IsOpen);
         }

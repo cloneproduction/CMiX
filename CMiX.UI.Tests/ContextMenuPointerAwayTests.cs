@@ -18,26 +18,6 @@ namespace CMiX.UI.Tests
     // goes far from it and from the control that owns it.
     public class ContextMenuPointerAwayTests
     {
-        private static Window Host(Control content)
-        {
-            var window = new Window { Content = content, Width = 800, Height = 500 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
-        private static void OpenMenu(Control source)
-        {
-            source.RaiseEvent(new ContextRequestedEventArgs { Source = source });
-            Dispatcher.UIThread.RunJobs();
-        }
-
-        private static void Move(Window window, Point point)
-        {
-            window.MouseMove(point);
-            Dispatcher.UIThread.RunJobs();
-        }
-
         private static DragValue NewDragValue(double width) => new()
         {
             Width = width,
@@ -51,11 +31,11 @@ namespace CMiX.UI.Tests
         public void TheResetMenuOfADragValue_ClosesWhenThePointerGoesFarAway()
         {
             var drag = NewDragValue(200);
-            var window = Host(drag);
-            OpenMenu(drag);
+            var window = TestWindow.Show(drag, 800, 500);
+            ContextMenuInput.Request(drag);
             Assert.True(drag.ContextMenu!.IsOpen);
 
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window,new Point(790, 490));
 
             Assert.False(drag.ContextMenu.IsOpen);
         }
@@ -64,11 +44,11 @@ namespace CMiX.UI.Tests
         public void TheMenuWrittenInXaml_ClosesWhenThePointerGoesFarAway()
         {
             var selector = new SelectorColor { DataContext = new StringValue(), Width = 200, Height = 40, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
-            var window = Host(selector);
-            OpenMenu(selector.FindControl<Control>("popupToggle")!);
+            var window = TestWindow.Show(selector, 800, 500);
+            ContextMenuInput.Request(selector.FindControl<Control>("popupToggle")!);
             Assert.True(selector.ContextMenu!.IsOpen);
 
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window,new Point(790, 490));
 
             Assert.False(selector.ContextMenu.IsOpen);
         }
@@ -77,11 +57,11 @@ namespace CMiX.UI.Tests
         public void APointerOnTheFarEndOfAWideOwner_KeepsTheMenuOpen()
         {
             var drag = NewDragValue(700);
-            var window = Host(drag);
-            OpenMenu(drag);
+            var window = TestWindow.Show(drag, 800, 500);
+            ContextMenuInput.Request(drag);
             Assert.True(drag.ContextMenu!.IsOpen);
 
-            Move(window, new Point(690, 15));
+            PointerInput.Move(window,new Point(690, 15));
 
             Assert.True(drag.ContextMenu.IsOpen);
         }
@@ -90,11 +70,11 @@ namespace CMiX.UI.Tests
         public void ABiggerDistance_KeepsTheMenuOpenFartherAway()
         {
             var drag = NewDragValue(200);
-            var window = Host(drag);
-            OpenMenu(drag);
+            var window = TestWindow.Show(drag, 800, 500);
+            ContextMenuInput.Request(drag);
             ContextMenuPointerAway.SetPointerAwayDistance(drag.ContextMenu!, 2000);
 
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window,new Point(790, 490));
 
             Assert.True(drag.ContextMenu.IsOpen);
         }
@@ -103,12 +83,12 @@ namespace CMiX.UI.Tests
         public void AMenuWithTheRuleSwitchedOff_StaysOpen()
         {
             var drag = NewDragValue(200);
-            var window = Host(drag);
+            var window = TestWindow.Show(drag, 800, 500);
             ContextMenuPointerAway.SetClosesOnPointerAway(drag.ContextMenu!, false);
-            OpenMenu(drag);
+            ContextMenuInput.Request(drag);
             Assert.True(drag.ContextMenu.IsOpen);
 
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window,new Point(790, 490));
 
             Assert.True(drag.ContextMenu.IsOpen);
         }
@@ -124,15 +104,15 @@ namespace CMiX.UI.Tests
                 VerticalAlignment = VerticalAlignment.Bottom,
                 Background = Avalonia.Media.Brushes.Transparent,
             };
-            var window = Host(new Panel { Children = { drag, companion } });
-            OpenMenu(drag);
+            var window = TestWindow.Show(new Panel { Children = { drag, companion } }, 800, 500);
+            ContextMenuInput.Request(drag);
             ContextMenuPointerAway.SetCompanion(drag.ContextMenu!, companion);
 
-            Move(window, new Point(790, 490));
+            PointerInput.Move(window,new Point(790, 490));
             Assert.True(drag.ContextMenu.IsOpen);
 
             ContextMenuPointerAway.SetCompanion(drag.ContextMenu, null);
-            Move(window, new Point(789, 489));
+            PointerInput.Move(window,new Point(789, 489));
             Assert.False(drag.ContextMenu.IsOpen);
         }
     }

@@ -5,6 +5,7 @@ using Avalonia.Layout;
 using Avalonia.Threading;
 using CMiX.UI.Controls.Enum;
 using CMiX.UI.Controls.Number;
+using CMiX.UI.Tests.Support;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 
@@ -33,12 +34,6 @@ namespace CMiX.UI.Tests
             return editor;
         }
 
-        private static void Request(Control source)
-        {
-            source.RaiseEvent(new ContextRequestedEventArgs { Source = source });
-            Dispatcher.UIThread.RunJobs();
-        }
-
         [AvaloniaTheory]
         [InlineData("drag-trailing")]
         [InlineData("drag-leading")]
@@ -49,7 +44,7 @@ namespace CMiX.UI.Tests
             var side = new Button { Content = "side", Width = 30 };
             var editor = Show(kind, side);
 
-            Request(side);
+            ContextMenuInput.Request(side);
 
             Assert.False(editor.ContextMenu!.IsOpen);
         }
@@ -63,7 +58,7 @@ namespace CMiX.UI.Tests
         {
             var editor = Show(kind, new Button { Content = "side", Width = 30 });
 
-            Request(editor);
+            ContextMenuInput.Request(editor);
 
             Assert.True(editor.ContextMenu!.IsOpen);
         }

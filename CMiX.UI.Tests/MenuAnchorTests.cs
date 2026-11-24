@@ -7,6 +7,7 @@ using Avalonia.VisualTree;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Controls.Number;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 
@@ -38,8 +39,7 @@ namespace CMiX.UI.Tests
         private static PopupFrame Open(Control editor)
         {
             editor.ContextMenu!.Close();
-            editor.RaiseEvent(new ContextRequestedEventArgs());
-            Dispatcher.UIThread.RunJobs();
+            ContextMenuInput.Request(editor);
             return editor.ContextMenu.GetVisualDescendants().OfType<PopupFrame>().Single();
         }
 
@@ -153,8 +153,7 @@ namespace CMiX.UI.Tests
         public void WithoutAnAnchor_TheMiddleOfTheFrameIsUnderThePointer()
         {
             var frame = new PopupFrame { Content = new TextBlock { Text = "Item" } };
-            new Window { Content = frame, Width = 300, Height = 200 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(frame, 300, 200);
 
             Assert.Equal(-frame.Bounds.Height / 2, frame.PointerOffset(frame.Bounds.Size).Y);
         }

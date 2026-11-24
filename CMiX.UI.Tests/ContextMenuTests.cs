@@ -19,14 +19,6 @@ namespace CMiX.UI.Tests
     // The headless mouse raises a context request only in edit mode. So the normal case and the popup case raise it by hand.
     public class ContextMenuTests
     {
-        private static Window Host(Control content)
-        {
-            var window = new Window { Content = content, Width = 300, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
         // Presses and releases the right button on the center of the control. Returns how many context requests it raised.
         private static int RightClick(Window window, Control control)
         {
@@ -34,18 +26,8 @@ namespace CMiX.UI.Tests
             control.AddHandler(Control.ContextRequestedEvent, (_, _) => requests++, RoutingStrategies.Tunnel | RoutingStrategies.Bubble, handledEventsToo: true);
 
             var center = control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
-            window.MouseMove(center);
-            Dispatcher.UIThread.RunJobs();
-            window.MouseDown(center, MouseButton.Right);
-            window.MouseUp(center, MouseButton.Right);
-            Dispatcher.UIThread.RunJobs();
+            PointerInput.Click(window, center, MouseButton.Right);
             return requests;
-        }
-
-        private static void RequestMenu(Control source)
-        {
-            source.RaiseEvent(new ContextRequestedEventArgs { Source = source });
-            Dispatcher.UIThread.RunJobs();
         }
 
         private static SliderCMiX NewSlider() =>
@@ -58,9 +40,9 @@ namespace CMiX.UI.Tests
         public void Slider_ContextRequest_OpensTheMenu()
         {
             var slider = NewSlider();
-            Host(slider);
+            TestWindow.Show(slider, 300, 200);
 
-            RequestMenu(slider);
+            ContextMenuInput.Request(slider);
 
             Assert.True(slider.ContextMenu!.IsOpen);
         }
@@ -69,7 +51,7 @@ namespace CMiX.UI.Tests
         public void Slider_RightClickInEditMode_EndsEditing_AndTheMenuStaysClosed()
         {
             var slider = NewSlider();
-            var window = Host(slider);
+            var window = TestWindow.Show(slider, 300, 200);
             slider.IsEditing = true;
 
             var requests = RightClick(window, slider);
@@ -83,10 +65,10 @@ namespace CMiX.UI.Tests
         public void Slider_ContextRequestWhileEditing_OpensNoMenu()
         {
             var slider = NewSlider();
-            Host(slider);
+            TestWindow.Show(slider, 300, 200);
             slider.IsEditing = true;
 
-            RequestMenu(slider);
+            ContextMenuInput.Request(slider);
 
             Assert.False(slider.ContextMenu!.IsOpen);
         }
@@ -95,11 +77,11 @@ namespace CMiX.UI.Tests
         public void Slider_ContextRequestAfterTheEditModeClick_OpensTheMenu()
         {
             var slider = NewSlider();
-            var window = Host(slider);
+            var window = TestWindow.Show(slider, 300, 200);
             slider.IsEditing = true;
             RightClick(window, slider);
 
-            RequestMenu(slider);
+            ContextMenuInput.Request(slider);
 
             Assert.True(slider.ContextMenu!.IsOpen);
         }
@@ -108,9 +90,9 @@ namespace CMiX.UI.Tests
         public void DragValue_ContextRequest_OpensTheMenu()
         {
             var drag = NewDragValue();
-            Host(drag);
+            TestWindow.Show(drag, 300, 200);
 
-            RequestMenu(drag);
+            ContextMenuInput.Request(drag);
 
             Assert.True(drag.ContextMenu!.IsOpen);
         }
@@ -119,10 +101,10 @@ namespace CMiX.UI.Tests
         public void DragValue_ContextRequestWhileEditing_OpensNoMenu()
         {
             var drag = NewDragValue();
-            Host(drag);
+            TestWindow.Show(drag, 300, 200);
             drag.IsEditing = true;
 
-            RequestMenu(drag);
+            ContextMenuInput.Request(drag);
 
             Assert.False(drag.ContextMenu!.IsOpen);
         }
@@ -131,7 +113,7 @@ namespace CMiX.UI.Tests
         {
             var color = new StringValue();
             var selector = new SelectorColor { DataContext = color, Width = 200, Height = 40 };
-            Host(selector);
+            TestWindow.Show(selector, 300, 200);
 
             selector.FindControl<ToggleButton>("popupToggle")!.IsChecked = true;
             Dispatcher.UIThread.RunJobs();
@@ -145,7 +127,7 @@ namespace CMiX.UI.Tests
         {
             var (selector, _) = ShowSelectorColorWithOpenPopup();
 
-            RequestMenu(selector.FindControl<ToggleButton>("popupToggle")!);
+            ContextMenuInput.Request(selector.FindControl<ToggleButton>("popupToggle")!);
 
             Assert.True(selector.ContextMenu!.IsOpen);
         }
@@ -156,7 +138,7 @@ namespace CMiX.UI.Tests
             var (selector, popup) = ShowSelectorColorWithOpenPopup();
             var insidePopup = popup.Child!.GetVisualDescendants().OfType<SliderCMiX>().First();
 
-            RequestMenu(insidePopup);
+            ContextMenuInput.Request(insidePopup);
 
             Assert.False(selector.ContextMenu!.IsOpen);
         }

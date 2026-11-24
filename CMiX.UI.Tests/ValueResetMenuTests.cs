@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.ColorPicker;
 using CMiX.UI.Controls.Number;
+using CMiX.UI.Tests.Support;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 
@@ -15,18 +16,10 @@ namespace CMiX.UI.Tests
         private static bool HasResetItem(Control c) =>
             c.ContextMenu?.Items.OfType<MenuItem>().Any(i => Equals(i.Header, "Reset")) == true;
 
-        private static Window Host(Control content)
-        {
-            var window = new Window { Content = content, Width = 600, Height = 900 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return window;
-        }
-
         [AvaloniaFact]
         public void ColorPicker_HasNoResetMenu()
         {
-            var window = Host(new ColorPickerFull());
+            var window = TestWindow.Show(new ColorPickerFull(), 600, 900);
 
             var withReset = window.GetVisualDescendants().OfType<Control>().Where(HasResetItem).ToList();
 
@@ -37,7 +30,7 @@ namespace CMiX.UI.Tests
         public void Slider_WithoutResetCommand_HasNoMenu()
         {
             var slider = new SliderCMiX();
-            Host(slider);
+            TestWindow.Show(slider, 600, 900);
 
             Assert.Null(slider.ContextMenu);
         }
@@ -47,7 +40,7 @@ namespace CMiX.UI.Tests
         {
             var ran = false;
             var slider = new SliderCMiX { ResetCommand = new RelayCommand(() => ran = true) };
-            Host(slider);
+            TestWindow.Show(slider, 600, 900);
 
             var reset = slider.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Single();
             reset.Command!.Execute(null);
@@ -59,7 +52,7 @@ namespace CMiX.UI.Tests
         public void Slider_LosesTheMenu_WhenTheCommandIsRemoved()
         {
             var slider = new SliderCMiX { ResetCommand = new RelayCommand(() => { }) };
-            Host(slider);
+            TestWindow.Show(slider, 600, 900);
             Assert.NotNull(slider.ContextMenu);
 
             slider.ResetCommand = null!;
@@ -71,7 +64,7 @@ namespace CMiX.UI.Tests
         public void DragValue_WithoutResetCommand_HasNoMenu()
         {
             var drag = new DragValue();
-            Host(drag);
+            TestWindow.Show(drag, 600, 900);
 
             Assert.Null(drag.ContextMenu);
         }
@@ -81,7 +74,7 @@ namespace CMiX.UI.Tests
         {
             var ran = false;
             var drag = new DragValue { ResetCommand = new RelayCommand(() => ran = true) };
-            Host(drag);
+            TestWindow.Show(drag, 600, 900);
 
             var reset = drag.ContextMenu!.Items.OfType<MenuItem>().Where(i => i.Header is string h && h.StartsWith("Reset")).Single();
             reset.Command!.Execute(null);
@@ -94,7 +87,7 @@ namespace CMiX.UI.Tests
         {
             var own = new ContextMenu();
             var drag = new DragValue { ContextMenu = own, ResetCommand = new RelayCommand(() => { }) };
-            Host(drag);
+            TestWindow.Show(drag, 600, 900);
 
             Assert.Same(own, drag.ContextMenu);
         }
