@@ -328,9 +328,12 @@ namespace CMiX.UI.Gallery
             return Frame("Keyboard states", "keyboard", holder);
         }
 
-        // A list row (ListBoxItemBasic, through the theme of the list). The cursor frame is bright only while the list has the focus.
-        private static Control ListRow(KeyState state)
+        // A list row (ListBoxItemBasic, through the theme of the list). A list row has no cursor.
+        private static Control? ListRow(KeyState state)
         {
+            if (state is KeyState.Cursor or KeyState.CursorSelected or KeyState.CursorUnfocused)
+                return null;
+
             var item = new ListBoxItem { Content = "Row" };
             var list = new ListBox { Width = 140, Height = 34, HorizontalAlignment = HorizontalAlignment.Left };
             list.Items.Add(item);
@@ -339,18 +342,6 @@ namespace CMiX.UI.Gallery
             {
                 case KeyState.Hover:
                     Force(item, ":pointerover");
-                    break;
-                case KeyState.Cursor:
-                    CursorRow.SetIsCursor(item, true);
-                    Force(list, ":focus-within");
-                    break;
-                case KeyState.CursorSelected:
-                    CursorRow.SetIsCursor(item, true);
-                    list.SelectedIndex = 0;
-                    Force(list, ":focus-within");
-                    break;
-                case KeyState.CursorUnfocused:
-                    CursorRow.SetIsCursor(item, true);
                     break;
                 case KeyState.Disabled:
                     item.IsEnabled = false;

@@ -84,10 +84,6 @@
     <!-- A muted warning: the frame of a target that refuses a drop, the mark of a conflict. -->
     <SolidColorBrush x:Key="WarningMutedBrush" Color="{DynamicResource WarningMuted}" />
 
-    <!-- The frame of the cursor row of a list: ActiveText while the list has the focus, Grey800 when it does not. -->
-    <SolidColorBrush x:Key="CursorFrameBrush" Color="{DynamicResource ActiveText}" />
-    <SolidColorBrush x:Key="CursorFrameInactiveBrush" Color="{DynamicResource Grey800}" />
-
     <SolidColorBrush x:Key="ForegroundBrush" Color="{DynamicResource Text}" />
     <SolidColorBrush x:Key="ActiveForegroundBrush" Color="{DynamicResource ActiveText}" />
     <!-- Quiet text on a popup: the title of a menu, the last line of a tooltip. It is the color of a shortcut, the darkest text that

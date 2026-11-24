@@ -128,16 +128,6 @@
         </Setter>
     </ControlTheme>
 
-    <!-- The frame of the cursor row (the class cursor, see CursorRow). The fill of a row shows the selection, the frame shows the cursor.
-         The frame is drawn over the row and takes no room. The theme of the row shows it for the class cursor, thin and grey
-         (CursorFrameInactiveBrush, CursorFrameInactiveThickness). CursorRow.axaml sets the look of a focused list
-         (CursorFrameBrush, CursorFrameThickness). A hidden frame has no thickness. -->
-    <ControlTheme x:Key="CursorFrame" TargetType="Border">
-        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
-        <Setter Property="IsHitTestVisible" Value="False" />
-        <Setter Property="IsVisible" Value="False" />
-    </ControlTheme>
-
     <!-- The base of every row of a list. A row is transparent, grey when the pointer is over it, and
          blue when it is selected. It is exactly as high as its content, so the highlight has the size of
          the content: the rows of ListBoxEditable use it as it is, and the space between them comes from
@@ -161,7 +151,6 @@
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
-                    <Border Name="CursorFrame" Theme="{StaticResource CursorFrame}" />
                 </Panel>
             </ControlTemplate>
         </Setter>
@@ -178,12 +167,6 @@
         </Style>
         <Style Selector="^:pointerover:not(:selected) /template/ Border#Bd">
             <Setter Property="Background" Value="{DynamicResource RowHoverBrush}" />
-        </Style>
-        <!-- The look of a focused list is in CursorRow.axaml. -->
-        <Style Selector="^:cursor /template/ Border#CursorFrame">
-            <Setter Property="IsVisible" Value="True" />
-            <Setter Property="BorderBrush" Value="{DynamicResource CursorFrameInactiveBrush}" />
-            <Setter Property="BorderThickness" Value="{DynamicResource CursorFrameInactiveThickness}" />
         </Style>
     </ControlTheme>
 
@@ -206,7 +189,6 @@
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
-                    <Border Name="CursorFrame" Theme="{StaticResource CursorFrame}" />
                 </Panel>
             </ControlTemplate>
         </Setter>
