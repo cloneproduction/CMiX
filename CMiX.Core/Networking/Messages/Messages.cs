@@ -11,6 +11,7 @@ namespace CMiX.Core.Networking.Messages
     public record MessageAddItem(Guid ID, IControlModel Model, int SelectedIndex) : IMessageManager;
     public record MessageRemoveItem(Guid ID, Guid ModelID, int SelectedIndex) : IMessageManager;
     public record MessageMoveItem(Guid ID, int OldIndex, int NewIndex) : IMessageManager;
+    // The button sends a MessageValueChanged now. The sync tests use this one as the smallest message with an id.
     public record MessageOnClick(Guid ID) : IMessage;
     public record MessageValueChanged(Guid ID, IControlModel Value) : IMessage
     {

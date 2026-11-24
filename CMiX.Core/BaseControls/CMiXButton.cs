@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Windows.Input;
-using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -11,16 +10,17 @@ namespace CMiX.Core.BaseControls
 {
     public class CMiXButton : ReceivableControl, IControl, IRecipient<IMessage>
     {
-        public CMiXButton(ControlMessenger controlMessenger)
+        public CMiXButton(IValueSync sync)
         {
             ID = Guid.NewGuid();
-            ControlMessenger = controlMessenger;
+            _sync = sync;
             ClickCommand = new RelayCommand(OnClick);
             IsActive = true;
         }
 
-        public ICommand ClickCommand { get; set; }
-        ControlMessenger ControlMessenger { get; set; }
+        private readonly IValueSync _sync;
+
+        public ICommand ClickCommand { get; }
 
         public delegate void ClickEventHandler(object source, EventArgs args);
         public event ClickEventHandler Click;
@@ -28,16 +28,14 @@ namespace CMiX.Core.BaseControls
         public void OnClick()
         {
             Click?.Invoke(this, null);
-            var message = new MessageOnClick(this.ID);
-            ControlMessenger.SendMessage(message);
-
+            _sync.Send(this);
         }
 
         public Guid ID { get; set; }
 
         public void Receive(IMessage message)
         {
-            if (this.ID != message.ID) return;
+            if (message.ID != ID || message is not MessageValueChanged) return;
             Click?.Invoke(this, null);
         }
 
