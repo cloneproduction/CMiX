@@ -11,6 +11,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
@@ -39,9 +40,6 @@ namespace CMiX.Studio.Avalonia.Tests
             public UndoManager Undo { get; init; } = null!;
 
             public List<ListItemIcon> Rows => List.GetVisualDescendants().OfType<ListItemIcon>().ToList();
-
-            public Point CenterOf(Control control) =>
-                control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), Window)!.Value;
         }
 
         private static PrefabManager ManagerOf(Layer layer, Type kind) =>
@@ -130,7 +128,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var screen = Show(kind);
             var rows = screen.Rows;
             Assert.Equal(2, screen.Manager.ManagerData.SelectedIndex);
-            var point = screen.CenterOf(rows[0]);
+            var point = screen.Window.CenterOf(rows[0]);
 
             screen.Window.MouseMove(point);
             Dispatcher.UIThread.RunJobs();
@@ -224,7 +222,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show(typeof(Entity), 1);
             var row = screen.Rows.Single();
-            var below = screen.CenterOf(row) + new Point(0, row.Bounds.Height * 1.5);
+            var below = screen.Window.CenterOf(row) + new Point(0, row.Bounds.Height * 1.5);
 
             screen.Window.MouseMove(below);
             Dispatcher.UIThread.RunJobs();

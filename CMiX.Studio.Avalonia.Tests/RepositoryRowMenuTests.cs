@@ -11,6 +11,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls;
@@ -49,9 +50,6 @@ namespace CMiX.Studio.Avalonia.Tests
             public IEnumerable<IControl> ItemsOfTheProject => Kind == typeof(Camera) ? ViewModel.ControlRepository.Cameras
                 : Kind == typeof(LightEntity) ? ViewModel.ControlRepository.Lights
                 : ViewModel.ControlRepository.Entities;
-
-            public Point CenterOf(Control control) =>
-                control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), Window)!.Value;
         }
 
         private static PrefabManager LayerListOf(Layer layer, Type kind) =>
@@ -223,7 +221,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var items = screen.Manager.ManagerData.Items.ToList();
             Assert.Same(items[2], screen.Manager.SelectedItem);
             var row = screen.RowOf(items[0]);
-            var point = screen.CenterOf(row);
+            var point = screen.Window.CenterOf(row);
 
             screen.Window.MouseMove(point);
             Dispatcher.UIThread.RunJobs();

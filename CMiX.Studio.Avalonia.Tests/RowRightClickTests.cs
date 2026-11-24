@@ -8,6 +8,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -33,12 +34,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
             public bool AMenuIsOpen => Rows.Any(row => row.ContextMenu?.IsOpen == true);
 
-            public Point CenterOf(Control control) =>
-                control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), Window)!.Value;
-
             public void RightDown(int row)
             {
-                var point = CenterOf(Rows[row]);
+                var point = Window.CenterOf(Rows[row]);
                 Window.MouseMove(point);
                 Dispatcher.UIThread.RunJobs();
                 Window.MouseDown(point, MouseButton.Right);
@@ -47,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             public void RightUp(int row)
             {
-                Window.MouseUp(CenterOf(Rows[row]), MouseButton.Right);
+                Window.MouseUp(Window.CenterOf(Rows[row]), MouseButton.Right);
                 Dispatcher.UIThread.RunJobs();
             }
         }

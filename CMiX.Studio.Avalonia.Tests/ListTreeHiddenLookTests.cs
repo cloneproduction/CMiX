@@ -41,12 +41,10 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Entity => Entities.Children[0];
 
-        private void Settle() => ListTreeTestScreen.Settle(window);
-
         private void HideTheLayer()
         {
             scene.Layer.PrefabService.Visibility.Value = true;
-            Settle();
+            window.Settle();
         }
 
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(node));
@@ -94,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Tests
             HideTheLayer();
 
             scene.Layer.PrefabService.Visibility.Value = false;
-            Settle();
+            window.Settle();
 
             var kind = (ISolidColorBrush)new TreeToneConverter().Convert(Entity, typeof(IBrush), "KindSelected", System.Globalization.CultureInfo.InvariantCulture)!;
             Assert.Equal(Token("ListTreeTextRestBrush"), TextOf(RowOf(Entity)));

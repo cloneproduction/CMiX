@@ -62,8 +62,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private IReadOnlyList<IControl> ItemsOfLayer(int index) => scene.LayerOfA(index).ModelEntityManager.ManagerData.Items;
 
-        private void Settle() => ListTreeTestScreen.Settle(window);
-
         private Point InWindow(double x, double y) => Panel.TranslatePoint(new Point(x, y), window)!.Value;
 
         private double YOf(TreeNode node) => Panel.Layout.PlaceOf(ListTreeKeys.Of(node))!.Y + 16;
@@ -71,10 +69,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private void Click(TreeNode node, RawInputModifiers modifiers)
         {
             TreeDrag.Render(window);
-            var point = InWindow(PressX, YOf(node));
-            window.MouseDown(point, MouseButton.Left, modifiers);
-            window.MouseUp(point, MouseButton.Left, modifiers);
-            Settle();
+            window.Click(InWindow(PressX, YOf(node)), modifiers: modifiers);
         }
 
         private void MoveTo(double x, double y)
@@ -97,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private void Release()
         {
             TreeDrag.Release(window, last);
-            Settle();
+            window.Settle();
         }
 
         private static bool IsBefore(ListTreeCandidate candidate, TreeNode node) =>
@@ -183,7 +178,7 @@ namespace CMiX.Studio.Avalonia.Tests
             for (var step = 0; step < grabbed.Candidates.Count && !ReferenceEquals(grabbed.Look?.Candidate, target); step++)
                 view.Grab.StepDown();
             view.Grab.Confirm();
-            Settle();
+            window.Settle();
 
             Assert.Equal(block.Append(ItemsOfLayer(1)[3]), ItemsOfLayer(1));
             Assert.Same(block[1], Tree.SelectedNode!.Item);

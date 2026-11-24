@@ -35,14 +35,12 @@ namespace CMiX.Studio.Avalonia.Tests
             return (screen.View, scene.Tree);
         }
 
-        private void Settle() => ListTreeTestScreen.Settle(window!);
-
         // Opens the tooltip of a control and returns the texts that it shows. The tooltip control is an internal value of the control,
         // so it is read by its property: the test needs what the user would see.
         private List<string> TextOfTooltip(Control control)
         {
             ToolTip.SetIsOpen(control, true);
-            Settle();
+            window!.Settle();
 
             var property = (AvaloniaProperty)typeof(ToolTip).GetField("ToolTipProperty", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)!.GetValue(null)!;
             var tip = (ToolTip)control.GetValue(property)!;
@@ -63,14 +61,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static ToggleButton MaskOf(ListTreeProject view, TreeNode node) =>
             RowOf(view, node).Toggles.GetVisualDescendants().OfType<ToggleButton>().Single(button => Equals(ToolTip.GetTip(button), "Mask"));
-
-        // Moves the pointer to the middle of the row.
-        private void Hover(RowListTree row)
-        {
-            TreeDrag.Render(window!);
-            window!.MouseMove(row.TranslatePoint(new Point(row.Bounds.Width / 2, row.Bounds.Height / 2), window)!.Value);
-            Settle();
-        }
 
         [AvaloniaFact]
         public void Show_TheMaskToggle_HasItsTooltipForACompositionAndALayer()
@@ -102,7 +92,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (view, tree) = Show();
             var layer = tree.CompositionNodes()[0].Children[0].Children[0];
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
 
             var texts = SquaresOf(view, layer).Select(square => TextOfTooltip(square).Single()).ToList();
 
@@ -117,13 +107,13 @@ namespace CMiX.Studio.Avalonia.Tests
             var (view, tree) = Show();
             var layer = tree.CompositionNodes()[0].Children[0].Children[0];
             layer.IsExpanded = false;
-            Settle();
-            Hover(RowOf(view, layer));
+            window!.Settle();
+            window!.Hover(RowOf(view, layer));
             Assert.True(BadgesOf(view, layer).IsHovered);
             var square = SquaresOf(view, layer).First();
 
             ToolTip.SetIsOpen(square, true);
-            Settle();
+            window!.Settle();
             var property = (AvaloniaProperty)typeof(ToolTip).GetField("ToolTipProperty", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)!.GetValue(null)!;
             var text = ((ToolTip)square.GetValue(property)!).GetVisualDescendants().OfType<TextBlock>().Single();
             var source = global::Avalonia.Diagnostics.AvaloniaObjectExtensions.GetDiagnostic(text, TextBlock.ForegroundProperty).Priority;
@@ -140,7 +130,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (view, tree) = Show();
             var entities = tree.CompositionNodes()[0].Children[0].Children[0].Children.Single(child => child.Group is EntitiesGroup);
             entities.IsExpanded = false;
-            Settle();
+            window!.Settle();
 
             var square = Assert.Single(SquaresOf(view, entities));
 
@@ -177,18 +167,18 @@ namespace CMiX.Studio.Avalonia.Tests
             var layer = tree.CompositionNodes()[0].Children[0].Children[0];
             var entity = layer.Children.Single(child => child.Group is EntitiesGroup).Children[0];
             ((Entity)entity.Item!).ModifierManager.AddItem(typeof(CMiX.Core.Modulation.Modifiers.TranslateModifier));
-            Settle();
+            window!.Settle();
             var modifier = entity.Children.Single(child => child.Group is ModifiersGroup).Children[0];
             var row = RowOf(view, layer).Band;
             Assert.Null(ToolTip.GetTip(row));
 
             tree.BeginDrag(modifier);
-            Settle();
+            window!.Settle();
 
             Assert.Equal(new[] { "A Translate cannot go to a layer" }, TextOfTooltip(row));
 
             tree.EndDrag();
-            Settle();
+            window!.Settle();
             Assert.Null(ToolTip.GetTip(row));
         }
 

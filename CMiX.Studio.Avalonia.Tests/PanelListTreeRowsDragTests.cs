@@ -44,8 +44,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Entity(int index) => scene.Group<EntitiesGroup>(0).Children[index];
 
-        private void Settle() => ListTreeTestScreen.Settle(window);
-
         private ListTreeDragLook LookOf(TreeNode source, Func<ListTreeCandidate, bool> pick)
         {
             var live = ListTreeSnapshot.Of(scene.Tree.Roots);
@@ -58,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Tests
         private ListTreeDragLook Show(ListTreeDragLook look)
         {
             Panel.ShowDrag(look);
-            Settle();
+            window.Settle();
             return look;
         }
 
@@ -130,7 +128,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             TreeDrag.Render(window);
             window.MouseMove(row.TranslatePoint(new Point(row.Bounds.Width - 100, row.Bounds.Height / 2), window)!.Value);
-            Settle();
+            window.Settle();
         }
 
         private static Border Named(RowListTree row, string name) => row.GetVisualDescendants().OfType<Border>().First(border => border.Name == name);
@@ -212,7 +210,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ShowDrag_ASelectedRow_HidesTheSelectionMark()
         {
             scene.Tree.SelectByClick(Entity(1));
-            Settle();
+            window.Settle();
 
             Show(LookOf(Entity(0), candidate => IsInside(candidate, scene.LayerNodeOfA(1))));
 
@@ -227,7 +225,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Show(LookOf(Entity(0), candidate => IsInside(candidate, scene.LayerNodeOfA(1))));
 
             Panel.ShowLiveTree();
-            Settle();
+            window.Settle();
 
             Assert.All(Panel.Layout.Places, place => Assert.Equal(place.Y, PanelListTreeRows.GetTop(RowOf(place.Key))));
             Assert.All(Panel.Layout.Places, place => Assert.DoesNotContain(RowListTree.DimmedClass, RowOf(place.Key).Classes));

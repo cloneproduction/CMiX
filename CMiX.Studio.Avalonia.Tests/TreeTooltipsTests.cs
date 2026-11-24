@@ -68,10 +68,8 @@ namespace CMiX.Studio.Avalonia.Tests
         // The middle of the control in the coordinates of the window, after a render so that the hit test finds it.
         private Point MiddleOf(Control control)
         {
-            window!.UpdateLayout();
-            AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-            Dispatcher.UIThread.RunJobs();
-            return control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
+            TreeDrag.Render(window!);
+            return window!.CenterOf(control);
         }
 
         private void MoveTo(Point point)

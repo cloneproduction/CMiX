@@ -9,6 +9,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
 using CMiX.Core.Undo;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -42,10 +43,8 @@ namespace CMiX.Studio.Avalonia.Tests
 
             public Point CenterOf(ToggleButton button)
             {
-                Window.UpdateLayout();
-                AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-                Dispatcher.UIThread.RunJobs();
-                return button.TranslatePoint(new Point(button.Bounds.Width / 2, button.Bounds.Height / 2), Window)!.Value;
+                TreeDrag.Render(Window);
+                return Window.CenterOf(button);
             }
 
             public void Down(ToggleButton button) => Window.MouseDown(CenterOf(button), MouseButton.Left);

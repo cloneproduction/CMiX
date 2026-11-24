@@ -51,8 +51,8 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private Point MiddleOf(Control control)
         {
-            ListTreeTestScreen.Settle(window);
-            return control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
+            window.Settle();
+            return window.CenterOf(control);
         }
 
         private void MoveTo(Point point)

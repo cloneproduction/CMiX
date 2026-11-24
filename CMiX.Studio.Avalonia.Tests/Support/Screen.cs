@@ -33,7 +33,11 @@ namespace CMiX.Studio.Avalonia.Tests.Support
             window.Settle();
         }
 
-        public static void Hover(this Window window, Control control) => window.Hover(window.CenterOf(control));
+        public static void Hover(this Window window, Control control)
+        {
+            TreeDrag.Render(window);
+            window.Hover(window.CenterOf(control));
+        }
 
         public static void Click(this Window window, Point point, MouseButton button = MouseButton.Left,
             RawInputModifiers modifiers = RawInputModifiers.None)

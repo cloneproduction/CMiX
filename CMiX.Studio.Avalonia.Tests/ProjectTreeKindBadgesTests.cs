@@ -39,11 +39,9 @@ namespace CMiX.Studio.Avalonia.Tests
             window = screen.Window;
             var view = screen.View;
             tree.SelectedNode = null;
-            Settle();
+            window!.Settle();
             return (view, tree, tree.CompositionNodes()[0].Children[0].Children[0], tree.CompositionNodes()[0].Children[0].Children[1]);
         }
-
-        private void Settle() => ListTreeTestScreen.Settle(window!);
 
         // A row has two badges: one after the name box of an item, one after the name of a group. This gets the one for the node.
         private static BadgesKindCount BadgesOf(ListTreeProject view, TreeNode node) =>
@@ -62,7 +60,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
 
             var badges = BadgesOf(view, layer);
             var squares = SquaresOf(badges);
@@ -83,7 +81,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(BadgesOf(view, layer).IsEffectivelyVisible);
 
             empty.IsExpanded = false;
-            Settle();
+            window!.Settle();
             Assert.False(BadgesOf(view, empty).IsEffectivelyVisible);
             Assert.Empty(SquaresOf(BadgesOf(view, empty)));
         }
@@ -94,11 +92,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var (view, _, layer, _) = Show();
 
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
             Assert.True(BadgesOf(view, layer).IsEffectivelyVisible);
 
             layer.IsExpanded = true;
-            Settle();
+            window!.Settle();
             Assert.False(BadgesOf(view, layer).IsEffectivelyVisible);
         }
 
@@ -108,7 +106,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var (view, _, layer, _) = Show();
             var entities = layer.Children.Single(child => child.Group is EntitiesGroup);
             entities.IsExpanded = false;
-            Settle();
+            window!.Settle();
 
             var square = Assert.Single(SquaresOf(BadgesOf(view, entities)));
 
@@ -122,7 +120,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, tree, layer, _) = Show();
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
             var badges = BadgesOf(view, layer);
             var tone = palette.For(TreeCategory.Entity);
 
@@ -133,7 +131,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(tone.Kind, FillOf(SquaresOf(badges).First()));
 
             tree.SelectedNode = layer;
-            Settle();
+            window!.Settle();
             Assert.Equal(tone.Kind, FillOf(SquaresOf(badges).First()));
         }
 
@@ -148,18 +146,18 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, tree, layer, _) = Show();
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
             var badges = BadgesOf(view, layer);
 
             Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), CountColorOf(square)));
 
             badges.IsHovered = true;
-            Settle();
+            window!.Settle();
             Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), CountColorOf(square)));
 
             badges.IsHovered = false;
             tree.SelectedNode = layer;
-            Settle();
+            window!.Settle();
             Assert.All(SquaresOf(badges), square => Assert.Equal(ColorOf("ActiveForegroundBrush"), CountColorOf(square)));
         }
 
@@ -168,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
             var row = view.Rows.RowOf(layer)!.Band;
             var square = SquaresOf(BadgesOf(view, layer)).First();
 
@@ -196,7 +194,7 @@ namespace CMiX.Studio.Avalonia.Tests
             window = screen.Window;
             var layer = tree.CompositionNodes()[0].Children[0].Children[0];
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
 
             var badges = BadgesOf(screen.View, layer);
             var more = MoreKindsOf(badges);
@@ -212,7 +210,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
 
             Assert.False(MoreKindsOf(BadgesOf(view, layer)).IsEffectivelyVisible);
         }
@@ -222,7 +220,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
 
             var sign = BadgesOf(view, layer).GetVisualDescendants().OfType<Border>().Single(border => border.Name == "MissingSign");
 
@@ -235,7 +233,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
 
             var sign = BadgesOf(view, layer).GetVisualDescendants().OfType<Border>().Single(border => border.Name == "MissingSign");
             var icon = sign.GetVisualDescendants().OfType<AppIcon>().Single();
@@ -250,7 +248,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var (view, _, layer, _) = Show();
             layer.IsExpanded = false;
-            Settle();
+            window!.Settle();
             var row = view.Rows.RowOf(layer)!;
             var name = row.GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "textDisplay");
             var badges = BadgesOf(view, layer);

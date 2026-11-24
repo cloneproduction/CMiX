@@ -38,8 +38,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private PanelListTreeRows Panel => view.Rows;
 
-        private void Settle() => ListTreeTestScreen.Settle(window);
-
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(Panel.RowOf(ListTreeKeys.Of(node)));
 
         private RowListTree RowOf(ListTreePlace place) => Assert.IsType<RowListTree>(Panel.RowOf(place.Key));
@@ -53,15 +51,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private static Color ColorOf(IBrush? brush) => Assert.IsAssignableFrom<ISolidColorBrush>(brush).Color;
 
         private static Color Token(string key) => ColorOf((IBrush)Application.Current!.FindResource(key)!);
-
-        private void Click(Control control)
-        {
-            var point = control.TranslatePoint(new Point(control.Bounds.Width / 2, control.Bounds.Height / 2), window)!.Value;
-            TreeDrag.Render(window);
-            window.MouseDown(point, MouseButton.Left);
-            window.MouseUp(point, MouseButton.Left);
-            Settle();
-        }
 
         [AvaloniaFact]
         public void Arrange_VisibleRows_PutsEachRowAtItsIndexTimesThirtyFive()
@@ -110,7 +99,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var topOfB = RowOf(scene.NodeB).Bounds.Y;
 
             scene.NodeA.IsExpanded = false;
-            Settle();
+            window.Settle();
 
             Assert.Null(Panel.RowOf(ListTreeKeys.Of(layer)));
             var badges = BadgesOf(scene.NodeA);
@@ -133,9 +122,9 @@ namespace CMiX.Studio.Avalonia.Tests
             var rowB = RowOf(scene.NodeB);
 
             scene.NodeA.IsExpanded = false;
-            Settle();
+            window.Settle();
             scene.NodeA.IsExpanded = true;
-            Settle();
+            window.Settle();
 
             Assert.Same(rowB, RowOf(scene.NodeB));
         }
@@ -145,10 +134,10 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var iconHit = RowOf(scene.NodeA).IconHit;
 
-            Click(iconHit);
+            window.Click(iconHit);
             Assert.False(scene.NodeA.IsExpanded);
 
-            Click(RowOf(scene.NodeA).IconHit);
+            window.Click(RowOf(scene.NodeA).IconHit);
             Assert.True(scene.NodeA.IsExpanded);
         }
 
@@ -161,7 +150,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var wasExpanded = node.IsExpanded;
             var rowCount = Panel.Layout.Places.Count;
 
-            Click(row.IconHit);
+            window.Click(row.IconHit);
 
             Assert.Equal(wasExpanded, node.IsExpanded);
             Assert.Equal(rowCount, Panel.Layout.Places.Count);

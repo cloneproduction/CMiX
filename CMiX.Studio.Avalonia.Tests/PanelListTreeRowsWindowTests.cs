@@ -38,8 +38,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private ListTreePlace LastPlace => Panel.Layout.Places[^1];
 
-        private void Settle() => ListTreeTestScreen.Settle(window);
-
         // The window is the view and half a view above and below it.
         private int MostRowsInTheWindow => (int)Math.Ceiling(2 * Scroller.Viewport.Height / Panel.Sizes.Pitch) + 2;
 
@@ -66,7 +64,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void OnScrollChanged_AScrollToTheEnd_MovesTheControlsToTheRowsInView()
         {
             Scroller.Offset = new Vector(0, Scroller.Extent.Height);
-            Settle();
+            window.Settle();
 
             Assert.NotNull(Panel.RealizedRowOf(LastPlace.Key));
             Assert.Null(Panel.RealizedRowOf(Panel.Layout.Places[0].Key));
