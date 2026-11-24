@@ -26,11 +26,12 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             return new Dropping(drop, dropped);
         }
 
-        // The session ends between the start and the show, so the flash shows on the rows of the live tree.
+        // The session ends between the start and the show, so the flash shows on the rows of the live tree. The selection reveals the row.
         public void Show(Dropping dropping)
         {
+            Context.Rows.ApplyTreeChanges();
             foreach (var dropped in dropping.Dropped)
-                Part<ListTreeRowReveal>().ShownRowOf(dropped)?.Flash();
+                Context.Rows.RowOf(dropped)?.Flash();
             _ = ObserveAsync(dropping.Drop);
         }
 
