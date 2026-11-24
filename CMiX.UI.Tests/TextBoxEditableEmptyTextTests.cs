@@ -4,6 +4,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using CMiX.UI.Controls.String;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -15,9 +16,7 @@ namespace CMiX.UI.Tests
         {
             var box = new TextBoxEditable { Text = text };
             var other = new Button { Content = "other", Focusable = true };
-            var window = new Window { Content = new StackPanel { Children = { box, other } }, Width = 300, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(new StackPanel { Children = { box, other } }, 300, 200);
             return (window, box, box.FindControl<TextBox>("inputValue")!, other);
         }
 

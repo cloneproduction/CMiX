@@ -4,6 +4,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.String;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -15,10 +16,7 @@ namespace CMiX.UI.Tests
         {
             var suffix = new Border { Width = 20, Height = 10 };
             var box = new TextBoxEditable { Text = text, Suffix = suffix };
-            var window = new Window { Content = box, Width = 300, Height = 60 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (box, suffix, window);
+            return (box, suffix, TestWindow.Show(box, 300, 60));
         }
 
         [AvaloniaFact]
@@ -74,9 +72,7 @@ namespace CMiX.UI.Tests
             var withSuffix = window.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "textDisplay").Bounds;
 
             var plain = new TextBoxEditable { Text = "Layer 1" };
-            var plainWindow = new Window { Content = plain, Width = 300, Height = 60 };
-            plainWindow.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(plain, 300, 60);
             var withoutSuffix = plain.GetVisualDescendants().OfType<TextBlock>().First(block => block.Name == "textDisplay").Bounds;
 
             Assert.Equal(withoutSuffix, withSuffix);

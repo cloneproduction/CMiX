@@ -4,6 +4,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using CMiX.UI.Controls.String;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -14,9 +15,7 @@ namespace CMiX.UI.Tests
         private static (Window Window, TextBoxEditable Box, TextBox Input) ShowEditing(string text, string newText)
         {
             var box = new TextBoxEditable { Text = text };
-            var window = new Window { Content = new StackPanel { Children = { box } }, Width = 300, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(new StackPanel { Children = { box } }, 300, 200);
             var input = box.FindControl<TextBox>("inputValue")!;
             box.IsEditing = true;
             Dispatcher.UIThread.RunJobs();

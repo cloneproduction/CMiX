@@ -7,6 +7,7 @@ using Avalonia.Input.Raw;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.String;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -18,9 +19,7 @@ namespace CMiX.UI.Tests
         private static (Window Window, TextBoxEditable Box, TextBlock Text, TextBox Input) Show(string text = "Layer 1")
         {
             var box = new TextBoxEditable { Text = text };
-            var window = new Window { Content = box, Width = 400, Height = 100 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(box, 400, 100);
             return (window, box,
                 box.GetVisualDescendants().OfType<TextBlock>().Single(block => block.Name == "textDisplay"),
                 box.GetVisualDescendants().OfType<TextBox>().Single());
@@ -86,7 +85,7 @@ namespace CMiX.UI.Tests
         public void DoubleTap_AnEmptyName_StillFindsAText()
         {
             var (_, _, text, _) = Show("");
-            var height = System.Convert.ToDouble(Application.Current!.FindResource("ControlHeightMD"));
+            var height = Tokens.Get<double>("ControlHeightMD");
 
             Assert.True(text.Bounds.Width >= height);
         }
@@ -108,8 +107,7 @@ namespace CMiX.UI.Tests
         private static void DoubleClick(Window window, Point point)
         {
             window.UpdateLayout();
-            AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Render();
             window.MouseDown(point, MouseButton.Left);
             window.MouseUp(point, MouseButton.Left);
             window.MouseDown(point, MouseButton.Left);

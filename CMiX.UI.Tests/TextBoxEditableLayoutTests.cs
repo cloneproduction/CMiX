@@ -5,6 +5,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.String;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -14,9 +15,7 @@ namespace CMiX.UI.Tests
     {
         private static (Rect shown, Rect edited, double height) Measure(TextBoxEditable box)
         {
-            var window = new Window { Content = box, Width = 300, Height = 60 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(box, 300, 60);
 
             var grid = (Grid)box.Content!;
             var block = box.GetVisualDescendants().OfType<TextBlock>().First(t => t.Name == "textDisplay");

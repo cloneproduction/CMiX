@@ -8,6 +8,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -19,9 +20,7 @@ namespace CMiX.UI.Tests
         private static (Window Window, TextBoxSearch Box) Show(bool showsClear, string text = "")
         {
             var box = new TextBoxSearch { Width = 200, ShowsClear = showsClear, Text = text, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
-            var window = new Window { Content = box, Width = 400, Height = 200 };
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
+            var window = TestWindow.Show(box, 400, 200);
             window.UpdateLayout();
             return (window, box);
         }
@@ -50,7 +49,7 @@ namespace CMiX.UI.Tests
         public void Type_WithShowsClear_KeepsTheHeightOfTheField()
         {
             var (window, box) = Show(true);
-            var height = Convert.ToDouble(Application.Current!.FindResource("ControlHeightMD"));
+            var height = Tokens.Get<double>("ControlHeightMD");
             Assert.Equal(height, box.Bounds.Height, 0.01);
 
             box.Text = "Echo";
@@ -96,10 +95,7 @@ namespace CMiX.UI.Tests
             Dispatcher.UIThread.RunJobs();
             var clear = BoundsIn(window, box.ClearButton!);
 
-            window.MouseMove(clear.Center);
-            window.MouseDown(clear.Center, MouseButton.Left);
-            window.MouseUp(clear.Center, MouseButton.Left);
-            Dispatcher.UIThread.RunJobs();
+            PointerInput.Click(window, clear.Center);
 
             Assert.Equal(string.Empty, box.Text);
             Assert.True(InputOf(box).IsFocused);

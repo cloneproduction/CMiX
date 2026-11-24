@@ -6,6 +6,7 @@ using CMiX.UI.Controls.Boolean;
 using CMiX.UI.Controls.Enum;
 using CMiX.UI.Controls.Number;
 using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 using CommunityToolkit.Mvvm.Input;
 using Xunit;
 
@@ -18,8 +19,7 @@ namespace CMiX.UI.Tests
 
         private static T Show<T>(T editor) where T : Control
         {
-            new Window { Content = editor, Width = 300, Height = 100 }.Show();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Show(editor, 300, 100);
             return editor;
         }
 

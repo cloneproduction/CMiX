@@ -8,6 +8,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Behaviors;
+using CMiX.UI.Tests.Support;
 using Xunit;
 
 namespace CMiX.UI.Tests
@@ -59,8 +60,7 @@ namespace CMiX.UI.Tests
 
             window.Show();
             Dispatcher.UIThread.RunJobs();
-            AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-            Dispatcher.UIThread.RunJobs();
+            TestWindow.Render();
             return rows;
         }
 
