@@ -110,7 +110,7 @@ Three static entry points connect it to an application: `InteractionHost`, `Icon
 ### A value changes (the user drags a slider)
 
 1. **View.** `SliderModulatable` binds to `ModulatableValue<float>.Value`. The CMiX.UI editor opens a drag scope through `InteractionHost`, which `InteractionHostConnection.Connect` binds to the `ValueInteraction` of the container when the App builds it.
-2. **Value.** `ModulatableValue.Value` passes the write to `GenericValue<T>.Value`. The setter stores the value and calls `IValueSync.Changed` with the model before and after, and a null before for a momentary value. The value has no drag code.
+2. **Value.** `ModulatableValue.Value` passes the write to `GenericValue<T>.Value`. The setter calls `IValueSync.Changing`, stores the value and calls `IValueSync.Changed`. A momentary value calls `IValueSync.Send` instead. The value builds no model and has no drag code.
 3. **Message.** `ValueSync` implements `IValueSync`. Outside a drag it records the `ValueChangedCommand` unless the undo stack is applying, then `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. During a drag it sends at most 60 times each second and records one undo step when the drag ends. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
 4. **Peer.** `SyncPeer.SendMessage` (`SyncPeer.Send.cs`) drops the message if the peer is not the writer. Else it wraps it in a `MessageEnvelope`, serializes it with MessagePack and puts it in `OutgoingQueue`.
 5. **Redis.** One task appends the entry to the stream `{prefix}:updates` through `RedisSyncStore`, sets the tail key and publishes a wake signal. `SnapshotCompactor` writes a new snapshot later.
