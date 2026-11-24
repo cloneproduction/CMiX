@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
@@ -10,8 +13,8 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // ControlFactory.Create gives each value the default of its model, so Reset restores that default.
-    public class DefaultResetTests
+    // ControlFactory.Create gives each value the default of its model, so Reset restores that default. ResetAll resets every part.
+    public class ResetTests
     {
         private static ControlFactory CreateFactory() =>
             TestServiceProviderFactory.Create().GetRequiredService<ControlFactory>();
@@ -57,7 +60,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void CreateFromType_ResetRestoresTheModelDefault()
+        public void Reset_OfAValueOfACreatedControl_RestoresTheModelDefault()
         {
             var text = (TextEntity)CreateFactory().Create(typeof(TextEntity));
 
@@ -67,7 +70,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void LoadedModel_ResetRestoresTheDefault_NotTheSavedValue()
+        public void Reset_OfAValueOfALoadedControl_RestoresTheDefaultNotTheSavedValue()
         {
             var source = (TextEntity)CreateFactory().Create(typeof(TextEntity));
             var model = (TextEntityModel)source.ToModel();
@@ -81,7 +84,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ConstructorDefault_StillWorks()
+        public void Reset_OfAConstructorDefault_RestoresIt()
         {
             var blur = (Blur)CreateFactory().Create(typeof(Blur));
 
@@ -93,7 +96,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void BeatSteps_ResetRestoresTheModelDefault()
+        public void Reset_OfABeatStep_RestoresTheModelDefault()
         {
             var beat = (BeatRandomModulator)CreateFactory().Create(typeof(BeatRandomModulator));
 
@@ -145,7 +148,7 @@ namespace CMiX.Core.Tests
 
         // The child is built by a nested Create while the layer loads. It must not take the loaded layer values as defaults.
         [Fact]
-        public void NestedCreate_DoesNotOverwriteTheParentDefaults()
+        public void Create_OfALayerWithAChild_KeepsTheDefaultsOfTheLayer()
         {
             var source = (Layer)CreateFactory().Create(typeof(Layer));
             source.Compositing.Opacity.Value = 0.5f;
@@ -159,6 +162,40 @@ namespace CMiX.Core.Tests
             Assert.Equal(0.5f, loaded.Compositing.Opacity.Value);
             loaded.Compositing.Opacity.Reset();
             Assert.Equal(1.0f, loaded.Compositing.Opacity.Value);
+        }
+
+        // A composite value and the value type of its parts.
+        public static TheoryData<Type, Type> Composites => new TheoryData<Type, Type>
+        {
+            { typeof(Integer2), typeof(int) },
+            { typeof(Integer3), typeof(int) },
+            { typeof(Vector2), typeof(float) },
+            { typeof(Vector3), typeof(float) },
+            { typeof(FloatRange), typeof(float) },
+        };
+
+        [Theory]
+        [MemberData(nameof(Composites))]
+        public void ResetAllCommand_OfACompositeValue_ResetsEveryPartToItsDefault(Type compositeType, Type valueType)
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var partCount = compositeType.GetConstructors().Single().GetParameters().Length;
+            var parts = new List<dynamic>();
+            for (var i = 0; i < partCount; i++)
+            {
+                dynamic part = provider.GetRequiredService(typeof(GenericValue<>).MakeGenericType(valueType));
+                part.Value = (dynamic)Convert.ChangeType(i + 1, valueType);
+                part.SetDefaults();
+                parts.Add(part);
+            }
+            dynamic composite = Activator.CreateInstance(compositeType, parts.Cast<object>().ToArray())!;
+
+            foreach (var part in parts)
+                part.Value = (dynamic)Convert.ChangeType(9, valueType);
+            ((System.Windows.Input.ICommand)composite.ResetAllCommand).Execute(null);
+
+            for (var i = 0; i < partCount; i++)
+                Assert.Equal(Convert.ChangeType(i + 1, valueType), (object)parts[i].Value);
         }
     }
 }
