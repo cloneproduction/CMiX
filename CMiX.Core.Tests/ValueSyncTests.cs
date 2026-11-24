@@ -38,10 +38,8 @@ namespace CMiX.Core.Tests
             var messenger = provider.GetRequiredService<ControlMessenger>();
             var sender = new RecordingMessageSender();
             messenger.Register(sender);
-            var value = new GenericValue<float>(messenger,
-                                                provider.GetRequiredService<MessageFactory>(),
-                                                provider.GetRequiredService<ControlActivationService>(),
-                                                undoManager);
+            var value = new GenericValue<float>(provider.GetRequiredService<IValueSync>(),
+                                                provider.GetRequiredService<ControlActivationService>());
             return new Fixture
             {
                 Provider = provider,

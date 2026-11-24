@@ -4,22 +4,18 @@
 using System.Collections.ObjectModel;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking;
-using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Animations
 {
     public class BeatSteps : ObservableObject, IControl
     {
-        public BeatSteps(ControlMessenger controlMessenger,
-                         MessageFactory messageFactory,
+        public BeatSteps(ValueSyncFactory newSync,
                          ControlActivationService activationService,
-                         UndoManager undoManager,
                          int stepCount = BeatStepsModel.DefaultStepCount)
         {
             for (int i = 0; i < stepCount; i++)
-                Steps.Add(new GenericValue<bool>(controlMessenger, messageFactory, activationService, undoManager));
+                Steps.Add(new GenericValue<bool>(newSync(), activationService));
         }
         public Guid ID { get; set; } = Guid.NewGuid();
 

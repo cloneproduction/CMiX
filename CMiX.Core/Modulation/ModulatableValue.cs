@@ -4,6 +4,7 @@
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modulation.Modulators;
+using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -13,11 +14,13 @@ namespace CMiX.Core.Modulation
     {
         public ModulatableValue(GenericValue<T> value,
                                 GenericValue<Guid?> modulatorID,
-                                GenericValue<string> boundOutputName)
+                                GenericValue<string> boundOutputName,
+                                UndoManager undoManager)
         {
             ValueSource = value;
             ModulatorIDSource = modulatorID;
             BoundOutputNameSource = boundOutputName;
+            _undoManager = undoManager;
 
             ValueSource.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(GenericValue<T>.Value)) OnPropertyChanged(nameof(Value)); };
             ModulatorIDSource.PropertyChanged += (s, e) =>
@@ -39,6 +42,8 @@ namespace CMiX.Core.Modulation
                 OnPropertyChanged(nameof(IsModulated));
             };
         }
+
+        private readonly UndoManager _undoManager;
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public string Label { get; set; } = string.Empty;
@@ -83,8 +88,7 @@ namespace CMiX.Core.Modulation
         [RelayCommand]
         private void SetModulator(ModulatorOutputSelection selection)
         {
-            var undoManager = ModulatorIDSource.UndoManager;
-            undoManager?.BeginCapture();
+            _undoManager.BeginCapture();
             try
             {
                 ModulatorID = selection?.Modulator?.ID;
@@ -92,7 +96,7 @@ namespace CMiX.Core.Modulation
             }
             finally
             {
-                undoManager?.EndCapture();
+                _undoManager.EndCapture();
             }
         }
 

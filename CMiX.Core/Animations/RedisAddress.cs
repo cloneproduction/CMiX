@@ -2,23 +2,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Networking;
-using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Undo;
 
 namespace CMiX.Core.Animations
 {
     // One Redis address of the list. A Redis modulator selects one of them.
     public class RedisAddress : GenericValue<string>, IControl
     {
-        public RedisAddress(ControlMessenger controlMessenger,
-                            MessageFactory messageFactory,
-                            ControlActivationService activationService,
-                            UndoManager undoManager)
-            : base(controlMessenger,
-                   messageFactory,
-                   activationService,
-                   undoManager)
+        public RedisAddress(IValueSync sync, ControlActivationService activationService)
+            : base(sync, activationService)
         {
         }
 

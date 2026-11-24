@@ -2,24 +2,16 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Undo;
 
 namespace CMiX.Core.Compositing
 {
     public class Color : GenericValue<string>, IPrefab
     {
-        public Color(PrefabService prefabService, 
-                     ControlMessenger controlMessenger, 
-                     MessageFactory messageFactory, 
-                     ControlActivationService activationService,
-                     UndoManager undoManager)
-            : base(controlMessenger, 
-                   messageFactory, 
-                   activationService, 
-                   undoManager)
+        public Color(PrefabService prefabService,
+                     IValueSync sync,
+                     ControlActivationService activationService)
+            : base(sync, activationService)
         {
             PrefabService = prefabService;
         }

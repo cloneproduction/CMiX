@@ -2,23 +2,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Networking;
-using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Undo;
 
 namespace CMiX.Core.Animations
 {
     // One value of the list of a BeatStepModulator.
     public class BeatStep : GenericValue<float>, IControl
     {
-        public BeatStep(ControlMessenger controlMessenger,
-                        MessageFactory messageFactory,
-                        ControlActivationService activationService,
-                        UndoManager undoManager)
-            : base(controlMessenger,
-                   messageFactory,
-                   activationService,
-                   undoManager)
+        public BeatStep(IValueSync sync, ControlActivationService activationService)
+            : base(sync, activationService)
         {
         }
 

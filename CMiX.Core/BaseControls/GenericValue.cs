@@ -3,10 +3,7 @@
 
 using System.Diagnostics;
 using System.Windows.Input;
-using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -21,19 +18,16 @@ namespace CMiX.Core.BaseControls
 
         }
 
-        public GenericValue(ControlMessenger controlMessenger,
-                            MessageFactory messageFactory,
-                            ControlActivationService activationService,
-                            UndoManager undoManager)
+        public GenericValue(IValueSync sync, ControlActivationService activationService)
         {
             ID = Guid.NewGuid();
-            MessageFactory = messageFactory;
-            ControlMessenger = controlMessenger;
-            UndoManager = undoManager;
+            _sync = sync;
             ResetCommand = new RelayCommand(Reset);
             IsActive = false;
             activationService.Register(this);
         }
+
+        private readonly IValueSync _sync;
 
         public void Reset()
         {
@@ -45,8 +39,6 @@ namespace CMiX.Core.BaseControls
 
         public Guid ID { get; set; }
         public ICommand ResetCommand { get; set; }
-        public ControlMessenger ControlMessenger { get; set; }
-        public MessageFactory MessageFactory { get; set; }
         public bool IsMomentary { get; set; }
 
         private T _value;
@@ -74,18 +66,13 @@ namespace CMiX.Core.BaseControls
                     if (IsMomentary)
                     {
                         SetProperty(ref _value, value);
-                        SendValueChanged();
+                        _sync.Send(this);
                         return;
                     }
 
                     var before = CaptureModel();
                     SetProperty(ref _value, value);
-                    if (!(UndoManager?.IsApplying ?? false))
-                    {
-                        var after = CaptureModel();
-                        UndoManager?.Push(new ValueChangedCommand(this, before, after));
-                    }
-                    SendValueChanged();
+                    _sync.Commit(this, before, CaptureModel());
                 }
                 else
                     SetProperty(ref _value, value);
@@ -104,12 +91,7 @@ namespace CMiX.Core.BaseControls
             if (!_inInteraction)
             {
                 _inInteraction = true;
-                // Undo state is decided once per gesture, matching what the unthrottled path would
-                // have recorded for the first write of the gesture.
-                var recordsUndo = !IsMomentary
-                                  && !(UndoManager?.IsApplying ?? false)
-                                  && !(UndoManager?.IsSuppressed ?? false);
-                _interactionBefore = recordsUndo ? CaptureModel() : null;
+                _interactionBefore = IsMomentary ? null : CaptureModel();
                 _lastInteractionSendTicks = Stopwatch.GetTimestamp() - InteractionSendIntervalTicks;
                 _interactionSendPending = false;
                 ValueInteraction.Enlist(this);
@@ -124,7 +106,7 @@ namespace CMiX.Core.BaseControls
             {
                 _lastInteractionSendTicks = now;
                 _interactionSendPending = false;
-                SendValueChanged();
+                _sync.Send(this);
             }
             else
                 _interactionSendPending = true;
@@ -140,21 +122,15 @@ namespace CMiX.Core.BaseControls
             if (_interactionSendPending)
             {
                 _interactionSendPending = false;
-                SendValueChanged();
+                _sync.Send(this);
             }
 
             if (_interactionBefore != null)
             {
                 var before = _interactionBefore;
                 _interactionBefore = null;
-                UndoManager?.Push(new ValueChangedCommand(this, before, CaptureModel()));
+                _sync.Record(this, before, CaptureModel());
             }
-        }
-
-        private void SendValueChanged()
-        {
-            var message = MessageFactory.CreateMessage<MessageValueChanged>(this.ID, this);
-            ControlMessenger.SendMessage(message);
         }
 
         private T _originalValue;
