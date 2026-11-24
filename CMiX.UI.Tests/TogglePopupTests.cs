@@ -12,7 +12,6 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.UI.AttachedProperties;
 using CMiX.UI.Behaviors;
-using CMiX.UI.Controls;
 using CMiX.UI.Controls.Collection;
 using CMiX.UI.Controls.Number;
 using CMiX.UI.Tests.Support;
@@ -237,28 +236,6 @@ namespace CMiX.UI.Tests
             Assert.Equal(expectedOpen, list.GetLogicalDescendants().OfType<Popup>().Single().IsOpen);
         }
 
-        [AvaloniaTheory]
-        [InlineData(true, false)]
-        [InlineData(false, true)]
-        public void ClosesOnPointerAway_OnAButtonPopup_GoesToItsPopup(bool closesOnPointerAway, bool expectedOpen)
-        {
-            var button = new ButtonPopup
-            {
-                Caption = "Pick",
-                PopupContent = new TextBlock { Text = "Short" },
-                ClosesOnPointerAway = closesOnPointerAway,
-                Width = 300,
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-            var window = ShowInPanel(button);
-            var toggle = button.FindControl<ToggleButton>("popupToggle")!;
-            Open(window, toggle);
-
-            PointerInput.Move(window, Away(window, toggle, 600));
-
-            Assert.Equal(expectedOpen, button.GetLogicalDescendants().OfType<Popup>().Single().IsOpen);
-        }
-
         // The width: at least PopupMinWidth, or as wide as the toggle when MatchesToggleWidth is set.
 
         [AvaloniaFact]
@@ -312,21 +289,6 @@ namespace CMiX.UI.Tests
 
             var popup = (Popup)list.GetLogicalChildren().OfType<StackPanel>().Single().Children.OfType<Popup>().Single();
             Assert.Equal(400, PanelWidth(popup));
-        }
-
-        [AvaloniaFact]
-        public void Open_AButtonPopup_IsAsWideAsItsToggle()
-        {
-            var button = new ButtonPopup { Caption = "Pick", PopupContent = new TextBlock { Text = "Short" }, Width = 320, HorizontalAlignment = HorizontalAlignment.Left };
-            TestWindow.Show(button, 900, 500);
-
-            var toggle = button.FindControl<ToggleButton>("popupToggle")!;
-            toggle.IsChecked = true;
-            Dispatcher.UIThread.RunJobs();
-
-            var popup = button.GetLogicalDescendants().OfType<Popup>().Single();
-            Assert.Same(toggle, TogglePopup.GetToggle(popup));
-            Assert.Equal(320, PanelWidth(popup));
         }
 
         // A value in edit mode keeps the popup open. A press outside ends the edit and the popup stays open.

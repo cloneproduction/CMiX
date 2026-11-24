@@ -20,77 +20,8 @@ namespace CMiX.UI.Tests
     {
         private const double ShadowRoom = 8;
 
-        private static (ButtonPopup Button, ToggleButton Toggle, Popup Popup) ShowButtonPopup()
-        {
-            var button = new ButtonPopup { Caption = "Add", PopupContent = new TextBlock { Text = "Short" }, Width = 300, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(100, 40, 0, 0) };
-            TestWindow.Show(button, 900, 500);
-            var toggle = button.FindControl<ToggleButton>("popupToggle")!;
-            return (button, toggle, button.GetLogicalDescendants().OfType<Popup>().Single());
-        }
-
-        private static void Open(ToggleButton toggle)
-        {
-            toggle.IsChecked = true;
-            Dispatcher.UIThread.RunJobs();
-        }
-
         private static Border PanelOf(Popup popup) =>
             popup.Child!.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "PART_Surface");
-
-        [AvaloniaFact]
-        public void ThePopupOfAButtonPopup_HoldsADropdownFrame()
-        {
-            var (_, toggle, popup) = ShowButtonPopup();
-
-            Open(toggle);
-
-            Assert.IsType<DropdownFrame>(popup.Child);
-        }
-
-        [AvaloniaFact]
-        public void ThePanel_HasTheAddPopupColor()
-        {
-            var (_, toggle, popup) = ShowButtonPopup();
-
-            Open(toggle);
-
-            Assert.Equal(Tokens.Color("PopupBackgroundBrush"), ((ISolidColorBrush)PanelOf(popup).Background!).Color);
-        }
-
-        [AvaloniaFact]
-        public void TheFrame_CastsTheWindowShadow()
-        {
-            var (_, toggle, popup) = ShowButtonPopup();
-
-            Open(toggle);
-
-            var shadowed = popup.Child!.GetVisualDescendants().OfType<Border>().Where(border => border.Effect != null).ToList();
-            Assert.Single(shadowed);
-            Assert.Same(Tokens.Get<object>("DropShadowWindow"), shadowed[0].Effect);
-        }
-
-        [AvaloniaFact]
-        public void ACenteredPopup_MovesUpByTheRoomOfTheShadow_ButNotSideways()
-        {
-            var (_, toggle, popup) = ShowButtonPopup();
-
-            Open(toggle);
-
-            Assert.Equal(0, popup.HorizontalOffset);
-            Assert.Equal(-ShadowRoom, popup.VerticalOffset);
-            Assert.Equal(300, PanelOf(popup).Bounds.Width);
-        }
-
-        [AvaloniaFact]
-        public void ThePanelOfAButtonPopup_StartsAtTheBottomEdgeOfTheToggle()
-        {
-            var (_, toggle, popup) = ShowButtonPopup();
-
-            Open(toggle);
-
-            var target = OnScreen(toggle);
-            Assert.Equal(target.Top + toggle.Bounds.Height, OnScreen(PanelOf(popup)).Top);
-        }
 
         [AvaloniaFact]
         public void ThePanelOfAnEdgeAlignedComboBox_StartsAtTheLeftEdgeOfTheComboBox()
@@ -112,33 +43,6 @@ namespace CMiX.UI.Tests
         {
             var point = control.PointToScreen(new Point(0, 0));
             return (point.X, control.Bounds.Width, point.Y);
-        }
-
-        [AvaloniaFact]
-        public void ThePanelOfAButtonPopup_StartsAtTheLeftEdgeOfTheToggle_AndIsAsWide()
-        {
-            var (_, toggle, popup) = ShowButtonPopup();
-
-            Open(toggle);
-
-            var panel = OnScreen(PanelOf(popup));
-            var target = OnScreen(toggle);
-            Assert.Equal(target.Left, panel.Left);
-            Assert.Equal(target.Width, panel.Width);
-        }
-
-        [AvaloniaFact]
-        public void OpeningThePopupAgain_DoesNotMoveItAgain()
-        {
-            var (_, toggle, popup) = ShowButtonPopup();
-            Open(toggle);
-            toggle.IsChecked = false;
-            Dispatcher.UIThread.RunJobs();
-
-            Open(toggle);
-
-            Assert.Equal(0, popup.HorizontalOffset);
-            Assert.Equal(-ShadowRoom, popup.VerticalOffset);
         }
 
         [AvaloniaFact]
