@@ -19,14 +19,14 @@ using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The toggles and the badges of the list tree show the right buttons and squares for each kind of row, and the buttons change the model.
-    public class ListTreeTogglesAndBadgesTests : IDisposable
+    // The toggles of a row of the list tree show the right buttons for each kind of row, and the buttons change the model.
+    public class TogglesRowTests : IDisposable
     {
         private readonly Scene scene = CreateScene([2], s => AddKinds(s.Layer));
         private readonly Window window;
         private readonly ListTreeProject view;
 
-        public ListTreeTogglesAndBadgesTests()
+        public TogglesRowTests()
         {
             scene.Tree.SelectedNode = null;
             scene.LayerNodeOfA(0).IsExpanded = false;
@@ -45,9 +45,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private TreeNode Entity => scene.Group<EntitiesGroup>(0).Children[0];
 
         private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
-
-        private BadgesKindCount BadgesOf(TreeNode node) =>
-            RowOf(node).GetVisualDescendants().OfType<BadgesKindCount>().First(badges => badges.IsVisible);
 
         private static IReadOnlyList<ToggleLook> LookOf(TogglesRow toggles) =>
             toggles.GetVisualDescendants().OfType<ToggleButton>().Where(toggle => toggle.IsEffectivelyVisible)
@@ -69,11 +66,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static string[] NamesOf(TogglesRow toggles) =>
             LookOf(toggles).Select(look => look.Name!).ToArray();
-
-        private static IEnumerable<string> SquareCountsOf(BadgesKindCount badges) =>
-            badges.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).Select(square => CountOf(square).Text!);
-
-        private static TextBlock CountOf(Border square) => square.GetVisualDescendants().OfType<TextBlock>().Single();
 
         private static ToggleButton ToggleNamed(TogglesRow toggles, string name) =>
             toggles.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.Name == name && toggle.IsEffectivelyVisible);

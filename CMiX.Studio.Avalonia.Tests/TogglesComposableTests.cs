@@ -136,5 +136,21 @@ namespace CMiX.Studio.Avalonia.Tests
             var visibility = ToggleWithTheme(toggles, "ToggleButtonVisibility");
             Assert.True(mask.TranslatePoint(new Point(mask.Bounds.Width, 0), toggles)!.Value.X <= visibility.TranslatePoint(new Point(0, 0), toggles)!.Value.X);
         }
+
+        [AvaloniaFact]
+        public void Show_TheRowOfALayer_PutsTheVisibilityAtTheFarRightAndTheMaskLeftOfIt()
+        {
+            var row = new RowComposable { DataContext = Create(typeof(Layer)) };
+            var window = new Window { Content = row, Width = 400, Height = 60 };
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            var toggles = row.GetVisualDescendants().OfType<ToggleButton>().Where(toggle => toggle.IsEffectivelyVisible).ToList();
+            var visibility = toggles.Single(toggle => ReferenceEquals(toggle.Theme, Application.Current!.FindResource("ToggleButtonVisibility")));
+            var mask = toggles.Single(toggle => ReferenceEquals(toggle.Theme, Application.Current!.FindResource("ToggleButtonMask")));
+
+            Assert.Equal(2, toggles.Count);
+            Assert.True(mask.TranslatePoint(new Point(mask.Bounds.Width, 0), window)!.Value.X <= visibility.TranslatePoint(new Point(0, 0), window)!.Value.X);
+        }
     }
 }
