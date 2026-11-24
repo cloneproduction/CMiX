@@ -60,7 +60,7 @@ The view `Blur.axaml` in the Studio binds straight to the Core `Blur`. There is 
 |---|---|
 | Model | All 125 `...Model` records: `ProjectModel`, `CompositionModel`, `LayerModel`, `EntityModel`, `GenericValueModel<T>`, `ModulatableValueModel<T>`, `PrefabManagerModel`, `ManagerDataModel`, each filter, source, modifier and modulator model. Also `SyncOptions`, `SyncTimings`, `StreamPosition`, `PeerInfo`. |
 | Message | `MessageValueChanged`, `MessageAddItem`, `MessageRemoveItem`, `MessageMoveItem`, `MessageSelectItem`, `MessageClearSelection`, `MessageOnClick`, `MessageProjectSnapshot`, and the wrapper `MessageEnvelope` (all in `Networking/Messages/Messages.cs`). |
-| Service | `UndoManager`, `ControlFactory`, `ControlRepository`, `ControlMessenger`, `MessageFactory`, `MessageCollectionManagerHandler`, `ControlActivationService`, `AssetRepository`, the five processors (`VisibilityProcessor`, `VisibleItemsProcessor`, `UpdateOrderProcessor`, `RenderListProcessor`, `AssetListProcessor`), `ProjectSyncTarget`, `RedisSyncStore`, `OutgoingQueue`, `StreamFollower`, `SnapshotCompactor`, `Presence`, `MainloopQueue`, `EngineHost`, `WindowsCredentialStore`. |
+| Service | `UndoManager`, `ControlFactory`, `ControlRepository`, `ControlMessenger`, `MessageFactory`, `ValueSync`, `MessageCollectionManagerHandler`, `ControlActivationService`, `AssetRepository`, the five processors (`VisibilityProcessor`, `VisibleItemsProcessor`, `UpdateOrderProcessor`, `RenderListProcessor`, `AssetListProcessor`), `ProjectSyncTarget`, `RedisSyncStore`, `OutgoingQueue`, `StreamFollower`, `SnapshotCompactor`, `Presence`, `MainloopQueue`, `EngineHost`, `WindowsCredentialStore`. |
 | ViewModel | None that is only a ViewModel. |
 | View | None. |
 
@@ -69,7 +69,8 @@ Classes that are several shapes at once, or none:
 | Class | What it is |
 |---|---|
 | Every control: `Project`, `Composition`, `Layer`, `Entity`, `TextEntity`, `FullscreenQuad`, `Camera`, `LightEntity`, `Texture`, the 22 filters, the 11 texture sources, the 20 modifiers, the 13 modulators, the settings objects | Domain state, ViewModel (commands, `IsExpanded`) and model converter in one class. |
-| `GenericValue<T>`, `CMiXButton` | One value. Also the undo source, the message sender and the message receiver. |
+| `GenericValue<T>` | One value. It receives its message itself. The undo step and the send go through `IValueSync`. |
+| `CMiXButton` | One click. Also the message sender and the message receiver. |
 | `ModulatableValue<T>` | Three `GenericValue` in one: the value, the id of the modulator, the name of the output. Also commands. |
 | `PrefabManager` | A list of controls. ViewModel (7 commands), undo source, message sender and receiver, model converter. The VL patches use it by name. |
 | `ManagerData`, `CollectionManager`, `CollectionSync`, `IItemList` | The inner parts of a list: the items and the selection, the add and remove with the repository, and the sender. `CollectionSync` implements `IItemList`, the list that sends every change. The undo steps and `PrefabManager` see only `IItemList`. Not a shape of their own. |
@@ -109,8 +110,8 @@ Three static entry points connect it to an application: `InteractionHost`, `Icon
 ### A value changes (the user drags a slider)
 
 1. **View.** `SliderModulatable` binds to `ModulatableValue<float>.Value`. The CMiX.UI editor opens a drag scope through `InteractionHost`, which `App.Initialize` connects to `ValueInteraction.BeginScope`.
-2. **Value.** `ModulatableValue.Value` passes the write to `GenericValue<T>.Value`. The setter does three things: it stores the value, it pushes a `ValueChangedCommand` to `UndoManager`, and it calls `SendValueChanged`. During a drag it sends at most 60 messages each second and makes one undo step for the whole drag.
-3. **Message.** `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
+2. **Value.** `ModulatableValue.Value` passes the write to `GenericValue<T>.Value`. The setter stores the value and calls `IValueSync.Commit` with the model before and after. During a drag it calls `Send` at most 60 times each second and calls `Record` once at the end.
+3. **Message.** `ValueSync` implements `IValueSync`: it pushes the `ValueChangedCommand` unless the undo stack is applying, then `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
 4. **Peer.** `SyncPeer.SendMessage` (`SyncPeer.Send.cs`) drops the message if the peer is not the writer. Else it wraps it in a `MessageEnvelope`, serializes it with MessagePack and puts it in `OutgoingQueue`.
 5. **Redis.** One task appends the entry to the stream `{prefix}:updates` through `RedisSyncStore`, sets the tail key and publishes a wake signal. `SnapshotCompactor` writes a new snapshot later.
 6. **Engine.** `StreamFollower` reads the new entries. `SyncPeer` (`SyncPeer.Apply.cs`) posts each batch to its dispatcher. In vvvv that is `MainloopQueue`, which the patch drains once for each frame. In `CMiX.Console` the apply runs inline.
@@ -227,7 +228,7 @@ Core has no Avalonia reference.
 - `ProjectTree`: fixed on 2026-11-19, all seven constructor parameters are required.
 - `UndoManager` is optional in practice. `ReceivableControl.UndoManager` is a settable property, the owner sets it after construction (`Project`, `MainViewModel`, `RedisAddressRegistry`), and 24 call sites use `UndoManager?.`.
 - `PrefabManager(..., reorderServiceFactory = null)` and `Modifier(..., nestedBindables = null)`.
-- `GenericValue<T>` has an empty public constructor that leaves the messenger and the factory null.
+- `GenericValue<T>` has an empty public constructor that leaves the sync null.
 - `ControlFactory` takes `IServiceProvider` and resolves types by name. A control from the container and a control from the factory are not the same.
 - `ProjectSession` owns the six repository lists since 2026-11-19; `MainViewModel` and `ProjectFileViewModel` take it. The settable `MainMenu.RepositoryManagers` is gone.
 - `MainViewModel` sets the fixed ids of six lists and activates them by hand, then clears `ControlActivationService`.
@@ -254,7 +255,7 @@ Core has no Avalonia reference.
 | 2 | `SyncPeer` (Core) | 316, nine partial files, 1216 in all | 3 | 2 | Done on 2026-11-20: one job per file (connect, join and push, start check, gap check, send, apply, follower, panel state). `SyncRun` holds the resources of one Start. Still a service and a ViewModel at once. |
 | 3 | `TreeViewProject` code-behind (Studio) | 233 | 0 | 0 | Done on 2026-11-19: the hub builds the parts (`TreeKeyInput`, `TreePointerInput`, `TreeFocusKeeper`, `TreeScreenRequests`, `TreeMenus`, `TreeRowReveal`, `TreeFileDropInput`, `TreeHints`). The view was removed on 2026-11-24, `ListTreeProject` replaces it. |
 | 4 | `PrefabManager` (Core) | 350 | 9, 1 optional | 7 | List ViewModel, undo, send, receive, model converter. Every domain object has several. VL uses its names. |
-| 5 | `GenericValue<T>` (Core) | 190 | 4 or 0 | 1 | Value, undo, throttle, send and receive in one setter. It reads a static. |
+| 5 | `GenericValue<T>` (Core) | 190 | 2 or 0 | 1 | Value, undo, throttle, send and receive in one setter. It reads a static. |
 | 6 | `MainViewModel` (Studio) | 160 | 18 | 2 | A bag of everything for the bindings. It also sets ids and activates lists. A false `IControl`. |
 | 7 | `MainMenu` (Studio) | 68, as `MainMenuViewModel`, plus `ProjectFileViewModel` 148 and `ProjectSession` 130 | 1 | 7 | Done on 2026-11-19: the project file is a ViewModel of its own, the session and the six lists are one service, the dispatcher and `Application.Current` are gone, Quit is a request event. |
 | 8 | `TreeNode` (Studio) | 430 | 7 | 0 | Done in part on 2026-11-19: the counts are in `RowCounts`, the drag look in `DragLook`, the search look computed by the row itself, and the row reports to the tree through `TreeNodeHost`. It still knows many Core types by name. |
