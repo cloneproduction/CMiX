@@ -284,7 +284,7 @@ namespace CMiX.Core.Prefabs.Managers
             var previousIndex = ManagerData.Items.IndexOf(previousItem);
             _list.ClearSelection();
             if (previousIndex < 0) return;
-            UndoManager?.Push(new ClearSelectionUndoCommand(_list, previousItem, previousIndex));
+            UndoManager?.Push(new ClearSelectionUndoCommand(_list, previousIndex));
         }
 
         public void SelectAt(int index)
@@ -295,7 +295,7 @@ namespace CMiX.Core.Prefabs.Managers
             if (ReferenceEquals(previousItem, target)) return;
             _list.SelectAt(index);
             if (previousItem == null) return;
-            UndoManager?.Push(new SelectItemUndoCommand(_list, previousItem, previousIndex, index));
+            UndoManager?.Push(new SelectItemUndoCommand(_list, previousIndex, index));
         }
 
         public void LoadItem(IControlModel controlModel) => Collection.LoadItem(controlModel);

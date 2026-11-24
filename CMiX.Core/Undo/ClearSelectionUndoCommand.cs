@@ -9,7 +9,6 @@ namespace CMiX.Core.Undo
         private readonly int _previousIndex;
 
         public ClearSelectionUndoCommand(IItemList list,
-                                         IControl previousItem,
                                          int previousIndex)
         {
             _list = list;
