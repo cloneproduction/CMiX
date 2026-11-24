@@ -1,4 +1,7 @@
-﻿namespace CMiX.Core.Undo
+﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+namespace CMiX.Core.Undo
 {
     // Undo takes the added item back out of the collection, so from that point on this command
     // owns the instance and disposes it when UndoManager drops the command.
