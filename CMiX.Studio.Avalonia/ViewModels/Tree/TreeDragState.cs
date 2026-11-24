@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
 {
@@ -24,10 +25,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public bool CanDrop(TreeNode source, TreeNode target, DropPosition position) =>
             !target.IsDropBlocked && dropService.CanDrop(source, target, position);
 
-        public void MarkRows(TreeNode root, TreeNode source)
+        public void MarkRows(TreeNode root, TreeNode source) => MarkRows(root, new[] { source });
+
+        // A block is lit where every one of its nodes can go. The first blocked node gives the reason of a row.
+        public void MarkRows(TreeNode root, IReadOnlyList<TreeNode> sources)
         {
             marked.Clear();
-            MarkRow(root, root, source);
+            MarkRow(root, root, sources);
         }
 
         public void ClearRows()
@@ -38,21 +42,30 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             marked.Clear();
         }
 
-        private bool MarkRow(TreeNode root, TreeNode node, TreeNode source)
+        private bool MarkRow(TreeNode root, TreeNode node, IReadOnlyList<TreeNode> sources)
         {
             var below = false;
             foreach (var child in node.Children)
-                below |= MarkRow(root, child, source);
+                below |= MarkRow(root, child, sources);
 
-            var candidate = node != root && dropService.IsInsideTarget(source, node);
-            var neighbor = node != root && dropService.IsNeighbor(source, node);
-            var reason = node != root && (candidate || neighbor || dropService.IsTargetByKind(source, node)) ? dropService.BlockReason(source, node) : null;
+            var isSource = sources.Any(source => ReferenceEquals(node, source));
+            var candidate = node != root && sources.All(source => dropService.IsInsideTarget(source, node));
+            var neighbor = node != root && sources.All(source => dropService.IsNeighbor(source, node));
+            var reason = node != root ? ReasonOf(node, sources, candidate || neighbor) : null;
             if (reason != null)
                 candidate = neighbor = false;
 
-            node.ShowDragLook(new DragLook(ReferenceEquals(node, source), candidate, neighbor, below, reason));
+            node.ShowDragLook(new DragLook(isSource, candidate, neighbor, below, reason));
             marked.Add(node);
             return below || candidate || neighbor;
+        }
+
+        private string? ReasonOf(TreeNode node, IReadOnlyList<TreeNode> sources, bool isTarget)
+        {
+            foreach (var source in sources)
+                if ((isTarget || dropService.IsTargetByKind(source, node)) && dropService.BlockReason(source, node) is { } reason)
+                    return reason;
+            return null;
         }
     }
 }

@@ -32,10 +32,13 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public bool CanDrop(TreeNode source, TreeNode target, DropPosition position) => dragState.CanDrop(source, target, position);
 
-        public void BeginDrag(TreeNode source)
+        public void BeginDrag(TreeNode source) => BeginDrag(new[] { source });
+
+        // A block of rows: a row is lit only where every node of the block can go.
+        public void BeginDrag(IReadOnlyList<TreeNode> sources)
         {
             IsDragging = true;
-            dragState.MarkRows(root, source);
+            dragState.MarkRows(root, sources);
         }
 
         public void EndDrag()

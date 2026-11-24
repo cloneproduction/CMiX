@@ -113,6 +113,21 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(new[] { filters.Children[1], Scene.Group<FiltersGroup>(scene.Layer2).Children[0] }, scene.Neighbors());
         }
 
+        // A block of two kinds: only a layer takes both inside, and no row is next to both.
+        [Fact]
+        public void BeginDrag_ABlockOfAnEntityAndAFilter_LightsOnlyTheRowsThatTakeEveryNode()
+        {
+            var scene = CreateScene();
+            var filter = Scene.Group<FiltersGroup>(scene.Layer1).Children[0];
+
+            scene.Tree.BeginDrag(new[] { scene.Entity1, filter });
+
+            Assert.Equal(new[] { scene.Layer1, scene.Layer2, scene.LayerOfB }, scene.Candidates());
+            Assert.Empty(scene.Neighbors());
+            Assert.True(scene.Entity1.IsDragSource);
+            Assert.True(filter.IsDragSource);
+        }
+
         [Fact]
         public void BeginDrag_ARow_MarksItsGroupButNeverTheRowAsCandidate()
         {
