@@ -58,7 +58,7 @@ namespace CMiX.UI.Tests
         private static IEnumerable<MenuItem> Rows(Control presenter) => presenter.GetVisualDescendants().OfType<MenuItem>();
 
         [AvaloniaFact]
-        public void MenuFlyout_ShowsItsRowsInAPopupFrame()
+        public void MenuFlyout_Open_ShowsItsRowsInAPopupFrame()
         {
             var (_, _, presenter) = Open(new Choice { Label = "A" });
 
@@ -67,7 +67,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void MenuFlyout_ShowsTheLabelOfEachItem()
+        public void MenuFlyout_Open_ShowsTheLabelOfEachItem()
         {
             var (_, _, presenter) = Open(new Choice { Label = "LFO Sine" }, new Choice { Label = "Random Value" });
 
@@ -75,7 +75,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void MenuFlyout_MarksTheAssignedItemAsChecked()
+        public void MenuFlyout_Open_MarksTheAssignedItemAsChecked()
         {
             var (_, _, presenter) = Open(new Choice { Label = "A", IsAssigned = true }, new Choice { Label = "B" });
 
@@ -87,7 +87,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void MenuFlyout_ClickOnAnItem_RunsItsCommand_AndClosesTheFlyout()
+        public void MenuFlyout_ClickOnAnItem_RunsItsCommandAndClosesTheFlyout()
         {
             var ran = false;
             var (window, flyout, presenter) = Open(new Choice { Label = "A", Command = new RelayCommand(() => ran = true) });

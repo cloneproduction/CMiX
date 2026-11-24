@@ -62,7 +62,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheFirstTime_CopyIsUnderThePointer()
+        public void Open_TheFirstTime_PutsCopyUnderThePointer()
         {
             var box = Box();
             ShowIn(box);
@@ -88,7 +88,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ARowThatTheMenuDoesNotHave_FallsBackToCopy()
+        public void Open_AfterARowThatTheMenuDoesNotHave_PutsCopyUnderThePointer()
         {
             var withAll = Box(withResetAll: true);
             var plain = Box();
@@ -103,7 +103,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void TheMemory_BelongsToTheWindow()
+        public void Open_InAnotherWindow_HasItsOwnMemory()
         {
             var first = Box();
             var second = Box();
@@ -120,7 +120,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ARowIsKnownByItsId_NotByItsLabel()
+        public void Open_AfterANewLabel_FindsTheRowByItsId()
         {
             var first = Box();
             var second = Box();
@@ -136,7 +136,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void ResetAllIsRecognizedById_AfterItsLabelChanged()
+        public void Open_AfterANewLabelOfResetAll_FindsItByItsId()
         {
             var box = Box(withResetAll: true);
             ShowIn(box);
@@ -150,7 +150,7 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
-        public void WithoutAnAnchor_TheMiddleOfTheFrameIsUnderThePointer()
+        public void Open_WithoutAnAnchor_PutsTheMiddleOfTheFrameUnderThePointer()
         {
             var frame = new PopupFrame { Content = new TextBlock { Text = "Item" } };
             TestWindow.Show(frame, 300, 200);
