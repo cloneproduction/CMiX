@@ -172,7 +172,7 @@ namespace CMiX.Core.Tests
         // The peer name becomes the Redis client name, and Redis refuses a name with a space.
         // StackExchange.Redis removes the space, so the store connects and works.
         [SkippableFact]
-        public async Task APeerNameWithASpace_ConnectsAndWorks()
+        public async Task ConnectAsync_WithAPeerNameWithASpace_ConnectsAndWorks()
         {
             Skip.IfNot(_fixture.Available, SkipReason);
 

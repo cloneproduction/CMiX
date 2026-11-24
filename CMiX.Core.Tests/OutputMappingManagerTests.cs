@@ -25,7 +25,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void OutputMappingManager_And_Slots_Use_Fixed_ManagerIDs()
+        public void ManagerData_OfTheManagerAndTheSlots_HasTheFixedIDs()
         {
             var provider1 = TestServiceProviderFactory.Create();
             var project1 = provider1.GetRequiredService<Project>();
@@ -78,7 +78,7 @@ namespace CMiX.Core.Tests
         // A reset gives every slot the values of a new project. The slot instances, their fixed ids
         // stay correct.
         [Fact]
-        public void Reset_RestoresTheDefaultsAndKeepsTheInstances()
+        public void Reset_OfTheManager_RestoresTheDefaultsAndKeepsTheInstances()
         {
             var provider = TestServiceProviderFactory.Create();
             var manager = provider.GetRequiredService<Project>().OutputMappingManager;

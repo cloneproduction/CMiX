@@ -17,7 +17,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Scope_CollapsesEveryWriteIntoASingleUndoStep()
+        public void Scope_OfManyWrites_CollapsesThemIntoOneUndoStep()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
@@ -38,7 +38,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Scope_ThrottlesSendsAndAlwaysSendsTheFinalValue()
+        public void Scope_OfManyWrites_ThrottlesSendsAndSendsTheFinalValue()
         {
             var provider = TestServiceProviderFactory.Create();
             var messenger = provider.GetRequiredService<ControlMessenger>();
@@ -60,7 +60,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void WithoutScope_EveryWriteStillSends()
+        public void Value_WithoutAScope_SendsEveryWrite()
         {
             var provider = TestServiceProviderFactory.Create();
             var messenger = provider.GetRequiredService<ControlMessenger>();
@@ -77,7 +77,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void StaleHandle_LeavesTheScopeOpenedAfterItAlone()
+        public void Dispose_OfAStaleHandle_LeavesTheNewerScopeAlone()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
@@ -110,7 +110,7 @@ namespace CMiX.Core.Tests
 
         // The unowned pair a host without a handle still uses, and the path Begin keeps for it.
         [Fact]
-        public void UnownedScope_StillCollapsesEveryWriteIntoASingleUndoStep()
+        public void Scope_WithoutAnOwner_CollapsesEveryWriteIntoOneUndoStep()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();

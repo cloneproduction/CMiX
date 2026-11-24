@@ -21,7 +21,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void AddSorted_KeepsEqualKeysInInsertionOrder()
+        public void AddSorted_OfEqualKeys_KeepsTheInsertionOrder()
         {
             var collection = new SortableObservableCollection<string>();
 
@@ -51,7 +51,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void SortDescending_StillOrdersTheWholeCollection()
+        public void SortDescending_OfACollection_OrdersTheWholeCollection()
         {
             var collection = new SortableObservableCollection<string>(
                 new List<string> { "bravo", "delta", "alpha" });

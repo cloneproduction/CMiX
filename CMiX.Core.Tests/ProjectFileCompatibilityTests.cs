@@ -52,7 +52,7 @@ namespace CMiX.Core.Tests
         }
 
         [SkippableFact]
-        public void EverySampleProject_HashesTheSameTwiceAfterOpening()
+        public void Compute_OfEverySampleProjectAfterOpening_HashesTheSameTwice()
         {
             var files = SampleFiles();
             Skip.If(files.Length == 0, $"{FolderVariable} is not set or the folder has no .cmix file.");
@@ -69,7 +69,7 @@ namespace CMiX.Core.Tests
         }
 
         [SkippableFact]
-        public void EverySampleProject_OpensAndSavesAgain()
+        public void Load_OfEverySampleProject_OpensAndSavesAgain()
         {
             var files = SampleFiles();
             Skip.If(files.Length == 0, $"{FolderVariable} is not set or the folder has no .cmix file.");

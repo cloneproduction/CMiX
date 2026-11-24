@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Push_Then_Undo_RestoresPriorState()
+        public void Undo_AfterAPush_RestoresThePriorState()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
@@ -30,7 +30,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Undo_Then_Redo_ReappliesChange()
+        public void Redo_AfterAnUndo_ReappliesTheChange()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
@@ -61,7 +61,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Regression_MergedPushAfterUndo_ClearsRedoStack()
+        public void Push_MergedAfterAnUndo_ClearsTheRedoStack()
         {
             // A change of A that merges into the top entry after an undo of B must clear the redo of B.
             var provider = TestServiceProviderFactory.Create();
@@ -84,7 +84,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void TrimStack_KeepsOnlyMaxStepsAndDropsOldestEntriesFirst()
+        public void TrimStack_OverMaxSteps_DropsTheOldestEntriesFirst()
         {
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();

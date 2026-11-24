@@ -22,7 +22,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void WithFallbacks_KeepsAGivenPeerName()
+        public void WithFallbacks_OfAGivenPeerName_KeepsIt()
         {
             var options = (SyncOptions.Defaults with { PeerName = "Engine 1" }).WithFallbacks();
 
@@ -30,7 +30,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void WithFallbacks_FillsTheOtherEmptyFields()
+        public void WithFallbacks_OfEmptyFields_FillsThem()
         {
             var options = new SyncOptions("", 0, 2, "", null, "", "A", null).WithFallbacks();
 
@@ -45,7 +45,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void WithFallbacks_KeepsGivenValues()
+        public void WithFallbacks_OfGivenValues_KeepsThem()
         {
             var original = new SyncOptions("10.0.0.5", 6400, 2, "studio-user", "secret", "cmix:studio", "MyStudio", "studio");
 
@@ -122,7 +122,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void WithCredential_UsesGivenSourceWord()
+        public void WithCredential_OfASourceWord_UsesIt()
         {
             var result = SyncOptions.Defaults.WithCredential("", new FakeCredentialStore(), "arguments");
 

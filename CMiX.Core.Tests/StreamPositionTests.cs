@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ToStringThenParse_RoundTrips()
+        public void Parse_OfToString_GivesTheSamePosition()
         {
             var position = new StreamPosition(1693737600000, 3);
 
@@ -70,7 +70,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Zero_IsLessThanFirstEntry()
+        public void CompareTo_OfZeroAndTheFirstEntry_IsLess()
         {
             Assert.True(StreamPosition.Zero < new StreamPosition(1, 0));
         }

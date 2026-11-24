@@ -262,7 +262,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void SaveThenLoad_KeepsPrefabNamesAndResolvesEveryControl()
+        public void SaveThenLoad_OfAProject_KeepsTheNamesAndResolvesEveryControl()
         {
             var source = TestServiceProviderFactory.Create();
             var sourceProject = source.GetRequiredService<Project>();
@@ -308,7 +308,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void SaveThenLoad_KeepsAValidOutputSlotSelection()
+        public void SaveThenLoad_OfAValidOutputSlot_KeepsTheSelection()
         {
             var source = TestServiceProviderFactory.Create();
             var sourceProject = source.GetRequiredService<Project>();
