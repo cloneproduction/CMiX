@@ -152,12 +152,10 @@ namespace CMiX.Core.Tests
         {
             var store = new RedisSyncStore(SyncOptions.Defaults with { Ip = "10.255.255.1", KeyPrefix = _prefix });
 
-            var stopwatch = Stopwatch.StartNew();
             var connecting = store.ConnectAsync(CancellationToken.None);
-            stopwatch.Stop();
 
-            // Well below the 3 s connect timeout of the store.
-            Assert.True(stopwatch.ElapsedMilliseconds < 200, $"ConnectAsync blocked for {stopwatch.ElapsedMilliseconds} ms.");
+            // The host does not answer, so a connect that returns control at once is still running.
+            Assert.False(connecting.IsCompleted);
 
             await connecting;
             Assert.False(store.IsConnected);

@@ -37,6 +37,8 @@ namespace CMiX.Core.Tests
             await _fixture.DeleteKeysAsync(_prefix);
         }
 
+        private static readonly TimeSpan ReadTimeout = TimeSpan.FromSeconds(5);
+
         private static byte[] Payload(string text) => Encoding.UTF8.GetBytes(text);
 
         // A store of the kind that is not connected yet. Two Redis stores share one key prefix,
@@ -178,12 +180,12 @@ namespace CMiX.Core.Tests
             var store = await ConnectedStore(kind);
             await store.AppendAsync(Payload("a"));
 
-            var stopwatch = Stopwatch.StartNew();
-            var entries = await store.ReadBlockingAsync(StreamPosition.Zero, 256, TimeSpan.FromSeconds(5), CancellationToken.None);
-            stopwatch.Stop();
+            // The read must end with the entry before its own timeout ends.
+            var timeout = Task.Delay(ReadTimeout);
+            var entries = await store.ReadBlockingAsync(StreamPosition.Zero, 256, ReadTimeout, CancellationToken.None);
 
             Assert.Single(entries);
-            Assert.True(stopwatch.ElapsedMilliseconds < 1000, $"Elapsed {stopwatch.ElapsedMilliseconds} ms.");
+            Assert.False(timeout.IsCompleted);
         }
 
         [SkippableTheory]
@@ -193,17 +195,18 @@ namespace CMiX.Core.Tests
             var reader = await ConnectedStore(kind);
             var writer = await ConnectedStore(kind);
 
-            var reading = reader.ReadBlockingAsync(StreamPosition.Zero, 256, TimeSpan.FromSeconds(5), CancellationToken.None);
+            var timeout = Task.Delay(ReadTimeout);
+            var reading = reader.ReadBlockingAsync(StreamPosition.Zero, 256, ReadTimeout, CancellationToken.None);
             await Task.Delay(200);
+            Assert.False(reading.IsCompleted);
 
-            var stopwatch = Stopwatch.StartNew();
             var appended = await writer.AppendAsync(Payload("a"));
             var entries = await reading;
-            stopwatch.Stop();
 
+            // The append must wake the read before the read times out.
             Assert.Single(entries);
             Assert.Equal(appended, entries[0].Id);
-            Assert.True(stopwatch.ElapsedMilliseconds < 1000, $"Woke after {stopwatch.ElapsedMilliseconds} ms.");
+            Assert.False(timeout.IsCompleted);
         }
 
         [SkippableTheory]

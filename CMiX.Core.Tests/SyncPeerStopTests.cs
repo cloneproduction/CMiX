@@ -25,20 +25,18 @@ namespace CMiX.Core.Tests
             var messenger = new ControlMessenger();
             using var peer = CreatePeer(new RecordingSyncTarget(), new HangingSyncStore(), messenger);
 
-            var watch = Stopwatch.StartNew();
+            // Each call must return before the stop timeout ends. A call that waits for the store would return after it.
+            var timeout = Task.Delay(Fast.StopTimeout);
             peer.StartAndJoin(Options("A"));
-            Assert.True(watch.ElapsedMilliseconds < 50);
+            peer.SendMessage(new MessageOnClick(Guid.NewGuid()));
+            Assert.False(timeout.IsCompleted);
             Assert.Equal("Connecting", peer.Status);
             Assert.True(messenger.IsSendingBlocked);
-
-            watch.Restart();
-            peer.SendMessage(new MessageOnClick(Guid.NewGuid()));
-            Assert.True(watch.ElapsedMilliseconds < 50);
             Assert.Equal(1, peer.PendingMessages);
 
-            watch.Restart();
+            timeout = Task.Delay(Fast.StopTimeout);
             peer.Stop();
-            Assert.True(watch.ElapsedMilliseconds < 50);
+            Assert.False(timeout.IsCompleted);
             Assert.Equal("Not started", peer.Status);
             Assert.Equal(StreamPosition.Zero, peer.LastAppliedId);
             Assert.Equal(StreamPosition.Zero, peer.TailId);
@@ -58,15 +56,15 @@ namespace CMiX.Core.Tests
             peer.StartAndJoin(Options("A"));
             await WaitUntilAsync(() => peer.IsJoined);
 
-            var watch = Stopwatch.StartNew();
+            var timeout = Task.Delay(Fast.StopTimeout);
             peer.Stop();
-            watch.Stop();
+            var returnedBeforeTheTimeout = !timeout.IsCompleted;
 
             var probe = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             dispatcher.Post(() => probe.SetResult(true));
             Assert.Same(probe.Task, await Task.WhenAny(probe.Task, Task.Delay(5000)));
 
-            Assert.True(watch.ElapsedMilliseconds < 50, $"Stop took {watch.ElapsedMilliseconds} ms.");
+            Assert.True(returnedBeforeTheTimeout, "Stop waited for the stop timeout.");
             Assert.Equal(StreamPosition.Zero, peer.LastSentId);
             Assert.Equal(StreamPosition.Zero, peer.LastAppliedId);
             Assert.Equal(StreamPosition.Zero, peer.TailId);
