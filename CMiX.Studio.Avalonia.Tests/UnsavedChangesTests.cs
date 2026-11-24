@@ -1,3 +1,4 @@
+using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using CMiX.Core.Compositing;
@@ -58,14 +59,14 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public async Task ARunningSession_StaysWithoutChanges_WhileTimePasses()
+        public void HasChanges_ARunningSessionOverTenFrames_StaysFalse()
         {
             var (provider, _, _) = TestServiceProviderFactory.ShowMainWindow();
             var unsaved = provider.GetRequiredService<UnsavedChanges>();
 
             for (var i = 0; i < 10; i++)
             {
-                await Task.Delay(50);
+                AvaloniaHeadlessPlatform.ForceRenderTimerTick();
                 Dispatcher.UIThread.RunJobs();
                 Assert.False(unsaved.HasChanges);
             }

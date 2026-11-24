@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
             while (!closed && DateTime.UtcNow < until)
             {
                 Dispatcher.UIThread.RunJobs();
-                await Task.Delay(10);
+                await Task.Yield();
             }
 
             return closed;

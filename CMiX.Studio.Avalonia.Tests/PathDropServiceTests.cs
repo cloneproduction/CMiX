@@ -1,4 +1,3 @@
-using Avalonia.Headless.XUnit;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Services;
@@ -17,7 +16,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public void Dispose() => temp.Dispose();
 
-        [AvaloniaFact]
+        [Fact]
         public void TextureTypeOf_AFolderWithImages_IsSequencePlayer()
         {
             var frames = temp.Folder("frames", "frame_0001.png");
@@ -25,26 +24,26 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(typeof(SequencePlayer), service.TextureTypeOf(frames));
         }
 
-        [AvaloniaFact]
+        [Fact]
         public void TextureTypeOf_AVideo_IsVideoPlayer()
         {
             Assert.Equal(typeof(VideoPlayer), service.TextureTypeOf(temp.File("clip.mp4")));
         }
 
-        [AvaloniaFact]
+        [Fact]
         public void TextureTypeOf_AnImage_IsImage()
         {
             Assert.Equal(typeof(Image), service.TextureTypeOf(temp.File("one.png")));
         }
 
-        [AvaloniaFact]
+        [Fact]
         public void TextureTypeOf_AnUnknownFile_IsNull()
         {
             Assert.Null(service.TextureTypeOf(temp.File("notes.xyz")));
             Assert.False(service.AcceptsTexture(temp.File("notes.txt")));
         }
 
-        [AvaloniaFact]
+        [Fact]
         public void AddTexture_AnImage_AddsAnImageWithThePath()
         {
             var provider = TestServiceProviderFactory.Create();
