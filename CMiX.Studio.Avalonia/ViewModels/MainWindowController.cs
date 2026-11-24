@@ -1,17 +1,15 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System;
 using System.Windows.Input;
 using Avalonia.Controls;
-using CMiX.Core;
 using CMiX.Studio.Avalonia.Notices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Studio.Avalonia.ViewModels
 {
-    public class MainWindowController : ObservableObject, IControl
+    public class MainWindowController : ObservableObject
     {
         public MainWindowController()
         {
@@ -23,7 +21,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ICommand CloseWindowCommand { get; }
         public ICommand MinimizeWindowCommand { get; }
         public ICommand MaximizeWindowCommand { get; }
-        public Guid ID { get; set; }
 
         private static void CloseMainWindow() => MainWindowOwner.Find()?.Close();
 
@@ -41,16 +38,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
         {
             if (window != null)
                 window.WindowState = WindowState.Minimized;
-        }
-
-        public IControlModel ToModel()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void FromModel(IControlModel model)
-        {
-            throw new NotImplementedException();
         }
     }
 }
