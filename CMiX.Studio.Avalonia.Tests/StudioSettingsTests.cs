@@ -3,6 +3,7 @@
 
 using System.IO;
 using CMiX.Core.Networking;
+using CMiX.Core.Tests;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.Tests.Support;
 using Xunit;
