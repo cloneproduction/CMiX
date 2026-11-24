@@ -1,4 +1,5 @@
 using CMiX.Core.Compositing;
+using CMiX.Core.DependencyInjection;
 using CMiX.Core.Engine;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs.Managers;
@@ -8,6 +9,7 @@ using static CMiX.Core.Tests.SyncTestHelpers;
 
 namespace CMiX.Core.Tests
 {
+    // The start of an engine through EngineHost and SyncPeerStartup, with and without a queue, and the start of a studio.
     public class EngineHostTests
     {
         private static SyncOptions EngineOptions => SyncOptions.Defaults with { PeerName = "Engine" };
@@ -23,6 +25,14 @@ namespace CMiX.Core.Tests
                 return peer;
             });
         });
+
+        // A provider with the real graph and an in-memory store, so no test connects to Redis.
+        private static IServiceProvider CreateProvider(InMemorySyncStore store)
+        {
+            var services = new ServiceCollection().AddCMiXCore();
+            services.AddSingleton<Func<SyncOptions, ISyncStore>>(_ => _ => store);
+            return services.BuildServiceProvider();
+        }
 
         [Fact]
         public void ServiceProvider_BeforeStart_IsNull()
@@ -143,6 +153,36 @@ namespace CMiX.Core.Tests
 
             host.Dispose();
             host.Dispose();
+        }
+
+        [Fact]
+        public async Task StartAsEngine_WithoutAQueue_AppliesInline()
+        {
+            var store = new InMemorySyncStore();
+            await WriteProjectSnapshotAsync(store);
+            var provider = CreateProvider(store);
+            using var peer = provider.GetRequiredService<SyncPeer>();
+            peer.Timings = Fast;
+
+            peer.StartAsEngine(EngineOptions);
+            await WaitUntilAsync(() => peer.IsJoined);
+
+            Assert.Single(provider.GetRequiredService<Project>().CompositionManager.ManagerData.Items);
+        }
+
+        [Fact]
+        public void StartAsStudio_OfAPeer_MakesItAWriterThatListsPeersAndCompacts()
+        {
+            var provider = CreateProvider(new InMemorySyncStore());
+            using var peer = provider.GetRequiredService<SyncPeer>();
+            peer.Timings = Fast;
+
+            peer.StartAsStudio(provider.GetRequiredService<ControlMessenger>(), action => action(), EngineOptions);
+
+            Assert.True(peer.IsWriter);
+            Assert.True(peer.ListPeersEnabled);
+            Assert.True(peer.CompactionEnabled);
+            Assert.Equal("studio", peer.Options.Role);
         }
     }
 }
