@@ -3,8 +3,6 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using Microsoft.Extensions.DependencyInjection;
-using VL.Serialization.MessagePack;
 using Xunit;
 using static CMiX.Core.Tests.SyncTestHelpers;
 
@@ -13,19 +11,6 @@ namespace CMiX.Core.Tests
     // The Studio start check: the peer connects without a join and reports what the user must do.
     public class SyncPeerStartCheckTests
     {
-        private static ProjectModel ModelWithOneComposition()
-        {
-            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            project.CompositionManager.AddItem(typeof(Composition));
-            return (ProjectModel)project.ToModel();
-        }
-
-        private static Snapshot SnapshotOf(ProjectModel model, StreamPosition id) =>
-            new Snapshot(MessagePackSerialization.Serialize(model), id, "other", DateTime.UtcNow);
-
-        private static ProjectModel ModelOf(Snapshot snapshot) =>
-            MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
-
         [Fact]
         public async Task Start_OnEmptyStore_PushesSilently()
         {

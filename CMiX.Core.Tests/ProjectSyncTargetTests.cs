@@ -5,6 +5,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using static CMiX.Core.Tests.SyncTestHelpers;
 
 namespace CMiX.Core.Tests
 {
@@ -32,13 +33,6 @@ namespace CMiX.Core.Tests
             public RecordingMessageSender Sender { get; }
 
             public PrefabManager CompositionManager => Project.CompositionManager;
-        }
-
-        private static ProjectModel ModelWithOneComposition()
-        {
-            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            project.CompositionManager.AddItem(typeof(Composition));
-            return (ProjectModel)project.ToModel();
         }
 
         private static Guid FirstCompositionId(ProjectModel model)

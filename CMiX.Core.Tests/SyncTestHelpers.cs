@@ -332,16 +332,25 @@ namespace CMiX.Core.Tests
             }
         }
 
-        // Writes a project with one composition as the snapshot that an engine joins.
-        public static async Task WriteProjectSnapshotAsync(InMemorySyncStore store)
+        public static ProjectModel ModelWithOneComposition()
         {
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
             project.CompositionManager.AddItem(typeof(Composition));
-            var model = project.ToModel();
+            return (ProjectModel)project.ToModel();
+        }
 
+        // A snapshot of the model at the stream position, as another peer writes it.
+        public static Snapshot SnapshotOf(ProjectModel model, StreamPosition id) =>
+            new Snapshot(MessagePackSerialization.Serialize(model), id, "other", DateTime.UtcNow);
+
+        public static ProjectModel ModelOf(Snapshot snapshot) =>
+            MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
+
+        // Writes a project with one composition as the snapshot that an engine joins.
+        public static async Task WriteProjectSnapshotAsync(InMemorySyncStore store)
+        {
             await store.ConnectAsync(default);
-            await store.WriteSnapshotAsync(new Snapshot(
-                MessagePackSerialization.Serialize((ProjectModel)model), StreamPosition.Zero, "other", DateTime.UtcNow));
+            await store.WriteSnapshotAsync(SnapshotOf(ModelWithOneComposition(), StreamPosition.Zero));
         }
 
         // Drains the queue until the peer has joined.

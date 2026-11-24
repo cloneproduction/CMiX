@@ -6,8 +6,6 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using Microsoft.Extensions.DependencyInjection;
-using VL.Serialization.MessagePack;
 using Xunit;
 using Xunit.Abstractions;
 using static CMiX.Core.Tests.SyncTestHelpers;
@@ -52,16 +50,6 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(0, await _fixture.CountKeysAsync(_prefix));
         }
-
-        private static ProjectModel ModelWithOneComposition()
-        {
-            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            project.CompositionManager.AddItem(typeof(Composition));
-            return (ProjectModel)project.ToModel();
-        }
-
-        private static ProjectModel ModelOf(Snapshot snapshot) =>
-            MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
 
         private SyncOptions Options(string name, string role) =>
             SyncOptions.Defaults with { KeyPrefix = _prefix, PeerName = name, Role = role };

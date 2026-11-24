@@ -9,7 +9,6 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;
 using static CMiX.Core.Tests.SyncTestHelpers;
@@ -161,13 +160,6 @@ namespace CMiX.Core.Tests
                 await Task.WhenAny(peer.Stopped, Task.Delay(TimeSpan.FromSeconds(10)));
 
             _peers.Clear();
-        }
-
-        private static ProjectModel ModelWithOneComposition()
-        {
-            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            project.CompositionManager.AddItem(typeof(Composition));
-            return (ProjectModel)project.ToModel();
         }
 
         private static Guid OrderedGuid(int index) => new Guid(index, 0, 0, new byte[8]);

@@ -4,8 +4,6 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using Microsoft.Extensions.DependencyInjection;
-using VL.Serialization.MessagePack;
 using Xunit;
 using static CMiX.Core.Tests.SyncTestHelpers;
 
@@ -17,16 +15,6 @@ namespace CMiX.Core.Tests
     {
         private static readonly TimeSpan Delay = TimeSpan.FromMilliseconds(200);
         private static readonly TimeSpan NoTimer = TimeSpan.FromSeconds(30);
-
-        private static ProjectModel ModelWithOneComposition()
-        {
-            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            project.CompositionManager.AddItem(typeof(Composition));
-            return (ProjectModel)project.ToModel();
-        }
-
-        private static ProjectModel ModelOf(Snapshot snapshot) =>
-            MessagePackSerialization.Deserialize<ProjectModel>(new ReadOnlyMemory<byte>(snapshot.Model));
 
         private static MessageValueChanged ValueChange(float value)
         {
@@ -190,7 +178,7 @@ namespace CMiX.Core.Tests
             await inner.ConnectAsync(default);
             var tail = await inner.AppendAsync(Envelope("other", new MessageOnClick(Guid.NewGuid())));
             var stored = ModelWithOneComposition();
-            await inner.WriteSnapshotAsync(new Snapshot(MessagePackSerialization.Serialize(stored), tail, "other", DateTime.UtcNow));
+            await inner.WriteSnapshotAsync(SnapshotOf(stored, tail));
 
             var store = new WrappingSyncStore(inner);
             var target = new RecordingSyncTarget { Model = ModelWithOneComposition() };
