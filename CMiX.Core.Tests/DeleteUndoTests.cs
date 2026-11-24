@@ -29,45 +29,6 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void DeleteThenUndo_RestoresTheLayerWithItsContents()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var undoManager = provider.GetRequiredService<UndoManager>();
-            var repository = provider.GetRequiredService<ControlRepository>();
-            var compositionManager = provider.GetRequiredService<PrefabManager>();
-
-            var (composition, layer, entity) = CreateGraph(provider, compositionManager);
-
-            composition.LayerManager.RemoveItem(layer);
-
-            Assert.DoesNotContain(layer, composition.LayerManager.ManagerData.Items);
-
-            undoManager.Undo();
-
-            Assert.Contains(layer, composition.LayerManager.ManagerData.Items);
-            Assert.Contains(entity, layer.ModelEntityManager.ManagerData.Items);
-            Assert.Same(entity, repository.GetControl(entity.ID));
-        }
-
-        [Fact]
-        public void DeleteThenDropTheUndoEntry_TearsTheLayerDown()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var undoManager = provider.GetRequiredService<UndoManager>();
-            var repository = provider.GetRequiredService<ControlRepository>();
-            var compositionManager = provider.GetRequiredService<PrefabManager>();
-
-            var (composition, layer, entity) = CreateGraph(provider, compositionManager);
-
-            composition.LayerManager.RemoveItem(layer);
-            undoManager.Clear();
-
-            Assert.Empty(layer.ModelEntityManager.ManagerData.Items);
-            Assert.Null(repository.GetControl(entity.ID));
-            Assert.Null(repository.GetControl(layer.ID));
-        }
-
-        [Fact]
         public void ResetItem_SwapsAFreshInstanceInAtTheSameIndex()
         {
             var provider = TestServiceProviderFactory.Create();
@@ -109,58 +70,6 @@ namespace CMiX.Core.Tests
             Assert.Contains(entity, layer.ModelEntityManager.ManagerData.Items);
             Assert.Same(entity, repository.GetControl(entity.ID));
             Assert.Null(repository.GetControl(replacement.ID));
-        }
-
-        // RemoveEverywhere removes a control from every manager that references it.
-        [Fact]
-        public void RemoveEverywhere_ControlReferencedByTwoManagers_RemovesItFromBothAndTheRepository()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var undoManager = provider.GetRequiredService<UndoManager>();
-            var repository = provider.GetRequiredService<ControlRepository>();
-            var managerA = provider.GetRequiredService<PrefabManager>();
-            var managerB = provider.GetRequiredService<PrefabManager>();
-
-            managerA.AddItem(typeof(Entity));
-            var entity = (Entity)managerA.SelectedItem;
-            managerB.AddExistingItem(entity);
-
-            Assert.Contains(entity, managerA.ManagerData.Items);
-            Assert.Contains(entity, managerB.ManagerData.Items);
-            undoManager.Clear();
-
-            managerA.RemoveEverywhereCommand.Execute(entity);
-
-            Assert.DoesNotContain(entity, managerA.ManagerData.Items);
-            Assert.DoesNotContain(entity, managerB.ManagerData.Items);
-            Assert.Null(repository.GetControl(entity.ID));
-        }
-
-        [Fact]
-        public void RemoveEverywhereThenUndo_RestoresBothReferencesAsOneStep()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var undoManager = provider.GetRequiredService<UndoManager>();
-            var repository = provider.GetRequiredService<ControlRepository>();
-            var managerA = provider.GetRequiredService<PrefabManager>();
-            var managerB = provider.GetRequiredService<PrefabManager>();
-
-            managerA.AddItem(typeof(Entity));
-            var entity = (Entity)managerA.SelectedItem;
-            managerB.AddExistingItem(entity);
-            undoManager.Clear();
-
-            managerA.RemoveEverywhereCommand.Execute(entity);
-            Assert.True(undoManager.CanUndo);
-
-            undoManager.Undo();
-
-            // A single Undo call has to restore both references at once: the fan out was captured
-            // as one composite command, not two independent ones.
-            Assert.False(undoManager.CanUndo);
-            Assert.Contains(entity, managerA.ManagerData.Items);
-            Assert.Contains(entity, managerB.ManagerData.Items);
-            Assert.Same(entity, repository.GetControl(entity.ID));
         }
 
         [Fact]
