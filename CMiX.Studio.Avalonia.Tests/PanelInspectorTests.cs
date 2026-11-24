@@ -68,23 +68,21 @@ namespace CMiX.Studio.Avalonia.Tests
         // A composition with a layer. The layer has one of each kind of item. The inspector tab is shown.
         private static Screen Show()
         {
-            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
-            composition.LayerManager.AddItem(typeof(Layer));
-            var layer = (Layer)composition.LayerManager.SelectedItem;
-            layer.ModelEntityManager.AddItem(typeof(Entity));
-            layer.ModelEntityManager.AddItem(typeof(FullscreenQuad));
-            layer.ModelEntityManager.AddItem(typeof(TextEntity));
-            layer.CameraManager.AddItem(typeof(CameraModel));
-            layer.LightManager.AddItem(typeof(LightModel));
-            TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
-            TestServiceProviderFactory.Pump();
+            var main = ListTreeMainScreen.Show(layers: 1, fill: composition =>
+            {
+                var first = (Layer)composition.LayerManager.ManagerData.Items[0];
+                first.ModelEntityManager.AddItem(typeof(Entity));
+                first.ModelEntityManager.AddItem(typeof(FullscreenQuad));
+                first.ModelEntityManager.AddItem(typeof(TextEntity));
+                first.CameraManager.AddItem(typeof(CameraModel));
+                first.LightManager.AddItem(typeof(LightModel));
+            });
+            var (window, viewModel, layer) = (main.Window, main.ViewModel, main.Layer(0));
             viewModel.ProjectTree.SelectedNode = null;
             TestServiceProviderFactory.SelectMainTab(window, "Inspector");
             var inspector = window.GetVisualDescendants().OfType<PanelInspector>().Single();
             TestServiceProviderFactory.Pump();
-            return new Screen { Window = window, ViewModel = viewModel, Inspector = inspector, Layer = layer, UndoManager = provider.GetRequiredService<UndoManager>() };
+            return new Screen { Window = window, ViewModel = viewModel, Inspector = inspector, Layer = layer, UndoManager = main.Undo };
         }
 
         private static void Select(Screen screen, TreeNode node)

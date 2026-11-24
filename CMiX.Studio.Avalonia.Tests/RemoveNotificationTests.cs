@@ -3,13 +3,12 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Services;
+using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.UI.Popups;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Composition = CMiX.Core.Compositing.Composition;
-using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -29,17 +28,10 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with two layers. The first layer is selected.
         private Screen Show()
         {
-            var (provider, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            window = mainWindow;
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
-            composition.LayerManager.AddItem(typeof(Layer));
-            composition.LayerManager.AddItem(typeof(Layer));
-            TestServiceProviderFactory.Pump();
-            TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
-            TestServiceProviderFactory.Pump();
-            var host = mainWindow.GetVisualDescendants().OfType<PanelNotification>().Single();
-            var screen = new Screen(provider, mainWindow, viewModel, host);
+            var main = ListTreeMainScreen.Show(layers: 2);
+            window = main.Window;
+            var host = main.Window.GetVisualDescendants().OfType<PanelNotification>().Single();
+            var screen = new Screen(main.Provider, main.Window, main.ViewModel, host);
             screen.Tree.SelectedNode = screen.LayerNode(0);
             TestServiceProviderFactory.Pump();
             return screen;

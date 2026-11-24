@@ -31,7 +31,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with three layers. The first layer is selected, and its row has the focus.
         private Screen Show()
         {
-            var screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(PanelChoice.Tree));
+            var screen = new Screen(ListTreeMainScreen.Show(panel: PanelChoice.Tree));
             window = screen.Window;
             screen.Tree.SelectedNode = screen.LayerNode(0);
             Settle(screen.Window);

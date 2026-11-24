@@ -64,25 +64,10 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with four layers.
         private static Screen Show()
         {
-            var (provider, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
-            var screen = new Screen
-            {
-                Window = window,
-                ViewModel = viewModel,
-                Undo = provider.GetRequiredService<UndoManager>(),
-                View = window.GetVisualDescendants().OfType<ListTreeProject>().Single()
-            };
-            for (var i = 0; i < 4; i++)
-            {
-                composition.LayerManager.AddItem(typeof(Layer));
-                screen.Layers.Add((Layer)composition.LayerManager.SelectedItem);
-            }
-
-            TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
-            TestServiceProviderFactory.Pump();
-            Support.ListTreeTestScreen.Settle(window);
+            var main = ListTreeMainScreen.Show(layers: 4);
+            var screen = new Screen { Window = main.Window, ViewModel = main.ViewModel, Undo = main.Undo, View = main.View };
+            screen.Layers.AddRange(main.Composition.LayerManager.ManagerData.Items.Cast<Layer>());
+            main.Window.Settle();
             screen.CenterOf(screen.ButtonOf(screen.LayerNode(0), "visibility"));
             return screen;
         }

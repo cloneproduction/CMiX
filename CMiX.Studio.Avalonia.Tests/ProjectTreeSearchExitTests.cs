@@ -11,8 +11,6 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using CMiX.UI.Panels;
 using Xunit;
-using Composition = CMiX.Core.Compositing.Composition;
-using Layer = CMiX.Core.Compositing.Layer;
 using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
 
 namespace CMiX.Studio.Avalonia.Tests
@@ -44,21 +42,13 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with three layers. Every row is open. The composition is selected.
         private Screen Show()
         {
-            var (_, mainWindow, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            window = mainWindow;
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
-            for (var i = 0; i < 3; i++)
-                composition.LayerManager.AddItem(typeof(Layer));
-            TestServiceProviderFactory.Pump();
-            TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
-            TestServiceProviderFactory.Pump();
-            var treeView = mainWindow.GetVisualDescendants().OfType<ListTreeProject>().Single();
-            view = treeView;
-            var box = mainWindow.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
-            var screen = new Screen(mainWindow, viewModel, treeView, box);
-            screen.Tree.SelectedNode = screen.Tree.CompositionNodes()[0];
-            Settle(mainWindow);
+            var main = ListTreeMainScreen.Show();
+            window = main.Window;
+            view = main.View;
+            var box = main.Window.GetVisualDescendants().OfType<TextBoxSearchTree>().Single();
+            var screen = new Screen(main.Window, main.ViewModel, main.View, box);
+            screen.Tree.SelectedNode = main.CompositionNode;
+            Settle(main.Window);
             return screen;
         }
 

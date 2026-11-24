@@ -41,7 +41,6 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             public Screen(ListTreeMainScreen shown) : base(shown) { }
 
-            public UndoManager Undo => Provider.GetRequiredService<UndoManager>();
             public Layer[] Layers => Enumerable.Range(0, 3).Select(Layer).ToArray();
             public int UndoSteps => UndoCounts.StepsOf(Undo);
         }
@@ -52,7 +51,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // One composition with three empty layers, in the tree of the left panel. The layer rows are closed. The composition is selected.
         private Screen Show()
         {
-            var screen = new Screen(ListTreeMainScreen.ShowWithThreeLayers(PanelChoice.Tree));
+            var screen = new Screen(ListTreeMainScreen.Show(panel: PanelChoice.Tree));
             window = screen.Window;
             foreach (var panelCollapse in screen.Window.GetVisualDescendants().OfType<CMiX.UI.Panels.PanelCollapse>())
                 panelCollapse.Duration = TimeSpan.Zero;

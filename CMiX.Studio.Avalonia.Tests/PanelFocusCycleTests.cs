@@ -12,8 +12,6 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
-using Composition = CMiX.Core.Compositing.Composition;
-using Layer = CMiX.Core.Compositing.Layer;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -43,13 +41,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // the focus is on the layer row.
         private Screen Show(bool focusTree = true)
         {
-            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.ManagerData.Items[0];
-            composition.LayerManager.AddItem(typeof(Layer));
-            TestServiceProviderFactory.Pump();
-            TestServiceProviderFactory.ExpandAll(viewModel.ProjectTree);
-            TestServiceProviderFactory.Pump();
+            var (_, window, viewModel) = ListTreeMainScreen.Show(layers: 1);
 
             var hosts = window.GetVisualDescendants().OfType<PanelSide>()
                 .OrderBy(host => host.TranslatePoint(default, window)!.Value.X).ToList();
