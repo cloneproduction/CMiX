@@ -10,33 +10,17 @@ namespace CMiX.Core.BaseControls
 {
     public class GenericValue<T> : ReceivableControl, IControl, IRecipient<IMessage>
     {
-        public GenericValue()
-        {
-
-        }
-
         public GenericValue(IValueSync sync, ControlActivationService activationService)
         {
             ID = Guid.NewGuid();
             _sync = sync;
             ResetCommand = new RelayCommand(Reset);
-            IsActive = false;
             activationService.Register(this);
         }
 
         private readonly IValueSync _sync;
 
-        public void Reset()
-        {
-            Value = OriginalValue;
-        }
-
-        // Takes the current value as the value that Reset restores.
-        public override void SetDefaults() => OriginalValue = Value;
-
         public Guid ID { get; set; }
-        public ICommand ResetCommand { get; set; }
-        public bool IsMomentary { get; set; }
 
         private T _value;
         public T Value
@@ -60,12 +44,24 @@ namespace CMiX.Core.BaseControls
             }
         }
 
+        public bool IsMomentary { get; set; }
+
         private T _originalValue;
         public T OriginalValue
         {
             get => _originalValue;
             set => SetProperty(ref _originalValue, value);
         }
+
+        // Takes the current value as the value that Reset restores.
+        public override void SetDefaults() => OriginalValue = Value;
+
+        public void Reset()
+        {
+            Value = OriginalValue;
+        }
+
+        public ICommand ResetCommand { get; }
 
         protected virtual IControlModel CaptureModel() => ToModel();
 
