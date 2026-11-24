@@ -101,43 +101,6 @@ namespace CMiX.Core.Tests
             return store;
         }
 
-        [SkippableFact]
-        public async Task AppendAsync_ThenReadRangeAsync_IsExclusive()
-        {
-            Skip.IfNot(_fixture.Available, SkipReason);
-
-            await using var store = await ConnectedStore();
-            var first = await store.AppendAsync(Payload("a"));
-            var second = await store.AppendAsync(Payload("b"));
-            var third = await store.AppendAsync(Payload("c"));
-
-            var afterFirst = await store.ReadRangeAsync(first, 10);
-            var afterThird = await store.ReadRangeAsync(third, 10);
-            var all = await store.ReadRangeAsync(StreamPosition.Zero, 2);
-
-            Assert.Equal(2, afterFirst.Count);
-            Assert.Equal(second, afterFirst[0].Id);
-            Assert.Equal(third, afterFirst[1].Id);
-            Assert.Equal(Payload("b"), afterFirst[0].Envelope);
-            Assert.Empty(afterThird);
-            Assert.Equal(2, all.Count);
-        }
-
-        [SkippableFact]
-        public async Task ReadTailAsync_IsZeroWhenMissing_AndTheLastIdOtherwise()
-        {
-            Skip.IfNot(_fixture.Available, SkipReason);
-
-            await using var store = await ConnectedStore();
-
-            Assert.Equal(StreamPosition.Zero, await store.ReadTailAsync());
-
-            await store.AppendAsync(Payload("a"));
-            var last = await store.AppendAsync(Payload("b"));
-
-            Assert.Equal(last, await store.ReadTailAsync());
-        }
-
         // The tail key spares every heartbeat tick an XINFO STREAM, which returns the first and the
         // last entry with their payloads.
         [SkippableFact]
@@ -167,94 +130,20 @@ namespace CMiX.Core.Tests
             Assert.Equal(third.ToString(), (string)await database.StringGetAsync(tailKey));
         }
 
+        // SyncStoreContractTests checks the peer list. Only the Redis store sets a time to live on the key.
         [SkippableFact]
-        public async Task TrimAsync_RemovesEntriesBelowMinId()
-        {
-            Skip.IfNot(_fixture.Available, SkipReason);
-
-            await using var store = await ConnectedStore();
-            await store.AppendAsync(Payload("a"));
-            var second = await store.AppendAsync(Payload("b"));
-            var third = await store.AppendAsync(Payload("c"));
-
-            await store.TrimAsync(second);
-
-            var entries = await store.ReadRangeAsync(StreamPosition.Zero, 10);
-            Assert.Equal(2, entries.Count);
-            Assert.Equal(second, entries[0].Id);
-            Assert.Equal(third, entries[1].Id);
-        }
-
-        [SkippableFact]
-        public async Task Snapshot_RoundTrips_AndIsNullWhenAbsent()
+        public async Task HeartbeatAsync_WithATimeToLive_SetsItOnThePeerKey()
         {
             Skip.IfNot(_fixture.Available, SkipReason);
 
             await using var store = await ConnectedStore();
 
-            Assert.Null(await store.ReadSnapshotAsync());
-
-            var written = new Snapshot(Payload("model"), new StreamPosition(42, 1), "peer-1", new DateTime(2026, 1, 2, 3, 4, 5, DateTimeKind.Utc));
-            await store.WriteSnapshotAsync(written);
-
-            var read = await store.ReadSnapshotAsync();
-
-            Assert.Equal(written.Model, read.Model);
-            Assert.Equal(written.StreamId, read.StreamId);
-            Assert.Equal(written.WrittenBy, read.WrittenBy);
-            Assert.Equal(written.WrittenAt, read.WrittenAt);
-            Assert.Equal(DateTimeKind.Utc, read.WrittenAt.Kind);
-        }
-
-        [SkippableFact]
-        public async Task HeartbeatAsync_SetsTheTimeToLive_AndListPeersAsyncReturnsThePeer()
-        {
-            Skip.IfNot(_fixture.Available, SkipReason);
-
-            await using var store = await ConnectedStore();
-            var fields = new Dictionary<string, string>
-            {
-                ["name"] = "Studio",
-                ["role"] = "studio",
-                ["host"] = "desk",
-                ["lastAppliedId"] = "7-0"
-            };
-
-            await store.HeartbeatAsync("peer-1", fields, TimeSpan.FromSeconds(30));
-
-            var peers = await store.ListPeersAsync();
-            var peer = Assert.Single(peers);
-            Assert.Equal("peer-1", peer.PeerId);
-            Assert.Equal("Studio", peer.Name);
-            Assert.Equal("studio", peer.Role);
-            Assert.Equal("desk", peer.Host);
-            Assert.Equal(new StreamPosition(7, 0), peer.LastAppliedId);
+            await store.HeartbeatAsync("peer-1", new Dictionary<string, string> { ["name"] = "Studio" }, TimeSpan.FromSeconds(30));
 
             var timeToLive = await _fixture.Multiplexer.GetDatabase().KeyTimeToLiveAsync(_prefix + ":peers:peer-1");
             Assert.NotNull(timeToLive);
             Assert.True(timeToLive.Value <= TimeSpan.FromSeconds(30));
             Assert.True(timeToLive.Value > TimeSpan.Zero);
-        }
-
-        [SkippableFact]
-        public async Task ReadBlockingAsync_WakesOnAnAppendFromASecondStore()
-        {
-            Skip.IfNot(_fixture.Available, SkipReason);
-
-            await using var reader = await ConnectedStore();
-            await using var writer = await ConnectedStore();
-
-            var reading = reader.ReadBlockingAsync(StreamPosition.Zero, 256, TimeSpan.FromSeconds(5), CancellationToken.None);
-            await Task.Delay(200);
-
-            var stopwatch = Stopwatch.StartNew();
-            var appended = await writer.AppendAsync(Payload("a"));
-            var entries = await reading;
-            stopwatch.Stop();
-
-            Assert.Single(entries);
-            Assert.Equal(appended, entries[0].Id);
-            Assert.True(stopwatch.ElapsedMilliseconds < 1000, $"Woke after {stopwatch.ElapsedMilliseconds} ms.");
         }
 
         // Runs without a server: the UI thread must never wait for a connect.
