@@ -1,4 +1,12 @@
-﻿using Avalonia.Headless.XUnit;
+// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Headless.XUnit;
+using Avalonia.Input;
+using Avalonia.Threading;
+using Avalonia.VisualTree;
 using CMiX.Core.Animations;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modulators;
@@ -6,12 +14,16 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Views.Modulation;
+using CMiX.UI.AttachedProperties;
+using CMiX.UI.Controls.Parts;
+using CMiX.UI.Tests.Support;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The rows of the modulator assign menu, built on a real filter value and real modulators.
+    // The rows of the modulator assign menu, built on a real filter value and real modulators, and the assign popup of a real
+    // filter view: its rows, its assigned row, and what a click does.
     public class ModulatorOutputChoiceTests
     {
         // A Blur filter with a Random modulator (one output) and an FFT modulator (five outputs).
@@ -36,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Tests
             bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, modulator.Outputs.Single(o => o.Name == outputName)));
 
         [AvaloniaFact]
-        public void Build_ListsTitleSeparatorOneRowPerOutputAndUnassignLast()
+        public void Build_TwoModulators_ListsTitleSeparatorOneRowPerOutputAndUnassignLast()
         {
             var (blur, random, fft) = CreateBlurWithModulators();
             var selections = Selections(random, fft);
@@ -82,7 +94,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void AnAddressedOutput_ShowsItsAddressInTheLabel()
+        public void Build_AnAddressedOutput_ShowsItsAddressInTheLabel()
         {
             var (blur, _, _) = CreateBlurWithModulators();
             blur.ModulatorManager.AddItem(typeof(RedisFloatModulator));
@@ -148,7 +160,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void IsAssigned_IsTrueOnlyForTheBoundOutput()
+        public void IsAssigned_ABoundOutput_IsTrueOnlyForThatOutput()
         {
             var (blur, random, fft) = CreateBlurWithModulators();
             Bind(blur.Strength, fft, "Bass");
@@ -160,7 +172,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void OutputRowCommand_BindsTheModulatorOutput()
+        public void Command_OfAnOutputRow_BindsTheModulatorOutput()
         {
             var (blur, random, fft) = CreateBlurWithModulators();
             var rows = ModulatorOutputChoice.Build(Selections(random, fft), blur.Strength);
@@ -207,7 +219,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void NullBindable_NoRowIsAssigned_OutputRowsHaveNoCommand_AndUnassignCannotExecute()
+        public void Build_NoBindable_AssignsNoRowAndGivesNoCommand()
         {
             var (_, random, fft) = CreateBlurWithModulators();
 
@@ -217,6 +229,152 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.All(rows.Where(r => r.Selection != null), r => Assert.Null(r.Command));
             Assert.False(rows[^1].Command!.CanExecute(null));
             rows[^1].Command!.Execute(null);
+        }
+
+        private static (Blur Blur, FFTModulator Fft, Window Window, ButtonModulatorAssign Button) Show()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var blur = (Blur)provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
+            blur.ModulatorManager.AddItem(typeof(RandomModulator));
+            blur.ModulatorManager.AddItem(typeof(FFTModulator));
+
+            var view = new Views.Blur { DataContext = blur };
+            var window = new Window { Content = view, Width = 500, Height = 800 };
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            var button = view.GetVisualDescendants().OfType<ButtonModulatorAssign>().Single(b => b.DataContext == blur.Strength);
+            return (blur, blur.ModulatorManager.ManagerData.Items.OfType<FFTModulator>().Single(), window, button);
+        }
+
+        private static FlyoutBase FlyoutOf(ButtonModulatorAssign button) => button.FindControl<Button>("assignButton")!.Flyout!;
+
+        private static List<MenuItem> Open(Window window, ButtonModulatorAssign button)
+        {
+            FlyoutOf(button).ShowAt(button.FindControl<Button>("assignButton")!);
+            Dispatcher.UIThread.RunJobs();
+            return window.GetVisualDescendants().OfType<MenuFlyoutPresenter>().Single().GetVisualDescendants().OfType<MenuItem>().ToList();
+        }
+
+        private static MenuItem Row(List<MenuItem> rows, string header) => rows.Single(r => Equals(r.Header, header));
+
+        [AvaloniaFact]
+        public void AssignPopup_ListsTheTitleTheOutputsAndUnassign_InAPopupFrame()
+        {
+            var (_, _, window, button) = Show();
+
+            var rows = Open(window, button);
+
+            Assert.Equal(
+                new object?[] { "Assign Modulator", "-", "Random Value", "FFT Bass", "FFT LowerMid", "FFT HigherMid", "FFT High", "Unassign" },
+                rows.Select(r => r.Header).ToArray());
+            Assert.All(rows, row => Assert.NotNull(row.FindAncestorOfType<PopupFrame>()));
+        }
+
+        [AvaloniaFact]
+        public void Open_ThePopupWithNothingBound_HasNoCheckedRowAndADisabledUnassign()
+        {
+            var (_, _, window, button) = Show();
+
+            var rows = Open(window, button);
+
+            Assert.DoesNotContain(rows, r => r.Classes.Contains(":checked"));
+            Assert.False(Row(rows, "Unassign").IsEffectivelyEnabled);
+            Assert.False(Row(rows, "Assign Modulator").IsEffectivelyEnabled);
+            Assert.True(Row(rows, "FFT Bass").IsEffectivelyEnabled);
+        }
+
+        [AvaloniaFact]
+        public void Click_AnOutputInThePopup_BindsItAndClosesThePopup()
+        {
+            var (blur, fft, window, button) = Show();
+            var rows = Open(window, button);
+
+            PointerInput.Click(window, Row(rows, "FFT Bass"), MouseButton.Left);
+            TestServiceProviderFactory.Pump();
+
+            Assert.Same(fft, blur.Strength.BoundModulator);
+            Assert.Equal("Bass", blur.Strength.BoundOutputName);
+            Assert.False(FlyoutOf(button).IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void Open_ThePopupAgain_MarksTheAssignedRowAndUnassignClearsIt()
+        {
+            var (blur, _, window, button) = Show();
+            PointerInput.Click(window, Row(Open(window, button), "FFT Bass"), MouseButton.Left);
+            TestServiceProviderFactory.Pump();
+
+            var rows = Open(window, button);
+
+            Assert.True(Row(rows, "FFT Bass").Classes.Contains(":checked"));
+            Assert.False(Row(rows, "Random Value").Classes.Contains(":checked"));
+            Assert.True(Row(rows, "Unassign").IsEffectivelyEnabled);
+
+            PointerInput.Click(window, Row(rows, "Unassign"), MouseButton.Left);
+            TestServiceProviderFactory.Pump();
+
+            Assert.Null(blur.Strength.BoundModulator);
+            Assert.False(FlyoutOf(button).IsOpen);
+        }
+
+        [AvaloniaFact]
+        public void AssignPopup_OpensAtThePointer_LikeAContextMenu()
+        {
+            var (_, _, _, button) = Show();
+
+            Assert.Equal(PlacementMode.Pointer, ((PopupFlyoutBase)FlyoutOf(button)).Placement);
+        }
+
+        [AvaloniaFact]
+        public void AssignPopup_WithNothingBound_HasNoAnchorRow()
+        {
+            var (_, _, window, button) = Show();
+
+            var rows = Open(window, button);
+
+            Assert.DoesNotContain(rows, row => MenuAnchor.GetIsAnchor(row));
+        }
+
+        [AvaloniaFact]
+        public void AssignPopup_WithABoundOutput_AnchorsOnlyTheAssignedRow()
+        {
+            var (_, _, window, button) = Show();
+            PointerInput.Click(window, Row(Open(window, button), "FFT Bass"), MouseButton.Left);
+            TestServiceProviderFactory.Pump();
+
+            var rows = Open(window, button);
+
+            Assert.True(MenuAnchor.GetIsAnchor(Row(rows, "FFT Bass")));
+            Assert.Single(rows, row => MenuAnchor.GetIsAnchor(row));
+        }
+
+        [AvaloniaFact]
+        public void AssignPopup_AfterUnassign_HasNoAnchorRowAgain()
+        {
+            var (_, _, window, button) = Show();
+            PointerInput.Click(window, Row(Open(window, button), "FFT Bass"), MouseButton.Left);
+            TestServiceProviderFactory.Pump();
+            PointerInput.Click(window, Row(Open(window, button), "Unassign"), MouseButton.Left);
+            TestServiceProviderFactory.Pump();
+
+            var rows = Open(window, button);
+
+            Assert.DoesNotContain(rows, row => MenuAnchor.GetIsAnchor(row));
+        }
+
+        [AvaloniaFact]
+        public void Open_ThePopupAfterAnAdd_ShowsTheNewModulator()
+        {
+            var (blur, _, window, button) = Show();
+            var before = Open(window, button).Count;
+            FlyoutOf(button).Hide();
+            Dispatcher.UIThread.RunJobs();
+
+            blur.ModulatorManager.AddItem(typeof(RandomModulator));
+            var rows = Open(window, button);
+
+            Assert.Equal(before + 1, rows.Count);
         }
     }
 }
