@@ -9,18 +9,21 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CMiX.Studio.Avalonia.Behaviors.ListTree;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
+using CMiX.Studio.Avalonia.Views.Managers;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Controls.String;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.ListTreeTestScreen;
+using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The menus of the list tree: a key opens at the cursor row, a right click at the pointer.
+    // The menus of the list tree: a key opens at the cursor row, a right click at the pointer. The kind of a row gives its menu.
     public class ListTreeMenusTests : IDisposable
     {
         private sealed record Screen : ListTreeMainScreen
@@ -223,6 +226,31 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(TreeHintMode.Idle, screen.View.HintMode);
             Assert.Equal("move", screen.View.HintStrip.Hints![0].Words);
+        }
+
+        [Fact]
+        public void MenuKindOf_AGroupRow_IsGroup()
+        {
+            var scene = CreateScene([2], s => AddKinds(s.Layer));
+
+            Assert.Equal(RowMenuKind.Group, ListTreeMenuKind.Of(scene.Group<EntitiesGroup>(0)));
+        }
+
+        [Fact]
+        public void MenuKindOf_ALayerAndAComposition_IsComposable()
+        {
+            var scene = CreateScene([2], s => AddKinds(s.Layer));
+
+            Assert.Equal(RowMenuKind.Composable, ListTreeMenuKind.Of(scene.LayerNodeOfA(0)));
+            Assert.Equal(RowMenuKind.Composable, ListTreeMenuKind.Of(scene.NodeA));
+        }
+
+        [Fact]
+        public void MenuKindOf_AnItemOfALayer_IsSlot()
+        {
+            var scene = CreateScene([2], s => AddKinds(s.Layer));
+
+            Assert.Equal(RowMenuKind.Slot, ListTreeMenuKind.Of(scene.Group<EntitiesGroup>(0).Children[0]));
         }
     }
 }
