@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Avalonia.Headless.XUnit;
 using Xunit;
+using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.UI.Themes;
 
 namespace CMiX.Studio.Avalonia.Tests
@@ -61,6 +62,17 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.True(found >= 10, $"The scan found only {found} icon keys. The scan is broken.");
             Assert.True(unknown.Count == 0, string.Join(Environment.NewLine, unknown));
+        }
+
+        [AvaloniaFact]
+        public void OfCategory_EachCategory_IsAKeyOfTheIcons()
+        {
+            var unknown = Enum.GetValues<TreeCategory>()
+                .Select(TreeIcons.OfCategory)
+                .Where(key => !Icons.Kinds.ContainsKey(key))
+                .ToList();
+
+            Assert.True(unknown.Count == 0, "Unknown icon keys: " + string.Join(", ", unknown));
         }
 
         [Fact]

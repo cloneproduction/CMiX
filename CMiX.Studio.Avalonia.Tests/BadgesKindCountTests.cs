@@ -74,6 +74,15 @@ namespace CMiX.Studio.Avalonia.Tests
             badges.GetVisualDescendants().OfType<Border>().Single(border => border.Name == name);
 
         [AvaloniaFact]
+        public void KindCount_ACategory_GivesItsIcon()
+        {
+            Assert.Equal(TreeIcons.CompositionKey, new KindCount(TreeCategory.Composable, 1).IconKey);
+            Assert.Equal(TreeIcons.LightKey, new KindCount(TreeCategory.Light, 1).IconKey);
+            Assert.Equal("Entity", new KindCount(TreeCategory.Entity, 2).IconKey);
+            Assert.Equal("Filter", new KindCount(TreeCategory.Filter, 1).IconKey);
+        }
+
+        [AvaloniaFact]
         public void Show_ACollapsedRow_ShowsASquareWithTheCountForEachKind()
         {
             Show();

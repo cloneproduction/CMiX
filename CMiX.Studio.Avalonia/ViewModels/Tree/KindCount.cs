@@ -6,5 +6,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     public sealed record KindCount(TreeCategory Category, int Count)
     {
         public string Description => Count + " " + TreeCategories.Label(Category, Count);
+
+        public string IconKey => TreeIcons.OfCategory(Category);
     }
 }
