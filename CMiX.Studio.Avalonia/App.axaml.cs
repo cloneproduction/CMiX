@@ -15,12 +15,12 @@ using CMiX.Core.Networking;
 using CMiX.Core.Persistence;
 using CMiX.Studio.Avalonia.Animations;
 using CMiX.Studio.Avalonia.DependencyInjection;
-using CMiX.Studio.Avalonia.Drag;
 using CMiX.Studio.Avalonia.Notices;
 using CMiX.Studio.Avalonia.Session;
 using CMiX.Studio.Avalonia.Settings;
 using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels;
+using CMiX.UI.Interaction;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Studio.Avalonia
@@ -43,6 +43,8 @@ namespace CMiX.Studio.Avalonia
         {
             StudioIcons.Register();
             AvaloniaXamlLoader.Load(this);
+            // A value editor hands its value; the value opens its own drag.
+            InteractionHost.BeginDragHandler = value => (value as IDraggable)?.BeginDrag();
             // A press outside the open popups only closes them (see OutsideClick).
             CMiX.UI.Popups.OutsideClick.Install();
             // Registered last so explicit templates declared in views win over the reflection locator.
@@ -60,8 +62,6 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddCMiXStudio(StudioSettings.DefaultPath, ShortcutMap.DefaultPath);
 
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-                // The value editors open the drag of their value through the host.
-                InteractionHostConnection.Connect();
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();
                 MessageNotice = serviceProvider.GetRequiredService<IMessageNotice>();
                 var settingsFile = serviceProvider.GetRequiredService<StudioSettingsFile>();
