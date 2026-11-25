@@ -11,12 +11,6 @@ namespace CMiX.Studio.Avalonia.Views
     {
         private readonly Stack<T> controls = new();
 
-        public void KeepAll(IEnumerable<T> leaving)
-        {
-            foreach (var control in leaving)
-                Keep(control);
-        }
-
         public void Keep(T control)
         {
             control.IsVisible = false;

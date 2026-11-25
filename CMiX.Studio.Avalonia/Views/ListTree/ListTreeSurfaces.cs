@@ -41,17 +41,29 @@ namespace CMiX.Studio.Avalonia.Views
         public void Show(IReadOnlyList<ListTreeRow> rows, ListTreeLayout shown)
         {
             var window = panel.RowWindow;
-            var cards = rows.Where(row => shown.PlaceOf(row.Key) is { CanToggle: true } place && window.Overlaps(place.Y, place.AreaHeight)).ToList();
-            var kept = areas.ToDictionary(area => area.Place!.Key);
-            var cardKeys = cards.Select(row => row.Key).ToHashSet();
-            var leaving = kept.Where(entry => !cardKeys.Contains(entry.Key)).ToList();
-            foreach (var entry in leaving)
-                kept.Remove(entry.Key);
-            spareAreas.KeepAll(leaving.Select(entry => entry.Value));
+            var cards = new List<(ListTreeRow Row, ListTreePlace Place)>();
+            var cardKeys = new HashSet<ListTreeRowKey>();
+            foreach (var row in rows)
+            {
+                if (shown.PlaceOf(row.Key) is { CanToggle: true } place && window.Overlaps(place.Y, place.AreaHeight))
+                {
+                    cards.Add((row, place));
+                    cardKeys.Add(row.Key);
+                }
+            }
+
+            var kept = new Dictionary<ListTreeRowKey, FrameListTreeCard>();
+            foreach (var area in areas)
+            {
+                if (cardKeys.Contains(area.Place!.Key))
+                    kept.Add(area.Place.Key, area);
+                else
+                    spareAreas.Keep(area);
+            }
 
             areas.Clear();
-            foreach (var row in cards)
-                areas.Add(AreaOf(kept, row, shown.PlaceOf(row.Key)!));
+            foreach (var card in cards)
+                areas.Add(AreaOf(kept, card.Row, card.Place));
 
             if (!panel.Children.Contains(outline))
                 panel.Children.Add(outline);
