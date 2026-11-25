@@ -7,7 +7,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // The search of the project tree: a row matches on its name or on the kind of its item. While a search runs, every other row is dimmed.
+    // The search of the project tree: a row matches on its name or on the kind of its item. While a search runs, the parents of a match hold a match below.
     public class ProjectTreeSearchTests
     {
         private static void Rename(object item, string name) => ((IPrefab)item).PrefabService.Name.Value = name;
@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Search_AnEmptyText_MatchesNothingAndDimsNothing()
+        public void Search_AnEmptyText_MatchesNothing()
         {
             var (scene, _) = WithARenamedEcho();
 
@@ -37,22 +37,33 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Empty(scene.Tree.SearchMatches);
             Assert.Equal(0, scene.Tree.SearchMatchCount);
-            Assert.All(scene.All(), node => Assert.False(node.IsSearchMatch || node.IsSearchDimmed));
+            Assert.All(scene.All(), node => Assert.False(node.IsSearchMatch));
         }
 
-        // A search that finds nothing dims every row. Its end must take the dim away again.
         [Fact]
-        public void Clear_ASearchWithNoMatch_DimsNoRowAnyMore()
+        public void Search_AnEmptyText_ClearsTheParents()
+        {
+            var (scene, _) = WithARenamedEcho();
+
+            scene.Tree.SearchText = "Echo";
+            Assert.Contains(scene.All(), node => node.HasSearchMatchBelow);
+            scene.Tree.SearchText = "";
+
+            Assert.All(scene.All(), node => Assert.False(node.HasSearchMatchBelow));
+        }
+
+        [Fact]
+        public void Clear_ASearchWithNoMatch_MatchesNoRow()
         {
             var (scene, _) = WithARenamedEcho();
 
             scene.Tree.SearchText = "NoSuchName";
             Assert.Empty(scene.Tree.SearchMatches);
-            Assert.All(scene.All(), node => Assert.True(node.IsSearchDimmed));
+            Assert.All(scene.All(), node => Assert.False(node.IsSearchMatch || node.HasSearchMatchBelow));
 
             scene.Tree.SearchText = "";
 
-            Assert.All(scene.All(), node => Assert.False(node.IsSearchMatch || node.IsSearchDimmed));
+            Assert.All(scene.All(), node => Assert.False(node.IsSearchMatch || node.HasSearchMatchBelow));
         }
 
         [Fact]
@@ -65,7 +76,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(new[] { scene.LayerNodeOfA(1) }, scene.Tree.SearchMatches);
             Assert.True(scene.LayerNodeOfA(1).IsSearchMatch);
-            Assert.False(scene.LayerNodeOfA(1).IsSearchDimmed);
         }
 
         [Fact]
@@ -100,17 +110,29 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void Search_AMatch_DimsItsParentsAndEveryOtherRow()
+        public void Search_AMatch_MatchesOnlyThatRow()
         {
             var (scene, echo) = WithARenamedEcho();
             var match = NodeOf(scene, echo);
 
             scene.Tree.SearchText = "Echo";
 
-            for (var parent = match.Parent; parent != null && scene.All().Contains(parent); parent = parent.Parent)
-                Assert.True(parent.IsSearchDimmed);
-            Assert.All(scene.All().Where(node => !ReferenceEquals(node, match)), node => Assert.True(node.IsSearchDimmed));
-            Assert.False(match.IsSearchDimmed);
+            Assert.All(scene.All().Where(node => !ReferenceEquals(node, match)), node => Assert.False(node.IsSearchMatch));
+            Assert.True(match.IsSearchMatch);
+        }
+
+        [Fact]
+        public void Search_AName_MarksTheParentsOfTheMatch()
+        {
+            var (scene, echo) = WithARenamedEcho();
+            var match = NodeOf(scene, echo);
+            var parents = TreeWalk.ParentsOf(match).ToList();
+
+            scene.Tree.SearchText = "Echo";
+
+            Assert.Contains(parents, parent => scene.Tree.Roots.Contains(parent));
+            Assert.All(parents, parent => Assert.True(parent.HasSearchMatchBelow));
+            Assert.All(scene.All().Where(node => !parents.Contains(node)), node => Assert.False(node.HasSearchMatchBelow));
         }
 
         [Fact]
@@ -139,11 +161,11 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Rename(scene.LayerOfA(0), "Kick drum");
             Assert.Equal(new[] { scene.LayerNodeOfA(0) }, scene.Tree.SearchMatches);
-            Assert.False(scene.LayerNodeOfA(0).IsSearchDimmed);
+            Assert.True(scene.LayerNodeOfA(0).IsSearchMatch);
 
             Rename(scene.LayerOfA(0), "Snare");
             Assert.Empty(scene.Tree.SearchMatches);
-            Assert.True(scene.LayerNodeOfA(0).IsSearchDimmed);
+            Assert.False(scene.LayerNodeOfA(0).IsSearchMatch);
         }
 
         [Fact]

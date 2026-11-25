@@ -52,13 +52,18 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         private static List<TreeNode> ShowLooks(string text, IEnumerable<TreeNode> roots)
         {
+            var rows = TreeWalk.AllRows(roots);
             var found = new List<TreeNode>();
-            foreach (var node in TreeWalk.AllRows(roots))
+            foreach (var node in rows)
             {
                 node.ShowSearchLook(text);
                 if (node.IsSearchMatch)
                     found.Add(node);
             }
+
+            var parents = new HashSet<TreeNode>(found.SelectMany(TreeWalk.ParentsOf));
+            foreach (var node in rows)
+                node.HasSearchMatchBelow = parents.Contains(node);
             return found;
         }
 

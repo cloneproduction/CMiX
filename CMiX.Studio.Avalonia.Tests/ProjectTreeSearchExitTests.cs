@@ -64,13 +64,13 @@ namespace CMiX.Studio.Avalonia.Tests
             return layer;
         }
 
-        // The search is off: no text, no dimmed row and no dimmed cover.
+        // The search is off: no text, no match row, no dimmed row and no dimmed cover.
         private static void AssertNoSearch(Screen screen)
         {
             Assert.Equal(string.Empty, screen.Tree.SearchText);
             Assert.False(screen.Tree.IsSearchActive);
             foreach (var node in All(screen.Tree.Roots))
-                Assert.False(node.IsSearchDimmed, $"{node.Header} is dimmed.");
+                Assert.False(node.IsSearchMatch, $"{node.Header} is a match.");
             Assert.All(screen.View.Rows.RealizedRows, row => Assert.DoesNotContain(RowListTree.DimmedClass, row.Classes));
         }
 
@@ -95,7 +95,7 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Window.Press(PhysicalKey.ArrowDown);
             Assert.False(screen.Input.IsFocused);
             var cursor = screen.Tree.CursorNode;
-            Assert.Contains(screen.Tree.Roots, root => root.IsSearchDimmed);
+            Assert.Contains(screen.Tree.Roots, root => !root.IsSearchMatch);
 
             screen.Window.Press(PhysicalKey.Escape);
 

@@ -205,24 +205,19 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private readonly string? kindLabel;
 
         private bool isSearchMatch;
-        private bool isSearchDimmed;
+        private bool hasSearchMatchBelow;
 
         public bool IsSearchMatch { get => isSearchMatch; private set => SetProperty(ref isSearchMatch, value); }
-        public bool IsSearchDimmed { get => isSearchDimmed; private set => SetProperty(ref isSearchDimmed, value); }
+        public bool HasSearchMatchBelow { get => hasSearchMatchBelow; internal set => SetProperty(ref hasSearchMatchBelow, value); }
 
         private bool MatchesSearch(string text) => SearchRules.MatchesAny(text, Header, kindLabel);
 
-        internal void ShowSearchLook(string text)
-        {
-            var isMatch = MatchesSearch(text);
-            IsSearchMatch = isMatch;
-            IsSearchDimmed = !isMatch;
-        }
+        internal void ShowSearchLook(string text) => IsSearchMatch = MatchesSearch(text);
 
         internal void ClearSearchLook()
         {
             IsSearchMatch = false;
-            IsSearchDimmed = false;
+            HasSearchMatchBelow = false;
         }
 
         partial void OnHeaderChanged(string value) => host.RefreshSearch();
