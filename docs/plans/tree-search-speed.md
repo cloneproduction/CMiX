@@ -1,6 +1,6 @@
 # Plan: a fast search in the project tree
 
-Status: phase 1 built on 2026-11-25: 1.1 `6852a251d`, 1.1b `c7a5270c0`, 1.2 dropped, 1.3 closed with no fix. Phase 2 built on 2026-11-25: `533837270`, `748178378`, `b7c20b18f` and the commit of step 2.4. The end-of-plan suites follow.
+Status: phase 1 built on 2026-11-25: 1.1 `6852a251d`, 1.1b `c7a5270c0`, 1.2 dropped, 1.3 closed with no fix. Phase 2 built on 2026-11-25: `533837270`, `748178378`, `b7c20b18f` and `8b695edee`. The three suites passed at `8b695edee`. Phase 3 (the scroll) and phase 4 (the filter) are planned, not built.
 
 Goal: a key in the search field of the tree shows its result in one frame on a big project. The rule of the match is one rule for every search field of CMiX.
 
@@ -248,6 +248,253 @@ Files: `docs/DEVELOPMENT.md`, section "The search of the tree": the row controls
 Commit: `Describes the reused rows and the rule of the search`.
 
 Phase 2 end: the CMiX.UI suite and the Studio suite once. End of plan: the three suites once.
+
+### Phase 3. A smooth scroll of the tree
+
+Added on 2026-11-25. The owner sees a hard stutter when the tree of a big project scrolls.
+
+Findings, measured in Release headless on 6,441 rows, all open (4,021 shown rows, extent 141,489 px), one step of 30 px from 0 to 20,000 px (667 steps):
+
+| | Before the plan (`0651c89ae`) | Now (`8b695edee`) |
+|---|---|---|
+| Median step | 2.6 ms | 3.4 ms |
+| 90 % of the steps under | 21.8 ms | 8.3 ms |
+| Worst step | 143 ms | 75 ms |
+| Steps over 16 ms | 84 | 38 |
+| New `RowListTree` | 569 | 17 |
+| New `FrameListTreeCard` | 230 | 230 |
+
+1. The scroll rebuilds the controls only when the view leaves the row window (`ListTreeRowWindow.Holds`, a quarter of a view). That is good.
+2. A walk over every shown row costs 1.4 ms (`PlaceOf` on 4,021 rows). That is not the stutter.
+3. `ListTreeSurfaces.KeepTreeOrder` takes every card frame out of the panel and adds it again, so the frames paint in tree order. A new frame comes at the end of the children, so this runs on most rebuilds. For 40 frames it costs 28.5 ms: each frame leaves the visual tree, comes back, and gets its styles and its layout again.
+4. A card frame that leaves the window goes, and a new one comes (`ListTreeSurfaces.AreaOf`). 40 new frames cost 16.4 ms with their layout.
+5. Two cards overlap only when one holds the other. The inner card is deeper. So the depth gives the paint order, and the order of the children does not need to.
+
+How others do it: Avalonia `VirtualizingStackPanel` keeps spare containers and never adds them again to keep an order. WPF and Avalonia paint by `ZIndex` first and by the child order second.
+
+Pattern: a recycle pool (the same as step 1.1b) and a paint order by `ZIndex`.
+
+#### Step 3.1 Paint the card frames by depth (complexity 3, Opus)
+
+Files: `Views/ListTree/ListTreeLayers.cs`, `Views/ListTree/ListTreeSurfaces.cs`, the tests that read the order of the frames.
+
+The frames get `ZIndex = ListTreeLayers.CardArea + place.Depth`. The layers above them move up so that the deepest card stays under the rows. `KeepTreeOrder` and `IsInTreeOrder` go.
+
+```csharp
+// Before, ListTreeLayers
+public const int CardArea = 1;
+public const int Row = 2;
+public const int DropOutline = 5;
+public const int DraggedRow = 6;
+// After: a card is one step higher for each level, and the rows stay above every card
+public const int CardArea = 1;
+public const int Row = 1000;
+public const int DropOutline = 1003;
+public const int DraggedRow = 1004;
+```
+```csharp
+// Before, ListTreeSurfaces.Show
+panel.Children.RemoveAll(unused.Values);
+KeepTreeOrder();
+// After
+panel.Children.RemoveAll(unused.Values);
+// and in AreaOf
+area.ZIndex = ListTreeLayers.CardArea + place.Depth;
+```
+
+The subagent first searches every use of `ListTreeLayers` and of the child order of the panel (`IndexOf`, `Children[`). A test that asserts the child order of the frames changes to assert their `ZIndex`. If a part needs the child order for another reason (a hit test, a focus order), the step stops and asks.
+
+Tests: a new test in `ListTreeSurfacesTests` (or the class that tests the frames): `Show_NestedCards_PaintTheInnerCardAbove`, `Show_ANewCardFrame_TakesNoOtherFrameOutOfThePanel`. Also run: `ListTreeLayoutTests`, `ListTreeHoverAndSelectionTests`, `ListTreeDragTests`, `ListTreeRowDragTests`, `ListTreeGrabTests`, `ListTreeBlockDragTests`, `PanelListTreeRowsTests`.
+
+Commit: `Paints the card frames of the tree by depth`.
+
+#### Step 3.2 Keep the spare card frames (complexity 3, Opus)
+
+Files: `Views/ListTree/ListTreeSpareRows.cs` (becomes generic), `Views/ListTree/ListTreeRowControls.cs`, `Views/ListTree/ListTreeSurfaces.cs`, the readers of the frames that must skip a hidden one, `CMiX.Studio.Avalonia.Tests/ListTreeRowControlsTests.cs`.
+
+The card frames use the same pool as the rows. The pool becomes generic, so one class holds the rule for both.
+
+```csharp
+// Before
+internal sealed class ListTreeSpareRows { private readonly Stack<RowListTree> rows = new(); ... }
+// After: Views/ListTree/ListTreeSpares.cs
+internal sealed class ListTreeSpares<T> where T : Control { private readonly Stack<T> controls = new(); ... }
+// ListTreeRowControls: new ListTreeSpares<RowListTree>(), and Snap and StopFlash stay in ListTreeRowControls.
+// ListTreeSurfaces: new ListTreeSpares<FrameListTreeCard>()
+```
+```csharp
+// Before, ListTreeSurfaces.AreaOf
+area = new FrameListTreeCard { ZIndex = ListTreeLayers.CardArea };
+panel.Children.Add(area);
+// After
+area = spareAreas.Take() ?? AddArea();
+```
+
+The name `ListTreeSpares` is a question for the owner before the step. Other candidates: `ListTreeSpareControls`, `ListTreeRecyclePool`.
+
+Every reader of the frames skips a hidden one: `ListTreeSurfaces.Areas`, `CardAreaOf`, `ShowMarks`, and the tests. The subagent searches them all first.
+
+Tests: `Show_ScrollDown_ReusesTheCardFrames` (no new `FrameListTreeCard` on a scroll of three views), `Show_ASpareFrame_IsHiddenAndHasNoNode`. Also run the tests of step 3.1.
+
+Commit: `Keeps the spare card frames of the tree hidden until a card needs one`.
+
+#### Step 3.3 Measure the scroll again (complexity 2, Opus)
+
+No commit, unless a step over 16 ms remains with one cause bigger than 5 ms. Then the subagent reports the cause and a fix with a before and after sample, and the owner decides. The same temporary test as the findings: 667 steps of 30 px, Release, headless.
+
+Phase 3 end: the Studio suite once.
+
+Checks in the Studio after phase 3, in a Release build on a big project:
+- The scroll with the wheel and with the scroll bar is smooth.
+- Nested cards show their frames in the right order: the inner card over the outer card.
+- The hover and the selection marks of a card are right after a scroll.
+- A drag over the cards shows the drop outline over the frames.
+
+UI kit: no entry changes.
+
+### Phase 4. The search filters the tree
+
+Added on 2026-11-25. The owner finds the search hard to use: it marks no match, it does not scroll, and the matches can be out of view while the selected row stays in view. A headless check shows the same behaviour before the plan (`0651c89ae`) and now: the search keeps the selection and the cursor, opens the parents of the matches, and no view reads `TreeNode.IsSearchMatch`. The steps of this plan did not cause it. The old tree view dimmed the rows that did not match. The new tree lost that look in the port.
+
+How Blender does it: the search field of the Outliner is a filter. It hides every row that does not match and keeps the parents of each match. It shows those parents open. It marks a match with the theme color "Search Match". The selection does not change. When the filter ends, the tree shows its own open state again.
+
+Findings:
+1. `TreeSearch.Refresh` walks every row and sets `IsSearchMatch`. It knows the matches in tree order (`Matches`).
+2. `TreeSearch.SyncRows`, `openedBySearch`, `keptCursor`, `ReleaseChangedRow` and the close through `CloseRowsInView` exist only so that the search opens rows and closes them again. A filter shows the parents open in the view and does not change `IsExpanded`. These parts can go.
+3. `ListTreeSnapshot.RowsOf` is the one place that decides which rows show and which show open (`IsShown`, `node.IsExpanded`). A filter fits there.
+4. `TreeNode.IsSearchDimmed` has no reader in the views.
+
+#### Decisions of phase 4
+
+| # | Decision | Default |
+|---|---|---|
+| F1 | During a search, a row shows when it matches or holds a match. Every other row hides. | Yes |
+| F2 | A row that holds a match shows open during the search. `IsExpanded` does not change. A click on its chevron during the search does nothing. | Yes |
+| F3 | A match row has a mark: the pseudo class `:searchmatch` on `RowListTree`, with the accent brush on the mark at its left. The look is a proposal in the UI kit sandbox first. | Yes |
+| F4 | The selection never changes by the search. The cursor goes to the first match when the matches change, so Enter, the arrow keys and the Add panel act on a shown row. | Yes |
+| F5 | When the search ends, the tree shows its own open state again. The parents of the selected row and of the cursor row open (`TreeOpenState.OpenParents`), so both stay in view. | Yes |
+| F6 | No drag starts during a search. A drag in a filtered tree hides the places between the shown rows. | Yes |
+| F7 | A search with no match shows the line "No match" in the tree, as `ListGroupedSearch` does (`PART_NoMatch`). | Yes |
+
+#### Step 4.1 Mark the rows that hold a match (complexity 2, Opus)
+
+Files: `ViewModels/Tree/TreeNode.cs`, `ViewModels/Tree/TreeSearch.cs`, `CMiX.Studio.Avalonia.Tests/ProjectTreeSearchTests.cs`.
+
+```csharp
+// Before, TreeNode
+public bool IsSearchMatch { get => isSearchMatch; private set => SetProperty(ref isSearchMatch, value); }
+public bool IsSearchDimmed { get => isSearchDimmed; private set => SetProperty(ref isSearchDimmed, value); }
+// After
+public bool IsSearchMatch { get => isSearchMatch; private set => SetProperty(ref isSearchMatch, value); }
+public bool HasSearchMatchBelow { get => hasSearchMatchBelow; private set => SetProperty(ref hasSearchMatchBelow, value); }
+```
+
+`TreeSearch.ShowLooks` sets `HasSearchMatchBelow` on the parents of each match in the same walk. `ClearLooks` clears it. `IsSearchDimmed` goes (finding 4).
+
+Tests: `Search_AName_MarksTheParentsOfTheMatch`, `Search_AnEmptyText_ClearsTheParents`. The tests that read `IsSearchDimmed` change to `IsSearchMatch`.
+
+Commit: `Marks the rows that hold a search match`.
+
+#### Step 4.2 Filter the rows of the view (complexity 4, Opus)
+
+Files: `ViewModels/ListTree/ListTreeSnapshot.cs`, `ViewModels/ListTree/ListTreeNodeWatch.cs`, `Views/ListTree/PanelListTreeRows.cs`, the callers of `ListTreeSnapshot.Of` and `ListTreeArrangement.Of`, new `CMiX.Studio.Avalonia.Tests/ListTreeSearchFilterTests.cs`.
+
+```csharp
+// Before, ListTreeSnapshot
+private static ListTreeRow RowOf(TreeNode node, int depth, ListTreeRowKey key) =>
+    new(key, node, depth, IsCard(node), node.Group != null, node.IsExpanded, RowsOf(node.Children, depth + 1, key));
+// After: the filter is a field of the snapshot builder, not a flag parameter
+private ListTreeRow RowOf(TreeNode node, int depth, ListTreeRowKey key) =>
+    new(key, node, depth, IsCard(node), node.Group != null, filter.ShowsOpen(node), RowsOf(node.Children, depth + 1, key));
+```
+```csharp
+// New: ViewModels/ListTree/ListTreeSearchFilter.cs
+// Which rows the view shows and which it shows open, with or without a search.
+public sealed class ListTreeSearchFilter
+{
+    public static ListTreeSearchFilter None { get; }          // every row, the own open state
+    public static ListTreeSearchFilter Matches { get; }       // F1 and F2
+    public bool Shows(TreeNode node) => ...;
+    public bool ShowsOpen(TreeNode node) => ...;
+}
+```
+
+`PanelListTreeRows` takes the filter from `ProjectTree.IsSearchActive`. `ListTreeNodeWatch` raises `Changed` when `HasSearchMatchBelow` or `IsSearchMatch` changes, and the rebuild queue makes one rebuild for the burst. The drag code (`ListTreeMove`, `ListTreeDragLook`) keeps `ListTreeSearchFilter.None`, because no drag starts during a search (F6).
+
+The subagent first lists every caller of `ListTreeSnapshot.Of` and `ListTreeArrangement.Of`. If one of them needs the filter and cannot get it in a simple way, the step stops and asks.
+
+Tests: `Filter_ASearch_ShowsOnlyTheMatchesAndTheirParents`, `Filter_ASearch_ShowsTheParentsOpenAndKeepsIsExpanded`, `Filter_TheEndOfTheSearch_ShowsTheOwnOpenState`. Also run `ListTreeSnapshotTests`, `ListTreeLayoutTests`, `ListTreeRowControlsTests`, `PanelListTreeRowsTests`, `ProjectTreeSearchTests`.
+
+Commit: `Shows only the matches and their parents during a search of the tree`.
+
+#### Step 4.3 Remove the open and close of the search (complexity 4, Opus)
+
+Files: `ViewModels/Tree/TreeSearch.cs`, `ViewModels/Tree/ProjectTree.Search.cs`, `ViewModels/Tree/TreeOpenState.cs` (the calls to `search.Release`), `ViewModels/Tree/ProjectTree.Drag.cs` (`EndDrag` runs `SyncSearchRows`), `ProjectTreeSearchOpenTests.cs`, `ProjectTreeCursorCloseTests.cs`.
+
+```csharp
+// Before, ProjectTree.RefreshSearch
+if (matchesChanged || text.Length == 0)
+    SyncSearchRows();
+// After: F4 and F5
+if (matchesChanged && searchActive)
+    MoveCursorTo(search.Matches.FirstOrDefault());
+if (searchActive != wasActive && !searchActive)
+    KeepTargetsInView();
+```
+
+`openedBySearch`, `isSearchChangingRows`, `keptCursor`, `SyncRows`, `Release`, `ReleaseChangedRow`, `KeepCursorRow` and the close through `IRowCloser` go from `TreeSearch`. `IRowCloser` stays for `TreeOpenState`. `MoveToMatch` no longer opens parents: the filter shows them.
+
+The tests of `ProjectTreeSearchOpenTests` describe the old open and close. They change to the rules F2, F4 and F5. The subagent lists each test that goes or changes, with one line of reason, in its report. A test that pins a behaviour that F1 to F7 do not cover stops the step.
+
+Commit: `Removes the open and close of rows by the search of the tree`.
+
+#### Step 4.4 The match mark (complexity 2, Opus)
+
+First a proposal in the UI kit sandbox (`docs/ui-kit/sandbox.js`, `sandbox.css`, class `sb-` and its number) with Before and After, as `.claude/CLAUDE.md` says. The owner chooses the look. Then:
+
+Files: `Views/ListTree/RowListTree.axaml`, `Views/ListTree/RowListTree.axaml.cs`, the token of the mark if the owner chooses a new one.
+
+```xml
+<!-- After, RowListTree.axaml -->
+<Style Selector="views|RowListTree:searchmatch /template/ Border#mark">
+    <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+</Style>
+```
+
+Tests: `Search_AMatchRow_HasTheMatchClass`, a test that reads the brush of the mark.
+
+Commit: `Marks the rows that match the search of the tree`.
+
+UI kit: the entry of `RowListTree` is out of date after this step.
+
+#### Step 4.5 No drag during a search, and the empty result (complexity 2, Sonnet)
+
+Files: `Behaviors/ListTree/ListTreeRowDrag.cs` and `ListTreeGrab.cs` (the start condition), `Views/ListTree/ListTreeProject.axaml` (the "No match" line), the tests of the drag and the grab.
+
+```csharp
+// After, the start condition of a row drag and a grab
+if (Context.Tree.IsSearchActive)
+    return;
+```
+
+Tests: `Drag_DuringASearch_DoesNotStart`, `Grab_DuringASearch_DoesNotStart`, `Search_NoMatch_ShowsTheNoMatchLine`.
+
+Commit: `Starts no drag during a search and shows the empty result`.
+
+#### Step 4.6 Documentation (complexity 1, Sonnet)
+
+Files: `docs/DEVELOPMENT.md`, section "The search of the tree": the filter, F1 to F7, the removed open and close. The status line of this plan.
+
+Commit: `Describes the filter of the tree search`.
+
+Phase 4 end: the Studio suite once. End of plan: the three suites once.
+
+Checks in the Studio after phase 4:
+- Type a name: only the matches and their parents show, and the parents show open.
+- A match row has the mark.
+- The cursor is on the first match. Enter goes to the next match.
+- Clear the search: the tree shows its own open state, and the selected row is in view.
+- A drag does not start while a search runs.
 
 ## 5. Later: a fuzzy search with LIFTI
 
