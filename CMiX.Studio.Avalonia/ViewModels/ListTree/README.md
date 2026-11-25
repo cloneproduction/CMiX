@@ -38,17 +38,20 @@ The core has no Avalonia type. Most of it is records and static classes of pure 
 
 - `PanelListTreeRows` is the panel of the rows. It builds a `RowListTree` control only for the rows in its row window (`ListTreeRowWindow`): the view of the scroller, and half a view above and below it. A scroll that stays inside a quarter of a view keeps the controls. `RowOf` builds the control of a row outside the window on demand, so a reveal, a focus or a rename finds it.
 - `ListTreeRowControls` holds the row controls by key. A row slides with a render offset (`ListTreeRowSlide`): the row gets its new top in the layout at once, and only its render moves for 160 ms, so a frame of the slide needs no layout.
-- `ListTreeSurfaces` holds the card areas (`FrameListTreeCard`) in the row window, in tree order. The ZIndex of an area is `ListTreeLayers.CardArea` plus its depth, so an inner area draws over its outer area. It keeps the area of a card across the looks of a drag. An area whose card leaves the window waits hidden in `ListTreeSpareControls` for the next card. It also marks the selection, the hover and the drop target. `FrameListTreeOutline` is the one outline of the drop target, full width, in the kind colour.
+- `ListTreeSurfaces` holds the card areas (`FrameListTreeCard`) in the row window, in tree order. The ZIndex of an area is `ListTreeLayers.CardArea` plus its depth, so an inner area draws over its outer area. It keeps the area of a card across the looks of a drag. An area whose card leaves the window waits hidden in `ListTreeSpareControls` for the next card. A card area shows only the drop target state: the hover and the selection mark the row only. `FrameListTreeOutline` is the one outline of the drop target, full width, in the kind colour.
 - `ListTreeLayers` gives the ZIndex of each layer, from the bottom: card areas, rows, the drop outline, the dragged row.
-- The row uses the shared parts of `Views/Tree`: `TogglesRow`, `BadgesKindCount` (the kind squares with the count in white, and the orange Warning icon for a missing asset) and `TreeRowBrush`.
+- The row uses the shared parts of `Views/Tree`: `TogglesRow`, `BadgesKindCount` (the icon of each kind with its count at its bottom right, white with an outline, and the orange Warning icon for a missing asset) and `TreeRowBrush`.
 
-The look of a row, from the tokens `ListTree...` in `CMiX.UI/Themes/Tokens`:
+The states of a row, from the tokens `ListTree...` in `CMiX.UI/Themes/Tokens`. A row is 26 high. Each icon is in a square cell of the row height. A row with a state has its surface at full width. The classes `cursor`, `inspected` and `searchparent` come from bindings to the node, because the rows are reused.
 
-- At rest, a row is a faint band from its indent. Only the icon has the kind colour.
-- Under the pointer, a row gets the hover surface and a 3 px left mark in the kind colour at 45 %. A card gets the hover surface on its whole area.
-- A selected row gets the selected surface, a 3 px left mark in the full kind colour, and a white name. A selected card gets the selected surface on its whole area. A selected row shows no cursor frame.
-- The cursor frame is one pixel in the kind colour, on a row that is not selected.
-- During a drag, the hover and the selection marks hide.
+- Rest: a faint band from the indent. Only the icon has the kind colour.
+- Hover: the hover surface and a 3 px left mark in the kind colour at 45 %. A card header gets the same marks as an item. The children of a card stay at rest.
+- Cursor (`TreeNode.IsCursor`): the rest band at full width and a neutral frame of 1 px inside the row (`ListTreeRowCursorFrameBrush`), also on a selected row. The frame hides while the view has the class `dragging`.
+- Selected: the selected surface, a 3 px left mark in the full kind colour, and a white name.
+- Inspected (`TreeNode.IsInspected`): the kind colour at 18 % as the surface, 25 % on hover, and white text and toggles. A selected inspected row keeps its left mark. The header of `PanelInspector` has the same tint.
+- Search parent (`TreeNode.IsSearchParent`): a parent that the search shows only for a match below it has the dimmed look of a drag. A selected or inspected parent keeps its own look.
+- Match letters: a match keeps its look, and the matched letters of its name have `AccentHighlightBrush`. `TextBlockHighlighted` (`CMiX.UI`) draws them from `TreeNode.SearchMatchStart` and `SearchMatchLength`, in the name box and in the name of a group.
+- Drag: a row that cannot take the drop is dimmed, and the dragged row has the dragged surface. The hover and the selection marks hide.
 
 ## The behaviors, folder `Behaviors/ListTree`
 

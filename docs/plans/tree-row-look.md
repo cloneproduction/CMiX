@@ -4,8 +4,10 @@ Source: `docs/ui-kit/mockups/inspector-with-tree.html`, the After look, decided 
 Open it with the kit server (`.claude/launch.json`, entry `ui-kit`) at `http://localhost:8765/mockups/inspector-with-tree.html`.
 The file view of the Claude browser pane does not load the kit tokens.
 
-Status: plan only. Nothing is built. The first plan came from the mockup session. The tree search session checked it against the
-code at `af3536f0b` and wrote this version with the findings (section 2). The owner says go before step 1.1.
+Status: all phases built on 2026-11-25. Phase 1: 1.1 `62225ee70`, 1.2 `7e69effa4`, 1.3 `5f9414fcc`. Phase 2: 2.1 `a8fb630d8`,
+2.2 `c585b4bc9`, 2.3 `8e60b98e2`. Phase 3: 3.1 `bad285528`, 3.2 `bfe7a9a9c`. Phase 4: 4.1 `cbec91d2b`, 4.2 `5862518b4`, 4.3 the
+commit of the documents. Phase 5: 5.1 `a38729b31`, 5.2 `c8b959947`. Step 5.2 took the highlight range on `TextBoxEditable`, drawn by
+the new `TextBlockHighlighted`, which the group name uses too. `Update-Tokens.ps1` is not run: the mockup session runs it.
 
 Out of scope: the new inspector of `docs/ui-kit/mockups/inspector.html` (title, groups, cards, list rows). It is a plan of its own.
 

@@ -454,6 +454,8 @@ Commit: `Removes the open and close of rows by the search of the tree`.
 
 Result: moved to the style pass (section 7). Not built.
 
+The match look moved to phase 5 of `docs/plans/tree-row-look.md`.
+
 First a proposal in the UI kit sandbox (`docs/ui-kit/sandbox.js`, `sandbox.css`, class `sb-` and its number) with Before and After, as `.claude/CLAUDE.md` says. The owner chooses the look. Then:
 
 Files: `Views/ListTree/RowListTree.axaml`, `Views/ListTree/RowListTree.axaml.cs`, the token of the mark if the owner chooses a new one.
@@ -532,6 +534,7 @@ Checks after phase 4:
 ## 7. Later: the style pass
 
 - Proposal S3 (the match mark, `docs/ui-kit` sandbox) and step 4.4.
+- The match look moved to phase 5 of `docs/plans/tree-row-look.md`.
 - `PART_NoMatch` of `ListGroupedSearch` has no theme key and hardcodes Margin 8,0,0,4 and Opacity 0.5. The "No match" line of the tree uses the `dragNote` tokens. The two lines look close but not the same.
 - `FrameListTreeCard` keeps its 8 styles in `UserControl.Styles`. A shared theme makes a new frame cheaper.
 - The UI kit has no `RowListTree` entry and none of the `ListTree*` tokens.
