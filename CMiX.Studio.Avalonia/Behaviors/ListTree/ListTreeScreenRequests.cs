@@ -71,7 +71,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             if (node != null && Rows.RowOf(node) is { } row && row.Focus(NavigationMethod.Tab))
                 return;
 
-            Rows.Children.OfType<RowListTree>().FirstOrDefault()?.Focus(NavigationMethod.Tab);
+            Rows.Children.OfType<RowListTree>().FirstOrDefault(row => row.IsVisible)?.Focus(NavigationMethod.Tab);
         }
 
         private void OnRenameRequested(object? sender, TreeNode node) => AnswerWhenActive(_ => Rows.RowOf(node)?.StartRename());

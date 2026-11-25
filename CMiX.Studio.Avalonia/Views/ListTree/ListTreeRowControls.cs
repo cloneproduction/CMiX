@@ -17,6 +17,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly Dictionary<ListTreeRowKey, RowListTree> rowsByKey = new();
         private readonly Dictionary<ListTreeRowKey, ListTreeRow> shownRows = new();
         private readonly Dictionary<TreeNode, ListTreeRowKey> keyByNode = new(ReferenceEqualityComparer.Instance);
+        private readonly ListTreeSpareRows spareRows = new();
 
         private ListTreeLayout layout = ListTreeArrangement.Empty.Layout;
         private ListTreeDragLook? dragLook;
@@ -59,7 +60,7 @@ namespace CMiX.Studio.Avalonia.Views
             layout = shown;
             Window = panel.RowWindow;
             Remember(rows);
-            var free = new Stack<RowListTree>(TakeLeavingRows(shown));
+            KeepSpare(TakeLeavingRows(shown));
             foreach (var row in rows)
             {
                 var place = shown.PlaceOf(row.Key)!;
@@ -67,12 +68,20 @@ namespace CMiX.Studio.Avalonia.Views
                 if (control == null && !Window.Overlaps(place.Y, place.RowHeight))
                     continue;
 
-                var start = before.PlaceOf(row.Key) ?? place;
-                ShowRow(control ?? ReuseRow(free, row.Key, start) ?? AddRow(row.Key, start), row, place);
+                ShowRow(control ?? TakeRow(row.Key, before.PlaceOf(row.Key) ?? place), row, place);
+            }
+        }
+
+        // A control with the focus goes, so the focus keeper sees the lost focus. Every other control waits hidden for a row.
+        private void KeepSpare(List<RowListTree> leaving)
+        {
+            foreach (var focused in leaving.Where(control => control.IsKeyboardFocusWithin).ToList())
+            {
+                leaving.Remove(focused);
+                RemoveRow(focused);
             }
 
-            foreach (var unused in free)
-                RemoveRow(unused);
+            spareRows.KeepAll(leaving);
         }
 
         private bool IsKept(RowListTree control, ListTreePlace place) =>
@@ -104,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (!shownRows.TryGetValue(key, out var row) || layout.PlaceOf(key) is not { } place)
                 return null;
 
-            var control = AddRow(key, place);
+            var control = TakeRow(key, place);
             ShowRow(control, row, place);
             panel.PlaceRowNow(control);
             surfaces.ShowMarks();
@@ -131,27 +140,20 @@ namespace CMiX.Studio.Avalonia.Views
                 ListTreeRowSlide.From(control, shownTop, panel.MoveDuration);
         }
 
-        // A new row starts at the place it had in the last layout, or at its place when it is new in the tree.
-        private RowListTree AddRow(ListTreeRowKey key, ListTreePlace start)
+        // A spare control, else a new control. It starts at the place its row had in the last layout, or at its place when the row is new in the tree.
+        private RowListTree TakeRow(ListTreeRowKey key, ListTreePlace start)
         {
-            var control = new RowListTree { ZIndex = ListTreeLayers.Row };
+            var control = spareRows.Take() ?? AddRow();
             PanelListTreeRows.SetTop(control, start.Y);
-            surfaces.Watch(control);
             rowsByKey[key] = control;
-            panel.Children.Add(control);
             return control;
         }
 
-        // A reused row starts like a new row: at its start top, with no slide and no flash.
-        private RowListTree? ReuseRow(Stack<RowListTree> free, ListTreeRowKey key, ListTreePlace start)
+        private RowListTree AddRow()
         {
-            if (!free.TryPop(out var control))
-                return null;
-
-            ListTreeRowSlide.Snap(control);
-            control.StopFlash();
-            PanelListTreeRows.SetTop(control, start.Y);
-            rowsByKey[key] = control;
+            var control = new RowListTree { ZIndex = ListTreeLayers.Row };
+            surfaces.Watch(control);
+            panel.Children.Add(control);
             return control;
         }
 

@@ -36,7 +36,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private PanelListTreeRows Rows => screen.View.Rows;
 
-        private List<RowListTree> RowControls() => Rows.Children.OfType<RowListTree>().ToList();
+        private List<RowListTree> AllRowControls() => Rows.Children.OfType<RowListTree>().ToList();
+
+        private List<RowListTree> RowControls() => AllRowControls().Where(row => row.IsVisible).ToList();
 
         private void Search(string text)
         {
@@ -49,15 +51,59 @@ namespace CMiX.Studio.Avalonia.Tests
         public void ShowRows_MatchesThatChange_ReuseTheRowControls()
         {
             Search("Translate");
-            var before = RowControls().ToDictionary(row => row, row => row.DataContext);
+            var before = AllRowControls().ToDictionary(row => row, row => row.DataContext);
 
             Search("Blur");
             var after = RowControls();
-            var added = after.Count(row => !before.ContainsKey(row));
+            var added = AllRowControls().Count(row => !before.ContainsKey(row));
             var slidingOut = after.Count(row => !Rows.RowWindow.Overlaps(row.Place!.Y, row.Place.RowHeight));
 
             Assert.InRange(added, 0, slidingOut);
             Assert.Contains(after, row => before.TryGetValue(row, out var node) && !ReferenceEquals(node, row.DataContext));
+        }
+
+        [AvaloniaFact]
+        public void ShowRows_ASearchFromAClosedTree_ReusesTheSpareRows()
+        {
+            scene.Tree.CollapseAll();
+            screen.Settle();
+            Search("Blur");
+            Search("");
+            var before = AllRowControls();
+
+            Search("Blur");
+
+            Assert.Empty(AllRowControls().Except(before));
+        }
+
+        [AvaloniaFact]
+        public void ShowRows_ASpareRow_IsHiddenAndHasNoNode()
+        {
+            Search("Blur");
+            Search("");
+
+            var spares = AllRowControls().Except(Rows.RealizedRows).ToList();
+            Assert.NotEmpty(spares);
+            Assert.All(spares, row =>
+            {
+                Assert.False(row.IsVisible);
+                Assert.Null(row.DataContext);
+                Assert.Equal(0, ListTreeRowSlide.OffsetOf(row));
+            });
+            Assert.All(Rows.RealizedRows, row => Assert.True(row.IsVisible));
+        }
+
+        [AvaloniaFact]
+        public void ShowRows_TheSpareRows_AreNeverMoreThanTheRowsOfTheWindow()
+        {
+            var mostShown = RowControls().Count;
+            foreach (var text in new[] { "Blur", "", "Translate", "Blur", "", "Translate", "" })
+            {
+                Search(text);
+                mostShown = Math.Max(mostShown, RowControls().Count);
+            }
+
+            Assert.InRange(AllRowControls().Count, 1, mostShown);
         }
 
         [AvaloniaFact]
