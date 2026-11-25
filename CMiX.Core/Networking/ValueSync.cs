@@ -17,10 +17,9 @@ namespace CMiX.Core.Networking
 
         private IControl _value;
         private IControlModel _before;
-        private bool _inInteraction;
+        private DragHandle _drag;
         private long _lastSendTicks;
         private bool _sendPending;
-        private long _dragToken;
 
         public ValueSync(UndoManager undoManager, MessageFactory messageFactory, ControlMessenger messenger, TimeProvider time)
         {
@@ -33,42 +32,39 @@ namespace CMiX.Core.Networking
 
         public IDisposable BeginInteraction()
         {
-            if (_inInteraction) EndInteraction();
-            _inInteraction = true;
+            if (_drag != null) EndInteraction();
+            _drag = new DragHandle(this);
             _lastSendTicks = _time.GetTimestamp() - _sendIntervalTicks;
             _sendPending = false;
             _before = null;
-            _dragToken++;
-            return new DragHandle(this, _dragToken);
+            return _drag;
         }
 
         // Ends the drag that opened it. A stale handle ends nothing.
         private sealed class DragHandle : IDisposable
         {
             private readonly ValueSync _owner;
-            private readonly long _token;
 
-            public DragHandle(ValueSync owner, long token)
+            public DragHandle(ValueSync owner) => _owner = owner;
+
+            public void Dispose()
             {
-                _owner = owner;
-                _token = token;
+                if (_owner._drag == this) _owner.EndInteraction();
             }
-
-            public void Dispose() => _owner.EndInteraction(_token);
         }
 
         public void Changing(IControl value)
         {
             _value = value;
             // In a drag the model before the first write is the before of the undo step.
-            if (!_inInteraction || _before == null)
+            if (_drag == null || _before == null)
                 _before = _value.ToModel();
         }
 
         public void Changed(IControl value)
         {
             _value = value;
-            if (_inInteraction)
+            if (_drag != null)
             {
                 WriteInInteraction();
                 return;
@@ -82,7 +78,7 @@ namespace CMiX.Core.Networking
         public void Send(IControl value)
         {
             _value = value;
-            if (_inInteraction)
+            if (_drag != null)
             {
                 _before = null;
                 WriteInInteraction();
@@ -109,9 +105,8 @@ namespace CMiX.Core.Networking
         // Always sends the value the gesture ended on, so a throttled write is never the last one.
         private void EndInteraction()
         {
-            if (!_inInteraction) return;
-            _dragToken++;
-            _inInteraction = false;
+            if (_drag == null) return;
+            _drag = null;
 
             if (_sendPending)
             {
@@ -125,11 +120,6 @@ namespace CMiX.Core.Networking
                 _before = null;
                 Record(before, _value.ToModel());
             }
-        }
-
-        private void EndInteraction(long token)
-        {
-            if (token == _dragToken) EndInteraction();
         }
 
         private void Record(IControlModel before, IControlModel after) =>
