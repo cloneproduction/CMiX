@@ -1,6 +1,6 @@
 # Undo and redo audit, 2026-11-25
 
-Status: `docs/plans/undo-cleanup.md` executed proposals P1 to P8 on 2026-11-25. P9 (F13, F15 is documented, F17, the long comments) stays open. The root cause of the startup steps, `OutputMappingManager` writes values in its constructor, is open too.
+Status: `docs/plans/undo-cleanup.md` executed proposals P1 to P8 on 2026-11-25. P9 (F13, F15 is documented, F17, the long comments) stays open. The root cause of the startup steps, `OutputMappingManager` writes values in its constructor, is open too. `docs/plans/undo-followups.md` takes the open items. Since commit `bf3d27778` a drag belongs to the value (`IDraggable`, `ValueSync.BeginInteraction`); `ValueInteraction` and `IInteractiveValue` in the map and in section 2 are the names of 2026-11-25.
 
 An audit of every piece of code that records, groups, applies or drops an undo step. The undo works. This document says where the code is hard to read, where it does the same thing in two ways, and what a simplification can look like. Nothing in this document is a change. Each proposal waits for a decision of the owner.
 

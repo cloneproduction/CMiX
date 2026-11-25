@@ -1,5 +1,7 @@
 # Audit of the tests, 2026-11-24
 
+Status 2026-11-25: `ValueInteraction` is gone since commit `bf3d27778`, and the Core suite runs in parallel since `07faee6ad`, so the point on the sequential run below is closed.
+
 Branch `refactor/tree-structure` at commit 6ec81b72c. Three refactorer agents read every test file, one per
 project. The main agent ran the three suites, checked the main findings against the code and wrote this summary.
 Parts A, B and C are the three detailed audits. Nothing was changed.
