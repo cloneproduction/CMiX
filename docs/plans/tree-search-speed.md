@@ -140,6 +140,8 @@ Commit: `Keeps the spare row controls of the tree hidden until a row needs one`.
 
 #### Step 1.2 Wait for a pause in typing (complexity 1, Sonnet)
 
+Dropped on 2026-11-25. The `Binding` of Avalonia 11.2.1 has no `Delay` (error AVLN2000). A pause in code needs a flush on Enter and a stop on Escape and on the clear button, and the owner wants code that stays easy to read. After 1.1b a key that keeps the matches costs 3 to 9 ms. The text below is the old step.
+
 Files: `CMiX.UI/Themes/Motion.cs` (the class that holds `FlashDuration`), `Views/Tree/TextBoxSearchTree.axaml`, `CMiX.Studio.Avalonia.Tests/TextBoxSearchTreeTests.cs`.
 
 ```csharp
