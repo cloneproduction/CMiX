@@ -60,7 +60,7 @@ The view `Blur.axaml` in the Studio binds straight to the Core `Blur`. There is 
 |---|---|
 | Model | All 125 `...Model` records: `ProjectModel`, `CompositionModel`, `LayerModel`, `EntityModel`, `GenericValueModel<T>`, `ModulatableValueModel<T>`, `PrefabManagerModel`, `ManagerDataModel`, each filter, source, modifier and modulator model. Also `SyncOptions`, `SyncTimings`, `StreamPosition`, `PeerInfo`. |
 | Message | `MessageValueChanged`, `MessageAddItem`, `MessageRemoveItem`, `MessageMoveItem`, `MessageSelectItem`, `MessageClearSelection`, `MessageOnClick` (tests only), `MessageProjectSnapshot`, and the wrapper `MessageEnvelope` (all in `Networking/Messages/Messages.cs`). |
-| Service | `UndoManager`, `ControlFactory`, `ControlRepository`, `ControlMessenger`, `MessageFactory`, `ValueSync`, `ModulatorHost` (the modulator list of one control, with the lookup and the unbinding), `MessageCollectionManagerHandler`, `ControlRegistry`, `AssetRepository`, the five processors (`VisibilityProcessor`, `VisibleItemsProcessor`, `UpdateOrderProcessor`, `RenderListProcessor`, `AssetListProcessor`), `ProjectSyncTarget`, `RedisSyncStore`, `OutgoingQueue`, `StreamFollower`, `SnapshotCompactor`, `Presence`, `MainloopQueue`, `EngineHost`, `WindowsCredentialStore`. |
+| Service | `UndoManager`, `ControlFactory`, `ControlRepository`, `ControlMessenger`, `MessageFactory`, `ValueSync`, `ModulatorHost` (the modulator list of one control, with the lookup and the unbinding), `MessageCollectionManagerHandler`, `ControlRegistry` (the registry of every receivable control, with `Find` by id), `AssetRepository`, the five processors (`VisibilityProcessor`, `VisibleItemsProcessor`, `UpdateOrderProcessor`, `RenderListProcessor`, `AssetListProcessor`), `ProjectSyncTarget`, `RedisSyncStore`, `OutgoingQueue`, `StreamFollower`, `SnapshotCompactor`, `Presence`, `MainloopQueue`, `EngineHost`, `WindowsCredentialStore`. |
 | ViewModel | None that is only a ViewModel. |
 | View | None. |
 
@@ -115,13 +115,13 @@ Three static entry points connect it to an application: `InteractionHost`, `Icon
 4. **Peer.** `SyncPeer.SendMessage` (`SyncPeer.Send.cs`) drops the message if the peer is not the writer. Else it wraps it in a `MessageEnvelope`, serializes it with MessagePack and puts it in `OutgoingQueue`.
 5. **Redis.** One task appends the entry to the stream `{prefix}:updates` through `RedisSyncStore`, sets the tail key and publishes a wake signal. `SnapshotCompactor` writes a new snapshot later.
 6. **Engine.** `StreamFollower` reads the new entries. `SyncPeer` (`SyncPeer.Apply.cs`) posts each batch to its dispatcher. In vvvv that is `MainloopQueue`, which the patch drains once for each frame. In `CMiX.Console` the apply runs inline.
-7. **Apply.** `ProjectSyncTarget.Apply` sends the message on `WeakReferenceMessenger.Default`. Every active control receives every message. `GenericValue.Receive` compares the id and, on a match, sets the value inside `SuppressSending()`, so it sends nothing and records no undo step.
+7. **Apply.** `ProjectSyncTarget.Apply` asks `ControlRegistry.Find` for the control that answers to the id of the message and calls `Receive` on that one. `GenericValue.Receive` sets the value inside `SuppressSending()`, so it sends nothing and records no undo step.
 8. **Render.** The patch reads the state through `EngineHost.ServiceProvider`: `Project`, `ControlRepository`, `PrefabManager`, `ManagerData` and the processors. I did not open the patches in vvvv. I only searched them for type names.
 A click of a `CMiXButton` follows the same path: `Send` puts a `MessageValueChanged` with the `ButtonModel` on the wire, and the button on the other peer raises `Click`.
 
 ### A list changes (add, remove, move, select)
 
-The view calls a command of `PrefabManager`, for example `AddItemCommand`. `PrefabManager` makes an undo step (`AddItemUndoCommand`) with its `IItemList`, runs it and pushes it. The step calls one verb, `Insert`. `CollectionSync` implements the verb: it changes the list through `CollectionManager` (which also updates `ControlRepository`) and then sends `MessageAddItem`. `PrefabManager` gets its `IItemList` from `ItemListFactory`, which the DI binds to the messenger. On the engine, `PrefabManager.Receive` compares the id of the list and gives the message to `MessageCollectionManagerHandler`.
+The view calls a command of `PrefabManager`, for example `AddItemCommand`. `PrefabManager` makes an undo step (`AddItemUndoCommand`) with its `IItemList`, runs it and pushes it. The step calls one verb, `Insert`. `CollectionSync` implements the verb: it changes the list through `CollectionManager` (which also updates `ControlRepository`) and then sends `MessageAddItem`. `PrefabManager` gets its `IItemList` from `ItemListFactory`, which the DI binds to the messenger. On the engine, `ControlRegistry` finds the manager by its `ManagerData.ID`, and `PrefabManager.Receive` gives the message to `MessageCollectionManagerHandler`.
 
 ### The way back
 
@@ -217,7 +217,6 @@ Core has no Avalonia reference.
 
 | Static | Where | Note |
 |---|---|---|
-| `WeakReferenceMessenger.Default` | Core, `ProjectSyncTarget.Apply` | Every `ReceivableControl` listens on this global messenger. `ControlMessenger` (injected) is only the way out. |
 | `App.MessageNotice`, `App._crashSaveProject` | Studio | A comment in `App.axaml.cs` gives the reason for each. |
 | `InteractionHost.BeginScopeHandler`, `Icons.Register`, `OutsideClick.Install` | CMiX.UI | The library has no container. |
 | `Application.Current` | 2 converters, `CategoryPalette`, 3 notice services, `MainWindowController` | To find a resource or the main window. |
@@ -376,7 +375,7 @@ Only the owner can decide these. Question 1 is parked: see section 5.
 2. **Is view state part of the show?** `IsExpanded` of a modifier is saved and sent. The tab of a layer is not. Which view state belongs in the file, and does any of it belong on the wire?
 3. **Is the selection of a list show state or editor state?** It is in the file, on the wire and in undo, and the patches read it. Does the engine need it, and must a selection be an undo step?
 4. **Can pinned names change?** `PrefabService`, `PrefabManager`, `ManagerData` and `TextureModifierManager` are misleading, and the patches, the saved files and the wire use them. Is a rename worth a change of the patches and an entry in `LegacyTypeNames`?
-5. **The global messenger.** Receive goes through the static `WeakReferenceMessenger.Default`, and each message visits each control. Accept it as the one remaining static of Core, or replace it with a lookup by id in `ControlRepository`?
+5. **The global messenger.** Done on 2026-11-25: `ProjectSyncTarget` delivers to the one control that `ControlRegistry` finds by id. No static messenger remains in Core.
 6. **The six lists of the main window.** They are not in `ProjectModel`, and a snapshot empties them. Is that intended?
 7. **Will an engine write again?** `DEVELOPMENT.md` describes how. The answer changes how strict "one writer" can be in the design.
 8. **The old name in the patch.** Is `CMiX.Core.Presentation.ViewModels.Beat.MasterBeat` in `CMiX_ENGINE.vl` a dead text or a red node?
