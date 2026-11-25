@@ -14,8 +14,9 @@
         <ui:DragValue
             Margin="0,8"
             Caption="Intensity"
-            Value="{Binding Intensity.Value}"
-            ResetCommand="{Binding Intensity.ResetCommand}" />
+            DataContext="{Binding Intensity}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
         <ui:ComboBoxCaptioned
             Caption="Type"

@@ -78,15 +78,17 @@
 
                 <ui:DragValue
                     Caption="Explode Strength"
-                    Value="{Binding ExplodeStrength.Value}"
-                    ResetCommand="{Binding ExplodeStrength.ResetCommand}" />
+                    DataContext="{Binding ExplodeStrength}"
+                    Value="{Binding Value}"
+                    ResetCommand="{Binding ResetCommand}" />
 
                 <ui:SliderCMiX
                     Caption="Flat Normals"
                     Maximum="1.0"
                     Minimum="0.0"
-                    Value="{Binding FlatNormals.Value}"
-                    ResetCommand="{Binding FlatNormals.ResetCommand}" />
+                    DataContext="{Binding FlatNormals}"
+                    Value="{Binding Value}"
+                    ResetCommand="{Binding ResetCommand}" />
 
                 <Controls:SelectorPrefab
                     DataContext="{Binding ExplodeTriangleTextureManager}"
@@ -118,8 +120,9 @@
 
                 <ui:DragValue
                   Caption="Strength"
-                  Value="{Binding DisplacementStrength.Value}"
-                  ResetCommand="{Binding DisplacementStrength.ResetCommand}" />
+                  DataContext="{Binding DisplacementStrength}"
+                  Value="{Binding Value}"
+                  ResetCommand="{Binding ResetCommand}" />
 
                 <Controls:SelectorPrefab
                     Margin="0"

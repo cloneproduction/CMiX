@@ -29,40 +29,46 @@
 
             <StackPanel Spacing="{DynamicResource SpacingMD}">
 
-                <ui:DragValueInteger Caption="Samples" Value="{Binding Samples.Value}" ResetCommand="{Binding Samples.ResetCommand}" />
+                <ui:DragValueInteger Caption="Samples" DataContext="{Binding Samples}" Value="{Binding Value}" ResetCommand="{Binding ResetCommand}" />
 
                 <ui:DragValue
                     Caption="Intensity"
-                    Value="{Binding Intensity.Value}"
-                    ResetCommand="{Binding Intensity.ResetCommand}" />
+                    DataContext="{Binding Intensity}"
+                    Value="{Binding Value}"
+                    ResetCommand="{Binding ResetCommand}" />
 
                 <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
                     <ui:DragValue
                         Caption="SampleBias"
-                        Value="{Binding SampleBias.Value}"
-                        ResetCommand="{Binding SampleBias.ResetCommand}" />
+                        DataContext="{Binding SampleBias}"
+                        Value="{Binding Value}"
+                        ResetCommand="{Binding ResetCommand}" />
                     <ui:DragValue
                         Caption="SampleRadius"
-                        Value="{Binding SampleRadius.Value}"
-                        ResetCommand="{Binding SampleRadius.ResetCommand}" />
+                        DataContext="{Binding SampleRadius}"
+                        Value="{Binding Value}"
+                        ResetCommand="{Binding ResetCommand}" />
                 </ui:StackPanelPositioned>
 
                 <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
                     <ui:DragValueInteger
                         Caption="Blur Count"
-                        Value="{Binding BlurCount.Value}"
-                        ResetCommand="{Binding BlurCount.ResetCommand}" />
+                        DataContext="{Binding BlurCount}"
+                        Value="{Binding Value}"
+                        ResetCommand="{Binding ResetCommand}" />
                     <ui:DragValue
                         Caption="Blur Radius"
-                        Value="{Binding BlurRadius.Value}"
-                        ResetCommand="{Binding BlurRadius.ResetCommand}" />
+                        DataContext="{Binding BlurRadius}"
+                        Value="{Binding Value}"
+                        ResetCommand="{Binding ResetCommand}" />
                 </ui:StackPanelPositioned>
 
                 <ui:DragValue
                     Margin="0,0,0,8"
                     Caption="Edge Sharpness"
-                    Value="{Binding EdgeSharpness.Value}"
-                    ResetCommand="{Binding EdgeSharpness.ResetCommand}" />
+                    DataContext="{Binding EdgeSharpness}"
+                    Value="{Binding Value}"
+                    ResetCommand="{Binding ResetCommand}" />
 
             </StackPanel>
 

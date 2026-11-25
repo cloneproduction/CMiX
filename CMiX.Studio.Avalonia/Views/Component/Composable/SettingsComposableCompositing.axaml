@@ -26,8 +26,9 @@
             Caption="Alpha"
             Maximum="1"
             Minimum="0"
-            Value="{Binding Compositing.Opacity.Value}"
-            ResetCommand="{Binding Compositing.Opacity.ResetCommand}" />
+            DataContext="{Binding Compositing.Opacity}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
     </StackPanel>
 

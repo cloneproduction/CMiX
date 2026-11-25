@@ -22,15 +22,17 @@
 
             <ui:DragValueInteger
                 Caption="Size"
-                Value="{Binding FontSize.Value}"
-                ResetCommand="{Binding FontSize.ResetCommand}" />
+                DataContext="{Binding FontSize}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
         </ui:StackPanelPositioned>
 
         <ui:DragValue
             Margin="0,8"
             Caption="Extrude Amount"
-            Value="{Binding ExtrudeAmount.Value}"
-            ResetCommand="{Binding ExtrudeAmount.ResetCommand}" />
+            DataContext="{Binding ExtrudeAmount}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
             <ui:ComboBoxCaptioned

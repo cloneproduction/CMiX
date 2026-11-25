@@ -33,12 +33,14 @@
                 <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
                     <ui:DragValue
                         Caption="Size"
-                        Value="{Binding Size.Value}"
-                        ResetCommand="{Binding Size.ResetCommand}" />
+                        DataContext="{Binding Size}"
+                        Value="{Binding Value}"
+                        ResetCommand="{Binding ResetCommand}" />
                     <ui:DragValue
                         Caption="Line Height"
-                        Value="{Binding LineHeight.Value}"
-                        ResetCommand="{Binding LineHeight.ResetCommand}" />
+                        DataContext="{Binding LineHeight}"
+                        Value="{Binding Value}"
+                        ResetCommand="{Binding ResetCommand}" />
                 </ui:StackPanelPositioned>
 
                 <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
@@ -70,8 +72,9 @@
                 <ui:DragValue
                     Margin="0,0,0,8"
                     Caption="Width"
-                    Value="{Binding Width.Value}"
-                    ResetCommand="{Binding Width.ResetCommand}" />
+                    DataContext="{Binding Width}"
+                    Value="{Binding Value}"
+                    ResetCommand="{Binding ResetCommand}" />
 
             </StackPanel>
         </ui:ExpanderIndented>

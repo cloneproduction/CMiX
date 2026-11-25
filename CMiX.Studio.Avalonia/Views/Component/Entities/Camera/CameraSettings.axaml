@@ -17,13 +17,15 @@
 
             <ui:DragValue
                 Caption="Near"
-                Value="{Binding NearClip.Value}"
-                ResetCommand="{Binding NearClip.ResetCommand}" />
+                DataContext="{Binding NearClip}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
             <ui:DragValue
                 Caption="Far"
-                Value="{Binding FarClip.Value}"
-                ResetCommand="{Binding FarClip.ResetCommand}" />
+                DataContext="{Binding FarClip}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
         </ui:StackPanelPositioned>
 
@@ -31,13 +33,15 @@
 
             <ui:DragValue
                 Caption="Yaw"
-                Value="{Binding Yaw.Value}"
-                ResetCommand="{Binding Yaw.ResetCommand}" />
+                DataContext="{Binding Yaw}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
             <ui:DragValue
                 Caption="Pitch"
-                Value="{Binding Pitch.Value}"
-                ResetCommand="{Binding Pitch.ResetCommand}" />
+                DataContext="{Binding Pitch}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
         </ui:StackPanelPositioned>
 
@@ -47,11 +51,13 @@
             IsChecked="{Binding IsOrthographic.Value}"
             ResetCommand="{Binding IsOrthographic.ResetCommand}" />
 
-        <ui:DragValue
-            IsVisible="{Binding IsOrthographic.Value}"
-            Caption="Orthographic Size"
-            Value="{Binding OrthographicSize.Value}"
-            ResetCommand="{Binding OrthographicSize.ResetCommand}" />
+        <Border IsVisible="{Binding IsOrthographic.Value}">
+            <ui:DragValue
+                Caption="Orthographic Size"
+                DataContext="{Binding OrthographicSize}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
+        </Border>
 
         <Border IsVisible="{Binding !IsOrthographic.Value}">
 
@@ -59,13 +65,15 @@
 
                 <ui:DragValue
                     Caption="Distance"
-                    Value="{Binding Distance.Value}"
-                    ResetCommand="{Binding Distance.ResetCommand}" />
+                    DataContext="{Binding Distance}"
+                    Value="{Binding Value}"
+                    ResetCommand="{Binding ResetCommand}" />
 
                 <ui:DragValue
                     Caption="FOV"
-                    Value="{Binding FOV.Value}"
-                    ResetCommand="{Binding FOV.ResetCommand}" />
+                    DataContext="{Binding FOV}"
+                    Value="{Binding Value}"
+                    ResetCommand="{Binding ResetCommand}" />
 
             </ui:StackPanelPositioned>
 

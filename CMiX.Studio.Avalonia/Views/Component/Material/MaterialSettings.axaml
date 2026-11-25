@@ -49,13 +49,15 @@
 
                 <ui:DragValue
                     Caption="Metalness"
-                    Value="{Binding Metalness.Value}"
-                    ResetCommand="{Binding Metalness.ResetCommand}" />
+                    DataContext="{Binding Metalness}"
+                    Value="{Binding Value}"
+                    ResetCommand="{Binding ResetCommand}" />
 
                 <ui:DragValue
                     Caption="Roughness"
-                    Value="{Binding Roughness.Value}"
-                    ResetCommand="{Binding Roughness.ResetCommand}" />
+                    DataContext="{Binding Roughness}"
+                    Value="{Binding Value}"
+                    ResetCommand="{Binding ResetCommand}" />
 
         </ui:StackPanelPositioned>
 
@@ -67,15 +69,17 @@
                 Caption="Glossiness"
                 Maximum="1"
                 Minimum="0"
-                Value="{Binding Glossiness.Value}"
-                ResetCommand="{Binding Glossiness.ResetCommand}" />
+                DataContext="{Binding Glossiness}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
             <ui:SliderCMiX
                 Caption="Specularity"
                 Maximum="1"
                 Minimum="0"
-                Value="{Binding Specularity.Value}"
-                ResetCommand="{Binding Specularity.ResetCommand}" />
+                DataContext="{Binding Specularity}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
         </ui:StackPanelPositioned>
 

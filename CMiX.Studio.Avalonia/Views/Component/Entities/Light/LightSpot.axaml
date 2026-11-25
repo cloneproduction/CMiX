@@ -17,13 +17,15 @@
 
             <ui:DragValue
                 Caption="Angle"
-                Value="{Binding Angle.Value}"
-                ResetCommand="{Binding Angle.ResetCommand}" />
+                DataContext="{Binding Angle}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
             <ui:DragValue
                 Caption="Softness"
-                Value="{Binding Softness.Value}"
-                ResetCommand="{Binding Softness.ResetCommand}" />
+                DataContext="{Binding Softness}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
         </ui:StackPanelPositioned>
 

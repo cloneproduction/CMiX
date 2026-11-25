@@ -11,13 +11,15 @@
 
             <ui:DragValue
                 Caption="Radius"
-                Value="{Binding Radius.Value}"
-                ResetCommand="{Binding Radius.ResetCommand}" />
+                DataContext="{Binding Radius}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
             <ui:DragValue
                 Caption="Height"
-                Value="{Binding Height.Value}"
-                ResetCommand="{Binding Height.ResetCommand}" />
+                DataContext="{Binding Height}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
         </ui:StackPanelPositioned>
 
