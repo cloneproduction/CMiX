@@ -240,12 +240,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public int SearchMatchStart { get => searchMatchStart; private set => SetProperty(ref searchMatchStart, value); }
         public int SearchMatchLength { get => searchMatchLength; private set => SetProperty(ref searchMatchLength, value); }
 
-        private bool MatchesSearch(string text) => SearchRules.MatchesAny(text, Header, kindLabel);
-
         internal void ShowSearchLook(string text)
         {
-            IsSearchMatch = MatchesSearch(text);
-            ShowMatchedLetters(SearchRules.IndexOfMatch(text, Header), text.Length);
+            var start = SearchRules.IndexOfMatch(text, Header);
+            IsSearchMatch = start >= 0 || SearchRules.Matches(text, kindLabel);
+            ShowMatchedLetters(start, text.Length);
         }
 
         internal void ClearSearchLook()
