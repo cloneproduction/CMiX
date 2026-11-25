@@ -219,17 +219,16 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_NestedCardAreasAfterARebuild_DrawTheInnerAreaOverItsOuterArea()
+        public void Show_NestedCards_PaintTheInnerCardAbove()
         {
             Entities.IsExpanded = false;
             window.Settle();
             Entities.IsExpanded = true;
             window.Settle();
 
-            var outer = AreaOf(Layer);
-            var inner = AreaOf(Entities);
-            Assert.Equal(outer.ZIndex, inner.ZIndex);
-            Assert.True(view.Rows.Children.IndexOf(inner) > view.Rows.Children.IndexOf(outer));
+            Assert.True(AreaOf(Entities).ZIndex > AreaOf(Layer).ZIndex);
+            var highestArea = view.Rows.Surfaces.Areas.Max(area => area.ZIndex);
+            Assert.All(view.Rows.RealizedRows, row => Assert.True(row.ZIndex > highestArea));
         }
 
         [AvaloniaFact]
@@ -238,7 +237,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var area = AreaOf(Layer);
             var place = area.Place!;
 
-            Assert.Equal(ListTreeLayers.CardArea, area.ZIndex);
+            Assert.Equal(ListTreeLayers.CardArea + place.Depth, area.ZIndex);
             Assert.True(area.ZIndex < RowOf(Layer).ZIndex);
             Assert.Equal(place.Y, area.Bounds.Y);
             Assert.Equal(place.AreaHeight, area.Bounds.Height);

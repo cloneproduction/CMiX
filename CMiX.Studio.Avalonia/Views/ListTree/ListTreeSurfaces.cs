@@ -12,7 +12,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    // The card areas and the marks on rows and areas (selection, hover, drop target), kept in tree order so an inner area draws over its outer area.
+    // The card areas and the marks on rows and areas (selection, hover, drop target), in tree order.
     internal sealed class ListTreeSurfaces
     {
         private readonly PanelListTreeRows panel;
@@ -47,7 +47,6 @@ namespace CMiX.Studio.Avalonia.Views
                     areas.Add(AreaOf(unused, row, place));
 
             panel.Children.RemoveAll(unused.Values);
-            KeepTreeOrder();
             if (!panel.Children.Contains(outline))
                 panel.Children.Add(outline);
             ShowMarks();
@@ -117,37 +116,14 @@ namespace CMiX.Studio.Avalonia.Views
         {
             if (!unused.Remove(place.Key, out var area))
             {
-                area = new FrameListTreeCard { ZIndex = ListTreeLayers.CardArea };
+                area = new FrameListTreeCard();
                 panel.Children.Add(area);
             }
 
+            area.ZIndex = ListTreeLayers.CardArea + place.Depth;
             area.Place = place;
             area.DataContext = row.Node;
             return area;
-        }
-
-        // A new area is added at the end, so it can stand before its outer area. Then every area is added again in tree order.
-        private void KeepTreeOrder()
-        {
-            if (IsInTreeOrder())
-                return;
-
-            panel.Children.RemoveAll(areas);
-            panel.Children.AddRange(areas);
-        }
-
-        private bool IsInTreeOrder()
-        {
-            var last = -1;
-            foreach (var index in areas.Select(panel.Children.IndexOf))
-            {
-                if (index < last)
-                    return false;
-
-                last = index;
-            }
-
-            return true;
         }
     }
 }
