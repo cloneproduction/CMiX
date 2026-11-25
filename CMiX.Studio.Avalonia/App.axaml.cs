@@ -60,7 +60,7 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddCMiXStudio(StudioSettings.DefaultPath, ShortcutMap.DefaultPath);
 
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-                // The value editors open the ValueInteraction of the container through the host.
+                // The value editors open the drag of their value through the host.
                 InteractionHostConnection.Connect(serviceProvider);
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();
                 MessageNotice = serviceProvider.GetRequiredService<IMessageNotice>();

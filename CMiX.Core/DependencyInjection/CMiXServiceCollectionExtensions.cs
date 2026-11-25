@@ -29,7 +29,6 @@ namespace CMiX.Core.DependencyInjection
                 );
 
             services.AddSingleton<UndoManager>();
-            services.AddSingleton<ValueInteraction>();
             services.AddSingleton(TimeProvider.System);
 
             services.AddSingleton<Project>();

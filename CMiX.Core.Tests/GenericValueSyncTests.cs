@@ -41,17 +41,17 @@ namespace CMiX.Core.Tests
             var sync = new FakeValueSync();
             var value = sync.CreateActive<float>();
             value.Value = 1f;
-            sync.Calls.Clear();
 
-            using (new ValueInteraction().BeginScope())
+            using (value.BeginDrag())
             {
+                sync.Calls.Clear();
                 value.Value = 1f;
 
                 Assert.Empty(sync.Calls);
                 value.Value = 2f;
             }
 
-            Assert.Equal(new[] { "Changing", "Changed" }, sync.Calls);
+            Assert.Equal(new[] { "Changing", "Changed", "EndInteraction" }, sync.Calls);
         }
 
         [Fact]

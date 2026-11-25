@@ -7,26 +7,20 @@ using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // Connect makes the InteractionHost of the editors open the ValueInteraction of the given provider.
+    // Connect makes the InteractionHost of the editors open the drag of the value they hand.
     public class InteractionHostConnectionTests
     {
         [Fact]
-        public void Connect_OfAProvider_OpensTheValueInteractionOfThatProvider()
+        public void Connect_ThenBeginScopeWithoutAValue_OpensNoDrag()
         {
             var provider = TestServiceProviderFactory.Create();
             try
             {
                 InteractionHostConnection.Connect(provider);
-                var interaction = provider.GetRequiredService<ValueInteraction>();
 
                 var scope = InteractionHost.BeginScope(null);
 
-                Assert.NotNull(scope);
-                Assert.True(interaction.IsActive);
-
-                scope!.Dispose();
-
-                Assert.False(interaction.IsActive);
+                Assert.Null(scope);
             }
             finally
             {
@@ -41,13 +35,11 @@ namespace CMiX.Studio.Avalonia.Tests
             try
             {
                 InteractionHostConnection.Connect(provider);
-                var interaction = provider.GetRequiredService<ValueInteraction>();
                 var value = new GenericValue<float>(provider.GetRequiredService<IValueSync>(), provider.GetRequiredService<ControlRegistry>());
 
                 var scope = InteractionHost.BeginScope(value);
 
                 Assert.NotNull(scope);
-                Assert.False(interaction.IsActive);
 
                 scope!.Dispose();
             }
