@@ -86,6 +86,11 @@ namespace CMiX.Core.Undo
 
             if (command is ValueChangedUndoCommand pushed)
                 pushed.PushedAt = now;
+            AddStep(command);
+        }
+
+        private void AddStep(IUndoCommand command)
+        {
             _undoStack.AddLast(command);
             DropRedoStack();
             TrimStack();
@@ -111,10 +116,9 @@ namespace CMiX.Core.Undo
             _captured.Clear();
             if (commands.Count == 0) return;
             if (commands.Count == 1) { Push(commands[0]); return; }
-            _undoStack.AddLast(new CompositeUndoCommand(commands));
-            DropRedoStack();
-            TrimStack();
-            RaiseChanged();
+            var composite = new CompositeUndoCommand(commands);
+            if (IsApplying || _groupDepth > 0) return;
+            AddStep(composite);
         }
 
         private void RevertCaptureAt(int depth)

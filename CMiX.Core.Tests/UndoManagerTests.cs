@@ -249,6 +249,23 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void EndCapture_WhileTheRecordingIsSuspended_PushesNothing()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            undoManager.BeginCapture();
+            undoManager.Push(new RecordingUndoCommand(1, executed));
+            undoManager.Push(new RecordingUndoCommand(2, executed));
+            using (undoManager.Suspend())
+                undoManager.EndCapture();
+
+            Assert.Equal(0, undoManager.StepCount);
+            Assert.False(undoManager.CanUndo);
+        }
+
+        [Fact]
         public void RevertCapture_TwoCapturedSteps_UndoesThemNewestFirstAndKeepsThemOffTheStack()
         {
             var provider = TestServiceProviderFactory.Create();
