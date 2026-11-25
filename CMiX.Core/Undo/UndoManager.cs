@@ -10,7 +10,6 @@ namespace CMiX.Core.Undo
         private readonly TimeProvider _time;
         // Two value steps of one control inside this window become one step.
         private readonly long _mergeWindowTicks;
-        private long _lastPushTimestamp;
 
         // A linked list rather than a stack because the cap is enforced by dropping the oldest
         // entry, which costs one node removal here and a full rebuild on a stack. The newest
@@ -75,17 +74,18 @@ namespace CMiX.Core.Undo
                 && _undoStack.Last is { } lastNode
                 && lastNode.Value is ValueChangedUndoCommand lastVc
                 && lastVc.ControlID == vc.ControlID
-                && now - _lastPushTimestamp < _mergeWindowTicks)
+                && now - lastVc.PushedAt < _mergeWindowTicks)
             {
                 vc.MergeBefore(lastVc.Before);
+                vc.PushedAt = now;
                 lastNode.Value = vc;
-                _lastPushTimestamp = now;
                 DropRedoStack();
                 RaiseChanged();
                 return;
             }
 
-            _lastPushTimestamp = now;
+            if (command is ValueChangedUndoCommand pushed)
+                pushed.PushedAt = now;
             _undoStack.AddLast(command);
             DropRedoStack();
             TrimStack();
@@ -111,7 +111,6 @@ namespace CMiX.Core.Undo
             _captured.Clear();
             if (commands.Count == 0) return;
             if (commands.Count == 1) { Push(commands[0]); return; }
-            _lastPushTimestamp = _time.GetTimestamp();
             _undoStack.AddLast(new CompositeUndoCommand(commands));
             DropRedoStack();
             TrimStack();

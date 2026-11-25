@@ -11,6 +11,8 @@ namespace CMiX.Core.Undo
 
         public Guid ControlID { get; }
         public IControlModel Before => _before;
+        // The timestamp of the time provider when the manager pushed this step.
+        public long PushedAt { get; set; }
 
         public ValueChangedUndoCommand(IControl control, IControlModel before, IControlModel after)
         {

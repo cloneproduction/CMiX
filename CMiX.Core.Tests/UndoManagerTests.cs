@@ -105,6 +105,23 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Push_AfterAnUndoOfANewerStep_DoesNotMergeIntoAnOldStep()
+        {
+            var provider = CreateWithFakeClock(out var time);
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var controlA = CreateActiveDouble(provider);
+            var controlB = CreateActiveDouble(provider);
+
+            controlA.Value = 1d;
+            time.Now += time.TimestampFrequency;
+            controlB.Value = 1d;
+            undoManager.Undo();
+            controlA.Value = 2d;
+
+            Assert.Equal(2, undoManager.StepCount);
+        }
+
+        [Fact]
         public void Changed_OnPushUndoRedoAndClear_FiresOncePerOperation()
         {
             var provider = TestServiceProviderFactory.Create();
