@@ -16,6 +16,6 @@ namespace CMiX.Core
         void Send(IControl value);
 
         // Opens a drag of the value. The handle ends it: it sends the last value and records one undo step.
-        IDisposable BeginInteraction();
+        IDisposable BeginDrag();
     }
 }

@@ -65,7 +65,7 @@ namespace CMiX.Core.BaseControls
 
         public bool IsMomentary { get; set; }
 
-        public IDisposable BeginDrag() => _sync.BeginInteraction();
+        public IDisposable BeginDrag() => _sync.BeginDrag();
 
         private T _originalValue;
         public T OriginalValue

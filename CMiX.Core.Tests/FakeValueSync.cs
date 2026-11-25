@@ -16,9 +16,9 @@ namespace CMiX.Core.Tests
 
         public void Send(IControl value) => Calls.Add("Send");
 
-        public IDisposable BeginInteraction()
+        public IDisposable BeginDrag()
         {
-            Calls.Add("BeginInteraction");
+            Calls.Add("BeginDrag");
             return new EndHandle(Calls);
         }
 
@@ -26,7 +26,7 @@ namespace CMiX.Core.Tests
         {
             private readonly List<string> _calls;
             public EndHandle(List<string> calls) => _calls = calls;
-            public void Dispose() => _calls.Add("EndInteraction");
+            public void Dispose() => _calls.Add("EndDrag");
         }
 
         // An active value that writes to this sync.

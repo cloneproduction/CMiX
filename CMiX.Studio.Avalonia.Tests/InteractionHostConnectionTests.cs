@@ -11,24 +11,24 @@ namespace CMiX.Studio.Avalonia.Tests
     public class InteractionHostConnectionTests
     {
         [Fact]
-        public void Connect_ThenBeginScopeWithoutAValue_OpensNoDrag()
+        public void Connect_ThenBeginDragWithoutAValue_OpensNoDrag()
         {
             try
             {
                 InteractionHostConnection.Connect();
 
-                var scope = InteractionHost.BeginScope(null);
+                var scope = InteractionHost.BeginDrag(null);
 
                 Assert.Null(scope);
             }
             finally
             {
-                InteractionHost.BeginScopeHandler = null;
+                InteractionHost.BeginDragHandler = null;
             }
         }
 
         [Fact]
-        public void Connect_ThenBeginScopeWithAValue_OpensTheDragOfThatValue()
+        public void Connect_ThenBeginDragWithAValue_OpensTheDragOfThatValue()
         {
             var provider = TestServiceProviderFactory.Create();
             try
@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 InteractionHostConnection.Connect();
                 var value = new GenericValue<float>(provider.GetRequiredService<IValueSync>(), provider.GetRequiredService<ControlRegistry>());
 
-                var scope = InteractionHost.BeginScope(value);
+                var scope = InteractionHost.BeginDrag(value);
 
                 Assert.NotNull(scope);
 
@@ -44,7 +44,7 @@ namespace CMiX.Studio.Avalonia.Tests
             }
             finally
             {
-                InteractionHost.BeginScopeHandler = null;
+                InteractionHost.BeginDragHandler = null;
             }
         }
     }

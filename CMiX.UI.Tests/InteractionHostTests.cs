@@ -13,7 +13,7 @@ using Xunit;
 
 namespace CMiX.UI.Tests
 {
-    // The value editors open one interaction scope per gesture, through the InteractionHost.
+    // The value editors open one drag per gesture, through the InteractionHost.
     public class InteractionHostTests
     {
         private sealed class Counter
@@ -30,7 +30,7 @@ namespace CMiX.UI.Tests
 
             public CountingScope(Counter counter) => _counter = counter;
 
-            // Like the real scope, a second dispose of the same handle ends nothing.
+            // Like the real drag handle, a second dispose of the same handle ends nothing.
             public void Dispose()
             {
                 if (_ended)
@@ -44,7 +44,7 @@ namespace CMiX.UI.Tests
         private static Counter Install()
         {
             var counter = new Counter();
-            InteractionHost.BeginScopeHandler = value =>
+            InteractionHost.BeginDragHandler = value =>
             {
                 counter.Begun++;
                 counter.LastValue = value;
@@ -59,23 +59,23 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Drag_WithoutAHandler_OpensNoScope()
         {
-            var saved = InteractionHost.BeginScopeHandler;
+            var saved = InteractionHost.BeginDragHandler;
             try
             {
-                InteractionHost.BeginScopeHandler = null;
+                InteractionHost.BeginDragHandler = null;
 
-                Assert.Null(InteractionHost.BeginScope(null));
+                Assert.Null(InteractionHost.BeginDrag(null));
             }
             finally
             {
-                InteractionHost.BeginScopeHandler = saved;
+                InteractionHost.BeginDragHandler = saved;
             }
         }
 
         [AvaloniaFact]
         public void DragValue_Drag_OpensOneScopeAndEndsItOnRelease()
         {
-            var saved = InteractionHost.BeginScopeHandler;
+            var saved = InteractionHost.BeginDragHandler;
             try
             {
                 var counter = Install();
@@ -91,14 +91,14 @@ namespace CMiX.UI.Tests
             }
             finally
             {
-                InteractionHost.BeginScopeHandler = saved;
+                InteractionHost.BeginDragHandler = saved;
             }
         }
 
         [AvaloniaFact]
         public void SliderCMiX_Drag_OpensOneScopeAndEndsItOnRelease()
         {
-            var saved = InteractionHost.BeginScopeHandler;
+            var saved = InteractionHost.BeginDragHandler;
             try
             {
                 var counter = Install();
@@ -112,14 +112,14 @@ namespace CMiX.UI.Tests
             }
             finally
             {
-                InteractionHost.BeginScopeHandler = saved;
+                InteractionHost.BeginDragHandler = saved;
             }
         }
 
         [AvaloniaFact]
         public void Drag_OfAnEditor_HandsItsDataContextToTheHost()
         {
-            var saved = InteractionHost.BeginScopeHandler;
+            var saved = InteractionHost.BeginDragHandler;
             try
             {
                 var counter = Install();
@@ -135,14 +135,14 @@ namespace CMiX.UI.Tests
             }
             finally
             {
-                InteractionHost.BeginScopeHandler = saved;
+                InteractionHost.BeginDragHandler = saved;
             }
         }
 
         [AvaloniaFact]
         public void Drag_OfAnEditorWithoutDataContext_HandsNull()
         {
-            var saved = InteractionHost.BeginScopeHandler;
+            var saved = InteractionHost.BeginDragHandler;
             try
             {
                 var counter = Install();
@@ -158,7 +158,7 @@ namespace CMiX.UI.Tests
             }
             finally
             {
-                InteractionHost.BeginScopeHandler = saved;
+                InteractionHost.BeginDragHandler = saved;
             }
         }
     }

@@ -12,7 +12,7 @@ namespace CMiX.Studio.Avalonia.Drag
     {
         public static void Connect()
         {
-            InteractionHost.BeginScopeHandler = value => (value as IDraggable)?.BeginDrag();
+            InteractionHost.BeginDragHandler = value => (value as IDraggable)?.BeginDrag();
         }
     }
 }

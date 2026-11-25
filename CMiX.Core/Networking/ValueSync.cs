@@ -30,9 +30,9 @@ namespace CMiX.Core.Networking
             _sendIntervalTicks = time.TimestampFrequency / 60;
         }
 
-        public IDisposable BeginInteraction()
+        public IDisposable BeginDrag()
         {
-            if (_drag != null) EndInteraction();
+            if (_drag != null) EndDrag();
             _drag = new DragHandle(this);
             _lastSendTicks = _time.GetTimestamp() - _sendIntervalTicks;
             _sendPending = false;
@@ -49,7 +49,7 @@ namespace CMiX.Core.Networking
 
             public void Dispose()
             {
-                if (_owner._drag == this) _owner.EndInteraction();
+                if (_owner._drag == this) _owner.EndDrag();
             }
         }
 
@@ -66,7 +66,7 @@ namespace CMiX.Core.Networking
             _value = value;
             if (_drag != null)
             {
-                WriteInInteraction();
+                WriteInDrag();
                 return;
             }
 
@@ -81,7 +81,7 @@ namespace CMiX.Core.Networking
             if (_drag != null)
             {
                 _before = null;
-                WriteInInteraction();
+                WriteInDrag();
                 return;
             }
 
@@ -89,7 +89,7 @@ namespace CMiX.Core.Networking
         }
 
         // A write during a drag rate limits the messages. The handle records the undo step at the end.
-        private void WriteInInteraction()
+        private void WriteInDrag()
         {
             var now = _time.GetTimestamp();
             if (now - _lastSendTicks >= _sendIntervalTicks)
@@ -103,7 +103,7 @@ namespace CMiX.Core.Networking
         }
 
         // Always sends the value the gesture ended on, so a throttled write is never the last one.
-        private void EndInteraction()
+        private void EndDrag()
         {
             if (_drag == null) return;
             _drag = null;

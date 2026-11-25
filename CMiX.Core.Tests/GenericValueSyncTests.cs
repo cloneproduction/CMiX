@@ -51,7 +51,7 @@ namespace CMiX.Core.Tests
                 value.Value = 2f;
             }
 
-            Assert.Equal(new[] { "Changing", "Changed", "EndInteraction" }, sync.Calls);
+            Assert.Equal(new[] { "Changing", "Changed", "EndDrag" }, sync.Calls);
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace CMiX.Core.Tests
 
             using (value.BeginDrag()) { }
 
-            Assert.Equal(new[] { "BeginInteraction", "EndInteraction" }, sync.Calls);
+            Assert.Equal(new[] { "BeginDrag", "EndDrag" }, sync.Calls);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace CMiX.Core.Tests
 
             using (value.BeginDrag()) { }
 
-            Assert.Equal(new[] { "BeginInteraction", "EndInteraction" }, sync.Calls);
+            Assert.Equal(new[] { "BeginDrag", "EndDrag" }, sync.Calls);
             Assert.Empty(other.Calls);
         }
 

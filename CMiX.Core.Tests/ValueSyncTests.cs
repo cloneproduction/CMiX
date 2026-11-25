@@ -128,7 +128,7 @@ namespace CMiX.Core.Tests
         {
             var fixture = Create();
 
-            using (fixture.Sync.BeginInteraction())
+            using (fixture.Sync.BeginDrag())
             {
                 for (int i = 0; i < 50; i++)
                     fixture.Sync.Send(fixture.Value);
@@ -147,11 +147,11 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void BeginInteraction_Then100Writes_SendsOnceAndRecordsNothingUntilTheEnd()
+        public void BeginDrag_Then100Writes_SendsOnceAndRecordsNothingUntilTheEnd()
         {
             var fixture = Create();
 
-            using (fixture.Sync.BeginInteraction())
+            using (fixture.Sync.BeginDrag())
             {
                 for (int i = 0; i < 100; i++)
                     fixture.Change();
@@ -170,14 +170,14 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void BeginInteraction_ThenDispose_SendsThePendingValueOnceAndRecordsOneStep()
+        public void BeginDrag_ThenDispose_SendsThePendingValueOnceAndRecordsOneStep()
         {
             var fixture = Create();
             fixture.Value.Value = 1f;
             fixture.Sender.Sent.Clear();
             fixture.UndoManager.Clear();
 
-            using (fixture.Sync.BeginInteraction())
+            using (fixture.Sync.BeginDrag())
             {
                 fixture.Value.Value = 2f;
                 fixture.Value.Value = 3f;
@@ -190,11 +190,11 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void BeginInteraction_ThenManyWrites_SendsTheFinalValueLast()
+        public void BeginDrag_ThenManyWrites_SendsTheFinalValueLast()
         {
             var fixture = Create();
 
-            using (fixture.Sync.BeginInteraction())
+            using (fixture.Sync.BeginDrag())
             {
                 for (int i = 1; i <= 500; i++)
                     fixture.Value.Value = i;
@@ -206,11 +206,11 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void BeginInteraction_WithNothingPending_RecordsAndSendsNothingMore()
+        public void BeginDrag_WithNothingPending_RecordsAndSendsNothingMore()
         {
             var fixture = Create();
 
-            using (fixture.Sync.BeginInteraction())
+            using (fixture.Sync.BeginDrag())
                 fixture.Change();
 
             fixture.AssertOneValueChanged();
@@ -218,11 +218,11 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void BeginInteraction_OfAMomentaryValue_SendsThePendingValueAndRecordsNothing()
+        public void BeginDrag_OfAMomentaryValue_SendsThePendingValueAndRecordsNothing()
         {
             var fixture = Create();
 
-            using (fixture.Sync.BeginInteraction())
+            using (fixture.Sync.BeginDrag())
             {
                 fixture.Sync.Send(fixture.Value);
                 fixture.Sync.Send(fixture.Value);
@@ -236,9 +236,9 @@ namespace CMiX.Core.Tests
         public void Dispose_OfAStaleHandle_EndsNothing()
         {
             var fixture = Create();
-            var first = fixture.Sync.BeginInteraction();
+            var first = fixture.Sync.BeginDrag();
             first.Dispose();
-            var second = fixture.Sync.BeginInteraction();
+            var second = fixture.Sync.BeginDrag();
             fixture.Change();
 
             first.Dispose();
@@ -254,14 +254,14 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void BeginInteraction_WhileADragIsOpen_EndsTheFirstDrag()
+        public void BeginDrag_WhileADragIsOpen_EndsTheFirstDrag()
         {
             var fixture = Create();
-            fixture.Sync.BeginInteraction();
+            fixture.Sync.BeginDrag();
             fixture.Change();
             fixture.Change();
 
-            using (fixture.Sync.BeginInteraction())
+            using (fixture.Sync.BeginDrag())
             {
                 Assert.Equal(2, fixture.Sender.Sent.Count);
                 Assert.True(fixture.UndoManager.CanUndo);
@@ -275,7 +275,7 @@ namespace CMiX.Core.Tests
             var fixture = Create(provider);
             var other = Create(provider);
 
-            using (fixture.Sync.BeginInteraction())
+            using (fixture.Sync.BeginDrag())
             {
                 fixture.Change();
                 Assert.False(fixture.UndoManager.CanUndo);
