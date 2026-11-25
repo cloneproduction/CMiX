@@ -152,32 +152,15 @@ namespace CMiX.Core.Modulation.Modulators
         private const int MaxIndex = 4;
         private const int MinIndex = -4;
 
-        private void WithUndo(Action action)
-        {
-            var before = ToModel();
+        public void Reset() => _undoManager.RecordAsOneStep(this, () => BeatIndex.Value = 0);
 
-            _undoManager.SuppressUndo();
-            try
-            {
-                action();
-            }
-            finally
-            {
-                _undoManager.ResumeUndo();
-            }
-
-            _undoManager.Push(new ValueChangedUndoCommand(this, before, ToModel()));
-        }
-
-        public void Reset() => WithUndo(() => BeatIndex.Value = 0);
-
-        public void Multiply() => WithUndo(() =>
+        public void Multiply() => _undoManager.RecordAsOneStep(this, () =>
         {
             if (BeatIndex.Value > MinIndex)
                 BeatIndex.Value--;
         });
 
-        public void Divide() => WithUndo(() =>
+        public void Divide() => _undoManager.RecordAsOneStep(this, () =>
         {
             if (BeatIndex.Value < MaxIndex)
                 BeatIndex.Value++;

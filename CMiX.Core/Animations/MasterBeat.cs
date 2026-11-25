@@ -108,7 +108,7 @@ namespace CMiX.Core.Animations
             set
             {
                 if (value <= 0) return;
-                WithUndo(() =>
+                _undoManager.RecordAsOneStep(this, () =>
                 {
                     Period.Value = 60000f / value;
                     Index.Value = 0;
@@ -126,7 +126,7 @@ namespace CMiX.Core.Animations
         }
 
         [RelayCommand]
-        public void Multiply() => WithUndo(() =>
+        public void Multiply() => _undoManager.RecordAsOneStep(this, () =>
         {
             Index.Value = Math.Clamp(Index.Value - 1, MinIndex, MaxIndex);
             int midIndex = Index.Value + (Periods.Length - 1) / 2;
@@ -137,7 +137,7 @@ namespace CMiX.Core.Animations
         });
 
         [RelayCommand]
-        public void Divide() => WithUndo(() =>
+        public void Divide() => _undoManager.RecordAsOneStep(this, () =>
         {
             Index.Value = Math.Clamp(Index.Value + 1, MinIndex, MaxIndex);
             int midIndex = Index.Value + (Periods.Length - 1) / 2;
@@ -149,7 +149,7 @@ namespace CMiX.Core.Animations
 
 
         [RelayCommand]
-        public void Tap() => WithUndo(() =>
+        public void Tap() => _undoManager.RecordAsOneStep(this, () =>
         {
             UpdatePeriods(GetMasterPeriod());
             Index.Value = 0;
@@ -198,24 +198,6 @@ namespace CMiX.Core.Animations
                 Periods[i] = multiplier * basePeriod;
                 multiplier *= 2;
             }
-        }
-
-        private void WithUndo(Action action)
-        {
-            var before = ToModel();
-
-            // Suppression is global, so a throwing action must not leave undo recording off.
-            _undoManager.SuppressUndo();
-            try
-            {
-                action();
-            }
-            finally
-            {
-                _undoManager.ResumeUndo();
-            }
-
-            _undoManager.Push(new ValueChangedUndoCommand(this, before, ToModel()));
         }
 
         public IControlModel ToModel() => new MasterBeatModel

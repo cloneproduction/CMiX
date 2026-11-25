@@ -41,6 +41,15 @@ namespace CMiX.Core.Undo
             return new CaptureScope(this, _captureStarts.Count);
         }
 
+        // Runs the action as one step of the control. The value steps inside the action are not recorded.
+        public void RecordAsOneStep(IControl control, Action action)
+        {
+            var before = control.ToModel();
+            using (Suspend())
+                action();
+            Push(new ValueChangedUndoCommand(control, before, control.ToModel()));
+        }
+
         public void Push(IUndoCommand command)
         {
             if (IsApplying || _groupDepth > 0) return;

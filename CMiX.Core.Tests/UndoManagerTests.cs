@@ -362,6 +362,27 @@ namespace CMiX.Core.Tests
             Assert.True(undoManager.CanRedo);
         }
 
+        [Fact]
+        public void RecordAsOneStep_TwoValueWrites_PushesOneStepOfTheControl()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var beat = provider.GetRequiredService<Animations.MasterBeat>();
+            var index = beat.Index.Value;
+            var beatIndex = beat.BeatIndex.Value;
+
+            undoManager.RecordAsOneStep(beat, () =>
+            {
+                beat.Index.Value = 1;
+                beat.BeatIndex.Value = 2;
+            });
+
+            Assert.Equal(1, undoManager.StepCount);
+            undoManager.Undo();
+            Assert.Equal(index, beat.Index.Value);
+            Assert.Equal(beatIndex, beat.BeatIndex.Value);
+        }
+
         private sealed class PushingUndoCommand : IUndoCommand
         {
             private readonly UndoManager _undoManager;
