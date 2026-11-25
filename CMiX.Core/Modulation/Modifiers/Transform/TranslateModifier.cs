@@ -54,7 +54,6 @@ namespace CMiX.Core.Modulation.Modifiers
             Y.FromModel(m.Y);
             Z.FromModel(m.Z);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            Modulators.Rebind();
         }
     }
 }

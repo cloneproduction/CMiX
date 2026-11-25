@@ -332,6 +332,20 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void FromModel_OfABoundNestedValue_BindsItWithoutRebind()
+        {
+            var grid = Create<GridModifier>();
+            var modulator = AddModulator<RandomModulator>(grid);
+            Bind(grid.Count.Y, modulator);
+
+            var loaded = Create<GridModifier>();
+            loaded.FromModel(grid.ToModel());
+
+            Assert.True(loaded.Count.Y.IsModulated);
+            Assert.Equal(modulator.ID, loaded.Count.Y.BoundModulator.ID);
+        }
+
+        [Fact]
         public void RemoveItem_OfAModulatorOnTwoCountAxes_UnbindsBoth()
         {
             var grid = Create<GridModifier>();

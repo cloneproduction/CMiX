@@ -103,7 +103,6 @@ namespace CMiX.Core.Modulation.Modifiers
             Value.FromModel(m.Value);
             Alpha.FromModel(m.Alpha);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            Modulators.Rebind();
             ColorMode.FromModel(m.ColorMode);
         }
     }

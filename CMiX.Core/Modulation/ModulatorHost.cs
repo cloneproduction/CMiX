@@ -42,20 +42,6 @@ namespace CMiX.Core.Modulation
 
         public void Load(PrefabManagerModel model) => LoadManager(Manager, model);
 
-        // Binds every value again to its modulator after a load.
-        public void Rebind()
-        {
-            foreach (var bindable in _bindables)
-            {
-                if (bindable.ModulatorID is not { } modulatorId) continue;
-
-                var modulator = Find(modulatorId);
-                var output = modulator?.Outputs.FirstOrDefault(o => o.Name == bindable.BoundOutputName);
-                if (output != null)
-                    bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, output));
-            }
-        }
-
         private IModulator Find(Guid id) =>
             Manager.ManagerData.Items.OfType<IModulator>().FirstOrDefault(m => m.ID == id);
 

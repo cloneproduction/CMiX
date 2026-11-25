@@ -54,7 +54,6 @@ namespace CMiX.Core.Modulation.Modifiers
             Count.X.FromModel(m.CountX);
             Count.Y.FromModel(m.CountY);
             Count.Z.FromModel(m.CountZ);
-            Modulators.Rebind();
         }
     }
 }

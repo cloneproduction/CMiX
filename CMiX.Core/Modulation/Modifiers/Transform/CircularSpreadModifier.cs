@@ -58,7 +58,6 @@ namespace CMiX.Core.Modulation.Modifiers
             Phase.FromModel(m.Phase);
             Factor.FromModel(m.Factor);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            Modulators.Rebind();
         }
     }
 }

@@ -52,7 +52,6 @@ namespace CMiX.Core.Modulation.Modifiers
             Center.FromModel(m.Center);
             Width.FromModel(m.Width);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            Modulators.Rebind();
         }
     }
 }

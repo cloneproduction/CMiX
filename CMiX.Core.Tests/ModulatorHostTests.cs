@@ -24,22 +24,5 @@ namespace CMiX.Core.Tests
 
             Assert.Single(host.Bindables);
         }
-
-        [Fact]
-        public void Rebind_OfABoundValueAfterLoad_BindsItToTheOutputAgain()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var blur = (Blur)provider.GetRequiredService<ControlFactory>().Create(typeof(Blur));
-            using var host = provider.GetRequiredService<ModulatorHost>();
-            host.Manager.AddItem(typeof(RandomModulator));
-            var modulator = (RandomModulator)host.Manager.ManagerData.Items[0];
-            blur.Strength.ModulatorID = modulator.ID;
-            blur.Strength.BoundOutputName = modulator.Outputs[0].Name;
-            host.Add(blur.Strength);
-
-            host.Rebind();
-
-            Assert.Same(modulator, blur.Strength.BoundModulator);
-        }
     }
 }

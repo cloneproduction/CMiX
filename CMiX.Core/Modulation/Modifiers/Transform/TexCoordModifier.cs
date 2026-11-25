@@ -76,7 +76,6 @@ namespace CMiX.Core.Modulation.Modifiers
             Rotation.FromModel(m.Rotation);
             Uniform.FromModel(m.Uniform);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            Modulators.Rebind();
         }
     }
 }

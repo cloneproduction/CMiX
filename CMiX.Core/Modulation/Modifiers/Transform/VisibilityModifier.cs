@@ -38,7 +38,6 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (VisibilityModifierModel)model;
             LoadBaseModel(m);
             Visible.FromModel(m.Visible);
-            Modulators.Rebind();
         }
     }
 }

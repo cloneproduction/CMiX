@@ -96,7 +96,6 @@ namespace CMiX.Core.Transformation
             RotationY.FromModel(m.RotationY);
             RotationZ.FromModel(m.RotationZ);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            Modulators.Rebind();
             DirectionXYZ.FromModel(m.DirectionXYZ);
             Mode.FromModel(m.Mode);
         }
