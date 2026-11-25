@@ -38,7 +38,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private List<RowListTree> AllRowControls() => Rows.Children.OfType<RowListTree>().ToList();
 
-        private List<RowListTree> RowControls() => AllRowControls().Where(row => row.IsVisible).ToList();
+        private List<RowListTree> RowControls() => Rows.RealizedRows.ToList();
 
         private void Search(string text)
         {

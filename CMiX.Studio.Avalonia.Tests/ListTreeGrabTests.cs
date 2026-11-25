@@ -188,7 +188,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(0, screen.UndoSteps);
             Assert.False(View.Classes.Contains(ListTreeGrab.GrabbingClass));
             Assert.Equal(TreeHintMode.Idle, View.HintMode);
-            Assert.DoesNotContain(View.Rows.Children.OfType<RowListTree>().Where(row => row.IsVisible), row => row.Classes.Contains(RowListTree.DraggedClass));
+            Assert.DoesNotContain(View.Rows.RealizedRows, row => row.Classes.Contains(RowListTree.DraggedClass));
         }
 
         [AvaloniaFact]

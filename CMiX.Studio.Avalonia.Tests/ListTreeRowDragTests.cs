@@ -173,9 +173,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
             MoveTo(PressX, Panel.Layout.PlaceOf(ListTreeKeys.Of(scene.Group<ModifiersGroup>(0)))!.Y + 16);
 
-            Assert.DoesNotContain(Panel.Children.OfType<RowListTree>().Where(row => row.IsVisible), row => row.IsPointerOver);
+            Assert.DoesNotContain(Panel.RealizedRows, row => row.IsPointerOver);
             Assert.NotNull(scene.Tree.SelectedNode);
-            Assert.DoesNotContain(Panel.Children.OfType<RowListTree>().Where(row => row.IsVisible), row => row.IsSelected);
+            Assert.DoesNotContain(Panel.RealizedRows, row => row.IsSelected);
         }
 
         [AvaloniaFact]

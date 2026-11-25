@@ -105,7 +105,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         public void ShowMarks()
         {
-            var rows = panel.Children.OfType<RowListTree>().Where(row => row.IsVisible).ToList();
+            var rows = panel.RealizedRows.ToList();
             var marks = isDragging ? new ListTreeMarks(null, null, dropTarget) : new ListTreeMarks(selected, HoveredCard(rows), dropTarget) { AlsoSelected = alsoSelected };
             foreach (var row in rows)
                 row.ShowMarks(marks);
