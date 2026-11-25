@@ -86,6 +86,58 @@ Also run: `PanelListTreeRowsTests`, `ListTreeLayoutTests`, `ListTreeRenameTests`
 
 Commit: `Reuses the row controls of the tree when other rows come into view`.
 
+#### Step 1.1b Keep the spare row controls (complexity 3, Opus)
+
+Built 1.1 at `6852a251d`: an open tree searches in 3 to 7 ms. A search from a closed tree still takes 270 to 320 ms, because a closed tree has 1 control and the pool of 1.1 lives for one pass. The owner chose to keep the spare controls, with code that stays easy to read.
+
+Pattern: the recycle pool of Avalonia `VirtualizingStackPanel` (`release/11.2.0`, `RecycleElement`, `GetRecycledElement`, `PushToRecyclePool`). The pool is a field of the panel. A spare control stays a child of the panel with `IsVisible = false`. The focused control is not pooled. The pool has no size limit and goes with the panel.
+
+Files: new `Views/ListTree/ListTreeSpareRows.cs`, `Views/ListTree/ListTreeRowControls.cs`, `CMiX.Studio.Avalonia.Tests/ListTreeRowControlsTests.cs`.
+
+`ListTreeSpareRows` holds the hidden controls. `ListTreeRowControls` asks it for a control and gives it the controls that leave. The pool takes only controls that were shown, so it never holds more than the most rows the window showed at one time. No size limit is needed.
+
+```csharp
+// Before, in ListTreeRowControls.ShowRows
+var free = new Stack<RowListTree>(TakeLeavingRows(shown));
+...
+ShowRow(control ?? ReuseRow(free, row.Key, start) ?? AddRow(row.Key, start), row, place);
+...
+foreach (var unused in free)
+    RemoveRow(unused);
+
+// After
+spareRows.KeepAll(TakeLeavingRows(shown));
+...
+ShowRow(control ?? TakeRow(row.Key, start), row, place);
+
+// TakeRow: a spare control, else a new control
+private RowListTree TakeRow(ListTreeRowKey key, ListTreePlace start) => spareRows.Take() ?? AddRow(start);
+```
+
+```csharp
+// New: Views/ListTree/ListTreeSpareRows.cs
+// The row controls that no row shows now. They stay hidden in the panel until a row comes into the window.
+internal sealed class ListTreeSpareRows
+{
+    private readonly Stack<RowListTree> rows = new();
+
+    public void KeepAll(IEnumerable<RowListTree> leaving) { ... }  // IsVisible false, DataContext null, Snap, StopFlash
+    public RowListTree? Take() { ... }                           // IsVisible true
+}
+```
+
+`RealizeOutsideWindow` takes a spare control too. Every part that reads `panel.Children.OfType<RowListTree>()` skips a hidden control: `ListTreeSurfaces.ShowMarks`, the hit tests, the focus code, and the test helpers. The subagent searches them all first. If a part cannot skip a hidden control in a simple way, the step stops and asks.
+
+Tests: `ListTreeRowControlsTests`:
+- `ShowRows_ASearchFromAClosedTree_ReusesTheSpareRows`: close all, search, empty the text, search again. The second search adds no `RowListTree` to the panel.
+- `ShowRows_ASpareRow_IsHiddenAndHasNoNode`.
+- `ShowRows_TheSpareRows_AreNeverMoreThanTheRowsOfTheWindow`.
+- The test of 1.1 that allows a few new controls now asserts zero new controls.
+
+Also run the tests of step 1.1.
+
+Commit: `Keeps the spare row controls of the tree hidden until a row needs one`.
+
 #### Step 1.2 Wait for a pause in typing (complexity 1, Sonnet)
 
 Files: `CMiX.UI/Themes/Motion.cs` (the class that holds `FlashDuration`), `Views/Tree/TextBoxSearchTree.axaml`, `CMiX.Studio.Avalonia.Tests/TextBoxSearchTreeTests.cs`.
