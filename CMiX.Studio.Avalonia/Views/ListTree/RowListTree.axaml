@@ -8,6 +8,7 @@
     FocusAdorner="{x:Null}"
     Classes.cursor="{Binding IsCursor}"
     Classes.inspected="{Binding IsInspected}"
+    Classes.searchparent="{Binding IsSearchParent}"
     Focusable="True">
 
     <!-- One row of the tree, on the tree node. The band starts at the indent, the toggles stay at the right edge.
@@ -105,17 +106,22 @@
             <Setter Property="ui:ToolTipCard.Fill" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=FillHover}" />
         </Style>
 
-        <!-- During a drag, a row that can not take the drop is a readable grey, never an opacity. -->
-        <Style Selector="Views|RowListTree:dimmed Border#band">
+        <!-- During a drag, a row that can not take the drop is a readable grey, never an opacity.
+             During a search, a parent shown only for a match has the same look, unless it is selected or inspected. -->
+        <Style Selector="Views|RowListTree:dimmed Border#band,
+                         Views|RowListTree.searchparent:not(:selected):not(.inspected) Border#band">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowDimmedBandBrush}" />
         </Style>
-        <Style Selector="Views|RowListTree:dimmed ui|TextBoxEditable#nameBox, Views|RowListTree:dimmed TextBlock#groupName">
+        <Style Selector="Views|RowListTree:dimmed ui|TextBoxEditable#nameBox, Views|RowListTree:dimmed TextBlock#groupName,
+                         Views|RowListTree.searchparent:not(:selected):not(.inspected) ui|TextBoxEditable#nameBox,
+                         Views|RowListTree.searchparent:not(:selected):not(.inspected) TextBlock#groupName">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextDimmedBrush}" />
         </Style>
-        <Style Selector="Views|RowListTree:dimmed">
+        <Style Selector="Views|RowListTree:dimmed, Views|RowListTree.searchparent:not(:selected):not(.inspected)">
             <Setter Property="IconForeground" Value="{DynamicResource ListTreeIconDimmedBrush}" />
         </Style>
-        <Style Selector="Views|RowListTree:dimmed Views|TogglesRow ToggleButton">
+        <Style Selector="Views|RowListTree:dimmed Views|TogglesRow ToggleButton,
+                         Views|RowListTree.searchparent:not(:selected):not(.inspected) Views|TogglesRow ToggleButton">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextDimmedBrush}" />
         </Style>
 

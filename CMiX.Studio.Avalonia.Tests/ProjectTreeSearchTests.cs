@@ -136,6 +136,59 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void IsSearchParent_AParentOfAMatch_IsTrue()
+        {
+            var (scene, echo) = WithARenamedEcho();
+            var parents = TreeWalk.ParentsOf(NodeOf(scene, echo)).ToList();
+
+            scene.Tree.SearchText = "Echo";
+
+            Assert.All(parents, parent => Assert.True(parent.IsSearchParent));
+            Assert.All(scene.All().Where(node => !parents.Contains(node)), node => Assert.False(node.IsSearchParent));
+        }
+
+        [Fact]
+        public void IsSearchParent_AMatchWithAMatchBelow_IsFalse()
+        {
+            var scene = CreateScene([2]);
+            Rename(scene.LayerOfA(0), "Kick");
+            Rename(scene.A, "Kick set");
+
+            scene.Tree.SearchText = "Kick";
+
+            Assert.True(scene.NodeA.HasSearchMatchBelow);
+            Assert.False(scene.NodeA.IsSearchParent);
+        }
+
+        [Fact]
+        public void IsSearchParent_TheEndOfTheSearch_IsFalseEverywhere()
+        {
+            var (scene, _) = WithARenamedEcho();
+            scene.Tree.SearchText = "Echo";
+
+            scene.Tree.SearchText = "";
+
+            Assert.All(scene.All(), node => Assert.False(node.IsSearchParent));
+        }
+
+        [Fact]
+        public void IsSearchParent_ASearchThatMarksAParent_RaisesItsChange()
+        {
+            var (scene, _) = WithARenamedEcho();
+            var changes = 0;
+            scene.LayerNodeOfA(0).PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName == nameof(TreeNode.IsSearchParent))
+                    changes++;
+            };
+
+            scene.Tree.SearchText = "Echo";
+            scene.Tree.SearchText = "";
+
+            Assert.Equal(2, changes);
+        }
+
+        [Fact]
         public void SearchMatches_OfTwoRows_AreCountedInTheOrderOfTheTree()
         {
             var scene = CreateScene([2], s =>

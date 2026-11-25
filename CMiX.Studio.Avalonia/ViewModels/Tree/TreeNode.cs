@@ -210,8 +210,28 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private bool isSearchMatch;
         private bool hasSearchMatchBelow;
 
-        public bool IsSearchMatch { get => isSearchMatch; private set => SetProperty(ref isSearchMatch, value); }
-        public bool HasSearchMatchBelow { get => hasSearchMatchBelow; internal set => SetProperty(ref hasSearchMatchBelow, value); }
+        public bool IsSearchMatch
+        {
+            get => isSearchMatch;
+            private set
+            {
+                if (SetProperty(ref isSearchMatch, value))
+                    OnPropertyChanged(nameof(IsSearchParent));
+            }
+        }
+
+        public bool HasSearchMatchBelow
+        {
+            get => hasSearchMatchBelow;
+            internal set
+            {
+                if (SetProperty(ref hasSearchMatchBelow, value))
+                    OnPropertyChanged(nameof(IsSearchParent));
+            }
+        }
+
+        // True only during a search, because HasSearchMatchBelow is false outside a search.
+        public bool IsSearchParent => HasSearchMatchBelow && !IsSearchMatch;
 
         private bool MatchesSearch(string text) => SearchRules.MatchesAny(text, Header, kindLabel);
 
