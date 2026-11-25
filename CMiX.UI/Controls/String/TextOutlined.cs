@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
@@ -33,12 +34,16 @@ namespace CMiX.UI.Controls.String
         public static readonly StyledProperty<double> OutlineThicknessProperty =
             AvaloniaProperty.Register<TextOutlined, double>(nameof(OutlineThickness));
 
+        private static readonly AvaloniaProperty[] MeasureProperties =
+            { TextProperty, FontFamilyProperty, FontSizeProperty, FontWeightProperty, OutlineThicknessProperty };
+
         private FormattedText? formatted;
         private Geometry? glyphs;
+        private Pen? outline;
 
         static TextOutlined()
         {
-            AffectsMeasure<TextOutlined>(TextProperty, FontFamilyProperty, FontSizeProperty, FontWeightProperty, OutlineThicknessProperty);
+            AffectsMeasure<TextOutlined>(MeasureProperties);
             AffectsRender<TextOutlined>(ForegroundProperty, OutlineBrushProperty);
         }
 
@@ -87,12 +92,14 @@ namespace CMiX.UI.Controls.String
         protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
         {
             base.OnPropertyChanged(change);
-            if (change.Property == TextProperty || change.Property == FontFamilyProperty || change.Property == FontSizeProperty
-                || change.Property == FontWeightProperty || change.Property == OutlineThicknessProperty)
+            if (Array.IndexOf(MeasureProperties, change.Property) >= 0)
             {
                 formatted = null;
                 glyphs = null;
             }
+
+            if (change.Property == OutlineBrushProperty || change.Property == OutlineThicknessProperty)
+                outline = null;
         }
 
         protected override Size MeasureOverride(Size availableSize)
@@ -108,12 +115,15 @@ namespace CMiX.UI.Controls.String
                 return;
 
             if (OutlineBrush != null && OutlineThickness > 0)
-                context.DrawGeometry(null, new Pen(OutlineBrush, OutlineThickness, lineJoin: PenLineJoin.Round), glyphs);
+            {
+                outline ??= new Pen(OutlineBrush, OutlineThickness, lineJoin: PenLineJoin.Round);
+                context.DrawGeometry(null, outline, glyphs);
+            }
             context.DrawGeometry(Foreground, null, glyphs);
         }
 
         private FormattedText Formatted() =>
             formatted ??= new FormattedText(Text ?? "", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                new Typeface(FontFamily, FontStyle.Normal, FontWeight), FontSize, Foreground);
+                new Typeface(FontFamily, FontStyle.Normal, FontWeight), FontSize, null);
     }
 }
