@@ -4,6 +4,7 @@
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
@@ -50,6 +51,8 @@ namespace CMiX.Studio.Avalonia.Tests
         private static Color Token(string key) => ColorOf((IBrush)Application.Current!.FindResource(key)!);
 
         private static double TokenSize(string key) => (double)Application.Current!.FindResource(key)!;
+
+        private static Thickness TokenThickness(string key) => (Thickness)Application.Current!.FindResource(key)!;
 
         [AvaloniaFact]
         public void Arrange_VisibleRows_PutsEachRowAtItsIndexTimesThePitch()
@@ -215,8 +218,45 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(expected, ColorOf(icon.Foreground));
             Assert.Equal(16, icon.Size);
-            Assert.Equal(8, icon.TranslatePoint(new Point(0, 0), Named<Border>(RowOf(node), "iconHit"))!.Value.X);
+            Assert.Equal(TokenThickness("ListTreeIconMargin").Left, icon.TranslatePoint(new Point(0, 0), Named<Border>(RowOf(node), "iconHit"))!.Value.X);
         }
+
+        [AvaloniaFact]
+        public void Row_TheKindIcon_HasTheSameSpaceOnEachSide()
+        {
+            var row = RowOf(scene.LayerNodeOfA(0));
+            var icon = Named<AppIcon>(row, "kindIcon");
+            var cell = Named<Border>(row, "iconHit");
+            var band = Named<Border>(row, "band");
+            var origin = icon.TranslatePoint(new Point(0, 0), row)!.Value;
+
+            Assert.Equal(26, row.Bounds.Height);
+            Assert.Equal(5, origin.X - band.TranslatePoint(new Point(0, 0), row)!.Value.X, 0.5);
+            Assert.Equal(5, cell.TranslatePoint(new Point(cell.Bounds.Width, 0), row)!.Value.X - (origin.X + icon.Bounds.Width), 0.5);
+            Assert.Equal(5, origin.Y, 0.5);
+            Assert.Equal(5, row.Bounds.Height - (origin.Y + icon.Bounds.Height), 0.5);
+        }
+
+        [AvaloniaFact]
+        public void Row_TheTwoToggles_Touch()
+        {
+            var row = RowOf(scene.LayerNodeOfA(0));
+            var slots = row.Toggles.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("slot")).ToList();
+            var mask = ToggleOf(slots.Single(slot => slot.Classes.Contains("mask")));
+            var eye = ToggleOf(slots.Single(slot => slot.Classes.Contains("visibility")));
+
+            var maskRight = mask.TranslatePoint(new Point(mask.Bounds.Width, 0), row)!.Value.X;
+            var eyeLeft = eye.TranslatePoint(new Point(0, 0), row)!.Value.X;
+            var eyeRight = eye.TranslatePoint(new Point(eye.Bounds.Width, 0), row)!.Value.X;
+
+            Assert.Equal(16, mask.Bounds.Width, 0.5);
+            Assert.Equal(16, eye.Bounds.Width, 0.5);
+            Assert.Equal(10, eyeLeft - maskRight, 0.5);
+            Assert.Equal(5, row.Bounds.Width - eyeRight, 0.5);
+        }
+
+        private static ToggleButton ToggleOf(Border slot) =>
+            slot.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.IsVisible);
 
         [AvaloniaFact]
         public void Show_AGroupRow_HasTheFolderIcon()
