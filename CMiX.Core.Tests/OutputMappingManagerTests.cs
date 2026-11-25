@@ -1,6 +1,8 @@
 ﻿using CMiX.Core.Compositing;
+using CMiX.Core.Networking;
 using CMiX.Core.Persistence;
 using CMiX.Core.Rendering;
+using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -73,6 +75,35 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(640, project2.OutputMappingManager.Items[3].Resolution.X.Value);
             Assert.Equal("Renamed", project2.OutputMappingManager.Items[3].Name.Value);
+        }
+
+        [Fact]
+        public void Create_ANewManager_RecordsNoUndoStepAndSendsNothing()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var sender = new RecordingMessageSender();
+            provider.GetRequiredService<ControlMessenger>().Register(sender);
+
+            provider.GetRequiredService<Project>();
+
+            Assert.Equal(0, provider.GetRequiredService<UndoManager>().StepCount);
+            Assert.Empty(sender.Sent);
+        }
+
+        [Fact]
+        public void Create_ANewManager_HasTheDefaultNamesAndResolutions()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var manager = provider.GetRequiredService<Project>().OutputMappingManager;
+
+            for (int i = 0; i < OutputMappingManager.SlotCount; i++)
+            {
+                var slot = manager.Items[i];
+                Assert.Equal($"Output {i + 1}", slot.Name.Value);
+                Assert.Equal(1920, slot.Resolution.X.Value);
+                Assert.Equal(1080, slot.Resolution.Y.Value);
+                Assert.Equal((TexcoordSemantic)i, slot.TexcoordSemantic.Value);
+            }
         }
 
         // A reset gives every slot the values of a new project. The slot instances, their fixed ids

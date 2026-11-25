@@ -23,11 +23,12 @@ namespace CMiX.Core.Rendering
 
             var items = new List<OutputMapping>(SlotCount);
             for (int i = 0; i < SlotCount; i++)
-                items.Add((OutputMapping)controlFactory.Create(typeof(OutputMapping)));
+            {
+                var mapping = (OutputMapping)controlFactory.Create(SlotModel(i));
+                mapping.ID = ManagerIDs.OutputMappingSlots[i];
+                items.Add(mapping);
+            }
             Items = items;
-
-            for (int i = 0; i < SlotCount; i++)
-                ResetSlot(i);
 
             SelectedItem = Items[0];
         }
@@ -36,21 +37,27 @@ namespace CMiX.Core.Rendering
         public void Reset()
         {
             for (int i = 0; i < SlotCount; i++)
-                ResetSlot(i);
+                Items[i].FromModel(SlotModel(i));
             SelectedItem = Items[0];
         }
 
-        // The ids are assigned before the values change, so each value message carries the fixed id
-        // of the slot. OutputMapping.FromModel would send the values with the random ids of the model.
-        private void ResetSlot(int i)
+        // The model of a new slot: the fixed ids of the slot and the values of a new project.
+        private static OutputMappingModel SlotModel(int i)
         {
-            var mapping = Items[i];
+            var ids = ManagerIDs.OutputMappingSlotFields[i];
             var defaults = new OutputMappingModel();
-            AssignFixedIds(mapping, i);
-            mapping.Name.Value = $"Output {i + 1}";
-            mapping.Resolution.X.Value = defaults.Resolution.X.Value;
-            mapping.Resolution.Y.Value = defaults.Resolution.Y.Value;
-            mapping.TexcoordSemantic.Value = (TexcoordSemantic)i;
+            return new OutputMappingModel
+            {
+                ID = ManagerIDs.OutputMappingSlots[i],
+                Name = new GenericValueModel<string>($"Output {i + 1}") { ID = ids.Name },
+                Resolution = new Integer2Model
+                {
+                    ID = ids.Resolution,
+                    X = new GenericValueModel<int>(defaults.Resolution.X.Value) { ID = ids.ResolutionX },
+                    Y = new GenericValueModel<int>(defaults.Resolution.Y.Value) { ID = ids.ResolutionY }
+                },
+                TexcoordSemantic = new GenericValueModel<TexcoordSemantic>((TexcoordSemantic)i) { ID = ids.TexcoordSemantic }
+            };
         }
 
         // Fixed, like ManagerIDs.Project/CompositionManager/etc.: this manager and its 10 slots
