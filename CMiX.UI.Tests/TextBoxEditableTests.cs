@@ -102,8 +102,7 @@ namespace CMiX.UI.Tests
         public void DoubleTap_OnAHighlightedText_StartsTheEditModeWithTheWholeText()
         {
             var shown = Show();
-            shown.Box.HighlightStart = 0;
-            shown.Box.HighlightLength = 5;
+            shown.Box.HighlightText = "Layer";
             var display = Assert.IsType<TextBlockHighlighted>(shown.Text);
             Assert.NotNull(display.HighlightRun);
 

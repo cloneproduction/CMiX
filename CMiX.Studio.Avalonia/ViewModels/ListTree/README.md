@@ -50,7 +50,7 @@ The states of a row, from the tokens `ListTree...` in `CMiX.UI/Themes/Tokens`. A
 - Selected: the selected surface, a 3 px left mark in the full kind colour, and a white name.
 - Inspected (`TreeNode.IsInspected`): the kind colour at 18 % as the surface, 25 % on hover, and white text and toggles. A selected inspected row keeps its left mark. The header of `PanelInspector` has the same tint.
 - Search parent (`TreeNode.IsSearchParent`): a parent that the search shows only for a match below it has the dimmed look of a drag. A selected or inspected parent keeps its own look.
-- Match letters: a match keeps its look, and the matched letters of its name have `AccentHighlightBrush`. `TextBlockHighlighted` (`CMiX.UI`) draws them from `TreeNode.SearchMatchStart` and `SearchMatchLength`, in the name box and in the name of a group.
+- Match letters: a match keeps its look, and the matched letters of its name have `AccentHighlightBrush`. `TextBlockHighlighted` (`CMiX.UI`) draws them from `TreeNode.SearchHighlight`, in the name box and in the name of a group.
 - Drag: a row that cannot take the drop is dimmed, and the dragged row has the dragged surface. The hover and the selection marks hide.
 
 ## The behaviors, folder `Behaviors/ListTree`

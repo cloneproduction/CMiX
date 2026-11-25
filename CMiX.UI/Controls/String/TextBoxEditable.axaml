@@ -27,9 +27,7 @@
                 Background="Transparent"
                 VerticalAlignment="Center"
                 Foreground="{Binding Foreground, ElementName=textBoxEditable}"
-                HighlightForeground="{Binding HighlightForeground, ElementName=textBoxEditable}"
-                HighlightLength="{Binding HighlightLength, ElementName=textBoxEditable}"
-                HighlightStart="{Binding HighlightStart, ElementName=textBoxEditable}"
+                HighlightText="{Binding HighlightText, ElementName=textBoxEditable}"
                 Text="{Binding Text, ElementName=textBoxEditable}" />
             <ContentPresenter
                 x:Name="suffixPresenter"

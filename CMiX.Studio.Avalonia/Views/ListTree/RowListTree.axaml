@@ -213,9 +213,7 @@
                     <ui:TextBoxEditable
                         x:Name="nameBox"
                         Padding="{DynamicResource ListTreeNamePadding}"
-                        HighlightForeground="{DynamicResource AccentHighlightBrush}"
-                        HighlightLength="{Binding SearchMatchLength}"
-                        HighlightStart="{Binding SearchMatchStart}"
+                        HighlightText="{Binding SearchHighlight}"
                         IsVisible="{Binding Item, Converter={x:Static ObjectConverters.IsNotNull}}"
                         Text="{Binding Item.PrefabService.Name.Value, Mode=TwoWay}">
                         <ui:TextBoxEditable.Suffix>
@@ -234,9 +232,7 @@
                             x:Name="groupName"
                             Padding="{DynamicResource ListTreeNamePadding}"
                             VerticalAlignment="Center"
-                            HighlightForeground="{DynamicResource AccentHighlightBrush}"
-                            HighlightLength="{Binding SearchMatchLength}"
-                            HighlightStart="{Binding SearchMatchStart}"
+                            HighlightText="{Binding SearchHighlight}"
                             Text="{Binding Header}" />
                         <Views:BadgesKindCount
                             IsVisible="{Binding ShowsBadges}"

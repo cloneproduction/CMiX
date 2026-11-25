@@ -6,29 +6,22 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
 using Avalonia.Media;
+using CMiX.UI.Search;
 
 namespace CMiX.UI.Controls.String
 {
-    // A TextBlock that draws a range of its text, such as the letters of a search match, in HighlightForeground.
-    // The range comes from properties only, so a control that is used again for other data shows the range of that data.
+    // A TextBlock that draws the letters of HighlightText in its text in HighlightForeground, AccentHighlightBrush by default.
     public class TextBlockHighlighted : TextBlock
     {
-        public static readonly StyledProperty<int> HighlightStartProperty =
-            AvaloniaProperty.Register<TextBlockHighlighted, int>(nameof(HighlightStart), -1);
+        private const string HighlightBrushKey = "AccentHighlightBrush";
 
-        public int HighlightStart
+        public static readonly StyledProperty<string?> HighlightTextProperty =
+            AvaloniaProperty.Register<TextBlockHighlighted, string?>(nameof(HighlightText));
+
+        public string? HighlightText
         {
-            get => GetValue(HighlightStartProperty);
-            set => SetValue(HighlightStartProperty, value);
-        }
-
-        public static readonly StyledProperty<int> HighlightLengthProperty =
-            AvaloniaProperty.Register<TextBlockHighlighted, int>(nameof(HighlightLength));
-
-        public int HighlightLength
-        {
-            get => GetValue(HighlightLengthProperty);
-            set => SetValue(HighlightLengthProperty, value);
+            get => GetValue(HighlightTextProperty);
+            set => SetValue(HighlightTextProperty, value);
         }
 
         public static readonly StyledProperty<IBrush?> HighlightForegroundProperty =
@@ -50,32 +43,49 @@ namespace CMiX.UI.Controls.String
         {
             base.OnPropertyChanged(change);
 
-            if (change.Property == TextProperty || change.Property == HighlightStartProperty
-                || change.Property == HighlightLengthProperty || change.Property == HighlightForegroundProperty)
+            if (change.Property == TextProperty || change.Property == HighlightTextProperty || change.Property == HighlightForegroundProperty)
                 ShowHighlight();
         }
-
-        private bool HasHighlight =>
-            Text != null && HighlightStart >= 0 && HighlightLength > 0 && HighlightStart + HighlightLength <= Text.Length;
 
         // A new collection each time: an Add to the collection of the TextBlock moves its Text into a run and empties the Text.
         private void ShowHighlight()
         {
-            if (!HasHighlight)
+            var start = SearchRules.IndexOfMatch(HighlightText, Text);
+            if (start < 0)
             {
-                HighlightRun = null;
-                Inlines = new InlineCollection();
+                ClearHighlight();
                 return;
             }
 
             var text = Text!;
-            HighlightRun = new Run(text.Substring(HighlightStart, HighlightLength)) { Foreground = HighlightForeground };
+            var length = HighlightText!.Length;
+            HighlightRun = CreateHighlightRun(text.Substring(start, length));
             Inlines = new InlineCollection
             {
-                new Run(text.Substring(0, HighlightStart)),
+                new Run(text.Substring(0, start)),
                 HighlightRun,
-                new Run(text.Substring(HighlightStart + HighlightLength)),
+                new Run(text.Substring(start + length)),
             };
+        }
+
+        private void ClearHighlight()
+        {
+            if (HighlightRun == null)
+                return;
+
+            HighlightRun = null;
+            Inlines = new InlineCollection();
+        }
+
+        private Run CreateHighlightRun(string letters)
+        {
+            var run = new Run(letters);
+            if (HighlightForeground != null)
+                run.Foreground = HighlightForeground;
+            else
+                run.Bind(TextElement.ForegroundProperty, run.GetResourceObservable(HighlightBrushKey));
+
+            return run;
         }
     }
 }

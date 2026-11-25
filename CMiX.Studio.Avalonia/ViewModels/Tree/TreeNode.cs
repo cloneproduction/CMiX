@@ -233,38 +233,26 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         // True only during a search, because HasSearchMatchBelow is false outside a search.
         public bool IsSearchParent => HasSearchMatchBelow && !IsSearchMatch;
 
-        // The letters of the name that the search matches: a start of -1 and a length of 0 when no letter matches.
-        private int searchMatchStart = -1;
-        private int searchMatchLength;
+        // The search text that the row draws in its name, or null when the row is not a match.
+        private string? searchHighlight;
 
-        public int SearchMatchStart { get => searchMatchStart; private set => SetProperty(ref searchMatchStart, value); }
-        public int SearchMatchLength { get => searchMatchLength; private set => SetProperty(ref searchMatchLength, value); }
+        public string? SearchHighlight { get => searchHighlight; private set => SetProperty(ref searchHighlight, value); }
 
         internal void ShowSearchLook(string text)
         {
             var start = SearchRules.IndexOfMatch(text, Header);
             IsSearchMatch = start >= 0 || SearchRules.Matches(text, kindLabel);
-            ShowMatchedLetters(start, text.Length);
+            if (IsSearchMatch)
+                SearchHighlight = text;
+            else
+                SearchHighlight = null;
         }
 
         internal void ClearSearchLook()
         {
             IsSearchMatch = false;
             HasSearchMatchBelow = false;
-            ShowMatchedLetters(-1, 0);
-        }
-
-        private void ShowMatchedLetters(int start, int length)
-        {
-            if (start < 0)
-            {
-                SearchMatchStart = -1;
-                SearchMatchLength = 0;
-                return;
-            }
-
-            SearchMatchStart = start;
-            SearchMatchLength = length;
+            SearchHighlight = null;
         }
 
         partial void OnHeaderChanged(string value) => host.RefreshSearch();

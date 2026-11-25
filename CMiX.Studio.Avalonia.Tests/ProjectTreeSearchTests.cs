@@ -189,26 +189,25 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
-        public void SearchMatchStart_APartOfTheName_GivesTheLettersOfTheMatch()
+        public void SearchHighlight_AMatch_IsTheTrimmedSearchText()
         {
             var (scene, echo) = WithARenamedEcho();
 
             scene.Tree.SearchText = " RAI ";
 
-            Assert.Equal(1, NodeOf(scene, echo).SearchMatchStart);
-            Assert.Equal(3, NodeOf(scene, echo).SearchMatchLength);
+            Assert.Equal("RAI", NodeOf(scene, echo).SearchHighlight);
+            Assert.All(scene.All().Where(node => !node.IsSearchMatch), node => Assert.Null(node.SearchHighlight));
         }
 
         [Fact]
-        public void SearchMatchStart_TheEndOfTheSearch_MarksNoLetter()
+        public void SearchHighlight_TheEndOfTheSearch_IsNull()
         {
             var (scene, _) = WithARenamedEcho();
             scene.Tree.SearchText = "rai";
 
             scene.Tree.SearchText = "";
 
-            Assert.All(scene.All(), node => Assert.Equal(-1, node.SearchMatchStart));
-            Assert.All(scene.All(), node => Assert.Equal(0, node.SearchMatchLength));
+            Assert.All(scene.All(), node => Assert.Null(node.SearchHighlight));
         }
 
         [Fact]
