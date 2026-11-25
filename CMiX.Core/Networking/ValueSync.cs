@@ -22,6 +22,7 @@ namespace CMiX.Core.Networking
         private bool _inInteraction;
         private long _lastSendTicks;
         private bool _sendPending;
+        private long _dragToken;
 
         public ValueSync(UndoManager undoManager, MessageFactory messageFactory, ControlMessenger messenger, ValueInteraction interaction, TimeProvider time)
         {
@@ -37,14 +38,14 @@ namespace CMiX.Core.Networking
         {
             _value = value;
             // In a drag the model before the first write is the before of the undo step.
-            if (_interaction.IsActive && _inInteraction) return;
-            _before = _value.ToModel();
+            if (!_inInteraction || _before == null)
+                _before = _value.ToModel();
         }
 
         public void Changed(IControl value)
         {
             _value = value;
-            if (_interaction.IsActive)
+            if (_inInteraction || _interaction.IsActive)
             {
                 WriteInInteraction();
                 return;
@@ -58,7 +59,7 @@ namespace CMiX.Core.Networking
         public void Send(IControl value)
         {
             _value = value;
-            if (_interaction.IsActive)
+            if (_inInteraction || _interaction.IsActive)
             {
                 _before = null;
                 WriteInInteraction();
@@ -66,6 +67,17 @@ namespace CMiX.Core.Networking
             }
 
             SendNow();
+        }
+
+        public IDisposable BeginInteraction()
+        {
+            if (_inInteraction) EndInteraction();
+            _inInteraction = true;
+            _lastSendTicks = _time.GetTimestamp() - _sendIntervalTicks;
+            _sendPending = false;
+            _before = null;
+            _dragToken++;
+            return new DragHandle(this, _dragToken);
         }
 
         // A write in a ValueInteraction scope rate limits the messages. EndInteraction records the undo step.
@@ -94,6 +106,7 @@ namespace CMiX.Core.Networking
         public void EndInteraction()
         {
             if (!_inInteraction) return;
+            _dragToken++;
             _inInteraction = false;
 
             if (_sendPending)
@@ -108,6 +121,26 @@ namespace CMiX.Core.Networking
                 _before = null;
                 Record(before, _value.ToModel());
             }
+        }
+
+        private void EndInteraction(long token)
+        {
+            if (token == _dragToken) EndInteraction();
+        }
+
+        // Ends the drag that opened it. A stale handle ends nothing.
+        private sealed class DragHandle : IDisposable
+        {
+            private readonly ValueSync _owner;
+            private readonly long _token;
+
+            public DragHandle(ValueSync owner, long token)
+            {
+                _owner = owner;
+                _token = token;
+            }
+
+            public void Dispose() => _owner.EndInteraction(_token);
         }
 
         private void Record(IControlModel before, IControlModel after) =>

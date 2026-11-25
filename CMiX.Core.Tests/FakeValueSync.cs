@@ -16,6 +16,19 @@ namespace CMiX.Core.Tests
 
         public void Send(IControl value) => Calls.Add("Send");
 
+        public IDisposable BeginInteraction()
+        {
+            Calls.Add("BeginInteraction");
+            return new EndHandle(Calls);
+        }
+
+        private sealed class EndHandle : IDisposable
+        {
+            private readonly List<string> _calls;
+            public EndHandle(List<string> calls) => _calls = calls;
+            public void Dispose() => _calls.Add("EndInteraction");
+        }
+
         // An active value that writes to this sync.
         public GenericValue<T> CreateActive<T>()
         {

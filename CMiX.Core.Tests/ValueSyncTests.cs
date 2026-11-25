@@ -44,9 +44,10 @@ namespace CMiX.Core.Tests
             public void Undo() => _undo();
         }
 
-        private static Fixture Create()
+        private static Fixture Create() => Create(TestServiceProviderFactory.Create());
+
+        private static Fixture Create(IServiceProvider provider)
         {
-            var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
             var messenger = provider.GetRequiredService<ControlMessenger>();
             var interaction = provider.GetRequiredService<ValueInteraction>();
@@ -195,6 +196,131 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(2, fixture.Sender.Sent.Count);
             Assert.False(fixture.UndoManager.CanUndo);
+        }
+
+        [Fact]
+        public void BeginInteraction_Then100Writes_SendsOnceAndRecordsNothingUntilTheEnd()
+        {
+            var fixture = Create();
+
+            using (fixture.Sync.BeginInteraction())
+            {
+                for (int i = 0; i < 100; i++)
+                    fixture.Change();
+
+                Assert.Single(fixture.Sender.Sent);
+                Assert.False(fixture.UndoManager.CanUndo);
+
+                fixture.Time.Now += 1000;
+                fixture.Change();
+
+                Assert.Equal(2, fixture.Sender.Sent.Count);
+                Assert.False(fixture.UndoManager.CanUndo);
+            }
+
+            Assert.True(fixture.UndoManager.CanUndo);
+        }
+
+        [Fact]
+        public void BeginInteraction_ThenDispose_SendsThePendingValueOnceAndRecordsOneStep()
+        {
+            var fixture = Create();
+            fixture.Value.Value = 1f;
+            fixture.Sender.Sent.Clear();
+            fixture.UndoManager.Clear();
+
+            using (fixture.Sync.BeginInteraction())
+            {
+                fixture.Value.Value = 2f;
+                fixture.Value.Value = 3f;
+            }
+
+            Assert.Equal(2, fixture.Sender.Sent.Count);
+            fixture.UndoManager.Undo();
+            Assert.Equal(1f, fixture.Value.Value);
+            Assert.False(fixture.UndoManager.CanUndo);
+        }
+
+        [Fact]
+        public void BeginInteraction_WithNothingPending_RecordsAndSendsNothingMore()
+        {
+            var fixture = Create();
+
+            using (fixture.Sync.BeginInteraction())
+                fixture.Change();
+
+            fixture.AssertOneValueChanged();
+            Assert.True(fixture.UndoManager.CanUndo);
+        }
+
+        [Fact]
+        public void BeginInteraction_OfAMomentaryValue_SendsThePendingValueAndRecordsNothing()
+        {
+            var fixture = Create();
+
+            using (fixture.Sync.BeginInteraction())
+            {
+                fixture.Sync.Send(fixture.Value);
+                fixture.Sync.Send(fixture.Value);
+            }
+
+            Assert.Equal(2, fixture.Sender.Sent.Count);
+            Assert.False(fixture.UndoManager.CanUndo);
+        }
+
+        [Fact]
+        public void Dispose_OfAStaleHandle_EndsNothing()
+        {
+            var fixture = Create();
+            var first = fixture.Sync.BeginInteraction();
+            first.Dispose();
+            var second = fixture.Sync.BeginInteraction();
+            fixture.Change();
+
+            first.Dispose();
+            fixture.Change();
+
+            Assert.Single(fixture.Sender.Sent);
+            Assert.False(fixture.UndoManager.CanUndo);
+
+            second.Dispose();
+
+            Assert.Equal(2, fixture.Sender.Sent.Count);
+            Assert.True(fixture.UndoManager.CanUndo);
+        }
+
+        [Fact]
+        public void BeginInteraction_WhileADragIsOpen_EndsTheFirstDrag()
+        {
+            var fixture = Create();
+            fixture.Sync.BeginInteraction();
+            fixture.Change();
+            fixture.Change();
+
+            using (fixture.Sync.BeginInteraction())
+            {
+                Assert.Equal(2, fixture.Sender.Sent.Count);
+                Assert.True(fixture.UndoManager.CanUndo);
+            }
+        }
+
+        [Fact]
+        public void Changed_OfAnotherValueDuringADrag_RecordsAtOnce()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var fixture = Create(provider);
+            var other = Create(provider);
+
+            using (fixture.Sync.BeginInteraction())
+            {
+                fixture.Change();
+                Assert.False(fixture.UndoManager.CanUndo);
+                other.Change();
+
+                Assert.True(fixture.UndoManager.CanUndo);
+                var message = Assert.IsType<MessageValueChanged>(fixture.Sender.Sent.Last());
+                Assert.Equal(other.Value.ID, message.ID);
+            }
         }
 
         [Fact]

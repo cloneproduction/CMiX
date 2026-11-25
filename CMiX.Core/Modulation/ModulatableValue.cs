@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Modulation
 {
-    public partial class ModulatableValue<T> : ObservableObject, IControl, IModulatorBindable
+    public partial class ModulatableValue<T> : ObservableObject, IControl, IModulatorBindable, IDraggable
     {
         public ModulatableValue(GenericValue<T> value,
                                 GenericValue<Guid?> modulatorID,
@@ -57,6 +57,8 @@ namespace CMiX.Core.Modulation
             get => ValueSource.IsMomentary;
             set => ValueSource.IsMomentary = value;
         }
+
+        public IDisposable BeginDrag() => ValueSource.BeginDrag();
 
         public T Value
         {

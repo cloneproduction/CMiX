@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.BaseControls
 {
-    public class GenericValue<T> : ReceivableControl, IControl
+    public class GenericValue<T> : ReceivableControl, IControl, IDraggable
     {
         public GenericValue(IValueSync sync, ControlRegistry registry)
         {
@@ -64,6 +64,8 @@ namespace CMiX.Core.BaseControls
         }
 
         public bool IsMomentary { get; set; }
+
+        public IDisposable BeginDrag() => _sync.BeginInteraction();
 
         private T _originalValue;
         public T OriginalValue

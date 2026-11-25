@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Undo;
 using Xunit;
 
 namespace CMiX.Core.Tests
@@ -75,6 +77,30 @@ namespace CMiX.Core.Tests
 
             Assert.Equal(new[] { "Send" }, sync.Calls);
             Assert.Equal(1f, value.Value);
+        }
+
+        [Fact]
+        public void BeginDrag_OfAValue_OpensAndClosesTheDragOnItsSync()
+        {
+            var sync = new FakeValueSync();
+            var value = sync.CreateActive<float>();
+
+            using (value.BeginDrag()) { }
+
+            Assert.Equal(new[] { "BeginInteraction", "EndInteraction" }, sync.Calls);
+        }
+
+        [Fact]
+        public void BeginDrag_OfAModulatableValue_OpensAndClosesTheDragOnTheSyncOfItsValue()
+        {
+            var sync = new FakeValueSync();
+            var other = new FakeValueSync();
+            var value = new ModulatableValue<float>(sync.CreateActive<float>(), other.CreateActive<Guid?>(), other.CreateActive<string>(), new UndoManager(TimeProvider.System));
+
+            using (value.BeginDrag()) { }
+
+            Assert.Equal(new[] { "BeginInteraction", "EndInteraction" }, sync.Calls);
+            Assert.Empty(other.Calls);
         }
 
         [Fact]

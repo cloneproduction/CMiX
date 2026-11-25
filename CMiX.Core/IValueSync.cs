@@ -14,5 +14,8 @@ namespace CMiX.Core
 
         // Sends the value. No undo step. For a momentary value.
         void Send(IControl value);
+
+        // Opens a drag of the value. The handle ends it: it sends the last value and records one undo step.
+        IDisposable BeginInteraction();
     }
 }
