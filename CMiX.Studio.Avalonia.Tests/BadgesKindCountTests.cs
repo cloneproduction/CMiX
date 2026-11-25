@@ -283,6 +283,30 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void Show_ABadgeCount_IsNotClippedByAnyAncestor()
+        {
+            Show();
+            Close(Layer);
+            var row = RowOf(Layer);
+
+            var counts = KindBadgesOf(BadgesOf(Layer)).Select(CountOf).ToList();
+
+            Assert.NotEmpty(counts);
+            foreach (var count in counts)
+            {
+                foreach (var ancestor in count.GetVisualAncestors().TakeWhile(visual => visual != row).OfType<Visual>())
+                {
+                    if (!ancestor.ClipToBounds)
+                        continue;
+
+                    var corner = count.TranslatePoint(new Point(0, 0), ancestor)!.Value;
+                    var rect = new Rect(corner, count.Bounds.Size);
+                    Assert.True(new Rect(ancestor.Bounds.Size).Contains(rect), $"{ancestor.GetType().Name} clips the count");
+                }
+            }
+        }
+
+        [AvaloniaFact]
         public void Show_TwoKindBadges_AreEightApart()
         {
             Show();

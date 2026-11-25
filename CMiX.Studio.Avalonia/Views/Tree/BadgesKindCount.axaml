@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="https://github.com/cloneproduction/CMiX.UI"
     xmlns:Tree="clr-namespace:CMiX.Studio.Avalonia.ViewModels.Tree"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    ClipToBounds="False">
 
     <!-- What a collapsed row holds: the icon of each kind, in the colour of the kind, with how many at its bottom right in white; the
          tooltip, in the colour of the kind, names the kind.
@@ -28,7 +29,8 @@
 
     <StackPanel Orientation="Horizontal" Spacing="{DynamicResource SpacingXS}">
         <StackPanel Orientation="Horizontal" Spacing="{DynamicResource SpacingXS}" IsVisible="{Binding ShowsKindCounts}">
-        <ItemsControl ItemsSource="{Binding ShownKindCounts}">
+        <!-- The clip is off: the count sticks out of the icon. -->
+        <ItemsControl ClipToBounds="False" ItemsSource="{Binding ShownKindCounts}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" Spacing="{DynamicResource SpacingMD}" />
