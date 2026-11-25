@@ -59,24 +59,33 @@ namespace CMiX.Studio.Avalonia.Views
             layout = shown;
             Window = panel.RowWindow;
             Remember(rows);
-            var kept = new HashSet<ListTreeRowKey>();
+            var free = new Stack<RowListTree>(TakeLeavingRows(shown));
             foreach (var row in rows)
             {
                 var place = shown.PlaceOf(row.Key)!;
                 var control = rowsByKey.GetValueOrDefault(row.Key);
-                if (control != null ? !IsKept(control, place) : !Window.Overlaps(place.Y, place.RowHeight))
+                if (control == null && !Window.Overlaps(place.Y, place.RowHeight))
                     continue;
 
-                ShowRow(control ?? AddRow(row.Key, before.PlaceOf(row.Key) ?? place), row, place);
-                kept.Add(row.Key);
+                var start = before.PlaceOf(row.Key) ?? place;
+                ShowRow(control ?? ReuseRow(free, row.Key, start) ?? AddRow(row.Key, start), row, place);
             }
 
-            foreach (var key in rowsByKey.Keys.Where(key => !kept.Contains(key)).ToArray())
-                RemoveRow(key);
+            foreach (var unused in free)
+                RemoveRow(unused);
         }
 
         private bool IsKept(RowListTree control, ListTreePlace place) =>
             Window.Overlaps(place.Y, place.RowHeight) || Window.Overlaps(ListTreeRowSlide.ShownTopOf(control), place.RowHeight) || control.IsKeyboardFocusWithin;
+
+        // A control whose row is gone or leaves the window loses its key and can take a row that comes into the window.
+        private List<RowListTree> TakeLeavingRows(ListTreeLayout shown)
+        {
+            var leaving = rowsByKey.Where(entry => !shownRows.ContainsKey(entry.Key) || !IsKept(entry.Value, shown.PlaceOf(entry.Key)!)).ToList();
+            foreach (var entry in leaving)
+                rowsByKey.Remove(entry.Key);
+            return leaving.Select(entry => entry.Value).ToList();
+        }
 
         private void Remember(IReadOnlyList<ListTreeRow> rows)
         {
@@ -133,11 +142,23 @@ namespace CMiX.Studio.Avalonia.Views
             return control;
         }
 
-        private void RemoveRow(ListTreeRowKey key)
+        // A reused row starts like a new row: at its start top, with no slide and no flash.
+        private RowListTree? ReuseRow(Stack<RowListTree> free, ListTreeRowKey key, ListTreePlace start)
         {
-            surfaces.Unwatch(rowsByKey[key]);
-            panel.Children.Remove(rowsByKey[key]);
-            rowsByKey.Remove(key);
+            if (!free.TryPop(out var control))
+                return null;
+
+            ListTreeRowSlide.Snap(control);
+            control.StopFlash();
+            PanelListTreeRows.SetTop(control, start.Y);
+            rowsByKey[key] = control;
+            return control;
+        }
+
+        private void RemoveRow(RowListTree control)
+        {
+            surfaces.Unwatch(control);
+            panel.Children.Remove(control);
         }
     }
 }

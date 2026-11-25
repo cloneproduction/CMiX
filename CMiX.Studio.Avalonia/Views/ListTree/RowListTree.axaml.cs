@@ -138,8 +138,10 @@ namespace CMiX.Studio.Avalonia.Views
         public void Flash()
         {
             PseudoClasses.Set(FlashClass, true);
-            DispatcherTimer.RunOnce(() => PseudoClasses.Set(FlashClass, false), Motion.FlashDuration);
+            DispatcherTimer.RunOnce(StopFlash, Motion.FlashDuration);
         }
+
+        public void StopFlash() => PseudoClasses.Set(FlashClass, false);
 
         internal ListTreeRowPressRule.Part PressPartOf(object? source) =>
             Place is { CanToggle: true } && source is Visual visual && (ReferenceEquals(visual, iconHit) || iconHit.IsVisualAncestorOf(visual))
