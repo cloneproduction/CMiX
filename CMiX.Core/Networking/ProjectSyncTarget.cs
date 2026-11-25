@@ -25,22 +25,21 @@ namespace CMiX.Core.Networking
 
         public ProjectModel Capture() => (ProjectModel)_project.ToModel();
 
-        // The clear and the load send messages and record undo steps. A snapshot apply must do
-        // neither: the messages would go back into the stream, and the steps would undo into the
-        // state the snapshot replaced. The clear of the stack comes last, as in ProjectSession.
+        // A snapshot apply sends no message and records no step. The clear of the stack comes last.
         public void ApplySnapshot(ProjectModel model)
         {
             var wasBlocked = _messenger.IsSendingBlocked;
             _messenger.IsSendingBlocked = true;
-            _undoManager.SuppressUndo();
             try
             {
-                _project.ApplySnapshot(model);
-                _undoManager.Clear();
+                using (_undoManager.Suspend())
+                {
+                    _project.ApplySnapshot(model);
+                    _undoManager.Clear();
+                }
             }
             finally
             {
-                _undoManager.ResumeUndo();
                 _messenger.IsSendingBlocked = wasBlocked;
             }
         }

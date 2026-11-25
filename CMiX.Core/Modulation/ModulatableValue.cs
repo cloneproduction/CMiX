@@ -88,15 +88,10 @@ namespace CMiX.Core.Modulation
         [RelayCommand]
         private void SetModulator(ModulatorOutputSelection selection)
         {
-            _undoManager.BeginCapture();
-            try
+            using (_undoManager.Capture())
             {
                 ModulatorID = selection?.Modulator?.ID;
                 BoundOutputName = selection?.Output?.Name;
-            }
-            finally
-            {
-                _undoManager.EndCapture();
             }
         }
 

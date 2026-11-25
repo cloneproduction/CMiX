@@ -177,15 +177,13 @@ namespace CMiX.Core.Prefabs.Managers
         // The add and the action are one undo step.
         public void AddItem(Type type, Action<IControl> afterAdd)
         {
-            UndoManager.BeginCapture();
-            try
+            using (UndoManager.Capture())
             {
                 var item = _controlFactory.Create(type);
                 if (item == null) return;
                 Run(new AddItemUndoCommand(_list, item, ManagerData.Items.Count));
                 afterAdd(item);
             }
-            finally { UndoManager.EndCapture(); }
         }
 
         public void AddExistingItem(IControl control)
@@ -230,15 +228,10 @@ namespace CMiX.Core.Prefabs.Managers
         public void RemoveEverywhere(IControl control)
         {
             control ??= SelectedItem;
-            UndoManager.BeginCapture();
-            try
+            using (UndoManager.Capture())
             {
                 foreach (var collectionManager in Collection.ControlRepository.GetCollectionManagers(control))
                     RemoveFrom(collectionManager, control);
-            }
-            finally
-            {
-                UndoManager.EndCapture();
             }
         }
 
@@ -271,16 +264,11 @@ namespace CMiX.Core.Prefabs.Managers
                     return MoveResult.BlockedBy(blocking);
             }
 
-            UndoManager.BeginCapture();
-            try
+            using (UndoManager.Capture())
             {
                 // The item enters this list before it leaves the source, so it is never orphaned.
                 Run(new AddItemUndoCommand(_list, item, Math.Clamp(index, 0, ManagerData.Items.Count)));
                 source.RemoveItem(item);
-            }
-            finally
-            {
-                UndoManager.EndCapture();
             }
 
             return MoveResult.Done;
