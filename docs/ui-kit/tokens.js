@@ -116,7 +116,7 @@ window.CMIX_TOKENS = {
                                           "type":  "Color",
                                           "raw":  "#FF606063",
                                           "css":  "#606063",
-                                          "note":  "The colors of the modulator assign button, one pair for each ModulatorCategory. The name is Modulator + category + (Highlight when the modulator is hovered). A new category needs two colors here and two brushes in Brushes.axaml. An internal modulator has the color of the modulator rows of the tree (CategoryModulator), not the accent: the accent means on or selected."
+                                          "note":  "The colors of the modulator assign button, one pair for each ModulatorCategory. The name is Modulator + category + (Highlight when the modulator is hovered). A new category needs two colors here and two brushes in Brushes.axaml. An internal modulator has the color of the modulator kind (CategoryModulator), not the accent: the accent means on or selected."
                                       },
                                       {
                                           "name":  "ModulatorInternal",
@@ -298,6 +298,90 @@ window.CMIX_TOKENS = {
                                           "type":  "Color",
                                           "raw":  "#FFFFFFFF",
                                           "css":  "#FFFFFF",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowRestBand",
+                                          "type":  "Color",
+                                          "raw":  "#0DFFFFFF",
+                                          "css":  "#FFFFFF0D",
+                                          "note":  "The new list tree. An opaque surface is white at a strength over TreeBackground. A band is white with alpha over what is under it."
+                                      },
+                                      {
+                                          "name":  "ListTreeRowHover",
+                                          "type":  "Color",
+                                          "raw":  "#FF1B1B1E",
+                                          "css":  "#1B1B1E",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowSelected",
+                                          "type":  "Color",
+                                          "raw":  "#FF202023",
+                                          "css":  "#202023",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowSelectedHover",
+                                          "type":  "Color",
+                                          "raw":  "#FF27272A",
+                                          "css":  "#27272A",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowDragged",
+                                          "type":  "Color",
+                                          "raw":  "#FF353538",
+                                          "css":  "#353538",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowDimmedBand",
+                                          "type":  "Color",
+                                          "raw":  "#05FFFFFF",
+                                          "css":  "#FFFFFF05",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowCursorFrame",
+                                          "type":  "Color",
+                                          "raw":  "#73FFFFFF",
+                                          "css":  "#FFFFFF73",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeCardDropTarget",
+                                          "type":  "Color",
+                                          "raw":  "#FF1B1B1E",
+                                          "css":  "#1B1B1E",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeTextRest",
+                                          "type":  "Color",
+                                          "raw":  "#FFB6B6BB",
+                                          "css":  "#B6B6BB",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeTextDimmed",
+                                          "type":  "Color",
+                                          "raw":  "#FF9A9A9F",
+                                          "css":  "#9A9A9F",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeTextHidden",
+                                          "type":  "Color",
+                                          "raw":  "#FF8A8A8F",
+                                          "css":  "#8A8A8F",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeIconHidden",
+                                          "type":  "Color",
+                                          "raw":  "#FF6C6C6F",
+                                          "css":  "#6C6C6F",
                                           "note":  ""
                                       },
                                       {
@@ -518,6 +602,125 @@ window.CMIX_TOKENS = {
                                           "note":  ""
                                       },
                                       {
+                                          "name":  "ListTreeBackgroundBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource TreeBackground}",
+                                          "css":  "var(--TreeBackground)",
+                                          "note":  "The new list tree. The active text is TreeTextRest, the selected text is ActiveText, the dimmed icon is Grey800."
+                                      },
+                                      {
+                                          "name":  "ListTreeToolbarBackgroundBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource Grey300}",
+                                          "css":  "var(--Grey300)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowRestBandBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeRowRestBand}",
+                                          "css":  "var(--ListTreeRowRestBand)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowHoverBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeRowHover}",
+                                          "css":  "var(--ListTreeRowHover)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowSelectedBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeRowSelected}",
+                                          "css":  "var(--ListTreeRowSelected)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowSelectedHoverBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeRowSelectedHover}",
+                                          "css":  "var(--ListTreeRowSelectedHover)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowDraggedBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeRowDragged}",
+                                          "css":  "var(--ListTreeRowDragged)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowDimmedBandBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeRowDimmedBand}",
+                                          "css":  "var(--ListTreeRowDimmedBand)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowCursorFrameBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeRowCursorFrame}",
+                                          "css":  "var(--ListTreeRowCursorFrame)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeCardDropTargetBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeCardDropTarget}",
+                                          "css":  "var(--ListTreeCardDropTarget)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeTextRestBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeTextRest}",
+                                          "css":  "var(--ListTreeTextRest)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeTextActiveBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource TreeTextRest}",
+                                          "css":  "var(--TreeTextRest)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeTextSelectedBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ActiveText}",
+                                          "css":  "var(--ActiveText)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeTextDimmedBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeTextDimmed}",
+                                          "css":  "var(--ListTreeTextDimmed)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeTextHiddenBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeTextHidden}",
+                                          "css":  "var(--ListTreeTextHidden)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeIconHiddenBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource ListTreeIconHidden}",
+                                          "css":  "var(--ListTreeIconHidden)",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeIconDimmedBrush",
+                                          "type":  "SolidColorBrush",
+                                          "raw":  "{DynamicResource Grey800}",
+                                          "css":  "var(--Grey800)",
+                                          "note":  ""
+                                      },
+                                      {
                                           "name":  "StateIdleBrush",
                                           "type":  "SolidColorBrush",
                                           "raw":  "{DynamicResource Grey600}",
@@ -558,20 +761,6 @@ window.CMIX_TOKENS = {
                                           "raw":  "{DynamicResource WarningMuted}",
                                           "css":  "var(--WarningMuted)",
                                           "note":  "A muted warning: the frame of a target that refuses a drop, the mark of a conflict."
-                                      },
-                                      {
-                                          "name":  "CursorFrameBrush",
-                                          "type":  "SolidColorBrush",
-                                          "raw":  "{DynamicResource ActiveText}",
-                                          "css":  "var(--ActiveText)",
-                                          "note":  "The frame of the cursor row of a list: ActiveText while the list has the focus, Grey800 when it does not."
-                                      },
-                                      {
-                                          "name":  "CursorFrameInactiveBrush",
-                                          "type":  "SolidColorBrush",
-                                          "raw":  "{DynamicResource Grey800}",
-                                          "css":  "var(--Grey800)",
-                                          "note":  ""
                                       },
                                       {
                                           "name":  "ForegroundBrush",
@@ -695,8 +884,8 @@ window.CMIX_TOKENS = {
                                       {
                                           "name":  "ControlHeightMD",
                                           "type":  "Double",
-                                          "raw":  "24",
-                                          "css":  "24px",
+                                          "raw":  "26",
+                                          "css":  "26px",
                                           "note":  ""
                                       },
                                       {
@@ -924,6 +1113,13 @@ window.CMIX_TOKENS = {
                                           "note":  ""
                                       },
                                       {
+                                          "name":  "IconCellMargin",
+                                          "type":  "Thickness",
+                                          "raw":  "5,0",
+                                          "css":  "0 5px",
+                                          "note":  "The space at the two sides of an icon in its cell."
+                                      },
+                                      {
                                           "name":  "PopupCardPadding",
                                           "type":  "Thickness",
                                           "raw":  "10,8",
@@ -945,39 +1141,11 @@ window.CMIX_TOKENS = {
                                           "note":  "The width of the list inside the Add panel, without the card around it."
                                       },
                                       {
-                                          "name":  "TreeIndent",
-                                          "type":  "Double",
-                                          "raw":  "16",
-                                          "css":  "16px",
-                                          "note":  "The indent of one level, and the width of the chevron."
-                                      },
-                                      {
-                                          "name":  "TreeIndentMargin",
-                                          "type":  "Thickness",
-                                          "raw":  "16,0,0,0",
-                                          "css":  "0 0 0 16px",
-                                          "note":  "TreeIndent at the left: the drop line starts after the chevron."
-                                      },
-                                      {
                                           "name":  "TreeRowGap",
                                           "type":  "Double",
                                           "raw":  "3",
                                           "css":  "3px",
                                           "note":  "The space between two rows at a screen of 100%. The view sets it again in whole pixels."
-                                      },
-                                      {
-                                          "name":  "TreeMargin",
-                                          "type":  "Thickness",
-                                          "raw":  "8,8,0,8",
-                                          "css":  "8px 0 8px 8px",
-                                          "note":  "The space around the tree: SpacingMD at the left, top and bottom. The scroll bar gutter is at the right."
-                                      },
-                                      {
-                                          "name":  "TreeRowContentMargin",
-                                          "type":  "Thickness",
-                                          "raw":  "2,0,0,0",
-                                          "css":  "0 0 0 2px",
-                                          "note":  "The space before the content of a row: SpacingXS."
                                       },
                                       {
                                           "name":  "TreeKindSquareSize",
@@ -987,18 +1155,25 @@ window.CMIX_TOKENS = {
                                           "note":  "The square of a kind after the name of a collapsed row, and the sign of a missing asset: the icon (IconSizeXS) sits in it with the same margin on every side, so every kind shows the same way."
                                       },
                                       {
-                                          "name":  "TreeHeaderMargin",
-                                          "type":  "Thickness",
-                                          "raw":  "4,0",
-                                          "css":  "0 4px",
-                                          "note":  "The space at the two sides of the icon and the name of a row: SpacingSM."
+                                          "name":  "TreeKindCountFontSize",
+                                          "type":  "Double",
+                                          "raw":  "9",
+                                          "css":  "9px",
+                                          "note":  "The count on the kind icon of a collapsed row: its size, its outline in TreeBackground, and the margin that puts it at the bottom right."
                                       },
                                       {
-                                          "name":  "TreeToolbarPadding",
+                                          "name":  "TreeKindCountOutline",
+                                          "type":  "Double",
+                                          "raw":  "2.5",
+                                          "css":  "2.5px",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "TreeKindCountOffset",
                                           "type":  "Thickness",
-                                          "raw":  "4",
-                                          "css":  "4px",
-                                          "note":  "The space inside the toolbar of the tree: SpacingSM."
+                                          "raw":  "0,0,-5,-4",
+                                          "css":  "0 -5px -4px 0",
+                                          "note":  ""
                                       },
                                       {
                                           "name":  "TreeSearchWidth",
@@ -1012,7 +1187,7 @@ window.CMIX_TOKENS = {
                                           "type":  "Double",
                                           "raw":  "24",
                                           "css":  "24px",
-                                          "note":  "The row of the tree at a screen of 100%. TreeRowMetrics sets these again per view, in whole pixels of the screen."
+                                          "note":  "The row of the tree at a screen of 100%. ListTreeToggleSizes sets these again per view, in whole pixels of the screen."
                                       },
                                       {
                                           "name":  "TreeRowSpacing",
@@ -1071,6 +1246,104 @@ window.CMIX_TOKENS = {
                                           "note":  ""
                                       },
                                       {
+                                          "name":  "ListTreeRowHeight",
+                                          "type":  "Double",
+                                          "raw":  "26",
+                                          "css":  "26px",
+                                          "note":  "The new list tree. The corners are CornerRadiusAll."
+                                      },
+                                      {
+                                          "name":  "ListTreeRowGap",
+                                          "type":  "Double",
+                                          "raw":  "3",
+                                          "css":  "3px",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeIndent",
+                                          "type":  "Double",
+                                          "raw":  "16",
+                                          "css":  "16px",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeRowContentMargin",
+                                          "type":  "Thickness",
+                                          "raw":  "0",
+                                          "css":  "0",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeMargin",
+                                          "type":  "Thickness",
+                                          "raw":  "8,8,0,8",
+                                          "css":  "8px 0 8px 8px",
+                                          "note":  "The space around the rows: SpacingMD at the left, top and bottom. The scroll bar gutter is at the right."
+                                      },
+                                      {
+                                          "name":  "ListTreeToolbarPadding",
+                                          "type":  "Thickness",
+                                          "raw":  "4",
+                                          "css":  "4px",
+                                          "note":  "The space inside the toolbar: SpacingSM."
+                                      },
+                                      {
+                                          "name":  "ListTreeIconMargin",
+                                          "type":  "Thickness",
+                                          "raw":  "5,0",
+                                          "css":  "0 5px",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeNamePadding",
+                                          "type":  "Thickness",
+                                          "raw":  "6,0",
+                                          "css":  "0 6px",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeLeftBorderWidth",
+                                          "type":  "Double",
+                                          "raw":  "3",
+                                          "css":  "3px",
+                                          "note":  "The kind colour line at the left of a hovered or selected row."
+                                      },
+                                      {
+                                          "name":  "ListTreeDropOutlineThickness",
+                                          "type":  "Double",
+                                          "raw":  "1.5",
+                                          "css":  "1.5px",
+                                          "note":  "The outline of the current drop target, outside the card by the offset."
+                                      },
+                                      {
+                                          "name":  "ListTreeDropOutlineOffset",
+                                          "type":  "Double",
+                                          "raw":  "2",
+                                          "css":  "2px",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeToggleSize",
+                                          "type":  "Double",
+                                          "raw":  "26",
+                                          "css":  "26px",
+                                          "note":  "The toggles at the right of a row: two slots and the gap between them make the column."
+                                      },
+                                      {
+                                          "name":  "ListTreeToggleGap",
+                                          "type":  "Double",
+                                          "raw":  "0",
+                                          "css":  "0",
+                                          "note":  ""
+                                      },
+                                      {
+                                          "name":  "ListTreeToggleColumnWidth",
+                                          "type":  "Double",
+                                          "raw":  "52",
+                                          "css":  "52px",
+                                          "note":  ""
+                                      },
+                                      {
                                           "name":  "DragScrollEdge",
                                           "type":  "Double",
                                           "raw":  "28",
@@ -1096,14 +1369,7 @@ window.CMIX_TOKENS = {
                                           "type":  "Thickness",
                                           "raw":  "2",
                                           "css":  "2px",
-                                          "note":  "The frame of the cursor row: CursorFrameThickness while the list has the focus, CursorFrameInactiveThickness when it does not."
-                                      },
-                                      {
-                                          "name":  "CursorFrameInactiveThickness",
-                                          "type":  "Thickness",
-                                          "raw":  "1",
-                                          "css":  "1px",
-                                          "note":  ""
+                                          "note":  "The accent frame around the rows of the tree during a grab."
                                       },
                                       {
                                           "name":  "OpacityDisabled",
@@ -1113,18 +1379,11 @@ window.CMIX_TOKENS = {
                                           "note":  "A disabled control."
                                       },
                                       {
-                                          "name":  "OpacityDragSource",
+                                          "name":  "OpacityFlash",
                                           "type":  "Double",
-                                          "raw":  "0.4",
-                                          "css":  "0.4",
-                                          "note":  "The item that a drag moves, at its old place."
-                                      },
-                                      {
-                                          "name":  "OpacityDragGhost",
-                                          "type":  "Double",
-                                          "raw":  "0.8",
-                                          "css":  "0.8",
-                                          "note":  "The copy of the item that follows the pointer during a drag."
+                                          "raw":  "0.55",
+                                          "css":  "0.55",
+                                          "note":  "The accent colour over a row at the start of its flash after a drop."
                                       },
                                       {
                                           "name":  "OpacityIconIdle",
