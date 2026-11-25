@@ -178,7 +178,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var panel = ShowInWindow(typeof(IThreeAddables));
 
-            Assert.Equal("400, 400|Three Addable A=4, 4, 392, 24|Three Addable B=4, 28, 392, 24|Three Addable C=4, 52, 392, 24", BoundsOf(panel));
+            Assert.Equal("400, 400|Three Addable A=4, 4, 392, 26|Three Addable B=4, 30, 392, 26|Three Addable C=4, 56, 392, 26", BoundsOf(panel));
         }
 
         [AvaloniaFact]
@@ -186,7 +186,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var panel = ShowInWindow(typeof(IFiveAddables));
 
-            Assert.Equal("400, 400|Five Addable A=4, 4, 196, 24|Five Addable B=4, 28, 196, 24|Five Addable C=4, 52, 196, 24|Five Addable D=200, 4, 196, 24|Five Addable E=200, 28, 196, 24", BoundsOf(panel));
+            Assert.Equal("400, 400|Five Addable A=4, 4, 196, 26|Five Addable B=4, 30, 196, 26|Five Addable C=4, 56, 196, 26|Five Addable D=200, 4, 196, 26|Five Addable E=200, 30, 196, 26", BoundsOf(panel));
         }
 
         [AvaloniaFact]
@@ -194,7 +194,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var panel = ShowInWindow(typeof(ITenAddables));
 
-            Assert.Equal("400, 400|Ten Addable A=4, 4, 130, 24|Ten Addable B=4, 28, 130, 24|Ten Addable C=4, 52, 130, 24|Ten Addable D=4, 76, 130, 24|Ten Addable E=134, 4, 131, 24|Ten Addable F=134, 28, 131, 24|Ten Addable G=134, 52, 131, 24|Ten Addable H=134, 76, 131, 24|Ten Addable I=265, 4, 131, 24|Ten Addable J=265, 28, 131, 24", BoundsOf(panel));
+            Assert.Equal("400, 400|Ten Addable A=4, 4, 130, 26|Ten Addable B=4, 30, 130, 26|Ten Addable C=4, 56, 130, 26|Ten Addable D=4, 82, 130, 26|Ten Addable E=134, 4, 131, 26|Ten Addable F=134, 30, 131, 26|Ten Addable G=134, 56, 131, 26|Ten Addable H=134, 82, 131, 26|Ten Addable I=265, 4, 131, 26|Ten Addable J=265, 30, 131, 26", BoundsOf(panel));
         }
 
         [AvaloniaFact]
@@ -202,7 +202,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var panel = ShowInARow(typeof(IThreeAddables));
 
-            Assert.Equal("106, 400|Three Addable A=4, 4, 98, 24|Three Addable B=4, 28, 98, 24|Three Addable C=4, 52, 98, 24", BoundsOf(panel));
+            Assert.Equal("106, 400|Three Addable A=4, 4, 98, 26|Three Addable B=4, 30, 98, 26|Three Addable C=4, 56, 98, 26", BoundsOf(panel));
         }
 
         [AvaloniaFact]
@@ -210,7 +210,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var panel = ShowInARow(typeof(IFiveAddables));
 
-            Assert.Equal("185, 400|Five Addable A=4, 4, 88, 24|Five Addable B=4, 28, 88, 24|Five Addable C=4, 52, 88, 24|Five Addable D=92, 4, 89, 24|Five Addable E=92, 28, 89, 24", BoundsOf(panel));
+            Assert.Equal("185, 400|Five Addable A=4, 4, 88, 26|Five Addable B=4, 30, 88, 26|Five Addable C=4, 56, 88, 26|Five Addable D=92, 4, 89, 26|Five Addable E=92, 30, 89, 26", BoundsOf(panel));
         }
 
         [AvaloniaFact]
@@ -218,7 +218,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var panel = ShowInARow(typeof(ITenAddables));
 
-            Assert.Equal("263, 400|Ten Addable A=4, 4, 87, 24|Ten Addable B=4, 28, 87, 24|Ten Addable C=4, 52, 87, 24|Ten Addable D=4, 76, 87, 24|Ten Addable E=91, 4, 86, 24|Ten Addable F=91, 28, 86, 24|Ten Addable G=91, 52, 86, 24|Ten Addable H=91, 76, 86, 24|Ten Addable I=177, 4, 82, 24|Ten Addable J=177, 28, 82, 24", BoundsOf(panel));
+            Assert.Equal("263, 400|Ten Addable A=4, 4, 87, 26|Ten Addable B=4, 30, 87, 26|Ten Addable C=4, 56, 87, 26|Ten Addable D=4, 82, 87, 26|Ten Addable E=91, 4, 86, 26|Ten Addable F=91, 30, 86, 26|Ten Addable G=91, 56, 86, 26|Ten Addable H=91, 82, 86, 26|Ten Addable I=177, 4, 82, 26|Ten Addable J=177, 30, 82, 26", BoundsOf(panel));
         }
 
         private static List<object?> Offered(PanelAddTypes panel) =>

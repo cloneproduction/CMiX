@@ -32,7 +32,7 @@
                         HorizontalAlignment="Left"
                         DockPanel.Dock="Left"
                         ToolTip.Tip="{Binding Choice.Name, ElementName=panelSide}">
-                        <StackPanel Margin="4,0" Orientation="Horizontal" Spacing="{DynamicResource SpacingSM}">
+                        <StackPanel Margin="5,0" Orientation="Horizontal" Spacing="{DynamicResource SpacingSM}">
                             <ui:AppIcon IconKey="{Binding Choice.IconKey, ElementName=panelSide}" Size="{DynamicResource IconSizeXS}" />
                             <ui:Chevron
                                 VerticalAlignment="Center"

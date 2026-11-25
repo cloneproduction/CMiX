@@ -15,9 +15,9 @@ namespace CMiX.UI.Tests
         {
             var md = Size("ControlHeightMD");
 
-            Assert.Equal(md - 8, Size("ControlHeightXS"));
-            Assert.Equal(md + 6, Size("ControlHeightXL"));
-            Assert.Equal(md + 10, Size("ControlHeightXXL"));
+            Assert.Equal(md - 10, Size("ControlHeightXS"));
+            Assert.Equal(md + 4, Size("ControlHeightXL"));
+            Assert.Equal(md + 8, Size("ControlHeightXXL"));
         }
 
         [AvaloniaFact]
@@ -25,17 +25,17 @@ namespace CMiX.UI.Tests
         {
             var md = Size("ControlHeightMD");
 
-            // An icon sits in a row of ControlHeightMD with 4 on each side.
-            Assert.Equal(md - 8, Size("IconSizeXS"));
+            // An icon sits in a row of ControlHeightMD with 5 on each side.
+            Assert.Equal(md - 10, Size("IconSizeXS"));
             Assert.Equal(Size("IconSizeXS"), Size("IconSizeMD"));
             Assert.Equal(Size("IconSizeXS") - 4, Size("IconSizeSM"));
-            Assert.Equal(md, Size("IconSizeLG"));
+            Assert.Equal(md - 2, Size("IconSizeLG"));
         }
 
         [AvaloniaFact]
         public void TextAreas_EachToken_IsWholeLinesOfARow()
         {
-            var line = Size("ControlHeightMD") - 2;
+            var line = Size("ControlHeightMD") - 4;
 
             Assert.Equal(2 * line, Size("TextAreaHeight2"));
             Assert.Equal(4 * line, Size("TextAreaHeight4"));
@@ -44,8 +44,8 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void FontSize_TheToken_IsInProportionToTheRow()
         {
-            // About half a row, rounded: 12 in a row of 24.
-            Assert.InRange(Size("FontSizeMD"), Size("ControlHeightMD") / 2 - 0.5, Size("ControlHeightMD") / 2 + 0.5);
+            // A little less than half a row: 12 in a row of 26.
+            Assert.InRange(Size("FontSizeMD"), Size("ControlHeightMD") / 2 - 1, Size("ControlHeightMD") / 2);
         }
     }
 }

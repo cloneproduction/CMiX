@@ -99,7 +99,7 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void ShowBeside(Control anchor, PopupSide side, Rect? anchorRect, IInputElement? passThrough)
         {
-            var rowHeight = TreeResources.Read<double>(anchor, "ControlHeightMD", 24);
+            var rowHeight = TreeResources.Read<double>(anchor, "ControlHeightMD", 26);
             anchoring.Gap = DefaultGap;
             anchoring.Side = side;
             anchoring.Along = null;
@@ -118,7 +118,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (!Prepare(reference, groups, header) || TopLevel.GetTopLevel(reference) is not { } top || reference.TranslatePoint(point, top) is not { } inWindow)
                 return;
 
-            var rowHeight = TreeResources.Read<double>(reference, "ControlHeightMD", 24);
+            var rowHeight = TreeResources.Read<double>(reference, "ControlHeightMD", 26);
             var padding = PaddingOf(reference);
 
             // A negative gap lifts the card, so the middle of the field is at the point.
@@ -141,7 +141,7 @@ namespace CMiX.Studio.Avalonia.Views
 
             Close();
 
-            var rowHeight = TreeResources.Read<double>(scope, "ControlHeightMD", 24);
+            var rowHeight = TreeResources.Read<double>(scope, "ControlHeightMD", 26);
             title.Text = header;
             title.IsVisible = !string.IsNullOrEmpty(header);
             title.Height = rowHeight;

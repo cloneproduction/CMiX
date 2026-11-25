@@ -67,9 +67,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Equal(new Thickness(8), list.Margin);
             Assert.Equal(new Point(8, 8), list.TranslatePoint(new Point(0, 0), tab));
-            Assert.Equal(new Size(376, 120), list.Bounds.Size);
-            Assert.Equal(new Point(0, 136), cameraEditor.TranslatePoint(new Point(0, 0), tab));
-            Assert.Equal(new Size(392, 764), cameraEditor.Bounds.Size);
+            Assert.Equal(new Size(376, 128), list.Bounds.Size);
+            Assert.Equal(new Point(0, 144), cameraEditor.TranslatePoint(new Point(0, 0), tab));
+            Assert.Equal(new Size(392, 756), cameraEditor.Bounds.Size);
         }
     }
 }
