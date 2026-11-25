@@ -10,6 +10,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.Threading;
+using CMiX.UI.Search;
 
 namespace CMiX.UI.Controls.Parts
 {
@@ -49,7 +50,7 @@ namespace CMiX.UI.Controls.Parts
 
         // The rows that the filter keeps for a text: the text of an item is its ToString, as the drop-down shows it.
         public static bool Matches(object? item, string? text) =>
-            string.IsNullOrEmpty(text) || (item?.ToString() ?? string.Empty).Contains(text, StringComparison.CurrentCultureIgnoreCase);
+            SearchRules.Matches(text, item?.ToString());
 
         private sealed class Search
         {

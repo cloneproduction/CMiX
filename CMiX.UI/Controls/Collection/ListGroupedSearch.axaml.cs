@@ -9,6 +9,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.VisualTree;
+using CMiX.UI.Search;
 using CMiX.UI.Themes;
 
 namespace CMiX.UI.Controls.Collection
@@ -150,7 +151,7 @@ namespace CMiX.UI.Controls.Collection
             foreach (var group in Groups ?? Array.Empty<PickerGroup>())
             {
                 var matches = Searching
-                    ? group.Items.Where(item => item.Text.Contains(SearchText, StringComparison.CurrentCultureIgnoreCase)).ToList()
+                    ? group.Items.Where(item => SearchRules.Matches(SearchText, item.Text)).ToList()
                     : group.Items.ToList();
                 if (Searching && matches.Count == 0)
                     continue;

@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.VisualTree;
+using CMiX.UI.Search;
 
 namespace CMiX.UI.Controls.Collection
 {
@@ -108,7 +109,7 @@ namespace CMiX.UI.Controls.Collection
         }
 
         private bool IsMatch(object item) =>
-            TextOf(item).Contains(SearchText ?? string.Empty, StringComparison.CurrentCultureIgnoreCase);
+            SearchRules.Matches(SearchText, TextOf(item));
 
         // The text at the path of the item, such as PrefabService.Name.Value.
         private string TextOf(object item)
