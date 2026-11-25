@@ -41,18 +41,56 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             Scroller.Offset = new Vector(0, Scroller.Extent.Height);
             window.Settle();
-            var before = Panel.Surfaces.Areas.ToList();
+            var cardsBefore = Panel.Surfaces.Areas.ToDictionary(area => area, area => area.Place!.Key);
             var detached = new List<FrameListTreeCard>();
-            foreach (var area in before)
+            foreach (var area in cardsBefore.Keys)
                 area.DetachedFromVisualTree += (_, _) => detached.Add(area);
 
             Scroller.Offset = new Vector(0, Scroller.Offset.Y - Scroller.Viewport.Height);
             window.Settle();
 
-            var kept = Panel.Surfaces.Areas.Where(before.Contains).ToList();
-            Assert.Contains(Panel.Surfaces.Areas, area => !before.Contains(area));
+            var kept = Panel.Surfaces.Areas.Where(area => cardsBefore.TryGetValue(area, out var key) && key == area.Place!.Key).ToList();
+            Assert.Contains(Panel.Surfaces.Areas, area => !cardsBefore.ContainsValue(area.Place!.Key));
             Assert.NotEmpty(kept);
             Assert.Empty(detached.Where(kept.Contains));
         }
+
+        // The top view shows fewer cards than the views below it, so the count starts after one view.
+        [AvaloniaFact]
+        public void Show_ScrollDown_ReusesTheCardFrames()
+        {
+            ScrollDownOneView();
+            var first = AllFrames();
+
+            for (var view = 0; view < 3; view++)
+                ScrollDownOneView();
+
+            Assert.Empty(AllFrames().Except(first));
+        }
+
+        [AvaloniaFact]
+        public void Show_ASpareFrame_IsHiddenAndHasNoNode()
+        {
+            ScrollDownOneView();
+            Scroller.Offset = new Vector(0, 0);
+            window.Settle();
+
+            var spares = AllFrames().Except(Panel.Surfaces.Areas).ToList();
+            Assert.NotEmpty(spares);
+            Assert.All(spares, area =>
+            {
+                Assert.False(area.IsVisible);
+                Assert.Null(area.DataContext);
+            });
+            Assert.All(Panel.Surfaces.Areas, area => Assert.True(area.IsVisible));
+        }
+
+        private void ScrollDownOneView()
+        {
+            Scroller.Offset = new Vector(0, Scroller.Offset.Y + Scroller.Viewport.Height);
+            window.Settle();
+        }
+
+        private List<FrameListTreeCard> AllFrames() => Panel.Children.OfType<FrameListTreeCard>().ToList();
     }
 }

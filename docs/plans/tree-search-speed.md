@@ -92,9 +92,9 @@ Built 1.1 at `6852a251d`: an open tree searches in 3 to 7 ms. A search from a cl
 
 Pattern: the recycle pool of Avalonia `VirtualizingStackPanel` (`release/11.2.0`, `RecycleElement`, `GetRecycledElement`, `PushToRecyclePool`). The pool is a field of the panel. A spare control stays a child of the panel with `IsVisible = false`. The focused control is not pooled. The pool has no size limit and goes with the panel.
 
-Files: new `Views/ListTree/ListTreeSpareRows.cs`, `Views/ListTree/ListTreeRowControls.cs`, `CMiX.Studio.Avalonia.Tests/ListTreeRowControlsTests.cs`.
+Files: new `Views/ListTree/ListTreeSpareControls.cs`, `Views/ListTree/ListTreeRowControls.cs`, `CMiX.Studio.Avalonia.Tests/ListTreeRowControlsTests.cs`.
 
-`ListTreeSpareRows` holds the hidden controls. `ListTreeRowControls` asks it for a control and gives it the controls that leave. The pool takes only controls that were shown, so it never holds more than the most rows the window showed at one time. No size limit is needed.
+`ListTreeSpareControls` holds the hidden controls. `ListTreeRowControls` asks it for a control and gives it the controls that leave. The pool takes only controls that were shown, so it never holds more than the most rows the window showed at one time. No size limit is needed.
 
 ```csharp
 // Before, in ListTreeRowControls.ShowRows
@@ -310,17 +310,17 @@ Commit: `Paints the card frames of the tree by depth`.
 
 #### Step 3.2 Keep the spare card frames (complexity 3, Opus)
 
-Files: `Views/ListTree/ListTreeSpareRows.cs` (becomes generic), `Views/ListTree/ListTreeRowControls.cs`, `Views/ListTree/ListTreeSurfaces.cs`, the readers of the frames that must skip a hidden one, `CMiX.Studio.Avalonia.Tests/ListTreeRowControlsTests.cs`.
+Files: `Views/ListTree/ListTreeSpareRows.cs` (becomes the generic `ListTreeSpareControls.cs`), `Views/ListTree/ListTreeRowControls.cs`, `Views/ListTree/ListTreeSurfaces.cs`, the readers of the frames that must skip a hidden one, `CMiX.Studio.Avalonia.Tests/ListTreeRowControlsTests.cs`.
 
 The card frames use the same pool as the rows. The pool becomes generic, so one class holds the rule for both.
 
 ```csharp
 // Before
 internal sealed class ListTreeSpareRows { private readonly Stack<RowListTree> rows = new(); ... }
-// After: Views/ListTree/ListTreeSpares.cs
-internal sealed class ListTreeSpares<T> where T : Control { private readonly Stack<T> controls = new(); ... }
-// ListTreeRowControls: new ListTreeSpares<RowListTree>(), and Snap and StopFlash stay in ListTreeRowControls.
-// ListTreeSurfaces: new ListTreeSpares<FrameListTreeCard>()
+// After: Views/ListTree/ListTreeSpareControls.cs
+internal sealed class ListTreeSpareControls<T> where T : Control { private readonly Stack<T> controls = new(); ... }
+// ListTreeRowControls: new ListTreeSpareControls<RowListTree>(), and Snap and StopFlash stay in ListTreeRowControls.
+// ListTreeSurfaces: new ListTreeSpareControls<FrameListTreeCard>()
 ```
 ```csharp
 // Before, ListTreeSurfaces.AreaOf
@@ -330,7 +330,7 @@ panel.Children.Add(area);
 area = spareAreas.Take() ?? AddArea();
 ```
 
-The name `ListTreeSpares` is a question for the owner before the step. Other candidates: `ListTreeSpareControls`, `ListTreeRecyclePool`.
+The owner chose the name `ListTreeSpareControls`.
 
 Every reader of the frames skips a hidden one: `ListTreeSurfaces.Areas`, `CardAreaOf`, `ShowMarks`, and the tests. The subagent searches them all first.
 

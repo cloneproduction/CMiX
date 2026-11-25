@@ -17,6 +17,7 @@ namespace CMiX.Studio.Avalonia.Views
     {
         private readonly PanelListTreeRows panel;
         private readonly List<FrameListTreeCard> areas = new();
+        private readonly ListTreeSpareControls<FrameListTreeCard> spareAreas = new();
         private readonly FrameListTreeOutline outline = new() { IsHitTestVisible = false, IsVisible = false, ZIndex = ListTreeLayers.DropOutline };
 
         private TreeNode? selected;
@@ -39,14 +40,19 @@ namespace CMiX.Studio.Avalonia.Views
 
         public void Show(IReadOnlyList<ListTreeRow> rows, ListTreeLayout shown)
         {
-            var unused = areas.ToDictionary(area => area.Place!.Key);
             var window = panel.RowWindow;
-            areas.Clear();
-            foreach (var row in rows)
-                if (shown.PlaceOf(row.Key) is { CanToggle: true } place && window.Overlaps(place.Y, place.AreaHeight))
-                    areas.Add(AreaOf(unused, row, place));
+            var cards = rows.Where(row => shown.PlaceOf(row.Key) is { CanToggle: true } place && window.Overlaps(place.Y, place.AreaHeight)).ToList();
+            var kept = areas.ToDictionary(area => area.Place!.Key);
+            var cardKeys = cards.Select(row => row.Key).ToHashSet();
+            var leaving = kept.Where(entry => !cardKeys.Contains(entry.Key)).ToList();
+            foreach (var entry in leaving)
+                kept.Remove(entry.Key);
+            spareAreas.KeepAll(leaving.Select(entry => entry.Value));
 
-            panel.Children.RemoveAll(unused.Values);
+            areas.Clear();
+            foreach (var row in cards)
+                areas.Add(AreaOf(kept, row, shown.PlaceOf(row.Key)!));
+
             if (!panel.Children.Contains(outline))
                 panel.Children.Add(outline);
             ShowMarks();
@@ -111,18 +117,22 @@ namespace CMiX.Studio.Avalonia.Views
         private static TreeNode? HoveredCard(IEnumerable<RowListTree> rows) =>
             rows.FirstOrDefault(row => row.IsPointerOver && row.Place is { CanToggle: true })?.DataContext as TreeNode;
 
-        // An area that stays in the window keeps its control, so a new drag look makes no new controls.
-        private FrameListTreeCard AreaOf(Dictionary<ListTreeRowKey, FrameListTreeCard> unused, ListTreeRow row, ListTreePlace place)
+        // An area that stays in the window keeps its control. A card that comes into the window takes a spare control first.
+        private FrameListTreeCard AreaOf(Dictionary<ListTreeRowKey, FrameListTreeCard> kept, ListTreeRow row, ListTreePlace place)
         {
-            if (!unused.Remove(place.Key, out var area))
-            {
-                area = new FrameListTreeCard();
-                panel.Children.Add(area);
-            }
+            if (!kept.Remove(place.Key, out var area))
+                area = spareAreas.Take() ?? AddArea();
 
             area.ZIndex = ListTreeLayers.CardArea + place.Depth;
             area.Place = place;
             area.DataContext = row.Node;
+            return area;
+        }
+
+        private FrameListTreeCard AddArea()
+        {
+            var area = new FrameListTreeCard();
+            panel.Children.Add(area);
             return area;
         }
     }

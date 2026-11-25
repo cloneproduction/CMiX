@@ -17,7 +17,7 @@ namespace CMiX.Studio.Avalonia.Views
         private readonly Dictionary<ListTreeRowKey, RowListTree> rowsByKey = new();
         private readonly Dictionary<ListTreeRowKey, ListTreeRow> shownRows = new();
         private readonly Dictionary<TreeNode, ListTreeRowKey> keyByNode = new(ReferenceEqualityComparer.Instance);
-        private readonly ListTreeSpareRows spareRows = new();
+        private readonly ListTreeSpareControls<RowListTree> spareRows = new();
 
         private ListTreeLayout layout = ListTreeArrangement.Empty.Layout;
         private ListTreeDragLook? dragLook;
@@ -79,6 +79,12 @@ namespace CMiX.Studio.Avalonia.Views
             {
                 leaving.Remove(focused);
                 RemoveRow(focused);
+            }
+
+            foreach (var control in leaving)
+            {
+                ListTreeRowSlide.Snap(control);
+                control.StopFlash();
             }
 
             spareRows.KeepAll(leaving);
