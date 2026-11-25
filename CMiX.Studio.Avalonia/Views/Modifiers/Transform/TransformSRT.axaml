@@ -11,8 +11,9 @@
 
         <ui:DragValue
             Caption="Uniform"
-            Value="{Binding Uniform.Value}"
-            ResetCommand="{Binding Uniform.ResetCommand}" />
+            DataContext="{Binding Uniform}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
         <ui:Vector3
             Caption="Scale"

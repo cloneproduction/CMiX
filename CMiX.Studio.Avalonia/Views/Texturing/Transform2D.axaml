@@ -10,8 +10,9 @@
 
         <ui:DragValue
             Caption="Uniform Scale"
-            Value="{Binding UniformScale.Value}"
-            ResetCommand="{Binding UniformScale.ResetCommand}" />
+            DataContext="{Binding UniformScale}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
         <ui:Vector2
             Caption="Scale"
@@ -19,8 +20,9 @@
 
         <ui:DragValue
             Caption="Rotate"
-            Value="{Binding Rotate.Value}"
-            ResetCommand="{Binding Rotate.ResetCommand}" />
+            DataContext="{Binding Rotate}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
         <ui:Vector2
             Caption="Translate"

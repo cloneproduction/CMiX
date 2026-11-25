@@ -31,8 +31,9 @@
         <ui:DragValue
             Caption="FPS"
             Minimum="0.0"
-            ResetCommand="{Binding FPS.ResetCommand}"
-            Value="{Binding FPS.Value}" />
+            ResetCommand="{Binding ResetCommand}"
+            DataContext="{Binding FPS}"
+            Value="{Binding Value}" />
 
         <Views:TextureResolution />
 

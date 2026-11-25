@@ -14,16 +14,18 @@
         <ui:DragValueInteger
             Caption="Divisions"
             Minimum="1"
-            Value="{Binding Divisions.Value}"
-            ResetCommand="{Binding Divisions.ResetCommand}" />
+            DataContext="{Binding Divisions}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 
             <ui:DragValueInteger
                 Caption="Iterations"
                 Minimum="1"
-                Value="{Binding Iterations.Value}"
-                ResetCommand="{Binding Iterations.ResetCommand}" />
+                DataContext="{Binding Iterations}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
             <Modulation:DragValueModulatable
                 Caption="Iteration Zoom"

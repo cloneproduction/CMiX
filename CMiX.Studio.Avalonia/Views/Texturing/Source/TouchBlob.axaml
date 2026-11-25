@@ -9,8 +9,9 @@
 
         <ui:DragValue
             Caption="Size"
-            Value="{Binding Size.Value}"
-            ResetCommand="{Binding Size.ResetCommand}" />
+            DataContext="{Binding Size}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
         <ui:StackPanelPositioned Margin="0,8" Spacing="{DynamicResource SpacingXXS}">
 

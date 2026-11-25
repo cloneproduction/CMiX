@@ -38,8 +38,9 @@
         <ui:DragValue
             Margin="0,8"
             Caption="Size"
-            Value="{Binding FontSize.Value}"
-            ResetCommand="{Binding FontSize.ResetCommand}" />
+            DataContext="{Binding FontSize}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
         <ui:StackPanelPositioned Spacing="{DynamicResource SpacingXXS}">
 

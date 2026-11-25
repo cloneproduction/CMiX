@@ -55,8 +55,9 @@
                     Caption="Opacity"
                     Maximum="1"
                     Minimum="0"
-                    Value="{Binding Blend.Opacity.Value}"
-                    ResetCommand="{Binding Blend.Opacity.ResetCommand}" />
+                    DataContext="{Binding Blend.Opacity}"
+                    Value="{Binding Value}"
+                    ResetCommand="{Binding ResetCommand}" />
 
                 <ui:ComboBoxCaptioned
                     Caption="Blend Mode"
