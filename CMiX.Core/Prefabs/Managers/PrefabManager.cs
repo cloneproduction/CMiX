@@ -26,13 +26,15 @@ namespace CMiX.Core.Prefabs.Managers
             : base(collection.ControlRepository, registry, undoManager)
         {
             ID = collection.ManagerData.ID;
+            _lastManagerId = collection.ManagerData.ID;
+            Registry.Rekey(this, Guid.Empty, _lastManagerId);
 
             Collection = collection;
             _controlFactory = controlFactory;
             Hidden = hidden;
             collection.Hidden = hidden;
             UpdateHiddenId();
-            collection.ManagerData.IdChanged += UpdateHiddenId;
+            collection.ManagerData.IdChanged += OnManagerIdChanged;
             _messageHandler = messageHandler;
             _listFor = listFor;
             _list = listFor(collection);
@@ -71,6 +73,16 @@ namespace CMiX.Core.Prefabs.Managers
 
         // The ID of the hide value comes from the ID of the list, so every peer and every fresh project has the same one.
         private void UpdateHiddenId() => Hidden.ID = DerivedId.Of(ManagerData.ID, nameof(PrefabManagerModel.Hidden));
+
+        private Guid _lastManagerId;
+
+        // The manager answers to the id of its list, so the registry key follows that id.
+        private void OnManagerIdChanged()
+        {
+            Registry.Rekey(this, _lastManagerId, ManagerData.ID);
+            _lastManagerId = ManagerData.ID;
+            UpdateHiddenId();
+        }
 
         private Guid _compositionID;
 
@@ -211,6 +223,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void Dispose()
         {
             Collection.ManagerData.Items.CollectionChanged -= OnItemsChanged;
+            Collection.ManagerData.IdChanged -= OnManagerIdChanged;
             ClearAll();
         }
 

@@ -16,12 +16,14 @@ namespace CMiX.Core.Prefabs.Managers
         {
             ControlRepository = controlRepository;
             UndoManager = undoManager;
+            Registry = registry;
             IsActive = false;
             registry.Register(this);
         }
 
         public ControlRepository ControlRepository { get; }
         public UndoManager UndoManager { get; }
+        protected ControlRegistry Registry { get; }
 
         public abstract ICommand AddItemCommand { get; }
         public abstract ICommand ClearSelectionCommand { get; }

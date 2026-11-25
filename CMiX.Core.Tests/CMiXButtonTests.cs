@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests
         public void OnClick_Raises_ClickAndSendsOnce()
         {
             var sync = new FakeValueSync();
-            var button = new CMiXButton(sync);
+            var button = new CMiXButton(sync, new ControlRegistry());
             var clicks = 0;
             button.Click += (_, _) => clicks++;
 
@@ -29,7 +29,7 @@ namespace CMiX.Core.Tests
         public void Receive_OfAValueChangedWithItsId_RaisesClick()
         {
             var sync = new FakeValueSync();
-            var button = new CMiXButton(sync);
+            var button = new CMiXButton(sync, new ControlRegistry());
             var clicks = 0;
             button.Click += (_, _) => clicks++;
 
@@ -42,7 +42,7 @@ namespace CMiX.Core.Tests
         [Fact]
         public void Receive_OfAnotherId_DoesNothing()
         {
-            var button = new CMiXButton(new FakeValueSync());
+            var button = new CMiXButton(new FakeValueSync(), new ControlRegistry());
             var clicks = 0;
             button.Click += (_, _) => clicks++;
 

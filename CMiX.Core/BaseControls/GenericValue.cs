@@ -12,6 +12,7 @@ namespace CMiX.Core.BaseControls
     {
         public GenericValue(IValueSync sync, ControlRegistry registry)
         {
+            _registry = registry;
             ID = Guid.NewGuid();
             _sync = sync;
             ResetCommand = new RelayCommand(Reset);
@@ -19,8 +20,19 @@ namespace CMiX.Core.BaseControls
         }
 
         private readonly IValueSync _sync;
+        private readonly ControlRegistry _registry;
 
-        public Guid ID { get; set; }
+        private Guid _id;
+        public Guid ID
+        {
+            get => _id;
+            set
+            {
+                var old = _id;
+                _id = value;
+                _registry.Rekey(this, old, value);
+            }
+        }
 
         private T _value;
         public T Value
