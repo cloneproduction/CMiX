@@ -110,7 +110,7 @@ Three static entry points connect it to an application: `InteractionHost`, `Icon
 
 ### A value changes (the user drags a slider)
 
-1. **View.** `SliderModulatable` binds to `ModulatableValue<float>.Value`. The `DataContext` of the editor is the value. The editor opens a drag through `InteractionHost`, which `InteractionHostConnection.Connect` binds to `IDraggable.BeginDrag` of that value.
+1. **View.** `SliderModulatable` binds to `ModulatableValue<float>.Value`. The `DataContext` of the editor is the value. The editor opens a drag through `InteractionHost.BeginDrag`. The handler that `App.Initialize` sets calls `IDraggable.BeginDrag` of that value.
 2. **Value.** `ModulatableValue.Value` passes the write to `GenericValue<T>.Value`. The setter calls `IValueSync.Changing`, stores the value and calls `IValueSync.Changed`. A momentary value calls `IValueSync.Send` instead. The value builds no model and has no drag code.
 3. **Message.** `ValueSync` implements `IValueSync`. Outside a drag it records the `ValueChangedUndoCommand` unless the undo stack is applying, then `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. During a drag it sends at most 60 times each second and records one undo step when the drag ends. The drag belongs to the one value that is dragged, so two values can be dragged at once. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
 4. **Peer.** `SyncPeer.SendMessage` (`SyncPeer.Send.cs`) drops the message if the peer is not the writer. Else it wraps it in a `MessageEnvelope`, serializes it with MessagePack and puts it in `OutgoingQueue`.
@@ -221,7 +221,7 @@ Core has no Avalonia reference.
 | Static | Where | Note |
 |---|---|---|
 | `App.MessageNotice`, `App._crashSaveProject` | Studio | A comment in `App.axaml.cs` gives the reason for each. |
-| `InteractionHost.BeginScopeHandler`, `Icons.Register`, `OutsideClick.Install` | CMiX.UI | The library has no container. |
+| `InteractionHost.BeginDragHandler`, `Icons.Register`, `OutsideClick.Install` | CMiX.UI | The library has no container. |
 | `Application.Current` | 2 converters, `CategoryPalette`, 3 notice services, `MainWindowController` | To find a resource or the main window. |
 
 ### Optional and hidden dependencies

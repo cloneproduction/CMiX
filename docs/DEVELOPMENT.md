@@ -93,7 +93,7 @@ folder. A view can move to another folder without a change to its namespace or i
 
 The names of the views and the controls follow the order rule in `.claude/CLAUDE.md`, section Names: the kind first, then the thing.
 
-The `DataContext` of a value editor is the value it edits. On pointer down the editor hands it to `InteractionHost`, and `InteractionHostConnection.Connect` maps it to `IDraggable.BeginDrag`.
+The `DataContext` of a value editor is the value it edits. On pointer down the editor hands it to `InteractionHost.BeginDrag`, and the handler maps it to `IDraggable.BeginDrag`.
 The test `EditorDataContextTests` pins this rule. The one exception is the `BPM` editor of `PanelMasterBeat`.
 
 The folders of CMiX.Studio.Avalonia have the name of a job. The rules for a new type
@@ -372,7 +372,7 @@ restores the offset when the height grows. The theme `ScrollViewerOverlayKeepOff
 
 The application connects three things to the library:
 
-- `InteractionHost.BeginScopeHandler`, set by `InteractionHostConnection.Connect` after the container is built. See above.
+- `InteractionHost.BeginDragHandler`, set in `App.Initialize`. It needs no container. See above.
 - `Icons.Register`. The library has the generic icon keys. The Studio adds its
   own in `StudioIcons.Register`, also in `App.Initialize`, before the XAML loads.
   `IconKeyTests` fails when an `IconKey` in the AXAML is not registered.

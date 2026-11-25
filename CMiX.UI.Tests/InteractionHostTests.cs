@@ -56,6 +56,30 @@ namespace CMiX.UI.Tests
         private static void Press(Window window, Control target) =>
             PointerInput.Click(window, target.TranslatePoint(new Point(target.Bounds.Width / 2, target.Bounds.Height / 2), window)!.Value);
 
+        // Presses a DragValue with this DataContext and gives the counter of the handler.
+        private static Counter PressWith(object? dataContext)
+        {
+            var saved = InteractionHost.BeginDragHandler;
+            try
+            {
+                var counter = Install();
+                var drag = new DragValue { Minimum = 0, Maximum = 10 };
+                if (dataContext != null)
+                    drag.DataContext = dataContext;
+                var window = TestWindow.ShowWithoutClips(drag, 300, 100);
+                var border = drag.GetVisualDescendants().OfType<Border>()
+                    .Single(b => b.Name == "borderValueDisplay" && b.TemplatedParent == drag);
+
+                Press(window, border);
+
+                return counter;
+            }
+            finally
+            {
+                InteractionHost.BeginDragHandler = saved;
+            }
+        }
+
         [AvaloniaFact]
         public void Drag_WithoutAHandler_OpensNoScope()
         {
@@ -119,47 +143,20 @@ namespace CMiX.UI.Tests
         [AvaloniaFact]
         public void Drag_OfAnEditor_HandsItsDataContextToTheHost()
         {
-            var saved = InteractionHost.BeginDragHandler;
-            try
-            {
-                var counter = Install();
-                var context = new object();
-                var drag = new DragValue { Minimum = 0, Maximum = 10, DataContext = context };
-                var window = TestWindow.ShowWithoutClips(drag, 300, 100);
-                var border = drag.GetVisualDescendants().OfType<Border>()
-                    .Single(b => b.Name == "borderValueDisplay" && b.TemplatedParent == drag);
+            var context = new object();
 
-                Press(window, border);
+            var counter = PressWith(context);
 
-                Assert.Same(context, counter.LastValue);
-            }
-            finally
-            {
-                InteractionHost.BeginDragHandler = saved;
-            }
+            Assert.Same(context, counter.LastValue);
         }
 
         [AvaloniaFact]
         public void Drag_OfAnEditorWithoutDataContext_HandsNull()
         {
-            var saved = InteractionHost.BeginDragHandler;
-            try
-            {
-                var counter = Install();
-                var drag = new DragValue { Minimum = 0, Maximum = 10 };
-                var window = TestWindow.ShowWithoutClips(drag, 300, 100);
-                var border = drag.GetVisualDescendants().OfType<Border>()
-                    .Single(b => b.Name == "borderValueDisplay" && b.TemplatedParent == drag);
+            var counter = PressWith(null);
 
-                Press(window, border);
-
-                Assert.Null(counter.LastValue);
-                Assert.Equal(1, counter.Begun);
-            }
-            finally
-            {
-                InteractionHost.BeginDragHandler = saved;
-            }
+            Assert.Null(counter.LastValue);
+            Assert.Equal(1, counter.Begun);
         }
     }
 }

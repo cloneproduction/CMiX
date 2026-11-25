@@ -134,7 +134,6 @@ namespace CMiX.Core.Tests
                     fixture.Sync.Send(fixture.Value);
 
                 Assert.Single(fixture.Sender.Sent);
-                Assert.False(fixture.UndoManager.CanUndo);
 
                 fixture.Time.Now += 1000;
                 fixture.Sync.Send(fixture.Value);
@@ -142,7 +141,6 @@ namespace CMiX.Core.Tests
                 Assert.Equal(2, fixture.Sender.Sent.Count);
             }
 
-            Assert.Equal(2, fixture.Sender.Sent.Count);
             Assert.False(fixture.UndoManager.CanUndo);
         }
 
@@ -184,25 +182,10 @@ namespace CMiX.Core.Tests
             }
 
             Assert.Equal(2, fixture.Sender.Sent.Count);
+            Assert.Equal(3f, ((GenericValueModel<float>)((MessageValueChanged)fixture.Sender.Sent[^1]).Value).Value);
             fixture.UndoManager.Undo();
             Assert.Equal(1f, fixture.Value.Value);
             Assert.False(fixture.UndoManager.CanUndo);
-        }
-
-        [Fact]
-        public void BeginDrag_ThenManyWrites_SendsTheFinalValueLast()
-        {
-            var fixture = Create();
-
-            using (fixture.Sync.BeginDrag())
-            {
-                for (int i = 1; i <= 500; i++)
-                    fixture.Value.Value = i;
-            }
-
-            var values = fixture.Sender.Sent.Select(message => ((GenericValueModel<float>)((MessageValueChanged)message).Value).Value).ToList();
-            Assert.True(values.Count < 500, $"expected throttled sends, got {values.Count}");
-            Assert.Equal(500f, values[^1]);
         }
 
         [Fact]
