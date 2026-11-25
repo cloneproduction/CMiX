@@ -132,7 +132,8 @@ namespace CMiX.Studio.Avalonia.Tests
             focused.Focus();
             screen.Settle();
 
-            Search("Translate");
+            // The text matches the Blur rows and the Translate rows, so the focused row stays shown and goes out of the row window.
+            Search("l");
 
             var place = Rows.ShownPlaceOf(Assert.IsType<TreeNode>(node))!;
             Assert.False(Rows.RowWindow.Overlaps(place.Y, place.RowHeight));

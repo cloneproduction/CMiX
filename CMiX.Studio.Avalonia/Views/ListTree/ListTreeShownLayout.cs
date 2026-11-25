@@ -30,9 +30,9 @@ namespace CMiX.Studio.Avalonia.Views
 
         public bool IsDragShown => dragLook != null;
 
-        public void Arrange(IEnumerable<TreeNode> roots, ListTreeSizes sizes)
+        public void Arrange(IEnumerable<TreeNode> roots, ListTreeSizes sizes, ListTreeSearchFilter filter)
         {
-            arrangement = ListTreeArrangement.Of(roots, sizes);
+            arrangement = ListTreeArrangement.Of(roots, sizes, filter);
             Show();
         }
 

@@ -16,7 +16,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         public IReadOnlyList<ListTreeRow> Roots { get; }
 
-        public static ListTreeSnapshot Of(IEnumerable<TreeNode> roots) => new(RowsOf(roots, 0, null));
+        public static ListTreeSnapshot Of(IEnumerable<TreeNode> roots) => Of(roots, ListTreeSearchFilter.None);
+
+        public static ListTreeSnapshot Of(IEnumerable<TreeNode> roots, ListTreeSearchFilter filter) => new(RowsOf(roots, 0, null, filter));
 
         public IReadOnlyList<ListTreeRow> VisibleRows()
         {
@@ -57,11 +59,11 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
             }
         }
 
-        private static IReadOnlyList<ListTreeRow> RowsOf(IEnumerable<TreeNode> nodes, int depth, ListTreeRowKey? parent) =>
-            nodes.Select(node => RowOf(node, depth, ListTreeRowKey.Of(node, parent))).Where(row => row.IsShown).ToArray();
+        private static IReadOnlyList<ListTreeRow> RowsOf(IEnumerable<TreeNode> nodes, int depth, ListTreeRowKey? parent, ListTreeSearchFilter filter) =>
+            nodes.Where(filter.Shows).Select(node => RowOf(node, depth, ListTreeRowKey.Of(node, parent), filter)).Where(row => row.IsShown).ToArray();
 
-        private static ListTreeRow RowOf(TreeNode node, int depth, ListTreeRowKey key) =>
-            new(key, node, depth, IsCard(node), node.Group != null, node.IsExpanded, RowsOf(node.Children, depth + 1, key));
+        private static ListTreeRow RowOf(TreeNode node, int depth, ListTreeRowKey key, ListTreeSearchFilter filter) =>
+            new(key, node, depth, IsCard(node), node.Group != null, filter.ShowsOpen(node), RowsOf(node.Children, depth + 1, key, filter));
 
         private static bool IsCard(TreeNode node) => node.ChildManager != null || node.Children.Count > 0;
     }

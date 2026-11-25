@@ -136,7 +136,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var scene = CreateScene([2], s => AddKinds(s.Layer));
             scene.LayerNodeOfA(0).IsExpanded = false;
 
-            var arrangement = ListTreeArrangement.Of(scene.Tree.Roots, ListTreeSizes.Default);
+            var arrangement = ListTreeArrangement.Of(scene.Tree.Roots, ListTreeSizes.Default, ListTreeSearchFilter.None);
 
             var shown = ListTreeSnapshot.Of(scene.Tree.Roots).VisibleRows();
             Assert.Equal(shown.Select(row => row.Key), arrangement.Rows.Select(row => row.Key));
@@ -150,7 +150,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var scene = CreateScene([2], s => AddKinds(s.Layer));
             var sizes = new ListTreeSizes(20, 4, 10);
 
-            var arrangement = ListTreeArrangement.Of(scene.Tree.Roots, sizes);
+            var arrangement = ListTreeArrangement.Of(scene.Tree.Roots, sizes, ListTreeSearchFilter.None);
 
             Assert.Equal(arrangement.Rows.Count * sizes.Pitch - sizes.Gap, arrangement.Layout.TotalHeight);
             Assert.All(arrangement.Layout.Places, place => Assert.Equal(place.Depth * 10d, place.Indent));

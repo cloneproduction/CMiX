@@ -187,9 +187,9 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var screen = Show();
             screen.Tree.SearchText = screen.LayerNode(1).Header;
-            screen.Tree.CursorNode = screen.LayerNode(0);
+            screen.Tree.CursorNode = screen.LayerNode(1);
             Settle(screen.Window);
-            screen.View.Rows.RowOf(screen.LayerNode(0))!.Focus(NavigationMethod.Tab);
+            screen.View.Rows.RowOf(screen.LayerNode(1))!.Focus(NavigationMethod.Tab);
             Settle(screen.Window);
             screen.Window.Press(PhysicalKey.G);
             Assert.True(screen.View.Grab.IsGrabbing);

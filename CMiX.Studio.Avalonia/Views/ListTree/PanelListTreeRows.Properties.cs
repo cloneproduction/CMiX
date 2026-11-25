@@ -31,6 +31,10 @@ namespace CMiX.Studio.Avalonia.Views
         public static readonly StyledProperty<IReadOnlyList<TreeNode>?> SelectedNodesProperty =
             AvaloniaProperty.Register<PanelListTreeRows, IReadOnlyList<TreeNode>?>(nameof(SelectedNodes));
 
+        // During a search the rows show only the matches and their parents.
+        public static readonly StyledProperty<bool> IsSearchActiveProperty =
+            AvaloniaProperty.Register<PanelListTreeRows, bool>(nameof(IsSearchActive));
+
         // The time of a row move. A test sets zero, so the rows are at their place at once.
         public static readonly StyledProperty<TimeSpan> MoveDurationProperty =
             AvaloniaProperty.Register<PanelListTreeRows, TimeSpan>(nameof(MoveDuration), Motion.Duration);
@@ -73,6 +77,12 @@ namespace CMiX.Studio.Avalonia.Views
         {
             get => GetValue(SelectedNodesProperty);
             set => SetValue(SelectedNodesProperty, value);
+        }
+
+        public bool IsSearchActive
+        {
+            get => GetValue(IsSearchActiveProperty);
+            set => SetValue(IsSearchActiveProperty, value);
         }
 
         public TimeSpan MoveDuration

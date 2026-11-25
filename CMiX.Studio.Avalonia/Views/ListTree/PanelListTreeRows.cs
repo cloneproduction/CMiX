@@ -109,11 +109,14 @@ namespace CMiX.Studio.Avalonia.Views
             base.OnDetachedFromVisualTree(e);
         }
 
+        // The marks of the search change after IsSearchActive, so the rebuild waits for the burst.
         protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
         {
             base.OnPropertyChanged(change);
 
-            if (isAttached && (change.Property == RootsProperty || change.Property == RowHeightProperty
+            if (change.Property == IsSearchActiveProperty)
+                rebuildQueue.Post();
+            else if (isAttached && (change.Property == RootsProperty || change.Property == RowHeightProperty
                 || change.Property == RowGapProperty || change.Property == IndentProperty))
                 Rebuild();
             else if (change.Property == SelectedNodeProperty)
@@ -144,8 +147,19 @@ namespace CMiX.Studio.Avalonia.Views
         {
             var roots = Roots ?? Array.Empty<TreeNode>();
             watch.Watch(roots);
-            shown.Arrange(roots, Sizes);
+            shown.Arrange(roots, Sizes, SearchFilter);
             InvalidateMeasure();
+        }
+
+        private ListTreeSearchFilter SearchFilter
+        {
+            get
+            {
+                if (IsSearchActive)
+                    return ListTreeSearchFilter.Matches;
+
+                return ListTreeSearchFilter.None;
+            }
         }
 
         private void ShowArrangement()

@@ -9,7 +9,7 @@ using CMiX.Studio.Avalonia.ViewModels.Tree;
 
 namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
-    // Raises Changed when a row comes, goes, moves or a card opens or closes, and HiddenChanged when a row is hidden or shown. Call Watch again after a change.
+    // Raises Changed when a row comes, goes, moves, a card opens or closes or a search mark changes, and HiddenChanged when a row is hidden or shown. Call Watch again after a change.
     public sealed class ListTreeNodeWatch
     {
         private readonly List<TreeNode> watchedNodes = new();
@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 
         private void OnNodeChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(TreeNode.IsExpanded))
+            if (e.PropertyName is nameof(TreeNode.IsExpanded) or nameof(TreeNode.IsSearchMatch) or nameof(TreeNode.HasSearchMatchBelow))
                 Changed?.Invoke(this, EventArgs.Empty);
             else if (e.PropertyName == nameof(TreeNode.IsHidden))
                 HiddenChanged?.Invoke(this, EventArgs.Empty);

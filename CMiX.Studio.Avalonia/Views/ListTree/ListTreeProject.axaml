@@ -87,6 +87,7 @@
                 Margin="{DynamicResource ListTreeMargin}"
                 Background="Transparent"
                 Indent="{DynamicResource ListTreeIndent}"
+                IsSearchActive="{Binding IsSearchActive}"
                 KeyboardNavigation.TabNavigation="Once"
                 Roots="{Binding Roots}"
                 RowGap="{DynamicResource ListTreeRowGap}"

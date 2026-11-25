@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -90,9 +92,16 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             else if (action == ListTreeRowPressRule.Action.AddOrRemove)
                 clicked.AddOrRemoveFromSelection(node);
             else if (action == ListTreeRowPressRule.Action.SelectRange)
-                clicked.SelectRange(node, ListTreeSnapshot.Of(clicked.Roots).VisibleNodes());
+                clicked.SelectRange(node, ShownNodes());
             else if (action == ListTreeRowPressRule.Action.Stop)
                 e.Handled = true;
+        }
+
+        // The rows of the panel are the shown rows, after a posted rebuild.
+        private IReadOnlyList<TreeNode> ShownNodes()
+        {
+            Context.Rows.ApplyTreeChanges();
+            return Context.Rows.LiveRows.Select(row => row.Node).OfType<TreeNode>().ToArray();
         }
 
         private void SelectByPress(ProjectTree clicked, TreeNode node)
