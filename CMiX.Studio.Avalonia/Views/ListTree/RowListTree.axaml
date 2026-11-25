@@ -38,7 +38,7 @@
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextSelectedBrush}" />
         </Style>
 
-        <Style Selector="Views|RowListTree:pointerover:not(:selected):not(:dimmed)">
+        <Style Selector="Views|RowListTree:pointerover:not(:selected):not(:dimmed):not(.searchparent)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowHoverBrush}" />
         </Style>
         <Style Selector="Views|RowListTree:selected">
@@ -48,7 +48,7 @@
             <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedHoverBrush}" />
         </Style>
         <!-- The cursor row with no other state has the rest band at full width. -->
-        <Style Selector="Views|RowListTree.cursor:not(:pointerover):not(:selected):not(.inspected):not(:dimmed)">
+        <Style Selector="Views|RowListTree.cursor:not(:pointerover):not(:selected):not(.inspected):not(:dimmed):not(.searchparent)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowRestBandBrush}" />
         </Style>
         <!-- The inspected row has the tint of its kind, also when it is selected. -->
@@ -108,21 +108,29 @@
 
         <!-- During a drag, a row that can not take the drop is a readable grey, never an opacity.
              During a search, a parent shown only for a match has the same look, unless it is selected or inspected. -->
-        <Style Selector="Views|RowListTree:dimmed Border#band,
-                         Views|RowListTree.searchparent:not(:selected):not(.inspected) Border#band">
+        <Style Selector="Views|RowListTree:dimmed Border#band">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowDimmedBandBrush}" />
         </Style>
-        <Style Selector="Views|RowListTree:dimmed ui|TextBoxEditable#nameBox, Views|RowListTree:dimmed TextBlock#groupName,
-                         Views|RowListTree.searchparent:not(:selected):not(.inspected) ui|TextBoxEditable#nameBox,
-                         Views|RowListTree.searchparent:not(:selected):not(.inspected) TextBlock#groupName">
+        <Style Selector="Views|RowListTree:dimmed ui|TextBoxEditable#nameBox, Views|RowListTree:dimmed TextBlock#groupName">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextDimmedBrush}" />
         </Style>
-        <Style Selector="Views|RowListTree:dimmed, Views|RowListTree.searchparent:not(:selected):not(.inspected)">
+        <Style Selector="Views|RowListTree:dimmed">
             <Setter Property="IconForeground" Value="{DynamicResource ListTreeIconDimmedBrush}" />
         </Style>
-        <Style Selector="Views|RowListTree:dimmed Views|TogglesRow ToggleButton,
-                         Views|RowListTree.searchparent:not(:selected):not(.inspected) Views|TogglesRow ToggleButton">
+        <Style Selector="Views|RowListTree:dimmed Views|TogglesRow ToggleButton">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextDimmedBrush}" />
+        </Style>
+        <Style Selector="Views|RowListTree.searchparent:not(:selected):not(.inspected)">
+            <Setter Property="IconForeground" Value="{DynamicResource ListTreeIconDimmedBrush}" />
+            <Style Selector="^ Border#band">
+                <Setter Property="Background" Value="{DynamicResource ListTreeRowDimmedBandBrush}" />
+            </Style>
+            <Style Selector="^ ui|TextBoxEditable#nameBox, ^ TextBlock#groupName, ^ Views|TogglesRow ToggleButton">
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextDimmedBrush}" />
+            </Style>
+            <Style Selector="^:pointerover Border#mark">
+                <Setter Property="IsVisible" Value="False" />
+            </Style>
         </Style>
 
         <!-- A hidden row and every row under a hidden row have a fixed grey, never an opacity. -->

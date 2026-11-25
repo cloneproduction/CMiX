@@ -176,6 +176,37 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void Hover_ASearchParent_KeepsTheDimmedLook()
+        {
+            Search("Trail");
+            var row = RowOf(Layer);
+            window.Hover(row.TranslatePoint(new Point(row.Bounds.Width - 100, row.Bounds.Height / 2), window)!.Value);
+
+            Assert.True(row.IsPointerOver);
+            AssertDimmedSurface(row);
+        }
+
+        [AvaloniaFact]
+        public void Cursor_OnASearchParent_KeepsTheDimmedLook()
+        {
+            Search("Trail");
+            scene.Tree.CursorNode = Layer;
+            window.Settle();
+            var row = RowOf(Layer);
+
+            Assert.Contains("cursor", row.Classes);
+            AssertDimmedSurface(row);
+        }
+
+        private static void AssertDimmedSurface(RowListTree row)
+        {
+            Assert.Equal(Colors.Transparent, FillOf(row.Background));
+            Assert.Equal(Token("ListTreeRowDimmedBandBrush"), ColorOf(Named(row, "band").Background));
+            Assert.False(Named(row, "mark").IsEffectivelyVisible);
+            Assert.Equal(Token("ListTreeTextDimmedBrush"), TextOf(row));
+        }
+
+        [AvaloniaFact]
         public void Row_TheEndOfTheSearch_RemovesTheDimmedLook()
         {
             Search("Trail");
