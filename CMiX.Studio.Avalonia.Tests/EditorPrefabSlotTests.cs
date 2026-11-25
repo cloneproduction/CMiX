@@ -62,14 +62,18 @@ namespace CMiX.Studio.Avalonia.Tests
             var tab = new TabLayerCamera { DataContext = layer };
             Show(tab);
 
+            var slot = tab.GetVisualDescendants().OfType<EditorPrefabSlot>().Single();
             var list = tab.GetVisualDescendants().OfType<ListPrefabSlot>().Single();
             var cameraEditor = tab.GetVisualDescendants().OfType<Views.Camera>().Single();
+            var margin = list.Margin;
+            var listHeight = ((StackPanel)list.Content!).Children.Sum(part => part.Margin.Top + part.Bounds.Height + part.Margin.Bottom);
+            var editorTop = margin.Top + listHeight + margin.Bottom;
 
-            Assert.Equal(new Thickness(8), list.Margin);
-            Assert.Equal(new Point(8, 8), list.TranslatePoint(new Point(0, 0), tab));
-            Assert.Equal(new Size(376, 128), list.Bounds.Size);
-            Assert.Equal(new Point(0, 144), cameraEditor.TranslatePoint(new Point(0, 0), tab));
-            Assert.Equal(new Size(392, 756), cameraEditor.Bounds.Size);
+            Assert.Equal(new Thickness(8), margin);
+            Assert.Equal(new Point(margin.Left, margin.Top), list.TranslatePoint(new Point(0, 0), tab));
+            Assert.Equal(new Size(slot.Bounds.Width - margin.Left - margin.Right, listHeight), list.Bounds.Size);
+            Assert.Equal(new Point(0, editorTop), cameraEditor.TranslatePoint(new Point(0, 0), tab));
+            Assert.Equal(new Size(slot.Bounds.Width, slot.Bounds.Height - editorTop), cameraEditor.Bounds.Size);
         }
     }
 }
