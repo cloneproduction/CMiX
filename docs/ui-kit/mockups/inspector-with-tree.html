@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Inspector with the tree</title>
-<!-- Mockup: the tree in the look of version 55 of nested-boxes.html at the left, the new inspector at the right, as in the app.
-     Layer 1 is selected in the tree and the inspector shows it. The inspector is inspector.html#after in a frame, so it has one source.
-     Values follow docs/tree-port-plan.md section 3. It links the kit and copies nothing. -->
+<!-- Mockup: ListTreeProject in PanelSide at the left, the After inspector of inspector.html at the right, as in the app.
+     The tree follows RowListTree, FrameListTreeCard, BadgesKindCount and the ListTree tokens. Group rows are not shown (option E).
+     The marks are on the row only, full width: the selection is the left bar, the cursor is a thin white frame, and the inspected
+     row has the tint of its kind. The search field filters the rows. It links the kit and copies nothing. -->
 <link rel="stylesheet" href="../tokens.css">
 <link rel="stylesheet" href="../cmix.css">
 <script src="../tokens.js"></script>
@@ -14,56 +15,161 @@
 <script src="../cmix.js"></script>
 <style>
     body { margin: 0; height: 100vh; display: flex; background: var(--Grey100Brush); }
-    .tree { width: 320px; flex: none; padding: 8px 0 8px 8px; background: var(--TreeBackground); overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
+    .side { width: 340px; flex: none; display: flex; flex-direction: column; background: var(--ListTreeBackground, var(--TreeBackground)); }
+    .side > .PanelSide { flex: none; }
+    /* ToolbarProjectTree: add, duplicate, move up, move down, and remove at the right, on Grey300. */
+    .toolbar { display: flex; gap: 1px; padding: var(--ListTreeToolbarPadding); background: var(--ListTreeToolbarBackgroundBrush); }
+    .toolbar .ButtonIcon .AppIcon { width: var(--IconSizeXS); height: var(--IconSizeXS); }
+    .toolbar .push { margin-left: auto; }
+    .tree { flex: 1; overflow-y: auto; padding: var(--ListTreeMargin); display: flex; flex-direction: column; gap: var(--ListTreeRowGap); }
     .split { width: 4px; flex: none; background: var(--Grey200); }
     .inspector { width: 340px; flex: none; border: 0; background: var(--Grey100); }
     .rest { flex: 1; }
 
-    /* A row: 32 px, full width; the indent moves only the content. The band is white 5 % from the content indent. */
-    .r { --d: 0; position: relative; height: 32px; flex: none; }
-    .b { position: absolute; top: 0; bottom: 0; left: calc(var(--d) * 16px + 2px); right: 0; display: flex; align-items: center; border-radius: 2px; background: rgba(255, 255, 255, .05); color: #B6B6BB; font-size: 12px; }
-    .b .AppIcon { width: 16px; height: 16px; margin: 0 8px; color: var(--k); fill: var(--k); }
-    .b .nm { padding: 0 6px 0 0; }
-    .card > .r .nm, .r.card-h .nm { font-weight: 600; }
-    /* Count squares of a closed card: the kind icon and the number, on white 7 %. */
-    .cs { display: flex; gap: 3px; margin-left: 4px; }
-    .cs span { display: flex; align-items: center; gap: 2px; height: 16px; padding: 0 4px 0 2px; border-radius: 2px; background: rgba(255, 255, 255, .07); color: var(--TreeTextRest); font-size: 10px; }
-    .cs .AppIcon { width: 12px; height: 12px; margin: 0; }
-    /* The toggles: inside the row at the right, mask then eye, 8 px apart, a column of 72 px. */
-    .tg { position: absolute; right: 4px; top: 0; height: 32px; width: 72px; display: flex; justify-content: flex-end; align-items: center; gap: 8px; z-index: 1; }
-    .tg .AppIcon { width: 16px; height: 16px; margin: 0; color: var(--TreeTextRest); fill: var(--TreeTextRest); opacity: .9; }
+    /* A row: ListTreeRowHeight, full width; the indent moves only the band. The rest band is ListTreeRowRestBand. */
+    .r { --d: 0; position: relative; height: var(--ListTreeRowHeight); flex: none; cursor: default; }
+    .b { position: absolute; top: 0; bottom: 0; left: calc(var(--d) * var(--ListTreeIndent)); right: 0; display: flex; align-items: center; padding-left: var(--ListTreeRowContentMargin); border-radius: var(--CornerRadiusAll); background: var(--ListTreeRowRestBand); color: var(--ListTreeTextRest); font-size: var(--FontSizeMD); }
+    .b .AppIcon { width: var(--IconSizeXS); height: var(--IconSizeXS); margin: var(--ListTreeIconMargin); color: var(--k); fill: var(--k); flex: none; }
+    .b .nm { padding: var(--ListTreeNamePadding); white-space: nowrap; }
+    .r.card .nm { font-weight: 600; }
+    /* BadgesKindCount: the kind icon, and the count small at its bottom right, white with a thin outline in the tree colour. */
+    .cs { display: flex; align-items: center; gap: 8px; margin-left: 2px; }
+    .cs span { position: relative; display: flex; width: var(--IconSizeXS); height: var(--IconSizeXS); }
+    .b .cs .AppIcon { margin: 0; }
+    .cs em { position: absolute; right: -5px; bottom: -4px; font-style: normal; font-size: var(--TreeKindCountFontSize); font-weight: 700; line-height: 1; color: var(--ActiveText); -webkit-text-stroke: var(--TreeKindCountOutline) var(--TreeBackground); paint-order: stroke fill; }
+    /* TogglesRow: slots of ListTreeToggleSize, ListTreeToggleGap apart, mask first, the eye at the far right. */
+    .tg { position: absolute; right: 0; top: 0; height: var(--ListTreeRowHeight); display: flex; gap: var(--ListTreeToggleGap); z-index: 2; }
+    .tg i { width: var(--ListTreeToggleSize); height: var(--ListTreeToggleSize); display: flex; align-items: center; justify-content: center; }
+    .tg .AppIcon { width: var(--IconSizeXS); height: var(--IconSizeXS); color: var(--ListTreeTextRest); fill: var(--ListTreeTextRest); opacity: var(--OpacityIconAction); }
     .tg i.off { visibility: hidden; }
 
-    /* A card: its header and its children. The selected card: area white 12 %, a 3 px left border in the full kind colour down its full height, white text. */
-    .card { display: flex; flex-direction: column; gap: 3px; }
-    .card.sel { position: relative; }
-    .card.sel::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--d) * 16px + 2px); right: 0; border-radius: 2px; background: rgba(255, 255, 255, .12); box-shadow: inset 3px 0 0 var(--k); }
-    .card.sel > .r:first-child .b { background: none; }
-    .card.sel .b { color: var(--ActiveText); }
-    .card.sel .tg .AppIcon { color: var(--ActiveText); fill: var(--ActiveText); opacity: 1; }
+    /* The states are classes of a row: sel (SelectedNode), cur (CursorNode), insp (InspectedNode). */
+    .cd { display: flex; flex-direction: column; gap: var(--ListTreeRowGap); position: relative; }
+    .cd > .r { z-index: 1; }
+    .r::after { content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--d) * var(--ListTreeIndent)); right: 0; border-radius: var(--CornerRadiusAll); pointer-events: none; z-index: 3; }
+
+    /* Hover and selection mark the row only, header or item, full width. No area and no border down the children. */
+    .r:not(.sel):hover { background: var(--ListTreeRowHover); border-radius: var(--CornerRadiusAll); box-shadow: inset var(--ListTreeLeftBorderWidth) 0 0 color-mix(in srgb, var(--k) 45%, transparent); }
+    .r:hover .b { background: none; color: var(--TreeTextRest); }
+    .r.sel { background: var(--ListTreeRowSelected); border-radius: var(--CornerRadiusAll); box-shadow: inset var(--ListTreeLeftBorderWidth) 0 0 var(--k); }
+    .r.sel:hover { background: var(--ListTreeRowSelectedHover); }
+    .r.sel .b { background: none; color: var(--ActiveText); }
+    .r.sel .tg .AppIcon { color: var(--ActiveText); fill: var(--ActiveText); opacity: 1; }
+    /* The cursor: 1 px of ListTreeRowCursorFrame, inside the row, full width. The band of the row becomes full width too. */
+    .r.cur::after { left: 0; border: 1px solid var(--ListTreeRowCursorFrame); }
+    .r.cur:not(.sel):not(.insp):not(:hover) { background: var(--ListTreeRowRestBand); border-radius: var(--CornerRadiusAll); }
+    .r.cur .b { background: none; }
+    /* The inspected row has the tint of its kind: ListTreeRowInspectedStrength 18 % of the kind colour over TreeBackground, full width.
+       Hover: 25 % and the 3 px left border at 45 %. Selected too: the tint stays with the 3 px left border in the full kind colour. */
+    .r.insp { background: color-mix(in srgb, var(--k) 18%, var(--TreeBackground)); border-radius: var(--CornerRadiusAll); box-shadow: none; }
+    .r.insp:hover { background: color-mix(in srgb, var(--k) 25%, var(--TreeBackground)); }
+    .r.insp:not(.sel):hover { box-shadow: inset var(--ListTreeLeftBorderWidth) 0 0 color-mix(in srgb, var(--k) 45%, transparent); }
+    .r.insp.sel { box-shadow: inset var(--ListTreeLeftBorderWidth) 0 0 var(--k); }
+    .r.insp .b { background: none; color: var(--ActiveText); }
+    .r.insp .tg .AppIcon { color: var(--ActiveText); fill: var(--ActiveText); opacity: 1; }
+    /* The search. A row that does not match and holds no match is not shown. A parent shown for a match is dimmed, as in a drag. */
+    .r.gone { display: none; }
+    body.searching .r.context:not(.sel):not(.insp) .b { background: var(--ListTreeRowDimmedBand); color: var(--ListTreeTextDimmed); }
+    body.searching .r.context .b > .AppIcon { color: var(--ListTreeIconDimmedBrush); fill: var(--ListTreeIconDimmedBrush); }
+    .nm mark { background: none; color: var(--AccentHighlight); }
+    .nomatch { padding: var(--ListTreeToolbarPadding); font-size: var(--FontSizeMD); color: var(--ListTreeTextRest); }
+    /* A hidden row and every row under it: a fixed grey. */
+    .r.hidden .b { color: var(--ListTreeTextHidden); }
+    .r.hidden .b .AppIcon { color: var(--ListTreeIconHidden); fill: var(--ListTreeIconHidden); }
 </style>
 </head>
 <body class="cmix">
-<div class="tree">
-  <div class="card" style="--k:var(--CategoryComposable0)">
-    <div class="r" style="--d:0"><div class="b"><i class="AppIcon" data-icon-key="Composition"></i><span class="nm">Composition 1</span></div><div class="tg"><i class="AppIcon" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+<div class="side">
+  <div class="PanelSide"><div class="bar"><button class="ToggleButton pickerToggle"><i class="AppIcon" data-icon-key="Tree"></i><i class="Chevron"></i></button><div class="TextBoxSearch showsclear" data-watermark="Search"></div></div></div>
+  <div class="toolbar"><button class="ButtonIcon" data-icon-key="Add"></button><button class="ButtonIcon" data-icon-key="Duplicate"></button><button class="ButtonIcon" data-icon-key="ArrowUp"></button><button class="ButtonIcon" data-icon-key="ArrowDown"></button><button class="ButtonIcon push" data-icon-key="Remove"></button></div>
+  <div class="tree">
+    <div class="cd" style="--d:0;--k:var(--CategoryComposable0)">
+      <div class="r card" style="--d:0"><div class="b"><i class="AppIcon" data-icon-key="Composition"></i><span class="nm">Composition 1</span></div><div class="tg"><i><b data-icon-key="Mask"></b></i><i><b data-icon-key="Visible"></b></i></div></div>
 
-    <div class="card sel" style="--d:1;--k:var(--CategoryComposable1)">
-      <div class="r" style="--d:1"><div class="b"><i class="AppIcon" data-icon-key="LayerScene"></i><span class="nm">Layer 1</span></div><div class="tg"><i class="AppIcon" data-icon-key="MaskOff"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
-      <div class="r" style="--d:2;--k:var(--CategoryEntity)"><div class="b"><i class="AppIcon" data-icon-key="Cube"></i><span class="nm">Cube</span></div><div class="tg"><i class="AppIcon off" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
-      <div class="r" style="--d:2;--k:var(--CategoryEntity)"><div class="b"><i class="AppIcon" data-icon-key="TextIcon"></i><span class="nm">Title</span></div><div class="tg"><i class="AppIcon off" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
-      <div class="r" style="--d:2;--k:var(--CategoryCamera)"><div class="b"><i class="AppIcon" data-icon-key="Camera"></i><span class="nm">Camera 1</span></div><div class="tg"><i class="AppIcon off" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
-      <div class="r" style="--d:2;--k:var(--CategoryLight)"><div class="b"><i class="AppIcon" data-icon-key="MeshLight"></i><span class="nm">Key light</span></div><div class="tg"><i class="AppIcon off" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+      <div class="cd" data-pick="layer" style="--d:1;--k:var(--CategoryComposable1)">
+        <div class="r card sel" style="--d:1"><div class="b"><i class="AppIcon" data-icon-key="LayerScene"></i><span class="nm">Layer 1</span></div><div class="tg"><i><b data-icon-key="MaskOff"></b></i><i><b data-icon-key="Visible"></b></i></div></div>
+
+        <div class="cd" data-pick="entity" style="--d:2;--k:var(--CategoryEntity)">
+          <div class="r card insp" style="--d:2"><div class="b"><i class="AppIcon" data-icon-key="Geometry"></i><span class="nm">Cube</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+          <div class="r" style="--d:3;--k:var(--CategoryTexture)"><div class="b"><i class="AppIcon" data-icon-key="Texture"></i><span class="nm">Image 1</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+          <div class="r" style="--d:3;--k:var(--CategoryTexture)"><div class="b"><i class="AppIcon" data-icon-key="Texture"></i><span class="nm">Noise</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+          <div class="r hidden" style="--d:3;--k:var(--CategoryTexture)"><div class="b"><i class="AppIcon" data-icon-key="Texture"></i><span class="nm">Video 1</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="NotVisible"></b></i></div></div>
+          <div class="r" style="--d:3;--k:var(--CategoryModifier)"><div class="b"><i class="AppIcon" data-icon-key="Modifier"></i><span class="nm">Rotation</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+        </div>
+        <div class="r" style="--d:2;--k:var(--CategoryEntity)"><div class="b"><i class="AppIcon" data-icon-key="TextIcon"></i><span class="nm">Title</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+        <div class="r" style="--d:2;--k:var(--CategoryFilter)"><div class="b"><i class="AppIcon" data-icon-key="Filter"></i><span class="nm">Blur</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+        <div class="r" style="--d:2;--k:var(--CategoryFilter)"><div class="b"><i class="AppIcon" data-icon-key="Filter"></i><span class="nm">Echo</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+        <div class="r hidden" style="--d:2;--k:var(--CategoryFilter)"><div class="b"><i class="AppIcon" data-icon-key="Filter"></i><span class="nm">Kaleidoscope</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="NotVisible"></b></i></div></div>
+        <div class="r" style="--d:2;--k:var(--CategoryModifier)"><div class="b"><i class="AppIcon" data-icon-key="Modifier"></i><span class="nm">Scale</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+        <div class="r" style="--d:2;--k:var(--CategoryModifier)"><div class="b"><i class="AppIcon" data-icon-key="Modifier"></i><span class="nm">Rotation</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+        <div class="r cur" style="--d:2;--k:var(--CategoryCamera)"><div class="b"><i class="AppIcon" data-icon-key="Camera"></i><span class="nm">Camera 1</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+        <div class="r" style="--d:2;--k:var(--CategoryLight)"><div class="b"><i class="AppIcon" data-icon-key="MeshLight"></i><span class="nm">Key light</span></div><div class="tg"><i class="off"></i><i><b data-icon-key="Visible"></b></i></div></div>
+      </div>
+
+      <div class="r card" style="--d:1;--k:var(--CategoryComposable1)"><div class="b"><i class="AppIcon" data-icon-key="LayerScene"></i><span class="nm">Layer 2</span><span class="cs"><span style="--k:var(--CategoryEntity)" data-icon-key="Geometry">3</span><span style="--k:var(--CategoryCamera)" data-icon-key="Camera">1</span></span></div><div class="tg"><i><b data-icon-key="MaskOff"></b></i><i><b data-icon-key="Visible"></b></i></div></div>
+      <div class="r card" style="--d:1;--k:var(--CategoryComposable1)"><div class="b"><i class="AppIcon" data-icon-key="LayerScene"></i><span class="nm">Background</span><span class="cs"><span style="--k:var(--CategoryEntity)" data-icon-key="Geometry">1</span><span style="--k:var(--CategoryFilter)" data-icon-key="Filter">2</span></span></div><div class="tg"><i><b data-icon-key="MaskOff"></b></i><i><b data-icon-key="Visible"></b></i></div></div>
     </div>
-
-    <div class="r" style="--d:1;--k:var(--CategoryComposable1)"><div class="b"><i class="AppIcon" data-icon-key="LayerScene"></i><span class="nm" style="font-weight:600">Layer 2</span><span class="cs"><span style="--k:var(--CategoryEntity)"><i class="AppIcon" data-icon-key="Cube"></i>3</span><span style="--k:var(--CategoryCamera)"><i class="AppIcon" data-icon-key="Camera"></i>1</span></span></div><div class="tg"><i class="AppIcon" data-icon-key="MaskOff"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
-    <div class="r" style="--d:1;--k:var(--CategoryComposable1)"><div class="b"><i class="AppIcon" data-icon-key="LayerScene"></i><span class="nm" style="font-weight:600">Background</span><span class="cs"><span style="--k:var(--CategoryEntity)"><i class="AppIcon" data-icon-key="Cube"></i>1</span></span></div><div class="tg"><i class="AppIcon" data-icon-key="MaskOff"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
+    <div class="r card" style="--d:0;--k:var(--CategoryComposable0)"><div class="b"><i class="AppIcon" data-icon-key="Composition"></i><span class="nm">Composition 2</span><span class="cs"><span style="--k:var(--CategoryComposable1)" data-icon-key="LayerScene">2</span></span></div><div class="tg"><i><b data-icon-key="Mask"></b></i><i><b data-icon-key="Visible"></b></i></div></div>
+    <div class="nomatch" hidden>No match</div>
   </div>
-
-  <div class="r" style="--d:0;--k:var(--CategoryComposable0)"><div class="b"><i class="AppIcon" data-icon-key="Composition"></i><span class="nm" style="font-weight:600">Composition 2</span><span class="cs"><span style="--k:var(--CategoryComposable1)"><i class="AppIcon" data-icon-key="LayerScene"></i>2</span></span></div><div class="tg"><i class="AppIcon" data-icon-key="Mask"></i><i class="AppIcon" data-icon-key="Visible"></i></div></div>
 </div>
 <div class="split"></div>
-<iframe class="inspector" src="inspector.html#after" title="Inspector"></iframe>
+<iframe class="inspector" src="inspector.html#after-entity" title="Inspector"></iframe>
 <div class="rest"></div>
+<script>
+    document.querySelectorAll('.cs span').forEach(function (s) { s.innerHTML = '<i class="AppIcon" data-icon-key="' + s.getAttribute('data-icon-key') + '"></i><em>' + s.textContent + '</em>'; s.removeAttribute('data-icon-key'); });
+    document.querySelectorAll('.tg b').forEach(function (b) { var i = document.createElement('i'); i.className = 'AppIcon'; i.setAttribute('data-icon-key', b.getAttribute('data-icon-key')); b.replaceWith(i); });
+    var rows = Array.prototype.slice.call(document.querySelectorAll('.tree .r'));
+    function mark(name, row) { rows.forEach(function (r) { r.classList.toggle(name, r === row); }); }
+    // As in ProjectTree: a click selects the row and moves the cursor to it. The arrows move only the cursor.
+    // Space (Tree.Inspect) and a middle click inspect the row. Only Layer 1 and Cube have an inspector page here.
+    function inspect(row) {
+        var pick = row.parentElement.getAttribute('data-pick');
+        if (!row.classList.contains('card') || !pick) return;
+        mark('insp', row);
+        document.querySelector('.inspector').src = 'inspector.html#after-' + pick;
+    }
+    rows.forEach(function (row) {
+        row.addEventListener('click', function () { mark('sel', row); mark('cur', row); });
+        row.addEventListener('auxclick', function (e) { if (e.button === 1) inspect(row); });
+        row.addEventListener('mousedown', function (e) { if (e.button === 1) e.preventDefault(); });
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.target.tagName === 'INPUT') return;
+        var shown = rows.filter(function (r) { return !r.classList.contains('gone'); });
+        var index = shown.findIndex(function (r) { return r.classList.contains('cur'); });
+        if (e.key === 'ArrowDown') { mark('cur', shown[Math.min(shown.length - 1, index + 1)]); e.preventDefault(); }
+        if (e.key === 'ArrowUp') { mark('cur', shown[Math.max(0, index - 1)]); e.preventDefault(); }
+        if (e.key === ' ' && index >= 0) { inspect(shown[index]); e.preventDefault(); }
+    });
+    // The search, as the Outliner of Blender: it hides every row that does not match and keeps the parents of each match.
+    // A match keeps its look and its matched letters take AccentHighlight. A parent shown only for a match is dimmed.
+    rows.forEach(function (r) { r.setAttribute('data-name', r.querySelector('.nm').textContent); });
+    function search(text) {
+        var query = text.trim().toLowerCase();
+        rows.forEach(function (r) { r.classList.remove('match', 'context', 'gone'); r.querySelector('.nm').textContent = r.getAttribute('data-name'); });
+        document.body.classList.toggle('searching', query !== '');
+        if (query === '') { document.querySelector('.nomatch').hidden = true; return; }
+        var keep = new Set();
+        rows.forEach(function (r) {
+            var name = r.getAttribute('data-name'), at = name.toLowerCase().indexOf(query);
+            if (at < 0) return;
+            keep.add(r);
+            r.classList.add('match');
+            r.querySelector('.nm').innerHTML = name.slice(0, at) + '<mark>' + name.slice(at, at + query.length) + '</mark>' + name.slice(at + query.length);
+            for (var card = r.parentElement; card && card.classList.contains('cd'); card = card.parentElement) {
+                var head = card.querySelector(':scope > .r.card');
+                if (head && head !== r) keep.add(head);
+            }
+        });
+        rows.forEach(function (r) {
+            if (!keep.has(r)) r.classList.add('gone');
+            else if (!r.classList.contains('match')) r.classList.add('context');
+        });
+        document.querySelector('.nomatch').hidden = keep.size > 0;
+    }
+    // cmix.js builds the field after this script, so the document listens.
+    document.addEventListener('input', function (e) { if (e.target.closest('.side .TextBoxSearch')) search(e.target.value); });
+</script>
 </body>
 </html>
