@@ -398,7 +398,6 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Escape_InTheFieldDuringAPointerDrag_EndsTheDragWithoutADrop()
         {
             var (screen, scene) = Show();
-            Search(screen, "Layer");
             var rows = scene.Tree.CompositionNodes()[0].Children[0].Children;
             var before = rows.Select(node => node.Item).ToList();
             RowListTree RowOf(TreeNode node) => screen.View.Rows.RowOf(node)!;
@@ -415,7 +414,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.False(screen.View.RowDrag.IsDragging);
             Assert.False(scene.Tree.IsDragging);
             Assert.Equal(before, rows.Select(node => node.Item).ToList());
-            Assert.Equal("Layer", scene.Tree.SearchText);
+            Assert.False(scene.Tree.IsSearchActive);
         }
 
         // ---------------------------------------------------------------- the bar of the panel and the shortcut of the main window

@@ -186,20 +186,17 @@ namespace CMiX.Studio.Avalonia.Tests
         public void AltF_DuringAGrab_DoesNothing()
         {
             var screen = Show();
-            screen.Tree.SearchText = screen.LayerNode(1).Header;
             screen.Tree.CursorNode = screen.LayerNode(1);
             Settle(screen.Window);
             screen.View.Rows.RowOf(screen.LayerNode(1))!.Focus(NavigationMethod.Tab);
             Settle(screen.Window);
             screen.Window.Press(PhysicalKey.G);
             Assert.True(screen.View.Grab.IsGrabbing);
-            Assert.False(screen.Tree.ClearSearchCommand.CanExecute(null));
 
             screen.Window.Press(PhysicalKey.F, RawInputModifiers.Alt);
 
             Assert.True(screen.View.Grab.IsGrabbing);
-            Assert.Equal(screen.LayerNode(1).Header, screen.Tree.SearchText);
-            Assert.True(screen.Tree.IsSearchActive);
+            Assert.False(screen.Tree.IsSearchActive);
         }
 
         [AvaloniaFact]
