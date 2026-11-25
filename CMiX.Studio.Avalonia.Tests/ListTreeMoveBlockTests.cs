@@ -170,6 +170,20 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public async Task DropBlockAsync_ABlockWithARowThatTheListRefuses_LeavesTheStackEmpty()
+        {
+            var scene = CreateScene();
+            var modifiers = ModifiersOfALightOfB(scene);
+            var nodes = new[] { Modifier(scene, 0, 0), Modifier(scene, 0, 1) };
+            scene.ClearUndo();
+
+            await scene.Tree.DropBlockAsync(nodes, nodes[0], modifiers, DropPosition.Inside);
+
+            Assert.Equal(0, UndoCounts.StepsOf(scene.Undo));
+            Assert.False(scene.Undo.CanRedo);
+        }
+
+        [Fact]
         public void SlotsOf_ABlockWithARowThatTheListRefuses_OffersNoSlotOnTheLight()
         {
             var scene = CreateScene();
