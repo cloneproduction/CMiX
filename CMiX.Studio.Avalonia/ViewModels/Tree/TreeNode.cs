@@ -14,6 +14,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
+using CMiX.UI.Search;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Studio.Avalonia.ViewModels.Tree
@@ -209,9 +210,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public bool IsSearchMatch { get => isSearchMatch; private set => SetProperty(ref isSearchMatch, value); }
         public bool IsSearchDimmed { get => isSearchDimmed; private set => SetProperty(ref isSearchDimmed, value); }
 
-        private bool MatchesSearch(string text) =>
-            Header.Contains(text, StringComparison.OrdinalIgnoreCase)
-            || (kindLabel != null && kindLabel.Contains(text, StringComparison.OrdinalIgnoreCase));
+        private bool MatchesSearch(string text) => SearchRules.MatchesAny(text, Header, kindLabel);
 
         internal void ShowSearchLook(string text)
         {
