@@ -189,6 +189,29 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void SearchMatchStart_APartOfTheName_GivesTheLettersOfTheMatch()
+        {
+            var (scene, echo) = WithARenamedEcho();
+
+            scene.Tree.SearchText = " RAI ";
+
+            Assert.Equal(1, NodeOf(scene, echo).SearchMatchStart);
+            Assert.Equal(3, NodeOf(scene, echo).SearchMatchLength);
+        }
+
+        [Fact]
+        public void SearchMatchStart_TheEndOfTheSearch_MarksNoLetter()
+        {
+            var (scene, _) = WithARenamedEcho();
+            scene.Tree.SearchText = "rai";
+
+            scene.Tree.SearchText = "";
+
+            Assert.All(scene.All(), node => Assert.Equal(-1, node.SearchMatchStart));
+            Assert.All(scene.All(), node => Assert.Equal(0, node.SearchMatchLength));
+        }
+
+        [Fact]
         public void SearchMatches_OfTwoRows_AreCountedInTheOrderOfTheTree()
         {
             var scene = CreateScene([2], s =>

@@ -2,6 +2,7 @@
     x:Class="CMiX.UI.Controls.String.TextBoxEditable"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:CMiX.UI.Controls.String"
     x:Name="textBoxEditable">
 
     <Grid
@@ -19,13 +20,16 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <TextBlock
+            <local:TextBlockHighlighted
                 x:Name="textDisplay"
                 MinWidth="{DynamicResource ControlHeightMD}"
                 Padding="4,2"
                 Background="Transparent"
                 VerticalAlignment="Center"
                 Foreground="{Binding Foreground, ElementName=textBoxEditable}"
+                HighlightForeground="{Binding HighlightForeground, ElementName=textBoxEditable}"
+                HighlightLength="{Binding HighlightLength, ElementName=textBoxEditable}"
+                HighlightStart="{Binding HighlightStart, ElementName=textBoxEditable}"
                 Text="{Binding Text, ElementName=textBoxEditable}" />
             <ContentPresenter
                 x:Name="suffixPresenter"

@@ -46,6 +46,27 @@ namespace CMiX.UI.Tests
         }
 
         [Fact]
+        public void IndexOfMatch_APartOfAWord_GivesItsStart()
+        {
+            Assert.Equal(1, SearchRules.IndexOfMatch("lur", "Blur"));
+            Assert.Equal(0, SearchRules.IndexOfMatch("BL", "Blur"));
+        }
+
+        [Fact]
+        public void IndexOfMatch_NoMatch_GivesMinusOne()
+        {
+            Assert.Equal(-1, SearchRules.IndexOfMatch("glow", "Blur"));
+            Assert.Equal(-1, SearchRules.IndexOfMatch("blur", null));
+        }
+
+        [Fact]
+        public void IndexOfMatch_AnEmptyQuery_GivesMinusOne()
+        {
+            Assert.Equal(-1, SearchRules.IndexOfMatch("", "Blur"));
+            Assert.Equal(-1, SearchRules.IndexOfMatch(null, "Blur"));
+        }
+
+        [Fact]
         public void MatchesAny_NeitherText_DoesNotMatch()
         {
             Assert.False(SearchRules.MatchesAny("glow", "Blur", "Effect"));

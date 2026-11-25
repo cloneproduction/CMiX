@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.VisualTree;
 using CMiX.UI.Controls.Parts;
 using CMiX.UI.Popups;
@@ -44,6 +45,31 @@ namespace CMiX.UI.Controls.String
         {
             get => GetValue(SuffixProperty);
             set => SetValue(SuffixProperty, value);
+        }
+
+        // A range of the shown text in HighlightForeground, such as the letters of a search match. The input does not show it.
+        public static readonly StyledProperty<int> HighlightStartProperty =
+            TextBlockHighlighted.HighlightStartProperty.AddOwner<TextBoxEditable>();
+        public int HighlightStart
+        {
+            get => GetValue(HighlightStartProperty);
+            set => SetValue(HighlightStartProperty, value);
+        }
+
+        public static readonly StyledProperty<int> HighlightLengthProperty =
+            TextBlockHighlighted.HighlightLengthProperty.AddOwner<TextBoxEditable>();
+        public int HighlightLength
+        {
+            get => GetValue(HighlightLengthProperty);
+            set => SetValue(HighlightLengthProperty, value);
+        }
+
+        public static readonly StyledProperty<IBrush?> HighlightForegroundProperty =
+            TextBlockHighlighted.HighlightForegroundProperty.AddOwner<TextBoxEditable>();
+        public IBrush? HighlightForeground
+        {
+            get => GetValue(HighlightForegroundProperty);
+            set => SetValue(HighlightForegroundProperty, value);
         }
 
         private TopLevel? _parentTopLevel;

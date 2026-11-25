@@ -99,6 +99,22 @@ namespace CMiX.UI.Tests
         }
 
         [AvaloniaFact]
+        public void DoubleTap_OnAHighlightedText_StartsTheEditModeWithTheWholeText()
+        {
+            var shown = Show();
+            shown.Box.HighlightStart = 0;
+            shown.Box.HighlightLength = 5;
+            var display = Assert.IsType<TextBlockHighlighted>(shown.Text);
+            Assert.NotNull(display.HighlightRun);
+
+            var handled = DoubleTap(shown.Window, shown.Text);
+
+            Assert.True(shown.Input.IsVisible);
+            Assert.True(handled);
+            Assert.Equal("Layer 1", shown.Input.Text);
+        }
+
+        [AvaloniaFact]
         public void DoubleTap_AwayFromTheText_LeavesTheTapToTheRow()
         {
             var shown = Show();

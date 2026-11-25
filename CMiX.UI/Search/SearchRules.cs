@@ -18,5 +18,14 @@ namespace CMiX.UI.Search
 
         public static bool MatchesAny(string? query, string? first, string? second) =>
             Matches(query, first) || Matches(query, second);
+
+        // The start of the query in the text, with no regard to case. An empty query marks no letter, so it gives -1.
+        public static int IndexOfMatch(string? query, string? text)
+        {
+            if (string.IsNullOrEmpty(query) || text == null)
+                return -1;
+
+            return text.IndexOf(query, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }
