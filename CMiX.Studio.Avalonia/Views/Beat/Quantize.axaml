@@ -8,14 +8,15 @@
 
     <ui:DragValueInteger
         Caption="Quantize"
-        IsReadOnly="{Binding !IsEnabled.Value}"
+        DataContext="{Binding Steps}"
+        IsReadOnly="{Binding !$parent[UserControl].DataContext.IsEnabled.Value}"
         Minimum="1"
-        ResetCommand="{Binding Steps.ResetCommand}"
-        Value="{Binding Steps.Value}">
+        ResetCommand="{Binding ResetCommand}"
+        Value="{Binding Value}">
         <ui:DragValue.LeadingContent>
             <ToggleButton
                 Margin="0,0,4,0"
-                IsChecked="{Binding IsEnabled.Value}"
+                IsChecked="{Binding $parent[UserControl].DataContext.IsEnabled.Value}"
                 Theme="{StaticResource ToggleButtonBox}" />
         </ui:DragValue.LeadingContent>
     </ui:DragValueInteger>

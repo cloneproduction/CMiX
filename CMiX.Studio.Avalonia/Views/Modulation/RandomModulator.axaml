@@ -12,14 +12,16 @@
 
             <ui:DragValue
                 Caption="Center"
-                Value="{Binding Center.Value}"
-                ResetCommand="{Binding Center.ResetCommand}" />
+                DataContext="{Binding Center}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
             <ui:DragValue
                 Caption="Width"
                 Minimum="0.0"
-                Value="{Binding Width.Value}"
-                ResetCommand="{Binding Width.ResetCommand}" />
+                DataContext="{Binding Width}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
         </ui:StackPanelPositioned>
 
@@ -28,8 +30,9 @@
             IsInteger="True"
             LargeChange="1.0"
             SmallChange="1.0"
-            Value="{Binding Seed.Value}"
-            ResetCommand="{Binding Seed.ResetCommand}" />
+            DataContext="{Binding Seed}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
     </StackPanel>
 

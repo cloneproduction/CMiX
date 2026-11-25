@@ -14,8 +14,9 @@
         <ui:DragValue
             Caption="Period"
             Minimum="0.0"
-            ResetCommand="{Binding Period.ResetCommand}"
-            Value="{Binding Period.Value}" />
+            ResetCommand="{Binding ResetCommand}"
+            DataContext="{Binding Period}"
+            Value="{Binding Value}" />
 
         <Modulation:EditorFloatRange DataContext="{Binding Range}" />
 

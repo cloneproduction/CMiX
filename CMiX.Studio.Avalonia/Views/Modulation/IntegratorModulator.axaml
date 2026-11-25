@@ -12,13 +12,15 @@
 
             <ui:DragValue
                 Caption="Offset"
-                Value="{Binding Offset.Value}"
-                ResetCommand="{Binding Offset.ResetCommand}" />
+                DataContext="{Binding Offset}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
             <ui:DragValue
                 Caption="Reset Value"
-                Value="{Binding ResetValue.Value}"
-                ResetCommand="{Binding ResetValue.ResetCommand}" />
+                DataContext="{Binding ResetValue}"
+                Value="{Binding Value}"
+                ResetCommand="{Binding ResetCommand}" />
 
         </ui:StackPanelPositioned>
 

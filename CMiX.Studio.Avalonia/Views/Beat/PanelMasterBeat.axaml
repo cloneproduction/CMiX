@@ -13,7 +13,8 @@
             LargeChange="1.0"
             Minimum="1"
             SmallChange="0.01"
-            Value="{Binding BPM, Mode=TwoWay}" />
+            DataContext="{Binding Period}"
+            Value="{Binding $parent[UserControl].DataContext.BPM, Mode=TwoWay}" />
 
         <ui:ContentCaptioned>
 

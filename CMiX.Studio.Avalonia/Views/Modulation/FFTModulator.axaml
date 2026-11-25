@@ -12,8 +12,9 @@
         <ui:DragValueInteger
             Caption="Track Index"
             Minimum="0"
-            Value="{Binding TrackIndex.Value}"
-            ResetCommand="{Binding TrackIndex.ResetCommand}" />
+            DataContext="{Binding TrackIndex}"
+            Value="{Binding Value}"
+            ResetCommand="{Binding ResetCommand}" />
 
         <Modulation:EditorFloatRange Caption="Bass" DataContext="{Binding BassRange}" />
 
