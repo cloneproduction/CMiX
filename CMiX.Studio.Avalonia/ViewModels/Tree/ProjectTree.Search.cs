@@ -75,7 +75,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             RevealRequested?.Invoke(this, match);
         }
 
-        // A search that found nothing still dimmed every row, so its end must run.
+        // A search that found nothing is still active, so its end must run.
         internal void RefreshSearch()
         {
             var text = searchText.Trim();

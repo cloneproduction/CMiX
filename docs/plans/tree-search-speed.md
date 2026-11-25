@@ -1,6 +1,6 @@
 # Plan: a fast search in the project tree
 
-Status: phase 1 built on 2026-11-25: 1.1 `6852a251d`, 1.1b `c7a5270c0`, 1.2 dropped, 1.3 closed with no fix. Phase 2 built on 2026-11-25: `533837270`, `748178378`, `b7c20b18f` and `8b695edee`. The three suites passed at `8b695edee`. Phase 3 (the scroll) and phase 4 (the filter) are planned, not built.
+Status: phase 1 built on 2026-11-25: 1.1 `6852a251d`, 1.1b `c7a5270c0`, 1.2 dropped, 1.3 closed with no fix. Phase 2 built on 2026-11-25: `533837270`, `748178378`, `b7c20b18f` and `8b695edee`. The three suites passed at `8b695edee`. Phase 3 built (`5ff644633`, `57cf61fd5`): step 3.3 found that the slow first scroll is the JIT warm up (a warm rebuild step costs about 6.5 ms), and the owner declined QuickJit off. Phase 4 built (`4449f1732`, `5d5b9a920`, `2589fbb43`, `205764941` and the commit of step 4.6): step 4.4 moved to the style pass (section 7).
 
 Goal: a key in the search field of the tree shows its result in one frame on a big project. The rule of the match is one rule for every search field of CMiX.
 
@@ -340,6 +340,8 @@ Commit: `Keeps the spare card frames of the tree hidden until a card needs one`.
 
 #### Step 3.3 Measure the scroll again (complexity 2, Opus)
 
+Result: the slow first scroll is the JIT warm up. A warm rebuild step costs about 6.5 ms. The owner declined QuickJit off. No commit.
+
 No commit, unless a step over 16 ms remains with one cause bigger than 5 ms. Then the subagent reports the cause and a fix with a before and after sample, and the owner decides. The same temporary test as the findings: 667 steps of 30 px, Release, headless.
 
 Phase 3 end: the Studio suite once.
@@ -450,6 +452,8 @@ Commit: `Removes the open and close of rows by the search of the tree`.
 
 #### Step 4.4 The match mark (complexity 2, Opus)
 
+Result: moved to the style pass (section 7). Not built.
+
 First a proposal in the UI kit sandbox (`docs/ui-kit/sandbox.js`, `sandbox.css`, class `sb-` and its number) with Before and After, as `.claude/CLAUDE.md` says. The owner chooses the look. Then:
 
 Files: `Views/ListTree/RowListTree.axaml`, `Views/ListTree/RowListTree.axaml.cs`, the token of the mark if the owner chooses a new one.
@@ -511,3 +515,25 @@ Shape: a class `SearchIndex<TKey>` in `CMiX.UI/Search`, with `Set(key, texts)`, 
 - The selected row and its parents stay open after the search ends.
 
 UI kit: no entry changes. `TextBoxSearchTree` keeps its look.
+
+Checks after phase 3 (a Release build, a big project):
+- The scroll with the wheel and with the scroll bar is smooth.
+- Nested cards show their frames in the right order: the inner card over the outer card.
+- The hover and the selection marks of a card are right after a scroll.
+- A drag over the cards shows the drop outline over the frames.
+
+Checks after phase 4:
+- Type a name: only the matches and their parents show, and the parents show open.
+- The cursor is on the first match. Enter goes to the next match.
+- Clear the search: the tree shows its own open state, and the selected row is in view.
+- A drag and a grab do not start while a search runs.
+- A search with no match shows the line "No match".
+
+## 7. Later: the style pass
+
+- Proposal S3 (the match mark, `docs/ui-kit` sandbox) and step 4.4.
+- `PART_NoMatch` of `ListGroupedSearch` has no theme key and hardcodes Margin 8,0,0,4 and Opacity 0.5. The "No match" line of the tree uses the `dragNote` tokens. The two lines look close but not the same.
+- `FrameListTreeCard` keeps its 8 styles in `UserControl.Styles`. A shared theme makes a new frame cheaper.
+- The UI kit has no `RowListTree` entry and none of the `ListTree*` tokens.
+- The `ListTreeProject` entry of the UI kit is out of date (the "No match" line).
+- The owner sees other style problems and gives the list later.
