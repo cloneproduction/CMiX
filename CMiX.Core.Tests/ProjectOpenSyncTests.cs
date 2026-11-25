@@ -24,7 +24,7 @@ namespace CMiX.Core.Tests
                 Project = provider.GetRequiredService<Project>();
                 UndoManager = provider.GetRequiredService<UndoManager>();
                 var messenger = provider.GetRequiredService<ControlMessenger>();
-                Target = new ProjectSyncTarget(Project, messenger, UndoManager);
+                Target = new ProjectSyncTarget(Project, messenger, UndoManager, provider.GetRequiredService<ControlRegistry>());
                 Peer = CreatePeer(Target, store, messenger, isWriter);
                 messenger.Register(Peer);
                 Peer.StartAndJoin(Options(name));

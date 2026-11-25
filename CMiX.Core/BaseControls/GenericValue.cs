@@ -4,11 +4,10 @@
 using System.Windows.Input;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
 {
-    public class GenericValue<T> : ReceivableControl, IControl, IRecipient<IMessage>
+    public class GenericValue<T> : ReceivableControl, IControl
     {
         public GenericValue(IValueSync sync, ControlRegistry registry)
         {
@@ -83,9 +82,8 @@ namespace CMiX.Core.BaseControls
 
         public ICommand ResetCommand { get; }
 
-        public void Receive(IMessage message)
+        public override void Receive(IMessage message)
         {
-            if (message.ID != this.ID) return;
             if (message is not MessageValueChanged change) return;
             using (SuppressSending())
                 Value = ((GenericValueModel<T>)change.Value).Value;

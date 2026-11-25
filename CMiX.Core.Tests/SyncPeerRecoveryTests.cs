@@ -56,7 +56,7 @@ namespace CMiX.Core.Tests
             var messenger = provider.GetRequiredService<ControlMessenger>();
             var inner = new InMemorySyncStore();
             var storeB = new WrappingSyncStore(inner);
-            var targetB = new ProjectSyncTarget(project, messenger, provider.GetRequiredService<UndoManager>());
+            var targetB = new ProjectSyncTarget(project, messenger, provider.GetRequiredService<UndoManager>(), provider.GetRequiredService<ControlRegistry>());
             using var b = CreatePeer(targetB, storeB, messenger);
             messenger.Register(b);
 

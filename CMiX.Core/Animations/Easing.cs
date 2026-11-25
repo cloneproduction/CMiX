@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using VL.Lib.Mathematics;
 namespace CMiX.Core.Animations
 {
-    public partial class Easing : ObservableRecipient, IControl
+    public partial class Easing : ObservableObject, IControl
     {
         public Easing(GenericValue<bool> isEnabled, 
                       GenericValue<TweenerTransition> tweenerTransition, 

@@ -4,22 +4,23 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Undo;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Networking
 {
-    // Syncs the running Project. Messages reach the controls through the messenger they listen to.
+    // Syncs the running Project. A message goes to the control that answers to its id.
     public sealed class ProjectSyncTarget : ISyncTarget
     {
         private readonly Project _project;
         private readonly ControlMessenger _messenger;
         private readonly UndoManager _undoManager;
+        private readonly ControlRegistry _registry;
 
-        public ProjectSyncTarget(Project project, ControlMessenger messenger, UndoManager undoManager)
+        public ProjectSyncTarget(Project project, ControlMessenger messenger, UndoManager undoManager, ControlRegistry registry)
         {
             _project = project;
             _messenger = messenger;
             _undoManager = undoManager;
+            _registry = registry;
         }
 
         public ProjectModel Capture() => (ProjectModel)_project.ToModel();
@@ -52,7 +53,7 @@ namespace CMiX.Core.Networking
                 return;
             }
 
-            WeakReferenceMessenger.Default.Send(message);
+            _registry.Find(message.ID)?.Receive(message);
         }
     }
 }

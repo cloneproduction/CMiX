@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.BaseControls
 {
-    public class AssetSelector : ObservableRecipient, IControl
+    public class AssetSelector : ObservableObject, IControl
     {
         public AssetSelector(GenericValue<string> filePath,
                              AssetRepository assetRepository)

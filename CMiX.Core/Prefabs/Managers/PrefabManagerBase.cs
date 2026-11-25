@@ -4,11 +4,10 @@
 using System.Windows.Input;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Undo;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public abstract partial class PrefabManagerBase : ReceivableControl, IControl, IRecipient<IMessage>
+    public abstract partial class PrefabManagerBase : ReceivableControl, IControl
     {
         protected PrefabManagerBase(ControlRepository controlRepository,
                                      ControlRegistry registry,
@@ -17,7 +16,6 @@ namespace CMiX.Core.Prefabs.Managers
             ControlRepository = controlRepository;
             UndoManager = undoManager;
             Registry = registry;
-            IsActive = false;
             registry.Register(this);
         }
 
@@ -30,7 +28,6 @@ namespace CMiX.Core.Prefabs.Managers
         public abstract IControl SelectedItem { get; set; }
         public Guid ID { get; set; }
 
-        public abstract void Receive(IMessage message);
         public abstract IControlModel ToModel();
         public abstract void FromModel(IControlModel model);
     }

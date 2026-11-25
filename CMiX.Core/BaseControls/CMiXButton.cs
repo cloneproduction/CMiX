@@ -4,11 +4,10 @@
 using System.Windows.Input;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
 {
-    public class CMiXButton : ReceivableControl, IControl, IRecipient<IMessage>
+    public class CMiXButton : ReceivableControl, IControl
     {
         public CMiXButton(IValueSync sync, ControlRegistry registry)
         {
@@ -16,7 +15,7 @@ namespace CMiX.Core.BaseControls
             ID = Guid.NewGuid();
             _sync = sync;
             ClickCommand = new RelayCommand(OnClick);
-            IsActive = true;
+            Activate();
         }
 
         private readonly IValueSync _sync;
@@ -45,9 +44,9 @@ namespace CMiX.Core.BaseControls
             }
         }
 
-        public void Receive(IMessage message)
+        public override void Receive(IMessage message)
         {
-            if (message.ID != ID || message is not MessageValueChanged) return;
+            if (message is not MessageValueChanged) return;
             Click?.Invoke(this, null);
         }
 

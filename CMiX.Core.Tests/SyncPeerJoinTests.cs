@@ -110,7 +110,7 @@ namespace CMiX.Core.Tests
             var providerB = TestServiceProviderFactory.Create();
             var projectB = providerB.GetRequiredService<Project>();
             var messengerB = providerB.GetRequiredService<ControlMessenger>();
-            var targetB = new ProjectSyncTarget(projectB, messengerB, providerB.GetRequiredService<UndoManager>());
+            var targetB = new ProjectSyncTarget(projectB, messengerB, providerB.GetRequiredService<UndoManager>(), providerB.GetRequiredService<ControlRegistry>());
             using var b = CreatePeer(targetB, store, messengerB, isWriter: false);
             messengerB.Register(b);
             b.StartAndJoin(Options("B"));

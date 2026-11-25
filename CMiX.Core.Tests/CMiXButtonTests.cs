@@ -40,13 +40,14 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void Receive_OfAnotherId_DoesNothing()
+        public void Apply_OfAValueChangedForAnotherId_RaisesNoClick()
         {
-            var button = new CMiXButton(new FakeValueSync(), new ControlRegistry());
+            var provider = TestServiceProviderFactory.Create();
+            var button = provider.GetRequiredService<CMiXButton>();
             var clicks = 0;
             button.Click += (_, _) => clicks++;
 
-            button.Receive(new MessageValueChanged(Guid.NewGuid(), button.ToModel()));
+            provider.GetRequiredService<ISyncTarget>().Apply(new MessageValueChanged(Guid.NewGuid(), button.ToModel()));
 
             Assert.Equal(0, clicks);
         }
@@ -80,7 +81,6 @@ namespace CMiX.Core.Tests
             b.Click += (_, _) => clicksB++;
 
             a.OnClick();
-            // The default messenger is shared, so A also receives the message. Only B is checked.
             providerB.GetRequiredService<ISyncTarget>().Apply(Assert.Single(sender.Sent));
 
             Assert.Equal(1, clicksB);

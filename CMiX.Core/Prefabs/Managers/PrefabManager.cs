@@ -316,7 +316,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public override void Receive(IMessage message)
         {
-            if (message is not IMessageManager || ManagerData.ID != message.ID)
+            if (message is not IMessageManager)
                 return;
             using (SuppressSending())
                 _messageHandler.Handle(Collection, message);

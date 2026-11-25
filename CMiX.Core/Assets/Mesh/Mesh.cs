@@ -10,7 +10,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core
 {
-    public partial class Mesh : ObservableRecipient, IControl, IHasCompositionID, IDisposable
+    public partial class Mesh : ObservableObject, IControl, IHasCompositionID, IDisposable
     {
         public Mesh(GenericValue<MeshType> meshTypeSelector,
                     Vector3 scale,

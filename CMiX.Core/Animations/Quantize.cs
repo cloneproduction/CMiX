@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Animations
 {
-    public partial class Quantize : ObservableRecipient, IControl
+    public partial class Quantize : ObservableObject, IControl
     {
         public Quantize(GenericValue<bool> isEnabled,
                         GenericValue<int> steps)

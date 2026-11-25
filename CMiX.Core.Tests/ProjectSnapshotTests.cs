@@ -43,7 +43,7 @@ namespace CMiX.Core.Tests
                 Project = provider.GetRequiredService<Project>();
                 Messenger = provider.GetRequiredService<ControlMessenger>();
                 UndoManager = provider.GetRequiredService<UndoManager>();
-                Target = new ProjectSyncTarget(Project, Messenger, UndoManager);
+                Target = new ProjectSyncTarget(Project, Messenger, UndoManager, provider.GetRequiredService<ControlRegistry>());
                 Sender = new RecordingMessageSender();
                 Messenger.Register(Sender);
             }

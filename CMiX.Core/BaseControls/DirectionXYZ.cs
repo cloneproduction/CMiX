@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.BaseControls
 {
-    public class DirectionXYZ : ObservableRecipient, IControl
+    public class DirectionXYZ : ObservableObject, IControl
     {
         public DirectionXYZ(GenericValue<bool> directionX, 
                             GenericValue<bool> directionY, 

@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Assets
 {
-    public partial class AssetManager : ObservableRecipient, IControl
+    public partial class AssetManager : ObservableObject, IControl
     {
         public AssetManager(AssetRepository assetRepository)
         {

@@ -5,6 +5,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
+using CMiX.Core.Networking;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -76,12 +77,12 @@ namespace CMiX.Core.Tests
         [Fact]
         public void CloneWithNewGuids_ThenAChangeOfTheOutputOfTheCopy_LeavesTheOriginal()
         {
-            var (_, compositions, composition) = NewComposition();
+            var (provider, compositions, composition) = NewComposition();
             var copy = (Composition)compositions.DuplicateItem(composition);
             var message = new Networking.Messages.MessageValueChanged { ID = copy.SelectedOutputMappingID.ID, Value = new BaseControls.GenericValueModel<Guid>(Guid.NewGuid()) };
             var before = composition.SelectedOutputMappingID.Value;
 
-            composition.SelectedOutputMappingID.Receive(message);
+            provider.GetRequiredService<ISyncTarget>().Apply(message);
 
             Assert.Equal(before, composition.SelectedOutputMappingID.Value);
         }
