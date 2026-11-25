@@ -67,6 +67,35 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void Search_AGroupNameWithNoMatchBelow_IsNotAMatch()
+        {
+            var scene = CreateScene([2]);
+            var group = Scene.LayersOf(scene.NodeA);
+
+            scene.Tree.SearchText = group.Header;
+
+            Assert.False(group.HasSearchMatchBelow);
+            Assert.False(group.IsSearchMatch);
+            Assert.Null(group.SearchHighlight);
+            Assert.DoesNotContain(group, scene.Tree.SearchMatches);
+        }
+
+        [Fact]
+        public void Search_AGroupNameWithAMatchBelow_IsAMatch()
+        {
+            var scene = CreateScene([2]);
+            var group = Scene.LayersOf(scene.NodeA);
+            Rename(scene.LayerOfA(1), group.Header + " Kick");
+
+            scene.Tree.SearchText = group.Header;
+
+            Assert.True(group.IsSearchMatch);
+            var matches = scene.Tree.SearchMatches.ToList();
+            Assert.Contains(group, matches);
+            Assert.True(matches.IndexOf(group) < matches.IndexOf(scene.LayerNodeOfA(1)));
+        }
+
+        [Fact]
         public void Search_AName_MatchesTheRowWithThatName()
         {
             var scene = CreateScene([2]);
@@ -101,8 +130,9 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void Search_AGroupRow_MatchesOnItsHeaderOnly()
         {
-            var scene = CreateScene([1]);
+            var scene = CreateScene([1], s => s.Layer.TextureModifierManager.AddItem(typeof(Echo)));
             var filters = scene.Group<FiltersGroup>(0);
+            Rename(filters.Children[0].Item!, filters.Header);
 
             scene.Tree.SearchText = filters.Header;
 

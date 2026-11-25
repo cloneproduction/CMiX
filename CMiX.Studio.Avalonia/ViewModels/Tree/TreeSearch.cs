@@ -44,11 +44,18 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             var hasMatch = false;
             foreach (var node in nodes)
             {
-                node.ShowSearchLook(text);
-                if (node.IsSearchMatch)
-                    found.Add(node);
-
+                var index = found.Count;
                 node.HasSearchMatchBelow = ShowLooksOf(text, node.Children, found);
+
+                // A group row with no match below does not show, so it is no match.
+                if (node.Group != null && !node.HasSearchMatchBelow)
+                    node.ClearSearchLook();
+                else
+                    node.ShowSearchLook(text);
+
+                if (node.IsSearchMatch)
+                    found.Insert(index, node);
+
                 if (node.IsSearchMatch || node.HasSearchMatchBelow)
                     hasMatch = true;
             }
