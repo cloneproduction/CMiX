@@ -43,8 +43,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 return;
 
             var target = FindTarget(hovered);
-            undoManager.BeginCapture();
-            try
+            using (undoManager.Capture())
             {
                 switch (target?.Item)
                 {
@@ -58,10 +57,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                         compositions.AddItem(typeof(Composition), item => AddLayerWithPaths((Composition)item, accepted));
                         break;
                 }
-            }
-            finally
-            {
-                undoManager.EndCapture();
             }
         }
 

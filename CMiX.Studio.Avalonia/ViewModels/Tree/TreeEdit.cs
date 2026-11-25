@@ -50,15 +50,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (hidden.Count == 0)
                 return;
 
-            undoManager.BeginCapture();
-            try
+            using (undoManager.Capture())
             {
                 foreach (var value in hidden)
                     value!.Value = false;
-            }
-            finally
-            {
-                undoManager.EndCapture();
             }
 
             notifications.ShowWithUndo("All rows shown");

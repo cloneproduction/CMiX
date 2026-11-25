@@ -55,8 +55,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public async Task DropAsync(TreeNode source, TreeNode target, DropPosition position)
         {
             DropMove move;
-            undoManager.BeginCapture();
-            try
+            using (undoManager.Capture())
             {
                 // Read before the drop: the drop removes the source node, and NodeRemoved passes the inspector up.
                 var inspected = ReferenceEquals(inspectedNode, source);
@@ -68,10 +67,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                         Inspect(moved);
                 }
             }
-            finally
-            {
-                undoManager.EndCapture();
-            }
 
             await drop.NoticeBlockAsync(source, target, move.Outcome);
         }
@@ -81,9 +76,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         {
             DropBlockMove move;
             var pressedItem = pressed.Item;
-            var reverted = false;
-            undoManager.BeginCapture();
-            try
+            using (var capture = undoManager.Capture())
             {
                 // Read before the drop: the drop removes the source nodes, and NodeRemoved passes the inspector up.
                 var inspected = nodes.FirstOrDefault(source => ReferenceEquals(inspectedNode, source))?.Item;
@@ -91,8 +84,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 if (move.Refusal != null && move.MovedNodes.Count > 0)
                 {
                     // A block moves whole or not at all: the rows that moved before the refusal go back.
-                    reverted = true;
-                    undoManager.RevertCapture();
+                    capture.Revert();
                 }
                 else if (move.MovedNodes.Count > 0)
                 {
@@ -100,11 +92,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                     if (inspected != null && MovedNodeOf(move, inspected) is { } moved)
                         Inspect(moved);
                 }
-            }
-            finally
-            {
-                if (!reverted)
-                    undoManager.EndCapture();
             }
 
             if (move.Refusal is { } refusal)

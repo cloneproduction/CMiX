@@ -155,16 +155,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 chain.Insert(0, current);
 
             selecting = true;
-            undoManager.BeginCapture();
             try
             {
-                foreach (var step in chain)
-                    if (step.Owner != null && step.Item != null)
-                        step.Owner.SelectedItem = step.Item;
+                using (undoManager.Capture())
+                {
+                    foreach (var step in chain)
+                        if (step.Owner != null && step.Item != null)
+                            step.Owner.SelectedItem = step.Item;
+                }
             }
             finally
             {
-                undoManager.EndCapture();
                 selecting = false;
             }
         }

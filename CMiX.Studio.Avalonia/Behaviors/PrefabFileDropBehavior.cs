@@ -56,16 +56,10 @@ namespace CMiX.Studio.Avalonia.Behaviors
             if (PrefabManager == null || Service == null)
                 return;
 
-            var undoManager = PrefabManager.UndoManager;
-            undoManager.BeginCapture();
-            try
+            using (PrefabManager.UndoManager.Capture())
             {
                 foreach (var path in paths)
                     Add(path);
-            }
-            finally
-            {
-                undoManager.EndCapture();
             }
         }
     }
