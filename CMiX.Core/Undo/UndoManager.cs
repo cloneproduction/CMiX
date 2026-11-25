@@ -124,7 +124,10 @@ namespace CMiX.Core.Undo
         private void RevertCaptureAt(int depth)
         {
             if (_captureStarts.Count == 0 || _captureStarts.Count < depth) return;
-            var start = _captureStarts.Pop();
+            // Inner scopes that are still open end with this scope.
+            var start = 0;
+            while (_captureStarts.Count >= depth)
+                start = _captureStarts.Pop();
             var reverted = _captured.GetRange(start, _captured.Count - start);
             _captured.RemoveRange(start, reverted.Count);
 

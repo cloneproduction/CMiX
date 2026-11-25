@@ -347,6 +347,28 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Revert_OnAnOuterScopeWithAnInnerScopeOpen_RevertsBoth()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            var outer = undoManager.Capture();
+            undoManager.Push(new RecordingUndoCommand(1, executed));
+            var inner = undoManager.Capture();
+            undoManager.Push(new RecordingUndoCommand(2, executed));
+            outer.Revert();
+            inner.Dispose();
+            outer.Dispose();
+
+            Assert.Equal(new[] { 2, 1 }, executed);
+            Assert.Equal(0, undoManager.StepCount);
+
+            undoManager.Push(new RecordingUndoCommand(3, executed));
+            Assert.Equal(1, undoManager.StepCount);
+        }
+
+        [Fact]
         public void Capture_NestedScopes_FlushAtTheOuterDispose()
         {
             var provider = TestServiceProviderFactory.Create();
