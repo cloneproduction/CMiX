@@ -137,6 +137,15 @@ namespace CMiX.Studio.Avalonia.Views
 
         public void ApplyTreeChanges() => rebuildQueue.Run();
 
+        // The shown rows, after a posted rebuild.
+        public IReadOnlyList<ListTreeRow> ShownRows()
+        {
+            ApplyTreeChanges();
+            return LiveRows;
+        }
+
+        public IReadOnlyList<TreeNode> ShownNodes() => ShownRows().Select(row => row.Node).OfType<TreeNode>().ToArray();
+
         private void RebuildWhenAttached()
         {
             if (isAttached)

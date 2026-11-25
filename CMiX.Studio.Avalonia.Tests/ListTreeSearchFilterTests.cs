@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 ((IPrefab)s.Layer.TextureModifierManager.ManagerData.Items[0]).PrefabService.Name.Value = "Trail";
             });
 
-        private static TreeNode[] ShownNodes(ListTreeProject view) => view.Rows.LiveRows.Select(row => row.Node!).ToArray();
+        private static IReadOnlyList<TreeNode> ShownNodes(ListTreeProject view) => view.Rows.ShownNodes();
 
         private static TextBlock NoMatchLine(ListTreeProject view) =>
             view.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Name == "noMatchLine");
