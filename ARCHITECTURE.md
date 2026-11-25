@@ -139,6 +139,7 @@ A step undoes itself through the same code as a normal edit, so the undo also se
 `using (undoManager.Capture())` groups the steps inside it into one `CompositeUndoCommand`. Captures nest; only the outermost one pushes. `CaptureScope.Revert()` undoes what the capture recorded and pushes nothing. `using (undoManager.Suspend())` records nothing inside it. `RecordAsOneStep(control, action)` runs the action with the recording suspended and pushes one `ValueChangedUndoCommand` of the whole control; `MasterBeat` and the beat modulators use it. The toggle drag of the window is the one caller of `BeginCapture` and `EndCapture`, because a stroke spans two events.
 Two value steps of one control within 500 ms merge into one step. The window runs from the last push and reads the `TimeProvider`. A step that `RecordAsOneStep` pushes merges too, so two taps or two Multiply clicks within 500 ms are one step.
 A selection is a step only when an item was selected before. The first selection in a list, from nothing to an item, is not a step; a clear of the selection is.
+Every list step sits on `ItemListUndoCommand`. The base takes the selection before and after the change, and an undo or a redo restores it exactly. It sends a selection message only when the list does not show that selection already.
 A removed control stays alive inside its step. It is disposed when the step leaves the stack.
 A snapshot apply (join, pull, File Open) clears both stacks. The session start clears the stack too, because the construction of the project writes default values.
 
