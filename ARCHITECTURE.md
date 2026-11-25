@@ -133,11 +133,13 @@ The engine does not write to the stream. Three things come back to the Studio:
 
 ### Undo and redo
 
-`UndoManager` is one singleton with two stacks and a limit of 128 steps. `MainViewModel.UndoCommand` calls it; the menu binds that command through the window since 2026-11-19.
-A step undoes itself through the same code as a normal edit, so the undo also sends messages to the engine. `UndoManager.IsApplying` stops the edit from recording a new step.
-Two value steps on the same control within 500 ms merge. `BeginCapture` and `EndCapture` group several steps into one `CompositeUndoCommand`.
+`UndoManager` is one singleton with two stacks and a limit of `MaxSteps` (128). `StepCount` and `RedoStepCount` give the sizes. `Changed` fires once after every operation that changes a stack. `MainViewModel.UndoCommand` and `RedoCommand` call it and follow `CanUndo` and `CanRedo`, so the Edit menu greys out when a stack is empty.
+A step undoes itself through the same code as a normal edit, so the undo also sends messages to the engine. `Push` records nothing while `IsApplying` is true.
+`using (undoManager.Capture())` groups the steps inside it into one `CompositeUndoCommand`. Captures nest; only the outermost one pushes. `CaptureScope.Revert()` undoes what the capture recorded and pushes nothing. `using (undoManager.Suspend())` records nothing inside it. `RecordAsOneStep(control, action)` runs the action with the recording suspended and pushes one `ValueChangedUndoCommand` of the whole control; `MasterBeat` and the beat modulators use it. The toggle drag of the window is the one caller of `BeginCapture` and `EndCapture`, because a stroke spans two events.
+Two value steps of one control within 500 ms merge into one step. The window runs from the last push and reads the `TimeProvider`. A step that `RecordAsOneStep` pushes merges too, so two taps or two Multiply clicks within 500 ms are one step.
+A selection is a step only when an item was selected before. The first selection in a list, from nothing to an item, is not a step; a clear of the selection is.
 A removed control stays alive inside its step. It is disposed when the step leaves the stack.
-A snapshot apply (join, pull, File Open) clears both stacks.
+A snapshot apply (join, pull, File Open) clears both stacks. The session start clears the stack too, because the construction of the project writes default values.
 
 ### Selection
 
