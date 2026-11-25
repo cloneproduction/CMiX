@@ -8,6 +8,7 @@ using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Themes;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
+using CMiX.UI.Controls;
 using CMiX.UI.Controls.String;
 using Xunit;
 
@@ -24,6 +25,13 @@ namespace CMiX.Studio.Avalonia.Tests.Support
         public static Color FillOf(IBrush? brush) => brush is ISolidColorBrush solid ? solid.Color : Colors.Transparent;
 
         public static Color Token(string key) => ColorOf((IBrush)Application.Current!.FindResource(key)!);
+
+        public static double TokenSize(string key) => (double)Application.Current!.FindResource(key)!;
+
+        public static Thickness TokenThickness(string key) => (Thickness)Application.Current!.FindResource(key)!;
+
+        public static Color IconOf(RowListTree row) =>
+            ColorOf(row.GetVisualDescendants().OfType<AppIcon>().First(icon => icon.Name == "kindIcon").Foreground);
 
         public static Control NameOf(RowListTree row) =>
             (Control?)row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault(box => box.IsVisible)

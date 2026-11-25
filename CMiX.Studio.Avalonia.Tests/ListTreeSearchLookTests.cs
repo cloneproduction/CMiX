@@ -50,10 +50,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private TreeNode Layer => scene.LayerNodeOfA(0);
 
-        private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(ListTreeKeys.Of(node)));
-
-        private static Color IconOf(RowListTree row) =>
-            ColorOf(row.GetVisualDescendants().OfType<AppIcon>().First(icon => icon.Name == "kindIcon").Foreground);
+        private RowListTree RowOf(TreeNode node) => Assert.IsType<RowListTree>(view.Rows.RowOf(node));
 
         private static IEnumerable<ToggleButton> TogglesOf(RowListTree row) =>
             row.Toggles.GetVisualDescendants().OfType<ToggleButton>().Where(toggle => toggle.IsEffectivelyVisible);
@@ -69,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static string[] RunTextsOf(TextBlock text) => text.Inlines?.OfType<Run>().Select(run => run.Text ?? "").ToArray() ?? [];
 
-        private static Run HighlightOf(TextBlock text) => text.Inlines!.OfType<Run>().ElementAt(1);
+        private static Run HighlightOf(TextBlockHighlighted text) => Assert.IsType<Run>(text.HighlightRun);
 
         [AvaloniaFact]
         public void Row_AMatch_DrawsTheMatchedLettersInTheHighlight()

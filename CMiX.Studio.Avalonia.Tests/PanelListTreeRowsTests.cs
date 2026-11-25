@@ -19,6 +19,7 @@ using CMiX.UI.Controls;
 using CMiX.UI.Controls.String;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -45,14 +46,6 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static T Named<T>(Control root, string name) where T : Control =>
             root.GetVisualDescendants().OfType<T>().First(control => control.Name == name);
-
-        private static Color ColorOf(IBrush? brush) => Assert.IsAssignableFrom<ISolidColorBrush>(brush).Color;
-
-        private static Color Token(string key) => ColorOf((IBrush)Application.Current!.FindResource(key)!);
-
-        private static double TokenSize(string key) => (double)Application.Current!.FindResource(key)!;
-
-        private static Thickness TokenThickness(string key) => (Thickness)Application.Current!.FindResource(key)!;
 
         [AvaloniaFact]
         public void Arrange_VisibleRows_PutsEachRowAtItsIndexTimesThePitch()

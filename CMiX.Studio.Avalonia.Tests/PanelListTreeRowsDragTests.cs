@@ -17,6 +17,7 @@ using CMiX.UI.Controls;
 using CMiX.UI.Controls.String;
 using Xunit;
 using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
+using static CMiX.Studio.Avalonia.Tests.Support.ListTreeLook;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
@@ -72,9 +73,6 @@ namespace CMiX.Studio.Avalonia.Tests
         private static Color TextOf(RowListTree row) =>
             ColorOf(row.GetVisualDescendants().OfType<TextBoxEditable>().FirstOrDefault(box => box.IsVisible)?.Foreground
                 ?? row.GetVisualDescendants().OfType<TextBlock>().First(text => text.Name == "groupName").Foreground);
-
-        private static Color IconOf(RowListTree row) =>
-            ColorOf(row.GetVisualDescendants().OfType<AppIcon>().First(icon => icon.Name == "kindIcon").Foreground);
 
         [AvaloniaFact]
         public void ShowDrag_ACandidate_PlacesEveryRowAtItsPlaceInTheCandidate()
