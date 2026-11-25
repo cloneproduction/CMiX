@@ -252,6 +252,90 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Capture_ADisposedScope_FlushesOneStep()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            using (undoManager.Capture())
+            {
+                undoManager.Push(new RecordingUndoCommand(1, executed));
+                undoManager.Push(new RecordingUndoCommand(2, executed));
+                Assert.False(undoManager.CanUndo);
+            }
+
+            Assert.Equal(1, undoManager.StepCount);
+            undoManager.Undo();
+            Assert.Equal(new[] { 2, 1 }, executed);
+        }
+
+        [Fact]
+        public void Capture_RevertThenDispose_LeavesTheStackEmpty()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            using (var scope = undoManager.Capture())
+            {
+                undoManager.Push(new RecordingUndoCommand(1, executed));
+                scope.Revert();
+            }
+
+            Assert.Equal(new[] { 1 }, executed);
+            Assert.False(undoManager.CanUndo);
+            Assert.Equal(0, undoManager.StepCount);
+
+            undoManager.Push(new RecordingUndoCommand(2, executed));
+            Assert.Equal(1, undoManager.StepCount);
+        }
+
+        [Fact]
+        public void Capture_NestedScopes_FlushAtTheOuterDispose()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            using (undoManager.Capture())
+            {
+                undoManager.Push(new RecordingUndoCommand(1, executed));
+                using (undoManager.Capture())
+                    undoManager.Push(new RecordingUndoCommand(2, executed));
+                Assert.False(undoManager.CanUndo);
+                undoManager.Push(new RecordingUndoCommand(3, executed));
+            }
+
+            Assert.Equal(1, undoManager.StepCount);
+            undoManager.Undo();
+            Assert.Equal(new[] { 3, 2, 1 }, executed);
+        }
+
+        [Fact]
+        public void Suspend_NestedScopes_ResumeOnlyAtTheOuterDispose()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            using (undoManager.Suspend())
+            {
+                using (undoManager.Suspend())
+                {
+                    undoManager.Push(new RecordingUndoCommand(1, executed));
+                    Assert.Equal(0, undoManager.StepCount);
+                }
+
+                undoManager.Push(new RecordingUndoCommand(2, executed));
+                Assert.Equal(0, undoManager.StepCount);
+            }
+
+            undoManager.Push(new RecordingUndoCommand(3, executed));
+            Assert.Equal(1, undoManager.StepCount);
+        }
+
+        [Fact]
         public void Redo_ThrowingCommand_LeavesIsApplyingFalse()
         {
             var provider = TestServiceProviderFactory.Create();

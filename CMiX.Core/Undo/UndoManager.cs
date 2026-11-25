@@ -14,6 +14,8 @@ namespace CMiX.Core.Undo
         private readonly LinkedList<IUndoCommand> _undoStack = new();
         private readonly Stack<IUndoCommand> _redoStack = new();
         private int _groupDepth = 0;
+        private readonly List<IUndoCommand> _captured = new();
+        private readonly Stack<int> _captureStarts = new();
 
         public bool IsApplying { get; private set; }
         public bool CanUndo => _undoStack.Count > 0;
@@ -27,13 +29,25 @@ namespace CMiX.Core.Undo
         public void SuppressUndo() => _groupDepth++;
         public void ResumeUndo() => _groupDepth = Math.Max(0, _groupDepth - 1);
 
+        public SuspendScope Suspend()
+        {
+            SuppressUndo();
+            return new SuspendScope(this);
+        }
+
+        public CaptureScope Capture()
+        {
+            BeginCapture();
+            return new CaptureScope(this, _captureStarts.Count);
+        }
+
         public void Push(IUndoCommand command)
         {
             if (IsApplying || _groupDepth > 0) return;
 
-            if (_captureList != null)
+            if (_captureStarts.Count > 0)
             {
-                _captureList.Add(command);
+                _captured.Add(command);
                 return;
             }
 
@@ -55,31 +69,23 @@ namespace CMiX.Core.Undo
             RaiseChanged();
         }
 
-        private List<IUndoCommand> _captureList = null;
-        private int _captureDepth = 0;
-        private readonly Stack<int> _captureStarts = new();
+        // Nestable: only the outermost EndCapture pushes the captured commands as one step.
+        public void BeginCapture() => _captureStarts.Push(_captured.Count);
 
-        // Nestable so a capture opened by one caller (for example RemoveEverywhere) survives a
-        // second capture opened by code it calls into (for example a per file loop). Only the
-        // outermost BeginCapture starts a new list, and only the outermost EndCapture flushes it.
-        public void BeginCapture()
-        {
-            if (_captureDepth == 0)
-                _captureList = new List<IUndoCommand>();
-            _captureStarts.Push(_captureList.Count);
-            _captureDepth++;
-        }
+        public void EndCapture() => EndCaptureAt(_captureStarts.Count);
 
-        public void EndCapture()
+        // Ends the capture and undoes, newest first, what it captured since its BeginCapture. Nothing goes on the undo stack.
+        public void RevertCapture() => RevertCaptureAt(_captureStarts.Count);
+
+        // A depth above the open captures means that the capture of this depth is already reverted.
+        private void EndCaptureAt(int depth)
         {
-            if (_captureDepth == 0) return;
+            if (_captureStarts.Count == 0 || _captureStarts.Count < depth) return;
             _captureStarts.Pop();
-            _captureDepth--;
-            if (_captureDepth > 0) return;
+            if (_captureStarts.Count > 0) return;
 
-            if (_captureList == null) return;
-            var commands = _captureList;
-            _captureList = null;
+            var commands = new List<IUndoCommand>(_captured);
+            _captured.Clear();
             if (commands.Count == 0) return;
             if (commands.Count == 1) { Push(commands[0]); return; }
             _undoStack.AddLast(new CompositeUndoCommand(commands));
@@ -88,16 +94,12 @@ namespace CMiX.Core.Undo
             RaiseChanged();
         }
 
-        // Ends the capture and undoes, newest first, what it captured since its BeginCapture. Nothing goes on the undo stack.
-        public void RevertCapture()
+        private void RevertCaptureAt(int depth)
         {
-            if (_captureDepth == 0) return;
+            if (_captureStarts.Count == 0 || _captureStarts.Count < depth) return;
             var start = _captureStarts.Pop();
-            _captureDepth--;
-            var reverted = _captureList.GetRange(start, _captureList.Count - start);
-            _captureList.RemoveRange(start, reverted.Count);
-            if (_captureDepth == 0)
-                _captureList = null;
+            var reverted = _captured.GetRange(start, _captured.Count - start);
+            _captured.RemoveRange(start, reverted.Count);
 
             IsApplying = true;
             try
@@ -199,6 +201,31 @@ namespace CMiX.Core.Undo
             {
                 ResumeUndo();
             }
+        }
+
+        public readonly struct CaptureScope : IDisposable
+        {
+            private readonly UndoManager _owner;
+            private readonly int _depth;
+
+            internal CaptureScope(UndoManager owner, int depth)
+            {
+                _owner = owner;
+                _depth = depth;
+            }
+
+            public void Revert() => _owner.RevertCaptureAt(_depth);
+
+            public void Dispose() => _owner.EndCaptureAt(_depth);
+        }
+
+        public readonly struct SuspendScope : IDisposable
+        {
+            private readonly UndoManager _owner;
+
+            internal SuspendScope(UndoManager owner) => _owner = owner;
+
+            public void Dispose() => _owner.ResumeUndo();
         }
     }
 }
