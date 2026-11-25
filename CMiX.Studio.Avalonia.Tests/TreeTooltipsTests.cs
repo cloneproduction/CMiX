@@ -56,8 +56,8 @@ namespace CMiX.Studio.Avalonia.Tests
         private BadgesKindCount BadgesOf(TreeNode node) =>
             RowOf(node).GetVisualDescendants().OfType<BadgesKindCount>().First(badges => badges.IsEffectivelyVisible);
 
-        private List<Border> SquaresOf(TreeNode node) =>
-            BadgesOf(node).GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).ToList();
+        private List<Panel> KindBadgesOf(TreeNode node) =>
+            BadgesOf(node).GetVisualDescendants().OfType<Panel>().Where(panel => panel.Classes.Contains("kindcount")).ToList();
 
         private Point MiddleOf(Control control)
         {
@@ -246,32 +246,32 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_ACountSquare_TellsHowManyOfWhichKindInItsTooltip()
+        public void Show_AKindBadge_TellsHowManyOfWhichKindInItsTooltip()
         {
             Layer.IsExpanded = false;
             window.Settle();
 
-            var texts = SquaresOf(Layer).Select(square => TextOfTooltip(square).Single()).ToList();
+            var texts = KindBadgesOf(Layer).Select(badge => TextOfTooltip(badge).Single()).ToList();
 
             Assert.Equal(new[] { "2 Entities", "1 Filter", "3 Modifiers" }, texts);
         }
 
-        // The dark number of a square of a hovered row must not reach the text of its tooltip, on the dark card.
+        // The style of the count of a hovered row must not reach the text of its tooltip, on the dark card.
         [AvaloniaFact]
-        public void Show_ACountSquareOfAHoveredRow_KeepsTheTextOfItsTooltipBright()
+        public void Show_AKindBadgeOfAHoveredRow_KeepsTheTextOfItsTooltipBright()
         {
             Layer.IsExpanded = false;
             window.Settle();
             window.Hover(RowOf(Layer));
             Assert.True(BadgesOf(Layer).IsHovered);
-            var square = SquaresOf(Layer).First();
+            var badge = KindBadgesOf(Layer).First();
 
-            var text = OpenTooltip(square).GetVisualDescendants().OfType<TextBlock>().Single();
+            var text = OpenTooltip(badge).GetVisualDescendants().OfType<TextBlock>().Single();
             var source = global::Avalonia.Diagnostics.AvaloniaObjectExtensions.GetDiagnostic(text, TextBlock.ForegroundProperty).Priority;
-            ToolTip.SetIsOpen(square, false);
+            ToolTip.SetIsOpen(badge, false);
 
             Assert.Equal("2 Entities", text.Text);
-            // The color of the text comes from the template of the tooltip (ActiveForegroundBrush), not from a style of the squares.
+            // The color of the text comes from the template of the tooltip (ActiveForegroundBrush), not from a style of the badges.
             Assert.Equal(global::Avalonia.Data.BindingPriority.Template, source);
         }
 
@@ -282,9 +282,9 @@ namespace CMiX.Studio.Avalonia.Tests
             entities.IsExpanded = false;
             window.Settle();
 
-            var square = Assert.Single(SquaresOf(entities));
+            var badge = Assert.Single(KindBadgesOf(entities));
 
-            Assert.Equal("2 Entities", TextOfTooltip(square).Single());
+            Assert.Equal("2 Entities", TextOfTooltip(badge).Single());
         }
 
         // A layer cannot hold a modifier of an entity: during its drag the layer row gives the reason in its tooltip.

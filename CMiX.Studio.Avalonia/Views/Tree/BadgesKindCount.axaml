@@ -6,18 +6,23 @@
     xmlns:Tree="clr-namespace:CMiX.Studio.Avalonia.ViewModels.Tree"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <!-- What a collapsed row holds: a small square for each kind, in the colour of the kind, with how many in white; the tooltip, in the colour
-         of the kind, names the kind.
-         At most TreeNode.MaxShownKindCounts squares show. A grey square "+n" counts the other kinds.
-         The DataContext is the tree node. The squares keep their colour under the pointer and when the row is selected: a white number on the
-         full colour of a light kind would not be read. -->
+    <!-- What a collapsed row holds: the icon of each kind, in the colour of the kind, with how many at its bottom right in white; the
+         tooltip, in the colour of the kind, names the kind.
+         At most TreeNode.MaxShownKindCounts kinds show. A grey square "+n" counts the other kinds.
+         The DataContext is the tree node. The badges keep their colour under the pointer and when the row is selected. -->
     <UserControl.Styles>
-        <Style Selector="Border.kindcount">
-            <Setter Property="Background" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=Kind}" />
+        <Style Selector="Panel.kindcount">
             <Setter Property="ui:ToolTipCard.Fill" Value="{Binding Converter={StaticResource TreeTone}, ConverterParameter=Kind}" />
         </Style>
-        <Style Selector="Border.kindcount > TextBlock.count">
+        <Style Selector="Panel.kindcount > ui|TextOutlined.count">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+            <Setter Property="Margin" Value="{DynamicResource TreeKindCountOffset}" />
+            <Setter Property="FontSize" Value="{DynamicResource TreeKindCountFontSize}" />
+            <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
+            <Setter Property="OutlineBrush" Value="{DynamicResource TreeBackgroundBrush}" />
+            <Setter Property="OutlineThickness" Value="{DynamicResource TreeKindCountOutline}" />
         </Style>
     </UserControl.Styles>
 
@@ -26,24 +31,24 @@
         <ItemsControl ItemsSource="{Binding ShownKindCounts}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" Spacing="{DynamicResource SpacingXS}" />
+                    <StackPanel Orientation="Horizontal" Spacing="{DynamicResource SpacingMD}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type Tree:KindCount}">
-                    <Border
+                    <Panel
                         Classes="kindcount"
-                        Height="{DynamicResource TreeKindSquareSize}"
-                        MinWidth="{DynamicResource TreeKindSquareSize}"
-                        CornerRadius="{DynamicResource CornerRadiusAll}"
+                        Width="{DynamicResource IconSizeXS}"
+                        Height="{DynamicResource IconSizeXS}"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
                         ToolTip.Tip="{Binding Description}">
-                        <TextBlock
-                            Classes="count"
-                            Margin="4,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{Binding Count}" />
-                    </Border>
+                        <ui:AppIcon
+                            IconKey="{Binding IconKey}"
+                            Size="{DynamicResource IconSizeXS}"
+                            Foreground="{Binding Converter={StaticResource TreeTone}, ConverterParameter=KindSelected}" />
+                        <ui:TextOutlined Classes="count" Text="{Binding Count}" />
+                    </Panel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -67,7 +72,7 @@
         </StackPanel>
 
         <!-- The sign of a missing asset on this row or under it (TreeNode.MissingCount), after the kinds: the orange Warning icon. Like the
-             kind squares it shows on a collapsed row, for what is under it; an open row leaves it to the rows below. The missing row
+             kind badges it shows on a collapsed row, for what is under it; an open row leaves it to the rows below. The missing row
              itself always shows it. -->
         <Border
             Name="MissingSign"

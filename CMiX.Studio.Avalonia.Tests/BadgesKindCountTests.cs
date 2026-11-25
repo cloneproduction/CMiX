@@ -19,7 +19,7 @@ using static CMiX.Studio.Avalonia.Tests.Support.TreeFixtures;
 
 namespace CMiX.Studio.Avalonia.Tests
 {
-    // A collapsed row of the list tree shows what it holds: a square for each kind, in the color of the kind, with how many.
+    // A collapsed row of the list tree shows what it holds: the icon of each kind, in the color of the kind, with how many.
     public class BadgesKindCountTests : IDisposable
     {
         private readonly CategoryPalette palette = CategoryPalette.FromApplication();
@@ -60,15 +60,20 @@ namespace CMiX.Studio.Avalonia.Tests
             RowOf(node).GetVisualDescendants().OfType<BadgesKindCount>()
                 .First(badges => (badges.FindAncestorOfType<TextBoxEditable>() != null) == (node.Item != null));
 
-        private static Color FillOf(Border border) => ((ISolidColorBrush)border.Background!).Color;
+        private static Color FillOf(Panel badge) => ColorOf(IconOf(badge).Foreground);
 
-        private static List<Border> SquaresOf(BadgesKindCount badges) =>
-            badges.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("kindcount")).ToList();
+        private static AppIcon IconOf(Panel badge) => badge.GetVisualDescendants().OfType<AppIcon>().First();
+
+        private static TextOutlined CountOf(Panel badge) => badge.GetVisualDescendants().OfType<TextOutlined>().Single();
+
+        private static List<Panel> KindBadgesOf(BadgesKindCount badges) =>
+            badges.GetVisualDescendants().OfType<Panel>().Where(panel => panel.Classes.Contains("kindcount")).ToList();
+
+        private static string TextIn(Panel badge) => CountOf(badge).Text!;
 
         private static string TextIn(Border square) => square.GetVisualDescendants().OfType<TextBlock>().Single().Text!;
 
-        private static Color CountColorOf(Border square) =>
-            ((ISolidColorBrush)square.GetVisualDescendants().OfType<TextBlock>().Single().Foreground!).Color;
+        private static Color CountColorOf(Panel badge) => ColorOf(CountOf(badge).Foreground);
 
         private static Border NamedIn(BadgesKindCount badges, string name) =>
             badges.GetVisualDescendants().OfType<Border>().Single(border => border.Name == name);
@@ -83,24 +88,24 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_ACollapsedRow_ShowsASquareWithTheCountForEachKind()
+        public void Show_ACollapsedRow_ShowsABadgeWithTheCountForEachKind()
         {
             Show();
             Close(Layer);
 
             var badges = BadgesOf(Layer);
-            var squares = SquaresOf(badges);
+            var kinds = KindBadgesOf(badges);
 
             Assert.True(badges.IsEffectivelyVisible);
-            Assert.Equal(new[] { "2", "1", "3" }, squares.Select(TextIn));
-            Assert.Equal(new[] { "2 Entities", "1 Filter", "3 Modifiers" }, squares.Select(square => (string)ToolTip.GetTip(square)!));
+            Assert.Equal(new[] { "2", "1", "3" }, kinds.Select(TextIn));
+            Assert.Equal(new[] { "2 Entities", "1 Filter", "3 Modifiers" }, kinds.Select(badge => (string)ToolTip.GetTip(badge)!));
             Assert.Equal(
-                new[] { TreeCategory.Entity, TreeCategory.Filter, TreeCategory.Modifier }.Select(category => palette.For(category).Kind),
-                squares.Select(FillOf));
+                new[] { TreeCategory.Entity, TreeCategory.Filter, TreeCategory.Modifier }.Select(category => palette.For(category).KindSelected),
+                kinds.Select(FillOf));
         }
 
         [AvaloniaFact]
-        public void Show_AnOpenOrEmptyRow_ShowsNoSquares()
+        public void Show_AnOpenOrEmptyRow_ShowsNoBadges()
         {
             Show();
 
@@ -108,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Close(Empty);
             Assert.False(BadgesOf(Empty).IsEffectivelyVisible);
-            Assert.Empty(SquaresOf(BadgesOf(Empty)));
+            Assert.Empty(KindBadgesOf(BadgesOf(Empty)));
         }
 
         [AvaloniaFact]
@@ -120,7 +125,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var badges = BadgesOf(Composition);
 
             Assert.True(badges.IsEffectivelyVisible);
-            Assert.NotEmpty(SquaresOf(badges));
+            Assert.NotEmpty(KindBadgesOf(badges));
         }
 
         [AvaloniaFact]
@@ -132,7 +137,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Expand_ARow_HidesOrShowsTheSquares()
+        public void Expand_ARow_HidesOrShowsTheBadges()
         {
             Show();
 
@@ -151,11 +156,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var entities = Layer.Children.Single(child => child.Group is EntitiesGroup);
             Close(entities);
 
-            var square = Assert.Single(SquaresOf(BadgesOf(entities)));
+            var badge = Assert.Single(KindBadgesOf(BadgesOf(entities)));
 
-            Assert.Equal("2", TextIn(square));
-            Assert.Equal("2 Entities", ToolTip.GetTip(square));
-            Assert.Equal(palette.For(TreeCategory.Entity).Kind, FillOf(square));
+            Assert.Equal("2", TextIn(badge));
+            Assert.Equal("2 Entities", ToolTip.GetTip(badge));
+            Assert.Equal(palette.For(TreeCategory.Entity).KindSelected, FillOf(badge));
         }
 
         [AvaloniaFact]
@@ -171,25 +176,25 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Select_ARow_KeepsTheSquaresTheSame()
+        public void Select_ARow_KeepsTheBadgesTheSame()
         {
             Show();
             Close(Layer);
             var badges = BadgesOf(Layer);
             var tone = palette.For(TreeCategory.Entity);
 
-            Assert.Equal(tone.Kind, FillOf(SquaresOf(badges).First()));
+            Assert.Equal(tone.KindSelected, FillOf(KindBadgesOf(badges).First()));
 
-            // The pointer over the row does not change the squares: only the selection does.
+            // The pointer over the row and the selection do not change the badges.
             badges.IsHovered = true;
-            Assert.Equal(tone.Kind, FillOf(SquaresOf(badges).First()));
+            Assert.Equal(tone.KindSelected, FillOf(KindBadgesOf(badges).First()));
 
             scene!.Tree.SelectedNode = Layer;
             window!.Settle();
-            Assert.Equal(tone.Kind, FillOf(SquaresOf(badges).First()));
+            Assert.Equal(tone.KindSelected, FillOf(KindBadgesOf(badges).First()));
         }
 
-        // The count is always white: on the square at rest, under the pointer and on the full color of a selected row.
+        // The count is always white: at rest, under the pointer and on a selected row.
         [AvaloniaFact]
         public void Select_ARow_KeepsTheCountsWhite()
         {
@@ -197,16 +202,16 @@ namespace CMiX.Studio.Avalonia.Tests
             Close(Layer);
             var badges = BadgesOf(Layer);
 
-            Assert.All(SquaresOf(badges), square => Assert.Equal(Token("ActiveForegroundBrush"), CountColorOf(square)));
+            Assert.All(KindBadgesOf(badges), badge => Assert.Equal(Token("ActiveForegroundBrush"), CountColorOf(badge)));
 
             badges.IsHovered = true;
             window!.Settle();
-            Assert.All(SquaresOf(badges), square => Assert.Equal(Token("ActiveForegroundBrush"), CountColorOf(square)));
+            Assert.All(KindBadgesOf(badges), badge => Assert.Equal(Token("ActiveForegroundBrush"), CountColorOf(badge)));
 
             badges.IsHovered = false;
             scene!.Tree.SelectedNode = Layer;
             window!.Settle();
-            Assert.All(SquaresOf(badges), square => Assert.Equal(Token("ActiveForegroundBrush"), CountColorOf(square)));
+            Assert.All(KindBadgesOf(badges), badge => Assert.Equal(Token("ActiveForegroundBrush"), CountColorOf(badge)));
         }
 
         [AvaloniaFact]
@@ -226,23 +231,71 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_ASquare_IsSixteenHighInTheMiddleOfTheRow()
+        public void Show_ABadge_IsSixteenHighInTheMiddleOfTheRow()
         {
             Show();
             Close(Layer);
             var row = RowOf(Layer).Band;
-            var square = SquaresOf(BadgesOf(Layer)).First();
+            var badge = KindBadgesOf(BadgesOf(Layer)).First();
 
-            var top = square.TranslatePoint(new Point(0, 0), row)!.Value.Y;
-            var bottom = row.Bounds.Height - (top + square.Bounds.Height);
+            var top = badge.TranslatePoint(new Point(0, 0), row)!.Value.Y;
+            var bottom = row.Bounds.Height - (top + badge.Bounds.Height);
 
-            Assert.Equal(16, square.Bounds.Height);
+            Assert.Equal(16, badge.Bounds.Height);
             Assert.Equal(top, bottom, 1);
             Assert.True(top > 0);
         }
 
         [AvaloniaFact]
-        public void Show_ARowWithFiveKinds_ShowsThreeSquaresAndPlusTwo()
+        public void Badge_AKindCount_ShowsTheIconAndTheCountAtItsBottomRight()
+        {
+            Show();
+            Close(Layer);
+            var badge = KindBadgesOf(BadgesOf(Layer)).First();
+            var icon = IconOf(badge);
+            var count = CountOf(badge);
+            var offset = (Thickness)Application.Current!.FindResource("TreeKindCountOffset")!;
+
+            var iconCorner = icon.TranslatePoint(new Point(icon.Bounds.Width, icon.Bounds.Height), badge)!.Value;
+            var countCorner = count.TranslatePoint(new Point(count.Bounds.Width, count.Bounds.Height), badge)!.Value;
+
+            Assert.Equal("Entity", icon.IconKey);
+            Assert.Equal(new Point(16, 16), iconCorner);
+            Assert.Equal(16 - offset.Right, countCorner.X, 1);
+            Assert.Equal(16 - offset.Bottom, countCorner.Y, 1);
+            Assert.Equal(9, count.FontSize);
+            Assert.Equal(FontWeight.Bold, count.FontWeight);
+            Assert.Equal(2.5, count.OutlineThickness);
+            Assert.Equal(Token("TreeBackgroundBrush"), ColorOf(count.OutlineBrush));
+        }
+
+        [AvaloniaFact]
+        public void Badge_AKindCount_HasNoSquareBehindIt()
+        {
+            Show();
+            Close(Layer);
+
+            Assert.All(KindBadgesOf(BadgesOf(Layer)), badge =>
+            {
+                Assert.Equal(Colors.Transparent, ColorOf(badge.Background));
+                Assert.Empty(badge.GetVisualDescendants().OfType<Border>().Where(border => border.Background is ISolidColorBrush { Color.A: > 0 }));
+            });
+        }
+
+        [AvaloniaFact]
+        public void Show_TwoKindBadges_AreEightApart()
+        {
+            Show();
+            Close(Layer);
+            var badges = KindBadgesOf(BadgesOf(Layer));
+
+            var gap = badges[1].TranslatePoint(new Point(0, 0), badges[0])!.Value.X - badges[0].Bounds.Width;
+
+            Assert.Equal(8, gap, 1);
+        }
+
+        [AvaloniaFact]
+        public void Show_ARowWithFiveKinds_ShowsThreeBadgesAndPlusTwo()
         {
             Show(s =>
             {
@@ -254,7 +307,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var badges = BadgesOf(Layer);
             var more = NamedIn(badges, "MoreKinds");
 
-            Assert.Equal(new[] { "2", "1", "3" }, SquaresOf(badges).Select(TextIn));
+            Assert.Equal(new[] { "2", "1", "3" }, KindBadgesOf(badges).Select(TextIn));
             Assert.True(more.IsEffectivelyVisible);
             Assert.Equal("+2", TextIn(more));
             Assert.Equal("1 Camera" + Environment.NewLine + "1 Light", ToolTip.GetTip(more));
@@ -296,7 +349,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_ACollapsedRow_PutsTheSquaresRightAfterTheName()
+        public void Show_ACollapsedRow_PutsTheBadgesRightAfterTheName()
         {
             Show();
             Close(Layer);
