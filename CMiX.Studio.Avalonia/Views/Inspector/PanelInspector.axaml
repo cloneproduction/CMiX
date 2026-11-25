@@ -9,7 +9,6 @@
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters"
     xmlns:Tree="clr-namespace:CMiX.Studio.Avalonia.ViewModels.Tree"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400"
@@ -17,10 +16,6 @@
 
     <!-- The editor of the row that is selected in the project tree. The DataContext is the ProjectTree.
          The editors are the views of the other tabs, so an item looks the same here and there. -->
-
-    <UserControl.Resources>
-        <StudioConverters:ListTreeKindBrushConverter x:Key="KindMark" />
-    </UserControl.Resources>
 
     <UserControl.Styles>
         <!-- A tab view in the inspector does not scroll. The inspector scrolls it. The view has no gutter: the inspector has one. -->
