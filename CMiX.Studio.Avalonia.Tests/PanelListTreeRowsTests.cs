@@ -49,23 +49,25 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static Color Token(string key) => ColorOf((IBrush)Application.Current!.FindResource(key)!);
 
+        private static double TokenSize(string key) => (double)Application.Current!.FindResource(key)!;
+
         [AvaloniaFact]
-        public void Arrange_VisibleRows_PutsEachRowAtItsIndexTimesThirtyFive()
+        public void Arrange_VisibleRows_PutsEachRowAtItsIndexTimesThePitch()
         {
             var places = Panel.Layout.Places;
 
             Assert.True(places.Count > 3);
             for (var index = 0; index < places.Count; index++)
-                Assert.Equal(index * 35, RowOf(places[index]).Bounds.Y);
+                Assert.Equal(index * ListTreeSizes.Default.Pitch, RowOf(places[index]).Bounds.Y);
         }
 
         [AvaloniaFact]
-        public void Arrange_EveryRow_IsThirtyTwoHighAndAsWideAsThePanel()
+        public void Arrange_EveryRow_IsOneRowHighAndAsWideAsThePanel()
         {
             Assert.All(Panel.Layout.Places, place =>
             {
                 var bounds = RowOf(place).Bounds;
-                Assert.Equal(32, bounds.Height);
+                Assert.Equal(ListTreeSizes.Default.RowHeight, bounds.Height);
                 Assert.Equal(0, bounds.X);
                 Assert.Equal(Panel.Bounds.Width, bounds.Width);
             });
@@ -101,7 +103,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Null(Panel.RowOf(ListTreeKeys.Of(layer)));
             var indexOfB = Panel.Layout.Places.ToList().FindIndex(place => place.Key == ListTreeKeys.Of(scene.NodeB));
             Assert.True(RowOf(scene.NodeB).Bounds.Y < topOfB);
-            Assert.Equal(indexOfB * 35, RowOf(scene.NodeB).Bounds.Y);
+            Assert.Equal(indexOfB * ListTreeSizes.Default.Pitch, RowOf(scene.NodeB).Bounds.Y);
         }
 
         [AvaloniaFact]
@@ -145,7 +147,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Arrange_TheTogglesOfALayer_SitAtTheRightEdgeWithAGapOfEight()
+        public void Arrange_TheTogglesOfALayer_SitAtTheRightEdgeWithTheTokenGap()
         {
             var row = RowOf(scene.LayerNodeOfA(0));
             var slots = row.Toggles.GetVisualDescendants().OfType<Border>().Where(border => border.Classes.Contains("slot")).ToList();
@@ -155,10 +157,10 @@ namespace CMiX.Studio.Avalonia.Tests
             var visibilityLeft = visibility.TranslatePoint(new Point(0, 0), row)!.Value.X;
             var maskLeft = mask.TranslatePoint(new Point(0, 0), row)!.Value.X;
 
-            Assert.Equal(32, visibility.Bounds.Width);
-            Assert.Equal(32, mask.Bounds.Width);
+            Assert.Equal(TokenSize("ListTreeToggleSize"), visibility.Bounds.Width);
+            Assert.Equal(TokenSize("ListTreeToggleSize"), mask.Bounds.Width);
             Assert.Equal(row.Bounds.Width, visibilityLeft + visibility.Bounds.Width, 0.5);
-            Assert.Equal(8, visibilityLeft - (maskLeft + mask.Bounds.Width), 0.5);
+            Assert.Equal(TokenSize("ListTreeToggleGap"), visibilityLeft - (maskLeft + mask.Bounds.Width), 0.5);
         }
 
         [AvaloniaFact]

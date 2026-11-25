@@ -54,17 +54,21 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Empty(detached.Where(kept.Contains));
         }
 
-        // The top view shows fewer cards than the views below it, so the count starts after one view.
+        // The number of cards in a view changes with the scroll, so the test compares with the most cards that one view shows.
         [AvaloniaFact]
         public void Show_ScrollDown_ReusesTheCardFrames()
         {
-            ScrollDownOneView();
-            var first = AllFrames();
+            var seen = new HashSet<FrameListTreeCard>();
+            var most = 0;
 
-            for (var view = 0; view < 3; view++)
+            for (var view = 0; view < 4; view++)
+            {
                 ScrollDownOneView();
+                seen.UnionWith(AllFrames());
+                most = Math.Max(most, Panel.Surfaces.Areas.Count);
+            }
 
-            Assert.Empty(AllFrames().Except(first));
+            Assert.Equal(most, seen.Count);
         }
 
         [AvaloniaFact]

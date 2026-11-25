@@ -18,15 +18,15 @@ namespace CMiX.UI.Tests
             ColorMix.Over(Colors.White, Tokens.Get<Color>("TreeBackground"), strength);
 
         [AvaloniaTheory]
-        [InlineData("ListTreeRowHeight", 32)]
+        [InlineData("ListTreeRowHeight", 26)]
         [InlineData("ListTreeRowGap", 3)]
         [InlineData("ListTreeIndent", 16)]
         [InlineData("ListTreeLeftBorderWidth", 3)]
         [InlineData("ListTreeDropOutlineThickness", 1.5)]
         [InlineData("ListTreeDropOutlineOffset", 2)]
-        [InlineData("ListTreeToggleSize", 32)]
-        [InlineData("ListTreeToggleGap", 8)]
-        [InlineData("ListTreeToggleColumnWidth", 72)]
+        [InlineData("ListTreeToggleSize", 26)]
+        [InlineData("ListTreeToggleGap", 0)]
+        [InlineData("ListTreeToggleColumnWidth", 52)]
         public void Size_EachKey_HasTheValueOfTheSpec(string key, double expected)
         {
             Assert.Equal(expected, Tokens.Get<double>(key));

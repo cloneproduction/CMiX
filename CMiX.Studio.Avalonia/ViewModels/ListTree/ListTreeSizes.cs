@@ -5,7 +5,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
 {
     public sealed record ListTreeSizes(double RowHeight, double Gap, double Indent)
     {
-        public static ListTreeSizes Default { get; } = new(32, 3, 16);
+        public static ListTreeSizes Default { get; } = new(26, 3, 16);
 
         public double Pitch => RowHeight + Gap;
     }

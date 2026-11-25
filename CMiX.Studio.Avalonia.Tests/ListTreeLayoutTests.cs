@@ -21,6 +21,12 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private ListTreeRow ClosedCard(int node, int depth, params ListTreeRow[] children) => new(KeyOf(node), nodes[node], depth, true, false, false, children);
 
+        private static readonly double RowHeight = ListTreeSizes.Default.RowHeight;
+
+        private static readonly double Gap = ListTreeSizes.Default.Gap;
+
+        private static readonly double Pitch = ListTreeSizes.Default.Pitch;
+
         private static ListTreeLayout LayoutOf(params ListTreeRow[] roots) => ListTreeLayout.Of(new ListTreeSnapshot(roots), ListTreeSizes.Default);
 
         private ListTreeRowKey KeyOf(int node) => ListTreeKeys.Of(nodes[node]);
@@ -28,13 +34,13 @@ namespace CMiX.Studio.Avalonia.Tests
         private ListTreePlace PlaceOf(ListTreeLayout layout, int node) => Assert.IsType<ListTreePlace>(layout.PlaceOf(KeyOf(node)));
 
         [Fact]
-        public void Of_RowsInOrder_PutsEachRowOnePitchOfThirtyFiveBelowTheOneBefore()
+        public void Of_RowsInOrder_PutsEachRowOnePitchBelowTheOneBefore()
         {
             var layout = LayoutOf(OpenCard(0, 0, Item(1, 1), Item(2, 1)), Item(3, 0));
 
             Assert.Equal(new[] { KeyOf(0), KeyOf(1), KeyOf(2), KeyOf(3) }, layout.Places.Select(place => place.Key));
-            Assert.Equal(new[] { 0d, 35, 70, 105 }, layout.Places.Select(place => place.Y));
-            Assert.All(layout.Places, place => Assert.Equal(32, place.RowHeight));
+            Assert.Equal(new[] { 0, Pitch, 2 * Pitch, 3 * Pitch }, layout.Places.Select(place => place.Y));
+            Assert.All(layout.Places, place => Assert.Equal(RowHeight, place.RowHeight));
         }
 
         [Fact]
@@ -52,10 +58,10 @@ namespace CMiX.Studio.Avalonia.Tests
             var layout = LayoutOf(OpenCard(0, 0, Item(1, 1), Item(2, 1)), Item(3, 0));
 
             var card = PlaceOf(layout, 0);
-            Assert.Equal(2 * 35 + 32, card.AreaHeight);
-            Assert.Equal(PlaceOf(layout, 2).Y + 32, card.Y + card.AreaHeight);
+            Assert.Equal(2 * Pitch + RowHeight, card.AreaHeight);
+            Assert.Equal(PlaceOf(layout, 2).Y + RowHeight, card.Y + card.AreaHeight);
             Assert.True(card.CanToggle);
-            Assert.Equal(32, PlaceOf(layout, 1).AreaHeight);
+            Assert.Equal(RowHeight, PlaceOf(layout, 1).AreaHeight);
         }
 
         [Fact]
@@ -63,12 +69,12 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             var layout = LayoutOf(OpenCard(0, 0, Item(1, 1), OpenCard(2, 1, Item(3, 2), Item(4, 2))), Item(5, 0));
 
-            var bottom = PlaceOf(layout, 4).Y + 32;
+            var bottom = PlaceOf(layout, 4).Y + RowHeight;
             var outer = PlaceOf(layout, 0);
             var inner = PlaceOf(layout, 2);
             Assert.Equal(bottom, outer.Y + outer.AreaHeight);
             Assert.Equal(bottom, inner.Y + inner.AreaHeight);
-            Assert.Equal(bottom + 3, PlaceOf(layout, 5).Y);
+            Assert.Equal(bottom + Gap, PlaceOf(layout, 5).Y);
         }
 
         [Fact]
@@ -77,12 +83,12 @@ namespace CMiX.Studio.Avalonia.Tests
             var layout = LayoutOf(ClosedCard(0, 0, Item(1, 1), OpenCard(2, 1, Item(3, 2))), Item(4, 0));
 
             var card = PlaceOf(layout, 0);
-            Assert.Equal(32, card.AreaHeight);
+            Assert.Equal(RowHeight, card.AreaHeight);
             Assert.True(card.CanToggle);
             Assert.Null(layout.PlaceOf(KeyOf(1)));
             Assert.Null(layout.PlaceOf(KeyOf(2)));
             Assert.Null(layout.PlaceOf(KeyOf(3)));
-            Assert.Equal(35, PlaceOf(layout, 4).Y);
+            Assert.Equal(Pitch, PlaceOf(layout, 4).Y);
         }
 
         [Fact]
@@ -91,10 +97,10 @@ namespace CMiX.Studio.Avalonia.Tests
             var layout = LayoutOf(OpenCard(0, 0), Item(1, 0));
 
             var card = PlaceOf(layout, 0);
-            Assert.Equal(32, card.AreaHeight);
+            Assert.Equal(RowHeight, card.AreaHeight);
             Assert.False(card.CanToggle);
             Assert.False(PlaceOf(layout, 1).CanToggle);
-            Assert.Equal(35, PlaceOf(layout, 1).Y);
+            Assert.Equal(Pitch, PlaceOf(layout, 1).Y);
         }
 
         [Fact]
@@ -103,7 +109,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var layout = LayoutOf(OpenCard(0, 0, Item(1, 1), ClosedCard(2, 1, Item(3, 2))), Item(4, 0));
 
             Assert.Equal(4, layout.Places.Count);
-            Assert.Equal(4 * 35 - 3, layout.TotalHeight);
+            Assert.Equal(4 * Pitch - Gap, layout.TotalHeight);
         }
 
         [Fact]
@@ -125,7 +131,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var layout = ListTreeLayout.Of(ListTreeSnapshot.Of(scene.Tree.Roots), ListTreeSizes.Default);
 
             Assert.Equal(5, layout.Places.Count);
-            Assert.Equal(4 * 35, PlaceOf(layout, scene.LayerNodeOfA(1)).Y);
+            Assert.Equal(4 * Pitch, PlaceOf(layout, scene.LayerNodeOfA(1)).Y);
         }
 
         private static ListTreePlace PlaceOf(ListTreeLayout layout, TreeNode node) => Assert.IsType<ListTreePlace>(layout.PlaceOf(ListTreeKeys.Of(node)));

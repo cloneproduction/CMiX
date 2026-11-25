@@ -17,7 +17,7 @@ The modulators are not in the tree. The inspector of their owner shows and adds 
 The core has no Avalonia type. Most of it is records and static classes of pure functions.
 
 - Snapshot. `ListTreeSnapshot.Of(roots)` copies the live `TreeNode` rows into `ListTreeRow` records: key, node, depth, card, group, open, children. A row is identified by its `ListTreeRowKey`: the model it shows (the item, or the list of a group row) and the key of its parent row. The `TreeNode` is not the identity, because a move to another list builds new nodes, and one item can show under several layers.
-- Layout. `ListTreeLayout.Of(snapshot, sizes)` gives a `ListTreePlace` for each visible row: the top, the row height, the height of its card area, the depth and the indent. A row is full width, so a place has no x. `ListTreeSizes.Default` is a row of 32, a gap of 3 (a pitch of 35) and an indent of 16 per level.
+- Layout. `ListTreeLayout.Of(snapshot, sizes)` gives a `ListTreePlace` for each visible row: the top, the row height, the height of its card area, the depth and the indent. A row is full width, so a place has no x. `ListTreeSizes.Default` is a row of 26, a gap of 3 (a pitch of 29) and an indent of 16 per level.
 - Option E. A group row with no item is not in the snapshot. A drop Inside a card can still go to its empty list: the slot then targets the hidden group, and `ListTreeSlot.ShownTarget` is the key of the visible card that gets the outline.
 
 ## The drag
