@@ -11,11 +11,11 @@ namespace CMiX.Core.Animations
     public class BeatSteps : ObservableObject, IControl
     {
         public BeatSteps(ValueSyncFactory newSync,
-                         ControlActivationService activationService,
+                         ControlRegistry registry,
                          int stepCount = BeatStepsModel.DefaultStepCount)
         {
             for (int i = 0; i < stepCount; i++)
-                Steps.Add(new GenericValue<bool>(newSync(), activationService));
+                Steps.Add(new GenericValue<bool>(newSync(), registry));
         }
         public Guid ID { get; set; } = Guid.NewGuid();
 

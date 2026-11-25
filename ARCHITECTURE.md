@@ -60,7 +60,7 @@ The view `Blur.axaml` in the Studio binds straight to the Core `Blur`. There is 
 |---|---|
 | Model | All 125 `...Model` records: `ProjectModel`, `CompositionModel`, `LayerModel`, `EntityModel`, `GenericValueModel<T>`, `ModulatableValueModel<T>`, `PrefabManagerModel`, `ManagerDataModel`, each filter, source, modifier and modulator model. Also `SyncOptions`, `SyncTimings`, `StreamPosition`, `PeerInfo`. |
 | Message | `MessageValueChanged`, `MessageAddItem`, `MessageRemoveItem`, `MessageMoveItem`, `MessageSelectItem`, `MessageClearSelection`, `MessageOnClick` (tests only), `MessageProjectSnapshot`, and the wrapper `MessageEnvelope` (all in `Networking/Messages/Messages.cs`). |
-| Service | `UndoManager`, `ControlFactory`, `ControlRepository`, `ControlMessenger`, `MessageFactory`, `ValueSync`, `ModulatorHost` (the modulator list of one control, with the lookup and the unbinding), `MessageCollectionManagerHandler`, `ControlActivationService`, `AssetRepository`, the five processors (`VisibilityProcessor`, `VisibleItemsProcessor`, `UpdateOrderProcessor`, `RenderListProcessor`, `AssetListProcessor`), `ProjectSyncTarget`, `RedisSyncStore`, `OutgoingQueue`, `StreamFollower`, `SnapshotCompactor`, `Presence`, `MainloopQueue`, `EngineHost`, `WindowsCredentialStore`. |
+| Service | `UndoManager`, `ControlFactory`, `ControlRepository`, `ControlMessenger`, `MessageFactory`, `ValueSync`, `ModulatorHost` (the modulator list of one control, with the lookup and the unbinding), `MessageCollectionManagerHandler`, `ControlRegistry`, `AssetRepository`, the five processors (`VisibilityProcessor`, `VisibleItemsProcessor`, `UpdateOrderProcessor`, `RenderListProcessor`, `AssetListProcessor`), `ProjectSyncTarget`, `RedisSyncStore`, `OutgoingQueue`, `StreamFollower`, `SnapshotCompactor`, `Presence`, `MainloopQueue`, `EngineHost`, `WindowsCredentialStore`. |
 | ViewModel | None that is only a ViewModel. |
 | View | None. |
 
@@ -229,7 +229,7 @@ Core has no Avalonia reference.
 - `GenericValue<T>` has an empty public constructor that leaves the sync null.
 - `ControlFactory` takes `IServiceProvider` and resolves types by name. A control from the container and a control from the factory are not the same.
 - `ProjectSession` owns the six repository lists since 2026-11-19; `MainViewModel` and `ProjectFileViewModel` take it. The settable `MainMenu.RepositoryManagers` is gone.
-- `MainViewModel` sets the fixed ids of six lists and activates them by hand, then clears `ControlActivationService`.
+- `MainViewModel` sets the fixed ids of six lists and activates them by hand, then clears `ControlRegistry`.
 
 ### Models and Core that hold editor concerns
 

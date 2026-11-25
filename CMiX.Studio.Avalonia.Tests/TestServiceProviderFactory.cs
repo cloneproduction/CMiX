@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Tests
             // The notification hides on a clock that moves only by hand. A real timer would hide the notification during a later test.
             mainWindow.FindControl<CMiX.UI.Popups.PanelNotification>("panelNotification")!.TimeProvider = new CMiX.UI.Tests.ManualTimeProvider();
             mainWindow.DataContext = provider.GetRequiredService<MainViewModel>();
-            provider.GetRequiredService<CMiX.Core.ControlActivationService>().ActivateAll();
+            provider.GetRequiredService<CMiX.Core.ControlRegistry>().ActivateAll();
             provider.GetRequiredService<UnsavedChanges>().MarkSaved();
             return mainWindow;
         }

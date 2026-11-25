@@ -3,7 +3,8 @@
 
 namespace CMiX.Core
 {
-    public class ControlActivationService
+    // Every receivable control registers here. ActivateAll activates the controls built since the last call.
+    public class ControlRegistry
     {
         private readonly List<ReceivableControl> _controls = new();
 

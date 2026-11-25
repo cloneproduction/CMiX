@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              MainMenuViewModel mainMenu,
                              ProjectFileViewModel projectFile,
                              SettingsSyncViewModel settingsSync,
-                             ControlActivationService activationService,
+                             ControlRegistry registry,
                              UndoManager undoManager,
                              ShortcutMap shortcuts,
                              InterfaceState interfaceState,
@@ -61,7 +61,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             SettingsSync = settingsSync;
             ControlRepository = controlRepository;
             // This clear runs last. The session activates the six lists by hand, so a nested control must not activate them again.
-            activationService.Clear();
+            registry.Clear();
         }
 
         private readonly ProjectSession _session;

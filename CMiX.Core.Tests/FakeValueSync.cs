@@ -19,7 +19,7 @@ namespace CMiX.Core.Tests
         // An active value that writes to this sync.
         public GenericValue<T> CreateActive<T>()
         {
-            var value = new GenericValue<T>(this, new ControlActivationService());
+            var value = new GenericValue<T>(this, new ControlRegistry());
             value.Activate();
             return value;
         }

@@ -54,7 +54,7 @@ namespace CMiX.Core.Tests
             messenger.Register(sender);
             var time = new FakeTimeProvider { Now = 1000 };
             var sync = new ValueSync(undoManager, provider.GetRequiredService<MessageFactory>(), messenger, interaction, time);
-            var value = new GenericValue<float>(sync, provider.GetRequiredService<ControlActivationService>());
+            var value = new GenericValue<float>(sync, provider.GetRequiredService<ControlRegistry>());
             value.Activate();
             return new Fixture
             {

@@ -14,7 +14,7 @@ namespace CMiX.Core.Modulation.Modulators
                             FloatRange range,
                             GenericValue<WaveType> waveType,
                             Quantize quantize,
-                            ControlActivationService activationService)
+                            ControlRegistry registry)
             : base(prefabService)
         {
             Period = period;
@@ -23,7 +23,7 @@ namespace CMiX.Core.Modulation.Modulators
             Quantize = quantize;
 
             IsActive = false;
-            activationService.Register(this);
+            registry.Register(this);
         }
 
         public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {

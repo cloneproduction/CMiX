@@ -36,7 +36,7 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<MasterBeat>();
             services.AddSingleton<RedisAddressRegistry>();
 
-            services.AddSingleton<ControlActivationService>();
+            services.AddSingleton<ControlRegistry>();
             services.AddSingleton<ControlFactory>();
             services.AddSingleton<ControlMessenger>();
             services.AddSingleton<MessageFactory>();

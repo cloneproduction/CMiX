@@ -20,8 +20,8 @@ namespace CMiX.Core.Modulation.Modulators
                                 Quantize quantize,
                                 BeatSteps beatSteps,
                                 UndoManager undoManager,
-                                ControlActivationService activationService)
-            : base(prefabService, masterBeat, beatIndex, center, width, easing, beatSteps, undoManager, activationService)
+                                ControlRegistry registry)
+            : base(prefabService, masterBeat, beatIndex, center, width, easing, beatSteps, undoManager, registry)
         {
             Quantize = quantize;
         }

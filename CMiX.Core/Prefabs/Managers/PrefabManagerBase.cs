@@ -11,13 +11,13 @@ namespace CMiX.Core.Prefabs.Managers
     public abstract partial class PrefabManagerBase : ReceivableControl, IControl, IRecipient<IMessage>
     {
         protected PrefabManagerBase(ControlRepository controlRepository,
-                                     ControlActivationService activationService,
+                                     ControlRegistry registry,
                                      UndoManager undoManager)
         {
             ControlRepository = controlRepository;
             UndoManager = undoManager;
             IsActive = false;
-            activationService.Register(this);
+            registry.Register(this);
         }
 
         public ControlRepository ControlRepository { get; }

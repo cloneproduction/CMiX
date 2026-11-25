@@ -198,7 +198,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var undoManager = provider.GetRequiredService<UndoManager>();
             var player = provider.GetRequiredService<ControlFactory>().Create(type);
-            provider.GetRequiredService<ControlActivationService>().ActivateAll();
+            provider.GetRequiredService<ControlRegistry>().ActivateAll();
             var doSeek = (ModulatableValue<bool>)type.GetProperty("DoSeek")!.GetValue(player)!;
 
             Assert.True(doSeek.IsMomentary);

@@ -10,7 +10,7 @@ namespace CMiX.Core.Tests
         private static GenericValue<double> CreateActiveDouble(IServiceProvider provider)
         {
             var control = provider.GetRequiredService<GenericValue<double>>();
-            provider.GetRequiredService<ControlActivationService>().ActivateAll();
+            provider.GetRequiredService<ControlRegistry>().ActivateAll();
             return control;
         }
 

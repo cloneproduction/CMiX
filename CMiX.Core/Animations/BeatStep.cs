@@ -8,8 +8,8 @@ namespace CMiX.Core.Animations
     // One value of the list of a BeatStepModulator.
     public class BeatStep : GenericValue<float>
     {
-        public BeatStep(IValueSync sync, ControlActivationService activationService)
-            : base(sync, activationService)
+        public BeatStep(IValueSync sync, ControlRegistry registry)
+            : base(sync, registry)
         {
         }
 

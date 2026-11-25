@@ -19,11 +19,11 @@ namespace CMiX.Core.Prefabs.Managers
                              ControlFactory controlFactory,
                              MessageCollectionManagerHandler messageHandler,
                              ItemListFactory listFor,
-                             ControlActivationService activationService,
+                             ControlRegistry registry,
                              GenericValue<bool> hidden,
                              UndoManager undoManager,
                              ManagerReorderServiceFactory reorderServiceFactory = null)
-            : base(collection.ControlRepository, activationService, undoManager)
+            : base(collection.ControlRepository, registry, undoManager)
         {
             ID = collection.ManagerData.ID;
 

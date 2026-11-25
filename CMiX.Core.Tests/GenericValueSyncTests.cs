@@ -56,7 +56,7 @@ namespace CMiX.Core.Tests
         public void Value_SetWhenInactive_CallsNothing()
         {
             var sync = new FakeValueSync();
-            var value = new GenericValue<float>(sync, new ControlActivationService());
+            var value = new GenericValue<float>(sync, new ControlRegistry());
 
             value.Value = 2f;
 

@@ -10,12 +10,12 @@ namespace CMiX.Core.BaseControls
 {
     public class GenericValue<T> : ReceivableControl, IControl, IRecipient<IMessage>
     {
-        public GenericValue(IValueSync sync, ControlActivationService activationService)
+        public GenericValue(IValueSync sync, ControlRegistry registry)
         {
             ID = Guid.NewGuid();
             _sync = sync;
             ResetCommand = new RelayCommand(Reset);
-            activationService.Register(this);
+            registry.Register(this);
         }
 
         private readonly IValueSync _sync;

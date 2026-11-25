@@ -12,7 +12,7 @@ namespace CMiX.Core.Modulation.Modulators
                                GenericValue<float> center,
                                GenericValue<float> width,
                                GenericValue<int> seed,
-                               ControlActivationService activationService)
+                               ControlRegistry registry)
             : base(prefabService)
         {
             Center = center;
@@ -20,7 +20,7 @@ namespace CMiX.Core.Modulation.Modulators
             Seed = seed;
 
             IsActive = false;
-            activationService.Register(this);
+            registry.Register(this);
         }
 
         public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {

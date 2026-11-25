@@ -77,7 +77,7 @@ namespace CMiX.Studio.Avalonia
 
                 var mainWindow = serviceProvider.GetRequiredService<Views.MainWindow>();
                 mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();
-                serviceProvider.GetRequiredService<ControlActivationService>().ActivateAll();
+                serviceProvider.GetRequiredService<ControlRegistry>().ActivateAll();
                 // The new session is the saved state. The window asks about unsaved changes against it.
                 serviceProvider.GetRequiredService<UnsavedChanges>().MarkSaved();
                 desktop.MainWindow = mainWindow;

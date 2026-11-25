@@ -18,8 +18,8 @@ namespace CMiX.Core.Modulation.Modulators
                                    Easing easing,
                                    BeatSteps beatSteps,
                                    UndoManager undoManager,
-                                   ControlActivationService activationService)
-            : base(prefabService, masterBeat, beatIndex, center, width, easing, beatSteps, undoManager, activationService)
+                                   ControlRegistry registry)
+            : base(prefabService, masterBeat, beatIndex, center, width, easing, beatSteps, undoManager, registry)
         {
         }
 

@@ -15,7 +15,7 @@ namespace CMiX.Core.Modulation.Modulators
                                    GenericValue<bool> step,
                                    GenericValue<float> resetValue,
                                    CMiXButton reset,
-                                   ControlActivationService activationService)
+                                   ControlRegistry registry)
             : base(prefabService)
         {
             Offset = offset;
@@ -24,7 +24,7 @@ namespace CMiX.Core.Modulation.Modulators
             Reset = reset;
 
             IsActive = false;
-            activationService.Register(this);
+            registry.Register(this);
         }
 
         public override IReadOnlyList<IModulatorOutput> Outputs { get; } = new IModulatorOutput[] {

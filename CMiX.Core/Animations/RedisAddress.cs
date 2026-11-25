@@ -8,8 +8,8 @@ namespace CMiX.Core.Animations
     // One Redis address of the list. A Redis modulator selects one of them.
     public class RedisAddress : GenericValue<string>
     {
-        public RedisAddress(IValueSync sync, ControlActivationService activationService)
-            : base(sync, activationService)
+        public RedisAddress(IValueSync sync, ControlRegistry registry)
+            : base(sync, registry)
         {
         }
 

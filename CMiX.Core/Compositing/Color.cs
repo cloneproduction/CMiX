@@ -10,8 +10,8 @@ namespace CMiX.Core.Compositing
     {
         public Color(PrefabService prefabService,
                      IValueSync sync,
-                     ControlActivationService activationService)
-            : base(sync, activationService)
+                     ControlRegistry registry)
+            : base(sync, registry)
         {
             PrefabService = prefabService;
         }

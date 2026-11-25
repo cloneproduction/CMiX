@@ -16,7 +16,7 @@ namespace CMiX.Core.Animations
                           GenericValue<bool> pause,
                           CMiXButton resync,
                           UndoManager undoManager,
-                          ControlActivationService activationService)
+                          ControlRegistry registry)
         {
             Index = index;
             Period = period;
@@ -45,7 +45,7 @@ namespace CMiX.Core.Animations
                     OnPropertyChanged(nameof(BPM));
             };
 
-            activationService.Register(this);
+            registry.Register(this);
 
             Index.Activate();
             Period.Activate();

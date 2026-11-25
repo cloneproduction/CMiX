@@ -21,7 +21,7 @@ namespace CMiX.Core.Modulation.Modulators
                                          Easing easing,
                                          BeatSteps beatSteps,
                                          UndoManager undoManager,
-                                         ControlActivationService activationService)
+                                         ControlRegistry registry)
             : base(prefabService)
         {
             BeatIndex = beatIndex;
@@ -36,7 +36,7 @@ namespace CMiX.Core.Modulation.Modulators
 
             _undoManager = undoManager;
             IsActive = false;
-            activationService.Register(this);
+            registry.Register(this);
 
             _onBPMChanged = (s, e) =>
             {

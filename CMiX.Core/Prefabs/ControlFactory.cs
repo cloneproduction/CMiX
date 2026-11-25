@@ -12,16 +12,16 @@ namespace CMiX.Core.Prefabs
     public class ControlFactory
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly ControlActivationService _activationService;
+        private readonly ControlRegistry _registry;
         private readonly ControlRepository _controlRepository;
 
         public ControlFactory(
-            ControlActivationService activationService,
+            ControlRegistry registry,
             ControlRepository controlRepository,
             IServiceProvider services)
         {
             _serviceProvider = services;
-            _activationService = activationService;
+            _registry = registry;
             _controlRepository = controlRepository;
             _controlRepository.Controls.CollectionChanged += OnControlsChanged;
         }
@@ -113,7 +113,7 @@ namespace CMiX.Core.Prefabs
 
         public IControl Create(IControlModel model)
         {
-            var first = _activationService.PendingCount;
+            var first = _registry.PendingCount;
             var control = CreateControlInstance(model);
 
             // The default model gives each new value the default that Reset restores.
@@ -134,7 +134,7 @@ namespace CMiX.Core.Prefabs
             else
                 NameControl(control);
 
-            _activationService.ActivateAll();
+            _registry.ActivateAll();
             return control;
         }
 
@@ -146,7 +146,7 @@ namespace CMiX.Core.Prefabs
         // Only the values built since "first" belong to this control. Outer controls keep their own.
         private void SetNewDefaults(int first)
         {
-            var pending = _activationService.Pending;
+            var pending = _registry.Pending;
             for (var i = first; i < pending.Count; i++)
                 pending[i].SetDefaults();
         }
