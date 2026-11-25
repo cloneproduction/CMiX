@@ -42,18 +42,39 @@ namespace CMiX.Core.Tests.Undo
         }
 
         [Fact]
-        public void Undo_WithNothingSelectedBefore_SelectsNothingNew()
+        public void Undo_WithNothingSelectedBefore_SelectsNothingAgain()
         {
+            // The Remove of the undo selects the neighbour a. Only the restore selects nothing.
+            var a = new FakeControl();
             var added = new FakeControl();
-            var list = new FakeItemList();
+            var list = new FakeItemList { Items = { a } };
             var command = new AddItemUndoCommand(list, added, 0);
             command.Execute();
 
             command.Undo();
 
-            Assert.Empty(list.Items);
+            Assert.Equal(new IControl[] { a }, list.Items);
             Assert.Null(list.SelectedItem);
-            Assert.Equal(new[] { "Insert 0", "Remove" }, list.Calls);
+            Assert.Equal(new[] { "Insert 0", "Remove", "ClearSelection" }, list.Calls);
+        }
+
+        [Fact]
+        public void Execute_AfterUndo_RestoresTheSelectionOfTheFirstExecute()
+        {
+            // Insert selects the added item, so the restore of the redo sends no select.
+            var a = new FakeControl();
+            var added = new FakeControl();
+            var list = new FakeItemList { Items = { a }, SelectedItem = a };
+            var command = new AddItemUndoCommand(list, added, 1);
+            command.Execute();
+            command.Undo();
+            list.ClearSelection();
+
+            command.Execute();
+
+            Assert.Equal(new IControl[] { a, added }, list.Items);
+            Assert.Same(added, list.SelectedItem);
+            Assert.Equal(new[] { "Insert 1", "Remove", "ClearSelection", "Insert 1" }, list.Calls);
         }
 
         [Fact]

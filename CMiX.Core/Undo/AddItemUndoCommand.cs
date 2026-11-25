@@ -4,37 +4,24 @@
 namespace CMiX.Core.Undo
 {
     // Owns the added item after an undo took it out, and disposes it when the stack drops the command.
-    public class AddItemUndoCommand : IUndoCommand, IDisposable
+    public class AddItemUndoCommand : ItemListUndoCommand, IDisposable
     {
-        private readonly IItemList _list;
         private readonly IControl _item;
         private readonly int _index;
-        private IControl _previousItem;
 
-        public AddItemUndoCommand(IItemList list, IControl item, int index)
+        public AddItemUndoCommand(IItemList list, IControl item, int index) : base(list)
         {
-            _list = list;
             _item = item;
             _index = index;
         }
 
-        public void Execute()
-        {
-            _previousItem = _list.SelectedItem;
-            _list.Insert(_item, Math.Min(_index, _list.Count));
-        }
+        protected override void Change() => List.Insert(_item, Math.Min(_index, List.Count));
 
-        public void Undo()
-        {
-            _list.Remove(_item);
-
-            var index = _list.IndexOf(_previousItem);
-            if (index >= 0) _list.SelectAt(index);
-        }
+        protected override void ChangeBack() => List.Remove(_item);
 
         public void Dispose()
         {
-            _list.Release(_item);
+            List.Release(_item);
         }
     }
 }

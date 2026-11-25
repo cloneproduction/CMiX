@@ -53,8 +53,28 @@ namespace CMiX.Core.Tests.Undo
             command.Undo();
 
             Assert.Equal(new IControl[] { a, b, c }, list.Items);
-            Assert.Same(b, list.SelectedItem);
-            Assert.Equal(new[] { "Remove", "Insert 1", "Remove", "Insert 1" }, list.Calls);
+            Assert.Null(list.SelectedItem);
+            Assert.Equal(new[] { "Remove", "Insert 1", "Remove", "Insert 1", "ClearSelection" }, list.Calls);
+        }
+
+        [Fact]
+        public void Execute_AfterUndo_RestoresTheSelectionOfTheFirstExecute()
+        {
+            // Insert selects the new item, so the restore of the redo sends no select.
+            var a = new FakeControl();
+            var b = new FakeControl();
+            var fresh = new FakeControl();
+            var list = new FakeItemList { Items = { a, b }, SelectedItem = a };
+            var command = new ReplaceItemUndoCommand(list, b, fresh, 1);
+            command.Execute();
+            command.Undo();
+            list.ClearSelection();
+
+            command.Execute();
+
+            Assert.Equal(new IControl[] { a, fresh }, list.Items);
+            Assert.Same(fresh, list.SelectedItem);
+            Assert.Equal(new[] { "Remove", "Insert 1", "Remove", "Insert 1", "SelectAt 0", "ClearSelection", "Remove", "Insert 1" }, list.Calls);
         }
 
         [Fact]
