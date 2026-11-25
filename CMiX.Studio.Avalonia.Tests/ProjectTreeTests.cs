@@ -55,6 +55,25 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [Fact]
+        public void Inspect_ANode_MarksOnlyThatNode()
+        {
+            var scene = CreateScene();
+            var first = LayerNode(scene, 0);
+            var second = LayerNode(scene, 1);
+
+            scene.Tree.Inspect(first);
+            scene.Tree.Inspect(second);
+
+            Assert.False(first.IsInspected);
+            Assert.True(second.IsInspected);
+            Assert.Single(scene.All(), node => node.IsInspected);
+
+            scene.Tree.Inspect(null);
+
+            Assert.DoesNotContain(scene.All(), node => node.IsInspected);
+        }
+
+        [Fact]
         public void ApplySnapshot_AProjectLoads_EveryRowStartsCollapsed()
         {
             var scene = CreateScene();

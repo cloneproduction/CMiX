@@ -120,7 +120,17 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         public TreeNode? InspectedNode
         {
             get => inspectedNode;
-            private set => SetProperty(ref inspectedNode, value);
+            private set
+            {
+                var old = inspectedNode;
+                if (!SetProperty(ref inspectedNode, value))
+                    return;
+
+                if (old != null)
+                    old.IsInspected = false;
+                if (value != null)
+                    value.IsInspected = true;
+            }
         }
 
         private TreeNode? inspectedNode;

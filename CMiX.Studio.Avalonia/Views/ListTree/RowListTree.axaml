@@ -6,6 +6,8 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:StudioConverters="clr-namespace:CMiX.Studio.Avalonia.Converters"
     FocusAdorner="{x:Null}"
+    Classes.cursor="{Binding IsCursor}"
+    Classes.inspected="{Binding IsInspected}"
     Focusable="True">
 
     <!-- One row of the tree, on the tree node. The band starts at the indent, the toggles stay at the right edge.

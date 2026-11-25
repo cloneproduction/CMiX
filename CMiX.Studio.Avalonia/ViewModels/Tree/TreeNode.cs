@@ -164,6 +164,9 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         private bool isCursor;
 
         [ObservableProperty]
+        private bool isInspected;
+
+        [ObservableProperty]
         private bool isOnCursorBranch;
 
         internal static void MarkCursorBranch(TreeNode? cursor)

@@ -259,6 +259,44 @@ namespace CMiX.Studio.Avalonia.Tests
             slot.GetVisualDescendants().OfType<ToggleButton>().First(toggle => toggle.IsVisible);
 
         [AvaloniaFact]
+        public void Row_AReusedRow_TakesTheCursorClassOfItsNewNode()
+        {
+            scene.NodeB.IsExpanded = false;
+            window.Settle();
+            var layerOfA = scene.LayerNodeOfA(0);
+            scene.Tree.CursorNode = layerOfA;
+            window.Settle();
+            var rowsOfA = Panel.Children.OfType<RowListTree>().Where(row => row.DataContext is TreeNode node && node.IsOrIsUnder(scene.NodeA)).ToList();
+            Assert.Contains("cursor", RowOf(layerOfA).Classes);
+
+            scene.NodeA.IsExpanded = false;
+            window.Settle();
+            scene.NodeB.IsExpanded = true;
+            window.Settle();
+            var layerOfB = scene.LayerNodeOfB(0);
+            scene.Tree.CursorNode = layerOfB;
+            window.Settle();
+
+            var reused = RowOf(layerOfB);
+            Assert.Contains(reused, rowsOfA);
+            Assert.Contains("cursor", reused.Classes);
+            Assert.All(Panel.Children.OfType<RowListTree>().Where(row => row.IsVisible),
+                row => Assert.Equal(((TreeNode)row.DataContext!).IsCursor, row.Classes.Contains("cursor")));
+        }
+
+        [AvaloniaFact]
+        public void Row_TheInspectedNode_HasTheInspectedClass()
+        {
+            var inspected = scene.LayerNodeOfA(0);
+
+            scene.Tree.Inspect(inspected);
+            window.Settle();
+
+            Assert.Contains("inspected", RowOf(inspected).Classes);
+            Assert.DoesNotContain("inspected", RowOf(scene.LayerNodeOfA(1)).Classes);
+        }
+
+        [AvaloniaFact]
         public void Show_AGroupRow_HasTheFolderIcon()
         {
             var group = Scene.LayersOf(scene.NodeA);
