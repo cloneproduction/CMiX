@@ -6,7 +6,11 @@ namespace CMiX.Core.Undo
     public class UndoManager
     {
         public const int MaxSteps = 128;
-        private const int MergeWindowMs = 500;
+
+        private readonly TimeProvider _time;
+        // Two value steps of one control inside this window become one step.
+        private readonly long _mergeWindowTicks;
+        private long _lastPushTimestamp;
 
         // A linked list rather than a stack because the cap is enforced by dropping the oldest
         // entry, which costs one node removal here and a full rebuild on a stack. The newest
@@ -22,6 +26,12 @@ namespace CMiX.Core.Undo
         public bool CanRedo => _redoStack.Count > 0;
         public int StepCount => _undoStack.Count;
         public int RedoStepCount => _redoStack.Count;
+
+        public UndoManager(TimeProvider time)
+        {
+            _time = time;
+            _mergeWindowTicks = time.TimestampFrequency / 2;
+        }
 
         // Fires once after each public operation that changes the undo or the redo stack.
         public event Action Changed;
@@ -60,18 +70,22 @@ namespace CMiX.Core.Undo
                 return;
             }
 
+            var now = _time.GetTimestamp();
             if (command is ValueChangedUndoCommand vc
                 && _undoStack.Last is { } lastNode
                 && lastNode.Value is ValueChangedUndoCommand lastVc
                 && lastVc.ControlID == vc.ControlID
-                && (vc.Timestamp - lastVc.Timestamp).TotalMilliseconds < MergeWindowMs)
+                && now - _lastPushTimestamp < _mergeWindowTicks)
             {
-                lastNode.Value = vc.WithBefore(lastVc.Before);
+                vc.MergeBefore(lastVc.Before);
+                lastNode.Value = vc;
+                _lastPushTimestamp = now;
                 DropRedoStack();
                 RaiseChanged();
                 return;
             }
 
+            _lastPushTimestamp = now;
             _undoStack.AddLast(command);
             DropRedoStack();
             TrimStack();
@@ -97,6 +111,7 @@ namespace CMiX.Core.Undo
             _captured.Clear();
             if (commands.Count == 0) return;
             if (commands.Count == 1) { Push(commands[0]); return; }
+            _lastPushTimestamp = _time.GetTimestamp();
             _undoStack.AddLast(new CompositeUndoCommand(commands));
             DropRedoStack();
             TrimStack();

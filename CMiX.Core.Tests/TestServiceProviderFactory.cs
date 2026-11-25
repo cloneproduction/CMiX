@@ -12,5 +12,13 @@ namespace CMiX.Core.Tests
         {
             return new ServiceCollection().AddCMiXCore().BuildServiceProvider();
         }
+
+        // Runs the action after AddCMiXCore, so a test can replace a registration.
+        public static IServiceProvider Create(Action<IServiceCollection> configure)
+        {
+            var services = new ServiceCollection().AddCMiXCore();
+            configure(services);
+            return services.BuildServiceProvider();
+        }
     }
 }

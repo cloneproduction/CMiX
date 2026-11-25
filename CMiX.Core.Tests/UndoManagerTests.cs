@@ -14,6 +14,13 @@ namespace CMiX.Core.Tests
             return control;
         }
 
+        private static IServiceProvider CreateWithFakeClock(out FakeTimeProvider time)
+        {
+            var clock = new FakeTimeProvider { Now = 1000 };
+            time = clock;
+            return TestServiceProviderFactory.Create(services => services.AddSingleton<TimeProvider>(clock));
+        }
+
         [Fact]
         public void Undo_AfterAPush_RestoresThePriorState()
         {
@@ -47,7 +54,7 @@ namespace CMiX.Core.Tests
         [Fact]
         public void MergeWindow_TwoPushesOnSameControl_CollapseToOneUndoStep()
         {
-            var provider = TestServiceProviderFactory.Create();
+            var provider = CreateWithFakeClock(out _);
             var undoManager = provider.GetRequiredService<UndoManager>();
             var control = CreateActiveDouble(provider);
 
@@ -61,10 +68,24 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void MergeWindow_TwoPushesOutsideTheWindow_StayTwoSteps()
+        {
+            var provider = CreateWithFakeClock(out var time);
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var control = CreateActiveDouble(provider);
+
+            control.Value = 1d;
+            time.Now += time.TimestampFrequency / 2;
+            control.Value = 2d;
+
+            Assert.Equal(2, undoManager.StepCount);
+        }
+
+        [Fact]
         public void Push_MergedAfterAnUndo_ClearsTheRedoStack()
         {
             // A change of A that merges into the top entry after an undo of B must clear the redo of B.
-            var provider = TestServiceProviderFactory.Create();
+            var provider = CreateWithFakeClock(out _);
             var undoManager = provider.GetRequiredService<UndoManager>();
             var controlA = CreateActiveDouble(provider);
             var controlB = CreateActiveDouble(provider);
@@ -104,7 +125,7 @@ namespace CMiX.Core.Tests
         [Fact]
         public void Changed_OnAMergedPush_FiresOnce()
         {
-            var provider = TestServiceProviderFactory.Create();
+            var provider = CreateWithFakeClock(out _);
             var undoManager = provider.GetRequiredService<UndoManager>();
             var control = CreateActiveDouble(provider);
             control.Value = 1d;

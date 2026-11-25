@@ -10,7 +10,6 @@ namespace CMiX.Core.Undo
         private readonly IControlModel _after;
 
         public Guid ControlID { get; }
-        public DateTime Timestamp { get; }
         public IControlModel Before => _before;
 
         public ValueChangedUndoCommand(IControl control, IControlModel before, IControlModel after)
@@ -19,14 +18,9 @@ namespace CMiX.Core.Undo
             _before = before;
             _after = after;
             ControlID = control.ID;
-            Timestamp = DateTime.Now;
         }
 
-        public ValueChangedUndoCommand WithBefore(IControlModel before)
-        {
-            _before = before;
-            return this;
-        }
+        public void MergeBefore(IControlModel before) => _before = before;
 
         public void Execute() => _control.FromModel(_after);
         public void Undo() => _control.FromModel(_before);
