@@ -1,6 +1,6 @@
 # Plan: a fast search in the project tree
 
-Status: plan only. Nothing is built. The owner says go before step 1.1.
+Status: phase 1 built on 2026-11-25: 1.1 `6852a251d`, 1.1b `c7a5270c0`, 1.2 dropped, 1.3 closed with no fix. Phase 2 is open.
 
 Goal: a key in the search field of the tree shows its result in one frame on a big project. The rule of the match is one rule for every search field of CMiX.
 
@@ -162,6 +162,8 @@ Tests: `TextBoxSearchTreeTests`, `ProjectTreeSearchExitTests`, `ProjectTreeSearc
 Commit: `Waits for a pause in typing before the tree searches`.
 
 #### Step 1.3 Measure the close, then fix it if needed (complexity 3, Opus)
+
+Closed with no fix on 2026-11-25. After 1.1b a key that closes rows costs 16 to 23 ms, and no part costs more than 5 ms but the clear of `DataContext` on the spare rows (7 to 12 ms). The owner keeps that clear: a spare row with its old node keeps live bindings and a removed node, and Avalonia clears it too (`ClearItemContainer`). A post to the dispatcher moves the work and removes none of it. A gen0 GC adds about 10 ms to some keys.
 
 Files: `ViewModels/Tree/TreeSearch.cs` (`SyncRows`), `Behaviors/ListTree/ListTreeScrollAnchor.cs` (`KeepStill`), only if the fix is needed.
 
