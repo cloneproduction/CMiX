@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
 
 namespace CMiX.Core.Modulation.Modifiers

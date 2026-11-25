@@ -3,7 +3,6 @@
 
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Modulation.Modifiers
 {

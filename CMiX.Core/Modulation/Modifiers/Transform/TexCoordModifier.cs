@@ -4,7 +4,6 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
 using CMiX.Core.Transformation.Modifiers;
 
