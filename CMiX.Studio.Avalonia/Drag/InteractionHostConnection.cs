@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace CMiX.Studio.Avalonia.Drag
 {
     // Connects the value editors of CMiX.UI to the one ValueInteraction of the container.
+    // A static with one side effect: it sets the one static of CMiX.UI, which the App rule on statics allows.
     public static class InteractionHostConnection
     {
         public static void Connect(IServiceProvider provider)
