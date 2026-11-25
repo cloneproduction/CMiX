@@ -3,31 +3,17 @@
 
 namespace CMiX.Core.Undo
 {
-    public class SelectItemUndoCommand : IUndoCommand
+    public class SelectItemUndoCommand : ItemListUndoCommand
     {
-        private readonly IItemList _list;
-        private readonly int _previousIndex;
         private readonly int _newIndex;
 
-        public SelectItemUndoCommand(IItemList list,
-                                 int previousIndex,
-                                 int newIndex)
+        public SelectItemUndoCommand(IItemList list, int newIndex) : base(list)
         {
-            _list = list;
-            _previousIndex = previousIndex;
             _newIndex = newIndex;
         }
 
-        public void Execute()
-        {
-            if (_newIndex < 0 || _newIndex >= _list.Count) return;
-            _list.SelectAt(_newIndex);
-        }
+        protected override void Change() => List.SelectAt(_newIndex);
 
-        public void Undo()
-        {
-            if (_previousIndex < 0 || _previousIndex >= _list.Count) return;
-            _list.SelectAt(_previousIndex);
-        }
+        protected override void ChangeBack() { }
     }
 }

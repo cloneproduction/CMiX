@@ -15,7 +15,7 @@ namespace CMiX.Core.Tests.Undo
             var a = new FakeControl();
             var list = new FakeItemList { Items = { a }, SelectedItem = a };
 
-            new ClearSelectionUndoCommand(list, 0).Execute();
+            new ClearSelectionUndoCommand(list).Execute();
 
             Assert.Null(list.SelectedItem);
             Assert.Equal(new[] { "ClearSelection" }, list.Calls);
@@ -27,13 +27,29 @@ namespace CMiX.Core.Tests.Undo
             var a = new FakeControl();
             var b = new FakeControl();
             var list = new FakeItemList { Items = { a, b }, SelectedItem = b };
-            var command = new ClearSelectionUndoCommand(list, 1);
+            var command = new ClearSelectionUndoCommand(list);
             command.Execute();
 
             command.Undo();
 
             Assert.Same(b, list.SelectedItem);
             Assert.Equal(new[] { "ClearSelection", "SelectAt 1" }, list.Calls);
+        }
+
+        [Fact]
+        public void Execute_AfterUndo_ClearsTheSelectionAgain()
+        {
+            var a = new FakeControl();
+            var b = new FakeControl();
+            var list = new FakeItemList { Items = { a, b }, SelectedItem = b };
+            var command = new ClearSelectionUndoCommand(list);
+            command.Execute();
+            command.Undo();
+
+            command.Execute();
+
+            Assert.Null(list.SelectedItem);
+            Assert.Equal(new[] { "ClearSelection", "SelectAt 1", "ClearSelection" }, list.Calls);
         }
     }
 }

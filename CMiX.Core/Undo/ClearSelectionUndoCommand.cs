@@ -3,26 +3,14 @@
 
 namespace CMiX.Core.Undo
 {
-    public class ClearSelectionUndoCommand : IUndoCommand
+    public class ClearSelectionUndoCommand : ItemListUndoCommand
     {
-        private readonly IItemList _list;
-        private readonly int _previousIndex;
-
-        public ClearSelectionUndoCommand(IItemList list,
-                                         int previousIndex)
+        public ClearSelectionUndoCommand(IItemList list) : base(list)
         {
-            _list = list;
-            _previousIndex = previousIndex;
         }
 
-        public void Execute()
-        {
-            _list.ClearSelection();
-        }
+        protected override void Change() => List.ClearSelection();
 
-        public void Undo()
-        {
-            _list.SelectAt(_previousIndex);
-        }
+        protected override void ChangeBack() { }
     }
 }

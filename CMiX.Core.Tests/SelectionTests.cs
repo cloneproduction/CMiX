@@ -102,6 +102,19 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void SelectAt_ThenUndo_SelectsThePreviousItemAgain()
+        {
+            var setup = ThreeItems();
+            var undo = setup.Provider.GetRequiredService<UndoManager>();
+            Assert.Same(setup.Items[2], setup.Manager.SelectedItem);
+
+            setup.Manager.SelectAt(0);
+            undo.Undo();
+
+            Assert.Same(setup.Items[2], setup.Manager.SelectedItem);
+        }
+
+        [Fact]
         public void ListEdits_OfAManager_SendTheIndexSelectedAfterTheEdit()
         {
             var provider = TestServiceProviderFactory.Create();

@@ -3,27 +3,19 @@
 
 namespace CMiX.Core.Undo
 {
-    public class MoveItemUndoCommand : IUndoCommand
+    public class MoveItemUndoCommand : ItemListUndoCommand
     {
-        private readonly IItemList _list;
         private readonly int _oldIndex;
         private readonly int _newIndex;
 
-        public MoveItemUndoCommand(IItemList list, int oldIndex, int newIndex)
+        public MoveItemUndoCommand(IItemList list, int oldIndex, int newIndex) : base(list)
         {
-            _list = list;
             _oldIndex = oldIndex;
             _newIndex = newIndex;
         }
 
-        public void Execute()
-        {
-            _list.Move(_oldIndex, _newIndex);
-        }
+        protected override void Change() => List.Move(_oldIndex, _newIndex);
 
-        public void Undo()
-        {
-            _list.Move(_newIndex, _oldIndex);
-        }
+        protected override void ChangeBack() => List.Move(_newIndex, _oldIndex);
     }
 }

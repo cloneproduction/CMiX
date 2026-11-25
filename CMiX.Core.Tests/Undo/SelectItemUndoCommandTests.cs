@@ -16,22 +16,10 @@ namespace CMiX.Core.Tests.Undo
             var b = new FakeControl();
             var list = new FakeItemList { Items = { a, b }, SelectedItem = a };
 
-            new SelectItemUndoCommand(list, 0, 1).Execute();
+            new SelectItemUndoCommand(list, 1).Execute();
 
             Assert.Same(b, list.SelectedItem);
             Assert.Equal(new[] { "SelectAt 1" }, list.Calls);
-        }
-
-        [Fact]
-        public void Execute_AnIndexOutOfRange_ChangesNothing()
-        {
-            var a = new FakeControl();
-            var list = new FakeItemList { Items = { a }, SelectedItem = a };
-
-            new SelectItemUndoCommand(list, 0, 3).Execute();
-
-            Assert.Same(a, list.SelectedItem);
-            Assert.Empty(list.Calls);
         }
 
         [Fact]
@@ -40,7 +28,7 @@ namespace CMiX.Core.Tests.Undo
             var a = new FakeControl();
             var b = new FakeControl();
             var list = new FakeItemList { Items = { a, b }, SelectedItem = a };
-            var command = new SelectItemUndoCommand(list, 0, 1);
+            var command = new SelectItemUndoCommand(list, 1);
             command.Execute();
 
             command.Undo();
@@ -50,15 +38,19 @@ namespace CMiX.Core.Tests.Undo
         }
 
         [Fact]
-        public void Undo_APreviousIndexOutOfRange_ChangesNothing()
+        public void Execute_AfterUndo_SelectsTheItemAgain()
         {
             var a = new FakeControl();
-            var list = new FakeItemList { Items = { a }, SelectedItem = a };
+            var b = new FakeControl();
+            var list = new FakeItemList { Items = { a, b }, SelectedItem = a };
+            var command = new SelectItemUndoCommand(list, 1);
+            command.Execute();
+            command.Undo();
 
-            new SelectItemUndoCommand(list, -1, 0).Undo();
+            command.Execute();
 
-            Assert.Same(a, list.SelectedItem);
-            Assert.Empty(list.Calls);
+            Assert.Same(b, list.SelectedItem);
+            Assert.Equal(new[] { "SelectAt 1", "SelectAt 0", "SelectAt 1" }, list.Calls);
         }
     }
 }
