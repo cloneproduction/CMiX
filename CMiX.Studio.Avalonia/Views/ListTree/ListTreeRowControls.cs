@@ -75,19 +75,18 @@ namespace CMiX.Studio.Avalonia.Views
         // A control with the focus goes, so the focus keeper sees the lost focus. Every other control waits hidden for a row.
         private void KeepSpare(List<RowListTree> leaving)
         {
-            foreach (var focused in leaving.Where(control => control.IsKeyboardFocusWithin).ToList())
-            {
-                leaving.Remove(focused);
-                RemoveRow(focused);
-            }
-
             foreach (var control in leaving)
             {
+                if (control.IsKeyboardFocusWithin)
+                {
+                    RemoveRow(control);
+                    continue;
+                }
+
                 ListTreeRowSlide.Snap(control);
                 control.StopFlash();
+                spareRows.Keep(control);
             }
-
-            spareRows.KeepAll(leaving);
         }
 
         private bool IsKept(RowListTree control, ListTreePlace place) =>

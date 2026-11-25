@@ -14,11 +14,14 @@ namespace CMiX.Studio.Avalonia.Views
         public void KeepAll(IEnumerable<T> leaving)
         {
             foreach (var control in leaving)
-            {
-                control.IsVisible = false;
-                control.DataContext = null;
-                controls.Push(control);
-            }
+                Keep(control);
+        }
+
+        public void Keep(T control)
+        {
+            control.IsVisible = false;
+            control.DataContext = null;
+            controls.Push(control);
         }
 
         public T? Take()
