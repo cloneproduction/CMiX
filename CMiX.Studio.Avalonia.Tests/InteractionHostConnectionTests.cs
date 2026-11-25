@@ -1,3 +1,4 @@
+using CMiX.Core;
 using CMiX.Core.BaseControls;
 using CMiX.Studio.Avalonia.Drag;
 using CMiX.UI.Interaction;
@@ -26,6 +27,29 @@ namespace CMiX.Studio.Avalonia.Tests
                 scope!.Dispose();
 
                 Assert.False(interaction.IsActive);
+            }
+            finally
+            {
+                InteractionHost.BeginScopeHandler = null;
+            }
+        }
+
+        [Fact]
+        public void Connect_ThenBeginScopeWithAValue_OpensTheDragOfThatValue()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            try
+            {
+                InteractionHostConnection.Connect(provider);
+                var interaction = provider.GetRequiredService<ValueInteraction>();
+                var value = new GenericValue<float>(provider.GetRequiredService<IValueSync>(), provider.GetRequiredService<ControlRegistry>());
+
+                var scope = InteractionHost.BeginScope(value);
+
+                Assert.NotNull(scope);
+                Assert.False(interaction.IsActive);
+
+                scope!.Dispose();
             }
             finally
             {
