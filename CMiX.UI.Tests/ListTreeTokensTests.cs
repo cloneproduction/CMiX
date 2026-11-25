@@ -52,7 +52,6 @@ namespace CMiX.UI.Tests
 
         [AvaloniaTheory]
         [InlineData("ListTreeRowHoverBrush", 0.05)]
-        [InlineData("ListTreeCardHoverBrush", 0.05)]
         [InlineData("ListTreeRowSelectedBrush", 0.07)]
         [InlineData("ListTreeRowSelectedHoverBrush", 0.10)]
         [InlineData("ListTreeRowDraggedBrush", 0.16)]
@@ -70,8 +69,6 @@ namespace CMiX.UI.Tests
         [InlineData("ListTreeRowRestBandBrush", "#0DFFFFFF")]
         [InlineData("ListTreeRowDimmedBandBrush", "#05FFFFFF")]
         [InlineData("ListTreeRowCursorFrameBrush", "#73FFFFFF")]
-        [InlineData("ListTreeRowHoverInSelectionBandBrush", "#0DFFFFFF")]
-        [InlineData("ListTreeCardHoverInSelectionBandBrush", "#08FFFFFF")]
         [InlineData("ListTreeTextRestBrush", "#FFB6B6BB")]
         [InlineData("ListTreeTextDimmedBrush", "#FF9A9A9F")]
         [InlineData("ListTreeTextHiddenBrush", "#FF8A8A8F")]
