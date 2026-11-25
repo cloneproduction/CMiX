@@ -20,6 +20,7 @@ namespace CMiX.UI.Tests
         {
             public int Begun;
             public int Ended;
+            public object? LastValue;
         }
 
         private sealed class CountingScope : IDisposable
@@ -43,9 +44,10 @@ namespace CMiX.UI.Tests
         private static Counter Install()
         {
             var counter = new Counter();
-            InteractionHost.BeginScopeHandler = () =>
+            InteractionHost.BeginScopeHandler = value =>
             {
                 counter.Begun++;
+                counter.LastValue = value;
                 return new CountingScope(counter);
             };
             return counter;
@@ -62,7 +64,7 @@ namespace CMiX.UI.Tests
             {
                 InteractionHost.BeginScopeHandler = null;
 
-                Assert.Null(InteractionHost.BeginScope());
+                Assert.Null(InteractionHost.BeginScope(null));
             }
             finally
             {
@@ -107,6 +109,52 @@ namespace CMiX.UI.Tests
 
                 Assert.Equal(1, counter.Begun);
                 Assert.Equal(1, counter.Ended);
+            }
+            finally
+            {
+                InteractionHost.BeginScopeHandler = saved;
+            }
+        }
+
+        [AvaloniaFact]
+        public void Drag_OfAnEditor_HandsItsDataContextToTheHost()
+        {
+            var saved = InteractionHost.BeginScopeHandler;
+            try
+            {
+                var counter = Install();
+                var context = new object();
+                var drag = new DragValue { Minimum = 0, Maximum = 10, DataContext = context };
+                var window = TestWindow.ShowWithoutClips(drag, 300, 100);
+                var border = drag.GetVisualDescendants().OfType<Border>()
+                    .Single(b => b.Name == "borderValueDisplay" && b.TemplatedParent == drag);
+
+                Press(window, border);
+
+                Assert.Same(context, counter.LastValue);
+            }
+            finally
+            {
+                InteractionHost.BeginScopeHandler = saved;
+            }
+        }
+
+        [AvaloniaFact]
+        public void Drag_OfAnEditorWithoutDataContext_HandsNull()
+        {
+            var saved = InteractionHost.BeginScopeHandler;
+            try
+            {
+                var counter = Install();
+                var drag = new DragValue { Minimum = 0, Maximum = 10 };
+                var window = TestWindow.ShowWithoutClips(drag, 300, 100);
+                var border = drag.GetVisualDescendants().OfType<Border>()
+                    .Single(b => b.Name == "borderValueDisplay" && b.TemplatedParent == drag);
+
+                Press(window, border);
+
+                Assert.Null(counter.LastValue);
+                Assert.Equal(1, counter.Begun);
             }
             finally
             {

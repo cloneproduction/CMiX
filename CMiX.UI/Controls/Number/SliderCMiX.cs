@@ -177,7 +177,7 @@ namespace CMiX.UI.Controls.Number
             _mouseDownPoint = _lastPoint;
             _wrap = new DragCursorWrap(Border, _lastPoint);
             e.Pointer.Capture(this);
-            _interaction = InteractionHost.BeginScope();
+            _interaction = InteractionHost.BeginScope(DataContext);
             Focus();
             Cursor = new Cursor(StandardCursorType.None);
             PseudoClasses.Set(":pressed", true);

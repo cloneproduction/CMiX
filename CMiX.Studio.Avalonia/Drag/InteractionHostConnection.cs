@@ -15,7 +15,7 @@ namespace CMiX.Studio.Avalonia.Drag
         public static void Connect(IServiceProvider provider)
         {
             var interaction = provider.GetRequiredService<ValueInteraction>();
-            InteractionHost.BeginScopeHandler = () => interaction.BeginScope();
+            InteractionHost.BeginScopeHandler = _ => interaction.BeginScope();
         }
     }
 }

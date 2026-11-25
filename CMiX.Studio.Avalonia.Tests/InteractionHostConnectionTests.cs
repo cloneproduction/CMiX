@@ -18,7 +18,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 InteractionHostConnection.Connect(provider);
                 var interaction = provider.GetRequiredService<ValueInteraction>();
 
-                var scope = InteractionHost.BeginScope();
+                var scope = InteractionHost.BeginScope(null);
 
                 Assert.NotNull(scope);
                 Assert.True(interaction.IsActive);

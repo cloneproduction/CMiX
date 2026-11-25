@@ -105,7 +105,7 @@ namespace CMiX.UI.Controls.Number
 
             e.Pointer.Capture(_borderValueDisplay);
             PseudoClasses.Set(":pressed", true);
-            _interaction = InteractionHost.BeginScope();
+            _interaction = InteractionHost.BeginScope(DataContext);
             e.Handled = true;
         }
 
