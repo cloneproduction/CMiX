@@ -37,6 +37,7 @@ namespace CMiX.UI.Tests
         {
             Assert.Equal(new Thickness(0), Tokens.Get<Thickness>("ListTreeRowContentMargin"));
             Assert.Equal(new Thickness(5, 0), Tokens.Get<Thickness>("ListTreeIconMargin"));
+            Assert.Equal(new Thickness(5, 0), Tokens.Get<Thickness>("IconCellMargin"));
             Assert.Equal(new Thickness(6, 0), Tokens.Get<Thickness>("ListTreeNamePadding"));
             Assert.Equal(new Thickness(8, 8, 0, 8), Tokens.Get<Thickness>("ListTreeMargin"));
             Assert.Equal(new Thickness(4), Tokens.Get<Thickness>("ListTreeToolbarPadding"));
