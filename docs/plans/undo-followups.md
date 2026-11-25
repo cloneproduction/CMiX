@@ -1,5 +1,7 @@
 # Plan: undo follow ups
 
+Status: built on 2026-11-25, eleven commits from `9fa05f8cb` to `35325912f`. Step 2.3 also made `PrefabManager.SelectAt` and `ClearSelection` record through `Run`, because the base takes the selection before in `Execute`. The three defaults D1 to D3 stand.
+
 Three items that the undo review of 2026-11-25 left open, plus two stale document lines. The plan follows `docs/plans/undo-cleanup.md`: one commit per step, the build and the suites pass at every commit, complexity 1 goes to a Sonnet subagent, 2 to 4 to an Opus subagent.
 
 Branch: `refactor/tree-structure`. Another session writes in this checkout; every commit stages by path, and the file list of each step goes to that session before the step starts.
