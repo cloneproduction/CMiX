@@ -141,7 +141,7 @@ Two value steps of one control within 500 ms merge into one step. The window run
 A selection is a step only when an item was selected before. The first selection in a list, from nothing to an item, is not a step; a clear of the selection is.
 Every list step sits on `ItemListUndoCommand`. The base takes the selection before and after the change, and an undo or a redo restores it exactly. It sends a selection message only when the list does not show that selection already.
 A removed control stays alive inside its step. It is disposed when the step leaves the stack.
-A snapshot apply (join, pull, File Open) clears both stacks. The session start clears the stack too, because the construction of the project writes default values.
+A snapshot apply (join, pull, File Open) clears both stacks. The construction of the project records no step: a fixed control such as `OutputMappingManager` builds its values from a model before they are active.
 
 ### Selection
 
