@@ -157,14 +157,12 @@ namespace CMiX.Studio.Avalonia.Views
         private RowListTree AddRow()
         {
             var control = new RowListTree { ZIndex = ListTreeLayers.Row };
-            surfaces.Watch(control);
             panel.Children.Add(control);
             return control;
         }
 
         private void RemoveRow(RowListTree control)
         {
-            surfaces.Unwatch(control);
             panel.Children.Remove(control);
         }
     }

@@ -4,9 +4,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 
@@ -103,16 +101,6 @@ namespace CMiX.Studio.Avalonia.Views
 
             dropTarget = node;
             ShowMarks();
-        }
-
-        public void Watch(RowListTree row) => row.PropertyChanged += OnRowChanged;
-
-        public void Unwatch(RowListTree row) => row.PropertyChanged -= OnRowChanged;
-
-        private void OnRowChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
-        {
-            if (e.Property == InputElement.IsPointerOverProperty)
-                ShowMarks();
         }
 
         public void ShowMarks()
