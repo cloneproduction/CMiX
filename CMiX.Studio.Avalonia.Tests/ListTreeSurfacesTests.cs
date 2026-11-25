@@ -4,7 +4,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
-using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Views;
 using Xunit;
@@ -33,7 +32,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private PanelListTreeRows Panel => view.Rows;
 
-        private ScrollViewer Scroller => view.GetVisualDescendants().OfType<ScrollViewer>().First(scroller => scroller.Name == "scroller");
+        private ScrollViewer Scroller => view.Scroller;
 
         // A scroll up brings frames that come before the kept frames in tree order.
         [AvaloniaFact]

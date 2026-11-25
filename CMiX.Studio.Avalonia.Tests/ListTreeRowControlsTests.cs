@@ -27,8 +27,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
         public ListTreeRowControlsTests()
         {
-            foreach (var node in ListTreeTestScreen.All(scene.Tree.Roots).Where(node => node.Children.Count > 0))
-                node.IsExpanded = false;
+            scene.Tree.CollapseAll();
             screen = ListTreeTestScreen.Show(scene.Tree, 400, 600);
         }
 

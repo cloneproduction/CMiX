@@ -88,7 +88,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                 ClearSearchCommand.NotifyCanExecuteChanged();
             }
 
-            if (!searchActive && !wasActive && search.IsEmpty)
+            if (!searchActive && !wasActive)
                 return;
 
             var countBefore = search.Matches.Count;

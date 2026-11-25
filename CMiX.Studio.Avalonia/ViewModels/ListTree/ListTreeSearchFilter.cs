@@ -28,12 +28,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.ListTree
         }
 
         // A match keeps its own open state.
-        public bool ShowsOpen(TreeNode node)
-        {
-            if (!showsOnlyMatches)
-                return node.IsExpanded;
-
-            return node.HasSearchMatchBelow || node.IsExpanded;
-        }
+        public bool ShowsOpen(TreeNode node) => node.HasSearchMatchBelow || node.IsExpanded;
     }
 }

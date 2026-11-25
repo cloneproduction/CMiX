@@ -14,8 +14,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public IReadOnlyList<TreeNode> Matches => matches;
 
-        public bool IsEmpty => matches.Count == 0;
-
         public bool Refresh(string text, IEnumerable<TreeNode> roots)
         {
             var found = text.Length == 0 ? ClearLooks(roots) : ShowLooks(text, roots);
