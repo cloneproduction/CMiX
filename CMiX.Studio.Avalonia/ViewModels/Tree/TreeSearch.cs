@@ -35,19 +35,27 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         private static List<TreeNode> ShowLooks(string text, IEnumerable<TreeNode> roots)
         {
-            var rows = TreeWalk.AllRows(roots);
             var found = new List<TreeNode>();
-            foreach (var node in rows)
+            ShowLooksOf(text, roots, found);
+            return found;
+        }
+
+        // Adds the matches in tree order and returns true when a node of the list or a node below it matches.
+        private static bool ShowLooksOf(string text, IEnumerable<TreeNode> nodes, List<TreeNode> found)
+        {
+            var hasMatch = false;
+            foreach (var node in nodes)
             {
                 node.ShowSearchLook(text);
                 if (node.IsSearchMatch)
                     found.Add(node);
+
+                node.HasSearchMatchBelow = ShowLooksOf(text, node.Children, found);
+                if (node.IsSearchMatch || node.HasSearchMatchBelow)
+                    hasMatch = true;
             }
 
-            var parents = new HashSet<TreeNode>(found.SelectMany(TreeWalk.ParentsOf));
-            foreach (var node in rows)
-                node.HasSearchMatchBelow = parents.Contains(node);
-            return found;
+            return hasMatch;
         }
 
         public TreeNode? MoveToMatch(TreeNode? cursor, int step)
