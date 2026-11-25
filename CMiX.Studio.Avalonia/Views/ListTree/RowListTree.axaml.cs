@@ -18,8 +18,6 @@ namespace CMiX.Studio.Avalonia.Views
     {
         public const string CardClass = ":card";
         public const string SelectedClass = ":selected";
-        public const string InSelectionClass = ":inselection";
-        public const string InHoveredCardClass = ":inhoveredcard";
         public const string HiddenClass = ":hiddenrow";
         public const string DropTargetClass = ":droptarget";
         public const string DimmedClass = ":dimmed";
@@ -122,8 +120,6 @@ namespace CMiX.Studio.Avalonia.Views
         {
             var node = DataContext as TreeNode;
             IsSelected = marks.IsSelected(node);
-            PseudoClasses.Set(InSelectionClass, marks.IsInSelection(node));
-            PseudoClasses.Set(InHoveredCardClass, marks.IsInHoveredCard(node));
             PseudoClasses.Set(DropTargetClass, marks.IsDropTarget(node));
             PseudoClasses.Set(HiddenClass, marks.IsHidden(node));
         }

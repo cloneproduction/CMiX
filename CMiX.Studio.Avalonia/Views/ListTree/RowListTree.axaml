@@ -11,7 +11,7 @@
     Focusable="True">
 
     <!-- One row of the tree, on the tree node. The band starts at the indent, the toggles stay at the right edge.
-         The Background is the surface of an item row, full width. A card shows its surface on its area, under the rows. -->
+         The Background is the surface of the row, full width, for an item and for a card header. -->
     <UserControl.Resources>
         <StudioConverters:TreeToneConverter x:Key="RowTone" />
         <StudioConverters:ListTreeKindBrushConverter x:Key="KindMark" />
@@ -26,26 +26,20 @@
         <Style Selector="Views|RowListTree:card ui|TextBoxEditable#nameBox, Views|RowListTree:card TextBlock#groupName">
             <Setter Property="TextElement.FontWeight" Value="SemiBold" />
         </Style>
-        <Style Selector="Views|RowListTree:pointerover ui|TextBoxEditable#nameBox, Views|RowListTree:pointerover TextBlock#groupName,
-                         Views|RowListTree:inhoveredcard ui|TextBoxEditable#nameBox, Views|RowListTree:inhoveredcard TextBlock#groupName">
+        <Style Selector="Views|RowListTree:pointerover ui|TextBoxEditable#nameBox, Views|RowListTree:pointerover TextBlock#groupName">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextActiveBrush}" />
         </Style>
-        <Style Selector="Views|RowListTree:selected ui|TextBoxEditable#nameBox, Views|RowListTree:selected TextBlock#groupName,
-                         Views|RowListTree:inselection ui|TextBoxEditable#nameBox, Views|RowListTree:inselection TextBlock#groupName">
+        <Style Selector="Views|RowListTree:selected ui|TextBoxEditable#nameBox, Views|RowListTree:selected TextBlock#groupName">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextSelectedBrush}" />
         </Style>
 
-        <Style Selector="Views|RowListTree:pointerover:not(:card):not(:inselection):not(:dimmed)">
+        <Style Selector="Views|RowListTree:pointerover:not(:selected):not(:dimmed)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowHoverBrush}" />
         </Style>
-        <!-- Inside a selected card, a hover adds a full width band of white over the selected surface. -->
-        <Style Selector="Views|RowListTree:pointerover:inselection:not(:card):not(:dimmed)">
-            <Setter Property="Background" Value="{DynamicResource ListTreeRowHoverInSelectionBandBrush}" />
-        </Style>
-        <Style Selector="Views|RowListTree:selected:not(:card)">
+        <Style Selector="Views|RowListTree:selected">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedBrush}" />
         </Style>
-        <Style Selector="Views|RowListTree:selected:pointerover:not(:card):not(:dimmed)">
+        <Style Selector="Views|RowListTree:selected:pointerover:not(:dimmed)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedHoverBrush}" />
         </Style>
 
@@ -64,11 +58,11 @@
         <Style Selector="Border#mark">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="Views|RowListTree:pointerover:not(:card):not(:dimmed) Border#mark">
+        <Style Selector="Views|RowListTree:pointerover:not(:dimmed) Border#mark">
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=HoverBorder}" />
         </Style>
-        <Style Selector="Views|RowListTree:selected:not(:card) Border#mark">
+        <Style Selector="Views|RowListTree:selected Border#mark">
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=SelectionBorder}" />
         </Style>

@@ -75,7 +75,6 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(Token("ListTreeRowRestBandBrush"), FillOf(Named(row, "band").Background));
             Assert.False(Named(row, "mark").IsEffectivelyVisible);
             Assert.Equal(Token("ListTreeTextRestBrush"), TextOf(row));
-            Assert.False(AreaOf(Layer).Mark.IsEffectivelyVisible);
             Assert.Equal(Colors.Transparent, FillOf(AreaOf(Layer).Surface.Background));
         }
 
@@ -118,21 +117,19 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Hover_ACard_LightsItsAreaWithAHoverBorderTheFullHeightOfTheCard()
+        public void Hover_ACard_LightsOnlyItsHeaderRow()
         {
-            var area = AreaOf(Layer);
+            var row = RowOf(Layer);
 
-            window.Hover(BlankOf(RowOf(Layer)));
+            window.Hover(BlankOf(row));
 
-            Assert.Equal(Token("ListTreeCardHoverBrush"), FillOf(area.Surface.Background));
-            Assert.Equal(0, LeftIn(area.Surface, area));
-            AssertMark(area.Mark, KindOf(Layer).HoverBorder, 0, area);
-            Assert.Equal(area.Place!.AreaHeight, area.Mark.Bounds.Height);
-            Assert.True(area.Place.AreaHeight > 3 * 35);
-            Assert.Equal(Colors.Transparent, FillOf(Named(RowOf(Layer), "band").Background));
-            Assert.Equal(Colors.Transparent, FillOf(RowOf(Layer).Background));
-            Assert.Equal(Token("ListTreeTextActiveBrush"), TextOf(RowOf(Layer)));
-            Assert.Equal(Token("ListTreeTextActiveBrush"), TextOf(RowOf(Entity)));
+            Assert.Equal(Token("ListTreeRowHoverBrush"), FillOf(row.Background));
+            Assert.Equal(Colors.Transparent, FillOf(Named(row, "band").Background));
+            AssertMark(Named(row, "mark"), KindOf(Layer).HoverBorder, 0, row);
+            Assert.Equal(row.Bounds.Height, Named(row, "mark").Bounds.Height);
+            Assert.Equal(Colors.Transparent, FillOf(AreaOf(Layer).Surface.Background));
+            Assert.Equal(Token("ListTreeTextActiveBrush"), TextOf(row));
+            Assert.Equal(Token("ListTreeTextRestBrush"), TextOf(RowOf(Entity)));
         }
 
         [AvaloniaFact]
@@ -148,18 +145,19 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Select_ACard_LightsItsAreaAndMakesTheTextOfAllItsRowsWhite()
+        public void Select_ACard_LightsItsHeaderRowAndLeavesItsChildrenAtRest()
         {
             Select(Layer);
-            var area = AreaOf(Layer);
+            var row = RowOf(Layer);
 
-            Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(area.Surface.Background));
-            AssertMark(area.Mark, KindOf(Layer).SelectionBorder, 0, area);
-            Assert.Equal(area.Place!.AreaHeight, area.Mark.Bounds.Height);
-            Assert.Equal(Colors.Transparent, FillOf(RowOf(Layer).Background));
-            Assert.Equal(Token("ListTreeTextSelectedBrush"), TextOf(RowOf(Layer)));
-            Assert.Equal(Token("ListTreeTextSelectedBrush"), TextOf(RowOf(Entities)));
-            Assert.Equal(Token("ListTreeTextSelectedBrush"), TextOf(RowOf(Entity)));
+            Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(row.Background));
+            AssertMark(Named(row, "mark"), KindOf(Layer).SelectionBorder, 0, row);
+            Assert.Equal(row.Bounds.Height, Named(row, "mark").Bounds.Height);
+            Assert.Equal(Colors.Transparent, FillOf(AreaOf(Layer).Surface.Background));
+            Assert.Equal(Token("ListTreeTextSelectedBrush"), TextOf(row));
+            Assert.Equal(Token("ListTreeTextRestBrush"), TextOf(RowOf(Entities)));
+            Assert.Equal(Token("ListTreeTextRestBrush"), TextOf(RowOf(Entity)));
+            Assert.Equal(Colors.Transparent, FillOf(RowOf(Entity).Background));
         }
 
         [AvaloniaFact]
@@ -179,43 +177,44 @@ namespace CMiX.Studio.Avalonia.Tests
         public void Hover_ASelectedCard_IsTwentyPercentAndKeepsTheSelectionBorder()
         {
             Select(Layer);
-            var area = AreaOf(Layer);
+            var row = RowOf(Layer);
 
-            window.Hover(BlankOf(RowOf(Layer)));
+            window.Hover(BlankOf(row));
 
-            Assert.Equal(Token("ListTreeRowSelectedHoverBrush"), FillOf(area.Surface.Background));
-            AssertMark(area.Mark, KindOf(Layer).SelectionBorder, 0, area);
+            Assert.Equal(Token("ListTreeRowSelectedHoverBrush"), FillOf(row.Background));
+            AssertMark(Named(row, "mark"), KindOf(Layer).SelectionBorder, 0, row);
+            Assert.Equal(Colors.Transparent, FillOf(AreaOf(Layer).Surface.Background));
         }
 
         [AvaloniaFact]
-        public void Hover_AnItemInASelectedCard_AddsAFullWidthBandAndKeepsTheAreaOfTheCard()
+        public void Hover_AnItemInASelectedCard_LightsTheItemAsAHover()
         {
             Select(Layer);
             var row = RowOf(Entity);
 
             window.Hover(BlankOf(row));
 
-            Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(AreaOf(Layer).Surface.Background));
-            AssertMark(AreaOf(Layer).Mark, KindOf(Layer).SelectionBorder, 0, AreaOf(Layer));
-            Assert.Equal(Token("ListTreeRowHoverInSelectionBandBrush"), FillOf(row.Background));
+            Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(RowOf(Layer).Background));
+            Assert.Equal(Colors.Transparent, FillOf(AreaOf(Layer).Surface.Background));
+            Assert.Equal(Token("ListTreeRowHoverBrush"), FillOf(row.Background));
             Assert.Equal(Colors.Transparent, FillOf(Named(row, "band").Background));
             AssertMark(Named(row, "mark"), KindOf(Entity).HoverBorder, 0, row);
-            Assert.Equal(Token("ListTreeTextSelectedBrush"), TextOf(row));
+            Assert.Equal(Token("ListTreeTextActiveBrush"), TextOf(row));
         }
 
         [AvaloniaFact]
-        public void Hover_ACardInASelectedCard_AddsAFullWidthAreaBandAndKeepsTheOuterArea()
+        public void Hover_ACardInASelectedCard_LightsOnlyItsHeaderRow()
         {
             Select(Layer);
-            var area = AreaOf(Entities);
+            var row = RowOf(Entities);
 
-            window.Hover(BlankOf(RowOf(Entities)));
+            window.Hover(BlankOf(row));
 
-            Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(AreaOf(Layer).Surface.Background));
-            Assert.Equal(Token("ListTreeCardHoverInSelectionBandBrush"), FillOf(area.Surface.Background));
-            Assert.Equal(0, LeftIn(area.Surface, area));
-            AssertMark(area.Mark, KindOf(Entities).HoverBorder, 0, area);
-            Assert.Equal(area.Place!.AreaHeight, area.Mark.Bounds.Height);
+            Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(RowOf(Layer).Background));
+            Assert.Equal(Token("ListTreeRowHoverBrush"), FillOf(row.Background));
+            AssertMark(Named(row, "mark"), KindOf(Entities).HoverBorder, 0, row);
+            Assert.Equal(Colors.Transparent, FillOf(AreaOf(Layer).Surface.Background));
+            Assert.Equal(Colors.Transparent, FillOf(AreaOf(Entities).Surface.Background));
         }
 
         [AvaloniaFact]

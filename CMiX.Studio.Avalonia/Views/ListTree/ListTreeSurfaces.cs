@@ -118,16 +118,13 @@ namespace CMiX.Studio.Avalonia.Views
         public void ShowMarks()
         {
             var rows = panel.RealizedRows.ToList();
-            var marks = isDragging ? new ListTreeMarks(null, null, dropTarget) : new ListTreeMarks(selected, HoveredCard(rows), dropTarget) { AlsoSelected = alsoSelected };
+            var marks = isDragging ? new ListTreeMarks(null, dropTarget) : new ListTreeMarks(selected, dropTarget) { AlsoSelected = alsoSelected };
             foreach (var row in rows)
                 row.ShowMarks(marks);
             foreach (var area in areas)
                 area.ShowMarks(marks);
             outline.Show(dropTarget, dropTarget == null ? null : panel.ShownPlaceOf(dropTarget));
         }
-
-        private static TreeNode? HoveredCard(IEnumerable<RowListTree> rows) =>
-            rows.FirstOrDefault(row => row.IsPointerOver && row.Place is { CanToggle: true })?.DataContext as TreeNode;
 
         // An area that stays in the window keeps its control. A card that comes into the window takes a spare control first.
         private FrameListTreeCard AreaOf(Dictionary<ListTreeRowKey, FrameListTreeCard> kept, ListTreeRow row, ListTreePlace place)

@@ -159,14 +159,15 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Show_ACardOfTheSet_LightsItsArea()
+        public void Show_ACardOfTheSet_LightsItsHeaderRowOnly()
         {
             Click(Layer);
             Click(EntityOfLayer2, RawInputModifiers.Control);
 
             Assert.Same(EntityOfLayer2, Tree.SelectedNode);
-            Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(AreaOf(Layer).Surface.Background));
-            Assert.Equal(Token("ListTreeTextSelectedBrush"), TextOf(RowOf(EntityAt(0))));
+            Assert.Equal(Token("ListTreeRowSelectedBrush"), FillOf(RowOf(Layer).Background));
+            Assert.Equal(Colors.Transparent, FillOf(AreaOf(Layer).Surface.Background));
+            Assert.Equal(Token("ListTreeTextRestBrush"), TextOf(RowOf(EntityAt(0))));
         }
 
         [AvaloniaFact]

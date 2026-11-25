@@ -11,9 +11,6 @@ namespace CMiX.Studio.Avalonia.Views
     // The area of a card of the tree, under its rows: from the top of the header to the bottom of its last shown row.
     public partial class FrameListTreeCard : UserControl
     {
-        public const string HoveredClass = ":hovered";
-        public const string SelectedClass = ":selected";
-        public const string InSelectionClass = ":inselection";
         public const string DropTargetClass = ":droptarget";
 
         public static readonly StyledProperty<ListTreePlace?> PlaceProperty =
@@ -32,15 +29,6 @@ namespace CMiX.Studio.Avalonia.Views
 
         internal Border Surface => surface;
 
-        internal Border Mark => mark;
-
-        public void ShowMarks(ListTreeMarks marks)
-        {
-            var node = DataContext as TreeNode;
-            PseudoClasses.Set(HoveredClass, marks.IsHoveredCard(node));
-            PseudoClasses.Set(SelectedClass, marks.IsSelected(node));
-            PseudoClasses.Set(InSelectionClass, marks.IsInSelection(node));
-            PseudoClasses.Set(DropTargetClass, marks.IsDropTarget(node));
-        }
+        public void ShowMarks(ListTreeMarks marks) => PseudoClasses.Set(DropTargetClass, marks.IsDropTarget(DataContext as TreeNode));
     }
 }

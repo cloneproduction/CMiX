@@ -190,7 +190,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void IsHidden_ARowAtRest_IsFalse()
         {
             var scene = CreateScene([2], s => AddKinds(s.Layer));
-            var marks = new ListTreeMarks(null, null, null);
+            var marks = new ListTreeMarks(null, null);
 
             Assert.False(marks.IsHidden(scene.LayerNodeOfA(0)));
             Assert.False(marks.IsHidden(scene.Group<EntitiesGroup>(0).Children[0]));
@@ -201,7 +201,7 @@ namespace CMiX.Studio.Avalonia.Tests
         public void IsHidden_AHiddenLayer_IsTrueForTheLayerAndEveryRowUnderIt()
         {
             var scene = CreateScene([2], s => AddKinds(s.Layer));
-            var marks = new ListTreeMarks(null, null, null);
+            var marks = new ListTreeMarks(null, null);
 
             scene.Layer.PrefabService.Visibility.Value = true;
 
