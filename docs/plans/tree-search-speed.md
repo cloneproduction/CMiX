@@ -1,6 +1,6 @@
 # Plan: a fast search in the project tree
 
-Status: phase 1 built on 2026-11-25: 1.1 `6852a251d`, 1.1b `c7a5270c0`, 1.2 dropped, 1.3 closed with no fix. Phase 2 is open.
+Status: phase 1 built on 2026-11-25: 1.1 `6852a251d`, 1.1b `c7a5270c0`, 1.2 dropped, 1.3 closed with no fix. Phase 2 built on 2026-11-25: `533837270`, `748178378`, `b7c20b18f` and the commit of step 2.4. The end-of-plan suites follow.
 
 Goal: a key in the search field of the tree shows its result in one frame on a big project. The rule of the match is one rule for every search field of CMiX.
 
