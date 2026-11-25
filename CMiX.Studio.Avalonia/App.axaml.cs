@@ -61,7 +61,7 @@ namespace CMiX.Studio.Avalonia
 
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
                 // The value editors open the drag of their value through the host.
-                InteractionHostConnection.Connect(serviceProvider);
+                InteractionHostConnection.Connect();
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();
                 MessageNotice = serviceProvider.GetRequiredService<IMessageNotice>();
                 var settingsFile = serviceProvider.GetRequiredService<StudioSettingsFile>();

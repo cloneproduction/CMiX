@@ -1,7 +1,6 @@
 ﻿// SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-using System;
 using CMiX.Core;
 using CMiX.UI.Interaction;
 
@@ -11,7 +10,7 @@ namespace CMiX.Studio.Avalonia.Drag
     // A static with one side effect: it sets the one static of CMiX.UI, which the App rule on statics allows.
     public static class InteractionHostConnection
     {
-        public static void Connect(IServiceProvider provider)
+        public static void Connect()
         {
             InteractionHost.BeginScopeHandler = value => (value as IDraggable)?.BeginDrag();
         }

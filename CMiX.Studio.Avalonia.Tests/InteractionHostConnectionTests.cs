@@ -13,10 +13,9 @@ namespace CMiX.Studio.Avalonia.Tests
         [Fact]
         public void Connect_ThenBeginScopeWithoutAValue_OpensNoDrag()
         {
-            var provider = TestServiceProviderFactory.Create();
             try
             {
-                InteractionHostConnection.Connect(provider);
+                InteractionHostConnection.Connect();
 
                 var scope = InteractionHost.BeginScope(null);
 
@@ -34,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var provider = TestServiceProviderFactory.Create();
             try
             {
-                InteractionHostConnection.Connect(provider);
+                InteractionHostConnection.Connect();
                 var value = new GenericValue<float>(provider.GetRequiredService<IValueSync>(), provider.GetRequiredService<ControlRegistry>());
 
                 var scope = InteractionHost.BeginScope(value);
