@@ -110,9 +110,9 @@ Three static entry points connect it to an application: `InteractionHost`, `Icon
 
 ### A value changes (the user drags a slider)
 
-1. **View.** `SliderModulatable` binds to `ModulatableValue<float>.Value`. The CMiX.UI editor opens a drag scope through `InteractionHost`, which `InteractionHostConnection.Connect` binds to the `ValueInteraction` of the container when the App builds it.
+1. **View.** `SliderModulatable` binds to `ModulatableValue<float>.Value`. The `DataContext` of the editor is the value. The editor opens a drag through `InteractionHost`, which `InteractionHostConnection.Connect` binds to `IDraggable.BeginDrag` of that value.
 2. **Value.** `ModulatableValue.Value` passes the write to `GenericValue<T>.Value`. The setter calls `IValueSync.Changing`, stores the value and calls `IValueSync.Changed`. A momentary value calls `IValueSync.Send` instead. The value builds no model and has no drag code.
-3. **Message.** `ValueSync` implements `IValueSync`. Outside a drag it records the `ValueChangedUndoCommand` unless the undo stack is applying, then `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. During a drag it sends at most 60 times each second and records one undo step when the drag ends. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
+3. **Message.** `ValueSync` implements `IValueSync`. Outside a drag it records the `ValueChangedUndoCommand` unless the undo stack is applying, then `MessageFactory` makes a `MessageValueChanged` with the id of the value and its model. During a drag it sends at most 60 times each second and records one undo step when the drag ends. The drag belongs to the one value that is dragged, so two values can be dragged at once. `ControlMessenger.SendMessage` gives it to each registered sender. A blocked messenger drops it.
 4. **Peer.** `SyncPeer.SendMessage` (`SyncPeer.Send.cs`) drops the message if the peer is not the writer. Else it wraps it in a `MessageEnvelope`, serializes it with MessagePack and puts it in `OutgoingQueue`.
 5. **Redis.** One task appends the entry to the stream `{prefix}:updates` through `RedisSyncStore`, sets the tail key and publishes a wake signal. `SnapshotCompactor` writes a new snapshot later.
 6. **Engine.** `StreamFollower` reads the new entries. `SyncPeer` (`SyncPeer.Apply.cs`) posts each batch to its dispatcher. In vvvv that is `MainloopQueue`, which the patch drains once for each frame. In `CMiX.Console` the apply runs inline.
@@ -342,7 +342,7 @@ The order goes from low risk to high risk. First the classes that only the Studi
 | 4 | `TreeNode` | Done on 2026-11-19: `DragLook`, `RowCounts`, `TreeNodeHost`, and the row computes its own search look. | The row keeps its identity and its list mirroring. | 3 |
 | 5 | `TreeViewProject` | Done on 2026-11-19, with one deviation: `TreeViewHooks` stays, one set per view, because two views can show one tree and the tree must know which view answers. The next step is a per-view state object that `TreeViewSet` reads. Done with `ListTreeViewState`. The old view was removed on 2026-11-24. | After steps 3 and 4. | 4 |
 | 6 | `ControlFactory` | Move the naming of prefabs into its own service. | Core, and no name on the wire or in a patch changes. | 2 |
-| 7 | `GenericValue<T>` | Done on 2026-11-25: `ValueInteraction` is injected, the drag lives in `ValueSync`, the empty constructor is gone. | Every value depends on it, so do it before the lists. | 4 |
+| 7 | `GenericValue<T>` | Done on 2026-11-25: the drag belongs to the value through `IDraggable`, `ValueInteraction` is gone, the empty constructor is gone. | Every value depends on it, so do it before the lists. | 4 |
 | 8 | `SyncPeer` | Split the state for the panel from the peer. | Well tested and isolated. The Redis tests need a server. | 4 |
 | 9 | `PrefabManager` | Separate the commands for XAML from the list logic. | VL pins its names. Needs step 7. | 5 |
 | 10 | `Layer` and all controls | Depends on the open questions 1 and 2. | The largest change. It touches every saved file and both peers. | 5 |

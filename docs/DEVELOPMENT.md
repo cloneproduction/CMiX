@@ -93,8 +93,8 @@ folder. A view can move to another folder without a change to its namespace or i
 
 The names of the views and the controls follow the order rule in `.claude/CLAUDE.md`, section Names: the kind first, then the thing.
 
-The value editors start a drag through `InteractionHost`. `InteractionHostConnection.Connect` binds it to the `ValueInteraction` of the
-container, right after the App builds the container.
+The `DataContext` of a value editor is the value it edits. On pointer down the editor hands it to `InteractionHost`, and `InteractionHostConnection.Connect` maps it to `IDraggable.BeginDrag`.
+The test `EditorDataContextTests` pins this rule. The one exception is the `BPM` editor of `PanelMasterBeat`.
 
 The folders of CMiX.Studio.Avalonia have the name of a job. The rules for a new type
 are in `.claude/CLAUDE.md`, section Folders and names of the Studio.
