@@ -36,7 +36,6 @@ namespace CMiX.Core.Animations
             Pause.SetDefaults();
 
             ID = ManagerIDs.MasterBeat;
-            IsActive = false;
             _undoManager = undoManager;
 
             Period.PropertyChanged += (s, e) =>

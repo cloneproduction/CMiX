@@ -23,7 +23,6 @@ namespace CMiX.Core.Modulation.Modulators
             ResetValue = resetValue;
             Reset = reset;
 
-            IsActive = false;
             registry.Register(this);
         }
 

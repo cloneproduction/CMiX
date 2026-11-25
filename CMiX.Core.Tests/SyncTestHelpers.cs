@@ -11,8 +11,7 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    // A sync target that records what the peer applied, for tests that check the protocol without
-    // real controls. Two real projects in one process would share the global messenger.
+    // Records the applied messages and snapshots instead of a Project, so a test needs no full graph.
     public class RecordingSyncTarget : ISyncTarget
     {
         private readonly object _gate = new();

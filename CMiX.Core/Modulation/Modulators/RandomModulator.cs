@@ -19,7 +19,6 @@ namespace CMiX.Core.Modulation.Modulators
             Width = width;
             Seed = seed;
 
-            IsActive = false;
             registry.Register(this);
         }
 

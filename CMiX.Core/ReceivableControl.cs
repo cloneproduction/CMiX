@@ -8,7 +8,7 @@ namespace CMiX.Core
 {
     public abstract class ReceivableControl : ObservableObject
     {
-        public bool IsActive { get; protected set; }
+        public bool IsActive { get; private set; }
 
         public void Activate() => IsActive = true;
 

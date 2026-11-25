@@ -22,7 +22,6 @@ namespace CMiX.Core.Modulation.Modulators
             WaveType = waveType;
             Quantize = quantize;
 
-            IsActive = false;
             registry.Register(this);
         }
 

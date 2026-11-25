@@ -35,7 +35,6 @@ namespace CMiX.Core.Modulation.Modulators
             DivideCommand = new RelayCommand(Divide);
 
             _undoManager = undoManager;
-            IsActive = false;
             registry.Register(this);
 
             _onBPMChanged = (s, e) =>
