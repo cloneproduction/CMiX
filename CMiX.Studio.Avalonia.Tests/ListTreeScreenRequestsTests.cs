@@ -118,23 +118,19 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void ClearSearch_AfterTheSearchOpenedCardsAbove_KeepsTheSelectedRowStill()
+        public void ClearSearch_ACursorRowFarBelow_BringsItIntoView()
         {
-            var selected = scene.LayerNodeOfA(9);
-            for (var i = 0; i < 9; i++)
-                CloseTheParentsUnderTheComposition(EchoOf(i));
-            Tree.SelectedNode = selected;
+            var target = EchoOf(11);
+            Tree.Select(scene.NodeA, SelectionOrigin.Pointer);
             Tree.SearchText = "Echo";
             Settle();
-            Assert.True(EchoOf(2).Parent!.IsExpanded);
-            ScrollRowTo(selected, 150);
-            var before = TopOf(selected);
+            Tree.CursorNode = target;
+            ScrollTo(0);
 
             Tree.SearchText = string.Empty;
             Settle();
 
-            Assert.False(EchoOf(2).Parent!.IsExpanded);
-            Assert.Equal(before, TopOf(selected), 1.0);
+            Assert.InRange(TopOf(target), 0, Scroller.Viewport.Height - 1);
         }
 
         [AvaloniaFact]

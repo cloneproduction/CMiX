@@ -77,8 +77,17 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
                 return;
             }
 
-            if (focusIsInTree && (node ?? tree?.SelectedNode) is { } target)
+            if (focusIsInTree && (node ?? RowToFocus()) is { } target)
                 Context.Rows.RowOf(target)?.Focus(NavigationMethod.Tab);
+        }
+
+        // During a search, the filter can hide the selected row, so the focus goes to the cursor row.
+        private TreeNode? RowToFocus()
+        {
+            if (tree is { IsSearchActive: true })
+                return tree.CursorNode;
+
+            return tree?.SelectedNode;
         }
 
         public void FocusRow(TreeNode node)

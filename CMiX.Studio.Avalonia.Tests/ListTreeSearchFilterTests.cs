@@ -43,7 +43,6 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Window.Close();
         }
 
-        // The search of today still opens the parents of a match. The rows that hold no match keep IsExpanded false.
         [AvaloniaFact]
         public void Filter_ASearch_ShowsTheParentsOpenAndKeepsIsExpanded()
         {
@@ -58,7 +57,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var parents = screen.View.Rows.LiveRows.Where(row => row.Node!.HasSearchMatchBelow).ToArray();
             Assert.NotEmpty(parents);
             Assert.All(parents, row => Assert.True(row.IsExpanded));
-            Assert.All(scene.All().Where(node => node.Children.Count > 0 && !node.HasSearchMatchBelow), node => Assert.False(node.IsExpanded));
+            Assert.All(scene.All().Where(node => node.Children.Count > 0), node => Assert.False(node.IsExpanded));
             screen.Window.Close();
         }
 
@@ -77,6 +76,25 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(own.Select(row => row.Node), ShownNodes(screen.View));
             Assert.All(screen.View.Rows.LiveRows, row => Assert.Equal(row.Node!.IsExpanded, row.IsExpanded));
             Assert.Contains(scene.NodeB, ShownNodes(screen.View));
+            screen.Window.Close();
+        }
+
+        // The filter takes away the focused row, so the focus goes to the cursor row, the first match.
+        [AvaloniaFact]
+        public void Search_AFocusedRowThatHides_GivesTheFocusToTheCursorRow()
+        {
+            var scene = WithARenamedEcho();
+            var screen = ListTreeTestScreen.Show(scene.Tree, 400, 900);
+            screen.Settle();
+            screen.View.Rows.RowOf(scene.NodeB)!.Focus();
+            screen.Settle();
+
+            scene.Tree.SearchText = "Trail";
+            screen.Settle();
+
+            var match = Assert.Single(scene.Tree.SearchMatches);
+            Assert.Same(match, scene.Tree.CursorNode);
+            Assert.Same(screen.View.Rows.RowOf(match), screen.Window.FocusManager!.GetFocusedElement());
             screen.Window.Close();
         }
 

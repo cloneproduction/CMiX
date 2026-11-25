@@ -72,7 +72,6 @@ namespace CMiX.Studio.Avalonia.Tests
             AssertCursorShows(scene.Tree);
         }
 
-        // The rows that the key opens are not rows of the search: the end of the search does not close them.
         [Fact]
         public void ExpandBranch_DuringASearch_KeepsTheBranchOpenAfterTheSearch()
         {
@@ -80,7 +79,6 @@ namespace CMiX.Studio.Avalonia.Tests
             CloseAll(scene);
             scene.Tree.SearchText = "Echo";
             var target = scene.LayerNodeOfA(1);
-            Assert.True(target.IsExpanded);
             scene.Tree.CursorNode = target;
 
             scene.Tree.ExpandBranch();

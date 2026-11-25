@@ -34,7 +34,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (!IsSearchActive || IsDragging)
                 return;
 
-            search.KeepCursorRow(CursorNode);
             SearchText = string.Empty;
         }
 
@@ -98,25 +97,27 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
                     OnPropertyChanged(nameof(SearchMatchCount));
             }
 
-            // A row that the user closes during the search stays closed until the matches change.
-            if (matchesChanged || text.Length == 0)
-                SyncSearchRows();
+            if (matchesChanged && searchActive)
+                MoveCursorTo(search.Matches.FirstOrDefault());
+            if (wasActive && !searchActive)
+                KeepTargetsInView();
         }
 
-        // EndDrag runs the search once the drag is over.
-        private void SyncSearchRows()
+        // The own open state shows again: the parents of the selected row and of the cursor row open, and the view shows the cursor row.
+        private void KeepTargetsInView()
         {
-            if (IsDragging)
+            if (selectedNode != null)
+                openState.OpenParents(selectedNode);
+            if (CursorNode is not { } cursor)
                 return;
 
-            search.SyncRows(CursorNode, selectedNode);
+            openState.OpenParents(cursor);
+            RevealRequested?.Invoke(this, cursor);
         }
 
         // A row that closes over the cursor gives the cursor to the highest closed parent, so the cursor never hides.
         void TreeNodeHost.RowExpandedChanged(TreeNode node)
         {
-            search.ReleaseChangedRow(node);
-
             if (!node.IsExpanded && CursorNode is { } cursor && !ReferenceEquals(cursor, node) && cursor.IsOrIsUnder(node))
                 CursorNode = TreeWalk.ParentsOf(cursor).LastOrDefault(parent => !parent.IsExpanded) ?? node;
         }

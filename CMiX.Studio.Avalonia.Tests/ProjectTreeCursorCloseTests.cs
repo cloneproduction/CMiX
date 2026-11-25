@@ -84,9 +84,9 @@ namespace CMiX.Studio.Avalonia.Tests
             AssertCursorShows(scene);
         }
 
-        // The end of the search closes the rows that it opened. The cursor under them goes to the highest closed row.
+        // The end of the search opens the parents of the cursor row, so the cursor stays on its row.
         [Fact]
-        public void Clear_TheSearch_MovesTheCursorToTheHighestClosedRow()
+        public void Clear_TheSearch_KeepsTheCursorOnItsRow()
         {
             var scene = Scene();
             foreach (var node in scene.All())
@@ -94,14 +94,11 @@ namespace CMiX.Studio.Avalonia.Tests
             scene.Tree.SelectedNode = null;
             scene.Tree.SearchText = "Echo";
             var echo = EchoOf(scene, 1);
-            Assert.Contains(echo, scene.Tree.VisibleNodes());
             scene.Tree.CursorNode = echo;
 
             scene.Tree.SearchText = string.Empty;
 
-            Assert.NotSame(echo, scene.Tree.CursorNode);
-            Assert.True(echo.IsOrIsUnder(scene.Tree.CursorNode!));
-            Assert.False(scene.Tree.CursorNode!.IsExpanded);
+            Assert.Same(echo, scene.Tree.CursorNode);
             AssertCursorShows(scene);
             Assert.Null(scene.Tree.SelectedNode);
         }

@@ -9,22 +9,16 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
     public sealed class TreeOpenState
     {
         private readonly IRowCloser rowCloser;
-        private readonly TreeSearch search;
 
-        internal TreeOpenState(IRowCloser rowCloser, TreeSearch search)
+        internal TreeOpenState(IRowCloser rowCloser)
         {
             this.rowCloser = rowCloser;
-            this.search = search;
         }
 
         public void ExpandBranch(TreeNode target)
         {
-            // It leaves the search, so the end of the search does not close it.
             foreach (var node in TreeWalk.AllRows(new[] { target }).Where(node => node.Children.Count > 0))
-            {
                 node.IsExpanded = true;
-                search.Release(node);
-            }
         }
 
         public void CloseLevel(IEnumerable<TreeNode> roots, TreeNode? target)
@@ -62,12 +56,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             var path = new HashSet<TreeNode>(TreeWalk.ParentsOf(target));
             foreach (var node in TreeWalk.AllRows(roots))
             {
-                // A parent that the search opened leaves the search, so the end of the search does not close it.
                 if (path.Contains(node))
-                {
                     node.IsExpanded = true;
-                    search.Release(node);
-                }
                 else if (!ReferenceEquals(node, target) && node.IsExpanded && node.Children.Count > 0)
                 {
                     node.IsExpanded = false;
@@ -78,14 +68,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             return closed;
         }
 
-        // The opened parents leave the search, so the end of the search does not close them.
         public void OpenParents(TreeNode node)
         {
             foreach (var parent in TreeWalk.ParentsOf(node))
-            {
                 parent.IsExpanded = true;
-                search.Release(parent);
-            }
         }
 
         // The view keeps still the highest parent of the target that closes, else the target.

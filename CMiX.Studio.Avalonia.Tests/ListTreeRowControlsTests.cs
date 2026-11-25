@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests
         {
             foreach (var node in ListTreeTestScreen.All(scene.Tree.Roots).Where(node => node.Children.Count > 0))
                 node.IsExpanded = false;
-            screen = ListTreeTestScreen.Show(scene.Tree, 400, 400);
+            screen = ListTreeTestScreen.Show(scene.Tree, 400, 600);
         }
 
         public void Dispose() => screen.Window.Close();
@@ -69,6 +69,8 @@ namespace CMiX.Studio.Avalonia.Tests
             screen.Settle();
             Search("Blur");
             Search("");
+            scene.Tree.CollapseAll();
+            screen.Settle();
             var before = AllRowControls();
 
             Search("Blur");
@@ -123,17 +125,18 @@ namespace CMiX.Studio.Avalonia.Tests
             });
         }
 
+        // The scroll takes the focused row out of the row window.
         [AvaloniaFact]
         public void ShowRows_AFocusedRow_IsNotReused()
         {
-            Search("Blur");
-            var focused = RowControls().Last(row => row.DataContext is TreeNode { Item: not null });
+            Search("l");
+            var focused = RowControls().First(row => row.DataContext is TreeNode { Item: not null });
             var node = focused.DataContext;
             focused.Focus();
             screen.Settle();
 
-            // The text matches the Blur rows and the Translate rows, so the focused row stays shown and goes out of the row window.
-            Search("l");
+            screen.View.Scroller.Offset = screen.View.Scroller.Offset.WithY(screen.View.Scroller.Extent.Height);
+            screen.Settle();
 
             var place = Rows.ShownPlaceOf(Assert.IsType<TreeNode>(node))!;
             Assert.False(Rows.RowWindow.Overlaps(place.Y, place.RowHeight));

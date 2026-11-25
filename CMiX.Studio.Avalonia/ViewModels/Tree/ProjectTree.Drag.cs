@@ -45,10 +45,6 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
         {
             IsDragging = false;
             dragState.ClearRows();
-
-            // A drop can bring a match to a new place: its parents open now that the drag is over.
-            if (search.Matches.Count > 0)
-                SyncSearchRows();
         }
 
         // The move and the selection of the moved item are one undo step.

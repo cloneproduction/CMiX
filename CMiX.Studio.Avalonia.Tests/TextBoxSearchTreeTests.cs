@@ -122,7 +122,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(screen.Box.Field.IsEffectivelyVisible);
         }
 
-        // The composition row is selected and does not match "Layer", so the cursor starts on a row that is not a match.
+        // The search puts the cursor on the first match.
         [AvaloniaFact]
         public void Enter_InTheField_MovesTheCursorThroughTheMatchesAndGoesRound()
         {
@@ -131,12 +131,12 @@ namespace CMiX.Studio.Avalonia.Tests
             Search(screen, "Layer");
             var matches = scene.Tree.SearchMatches.ToList();
             Assert.True(matches.Count >= 3);
-            Assert.DoesNotContain(scene.NodeA, matches);
-
-            screen.Window.Press(PhysicalKey.Enter);
             Assert.Same(matches[0], scene.Tree.CursorNode);
 
-            for (var i = 1; i < matches.Count; i++)
+            screen.Window.Press(PhysicalKey.Enter);
+            Assert.Same(matches[1], scene.Tree.CursorNode);
+
+            for (var i = 2; i < matches.Count; i++)
                 screen.Window.Press(PhysicalKey.Enter);
             Assert.Same(matches[^1], scene.Tree.CursorNode);
 
@@ -183,7 +183,7 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void Enter_OnAMatchUnderACollapsedRow_OpensItsParentsAndMovesTheCursorToIt()
+        public void Enter_OnAMatchUnderACollapsedRow_MovesTheCursorToItsShownRow()
         {
             var (screen, scene) = Show();
             scene.Tree.SelectedNode = null;
@@ -196,7 +196,7 @@ namespace CMiX.Studio.Avalonia.Tests
             while (!ReferenceEquals(scene.Tree.CursorNode, layer))
                 screen.Window.Press(PhysicalKey.Enter);
 
-            Assert.True(layer.Parent!.IsExpanded);
+            Assert.False(layer.Parent!.IsExpanded);
             Assert.NotNull(screen.View.Rows.RowOf(layer));
             Assert.Null(scene.Tree.SelectedNode);
         }
@@ -209,10 +209,11 @@ namespace CMiX.Studio.Avalonia.Tests
             var (screen, scene) = Show();
             scene.Tree.SelectedNode = scene.NodeA;
             Search(screen, "Layer");
+            var cursor = scene.Tree.CursorNode;
 
             screen.Window.Press(PhysicalKey.F3, modifiers);
 
-            Assert.Same(scene.NodeA, scene.Tree.CursorNode);
+            Assert.Same(cursor, scene.Tree.CursorNode);
             Assert.Same(scene.NodeA, scene.Tree.SelectedNode);
         }
 
@@ -251,9 +252,9 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.True(screen.Input.IsFocused);
         }
 
-        // The clear button ends the search as Escape does: the rows that the search opened close again.
+        // The clear button ends the search as Escape does: the parents of the cursor row open.
         [AvaloniaFact]
-        public void Click_TheClearButton_ClosesTheRowsThatTheSearchOpened()
+        public void Click_TheClearButton_OpensTheParentsOfTheCursorRow()
         {
             var (screen, scene) = Show();
             scene.Tree.SelectedNode = null;
@@ -261,12 +262,13 @@ namespace CMiX.Studio.Avalonia.Tests
             layers.IsExpanded = false;
             screen.Window.Settle();
             Search(screen, scene.LayerNodeOfA(2).Header);
-            Assert.True(layers.IsExpanded);
+            Assert.False(layers.IsExpanded);
+            var cursor = scene.Tree.CursorNode!;
 
             screen.Window.Click(screen.Box.Clear);
             screen.Window.Settle();
 
-            Assert.False(layers.IsExpanded);
+            Assert.All(TreeWalk.ParentsOf(cursor), parent => Assert.True(parent.IsExpanded));
         }
 
         // With a selected match, the clear button and Escape end the search, the parents of the match stay open, and its row is in view.
@@ -345,13 +347,14 @@ namespace CMiX.Studio.Avalonia.Tests
             var (screen, scene) = Show();
             scene.Tree.SelectedNode = scene.NodeA;
             Search(screen, "Layer");
+            var cursor = scene.Tree.CursorNode;
             scene.Tree.BeginDrag(scene.LayerNodeOfA(0));
             screen.Window.Settle();
 
             screen.Window.Press(PhysicalKey.Enter);
             scene.Tree.MoveCursorToNextMatch();
 
-            Assert.Same(scene.NodeA, scene.Tree.CursorNode);
+            Assert.Same(cursor, scene.Tree.CursorNode);
             Assert.Same(scene.NodeA, scene.Tree.SelectedNode);
             scene.Tree.EndDrag();
         }

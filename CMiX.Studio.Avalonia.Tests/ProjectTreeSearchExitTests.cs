@@ -104,7 +104,7 @@ namespace CMiX.Studio.Avalonia.Tests
             AssertFocusOnCursorRow(screen);
         }
 
-        // The cursor row is under a row that the search opened: its parents stay open, so the focused row stays in sight.
+        // The cursor row is under a closed row: the end of the search opens its parents, so the focused row stays in sight.
         [AvaloniaFact]
         public void Escape_InTreeAfterAClickOnARow_ClearsSearchAndDimAndKeepsTheCursorRowOpen()
         {
@@ -113,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Tests
             layers.IsExpanded = false;
             Settle(screen.Window);
             var layer = SearchOneLayer(screen);
-            Assert.True(layers.IsExpanded);
+            Assert.False(layers.IsExpanded);
 
             screen.Window.Click(screen.View.Rows.RowOf(layer)!);
             Assert.Same(layer, screen.Tree.CursorNode);
