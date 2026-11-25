@@ -374,6 +374,47 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void Undo_WhileACaptureIsOpen_DoesNothing()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            undoManager.Push(new RecordingUndoCommand(1, executed));
+            using (undoManager.Capture())
+            {
+                undoManager.Push(new RecordingUndoCommand(2, executed));
+                undoManager.Undo();
+
+                Assert.Empty(executed);
+                Assert.Equal(1, undoManager.StepCount);
+            }
+
+            Assert.Equal(2, undoManager.StepCount);
+        }
+
+        [Fact]
+        public void Redo_WhileACaptureIsOpen_DoesNothing()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            undoManager.Push(new RecordingUndoCommand(1, executed));
+            undoManager.Undo();
+            using (undoManager.Capture())
+            {
+                undoManager.Redo();
+
+                Assert.Equal(0, undoManager.StepCount);
+                Assert.Equal(1, undoManager.RedoStepCount);
+            }
+
+            Assert.Equal(0, undoManager.StepCount);
+            Assert.Equal(1, undoManager.RedoStepCount);
+        }
+
+        [Fact]
         public void Redo_ThrowingCommand_LeavesIsApplyingFalse()
         {
             var provider = TestServiceProviderFactory.Create();

@@ -141,6 +141,7 @@ namespace CMiX.Core.Undo
 
         public void Undo()
         {
+            if (_captureStarts.Count > 0) return;
             if (!CanUndo) return;
             var command = _undoStack.Last.Value;
             _undoStack.RemoveLast();
@@ -163,6 +164,7 @@ namespace CMiX.Core.Undo
 
         public void Redo()
         {
+            if (_captureStarts.Count > 0) return;
             if (!CanRedo) return;
             var command = _redoStack.Pop();
 
