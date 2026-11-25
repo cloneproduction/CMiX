@@ -52,7 +52,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void MergeWindow_TwoPushesOnSameControl_CollapseToOneUndoStep()
+        public void Push_TwoValueWritesOfOneControlInsideTheWindow_MergeToOneStep()
         {
             var provider = CreateWithFakeClock(out _);
             var undoManager = provider.GetRequiredService<UndoManager>();
@@ -68,7 +68,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void MergeWindow_TwoPushesOutsideTheWindow_StayTwoSteps()
+        public void Push_TwoValueWritesOutsideTheWindow_StayTwoSteps()
         {
             var provider = CreateWithFakeClock(out var time);
             var undoManager = provider.GetRequiredService<UndoManager>();
