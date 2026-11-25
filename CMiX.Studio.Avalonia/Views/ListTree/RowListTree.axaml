@@ -75,12 +75,16 @@
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <!-- The cursor frame: one pixel in the colour of the kind. A selected row shows no frame. -->
+        <!-- The cursor frame: one neutral pixel at full width, also on a selected row. It hides during a drag. -->
         <Style Selector="Border#cursorFrame">
-            <Setter Property="BorderBrush" Value="{Binding Converter={StaticResource RowTone}, ConverterParameter=KindSelected}" />
+            <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="Views|RowListTree:selected Border#cursorFrame">
-            <Setter Property="Opacity" Value="0" />
+        <Style Selector="Views|RowListTree.cursor Border#cursorFrame">
+            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ListTreeRowCursorFrameBrush}" />
+        </Style>
+        <Style Selector="Views|ListTreeProject.dragging Views|RowListTree Border#cursorFrame">
+            <Setter Property="IsVisible" Value="False" />
         </Style>
 
         <!-- AppIcon sets its own Foreground in its styles, so the state of the row reaches the icon through IconForeground. -->
@@ -214,11 +218,9 @@
 
         <Border
             x:Name="cursorFrame"
-            Margin="{Binding IndentMargin, RelativeSource={RelativeSource AncestorType=Views:RowListTree}}"
             BorderThickness="{DynamicResource TreeSelectionThickness}"
             CornerRadius="{DynamicResource CornerRadiusAll}"
-            IsHitTestVisible="False"
-            IsVisible="{Binding IsCursor}" />
+            IsHitTestVisible="False" />
 
         <Border
             x:Name="mark"

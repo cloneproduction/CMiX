@@ -15,6 +15,9 @@ namespace CMiX.Studio.Avalonia.Views
     // The screen hub of the tree. Its behaviors do the work. It gives them the context and attaches its hooks to the tree while the view is in the visual tree.
     public partial class ListTreeProject : UserControl
     {
+        // While a row drag or a grab runs, the view has this class.
+        public const string DraggingClass = "dragging";
+
         private readonly TreeViewHooks hooks;
 
         private ProjectTree? watched;

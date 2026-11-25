@@ -66,6 +66,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             openBefore = drag.Nodes.Nodes.Select(ListTreeOpenState.Of).ToArray();
             dragged.BeginDrag(drag.Nodes.Nodes);
             Screen.ShowMoveCursor();
+            Context.Owner.Classes.Set(ListTreeProject.DraggingClass, true);
             Began?.Invoke(this, EventArgs.Empty);
         }
 
@@ -217,6 +218,7 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
             Screen.ShowNote(null);
             tree?.EndDrag();
             Screen.RestoreCursor();
+            Context.Owner.Classes.Set(ListTreeProject.DraggingClass, false);
             Ended?.Invoke(this, EventArgs.Empty);
         }
     }

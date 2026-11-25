@@ -69,6 +69,7 @@ namespace CMiX.UI.Tests
         [InlineData("ListTreeRowDraggedBrush", "#FF353538")]
         [InlineData("ListTreeRowRestBandBrush", "#0DFFFFFF")]
         [InlineData("ListTreeRowDimmedBandBrush", "#05FFFFFF")]
+        [InlineData("ListTreeRowCursorFrameBrush", "#73FFFFFF")]
         [InlineData("ListTreeRowHoverInSelectionBandBrush", "#0DFFFFFF")]
         [InlineData("ListTreeCardHoverInSelectionBandBrush", "#08FFFFFF")]
         [InlineData("ListTreeTextRestBrush", "#FFB6B6BB")]

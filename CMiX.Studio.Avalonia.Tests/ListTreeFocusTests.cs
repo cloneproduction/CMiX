@@ -9,7 +9,6 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.VisualTree;
-using CMiX.Studio.Avalonia.Converters;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.Tree;
 using CMiX.Studio.Avalonia.Views;
@@ -147,27 +146,40 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
-        public void CursorFrame_TheCursorRow_IsTheThinFrameOfTheOldTreeInTheColourOfTheKind()
+        public void CursorFrame_TheCursorRow_IsAThinFrameAtFullWidth()
         {
             Tree.CursorNode = Entity;
             window.Settle();
 
             var frame = Named(RowOf(Entity), "cursorFrame");
 
-            var kind = (ISolidColorBrush)new TreeToneConverter().Convert(Entity, typeof(IBrush), "KindSelected", System.Globalization.CultureInfo.InvariantCulture)!;
             Assert.True(frame.IsEffectivelyVisible);
             Assert.Equal((Thickness)view.FindResource("TreeSelectionThickness")!, frame.BorderThickness);
-            Assert.Equal(kind.Color, ColorOf(frame.BorderBrush));
-            Assert.Equal(RowOf(Entity).IndentMargin, frame.Margin);
+            Assert.Equal(0, frame.Bounds.X);
+            Assert.Equal(RowOf(Entity).Bounds.Width, frame.Bounds.Width);
         }
 
         [AvaloniaFact]
-        public void CursorFrame_TheSelectedRow_ShowsNoFrame()
+        public void CursorFrame_TheBrush_IsTheCursorFrameToken()
         {
-            Tree.SelectByClick(Entity);
+            Tree.CursorNode = Entity;
             window.Settle();
 
-            Assert.Equal(0, Named(RowOf(Entity), "cursorFrame").Opacity);
+            Assert.Equal(Token("ListTreeRowCursorFrameBrush"), ColorOf(Named(RowOf(Entity), "cursorFrame").BorderBrush));
+        }
+
+        [AvaloniaFact]
+        public void CursorFrame_ASelectedCursorRow_ShowsTheFrame()
+        {
+            Tree.SelectByClick(Entity);
+            Tree.CursorNode = Entity;
+            window.Settle();
+
+            var frame = Named(RowOf(Entity), "cursorFrame");
+
+            Assert.True(RowOf(Entity).IsSelected);
+            Assert.True(frame.IsEffectivelyVisible);
+            Assert.Equal(1, frame.Opacity);
         }
 
         [AvaloniaFact]

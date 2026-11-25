@@ -194,6 +194,35 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(2, scene.Layer.ModelEntityManager.ManagerData.Items.Count);
         }
 
+        // The other entity is a bright row: it is neither dimmed nor dragged.
+        [AvaloniaFact]
+        public void CursorFrame_DuringARowDrag_Hides()
+        {
+            Start(Entity(0));
+            scene.Tree.CursorNode = Entity(1);
+            TreeDrag.Render(window);
+            var bright = Assert.IsType<RowListTree>(Panel.RowOf(Entity(1)));
+
+            Assert.Contains(ListTreeProject.DraggingClass, view.Classes);
+            Assert.Contains("cursor", bright.Classes);
+            Assert.DoesNotContain(RowListTree.DimmedClass, bright.Classes);
+            Assert.DoesNotContain(RowListTree.DraggedClass, bright.Classes);
+            Assert.False(ListTreeLook.Named(bright, "cursorFrame").IsEffectivelyVisible);
+        }
+
+        [AvaloniaFact]
+        public void Escape_DuringADrag_ClearsTheDraggingClassAndShowsTheCursorFrame()
+        {
+            Start(Entity(0));
+            scene.Tree.CursorNode = Entity(1);
+
+            window.KeyPressQwerty(PhysicalKey.Escape, RawInputModifiers.None);
+            ListTreeTestScreen.Settle(window);
+
+            Assert.DoesNotContain(ListTreeProject.DraggingClass, view.Classes);
+            Assert.True(ListTreeLook.Named(Assert.IsType<RowListTree>(Panel.RowOf(Entity(1))), "cursorFrame").IsEffectivelyVisible);
+        }
+
         [AvaloniaFact]
         public void Release_OnACandidate_MovesTheItemSelectsItAndMakesOneUndoStep()
         {

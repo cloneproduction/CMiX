@@ -143,6 +143,19 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void CursorFrame_DuringAGrab_Hides()
+        {
+            var screen = ShowNewTree();
+
+            GrabFirstLayer(screen);
+            Settle(screen.Window);
+
+            Assert.Contains(ListTreeProject.DraggingClass, View.Classes);
+            Assert.Contains("cursor", View.Rows.RowOf(screen.LayerNode(0))!.Classes);
+            Assert.False(View.Rows.RowOf(screen.LayerNode(0))!.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "cursorFrame").IsEffectivelyVisible);
+        }
+
+        [AvaloniaFact]
         public void Grab_DuringASearch_DoesNotStart()
         {
             var screen = ShowNewTree();
@@ -187,6 +200,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(before, screen.Layers);
             Assert.Equal(0, screen.UndoSteps);
             Assert.False(View.Classes.Contains(ListTreeGrab.GrabbingClass));
+            Assert.False(View.Classes.Contains(ListTreeProject.DraggingClass));
             Assert.Equal(TreeHintMode.Idle, View.HintMode);
             Assert.DoesNotContain(View.Rows.RealizedRows, row => row.Classes.Contains(RowListTree.DraggedClass));
         }
