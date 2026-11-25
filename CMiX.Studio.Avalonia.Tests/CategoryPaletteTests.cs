@@ -184,6 +184,16 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(Amber, colors.SelectionBorder);
         }
 
+        // The kind colour at 18 % and at 25 % over the background of the tree, opaque.
+        [Fact]
+        public void ForListTree_AKind_GivesTheInspectedTints()
+        {
+            var colors = Palette().ForListTree(TreeCategory.Light, 0);
+
+            Assert.Equal(Color.FromRgb(70, 66, 43), colors.Inspected);
+            Assert.Equal(Color.FromRgb(84, 78, 45), colors.InspectedHover);
+        }
+
         [Fact]
         public void ForListTree_AComposable_TakesTheHueOfItsDepth()
         {

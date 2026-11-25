@@ -161,6 +161,38 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void Row_TheInspectedRow_HasTheInspectedTint()
+        {
+            scene.Tree.Inspect(Entity);
+            window.Settle();
+            var row = RowOf(Entity);
+            var toggle = row.Toggles.GetVisualDescendants().OfType<ToggleButton>().First(button => button.IsEffectivelyVisible);
+
+            Assert.Equal(KindOf(Entity).Inspected, FillOf(row.Background));
+            Assert.False(Named(row, "mark").IsEffectivelyVisible);
+            Assert.Equal(Token("ListTreeTextSelectedBrush"), TextOf(row));
+            Assert.Equal(Token("ListTreeTextSelectedBrush"), FillOf(toggle.Foreground));
+
+            window.Hover(BlankOf(row));
+
+            Assert.Equal(KindOf(Entity).InspectedHover, FillOf(row.Background));
+            AssertMark(Named(row, "mark"), KindOf(Entity).HoverBorder, 0, row);
+        }
+
+        [AvaloniaFact]
+        public void Row_ASelectedInspectedRow_KeepsTheSelectionBorder()
+        {
+            Select(Entity);
+            scene.Tree.Inspect(Entity);
+            window.Settle();
+            var row = RowOf(Entity);
+
+            Assert.Equal(KindOf(Entity).Inspected, FillOf(row.Background));
+            AssertMark(Named(row, "mark"), KindOf(Entity).SelectionBorder, 0, row);
+            Assert.Equal(Token("ListTreeTextSelectedBrush"), TextOf(row));
+        }
+
+        [AvaloniaFact]
         public void Hover_ASelectedItem_IsTwentyPercentAndKeepsTheSelectionBorder()
         {
             Select(Entity);

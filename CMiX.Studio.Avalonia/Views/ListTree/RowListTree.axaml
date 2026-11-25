@@ -32,6 +32,10 @@
         <Style Selector="Views|RowListTree:selected ui|TextBoxEditable#nameBox, Views|RowListTree:selected TextBlock#groupName">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextSelectedBrush}" />
         </Style>
+        <Style Selector="Views|RowListTree.inspected ui|TextBoxEditable#nameBox, Views|RowListTree.inspected TextBlock#groupName,
+                         Views|RowListTree.inspected Views|TogglesRow ToggleButton">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ListTreeTextSelectedBrush}" />
+        </Style>
 
         <Style Selector="Views|RowListTree:pointerover:not(:selected):not(:dimmed)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowHoverBrush}" />
@@ -45,6 +49,13 @@
         <!-- The cursor row with no other state has the rest band at full width. -->
         <Style Selector="Views|RowListTree.cursor:not(:pointerover):not(:selected):not(.inspected):not(:dimmed)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowRestBandBrush}" />
+        </Style>
+        <!-- The inspected row has the tint of its kind, also when it is selected. -->
+        <Style Selector="Views|RowListTree.inspected">
+            <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=Inspected}" />
+        </Style>
+        <Style Selector="Views|RowListTree.inspected:pointerover:not(:dimmed)">
+            <Setter Property="Background" Value="{Binding Converter={StaticResource KindMark}, ConverterParameter=InspectedHover}" />
         </Style>
 
         <!-- A row that is the drop target and not a card: the surface of a hover and no left border. -->

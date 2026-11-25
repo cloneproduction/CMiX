@@ -68,6 +68,10 @@ namespace CMiX.Studio.Avalonia.Themes
         public const double ListTreeHoverBorderStrength = 0.45;
         public const double ListTreeDropOutlineStrength = 0.70;
 
+        // The strength of the kind colour over the background of the tree for the inspected row, at rest and on hover.
+        public const double ListTreeRowInspectedStrength = 0.18;
+        public const double ListTreeRowInspectedHoverStrength = 0.25;
+
 
         private readonly Func<string, Color> colorOf;
         private readonly Color background;
@@ -123,7 +127,9 @@ namespace CMiX.Studio.Avalonia.Themes
             return new ListTreeKindColors(
                 WithAlpha(color, ListTreeHoverBorderStrength),
                 WithAlpha(color, ListTreeDropOutlineStrength),
-                color);
+                color,
+                ColorMix.Over(color, background, ListTreeRowInspectedStrength),
+                ColorMix.Over(color, background, ListTreeRowInspectedHoverStrength));
         }
 
         private static Color WithAlpha(Color color, double strength) =>

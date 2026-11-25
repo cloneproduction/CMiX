@@ -6,8 +6,11 @@ using Avalonia.Media;
 namespace CMiX.Studio.Avalonia.Themes
 {
     // The kind colours of a row of the list tree. The borders and the outline are the kind colour with alpha, over what is under them.
+    // The inspected tints are opaque: the kind colour over the background of the tree.
     public sealed record ListTreeKindColors(
         Color HoverBorder,
         Color DropOutline,
-        Color SelectionBorder);
+        Color SelectionBorder,
+        Color Inspected,
+        Color InspectedHover);
 }
