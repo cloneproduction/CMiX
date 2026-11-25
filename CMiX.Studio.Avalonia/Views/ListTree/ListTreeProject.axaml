@@ -95,6 +95,15 @@
                 SelectedNode="{Binding SelectedNode}"
                 SelectedNodes="{Binding SelectedNodes}" />
 
+            <!-- A search with no match. -->
+            <TextBlock
+                x:Name="noMatchLine"
+                FontSize="{DynamicResource FontSizeMD}"
+                Foreground="{DynamicResource ListTreeTextRestBrush}"
+                IsVisible="{Binding HasNoSearchMatch}"
+                Padding="{DynamicResource ListTreeToolbarPadding}"
+                Text="No match" />
+
             <!-- The room under the rows (ListTreeEndRoom). -->
             <Border x:Name="endRoomSpace" Height="0" />
             </StackPanel>

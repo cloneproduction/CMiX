@@ -1,7 +1,9 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.VisualTree;
 using CMiX.Core.Prefabs;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.ViewModels.ListTree;
@@ -25,6 +27,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
         private static TreeNode[] ShownNodes(ListTreeProject view) => view.Rows.LiveRows.Select(row => row.Node!).ToArray();
 
+        private static TextBlock NoMatchLine(ListTreeProject view) =>
+            view.GetVisualDescendants().OfType<TextBlock>().Single(text => text.Name == "noMatchLine");
+
         private static TreeNode[] MatchesAndParents(Scene scene) => scene.All().Where(node => node.IsSearchMatch || node.HasSearchMatchBelow).ToArray();
 
         [AvaloniaFact]
@@ -40,6 +45,33 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Single(shown, node => node.IsSearchMatch);
             Assert.Equal(MatchesAndParents(scene), shown);
             Assert.DoesNotContain(scene.NodeB, shown);
+            screen.Window.Close();
+        }
+
+        [AvaloniaFact]
+        public void Search_NoMatch_ShowsTheNoMatchLine()
+        {
+            var scene = WithARenamedEcho();
+            var screen = ListTreeTestScreen.Show(scene.Tree, 400, 900);
+
+            scene.Tree.SearchText = "NothingHoldsThis";
+            screen.Settle();
+
+            Assert.True(NoMatchLine(screen.View).IsEffectivelyVisible);
+            screen.Window.Close();
+        }
+
+        [AvaloniaFact]
+        public void Search_AMatch_HidesTheNoMatchLine()
+        {
+            var scene = WithARenamedEcho();
+            var screen = ListTreeTestScreen.Show(scene.Tree, 400, 900);
+            Assert.False(NoMatchLine(screen.View).IsEffectivelyVisible);
+
+            scene.Tree.SearchText = "Trail";
+            screen.Settle();
+
+            Assert.False(NoMatchLine(screen.View).IsEffectivelyVisible);
             screen.Window.Close();
         }
 

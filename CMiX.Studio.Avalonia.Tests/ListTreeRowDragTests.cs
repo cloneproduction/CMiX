@@ -97,6 +97,18 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void Drag_DuringASearch_DoesNotStart()
+        {
+            scene.Tree.SearchText = Entity(0).Header;
+            TreeDrag.Render(window);
+
+            Start(Entity(0));
+
+            Assert.False(view.RowDrag.IsDragging);
+            Assert.False(scene.Tree.IsDragging);
+        }
+
+        [AvaloniaFact]
         public void Move_InsideTheThreshold_StartsNoDrag()
         {
             Press(Entity(0));

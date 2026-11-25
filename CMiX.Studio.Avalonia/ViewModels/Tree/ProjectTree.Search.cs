@@ -29,6 +29,8 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public int SearchMatchCount => search.Matches.Count;
 
+        public bool HasNoSearchMatch => searchActive && search.Matches.Count == 0;
+
         public void ClearSearchText()
         {
             if (!IsSearchActive || IsDragging)
@@ -82,6 +84,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             if (searchActive != wasActive)
             {
                 OnPropertyChanged(nameof(IsSearchActive));
+                OnPropertyChanged(nameof(HasNoSearchMatch));
                 ClearSearchCommand.NotifyCanExecuteChanged();
             }
 
@@ -94,7 +97,10 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
             {
                 OnPropertyChanged(nameof(SearchMatches));
                 if (search.Matches.Count != countBefore)
+                {
                     OnPropertyChanged(nameof(SearchMatchCount));
+                    OnPropertyChanged(nameof(HasNoSearchMatch));
+                }
             }
 
             if (matchesChanged && searchActive)

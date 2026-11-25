@@ -102,6 +102,9 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
         private void Begin(PressedRow press, IPointer captured, ListTreePoint point)
         {
             pressed = null;
+            if (tree is { IsSearchActive: true })
+                return;
+
             Session.Begin(press.Node, press.Press);
             if (!Session.IsRunning)
                 return;
