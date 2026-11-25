@@ -42,6 +42,10 @@
         <Style Selector="Views|RowListTree:selected:pointerover:not(:dimmed)">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowSelectedHoverBrush}" />
         </Style>
+        <!-- The cursor row with no other state has the rest band at full width. -->
+        <Style Selector="Views|RowListTree.cursor:not(:pointerover):not(:selected):not(.inspected):not(:dimmed)">
+            <Setter Property="Background" Value="{DynamicResource ListTreeRowRestBandBrush}" />
+        </Style>
 
         <!-- A row that is the drop target and not a card: the surface of a hover and no left border. -->
         <Style Selector="Views|RowListTree:droptarget:not(:card)">
@@ -51,7 +55,8 @@
         <Style Selector="Border#band">
             <Setter Property="Background" Value="{DynamicResource ListTreeRowRestBandBrush}" />
         </Style>
-        <Style Selector="Views|RowListTree:pointerover Border#band, Views|RowListTree:selected Border#band">
+        <Style Selector="Views|RowListTree:pointerover Border#band, Views|RowListTree:selected Border#band,
+                         Views|RowListTree.cursor Border#band, Views|RowListTree.inspected Border#band">
             <Setter Property="Background" Value="Transparent" />
         </Style>
 

@@ -297,6 +297,40 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void Row_AtRest_HasTheBandFromItsIndent()
+        {
+            var layer = scene.LayerNodeOfA(0);
+            scene.Tree.SelectedNode = null;
+            scene.Tree.CursorNode = scene.NodeA;
+            window.Settle();
+            var row = RowOf(layer);
+            var band = Named<Border>(row, "band");
+            var indent = row.Place!.Indent;
+
+            Assert.True(indent > 0);
+            Assert.Equal(Colors.Transparent, ListTreeLook.FillOf(row.Background));
+            Assert.Equal(Token("ListTreeRowRestBandBrush"), ColorOf(band.Background));
+            Assert.Equal(indent, band.Bounds.X);
+            Assert.Equal(row.Bounds.Width - indent, band.Bounds.Width);
+        }
+
+        [AvaloniaFact]
+        public void Row_TheCursorRow_HasTheBandAtFullWidth()
+        {
+            var layer = scene.LayerNodeOfA(0);
+            scene.Tree.SelectedNode = null;
+            scene.Tree.CursorNode = layer;
+            window.Settle();
+            var row = RowOf(layer);
+
+            Assert.True(row.Place!.Indent > 0);
+            Assert.Equal(Token("ListTreeRowRestBandBrush"), ColorOf(row.Background));
+            Assert.Equal(Colors.Transparent, ListTreeLook.FillOf(Named<Border>(row, "band").Background));
+            Assert.Equal(0, row.Bounds.X);
+            Assert.Equal(Panel.Bounds.Width, row.Bounds.Width);
+        }
+
+        [AvaloniaFact]
         public void Show_AGroupRow_HasTheFolderIcon()
         {
             var group = Scene.LayersOf(scene.NodeA);
