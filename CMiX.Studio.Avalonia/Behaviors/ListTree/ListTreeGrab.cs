@@ -65,9 +65,6 @@ namespace CMiX.Studio.Avalonia.Behaviors.ListTree
 
         public void Start(TreeNode node)
         {
-            if (tree is { IsSearchActive: true })
-                return;
-
             if (Context.InputOwner != ListTreeInputOwner.None || Session.IsRunning || tree is not { } project || !project.CanDrag(node)
                 || TopLevel.GetTopLevel(Context.Owner) is not { } window || PlaceOf(node) is not { } place)
                 return;

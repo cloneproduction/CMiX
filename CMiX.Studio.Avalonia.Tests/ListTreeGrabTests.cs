@@ -157,6 +157,22 @@ namespace CMiX.Studio.Avalonia.Tests
         }
 
         [AvaloniaFact]
+        public void Grab_DuringASearch_CannotRunTheGrabCommand()
+        {
+            var screen = ShowNewTree();
+            screen.Window.MouseMove(On(screen, screen.CompositionNode));
+            screen.Tree.CursorNode = screen.LayerNode(0);
+            View.Rows.RowOf(screen.LayerNode(0))!.Focus();
+            Settle(screen.Window);
+            Assert.True(screen.Tree.GrabTargetCommand.CanExecute(null));
+
+            screen.Tree.SearchText = "Layer";
+            Settle(screen.Window);
+
+            Assert.False(screen.Tree.GrabTargetCommand.CanExecute(null));
+        }
+
+        [AvaloniaFact]
         public void Escape_DuringTheGrab_EndsItAndMovesNothing()
         {
             var screen = ShowNewTree();

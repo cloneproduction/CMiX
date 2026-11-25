@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.ViewModels.Tree
 
         public TreeDropService DropService => dropService;
 
-        public bool CanDrag(TreeNode node) => dragState.CanDrag(node);
+        public bool CanDrag(TreeNode node) => !IsSearchActive && dragState.CanDrag(node);
 
         public bool CanDrop(TreeNode source, TreeNode target, DropPosition position) => dragState.CanDrop(source, target, position);
 
