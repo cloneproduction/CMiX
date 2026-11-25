@@ -122,8 +122,9 @@ namespace CMiX.UI.Controls.String
             context.DrawGeometry(Foreground, null, glyphs);
         }
 
+        // The brush only makes the geometry: a null brush gives no geometry.
         private FormattedText Formatted() =>
             formatted ??= new FormattedText(Text ?? "", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                new Typeface(FontFamily, FontStyle.Normal, FontWeight), FontSize, null);
+                new Typeface(FontFamily, FontStyle.Normal, FontWeight), FontSize, Brushes.Black);
     }
 }

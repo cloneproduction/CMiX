@@ -1,11 +1,13 @@
 // SPDX-FileCopyrightText: 2017-2026 CloneProduction Shanghai Company Limited and CMiX contributors
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 using CMiX.Studio.Avalonia.Tests.Support;
 using CMiX.Studio.Avalonia.Themes;
@@ -304,6 +306,42 @@ namespace CMiX.Studio.Avalonia.Tests
                     Assert.True(new Rect(ancestor.Bounds.Size).Contains(rect), $"{ancestor.GetType().Name} clips the count");
                 }
             }
+        }
+
+        [AvaloniaFact]
+        public void Show_ABadgeCount_DrawsItsNumber()
+        {
+            Show();
+            Close(Layer);
+            var count = KindBadgesOf(BadgesOf(Layer)).Select(CountOf).First(text => text.IsEffectivelyVisible);
+            var width = (int)Math.Ceiling(count.Bounds.Right);
+            var height = (int)Math.Ceiling(count.Bounds.Bottom);
+            var pixels = new byte[width * height * 4];
+
+            using var bitmap = new RenderTargetBitmap(new PixelSize(width, height));
+            bitmap.Render(count);
+            var handle = GCHandle.Alloc(pixels, GCHandleType.Pinned);
+            try
+            {
+                bitmap.CopyPixels(new PixelRect(0, 0, width, height), handle.AddrOfPinnedObject(), pixels.Length, width * 4);
+            }
+            finally
+            {
+                handle.Free();
+            }
+
+            var drawn = 0;
+            var bright = 0;
+            for (var i = 0; i < pixels.Length; i += 4)
+            {
+                if (pixels[i + 3] > 0)
+                    drawn++;
+                if (pixels[i] > 200 && pixels[i + 1] > 200 && pixels[i + 2] > 200)
+                    bright++;
+            }
+
+            Assert.True(drawn > 0, "The count draws no pixel");
+            Assert.True(bright > 0, "The count has no white pixel");
         }
 
         [AvaloniaFact]
